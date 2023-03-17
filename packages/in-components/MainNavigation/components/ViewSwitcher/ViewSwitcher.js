@@ -33,11 +33,6 @@ import {
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
 import {
-  getLinkToAnalyze as getLinkToWebsiteAnalyze,
-  isAnalyzeView as isWebsiteAnalyzeView,
-  websiteMonitoringPath
-} from 'in-websites/navigation/paths';
-import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
   isApplicationsView
@@ -49,6 +44,11 @@ import {
   physicalPath,
   settingsPath
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  isAnalyzeView as isWebsiteAnalyzeView,
+  useLinkToAnalyze,
+  websiteMonitoringPath
+} from 'in-websites/navigation/paths';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -72,8 +72,8 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { isSloView, sloList } from 'in-service-levels/navigation/path';
-import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
@@ -397,6 +397,10 @@ function Analyze(props) {
     []
   );
 
+  const analyzeHref = useLinkToAnalyze({
+    beaconType: 'pageLoad'
+  });
+
   if (!hasAnalyzeAccess) {
     return null;
   }
@@ -409,16 +413,14 @@ function Analyze(props) {
       label={t('in-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
       isActive={isActive}
+      //clean this up once all links used here are migrated from observables - use the href prop instead
       href$={
         [
           hasApplicationsAccess &&
             getLinkToApplicationsAnalyze({
               dataSource: 'calls'
             }).map(urlWithoutQueryParameter),
-          hasWebsitesAccess &&
-            getLinkToWebsiteAnalyze({
-              beaconType: 'pageLoad'
-            }),
+          hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({
               beaconType: 'sessions'

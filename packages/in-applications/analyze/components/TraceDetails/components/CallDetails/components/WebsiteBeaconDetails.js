@@ -12,9 +12,9 @@ import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
-import { getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { useLinkToPageLoad } from 'in-websites/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -27,6 +27,11 @@ export default function WebsiteBeaconDetails({ beacon }) {
   const hasDencodedBodySize = beacon.decodedBodySize >= 0;
   const hasCacheInteraction = !!explanations[beacon.cacheInteraction];
   const hasNetworkInsights = hasTransferSize || hasEncodedBodySize || hasDencodedBodySize || hasCacheInteraction;
+
+  const pageLoadHref = useLinkToPageLoad({
+    pageLoadId: beacon.pageLoadId,
+    beaconTimestamp: beacon.timestamp
+  });
 
   return (
     <Fragment>
@@ -82,10 +87,7 @@ export default function WebsiteBeaconDetails({ beacon }) {
       )}
       <Button
         onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
-        href$={getLinkToPageLoad({
-          pageLoadId: beacon.pageLoadId,
-          beaconTimestamp: beacon.timestamp
-        })}
+        href={pageLoadHref}
         kind="primary"
         size="compact"
       >

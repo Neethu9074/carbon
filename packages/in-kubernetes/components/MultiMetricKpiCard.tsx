@@ -27,7 +27,8 @@ export interface KpiCardIconAction {
   text: string;
   icon: string;
   kind?: keyof typeof ButtonKinds;
-  href$: Observable<string>;
+  href$?: Observable<string>;
+  href?: string;
   onClick?: (e: any) => void;
 }
 
@@ -36,7 +37,7 @@ export interface MultiMetricKpiCardProps {
   value?: Array<any>;
   actions?: ReactNode;
   companionValue?: ReactNode;
-  /* 
+  /*
   When true, print out the whole value without special formatting
   When false, the numeric value will have a greater font size than the rest, usually the minor
   */

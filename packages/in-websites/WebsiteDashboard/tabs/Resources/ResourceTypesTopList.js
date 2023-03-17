@@ -12,7 +12,7 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { bytes, ms, number } from 'in-services/formatters/number';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -81,24 +81,22 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel, tagCatalogResourceLoad, className }) {
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogResourceLoad &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogResourceLoad
-          }),
-          beaconType: 'resourceLoad',
-          groupBy: {
-            groupbyTag: 'beacon.resourceType'
-          }
-        })
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogResourceLoad && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogResourceLoad
+      }),
+      beaconType: 'resourceLoad',
+      groupBy: {
+        groupbyTag: 'beacon.resourceType'
       }
-    >
+    }
+  );
+
+  return (
+    <Link className={className} href={analyzeHref}>
       {t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListLinkLabelViewAllTypes')}
     </Link>
   );
@@ -112,24 +110,19 @@ function Label({ item, websiteLabel, tagFilters, tagCatalogResourceLoad }) {
     // ignore
   }
 
-  return (
-    <Link
-      href$={
-        tagCatalogResourceLoad &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters: tagFilters.concat({ name: 'beacon.resourceType', stringValue: label, operator: 'EQUALS' }),
-            tagCatalog: tagCatalogResourceLoad
-          }),
-          beaconType: 'resourceLoad',
-          groupBy: {}
-        })
-      }
-    >
-      {label}
-    </Link>
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogResourceLoad && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat({ name: 'beacon.resourceType', stringValue: label, operator: 'EQUALS' }),
+        tagCatalog: tagCatalogResourceLoad
+      }),
+      beaconType: 'resourceLoad',
+      groupBy: {}
+    }
   );
+
+  return <Link href={analyzeHref}>{label}</Link>;
 }
 
 function Metric({ formattedMetricValue }) {

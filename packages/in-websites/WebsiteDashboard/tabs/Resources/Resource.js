@@ -9,11 +9,11 @@ import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
-  getLinkToWebsite,
-  resourcesTabFullyQualified,
-  getLinkToAnalyze,
+  detailsPath,
   resourcesTab,
-  detailsPath
+  resourcesTabFullyQualified,
+  useLinkToAnalyze,
+  useLinkToWebsite
 } from 'in-websites/navigation/paths';
 import {
   getResourceTypes,
@@ -21,7 +21,7 @@ import {
 } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
+import { explanation, learnMoreHref, learnMoreLabel } from 'in-websites/definitions/missingResourceTimings';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
@@ -91,6 +91,23 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
 
 function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
+
+  const websiteHref = useLinkToWebsite(websiteId, { tabPath: '/resources', pageId });
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogResourceLoad && {
+      beaconType: 'resourceLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }]),
+        tagCatalog: tagCatalogResourceLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.http.path'
+      }
+    }
+  );
+
   if (!resourceId) {
     return <RedirectWithHash to={resourcesTabFullyQualified} />;
   }
@@ -464,29 +481,11 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
       <div className={locals.actions}>
         <BackButton
           label={t('in-websites:websiteDashboard.tabs.resources.resourceLabelBackToListOfResourceOrigins')}
-          href$={getLinkToWebsite(websiteId, { tabPath: '/resources', pageId })}
+          href={websiteHref}
           withoutMargin
         />
 
-        <Button
-          kind="secondary"
-          href$={
-            tagCatalogResourceLoad &&
-            getLinkToAnalyze({
-              beaconType: 'resourceLoad',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters: tagFilters.concat([
-                  { name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }
-                ]),
-                tagCatalog: tagCatalogResourceLoad
-              }),
-              groupBy: {
-                groupbyTag: 'beacon.http.path'
-              }
-            })
-          }
-        >
+        <Button kind="secondary" href={analyzeHref}>
           {t('in-websites:websiteDashboard.tabs.resources.resourceButtonAnalyzeResourceOrigin')}
         </Button>
       </div>

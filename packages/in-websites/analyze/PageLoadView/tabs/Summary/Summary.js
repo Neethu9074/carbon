@@ -13,7 +13,7 @@ import ContentWrapper from 'in-components/LocationAwareTabView/components/Conten
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
@@ -43,6 +43,8 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
       pageLoadLabel
     });
   }, [pageLoadId, pageLoadLabel]);
+
+  const websiteHref = useLinkToWebsite(firstBeacon.websiteId);
 
   return (
     <ContentWrapper>
@@ -76,7 +78,7 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
         </Col>
         <Col xs>
           <KpiCard title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}>
-            <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
+            <Link href={websiteHref} className={locals.linkToWebsite}>
               {firstBeacon.websiteLabel}
             </Link>
           </KpiCard>

@@ -17,7 +17,7 @@ import { websiteBeaconQueryOptimizationEnabled } from 'in-services/featureFlags'
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import { ChartsPresenter } from './ChartsPresenter';
@@ -26,17 +26,21 @@ import { t } from 'in-i18n';
 
 import locals from './Beacons.mless';
 
+const WebsiteLink = ({ beacon }) => {
+  const websiteHref = useLinkToWebsite(beacon.websiteId);
+
+  return (
+    <Link className={locals.link} href={websiteHref}>
+      {beacon.websiteLabel}
+    </Link>
+  );
+};
+
 const websiteColumnDefinition = {
   id: 'website',
   label: t('in-websites:beacons.website'),
   sortable: false,
-  getContent({ beacon }) {
-    return (
-      <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
-        {beacon.websiteLabel}
-      </Link>
-    );
-  }
+  getContent: ({ beacon }) => <WebsiteLink beacon={beacon} />
 };
 
 const erroneousColumnDefinition = {

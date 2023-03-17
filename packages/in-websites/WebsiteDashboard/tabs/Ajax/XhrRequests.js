@@ -5,20 +5,19 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import {
-  websiteIdUrlParameter,
+  pageIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
-  pageIdUrlParameter
+  websiteIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { getLinkToXhrRequest, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze, useXhrRequestLink } from 'in-websites/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
@@ -27,29 +26,25 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+const NameContent = ({ item, websiteId, pageId }) => {
+  let label = item.name;
+
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    // ignore
+  }
+
+  const linkHref = useXhrRequestLink(websiteId, { xhrId: label, pageId });
+
+  return <Link href={linkHref}>{label}</Link>;
+};
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsLabelOrigin'),
-    getContent(item, { websiteId, pageId }) {
-      let label = item.name;
-      try {
-        label = String(JSON.parse(label));
-      } catch (e) {
-        // ignore
-      }
-
-      return (
-        <Link
-          href$={getLinkToXhrRequest(websiteId, {
-            xhrId: label,
-            pageId
-          })}
-        >
-          {label}
-        </Link>
-      );
-    }
+    getContent: (item, { websiteId, pageId }) => <NameContent item={item} websiteId={websiteId} pageId={pageId} />
   },
   {
     id: 'beaconCountAgg',
@@ -128,23 +123,21 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function XhrRequests({ timeConfig, tagFilters, websiteId, websiteLabel }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      beaconType: 'httpRequest',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      groupBy: defaultGroupings.httpRequest
+    }
+  );
+
   const rightHeader = (
-    <Button
-      kind="secondary"
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          beaconType: 'httpRequest',
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          groupBy: defaultGroupings.httpRequest
-        })
-      }
-      style={{ marginRight: '0.5rem' }}
-    >
+    <Button kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
       {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsButtonAnalyzeHTTPRequests')}
     </Button>
   );

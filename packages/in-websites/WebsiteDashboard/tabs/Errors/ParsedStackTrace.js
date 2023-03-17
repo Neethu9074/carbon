@@ -5,35 +5,41 @@
 
 import React, { Fragment } from 'react';
 
-import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
+import { InfoIndicator, StackTraceLine, StackTraceLines } from 'in-components/StackTrace';
 import { status } from 'in-websites/definitions/stackTraceLineTranslationStatus';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
 import { isNotBlank } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function ParsedStackTrace({ websiteId, lines }) {
+export default function ParsedStackTrace({ lines }) {
   return (
     <StackTraceLines>
       {lines.map((line, i) => (
-        <StackTraceLine key={i} {...line} indicator={getIndicator(websiteId, line)} />
+        <StackTraceLine
+          key={i}
+          {...line}
+          indicator={(websiteId, line) => <Indicator websiteId={websiteId} line={line} />}
+        />
       ))}
     </StackTraceLines>
   );
 }
 
-function getIndicator(websiteId, line) {
+function Indicator({ websiteId, line }) {
   const translationStatus = status[line.translationStatus];
+
+  const getLinkToWebsite = useGenerateLinkToWebsite();
+
   if (!translationStatus || !translationStatus.shouldShowExplanation) {
     return null;
   }
 
-  let href$;
   let href;
   let external = false;
   let explanation;
   if (role.canConfigureEumApplications && translationStatus.linkToConfigurationDialog) {
-    href$ = getLinkToWebsite(websiteId, {
+    href = getLinkToWebsite(websiteId, {
       tabPath: '/configuration/jsStackTraceTranslation'
     });
     explanation = t('in-websites:websiteDashboard.tabs.errors.parsedStackTraceExplanationClickToConfigureFileDownload');
@@ -44,7 +50,7 @@ function getIndicator(websiteId, line) {
   }
 
   return (
-    <InfoIndicator href$={href$} href={href} external={external}>
+    <InfoIndicator href={href} external={external}>
       {translationStatus.explanation}
       {isNotBlank(line.translationExplanation) && line.translationExplanation !== 'null' && (
         <Fragment>

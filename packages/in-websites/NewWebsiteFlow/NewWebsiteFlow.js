@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useRef, useState } from 'react';
 import { createField } from 'formalistic';
 import { get } from 'lodash';
-import React from 'react';
 
 import { interval } from '@instana/observables';
 
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
+import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
 import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
 import { notBlankValidator } from 'in-services/validators/string';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
 import ReadyStep from 'in-websites/NewWebsiteFlow/ReadyStep';
@@ -25,61 +25,76 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-export default class NewWebsiteFlow extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      field: createField({ value: '', validator: notBlankValidator }),
-      saveError: null,
-      saveResult: null,
-      loading: false,
-      trackSessions: true
-    };
-  }
+export default function NewWebsiteFlow() {
+  const [state, setState] = useState({
+    field: createField({ value: '', validator: notBlankValidator }),
+    saveError: null,
+    saveResult: null,
+    loading: false,
+    trackSessions: true
+  });
 
-  onChange = e => {
-    this.setState({
-      field: this.state.field.setValue(e.target.value).setTouched(true)
-    });
+  const { field, websiteId, website } = state;
+
+  const saveSubscription = useRef();
+  const websiteSubscription = useRef();
+
+  useEffect(
+    () => () => {
+      saveSubscription.current?.dispose();
+      websiteSubscription.current?.dispose();
+    },
+    []
+  );
+
+  const getLinkToWebsite = useGenerateLinkToWebsite();
+  const onChange = e => {
+    setState(prevState => ({
+      ...prevState,
+      field: state.field.setValue(e.target.value).setTouched(true)
+    }));
   };
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
 
-    const { field } = this.state;
     if (!field.valid) {
-      this.setState({
-        field: this.state.field.setTouched(true)
-      });
+      setState(prevState => ({
+        ...prevState,
+        field: field.setTouched(true)
+      }));
       return;
     }
 
-    this.setState({
+    setState(prevState => ({
+      ...prevState,
       loading: true,
       saveError: null
-    });
+    }));
 
     addWebsiteTracker({
       websiteName: field.value
     });
 
-    this.saveSubscription = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
+    saveSubscription.current = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
       if (error) {
-        this.setState({
+        setState(prevState => ({
+          ...prevState,
           loading: false,
           saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
-        });
+        }));
       } else {
-        this.setState({
+        setState(prevState => ({
+          ...prevState,
           loading: false,
           saveError: null,
           saveResult: data,
           website: null,
           websiteId: data.id,
           websiteName: field.value
-        });
+        }));
 
-        this.websiteSubscription = interval(5000)
+        websiteSubscription.current = interval(5000)
           .flatMap(millis =>
             getWebsite({
               id: data.id,
@@ -89,47 +104,35 @@ export default class NewWebsiteFlow extends React.PureComponent {
             })
           )
           .filter(result => result.data)
-          .once(website => this.setState({ website }));
+          .once(website => setState(prevState => ({ ...prevState, website })));
       }
     });
   };
 
-  setTrackSessions = trackSessions => this.setState({ trackSessions });
+  const setTrackSessions = trackSessions => setState(prevState => ({ ...prevState, trackSessions }));
 
-  componentWillUnmount() {
-    if (this.saveSubscription) {
-      this.saveSubscription.dispose();
-    }
-    if (this.websiteSubscription) {
-      this.websiteSubscription.dispose();
-    }
-  }
-
-  render() {
-    const { websiteId, website } = this.state;
-    let content;
-    if (!websiteId) {
-      content = <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
-    } else if (!website) {
-      content = <WaitStep {...this.state} setTrackSessions={this.setTrackSessions} />;
-    } else {
-      content = (
-        <ReadyStep
-          {...this.state}
-          setTrackSessions={this.setTrackSessions}
-          websiteLink$={getLinkToWebsite(websiteId, {
-            timeConfig: getWaitForEntityCreationTimeConfig()
-          })}
-        />
-      );
-    }
-
-    return (
-      <Sticky header={<ViewSwitcher isWebsites />}>
-        <Title title={t('in-websites:newWebsiteFlow.inputStepNewWebsiteTitle')} />
-        {content}
-        <Footer />
-      </Sticky>
+  let content;
+  if (!websiteId) {
+    content = <InputStep {...state} onChange={onChange} onSubmit={onSubmit} />;
+  } else if (!website) {
+    content = <WaitStep {...state} setTrackSessions={setTrackSessions} />;
+  } else {
+    content = (
+      <ReadyStep
+        {...state}
+        setTrackSessions={setTrackSessions}
+        websiteLink={getLinkToWebsite(websiteId, {
+          timeConfig: getWaitForEntityCreationTimeConfig()
+        })}
+      />
     );
   }
+
+  return (
+    <Sticky header={<ViewSwitcher isWebsites />}>
+      <Title title={t('in-websites:newWebsiteFlow.inputStepNewWebsiteTitle')} />
+      {content}
+      <Footer />
+    </Sticky>
+  );
 }

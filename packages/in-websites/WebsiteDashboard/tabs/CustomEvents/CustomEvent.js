@@ -8,10 +8,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import {
-  getLinkToWebsite,
-  getLinkToAnalyze,
   customEventsTabFullyQualified,
-  detailsPath
+  detailsPath,
+  useLinkToAnalyze,
+  useLinkToWebsite
 } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
@@ -41,6 +41,64 @@ import locals from './CustomEvent.mless';
 export default function CustomEvent({ location, tagFilters, timeConfig, websiteId, pageId, websiteLabel }) {
   const tagCatalogCustom = useTagCatalog('custom');
   const customEventId = getMatrixParameter(location, '/details', customEventIdMatrixParameter);
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogCustom && {
+      beaconType: 'custom',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogCustom
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      }
+    }
+  );
+
+  const occurencesAnalyzeHref = useLinkToAnalyze(
+    tagCatalogCustom && {
+      beaconType: 'custom',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogCustom
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      }
+    }
+  );
+
+  const usersAnalyzeHref = useLinkToAnalyze(
+    tagCatalogCustom && {
+      beaconType: 'custom',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogCustom
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      },
+      fields: [
+        {
+          metricId: 'uniqueUsersOrSessions',
+          aggregationId: 'DISTINCT_COUNT',
+          type: metricType
+        }
+      ],
+      chartedMetrics: [
+        {
+          metricId: 'uniqueUsersOrSessions',
+          aggregationId: 'DISTINCT_COUNT'
+        }
+      ]
+    }
+  );
+
+  const websiteHref = useLinkToWebsite(websiteId, { tabPath: '/customEvents', pageId });
+
   if (!customEventId) {
     return <RedirectWithHash to={customEventsTabFullyQualified} />;
   }
@@ -69,27 +127,11 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
       <div className={locals.actions}>
         <BackButton
           label={t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelBackToListOfCustomEvents')}
-          href$={getLinkToWebsite(websiteId, { tabPath: '/customEvents', pageId })}
+          href={websiteHref}
           withoutMargin
         />
 
-        <Button
-          kind="secondary"
-          href$={
-            tagCatalogCustom &&
-            getLinkToAnalyze({
-              beaconType: 'custom',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters,
-                tagCatalog: tagCatalogCustom
-              }),
-              groupBy: {
-                groupbyTag: 'beacon.location.path'
-              }
-            })
-          }
-        >
+        <Button kind="secondary" href={analyzeHref}>
           {t('in-websites:websiteDashboard.tabs.customEvents.customEventButtonAnalyzeCustomEvent')}
         </Button>
       </div>
@@ -113,19 +155,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               text: t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogCustom &&
-                getLinkToAnalyze({
-                  beaconType: 'custom',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogCustom
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  }
-                })
+              href: occurencesAnalyzeHref
             }}
           />
         </Col>
@@ -147,32 +177,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               text: t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogCustom &&
-                getLinkToAnalyze({
-                  beaconType: 'custom',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogCustom
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  fields: [
-                    {
-                      metricId: 'uniqueUsersOrSessions',
-                      aggregationId: 'DISTINCT_COUNT',
-                      type: metricType
-                    }
-                  ],
-                  chartedMetrics: [
-                    {
-                      metricId: 'uniqueUsersOrSessions',
-                      aggregationId: 'DISTINCT_COUNT'
-                    }
-                  ]
-                })
+              href: usersAnalyzeHref
             }}
           />
         </Col>

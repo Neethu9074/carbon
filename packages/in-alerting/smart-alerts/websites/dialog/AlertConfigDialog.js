@@ -10,8 +10,8 @@ import { createLogger } from '@instana/logger';
 
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
-  websitesAlertingCloseDialog,
   websitesAlertingAlertCreated,
+  websitesAlertingCloseDialog,
   websitesAlertingSwitchMode
 } from 'in-alerting/smart-alerts/websites/tracker';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialogWithThreshold';
@@ -25,7 +25,7 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { getLinkToAlertConfig } from 'in-websites/navigation/paths';
+import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -39,6 +39,8 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
+  const getLinkToAlertConfig = useGetAlertConfigLink();
+
   const withTrackClose = trackingConfig => {
     if (trackingConfig) {
       websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
@@ -49,7 +51,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   };
   const withTrackCreate = simpleMode => {
     websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-    createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
+    createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages, getLinkToAlertConfig);
   };
 
   return (
@@ -101,7 +103,7 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
+function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages, getLinkToAlertConfig) {
   setIsSaving(true);
 
   // remove existing error messages:
@@ -135,9 +137,9 @@ function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMes
     createAlertConfig(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        const href$ = getLinkToAlertConfig(alertConfig.id, null, alertConfig.websiteId);
+        const href = getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, null);
 
-        showSuccessMessage(alertConfig.name, editMode, false, href$);
+        showSuccessMessage(alertConfig.name, editMode, false, undefined, href);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

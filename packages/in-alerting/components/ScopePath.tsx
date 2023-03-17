@@ -20,7 +20,7 @@ interface ScopePathProps {
 }
 type Size = SvgIconProps['size'];
 
-type ScopeEntryType = {
+export type ScopeEntryType = {
   iconType: string;
   label: string;
   href?: string;

@@ -6,12 +6,11 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
-import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -74,6 +73,9 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
 };
 
 export const WebsiteSourceLocation = ({ location, beacon }) => {
+  const websiteHrefWithPageid = useLinkToWebsite(beacon.websiteId, { pageId: beacon.page });
+  const websiteHref = useLinkToWebsite(beacon.websiteId);
+
   return (
     <div
       className={classNames({
@@ -84,7 +86,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
         <span className={locals.locationText}>{location}</span>
         {beacon.page ? (
           <Fragment>
-            <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId, { pageId: beacon.page })}>
+            <Link className={locals.link} href={websiteHrefWithPageid}>
               <SvgIcon type="lib_document" size="s" className={locals.icon} />
               {shortenedLabel(beacon.page)}
             </Link>
@@ -93,7 +95,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
         ) : (
           ''
         )}
-        <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
+        <Link className={locals.link} href={websiteHref}>
           <SvgIcon className={locals.entityIcon} type="lib_website" />
           {shortenedLabel(beacon.websiteLabel)}
         </Link>

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { ApplicationBoundaryScope } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { Group, Order, TagCatalog, TimeConfig } from 'in-types';
 
 export declare const alertsList: string;
@@ -32,6 +34,7 @@ interface MetricFields {
 }
 
 interface GetLinkToAnalyzProps {
+  beaconType: string;
   applicationName: string;
   serviceName: string;
   endpointName: string;

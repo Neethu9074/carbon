@@ -6,8 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 import SubView from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import connectTo from 'in-hoc/connectTo';

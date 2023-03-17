@@ -4,6 +4,7 @@
  */
 
 import invariant from 'invariant';
+import { pick } from 'lodash';
 import React from 'react';
 
 import ResultAwareChart, { ResultAwareChartConfig } from 'in-components/Chart/ResultAwareChart';
@@ -116,12 +117,11 @@ function wrapProps(
     };
   }
 
-  const propsClone: ResultAwareChartConfig = deepCopy({
-    ...props,
-    // cardHeader can be defined and it could be a React element. Cloning this is a super expensive
-    // operation that is getting more and more expensive the more often this is executed.
-    // Also, there is no need to clone this React element, as we aren't manipulating it.
-    rightHeaderContent: undefined
+  const propsClone: Pick<
+    ResultAwareChartConfig,
+    'y1' | 'y2' | 'originalTimeConfig' | 'timeConfig' | 'granularity'
+  > = deepCopy({
+    ...pick(props, ['y1', 'y2', 'originalTimeConfig', 'timeConfig', 'granularity'])
   });
 
   if (propsClone.y1 != null) {
@@ -147,9 +147,8 @@ function wrapProps(
     ? getResolvedTimeConfig(propsClone.timeConfig, result.time - smallestTimeShift)
     : propsClone.timeConfig;
   propsClone.granularity = propsClone.granularity || getChartGranularity(propsClone.timeConfig);
-  propsClone.rightHeaderContent = props.rightHeaderContent;
 
-  return propsClone;
+  return { ...props, ...propsClone };
 }
 
 function determineTimeShifts(axis: AxisConfiguration, timeConfig: TimeConfig, metrics?: MetricMap) {

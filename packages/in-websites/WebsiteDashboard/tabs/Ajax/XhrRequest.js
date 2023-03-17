@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 
-import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
+import { ajaxTabFullyQualified, detailsPath, useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
@@ -19,7 +19,7 @@ import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTo
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
-import { millis, number, bytes, percentage } from 'in-services/formatters/number';
+import { bytes, millis, number, percentage } from 'in-services/formatters/number';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
@@ -79,6 +79,22 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
 
 function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig, xhrId, result, graphqlCheckResult }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      beaconType: 'httpRequest',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' }]),
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.http.path'
+      }
+    }
+  );
+
+  const websiteHref = useLinkToWebsite(websiteId, { tabPath: '/ajax', pageId });
 
   if (!xhrId) {
     return <RedirectWithHash to={ajaxTabFullyQualified} />;
@@ -644,27 +660,11 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
       <div className={locals.actions}>
         <BackButton
           label={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestBackButton')}
-          href$={getLinkToWebsite(websiteId, { tabPath: '/ajax', pageId })}
+          href={websiteHref}
           withoutMargin
         />
 
-        <Button
-          kind="secondary"
-          href$={
-            tagCatalogHttpRequest &&
-            getLinkToAnalyze({
-              beaconType: 'httpRequest',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' }]),
-                tagCatalog: tagCatalogHttpRequest
-              }),
-              groupBy: {
-                groupbyTag: 'beacon.http.path'
-              }
-            })
-          }
-        >
+        <Button kind="secondary" href={analyzeHref}>
           {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestButton')}
         </Button>
       </div>

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
-import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { emptyObject } from 'in-services/fixedObjects';
 
 export function createParameters(path: string) {
   return {
@@ -13,10 +13,9 @@ export function createParameters(path: string) {
       name: 'tagFilterExpression',
       as: 'formModel',
       serializer: buildJsonSerializer(),
-      parser: buildJsonParser(emptyArray),
-      initialState: emptyArray
+      parser: buildJsonParser([]),
+      initialState: []
     },
-
     facetedSearchMatrixParameter: {
       path,
       name: 'facets',

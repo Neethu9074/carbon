@@ -5,13 +5,12 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { LoadingSkeleton } from '@instana/components';
-import { Message } from '@instana/components';
+import { ColumnizedContent, Li, LoadingSkeleton, Message, Ul } from '@instana/components';
 
 import WithStarredItems from 'in-cockpit/widgets/TopListWidget/WithStarredItems';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
+import unwrapLink from 'in-stores/navigation/unwrapLink';
 
 import locals from './ItemList.mless';
 
@@ -93,8 +92,10 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
 
   const resolvedItem = result.data ? result.data : result;
 
+  const { href, href$ } = unwrapLink(getItemLink(resolvedItem));
+
   return (
-    <Li href$={getItemLink(resolvedItem)}>
+    <Li href={href} href$={href$}>
       <ColumnizedContent
         columnDefinitions={columnDefinitions}
         id={id}

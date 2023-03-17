@@ -5,13 +5,12 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Card } from '@instana/components';
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
 
-import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
+import { detailsPath, errorsTabFullyQualified, useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
+import { explanation, isScriptError, learnMoreHref, learnMoreLabel } from 'in-websites/definitions/scriptError';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -26,14 +25,14 @@ import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { isNotBlank, removeBlankLines } from 'in-services/util/string';
 import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
@@ -61,15 +60,76 @@ export default connectTo(({ location, timeConfig, websiteId }) => {
 
 function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
   const tagCatalogError = useTagCatalog('error');
-  if (!errorId) {
-    return <RedirectWithHash to={errorsTabFullyQualified} />;
-  }
 
   const tagFiltersWithErrorId = tagFilters.slice();
   tagFiltersWithErrorId.push(
     { name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' },
     { name: 'beacon.type', stringValue: 'error', operator: 'EQUALS' }
   );
+
+  const occurencesAnalyzeHref = useLinkToAnalyze(
+    tagCatalogError &&
+      tagFiltersWithErrorId && {
+        beaconType: 'error',
+        formModel: translateDemocratisationTagFiltersToFormModel({
+          websiteLabel,
+          tagFilters: tagFiltersWithErrorId,
+          tagCatalog: tagCatalogError
+        }),
+        groupBy: {
+          groupbyTag: 'beacon.location.path'
+        }
+      }
+  );
+
+  const usersAnalyzeHref = useLinkToAnalyze(
+    tagCatalogError &&
+      tagFiltersWithErrorId && {
+        beaconType: 'error',
+        formModel: translateDemocratisationTagFiltersToFormModel({
+          websiteLabel,
+          tagFilters: tagFiltersWithErrorId,
+          tagCatalog: tagCatalogError
+        }),
+        groupBy: {
+          groupbyTag: 'beacon.location.path'
+        },
+        fields: [
+          {
+            metricId: 'uniqueUsersOrSessions',
+            aggregationId: 'DISTINCT_COUNT',
+            type: metricType
+          }
+        ],
+        chartedMetrics: [
+          {
+            metricId: 'uniqueUsersOrSessions',
+            aggregationId: 'DISTINCT_COUNT'
+          }
+        ]
+      }
+  );
+
+  const analyzeErrorsHref = useLinkToAnalyze(
+    tagCatalogError &&
+      tagFilters && {
+        beaconType: 'error',
+        formModel: translateDemocratisationTagFiltersToFormModel({
+          websiteLabel,
+          tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }]),
+          tagCatalog: tagCatalogError
+        }),
+        groupBy: {
+          groupbyTag: 'beacon.location.path'
+        }
+      }
+  );
+
+  const websiteHref = useLinkToWebsite(websiteId, { tabPath: '/errors', pageId });
+
+  if (!errorId) {
+    return <RedirectWithHash to={errorsTabFullyQualified} />;
+  }
 
   const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
 
@@ -108,19 +168,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$:
-                  tagCatalogError &&
-                  getLinkToAnalyze({
-                    beaconType: 'error',
-                    formModel: translateDemocratisationTagFiltersToFormModel({
-                      websiteLabel,
-                      tagFilters: tagFiltersWithErrorId,
-                      tagCatalog: tagCatalogError
-                    }),
-                    groupBy: {
-                      groupbyTag: 'beacon.location.path'
-                    }
-                  })
+                href: occurencesAnalyzeHref
               }}
             />
           </Col>
@@ -142,32 +190,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$:
-                  tagCatalogError &&
-                  getLinkToAnalyze({
-                    beaconType: 'error',
-                    formModel: translateDemocratisationTagFiltersToFormModel({
-                      websiteLabel,
-                      tagFilters: tagFiltersWithErrorId,
-                      tagCatalog: tagCatalogError
-                    }),
-                    groupBy: {
-                      groupbyTag: 'beacon.location.path'
-                    },
-                    fields: [
-                      {
-                        metricId: 'uniqueUsersOrSessions',
-                        aggregationId: 'DISTINCT_COUNT',
-                        type: metricType
-                      }
-                    ],
-                    chartedMetrics: [
-                      {
-                        metricId: 'uniqueUsersOrSessions',
-                        aggregationId: 'DISTINCT_COUNT'
-                      }
-                    ]
-                  })
+                href: usersAnalyzeHref
               }}
             />
           </Col>
@@ -379,27 +402,11 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
       <div className={locals.actions}>
         <BackButton
           label={t('in-websites:websiteDashboard.tabs.errors.errorLabelBackToListOfJSErrors')}
-          href$={getLinkToWebsite(websiteId, { tabPath: '/errors', pageId })}
+          href={websiteHref}
           withoutMargin
         />
 
-        <Button
-          kind="secondary"
-          href$={
-            tagCatalogError &&
-            getLinkToAnalyze({
-              beaconType: 'error',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }]),
-                tagCatalog: tagCatalogError
-              }),
-              groupBy: {
-                groupbyTag: 'beacon.location.path'
-              }
-            })
-          }
-        >
+        <Button kind="secondary" href={analyzeErrorsHref}>
           {t('in-websites:websiteDashboard.tabs.errors.errorButtonAnalyzeJSError')}
         </Button>
       </div>

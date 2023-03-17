@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { find } from 'lodash';
-import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import GroupMetricsChartPresenter, {
   getMetricKey
@@ -16,8 +16,8 @@ import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGr
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
+import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 
@@ -63,6 +63,10 @@ export default function WebsiteBeaconGroupsChartWrapper(props) {
     custom: useTagCatalog('custom')
   };
 
+  const generateLinkToAnalyze = useGenerateLinkToAnalyze();
+
+  const getLinkToAnalyze = (...params) => just(generateLinkToAnalyze(...params));
+
   return (
     <GroupMetricsChartPresenter
       {...props}
@@ -70,7 +74,15 @@ export default function WebsiteBeaconGroupsChartWrapper(props) {
       selectedMetricKey={selectedMetricKey || getMetricKey(metrics[0])}
       setSelectedMetricKey={setSelectedMetricKey}
       selectedMetricDefinition={find(metrics, m => getMetricKey(m) === selectedMetricKey) || metrics[0]}
-      {...getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, selectedMetricKey, tagCatalogs)}
+      {...getAdditionalChartActions(
+        tagFilters,
+        metrics,
+        group,
+        viewInAnalytics,
+        selectedMetricKey,
+        tagCatalogs,
+        getLinkToAnalyze
+      )}
       renderHistoricDataIndicator
     />
   );
@@ -99,7 +111,15 @@ function getWebsiteBeaconGroupsObservable([tagFilters, timeConfig, group, metric
   });
 }
 
-function getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, selectedMetricKey, tagCatalogs) {
+function getAdditionalChartActions(
+  tagFilters,
+  metrics,
+  group,
+  viewInAnalytics,
+  selectedMetricKey,
+  tagCatalogs,
+  getLinkToAnalyze
+) {
   if (!viewInAnalytics || !viewInAnalytics.websiteLabel) {
     if (__DEV__) {
       throw new Error(

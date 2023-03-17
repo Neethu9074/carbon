@@ -5,18 +5,16 @@
 
 import React, { Fragment, useState } from 'react';
 
+import { Button, Card, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 
 import {
-  showWebsiteDetailsInTraceView,
   hideWebsiteDetailsInTraceView,
-  navigateToPageLoadFromBackendTrace
+  navigateToPageLoadFromBackendTrace,
+  showWebsiteDetailsInTraceView
 } from 'in-websites/tracker';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
-import { getLinkToWebsite, getLinkToPageLoad, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze, useLinkToPageLoad, useLinkToWebsite } from 'in-websites/navigation/paths';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -24,9 +22,9 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './WebsiteMonitoringData.mless';
 
@@ -52,12 +50,36 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
 
   const timeConfig = useTimeConfig();
 
+  const beacon = result?.data?.items?.[0]?.beacon;
+
+  const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(
+    timeConfig,
+    beacon?.timestamp,
+    getChartGranularity
+  );
+
+  const websiteHref = useLinkToWebsite(beacon?.websiteId);
+
+  const analyzeHref = useLinkToAnalyze({
+    groupBy: {},
+    // Intentionally using "traceId" passed from the trace detail page instead of "beacon.backendTraceId". Note that the latter
+    // can hold a different "traceId" in some cases. For example in case of cache revalidation, the backend request can be served
+    // from cache, while the request will still be forwarded to the backend.
+    // Even though linking to the new trace might be a useful feature, the "Analyze Beacons" button should filter calls only by the
+    // original "traceId".
+    formModel: [tagFilter('beacon.backend.traceId', EQUALS, traceId)],
+    beaconType: beacon?.type,
+    timeConfig: adjustedTimeConfig
+  });
+
+  const pageLoadHref = useLinkToPageLoad({
+    pageLoadId: beacon?.pageLoadId,
+    beaconTimestamp: beacon?.timestamp
+  });
+
   if (!result || result.data == null || result.data.items.length === 0) {
     return null;
   }
-
-  const beacon = result.data.items[0].beacon;
-  const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, beacon.timestamp, getChartGranularity);
 
   return (
     <Fragment>
@@ -69,7 +91,7 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
                 i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnThewebsite"
                 values={{ websiteLabel: beacon.websiteLabel }}
                 components={{
-                  linkToWebsite: <Link href$={getLinkToWebsite(beacon.websiteId)} className={locals.link} />
+                  linkToWebsite: <Link href={websiteHref} className={locals.link} />
                 }}
               />
             </span>
@@ -81,10 +103,7 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
               </Button>
               <Button
                 onClick={() => navigateToPageLoadFromBackendTrace()}
-                href$={getLinkToPageLoad({
-                  pageLoadId: beacon.pageLoadId,
-                  beaconTimestamp: beacon.timestamp
-                })}
+                href={pageLoadHref}
                 kind="primary"
                 size="compact"
               >
@@ -103,17 +122,7 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
                     );
                   }
                 }}
-                href$={getLinkToAnalyze({
-                  groupBy: {},
-                  // Intentionally using "traceId" passed from the trace detail page instead of "beacon.backendTraceId". Note that the latter
-                  // can hold a different "traceId" in some cases. For example in case of cache revalidation, the backend request can be served
-                  // from cache, while the request will still be forwarded to the backend.
-                  // Even though linking to the new trace might be a useful feature, the "Analyze Beacons" button should filter calls only by the
-                  // original "traceId".
-                  formModel: [tagFilter('beacon.backend.traceId', EQUALS, traceId)],
-                  beaconType: beacon.type,
-                  timeConfig: adjustedTimeConfig
-                })}
+                href={analyzeHref}
                 kind="secondary"
                 size="compact"
               >

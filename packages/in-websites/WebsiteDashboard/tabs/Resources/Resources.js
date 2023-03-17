@@ -4,19 +4,19 @@
  */
 
 import React, { Fragment } from 'react';
+import invariant from 'invariant';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import {
-  websiteIdUrlParameter,
+  pageIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
-  pageIdUrlParameter
+  websiteIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { resourcesTab, useLinkToAnalyze, useResourceLink } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -30,29 +30,28 @@ import { isNotBlank } from 'in-services/util/string';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
+const ResourceNameContent = ({ item, websiteId, pageId }) => {
+  let label = '';
+  let linkParams = { pageId };
+  try {
+    label = String(JSON.parse(item.name));
+    linkParams.resourceId = label;
+  } catch (e) {
+    if (__DEV__) invariant(item.name, 'Missing item name to use as resourceId for link generation');
+  }
+
+  const linkHref = useResourceLink(websiteId, linkParams);
+
+  return <Link href={linkHref}>{label}</Link>;
+};
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-websites:websiteDashboard.tabs.resources.resourcesLabelOrigin'),
-    getContent(item, { websiteId, pageId }) {
-      let label = item.name;
-      try {
-        label = String(JSON.parse(label));
-      } catch (e) {
-        // ignore
-      }
-
-      return (
-        <Link
-          href$={getLinkToResource(websiteId, {
-            resourceId: label,
-            pageId
-          })}
-        >
-          {label}
-        </Link>
-      );
-    }
+    getContent: (item, { websiteId, pageId }) => (
+      <ResourceNameContent item={item} websiteId={websiteId} pageId={pageId} />
+    )
   },
   {
     id: 'beaconCountAgg',
@@ -124,26 +123,23 @@ const urlStateDefinition = {
 
 export default function Resources({ timeConfig, tagFilters, websiteId, resourceType, websiteLabel }) {
   const [urlState, setUrlState] = useUrlState(urlStateDefinition);
-
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogResourceLoad && {
+      beaconType: 'resourceLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogResourceLoad
+      }),
+      groupBy: defaultGroupings.resourceLoad
+    }
+  );
+
   const resourcesListRightHeader = (
     <Fragment>
-      <Button
-        kind="secondary"
-        href$={
-          tagCatalogResourceLoad &&
-          getLinkToAnalyze({
-            beaconType: 'resourceLoad',
-            formModel: translateDemocratisationTagFiltersToFormModel({
-              websiteLabel,
-              tagFilters,
-              tagCatalog: tagCatalogResourceLoad
-            }),
-            groupBy: defaultGroupings.resourceLoad
-          })
-        }
-        style={{ marginRight: '0.5rem' }}
-      >
+      <Button disabled={!analyzeHref} kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
         {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}
       </Button>
 

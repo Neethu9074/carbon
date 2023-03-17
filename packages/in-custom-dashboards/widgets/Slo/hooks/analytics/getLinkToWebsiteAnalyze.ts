@@ -7,11 +7,11 @@ import { Observable } from '@instana/observables';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { BeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
+import { ChartedMetric, getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { ChartedMetric, Fields } from 'in-websites/navigation/paths';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { Fields } from 'in-websites/navigation/types';
 
 interface GetLinkToWebsiteAnalyzeProps {
   websiteId: string;

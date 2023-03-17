@@ -11,7 +11,7 @@ import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsit
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { meanLatency, number } from 'in-services/formatters/number';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import { t } from 'in-i18n';
 
 const metrics = ['pageViews', 'onLoadTime', 'errors'];
@@ -70,16 +70,15 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ websiteId, selectedMetric, className }) {
+  const websiteHref = useLinkToWebsite(websiteId, {
+    tabPath: '/pages',
+    tabParameters: {
+      orderBy: `${selectedMetric}Agg`
+    }
+  });
+
   return (
-    <Link
-      className={className}
-      href$={getLinkToWebsite(websiteId, {
-        tabPath: '/pages',
-        tabParameters: {
-          orderBy: `${selectedMetric}Agg`
-        }
-      })}
-    >
+    <Link className={className} href={websiteHref}>
       {t('in-websites:websiteDashboard.tabs.summary.pagesTopListLinkLabel')}
     </Link>
   );
@@ -93,14 +92,13 @@ function Label({ item, websiteId }) {
     // ignore
   }
 
+  const websiteHref = useLinkToWebsite(websiteId, {
+    pageId: label,
+    tabPath: '/summary'
+  });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToWebsite(websiteId, {
-        pageId: label,
-        tabPath: '/summary'
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={websiteHref}>
       {label}
     </Link>
   );
