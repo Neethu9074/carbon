@@ -77,13 +77,15 @@ export function getAreaRoleFromPermissionSet(
 
   const { capabilities } = ProductAreaPermissionMap[productArea];
 
-  const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
+  if (capabilities?.length > 0) {
+    const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
-  if (hasAllCapabilities) return AreaRole.OWNER;
+    if (hasAllCapabilities) return AreaRole.OWNER;
 
-  const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
+    const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
 
-  if (hasSomeCapabilities) return 'CUSTOM';
+    if (hasSomeCapabilities) return 'CUSTOM';
+  }
 
   return AreaRole.VIEWER;
 }

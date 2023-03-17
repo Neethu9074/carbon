@@ -102,7 +102,9 @@
     "permissions_ZHMC": "IBM Z",
     "permissions_KUBERNETES": "Kubernetes",
     "permissions_OPENSTACK": "OpenStack",
-    "permissions_VSPHERE": "vSphere"
+    "permissions_VSPHERE": "vSphere",
+    "clusters": "Clusters",
+    "namespaces": "Namespaces"
   },
   "headingSection": {
     "title": "Role and access scope",
