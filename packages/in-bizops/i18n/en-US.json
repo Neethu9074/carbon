@@ -3,6 +3,12 @@
  "labelBizOps": "Processes",
  "labelSmartAlerts": "Smart Alerts",
  "labelActivities": "Activities",
+ "lists": {
+  "activityLabel": "Activity Count",
+  "idLabel": "Process ID",
+  "noData": "No data available",
+  "toolLabel": "Tool"
+ },
  "navigation": {
    "bizOps": "Business Processes"
  }
