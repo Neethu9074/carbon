@@ -17,6 +17,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
+import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -135,16 +136,18 @@ function renderButtonLine({ podId, timeConfig, result }) {
 function renderButtonLineSecondary({ timeConfig, podId }) {
   return (
     <>
-      <TimeShiftDropdown
-        onChange={offset =>
-          kubernetesTimeShiftSelectTracker({
-            area: 'pod',
-            offset: getTimeShiftLabel({ offset: offset }),
-            windowSize: timeConfig.windowSize,
-            autoRefresh: timeConfig.autoRefresh
-          })
-        }
-      />
+      {beeInstanaInfraMetricsEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            kubernetesTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
     </>
   );
