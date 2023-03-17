@@ -16,7 +16,7 @@ describe('packages/in-bizops/components/ViewSwitcher', () => {
     expect(screen.getByText('Processes')).toBeInTheDocument();
   });
 
-  it('Switches tabs and renders the Activities tab', () => {
+  it('Switches tabs checking tab icon plus label', () => {
     render(<ViewSwitcher />);
     screen.getByRole('link', { name: 'lib_application_service Activities' }).click();
     screen.getByRole('link', { name: 'lib_alerts_alert Smart Alerts' }).click();
