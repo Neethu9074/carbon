@@ -45,7 +45,6 @@ export default function ViewSwitcher() {
               href$={getModifiedUrlStream(p => (p.pathname = paths.automationPath))}
               label={t('in-automation:ActionCatalog.actionCatalog')}
               isActive={isCatalogActive}
-              icon={'lib_automation'}
             />
           </SecondLevelNavigation>
         </div>
