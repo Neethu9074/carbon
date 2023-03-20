@@ -1037,8 +1037,8 @@
           "moreFiltersWithCount_0": "+{{count}} more filters",
           "moreFiltersWithCount_1": "+{{count}} more filters",
           "moreFiltersWithCount_2": "+{{count}} more filters",
-          "filter": "filter",
-          "filter_plural": "filters",
+          "filter": "Filter",
+          "filter_plural": "Filters",
           "filter_0": "filters",
           "filter_1": "filters",
           "filter_2": "filters"

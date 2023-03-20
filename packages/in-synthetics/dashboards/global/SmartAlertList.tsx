@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SyntheticAlertConfigWithMetadata } from '@instana/types';
+import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 import {
   alertId as alertIdMatrixParam,
@@ -18,6 +18,7 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/synt
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
@@ -99,9 +100,7 @@ function getColumnDefinitions() {
     {
       id: 'filterApplied',
       label: t('in-synthetics:dashboard.alertList.filterApplied'),
-      getContent: () => {
-        return <span />;
-      }
+      getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
     }
   ];
 
