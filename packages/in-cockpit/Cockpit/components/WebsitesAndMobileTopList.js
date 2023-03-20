@@ -6,13 +6,15 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { Button, KeyValue, SvgIcon } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
+import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import { getLinkToMobileApp, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
@@ -21,10 +23,8 @@ import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
-import { getLinkToMobileApp, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';

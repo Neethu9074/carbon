@@ -13,6 +13,7 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
+import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
@@ -30,7 +31,6 @@ import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import { controlPlaneEnabled } from 'in-services/featureFlags';
-import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import Summary from './Summary';
 import { t } from 'in-i18n';

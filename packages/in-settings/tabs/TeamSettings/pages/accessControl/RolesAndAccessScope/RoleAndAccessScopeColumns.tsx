@@ -10,8 +10,8 @@ import React from 'react';
 import { PermissionSetWithRoles } from '@instana/types';
 import { Button } from '@instana/components';
 
+import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';

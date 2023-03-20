@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
 
+import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RoleAndAccessScopeColumns';
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
@@ -16,6 +17,7 @@ import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
+import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -96,15 +98,18 @@ function UserRenderer(props) {
           <Groups userId={userId} refresh={refresh} />
         </Col>
         <Col lg={6}>
-          <Areas userEmail={user.email} refresh={refresh} />
+          {rbacImprovementEnabled && <RoleAndAccessScopeColumns email={user.email} />}
+          {!rbacImprovementEnabled && <Areas userEmail={user.email} refresh={refresh} />}
         </Col>
       </Row>
 
-      <Row>
-        <Col lg>
-          <UserPermissions userId={user.id} />
-        </Col>
-      </Row>
+      {!rbacImprovementEnabled && (
+        <Row>
+          <Col lg>
+            <UserPermissions userId={userId} />
+          </Col>
+        </Row>
+      )}
     </>
   );
 }
