@@ -10,7 +10,7 @@ import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
-import { deleteActionTracker } from 'in-settings/tracker';
+import { deleteActionTracker } from 'in-automation/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 

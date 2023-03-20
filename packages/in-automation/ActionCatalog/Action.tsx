@@ -33,8 +33,8 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { createActionTracker, editActionTracker } from 'in-automation/tracker';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
-import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
