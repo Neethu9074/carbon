@@ -407,6 +407,7 @@ function AutomationMenu(props) {
       icon="lib_automation"
       isActive={matchLocation(automationPath)}
       href={createHrefToPath(automationPath)}
+      isBeta
       {...props}
     />
   );
