@@ -403,7 +403,7 @@ function AutomationMenu(props) {
   return (
     <View
       id="main-nav-automation-dashboard"
-      label={t('in-settings:tabs.automation')}
+      label={t('in-automation:automation')}
       icon="lib_automation"
       isActive={matchLocation(automationPath)}
       href={createHrefToPath(automationPath)}
