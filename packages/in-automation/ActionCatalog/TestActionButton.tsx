@@ -27,7 +27,7 @@ export default function TestActionButton({ action, form, setForm }: TestActionBu
   return (
     <>
       {!isDocLink(action.type) && (
-        <Tooltip content={t('in-settings:tabs.test')} delay={500}>
+        <Tooltip content={t('in-automation:ActionCatalog.test')} delay={500}>
           <IconButton
             kind="primaryv2"
             buttonType="button"

@@ -33,7 +33,7 @@ function mimeValidator(str: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.theValueMustBeValidMime')
+        message: t('in-automation:ActionCatalog.theValueMustBeValidMime')
       }
     ];
   }
@@ -50,7 +50,7 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
     return [
       {
         severity: 'error',
-        message: t('in-services:validators.theValueMustNotBeBlank')
+        message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
       }
     ];
   }
@@ -94,7 +94,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
             return [
               {
                 severity: 'error',
-                message: t('in-services:validators.theValueMustNotBeBlank')
+                message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
               }
             ];
           }

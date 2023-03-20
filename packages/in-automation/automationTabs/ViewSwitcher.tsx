@@ -29,8 +29,8 @@ export default function ViewSwitcher() {
 
   const dashboardHeaderProps = {
     icon: 'lib_automation',
-    label: t('in-settings:tabs.automation'),
-    title: t('in-settings:tabs.automation'),
+    label: t('in-automation:automation'),
+    title: t('in-automation:automation'),
     showHistoricDataWarning: false,
     renderMetaInformation
   };
@@ -43,7 +43,7 @@ export default function ViewSwitcher() {
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.automationPath))}
-              label={t('in-settings:tabs.actionCatalog')}
+              label={t('in-automation:ActionCatalog.actionCatalog')}
               isActive={isCatalogActive}
               icon={'lib_automation'}
             />

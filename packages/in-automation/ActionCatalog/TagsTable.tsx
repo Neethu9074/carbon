@@ -32,7 +32,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
   {
     id: 'id',
     sortable: false,
-    label: t('in-settings:tabs.tags'),
+    label: t('in-automation:ActionCatalog.tags'),
     getContent(item: Tag) {
       const tagsField = form.get('tags');
       return (
@@ -78,7 +78,7 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
       formKey="tags"
       defaultRow={''}
       setForm={setForm}
-      noDataMessage={t('in-settings:tabs.noTagsConfigured')}
+      noDataMessage={t('in-automation:ActionCatalog.noTagsConfigured')}
     />
   );
 }

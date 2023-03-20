@@ -25,9 +25,11 @@ const tableActions = {
 export default function ActionCatalog() {
   return (
     <ActionTable
-      title={t('in-settings:tabs.actionCatalog')}
-      noDataMessage={t('in-settings:tabs.noActions')}
-      getEntityName={(action: Action) => t('in-settings:tabs.actionWithNameForDelete', { actionName: action.name })}
+      title={t('in-automation:ActionCatalog.actionCatalog')}
+      noDataMessage={t('in-automation:ActionCatalog.noActions')}
+      getEntityName={(action: Action) =>
+        t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })
+      }
       tableActions={tableActions}
       rightHeader={rightHeader()}
       loadEntities={getAllActions}
@@ -41,7 +43,7 @@ export default function ActionCatalog() {
 
 function rightHeader() {
   return createNewEntityButton({
-    labelNew: t('in-settings:tabs.newAction'),
+    labelNew: t('in-automation:ActionCatalog.newAction'),
     pathNew: actionDetailsNewPath
   });
 }

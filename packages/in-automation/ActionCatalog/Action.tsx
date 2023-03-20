@@ -72,7 +72,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: (actionId: string) =>
       getAction(actionId).map(action =>
-        isCopy ? { ...action, name: t('in-settings:tabs.actionCopy', { name: action.name }) } : action
+        isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
     saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
     openEntities: () => goToPath(automationPath)
@@ -88,13 +88,13 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     content = (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          {t('in-settings:tabs.unknownAction')}
+          {t('in-automation:ActionCatalog.unknownAction')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {message}
           <br />
-          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
+          {t('in-automation:ActionCatalog.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -125,7 +125,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   }
   return (
     <>
-      <Title title={t('in-settings:tabs.action')} />
+      <Title title={t('in-automation:ActionCatalog.action')} />
       <div className={locals.actionPage}>
         <form onSubmit={onSubmit}>{content}</form>
       </div>
@@ -146,8 +146,8 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
     <HorizontalFlexWrapper className={locals.spaceBetween}>
       <SubViewHeader>
         {isNewAction
-          ? t('in-settings:tabs.createANewAction')
-          : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
+          ? t('in-automation:ActionCatalog.createANewAction')
+          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: entity!.name })}
       </SubViewHeader>
       {!isNewAction && (
         <HorizontalFlexWrapper>

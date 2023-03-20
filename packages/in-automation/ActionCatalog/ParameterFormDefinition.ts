@@ -137,7 +137,7 @@ function validName(value: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.validName')
+        message: t('in-automation:ActionCatalog.validName')
       }
     ];
   }
@@ -149,7 +149,7 @@ function uniqueName(parameters: MappedParameter[], value: string, id: string): V
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.uniqueName')
+        message: t('in-automation:ActionCatalog.uniqueName')
       }
     ];
   }

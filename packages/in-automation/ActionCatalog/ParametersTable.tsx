@@ -37,7 +37,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
   {
     id: 'displayName',
     sortable: true,
-    label: t('in-settings:tabs.displayName'),
+    label: t('in-automation:ActionCatalog.displayName'),
     getContent(item: MappedParameter) {
       return (
         <Tooltip content={item.value.label} align="topLeft" delay={500}>
@@ -59,7 +59,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
   {
     id: 'name',
     sortable: true,
-    label: t('in-settings:tabs.name'),
+    label: t('in-automation:ActionCatalog.name'),
     getContent(item: MappedParameter) {
       return (
         <Tooltip content={item.value.name} align="topLeft" delay={500}>
@@ -71,7 +71,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
   {
     id: 'description',
     sortable: false,
-    label: t('in-settings:tabs.description'),
+    label: t('in-automation:ActionCatalog.description'),
     getContent(item: MappedParameter) {
       return <div className={locals.fourLines}>{item.value.description}</div>;
     }
@@ -80,12 +80,12 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     id: 'type',
     sortable: true,
     width: '8',
-    label: t('in-settings:tabs.type'),
+    label: t('in-automation:ActionCatalog.type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
-        return t('in-settings:tabs.vault');
+        return t('in-automation:ActionCatalog.vault');
       } else if (item.value.type === 'static') {
-        return t('in-settings:tabs.static');
+        return t('in-automation:ActionCatalog.static');
       }
       return null;
     }
@@ -98,17 +98,17 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
 
   return (
     <ServerTablePresenterWrapper
-      customAddRowLabel={t('in-settings:tabs.addParameter')}
+      customAddRowLabel={t('in-automation:ActionCatalog.addParameter')}
       columnDefinitions={columnDefinitions}
       data={parameters}
       form={form}
       formKey="parameters"
-      leftHeader={<Label>{t('in-settings:tabs.parameters')}</Label>}
+      leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
       customAddRow={() => {
         addActiveDialog(<ParameterDialog form={form} onChange={onChange} />);
       }}
-      noDataMessage={t('in-settings:tabs.noParametersConfigured')}
+      noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
     />
   );
 }

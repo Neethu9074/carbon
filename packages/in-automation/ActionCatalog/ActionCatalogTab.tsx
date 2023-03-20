@@ -9,7 +9,6 @@ import React from 'react';
 import ActionCatalog from 'in-automation/ActionCatalog/ActionCatalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewSwitcher from 'in-automation/automationTabs/ViewSwitcher';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -24,13 +23,7 @@ export default function ActionCatalogTab() {
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
-        <Title title={t('in-bizops:labelBizOps')} />
-        <ViewTrackingMeta
-          data={{
-            productArea: 'BizOps',
-            pageRootName: 'BizOps'
-          }}
-        />
+        <Title title={t('in-automation:automation')} />
         <ActionCatalog />
       </LeftRightPadding>
 

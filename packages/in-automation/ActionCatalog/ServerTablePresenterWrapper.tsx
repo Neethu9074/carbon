@@ -96,7 +96,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       isSearchable={false}
       rightHeader={
         <Button kind="action" onClick={customAddRow ?? addRow} icon="lib_openclose_add_circle_outline">
-          {customAddRowLabel ?? t('in-settings:tabs.addRow')}
+          {customAddRowLabel ?? t('in-automation:ActionCatalog.addRow')}
         </Button>
       }
       noDataMessage={noDataMessage}

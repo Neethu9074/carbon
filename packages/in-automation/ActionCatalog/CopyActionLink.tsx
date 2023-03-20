@@ -21,7 +21,7 @@ interface CopyActionLinkProps {
 
 export default function CopyActionLink({ action }: CopyActionLinkProps) {
   return (
-    <Tooltip content={t('in-settings:tabs.duplicate')} delay={500}>
+    <Tooltip content={t('in-automation:ActionCatalog.duplicate')} delay={500}>
       <Link ellipsis href$={getEntityIdView(actionDetailsCopyPath, action.id)}>
         <IconButton buttonType="button" kind="primaryv2" type={'lib_actions_copy'} />
       </Link>
