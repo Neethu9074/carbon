@@ -18,12 +18,13 @@ import {
   isWebhook,
   getDocLinkFromFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { getAllActions, ScoredAction } from 'in-automation/api';
+import { getEntityIdView } from 'in-settings/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -129,7 +130,7 @@ const nameColumn = (showActionLink: boolean) => ({
     return (
       <Tooltip content={row.name} align="topLeft" delay={500}>
         {showActionLink ? (
-          <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>
+          <Link className={locals.block} ellipsis href$={getEntityIdView(actionCatalogPath, row.id)}>
             {row.name}
           </Link>
         ) : (

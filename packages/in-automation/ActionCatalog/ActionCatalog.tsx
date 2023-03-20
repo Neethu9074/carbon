@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { teamSettingsActionDetailsNew } from 'in-settings/navigation/paths';
+import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
@@ -42,6 +42,6 @@ export default function ActionCatalog() {
 function rightHeader() {
   return createNewEntityButton({
     labelNew: t('in-settings:tabs.newAction'),
-    pathNew: teamSettingsActionDetailsNew
+    pathNew: actionDetailsNewPath
   });
 }

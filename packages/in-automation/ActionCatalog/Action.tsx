@@ -40,9 +40,9 @@ import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { automationPath } from 'in-automation/navigation/paths';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
@@ -75,7 +75,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
         isCopy ? { ...action, name: t('in-settings:tabs.actionCopy', { name: action.name }) } : action
       ),
     saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
-    openEntities: () => goToPath(teamSettingsActionCatalog)
+    openEntities: () => goToPath(automationPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
     ActionFormEntity
@@ -118,7 +118,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
           loading={loading}
           saveEnabled={saveEnabled}
           isCreate={isCreate || isCopy}
-          listPath={teamSettingsActionCatalog}
+          listPath={automationPath}
         />
       </SettingsDetailPage>
     );
