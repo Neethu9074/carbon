@@ -79,12 +79,16 @@ export default function GroupedMetricSelectorOverlay({
   );
 
   const items = options
-    .filter(group => group.options?.filter(option => valueRegex.test(option.label)).length > 0)
+    .filter(
+      group =>
+        group.options?.filter(option => valueRegex.test(option.label)).length > 0 ||
+        group.options?.filter(option => valueRegex.test(option.description)).length > 0
+    )
     .map((group, idx) => {
       return [
         <OverlayGroup key={`group-${idx}`} label={capitalize(group.value)}>
           {group.options
-            ?.filter(option => valueRegex.test(option.label))
+            ?.filter(option => valueRegex.test(option.label) || valueRegex.test(option.description))
             .sort(optionLabelComparator)
             .map((opt, idx) => {
               return (
