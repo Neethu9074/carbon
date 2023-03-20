@@ -3,96 +3,33 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose } from 'recompose';
-import { find } from 'lodash';
 import React from 'react';
 
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import {
+  clusterGroupings,
+  namespaceGroupings,
+  sizeByConfigs
+} from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/constants';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
-import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import getKubernetesNamespace from 'in-kubernetes/subscriptions/getKubernetesNamespace';
-import getKubernetesService from 'in-kubernetes/subscriptions/getKubernetesService';
-import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { compareIgnoreCase } from 'in-services/util/string';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
-import { t, Trans } from 'in-i18n';
+import { Trans } from 'in-i18n';
 
 import locals from './ControlFrame.mless';
 
-const sizeByConfigs = [
-  {
-    value: 'cpuLimits',
-    format: twoDecimalPlaces,
-    label: t('in-kubernetes:dashboards.cpuLimits')
-  },
-  {
-    value: 'cpuRequests',
-    format: twoDecimalPlaces,
-    label: t('in-kubernetes:dashboards.cpuRequests')
-  },
-  {
-    value: 'memoryLimits',
-    format: bytesZeroDecimalPlaces,
-    label: t('in-kubernetes:dashboards.memoryLimits')
-  },
-  {
-    value: 'memoryRequests',
-    format: bytesZeroDecimalPlaces,
-    label: t('in-kubernetes:dashboards.memoryRequests')
-  },
-  {
-    value: 'containers',
-    format: zeroDecimalPlaces,
-    label: t('in-kubernetes:dashboards.containers')
-  }
-];
+export default function ControlFrame(props) {
+  const { groupingOptions, view, setView, render } = props;
 
-export const namespaceGroupings = [
-  {
-    value: 'DEPLOYMENT',
-    label: t('in-kubernetes:dashboards.deployment'),
-    getEntity: getKubernetesWorkloadController
-  },
-  {
-    value: 'SERVICE',
-    label: t('in-kubernetes:dashboards.service'),
-    getEntity: getKubernetesService
-  },
-  {
-    value: 'NODE',
-    label: t('in-kubernetes:dashboards.node'),
-    getEntity: getKubernetesNode
-  }
-];
+  const urlStateDefinition = getUrlStateDefinition(props);
 
-export const clusterGroupings = [
-  ...namespaceGroupings,
-  {
-    value: 'NAMESPACE',
-    label: t('in-kubernetes:dashboards.namespace'),
-    getEntity: getKubernetesNamespace
-  }
-];
+  const [urlState, setUrlState] = useUrlState({ bind: urlStateDefinition, replaceHistory: false });
+  const { showHealth, grouping, sizeMetricConfig } = urlState;
 
-export default compose(
-  withUrlDependingState({
-    replaceHistory: false,
-    getPathSegment: () => '/pods',
-    getMatrixPrefix: () => 'podMap.',
-    boundKeys: ['showHealth', 'grouping', 'metricType', 'sizeMetricConfig'],
-    reducerName: 'setConfig',
-    getInitialState,
-    getSerializedUrlValues,
-    getParsedUrlValues
-  })
-)(ControlFrame);
-
-function ControlFrame(props) {
-  const { grouping, showHealth, sizeMetricConfig, setConfig, groupingOptions, view, setView, render } = props;
   return (
     <div>
       <div className={locals.header}>
@@ -106,9 +43,9 @@ function ControlFrame(props) {
                 <ComboBox
                   className={locals.input}
                   id="size-by"
-                  value={grouping}
+                  value={grouping.value}
                   options={groupingOptions}
-                  onChange={_grouping => setConfig({ grouping: _grouping })}
+                  onChange={_grouping => setUrlState({ grouping: _grouping })}
                   isClearable={false}
                   openMenuOnFocus
                   isSearchable={false}
@@ -116,7 +53,7 @@ function ControlFrame(props) {
               )
             }}
           />
-          <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setConfig({ showHealth: _b })} />
+          <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setUrlState({ showHealth: _b })} />
         </div>
       </div>
 
@@ -129,47 +66,67 @@ function ControlFrame(props) {
                 label={config.label}
                 isActive={sizeMetricConfig.value === config.value}
                 omitEmptyIcon
-                onClick={() => setConfig({ sizeMetricConfig: config })}
+                onClick={() => setUrlState({ sizeMetricConfig: config })}
               />
             ))}
           </SideNavigation>
         }
       >
-        {render(props)}
+        {render({ ...props, ...urlState })}
       </SidebarContainer>
     </div>
   );
 }
+const getUrlStateDefinition = ({ initialGrouping }) => {
+  const grouping = initialGrouping && getGroupingByValue(initialGrouping);
 
-function getInitialState(props) {
-  const initialGrouping = props.initialGrouping && getGroupingByValue(props.initialGrouping);
-  return {
+  const initialState = {
     showHealth: false,
-    grouping: initialGrouping || namespaceGroupings[1],
+    grouping: grouping || namespaceGroupings[1],
     sizeMetricConfig: sizeByConfigs[sizeByConfigs.length - 1]
   };
-}
 
-function getSerializedUrlValues(props) {
-  return {
-    showHealth: props.showHealth,
-    grouping: props.grouping.value,
-    sizeMetricConfig: props.sizeMetricConfig.value
-  };
-}
-
-function getParsedUrlValues(values) {
-  return {
-    showHealth: values.showHealth === 'true',
-    grouping: find(clusterGroupings, g => g.value === values.grouping),
-    sizeMetricConfig: find(sizeByConfigs, c => c.value === values.sizeMetricConfig)
-  };
-}
-
-function getGroupingByValue(value) {
-  for (let i = 0; i < clusterGroupings.length; i++) {
-    if (compareIgnoreCase(clusterGroupings[i].value, value) === 0) {
-      return clusterGroupings[i];
+  function getGroupingByValue(value) {
+    for (let i = 0; i < clusterGroupings.length; i++) {
+      if (compareIgnoreCase(clusterGroupings[i].value, value) === 0) {
+        return clusterGroupings[i];
+      }
     }
   }
-}
+
+  const urlStateDefinition = [
+    {
+      name: 'podsMap.showHealth',
+      path: '/pods',
+      initialState: initialState.showHealth,
+      parser: v => v === 'true',
+      serializer: String,
+      as: 'showHealth'
+    },
+    {
+      name: 'podsMap.grouping',
+      path: '/pods',
+      initialState: initialState.grouping,
+      parser: val => clusterGroupings.find(({ value }) => val === value),
+      serializer: val => buildJsonParser()(val.value),
+      as: 'grouping'
+    },
+    {
+      name: 'podsMap.metricType',
+      path: '/pods',
+      parser: buildJsonParser(),
+      serializer: buildJsonSerializer(),
+      as: 'metricType'
+    },
+    {
+      name: 'podsMap.sizeMetricConfig',
+      path: '/pods',
+      parser: val => sizeByConfigs.find(({ value }) => val === value),
+      serializer: val => buildJsonParser()(val.value),
+      initialState: initialState.sizeMetricConfig,
+      as: 'sizeMetricConfig'
+    }
+  ];
+
+  return urlStateDefinition;
+};

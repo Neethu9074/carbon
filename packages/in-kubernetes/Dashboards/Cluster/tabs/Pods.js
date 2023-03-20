@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { clusterGroupings } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
+import { clusterGroupings } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/constants';
 import PodsListWithMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodsListWithMap';
 import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import getTreeMap from 'in-kubernetes/subscriptions/getTreeMap';

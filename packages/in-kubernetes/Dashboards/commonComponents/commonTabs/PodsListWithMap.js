@@ -10,26 +10,32 @@ import { Card } from '@instana/components';
 import ControlFrame from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
 import PodTreeMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTreeMap';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ServerTreeMap from 'in-components/TreeMap/ServerTreeMap';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import useUrlState from 'in-hooks/useUrlState';
 
-export default function PodsListWithMap(props) {
+export default PodsListWithMap;
+
+const urlStateDefinition = [
+  {
+    name: 'pods.view',
+    path: '/pods',
+    initialState: 'list',
+    parser: buildJsonParser(),
+    serializer: buildJsonSerializer(),
+    as: 'view'
+  }
+];
+
+function PodsListWithMap(props) {
   const { PodListRenderer, groupingOptions, getTreeMap } = props;
-  const urlStateConfig = {
-    replaceHistory: false,
-    bind: [
-      {
-        path: '/pods',
-        name: 'pods.view',
-        as: 'view',
-        initialState: 'list'
-      }
-    ]
-  };
-  const [{ view }, setView] = useUrlState(urlStateConfig);
+
+  const [urlState, setView] = useUrlState({ bind: urlStateDefinition, replaceHistory: false });
+
+  const { view } = urlState;
 
   if (view === 'list') {
     return <PodListRenderer {...props} leftHeader={<MapListToggle view={view} setView={setView} />} />;
