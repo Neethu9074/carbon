@@ -70,7 +70,7 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
 
   const hasAreaAccess = areaItemData.hasAreaAccess;
   const hasAreaItemsAdded = areaItemIds.length !== 0;
-  const areaRole = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionsSet);
+  const areaRole = getAreaRoleFromPermissionSet(area, permissionsSet);
   const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
 
   const areaItemIdsWithAccess = areaItemIds.map(areaItemData => areaItemData.scopeId);

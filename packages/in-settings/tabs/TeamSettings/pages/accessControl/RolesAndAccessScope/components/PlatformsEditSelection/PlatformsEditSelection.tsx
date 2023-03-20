@@ -17,6 +17,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import { openstackEnabled, pcfEnabled, phmcEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
@@ -32,13 +33,12 @@ import locals from './PlatformsEditSelection.mless';
  */
 export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
-// later this needs to be constructed based on featureFlags or current user permissions
 const generalAreas: Array<LimitableProductArea> = [
-  ProductArea.PCF,
-  ProductArea.PHMC,
-  ProductArea.ZHMC,
-  ProductArea.OPENSTACK,
-  ProductArea.VSPHERE
+  ...(pcfEnabled ? [ProductArea.PCF] : []),
+  ...(phmcEnabled ? [ProductArea.PHMC] : []),
+  ...(zhmcEnabled ? [ProductArea.ZHMC] : []),
+  ...(openstackEnabled ? [ProductArea.OPENSTACK] : []),
+  ...(vsphereEnabled ? [ProductArea.VSPHERE] : [])
 ];
 
 /**
@@ -48,7 +48,7 @@ const generalAreas: Array<LimitableProductArea> = [
  */
 export default function _PlatformsEditSelection({ form, setForm }: PlatformsEditSelectionProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
-  const permissionSet = permissionSetField?.value;
+  const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
 
   /**
    * Updates the permissionSet, by removing the value from the permissions array or adding it
@@ -87,26 +87,25 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
         {generalAreas.map(area => {
           const platformTitle = t('in-settings:productAreas.permissions', { context: area });
           return (
-            <>
-              <CheckboxFancy
-                size="large"
-                checked={hasAnyAreaPermission(area)}
-                onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
-                label={
-                  <Stack gap="xsmall" direction="horizontal" align="start">
-                    <span>{platformTitle}</span>
-                    <Tooltip
-                      content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
-                        label: platformTitle
-                      })}
-                      align="rightMiddle"
-                    >
-                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                    </Tooltip>
-                  </Stack>
-                }
-              />
-            </>
+            <CheckboxFancy
+              key={platformTitle}
+              size="large"
+              checked={hasAnyAreaPermission(area)}
+              onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
+              label={
+                <Stack gap="xsmall" direction="horizontal" align="start">
+                  <span>{platformTitle}</span>
+                  <Tooltip
+                    content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
+                      label: platformTitle
+                    })}
+                    align="rightMiddle"
+                  >
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                  </Tooltip>
+                </Stack>
+              }
+            />
           );
         })}
       </div>

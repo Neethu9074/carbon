@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { SvgIcon, SvgIconSizes, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
+import { SvgIcon, Typography } from '@instana/components';
 
 import {
   getField,
@@ -70,7 +70,7 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
     : ScopedPermissionItem.NO_ACCESS;
 
   // adjust sizes based on standalone or subcomponent of platforms
-  const iconSize = isChild ? SvgIconSizes.s : SvgIconSizes.l;
+  const iconSize = isChild ? 's' : 'l';
   const headingVariant = isChild ? 'heading-100' : 'heading-200';
   const headingComponent = isChild ? 'h4' : 'h3';
 

@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Li, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
@@ -24,9 +24,7 @@ export const WebsiteSectionFullAccessContent = () => {
       firstColumnHeadline={areaColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.website')}
     >
-      <Li>
-        <Typography variant="body-regular">{t('in-settings:productAreas.allWebsites')}</Typography>
-      </Li>
+      <Typography variant="body-small">{t('in-settings:productAreas.allWebsites')}</Typography>
     </AreaExpandableListItem>
   );
 };

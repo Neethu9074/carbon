@@ -98,6 +98,11 @@ export default function InfrastructureAccessPanel({
         </Typography>
       </StackItem>
       <StackItem>
+        <Typography variant="body-regular" component="div">
+          {t('in-settings:PermissionSection.infrastructureDfqUse')}
+        </Typography>
+      </StackItem>
+      <StackItem>
         <Typography variant="body-bold" component="div">
           {t('in-settings:PermissionSection.infrastructureDfqHeader')}
         </Typography>
