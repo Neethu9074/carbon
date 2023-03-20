@@ -28,22 +28,22 @@ import {
   isScript,
   isWebhook,
   NO_AUTH
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
-import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
-import TestActionButton from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TestActionButton';
+} from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
-import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { createActionTracker, editActionTracker } from 'in-settings/tracker';
+import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import { automationPath } from 'in-automation/navigation/paths';
 import SectionLine from 'in-settings/components/SectionLine';
+import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -126,7 +126,9 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   return (
     <>
       <Title title={t('in-settings:tabs.action')} />
-      <form onSubmit={onSubmit}>{content}</form>
+      <div className={locals.actionPage}>
+        <form onSubmit={onSubmit}>{content}</form>
+      </div>
     </>
   );
 }

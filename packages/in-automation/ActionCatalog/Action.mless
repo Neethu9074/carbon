@@ -7,5 +7,6 @@
 :local {
   .spaceBetween {
     justify-content: space-between;
+    padding-top: 1rem;
   }
 }

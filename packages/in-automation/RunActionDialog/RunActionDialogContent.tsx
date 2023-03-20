@@ -17,7 +17,7 @@ import {
   getWebhookFields,
   isScript,
   isWebhook
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+} from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';

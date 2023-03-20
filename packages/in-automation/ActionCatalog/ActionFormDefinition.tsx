@@ -20,7 +20,7 @@ import {
   isDocLink,
   isScript,
   isWebhook
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+} from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';

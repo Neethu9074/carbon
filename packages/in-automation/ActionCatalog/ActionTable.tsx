@@ -11,13 +11,7 @@ import classNames from 'classnames';
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import {
-  getType,
-  isDocLink,
-  isScript,
-  isWebhook,
-  getDocLinkFromFields
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { getType, isDocLink, isScript, isWebhook, getDocLinkFromFields } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
