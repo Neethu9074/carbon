@@ -102,6 +102,8 @@ export default function GroupedMetricSelectorOverlay({
                 >
                   <SvgIcon type={getIconByType(dataSource, getProductAreaFromMetricSource(unifiedMetricsSource))} />
                   <KeyValue
+                    multilineValue
+                    multilineLabel
                     className={locals.optionValueMargin}
                     label={opt.description}
                     value={opt.label}
