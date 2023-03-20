@@ -14,12 +14,7 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-// const pathSegment = bizOpsPath;
-// const matrixPrefix = '';
-
 export default function ActionCatalogTab() {
-  // const timeConfig = useTimeConfig();
-
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -31,8 +26,3 @@ export default function ActionCatalogTab() {
     </Sticky>
   );
 }
-
-// Currently not getting data
-// export function getProcessData() {
-//   return just(listSuccess([]));
-// }

@@ -126,9 +126,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   return (
     <>
       <Title title={t('in-automation:ActionCatalog.action')} />
-      <div className={locals.actionPage}>
-        <form onSubmit={onSubmit}>{content}</form>
-      </div>
+      <form onSubmit={onSubmit}>{content}</form>
     </>
   );
 }
