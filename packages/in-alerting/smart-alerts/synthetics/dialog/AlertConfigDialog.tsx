@@ -13,23 +13,19 @@ import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-import {
-  SyntheticAlertConfigWithMetadata,
-  SyntheticAlertRuleUnion,
-  SyntheticTimeThresholdUnion,
-  SyntheticAlertConfig
-} from 'in-types';
+import { SyntheticAlertRuleUnion, SyntheticTimeThresholdUnion, SyntheticAlertConfig, VersionedConfig } from 'in-types';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 
 const logger = createLogger('in-alerting/smart-alert/synthetics/AlertDialog');
 
 interface AlertConfigDialogType {
-  onClose: (config?: SyntheticAlertConfigWithMetadata) => void;
-  alertConfig: SyntheticAlertConfigWithMetadata;
+  onClose: (config?: SyntheticAlertConfigWithID) => void;
+  alertConfig: SyntheticAlertConfig & VersionedConfig;
   editMode: boolean;
   startWithSimpleMode: boolean;
 }
@@ -75,7 +71,7 @@ function createOnChange(setForm: (form: MapForm) => void, externalForm: MapForm)
 function createOrSaveAlert(
   form: MapForm,
   setForm: (form: MapForm) => void,
-  onClose: (config?: SyntheticAlertConfigWithMetadata) => void,
+  onClose: (config?: SyntheticAlertConfig & { readonly id?: string }) => void,
   editMode: boolean,
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>

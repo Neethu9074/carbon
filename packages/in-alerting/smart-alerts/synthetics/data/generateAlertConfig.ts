@@ -4,7 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter } from '@instana/types';
+import {
+  FailureSyntheticAlertRule,
+  SyntheticAlertConfig,
+  SyntheticAlertConfigWithMetadata,
+  TagFilter
+} from '@instana/types';
+
+export interface SyntheticAlertConfigWithID extends SyntheticAlertConfig {
+  readonly id?: string;
+}
 
 export default function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata {
   const rule: FailureSyntheticAlertRule = {

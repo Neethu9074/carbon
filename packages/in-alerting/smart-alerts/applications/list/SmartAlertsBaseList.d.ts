@@ -9,6 +9,7 @@ import { Observable } from '@instana/observables';
 
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
+import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
 
 interface Props<AlertConfig extends AlertConfigType> {
