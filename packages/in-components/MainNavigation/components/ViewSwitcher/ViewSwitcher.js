@@ -145,8 +145,8 @@ export default function ViewSwitcher({
       {hasFirstSectionAccess && <SpacerListItem />}
       <Analyze {...commonProps} />
       {hasEventsAccess && <Incidents {...commonProps} />}
-      <SloDashboard {...commonProps} />
       <AutomationMenu {...commonProps} />
+      <SloDashboard {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
