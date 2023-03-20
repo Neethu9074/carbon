@@ -7,6 +7,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
+import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
 import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
@@ -30,6 +31,7 @@ export interface Props {
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
+  setSliderState: (state: SliderState) => void;
 }
 
 export default function TestCreationWithSteps({
@@ -44,7 +46,8 @@ export default function TestCreationWithSteps({
   setSelectedBlueprint,
   scriptErrors,
   setScriptErrors,
-  simpleMode
+  simpleMode,
+  setSliderState
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -65,7 +68,7 @@ export default function TestCreationWithSteps({
       className={locals.form}
     >
       {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
-        <AdvancedMode form={form} updateForm={updateForm} />
+        <AdvancedMode form={form} updateForm={updateForm} setSliderState={setSliderState} />
       ) : (
         <>
           <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />

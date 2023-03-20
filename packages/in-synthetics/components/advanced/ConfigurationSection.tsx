@@ -12,7 +12,6 @@ import { Stack } from '@instana/components';
 import { Validations, HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
@@ -21,7 +20,12 @@ import { t } from 'in-i18n';
 
 import locals from './ConfigurationSection.mless';
 
-export default function ConfigurationSection({ form, updateForm }: AdvancedModeProps) {
+interface Props {
+  form: MapForm;
+  updateForm: (form: MapForm) => void;
+}
+
+export default function ConfigurationSection({ form, updateForm }: Props) {
   const configForm = form.get('configuration') as MapForm;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;

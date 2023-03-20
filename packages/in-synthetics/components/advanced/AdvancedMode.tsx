@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
+import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
@@ -18,7 +19,7 @@ import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 
-const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
+const AdvancedMode = ({ form, updateForm, setSliderState }: AdvancedModeProps) => {
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   return (
     <StepsContainer
@@ -35,7 +36,7 @@ const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
           label: t('in-synthetics:dialog.createTest.advancedMode.locationsLabel'),
           title: t('in-synthetics:dialog.createTest.advancedMode.locationsTitle'),
           valid: true,
-          content: <div>Locations section here..</div>
+          content: <ConfigureLocations form={form} updateForm={updateForm} setSliderState={setSliderState} />
         },
         {
           scrollId: '3',
