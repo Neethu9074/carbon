@@ -969,21 +969,7 @@
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
     "showPasswordTooltip": "Show password",
-    "hidePasswordTooltip": "Hide password",
-    "showAPIKeyTooltip": "Show API key",
-    "hideAPIKeyTooltip": "Hide API key",
-    "showBeaererTokenTooltip": "Show bearer token",
-    "hideBeaererTokenTooltip": "Hide bearer token",
-    "secretKey": "Secret Key",
-    "secretPath": "Secret Path",
-    "secretKeyOptional": "Secret Key (optional)",
-    "secretPathOptional": "Secret Path (optional)",
-    "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
-    "uniqueName": "Parameter names must be unique.",
-    "static": "Static",
-    "vault": "Vault",
-    "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
-    "actionCopy": "(Copy of) {{name}}"
+    "hidePasswordTooltip": "Hide password"
   },
   "languageSelection": {
     "language": "Language",
