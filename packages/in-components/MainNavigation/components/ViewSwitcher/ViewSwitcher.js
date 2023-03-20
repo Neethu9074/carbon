@@ -75,7 +75,9 @@ import { isSloView, sloList } from 'in-service-levels/navigation/path';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { automationPath } from 'in-automation/navigation/paths';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -144,6 +146,7 @@ export default function ViewSwitcher({
       <Analyze {...commonProps} />
       {hasEventsAccess && <Incidents {...commonProps} />}
       <SloDashboard {...commonProps} />
+      <AutomationMenu {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
@@ -385,6 +388,25 @@ function SloDashboard(props) {
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(sloList)}
+      {...props}
+    />
+  );
+}
+
+function AutomationMenu(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!role.canConfigureAutomationActions || !actionAutomationEnabled) {
+    return null;
+  }
+
+  return (
+    <View
+      id="main-nav-automation-dashboard"
+      label={t('in-settings:tabs.automation')}
+      icon="lib_automation"
+      isActive={matchLocation(automationPath)}
+      href={createHrefToPath(automationPath)}
       {...props}
     />
   );

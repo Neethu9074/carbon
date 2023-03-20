@@ -30,10 +30,12 @@ import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
+import automationRoutes from 'in-automation/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
@@ -65,6 +67,7 @@ export default (
     {sloV2Enabled && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
+    {role.canConfigureAutomationActions && actionAutomationEnabled && automationRoutes}
     {hasBizOpsAccess && bizopsRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
