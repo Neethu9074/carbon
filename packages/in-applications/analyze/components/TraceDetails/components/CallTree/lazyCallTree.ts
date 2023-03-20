@@ -187,7 +187,7 @@ export function updateLazyCallTreeWithRelatedCalls(
 ): LazyCallTree {
   let call: CallDetailsNode = lazyCallTree.searchIndex.get(callId) as CallDetailsNode;
 
-  if (!call || !relatedCalls.data?.items) {
+  if (!call) {
     return lazyCallTree;
   }
 
