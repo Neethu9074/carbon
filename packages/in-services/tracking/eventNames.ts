@@ -4,6 +4,7 @@
  */
 
 export const VIEW_CHANGE = 'page.view';
+export const PAGE_SCROLLED_BOTTOM = 'page.scrolled.bottom';
 
 export const URL_SHORTENER_OPEN = 'url.shortener.open';
 
@@ -100,6 +101,7 @@ export const NAVIGATION_BREADCRUMB = 'navigation.breadcrumb';
 export const REQUEST_QUOTE_BUTTON_CLICKED = 'purchaseIntent.quote';
 export const REQUEST_QUOTE_SUBMITTED = 'requestQuote.submitted';
 export const TIME_WINDOW_SIZE_VIA_PICKER = 'time.windowSize.viaPicker';
+export const TIME_LIVE_MODE = 'time.liveMode';
 export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
