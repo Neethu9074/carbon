@@ -12,8 +12,6 @@ import { Link, SvgIcon } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-// @ts-expect-error Module needs to be translated to TS
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
 // @ts-expect-error Could not find a declaration file
 import HealthDot from 'in-components/health/HealthDot';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
@@ -21,6 +19,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -59,6 +58,31 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
     to: resultTime,
     focusedMoment: resultTime
   };
+}
+
+function ApplicationLabelContent({ item }: { item: TestResultListItem }) {
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
+  const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
+
+  if (applicationLabel != null && applicationLabel !== '') {
+    return (
+      <HorizontalFlexWrapper>
+        <SvgIcon type={'lib_application_invert'} />
+        <div>
+          <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
+            <span className={locals.label}>{applicationLabel}</span>
+          </Link>
+        </div>
+      </HorizontalFlexWrapper>
+    );
+  }
+
+  return (
+    <div>
+      <span className={locals.label}>{''}</span>
+    </div>
+  );
 }
 
 export const columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
@@ -248,26 +272,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
-      const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
-      const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
-      if (applicationLabel != null && applicationLabel !== '') {
-        return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_application_invert'} />
-            <div>
-              <Link href$={getApplicationDashboard(applicationId)}>
-                <span className={locals.label}>{applicationLabel}</span>
-              </Link>
-            </div>
-          </HorizontalFlexWrapper>
-        );
-      } else {
-        return (
-          <div>
-            <span className={locals.label}>{''}</span>
-          </div>
-        );
-      }
+      return <ApplicationLabelContent item={item} />;
     }
   },
   {

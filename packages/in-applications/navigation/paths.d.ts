@@ -7,7 +7,7 @@ import { ApplicationBoundaryScope } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Group, Order, TagCatalog, TimeConfig } from 'in-types';
+import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from 'in-types';
 
 export declare const alertsList: string;
 export declare const alertsTab: string;
@@ -56,3 +56,45 @@ interface GetLinkToAnalyzProps {
 }
 
 export function getLinkToAnalyze(props: Partial<GetLinkToAnalyzProps>): Observable<string>;
+
+export function useAlertConfig(): (alertConfigId: string, applicationId: string) => string;
+
+export function useLinkToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
+
+export function useLinkToGlobalAlertConfigWithAPDashboard(): (
+  alertConfigId: string,
+  alertConfigVersion: number,
+  applicationId: string
+) => string;
+
+export function useLinkToAlertConfig(): (
+  alertConfigId: string,
+  alertConfigVersion: number,
+  applicationId: string
+) => string;
+
+interface UseDashboardProps {
+  applicationId?: string;
+  boundaryScope?: BoundaryScope;
+  tab?: string;
+  syntheticCalls?: string;
+  tabMatrix?: Record<string, string>;
+  timeConfig?: TimeConfig;
+}
+
+interface ApplicationDashboardProps extends UseDashboardProps {
+  applicationId: string;
+}
+
+interface ServiceDashboardProps extends UseDashboardProps {
+  serviceId: string;
+}
+
+interface EndpointDashboardProps extends UseDashboardProps {
+  endpointId: string;
+  serviceId?: string;
+}
+
+export function useLinkToApplicationDashboard(): (applicationDashboardProps: ApplicationDashboardProps) => string;
+export function useLinkToServiceDashboard(): (serviceDashboardProps: ServiceDashboardProps) => string;
+export function useLinkToEndpointDashboard(): (endpointDashboardProps: EndpointDashboardProps) => string;

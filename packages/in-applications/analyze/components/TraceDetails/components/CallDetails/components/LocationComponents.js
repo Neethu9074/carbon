@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { Link, SvgIcon } from '@instana/components';
 
-import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
@@ -19,6 +19,8 @@ import { t } from 'in-i18n';
 import locals from './LocationComponents.mless';
 
 export const SourceLocation = ({ location, service, snapshotId, entity, span }) => {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
   return (
     <div
       className={classNames({
@@ -35,7 +37,7 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
             {t('in-analyze:traceDetail.callDetails.serviceComponent.notMonitored')}
           </span>
         ) : (
-          <Link className={locals.link} href$={getServiceDashboard(service.id)}>
+          <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: service.id })}>
             <SvgIcon className={locals.entityIcon} type="lib_application_service" />
             {service.label}
           </Link>
@@ -47,6 +49,9 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
 };
 
 export const DestinationLocation = ({ location, endpoint, service, snapshotId, entity, span, inProcessCall }) => {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
   return (
     <div
       className={classNames({
@@ -57,12 +62,15 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
     >
       <div className={locals.serviceLineInfo}>
         <span className={locals.locationText}>{inProcessCall ? 'IN' : location}</span>
-        <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
+        <Link
+          className={locals.link}
+          href={getLinkToEndpointDashboard({ serviceId: service.id, endpointId: endpoint.id })}
+        >
           <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" />
           {shortenedLabel(endpoint.label)}
         </Link>
         <span className={locals.text}>{t('in-analyze:traceDetail.components.callDetails.of')}</span>
-        <Link className={locals.link} href$={getServiceDashboard(service.id)}>
+        <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: service.id })}>
           <SvgIcon className={locals.entityIcon} type="lib_application_service" />
           {shortenedLabel(service.label)}
         </Link>

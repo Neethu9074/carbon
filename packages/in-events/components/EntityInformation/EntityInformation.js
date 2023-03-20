@@ -19,7 +19,11 @@ import {
   hasErrors,
   createAppDataEntityConnectToMapFromEvent
 } from 'in-services/entityUtils';
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -90,24 +94,31 @@ function InfraEntityInformation({
 }
 
 function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeConfig, boundaryScope }) {
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
   const data = entity.data;
-  let href$;
+  let href;
   let iconType;
   if (isApplicationEntity(entityType)) {
-    href$ = getApplicationDashboard(data.id, {
+    href = getLinkToApplicationDashboard({
+      applicationId: data.id,
       timeConfig: linkTimeConfig,
       boundaryScope
     });
     iconType = 'lib_application';
   } else if (isServiceEntity(entityType)) {
-    href$ = getServiceDashboard(data.id, {
+    href = getLinkToServiceDashboard({
+      serviceId: data.id,
       timeConfig: linkTimeConfig,
       boundaryScope
     });
     iconType = 'lib_application_service';
   } else if (isEndpointEntity(entityType)) {
-    href$ = getEndpointDashboard(data.id, {
+    href = getLinkToEndpointDashboard({
       serviceId: data.serviceId,
+      endpointId: data.id,
       timeConfig: linkTimeConfig,
       boundaryScope
     });
@@ -116,7 +127,7 @@ function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeCon
 
   return (
     <EntityInformationPresenter label={label}>
-      <Link href$={href$} className={locals.entity}>
+      <Link href={href} className={locals.entity}>
         <SvgIcon className={locals.entityIcon} type={iconType} size="xs" />
         {data.label}
       </Link>

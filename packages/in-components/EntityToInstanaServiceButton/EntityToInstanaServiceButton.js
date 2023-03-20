@@ -14,7 +14,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-components/EntityWithType';
 import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
@@ -47,6 +47,8 @@ export function EntityToInstanaServicesButton({ instanaServices }) {
 }
 
 function ServiceList({ instanaServices }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
   return (
     <div className={locals.tableWrapper}>
       <Table>
@@ -63,7 +65,7 @@ function ServiceList({ instanaServices }) {
                     icon="lib_application_service"
                     label={service.label}
                     severity={get(service, ['metrics', 'maxSeverity', 0, 1], 0)}
-                    href$={getServiceDashboard(service.id)}
+                    href={getLinkToServiceDashboard({ serviceId: service.id })}
                   />
                 </Td>
                 <Td>

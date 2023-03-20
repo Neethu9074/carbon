@@ -15,12 +15,12 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
-import {
-  getAlertConfig as getApplicationsAlertConfig,
-  getLinkToGlobalAlertConfigWithoutAPDashboard
-} from 'in-applications/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
+import {
+  useAlertConfig as useApplicationsAlertConfig,
+  useLinkToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
@@ -186,9 +186,10 @@ const typeLabels = Object.freeze({
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert')
 });
 
-const LabelContent = ({ entity }) => {
+function AlertChannelLabel({ entity }) {
   const { entityId, label, type, id } = entity;
-
+  const getApplicationsAlertConfig = useApplicationsAlertConfig();
+  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
 
   let href;
@@ -196,12 +197,13 @@ const LabelContent = ({ entity }) => {
   if (type === 'WebsiteSmartAlert') {
     href = websiteAlertConfigLink;
   } else if (type === 'ApplicationSmartAlert') {
-    href$ = getApplicationsAlertConfig(id, entityId);
+    href = getApplicationsAlertConfig(id, entityId);
   } else if (type === 'GlobalApplicationSmartAlert') {
-    href$ = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
+    href = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
   } else {
     href$ = getEntityIdView(teamSettingsAlertingConfigurations, id);
   }
+
   return (
     <Tooltip content={label} align="topLeft" delay={500}>
       <WithSubscript subscript={getSubscript(entity)}>
@@ -211,7 +213,7 @@ const LabelContent = ({ entity }) => {
       </WithSubscript>
     </Tooltip>
   );
-};
+}
 
 const columnDefinitions = [
   {
@@ -230,7 +232,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-settings:tabs.name'),
     width: 50,
-    getContent: entity => <LabelContent entity={entity} />
+    getContent: entity => <AlertChannelLabel entity={entity} />
   },
   {
     id: 'kind',

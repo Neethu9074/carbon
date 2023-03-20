@@ -11,7 +11,7 @@ import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Pagination from 'in-components/Pagination';
 
@@ -31,7 +31,7 @@ const ApplicationHealthOverview = ({ applications, isPreview, timeConfig }) => {
     if (height && !isPreview) {
       setRowsPerPage(Math.floor(height / 48));
     }
-  }, [height]);
+  }, [height, isPreview]);
   return (
     <section className={locals.container}>
       <div className={locals.content} ref={ref}>
@@ -56,10 +56,12 @@ const ApplicationHealthOverview = ({ applications, isPreview, timeConfig }) => {
 
 const ApplicationRow = ({ application, timeConfig, isPreview }) => {
   const { openIssues, maxSeverity, id, label } = application;
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+
   return (
     <Li>
       {isPreview && label}
-      {!isPreview && <Link href$={getApplicationDashboard(id)}>{label}</Link>}
+      {!isPreview && <Link href={getLinkToApplicationDashboard({ applicationId: id })}>{label}</Link>}
       <div className={isPreview ? locals.disabledHealthIndicator : locals.healthIndicator}>
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={id}

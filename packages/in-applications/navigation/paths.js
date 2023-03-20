@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useCallback } from 'react';
+
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam,
@@ -43,13 +45,14 @@ import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applicat
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
-import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
+import { emptyArray } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -408,117 +411,99 @@ export function getServiceList({
   });
 }
 
-export function getApplicationDashboard(
-  applicationId,
-  { serviceId, endpointId, boundaryScope, tab, tabMatrix, timeConfig, syntheticCalls } = emptyObject
-) {
-  return getDashboard({
-    base: applicationDashboard,
-
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    tab,
-    tabMatrix,
-    timeConfig,
-    syntheticCalls
-  });
+export function useLinkToApplicationDashboard() {
+  return useDashboard(applicationDashboard);
 }
 
-export function getServiceDashboard(
-  serviceId,
-  { applicationId, endpointId, boundaryScope, tab, tabMatrix, timeConfig, syntheticCalls } = emptyObject
-) {
-  return getDashboard({
-    base: serviceDashboard,
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    tab,
-    tabMatrix,
-    timeConfig,
-    syntheticCalls
-  });
+export function useLinkToServiceDashboard() {
+  return useDashboard(serviceDashboard);
 }
 
-export function getEndpointDashboard(
-  endpointId,
-  { applicationId, serviceId, boundaryScope, syntheticCalls, tab, tabMatrix, timeConfig } = emptyObject
-) {
-  return getDashboard({
-    base: endpointDashboard,
-    applicationId,
-    endpointId,
-    serviceId,
-    boundaryScope,
-    syntheticCalls,
-    tab,
-    tabMatrix,
-    timeConfig
-  });
+export function useLinkToEndpointDashboard() {
+  return useDashboard(endpointDashboard);
 }
 
-function getDashboard({
-  base,
-  applicationId,
-  serviceId,
-  endpointId,
-  boundaryScope,
-  syntheticCalls,
-  tab = summaryTab,
-  tabMatrix = {},
-  timeConfig
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = `${base}${tab}`;
-    setOrDeleteMatrixKey(params, base, matrixApplicationId, applicationId);
-    setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
-    setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
-    setOrDeleteMatrixKey(params, base, matrixBoundaryScope, boundaryScope);
+function useDashboard(base) {
+  const { location, createHref } = useNavigation();
 
-    if (syntheticCallsEnabled) {
-      setOrDeleteMatrixKey(params, base, matrixSyntheticCalls, syntheticCalls);
-    }
+  return useCallback(
+    ({
+      applicationId,
+      serviceId,
+      endpointId,
+      boundaryScope,
+      syntheticCalls,
+      tab = summaryTab,
+      tabMatrix = {},
+      timeConfig
+    }) => {
+      location.pathname = `${base}${tab}`;
+      setOrDeleteMatrixKey(location, base, matrixApplicationId, applicationId);
+      setOrDeleteMatrixKey(location, base, matrixServiceId, serviceId);
+      setOrDeleteMatrixKey(location, base, matrixEndpointId, endpointId);
+      setOrDeleteMatrixKey(location, base, matrixBoundaryScope, boundaryScope);
 
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
+      if (syntheticCallsEnabled) {
+        setOrDeleteMatrixKey(location, base, matrixSyntheticCalls, syntheticCalls);
+      }
 
-    params.matrix[tab] = tabMatrix;
-  });
+      if (timeConfig != null) {
+        setTimeConfig(location, timeConfig);
+      }
+
+      location.matrix[tab] = tabMatrix;
+
+      return createHref(location);
+    },
+    [base, location, createHref]
+  );
 }
 
-export function getLinkToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
-  return getModifiedUrlStream(location => {
+export function useLinkToAlertConfig() {
+  const { location, createHref } = useNavigation();
+
+  return (alertConfigId, alertConfigVersion, applicationId) => {
     location.pathname = alertsTabDetailsFullyQualified;
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryLocal);
-  });
+
+    return createHref(location);
+  };
 }
 
-export function getLinkToGlobalAlertConfigWithAPDashboard(alertConfigId, alertConfigVersion, applicationId) {
-  return getModifiedUrlStream(location => {
+export function useLinkToGlobalAlertConfigWithAPDashboard() {
+  const { location, createHref } = useNavigation();
+
+  return (alertConfigId, alertConfigVersion, applicationId) => {
     location.pathname = alertsTabDetailsFullyQualified;
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
-  });
+
+    return createHref(location);
+  };
 }
 
-export function getAlertConfig(alertConfigId, applicationId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = alertsTabDetailsFullyQualified;
-    fillAlertTabSpecificValues(params, applicationId, alertConfigId, null);
-  });
+export function useAlertConfig() {
+  const { location, createHref } = useNavigation();
+
+  return (alertConfigId, applicationId) => {
+    location.pathname = alertsTabDetailsFullyQualified;
+    fillAlertTabSpecificValues(location, applicationId, alertConfigId, null);
+
+    return createHref(location);
+  };
 }
 
-export function getLinkToGlobalAlertConfigWithoutAPDashboard(alertConfigId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = globalAlertDetails;
-    fillAlertTabSpecificValues(params, null, alertConfigId, null);
-    setOrDeleteMatrixKey(params, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
-  });
+export function useLinkToGlobalAlertConfigWithoutAPDashboard() {
+  const { location, createHref } = useNavigation();
+
+  return alertConfigId => {
+    location.pathname = globalAlertDetails;
+    fillAlertTabSpecificValues(location, null, alertConfigId, null);
+    setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
+
+    return createHref(location);
+  };
 }
 
 function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertConfigVersion) {

@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -15,7 +14,6 @@ export function showSuccessMessage(
   name: string,
   editMode = false,
   isGlobalSmartAlert: boolean = false,
-  linkHref$?: Observable<string>,
   linkHref?: string
 ) {
   const mode = isGlobalSmartAlert ? 'Global' : 'Local';
@@ -45,8 +43,8 @@ export function showSuccessMessage(
           />
         </p>
 
-        {linkHref$ && (
-          <Button kind="action" href$={linkHref$} href={linkHref}>
+        {linkHref && (
+          <Button kind="action" href={linkHref}>
             {t('in-alerting:smartAlerts.components.userInfo.linkText')}
           </Button>
         )}

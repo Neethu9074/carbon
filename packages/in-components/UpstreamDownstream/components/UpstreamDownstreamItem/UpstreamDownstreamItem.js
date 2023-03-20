@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Li } from '@instana/components';
 
+import { useLinkToApplicationDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -46,14 +46,24 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
   timeConfig,
   itemType
 }) {
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
   const technologies = item?.service?.technologies;
   const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes'));
 
   return (
     <Li
-      href$={
-        itemId === 'ROOT' || itemId === 'UNKNOWN' ? null : dashboardLink(itemType, itemId, applicationBoundaryScope)
+      href={
+        itemId === 'ROOT' || itemId === 'UNKNOWN'
+          ? null
+          : dashboardLink(
+              itemType,
+              itemId,
+              applicationBoundaryScope,
+              getLinkToApplicationDashboard,
+              getLinkToServiceDashboard
+            )
       }
       noAlternatingBg
     >
@@ -70,7 +80,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
             rootOrUnknown={itemId === 'ROOT' || itemId === 'UNKNOWN'}
             technologies={technologiesNoK8s}
           />
-          {itemId != 'ROOT' && itemId != 'UNKNOWN' && (
+          {itemId !== 'ROOT' && itemId !== 'UNKNOWN' && (
             <EndpointTypeBadgeList
               types={item.service ? item.service.types.filter(type => type !== 'UNDEFINED') : []}
             />
@@ -126,9 +136,9 @@ function getLabel(result) {
   return get(result, ['data', 'label'], null);
 }
 
-function dashboardLink(itemType, itemId, boundaryScope) {
+function dashboardLink(itemType, itemId, boundaryScope, getLinkToApplicationDashboard, getLinkToServiceDashboard) {
   if (itemType === relationships.SERVICE) {
-    return getServiceDashboard(itemId, { boundaryScope });
+    return getLinkToServiceDashboard({ serviceId: itemId, boundaryScope });
   }
-  return getApplicationDashboard(itemId, { boundaryScope });
+  return getLinkToApplicationDashboard({ applicationId: itemId, boundaryScope });
 }

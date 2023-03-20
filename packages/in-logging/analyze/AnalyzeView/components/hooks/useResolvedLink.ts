@@ -26,14 +26,18 @@ import {
   LOG_TRACE_ID
 } from 'in-logging/queryBuilder';
 // This file has too many dependencies to translate yet
-// @ts-ignore
-import { getApplicationDashboard, getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import { getKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { LogItem, LogTag } from 'in-types';
 
-type LinkResolver = (tag: LogTag, log: LogItem) => Observable<string>;
+type LinkResolverObservable = (tag: LogTag, log: LogItem) => Observable<string> | null;
+type LinkResolverString = (tag: LogTag, log: LogItem) => string | null;
 
 function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
@@ -45,30 +49,14 @@ function findTag(tags: LogTag[], tagName: string, tagKey?: string): LogTag | und
 
 export default function useResolvedLink(presentedName: string, tag: LogTag, item: LogItem): string | null {
   const getLinkToTraceDetail = useLinkToTraceDetail();
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
-  const tagValueLinkResolver = useMemo(
+  const tagValueObservableLinkResolver = useMemo(
     () =>
-      new Map<string, LinkResolver>([
-        [
-          LOG_SERVICE_NAME,
-          (_, l) => {
-            const serviceId = getServiceId(l.tags);
-            if (!serviceId) {
-              return null;
-            }
-            return getServiceDashboard(serviceId);
-          }
-        ],
-        [
-          `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_ENDPOINT_NAME}`,
-          (_: LogTag, item: LogItem) => {
-            const endpointId = findTag(item.tags, LOG_CUSTOM, LOG_CUSTOM_KEY_ENDPOINT_ID)?.stringValue;
-            return endpointId ? getEndpointDashboard(endpointId) : just(null);
-          }
-        ],
-        [LOG_CUSTOM_KEY_APPLICATION_ID, (t, _) => getApplicationDashboard(t.stringValue)],
+      new Map<string, LinkResolverObservable>([
         [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t.stringValue)],
-        [`${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`, (t, _) => getServiceDashboard(t.stringValue)],
         [LOG_PROCESS_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_DOCKER_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
@@ -81,11 +69,43 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
     [getLinkToTraceDetail]
   );
 
-  const resolver = tagValueLinkResolver.get(presentedName);
+  const tagValueStringLinkResolver = useMemo(
+    () =>
+      new Map<string, LinkResolverString>([
+        [
+          LOG_CUSTOM_KEY_APPLICATION_ID,
+          (t, _) => (t.stringValue ? getLinkToApplicationDashboard({ applicationId: t.stringValue }) : null)
+        ],
+        [
+          `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`,
+          (t, _) => (t.stringValue ? getLinkToServiceDashboard({ serviceId: t.stringValue }) : null)
+        ],
+        [
+          LOG_SERVICE_NAME,
+          (_, l) => {
+            const serviceId = getServiceId(l.tags);
+            return serviceId ? getLinkToServiceDashboard({ serviceId }) : null;
+          }
+        ],
+        [
+          `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_ENDPOINT_NAME}`,
+          (_: LogTag, item: LogItem) => {
+            const endpointId = findTag(item.tags, LOG_CUSTOM, LOG_CUSTOM_KEY_ENDPOINT_ID)?.stringValue;
+            return endpointId ? getLinkToEndpointDashboard({ endpointId }) : null;
+          }
+        ]
+      ]),
+    [getLinkToApplicationDashboard, getLinkToServiceDashboard, getLinkToEndpointDashboard]
+  );
+
+  const observableResolver = tagValueObservableLinkResolver.get(presentedName);
+  const stringResolver = tagValueStringLinkResolver.get(presentedName);
 
   return (
-    useObservable(resolver ? resolver(tag, item) : just(null), [presentedName], {
+    useObservable(observableResolver ? observableResolver(tag, item) : just(null), [presentedName], {
       resetStateOnObservableChange: true
-    }) ?? null
+    }) ??
+    (stringResolver && stringResolver(tag, item)) ??
+    null
   );
 }

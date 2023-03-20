@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { forwardRef } from 'react';
 
-import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { Link } from '@instana/components';
+
+import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -14,8 +15,13 @@ import { t } from 'in-i18n';
 import locals from './EntityLink.mless';
 
 export function ServiceLink({ serviceId, node, isOutofAppContext, boundaryScope, className, children }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
   const link = (
-    <EntityLink className={className} getLink={() => getLinkToService(node.applicationId, serviceId, boundaryScope)}>
+    <EntityLink
+      className={className}
+      getLink={() => getLinkToService(node.applicationId, serviceId, boundaryScope, getLinkToServiceDashboard)}
+    >
       {children}
     </EntityLink>
   );
@@ -31,10 +37,14 @@ export const EndpointLink = connectTo(
     serviceData: props.node.events$.on('data')
   }),
   function EndpointLink({ node, serviceData, className, children, data, boundaryScope }) {
+    const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
     return (
       <EntityLink
         className={className}
-        getLink={() => getLinkToEndpoint(node.applicationId, serviceData.id, data.id, boundaryScope)}
+        getLink={() =>
+          getLinkToEndpoint(node.applicationId, serviceData.id, data.id, boundaryScope, getLinkToEndpointDashboard)
+        }
       >
         {children}
       </EntityLink>
@@ -45,25 +55,25 @@ export const EndpointLink = connectTo(
 const EntityLink = forwardRef(function EntityLink({ className, getLink, children }, ref) {
   return (
     <div className={`${locals.entityLinkWrapper} ${className}`} ref={ref}>
-      <Link className={`${locals.entityLink}`} href$={getLink()}>
+      <Link className={`${locals.entityLink}`} href={getLink()}>
         {children}
       </Link>
     </div>
   );
 });
 
-function getLinkToService(applicationId, serviceId, boundaryScope) {
+function getLinkToService(applicationId, serviceId, boundaryScope, getLinkToServiceDashboard) {
   if (isUnspecified(serviceId)) {
     return null;
   }
-  return getServiceDashboard(serviceId, { applicationId, boundaryScope });
+  return getLinkToServiceDashboard({ applicationId, serviceId, boundaryScope });
 }
 
-function getLinkToEndpoint(applicationId, serviceId, endpointId, boundaryScope) {
+function getLinkToEndpoint(applicationId, serviceId, endpointId, boundaryScope, getLinkToEndpointDashboard) {
   if (isUnspecified(serviceId)) {
     return null;
   }
-  return getEndpointDashboard(endpointId, { serviceId, applicationId, boundaryScope });
+  return getLinkToEndpointDashboard({ endpointId, serviceId, applicationId, boundaryScope });
 }
 
 function isUnspecified(id) {

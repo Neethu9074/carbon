@@ -139,7 +139,7 @@ function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMes
         onClose(alertConfig);
         const href = getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, null);
 
-        showSuccessMessage(alertConfig.name, editMode, false, undefined, href);
+        showSuccessMessage(alertConfig.name, editMode, false, href);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

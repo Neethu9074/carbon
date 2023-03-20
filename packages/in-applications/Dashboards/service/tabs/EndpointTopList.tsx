@@ -11,8 +11,7 @@ import { Link } from '@instana/components';
 
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-// @ts-expect-error
-import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 // @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
@@ -160,11 +159,14 @@ interface ViewAllProps {
 }
 
 function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, syntheticCalls, className }: ViewAllProps) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
   return (
     <Link
       className={className}
-      href$={getServiceDashboard(serviceId, {
+      href={getLinkToServiceDashboard({
         applicationId,
+        serviceId,
         boundaryScope,
         syntheticCalls,
         tab: '/endpoints',
@@ -189,10 +191,18 @@ interface LabelProps {
 }
 
 function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, className }: LabelProps) {
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
   return (
     <Link
       className={className}
-      href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope, syntheticCalls })}
+      href={getLinkToEndpointDashboard({
+        applicationId,
+        serviceId,
+        endpointId: item.endpoint.id,
+        boundaryScope,
+        syntheticCalls
+      })}
       onClick={() => trackTopListNavigation()}
     >
       {item.endpoint.label}

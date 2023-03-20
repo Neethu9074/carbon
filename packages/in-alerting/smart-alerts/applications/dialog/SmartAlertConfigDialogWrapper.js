@@ -20,7 +20,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { getLinkToGlobalAlertConfigWithoutAPDashboard, getLinkToAlertConfig } from 'in-applications/navigation/paths';
+import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialog';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -52,6 +52,8 @@ export default function SmartAlertConfigDialogWrapper({
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
+  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
+  const getLinkToAlertConfig = useLinkToAlertConfig();
 
   useEffect(() => {
     if (migrationMode) {
@@ -92,7 +94,9 @@ export default function SmartAlertConfigDialogWrapper({
       migrationMode,
       isGlobalSmartAlert,
       setIsSaving,
-      setMessages
+      setMessages,
+      getLinkToGlobalAlertConfigWithoutAPDashboard,
+      getLinkToAlertConfig
     });
   };
 
@@ -167,7 +171,9 @@ function createOrSaveAlert({
   migrationMode,
   isGlobalSmartAlert,
   setIsSaving,
-  setMessages
+  setMessages,
+  getLinkToGlobalAlertConfigWithoutAPDashboard,
+  getLinkToAlertConfig
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -207,11 +213,11 @@ function createOrSaveAlert({
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        const href$ = isEffectivelyGlobalSmartAlert
+        const href = isEffectivelyGlobalSmartAlert
           ? getLinkToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
           : getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
 
-        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href$);
+        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

@@ -8,7 +8,11 @@ import React from 'react';
 import { SvgIcon, KeyValue } from '@instana/components';
 import { Li } from '@instana/components';
 
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getDashboardForEntity as getDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
@@ -38,9 +42,22 @@ export default function StackItem({
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo?.type;
   const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes') || !s.startsWith('openshift'));
-
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const { link, link$ } = dashboardLink(
+    id,
+    applicationId,
+    boundaryScope,
+    serviceId,
+    type,
+    syntheticCalls,
+    getLinkToApplicationDashboard,
+    getLinkToServiceDashboard,
+    getLinkToEndpointDashboard
+  );
   return (
-    <Li href$={dashboardLink(id, applicationId, boundaryScope, serviceId, type, syntheticCalls)} noAlternatingBg>
+    <Li href$={link$} href={link} noAlternatingBg>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
           {hasHealthInfo ? (
@@ -70,30 +87,52 @@ export default function StackItem({
   );
 }
 
-const dashboardLink = (id, applicationId, boundaryScope, serviceId, type, syntheticCalls) => {
+const dashboardLink = (
+  id,
+  applicationId,
+  boundaryScope,
+  serviceId,
+  type,
+  syntheticCalls,
+  getLinkToApplicationDashboard,
+  getLinkToServiceDashboard,
+  getLinkToEndpointDashboard
+) => {
   if (type === 'application') {
-    return getApplicationDashboard(id, { boundaryScope, syntheticCalls });
+    return {
+      link: getLinkToApplicationDashboard({ applicationId: id, boundaryScope, syntheticCalls })
+    };
   } else if (type === 'service') {
-    return getServiceDashboard(id, {
-      applicationId,
-      boundaryScope,
-      syntheticCalls
-    });
+    return {
+      link: getLinkToServiceDashboard({
+        applicationId,
+        serviceId: id,
+        boundaryScope,
+        syntheticCalls
+      })
+    };
   } else if (type === 'endpoint') {
-    return getEndpointDashboard(id, {
-      applicationId,
-      boundaryScope,
-      serviceId,
-      syntheticCalls
-    });
+    return {
+      link: getLinkToEndpointDashboard({
+        applicationId,
+        endpointId: id,
+        boundaryScope,
+        serviceId,
+        syntheticCalls
+      })
+    };
   }
 
-  const link = getDashboardForK8sEntity(id, type);
-  if (link) {
-    return link;
+  const link$ = getDashboardForK8sEntity(id, type);
+  if (link$) {
+    return {
+      link$
+    };
   }
 
-  return getDashboardLink(id, { pathname: physicalDashboardPath });
+  return {
+    link$: getDashboardLink(id, { pathname: physicalDashboardPath })
+  };
 };
 
 const ProfileIndicator = connectTo(

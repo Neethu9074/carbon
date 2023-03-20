@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
@@ -48,13 +49,13 @@ export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) =>
   );
 });
 
-export function ClickableListItem({ onClick, href$, children }) {
+export function ClickableListItem({ onClick, href$, href, children }) {
   onClick = onClick || stopPropagation;
 
-  if (href$) {
+  if (href$ || href) {
     return (
       <li className={locals.item}>
-        <Link className={locals.link} href$={href$} onClick={onClick}>
+        <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
           {children}
         </Link>
       </li>
