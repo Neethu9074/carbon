@@ -1057,7 +1057,7 @@
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
         "scopeHeadline": "Where do you want the alert to trigger?",
-        "stepConfigsStep3Title": "Step 3: Threshold",
+        "stepConfigsStep3Title": "Step 3: Time Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
         "slider": {
