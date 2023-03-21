@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
@@ -27,7 +27,6 @@ export default function FormComponent({
   formatterSection,
   timeShiftConfiguration
 }) {
-  const [flag, setflag] = useState('');
   const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
   return (
     <Stack gap="xsmall">
@@ -70,7 +69,6 @@ export default function FormComponent({
             value={field.value}
             onChange={e => {
               onChange([], form => form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true)));
-              setflag(e.target.value);
             }}
             hasError={!field.valid && field.touched}
             additionalContent={<TouchedMessages field={field} />}
@@ -87,7 +85,7 @@ export default function FormComponent({
           {formatterSection}
         </Sections>
       ))}
-      {flag != 'SLI' ? (
+      {form.get('metric').value != 'SLI' && (
         <>
           {form.get('slo').map(field => (
             <Sections>
@@ -124,8 +122,6 @@ export default function FormComponent({
             </Sections>
           ))}
         </>
-      ) : (
-        ''
       )}
 
       {timeShiftConfiguration}
