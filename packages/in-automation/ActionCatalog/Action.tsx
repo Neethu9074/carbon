@@ -100,27 +100,29 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     );
   } else {
     content = (
-      <SettingsDetailPage>
-        <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
-        <SectionLine />
+      <div className={locals.actionBody}>
+        <SettingsDetailPage>
+          <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
+          <SectionLine />
 
-        {message ? (
-          <Section>
-            <Notification failure={error}>{message}</Notification>
-          </Section>
-        ) : null}
+          {message ? (
+            <Section>
+              <Notification failure={error}>{message}</Notification>
+            </Section>
+          ) : null}
 
-        <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
+          <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
 
-        <SaveCancel
-          form={form!}
-          message={message}
-          loading={loading}
-          saveEnabled={saveEnabled}
-          isCreate={isCreate || isCopy}
-          listPath={actionCatalogPath}
-        />
-      </SettingsDetailPage>
+          <SaveCancel
+            form={form!}
+            message={message}
+            loading={loading}
+            saveEnabled={saveEnabled}
+            isCreate={isCreate || isCopy}
+            listPath={actionCatalogPath}
+          />
+        </SettingsDetailPage>
+      </div>
     );
   }
   return (

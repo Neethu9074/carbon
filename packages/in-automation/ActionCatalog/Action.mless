@@ -8,5 +8,16 @@
   .spaceBetween {
     justify-content: space-between;
     padding-top: 1rem;
+    background-color: #fff;
+    padding-left: 1.5rem;
+    height: 76px;
+  }
+  .actionBody > div {
+    padding-left: 0px;
+  }
+  .actionBody {
+    fieldset {
+      padding-left: 1.5rem;
+    }
   }
 }
