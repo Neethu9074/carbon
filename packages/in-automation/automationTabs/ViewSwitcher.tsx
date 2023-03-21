@@ -20,18 +20,17 @@ import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
+const dashboardHeaderProps = {
+  icon: 'lib_automation',
+  label: t('in-automation:automation'),
+  title: t('in-automation:automation'),
+  showHistoricDataWarning: false,
+  renderMetaInformation: () => {
+    return <BetaBadge />;
+  }
+};
 export default function ViewSwitcher() {
   const isCatalogActive = useObservable(isView(actionCatalogPath), []);
-
-  const dashboardHeaderProps = {
-    icon: 'lib_automation',
-    label: t('in-automation:automation'),
-    title: t('in-automation:automation'),
-    showHistoricDataWarning: false,
-    renderMetaInformation: () => {
-      return <BetaBadge />;
-    }
-  };
 
   return (
     <>
