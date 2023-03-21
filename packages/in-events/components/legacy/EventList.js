@@ -8,6 +8,7 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
+import { isApplicationSmartAlertEvent, isWebsiteSmartAlertEvent } from 'in-events/components/eventUtil';
 import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
@@ -63,19 +64,22 @@ export default connectTo(
           triggeringProblemId={triggeringProblemId}
           latestSnapshot={latestSnapshot}
         />
-        {actionAutomationEnabled && role.canConfigureAutomationActions && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card>
-                <AssociatedActions
-                  title={t('in-events:actionsAssociatedForTriggeringEvent')}
-                  volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-                  event={triggerEvent?.toJS()}
-                />
-              </Card>
-            </Col>
-          </Row>
-        )}
+        {actionAutomationEnabled &&
+          role.canConfigureAutomationActions &&
+          !isWebsiteSmartAlertEvent(triggerEvent) &&
+          !isApplicationSmartAlertEvent(triggerEvent) && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <Card>
+                  <AssociatedActions
+                    title={t('in-events:actionsAssociatedForTriggeringEvent')}
+                    volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+                    event={triggerEvent?.toJS()}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          )}
       </>
     );
   }
