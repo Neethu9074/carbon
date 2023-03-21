@@ -12,12 +12,17 @@ import fs from 'fs';
 import { metricDefinitions as allMetricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { plugins as allPlugins, applicationPlugins } from 'in-forge/constants';
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+import { getFormatterType } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
 
 ensureInfraPluginsAreEvaluated();
 
 const oneZeroEntitiesDeprecationReason =
   'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
+
+const ignoredPlugins = [
+  'defaultEntity20' // is a pseudo-entity only used for inheritance in the UI for AP/S/E entities
+];
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
   describe.only('in-forge/metricOverview', doGenerate);
@@ -26,10 +31,10 @@ if (process.env.GENERATE_METRIC_OVERVIEW) {
 }
 
 function doGenerate() {
+  const relevantPlugins = Object.keys(allMetricDefinitions).filter(plugin => !ignoredPlugins.includes(plugin));
+
   it('must generate a metric overview for docs', () => {
-    const plugins = Object.keys(allMetricDefinitions).sort((a, b) =>
-      getPluginName(a, 2).localeCompare(getPluginName(b, 2))
-    );
+    const plugins = relevantPlugins.sort((a, b) => getPluginName(a, 2).localeCompare(getPluginName(b, 2)));
 
     let str = '';
 
@@ -65,7 +70,7 @@ function doGenerate() {
   });
 
   it('must generate a metric overview for Grafana plugin', () => {
-    const result = Object.keys(allMetricDefinitions).reduce((plugins, pluginName) => {
+    const result = relevantPlugins.reduce((plugins, pluginName) => {
       const metrics = allMetricDefinitions[pluginName]
         .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
         .reduce((agg, metric) => {
@@ -89,12 +94,12 @@ function doGenerate() {
   });
 
   it('must generate a metric overview for UI backend', () => {
-    const result = Object.keys(allMetricDefinitions).reduce((plugins, pluginName) => {
+    const result = relevantPlugins.reduce((plugins, pluginName) => {
       const metrics = allMetricDefinitions[pluginName]
         .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
         .map(metric => {
           return {
-            formatter: 'UNDEFINED',
+            formatter: getFormatterType(metric.formatter),
             label: getPluginName(pluginName, 2) + ' ' + metric.label,
             description: metric.label,
             metricId: metric.metric,

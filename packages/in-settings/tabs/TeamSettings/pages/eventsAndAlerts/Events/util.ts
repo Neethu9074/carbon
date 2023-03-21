@@ -68,11 +68,13 @@ function shouldDisplayDeprecatedLabel(plugin: string): boolean {
 
 export function formatterTypeToValueLabel(formatterType: FormatterType, metricName: string) {
   switch (formatterType) {
+    case 'NANOS':
+      return t('in-settings:tabs.nanoseconds');
+    case 'MICROS':
+      return t('in-settings:tabs.microseconds');
     case 'LATENCY':
     case 'MILLIS':
       return t('in-settings:tabs.milliseconds');
-    case 'MICROS':
-      return t('in-settings:tabs.microseconds');
     case 'SECONDS':
       return t('in-settings:tabs.seconds');
     case 'MINUTES':

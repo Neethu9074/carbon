@@ -424,6 +424,7 @@
     "none": "None",
     "milliseconds": "Milliseconds",
     "microseconds": "Microseconds",
+    "nanoseconds": "Nanoseconds",
     "seconds": "Seconds",
     "minutes": "Minutes",
     "percentage": "Percentage",

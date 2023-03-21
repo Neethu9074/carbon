@@ -11,6 +11,7 @@ export type FormatterType =
   | 'KILO_BYTES'
   | 'LATENCY'
   | 'MEGA_BYTES'
+  | 'NANOS'
   | 'MICROS'
   | 'MILLIS'
   | 'MINUTES'
@@ -36,6 +37,7 @@ export const BYTES_FORMATTER_TYPE: FormatterType = 'BYTES';
 export const KILO_BYTES_FORMATTER_TYPE: FormatterType = 'KILO_BYTES';
 export const LATENCY_FORMATTER_TYPE: FormatterType = 'LATENCY';
 export const MEGA_BYTES_FORMATTER_TYPE: FormatterType = 'MEGA_BYTES';
+export const NANOS_FORMATTER_TYPE: FormatterType = 'NANOS';
 export const MICROS_FORMATTER_TYPE: FormatterType = 'MICROS';
 export const MILLIS_FORMATTER_TYPE: FormatterType = 'MILLIS';
 export const MINUTES_FORMATTER_TYPE: FormatterType = 'MINUTES';

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { markAsFormatterType, NUMBER_FORMATTER_TYPE } from 'in-services/formatters/number/types';
 import { t } from 'in-i18n';
 
-export const healthStateFormatter = state => {
+export const healthStateFormatter = markAsFormatterType(state => {
   state = Math.round(state);
   if (state < 0) {
     return t('in-forge:plugins.webLogicAppContainer.labelHealthStateUnknown');
@@ -20,4 +21,4 @@ export const healthStateFormatter = state => {
   } else if (state < 5) {
     return t('in-forge:plugins.webLogicAppContainer.labelHealthStateOverloaded');
   }
-};
+}, NUMBER_FORMATTER_TYPE);

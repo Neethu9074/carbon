@@ -4,13 +4,14 @@
  */
 
 import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
+  BYTES_FORMATTER_TYPE,
   bytesTwoDecimalPlaces,
-  percentageTwoDecimalPlaces,
   markAsFormatterType,
+  NUMBER_FORMATTER_TYPE,
   PERCENTAGE_FORMATTER_TYPE,
-  BYTES_FORMATTER_TYPE
+  percentageTwoDecimalPlaces,
+  twoDecimalPlaces,
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -22,7 +23,11 @@ export const resourceQuotaBytes = markAsFormatterType(
   d => (d < 0 ? t('in-forge:plugins.kubernetesCluster.noResourceQuota') : bytesTwoDecimalPlaces(d)),
   BYTES_FORMATTER_TYPE
 );
-export const resourceQuotaTwoDecimalPlaces = d =>
-  d < 0 ? t('in-forge:plugins.kubernetesCluster.noResourceQuota') : twoDecimalPlaces(d);
-export const resourceQuotaZeroDecimalPlaces = d =>
-  d < 0 ? t('in-forge:plugins.kubernetesCluster.noResourceQuota') : zeroDecimalPlaces(d);
+export const resourceQuotaTwoDecimalPlaces = markAsFormatterType(
+  d => (d < 0 ? t('in-forge:plugins.kubernetesCluster.noResourceQuota') : twoDecimalPlaces(d)),
+  NUMBER_FORMATTER_TYPE
+);
+export const resourceQuotaZeroDecimalPlaces = markAsFormatterType(
+  d => (d < 0 ? t('in-forge:plugins.kubernetesCluster.noResourceQuota') : zeroDecimalPlaces(d)),
+  NUMBER_FORMATTER_TYPE
+);
