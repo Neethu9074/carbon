@@ -45,6 +45,7 @@ export default connectTo(
     const triggeringProblemId = incident.getIn(['problem', 'id']);
 
     const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
+    const triggerEvent = events.find(isTriggeringEvent);
 
     return (
       <>
@@ -69,7 +70,7 @@ export default connectTo(
                 <AssociatedActions
                   title={t('in-events:actionsAssociatedForTriggeringEvent')}
                   volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-                  event={incident?.toJS()}
+                  event={triggerEvent?.toJS()}
                 />
               </Card>
             </Col>
