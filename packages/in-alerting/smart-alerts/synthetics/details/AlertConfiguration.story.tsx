@@ -4,15 +4,59 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import {
+  ChangeSummary,
+  SyntheticAlertConfigWithMetadata,
+  SyntheticAlertRuleUnion,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
-import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 
 export default { component: AlertConfiguration };
-const alertConfig = generateAlertConfig();
+const rule: SyntheticAlertRuleUnion = {
+  aggregation: 'SUM',
+  alertType: 'failure',
+  metricName: 'status'
+};
+const tagFilterExpression: TagFilterExpressionElementUnion = {
+  entity: 'NOT_APPLICABLE',
+  name: 'synthetic.locationId',
+  type: 'TAG_FILTER',
+  value: '',
+  operator: 'EQUALS'
+};
 
-export const SytheticsConfiguration = () => {
-  //@ts-expect-error - Fix in other PR
-  return <AlertConfiguration alertConfig={alertConfig} />;
+const changeSummary: ChangeSummary = {
+  changeType: 'DELETE',
+  author: {
+    id: '123',
+    type: 'USER'
+  }
+};
+
+const alertConfig: SyntheticAlertConfigWithMetadata & ChangeSummary = {
+  enabled: true,
+  readOnly: false,
+  id: '123',
+  created: 123,
+  description: 'new config description',
+  name: 'new config',
+  severity: 5,
+  rule,
+  alertChannelIds: [],
+  syntheticTestIds: [],
+  tagFilterExpression,
+  timeThreshold: {
+    type: 'violationsInSequence',
+    violationsCount: 1
+  },
+  //@ts-expect-error - as changeSummary is not avaliable in all cases
+  changeSummary
+};
+
+export const Default = {
+  args: {
+    alertConfig
+  }
 };

@@ -31,8 +31,8 @@ export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 export const syntheticSmartAlertsDetailsPath = '/details';
 
 export const alertsTabDetailsFullyQualified = `${syntheticSmartAlertsPath}${syntheticSmartAlertsDetailsPath}`;
-export const dasboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;
-export const dashboardTestAlertsTabDetailsFullyQualified = `${dasboardAlertsFullyQualified}${syntheticSmartAlertsDetailsPath}`;
+export const dashboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;
+export const dashboardTestAlertsTabDetailsFullyQualified = `${dashboardAlertsFullyQualified}${syntheticSmartAlertsDetailsPath}`;
 
 export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsPath,

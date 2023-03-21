@@ -376,7 +376,7 @@
       "locationListDescription": "There are no Synthetic locations retrieved from the database."
     },
     "alertList": {
-      "timeThreshold": "Failure Threshold",
+      "timeThreshold": "Time Threshold",
       "testsApplied": "Tests Applied",
       "filterApplied": "Filter Applied",
       "violationsCount": "{{violationsCount}} failures",

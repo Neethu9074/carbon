@@ -15,12 +15,12 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
-import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
 import {
   useAlertConfig as useApplicationsAlertConfig,
   useLinkToGlobalAlertConfigWithoutAPDashboard
 } from 'in-applications/navigation/paths';
+import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';

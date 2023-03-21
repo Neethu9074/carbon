@@ -1045,7 +1045,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Failure Threshold",
+        "timeThreshold": "Time Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure Alerting"
@@ -1074,8 +1074,8 @@
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
         "propertiesLabel": "Alert Properties",
-        "failureThreshold": "Failure Threshold",
-        "failureThresholdLabel": "Failure Threshold",
+        "failureThreshold": "Time Threshold",
+        "failureThresholdLabel": "Time Threshold",
         "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "selectTests": {
@@ -1099,7 +1099,11 @@
         "alertConfigurationTitleAlertTests": "Selected Tests",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "failureThreshold": "{{failureCount}} failures"
+        "failureThreshold": "{{failureCount}} failures",
+        "alertConfigurationTitleScope": "Scope",
+        "noOfFailure": "Number of failure",
+        "timeThreshold": "Time Threshold",
+        "alertingType": "Alerting Type"
       }
     }
   }

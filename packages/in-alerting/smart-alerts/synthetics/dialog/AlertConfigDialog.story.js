@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
+import { Default as alertconfig } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 
 export default {
@@ -20,16 +20,16 @@ export default {
   }
 };
 
-export const AdvancedAlertConfigDialog = {
+export const AdvancedDialog = {
   args: {}
 };
 
-export const SimpleAlertConfigDialog = {
+export const SimpleDialog = {
   args: {
     startWithSimpleMode: true
   }
 };
 
 function failureAlertConfig() {
-  return generateAlertConfig();
+  return alertconfig;
 }

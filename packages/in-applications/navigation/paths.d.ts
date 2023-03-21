@@ -6,8 +6,8 @@
 import { ApplicationBoundaryScope } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from 'in-types';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export declare const alertsList: string;
 export declare const alertsTab: string;

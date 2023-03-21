@@ -11,7 +11,7 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   syntheticSmartAlertsPath as listPath,
   dashboardTestAlertsTabDetailsFullyQualified as dashboardTestAlertDetailsPath,
-  dasboardAlertsFullyQualified as dashboardAlertPath,
+  dashboardAlertsFullyQualified as dashboardAlertPath,
   alertsTab as dashboardTestAlertTabSegment
 } from 'in-synthetics/navigation/paths';
 import {

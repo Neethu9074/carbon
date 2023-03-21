@@ -4,12 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  FailureSyntheticAlertRule,
-  SyntheticAlertConfig,
-  SyntheticAlertConfigWithMetadata,
-  TagFilter
-} from '@instana/types';
+import { FailureSyntheticAlertRule, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 export interface SyntheticAlertConfigWithID extends SyntheticAlertConfig {
   readonly id?: string;
@@ -19,14 +14,6 @@ export default function generateAlertConfig(testIds?: string[]): SyntheticAlertC
   const rule: FailureSyntheticAlertRule = {
     alertType: 'failure',
     metricName: 'status'
-  };
-
-  const tagFilterExpression: TagFilter = {
-    entity: 'NOT_APPLICABLE',
-    name: 'synthetic.locationId',
-    type: 'TAG_FILTER',
-    value: '',
-    operator: 'EQUALS'
   };
 
   return {
@@ -41,7 +28,6 @@ export default function generateAlertConfig(testIds?: string[]): SyntheticAlertC
     rule,
     alertChannelIds: [],
     syntheticTestIds: testIds ?? [],
-    tagFilterExpression,
     timeThreshold: {
       type: 'violationsInSequence',
       violationsCount: 1

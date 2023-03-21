@@ -15,16 +15,17 @@ import {
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2';
 import { createBoundedAlertQueryBuilderFactory } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
+import { Default as AlertConfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import * as TestDataCatalog from 'in-alerting/smart-alerts/synthetics/api/tagCatalog_test.json';
-import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { successObservableFactory } from 'in-services/util/result';
 
 const getTagCatalogTest = successObservableFactory((TestDataCatalog as unknown) as TagCatalog);
 
 export default { component: SimpleAlertConfigDialogStep2 };
 
-const failureAlertConfig = Object.freeze(generateAlertConfig());
+const alertConfig = AlertConfigValue.args.alertConfig;
+const failureAlertConfig = Object.freeze(alertConfig);
 
 export const Default = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
   const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig));

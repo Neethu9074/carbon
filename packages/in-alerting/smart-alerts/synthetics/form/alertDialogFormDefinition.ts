@@ -102,13 +102,13 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
         .put(
           'violationsCount',
           createField({
-            value: timeThreshold.violationsCount
+            value: timeThreshold?.violationsCount
           })
         )
         .put(
           'type',
           createField({
-            value: timeThreshold.type
+            value: timeThreshold?.type
           })
         )
     );

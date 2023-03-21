@@ -10,9 +10,9 @@ import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/synthetic
 import { AlertThresholdInfosProps } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
 import { t } from 'in-i18n';
 
-export const AlertThresholdInfos = ({ rule }: { rule: AlertThresholdInfosProps }) => {
-  const thresholdTypeLabel = rule.thresholdType;
-  const metricWithThresholdLabel = rule.failureThreshold;
+export const AlertThresholdInfos = ({ thresholdInfos }: { thresholdInfos: AlertThresholdInfosProps }) => {
+  const thresholdTypeLabel = thresholdInfos.thresholdType;
+  const metricWithThresholdLabel = thresholdInfos.failureThreshold;
 
   return (
     <AlertThresholdInfosPresenter
