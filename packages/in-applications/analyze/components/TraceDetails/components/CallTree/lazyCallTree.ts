@@ -495,13 +495,6 @@ function isMissingParentNotYetArrived(parentCallResult: GetCallDetailsResult): b
 export function refreshAllParentNodesToForcePropsChange(lazyCallTree: LazyCallTree, callId: string): CallNode | null {
   let node = lazyCallTree.searchIndex.get(callId);
   if (!node) {
-    if (__DEV__) {
-      logger.warn(
-        `The call with callId ${callId} should be present in the call tree`,
-        lazyCallTree.root,
-        Array.from(lazyCallTree.searchIndex.entries())
-      );
-    }
     return null;
   }
 
