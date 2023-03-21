@@ -25,12 +25,7 @@ const block = 'in-event-view-incident-event-list';
 
 export default connectTo(
   ({ incident }) => ({
-    events: combineLatest(
-      incident
-        .get('recentEvents', emptyList)
-        .toArray()
-        .map(getEvent)
-    )
+    events: combineLatest(incident.get('recentEvents', emptyList).toArray().map(getEvent))
       .map(events =>
         events
           .filter(e => e && !e.isEmpty())
@@ -72,7 +67,7 @@ export default connectTo(
             <Col xs>
               <Card>
                 <AssociatedActions
-                  title={t('in-events:actionAssociatedForTriggeringEvent')}
+                  title={t('in-events:actionsAssociatedForTriggeringEvent')}
                   volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
                   event={incident?.toJS()}
                 />

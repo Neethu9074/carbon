@@ -115,7 +115,7 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
   "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253)</strong> View event configuration to migrate it. <documentationLink>Read more in our documentation</documentationLink>",
-  "actionAssociatedForTriggeringEvent":"Action Associated For Triggering Event",
+  "actionsAssociatedForTriggeringEvent":"Actions Associated For Triggering Event",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Custom Events require action",
     "message": "Custom events on Application, Service and Endpoint are deprecated. You will not be able to create or update these types of  custom events starting <strong>April 2023 (Build 246)</strong><br /><br />Existing configs of these types will be removed starting <strong>July 2023 (Build 253)</strong>",
