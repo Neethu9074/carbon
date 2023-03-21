@@ -109,7 +109,7 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
           />
         </TabSelectPanel>
         <TabSelectPanel key="LIMITED_ACCESS" id="LIMITED_ACCESS">
-          <KubernetesLimitedAccessPanel />
+          <KubernetesLimitedAccessPanel setForm={setForm} form={form} />
         </TabSelectPanel>
         <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
           <NoAccessPanel descriptionContext="kubernetes" />

@@ -7,8 +7,13 @@
 import React from 'react';
 
 import { Button, Stack, StackItem, Typography } from '@instana/components';
+import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
+import KubernetesNamespacesTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesNamespacesTable';
+import KubernetesClustersTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesClustersTable';
+import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { noop } from 'in-services/fixedObjects';
 
 import locals from './KubernetesLimitedAccessPanel.mless';
@@ -17,7 +22,10 @@ import locals from './KubernetesLimitedAccessPanel.mless';
  * Actual component
  * @returns current instance
  */
-export default function _KubernetesLimitedAccessPanel() {
+export default function _KubernetesLimitedAccessPanel({ form, setForm }: FormControlProps) {
+  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  if (!permissionSetField?.value) return null;
+
   return (
     <Stack direction="vertical">
       <StackItem>
@@ -40,6 +48,7 @@ export default function _KubernetesLimitedAccessPanel() {
           {t('in-settings:PermissionSection.limitedAccessKubernetes_addNamespace')}
         </Button>
       </StackItem>
+      <KubernetesNamespacesTable form={form} setForm={setForm} />
       <StackItem>
         <div className={locals.contentHeader}>
           <Typography variant="body-bold" component="div">
@@ -52,6 +61,7 @@ export default function _KubernetesLimitedAccessPanel() {
           {t('in-settings:PermissionSection.limitedAccessKubernetes_addCluster')}
         </Button>
       </StackItem>
+      <KubernetesClustersTable form={form} setForm={setForm} />
     </Stack>
   );
 }
