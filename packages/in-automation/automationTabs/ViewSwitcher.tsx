@@ -13,15 +13,15 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
-import * as paths from 'in-automation/navigation/paths';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
-  const isCatalogActive = useObservable(isView(paths.automationPath), []);
+  const isCatalogActive = useObservable(isView(actionCatalogPath), []);
 
   const renderMetaInformation = () => {
     return <BetaBadge />;
@@ -42,7 +42,7 @@ export default function ViewSwitcher() {
         <div className={locals.firstLine}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.automationPath))}
+              href$={getModifiedUrlStream(p => (p.pathname = actionCatalogPath))}
               label={t('in-automation:ActionCatalog.actionCatalog')}
               isActive={isCatalogActive}
             />

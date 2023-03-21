@@ -76,8 +76,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { automationPath } from 'in-automation/navigation/paths';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -405,8 +405,8 @@ function AutomationMenu(props) {
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      isActive={matchLocation(automationPath)}
-      href={createHrefToPath(automationPath)}
+      isActive={matchLocation(actionCatalogPath)}
+      href={createHrefToPath(actionCatalogPath)}
       isBeta
       {...props}
     />

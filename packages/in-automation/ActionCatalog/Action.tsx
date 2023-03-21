@@ -38,10 +38,10 @@ import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
-import { automationPath } from 'in-automation/navigation/paths';
 import SectionLine from 'in-settings/components/SectionLine';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -75,7 +75,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
     saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
-    openEntities: () => goToPath(automationPath)
+    openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
     ActionFormEntity
@@ -118,7 +118,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
           loading={loading}
           saveEnabled={saveEnabled}
           isCreate={isCreate || isCopy}
-          listPath={automationPath}
+          listPath={actionCatalogPath}
         />
       </SettingsDetailPage>
     );
