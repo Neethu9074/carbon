@@ -23,16 +23,14 @@ import locals from './ViewSwitcher.mless';
 export default function ViewSwitcher() {
   const isCatalogActive = useObservable(isView(actionCatalogPath), []);
 
-  const renderMetaInformation = () => {
-    return <BetaBadge />;
-  };
-
   const dashboardHeaderProps = {
     icon: 'lib_automation',
     label: t('in-automation:automation'),
     title: t('in-automation:automation'),
     showHistoricDataWarning: false,
-    renderMetaInformation
+    renderMetaInformation: () => {
+      return <BetaBadge />;
+    }
   };
 
   return (

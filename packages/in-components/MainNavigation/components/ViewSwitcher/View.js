@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { Link, SvgIcon } from '@instana/components';
 
@@ -80,9 +80,9 @@ export default connectTo(
               <>
                 <SvgIcon className={locals.icon} type={icon} size="l" />
                 {sidebarIsExpanded && (
-                  <div>
+                  <Fragment>
                     <span className={locals.label}>{label}</span> {isBeta && <BetaBadge />}
-                  </div>
+                  </Fragment>
                 )}
               </>
             )}
