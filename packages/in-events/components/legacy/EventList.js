@@ -8,12 +8,15 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
+import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventList.less';
@@ -39,7 +42,7 @@ export default connectTo(
       )
       .throttle(250)
   }),
-  function IncidentEventList({ events, incident, latestSnapshot }) {
+  function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
@@ -64,6 +67,19 @@ export default connectTo(
           triggeringProblemId={triggeringProblemId}
           latestSnapshot={latestSnapshot}
         />
+        {actionAutomationEnabled && role.canConfigureAutomationActions && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card>
+                <AssociatedActions
+                  title={t('in-events:actionAssociatedForTriggeringEvent')}
+                  volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+                  event={incident?.toJS()}
+                />
+              </Card>
+            </Col>
+          </Row>
+        )}
       </>
     );
   }

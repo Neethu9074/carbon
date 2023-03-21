@@ -222,10 +222,14 @@ function ProcessContent({ snapshot, timeConfig }) {
 }
 
 const IncidentContent = connectTo(
-  ({ incident }) => ({
-    recentEvents: getRecentEvents$(incident)
+  ({ incident, latestSnapshot }) => ({
+    recentEvents: getRecentEvents$(incident),
+    snapshot: getSnapshot(
+      incident.get('entityId'),
+      getTimeConfigForSnapshotRetrieval(incident, latestSnapshot)
+    ).startWith(null)
   }),
-  function IncidentContent({ incident, recentEvents, latestSnapshot }) {
+  function IncidentContent({ incident, recentEvents, latestSnapshot, snapshot }) {
     const [changesAreVisible, setChangesAreVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -270,7 +274,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <IncidentEventListRows incident={incident} latestSnapshot={latestSnapshot} />
+        <IncidentEventListRows incident={incident} snapshot={snapshot} latestSnapshot={latestSnapshot} />
       </>
     );
   }
