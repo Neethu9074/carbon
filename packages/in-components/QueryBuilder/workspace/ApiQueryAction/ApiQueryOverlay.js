@@ -5,9 +5,10 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Toggle } from '@instana/components';
+import { KeyValue, Toggle, Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import InlineTabNavigation from '../../../InlineTabNavigation/InlineTabNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CodeComponent from 'in-components/Code';
 import Tooltip from 'in-components/Tooltip';
@@ -24,7 +25,8 @@ export default function ApiQueryOverlay({
   pagination,
   groupBy,
   metrics,
-  curlUrl
+  curlUrl,
+  docsLink
 }) {
   useDisabledBodyScroll();
   const [includeFacets, setIncludeFacets] = useState(backendQueryModelWithFacets != null);
@@ -53,22 +55,38 @@ export default function ApiQueryOverlay({
     jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
     "' -H 'authorization: apiToken xxxxxxxxxxxxx'";
 
+  const tabList = [
+    {
+      text: 'curl',
+      key: 'curl'
+    },
+    {
+      text: 'JSON tree',
+      key: 'jsonTree'
+    }
+  ];
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+
   return (
-    <div>
+    <div className={locals.apiQuery}>
       <HorizontalFlexWrapper className={locals.header}>
         <KeyValue
           inverted
           customValue={t('in-components:queryBuilder.workspaceAPIQuery')}
-          label={
-            t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI') +
-            ' https://instana.github.io/openapi/#operation/getEntityGroups'
-          }
+          label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
+        <Link href={docsLink} target="_blank">
+          Documentation
+        </Link>
       </HorizontalFlexWrapper>
       <div className={locals.content}>
-        <CodeComponent code={curl} lang="java" softWrap="true" />
-        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
+        {activeTabIndex == 0 ? (
+          <CodeComponent code={curl} lang="java" softWrap="true" />
+        ) : (
+          <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        )}
       </div>
       {backendQueryModelWithFacets != null && (
         <div className={locals.toggleWrapper}>

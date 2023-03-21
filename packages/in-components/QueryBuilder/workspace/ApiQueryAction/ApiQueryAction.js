@@ -21,7 +21,8 @@ export default function ApiQueryAction({
   metrics,
   pagination,
   tracking,
-  curlUrl
+  curlUrl,
+  docsLink
 }) {
   return (
     <Overlay
@@ -37,7 +38,8 @@ export default function ApiQueryAction({
         groupBy,
         metrics,
         pagination,
-        curlUrl
+        curlUrl,
+        docsLink
       }}
     >
       {({ toggle, refSetter }) => (
@@ -69,6 +71,7 @@ ApiQueryAction.propTypes = {
   metrics: rpt.array,
   pagination: rpt.object,
   curlUrl: rpt.string,
+  docsLink: rpt.string,
   tracking: rpt.shape({
     onClick: rpt.func
   })

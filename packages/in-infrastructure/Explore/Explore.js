@@ -260,6 +260,7 @@ function Content({
             metrics={metrics}
             order={order}
             curlUrl={url}
+            docsLink={'https://instana.github.io/openapi/#operation/getEntityGroups'}
           />
         }
       />
