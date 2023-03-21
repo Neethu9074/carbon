@@ -9410,6 +9410,7 @@
       "messages": "Messages",
       "protocol": "Protocol",
       "connections": "Connections",
+      "keepAliveInterval": "Keep Alive Interval",
       "messagesSent": "Messages Sent",
       "messagesReceived": "Messages Received",
       "indoubtMessages": "Indoubt Messages",
