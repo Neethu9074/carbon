@@ -61,14 +61,16 @@ export default function FormComponent({
           </SelectInSection>
         </Sections>
       ))}
-      {form.get('metric').map(field => (
+      {form.getIn(['metricsConfig', 'metric']).map(field => (
         <Sections>
           <SelectInSection
             label={t('in-custom-dashboards:widgets.srcSli.formComp.valType')}
             id="metric-configurator-metric"
             value={field.value}
             onChange={e => {
-              onChange([], form => form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true)));
+              onChange([], form =>
+                form.updateIn(['metricsConfig', 'metric'], field => field.setValue(e.target.value).setTouched(true))
+              );
             }}
             hasError={!field.valid && field.touched}
             additionalContent={<TouchedMessages field={field} />}
@@ -85,9 +87,9 @@ export default function FormComponent({
           {formatterSection}
         </Sections>
       ))}
-      {form.get('metric').value != 'SLI' && (
+      {form.getIn(['metricsConfig', 'metric']).value != 'SLI' && (
         <>
-          {form.get('slo').map(field => (
+          {form.getIn(['metricsConfig', 'slo']).map(field => (
             <Sections>
               <InputInSection
                 label={t('in-custom-dashboards:widgets.slo.slo')}
@@ -103,7 +105,7 @@ export default function FormComponent({
                   if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
                     newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
                   }
-                  onChange(['slo'], field => field.setValue(newValue).setTouched(true));
+                  onChange(['metricsConfig', 'slo'], field => field.setValue(newValue).setTouched(true));
                 }}
                 hasError={!field.valid && field.touched}
                 min={0}

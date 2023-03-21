@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -22,17 +22,23 @@ export function createForm(form, savedState) {
       })
     )
     .put(
-      'slo',
-      createField({
-        value: (savedState && savedState.slo) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
-      })
-    )
-    .put(
-      'metric',
-      createField({
-        value: (savedState && savedState.metric) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      'metricsConfig',
+      createMapForm({
+        items: {
+          metric: createField({
+            value: (savedState && savedState.metric) || '',
+            validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
+          }),
+          slo: createField({
+            value: (savedState && savedState.slo) || '',
+            validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
+          })
+        },
+        validator: (...args) => {
+          if (args[0].metric.value == 'ERROR_BUDGET_REMAINING') {
+            composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator);
+          }
+        }
       })
     )
     .put(
