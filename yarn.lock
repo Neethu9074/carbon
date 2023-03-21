@@ -11907,10 +11907,10 @@ prepend-http@^2.0.0:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier@^1.8.2:
-  version "1.19.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
-  integrity sha1-99f1/4qc2HKnvkyhQglZVqYHl8s=
+prettier@^2.8.6:
+  version "2.8.6"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/prettier/-/prettier-2.8.6.tgz#5c174b29befd507f14b83e3c19f83fdc0e974b71"
+  integrity sha512-mtuzdiBbHwPEgl7NxWlqOkithPyp4VN93V7VeHVWBF+ad3I5avc0RVDT4oImXQy9H/AqxA2NSQH8pSxHW6FYbQ==
 
 pretty-bytes@^4.0.2:
   version "4.0.2"
