@@ -124,25 +124,39 @@ export default function AdvancedModeContainer(
                   <AlertProperties
                     form={form}
                     onChange={onChange}
-                    getDescriptionPlaceholder={() => 'some Description'}
-                    getPreviewTitlePlaceholder={() => 'some Preview Title'}
+                    getDescriptionPlaceholder={() =>
+                      t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesDescriptionPlaceholder')
+                    }
                     renderAlertPopertiesTitleRow={() => (
                       <AlertPropertiesTitleRow
                         form={form}
                         onChange={onChange}
-                        getTitlePlaceholder={() => (form.get('name') as Field<string>).value ?? 'undefined'}
+                        getTitlePlaceholder={() =>
+                          t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesTitlePlaceholder')
+                        }
                         placeholders={[]}
                       />
                     )}
                   />
                 )}
                 renderAlertPreview={() => {
-                  const renderHeadline = () => <AlertPreviewHeadline title={nameField?.value ?? 'placeholder text'} />;
+                  const renderHeadline = () => (
+                    <AlertPreviewHeadline
+                      title={
+                        nameField?.value ||
+                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewTitlePlaceholder')
+                      }
+                    />
+                  );
                   return (
                     <AlertPreview
                       form={form}
                       renderHeadline={renderHeadline}
-                      getDescriptionPlaceholder={(_form: MapForm) => 'some Description Placeholder'}
+                      getDescriptionPlaceholder={(_form: MapForm) =>
+                        (form.get('description') as Field<string>).value ||
+                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewDescriptionPlaceholder')
+                      }
+                      entityLabel="Test_Name"
                       entityIconType="lib_synthetic"
                     />
                   );

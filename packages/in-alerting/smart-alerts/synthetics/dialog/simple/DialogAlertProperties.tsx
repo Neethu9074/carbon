@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field } from 'formalistic';
 import React from 'react';
 
 // @ts-expect-error needs migration
@@ -27,13 +26,14 @@ export default function DialogAlertProperties(props: AlertConfigDialogPresenterP
         <AlertProperties
           form={form}
           onChange={onChange}
-          getDescriptionPlaceholder={() => 'some Description'}
-          getPreviewTitlePlaceholder={() => 'some Preview Title'}
+          getDescriptionPlaceholder={() =>
+            t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesDescriptionPlaceholder')
+          }
           renderAlertPopertiesTitleRow={() => (
             <AlertPropertiesTitleRow
               form={form}
               onChange={onChange}
-              getTitlePlaceholder={() => (form.get('name') as Field<string>).value ?? 'undefined'}
+              getTitlePlaceholder={() => t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesTitlePlaceholder')}
               placeholders={[]}
             />
           )}
