@@ -219,7 +219,16 @@ function Content({
     query: catalogQuery.debouncedValue
   });
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
-  const url = config.butlerDomain;
+
+  let docLink = 'https://instana.github.io/openapi/#operation';
+  let curlUrl = 'https://' + config.butlerDomain;
+  if (groupBy[0] != undefined) {
+    docLink = docLink + '/getEntityGroups';
+    curlUrl = curlUrl + '/api/infrastructure-monitoring/analyze/entity-groups';
+  } else {
+    docLink = docLink + '/getEntities';
+    curlUrl = curlUrl + '/api/infrastructure-monitoring/analyze/entities';
+  }
 
   const topSection = !isInitPage && (
     <Sections>
@@ -259,8 +268,8 @@ function Content({
             type={type}
             metrics={metrics}
             order={order}
-            curlUrl={url}
-            docsLink={'https://instana.github.io/openapi/#operation/getEntityGroups'}
+            curlUrl={curlUrl}
+            docsLink={docLink}
           />
         }
       />

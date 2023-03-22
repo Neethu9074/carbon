@@ -43,11 +43,6 @@ export default function ApiQueryOverlay({
 
   const jsonString = JSON.stringify(model, 0, 2);
 
-  if (groupBy != undefined && groupBy[0] != null) {
-    curlUrl = 'https://' + curlUrl + '/api/infrastructure-monitoring/analyze/entity-groups';
-  } else {
-    curlUrl = 'https://' + curlUrl + '/api/infrastructure-monitoring/analyze/entities';
-  }
   const curl =
     'curl -XPOST ' +
     curlUrl +
@@ -55,16 +50,7 @@ export default function ApiQueryOverlay({
     jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
     "' -H 'authorization: apiToken xxxxxxxxxxxxx'";
 
-  const tabList = [
-    {
-      text: 'curl',
-      key: 'curl'
-    },
-    {
-      text: 'JSON tree',
-      key: 'jsonTree'
-    }
-  ];
+  const tabList = [{ text: 'curl' }, { text: 'JSON tree' }];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
