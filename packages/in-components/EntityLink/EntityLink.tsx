@@ -24,7 +24,8 @@ interface EntityLinkProps {
   snapshot?: SnapshotMap;
   icon?: string;
   tooltip?: string;
-  href$: Observable<string>;
+  href?: string;
+  href$?: Observable<string>;
   specialIndicator?: JSX.Element;
   subscriptComponent?: JSX.Element;
   onClick?: (e: EventPlaceholder) => void;
@@ -37,6 +38,7 @@ const EntityLink = forwardRef(function EntityLink(
     snapshot,
     icon,
     tooltip,
+    href,
     href$,
     specialIndicator,
     subscriptComponent,
@@ -49,7 +51,7 @@ const EntityLink = forwardRef(function EntityLink(
   const link = (
     <>
       {specialIndicator ? <span className={locals.specialIndicator} /> : null}
-      <Link href$={href$} onClick={onClick}>
+      <Link href={href} href$={href$} onClick={onClick}>
         {label}
       </Link>
     </>

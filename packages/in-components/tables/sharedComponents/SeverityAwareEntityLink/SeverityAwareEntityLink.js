@@ -14,6 +14,7 @@ export default function SeverityAwareEntityLink({
   icon,
   label,
   tooltip,
+  href,
   href$,
   specialIndicator,
   subscriptComponent
@@ -22,6 +23,7 @@ export default function SeverityAwareEntityLink({
     <SeverityIndicatorCellContentWrapper severity={severity}>
       <EntityLink
         label={label}
+        href={href}
         href$={href$}
         icon={icon}
         tooltip={tooltip}
