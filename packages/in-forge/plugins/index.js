@@ -170,6 +170,7 @@ import './ibmCloudRedis';
 import './openTelemetry';
 import './rocketMqTopic';
 import './azureFunction';
+import './kongApigateway';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';
 import './awsBeanstalk';

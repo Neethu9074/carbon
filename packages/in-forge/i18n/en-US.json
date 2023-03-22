@@ -848,6 +848,11 @@
   "pluginName_kafkastreams_1": "Kafka Stream",
   "pluginName_kafkastreams_2": "Kafka Stream",
   "pluginName_kafkastreams": "Kafka Stream",
+  "pluginName_kongApigateway_plural": "Kongs",
+  "pluginName_kongApigateway_0": "Kongs",
+  "pluginName_kongApigateway_1": "Kongs",
+  "pluginName_kongApigateway_2": "Kongs",
+  "pluginName_kongApigateway": "Kong",
   "pluginName_kubernetesCluster_plural": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_0": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_1": "Kubernetes Clusters",
@@ -10134,6 +10139,34 @@
       "prodLatency": "Prod. Latency",
       "producer": "Producer",
       "consumer": "Consumer"
+    },
+    "kongApigateway": {
+      "kong": "Kong API Gateway",
+      "hostName": "Host Name",
+      "nodeId": "Node ID",
+      "luaVersion": "Lua Version",
+      "kongVersion": "Kong Version",
+      "kongDatastoreReachable": "Kong Datastore Reachable",
+      "errorsInLic": "Errors in License Information Collection",
+      "kongNgnixMetricErrors": "Kong Ngnix Metric Errors",
+      "totalNumberofDB": "Total Number of Database Entities",
+      "pending": "Pending",
+      "running": "Running",
+      "sharedDictionary": "Shared Dictionary",
+      "subsystem": "Subsystem",
+      "totalCapacity": "Total Capacity",
+      "allocatedBytes": "Allocated Bytes",
+      "allocatedBytesPercent": "Allocated Bytes (%)",
+      "pid": "PID",
+      "state": "State",
+      "totalConnections":"Total Connections",
+      "dashboard":{
+        "kongNginxTimers": "Kong-Nginx Timers",
+        "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
+        "workerLua": "Allocated Bytes in Worker Lua VM",
+        "totalConnections": "Total Connections"
+      }
+
     },
     "kubernetesCluster": {
       "noActivity": "No activity",

@@ -181,6 +181,7 @@ export const nonServicePlugins = {
   kafkaConnectCluster: 'kafkaConnectCluster',
   kafkaConnectConnector: 'kafkaConnectConnector',
   kafkaConnectWorker: 'kafkaConnectWorker',
+  kongApigateway: 'kongApigateway',
   kubernetesCluster: 'kubernetesCluster',
   kubernetesCronJob: 'kubernetesCronJob',
   kubernetesJob: 'kubernetesJob',
@@ -501,6 +502,7 @@ export const fullyQualifiedPlugins = {
   kafkaConnectConnector:
     'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.connector.KafkaConnectConnector',
   kafkaConnectWorker: 'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.worker.KafkaConnectWorker',
+  kongApigateway: 'com.instana.forge.infrastructure.apigateway.kong.KongApigateway',
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   kubernetesCronJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesCronJob',
   kubernetesDaemonSet: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.daemonset.KubernetesDaemonSet',
