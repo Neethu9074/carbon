@@ -110,8 +110,10 @@ packages/in-logging                 @pr-approval @Instana-IBM-GitHub-Enterprise 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-openstack                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-phmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-sdk                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -130,6 +132,7 @@ packages/in-test                    @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-themes                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-types                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-vsphere                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-zhmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 # Shared ownership
 # packages/in-waiting-for-deployment
 packages/in-websites                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
