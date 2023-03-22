@@ -8,13 +8,9 @@ import React, { useMemo } from 'react';
 import { timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
-import { getSingle, setSingle } from 'in-services/settings/settings';
-import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import { shallowEquals } from 'in-services/util/object';
-import useUrlState from 'in-hooks/useUrlState';
 
 export default function createServerTableWithUrlState({
   paginationResettingUrlParameters = emptyArray,
@@ -30,77 +26,18 @@ export default function createServerTableWithUrlState({
   isSearchable = true,
   Renderer = ServerTablePresenter
 }) {
-  const urlStateDefinition = {
-    bind: [
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}orderBy`,
-        as: 'orderBy',
-        initialState: defaultOrderBy || staticColumnDefinitions[0].id
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}orderDirection`,
-        as: 'orderDirection',
-        initialState: defaultOrderDirection || 'ASC'
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}page`,
-        as: 'page',
-        initialState: 1,
-        parser: intParser
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}pageSize`,
-        as: 'pageSize',
-        initialState: defaultPageSize || 20,
-        parser: intParser
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}query`,
-        as: 'query',
-        initialState: defaultQuery || ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}disabledColumns`,
-        as: 'disabledColumns',
-        getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
-        parser: buildJsonParser([]),
-        serializer: buildJsonSerializer()
-      },
-      // for columns that are defaultDisabled
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}enabledColumns`,
-        as: 'enabledColumns',
-        initialState: [],
-        parser: buildJsonParser([]),
-        serializer: buildJsonSerializer()
-      }
-    ],
-
-    resets: [
-      {
-        bind: paginationResettingUrlParameters,
-        reset: { page: 1 }
-      }
-    ],
-
-    onUpdate: (prevState, newState) => {
-      if (settingsKey) {
-        if (!shallowEquals(prevState.disabledColumns, newState.disabledColumns)) {
-          setSingle(settingsKey, { ids: newState.disabledColumns });
-        }
-      }
-    }
-  };
-
   return function ServerTable(props) {
-    const [urlState, setUrlState] = useUrlState(urlStateDefinition);
+    const [urlState, setUrlState] = useServerTableUrlState({
+      pathSegment,
+      matrixPrefix,
+      settingsKey,
+      defaultOrderBy: defaultOrderBy ?? staticColumnDefinitions[0].id,
+      defaultOrderDirection,
+      defaultPageSize,
+      defaultQuery,
+      defaultDisabledColumns,
+      paginationResettingUrlParameters
+    });
 
     const propsForObservable = useMemo(
       () => ({
@@ -142,15 +79,4 @@ export default function createServerTableWithUrlState({
     };
     return <Renderer {...rendererProps} />;
   };
-}
-
-function getInitialDisabledColumns(settingsKey, defaultDisabledColumns) {
-  if (settingsKey) {
-    const columnsFromSettings = getSingle(settingsKey);
-    if (columnsFromSettings) {
-      return columnsFromSettings.ids;
-    }
-  }
-
-  return defaultDisabledColumns || [];
 }
