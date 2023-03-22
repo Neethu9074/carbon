@@ -76,18 +76,27 @@ export default function ApiQueryOverlay({
           label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
-        <Link href={docsLink} target="_blank">
-          Documentation
-        </Link>
-      </HorizontalFlexWrapper>
-      <div className={locals.content}>
-        <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
-        {activeTabIndex == 0 ? (
-          <CodeComponent code={curl} lang="java" softWrap="true" />
-        ) : (
-          <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        {docsLink != undefined && (
+          <Link href={docsLink} target="_blank">
+            Documentation
+          </Link>
         )}
-      </div>
+      </HorizontalFlexWrapper>
+      {docsLink != undefined ? (
+        <div className={locals.content}>
+          <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
+          {activeTabIndex == 0 ? (
+            <CodeComponent code={curl} lang="java" softWrap="true" />
+          ) : (
+            <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+          )}
+        </div>
+      ) : (
+        <div className={locals.content}>
+          <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        </div>
+      )}
+
       {backendQueryModelWithFacets != null && (
         <div className={locals.toggleWrapper}>
           <Toggle
