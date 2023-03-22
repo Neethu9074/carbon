@@ -27,7 +27,12 @@ export default connectTo(
     isExploreViewActive: isView(exploreFullyQualified),
     isK8sTeamViewActive: isView(k8sTeamFullyQualified)
   },
-  function KubernetesViewSwitcher({ isClusterViewActive, isNamespaceViewActive, isExploreViewActive }) {
+  function KubernetesViewSwitcher({
+    isClusterViewActive,
+    isNamespaceViewActive,
+    isExploreViewActive,
+    isK8sTeamViewActive
+  }) {
     return (
       <>
         <DashboardHeader
@@ -62,7 +67,7 @@ export default connectTo(
                 href$={getModifiedUrlStream(p => (p.pathname = k8sTeamFullyQualified))}
                 icon="lib_kubernetes"
                 label={t('in-kubernetes:k8sTeam')}
-                isActive={isExploreViewActive}
+                isActive={isK8sTeamViewActive}
               />
             )}
           </SecondLevelNavigation>

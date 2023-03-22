@@ -24,7 +24,9 @@ export default function KubernetesExplore() {
   const retrievalSize = 20;
   const result = useCursorPagination(({ cursor }) =>
     exploreKubernetesClusters({
-      query: { timeConfig, pagination: { cursor, retrievalSize }, search: '' }
+      timeConfig,
+      pagination: { cursor: cursor, retrievalSize },
+      search: ''
     })
   );
   const loading = isLoading(result);
