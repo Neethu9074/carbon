@@ -1060,6 +1060,9 @@
         "stepConfigsStep3Title": "Step 3: Time Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
+        "thresholdTitleHelpText": "Failures determined in the PoP, based on retry interval configured in synthetic test creation.",
+        "thresholdSubTitleHelpText": "If the specified number of alerts occurs in every location, you will receive an alert for every location.",
+        "thresholdSubTitle": "Total locations in attached tests:",
         "slider": {
           "failuresWithCount": "{{count}} Failure",
           "failuresWithCount_plural": "{{count}} Failures",

@@ -69,7 +69,8 @@ export default function AdvancedModeContainer(
         {
           scrollId: '3',
           label: t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdLabel'),
-          title: '',
+          title: t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdTitle'),
+          titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.thresholdTitleHelpText'),
           valid: true,
           content: (
             <LightCard
@@ -79,7 +80,8 @@ export default function AdvancedModeContainer(
             >
               <SimpleModeDialogThreshold
                 {...props}
-                title={t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdTitle')}
+                subtitle={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitle')}
+                subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
               />
             </LightCard>
           )

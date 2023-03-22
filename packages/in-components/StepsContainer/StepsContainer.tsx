@@ -13,6 +13,8 @@ import ScrollStep from 'in-components/StepsContainer/ScrollStep';
 import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
+import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 
 import locals from './StepsContainer.mless';
 
@@ -31,11 +33,24 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
           <Stack gap="large">
-            {navItems.map(({ scrollId, title, content }, i) => (
+            {navItems.map(({ scrollId, title, content, titleToolTipText }, i) => (
               <Fragment key={scrollId}>
                 <ScrollStep id={scrollId}>
                   <Stack gap="normal">
-                    {!noHeader && <Header>{title}</Header>}
+                    {!noHeader && (
+                      <Header>
+                        {title}
+                        {titleToolTipText && (
+                          <Tooltip align="bottomMiddle" content={titleToolTipText}>
+                            <SvgIcon
+                              className={locals.helpicon}
+                              type="lib_help_error_error_outline"
+                              color={theme.lib.colors.N600Light}
+                            />
+                          </Tooltip>
+                        )}
+                      </Header>
+                    )}
                     {content}
                   </Stack>
                 </ScrollStep>

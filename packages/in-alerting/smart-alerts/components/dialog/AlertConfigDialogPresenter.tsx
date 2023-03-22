@@ -58,6 +58,8 @@ export interface AlertConfigDialogPresenterProps {
 
 export interface SlideInConfig {
   title?: string;
+  subtitle?: string;
+  subTitleToolTipText?: string;
   component?: ReactNode;
 }
 
