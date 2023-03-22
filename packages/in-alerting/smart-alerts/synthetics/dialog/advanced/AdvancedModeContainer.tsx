@@ -56,6 +56,7 @@ export default function AdvancedModeContainer(
           scrollId: '1',
           label: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel'),
           title: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsTitle'),
+          titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.simpleAlertConfigDialogStep1Tooltip'),
           valid: true,
           content: <ConfigureAlertTest {...props} />
         },

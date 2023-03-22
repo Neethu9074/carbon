@@ -1053,6 +1053,7 @@
       "simple": {
         "stepConfigsStep1Title": "Step 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
+        "simpleAlertConfigDialogStep1Tooltip": "Individual alerts will be sent independently for each synthetic test, per location",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
