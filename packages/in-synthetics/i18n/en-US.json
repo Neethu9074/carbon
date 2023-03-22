@@ -96,8 +96,18 @@
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
-          "expectedStatus": "Enter expected status",
-          "allowInsecure": "Allow Insecure"
+          "allowInsecure": "Allow Insecure",
+          "expectStatusLabel": "Expect Status",
+          "expectJSONLabel": "Expect JSON",
+          "expectMatchLabel": "Expect Match",
+          "expectStatusPlaceholder": "Enter expected status",
+          "expectJSONPlaceholder": "Enter expected JSON",
+          "expectMatchPlaceholder": "Enter expected string",
+          "addValidations": "Add Validation",
+          "failedToParseInputAsJson": "Failed to parse input as JSON.",
+          "jsonRootMustBeAnObject": "JSON root must be an object.",
+          "mustBeValidHttpReturnCode": "Status must be a valid HTTP return code.",
+          "shouldBeValidRegExp": "String entered should be a valid regular expression."
         },
         "loadMore": "Load More",
         "selectTests": {

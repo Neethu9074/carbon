@@ -5,11 +5,12 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Stack } from '@instana/components';
 
-import { Validations, HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
+import { HTTPMethods, Validations } from 'in-synthetics/form/createSyntheticTestForm';
+import ValidationSection from 'in-synthetics/components/advanced/ValidationSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -29,9 +30,13 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
   const configForm = form.get('configuration') as MapForm;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
-  const expectedStatus = configForm.get('expectedStatus') as Field<string>;
-  const expectedStatusDescription = configForm.get('expectedStatusDescription') as Field<string>;
   const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;
+  const [isVisible, setIsVisible] = useState({ combo0: true, combo1: false, combo2: false });
+  const [comboBoxSelections, setComboBoxSelections] = useState({
+    combo0: Validations[0].value as string,
+    combo1: '',
+    combo2: ''
+  });
 
   return (
     <div>
@@ -85,46 +90,14 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
         </Stack>
       </div>
       <div className={locals.configContainer}>
-        <Stack direction="horizontal">
-          <FormGroup className={locals.statusBox}>
-            <ComboBox
-              name={'validation'}
-              value={expectedStatus?.value}
-              options={Validations}
-              defaultValue={Validations[0].value}
-              isClearable={false}
-              isOptionDisabled={(option: any) => option.isdisabled}
-              onChange={e => {
-                if (e != null && !(e instanceof Array)) {
-                  updateForm(
-                    form.updateIn(['configuration', 'expectedStatus'], (field: Item) =>
-                      (field as Field<string>).setValue(e.value).setTouched(true)
-                    )
-                  );
-                }
-              }}
-            />
-            <TouchedMessages field={expectedStatus} />
-          </FormGroup>
-          {expectedStatusDescription.map(field => (
-            <FormGroup className={locals.descriptionInput}>
-              <Input
-                name="expectedStatusDescription"
-                placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectedStatus')}
-                value={field.value}
-                onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                  updateForm(
-                    form.updateIn(['configuration', 'expectedStatusDescription'], (field: Item) =>
-                      (field as Field<string>).setValue(target?.value).setTouched(true)
-                    )
-                  );
-                }}
-                hasError={!field.valid && field.touched}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Stack>
+        <ValidationSection
+          form={form}
+          updateForm={updateForm}
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          comboBoxSelections={comboBoxSelections}
+          setComboBoxSelections={setComboBoxSelections}
+        />
       </div>
       <div className={locals.configContainer}>
         <CheckboxFancy
