@@ -22,7 +22,7 @@ export const WebsiteSectionFullAccessContent = () => {
     <AreaExpandableListItem
       iconType="lib_website_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.website')}
+      firstColumnLabel={t('in-settings:productAreas.title_websites')}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allWebsites')}</Typography>
     </AreaExpandableListItem>

@@ -22,7 +22,7 @@ export const MobileSectionFullAccessContent = () => {
     <AreaExpandableListItem
       iconType="lib_mobile_app_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.mobileApp')}
+      firstColumnLabel={t('in-settings:productAreas.title_mobileApps')}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allMobileApps')}</Typography>
     </AreaExpandableListItem>

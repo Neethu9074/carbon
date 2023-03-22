@@ -27,7 +27,7 @@ export const AnalyticsSection = () => {
     <AreaExpandableListItem
       iconType="lib_analyze_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.analytics')}
+      firstColumnLabel={t('in-settings:productAreas.title_analytics')}
       subList={
         <Ul>
           <CapabilitySubsection

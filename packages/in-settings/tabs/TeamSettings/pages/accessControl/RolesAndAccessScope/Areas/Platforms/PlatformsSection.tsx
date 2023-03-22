@@ -24,7 +24,7 @@ export const PlatformsSection = () => {
     <AreaExpandableListItem
       iconType="lib_platforms_inverted"
       firstColumnHeadline={translations.join(', ')}
-      firstColumnLabel={t('in-settings:productAreas.platform')}
+      firstColumnLabel={t('in-settings:productAreas.title_platforms')}
       subList={<Ul>{<KubernetesListItem />}</Ul>}
     />
   );

@@ -56,8 +56,8 @@ export default function EditAccessScopeDialog({
     ? [
         {
           scrollId: '1-group-name',
-          label: 'Group name',
-          title: 'Group name',
+          label: t('in-settings:groupSection.title'),
+          title: t('in-settings:groupSection.title'),
           valid: true,
           content: (
             <GroupNameSection
@@ -91,12 +91,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '3-websites',
-          label: 'Websites',
-          title: 'Websites',
+          label: t('in-settings:productAreas.title_websites'),
+          title: t('in-settings:productAreas.title_websites'),
           valid: true,
           content: (
             <PermissionSection
-              title={t('in-settings:PermissionSection.title_websites')}
+              title={t('in-settings:productAreas.title_websites')}
               accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_websites')}
               limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_websites')}
               addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
@@ -114,12 +114,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '4-mobile.apps',
-          label: t('in-settings:PermissionSection.title_mobileApps'),
-          title: t('in-settings:PermissionSection.title_mobileApps'),
+          label: t('in-settings:productAreas.title_mobileApps'),
+          title: t('in-settings:productAreas.title_mobileApps'),
           valid: true,
           content: (
             <PermissionSection
-              title={t('in-settings:PermissionSection.title_mobileApps')}
+              title={t('in-settings:productAreas.title_mobileApps')}
               accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_mobileApps')}
               limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_mobileApps')}
               addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
@@ -137,12 +137,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '5-applications',
-          label: t('in-settings:PermissionSection.title_applications'),
-          title: t('in-settings:PermissionSection.title_applications'),
+          label: t('in-settings:productAreas.title_applications'),
+          title: t('in-settings:productAreas.title_applications'),
           valid: true,
           content: (
             <PermissionSection
-              title={t('in-settings:PermissionSection.title_applications')}
+              title={t('in-settings:productAreas.title_applications')}
               accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_applications')}
               limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_applications')}
               addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
@@ -160,19 +160,19 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '6-platforms',
-          label: t('in-settings:PermissionSection.title_platforms'),
-          title: t('in-settings:PermissionSection.title_platforms'),
+          label: t('in-settings:productAreas.title_platforms'),
+          title: t('in-settings:productAreas.title_platforms'),
           valid: true,
           content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
         },
         {
           scrollId: '7-infrastructure',
-          label: t('in-settings:PermissionSection.title_infrastructure'),
-          title: t('in-settings:PermissionSection.title_infrastructure'),
+          label: t('in-settings:productAreas.title_infrastructure'),
+          title: t('in-settings:productAreas.title_infrastructure'),
           valid: true,
           content: (
             <PermissionSectionInfrastructure
-              title={t('in-settings:PermissionSection.title_infrastructure')}
+              title={t('in-settings:productAreas.title_infrastructure')}
               viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
               icon="lib_application"
               {...formControlProps}
@@ -182,12 +182,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '8-analytics',
-          label: t('in-settings:PermissionSection.title_analytics'),
-          title: t('in-settings:PermissionSection.title_analytics'),
+          label: t('in-settings:productAreas.title_analytics'),
+          title: t('in-settings:productAreas.title_analytics'),
           valid: true,
           content: (
             <PermissionSelection
-              title={t('in-settings:PermissionSection.title_analytics')}
+              title={t('in-settings:productAreas.title_analytics')}
               description={t('in-settings:PermissionSection.description_analytics')}
               productAreas={[ProductArea.ANALYTICS]}
               icon="lib_analyze"
@@ -198,12 +198,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '9-eventsAndAlerts',
-          label: t('in-settings:PermissionSection.title_events_and_alerts'),
-          title: t('in-settings:PermissionSection.title_events_and_alerts'),
+          label: t('in-settings:productAreas.title_events_and_alerts'),
+          title: t('in-settings:productAreas.title_events_and_alerts'),
           valid: true,
           content: (
             <PermissionSelection
-              title={t('in-settings:PermissionSection.title_events_and_alerts')}
+              title={t('in-settings:productAreas.title_events_and_alerts')}
               description={t('in-settings:PermissionSection.description_events_and_alerts')}
               productAreas={[ProductArea.EVENT]}
               icon="lib_events_inverted"
@@ -214,12 +214,12 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '10-globalFunctions',
-          label: t('in-settings:PermissionSection.title_global_functions'),
-          title: t('in-settings:PermissionSection.title_global_functions'),
+          label: t('in-settings:productAreas.title_global_functions'),
+          title: t('in-settings:productAreas.title_global_functions'),
           valid: true,
           content: (
             <PermissionSelection
-              title={t('in-settings:PermissionSection.title_global_functions')}
+              title={t('in-settings:productAreas.title_global_functions')}
               productAreas={[
                 ProductArea.MIXED,
                 ProductArea.DASHBOARD,

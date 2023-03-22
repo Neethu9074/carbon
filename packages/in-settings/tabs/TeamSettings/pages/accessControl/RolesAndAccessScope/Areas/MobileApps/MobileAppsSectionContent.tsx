@@ -32,7 +32,7 @@ export const MobileAppsSectionContent = () => {
     <AreaExpandableListItem
       iconType="lib_mobile_app_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.mobileApp')}
+      firstColumnLabel={t('in-settings:productAreas.title_mobileApps')}
       loading={loading}
       subList={<Ul>{listItemContent}</Ul>}
     />

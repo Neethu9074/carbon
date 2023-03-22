@@ -22,7 +22,7 @@ export const ApplicationSectionFullAccessContent = () => {
     <AreaExpandableListItem
       iconType="lib_application_invert"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.application')}
+      firstColumnLabel={t('in-settings:productAreas.title_applications')}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allApplications')}</Typography>
     </AreaExpandableListItem>

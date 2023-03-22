@@ -82,7 +82,7 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
   }
   // standard case
   return (
-    <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
+    <Section icon="lib_platforms" title={t('in-settings:productAreas.title_platforms')} panelNoIndentation>
       <div className={locals.sectionContent}>
         {generalAreas.map(area => {
           const platformTitle = t('in-settings:productAreas.permissions', { context: area });

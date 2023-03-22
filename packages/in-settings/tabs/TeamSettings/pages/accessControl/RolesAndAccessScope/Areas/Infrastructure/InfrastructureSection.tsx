@@ -36,7 +36,7 @@ export const InfrastructureSection = () => {
     <AreaExpandableListItem
       iconType="lib_infrastructure_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.infrastructure')}
+      firstColumnLabel={t('in-settings:productAreas.title_infrastructure')}
       subList={scopeId ? subListContent : null}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.infrastructureContentMessage')}</Typography>

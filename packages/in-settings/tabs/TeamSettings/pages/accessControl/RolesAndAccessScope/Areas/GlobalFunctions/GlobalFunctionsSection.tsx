@@ -70,7 +70,7 @@ export const GlobalFunctionsSection = () => {
     <AreaExpandableListItem
       iconType="lib_actions_settings_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.function')}
+      firstColumnLabel={t('in-settings:productAreas.title_global_functions')}
       subList={subListContent}
     />
   );

@@ -27,7 +27,7 @@ export const EventsAndAlertsSection = () => {
     <AreaExpandableListItem
       iconType="lib_events_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.event')}
+      firstColumnLabel={t('in-settings:productAreas.title_events_and_alerts')}
       subList={
         <Ul>
           <CapabilitySubsection
