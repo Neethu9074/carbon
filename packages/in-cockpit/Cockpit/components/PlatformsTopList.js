@@ -97,19 +97,21 @@ export default function PlatformsTopList({ config }) {
       unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItemLink={item => {
-        return (item.isKubernetes
-          ? getClusterDashboard
-          : item.isPcf
-          ? getApplicationDashboardLink
-          : item.isZhmc
-          ? getIbmzZhmcDashboard
-          : item.isPhmc
-          ? getIbmpPhmcDashboard
-          : item.isOpenstack
-          ? getOpenstackRegionDashboard
-          : item.isSap
-          ? getAbapSystemDashboard
-          : getVsphereDatacenterDashboard)(getId(item));
+        return (
+          item.isKubernetes
+            ? getClusterDashboard
+            : item.isPcf
+            ? getApplicationDashboardLink
+            : item.isZhmc
+            ? getIbmzZhmcDashboard
+            : item.isPhmc
+            ? getIbmpPhmcDashboard
+            : item.isOpenstack
+            ? getOpenstackRegionDashboard
+            : item.isSap
+            ? getAbapSystemDashboard
+            : getVsphereDatacenterDashboard
+        )(getId(item));
       }}
     />
   );
@@ -252,7 +254,7 @@ const columnDefinitions = [
         return null;
       } else if (item.isPhmc || item.isZhmc) {
         return <KeyValue label={t('in-cockpit:component.platformsTopList.systems')} value={item.systems} accentuated />;
-      } else if (item.isOpenstack) {
+      } else if (item.isOpenstack || item.isSap) {
         return null;
       }
       return item.isKubernetes ? (
