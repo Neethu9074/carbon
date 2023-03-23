@@ -16,7 +16,7 @@ import AbapSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/Aba
 import SapDbmsDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbms/SapDbmsDashboard';
 import SapHanaDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHana/SapHanaDashboard';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   sap,
@@ -32,54 +32,51 @@ import {
 } from 'in-sap/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
-export default (
-  <Fragment>
-    <Route
-      key="abapSystemDashboard"
-      path={abapSystemDashboardFullyQualified}
-      component={createAsyncViewComponent(AbapSystemDashboard)}
-    />
-    <Route
-      key="AbapInstanceDashboard"
-      path={abapInstanceDashboardFullyQualified}
-      component={createAsyncViewComponent(AbapInstanceDashboard)}
-    />
-    <Route
-      key="abapCentralInstanceDashboard"
-      path={abapCentralInstanceDashboardFullyQualified}
-      component={createAsyncViewComponent(AbapCentralInstanceDashboard)}
-    />
-    <Route
-      key="sapDbmsDashboard"
-      path={sapDbmsDashboardFullyQualified}
-      component={createAsyncViewComponent(SapDbmsDashboard)}
-    />
-    <Route
-      key="sapHanaDashboard"
-      path={sapHanaDashboardFullyQualified}
-      component={createAsyncViewComponent(SapHanaDashboard)}
-    />
-    <Route
-      key="sapJavaSystemDashboard"
-      path={sapJavaSystemDashboardFullyQualified}
-      component={createAsyncViewComponent(SapJavaSystemDashboard)}
-    />
-    <Route
-      key="sapJavaInstanceDashboard"
-      path={sapJavaInstanceDashboardFullyQualified}
-      component={createAsyncViewComponent(SapJavaInstanceDashboard)}
-    />
-
-    <Route
-      kay="SapDbTenantDashboard"
-      path={sapDbTenantDashboardFullyQualified}
-      component={createAsyncViewComponent(SapDbTenantDashboard)}
-    />
-    <Route
-      key="sapDbInstanceDashboard"
-      path={sapDbInstanceDashboardFullyQualified}
-      component={createAsyncViewComponent(SapDbInstanceDashboard)}
-    />
-    <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
-  </Fragment>
-);
+export default [
+  <Route
+    key="abapSystemDashboard"
+    path={abapSystemDashboardFullyQualified}
+    component={createAsyncViewComponent(AbapSystemDashboard)}
+  />,
+  <Route
+    key="AbapInstanceDashboard"
+    path={abapInstanceDashboardFullyQualified}
+    component={createAsyncViewComponent(AbapInstanceDashboard)}
+  />,
+  <Route
+    key="abapCentralInstanceDashboard"
+    path={abapCentralInstanceDashboardFullyQualified}
+    component={createAsyncViewComponent(AbapCentralInstanceDashboard)}
+  />,
+  <Route
+    key="sapDbmsDashboard"
+    path={sapDbmsDashboardFullyQualified}
+    component={createAsyncViewComponent(SapDbmsDashboard)}
+  />,
+  <Route
+    key="sapHanaDashboard"
+    path={sapHanaDashboardFullyQualified}
+    component={createAsyncViewComponent(SapHanaDashboard)}
+  />,
+  <Route
+    key="sapJavaSystemDashboard"
+    path={sapJavaSystemDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaSystemDashboard)}
+  />,
+  <Route
+    key="sapJavaInstanceDashboard"
+    path={sapJavaInstanceDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaInstanceDashboard)}
+  />,
+  <Route
+    kay="SapDbTenantDashboard"
+    path={sapDbTenantDashboardFullyQualified}
+    component={createAsyncViewComponent(SapDbTenantDashboard)}
+  />,
+  <Route
+    key="sapDbInstanceDashboard"
+    path={sapDbInstanceDashboardFullyQualified}
+    component={createAsyncViewComponent(SapDbInstanceDashboard)}
+  />,
+  <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
+];
