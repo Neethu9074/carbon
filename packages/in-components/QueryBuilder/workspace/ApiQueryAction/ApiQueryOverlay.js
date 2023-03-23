@@ -46,9 +46,10 @@ export default function ApiQueryOverlay({
   const curl =
     'curl -XPOST ' +
     curlUrl +
-    " -H 'Content-Type: application/json' -d '" +
+    " -H 'Content-Type: application/json'" +
+    " -H 'authorization: apiToken xxxxxxxxxxxxx' -d '" +
     jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
-    "' -H 'authorization: apiToken xxxxxxxxxxxxx'";
+    "'";
 
   const tabList = [{ text: 'curl' }, { text: 'JSON tree' }];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
