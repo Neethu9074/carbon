@@ -79,7 +79,13 @@ export const resetMetricsAndOrderOnTypeChange = {
       name: 'type'
     }
   ],
-  reset: { metrics: emptyArray, order: undefined, chartedMetrics: undefined }
+  reset: {
+    metrics: emptyArray,
+    order: undefined,
+    chartedMetrics: undefined,
+    group: undefined,
+    tagFilterExpression: undefined
+  }
 };
 
 export function isInfraExploreView() {
