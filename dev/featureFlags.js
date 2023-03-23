@@ -25,7 +25,7 @@ module.exports = {
   onPremLicenseInformationEnabled: false,
   pcfEnabled: true,
   phmcEnabled: true,
-  sapEnabled: true,
+  sapEnabled: false,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
   skipOnboardingDialog: false,
