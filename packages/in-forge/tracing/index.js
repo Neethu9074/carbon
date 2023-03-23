@@ -4,11 +4,14 @@
  */
 
 import './micronaut.http.client';
+import './datapower.http.entry';
 import './spring-webflux-entry';
 import './aspnetmvccontroller';
 import './distributeme.client';
 import './spring-webflux-exit';
+import './datapower.http.exit';
 import './haskell.wai.server';
+import './datapower.internal';
 import './aws.lambda.invoke';
 import './akka-remote-entry';
 import './mail.actionmailer';
