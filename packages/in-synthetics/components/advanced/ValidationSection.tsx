@@ -13,7 +13,6 @@ import { Button, Stack } from '@instana/components';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { Validations } from 'in-synthetics/form/createSyntheticTestForm';
-import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input/Input';
@@ -33,7 +32,9 @@ export interface Selection {
   combo2: string;
 }
 
-interface ValidationProps extends AdvancedModeProps {
+interface ValidationProps {
+  form: MapForm;
+  updateForm: (form: MapForm) => void;
   isVisible: Visible;
   setIsVisible: React.Dispatch<React.SetStateAction<Visible>>;
   comboBoxSelections: Selection;
