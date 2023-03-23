@@ -10247,7 +10247,7 @@
       "node": "Node",
       "internalIp": "Internal IP",
       "nodesWithCount": "Nodes ({{len}})",
-      "cpuRequests": "CPU Requests",
+      "cpuRequests": "CPU Requests Allocation",
       "cpuLimits": "CPU Limits",
       "cpuCapacity": "CPU Capacity",
       "memoryRequests": "Memory Requests",
