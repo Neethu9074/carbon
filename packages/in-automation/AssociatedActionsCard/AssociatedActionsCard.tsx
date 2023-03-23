@@ -27,6 +27,7 @@ import { t } from 'in-i18n';
 interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
+  title?: string;
 }
 
 function getObservables(isCustomEvent: boolean) {
@@ -55,7 +56,7 @@ const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
 const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function AssociatedActionsCard({ event, volatileId }: AssociatedActionsCardProps) {
+export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
@@ -71,7 +72,7 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
 
   return (
     <ActionTable
-      title={t('in-automation:associatedActions')}
+      title={title ?? t('in-automation:associatedActions')}
       showExecuteColumn
       showActionLink
       event={event}
