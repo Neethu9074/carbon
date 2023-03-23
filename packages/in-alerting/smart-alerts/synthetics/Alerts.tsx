@@ -46,6 +46,7 @@ export const tableActions: TableActions<SyntheticAlertConfigWithMetadata> = {
 
 export default function Alerts({ testId }: AlertsProps) {
   const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+
   return (
     <AlertBaseList<SyntheticAlertConfigWithMetadata>
       extraColumnDefinitions={getColumnDefinitions()}

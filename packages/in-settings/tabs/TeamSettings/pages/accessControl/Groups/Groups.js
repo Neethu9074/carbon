@@ -16,9 +16,9 @@ import {
 } from 'in-settings/navigation/paths';
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
-import { getView } from 'in-stores/navigation/navigation';
 import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';
@@ -38,7 +38,7 @@ export default function Groups() {
         itemName="Group"
         searchFields={['name']}
         orderBy="name"
-        renderAdditionalHeaderContent={renderAdditionalHeaderContent}
+        renderAdditionalHeaderContent={AdditionalHeaderContent}
         boundedPath="/groups"
       />
     </>
@@ -63,9 +63,14 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
   );
 }
 
-function renderAdditionalHeaderContent() {
+function AdditionalHeaderContent() {
+  const { createHrefToPath } = useNavigation();
   return (
-    <Button kind="action" href$={getView(teamSettingsAccessControlGroupNew)} icon="lib_openclose_add_circle_outline">
+    <Button
+      kind="action"
+      href={createHrefToPath(teamSettingsAccessControlGroupNew)}
+      icon="lib_openclose_add_circle_outline"
+    >
       {t('in-settings:tabs.addGroup')}
     </Button>
   );

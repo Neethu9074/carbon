@@ -13,22 +13,23 @@ import {
 } from 'in-mobile-apps/navigation/paths';
 import MobileAppCustomGeoDetails from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/MobileAppCustomGeoDetails';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
 import Privacy from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Privacy';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const NavigationItem = connectTo(({ path }) => ({
-  href: getModifiedUrlStream(params => (params.pathname = path)),
-  isActive: navigationParameters$.map(params => params.pathname.startsWith(path))
-}))(function NavigationItem({ href, label, isActive }) {
+function NavigationItem({ path, label }) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const href = createHrefToPath(path);
+  const isActive = matchLocation(path);
   return <SideNavigationItem omitEmptyIcon label={label} href={href} isActive={isActive} />;
-});
+}
 
 export default function Configuration(props) {
+  const { createHrefToPath } = useNavigation();
+
   const sidebar = (
     <SideNavigation title={t('in-mobile-apps:dashboard.tabs.configurationTitle')}>
       <NavigationItem
@@ -58,9 +59,7 @@ export default function Configuration(props) {
           <MobileAppCustomGeoDetails {...props} />
         </Route>
         <Route>
-          <RedirectWithHash
-            to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
-          />
+          <RedirectWithHash href={createHrefToPath(configurationOptionsFullyQualified)} />
         </Route>
       </Switch>
     </SidebarContainer>

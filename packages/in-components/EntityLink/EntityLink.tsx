@@ -46,12 +46,12 @@ const EntityLink = forwardRef(function EntityLink(
   }: EntityLinkProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const iconColor = href$ && theme.lib.colors.blue800;
+  const iconColor = (href$ || href) && theme.lib.colors.blue800;
 
   const link = (
     <>
       {specialIndicator ? <span className={locals.specialIndicator} /> : null}
-      <Link href={href} href$={href$} onClick={onClick}>
+      <Link href$={href$} href={href} onClick={onClick}>
         {label}
       </Link>
     </>
