@@ -12,10 +12,15 @@ export default function DataPowerInternalSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.http.titleRequestPath')}>{span.getIn(['data', 'http', 'path'])}</Di>
-        <Di title={t('in-forge:tracing.http.titleURL')}>{span.getIn(['data', 'http', 'url'])}</Di>
-        <Di title={t('in-forge:tracing.http.titleMethod')}>{span.getIn(['data', 'http', 'method'])}</Di>
-        <Di title={t('in-forge:tracing.http.titleStatusCode')}>{span.getIn(['data', 'http', 'status'])}</Di>
+        <Di title={t('in-forge:tracing.ibmdatapower.titleOperationName')}>
+          {span.getIn(['data', 'sdk', 'custom', 'tags', 'operationName'])}
+        </Di>
+        <Di title={t('in-forge:tracing.ibmdatapower.titleObjectName')}>
+          {span.getIn(['data', 'sdk', 'custom', 'tags', 'objectName'])}
+        </Di>
+        <Di title={t('in-forge:tracing.ibmdatapower.titleObjectType')}>
+          {span.getIn(['data', 'sdk', 'custom', 'tags', 'objectType'])}
+        </Di>
       </Dl>
     </div>
   );

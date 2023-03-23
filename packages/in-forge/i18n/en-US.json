@@ -12897,6 +12897,11 @@
     "ibmdb2": {
       "titleQuery": "Query"
     },
+    "ibmdatapower": {
+      "titleOperationName": "Operation Name",
+      "titleObjectName": "Object Name",
+      "titleObjectType": "Object Type"
+    },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} to {{returnDestination}}",
       "titleDestination": "Destination",
