@@ -12634,7 +12634,8 @@
       "titleExternalTaskWorkerId": "External Task Worker ID",
       "titleExternalTaskTopic": "External Task Topic",
       "titleExternalTaskId": "External Task ID",
-      "titleExternalTaskRetries": "Retries"
+      "titleExternalTaskRetries": "Retries",
+      "titleBusinessVariable": "{{businessVariableKey}}"
     },
     "camunda-exit": {
       "titleExternalTaskTopic": "External Task Topic"
