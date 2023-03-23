@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { useEffect } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { PermissionSetWithRoles } from '@instana/types';
 import { Button } from '@instana/components';
@@ -24,10 +24,17 @@ export interface FormControlProps {
 }
 interface RoleAndAccessScopeColumnsProps extends FormControlProps {
   readOnly?: boolean;
+  editMode?: boolean;
   onSave: (form: MapForm) => void;
 }
 
-export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onSave }: RoleAndAccessScopeColumnsProps) {
+export default function RoleAndAccessScopeColumns({
+  form,
+  setForm,
+  readOnly,
+  editMode,
+  onSave
+}: RoleAndAccessScopeColumnsProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
   const openAccessScopeDialog = () => {
@@ -40,10 +47,19 @@ export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onS
           close();
         }}
         onCancel={close}
-        editMode
+        editMode={editMode}
       />
     );
   };
+
+  // while opening a new group we immediately want to start in creation wizard dialog
+  useEffect(() => {
+    if (!editMode) {
+      openAccessScopeDialog();
+    }
+    // as openAccessScopeDialog should not be be watched
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode]);
 
   return (
     <Col lg={6}>

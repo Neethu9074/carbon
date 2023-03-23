@@ -83,6 +83,7 @@ function renderGroup(props) {
   const { setForm, form, group, setMessage } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
+  const isExistingGroup = !!group.id;
 
   const accessRestrictionWarning = needsToShowRestricAccessedWarning(form.get('permissionSet').value) ? (
     <div className="message message-small message-warning">
@@ -127,6 +128,7 @@ function renderGroup(props) {
             form={form}
             setForm={setForm}
             readOnly={isOwnerGroup}
+            editMode={isExistingGroup}
             onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm })}
           />
         )}
