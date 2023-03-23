@@ -10,6 +10,7 @@ import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
+import Automation from 'in-automation/ActionCatalog/Automation';
 import { deleteActionTracker } from 'in-automation/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -22,22 +23,24 @@ const tableActions = {
     }
   }
 };
-export default function ActionCatalog() {
+export default function ActionCatalogTab() {
   return (
-    <ActionTable
-      title={t('in-automation:ActionCatalog.actionCatalog')}
-      noDataMessage={t('in-automation:ActionCatalog.noActions')}
-      getEntityName={(action: Action) =>
-        t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })
-      }
-      tableActions={tableActions}
-      rightHeader={rightHeader()}
-      loadEntities={getAllActions}
-      showActionLink
-      showTestColumn
-      showDuplicateColumn
-      isBeta
-    />
+    <Automation>
+      <ActionTable
+        title={t('in-automation:ActionCatalog.actionCatalog')}
+        noDataMessage={t('in-automation:ActionCatalog.noActions')}
+        getEntityName={(action: Action) =>
+          t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })
+        }
+        tableActions={tableActions}
+        rightHeader={rightHeader()}
+        loadEntities={getAllActions}
+        showActionLink
+        showTestColumn
+        showDuplicateColumn
+        isBeta
+      />
+    </Automation>
   );
 }
 

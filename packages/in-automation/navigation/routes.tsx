@@ -5,9 +5,9 @@
  */
 
 // @ts-expect-error
-import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
+import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalogTab';
 // @ts-expect-error
-import Automation from 'promise-loader?global!in-automation/ActionCatalog/Automation';
+import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
 import { Route } from 'react-router';
 import React from 'react';
 
@@ -17,7 +17,7 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 
 export default [
   <Route exact path={actionCatalogPath} key="actionCatalog">
-    {renderAsyncRouteChildren(Automation)}
+    {renderAsyncRouteChildren(ActionCatalogTab)}
   </Route>,
   <Route exact path={[actionDetailsPath, actionDetailsCopyFormPath]} key="actionDetails">
     {renderAsyncRouteChildren(ActionDetailsPage)}
