@@ -17,6 +17,7 @@ import { SyntheticAlertRuleUnion, SyntheticTimeThresholdUnion, SyntheticAlertCon
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import { useGetAlertConfigLink, useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
@@ -28,18 +29,23 @@ interface AlertConfigDialogType {
   alertConfig: SyntheticAlertConfig & VersionedConfig;
   editMode: boolean;
   startWithSimpleMode: boolean;
+  testId?: string;
 }
 
 export default function AlertConfigDialog({
   onClose,
   alertConfig,
   editMode,
-  startWithSimpleMode
+  startWithSimpleMode,
+  testId
 }: AlertConfigDialogType) {
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
+
+  const getLinkToAlertConfig = useGetAlertConfigLink();
+  const getLinkToGlobalAlertConfig = useLinkToGlobalAlertConfigWithoutDashboard();
   return (
     <AlertConfigDialogWithThreshold
       updateForm={(updateForm: MapForm) => {
@@ -48,7 +54,17 @@ export default function AlertConfigDialog({
       form={form}
       onChange={createOnChange(setForm, form)}
       onCreate={() => {
-        createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
+        createOrSaveAlert(
+          form,
+          setForm,
+          onClose,
+          editMode,
+          setIsSaving,
+          setMessages,
+          testId,
+          getLinkToAlertConfig,
+          getLinkToGlobalAlertConfig
+        );
       }}
       onClose={() => {
         // canceled and dialog closed
@@ -74,7 +90,10 @@ function createOrSaveAlert(
   onClose: (config?: SyntheticAlertConfig & { readonly id?: string }) => void,
   editMode: boolean,
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
-  setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>
+  setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>,
+  testId: string | undefined,
+  getLinkToAlertConfig: (id: string, testId: string, created?: number) => string,
+  getLinkToGlobalAlertConfig: (id: string) => string
 ) {
   setIsSaving(true);
 
@@ -109,10 +128,10 @@ function createOrSaveAlert(
     createAlertConfig(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        //To do : we will add link to detail page once it is in place.
-        //const href$ = getLinkToAlertConfig(alertConfig.id, null);
-        //showSuccessMessage(alertConfig.name, editMode, false, href$);
-        showSuccessMessage(alertConfig.name, editMode);
+        const href = testId
+          ? getLinkToAlertConfig(alertConfig?.id, testId, alertConfig?.created)
+          : getLinkToGlobalAlertConfig(alertConfig?.id);
+        showSuccessMessage(alertConfig.name, editMode, false, href);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

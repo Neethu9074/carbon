@@ -5,10 +5,17 @@
 
 import { Observable } from '@instana/observables';
 
+import {
+  testId as testIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-synthetics/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { setTimeConfig } from 'in-stores/time/config';
+import { Location } from 'in-stores/navigation/types';
 import { stringify } from 'in-services/util/json';
 import { TimeConfig } from 'in-types';
 
@@ -81,4 +88,36 @@ function getDashboard(
       setOrDeleteMatrixKey(params, tab, matrixLocationLabels, stringify(locationLabelFilters));
     }
   });
+}
+
+export const useGetAlertConfigLink = () => {
+  const { createHref, location } = useNavigation();
+  return (alertConfigId: string, testId: string, alertConfigVersion?: number) => {
+    location.pathname = dashboardTestAlertsTabDetailsFullyQualified;
+    fillAlertTabSpecificValues(location, alertConfigId, alertsTab, alertConfigVersion, testId);
+    return createHref(location);
+  };
+};
+
+function fillAlertTabSpecificValues(
+  params: Location,
+  alertConfigId: string,
+  alertsTab: string,
+  alertConfigVersion?: number,
+  testId?: string
+) {
+  setOrDeleteMatrixKey(params, syntheticsDashboard, testIdMatrixParam, testId);
+  setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+}
+
+export function useLinkToGlobalAlertConfigWithoutDashboard() {
+  const { location, createHref } = useNavigation();
+
+  return (alertConfigId: string) => {
+    location.pathname = alertsTabDetailsFullyQualified;
+    fillAlertTabSpecificValues(location, alertConfigId, syntheticSmartAlertsPath, undefined, undefined);
+
+    return createHref(location);
+  };
 }
