@@ -419,6 +419,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherButtonSignOut": "Sign Out",

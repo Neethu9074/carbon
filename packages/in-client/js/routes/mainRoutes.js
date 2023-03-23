@@ -21,7 +21,8 @@ import {
   hasZHMCAccess,
   hasPCFAccess,
   hasOpenStackAccess,
-  hasEventsAccess
+  hasEventsAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { internalMonitoringUnit, sloV2Enabled } from 'in-services/featureFlags';
@@ -49,6 +50,7 @@ import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
 import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
+import sapRoutes from 'in-sap/navigation/routes';
 
 export default (
   <Switch>
@@ -71,6 +73,7 @@ export default (
     {hasPHMCAccess && phmcRoutes}
     {hasVSphereAccess && vsphereRoutes}
     {hasOpenStackAccess && openstackRoutes}
+    {hasSAPAccess && sapRoutes}
     {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}

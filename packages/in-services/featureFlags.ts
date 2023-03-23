@@ -41,6 +41,7 @@ export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
+export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);

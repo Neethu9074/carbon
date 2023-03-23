@@ -281,7 +281,16 @@ export const nonServicePlugins = {
   zOS: 'zOS',
   zDb2: 'zDb2',
   zCics: 'zCics',
-  zIms: 'zIms'
+  zIms: 'zIms',
+  abapInstance: 'abapInstance',
+  abapSystem: 'abapSystem',
+  sapDbms: 'sapDbms',
+  sapHost: 'sapHost',
+  sapDbInstance: 'sapDbInstance',
+  sapDbTenant: 'sapDbTenant',
+  sapHanaPlatform: 'sapHanaPlatform',
+  sapJavaInstance: 'sapJavaInstance',
+  sapJavaSystem: 'sapJavaSystem'
 };
 
 export const applicationPlugins = {
@@ -610,7 +619,16 @@ export const fullyQualifiedPlugins = {
   zOS: 'com.instana.forge.ibm.ibmz.os.ZOS',
   zDb2: 'com.instana.forge.ibm.ibmz.db2.ZDb2',
   zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics',
-  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms'
+  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms',
+  abapInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.abapinstance.AbapInstance',
+  abapSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.abapsystem.ABAPSystem',
+  sapDbms: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbms.SAPDbms',
+  sapDbInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbinstance.SAPDbInstance',
+  sapDbTenant: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbtenant.SAPDbTenant',
+  sapHost: 'com.instana.forge.infrastructure.paas.sap.SAPHost',
+  sapHanaPlatform: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphana.SapHanaPlatform',
+  sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
+  sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

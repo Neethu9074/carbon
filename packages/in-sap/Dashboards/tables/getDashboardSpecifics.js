@@ -1,0 +1,100 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React from 'react';
+
+import {
+  getAbapInstanceDashboard,
+  getAbapCentralInstanceDashboard,
+  getSapDbInstanceDashboard,
+  getSapDbmsDashboard,
+  getSapDbTenantDashboard,
+  getSapHanaDashboard,
+  getSapJavaInstanceDashboard,
+  getAbapSystemDashboard,
+  getSapJavaSystemDashboard
+} from 'in-sap/navigation/paths';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
+import EntityLink from 'in-components/EntityLink/EntityLink';
+import { plugins } from 'in-forge/constants';
+
+export const getSpecificDashboard = function(value, matrixPrefix, systemSnapshotId) {
+  switch (value.pluginName) {
+    case plugins.abapInstance:
+      if (value.label.includes('Central'))
+        return (
+          <EntityLink
+            label={value.label}
+            href$={getAbapCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            icon={getIconType(value.pluginName)}
+          />
+        );
+      else
+        return (
+          <EntityLink
+            label={value.label}
+            href$={getAbapInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            icon={getIconType(value.pluginName)}
+          />
+        );
+    case plugins.sapDbInstance:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapDbInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapDbms:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapDbmsDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapDbTenant:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapDbTenantDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapHanaPlatform:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapHanaDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapJavaInstance:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapJavaInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapJavaSystem:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapJavaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.abapSystem:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getAbapSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+  }
+};

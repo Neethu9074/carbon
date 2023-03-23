@@ -15,6 +15,7 @@ export const vsphereDatacenter = 'VSPHERE_DATACENTER';
 export const openstackRegion = 'OPENSTACK_REGION';
 export const phmcServer = 'PHMC';
 export const zhmcServer = 'ZHMC';
+export const sap = 'SAP';
 
 // Application Perspectives
 export const application = 'APPLICATION';

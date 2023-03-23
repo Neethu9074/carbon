@@ -12,6 +12,7 @@ import {
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
+  sapEnabled,
   infraExploreDataEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -31,7 +32,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
-  LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE'
+  LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
+  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -48,12 +50,12 @@ export const AreaPermission = Object.freeze({
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
-  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
-  ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE'
+  ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
+  ACCESS_SAP: 'ACCESS_SAP',
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
-
 export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
   CAN_CONFIGURE_MOBILE_APP_MONITORING: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
@@ -151,8 +153,16 @@ export const hasPCFAccess =
   hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, AreaPermission.ACCESS_PCF) && pcfEnabled;
 export const hasOpenStackAccess =
   hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
+export const hasSAPAccess =
+  hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
 export const hasAPlatformAccess =
-  hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
+  hasVSphereAccess ||
+  hasPHMCAccess ||
+  hasZHMCAccess ||
+  hasPCFAccess ||
+  hasOpenStackAccess ||
+  hasKubernetesAccess ||
+  hasSAPAccess;
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess = businessObservabilityEnabled;
@@ -185,7 +195,9 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   if (zhmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
-
+  if (sapEnabled) {
+    areaPermissions.push({ value: AreaPermission.ACCESS_SAP, label: t('in-stores:permissionAccessSAPLabel') });
+  }
   areaPermissions.push({
     value: AreaPermission.ACCESS_KUBERNETES,
     label: t('in-stores:permissionAccessKubernetesLabel')

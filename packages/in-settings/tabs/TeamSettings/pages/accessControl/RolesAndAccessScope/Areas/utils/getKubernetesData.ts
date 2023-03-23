@@ -6,7 +6,14 @@
 
 import { PermissionSetWithRoles } from '@instana/types';
 
-import { openstackEnabled, pcfEnabled, phmcEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
+import {
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  vsphereEnabled,
+  zhmcEnabled,
+  sapEnabled
+} from 'in-services/featureFlags';
 import { AreaPermission } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
@@ -21,7 +28,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   const hasZHMCAccess = permissions.includes(AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
   const hasOpenStackAccess = permissions.includes(AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
   const hasPCFAccess = permissions.includes(AreaPermission.ACCESS_PCF) && pcfEnabled;
-
+  const hasSAPAccess = permissions.includes(AreaPermission.ACCESS_SAP) && sapEnabled;
   const countOfKubernetesItemsWithAccess = kubernetesClusterUUIDs.length + kubernetesNamespaceUIDs.length;
 
   const translations = [];
@@ -44,9 +51,11 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   if (hasPCFAccess) {
     translations.push(t('in-settings:productAreas.pcf'));
   }
-
+  if (hasSAPAccess) {
+    translations.push(t('in-settings:productAreas.sap'));
+  }
   const hasOtherPlatformsAccess =
-    hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasOpenStackAccess || hasPCFAccess;
+    hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasOpenStackAccess || hasPCFAccess || hasSAPAccess;
 
   const kubernetesNamespacesWithAccess = kubernetesNamespaceUIDs.map(namespace => namespace.scopeId);
 

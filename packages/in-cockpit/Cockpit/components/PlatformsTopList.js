@@ -16,6 +16,7 @@ import {
   vsphereDatacenter as vsphereDatacenterType,
   openstackRegion as openstackRegionType,
   phmcServer as phmcServerType,
+  sap as sapType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
 import {
@@ -24,10 +25,12 @@ import {
   hasPCFAccess,
   hasPHMCAccess,
   hasVSphereAccess,
-  hasZHMCAccess
+  hasZHMCAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
+import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
@@ -46,6 +49,7 @@ import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
+import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
@@ -70,7 +74,8 @@ export default function PlatformsTopList({ config }) {
     hasVSphereAccess && vsphereDatacenterType,
     hasOpenStackAccess && openstackRegionType,
     hasPHMCAccess && phmcServerType,
-    hasZHMCAccess && zhmcServerType
+    hasZHMCAccess && zhmcServerType,
+    hasSAPAccess && sapType
   ].filter(Boolean);
 
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
@@ -102,6 +107,8 @@ export default function PlatformsTopList({ config }) {
           ? getIbmpPhmcDashboard
           : item.isOpenstack
           ? getOpenstackRegionDashboard
+          : item.isSap
+          ? getAbapSystemDashboard
           : getVsphereDatacenterDashboard)(getId(item));
       }}
     />
@@ -128,6 +135,9 @@ function getTypeByItem(item) {
   if (item.isZhmc) {
     return zhmcServerType;
   }
+  if (item.isSap) {
+    return sapType;
+  }
   return vsphereDatacenterType;
 }
 
@@ -145,7 +155,9 @@ function getMergedData(params) {
       hasPHMCAccess && getPhmcsWithDefaults(params),
       hasPHMCAccess && 'isPhmc',
       hasZHMCAccess && getZhmcsWithDefaults(params),
-      hasZHMCAccess && 'isZhmc'
+      hasZHMCAccess && 'isZhmc',
+      hasSAPAccess && getAbapSystemListsWithDefaults(params),
+      hasSAPAccess && 'isSap'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
@@ -165,6 +177,9 @@ function getItem(id, timeConfig, type) {
   }
   if (type === zhmcServerType) {
     return getZhmc({ filter: { applicationId: id, timeConfig } }).map(mapZhmcResult);
+  }
+  if (type === sapType) {
+    return getAbapSystem({ filter: { applicationId: id, timeConfig } }).map(mapSapResult);
   }
   return getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult);
 }
@@ -199,6 +214,9 @@ function mapPhmcResult(result) {
 function mapZhmcResult(result) {
   return result.data ? success({ ...result.data, isZhmc: true }) : result;
 }
+function mapSapResult(result) {
+  return result.data ? success({ ...result.data, isSap: true }) : result;
+}
 
 const columnDefinitions = [
   {
@@ -221,7 +239,7 @@ const columnDefinitions = [
   {
     width: '6rem',
     getContent({ item }) {
-      if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack) {
+      if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack || item.isSap) {
         return null;
       }
       return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHosts')} value={item.hosts} accentuated />;
@@ -259,7 +277,7 @@ const columnDefinitions = [
         return (
           <KeyValue label={t('in-cockpit:component.platformsTopList.partitions')} value={item.partitions} accentuated />
         );
-      } else if (item.isOpenstack) {
+      } else if (item.isOpenstack || item.isSap) {
         return null;
       }
       return item.isKubernetes ? (
@@ -325,6 +343,9 @@ function getIcon(item) {
   if (item.isZhmc) {
     return 'lib_zhmcConsole';
   }
+  if (item.isSap) {
+    return 'lib_sap';
+  }
   return 'lib_vsphere_datacenter';
 }
 
@@ -353,6 +374,9 @@ function getSubTitle(item) {
   }
   if (item.isOpenstack) {
     return t('in-cockpit:component.platformsTopList.openstackRegion');
+  }
+  if (item.isSap) {
+    return t('in-cockpit:component.platformsTopList.sapRegion');
   }
   return t('in-cockpit:component.platformsTopList.vSphereDatacenter');
 }

@@ -11,6 +11,7 @@
   "permissionAccessPHMCLabel": "IBM Power",
   "permissionAccessZHMCLabel": "IBM Z",
   "permissionAccessPCFLabel": "Cloud Foundry",
+  "permissionAccessSAPLabel": "SAP",
   "permissionAccessOpenStackLabel": "OpenStack",
   "permissionCanConfigureEumApplicationsLabel": "Website monitoring configuration",
   "permissionCanConfigureEumApplicationsDescription": "Permits configuration of website monitoring functionality.",

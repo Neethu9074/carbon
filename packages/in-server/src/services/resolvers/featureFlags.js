@@ -80,6 +80,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'sapEnabled',
+    instanaCtlKey: 'feature.sap.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false

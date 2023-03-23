@@ -25,7 +25,8 @@ import {
   hasSyntheticsAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
-  hasZHMCAccess
+  hasZHMCAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import {
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -58,6 +59,7 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
+import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
@@ -502,6 +504,7 @@ function Platforms(props) {
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -560,6 +563,16 @@ function Platforms(props) {
           {...props}
         />
       )}
+      {hasSAPAccess && (
+        <ViewItemForPlatforms
+          id="main-nav-sap"
+          label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
+          icon="lib_sap"
+          href={createHrefToPath(sapSystemList)}
+          isActive={matchLocation(sap)}
+          {...props}
+        />
+      )}
       {hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
@@ -574,7 +587,7 @@ function Platforms(props) {
   );
 
   if (numPlatformsAvailable > 1) {
-    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp);
+    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, sap);
 
     return (
       <View
