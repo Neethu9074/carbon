@@ -11,23 +11,18 @@ import classNames from 'classnames';
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import {
-  getType,
-  isDocLink,
-  isScript,
-  isWebhook,
-  getDocLinkFromFields
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import CopyActionLink from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/CopyActionLink';
-import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import { getType, isDocLink, isScript, isWebhook, getDocLinkFromFields } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
-import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { getAllActions, ScoredAction } from 'in-automation/api';
+import { getEntityIdView } from 'in-settings/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import Tag from 'in-automation/ActionCatalog/Tag';
 import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
@@ -37,26 +32,26 @@ import locals from './ActionTable.mless';
 
 const columnDefinitions = [
   {
-    label: t('in-settings:tabs.description'),
+    label: t('in-automation:ActionCatalog.description'),
     id: 'description',
     getContent(row: Action) {
       return <div className={locals.fourLines}>{row.description}</div>;
     }
   },
   {
-    label: t('in-settings:tabs.type'),
+    label: t('in-automation:ActionCatalog.type'),
     id: 'type',
     getContent: getType
   },
   {
-    label: t('in-settings:tabs.lastModified'),
+    label: t('in-automation:ActionCatalog.lastModified'),
     id: 'modifiedAt',
     getContent(row: Action) {
       return formatDateTime(+row.modifiedAt * 1000);
     }
   },
   {
-    label: t('in-settings:tabs.tags'),
+    label: t('in-automation:ActionCatalog.tags'),
     id: 'tags',
     getContent(row: Action) {
       const { tags = [] } = row;
@@ -73,7 +68,7 @@ const columnDefinitions = [
 
 const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   id: 'execute',
-  label: t('in-settings:tabs.execute'),
+  label: t('in-automation:ActionCatalog.execute'),
   getContent(row: Action) {
     const { type, fields } = row;
     if (isDocLink(type)) {
@@ -92,7 +87,7 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           }}
           noAutoMargin
         >
-          {t('in-settings:tabs.launch')}
+          {t('in-automation:ActionCatalog.launch')}
         </Button>
       );
     } else if (isScript(type) || isWebhook(type)) {
@@ -103,11 +98,11 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           onClick={() => addActiveDialog(<RunActionDialog action={row} volatileId={volatileId} event={event} />)}
           noAutoMargin
         >
-          {t('in-settings:tabs.run')}
+          {t('in-automation:ActionCatalog.run')}
         </Button>
       );
     } else {
-      return <div>{t('in-settings:tabs.run')}</div>;
+      return <div>{t('in-automation:ActionCatalog.run')}</div>;
     }
   }
 });
@@ -123,13 +118,13 @@ const testColumn = {
 };
 
 const nameColumn = (showActionLink: boolean) => ({
-  label: t('in-settings:tabs.name'),
+  label: t('in-automation:ActionCatalog.name'),
   id: 'name',
   getContent(row: Action) {
     return (
       <Tooltip content={row.name} align="topLeft" delay={500}>
         {showActionLink ? (
-          <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>
+          <Link className={locals.block} ellipsis href$={getEntityIdView(actionCatalogPath, row.id)}>
             {row.name}
           </Link>
         ) : (
@@ -141,10 +136,10 @@ const nameColumn = (showActionLink: boolean) => ({
 });
 
 const scoreColumn = {
-  label: t('in-settings:tabs.confidenceTitle'),
+  label: t('in-automation:ActionCatalog.confidenceTitle'),
   id: 'color',
   getContent(row: ScoredAction) {
-    return t('in-settings:tabs.confidence', { context: row.color });
+    return t('in-automation:ActionCatalog.confidence', { context: row.color });
   },
   getValue(row: ScoredAction) {
     return row.score;
@@ -182,7 +177,7 @@ export interface ActionTableProps {
 }
 
 export default function ActionTable({
-  title = t('in-settings:tabs.actions'),
+  title = t('in-automation:ActionCatalog.actions'),
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,
@@ -228,7 +223,7 @@ export default function ActionTable({
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader(title, isBeta)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
-      searchPlaceholder={t('in-settings:tabs.searchActions')}
+      searchPlaceholder={t('in-automation:ActionCatalog.searchActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}

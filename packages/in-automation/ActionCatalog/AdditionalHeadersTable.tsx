@@ -7,10 +7,10 @@
 import { Field, MapForm } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -34,7 +34,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
     id: 'key',
     sortable: false,
     size: '2',
-    label: t('in-settings:tabs.key'),
+    label: t('in-automation:ActionCatalog.key'),
     getContent(item: Header) {
       const field = form.get('additionalHeaders');
       return (
@@ -62,7 +62,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
     id: 'value',
     sortable: false,
     size: '2',
-    label: t('in-settings:tabs.value'),
+    label: t('in-automation:ActionCatalog.value'),
     getContent(item: Header) {
       const field = form.get('additionalHeaders');
       return (
@@ -100,10 +100,10 @@ export default function AdditionalHeadersTable({ form, setForm, onChange }: Addi
       formKey="additionalHeaders"
       defaultRow={['', '']}
       setForm={setForm}
-      noDataMessage={t('in-settings:tabs.noAdditionalHeadersConfigured')}
+      noDataMessage={t('in-automation:ActionCatalog.noAdditionalHeadersConfigured')}
       leftHeader={
         <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
-          {t('in-settings:tabs.additionalHeadersOptional')}
+          {t('in-automation:ActionCatalog.additionalHeadersOptional')}
         </Label>
       }
     />

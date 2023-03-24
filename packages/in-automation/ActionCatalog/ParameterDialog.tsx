@@ -15,11 +15,11 @@ import {
   addStaticField,
   addVaultFields,
   mutateFieldBlankValidator
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterFormDefinition';
-import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
+} from 'in-automation/ActionCatalog/ParameterFormDefinition';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import { close } from 'in-components/DialogPresenter/store';
@@ -53,7 +53,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
-      title={t('in-settings:tabs.addParameter')}
+      title={t('in-automation:ActionCatalog.addParameter')}
       onClose={close}
       withoutBodyPadding
     >
@@ -76,7 +76,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
           <FormGroup>
             <CheckboxFancy
               checked={hidden.value}
-              label={t('in-settings:tabs.hiddenParam')}
+              label={t('in-automation:ActionCatalog.hiddenParam')}
               onChange={e =>
                 onParameterChange({
                   fieldName: 'hidden',
@@ -123,7 +123,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
     <>
       <FormGroup>
         <Label htmlFor="parameter-label" hasError={!label.valid && label.touched}>
-          {t('in-settings:tabs.displayName')}
+          {t('in-automation:ActionCatalog.displayName')}
         </Label>
         <Input
           id="parameter-label"
@@ -137,7 +137,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-name" hasError={!name.valid && name.touched}>
-          {t('in-settings:tabs.name')}
+          {t('in-automation:ActionCatalog.name')}
         </Label>
         <Input
           id="parameter-name"
@@ -148,11 +148,11 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
           maxLength={256}
         />
         <TouchedMessages field={name} className={locals.subErrorTextFormField} />
-        <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.parameterNameHelp')}</HelpText>
+        <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.parameterNameHelp')}</HelpText>
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-description" hasError={!description.valid && description.touched}>
-          {t('in-settings:tabs.description')}
+          {t('in-automation:ActionCatalog.description')}
         </Label>
         <Input
           id="parameter-description"
@@ -167,13 +167,13 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
         <TouchedMessages field={description} className={locals.subErrorTextFormField} />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="parameter-type">{t('in-settings:tabs.valueType')}</Label>
+        <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.valueType')}</Label>
         <Row withoutSideMargin>
           <Col>
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'static'}
-              label={t('in-settings:tabs.static')}
+              label={t('in-automation:ActionCatalog.static')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -189,7 +189,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'vault'}
-              label={t('in-settings:tabs.vault')}
+              label={t('in-automation:ActionCatalog.vault')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -218,7 +218,7 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
         <CheckboxFancy
           disabled={hidden.value}
           checked={required.value}
-          label={t('in-settings:tabs.required')}
+          label={t('in-automation:ActionCatalog.required')}
           onChange={e =>
             onParameterChange({ fieldName: 'required', value: e.target.checked, setParameterForm, parameter })
           }
@@ -226,7 +226,9 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
-          {hidden.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
+          {hidden.value
+            ? t('in-automation:ActionCatalog.defaultValue')
+            : t('in-automation:ActionCatalog.defaultValueOptional')}
         </Label>
         <Input
           id="parameter-value"
@@ -250,7 +252,9 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
     <>
       <FormGroup>
         <Label htmlFor="parameter-secretPath" hasError={!secretPath.valid && secretPath.touched}>
-          {hidden.value ? t('in-settings:tabs.secretPath') : t('in-settings:tabs.secretPathOptional')}
+          {hidden.value
+            ? t('in-automation:ActionCatalog.secretPath')
+            : t('in-automation:ActionCatalog.secretPathOptional')}
         </Label>
         <Input
           id="parameter-secretPath"
@@ -265,7 +269,9 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-secretKey" hasError={!secretKey.valid && secretKey.touched}>
-          {hidden.value ? t('in-settings:tabs.secretKey') : t('in-settings:tabs.secretKeyOptional')}
+          {hidden.value
+            ? t('in-automation:ActionCatalog.secretKey')
+            : t('in-automation:ActionCatalog.secretKeyOptional')}
         </Label>
         <Input
           id="parameter-secretKey"

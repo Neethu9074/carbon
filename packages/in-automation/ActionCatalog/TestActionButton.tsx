@@ -9,11 +9,11 @@ import React from 'react';
 
 import { Action } from '@instana/types';
 
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { isDocLink } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { isDocLink } from 'in-automation/ActionCatalog/shared';
 import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
@@ -27,7 +27,7 @@ export default function TestActionButton({ action, form, setForm }: TestActionBu
   return (
     <>
       {!isDocLink(action.type) && (
-        <Tooltip content={t('in-settings:tabs.test')} delay={500}>
+        <Tooltip content={t('in-automation:ActionCatalog.test')} delay={500}>
           <IconButton
             kind="primaryv2"
             buttonType="button"

@@ -82,16 +82,6 @@ export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/mainte
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
 export const teamSettingsAlertingHub = `${alerting}/hub`;
 
-// automation configuration paths
-export const automation = `${teamSettings}/automation`;
-export const teamSettingsAutomations = `${automation}/automations`;
-export const teamSettingsActionCatalog = `${automation}/actionCatalog`;
-export const teamSettingsActionDetails = `${automation}/actionCatalog/:id`;
-export const teamSettingsActionDetailsNew = `${automation}/actionCatalog/new`;
-export const teamSettingsActionDetailsCopy = `${automation}/actionCatalog/copy`;
-export const teamSettingsActionDetailsCopyForm = `${automation}/actionCatalog/copy/:id`;
-export const teamSettingsActionSources = `${automation}/actionSources`;
-
 // legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)
 const knowledgeManagement = `${teamSettings}/knowledgeManagement`;
 export const teamSettingsKnowledgeManagementBuiltInRuleEdit = `${knowledgeManagement}/builtInRules/:id`;

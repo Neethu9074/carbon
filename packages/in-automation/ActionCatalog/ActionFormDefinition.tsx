@@ -20,9 +20,9 @@ import {
   isDocLink,
   isScript,
   isWebhook
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
+} from 'in-automation/ActionCatalog/shared';
+import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
@@ -33,7 +33,7 @@ function mimeValidator(str: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.theValueMustBeValidMime')
+        message: t('in-automation:ActionCatalog.theValueMustBeValidMime')
       }
     ];
   }
@@ -50,7 +50,7 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
     return [
       {
         severity: 'error',
-        message: t('in-services:validators.theValueMustNotBeBlank')
+        message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
       }
     ];
   }
@@ -94,7 +94,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
             return [
               {
                 severity: 'error',
-                message: t('in-services:validators.theValueMustNotBeBlank')
+                message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
               }
             ];
           }

@@ -6,18 +6,18 @@
 
 import { keyBy } from 'lodash';
 
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { AdditionalHeaders, Authen } from 'in-automation/api';
-import { ActionFormEntity } from './ActionCatalog/Action';
 import { Field, Nullish, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (action: Action | Nullish) => {
   if (isDocLink(action?.type)) {
-    return t('in-settings:tabs.docLink');
+    return t('in-automation:ActionCatalog.docLink');
   } else if (isScript(action?.type)) {
-    return t('in-settings:tabs.script');
+    return t('in-automation:ActionCatalog.script');
   } else if (isWebhook(action?.type)) {
-    return t('in-settings:tabs.http');
+    return t('in-automation:ActionCatalog.http');
   } else {
     return action?.type;
   }
@@ -84,8 +84,8 @@ export const BEARER_TOKEN = 'bearerToken';
 export const API_KEY = 'apiKey';
 
 export const AUTH_TYPES = Object.freeze([
-  { value: NO_AUTH, translation: t('in-settings:tabs.noAuth') },
-  { value: BASIC_AUTH, translation: t('in-settings:tabs.basicAuth') },
-  { value: BEARER_TOKEN, translation: t('in-settings:tabs.bearerToken') },
-  { value: API_KEY, translation: t('in-settings:tabs.apiKey') }
+  { value: NO_AUTH, translation: t('in-automation:ActionCatalog.noAuth') },
+  { value: BASIC_AUTH, translation: t('in-automation:ActionCatalog.basicAuth') },
+  { value: BEARER_TOKEN, translation: t('in-automation:ActionCatalog.bearerToken') },
+  { value: API_KEY, translation: t('in-automation:ActionCatalog.apiKey') }
 ]);

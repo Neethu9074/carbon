@@ -16,7 +16,7 @@ import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper.mless';
+import locals from './ServerTablePresenterWrapper.mless';
 
 export type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
 interface ServerTablePresenterWrapperListItem {}
@@ -96,7 +96,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       isSearchable={false}
       rightHeader={
         <Button kind="action" onClick={customAddRow ?? addRow} icon="lib_openclose_add_circle_outline">
-          {customAddRowLabel ?? t('in-settings:tabs.addRow')}
+          {customAddRowLabel ?? t('in-automation:ActionCatalog.addRow')}
         </Button>
       }
       noDataMessage={noDataMessage}

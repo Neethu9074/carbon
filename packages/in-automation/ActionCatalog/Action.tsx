@@ -28,22 +28,22 @@ import {
   isScript,
   isWebhook,
   NO_AUTH
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
-import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
-import TestActionButton from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TestActionButton';
+} from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
-import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { createActionTracker, editActionTracker } from 'in-settings/tracker';
+import { createActionTracker, editActionTracker } from 'in-automation/tracker';
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import SectionLine from 'in-settings/components/SectionLine';
+import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -72,10 +72,10 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: (actionId: string) =>
       getAction(actionId).map(action =>
-        isCopy ? { ...action, name: t('in-settings:tabs.actionCopy', { name: action.name }) } : action
+        isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
     saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
-    openEntities: () => goToPath(teamSettingsActionCatalog)
+    openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
     ActionFormEntity
@@ -88,44 +88,46 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     content = (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          {t('in-settings:tabs.unknownAction')}
+          {t('in-automation:ActionCatalog.unknownAction')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {message}
           <br />
-          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
+          {t('in-automation:ActionCatalog.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
   } else {
     content = (
-      <SettingsDetailPage>
-        <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
-        <SectionLine />
+      <div className={locals.actionBody}>
+        <SettingsDetailPage>
+          <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
+          <SectionLine />
 
-        {message ? (
-          <Section>
-            <Notification failure={error}>{message}</Notification>
-          </Section>
-        ) : null}
+          {message ? (
+            <Section>
+              <Notification failure={error}>{message}</Notification>
+            </Section>
+          ) : null}
 
-        <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
+          <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
 
-        <SaveCancel
-          form={form!}
-          message={message}
-          loading={loading}
-          saveEnabled={saveEnabled}
-          isCreate={isCreate || isCopy}
-          listPath={teamSettingsActionCatalog}
-        />
-      </SettingsDetailPage>
+          <SaveCancel
+            form={form!}
+            message={message}
+            loading={loading}
+            saveEnabled={saveEnabled}
+            isCreate={isCreate || isCopy}
+            listPath={actionCatalogPath}
+          />
+        </SettingsDetailPage>
+      </div>
     );
   }
   return (
     <>
-      <Title title={t('in-settings:tabs.action')} />
+      <Title title={t('in-automation:ActionCatalog.action')} />
       <form onSubmit={onSubmit}>{content}</form>
     </>
   );
@@ -144,8 +146,8 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
     <HorizontalFlexWrapper className={locals.spaceBetween}>
       <SubViewHeader>
         {isNewAction
-          ? t('in-settings:tabs.createANewAction')
-          : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
+          ? t('in-automation:ActionCatalog.createANewAction')
+          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: entity!.name })}
       </SubViewHeader>
       {!isNewAction && (
         <HorizontalFlexWrapper>
