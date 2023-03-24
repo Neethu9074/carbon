@@ -11,8 +11,7 @@ import { DistinctSlider, SvgIcon } from '@instana/components';
 
 import {
   AlertConfigDialogPresenterProps,
-  MainDialogControl,
-  SlideInConfig
+  MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
@@ -21,7 +20,11 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleModeDialogThreshold(
-  props: AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
+  props: AlertConfigDialogPresenterProps &
+    MainDialogControl & {
+      subtitle: string;
+      subTitleToolTipText: string;
+    }
 ) {
   const formatLabel = (value: number) =>
     t('in-alerting:smartAlerts.synthetics.simple.slider.failuresWithCount', {
