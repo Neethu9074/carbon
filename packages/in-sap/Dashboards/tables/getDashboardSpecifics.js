@@ -21,7 +21,7 @@ import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
 
-export const getSpecificDashboard = function(value, matrixPrefix, systemSnapshotId) {
+export const getSpecificDashboard = function (value, matrixPrefix, systemSnapshotId) {
   switch (value.pluginName) {
     case plugins.abapInstance:
       if (value.label.includes('Central'))

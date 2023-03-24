@@ -64,11 +64,11 @@ const settingsKey = 'cockpit_widget_ordering';
 const itemIds = [];
 
 const LUT = {
-  '5': EventChartCard
+  5: EventChartCard
 };
 
 const configEnrichmentLookUpTable = {
-  '5': {
+  5: {
     label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'

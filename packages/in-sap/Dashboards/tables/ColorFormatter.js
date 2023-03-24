@@ -6,7 +6,7 @@
 
 import theme from 'in-themes';
 
-export const colorFormatter = function(value) {
+export const colorFormatter = function (value) {
   switch (value) {
     case 'Green':
       return theme.lib.colors.success;

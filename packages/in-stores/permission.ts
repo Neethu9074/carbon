@@ -163,6 +163,20 @@ export const hasAPlatformAccess =
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess;
+
+export const amountPlatformAccesses = (() => {
+  if (!hasAPlatformAccess) return 0;
+  let count = 0;
+  if (hasVSphereAccess) count++;
+  if (hasPHMCAccess) count++;
+  if (hasZHMCAccess) count++;
+  if (hasPCFAccess) count++;
+  if (hasOpenStackAccess) count++;
+  if (hasKubernetesAccess) count++;
+  if (hasSAPAccess) count++;
+  return count;
+})();
+
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess = businessObservabilityEnabled;

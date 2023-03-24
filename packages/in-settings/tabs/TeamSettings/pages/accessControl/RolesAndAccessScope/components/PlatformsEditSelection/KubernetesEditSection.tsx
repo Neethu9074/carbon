@@ -31,13 +31,15 @@ import TabSelect, {
 import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
+import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
+import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
 /**
  * Properties for the current component
  * @property isChild determines the header / icon size
  */
-export interface PermissionSectionInfrastructureProps extends FormControlProps {
+export interface PermissionSectionInfrastructureProps extends FormControlProps, SlideControlProps<SubSlideConfig> {
   isChild?: boolean;
 }
 
@@ -46,7 +48,13 @@ export interface PermissionSectionInfrastructureProps extends FormControlProps {
  * @param to configure component
  * @returns component
  */
-export default function _KubernetesEditSection({ form, isChild, setForm }: PermissionSectionInfrastructureProps) {
+export default function _KubernetesEditSection({
+  form,
+  isChild,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: PermissionSectionInfrastructureProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
@@ -109,7 +117,12 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
           />
         </TabSelectPanel>
         <TabSelectPanel key="LIMITED_ACCESS" id="LIMITED_ACCESS">
-          <KubernetesLimitedAccessPanel setForm={setForm} form={form} />
+          <KubernetesLimitedAccessPanel
+            setForm={setForm}
+            form={form}
+            setSubSlideConfig={setSubSlideConfig}
+            setShowSubSlide={setShowSubSlide}
+          />
         </TabSelectPanel>
         <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
           <NoAccessPanel descriptionContext="kubernetes" />

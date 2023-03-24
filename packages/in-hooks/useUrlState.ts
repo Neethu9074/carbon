@@ -40,7 +40,7 @@ export default function useUrlState<State>({
   resets = emptyArray as [],
   reducer = defaultingReducer,
   onUpdate,
-  replaceHistory = true,
+  replaceHistory = true
 }: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
   const [state, setState] = useState<StateWithoutGuarantees>(
@@ -66,7 +66,7 @@ export default function useUrlState<State>({
     // we want. Furthermore, this can have nasty consequences when replaceHistory=false, e.g., back button might
     // break because the previous page will immediately change the URL and through this initiate a 'forward'-action.
     if ((state as any).__writeToUrl) {
-      mutateUrl((location) => modifyLocation(bind, state, location), replaceHistory);
+      mutateUrl(location => modifyLocation(bind, state, location), replaceHistory);
       (state as any).__writeToUrl = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +98,7 @@ export default function useUrlState<State>({
 
   // Keep the state up to date when the location changes.
   useEffect(() => {
-    setState((prevState) => {
+    setState(prevState => {
       const newState = determineStateChange(bind, location, prevState);
       if (!newState) {
         return prevState;
@@ -117,7 +117,7 @@ export default function useUrlState<State>({
   function exposedSetState(change: Partial<State>): void {
     // Users of useUrlState might memoize an older variant of useUrlState. If we wouldn't use this function variant
     // of setState, we could be losing some prior state updates.
-    setState((prev) => {
+    setState(prev => {
       // Synchronously update the state to ensure that quick user interaction will correctly
       // be reflected within the React state tree. The successive URL update will
       // (asynchronously) update the state again. This state update will be a noop in all interaction
@@ -126,13 +126,13 @@ export default function useUrlState<State>({
       return {
         ...reducer(prev as State, change),
         // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
-        __writeToUrl: true,
+        __writeToUrl: true
       };
     });
   }
 
   function exposedGetStateChangeUrl(change: Partial<State>): string {
-    return getModifiedUrl(location, (location) => {
+    return getModifiedUrl(location, location => {
       const newState = reducer(state as State, change);
       modifyLocation(bind, newState, location);
     });
@@ -140,7 +140,7 @@ export default function useUrlState<State>({
 }
 
 function getBind(binds: ParameterDefinition<any>[], as: string): ParameterDefinition<any> | undefined {
-  return binds.find((b) => (b.as || b.name) === as);
+  return binds.find(b => (b.as || b.name) === as);
 }
 
 function determineStateChange(bind: ParameterDefinition<any>[], location: Location, prevState: StateWithoutGuarantees) {
@@ -166,12 +166,12 @@ function determineStateChange(bind: ParameterDefinition<any>[], location: Locati
 export function defaultingReducer(state: StateWithoutGuarantees, change: any): any {
   return {
     ...state,
-    ...change,
+    ...change
   };
 }
 
 function modifyLocation(bind: ParameterDefinition<any>[], state: StateWithoutGuarantees, location: Location) {
-  bind.forEach((bind) => setBindValue(bind, state[bind.as || bind.name], location));
+  bind.forEach(bind => setBindValue(bind, state[bind.as || bind.name], location));
 }
 
 function setBindValue({ path, name, serializer = String }: ParameterDefinition<any>, value: any, location: Location) {

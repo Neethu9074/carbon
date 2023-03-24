@@ -16,6 +16,7 @@ import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
@@ -69,6 +70,170 @@ export default function EditAccessScopeDialog({
       ]
     : [];
 
+  const platformTitleIfHasOnePlatform = () =>
+    amountPlatformAccesses === 1 && hasKubernetesAccess
+      ? t('in-settings:productAreas.kubernetes')
+      : t('in-settings:productAreas.title_platforms');
+  const platformTitle = hasAPlatformAccess ? platformTitleIfHasOnePlatform() : '';
+
+  const navItems = [
+    ...firstItem,
+    {
+      scrollId: '2-heading-section',
+      label: t('in-settings:headingSection.title'),
+      title: t('in-settings:headingSection.title'),
+      valid: true,
+      hidden: true,
+      content: <HeadingSection />
+    },
+    {
+      scrollId: '3-websites',
+      label: t('in-settings:productAreas.title_websites'),
+      title: t('in-settings:productAreas.title_websites'),
+      valid: true,
+      content: (
+        <PermissionSection
+          title={t('in-settings:productAreas.title_websites')}
+          accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_websites')}
+          limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_websites')}
+          addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
+          roleTooltipText={t('in-settings:permissionScope.roleTooltip_websites')}
+          entityPermissionKey="websiteIds"
+          observable={getWebsiteConfigurations}
+          productArea={ProductArea.WEBSITE}
+          icon="lib_website"
+          extractId={({ id }) => id}
+          extractName={({ name }) => name}
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '4-mobile.apps',
+      label: t('in-settings:productAreas.title_mobileApps'),
+      title: t('in-settings:productAreas.title_mobileApps'),
+      valid: true,
+      content: (
+        <PermissionSection
+          title={t('in-settings:productAreas.title_mobileApps')}
+          accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_mobileApps')}
+          limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_mobileApps')}
+          addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
+          roleTooltipText={t('in-settings:permissionScope.roleTooltip_mobileApps')}
+          entityPermissionKey="mobileAppIds"
+          observable={getMobileAppConfigurations}
+          productArea={ProductArea.MOBILE_APP}
+          icon="lib_mobile_app"
+          extractId={({ id }) => id}
+          extractName={({ name }) => name}
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '5-applications',
+      label: t('in-settings:productAreas.title_applications'),
+      title: t('in-settings:productAreas.title_applications'),
+      valid: true,
+      content: (
+        <PermissionSection
+          title={t('in-settings:productAreas.title_applications')}
+          accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_applications')}
+          limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_applications')}
+          addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
+          roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
+          entityPermissionKey="applicationIds"
+          observable={getApplicationConfigsAsResultObservable}
+          productArea={ProductArea.APPLICATION}
+          icon="lib_application"
+          extractId={({ id }) => id}
+          extractName={({ label }) => label}
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '6-platforms',
+      label: platformTitle,
+      title: platformTitle,
+      valid: true,
+      content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
+    },
+    {
+      scrollId: '7-infrastructure',
+      label: t('in-settings:productAreas.title_infrastructure'),
+      title: t('in-settings:productAreas.title_infrastructure'),
+      valid: true,
+      content: (
+        <PermissionSectionInfrastructure
+          title={t('in-settings:productAreas.title_infrastructure')}
+          viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
+          icon="lib_application"
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '8-analytics',
+      label: t('in-settings:productAreas.title_analytics'),
+      title: t('in-settings:productAreas.title_analytics'),
+      valid: true,
+      content: (
+        <PermissionSelection
+          title={t('in-settings:productAreas.title_analytics')}
+          description={t('in-settings:PermissionSection.description_analytics')}
+          productAreas={[ProductArea.ANALYTICS]}
+          icon="lib_analyze"
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '9-eventsAndAlerts',
+      label: t('in-settings:productAreas.title_events_and_alerts'),
+      title: t('in-settings:productAreas.title_events_and_alerts'),
+      valid: true,
+      content: (
+        <PermissionSelection
+          title={t('in-settings:productAreas.title_events_and_alerts')}
+          description={t('in-settings:PermissionSection.description_events_and_alerts')}
+          productAreas={[ProductArea.EVENT]}
+          icon="lib_events_inverted"
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    },
+    {
+      scrollId: '10-globalFunctions',
+      label: t('in-settings:productAreas.title_global_functions'),
+      title: t('in-settings:productAreas.title_global_functions'),
+      valid: true,
+      content: (
+        <PermissionSelection
+          title={t('in-settings:productAreas.title_global_functions')}
+          productAreas={[
+            ProductArea.MIXED,
+            ProductArea.DASHBOARD,
+            ProductArea.SYNTHETICS,
+            ProductArea.AUTOMATION,
+            ProductArea.AGENTS,
+            ProductArea.ACCESS_CONTROL,
+            ProductArea.ACCOUNT
+          ]}
+          icon="lib_actions_settings"
+          {...formControlProps}
+          {...slideControlProps}
+        />
+      )
+    }
+  ];
+
   return (
     <ConfigDialog
       showSubSlide={showSubSlide}
@@ -79,163 +244,7 @@ export default function EditAccessScopeDialog({
         setTimeout(() => setSubSlideConfig(undefined), 1000);
       }}
       title={t('in-settings:roleAndAccessScope.dialogTitle', { context })}
-      navItems={[
-        ...firstItem,
-        {
-          scrollId: '2-heading-section',
-          label: t('in-settings:headingSection.title'),
-          title: t('in-settings:headingSection.title'),
-          valid: true,
-          hidden: true,
-          content: <HeadingSection />
-        },
-        {
-          scrollId: '3-websites',
-          label: t('in-settings:productAreas.title_websites'),
-          title: t('in-settings:productAreas.title_websites'),
-          valid: true,
-          content: (
-            <PermissionSection
-              title={t('in-settings:productAreas.title_websites')}
-              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_websites')}
-              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_websites')}
-              addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
-              roleTooltipText={t('in-settings:permissionScope.roleTooltip_websites')}
-              entityPermissionKey="websiteIds"
-              observable={getWebsiteConfigurations}
-              productArea={ProductArea.WEBSITE}
-              icon="lib_website"
-              extractId={({ id }) => id}
-              extractName={({ name }) => name}
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '4-mobile.apps',
-          label: t('in-settings:productAreas.title_mobileApps'),
-          title: t('in-settings:productAreas.title_mobileApps'),
-          valid: true,
-          content: (
-            <PermissionSection
-              title={t('in-settings:productAreas.title_mobileApps')}
-              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_mobileApps')}
-              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_mobileApps')}
-              addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
-              roleTooltipText={t('in-settings:permissionScope.roleTooltip_mobileApps')}
-              entityPermissionKey="mobileAppIds"
-              observable={getMobileAppConfigurations}
-              productArea={ProductArea.MOBILE_APP}
-              icon="lib_mobile_app"
-              extractId={({ id }) => id}
-              extractName={({ name }) => name}
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '5-applications',
-          label: t('in-settings:productAreas.title_applications'),
-          title: t('in-settings:productAreas.title_applications'),
-          valid: true,
-          content: (
-            <PermissionSection
-              title={t('in-settings:productAreas.title_applications')}
-              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_applications')}
-              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_applications')}
-              addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
-              roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
-              entityPermissionKey="applicationIds"
-              observable={getApplicationConfigsAsResultObservable}
-              productArea={ProductArea.APPLICATION}
-              icon="lib_application"
-              extractId={({ id }) => id}
-              extractName={({ label }) => label}
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '6-platforms',
-          label: t('in-settings:productAreas.title_platforms'),
-          title: t('in-settings:productAreas.title_platforms'),
-          valid: true,
-          content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
-        },
-        {
-          scrollId: '7-infrastructure',
-          label: t('in-settings:productAreas.title_infrastructure'),
-          title: t('in-settings:productAreas.title_infrastructure'),
-          valid: true,
-          content: (
-            <PermissionSectionInfrastructure
-              title={t('in-settings:productAreas.title_infrastructure')}
-              viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
-              icon="lib_application"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '8-analytics',
-          label: t('in-settings:productAreas.title_analytics'),
-          title: t('in-settings:productAreas.title_analytics'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_analytics')}
-              description={t('in-settings:PermissionSection.description_analytics')}
-              productAreas={[ProductArea.ANALYTICS]}
-              icon="lib_analyze"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '9-eventsAndAlerts',
-          label: t('in-settings:productAreas.title_events_and_alerts'),
-          title: t('in-settings:productAreas.title_events_and_alerts'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_events_and_alerts')}
-              description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productAreas={[ProductArea.EVENT]}
-              icon="lib_events_inverted"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
-          scrollId: '10-globalFunctions',
-          label: t('in-settings:productAreas.title_global_functions'),
-          title: t('in-settings:productAreas.title_global_functions'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_global_functions')}
-              productAreas={[
-                ProductArea.MIXED,
-                ProductArea.DASHBOARD,
-                ProductArea.SYNTHETICS,
-                ProductArea.AUTOMATION,
-                ProductArea.AGENTS,
-                ProductArea.ACCESS_CONTROL,
-                ProductArea.ACCOUNT
-              ]}
-              icon="lib_actions_settings"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        }
-      ]}
+      navItems={hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms')}
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
       disabledSaveButton={!form.hierarchyTouched}

@@ -48,7 +48,7 @@ export default function useServerTableUrlState({
   defaultPageSize,
   defaultQuery,
   defaultDisabledColumns,
-  paginationResettingUrlParameters,
+  paginationResettingUrlParameters
 }: UrlStateParams): UrlStateReturn<ServerTableUrlState> {
   const urlStateDefinition = useMemo(
     () =>
@@ -61,7 +61,7 @@ export default function useServerTableUrlState({
         defaultPageSize,
         defaultQuery,
         defaultDisabledColumns,
-        paginationResettingUrlParameters,
+        paginationResettingUrlParameters
       }),
     [
       pathSegment,
@@ -72,7 +72,7 @@ export default function useServerTableUrlState({
       defaultPageSize,
       defaultQuery,
       defaultDisabledColumns,
-      paginationResettingUrlParameters,
+      paginationResettingUrlParameters
     ]
   );
 
@@ -88,7 +88,7 @@ function createUrlStateDefinition({
   defaultPageSize = 20,
   defaultQuery = '',
   defaultDisabledColumns,
-  paginationResettingUrlParameters,
+  paginationResettingUrlParameters
 }: UrlStateParams): Options<ServerTableUrlState> {
   return {
     bind: [
@@ -96,33 +96,33 @@ function createUrlStateDefinition({
         path: pathSegment,
         name: `${matrixPrefix}orderBy`,
         as: 'orderBy',
-        initialState: defaultOrderBy,
+        initialState: defaultOrderBy
       },
       {
         path: pathSegment,
         name: `${matrixPrefix}orderDirection`,
         as: 'orderDirection',
-        initialState: defaultOrderDirection,
+        initialState: defaultOrderDirection
       },
       {
         path: pathSegment,
         name: `${matrixPrefix}page`,
         as: 'page',
         initialState: 1,
-        parser: intParser,
+        parser: intParser
       },
       {
         path: pathSegment,
         name: `${matrixPrefix}pageSize`,
         as: 'pageSize',
         initialState: defaultPageSize,
-        parser: intParser,
+        parser: intParser
       },
       {
         path: pathSegment,
         name: `${matrixPrefix}query`,
         as: 'query',
-        initialState: defaultQuery,
+        initialState: defaultQuery
       },
       {
         path: pathSegment,
@@ -130,7 +130,7 @@ function createUrlStateDefinition({
         as: 'disabledColumns',
         getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
         parser: buildJsonParser([]),
-        serializer: buildJsonSerializer(),
+        serializer: buildJsonSerializer()
       },
       // for columns that are defaultDisabled
       {
@@ -139,15 +139,15 @@ function createUrlStateDefinition({
         as: 'enabledColumns',
         initialState: [],
         parser: buildJsonParser([]),
-        serializer: buildJsonSerializer(),
-      },
+        serializer: buildJsonSerializer()
+      }
     ],
 
     resets: [
       {
         bind: [...paginationResettingUrlParameters],
-        reset: { page: 1 },
-      },
+        reset: { page: 1 }
+      }
     ],
 
     onUpdate: (prevState, newState) => {
@@ -156,7 +156,7 @@ function createUrlStateDefinition({
           setSingle(settingsKey, { ids: newState.disabledColumns });
         }
       }
-    },
+    }
   };
 }
 

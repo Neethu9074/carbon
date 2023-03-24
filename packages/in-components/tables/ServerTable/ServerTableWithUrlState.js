@@ -64,9 +64,10 @@ export default function createServerTableWithUrlState({
         result
       ]) ?? (props.columnDefinitions ? emptyArray : staticColumnDefinitions);
 
-    const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
-      columnDefinitions
-    ]);
+    const optionalColumns = useMemo(
+      () => columnDefinitions.filter(columnDefinition => columnDefinition.optional),
+      [columnDefinitions]
+    );
 
     const rendererProps = {
       ...propsForObservable,

@@ -17,7 +17,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { openstackEnabled, pcfEnabled, phmcEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
+import { hasOpenStackAccess, hasPCFAccess, hasPHMCAccess, hasVSphereAccess, hasZHMCAccess } from 'in-stores/permission';
 import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
@@ -34,11 +34,11 @@ import locals from './PlatformsEditSelection.mless';
 export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
 const generalAreas: Array<LimitableProductArea> = [
-  ...(pcfEnabled ? [ProductArea.PCF] : []),
-  ...(phmcEnabled ? [ProductArea.PHMC] : []),
-  ...(zhmcEnabled ? [ProductArea.ZHMC] : []),
-  ...(openstackEnabled ? [ProductArea.OPENSTACK] : []),
-  ...(vsphereEnabled ? [ProductArea.VSPHERE] : [])
+  ...(hasPCFAccess ? [ProductArea.PCF] : []),
+  ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
+  ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
+  ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
+  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : [])
 ];
 
 /**
@@ -46,7 +46,12 @@ const generalAreas: Array<LimitableProductArea> = [
  * @param param see PlatformsEditSelectionProps
  * @returns component
  */
-export default function _PlatformsEditSelection({ form, setForm }: PlatformsEditSelectionProps) {
+export default function _PlatformsEditSelection({
+  form,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: PlatformsEditSelectionProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
 
@@ -78,7 +83,14 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
 
   // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S
   if (generalAreas.length === 0) {
-    return <KubernetesEditSection form={form} setForm={setForm} />;
+    return (
+      <KubernetesEditSection
+        form={form}
+        setForm={setForm}
+        setSubSlideConfig={setSubSlideConfig}
+        setShowSubSlide={setShowSubSlide}
+      />
+    );
   }
   // standard case
   return (
@@ -109,7 +121,13 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
           );
         })}
       </div>
-      <KubernetesEditSection form={form} isChild setForm={setForm} />
+      <KubernetesEditSection
+        form={form}
+        isChild
+        setForm={setForm}
+        setSubSlideConfig={setSubSlideConfig}
+        setShowSubSlide={setShowSubSlide}
+      />
     </Section>
   );
 }

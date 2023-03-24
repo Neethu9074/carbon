@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-export const getHumanReadablePluginName = function(value) {
+export const getHumanReadablePluginName = function (value) {
   switch (value.pluginName) {
     case 'abapInstance':
       return 'ABAP Instance';

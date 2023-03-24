@@ -492,7 +492,7 @@ function hasSomeClusterTechnologies(entity) {
     return false;
   }
 
-  return entity.technologies.some(function(technology) {
+  return entity.technologies.some(function (technology) {
     return isClusterTechnology(technology);
   });
 }
@@ -502,7 +502,7 @@ function hasSomeNonClusterTechnologies(entity) {
     return true;
   }
 
-  return entity.technologies.some(function(technology) {
+  return entity.technologies.some(function (technology) {
     return !isClusterTechnology(technology);
   });
 }

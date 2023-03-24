@@ -143,27 +143,27 @@ export default connectTo(
 
 function filterHttp(conditions, rows) {
   if (conditions == 1) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 100 && el.nameOfRow < 200;
     });
   } else if (conditions == 2) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 200 && el.nameOfRow < 300;
     });
   } else if (conditions == 3) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 300 && el.nameOfRow < 400;
     });
   } else if (conditions == 4) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 400 && el.nameOfRow < 500;
     });
   } else if (conditions == 5) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 500 && el.nameOfRow < 600;
     });
   } else if (conditions == 6) {
-    return rows.filter(function(el) {
+    return rows.filter(function (el) {
       return el.nameOfRow >= 600 || el.nameOfRow < 100;
     });
   } else {
