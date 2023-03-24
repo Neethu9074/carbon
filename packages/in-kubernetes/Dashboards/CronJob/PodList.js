@@ -29,12 +29,12 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
-    getContent({ pod }) {
+    getContent({ pod, cronJobId }) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
           label={pod.label}
-          href$={getPodDashboard(pod.id)}
+          href$={getPodDashboard(pod.id, { cronJobId })}
           severity={-1}
         />
       );
@@ -128,7 +128,7 @@ const missingValueComponent = (
 );
 
 export default function Pods(props) {
-  const { timeConfig, jobId } = props;
+  const { timeConfig, jobId, cronJobId } = props;
   const [orderBy, setOrderBy] = useState('age');
   const [orderDirection, setOrderDirection] = useState('DESC');
   function onOrderByChange({ by, direction }) {
@@ -137,20 +137,25 @@ export default function Pods(props) {
   }
 
   const podsResult = useCursorPagination(
-    ({ cursor }) =>
+    ({ cursor, cronJobId }) =>
       getTableData({
         timeConfig,
         cursor,
         retrievalSize: retrievalSize,
         workloadOwnerId: jobId,
         orderBy,
-        orderDirection
+        orderDirection,
+        cronJobId
       }),
     [timeConfig, orderBy, orderDirection]
   );
+
   const loading = isLoading(podsResult);
   const hasErrors = hasError(podsResult);
-  const items = podsResult.items;
+  const items = podsResult.items.map(item => ({
+    ...item,
+    cronJobId
+  }));
   const isInitialLoading = isLoading(podsResult) && podsResult.items?.length === 0;
 
   // There are two loading related boolean variables here: isLoading and isInitialLoading.

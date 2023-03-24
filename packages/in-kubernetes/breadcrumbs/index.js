@@ -6,11 +6,12 @@
 import React from 'react';
 
 import {
-  getNamespaceDashboard,
   getClusterDashboard,
+  getCronJobDashboard,
   getDaemonSetDashboard,
   getDeploymentDashboard,
   getDeploymentConfigDashboard,
+  getNamespaceDashboard,
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
@@ -70,7 +71,8 @@ export function CronJobBreadcrumbs(props) {
 }
 
 export function PodBreadcrumbs(props) {
-  const { podId, clusterId, namespaceId, workloadControllerId, workloadControllerType } = props;
+  const { podId, cronJobId, clusterId, namespaceId, workloadControllerId, workloadControllerType } = props;
+
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
@@ -111,6 +113,7 @@ export function PodBreadcrumbs(props) {
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
       />
     ),
+    cronJobId && <CronJobBreadcrumb {...props} href$={getCronJobDashboard(cronJobId, { podId })} />,
     podId && <PodBreadcrumb {...props} />
   ];
 }
