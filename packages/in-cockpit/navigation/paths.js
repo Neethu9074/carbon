@@ -3,10 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 export const cockpit = '/home';
 
-export const cockpitLink$ = getModifiedUrlStream(params => {
-  params.pathname = cockpit;
-});
+export function useCockpitLink() {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = cockpit;
+
+  return createHref(location);
+}
