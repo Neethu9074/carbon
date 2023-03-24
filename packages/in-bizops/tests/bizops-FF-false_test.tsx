@@ -18,16 +18,6 @@ jest.mock('in-services/featureFlags', () => ({
 }));
 
 describe('in-stores/permissions.ts', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('Checks the BizOps link is NOT in the main navigation pane when the feature flag is off', () => {
-    render(<ViewSwitcher />);
-    screen.getByRole('link', { name: 'lib_navigation_stan instana Inc.' });
-    expect(screen.queryByRole('link', { name: 'lib_bizops' })).toBeNull();
-  });
-
   it('Checks the BizOps area permission when the feature flag is not set', () => {
     expect(hasBizOpsAccess).toBeFalsy();
     expect(AreaPermissions).toContain('ACCESS_BIZOPS');
@@ -35,5 +25,13 @@ describe('in-stores/permissions.ts', () => {
     expect(productAreaPermissions).not.toEqual(
       expect.arrayContaining([expect.objectContaining({ label: 'Business Processes' })])
     );
+  });
+});
+
+describe('packages/in-components/MainNavigation/components/ViewSwitcher', () => {
+  it('Checks the BizOps link is NOT in the main navigation pane when the feature flag is off', () => {
+    render(<ViewSwitcher />);
+    screen.getByRole('link', { name: 'lib_navigation_stan instana Inc.' });
+    expect(screen.queryByRole('link', { name: 'lib_bizops' })).toBeNull();
   });
 });
