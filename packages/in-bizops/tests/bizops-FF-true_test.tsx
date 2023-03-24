@@ -9,6 +9,7 @@ import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import ViewSwitcher from 'in-components/MainNavigation/components/ViewSwitcher/';
+import { hasBizOpsAccess, AreaPermissions, productAreaPermissions } from 'in-stores/permission';
 
 jest.mock('in-services/featureFlags', () => ({
   get businessObservabilityEnabled() {
@@ -16,8 +17,18 @@ jest.mock('in-services/featureFlags', () => ({
   }
 }));
 
+describe('in-stores/permissions.ts test', () => {
+  it('Checks the BizOps area permission when the feature flag is set', () => {
+    expect(hasBizOpsAccess).toBeTruthy();
+    expect(AreaPermissions).toContain('ACCESS_BIZOPS');
+    expect(productAreaPermissions).toEqual(
+      expect.arrayContaining([expect.objectContaining({ label: 'Business Processes' })])
+    );
+  });
+});
+
 describe('packages/in-components/MainNavigation/components/ViewSwitcher', () => {
-  it('Checks the BizOps link is in the main avigation pane when the feature flag is set', () => {
+  it('Checks the BizOps link is in the main navigation pane when the feature flag is set', () => {
     render(<ViewSwitcher />);
     screen.getByRole('link', { name: 'lib_navigation_stan instana Inc.' });
     screen.getByRole('link', { name: 'lib_bizops' }).click();
