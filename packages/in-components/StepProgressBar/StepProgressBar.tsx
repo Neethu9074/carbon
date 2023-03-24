@@ -20,7 +20,6 @@ export interface StepProgressBarProps {
 
 export default function StepProgressBar({ stepTitles, step = 0 }: StepProgressBarProps) {
   validateStep(stepTitles, step);
-
   return (
     <div className={locals.container}>
       <div className={locals.barBg}>
@@ -37,8 +36,12 @@ export default function StepProgressBar({ stepTitles, step = 0 }: StepProgressBa
           <div
             key={i}
             className={classNames({
+              [locals.titleAlignCenter]: true,
               [locals.titleSelectedStep]: step === i
             })}
+            style={{
+              width: `${getWidthInPercent(stepTitles, 0)}%`
+            }}
           >
             {title}
           </div>
