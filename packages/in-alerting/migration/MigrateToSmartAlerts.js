@@ -19,12 +19,14 @@ import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecificati
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isLoading } from 'in-services/util/result';
-import { goToPath } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function MigrateToSmartAlerts({ eventSpecificationId }) {
+  const { goToPath } = useNavigation();
+
   // state for the final loading indicators when the action is triggered
   const [disablingEvent, setDisablingEvent] = useState(false);
   const [migrating, setMigrating] = useState(false);
@@ -33,12 +35,14 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   // active to e.g. ensure the dialog cannot be opened multiple times, and to disable the button in that period.
   const [migrationInProgress, setMigrationInProgress] = useState(false);
 
+  const onSuccess = () => goToPath(teamSettingsAlertingEvents);
+
   return (
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
           kind="secondary"
-          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent)}
+          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess)}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
           iconSpinning={disablingEvent}
         >
@@ -63,7 +67,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   );
 }
 
-function showMigrationConfirmation(eventSpecificationId, setDisablingEvent) {
+function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess) {
   applicationsAlertingDeprecatedEventMarkMigrated({
     eventSpecificationId
   });
@@ -74,14 +78,14 @@ function showMigrationConfirmation(eventSpecificationId, setDisablingEvent) {
       confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
       onSubmit={() => {
         applicationsAlertingDeprecatedEventConfirmMigrated({ eventSpecificationId });
-        handleDisableCustomEvent(setDisablingEvent, eventSpecificationId);
+        handleDisableCustomEvent({ setDisablingEvent, onSuccess, eventSpecificationId });
         close();
       }}
     />
   );
 }
 
-function doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress) {
+function doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess) {
   if (migrationInProgress) {
     return;
   }
@@ -96,7 +100,7 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
       scopeMigrationDetails
     }))
     .once(
-      res => showSmartAlertDialog({ eventSpecificationId, setMigrating, setMigrationInProgress, ...res }),
+      res => showSmartAlertDialog({ eventSpecificationId, setMigrating, setMigrationInProgress, onSuccess, ...res }),
       () => setMigrationInProgress(false)
     );
 }
@@ -107,7 +111,8 @@ function showSmartAlertDialog({
   scopeMigrationDetails,
   eventSpecificationId,
   setMigrating,
-  setMigrationInProgress
+  setMigrationInProgress,
+  onSuccess
 }) {
   applicationsAlertingDeprecatedEventMigrateStarted({ eventSpecificationId });
   if (config) {
@@ -118,7 +123,7 @@ function showSmartAlertDialog({
         onClose={savedAlertConfig => {
           const applicationAlertConfigId = savedAlertConfig.id;
           if (applicationAlertConfigId) {
-            handleDisableCustomEvent(setMigrating, eventSpecificationId, applicationAlertConfigId);
+            handleDisableCustomEvent({ setMigrating, onSuccess, eventSpecificationId, applicationAlertConfigId });
           }
           applicationsAlertingDeprecatedEventMigrateFinished({ eventSpecificationId });
           setMigrationInProgress(false);
@@ -133,13 +138,13 @@ function showSmartAlertDialog({
   }
 }
 
-function handleDisableCustomEvent(setPendingState, eventSpecificationId, applicationAlertConfigId) {
+function handleDisableCustomEvent({ setPendingState, onSuccess, eventSpecificationId, applicationAlertConfigId }) {
   setPendingState(true);
 
   disableMigratedCustomEventSpecification(eventSpecificationId, applicationAlertConfigId).once(
     () => {
       setPendingState(false);
-      goToPath(teamSettingsAlertingEvents);
+      onSuccess();
     },
     () => setPendingState(false)
   );
