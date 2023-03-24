@@ -45,7 +45,7 @@ export default function SmartAlertList() {
           }}
         />
         <AlertBaseList<SyntheticAlertConfigWithMetadata>
-          extraColumnDefinitions={getColumnDefinitions()}
+          extraColumnDefinitions={extraColumnDefinitions}
           getAlertConfigs={() => getAllAlertConfigs('', { asObservable: true })}
           actionHandlers={handlers}
           tableActions={tableActions}
@@ -64,44 +64,43 @@ export default function SmartAlertList() {
   );
 }
 
-function getColumnDefinitions() {
-  const additionalColumn = [
-    {
-      id: 'timeThreshold',
-      label: t('in-synthetics:dashboard.alertList.timeThreshold'),
-      getContent: (item: SyntheticAlertConfigWithMetadata) => {
-        return (
-          <DefaultCell
-            title={t('in-synthetics:dashboard.alertList.violationsCount', {
-              violationsCount: item.timeThreshold.violationsCount
-            })}
-            subtitle={t('in-synthetics:dashboard.alertList.timeThreshold')}
-          />
-        );
-      }
-    },
-    {
-      id: 'testApplied',
-      label: t('in-synthetics:dashboard.alertList.testsApplied'),
-      getContent: (item: SyntheticAlertConfigWithMetadata) => {
-        return (
-          <DefaultCell
-            title={t('in-synthetics:dashboard.alertList.testsCount', {
-              testsCount: item.syntheticTestIds.length
-            })}
-            subtitle={t('in-synthetics:dashboard.alertList.testsApplied')}
-          />
-        );
-      }
-    },
-    {
-      id: 'filterApplied',
-      label: t('in-synthetics:dashboard.alertList.filterApplied'),
-      getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
+const extraColumnDefinitions = [
+  {
+    id: 'timeThreshold',
+    width: '15%',
+    label: t('in-synthetics:dashboard.alertList.timeThreshold'),
+    getContent: (item: SyntheticAlertConfigWithMetadata) => {
+      return (
+        <DefaultCell
+          title={t('in-synthetics:dashboard.alertList.violationsCount', {
+            violationsCount: item.timeThreshold.violationsCount
+          })}
+          subtitle={t('in-synthetics:dashboard.alertList.timeThreshold')}
+        />
+      );
     }
-  ];
-  return additionalColumn;
-}
+  },
+  {
+    id: 'testApplied',
+    label: t('in-synthetics:dashboard.alertList.testsApplied'),
+    getContent: (item: SyntheticAlertConfigWithMetadata) => {
+      return (
+        <DefaultCell
+          title={t('in-synthetics:dashboard.alertList.testsCount', {
+            testsCount: item.syntheticTestIds.length
+          })}
+          subtitle={t('in-synthetics:dashboard.alertList.testsApplied')}
+        />
+      );
+    }
+  },
+  {
+    id: 'filterApplied',
+    label: t('in-synthetics:dashboard.alertList.filterApplied'),
+    getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
+  }
+];
+
 function createRowLinkLocation(config: SyntheticAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
