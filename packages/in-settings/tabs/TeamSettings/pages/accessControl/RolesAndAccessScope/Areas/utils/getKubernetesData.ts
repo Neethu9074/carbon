@@ -58,6 +58,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasOpenStackAccess || hasPCFAccess || hasSAPAccess;
 
   const kubernetesNamespacesWithAccess = kubernetesNamespaceUIDs.map(namespace => namespace.scopeId);
+  const kubernetesClustersWithAccess = kubernetesClusterUUIDs.map(namespace => namespace.scopeId);
 
   const kubernetesColumnHeadline = t('in-settings:productAreas.role_permissions', {
     context: 'viewer',
@@ -68,6 +69,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     countOfKubernetesItemsWithAccess,
     hasKubernetesAccess,
     hasOtherPlatformsAccess,
+    kubernetesClustersWithAccess,
     kubernetesColumnHeadline,
     kubernetesNamespacesWithAccess,
     translations
