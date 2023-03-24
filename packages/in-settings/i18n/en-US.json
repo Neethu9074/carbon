@@ -98,6 +98,7 @@
     "permissions_VSPHERE": "vSphere",
     "clusters": "Clusters",
     "namespaces": "Namespaces",
+    "obsoleteEntity": "{{id}} (obsolete)",
     "title_analytics": "Analytics",
     "title_applications": "Applications",
     "title_events_and_alerts": "Events and Alerts",

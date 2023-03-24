@@ -8,9 +8,14 @@ import React, { useContext } from 'react';
 
 import { Ul } from '@instana/components';
 
-import { KubernetesNamespacesList } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesNamespacesList';
-import { KubernetesClustersList } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesClustersList';
-import { useKubernetesNamespacesConfigs } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
+import {
+  useKubernetesClustersConfigs,
+  useKubernetesNamespacesConfigs
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
+import {
+  EntityType,
+  KubernetesEntityList
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesEntityList';
 import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
@@ -19,18 +24,27 @@ import { t } from 'in-i18n';
 export const KubernetesListItem = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { kubernetesColumnHeadline } = getKubernetesData(permissionsSet);
-  const [kubernetesNamespaces, , , { loading }] = useKubernetesNamespacesConfigs();
+  const [kubernetesClusters, , , { loading: clustersLoading }] = useKubernetesClustersConfigs();
+  const [kubernetesNamespaces, , , { loading: namespacesLoading }] = useKubernetesNamespacesConfigs();
 
   return (
     <AreaExpandableListItem
       iconType="lib_kubernetes"
       firstColumnHeadline={kubernetesColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.kubernetes')}
-      loading={loading}
+      loading={clustersLoading || namespacesLoading}
       subList={
         <Ul>
-          <KubernetesClustersList />
-          <KubernetesNamespacesList kubernetesNamespaces={kubernetesNamespaces} />
+          <KubernetesEntityList
+            availableEntities={kubernetesNamespaces}
+            type={EntityType.Namespace}
+            headerText={t('in-settings:productAreas.namespaces')}
+          />
+          <KubernetesEntityList
+            availableEntities={kubernetesClusters}
+            type={EntityType.Cluster}
+            headerText={t('in-settings:productAreas.clusters')}
+          />
         </Ul>
       }
     />

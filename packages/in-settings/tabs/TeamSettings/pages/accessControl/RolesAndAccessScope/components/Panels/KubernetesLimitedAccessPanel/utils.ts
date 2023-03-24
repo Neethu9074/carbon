@@ -12,7 +12,9 @@ import { Observable } from '@instana/observables';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import { updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
+import { t } from 'in-i18n';
 
 /**
  * extracts the id from a GroupPermissionEntity
@@ -115,5 +117,11 @@ export function useSelectedEntities(
   const [data, status, ...rest] = fetchedState;
 
   if (!data || status !== 'resolved') return fetchedState;
-  return [data.filter(({ id }) => selectedIds.includes(id)), status, ...rest];
+  const found = data.filter(({ id }) => selectedIds.includes(id));
+  const missing = selectedIds
+    .filter(id => !found.some(it => it.id === id))
+    .map(id => ({ id, name: t('in-settings:productAreas.obsoleteEntity', { id }) }));
+  found.push(...missing);
+  found.sort((a, b) => compareIgnoreCase(a.name, b.name));
+  return [found, status, ...rest];
 }
