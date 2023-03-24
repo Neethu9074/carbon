@@ -16,7 +16,7 @@ import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-automation/ActionCatalog/ServerTablePresenterWrapper.mless';
+import locals from './ServerTablePresenterWrapper.mless';
 
 export type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
 interface ServerTablePresenterWrapperListItem {}
