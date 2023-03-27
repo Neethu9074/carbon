@@ -27,7 +27,7 @@ export default function GroupNameSection({ value, setValue }: GroupNameSectionPr
       </Typography>
       <Label className={locals.label}>
         {t('in-settings:groupSection.label')}
-        <Input onChange={e => setValue(e.target.value)} value={value ?? ''} style={{ width: '100%' }} />
+        <Input autoFocus onChange={e => setValue(e.target.value)} value={value ?? ''} style={{ width: '100%' }} />
       </Label>
     </section>
   );

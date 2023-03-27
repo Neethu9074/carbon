@@ -13,9 +13,11 @@ import { Button } from '@instana/components';
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col } from 'in-components/layout/Grid/Grid';
+import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export interface FormControlProps {
@@ -37,6 +39,13 @@ export default function RoleAndAccessScopeColumns({
 }: RoleAndAccessScopeColumnsProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
+  const closeAndBack = () => {
+    if (!editMode) {
+      goToPath(teamSettingsAccessControlGroups);
+    }
+    close();
+  };
+
   const openAccessScopeDialog = () => {
     addActiveDialog(
       <EditAccessScopeDialog
@@ -46,7 +55,7 @@ export default function RoleAndAccessScopeColumns({
           onSave(form);
           close();
         }}
-        onCancel={close}
+        onCancel={closeAndBack}
         editMode={editMode}
       />
     );

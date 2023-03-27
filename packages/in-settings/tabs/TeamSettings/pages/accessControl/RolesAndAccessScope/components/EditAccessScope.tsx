@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { MapForm, Field } from 'formalistic';
 import React, { useState } from 'react';
-import { MapForm } from 'formalistic';
 
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
@@ -22,6 +22,7 @@ import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfi
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface EditAccessScopeDialogProps extends FormControlProps {
@@ -53,7 +54,7 @@ export default function EditAccessScopeDialog({
     setShowSubSlide
   };
 
-  const firstItem = !editMode
+  const nameItem = !editMode
     ? [
         {
           scrollId: '1-group-name',
@@ -63,7 +64,7 @@ export default function EditAccessScopeDialog({
           content: (
             <GroupNameSection
               value={groupNameField?.value}
-              setValue={(value: string) => setForm(updateFormField(form, 'name', value))}
+              setValue={(value: string) => setForm(updateFormField(form, 'name', value, true))}
             />
           )
         }
@@ -77,7 +78,7 @@ export default function EditAccessScopeDialog({
   const platformTitle = hasAPlatformAccess ? platformTitleIfHasOnePlatform() : '';
 
   const navItems = [
-    ...firstItem,
+    ...nameItem,
     {
       scrollId: '2-heading-section',
       label: t('in-settings:headingSection.title'),
@@ -247,7 +248,7 @@ export default function EditAccessScopeDialog({
       navItems={hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms')}
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
-      disabledSaveButton={!form.hierarchyTouched}
+      disabledSaveButton={!form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value)}
       noHeader
       noDivider
     />

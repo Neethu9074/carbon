@@ -16,7 +16,12 @@ export default function HeadingSection() {
       <Typography variant="heading-300">{t('in-settings:headingSection.title')}</Typography>
       <Typography variant="body-regular">
         {t('in-settings:headingSection.description')}&nbsp;
-        <Link href="#">{t('in-settings:headingSection.link')}</Link>
+        <Link
+          external
+          href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-managing-user-access#add-areas-to-a-group"
+        >
+          {t('in-settings:headingSection.link')}
+        </Link>
       </Typography>
     </Stack>
   );

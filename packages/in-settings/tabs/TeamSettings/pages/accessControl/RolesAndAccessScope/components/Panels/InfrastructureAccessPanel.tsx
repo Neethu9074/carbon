@@ -28,7 +28,7 @@ import { AreaPermission } from 'in-stores/permission';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
 
 interface InfrastructureAccessPanelProps extends FormControlProps {
   role?: AreaRoleWithCustomType;
@@ -68,12 +68,7 @@ export default function InfrastructureAccessPanel({
     if (!permissionSet) return;
 
     const limitation = !infraDfq ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.LIMITED_ACCESS;
-    const restPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      limitation,
-      undefined
-    );
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation);
     const infraScope = { scopeId: infraDfq ? infraDfq : '', scopeRoleId: '-600' };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: infraScope });
   };
@@ -101,18 +96,13 @@ export default function InfrastructureAccessPanel({
       </StackItem>
       <StackItem>
         <Typography variant="body-regular" component="div">
-          <Trans
-            i18nKey="in-settings:PermissionSection.infrastructureDfqUse"
-            components={{
-              linkToDocs: (
-                <Link
-                  external
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
-                  children={undefined}
-                />
-              )
-            }}
-          />
+          {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;
+          <Link
+            external
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
+          >
+            {t('in-settings:PermissionSection.infrastructureDfqMore')}
+          </Link>
         </Typography>
       </StackItem>
       <StackItem>
