@@ -5,6 +5,7 @@
 
 import { createField, createMapForm } from 'formalistic';
 
+import { migrate as migrateMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -70,4 +71,20 @@ export function sloValidator(v) {
   if (v >= 1 || v < 0) {
     return sloValidatorFailureMessage;
   }
+}
+
+export function migrate(savedState) {
+  return migrateMetricConfiguration(savedState.metricConfiguration).map(result => {
+    if (!result.data) {
+      return result;
+    }
+
+    return {
+      ...result,
+      data: {
+        ...savedState,
+        metricConfiguration: result.data
+      }
+    };
+  });
 }
