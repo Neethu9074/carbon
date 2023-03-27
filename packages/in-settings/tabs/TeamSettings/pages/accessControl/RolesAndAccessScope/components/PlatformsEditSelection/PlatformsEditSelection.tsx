@@ -16,8 +16,16 @@ import {
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
+import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { hasOpenStackAccess, hasPCFAccess, hasPHMCAccess, hasVSphereAccess, hasZHMCAccess } from 'in-stores/permission';
 import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
@@ -38,7 +46,8 @@ const generalAreas: Array<LimitableProductArea> = [
   ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
   ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
   ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
-  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : [])
+  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
+  ...(hasSAPAccess ? [ProductArea.SAP] : [])
 ];
 
 /**
@@ -81,7 +90,7 @@ export default function _PlatformsEditSelection({
     return access === ScopedPermissionItem.ACCESS_ALL ? true : false;
   };
 
-  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S
+  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S (complete area will only be rendered if a platform is available)
   if (generalAreas.length === 0) {
     return (
       <KubernetesEditSection
@@ -121,13 +130,15 @@ export default function _PlatformsEditSelection({
           );
         })}
       </div>
-      <KubernetesEditSection
-        form={form}
-        isChild
-        setForm={setForm}
-        setSubSlideConfig={setSubSlideConfig}
-        setShowSubSlide={setShowSubSlide}
-      />
+      {hasKubernetesAccess && (
+        <KubernetesEditSection
+          form={form}
+          isChild
+          setForm={setForm}
+          setSubSlideConfig={setSubSlideConfig}
+          setShowSubSlide={setShowSubSlide}
+        />
+      )}
     </Section>
   );
 }

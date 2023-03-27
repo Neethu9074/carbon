@@ -4,13 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Li, Typography } from '@instana/components';
 
 import { SubsectionHeader } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/SubsectionHeader/SubsectionHeader';
-import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
-import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -28,8 +26,8 @@ export enum EntityType {
  */
 interface Props {
   availableEntities: GroupPermissionEntity[] | undefined;
-  type: EntityType;
   headerText: string;
+  accessableEntities: string[];
 }
 
 /**
@@ -46,18 +44,13 @@ function createGroupPermissionEntityForObsoleteEntry(id?: string): GroupPermissi
  * @param param0 see props
  * @returns new instance
  */
-export const KubernetesEntityList = ({ availableEntities, headerText, type }: Props) => {
-  const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { kubernetesNamespacesWithAccess, kubernetesClustersWithAccess } = getKubernetesData(permissionsSet);
-
-  const allEntityAccessIds =
-    type === EntityType.Cluster ? kubernetesClustersWithAccess : kubernetesNamespacesWithAccess;
-  const existingEntitiesWithAccess = availableEntities?.filter(entity => allEntityAccessIds.includes(entity.id));
+export const KubernetesEntityList = ({ availableEntities, headerText, accessableEntities }: Props) => {
+  const existingEntitiesWithAccess = availableEntities?.filter(entity => accessableEntities.includes(entity.id));
 
   if (!existingEntitiesWithAccess) return null;
   const displayEntities = existingEntitiesWithAccess;
-  if (existingEntitiesWithAccess?.length !== allEntityAccessIds.length) {
-    const obsolete: GroupPermissionEntity[] = allEntityAccessIds
+  if (existingEntitiesWithAccess?.length !== accessableEntities.length) {
+    const obsolete: GroupPermissionEntity[] = accessableEntities
       .filter(id => !id || !existingEntitiesWithAccess?.some(it => it.id === id))
       .map(createGroupPermissionEntityForObsoleteEntry);
     displayEntities.push(...obsolete);

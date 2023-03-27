@@ -42,6 +42,7 @@ export const ProductArea = Object.freeze({
   PCF: 'PCF',
   OPENSTACK: 'OPENSTACK',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
+  SAP: 'SAP',
   ANALYTICS: 'ANALYTICS',
   EVENT: 'EVENT',
   DASHBOARD: 'DASHBOARD',
@@ -69,6 +70,7 @@ export type LimitableProductArea = Extract<
   | 'PCF'
   | 'OPENSTACK'
   | 'SYNTHETICS'
+  | 'SAP'
 >;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSetWithRoles>>([
@@ -215,6 +217,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.OPENSTACK]: {
     limitation: LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
     permission: AreaPermission.ACCESS_OPENSTACK,
+    capabilities: noCapabilities
+  },
+  [ProductArea.SAP]: {
+    limitation: LimitedAccessScope.LIMITED_SAP_SCOPE,
+    permission: AreaPermission.ACCESS_SAP,
     capabilities: noCapabilities
   },
   [ProductArea.INFRASTRUCTURE]: {

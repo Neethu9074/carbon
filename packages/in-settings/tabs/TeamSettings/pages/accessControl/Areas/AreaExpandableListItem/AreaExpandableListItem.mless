@@ -31,6 +31,7 @@
 
   .columnsContainer {
     width: 100%;
+    max-width: 20rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,5 +48,9 @@
     height: 1rem;
 
     margin: 0.1rem 0;
+  }
+
+  .limitLabelContent {
+    max-width: 340px;
   }
 }
