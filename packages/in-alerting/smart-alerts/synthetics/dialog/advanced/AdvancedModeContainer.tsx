@@ -30,6 +30,7 @@ import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
+import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
 
 interface AdvancedModeContainerProp {
@@ -81,7 +82,6 @@ export default function AdvancedModeContainer(
             >
               <SimpleModeDialogThreshold
                 {...props}
-                subtitle={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitle')}
                 subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
               />
             </LightCard>
@@ -90,35 +90,25 @@ export default function AdvancedModeContainer(
         {
           scrollId: '4',
           label: t('in-alerting:smartAlerts.synthetics.advanced.alertChannelsLabel'),
-          title: '',
+          title: t('in-alerting:smartAlerts.synthetics.advanced.alertChannelsTitle'),
           valid: true,
           content: (
-            <LightCard
-              title={t('in-alerting:smartAlerts.synthetics.advanced.alertChannelsLabel')}
-              withoutPadding={false}
-              darkFrame
-            >
-              <ConfigureAlertChannel
-                form={form}
-                onChange={onChange}
-                setSliderState={setSliderState}
-                setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                numberOfAlertChannelListRows={7}
-              />
-            </LightCard>
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
           )
         },
         {
           scrollId: '5',
           label: t('in-alerting:smartAlerts.synthetics.advanced.propertiesLabel'),
-          title: '',
+          title: t('in-alerting:smartAlerts.synthetics.advanced.propertiesTitle'),
           valid: true,
           content: (
-            <LightCard
-              title={t('in-alerting:smartAlerts.synthetics.advanced.propertiesLabel')}
-              withoutPadding={false}
-              darkFrame
-            >
+            <Section>
               <AlertPropertiesContainer
                 renderAlertProperties={() => (
                   <AlertProperties
@@ -162,7 +152,7 @@ export default function AdvancedModeContainer(
                   );
                 }}
               />
-            </LightCard>
+            </Section>
           )
         }
       ]}

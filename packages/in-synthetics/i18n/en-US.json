@@ -139,10 +139,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Create new Test"
+    "buttonLabel": "New Synthetic Test"
   },
   "createSmartAlert": {
-    "buttonLabel": "Create new Smart Alert"
+    "buttonLabel": "Add Synthetic Smart Alert"
   },
   "navigation": {
     "synthetics": "Synthetic Monitoring"

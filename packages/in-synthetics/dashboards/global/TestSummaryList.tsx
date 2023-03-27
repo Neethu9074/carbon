@@ -192,11 +192,11 @@ export default function TestSummaryList() {
       {syntheticCreateSmartAlertsUIEnabled ? (
         <FloatingActionButtons>
           <FloatingActionButtonMenu>
-            <Button onClick={onAddWidget} icon="lib_openclose_add" kind="primaryv2">
+            <Button onClick={onAddWidget} icon="lib_openclose_add_box" kind="primaryv2">
               {t('in-synthetics:createTest.buttonLabel')}
             </Button>
 
-            <Button onClick={showSADialog} icon="lib_openclose_add" kind="primaryv2">
+            <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
               {t('in-synthetics:createSmartAlert.buttonLabel')}
             </Button>
           </FloatingActionButtonMenu>
