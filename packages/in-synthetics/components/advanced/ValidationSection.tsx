@@ -50,26 +50,26 @@ export default function ValidationSection({
   setComboBoxSelections
 }: ValidationProps) {
   const configForm = form.get('configuration') as MapForm;
-  const expectedStatus = configForm.get('expectedStatus') as Field<string>;
-  const expectedJSON = configForm.get('expectedJSON') as Field<string>;
-  const expectedMatch = configForm.get('expectedMatch') as Field<string>;
+  const expectStatus = configForm.get('expectStatus') as Field<string>;
+  const expectJson = configForm.get('expectJson') as Field<string>;
+  const expectMatch = configForm.get('expectMatch') as Field<string>;
 
   const statusElement = (
     <>
       <Input
-        name="expectedStatus"
+        name="expectStatus"
         placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusPlaceholder')}
-        value={expectedStatus.value}
-        hasError={!expectedStatus.valid && expectedStatus.touched}
+        value={expectStatus.value}
+        hasError={!expectStatus.valid && expectStatus.touched}
         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
           updateForm(
-            form.updateIn(['configuration', 'expectedStatus'], (field: Item) =>
+            form.updateIn(['configuration', 'expectStatus'], (field: Item) =>
               (field as Field<string>).setValue(target.value).setTouched(true)
             )
           );
         }}
       />
-      <TouchedMessages field={expectedStatus} />
+      <TouchedMessages field={expectStatus} />
     </>
   );
 
@@ -77,44 +77,44 @@ export default function ValidationSection({
     <>
       <DebouncedTextArea
         rows={7}
-        name="expectedJSON"
+        name="expectJson"
         placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONPlaceholder')}
-        value={expectedJSON.value}
-        hasError={!expectedJSON.valid && expectedJSON.touched}
-        onChange={({ target }: React.ChangeEvent<any>) => {
+        value={expectJson.value}
+        hasError={!expectJson.valid && expectJson.touched}
+        onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
           updateForm(
-            form.updateIn(['configuration', 'expectedJSON'], (field: Item) =>
+            form.updateIn(['configuration', 'expectJson'], (field: Item) =>
               (field as Field<string>).setValue(target.value).setTouched(true)
             )
           );
         }}
       />
-      <TouchedMessages field={expectedJSON} />
+      <TouchedMessages field={expectJson} />
     </>
   );
 
   const matchElement = (
     <>
       <Input
-        name="expectedMatch"
+        name="expectMatch"
         placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchPlaceholder')}
-        value={expectedMatch.value}
-        hasError={!expectedMatch.valid && expectedMatch.touched}
+        value={expectMatch.value}
+        hasError={!expectMatch.valid && expectMatch.touched}
         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
           updateForm(
-            form.updateIn(['configuration', 'expectedMatch'], (field: Item) =>
+            form.updateIn(['configuration', 'expectMatch'], (field: Item) =>
               (field as Field<string>).setValue(target.value).setTouched(true)
             )
           );
         }}
       />
-      <TouchedMessages field={expectedMatch} />
+      <TouchedMessages field={expectMatch} />
     </>
   );
 
   const resetStatus = () => {
     updateForm(
-      form.updateIn(['configuration', 'expectedStatus'], (field: Item) =>
+      form.updateIn(['configuration', 'expectStatus'], (field: Item) =>
         (field as Field<string>).setValue('200').setTouched(false)
       )
     );
@@ -122,15 +122,15 @@ export default function ValidationSection({
 
   const resetJSON = () => {
     updateForm(
-      form.updateIn(['configuration', 'expectedJSON'], (field: Item) =>
-        (field as Field<string>).setValue('').setTouched(false)
+      form.updateIn(['configuration', 'expectJson'], (field: Item) =>
+        (field as Field<Map<string, string>>).setValue(new Map()).setTouched(false)
       )
     );
   };
 
   const resetMatch = () => {
     updateForm(
-      form.updateIn(['configuration', 'expectedMatch'], (field: Item) =>
+      form.updateIn(['configuration', 'expectMatch'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(false)
       )
     );

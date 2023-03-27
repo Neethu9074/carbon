@@ -175,9 +175,9 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
-      'expectedStatus',
+      'expectStatus',
       createField({
-        value: savedState?.expectedStatus ?? '200',
+        value: savedState?.expectStatus ?? '200',
         validator: composeAndShortCircuitOnError(
           statusCodeValidator,
           notUndefinedValidator,
@@ -187,9 +187,9 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
-      'expectedJSON',
+      'expectJson',
       createField({
-        value: savedState?.expectedJSON ?? '',
+        value: savedState?.expectJson ?? new Map(),
         validator: composeAndShortCircuitOnError(
           jsonValidator,
           notUndefinedValidator,
@@ -199,9 +199,9 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
-      'expectedMatch',
+      'expectMatch',
       createField({
-        value: savedState?.expectedMatch ?? '',
+        value: savedState?.expectMatch ?? '',
         validator: composeAndShortCircuitOnError(
           regExpValidator,
           notUndefinedValidator,
