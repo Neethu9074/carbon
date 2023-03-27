@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 export const MobileSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
+  const { areaColumnHeadline } = getAreaData({ area: ProductArea.MOBILE_APP, permissionsSet });
 
   return (
     <AreaExpandableListItem

@@ -15,7 +15,7 @@ import {
   EventSpecificationInfo,
   CustomEventSpecificationWithMetadata
 } from 'in-types';
-import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';

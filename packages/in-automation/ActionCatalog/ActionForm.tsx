@@ -22,7 +22,7 @@ import {
   removeDocLinkField,
   removeScriptField,
   removeWebhookFields
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+} from 'in-automation/ActionCatalog/ActionFormDefinition';
 import {
   API_KEY,
   AUTH_TYPES,
@@ -37,15 +37,15 @@ import {
   NO_AUTH,
   SCRIPT_TYPE,
   WEBHOOK_TYPE
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
-import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+} from 'in-automation/ActionCatalog/shared';
+import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import TagsTable from 'in-automation/ActionCatalog/TagsTable';
 import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -71,7 +71,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
   const type = (form.get('type') as Field<string>).value;
   return (
     <fieldset>
-      <SectionHeading>{t('in-settings:tabs.1ActionDetails')}</SectionHeading>
+      <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
       <Row>
         <Col lg={8}>
           <>
@@ -100,7 +100,7 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
       {name.map(field => (
         <FormGroup>
           <Label htmlFor="action-name" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.name')}
+            {t('in-automation:ActionCatalog.name')}
           </Label>
           <Input
             id="action-name"
@@ -112,13 +112,15 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
             autoFocus
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.showsUpInTheListOfActions')}</HelpText>
+          <HelpText className={locals.subTextFormField}>
+            {t('in-automation:ActionCatalog.showsUpInTheListOfActions')}
+          </HelpText>
         </FormGroup>
       ))}
       {description.map(field => (
         <FormGroup>
           <Label htmlFor="action-description" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.description')}
+            {t('in-automation:ActionCatalog.description')}
           </Label>
           <TextArea
             id="action-description"
@@ -127,13 +129,15 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
             hasError={!field.valid && field.touched}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.showsUpInTheActionDescription')}</HelpText>
+          <HelpText className={locals.subTextFormField}>
+            {t('in-automation:ActionCatalog.showsUpInTheActionDescription')}
+          </HelpText>
         </FormGroup>
       ))}
       {type.map(field => (
         <FormGroup>
           <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.type')}
+            {t('in-automation:ActionCatalog.type')}
           </Label>
           <Select
             id="action-type"
@@ -160,12 +164,12 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
             }
             hasError={!field.valid && field.touched}
           >
-            <option value={DOC_LINK_TYPE}>{t('in-settings:tabs.docLink')}</option>
-            <option value={SCRIPT_TYPE}>{t('in-settings:tabs.script')}</option>
-            <option value={WEBHOOK_TYPE}>{t('in-settings:tabs.http')}</option>
+            <option value={DOC_LINK_TYPE}>{t('in-automation:ActionCatalog.docLink')}</option>
+            <option value={SCRIPT_TYPE}>{t('in-automation:ActionCatalog.script')}</option>
+            <option value={WEBHOOK_TYPE}>{t('in-automation:ActionCatalog.http')}</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
+          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
         </FormGroup>
       ))}
       <FormGroup>
@@ -180,7 +184,7 @@ const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'e
   return docLink.map(field => (
     <FormGroup>
       <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
-        {t('in-settings:tabs.docLink')}
+        {t('in-automation:ActionCatalog.docLink')}
       </Label>
       <Input
         id="action-docLink"
@@ -191,7 +195,7 @@ const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'e
         maxLength={256}
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.docLinkDescription')}</HelpText>
+      <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.docLinkDescription')}</HelpText>
     </FormGroup>
   ));
 };
@@ -201,11 +205,11 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
   return script.map(field => (
     <FormGroup>
       <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-        {t('in-settings:tabs.script')}
+        {t('in-automation:ActionCatalog.script')}
       </Label>
       <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
+      <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.scriptDescription')}</HelpText>
     </FormGroup>
   ));
 };
@@ -228,7 +232,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {host.map(field => (
             <FormGroup>
               <Label htmlFor="action-host" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.host')}
+                {t('in-automation:ActionCatalog.host')}
               </Label>
               <Input
                 id="action-host"
@@ -246,7 +250,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {method.map(field => (
             <FormGroup>
               <Label htmlFor="action-method" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.method')}
+                {t('in-automation:ActionCatalog.method')}
               </Label>
               <Select
                 id="action-method"
@@ -270,7 +274,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {contentType.map(field => (
             <FormGroup>
               <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.contentType')}
+                {t('in-automation:ActionCatalog.contentType')}
               </Label>
               <Input
                 id="action-contentType"
@@ -281,13 +285,15 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.contentTypeDescription')}</HelpText>
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.contentTypeDescription')}
+              </HelpText>
             </FormGroup>
           ))}
           {body.map(field => (
             <FormGroup>
               <Label htmlFor="action-body" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.body')}
+                {t('in-automation:ActionCatalog.body')}
               </Label>
               <TextArea
                 id="action-body"
@@ -296,7 +302,9 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.bodyDescription')}</HelpText>
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.bodyDescription')}
+              </HelpText>
             </FormGroup>
           ))}
         </>
@@ -306,7 +314,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {ignoreCertErrors.map(field => (
             <FormGroup>
               <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.ignoreCertErrors')}
+                {t('in-automation:ActionCatalog.ignoreCertErrors')}
               </Label>
               <Toggle checked={field.value} onChange={e => onChange('ignoreCertErrors', e.target.checked)} />
             </FormGroup>
@@ -316,7 +324,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {authType.map(field => (
             <FormGroup>
               <Label htmlFor="action-authType" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.authType')}
+                {t('in-automation:ActionCatalog.authType')}
               </Label>
               <Select
                 id="action-authType"
@@ -359,7 +367,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {accept.map(field => (
             <FormGroup>
               <Label htmlFor="action-accept" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.accept')}
+                {t('in-automation:ActionCatalog.accept')}
               </Label>
               <Input
                 id="action-accept"
@@ -370,7 +378,9 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.acceptDescription')}</HelpText>
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.acceptDescription')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -378,7 +388,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           {acceptLanguage.map(field => (
             <FormGroup>
               <Label htmlFor="action-acceptLanguage" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.acceptLanguage')}
+                {t('in-automation:ActionCatalog.acceptLanguage')}
               </Label>
               <Input
                 id="action-acceptLanguage"
@@ -389,7 +399,9 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.acceptLanguageDescription')}</HelpText>
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.acceptLanguageDescription')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -410,7 +422,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
         {username.map(field => (
           <FormGroup>
             <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.username')}
+              {t('in-automation:ActionCatalog.username')}
             </Label>
             <Input
               id="action-username"
@@ -428,7 +440,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
         {password.map(field => (
           <FormGroup>
             <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.password')}
+              {t('in-automation:ActionCatalog.password')}
             </Label>
             <SecuredInput form={form} onChange={onChange} fieldKey="password" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -447,7 +459,7 @@ const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange
         {bearerToken.map(field => (
           <FormGroup>
             <Label htmlFor="action-bearerToken" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.bearerToken')}
+              {t('in-automation:ActionCatalog.bearerToken')}
             </Label>
             <SecuredInput form={form} onChange={onChange} fieldKey="bearerToken" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -469,7 +481,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
         {apiKey.map(field => (
           <FormGroup>
             <Label htmlFor="action-apiKey" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.key')}
+              {t('in-automation:ActionCatalog.key')}
             </Label>
             <Input
               id="action-apiKey"
@@ -487,7 +499,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
         {apiKeyValue.map(field => (
           <FormGroup>
             <Label htmlFor="action-apiKeyValue" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.value')}
+              {t('in-automation:ActionCatalog.value')}
             </Label>
             <SecuredInput form={form} onChange={onChange} fieldKey="apiKeyValue" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -498,7 +510,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
         {apiKeyAddTo.map(field => (
           <FormGroup>
             <Label htmlFor="action-apiKeyAddTo" hasError={!field.valid && field.touched}>
-              {t('in-settings:tabs.apiKeyAddTo')}
+              {t('in-automation:ActionCatalog.apiKeyAddTo')}
             </Label>
             <Select
               id="action-apiKeyAddTo"
@@ -506,8 +518,8 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
               onChange={e => onChange('apiKeyAddTo', e.target.value)}
               hasError={!field.valid && field.touched}
             >
-              <option value="header">{t('in-settings:tabs.header')}</option>
-              <option value="query">{t('in-settings:tabs.queryParams')}</option>
+              <option value="header">{t('in-automation:ActionCatalog.header')}</option>
+              <option value="query">{t('in-automation:ActionCatalog.queryParams')}</option>
             </Select>
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
@@ -518,9 +530,15 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
 };
 
 const tooltipTranslation = {
-  apiKeyValue: [t('in-settings:tabs.hideAPIKeyTooltip'), t('in-settings:tabs.showAPIKeyTooltip')],
-  password: [t('in-settings:tabs.hidePasswordTooltip'), t('in-settings:tabs.showPasswordTooltip')],
-  bearerToken: [t('in-settings:tabs.hideBeaererTokenTooltip'), t('in-settings:tabs.showBeaererTokenTooltip')]
+  apiKeyValue: [t('in-automation:ActionCatalog.hideAPIKeyTooltip'), t('in-automation:ActionCatalog.showAPIKeyTooltip')],
+  password: [
+    t('in-automation:ActionCatalog.hidePasswordTooltip'),
+    t('in-automation:ActionCatalog.showPasswordTooltip')
+  ],
+  bearerToken: [
+    t('in-automation:ActionCatalog.hideBeaererTokenTooltip'),
+    t('in-automation:ActionCatalog.showBeaererTokenTooltip')
+  ]
 } as const;
 
 const SecuredInput = ({

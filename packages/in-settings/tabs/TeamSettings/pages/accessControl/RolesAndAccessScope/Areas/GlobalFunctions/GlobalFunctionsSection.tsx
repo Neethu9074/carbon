@@ -48,6 +48,10 @@ export const GlobalFunctionsSection = () => {
         />
       ) : null}
       <CapabilitySubsection
+        capabilities={automationCapabilities}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
+      />
+      <CapabilitySubsection
         capabilities={agentsCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AGENTS })}
       />
@@ -58,10 +62,6 @@ export const GlobalFunctionsSection = () => {
       <CapabilitySubsection
         capabilities={accountAndBillingCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCOUNT })}
-      />
-      <CapabilitySubsection
-        capabilities={automationCapabilities}
-        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
       />
     </Ul>
   );

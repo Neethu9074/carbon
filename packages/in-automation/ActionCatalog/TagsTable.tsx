@@ -7,11 +7,11 @@
 import { MapForm, Field } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
@@ -32,7 +32,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
   {
     id: 'id',
     sortable: false,
-    label: t('in-settings:tabs.tags'),
+    label: t('in-automation:ActionCatalog.tags'),
     getContent(item: Tag) {
       const tagsField = form.get('tags');
       return (
@@ -78,7 +78,7 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
       formKey="tags"
       defaultRow={''}
       setForm={setForm}
-      noDataMessage={t('in-settings:tabs.noTagsConfigured')}
+      noDataMessage={t('in-automation:ActionCatalog.noTagsConfigured')}
     />
   );
 }

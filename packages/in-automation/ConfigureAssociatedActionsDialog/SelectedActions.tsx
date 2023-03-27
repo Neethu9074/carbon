@@ -14,10 +14,8 @@ import {
   ConfigureAssociatedActionsDialogContentProps,
   ConfigureAssociatedActionsDialogContentState
 } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
-import ActionTable, {
-  ActionTableProps
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
+import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent } from 'in-automation/api';
 import { t } from 'in-i18n';
 

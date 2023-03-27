@@ -17,7 +17,7 @@ import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/u
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import { cockpitLink$ } from 'in-cockpit/navigation/paths';
+import { useCockpitLink } from 'in-cockpit/navigation/paths';
 import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
@@ -92,6 +92,8 @@ DashboardSwitcherOverlayPresenter.propTypes = {
 };
 
 function DashboardList({ customDashboards, query, activeLandingPageConfiguration }) {
+  const cockpitLink = useCockpitLink();
+
   let items = (customDashboards || [])
     .map(({ id, title }) => ({
       id,
@@ -114,7 +116,7 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
         </Pill>
       </>
     ),
-    href$: cockpitLink$
+    href: cockpitLink
   });
 
   if (isNotBlank(query)) {
@@ -123,8 +125,8 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
 
   return (
     <>
-      {items.map(({ id, title, titleElement, href$, isDefault }) => (
-        <Li key={id} href$={href$} noAlternatingBg>
+      {items.map(({ id, title, titleElement, href, href$, isDefault }) => (
+        <Li key={id} href={href} href$={href$} noAlternatingBg>
           <div className={locals.itemContent}>
             {titleElement || title}
             {isDefault && (

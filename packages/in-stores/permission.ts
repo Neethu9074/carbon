@@ -91,7 +91,11 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
   CAN_VIEW_SYNTHETIC_LOCATIONS: 'CAN_VIEW_SYNTHETIC_LOCATIONS',
-  CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS'
+  CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS',
+  CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
+  CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
+  CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
+  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -179,8 +183,8 @@ export const amountPlatformAccesses = (() => {
 
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
-export const hasBizOpsAccess = businessObservabilityEnabled;
-// RBAC for BizOps willl be resolved in another PR hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
+export const hasBizOpsAccess =
+  hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -542,6 +546,39 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
     description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  /* BizOps */
+  [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
+    keyForApiTokenApi: 'canViewBusinessProcesses',
+    label: t('in-stores:permissionCanViewBusinessProcessesLabel'),
+    description: t('in-stores:permissionCanViewBusinessProcessesDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
+    keyForApiTokenApi: 'canViewBusinessProcessDetails',
+    label: t('in-stores:permissionCanViewBusinessProcessDetailsLabel'),
+    description: t('in-stores:permissionCanViewBusinessProcessDetailsDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BUSINESS_ACTIVITIES]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
+    keyForApiTokenApi: 'canViewBusinessActivities',
+    label: t('in-stores:permissionCanViewBusinessActivitiesLabel'),
+    description: t('in-stores:permissionCanViewBusinessActivitiesDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BIZOPS_ALERTS]: {
+    keyForGroupApi: Capability.CAN_VIEW_BIZOPS_ALERTS,
+    keyForApiTokenApi: 'canViewBizAlerts',
+    label: t('in-stores:permissionCanViewBusinessSmartAlertsLabel'),
+    description: t('in-stores:permissionCanViewBusinessSmartAlertsDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
   }
 };
 
@@ -570,6 +607,18 @@ export function getProductPermissions(): Array<ProductPermission> {
       ];
 
       return !automationCapabilities.includes(keyForGroupApi);
+    });
+  }
+  if (!businessObservabilityEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const bizopsCapabilities: Array<CapabilityType> = [
+        Capability.CAN_VIEW_BUSINESS_PROCESSES,
+        Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
+        Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
+        Capability.CAN_VIEW_BIZOPS_ALERTS
+      ];
+
+      return !bizopsCapabilities.includes(keyForGroupApi);
     });
   }
 

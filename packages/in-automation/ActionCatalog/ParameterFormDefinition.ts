@@ -6,9 +6,9 @@
 
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 
-import { ParameterDialogProps } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterDialog';
-import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
+import { ParameterDialogProps } from 'in-automation/ActionCatalog/ParameterDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
@@ -137,7 +137,7 @@ function validName(value: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.validName')
+        message: t('in-automation:ActionCatalog.validName')
       }
     ];
   }
@@ -149,7 +149,7 @@ function uniqueName(parameters: MappedParameter[], value: string, id: string): V
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.uniqueName')
+        message: t('in-automation:ActionCatalog.uniqueName')
       }
     ];
   }

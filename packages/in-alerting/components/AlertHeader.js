@@ -15,8 +15,8 @@ import { extendAlertConfigVersions } from 'in-alerting/components/configVersions
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
-import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation';
 import IconButton from 'in-components/IconButton/IconButton';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
@@ -43,6 +43,7 @@ export default function AlertHeader({
   showActionButton,
   allowActionButtons = true
 }) {
+  const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
   const alertRevision =
@@ -96,9 +97,7 @@ export default function AlertHeader({
       if (onConfigDeleted) {
         onConfigDeleted({ alertConfigId: alertConfig.id });
       }
-      mutateUrl(location => {
-        location.pathname = fullyQualifiedAlertsList;
-      });
+      goToPath(fullyQualifiedAlertsList);
     });
     deletion$.errors().once(error => {
       setIsDeleting(false);
@@ -133,7 +132,7 @@ export default function AlertHeader({
     <div>
       <BackButton
         label={t('in-alerting:components.alertHeaderLabelBackToListOfAlerts')}
-        href$={getLinkToAlerts(fullyQualifiedAlertsList)}
+        href={createHrefToPath(fullyQualifiedAlertsList)}
         withoutMargin
       />
 
@@ -335,12 +334,6 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
       }}
     />
   );
-}
-
-function getLinkToAlerts(fullyQualifiedAlertsList) {
-  return getModifiedUrlStream(params => {
-    params.pathname = fullyQualifiedAlertsList;
-  });
 }
 
 // export for test

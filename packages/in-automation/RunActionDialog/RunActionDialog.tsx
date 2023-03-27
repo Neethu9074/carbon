@@ -16,7 +16,7 @@ import {
   getWebhookFields,
   isScript,
   isWebhook
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+} from 'in-automation/ActionCatalog/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';

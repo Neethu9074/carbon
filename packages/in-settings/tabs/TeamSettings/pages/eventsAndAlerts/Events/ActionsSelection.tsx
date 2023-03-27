@@ -12,10 +12,8 @@ import { Observable } from '@instana/observables';
 import { Spacer } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ActionTable, {
-  ActionTableProps
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
