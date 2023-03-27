@@ -13,12 +13,15 @@ import {
   useKubernetesNamespacesConfigs
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
 import { KubernetesEntityList } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesEntityList';
-import { AccessKind } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
+import {
+  ScopedPermissionItem,
+  ScopedPermissionType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { t } from 'in-i18n';
 
 interface Props {
-  selectedAccess: AccessKind;
+  selectedAccess: ScopedPermissionType;
   headline: string;
   clustersWithAccess: string[];
   namespacesWithAccess: string[];
@@ -49,7 +52,7 @@ export const KubernetesListItem = ({ clustersWithAccess, headline, selectedAcces
       firstColumnHeadline={headline}
       firstColumnLabel={t('in-settings:productAreas.kubernetes')}
       loading={clustersLoading || namespacesLoading}
-      subList={<Ul>{selectedAccess === AccessKind.Limited && kubeEntities()}</Ul>}
+      subList={<Ul>{selectedAccess === ScopedPermissionItem.LIMITED_ACCESS && kubeEntities()}</Ul>}
     />
   );
 };

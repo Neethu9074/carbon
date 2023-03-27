@@ -8,10 +8,8 @@ import {
   mockEmptyPermissionsSet,
   mockPermissionsSetWithData
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/testData';
-import {
-  AccessKind,
-  getKubernetesData
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
+import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData';
+import { ScopedPermissionItem } from '../../constants';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));
@@ -33,13 +31,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Then
       expect(groupConfig.countOfKubernetesItemsWithAccess).toBe(0);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual([]);
-      expect(groupConfig.kubernetesAccess).toBe(AccessKind.All);
-      expect(groupConfig.pcfAccess).toBe(AccessKind.All);
-      expect(groupConfig.openStackAccess).toBe(AccessKind.All);
-      expect(groupConfig.phmcAccess).toBe(AccessKind.All);
-      expect(groupConfig.zhmcAccess).toBe(AccessKind.All);
-      expect(groupConfig.sapAccess).toBe(AccessKind.All);
-      expect(groupConfig.vSphereAccess).toBe(AccessKind.All);
+      expect(groupConfig.kubernetesAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.translations).toHaveLength(7);
       expect(groupConfig.translations).toContain(undefined);
       expect(t).toHaveBeenCalledTimes(9);
@@ -53,13 +51,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(groupConfig.countOfKubernetesItemsWithAccess).toBe(4);
       expect(groupConfig.hasOtherPlatformsAccess).toBe(true);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
-      expect(groupConfig.kubernetesAccess).toBe(AccessKind.Limited);
-      expect(groupConfig.pcfAccess).toBe(AccessKind.None);
-      expect(groupConfig.openStackAccess).toBe(AccessKind.None);
-      expect(groupConfig.phmcAccess).toBe(AccessKind.None);
-      expect(groupConfig.zhmcAccess).toBe(AccessKind.None);
-      expect(groupConfig.sapAccess).toBe(AccessKind.None);
-      expect(groupConfig.vSphereAccess).toBe(AccessKind.Limited);
+      expect(groupConfig.kubernetesAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
+      expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
       // 2 undefined for kubernetes and vsphere
       expect(groupConfig.translations).toHaveLength(2);
       expect(t).toHaveBeenCalledTimes(3);
@@ -75,7 +73,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       }));
 
       const { getKubernetesData } = await import(
-        'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData'
+        'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData'
       );
       // Given
       const groupConfig = getKubernetesData(mockPermissionsSetWithData);
@@ -84,13 +82,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(groupConfig.countOfKubernetesItemsWithAccess).toBe(4);
       expect(groupConfig.hasOtherPlatformsAccess).toBe(false);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
-      expect(groupConfig.kubernetesAccess).toBe(AccessKind.Limited);
-      expect(groupConfig.pcfAccess).toBe(AccessKind.None);
-      expect(groupConfig.openStackAccess).toBe(AccessKind.None);
-      expect(groupConfig.phmcAccess).toBe(AccessKind.None);
-      expect(groupConfig.zhmcAccess).toBe(AccessKind.None);
-      expect(groupConfig.sapAccess).toBe(AccessKind.None);
-      expect(groupConfig.vSphereAccess).toBe(AccessKind.None);
+      expect(groupConfig.kubernetesAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
+      expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
       // 1 undefined for kubernetes
       expect(groupConfig.translations).toStrictEqual([undefined]);
