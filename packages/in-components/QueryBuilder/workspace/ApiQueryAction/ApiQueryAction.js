@@ -21,7 +21,7 @@ export default function ApiQueryAction({
   metrics,
   pagination,
   tracking,
-  curlUrl,
+  endpointUrl,
   docsLink
 }) {
   return (
@@ -38,7 +38,7 @@ export default function ApiQueryAction({
         groupBy,
         metrics,
         pagination,
-        curlUrl,
+        endpointUrl,
         docsLink
       }}
     >
@@ -70,7 +70,7 @@ ApiQueryAction.propTypes = {
   groupBy: rpt.array,
   metrics: rpt.array,
   pagination: rpt.object,
-  curlUrl: rpt.string,
+  endpointUrl: rpt.string,
   docsLink: rpt.string,
   tracking: rpt.shape({
     onClick: rpt.func

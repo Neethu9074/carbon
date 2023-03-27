@@ -25,7 +25,7 @@ export default function ApiQueryOverlay({
   pagination,
   groupBy,
   metrics,
-  curlUrl,
+  endpointUrl,
   docsLink
 }) {
   useDisabledBodyScroll();
@@ -45,7 +45,7 @@ export default function ApiQueryOverlay({
 
   const curl =
     'curl -XPOST ' +
-    curlUrl +
+    endpointUrl +
     " -H 'Content-Type: application/json'" +
     " -H 'authorization: apiToken xxxxxxxxxxxxx' -d '" +
     jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
