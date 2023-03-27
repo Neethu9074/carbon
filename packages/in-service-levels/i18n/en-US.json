@@ -1,2 +1,12 @@
 {
+  "general": {
+    "addButtonLabel": "Add",
+    "saveButtonLabel": "Save",
+    "cancelButtonLabel": "Cancel"
+  },
+  "createSloDialog": {
+    "title": "Create Service Level Objective (SLO)",
+    "selectEntityNavItem": "Select Entity",
+    "selectEntityTitle": "Select an entity to add SLO to:"
+  }
 }

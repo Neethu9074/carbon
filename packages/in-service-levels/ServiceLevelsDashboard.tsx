@@ -10,10 +10,11 @@ import { t } from '@instana/i18n-react';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloButton';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Sticky from 'in-components/Sticky';
 
-export default function SloList() {
+export default function ServiceLevelsDashboard() {
   return (
     <Sticky
       header={
@@ -29,6 +30,7 @@ export default function SloList() {
       }
     >
       <LeftRightPadding>{/* put your slo component here */}</LeftRightPadding>
+      <FloatingAddSloButton />
     </Sticky>
   );
 }

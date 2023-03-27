@@ -62,6 +62,7 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { isSloView, serviceLevelsDashboard } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -73,7 +74,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
-import { isSloView, sloList } from 'in-service-levels/navigation/path';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
@@ -389,7 +389,7 @@ function SloDashboard(props) {
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}
-      href={createHrefToPath(sloList)}
+      href={createHrefToPath(serviceLevelsDashboard)}
       {...props}
     />
   );
