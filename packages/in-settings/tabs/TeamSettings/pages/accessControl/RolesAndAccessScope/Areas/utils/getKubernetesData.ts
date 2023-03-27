@@ -7,6 +7,11 @@
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
+  ProductArea,
+  ProductAreaPermissionMap,
+  ProductAreaType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
@@ -14,60 +19,106 @@ import {
   zhmcEnabled,
   sapEnabled
 } from 'in-services/featureFlags';
-import { AreaPermission } from 'in-stores/permission';
 import { t } from 'in-i18n';
+
+/**
+ * Kind of access a group can provide to an area
+ */
+export enum AccessKind {
+  All,
+  Limited,
+  None
+}
 
 // This function can be broken into multiple smaller ones
 // Once we rework platform access booleans 'in packages/in-stores/permission.ts'
 export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs, permissions } = permissionsSet;
 
-  const hasKubernetesAccess = permissions.includes(AreaPermission.ACCESS_KUBERNETES);
-  const hasVSphereAccess = permissions.includes(AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
-  const hasPHMCAccess = permissions.includes(AreaPermission.ACCESS_PHMC) && phmcEnabled;
-  const hasZHMCAccess = permissions.includes(AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
-  const hasOpenStackAccess = permissions.includes(AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
-  const hasPCFAccess = permissions.includes(AreaPermission.ACCESS_PCF) && pcfEnabled;
-  const hasSAPAccess = permissions.includes(AreaPermission.ACCESS_SAP) && sapEnabled;
+  /**
+   *  Determines what access a group provides
+   * @param area to be checked
+   * @param featureFlag corresponding featureFlag
+   * @returns AccessKind
+   */
+  const hasAnyAccess = (area: ProductAreaType, featureFlag: boolean = true): AccessKind => {
+    if (!featureFlag) return AccessKind.None;
+    const { limitation, permission } = ProductAreaPermissionMap[area];
+    if (!limitation || !permissions.includes(limitation)) return AccessKind.All;
+    if (permission && permissions.includes(permission)) return AccessKind.Limited;
+    return AccessKind.None;
+  };
+
+  const kubernetesAccess = hasAnyAccess(ProductArea.KUBERNETES);
+  const vSphereAccess = hasAnyAccess(ProductArea.VSPHERE, vsphereEnabled);
+  const phmcAccess = hasAnyAccess(ProductArea.PHMC, phmcEnabled);
+  const zhmcAccess = hasAnyAccess(ProductArea.ZHMC, zhmcEnabled);
+  const openStackAccess = hasAnyAccess(ProductArea.OPENSTACK, openstackEnabled);
+  const pcfAccess = hasAnyAccess(ProductArea.PCF, pcfEnabled);
+  const sapAccess = hasAnyAccess(ProductArea.SAP, sapEnabled);
+
   const countOfKubernetesItemsWithAccess = kubernetesClusterUUIDs.length + kubernetesNamespaceUIDs.length;
+  let kubernetesQuantityOfAreas: string;
+  switch (kubernetesAccess) {
+    case AccessKind.All:
+      kubernetesQuantityOfAreas = t('in-settings:productAreas.role_permission_scope_all');
+      break;
+    default:
+      kubernetesQuantityOfAreas = String(countOfKubernetesItemsWithAccess);
+  }
 
   const translations = [];
-
-  if (hasKubernetesAccess) {
+  let otherAccessCounter = 0;
+  if (pcfAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.PCF }));
+  }
+  if (phmcAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.PHMC }));
+  }
+  if (zhmcAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.ZHMC }));
+  }
+  if (openStackAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
+  }
+  if (vSphereAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
+  }
+  if (sapAccess !== AccessKind.None) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.SAP }));
+  }
+  if (kubernetesAccess !== AccessKind.None) {
     translations.push(t('in-settings:productAreas.kubernetes'));
   }
-  if (hasVSphereAccess) {
-    translations.push(t('in-settings:productAreas.vsphere'));
-  }
-  if (hasPHMCAccess) {
-    translations.push(t('in-settings:productAreas.phmc'));
-  }
-  if (hasZHMCAccess) {
-    translations.push(t('in-settings:productAreas.zhmc'));
-  }
-  if (hasOpenStackAccess) {
-    translations.push(t('in-settings:productAreas.openstack'));
-  }
-  if (hasPCFAccess) {
-    translations.push(t('in-settings:productAreas.pcf'));
-  }
-  if (hasSAPAccess) {
-    translations.push(t('in-settings:productAreas.sap'));
-  }
-  const hasOtherPlatformsAccess =
-    hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasOpenStackAccess || hasPCFAccess || hasSAPAccess;
+  const hasOtherPlatformsAccess = otherAccessCounter !== 0;
 
-  const kubernetesNamespacesWithAccess = kubernetesNamespaceUIDs.map(namespace => namespace.scopeId);
-  const kubernetesClustersWithAccess = kubernetesClusterUUIDs.map(namespace => namespace.scopeId);
+  const kubernetesNamespacesWithAccess: string[] = kubernetesNamespaceUIDs
+    .filter(it => it.scopeId)
+    .map(namespace => namespace.scopeId!!);
+  const kubernetesClustersWithAccess: string[] = kubernetesClusterUUIDs
+    .filter(it => it.scopeId)
+    .map(namespace => namespace.scopeId!!);
 
   const kubernetesColumnHeadline = t('in-settings:productAreas.role_permissions', {
     context: 'viewer',
-    quantityOfAreas: countOfKubernetesItemsWithAccess
+    quantityOfAreas: kubernetesQuantityOfAreas
   });
 
   return {
     countOfKubernetesItemsWithAccess,
-    hasKubernetesAccess,
+    kubernetesAccess,
+    pcfAccess,
+    vSphereAccess,
+    phmcAccess,
+    zhmcAccess,
+    openStackAccess,
+    sapAccess,
     hasOtherPlatformsAccess,
     kubernetesClustersWithAccess,
     kubernetesColumnHeadline,
