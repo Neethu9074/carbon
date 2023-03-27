@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { KeyValue, Toggle, Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import InlineTabNavigation from '../../../InlineTabNavigation/InlineTabNavigation';
+import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CodeComponent from 'in-components/Code';
 import Tooltip from 'in-components/Tooltip';
@@ -63,9 +63,9 @@ export default function ApiQueryOverlay({
           label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
-        {docsLink != undefined && (
+        {docsLink && (
           <Link href={docsLink} target="_blank">
-            Documentation
+            {t('in-components:queryBuilder.documentation')}
           </Link>
         )}
       </HorizontalFlexWrapper>
