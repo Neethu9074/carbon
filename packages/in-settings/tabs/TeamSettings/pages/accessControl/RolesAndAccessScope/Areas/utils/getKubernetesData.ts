@@ -7,6 +7,11 @@
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
+  ProductArea,
+  ProductAreaPermissionMap,
+  ProductAreaType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
@@ -14,9 +19,11 @@ import {
   zhmcEnabled,
   sapEnabled
 } from 'in-services/featureFlags';
-import { ProductArea, ProductAreaPermissionMap, ProductAreaType } from '../../constants';
 import { t } from 'in-i18n';
 
+/**
+ * Kind of access a group can provide to an area
+ */
 export enum AccessKind {
   All,
   Limited,
@@ -28,16 +35,18 @@ export enum AccessKind {
 export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs, permissions } = permissionsSet;
 
+  /**
+   *  Determines what access a group provides
+   * @param area to be checked
+   * @param featureFlag corresponding featureFlag
+   * @returns AccessKind
+   */
   const hasAnyAccess = (area: ProductAreaType, featureFlag: boolean = true): AccessKind => {
     if (!featureFlag) return AccessKind.None;
     const { limitation, permission } = ProductAreaPermissionMap[area];
-    if (limitation) {
-      if (!permissions.includes(limitation)) return AccessKind.All;
-      if (permission && permissions.includes(permission)) return AccessKind.Limited;
-      return AccessKind.None;
-    } else {
-      return AccessKind.All;
-    }
+    if (!limitation || !permissions.includes(limitation)) return AccessKind.All;
+    if (permission && permissions.includes(permission)) return AccessKind.Limited;
+    return AccessKind.None;
   };
 
   const kubernetesAccess = hasAnyAccess(ProductArea.KUBERNETES);
