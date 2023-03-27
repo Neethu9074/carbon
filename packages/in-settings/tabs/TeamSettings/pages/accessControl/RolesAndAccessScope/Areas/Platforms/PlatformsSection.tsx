@@ -8,15 +8,12 @@ import React, { useContext } from 'react';
 
 import { Ul } from '@instana/components';
 
-import {
-  AccessKind,
-  getKubernetesData
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
 import { KubernetesListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesListItem';
+import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
+import { ProductArea, ScopedPermissionItem } from '../../constants';
 import GeneralPlatformListItem from './GeneralPlatformListItem';
-import { ProductArea } from '../../constants';
 import { t } from 'in-i18n';
 
 export const PlatformsSection = () => {
@@ -32,18 +29,22 @@ export const PlatformsSection = () => {
     />
   );
 
-  if (!groupConfig.hasOtherPlatformsAccess && groupConfig.kubernetesAccess !== AccessKind.None)
+  if (!groupConfig.hasOtherPlatformsAccess && groupConfig.kubernetesAccess !== ScopedPermissionItem.NO_ACCESS)
     return currentKubeInstance();
 
   const sublist = groupConfig.hasOtherPlatformsAccess ? (
     <Ul>
-      {groupConfig.pcfAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.PCF} />}
-      {groupConfig.phmcAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.PHMC} />}
-      {groupConfig.zhmcAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.ZHMC} />}
-      {groupConfig.openStackAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.OPENSTACK} />}
-      {groupConfig.vSphereAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.VSPHERE} />}
-      {groupConfig.sapAccess !== AccessKind.None && <GeneralPlatformListItem area={ProductArea.SAP} />}
-      {groupConfig.kubernetesAccess !== AccessKind.None && currentKubeInstance()}
+      {groupConfig.pcfAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PCF} />}
+      {groupConfig.phmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PHMC} />}
+      {groupConfig.zhmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.ZHMC} />}
+      {groupConfig.openStackAccess !== ScopedPermissionItem.NO_ACCESS && (
+        <GeneralPlatformListItem area={ProductArea.OPENSTACK} />
+      )}
+      {groupConfig.vSphereAccess !== ScopedPermissionItem.NO_ACCESS && (
+        <GeneralPlatformListItem area={ProductArea.VSPHERE} />
+      )}
+      {groupConfig.sapAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.SAP} />}
+      {groupConfig.kubernetesAccess !== ScopedPermissionItem.NO_ACCESS && currentKubeInstance()}
     </Ul>
   ) : (
     <></>

@@ -7,9 +7,10 @@
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
+  LimitableProductArea,
   ProductArea,
-  ProductAreaPermissionMap,
-  ProductAreaType
+  ScopedPermissionItem,
+  ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   openstackEnabled,
@@ -19,21 +20,13 @@ import {
   zhmcEnabled,
   sapEnabled
 } from 'in-services/featureFlags';
+import { getScopeFromProductArea } from '../../form';
 import { t } from 'in-i18n';
-
-/**
- * Kind of access a group can provide to an area
- */
-export enum AccessKind {
-  All,
-  Limited,
-  None
-}
 
 // This function can be broken into multiple smaller ones
 // Once we rework platform access booleans 'in packages/in-stores/permission.ts'
 export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
-  const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs, permissions } = permissionsSet;
+  const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs } = permissionsSet;
 
   /**
    *  Determines what access a group provides
@@ -41,12 +34,9 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
    * @param featureFlag corresponding featureFlag
    * @returns AccessKind
    */
-  const hasAnyAccess = (area: ProductAreaType, featureFlag: boolean = true): AccessKind => {
-    if (!featureFlag) return AccessKind.None;
-    const { limitation, permission } = ProductAreaPermissionMap[area];
-    if (!limitation || !permissions.includes(limitation)) return AccessKind.All;
-    if (permission && permissions.includes(permission)) return AccessKind.Limited;
-    return AccessKind.None;
+  const hasAnyAccess = (area: LimitableProductArea, featureFlag: boolean = true): ScopedPermissionType => {
+    if (!featureFlag) return ScopedPermissionItem.NO_ACCESS;
+    return getScopeFromProductArea(area, permissionsSet);
   };
 
   const kubernetesAccess = hasAnyAccess(ProductArea.KUBERNETES);
@@ -60,7 +50,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   const countOfKubernetesItemsWithAccess = kubernetesClusterUUIDs.length + kubernetesNamespaceUIDs.length;
   let kubernetesQuantityOfAreas: string;
   switch (kubernetesAccess) {
-    case AccessKind.All:
+    case ScopedPermissionItem.ACCESS_ALL:
       kubernetesQuantityOfAreas = t('in-settings:productAreas.role_permission_scope_all');
       break;
     default:
@@ -69,31 +59,31 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
 
   const translations = [];
   let otherAccessCounter = 0;
-  if (pcfAccess !== AccessKind.None) {
+  if (pcfAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.PCF }));
   }
-  if (phmcAccess !== AccessKind.None) {
+  if (phmcAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.PHMC }));
   }
-  if (zhmcAccess !== AccessKind.None) {
+  if (zhmcAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.ZHMC }));
   }
-  if (openStackAccess !== AccessKind.None) {
+  if (openStackAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
   }
-  if (vSphereAccess !== AccessKind.None) {
+  if (vSphereAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
   }
-  if (sapAccess !== AccessKind.None) {
+  if (sapAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.SAP }));
   }
-  if (kubernetesAccess !== AccessKind.None) {
+  if (kubernetesAccess !== ScopedPermissionItem.NO_ACCESS) {
     translations.push(t('in-settings:productAreas.kubernetes'));
   }
   const hasOtherPlatformsAccess = otherAccessCounter !== 0;
