@@ -48,8 +48,4 @@
 
     margin: 0.1rem 0;
   }
-
-  .limitLabelContent {
-    max-width: 340px;
-  }
 }
