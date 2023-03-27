@@ -73,7 +73,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   }
   if (openStackAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
-    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.OPENSTACK }));
   }
   if (vSphereAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
