@@ -11,6 +11,7 @@ import ConfigDialogFooter, { ConfigDialogFooterProps } from 'in-settings/compone
 import DialogWithSlideInView, { DialogWithSlideInViewProps } from 'in-components/Dialog/DialogWithSlideInView';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
+import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
 
 import locals from './ConfigDialog.mless';
@@ -59,6 +60,7 @@ export default function ConfigDialog({
       slideInViewComponent={subSlideConfig?.content}
       slideInViewTitle={subSlideConfig?.title}
       onSlideInViewTitleClick={onCloseSubSlide}
+      onClose={close}
       footer={
         <ConfigDialogFooter
           form={form}

@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon, Typography, Stack, Spacer } from '@instana/components';
@@ -22,6 +23,8 @@ import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { productPermissionsObject } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './PermissionSelection.mless';
 
 export interface PermissionSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {
   title: string;
@@ -74,12 +77,13 @@ export default function PermissionSelection({
             .map(productPermission => (
               <CheckboxFancy
                 key={productPermission.keyForGroupApi}
+                className={classNames({ [locals.clickable]: true })}
                 size="large"
                 checked={permissionSet?.permissions.includes(productPermission.keyForGroupApi) || false}
                 onChange={() => onUpdatePermissionSet(form, setForm, productPermission.keyForGroupApi)}
                 label={
                   <Stack gap="xsmall" direction="horizontal" align="start">
-                    <span>{productPermission.label}</span>
+                    <span className={classNames({ [locals.clickable]: true })}>{productPermission.label}</span>
                     <Tooltip content={productPermission.description} align="rightMiddle">
                       {productPermission.isOwnerPermission ? (
                         <SvgIcon type="lib_help_error_warning_outline" size="s" color={'#172429'} />
