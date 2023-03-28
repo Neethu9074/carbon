@@ -22,6 +22,7 @@ import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import { hasError, isLoading } from 'in-services/util/result';
+import { Mutable } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree');
@@ -140,7 +141,7 @@ type FakeRootCall = {
 
 export type CallNode = LazyParentNode | LazyChildNode | LazySiblingNode | LazyNode | CallDetailsNode | FakeRootCall;
 
-export interface CallDetailsNode extends Writeable<CallDetails> {
+export interface CallDetailsNode extends Mutable<CallDetails> {
   children: CallNode[];
 }
 
@@ -529,5 +530,3 @@ export function refreshAllParentNodesToForcePropsChange(lazyCallTree: LazyCallTr
 function getLazyNodeId(callId: string, lazyNodeType: LazyNodeType): string {
   return lazyNodeType + ':' + callId;
 }
-
-type Writeable<T> = { -readonly [P in keyof T]: Writeable<T[P]> };
