@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GroupPermissionEntity } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
-import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';

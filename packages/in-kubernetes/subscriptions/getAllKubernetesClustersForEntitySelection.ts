@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TimeConfig, OrderDirection, Result } from '@instana/types';
-
 import {
-  GetGroupPermissionEntitiesQuery,
-  GroupPermissionEntity
-} from 'in-kubernetes/subscriptions/groupPermissionEntities';
+  TimeConfig,
+  OrderDirection,
+  Result,
+  GroupPermissionEntity,
+  GroupPermissionEntitiesQuery
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getAllKubernetesClustersForEntitySelection = createResultSubscriptionFactory<
-  GetGroupPermissionEntitiesQuery,
+  GroupPermissionEntitiesQuery,
   Result<GroupPermissionEntity[]>
 >({
   eventId: 'getAllKubernetesClustersForEntitySelection'

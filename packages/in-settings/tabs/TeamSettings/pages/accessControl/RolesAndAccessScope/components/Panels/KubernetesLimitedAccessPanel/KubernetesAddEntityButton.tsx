@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { PermissionSetWithRoles, Result } from '@instana/types';
+import { GroupPermissionEntity, PermissionSetWithRoles, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
@@ -20,7 +20,6 @@ import {
 import SelectEntitiesForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectEntitiesForm';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 

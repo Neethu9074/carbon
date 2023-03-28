@@ -6,15 +6,13 @@
 
 import { MapForm } from 'formalistic';
 
-import { PermissionSetWithRoles, Result, ScopeBinding } from '@instana/types';
+import { PermissionSetWithRoles, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import { updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
-import { t } from 'in-i18n';
 
 /**
  * extracts the id from a GroupPermissionEntity
@@ -104,6 +102,14 @@ export function removeOneEntity(
 }
 
 /**
+ * Type for a KubernetesEntity - allows to add the obsolete flag
+ * @property obsolete - means that there is currently no data for this entity (cluster / namespace)
+ */
+export interface KubernetesEntity extends GroupPermissionEntity {
+  obsolete: boolean;
+}
+
+/**
  * Fetches and filters the entities provided by be
  * @param observable to fetch the data
  * @param selectedIds to be returned
@@ -112,15 +118,15 @@ export function removeOneEntity(
 export function useSelectedEntities(
   observable: () => Observable<Result<GroupPermissionEntity[]>>,
   selectedIds: string[] = []
-): FetchedState<GroupPermissionEntity[]> {
+): FetchedState<KubernetesEntity[]> {
   const fetchedState = useFetchedStateObservable(observable);
   const [data, status, ...rest] = fetchedState;
 
   if (!data || status !== 'resolved') return fetchedState;
-  const found = data.filter(({ id }) => selectedIds.includes(id));
+  const found = data.filter(({ id }) => selectedIds.includes(id)).map(current => ({ ...current, obsolete: false }));
   const missing = selectedIds
     .filter(id => !found.some(it => it.id === id))
-    .map(id => ({ id, name: t('in-settings:productAreas.obsoleteEntity', { id }) }));
+    .map(id => ({ id, name: id, obsolete: true }));
   found.push(...missing);
   found.sort((a, b) => compareIgnoreCase(a.name, b.name));
   return [found, status, ...rest];

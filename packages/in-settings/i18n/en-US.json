@@ -94,7 +94,7 @@
     "permissions_SAP": "SAP",
     "clusters": "Clusters",
     "namespaces": "Namespaces",
-    "obsoleteEntity": "{{id}} (obsolete)",
+    "obsoleteEntityDescription": "Currently no data is available - access is still being granted.",
     "title_analytics": "Analytics",
     "title_applications": "Applications",
     "title_events_and_alerts": "Events and Alerts",

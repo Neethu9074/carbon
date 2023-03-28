@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { PermissionSetWithRoles, Result } from '@instana/types';
+import { GroupPermissionEntity, PermissionSetWithRoles, Result } from '@instana/types';
+import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { useTheme } from '@instana/hooks';
 
 import {
   getSelectedEntityIds,
+  KubernetesEntity,
   KubernetesEntityType,
   removeOneEntity,
   useSelectedEntities
@@ -20,8 +21,8 @@ import {
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -49,17 +50,30 @@ export default function _KubernetesEntityTable({ entityType, form, observable, s
 
   // Column definition
   const theme = useTheme();
-  const columnDefinition: Array<ColumnDefinition<GroupPermissionEntity>> = [
+  const columnDefinition: Array<ColumnDefinition<KubernetesEntity>> = [
     {
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
+      sortable: false,
       getContent(it) {
-        return <>{it.name}</>;
+        return (
+          <Stack gap="xsmall" direction="horizontal" align="start">
+            <Typography variant="body-regular" component="span">
+              {it.name}
+            </Typography>
+            {it.obsolete && (
+              <Tooltip content={t('in-settings:productAreas.obsoleteEntityDescription')} align="rightMiddle">
+                <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+              </Tooltip>
+            )}
+          </Stack>
+        );
       }
     },
     {
       id: 'action',
       label: '',
+      sortable: false,
       useMinimumAmountOfHorizontalSpace: true,
       getContent(it) {
         return (
@@ -82,6 +96,7 @@ export default function _KubernetesEntityTable({ entityType, form, observable, s
       orderDirection="ASC"
       onClickItem={noop}
       columnDefinition={columnDefinition}
+      key={entityType + 'group-edit-summary-view'}
     />
   );
 }

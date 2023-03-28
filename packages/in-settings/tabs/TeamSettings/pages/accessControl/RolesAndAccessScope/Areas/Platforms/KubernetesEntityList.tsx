@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { Li, Typography } from '@instana/components';
+import { Li, Stack, SvgIcon, Typography } from '@instana/components';
+import { GroupPermissionEntity } from '@instana/types';
 
 import { SubsectionHeader } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/SubsectionHeader/SubsectionHeader';
-import { GroupPermissionEntity } from 'in-kubernetes/subscriptions/groupPermissionEntities';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 /**
@@ -30,13 +31,8 @@ interface Props {
   accessableEntities: string[];
 }
 
-/**
- * creates a GroupPermissionEntity for the given id
- * @param id needs to be null, as compiler did not recognize the truthy check beforehand
- * @returns object with given id and a display name (id (obsolete))
- */
-function createGroupPermissionEntityForObsoleteEntry(id?: string): GroupPermissionEntity {
-  return { id: id!!, name: t('in-settings:productAreas.obsoleteEntity', { id }) };
+interface Entity extends GroupPermissionEntity {
+  obsolete: boolean;
 }
 
 /**
@@ -45,14 +41,16 @@ function createGroupPermissionEntityForObsoleteEntry(id?: string): GroupPermissi
  * @returns new instance
  */
 export const KubernetesEntityList = ({ availableEntities, headerText, accessableEntities }: Props) => {
-  const existingEntitiesWithAccess = availableEntities?.filter(entity => accessableEntities.includes(entity.id));
+  const existingEntitiesWithAccess = availableEntities
+    ?.filter(entity => accessableEntities.includes(entity.id))
+    .map(({ id, name }) => ({ id, name, obsolete: false }));
 
   if (!existingEntitiesWithAccess) return null;
   const displayEntities = existingEntitiesWithAccess;
   if (existingEntitiesWithAccess?.length !== accessableEntities.length) {
-    const obsolete: GroupPermissionEntity[] = accessableEntities
+    const obsolete: Entity[] = accessableEntities
       .filter(id => !id || !existingEntitiesWithAccess?.some(it => it.id === id))
-      .map(createGroupPermissionEntityForObsoleteEntry);
+      .map(id => ({ id, name: id, obsolete: true }));
     displayEntities.push(...obsolete);
     displayEntities.sort((a, b) => compareIgnoreCase(a.name, b.name));
   }
@@ -61,7 +59,16 @@ export const KubernetesEntityList = ({ availableEntities, headerText, accessable
       <SubsectionHeader headerText={headerText} />
       {displayEntities.map(entity => (
         <Li noAlternatingBg key={entity.id}>
-          <Typography variant="body-regular">{entity.name}</Typography>
+          <Stack gap="xsmall" direction="horizontal" align="start">
+            <Typography variant="body-regular" component="span">
+              {entity.name}
+            </Typography>
+            {entity.obsolete && (
+              <Tooltip content={t('in-settings:productAreas.obsoleteEntityDescription')} align="rightMiddle">
+                <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+              </Tooltip>
+            )}
+          </Stack>
         </Li>
       ))}
     </>
