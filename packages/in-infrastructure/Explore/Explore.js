@@ -69,6 +69,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 import locals from './Explore.mless';
@@ -248,6 +249,14 @@ function Content({
 
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
 
+  const isGroupByDefined = groupBy[0] != undefined;
+  const docLink = `https://instana.github.io/openapi/#operation${
+    isGroupByDefined ? '/getEntityGroups' : '/getEntities'
+  }`;
+  const endpointUrl = `https://${config.butlerDomain}/api/infrastructure-monitoring/analyze${
+    isGroupByDefined ? '/entity-groups' : '/entities'
+  }`;
+
   const topSection = !isInitPage && (
     <Sections>
       <QueryBuilderSection
@@ -286,6 +295,8 @@ function Content({
             type={type}
             metrics={metrics}
             order={order}
+            endpointUrl={endpointUrl}
+            docsLink={docLink}
           />
         }
       />

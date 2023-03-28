@@ -713,6 +713,7 @@
     "sanitizedTagFilterValueAndOperator": "The tag filter value was shortened to the maximum allowed length and the operator was adjusted accordingly.",
     "source": "Source",
     "destination": "Destination",
+    "documentation": "Documentation",
     "string": {
       "contains": "contains",
       "doesNotContain": "does not contain",
