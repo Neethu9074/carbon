@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Spacer, Toggle } from '@instana/components';
+import { Spacer, Toggle, Typography } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -36,7 +36,8 @@ import {
   isWebhook,
   NO_AUTH,
   SCRIPT_TYPE,
-  WEBHOOK_TYPE
+  WEBHOOK_TYPE,
+  getType
 } from 'in-automation/ActionCatalog/shared';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -65,9 +66,10 @@ interface ActionFormProps {
   onChange: OnEntityChange<ActionFormEntity>;
   entity: ActionFormEntity;
   setForm: SetFormFunction;
+  isCreate: boolean;
 }
 
-export default function ActionForm({ form, setForm, onChange, entity: action }: ActionFormProps) {
+export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
   const type = (form.get('type') as Field<string>).value;
   return (
     <fieldset>
@@ -75,14 +77,19 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
       <Row>
         <Col lg={8}>
           <>
-            <MetaDataSection form={form} setForm={setForm} onChange={onChange} entity={action} />
+            <MetaDataSection form={form} setForm={setForm} onChange={onChange} />
+            <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
+            <TypeSection form={form} onChange={onChange} entity={action} isCreate={isCreate} />
             {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
             {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
             {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
             {!isDocLink(type) && (
-              <FormGroup>
-                <ParametersTable form={form} setForm={setForm} onChange={onChange} />
-              </FormGroup>
+              <>
+                <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
+                <FormGroup>
+                  <ParametersTable form={form} setForm={setForm} onChange={onChange} />
+                </FormGroup>
+              </>
             )}
           </>
         </Col>
@@ -91,10 +98,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
   );
 }
 
-const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
+const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
-  const type = form.get('type') as Field<string>;
   return (
     <>
       {name.map(field => (
@@ -134,11 +140,28 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
           </HelpText>
         </FormGroup>
       ))}
-      {type.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.type')}
-          </Label>
+      <FormGroup>
+        <TagsTable form={form} setForm={setForm} onChange={onChange} />
+      </FormGroup>
+    </>
+  );
+};
+
+const TypeSection = ({
+  form,
+  onChange,
+  entity: action,
+  isCreate
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate'>) => {
+  const type = form.get('type') as Field<string>;
+
+  return type.map(field => (
+    <FormGroup>
+      <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
+        {t('in-automation:ActionCatalog.type')}
+      </Label>
+      {isCreate ? (
+        <>
           <Select
             id="action-type"
             value={field.value}
@@ -170,16 +193,15 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
-        </FormGroup>
-      ))}
-      <FormGroup>
-        <TagsTable form={form} setForm={setForm} onChange={onChange} />
-      </FormGroup>
-    </>
-  );
+        </>
+      ) : (
+        <Typography variant="body-small">{getType(action)}</Typography>
+      )}
+    </FormGroup>
+  ));
 };
 
-const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
+const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const docLink = form.get('docLink') as Field<string>;
   return docLink.map(field => (
     <FormGroup>
@@ -200,7 +222,7 @@ const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'e
   ));
 };
 
-const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
+const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const script = form.get('script') as Field<string>;
   return script.map(field => (
     <FormGroup>
@@ -209,12 +231,16 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
       </Label>
       <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.scriptDescription')}</HelpText>
     </FormGroup>
   ));
 };
 
-const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
+const WebhookSection = ({
+  form,
+  setForm,
+  onChange,
+  entity: action
+}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'entity'>) => {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
   const accept = form.get('accept') as Field<string>;

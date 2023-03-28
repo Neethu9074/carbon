@@ -6,11 +6,11 @@
 
 import React from 'react';
 
+import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
-import Automation from 'in-automation/ActionCatalog/Automation';
 import { deleteActionTracker } from 'in-automation/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -25,7 +25,7 @@ const tableActions = {
 };
 export default function ActionCatalogTab() {
   return (
-    <Automation>
+    <AutomationTabs>
       <ActionTable
         title={t('in-automation:ActionCatalog.actionCatalog')}
         noDataMessage={t('in-automation:ActionCatalog.noActions')}
@@ -40,7 +40,7 @@ export default function ActionCatalogTab() {
         showDuplicateColumn
         isBeta
       />
-    </Automation>
+    </AutomationTabs>
   );
 }
 

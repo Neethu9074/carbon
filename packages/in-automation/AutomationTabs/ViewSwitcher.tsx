@@ -18,8 +18,6 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
 
-import locals from './ViewSwitcher.mless';
-
 const dashboardHeaderProps = {
   icon: 'lib_automation',
   label: t('in-automation:automation'),
@@ -36,15 +34,13 @@ export default function ViewSwitcher() {
     <>
       <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
-        <div className={locals.firstLine}>
-          <SecondLevelNavigation>
-            <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = actionCatalogPath))}
-              label={t('in-automation:ActionCatalog.actionCatalog')}
-              isActive={isCatalogActive}
-            />
-          </SecondLevelNavigation>
-        </div>
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem
+            href$={getModifiedUrlStream(p => (p.pathname = actionCatalogPath))}
+            label={t('in-automation:ActionCatalog.actionCatalog')}
+            isActive={isCatalogActive}
+          />
+        </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
     </>
