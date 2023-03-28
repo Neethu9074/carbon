@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField } from 'formalistic';
 
 import { migrate as migrateMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
@@ -23,23 +23,16 @@ export function createForm(form, savedState) {
       })
     )
     .put(
-      'metricsConfig',
-      createMapForm({
-        items: {
-          metric: createField({
-            value: (savedState && savedState.metric) || '',
-            validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
-          }),
-          slo: createField({
-            value: (savedState && savedState.slo) || '',
-            validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
-          })
-        },
-        validator: (...args) => {
-          if (args[0].metric.value == 'ERROR_BUDGET_REMAINING') {
-            composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator);
-          }
-        }
+      'slo',
+      createField({
+        value: (savedState && savedState.slo) || ''
+      })
+    )
+    .put(
+      'metric',
+      createField({
+        value: (savedState && savedState.metric) || '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
@@ -58,6 +51,18 @@ export function createForm(form, savedState) {
     );
 }
 
+export function recreateSloField(form, withValidators) {
+  const slo = form.get('slo').value;
+  return form.put(
+    'slo',
+    createField({
+      slo,
+      validator: withValidators
+        ? composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
+        : undefined
+    })
+  );
+}
 const sloValidatorFailureMessage = [
   {
     severity: 'error',
