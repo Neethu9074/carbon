@@ -15,11 +15,12 @@
 > Please tick of these checklist items. When some of these aren't necessary for
 > this PR, remove them.
 
-- [ ] Pull request tagged with one of the `type:*` labels?
-- [ ] Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)?
-- [ ] Changes are visually consistent with current components?
-- [ ] New user facing components were discussed with our design community?
-- [ ] Add before/after screenshots.
+- [ ] Pull request tagged with one of the `type:*` labels
+- [ ] Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)
+- [ ] Changes are visually consistent with current components
+- [ ] New user facing components were discussed with our design community
+- [ ] Add before/after screenshots
+- [ ] Affected areas were tested manually and everything works as expected
 
 # References
 
