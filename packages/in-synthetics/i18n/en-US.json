@@ -84,6 +84,9 @@
       },
       "advancedMode": {
         "buttonContent": "Switch to Advanced Mode",
+        "selectedTestTypeSectionLabel": "Test Type",
+        "selectedTestType": "Selected Test Type",
+        "testTypes": "API | Simple Test",
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
         "locationsLabel": "Location(s)",
@@ -115,7 +118,17 @@
           "addLocation": "Add Location",
           "cancel": "Cancel",
           "selectLocation": "Select Location"
-        }
+        },
+        "bluePrint": {
+          "apiName": "API",
+          "browserName": "Browser",
+          "internetServicesName": "Internet Services"
+        },
+        "selectedTestTypeTitle": "What kind of synthetic test would you like to create",
+        "selectedTestTypeTitleDescription": "API tests can be used to monitor the APIs provided by web applications. API tests can be used to measure availability and response time. The Simple test allows you to ping a URL or test a single API. The Script test allows you to provide a script that can check a set of API responses, simulate complex workflows and test specific functionalities.",
+        "selectedTestTypeButton": "Select",
+        "httpScriptTitle": "Script Test",
+        "httpActionTitle": "Ping Test"
       }
     },
     "httpMethods": {

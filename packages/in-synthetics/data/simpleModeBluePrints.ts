@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.title');
 const tipsForUsing = t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.title');
 
-export const blueprintConfig: readonly BluePrint[] = Object.freeze([
+export const blueprintConfig: readonly Readonly<BluePrint>[] = Object.freeze([
   {
     type: 'Ping API',
     name: t('in-synthetics:dialog.createTest.bluePrint.pingApi.name'),
