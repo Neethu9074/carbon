@@ -77,9 +77,8 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
     openEntities: () => goToPath(actionCatalogPath)
   };
-  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
-    ActionFormEntity
-  >(entityFormParam);
+  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
+    useEntityForm<ActionFormEntity>(entityFormParam);
   let content: JSX.Element;
   const errorLoading = error && !entity;
   if (loading) {
@@ -111,7 +110,13 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
             </Section>
           ) : null}
 
-          <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
+          <ActionForm
+            isCreate={isCreate || isCopy}
+            form={form!}
+            onChange={onChange}
+            entity={entity!}
+            setForm={setForm}
+          />
 
           <SaveCancel
             form={form!}
