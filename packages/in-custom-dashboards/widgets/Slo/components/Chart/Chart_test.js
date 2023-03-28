@@ -30,6 +30,7 @@ jest.mock('in-services/featureFlags', () => ({
 }));
 jest.mock('in-custom-dashboards/widgets/Slo/renderer/stairway');
 jest.mock('in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator');
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics');
 
 describe('in-custom-dashboards/widgets/Slo/Chart', () => {
   beforeEach(jest.clearAllMocks);

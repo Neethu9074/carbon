@@ -25,6 +25,7 @@ import {
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
 import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { useGenerateLinkToAnalyze as useGenerateLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TimeConfigAwareHref$Creator } from 'in-components/Chart/types';
@@ -36,6 +37,8 @@ export function useLinkToUnboundedAnalytics(
   sliConfig: SliConfiguration | undefined,
   tagCatalog: TagCatalog | undefined
 ): TimeConfigAwareHref$Creator {
+  const generateLinkToWebsiteUA = useGenerateLinkToWebsiteAnalyze();
+
   if (!sliConfig || !tagCatalog) {
     return () => just('');
   }
@@ -49,11 +52,13 @@ export function useLinkToUnboundedAnalytics(
   }
 
   if (isWebsiteTimeBasedSliConfig(sliConfig)) {
-    return highlightedTime => buildWebsiteTimeBaseSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
+    return highlightedTime =>
+      buildWebsiteTimeBaseSliEntityUA2Link(sliConfig, generateLinkToWebsiteUA, tagCatalog, highlightedTime);
   }
 
   if (isWebsiteEventBasedSliConfig(sliConfig)) {
-    return highlightedTime => buildWebsiteEventBasedSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
+    return highlightedTime =>
+      buildWebsiteEventBasedSliEntityUA2Link(sliConfig, generateLinkToWebsiteUA, tagCatalog, highlightedTime);
   }
 
   return () => just('');
@@ -109,6 +114,7 @@ function buildApplicationSliEntityUA2Link(
 
 function buildWebsiteTimeBaseSliEntityUA2Link(
   sliConfig: SliConfig<WebsiteTimeBasedSliEntity>,
+  generator: ReturnType<typeof useGenerateLinkToWebsiteAnalyze>,
   tagCatalog?: TagCatalog,
   timeConfig?: TimeConfig
 ): Observable<string> {
@@ -122,7 +128,8 @@ function buildWebsiteTimeBaseSliEntityUA2Link(
     beaconType,
     tagCatalog,
     timeConfig,
-    filterExpression
+    filterExpression,
+    generator
   };
 
   if (!hasValidMetricConfig) return getLinkToWebsiteAnalyze(websiteAnalyzeProps);
@@ -141,6 +148,7 @@ function buildWebsiteTimeBaseSliEntityUA2Link(
 
 function buildWebsiteEventBasedSliEntityUA2Link(
   sliConfig: SliConfig<WebsiteEventBasedSliEntity>,
+  generator: ReturnType<typeof useGenerateLinkToWebsiteAnalyze>,
   tagCatalog?: TagCatalog,
   timeConfig?: TimeConfig
 ): Observable<string> {
@@ -152,7 +160,8 @@ function buildWebsiteEventBasedSliEntityUA2Link(
     beaconType,
     tagCatalog,
     timeConfig,
-    filterExpression: badEventFilterExpression
+    filterExpression: badEventFilterExpression,
+    generator
   });
 }
 
