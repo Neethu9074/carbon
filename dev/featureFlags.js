@@ -67,7 +67,7 @@ module.exports = {
   mobileAppCrashBeaconEnabled: true,
   syntheticBrowserScriptEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  rbacImprovementEnabled: false,
+  rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
   syntheticSmartAlertsDetailsEnabled: true,

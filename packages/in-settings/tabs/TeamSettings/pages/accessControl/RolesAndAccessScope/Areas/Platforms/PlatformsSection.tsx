@@ -29,8 +29,7 @@ export const PlatformsSection = () => {
     />
   );
 
-  if (!groupConfig.hasOtherPlatformsAccess && groupConfig.kubernetesAccess !== ScopedPermissionItem.NO_ACCESS)
-    return currentKubeInstance();
+  if (!groupConfig.hasOtherPlatformsAccess) return currentKubeInstance();
 
   const sublist = groupConfig.hasOtherPlatformsAccess ? (
     <Ul>

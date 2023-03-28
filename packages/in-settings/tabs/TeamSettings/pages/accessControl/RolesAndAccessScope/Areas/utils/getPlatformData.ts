@@ -53,8 +53,12 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     case ScopedPermissionItem.ACCESS_ALL:
       kubernetesQuantityOfAreas = t('in-settings:productAreas.role_permission_scope_all');
       break;
-    default:
+    case ScopedPermissionItem.LIMITED_ACCESS:
       kubernetesQuantityOfAreas = String(countOfKubernetesItemsWithAccess);
+      break;
+    default:
+      kubernetesQuantityOfAreas = '0';
+      break;
   }
 
   const translations = [];
