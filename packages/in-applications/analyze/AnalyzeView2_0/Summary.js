@@ -20,7 +20,6 @@ import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import LogDetails from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogDetails';
-import CallTree2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/CallTree2';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
@@ -306,7 +305,7 @@ export default function Summary({
           </Row>
         )}
 
-        {!lazyLoading && (!largeTrace || showLargeTrace) && (
+        {(lazyLoading || !largeTrace || showLargeTrace) && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card
@@ -334,45 +333,7 @@ export default function Summary({
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
-                  isLargeTrace={largeTrace}
-                  timeConfigForLogs={timeConfigForLogs}
-                  selectLogId={selectLogId}
-                  totalNumberOfLogs={totalNumberOfLogs}
-                />
-              </Card>
-            </Col>
-          </Row>
-        )}
-
-        {lazyLoading && (
-          <Row singleRowTopMargin withoutSideMargin>
-            <Col lg={12}>
-              <Card
-                title={t('in-applications:traceDetail.tabs.summary.calls')}
-                header={
-                  <ColorCodingToggleButtons
-                    colorCodeType={colorCodeType}
-                    setColorCodeMechanism={setColorCodeMechanism}
-                  />
-                }
-              >
-                <CallTree2
-                  callTreeResult={callTreeResult}
-                  traceId={traceId}
-                  getColor={getColor}
-                  selectedCall$={selectedCall$}
-                  onSubCallClicked={call => {
-                    selectedCall$.emit(call);
-                    const domElement = document.getElementById(`call-${call.id}`);
-                    if (domElement) {
-                      domElement.focus();
-                      scrollIntoView(domElement);
-                    }
-                    tracker.traceViewCallTreeDetailClickedTracker();
-                  }}
-                  onCallClicked={onCallClicked}
-                  openedCallId={effectiveCallId}
-                  isLargeTrace={false}
+                  isLargeTrace={lazyLoading ? false : largeTrace}
                   timeConfigForLogs={timeConfigForLogs}
                   selectLogId={selectLogId}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}
