@@ -220,15 +220,13 @@ function Content({
   });
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
 
-  let docLink = 'https://instana.github.io/openapi/#operation';
-  let endpointUrl = 'https://' + config.butlerDomain;
-  if (groupBy[0] != undefined) {
-    docLink = docLink + '/getEntityGroups';
-    endpointUrl = endpointUrl + '/api/infrastructure-monitoring/analyze/entity-groups';
-  } else {
-    docLink = docLink + '/getEntities';
-    endpointUrl = endpointUrl + '/api/infrastructure-monitoring/analyze/entities';
-  }
+  const isGroupByDefined = groupBy[0] != undefined;
+  const docLink = `https://instana.github.io/openapi/#operation${
+    isGroupByDefined ? '/getEntityGroups' : '/getEntities'
+  }`;
+  const endpointUrl = `https://${config.butlerDomain}/api/infrastructure-monitoring/analyze${
+    isGroupByDefined ? '/entity-groups' : '/entities'
+  }`;
 
   const topSection = !isInitPage && (
     <Sections>
