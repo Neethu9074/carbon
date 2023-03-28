@@ -23,7 +23,6 @@ import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
-import { syntheticSmartAlertsDetailsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
@@ -54,7 +53,7 @@ export default function Alerts({ testId }: AlertsProps) {
       actionHandlers={handlers}
       tableActions={tableActions}
       getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
-      createRowLinkLocation={syntheticSmartAlertsDetailsEnabled ? createRowLinkLocation : undefined}
+      createRowLinkLocation={createRowLinkLocation}
       sortOptions={sortOptions}
     />
   );
