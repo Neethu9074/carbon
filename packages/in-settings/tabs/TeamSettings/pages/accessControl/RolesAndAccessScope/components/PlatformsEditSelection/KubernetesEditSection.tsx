@@ -65,11 +65,19 @@ export default function _KubernetesEditSection({
    */
   const setSelectedScope = (newScope: ScopedPermissionType | undefined) => {
     if (!permissionSet?.permissions) return;
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      ProductArea.KUBERNETES,
-      newScope ?? ScopedPermissionItem.NO_ACCESS
-    );
+
+    const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs, ...restPermissionSet } =
+      updatePermissionSetForLimitableProductArea(
+        permissionSet,
+        ProductArea.KUBERNETES,
+        newScope ?? ScopedPermissionItem.NO_ACCESS
+      );
+
+    const newPermissionSet = {
+      ...restPermissionSet,
+      kubernetesClusterUUIDs: newScope === ScopedPermissionItem.LIMITED_ACCESS ? kubernetesClusterUUIDs : [],
+      kubernetesNamespaceUIDs: newScope === ScopedPermissionItem.LIMITED_ACCESS ? kubernetesNamespaceUIDs : []
+    };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
 
