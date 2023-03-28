@@ -19,7 +19,6 @@ import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
-import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
@@ -55,11 +54,9 @@ export default function SmartAlertList() {
         />
       </LeftRightPadding>
       <Footer />
-      {syntheticCreateSmartAlertsUIEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert />
-        </FloatingActionButtons>
-      )}
+      <FloatingActionButtons>
+        <CreateSmartAlert />
+      </FloatingActionButtons>
     </Sticky>
   );
 }

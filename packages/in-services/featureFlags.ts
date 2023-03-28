@@ -108,9 +108,6 @@ export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartA
 // Synthetic SmartAlert details feature flag
 export const syntheticSmartAlertsDetailsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsDetailsEnabled');
 
-// Create Synthetic SmartAlert UI feature flag
-export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
-
 // Create Synthetic Test in Advance Mode
 export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
 
