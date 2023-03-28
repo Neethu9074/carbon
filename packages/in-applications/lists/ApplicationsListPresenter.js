@@ -17,8 +17,8 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import { applicationsList, useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -43,17 +43,35 @@ import { t } from 'in-i18n';
 
 const pathSegment = applicationsList;
 
+function ApplicationLabelContent({ item }) {
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+
+  return (
+    <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
+      <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>{item.application.label}</Link>
+    </SeverityIndicatorCellContentWrapper>
+  );
+}
+
+function BoundaryScopeContent({ item }) {
+  const iconColor = theme.lib.colors.blue800;
+  if (item.application.boundaryScope) {
+    return (
+      <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>
+        <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
+      </Tooltip>
+    );
+  }
+  return null;
+}
+
 const columnDefinitions = [
   {
     id: 'applicationLabel',
     label: t('in-applications:labelName'),
     getContent(item) {
-      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
-      return (
-        <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
-          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
-        </SeverityIndicatorCellContentWrapper>
-      );
+      return <ApplicationLabelContent item={item} />;
     }
   },
   {
@@ -61,16 +79,7 @@ const columnDefinitions = [
     label: t('in-applications:labelScope'),
     sortable: false,
     getContent(item) {
-      const href$ = getApplicationDashboard(item.application.id);
-      const iconColor = href$ && theme.lib.colors.blue800;
-      if (item.application.boundaryScope) {
-        return (
-          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>
-            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
-          </Tooltip>
-        );
-      }
-      return null;
+      return <BoundaryScopeContent item={item} />;
     }
   },
   {

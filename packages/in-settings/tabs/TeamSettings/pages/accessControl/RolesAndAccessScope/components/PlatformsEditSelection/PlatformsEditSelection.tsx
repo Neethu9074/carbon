@@ -15,8 +15,18 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
+import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { LimitableProductArea, ProductArea, ScopedPermissionItem } from '../../constants';
+import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -28,17 +38,16 @@ import locals from './PlatformsEditSelection.mless';
 
 /**
  * Properties for the platforms edit component
- * @property title of the plat form area
- * @property icon reference to be icon, that should be displayed
  */
 export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
 const generalAreas: Array<LimitableProductArea> = [
-  ProductArea.PCF,
-  ProductArea.PHMC,
-  ProductArea.ZHMC,
-  ProductArea.OPENSTACK,
-  ProductArea.VSPHERE
+  ...(hasPCFAccess ? [ProductArea.PCF] : []),
+  ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
+  ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
+  ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
+  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
+  ...(hasSAPAccess ? [ProductArea.SAP] : [])
 ];
 
 /**
@@ -46,19 +55,33 @@ const generalAreas: Array<LimitableProductArea> = [
  * @param param see PlatformsEditSelectionProps
  * @returns component
  */
-export default function _PlatformsEditSelection({ form, setForm }: PlatformsEditSelectionProps) {
+export default function _PlatformsEditSelection({
+  form,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: PlatformsEditSelectionProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
-  const permissionSet = permissionSetField?.value;
+  const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
 
-  // Updates the permissionSet, by removing the value from the permissions array or adding it
-  const onUpdatePermissionSet = (value: LimitableProductArea, isAdd: boolean) => {
+  /**
+   * Updates the permissionSet, by removing the value from the permissions array or adding it
+   * @param area to be added / removed
+   * @param newScope new scope to be set
+   */
+  const onUpdatePermissionSet = (area: LimitableProductArea, newScope: ScopedPermissionType) => {
     if (!permissionSet?.permissions) return;
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      value,
-      isAdd ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.NO_ACCESS
-    );
+    const newPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, area, newScope);
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
+  };
+
+  /**
+   * Adds / Removes the access to a genralArea
+   * @param area to be added / removed
+   * @param isAdd whether it is an add case or remove case
+   */
+  const onUpdateGeneralArea = (area: LimitableProductArea, isAdd: boolean) => {
+    onUpdatePermissionSet(area, isAdd ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.NO_ACCESS);
   };
 
   // Checks whether it currently has the permission
@@ -67,35 +90,55 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
     return access === ScopedPermissionItem.ACCESS_ALL ? true : false;
   };
 
+  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S (complete area will only be rendered if a platform is available)
+  if (generalAreas.length === 0) {
+    return (
+      <KubernetesEditSection
+        form={form}
+        setForm={setForm}
+        setSubSlideConfig={setSubSlideConfig}
+        setShowSubSlide={setShowSubSlide}
+      />
+    );
+  }
+  // standard case
   return (
-    <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
+    <Section icon="lib_platforms" title={t('in-settings:productAreas.title_platforms')} panelNoIndentation>
       <div className={locals.sectionContent}>
         {generalAreas.map(area => {
           const platformTitle = t('in-settings:productAreas.permissions', { context: area });
           return (
-            <>
-              <CheckboxFancy
-                size="large"
-                checked={hasAnyAreaPermission(area)}
-                onChange={(event: any) => onUpdatePermissionSet(area, event.target.checked)}
-                label={
-                  <Stack gap="xsmall" direction="horizontal" align="start">
-                    <span>{platformTitle}</span>
-                    <Tooltip
-                      content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
-                        label: platformTitle
-                      })}
-                      align="rightMiddle"
-                    >
-                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                    </Tooltip>
-                  </Stack>
-                }
-              />
-            </>
+            <CheckboxFancy
+              key={platformTitle}
+              size="large"
+              checked={hasAnyAreaPermission(area)}
+              onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
+              label={
+                <Stack gap="xsmall" direction="horizontal" align="start">
+                  <span>{platformTitle}</span>
+                  <Tooltip
+                    content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
+                      label: platformTitle
+                    })}
+                    align="rightMiddle"
+                  >
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                  </Tooltip>
+                </Stack>
+              }
+            />
           );
         })}
       </div>
+      {hasKubernetesAccess && (
+        <KubernetesEditSection
+          form={form}
+          isChild
+          setForm={setForm}
+          setSubSlideConfig={setSubSlideConfig}
+          setShowSubSlide={setShowSubSlide}
+        />
+      )}
     </Section>
   );
 }

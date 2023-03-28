@@ -32,7 +32,7 @@ export const WebsiteSectionContent = () => {
     <AreaExpandableListItem
       iconType="lib_website_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.website')}
+      firstColumnLabel={t('in-settings:productAreas.title_websites')}
       loading={loading}
       subList={<Ul>{listItemContent}</Ul>}
     />

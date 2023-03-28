@@ -9,7 +9,7 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
-import { SyntheticAlertConfigWithMetadata } from 'in-types';
+import { SyntheticAlertConfig, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 
@@ -26,7 +26,7 @@ export const fieldNames = Object.freeze({
   timeThreshold: 'timeThreshold'
 });
 
-export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWithMetadata): MapForm {
+export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & VersionedConfig): MapForm {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -102,13 +102,13 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWit
         .put(
           'violationsCount',
           createField({
-            value: timeThreshold.violationsCount
+            value: timeThreshold?.violationsCount
           })
         )
         .put(
           'type',
           createField({
-            value: timeThreshold.type
+            value: timeThreshold?.type
           })
         )
     );

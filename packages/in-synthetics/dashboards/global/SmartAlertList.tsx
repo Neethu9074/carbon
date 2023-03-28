@@ -6,30 +6,35 @@
 
 import React from 'react';
 
-import { SyntheticAlertConfigWithMetadata } from '@instana/types';
-
 import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
-import { syntheticCreateSmartAlertsUIEnabled, syntheticSmartAlertsDetailsEnabled } from 'in-services/featureFlags';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
+import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
+import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
+import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { mutateUrl } from 'in-stores/navigation/navigation';
+import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function SmartAlertList() {
+  const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -41,19 +46,12 @@ export default function SmartAlertList() {
         />
         <AlertBaseList<SyntheticAlertConfigWithMetadata>
           extraColumnDefinitions={getColumnDefinitions()}
-          loadEntities={getAllAlertConfigs}
+          getAlertConfigs={() => getAllAlertConfigs('', { asObservable: true })}
+          actionHandlers={handlers}
           tableActions={tableActions}
           getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
-          onRowClick={
-            syntheticSmartAlertsDetailsEnabled
-              ? config =>
-                  mutateUrl(location => {
-                    location.pathname = alertsTabDetailsFullyQualified;
-                    setOrDeleteMatrixKey(location, syntheticSmartAlertsPath, alertIdMatrixParam, config.id);
-                    setOrDeleteMatrixKey(location, syntheticSmartAlertsPath, alertCreatedMatrixParam, config.created);
-                  })
-              : undefined
-          }
+          createRowLinkLocation={createRowLinkLocation}
+          sortOptions={sortOptions}
         />
       </LeftRightPadding>
       <Footer />
@@ -99,11 +97,18 @@ function getColumnDefinitions() {
     {
       id: 'filterApplied',
       label: t('in-synthetics:dashboard.alertList.filterApplied'),
-      getContent: () => {
-        return <span />;
-      }
+      getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
     }
   ];
-
   return additionalColumn;
+}
+function createRowLinkLocation(config: SyntheticAlertConfigWithMetadata, location: Location): Location {
+  const rowLinkLocation = {
+    ...location,
+    pathname: alertsTabDetailsFullyQualified
+  };
+
+  setOrDeleteMatrixKey(rowLinkLocation, syntheticSmartAlertsPath, alertIdMatrixParam, config.id);
+  setOrDeleteMatrixKey(rowLinkLocation, syntheticSmartAlertsPath, alertCreatedMatrixParam, config.created);
+  return rowLinkLocation;
 }

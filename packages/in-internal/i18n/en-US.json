@@ -641,6 +641,8 @@
         "kafka": "Kafka"
       },
       "eumHealthProcessor": {
+        "websiteMonitoring": "Website Monitoring",
+        "mobileAppMonitoring": "Mobile App Monitoring",
         "incomingBeacons": "Incoming Beacon Records",
         "droppedIncomingBeacons": "Dropped Incoming Beacon Records",
         "outgoingMatchedBeacons": "Outgoing Matched Beacons",

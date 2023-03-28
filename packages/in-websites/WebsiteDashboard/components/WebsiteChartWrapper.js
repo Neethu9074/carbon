@@ -5,12 +5,14 @@
 
 import React from 'react';
 
+import { just } from '@instana/observables';
+
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -30,12 +32,18 @@ export default connectTo(
       custom: useTagCatalog('custom')
     };
 
+    const getLinkToAnalyze = useGenerateLinkToAnalyze();
+
     const hasApproximateData = props?.result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
     return (
       <ChartWrapper
         {...props}
-        {...getAdditionalChartActions({ ...props, tagCatalogs })}
+        {...getAdditionalChartActions({
+          ...props,
+          tagCatalogs,
+          getLinkToAnalyze: (...params) => just(getLinkToAnalyze(...params))
+        })}
         renderHistoricDataIndicator
         hasApproximateData={hasApproximateData}
       />
@@ -43,7 +51,7 @@ export default connectTo(
   }
 );
 
-function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs }) {
+function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs, getLinkToAnalyze }) {
   if (!viewInAnalytics || !viewInAnalytics.websiteLabel) {
     if (__DEV__) {
       throw new Error(

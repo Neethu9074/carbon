@@ -29,13 +29,19 @@ export interface Options<State> {
   replaceHistory?: boolean;
 }
 
+export type UrlStateReturn<State> = [
+  State: State,
+  SetState: (change: Partial<State>) => void,
+  GetStateChangeUrl: (change: Partial<State>) => string
+];
+
 export default function useUrlState<State>({
   bind,
   resets = emptyArray as [],
   reducer = defaultingReducer,
   onUpdate,
   replaceHistory = true
-}: Options<State>): [State, (change: Partial<State>) => void, (change: Partial<State>) => string] {
+}: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject

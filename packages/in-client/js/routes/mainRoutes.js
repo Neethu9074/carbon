@@ -10,6 +10,7 @@ import React from 'react';
 
 import {
   hasApplicationsAccess,
+  hasBizOpsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess,
@@ -20,7 +21,8 @@ import {
   hasZHMCAccess,
   hasPCFAccess,
   hasOpenStackAccess,
-  hasEventsAccess
+  hasEventsAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { internalMonitoringUnit, sloV2Enabled } from 'in-services/featureFlags';
@@ -29,10 +31,12 @@ import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
+import automationRoutes from 'in-automation/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
@@ -42,11 +46,13 @@ import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
+import bizopsRoutes from 'in-bizops/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
 import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
+import sapRoutes from 'in-sap/navigation/routes';
 
 export default (
   <Switch>
@@ -63,11 +69,14 @@ export default (
     {sloV2Enabled && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
+    {role.canConfigureAutomationActions && actionAutomationEnabled && automationRoutes}
+    {hasBizOpsAccess && bizopsRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
     {hasPHMCAccess && phmcRoutes}
     {hasVSphereAccess && vsphereRoutes}
     {hasOpenStackAccess && openstackRoutes}
+    {hasSAPAccess && sapRoutes}
     {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}

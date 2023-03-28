@@ -14,9 +14,9 @@ import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/componen
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
@@ -156,6 +156,19 @@ function getTableData({
   });
 }
 
+function LabelServiceContent({ item, type }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
+  const label = item[type].service.label;
+  return (
+    <Tooltip content={label} align="bottomLeft" delay={1000}>
+      <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: item[type].service.id })}>
+        {label}
+      </Link>
+    </Tooltip>
+  );
+}
+
 function getColumnDefinitions(dataSource) {
   const type = typePerDataSource[dataSource];
   return [
@@ -224,14 +237,7 @@ function getColumnDefinitions(dataSource) {
       label: t('in-applications:labelService'),
       sortable: false,
       getContent(item) {
-        const label = item[type].service.label;
-        return (
-          <Tooltip content={label} align="bottomLeft" delay={1000}>
-            <Link className={locals.link} href$={getServiceDashboard(item[type].service.id)}>
-              {label}
-            </Link>
-          </Tooltip>
-        );
+        return <LabelServiceContent item={item} type={type} />;
       }
     }
   ];

@@ -6,31 +6,26 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button, KeyValue, SvgIcon } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
-import { website as websiteType, mobileApp as mobileAppType } from 'in-cockpit/starredItems/types';
+import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import { getLinkToMobileApp, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { number, meanLatencyFixed } from 'in-services/formatters/number';
+import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import { linkToNewWebsite$ } from 'in-websites/navigation/paths';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
@@ -44,6 +39,7 @@ import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
   const { createHrefToPath } = useNavigation();
+  const getLinkToWebsite = useGenerateLinkToWebsite();
 
   const header = (
     <>

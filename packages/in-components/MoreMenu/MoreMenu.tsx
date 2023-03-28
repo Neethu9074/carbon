@@ -22,7 +22,7 @@ export interface MoreMenuProps {
    * Renders a custom element to open the menu.
    * Use this if you need some kind of different button etc.
    */
-  renderInteractiveElement: (props: InteractiveElementsProps) => React.ReactNode;
+  renderInteractiveElement?: (props: InteractiveElementsProps) => React.ReactNode;
 }
 
 export interface InteractiveElementsProps {

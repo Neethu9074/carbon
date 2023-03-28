@@ -12,7 +12,7 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep2.mless';
+import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2.mless';
 
 export interface SimpleAlertConfigDialogStep2Props {
   form: MapForm;

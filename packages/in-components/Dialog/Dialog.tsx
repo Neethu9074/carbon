@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, ReactElement, MouseEvent } from 'react';
+import React, { useState, ReactElement, MouseEvent, PropsWithChildren } from 'react';
 import classNames from 'classnames';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -17,7 +17,6 @@ export interface Props {
   titleIconType?: string;
   onClose: (e?: MouseEvent) => void;
   onTitleIconClick?: () => void;
-  children: ReactElement;
   renderCustomCloseBehaviour?: () => ReactElement;
   withoutBodyPadding?: boolean;
   showOverflow?: boolean;
@@ -37,7 +36,7 @@ export default function Dialog({
   showOverflow,
   headless = false,
   doNotCloseOnOutsideClick
-}: Props) {
+}: PropsWithChildren<Props>) {
   const [scrollshadow, setScrollshadow] = useState(false);
 
   return (

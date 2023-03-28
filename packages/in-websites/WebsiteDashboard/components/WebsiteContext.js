@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { Link } from '@instana/components';
+
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
 
 import locals from './WebsiteContext.mless';
 
 export default function WebsiteContext({ websiteId, websiteLabel }) {
+  const websiteHref = useLinkToWebsite(websiteId, { pageId: null });
   return (
-    <Link className={locals.link} href$={getLinkToWebsite(websiteId, { pageId: null })}>
+    <Link className={locals.link} href={websiteHref}>
       {websiteLabel}
     </Link>
   );

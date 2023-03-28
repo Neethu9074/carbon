@@ -16,9 +16,9 @@ import {
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import { configureEndpointsView, useLinkToEndpointDashboard } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
@@ -47,25 +47,39 @@ const matrixPrefix = 'endpoint.';
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
 
+function EndpointLabelContent({ item, applicationId, serviceId, boundaryScope, syntheticCalls }) {
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+  return (
+    <SeverityAwareEntityLink
+      severity={maxSeverity}
+      icon="lib_application_endpoint"
+      label={item.endpoint.label}
+      tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
+      specialIndicator={!!item.endpoint.synthetic}
+      href={getLinkToEndpointDashboard({
+        applicationId,
+        serviceId,
+        endpointId: item.endpoint.id,
+        boundaryScope,
+        syntheticCalls
+      })}
+    />
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
-      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
-        <SeverityAwareEntityLink
-          severity={maxSeverity}
-          icon="lib_application_endpoint"
-          label={item.endpoint.label}
-          tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
-          specialIndicator={!!item.endpoint.synthetic}
-          href$={getEndpointDashboard(item.endpoint.id, {
-            applicationId,
-            serviceId,
-            boundaryScope,
-            syntheticCalls
-          })}
+        <EndpointLabelContent
+          item={item}
+          applicationId={applicationId}
+          serviceId={serviceId}
+          boundaryScope={boundaryScope}
+          syntheticCalls={syntheticCalls}
         />
       );
     }

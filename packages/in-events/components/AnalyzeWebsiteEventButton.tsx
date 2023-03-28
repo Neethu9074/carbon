@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { AggregationType, BeaconType, WebsiteAlertConfig } from '@instana/types';
+import { AggregationType, WebsiteAlertConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
-import { BluePrint, getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
 // @ts-expect-error Missing exact typings
@@ -16,7 +16,7 @@ import { defaultGroupings } from 'in-websites/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -33,47 +33,14 @@ export default function AnalyzeWebsiteEventButton({
   timeConfig,
   adaptiveBaselineInfo
 }: AnalyzeWebsiteEventButtonProps) {
-  const { rule } = alertConfig;
-  const { alertType, metricName } = rule;
-
-  const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
-
-  const linkToUA = getLinkToUnboundAnalytics(
-    beaconType,
-    websiteName,
-    blueprintConfig,
-    alertConfig,
-    timeConfig,
-    adaptiveBaselineInfo
-  ).map(urlWithoutQueryParameter);
-
-  return (
-    <Button
-      kind="primary"
-      icon={getIcon(alertType)}
-      onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
-      href$={linkToUA}
-    >
-      {getLinkTitle(alertType, metricName)}
-    </Button>
-  );
-}
-
-function getLinkToUnboundAnalytics(
-  beaconType: BeaconType,
-  websiteName: string,
-  blueprintConfig: BluePrint,
-  alertConfig: WebsiteAlertConfig,
-  timeConfig: FixedTimeConfig,
-  adaptiveBaselineInfo?: Record<string, number>
-) {
   const { rule, tagFilterExpression } = alertConfig;
   const { alertType, metricName, aggregation } = rule;
 
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  return getLinkToAnalyze({
+  const linkToUA = useLinkToAnalyze({
     beaconType,
     timeConfig,
     groupBy: getGrouping(alertType, metricName),
@@ -86,7 +53,20 @@ function getLinkToUnboundAnalytics(
         blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo)
       ]
     })
-  }).map(urlWithoutQueryParameter);
+  });
+  const linkToUAWithoutParams = urlWithoutQueryParameter(linkToUA!);
+
+  return (
+    <Button
+      kind="primary"
+      icon={getIcon(alertType)}
+      onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
+      href={linkToUAWithoutParams}
+      style={{ outline: '10px red' }}
+    >
+      {getLinkTitle(alertType, metricName)}
+    </Button>
+  );
 }
 
 function getGrouping(alertType: string, metricName: string) {

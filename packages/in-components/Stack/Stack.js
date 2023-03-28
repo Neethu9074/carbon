@@ -5,13 +5,19 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   getStackForInfrastructure,
   getStackForApplication,
   getStackForService,
   getStackForEndpoint
 } from 'in-components/Stack/subscriptions/getStack';
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -20,8 +26,8 @@ import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import getService from 'in-applications/subscriptions/getService';
 import StackPresenter from 'in-components/Stack/StackPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getSnapshot } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 
 function getStackResult({ id, applicationId, timeConfig, productArea }) {
   switch (productArea) {
@@ -36,97 +42,133 @@ function getStackResult({ id, applicationId, timeConfig, productArea }) {
   }
 }
 
-function getSelfEntity({ id, timeConfig, applicationId, productArea }) {
+function getSelfEntity({
+  id,
+  timeConfig,
+  applicationId,
+  productArea,
+  getLinkToApplicationDashboard,
+  getLinkToServiceDashboard,
+  getLinkToEndpointDashboard
+}) {
   switch (productArea) {
     case 'application':
-      return getApplication({ id }).map(resolveApplicationResult);
+      return getApplication({ id }).map(result => resolveApplicationResult(result, getLinkToApplicationDashboard));
     case 'service':
       return getService({
         id,
         filter: {
           timeConfig
         }
-      }).map(result => resolveServiceResult(result, applicationId));
+      }).map(result => resolveServiceResult(result, applicationId, getLinkToServiceDashboard));
     case 'endpoint':
       return getEndpoint({
         id,
         filter: {
           timeConfig
         }
-      }).map(result => resolveEndpointResult(result, applicationId));
+      }).map(result => resolveEndpointResult(result, applicationId, getLinkToEndpointDashboard));
     default:
       return getSnapshot(id, timeConfig).map(resolveSnapshotResult);
   }
 }
 
-export default connectTo(
-  ({ id, applicationId, timeConfig, productArea, includeSelfEntity }) => {
-    const observables = { stackResult: getStackResult({ id, applicationId, timeConfig, productArea }) };
-    if (includeSelfEntity) {
-      observables.selfEntity = getSelfEntity({ id, applicationId, timeConfig, productArea });
-    }
-    return observables;
-  },
-  function Stack({
-    applicationId,
-    boundaryScope,
-    serviceId,
-    stackResult,
-    productArea,
-    selfEntity,
-    plugin,
-    syntheticCalls
-  }) {
-    if (hasError(stackResult)) {
-      return <ErroneousResultPresenter errors={stackResult.errors} />;
-    }
+export default function Stack({
+  id,
+  applicationId,
+  timeConfig,
+  includeSelfEntity,
+  boundaryScope,
+  serviceId,
+  productArea,
+  plugin,
+  syntheticCalls
+}) {
+  const stackResult =
+    useObservable(
+      getStackResult({
+        id,
+        applicationId,
+        timeConfig,
+        productArea
+      }),
+      [id, applicationId, timeConfig, productArea]
+    ) ?? pendingResult;
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
-    return (
-      <StackPresenter
-        applicationId={applicationId}
-        boundaryScope={boundaryScope}
-        serviceId={serviceId}
-        stack={stackResult.data}
-        isLoading={isLoading(stackResult)}
-        productArea={productArea}
-        selfEntity={selfEntity}
-        plugin={plugin}
-        syntheticCalls={syntheticCalls}
-      />
-    );
+  const selfEntity =
+    useObservable(
+      getSelfEntity({
+        id,
+        applicationId,
+        timeConfig,
+        productArea,
+        getLinkToApplicationDashboard,
+        getLinkToServiceDashboard,
+        getLinkToEndpointDashboard
+      }),
+      [
+        id,
+        applicationId,
+        timeConfig,
+        productArea,
+        getLinkToApplicationDashboard,
+        getLinkToServiceDashboard,
+        getLinkToEndpointDashboard
+      ]
+    ) ?? pendingResult;
+
+  if (hasError(stackResult)) {
+    return <ErroneousResultPresenter errors={stackResult.errors} />;
   }
-);
 
-function resolveApplicationResult(result) {
+  return (
+    <StackPresenter
+      applicationId={applicationId}
+      boundaryScope={boundaryScope}
+      serviceId={serviceId}
+      stack={stackResult.data}
+      isLoading={isLoading(stackResult)}
+      productArea={productArea}
+      selfEntity={includeSelfEntity ? selfEntity : undefined}
+      plugin={plugin}
+      syntheticCalls={syntheticCalls}
+    />
+  );
+}
+
+function resolveApplicationResult(result, getLinkToApplicationDashboard) {
   if (hasError(result) || isLoading(result)) {
     return undefined;
   }
   return {
     icon: 'lib_application',
     label: result.data.label,
-    href$: getApplicationDashboard(result.data.id)
+    href: getLinkToApplicationDashboard({ applicationId: result.data.id })
   };
 }
 
-function resolveServiceResult(result, applicationId) {
+function resolveServiceResult(result, applicationId, getLinkToServiceDashboard) {
   if (hasError(result) || isLoading(result)) {
     return undefined;
   }
   return {
     icon: 'lib_application_service',
     label: result.data.label,
-    href$: getServiceDashboard(result.data.id, { applicationId })
+    href: getLinkToServiceDashboard({ serviceId: result.data.id, applicationId })
   };
 }
 
-function resolveEndpointResult(result, applicationId) {
+function resolveEndpointResult(result, applicationId, getLinkToEndpointDashboard) {
   if (hasError(result) || isLoading(result)) {
     return undefined;
   }
   return {
     icon: 'lib_application_endpoint',
     label: result.data.label,
-    href$: getEndpointDashboard(result.data.id, { applicationId })
+    href: getLinkToEndpointDashboard({ applicationId, endpointId: result.data.id })
   };
 }
 

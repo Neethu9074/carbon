@@ -7,9 +7,9 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { useLinkToApplicationDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getServices from 'in-applications/subscriptions/getServices';
@@ -120,10 +120,13 @@ function getList({
 }
 
 function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls, className }) {
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+
   return (
     <Link
       className={className}
-      href$={getApplicationDashboard(applicationId, {
+      href={getLinkToApplicationDashboard({
+        applicationId,
         boundaryScope,
         syntheticCalls,
         tab: '/services',
@@ -139,10 +142,12 @@ function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls,
 }
 
 function Label({ item, applicationId, boundaryScope, syntheticCalls, className }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
   return (
     <Link
       className={className}
-      href$={getServiceDashboard(item.service.id, { applicationId, boundaryScope, syntheticCalls })}
+      href={getLinkToServiceDashboard({ applicationId, serviceId: item.service.id, boundaryScope, syntheticCalls })}
       onClick={() => trackTopListNavigation()}
     >
       {item.service.label}

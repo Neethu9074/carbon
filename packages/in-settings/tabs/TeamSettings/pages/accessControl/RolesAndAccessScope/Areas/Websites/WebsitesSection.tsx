@@ -14,9 +14,7 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 
 export const WebsitesSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { hasFullAreaAccess, shouldRenderContent } = getAreaData({ area: ProductArea.WEBSITE, permissionsSet });
-
-  if (!shouldRenderContent) return null;
+  const { hasFullAreaAccess } = getAreaData({ area: ProductArea.WEBSITE, permissionsSet });
 
   if (hasFullAreaAccess) return <WebsiteSectionFullAccessContent />;
 

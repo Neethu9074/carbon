@@ -20,7 +20,8 @@ import {
   PERCENTAGE_FORMATTER_TYPE,
   RATE_FORMATTER_TYPE,
   SECONDS_FORMATTER_TYPE,
-  MINUTES_FORMATTER_TYPE
+  MINUTES_FORMATTER_TYPE,
+  NANOS_FORMATTER_TYPE
 } from 'in-services/formatters/number/types';
 import { getSingle } from 'in-services/settings';
 
@@ -85,10 +86,13 @@ export const activityZeroDecimalPlaces = (d: number) =>
   d < 0 ? t('in-services:formatters.noActivity') : zeroDecimalPlaces(d);
 export const activityTwoDecimalPlaces = (d: number) =>
   d < 0 ? t('in-services:formatters.noActivity') : twoDecimalPlaces(d);
-export const activity = {
-  compact: activityZeroDecimalPlaces,
-  detailed: activityTwoDecimalPlaces
-};
+export const activity = markAsFormatterType(
+  {
+    compact: activityZeroDecimalPlaces,
+    detailed: activityTwoDecimalPlaces
+  },
+  NUMBER_FORMATTER_TYPE
+);
 
 export const zeroDecimalPlacesPerSecond = markAsFormatterType(
   d => t('in-services:formatters.perSec', { num: zeroDecimalPlaces(d) }),
@@ -317,8 +321,10 @@ export const megaBytes = markAsFormatterType(
   MEGA_BYTES_FORMATTER_TYPE
 );
 
-export const millisPerSecondZeroDecimalPlaces = (d: number) =>
-  t('in-services:formatters.perSec', { num: millis.fixedCompact(d * 1000) });
+export const millisPerSecondZeroDecimalPlaces = markAsFormatterType(
+  (d: number) => t('in-services:formatters.perSec', { num: millis.fixedCompact(d * 1000) }),
+  RATE_FORMATTER_TYPE
+);
 
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
@@ -333,7 +339,7 @@ export const withSiPrefixZeroDecimalPlaces = (d: number) => {
   const s = siPrefixZeroDecimalPlacesFormatRule(d);
   const match = s.match(withSiPrefixZeroDecimalPlacesRegExp);
   if (!match) {
-    return undefined;
+    return '';
   }
 
   const sign = match[1] || '';
@@ -367,10 +373,13 @@ export const withSiPrefixThreeDecimalPlaces = (d: number) => {
 
   return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
 };
-export const siPrefix = {
-  compact: withSiPrefixZeroDecimalPlaces,
-  detailed: withSiPrefixThreeDecimalPlaces
-};
+export const siPrefix = markAsFormatterType(
+  {
+    compact: withSiPrefixZeroDecimalPlaces,
+    detailed: withSiPrefixThreeDecimalPlaces
+  },
+  NUMBER_FORMATTER_TYPE
+);
 
 export const withSiPrefixOneDecimalPlace = (d: number) => {
   if (d < 1000 && d > -1000) {
@@ -394,10 +403,13 @@ export const withSiPrefixOneDecimalPlace = (d: number) => {
   return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
 };
 
-export const siPrefixPerSecond = {
-  compact: (d: number) => t('in-services:formatters.perSec2', { num: withSiPrefixZeroDecimalPlaces(d) }),
-  detailed: (d: number) => t('in-services:formatters.perSec2', { num: withSiPrefixThreeDecimalPlaces(d) })
-};
+export const siPrefixPerSecond = markAsFormatterType(
+  {
+    compact: (d: number) => t('in-services:formatters.perSec2', { num: withSiPrefixZeroDecimalPlaces(d) }),
+    detailed: (d: number) => t('in-services:formatters.perSec2', { num: withSiPrefixThreeDecimalPlaces(d) })
+  },
+  RATE_FORMATTER_TYPE
+);
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = (d: number) => withSiPrefixZeroDecimalPlaces(d | 0);
 export const withSiMultiplyPrefixThreeDecimalPlaces = (d: number) => {
@@ -409,10 +421,13 @@ export const withSiMultiplyPrefixThreeDecimalPlaces = (d: number) => {
   }
   return withSiPrefixThreeDecimalPlaces(d);
 };
-export const siMultiplyPrefix = {
-  compact: withSiMultiplyPrefixZeroDecimalPlaces,
-  detailed: withSiMultiplyPrefixThreeDecimalPlaces
-};
+export const siMultiplyPrefix = markAsFormatterType(
+  {
+    compact: withSiMultiplyPrefixZeroDecimalPlaces,
+    detailed: withSiMultiplyPrefixThreeDecimalPlaces
+  },
+  NUMBER_FORMATTER_TYPE
+);
 
 // deprecated in favor of millis
 export const msZeroDecimalPlaces = markAsFormatterType(
@@ -470,10 +485,13 @@ export const timeNs = (_ns: number) => {
   const _ms = _ns / 1000000;
   return time(_ms);
 };
-export const nanos = {
-  compact: timeNs,
-  detailed: timeNs
-};
+export const nanos = markAsFormatterType(
+  {
+    compact: timeNs,
+    detailed: timeNs
+  },
+  NANOS_FORMATTER_TYPE
+);
 
 export const bitReadableString = (v: number) =>
   v > 0 ? t('in-services:formatters.yes') : t('in-services:formatters.no');
@@ -487,24 +505,27 @@ export const temperature = {
   detailed: temperatureTwoDecimalPlaces
 };
 
-export const health = {
-  compact(v: number) {
-    if (v === 1) {
-      return t('in-services:formatters.healthy');
-    } else if (v === 0) {
-      return t('in-services:formatters.unhealthy');
+export const health = markAsFormatterType(
+  {
+    compact(v: number) {
+      if (v === 1) {
+        return t('in-services:formatters.healthy');
+      } else if (v === 0) {
+        return t('in-services:formatters.unhealthy');
+      }
+      return twoDecimalPlaces(v);
+    },
+    detailed(v: number) {
+      if (v === 1) {
+        return t('in-services:formatters.healthy');
+      } else if (v === 0) {
+        return t('in-services:formatters.unhealthy');
+      }
+      return twoDecimalPlaces(v);
     }
-    return twoDecimalPlaces(v);
   },
-  detailed(v: number) {
-    if (v === 1) {
-      return t('in-services:formatters.healthy');
-    } else if (v === 0) {
-      return t('in-services:formatters.unhealthy');
-    }
-    return twoDecimalPlaces(v);
-  }
-};
+  NUMBER_FORMATTER_TYPE
+);
 
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw

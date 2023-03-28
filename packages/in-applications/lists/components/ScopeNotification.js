@@ -10,7 +10,11 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import { getServiceDashboard as getKubernetesServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
@@ -51,23 +55,28 @@ export default connectTo(
     plugin,
     snapshotLabel
   }) {
+    const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+    const getLinkToServiceDashboard = useLinkToServiceDashboard();
+    const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
     let entityLabel;
     let href;
+    let href$;
     if (endpointId) {
       entityLabel = endpointLabel;
-      href = getEndpointDashboard(endpointId, { applicationId, serviceId });
+      href = getLinkToEndpointDashboard({ applicationId, serviceId, endpointId });
     } else if (serviceId && tagFilters.length === 0) {
       entityLabel = serviceLabel;
-      href = getServiceDashboard(serviceId, { applicationId });
+      href = getLinkToServiceDashboard({ serviceId, applicationId });
     } else if (applicationId) {
       entityLabel = applicationLabel;
-      href = getApplicationDashboard(applicationId);
+      href = getLinkToApplicationDashboard({ applicationId });
     } else if (snapshotLabel && !serviceLabel) {
       entityLabel = snapshotLabel;
-      href = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
+      href$ = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
     } else if (tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes'))) {
       entityLabel = getKubernetesLabel(tagFilters);
-      href = getKubernetesDashboardLink(snapshotId, plugin, tagFilters, serviceId);
+      href$ = getKubernetesDashboardLink(snapshotId, plugin, tagFilters, serviceId);
     }
 
     return (
@@ -85,8 +94,10 @@ export default connectTo(
                 }}
                 components={{
                   bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href$={href} />,
-                  linkToApplication: <Link className={locals.bold} href$={getApplicationDashboard(applicationId)} />
+                  linkToEntity: <Link className={locals.bold} href$={href$} href={href} />,
+                  linkToApplication: (
+                    <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
+                  )
                 }}
               />
             ) : (
@@ -99,8 +110,10 @@ export default connectTo(
                 }}
                 components={{
                   bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href$={href} />,
-                  linkToApplication: <Link className={locals.bold} href$={getApplicationDashboard(applicationId)} />
+                  linkToEntity: <Link className={locals.bold} href$={href$} href={href} />,
+                  linkToApplication: (
+                    <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
+                  )
                 }}
               />
             )
@@ -113,7 +126,7 @@ export default connectTo(
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href$={href} />
+                linkToEntity: <Link className={locals.bold} href$={href$} href={href} />
               }}
             />
           ) : (
@@ -125,7 +138,7 @@ export default connectTo(
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href$={href} />
+                linkToEntity: <Link className={locals.bold} href$={href$} href={href} />
               }}
             />
           )}

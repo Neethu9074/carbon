@@ -34,7 +34,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
@@ -47,61 +47,40 @@ let testId = '';
 let locationsMap = new Map<string, string>();
 let testType: string;
 
+function StartTimeColumnContent(item: TestResultListItem) {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = syntheticDetailsPath;
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'startTime', get(item, ['metrics', 'start_time', 0, 1]));
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'finishTime', get(item, ['metrics', 'start_time', 0, 0]));
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'status', get(item, ['metrics', 'status', 0, 1], 0));
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'responseTime',
+    get(item, ['metrics', 'response_time', 0, 1], 0)
+  );
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'responseSize',
+    get(item, ['metrics', 'response_size', 0, 1], 0)
+  );
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'type', testType);
+
+  return (
+    <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     defaultOrderDirection: 'DESC',
-    getContent(item: TestResultListItem) {
-      return (
-        <SeverityAwareEntityLink
-          severity={getSeverity(item)}
-          label={getRelativeTime(item)}
-          href$={getModifiedUrlStream(resultDetailsUrl => {
-            resultDetailsUrl.pathname = syntheticDetailsPath;
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'testId',
-              item.testResultCommonProperties.testId
-            );
-            setOrDeleteMatrixKey(resultDetailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'startTime',
-              get(item, ['metrics', 'start_time', 0, 1])
-            );
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'finishTime',
-              get(item, ['metrics', 'start_time', 0, 0])
-            );
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'status',
-              get(item, ['metrics', 'status', 0, 1], 0)
-            );
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'responseTime',
-              get(item, ['metrics', 'response_time', 0, 1], 0)
-            );
-            setOrDeleteMatrixKey(
-              resultDetailsUrl,
-              syntheticDetailsPath,
-              'responseSize',
-              get(item, ['metrics', 'response_size', 0, 1], 0)
-            );
-            setOrDeleteMatrixKey(resultDetailsUrl, syntheticDetailsPath, 'type', testType);
-            return resultDetailsUrl;
-          })}
-        />
-      );
-    }
+    getContent: StartTimeColumnContent
   },
   {
     //location_label => location display name

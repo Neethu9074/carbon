@@ -187,7 +187,7 @@ export function updateLazyCallTreeWithRelatedCalls(
 ): LazyCallTree {
   let call: CallDetailsNode = lazyCallTree.searchIndex.get(callId) as CallDetailsNode;
 
-  if (!call || !relatedCalls.data?.items) {
+  if (!call) {
     return lazyCallTree;
   }
 
@@ -368,7 +368,7 @@ function addLazyRelatedCallNodes(
   if (addBefore) {
     existingCallNodes.unshift(...newRelatedCallNodes.reverse());
   } else {
-    existingCallNodes.push(...newRelatedCallNodes.reverse());
+    existingCallNodes.push(...newRelatedCallNodes);
   }
 
   if (data.canLoadMore) {
@@ -495,13 +495,6 @@ function isMissingParentNotYetArrived(parentCallResult: GetCallDetailsResult): b
 export function refreshAllParentNodesToForcePropsChange(lazyCallTree: LazyCallTree, callId: string): CallNode | null {
   let node = lazyCallTree.searchIndex.get(callId);
   if (!node) {
-    if (__DEV__) {
-      logger.warn(
-        `The call with callId ${callId} should be present in the call tree`,
-        lazyCallTree.root,
-        Array.from(lazyCallTree.searchIndex.entries())
-      );
-    }
     return null;
   }
 

@@ -63,5 +63,12 @@ export default [
     category: [t('in-forge:plugins.crio.blockIo')],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'memory.total_rss_percent',
+    label: t('in-forge:plugins.crio.memoryTotalRssPercentage'),
+    min: 0,
+    category: [t('in-forge:plugins.crio.memory')],
+    formatter: percentage
   }
 ];

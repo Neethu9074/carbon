@@ -24,8 +24,8 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-applications/subscriptions/getServices';
 import { syntheticCallsOptions } from 'in-applications/constants';
@@ -43,23 +43,38 @@ const matrixPrefix = 'service.';
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
 
+function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId, syntheticCalls }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+
+  return (
+    <SeverityAwareEntityLink
+      severity={maxSeverity}
+      icon="lib_application_service"
+      label={item.service.label}
+      href={getLinkToServiceDashboard({
+        applicationId,
+        serviceId: item.service.id,
+        boundaryScope,
+        endpointId,
+        syntheticCalls
+      })}
+    />
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, endpointId, boundaryScope, syntheticCalls }) {
-      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
-        <SeverityAwareEntityLink
-          severity={maxSeverity}
-          icon="lib_application_service"
-          label={item.service.label}
-          href$={getServiceDashboard(item.service.id, {
-            applicationId,
-            boundaryScope,
-            endpointId,
-            syntheticCalls
-          })}
+        <ServiceLabelContent
+          item={item}
+          applicationId={applicationId}
+          boundaryScope={boundaryScope}
+          endpointId={endpointId}
+          syntheticCalls={syntheticCalls}
         />
       );
     }

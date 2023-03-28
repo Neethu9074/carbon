@@ -19,5 +19,10 @@
 
   .statusBox {
     width: 20%;
+    font-weight: 600;
+  }
+
+  .validationsBtn {
+    padding-left: 0;
   }
 }

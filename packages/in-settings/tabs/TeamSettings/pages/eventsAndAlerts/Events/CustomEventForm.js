@@ -154,7 +154,7 @@ export default function CustomEventForm({
         startQueryValidation={startQueryValidation}
       />
 
-      {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
+      {role.canConfigureAutomationActions && actionAutomationEnabled && (
         <>
           <div className={locals.titleWithBetatag}>
             <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading> <BetaBadge />

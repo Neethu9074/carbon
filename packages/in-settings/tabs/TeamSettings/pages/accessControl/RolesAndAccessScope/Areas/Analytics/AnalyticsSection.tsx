@@ -18,18 +18,16 @@ import { t } from 'in-i18n';
 
 export const AnalyticsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { columnHeadline, shouldRenderContent } = getCapabilitiesSectionData({
+  const { columnHeadline } = getCapabilitiesSectionData({
     area: ProductArea.ANALYTICS,
     permissionsSet
   });
-
-  if (!shouldRenderContent) return null;
 
   return (
     <AreaExpandableListItem
       iconType="lib_analyze_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.analytics')}
+      firstColumnLabel={t('in-settings:productAreas.title_analytics')}
       subList={
         <Ul>
           <CapabilitySubsection

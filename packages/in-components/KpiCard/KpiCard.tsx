@@ -25,7 +25,8 @@ export interface IconAction {
   text: string;
   icon: string;
   kind?: keyof typeof ButtonKinds;
-  href$: Observable<string>;
+  href$?: Observable<string>;
+  href?: string;
   onClick?: (e: any) => void;
 }
 
@@ -143,7 +144,7 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$} onClick={iconAction.onClick}>
+              <Link href$={iconAction.href$} href={iconAction.href} onClick={iconAction.onClick}>
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>
@@ -151,6 +152,7 @@ export default function KpiCard({
               className={locals.action}
               icon={iconAction.icon}
               href$={iconAction.href$}
+              href={iconAction.href}
               onClick={iconAction.onClick}
               kind={iconAction.kind}
             >

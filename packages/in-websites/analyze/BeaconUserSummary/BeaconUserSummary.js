@@ -5,17 +5,16 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Card, Link } from '@instana/components';
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { expandNestedSerializedJson } from 'in-services/util/json';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -26,6 +25,12 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
   const noGeoAvailable = !isGeoCoordinatesAvailable && geoSubsection.length === 0;
+
+  const analyzeHref = useLinkToAnalyze({
+    groupBy: {},
+    formModel: [tagFilter('beacon.sessionId', 'EQUALS', beacon.sessionId)],
+    beaconType: 'pageLoad'
+  });
 
   return (
     <Row className={locals.summary} verticallyStretchColumns withoutSideMargin={withoutSideMargin}>
@@ -56,11 +61,7 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
               <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleSessionID')}>
                 <Link
                   title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleSeeAllPageLoadsHavingThisSessionID')}
-                  href$={getLinkToAnalyze({
-                    groupBy: {},
-                    formModel: [tagFilter('beacon.sessionId', 'EQUALS', beacon.sessionId)],
-                    beaconType: 'pageLoad'
-                  })}
+                  href={analyzeHref}
                 >
                   {beacon.sessionId}
                 </Link>

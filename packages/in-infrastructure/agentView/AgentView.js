@@ -4,9 +4,11 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
@@ -25,7 +27,7 @@ import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -41,7 +43,6 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-import { fromJS } from 'immutable';
 
 export default connectTo(
   props => {
@@ -123,10 +124,10 @@ function renderButtonLine(props) {
   return <ButtonLine agentSnapshots={agentSnapshots} />;
 }
 
-const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function ButtonLine({
-  isInternalVisible,
-  agentSnapshots
-}) {
+function ButtonLine({ agentSnapshots }) {
+  const { createHrefToPath } = useNavigation();
+  const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
+
   if (!isInternalVisible && !role.canConfigureAgents) {
     return null;
   }
@@ -156,18 +157,13 @@ const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function
         </>
       )}
       {role.canConfigureAgents && (
-        <Button
-          kind="primary"
-          href$={getModifiedUrlStream(params => {
-            params.pathname = '/agents/installation';
-          })}
-        >
+        <Button kind="primary" href={createHrefToPath('/agents/installation')}>
           {t('in-infrastructure:agentView.installingInstanaAgents')}
         </Button>
       )}
     </div>
   );
-});
+}
 
 function onUpdateAllAgents({ agentSnapshots }) {
   const sleep = 10000;

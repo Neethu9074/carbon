@@ -18,6 +18,7 @@ import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import MainNavigation from 'in-components/MainNavigation';
+import ScrollWrapper from 'in-components/ScrollWrapper';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
@@ -32,34 +33,36 @@ export default function App() {
       <LocationStateProvider>
         <GlobalTheme>
           <ThemeProvider theme="default">
-            <GlobalTimeConfig>
-              <NotificationBarSticky />
-              <ErrorBoundary name="main-navigation">
-                <MainNavigation />
-              </ErrorBoundary>
+            <ScrollWrapper>
+              <GlobalTimeConfig>
+                <NotificationBarSticky />
+                <ErrorBoundary name="main-navigation">
+                  <MainNavigation />
+                </ErrorBoundary>
 
-              <div className={locals.content}>
-                <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-              </div>
+                <div className={locals.content}>
+                  <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+                </div>
 
-              <ErrorBoundary name="dialogs">
-                {/* for release notes */}
-                <ReleaseNotesDialog />
-                {/* for hints about deprecations, and required actions */}
-                <DeprecatedCustomEventsPopUp />
-                <TooltipPresenter />
-                <OverlayPresenter />
-                {/* the flyouts on the top right corner */}
-                <MessageFlyout />
-                {/* all the different dialogs e.g. in the settings */}
-                <DialogPresenter />
-              </ErrorBoundary>
+                <ErrorBoundary name="dialogs">
+                  {/* for release notes */}
+                  <ReleaseNotesDialog />
+                  {/* for hints about deprecations, and required actions */}
+                  <DeprecatedCustomEventsPopUp />
+                  <TooltipPresenter />
+                  <OverlayPresenter />
+                  {/* the flyouts on the top right corner */}
+                  <MessageFlyout />
+                  {/* all the different dialogs e.g. in the settings */}
+                  <DialogPresenter />
+                </ErrorBoundary>
 
-              <ErrorBoundary name="floatinButtons">
-                {/* floating action buttons at the bottom of the screen */}
-                <FloatingActionButtonPresenter />
-              </ErrorBoundary>
-            </GlobalTimeConfig>
+                <ErrorBoundary name="floatinButtons">
+                  {/* floating action buttons at the bottom of the screen */}
+                  <FloatingActionButtonPresenter />
+                </ErrorBoundary>
+              </GlobalTimeConfig>
+            </ScrollWrapper>
           </ThemeProvider>
         </GlobalTheme>
       </LocationStateProvider>

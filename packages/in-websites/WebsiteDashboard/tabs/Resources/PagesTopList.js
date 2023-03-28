@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToAnalyze, getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
@@ -69,24 +69,23 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 
 function ViewAll({ tagFilters, websiteLabel, className }) {
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogResourceLoad &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogResourceLoad
-          }),
-          beaconType: 'resourceLoad',
-          groupBy: {
-            groupbyTag: 'beacon.page.name'
-          }
-        })
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogResourceLoad && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogResourceLoad
+      }),
+      beaconType: 'resourceLoad',
+      groupBy: {
+        groupbyTag: 'beacon.page.name'
       }
-    >
+    }
+  );
+
+  return (
+    <Link className={className} href={analyzeHref}>
       {t('in-websites:websiteDashboard.tabs.resources.pageTopListLabelViewAllPages')}
     </Link>
   );
@@ -100,14 +99,13 @@ function Label({ item, websiteId }) {
     // ignore
   }
 
+  let websiteHref = useLinkToWebsite(websiteId, {
+    pageId: label,
+    tabPath: '/resources'
+  });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToWebsite(websiteId, {
-        pageId: label,
-        tabPath: '/resources'
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={websiteHref}>
       {label}
     </Link>
   );

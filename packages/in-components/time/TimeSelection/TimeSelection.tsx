@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
-import { TIME_WINDOW_SIZE_VIA_PICKER, track } from 'in-services/tracking/tracking';
+import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
 // @ts-expect-error
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -120,10 +120,12 @@ function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) 
     <Tooltip content={tooltipMessage}>
       <DashboardHeaderButton
         disabled={disabled}
+        id="live-mode-button"
         href={href}
         icon={icon}
         darkTheme={darkTheme}
         className={isLive ? locals.live : locals.static}
+        onClick={() => !isLive && track(TIME_LIVE_MODE)}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}
       </DashboardHeaderButton>

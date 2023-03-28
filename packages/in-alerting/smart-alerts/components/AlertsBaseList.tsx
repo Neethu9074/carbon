@@ -15,6 +15,7 @@ import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/Smar
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import List, { TableActions as ListTableActions } from 'in-settings/components/List';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
+import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
 export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
@@ -24,10 +25,10 @@ export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
   };
 };
 
-export type ActionHandlers = {
-  handleClone?: (config: AlertConfigType) => void;
-  handleDelete?: (id: string, setIsSaving: boolean, configName: string) => void;
-  handleEdit?: (config: string) => void;
+export type ActionHandlers<AlertConfig extends AlertConfigType> = {
+  handleClone?: (config: AlertConfig) => void;
+  handleDelete?: (id: string, setIsSaving: (saving: boolean) => void, configName: string) => void;
+  handleEdit?: (config: AlertConfig) => void;
   handleToggleEnabled?: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
 };
 
@@ -38,8 +39,8 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   tableActions?: TableActions<AlertConfig>;
   getSubtitle?: (config: AlertConfig) => string;
   onRowClick?: (config: AlertConfig) => void;
-  createRowLinkLocation?: (config: AlertConfigType, location: Location) => Location;
-  actionHandlers?: ActionHandlers;
+  createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
+  actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
 }
 
@@ -48,6 +49,8 @@ export interface AlertConfigType {
   severity: number;
   description: string;
   enabled: boolean;
+  id: string;
+  created: number;
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
@@ -118,7 +121,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
 
 function createColumnDefinition<AlertConfig extends AlertConfigType>(
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
-  actionHandlers: ActionHandlers | undefined,
+  actionHandlers: ActionHandlers<AlertConfig> | undefined,
   getSubtitle?: (config: AlertConfig) => string
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {

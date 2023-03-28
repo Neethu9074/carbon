@@ -142,7 +142,14 @@ export default function Summary({
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
   const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
-  const totalNumberOfLogs = countLogs(callTreeResult);
+
+  // Determining the log count by traversing the call tree was introduced in https://github.ibm.com/instana/ui-client/pull/6308 with
+  // the following comment: "Since the error and warn counts on the trace don't seem to be stable, we calculate the number of logs
+  // by hand from the trace tree."
+  // TODO: https://instana.kanbanize.com/ctrl_board/66/cards/120908/details/
+  const totalNumberOfLogs = lazyLoading
+    ? trace.totalErrorLogCount + trace.totalWarnLogCount
+    : countLogs(callTreeResult);
 
   const timeWindowExtend = minutes.toMillis(10);
   const timeConfigForLogs = {
@@ -368,7 +375,6 @@ export default function Summary({
                   isLargeTrace={false}
                   timeConfigForLogs={timeConfigForLogs}
                   selectLogId={selectLogId}
-                  totalNumberOfLogs={totalNumberOfLogs}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}
                   onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
                   expandedCalls={expandedCalls}

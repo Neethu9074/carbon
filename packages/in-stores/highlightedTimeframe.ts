@@ -70,7 +70,7 @@ export function clearHighlightedTimeframe() {
   store.mutateTo(null);
 }
 
-export function addOrDeleteHighlightedTimeframeToParams(params: Location, from: number, to: number) {
+export function addOrDeleteHighlightedTimeframeToParams(params: Location, from?: number, to?: number) {
   if (from && to) {
     params.query[queryKey] = `${from},${to}`;
   } else {

@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
-import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
+import { Default } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
 
 export default {
   component: AlertConfigDialogWithThreshold,
@@ -28,9 +28,11 @@ export default {
   }
 };
 
-const failureAlertConfig = Object.freeze(generateAlertConfig());
+const alertConfig = Default.args.alertConfig;
 
-export const AdvancedAlertConfigDialog = args => {
+const failureAlertConfig = Object.freeze(alertConfig);
+
+export const AdvancedDialog = args => {
   const { editMode } = args;
   const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig, editMode));
 
@@ -48,14 +50,14 @@ export const AdvancedAlertConfigDialog = args => {
   );
 };
 
-export const SimpleDialogEditModeWithError = args => {
+export const SimpleEditDialogWithError = args => {
   const { editMode } = args;
   const [form, setForm] = useState(alertFormDefinition(failureAlertConfig, editMode));
 
   return <AlertConfigDialogWithThreshold {...args} form={form} updateForm={setForm} />;
 };
 
-SimpleDialogEditModeWithError.args = {
+SimpleEditDialogWithError.args = {
   startWithSimpleMode: true,
   messages: [
     enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError({
@@ -65,13 +67,13 @@ SimpleDialogEditModeWithError.args = {
   ]
 };
 
-export const SimpleDialogEditModeWithoutError = args => {
+export const SimpleEditDialogWithoutError = args => {
   const { editMode } = args;
   const [form, setForm] = useState(alertFormDefinition(failureAlertConfig, editMode));
 
   return <AlertConfigDialogWithThreshold {...args} form={form} updateForm={setForm} />;
 };
 
-SimpleDialogEditModeWithoutError.args = {
+SimpleEditDialogWithoutError.args = {
   startWithSimpleMode: true
 };

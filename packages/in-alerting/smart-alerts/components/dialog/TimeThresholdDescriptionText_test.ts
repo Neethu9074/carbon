@@ -8,7 +8,7 @@ import {
   TimeThresholdType
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-import { UserImpactThreshold, UserImpactWebsiteTimeThreshold, WebsiteTimeThreshold } from 'in-types';
+import { WebsiteUserImpactThreshold, UserImpactWebsiteTimeThreshold, WebsiteTimeThreshold } from 'in-types';
 const { getDescription } = require('in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText');
 
 const GRANULARITY = 10000;
@@ -17,7 +17,9 @@ describe('in-alerting/smart-alerts/components/dialog/TimeThresholdDescriptionTex
   describe('getDescription for a specific time threshold and granularity', () => {
     describe('WHEN impact type is user impact of violations in sequence', () => {
       describe('WHEN impact method is AGGREGATED', () => {
-        function enrichUserImpactThreshold(userImpactThreshold: UserImpactThreshold): UserImpactWebsiteTimeThreshold {
+        function enrichUserImpactThreshold(
+          userImpactThreshold: WebsiteUserImpactThreshold
+        ): UserImpactWebsiteTimeThreshold {
           return {
             ...userImpactThreshold,
             type: timeThresholdTypes.userImpactOfViolationsInSequence,
@@ -50,7 +52,9 @@ describe('in-alerting/smart-alerts/components/dialog/TimeThresholdDescriptionTex
       });
 
       describe('WHEN impact method is per window', () => {
-        function enrichUserImpactThreshold(userImpactThreshold: UserImpactThreshold): UserImpactWebsiteTimeThreshold {
+        function enrichUserImpactThreshold(
+          userImpactThreshold: WebsiteUserImpactThreshold
+        ): UserImpactWebsiteTimeThreshold {
           return {
             ...userImpactThreshold,
             type: timeThresholdTypes.userImpactOfViolationsInSequence,
@@ -81,7 +85,7 @@ describe('in-alerting/smart-alerts/components/dialog/TimeThresholdDescriptionTex
       });
 
       describe('WHEN impact method is not specified', () => {
-        function enrichUserImpactThreshold(userImpactThreshold: UserImpactThreshold) {
+        function enrichUserImpactThreshold(userImpactThreshold: WebsiteUserImpactThreshold) {
           return {
             ...userImpactThreshold,
             type: timeThresholdTypes.userImpactOfViolationsInSequence,
@@ -134,7 +138,11 @@ describe('in-alerting/smart-alerts/components/dialog/TimeThresholdDescriptionTex
   });
 
   function enrichByTimeWindow(
-    timeThreshold: { type: TimeThresholdType } & (UserImpactThreshold | { violations: number } | { requests: number })
+    timeThreshold: { type: TimeThresholdType } & (
+      | WebsiteUserImpactThreshold
+      | { violations: number }
+      | { requests: number }
+    )
   ): WebsiteTimeThreshold {
     return {
       ...timeThreshold,

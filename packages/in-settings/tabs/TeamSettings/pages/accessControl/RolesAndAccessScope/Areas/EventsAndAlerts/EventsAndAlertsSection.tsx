@@ -18,18 +18,16 @@ import { t } from 'in-i18n';
 
 export const EventsAndAlertsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { columnHeadline, shouldRenderContent } = getCapabilitiesSectionData({
+  const { columnHeadline } = getCapabilitiesSectionData({
     area: ProductArea.EVENT,
     permissionsSet
   });
-
-  if (!shouldRenderContent) return null;
 
   return (
     <AreaExpandableListItem
       iconType="lib_events_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.event')}
+      firstColumnLabel={t('in-settings:productAreas.title_events_and_alerts')}
       subList={
         <Ul>
           <CapabilitySubsection

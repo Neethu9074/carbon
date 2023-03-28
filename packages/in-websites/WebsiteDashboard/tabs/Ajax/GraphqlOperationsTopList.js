@@ -12,7 +12,7 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopLi
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { ms, number, percentage } from 'in-services/formatters/number';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -82,24 +82,22 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest, className }) {
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {
-            groupbyTag: 'beacon.graphql.operationName'
-          }
-        })
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {
+        groupbyTag: 'beacon.graphql.operationName'
       }
-    >
+    }
+  );
+
+  return (
+    <Link className={className} href={analyzeHref}>
       View all GraphQL operation names
     </Link>
   );
@@ -113,26 +111,24 @@ function Label({ item, websiteLabel, tagFilters, tagCatalogHttpRequest }) {
     // ignore
   }
 
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat({
+          name: 'beacon.graphql.operationName',
+          stringValue: label,
+          operator: 'EQUALS'
+        }),
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {}
+    }
+  );
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters: tagFilters.concat({
-              name: 'beacon.graphql.operationName',
-              stringValue: label,
-              operator: 'EQUALS'
-            }),
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {}
-        })
-      }
-    >
+    <Link onClick={() => trackTopListNavigation()} href={analyzeHref}>
       {label}
     </Link>
   );

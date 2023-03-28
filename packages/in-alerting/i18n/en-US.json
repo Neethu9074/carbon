@@ -1037,15 +1037,15 @@
           "moreFiltersWithCount_0": "+{{count}} more filters",
           "moreFiltersWithCount_1": "+{{count}} more filters",
           "moreFiltersWithCount_2": "+{{count}} more filters",
-          "filter": "filter",
-          "filter_plural": "filters",
+          "filter": "Filter",
+          "filter_plural": "Filters",
           "filter_0": "filters",
           "filter_1": "filters",
           "filter_2": "filters"
         }
       },
       "alertList": {
-        "timeThreshold": "Failure Threshold",
+        "timeThreshold": "Time Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure Alerting"
@@ -1053,20 +1053,26 @@
       "simple": {
         "stepConfigsStep1Title": "Step 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
+        "simpleAlertConfigDialogStep1Tooltip": "Individual alerts will be sent independently for each synthetic test, per location",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
         "scopeHeadline": "Where do you want the alert to trigger?",
-        "stepConfigsStep3Title": "Step 3: Threshold",
+        "stepConfigsStep3Title": "Step 3: Time Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
+        "thresholdTitleHelpText": "Failures determined in the PoP, based on retry interval configured in synthetic test creation.",
+        "thresholdSubTitleHelpText": "If the specified number of alerts occurs in every location, you will receive an alert for every location.",
+        "thresholdSubTitle": "Total locations in attached tests:",
         "slider": {
           "failuresWithCount": "{{count}} Failure",
           "failuresWithCount_plural": "{{count}} Failures",
           "failuresWithCount_0": "{{count}} Failures",
           "failuresWithCount_1": "{{count}} Failures",
           "failuresWithCount_2": "{{count}} Failures"
-        }
+        },
+        "alertPropertiesTitlePlaceholder": "Insert title here",
+        "alertPropertiesDescriptionPlaceholder": "Insert description here"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
@@ -1074,8 +1080,10 @@
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
         "propertiesLabel": "Alert Properties",
-        "failureThreshold": "Failure Threshold",
-        "failureThresholdLabel": "Failure Threshold",
+        "alertPropertiesPreviewTitlePlaceholder": "[Insert title here]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Insert description here]",
+        "failureThreshold": "Time Threshold",
+        "failureThresholdLabel": "Time Threshold",
         "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "selectTests": {
@@ -1099,7 +1107,11 @@
         "alertConfigurationTitleAlertTests": "Selected Tests",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "failureThreshold": "{{failureCount}} failures"
+        "failureThreshold": "{{failureCount}} failures",
+        "alertConfigurationTitleScope": "Scope",
+        "noOfFailure": "Number of failure",
+        "timeThreshold": "Time Threshold",
+        "alertingType": "Alerting Type"
       }
     }
   }

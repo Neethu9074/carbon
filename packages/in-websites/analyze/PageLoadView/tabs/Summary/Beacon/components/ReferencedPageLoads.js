@@ -12,9 +12,9 @@ import { Button } from '@instana/components';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
-import { getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { useLinkToPageLoad } from 'in-websites/navigation/paths';
 import { latencyFixed } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -81,6 +81,12 @@ function ReferencedPageLoads({ pageLoads }) {
 
 function ReferencedPageLoad({ beacons }) {
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
+
+  const pageLoadHref = useLinkToPageLoad({
+    pageLoadId: pageLoad.pageLoadId,
+    beaconTimestamp: pageLoad.timestamp
+  });
+
   if (!pageLoad) {
     // can happen for incomplete page load data
     return null;
@@ -103,14 +109,7 @@ function ReferencedPageLoad({ beacons }) {
         />
       </div>
 
-      <Button
-        className={locals.button}
-        size="compact"
-        href$={getLinkToPageLoad({
-          pageLoadId: pageLoad.pageLoadId,
-          beaconTimestamp: pageLoad.timestamp
-        })}
-      >
+      <Button className={locals.button} size="compact" href={pageLoadHref}>
         {t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsButtonInspect')}
       </Button>
     </div>

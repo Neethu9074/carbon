@@ -11,7 +11,7 @@ import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsit
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -96,28 +96,25 @@ function Label({ item, websiteLabel, tagFilters, beaconType, tagCatalogs }) {
     // ignore
   }
 
-  return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={
-        tagCatalogs[beaconType] &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters: tagFilters.concat({
-              name: 'beacon.effectiveConnectionType',
-              operator: 'EQUALS',
-              stringValue: label
-            }),
-            tagCatalog: tagCatalogs[beaconType]
-          }),
-          beaconType,
-          groupBy: {
-            groupbyTag: 'beacon.browser.name'
-          }
-        })
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogs[beaconType] && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat({
+          name: 'beacon.effectiveConnectionType',
+          operator: 'EQUALS',
+          stringValue: label
+        }),
+        tagCatalog: tagCatalogs[beaconType]
+      }),
+      beaconType,
+      groupBy: {
+        groupbyTag: 'beacon.browser.name'
       }
-    >
+    }
+  );
+  return (
+    <Link onClick={() => trackTopListNavigation()} href={analyzeHref}>
       {label}
     </Link>
   );

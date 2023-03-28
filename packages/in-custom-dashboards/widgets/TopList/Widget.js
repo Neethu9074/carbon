@@ -11,7 +11,6 @@ import { Link } from '@instana/components';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
@@ -25,12 +24,14 @@ import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isParseableAsNumber } from 'in-services/util/number';
 import { close } from 'in-components/DialogPresenter/store';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
 import { pendingResult } from 'in-services/fixedObjects';
+import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
@@ -98,6 +99,15 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
 }
 
 function Label({ item, config, result, tagCatalog }) {
+  let formModel = fromBackendModel(config.metricConfiguration.tagFilterExpression);
+
+  const analyzeHref = useLinkToAnalyze({
+    groupBy: defaultWebsiteGroupings[config.metricConfiguration.beaconType],
+    formModel,
+    beaconType: config.metricConfiguration.beaconType,
+    tagCatalog
+  });
+
   let filters = config.metricConfiguration.tagFilters;
   if (filters) {
     if (config.metricConfiguration.grouping) {
@@ -128,8 +138,6 @@ function Label({ item, config, result, tagCatalog }) {
   }
 
   const groupBy = config.metricConfiguration.grouping?.[0].by;
-
-  let formModel = fromBackendModel(config.metricConfiguration.tagFilterExpression);
 
   if (item.label !== 'other_group') {
     formModel = joinExpressions({
@@ -211,21 +219,18 @@ function Label({ item, config, result, tagCatalog }) {
       });
       break;
     case 'WEBSITE':
-      link = getLinkToWebsiteAnalyze({
-        groupBy: defaultWebsiteGroupings[config.metricConfiguration.beaconType],
-        formModel,
-        beaconType: config.metricConfiguration.beaconType,
-        tagCatalog
-      });
+      link = analyzeHref;
       break;
     case 'INFRASTRUCTURE_METRICS':
       link = (hasInfrastructureAnalyzeAccess && getLinkToEntityExplore(config, formModel)) || '';
       break;
   }
 
+  const { href$, href } = unwrapLink(link);
+
   return (
     config.metricConfiguration.grouping && (
-      <Link href$={link} onClick={close}>
+      <Link href$={href$} href={href} onClick={close}>
         <LinkContent item={item} groupBy={groupBy} />
       </Link>
     )

@@ -14,7 +14,7 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -24,9 +24,10 @@ import { t } from 'in-i18n';
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
-  const isTestsActive = useObservable(isView(paths.syntheticsPath), []);
-  const isLocationsActive = useObservable(isView(paths.syntheticLocationPath), []);
-  const isSmartAlertsActive = useObservable(isView(paths.syntheticSmartAlertsPath), []);
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const isTestsActive = matchLocation(paths.syntheticsPath);
+  const isLocationsActive = matchLocation(paths.syntheticLocationPath);
+  const isSmartAlertsActive = matchLocation(paths.syntheticSmartAlertsPath);
 
   const popProperties: PoPInstallationPropertiesResponse =
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
@@ -51,19 +52,19 @@ export default function ViewSwitcher() {
         <div className={locals.firstLine}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticsPath))}
+              href={createHrefToPath(paths.syntheticsPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
               isActive={isTestsActive && !isLocationsActive && !isSmartAlertsActive}
               icon={'lib_synthetic'}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticLocationPath))}
+              href={createHrefToPath(paths.syntheticLocationPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
               isActive={isLocationsActive && !isTestsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticSmartAlertsPath))}
+              href={createHrefToPath(paths.syntheticSmartAlertsPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.smartAlerts')}
               isActive={isSmartAlertsActive && !isTestsActive && !isLocationsActive}
               icon={'lib_alerts_alert'}

@@ -7,14 +7,12 @@ import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
 import { Button, Link, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import {
   LARGE_TRACE_THRESHOLD,
   shouldUseLazyLoadedCallTree
 } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -169,14 +167,13 @@ function renderButtonLine(props) {
 }
 
 function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
-  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
 
   const traceIdInUrl = result?.data?.id ?? traceId;
 
   let adjustedTimeConfig = timeConfig;
-  if (isInternalVisible && result?.data) {
+  if (result?.data) {
     // adjust the selected time range to cover the whole trace
     adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(
       timeConfig,
@@ -207,7 +204,9 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
   }
 
   const traceDownloadUrl = shouldUseLazyLoadedCallTree(result?.data)
-    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(traceIdInUrl)}?pretty`
+    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+        traceIdInUrl
+      )}?pretty&retrievalSize=200&offset=0&ingestionTime=${Date.now()}`
     : `/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`;
 
   return (
@@ -215,27 +214,25 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
       <Button icon="lib_actions_download" kind="secondary" target="_blank" href={traceDownloadUrl}>
         {t('in-applications:linkDownload')}
       </Button>
-      {isInternalVisible && (
-        <Button
-          icon="lib_analyze"
-          kind="secondary"
-          href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
-          onClick={() => {
-            if (adjustedTimeConfig !== timeConfig) {
-              addMessage(
-                {
-                  type: 'info',
-                  timeout: 5000,
-                  content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForTrace')
-                },
-                'adjustedTimeConfig'
-              );
-            }
-          }}
-        >
-          {t('in-applications:analyze.analyzeCallsOfThisTrace')}
-        </Button>
-      )}
+      <Button
+        icon="lib_analyze"
+        kind="secondary"
+        href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
+        onClick={() => {
+          if (adjustedTimeConfig !== timeConfig) {
+            addMessage(
+              {
+                type: 'info',
+                timeout: 5000,
+                content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForTrace')
+              },
+              'adjustedTimeConfig'
+            );
+          }
+        }}
+      >
+        {t('in-applications:analyze.analyzeCallsOfThisTrace')}
+      </Button>
     </>
   );
 }

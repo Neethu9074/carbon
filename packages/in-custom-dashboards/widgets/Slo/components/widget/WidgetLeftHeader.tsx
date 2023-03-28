@@ -11,11 +11,11 @@ import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/Slo/s
 import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 import locals from './WidgetLeftHeader.mless';
+import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 
 interface WidgetLeftHeaderProps {
   title: string;

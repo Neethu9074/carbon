@@ -19,6 +19,7 @@ import {
   TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';
@@ -352,4 +353,5 @@ export const resultsFilterUrlStateDefinition = {
 export interface AdvancedModeProps {
   form: MapForm;
   updateForm: (form: MapForm) => void;
+  setSliderState: (state: SliderState) => void;
 }

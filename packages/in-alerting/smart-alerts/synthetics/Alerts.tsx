@@ -18,16 +18,19 @@ import {
 } from 'in-synthetics/navigation/matrix';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import AlertBaseList, { TableActions } from 'in-alerting/smart-alerts/components/AlertsBaseList';
-import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig } from 'in-types';
+import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
+import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
+import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { syntheticSmartAlertsDetailsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { mutateUrl } from 'in-stores/navigation/navigation';
+import { Location } from 'in-stores/navigation/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export interface AlertsProps {
-  testId?: string;
+  testId: string;
 }
 
 export const tableActions: TableActions<SyntheticAlertConfigWithMetadata> = {
@@ -42,22 +45,17 @@ export const tableActions: TableActions<SyntheticAlertConfigWithMetadata> = {
 };
 
 export default function Alerts({ testId }: AlertsProps) {
+  const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+
   return (
     <AlertBaseList<SyntheticAlertConfigWithMetadata>
       extraColumnDefinitions={getColumnDefinitions()}
-      loadEntities={() => getAllAlertConfigs(testId)}
+      getAlertConfigs={() => getAllAlertConfigs(testId, { asObservable: true })}
+      actionHandlers={handlers}
       tableActions={tableActions}
       getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
-      onRowClick={
-        syntheticSmartAlertsDetailsEnabled
-          ? config =>
-              mutateUrl(location => {
-                location.pathname = dashboardTestAlertsTabDetailsFullyQualified;
-                setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
-                setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
-              })
-          : undefined
-      }
+      createRowLinkLocation={syntheticSmartAlertsDetailsEnabled ? createRowLinkLocation : undefined}
+      sortOptions={sortOptions}
     />
   );
 }
@@ -86,4 +84,16 @@ function getColumnDefinitions() {
   ];
 
   return additionalColumn;
+}
+
+function createRowLinkLocation(config: SyntheticAlertConfigWithMetadata, location: Location): Location {
+  const rowLinkLocation = {
+    ...location,
+    pathname: dashboardTestAlertsTabDetailsFullyQualified
+  };
+
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertIdMatrixParam, config.id);
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreatedMatrixParam, config.created);
+
+  return rowLinkLocation;
 }

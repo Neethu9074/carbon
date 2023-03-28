@@ -7,19 +7,24 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { DistinctSlider } from '@instana/components';
+import { DistinctSlider, SvgIcon } from '@instana/components';
 
 import {
   AlertConfigDialogPresenterProps,
-  MainDialogControl,
-  SlideInConfig
+  MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleModeDialogThreshold(
-  props: AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
+  props: AlertConfigDialogPresenterProps &
+    MainDialogControl & {
+      subtitle: string;
+      subTitleToolTipText: string;
+    }
 ) {
   const formatLabel = (value: number) =>
     t('in-alerting:smartAlerts.synthetics.simple.slider.failuresWithCount', {
@@ -27,7 +32,7 @@ export default function SimpleModeDialogThreshold(
     });
 
   const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: value }));
-  const { form, updateForm, title } = props;
+  const { form, updateForm, subtitle, subTitleToolTipText } = props;
   const timeThresholdForm = form.get('timeThreshold') as MapForm;
   const violationsCount = (timeThresholdForm.get('violationsCount') as Field<number>).value;
 
@@ -37,7 +42,16 @@ export default function SimpleModeDialogThreshold(
   }
   return (
     <>
-      {title && <h1 className={locals.title}>{title}</h1>}
+      {subtitle && (
+        <div className={locals.subtitle}>
+          {subtitle}
+          {subTitleToolTipText && (
+            <Tooltip align="bottomMiddle" content={subTitleToolTipText}>
+              <SvgIcon type="lib_help_error_error_outline" color={theme.lib.colors.N600Light} />
+            </Tooltip>
+          )}
+        </div>
+      )}
       <div className={locals.container}>
         <DistinctSlider
           valueLabelDisplay="auto"

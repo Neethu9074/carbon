@@ -11,7 +11,7 @@ import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBre
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -74,15 +74,44 @@ function getList({ tagFilters, timeConfig }) {
 }
 
 function Label({ item, tagFilters, websiteLabel }) {
+  let linkTagFilters = Array.from(tagFilters);
   const tagCatalogPageLoad = useTagCatalog('pageLoad');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: linkTagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.window.width'
+      },
+      beaconType: 'pageLoad'
+    }
+  );
+
+  function getLink({ min, max }) {
+    if (min > 0) {
+      linkTagFilters.push({
+        name: 'beacon.window.width',
+        numberValue: min - 1,
+        operator: 'GREATER_THAN'
+      });
+    }
+    if (max > 0) {
+      linkTagFilters.push({
+        name: 'beacon.window.width',
+        numberValue: max + 1,
+        operator: 'LESS_THAN'
+      });
+    }
+    return analyzeHref;
+  }
+
   return (
     <Tooltip content={getTechnicalLabel(item.minWindowWidth, item.maxWindowWidth)}>
-      <Link
-        href$={
-          tagCatalogPageLoad &&
-          getLink({ tagFilters, websiteLabel, min: item.minWindowWidth, max: item.maxWindowWidth, tagCatalogPageLoad })
-        }
-      >
+      <Link href={tagCatalogPageLoad && getLink({ min: item.minWindowWidth, max: item.maxWindowWidth })}>
         {getHumanReadableLabel(item.minWindowWidth, item.maxWindowWidth)}
       </Link>
     </Tooltip>
@@ -107,35 +136,6 @@ function getTechnicalLabel(min, max) {
   } else {
     return t('in-websites:websiteDashboard.tabs.user.sizesTechnicalLabelAtMost', { max: max });
   }
-}
-
-function getLink({ tagFilters, websiteLabel, min, max, tagCatalogPageLoad }) {
-  let linkTagFilters = Array.from(tagFilters);
-  if (min > 0) {
-    linkTagFilters.push({
-      name: 'beacon.window.width',
-      numberValue: min - 1,
-      operator: 'GREATER_THAN'
-    });
-  }
-  if (max > 0) {
-    linkTagFilters.push({
-      name: 'beacon.window.width',
-      numberValue: max + 1,
-      operator: 'LESS_THAN'
-    });
-  }
-  return getLinkToAnalyze({
-    formModel: translateDemocratisationTagFiltersToFormModel({
-      websiteLabel,
-      tagFilters: linkTagFilters,
-      tagCatalog: tagCatalogPageLoad
-    }),
-    groupBy: {
-      groupbyTag: 'beacon.window.width'
-    },
-    beaconType: 'pageLoad'
-  });
 }
 
 function getMetricValueFromItem(selectedMetric, item) {

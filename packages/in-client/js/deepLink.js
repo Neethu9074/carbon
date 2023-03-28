@@ -7,9 +7,9 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useGenerateLinkToPageLoad } from 'in-websites/navigation/paths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
-import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
@@ -21,13 +21,14 @@ function DeepLink() {
   const location = useLocation();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
+  const getLinkToPageLoad = useGenerateLinkToPageLoad();
   const to$ =
-    resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail) ||
-    resolveWebsitesPageLoadIdDeepLink(location) ||
-    resolveMobileAppsSessionIdDeepLink(location);
+    resolveWebsitesPageLoadIdDeepLink(location, getLinkToPageLoad) || resolveMobileAppsSessionIdDeepLink(location);
 
-  if (to$) {
-    return <RedirectWithHash to$={to$} />;
+  const to = resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail);
+
+  if (to$ || to) {
+    return <RedirectWithHash to={to} to$={to$} />;
   }
 
   return <RedirectWithHash to="/" />;
@@ -40,7 +41,7 @@ function resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail) {
   }
 }
 
-function resolveWebsitesPageLoadIdDeepLink(location) {
+function resolveWebsitesPageLoadIdDeepLink(location, getLinkToPageLoad) {
   const pageLoadId = getMatrixParameter(location, path, 'websites.pageLoad.id');
   const beaconTimestamp = getMatrixParameter(location, path, 'websites.pageLoad.timestamp');
   if (pageLoadId && beaconTimestamp) {

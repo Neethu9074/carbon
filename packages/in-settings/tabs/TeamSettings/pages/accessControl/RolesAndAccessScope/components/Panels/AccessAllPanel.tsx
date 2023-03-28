@@ -17,11 +17,12 @@ import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import { t } from 'in-i18n';
 
 interface AccessAllPanelProps {
-  entityPermissionKey: string;
+  entityPermissionKey?: string;
   role?: AreaRoleWithCustomType;
-  roleTooltipText: string;
+  roleTooltipText?: string;
   description: string;
-  onChangeRole: (role: AreaRoleType) => void;
+  title?: string;
+  onChangeRole?: (role: AreaRoleType) => void;
 }
 
 export default function AccessAllPanel({
@@ -29,25 +30,28 @@ export default function AccessAllPanel({
   onChangeRole,
   entityPermissionKey,
   roleTooltipText,
-  description
+  description,
+  title
 }: AccessAllPanelProps) {
   return (
     <Stack direction="vertical">
       <StackItem>
         <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.description_access_all')}
+          {title ?? t('in-settings:permissionScope.description_access_all')}
         </Typography>
         <Typography variant="body-regular" component="div">
           {description}
         </Typography>
       </StackItem>
-      <RoleFormGroup
-        htmlFor={`${entityPermissionKey}-role-select`}
-        tooltipText={roleTooltipText}
-        value={role}
-        defaultRole={AreaRole.VIEWER}
-        onChange={onChangeRole}
-      />
+      {roleTooltipText && onChangeRole && entityPermissionKey && (
+        <RoleFormGroup
+          htmlFor={`${entityPermissionKey}-role-select`}
+          tooltipText={roleTooltipText}
+          value={role}
+          defaultRole={AreaRole.VIEWER}
+          onChange={onChangeRole}
+        />
+      )}
     </Stack>
   );
 }

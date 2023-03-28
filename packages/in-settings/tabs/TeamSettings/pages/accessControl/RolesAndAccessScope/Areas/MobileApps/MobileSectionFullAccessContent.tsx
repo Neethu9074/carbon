@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Li, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
@@ -16,17 +16,15 @@ import { t } from 'in-i18n';
 
 export const MobileSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
+  const { areaColumnHeadline } = getAreaData({ area: ProductArea.MOBILE_APP, permissionsSet });
 
   return (
     <AreaExpandableListItem
       iconType="lib_mobile_app_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.mobileApp')}
+      firstColumnLabel={t('in-settings:productAreas.title_mobileApps')}
     >
-      <Li>
-        <Typography variant="body-regular">{t('in-settings:productAreas.allMobileApps')}</Typography>
-      </Li>
+      <Typography variant="body-small">{t('in-settings:productAreas.allMobileApps')}</Typography>
     </AreaExpandableListItem>
   );
 };

@@ -20,6 +20,7 @@ export type NavItem = {
   checked?: boolean;
   valid?: boolean;
   hidden?: boolean;
+  titleToolTipText?: string;
 };
 
 interface SideNavProps {

@@ -16,7 +16,7 @@ import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullH
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -29,6 +29,7 @@ const GlobeView = createAsyncViewComponent(GlobeViewLoader);
 export default function Geography(props) {
   const { tagFilters, timeConfig } = props;
   useDisabledBodyScroll();
+  const { createHrefToPath } = useNavigation();
 
   return (
     <WithEmptyStateFallback
@@ -53,12 +54,7 @@ export default function Geography(props) {
                     getData$={getData$}
                     getValue={v => v.sessions}
                   />
-                  <Link
-                    className={locals.link}
-                    href$={getModifiedUrlStream(
-                      params => (params.pathname = `${mobileAppPathFullyQualified}/geography`)
-                    )}
-                  >
+                  <Link className={locals.link} href={createHrefToPath(`${mobileAppPathFullyQualified}/geography`)}>
                     <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
                   </Link>
                   <p className={locals.footerText}>{t('in-mobile-apps:dashboard.tabs.globViewFootertext')}</p>
@@ -74,9 +70,7 @@ export default function Geography(props) {
                   />
                   <Tooltip content={t('in-mobile-apps:dashboard.tabs.switchTo3DTooltip')} align="leftMiddle">
                     <Button
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = `${mobileAppPathFullyQualified}/geography/globe`)
-                      )}
+                      href={createHrefToPath(`${mobileAppPathFullyQualified}/geography/globe`)}
                       className={locals.to3D}
                       renderContent={() => <span>{t('in-mobile-apps:dashboard.tabs.3DBtn')}</span>}
                     />

@@ -1,0 +1,91 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React from 'react';
+
+import getJavaSystemRelatedResourceLists from 'in-sap/subscriptions/getJavaSystemRelatedResourceLists';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { t } from 'in-i18n';
+
+const pathSegment = '/javasystem';
+const matrixPrefix = 'javasystems.';
+var systemSnapshotId = '';
+
+const columnDefinitions = [
+  {
+    id: 'label',
+    label: t('in-sap:name'),
+    getContent(item) {
+      return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
+    }
+  },
+  {
+    id: 'objectType',
+    label: t('in-sap:objectType'),
+    getContent(item) {
+      return getHumanReadablePluginName(item);
+    }
+  },
+  {
+    id: 'hostName',
+    label: t('in-sap:hostName'),
+    getContent(item) {
+      return item.hostName;
+    }
+  },
+  {
+    id: 'health',
+    label: t('in-sap:health'),
+    getContent(item, { timeConfig }) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.id}
+          inContentArea
+        />
+      );
+    }
+  }
+];
+
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  columnDefinitions,
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
+});
+
+export default function RelatedResource(props) {
+  systemSnapshotId = props.hostId;
+  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} hostId={systemSnapshotId} />;
+}
+
+function getTableData({ page = 0, pageSize = 20, orderBy = 'label', orderDirection = 'ASC', timeConfig, hostId }) {
+  return getJavaSystemRelatedResourceLists({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      hostId,
+      timeConfig
+    }
+  });
+}

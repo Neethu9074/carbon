@@ -19,8 +19,8 @@ import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } f
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { latency } from 'in-services/formatters/number';
@@ -143,17 +143,11 @@ interface ViewAllProps {
 }
 
 function ViewAll({ testId }: ViewAllProps) {
-  return (
-    <Link
-      href$={getModifiedUrlStream(resultListUrl => {
-        resultListUrl.pathname = syntheticResultsListPath;
-        setOrDeleteMatrixKey(resultListUrl, syntheticsDashboard, 'testId', testId);
-        return resultListUrl;
-      })}
-    >
-      {t('in-synthetics:dashboard.summary.widgets.linkViewAllTestResults')}
-    </Link>
-  );
+  const { location, createHref } = useNavigation();
+  location.pathname = syntheticResultsListPath;
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', testId);
+
+  return <Link href={createHref(location)}>{t('in-synthetics:dashboard.summary.widgets.linkViewAllTestResults')}</Link>;
 }
 
 type LabelProps = {
@@ -163,58 +157,38 @@ type LabelProps = {
 };
 
 function Label({ item, selectedMetric, locationsMap }: LabelProps) {
+  const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
   const resultId = item.testResultCommonProperties.id;
-  const location =
+  const testLocation =
     (item.testResultCommonProperties.locationId && locationsMap.get(item.testResultCommonProperties.locationId)) || '';
-  return (
-    <Link
-      href$={getModifiedUrlStream(resultDetailUrl => {
-        resultDetailUrl.pathname = syntheticDetailsPath;
-        setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'testId', testId);
-        setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'id', resultId);
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'type',
-          getMatrixParameter(resultDetailUrl, syntheticsDashboard, 'type')
-        );
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'startTime',
-          get(item, ['metrics', 'start_time', 0, 1])
-        );
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'finishTime',
-          get(item, ['metrics', 'start_time', 0, 0])
-        );
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'status',
-          get(item, ['metrics', 'status', 0, 1], 0)
-        );
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'responseTime',
-          get(item, ['metrics', 'response_time', 0, 1], 0)
-        );
-        setOrDeleteMatrixKey(
-          resultDetailUrl,
-          syntheticDetailsPath,
-          'responseSize',
-          get(item, ['metrics', 'response_size', 0, 1], 0)
-        );
-        return resultDetailUrl;
-      })}
-    >
-      {location + AdditionalLabel({ item, selectedMetric })}
-    </Link>
+
+  location.pathname = syntheticDetailsPath;
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'type',
+    getMatrixParameter(location, syntheticsDashboard, 'type')
   );
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'startTime', get(item, ['metrics', 'start_time', 0, 1]));
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'finishTime', get(item, ['metrics', 'start_time', 0, 0]));
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'status', get(item, ['metrics', 'status', 0, 1], 0));
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'responseTime',
+    get(item, ['metrics', 'response_time', 0, 1], 0)
+  );
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'responseSize',
+    get(item, ['metrics', 'response_size', 0, 1], 0)
+  );
+
+  return <Link href={createHref(location)}>{testLocation + AdditionalLabel({ item, selectedMetric })}</Link>;
 }
 
 interface AdditionalLabelProps {

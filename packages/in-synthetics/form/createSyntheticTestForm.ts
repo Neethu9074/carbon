@@ -6,6 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { jsonValidator, regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -20,6 +21,11 @@ interface HTTPMethodType {
   value: 'GET' | 'POST' | 'PUT' | 'DELETE';
   label: string;
   isdisabled?: boolean;
+}
+
+interface ValidationsType {
+  value: 'Expect Status' | 'Expect JSON' | 'Expect Match';
+  label: string;
 }
 
 export function createForm(
@@ -138,6 +144,13 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
 function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'HTTPAction',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
       'operation',
       createField({
         value: savedState?.method || HTTPMethods[0].value,
@@ -162,17 +175,39 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
-      'expectedStatus',
+      'expectStatus',
       createField({
-        value: savedState?.expectedStatus ?? Validations[0].value,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        value: savedState?.expectStatus ?? '200',
+        validator: composeAndShortCircuitOnError(
+          statusCodeValidator,
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator
+        )
       })
     )
     .put(
-      'expectedStatusDescription',
+      'expectJson',
       createField({
-        value: savedState?.expectedStatusDescription ?? '200',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        value: savedState?.expectJson ?? new Map(),
+        validator: composeAndShortCircuitOnError(
+          jsonValidator,
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator
+        )
+      })
+    )
+    .put(
+      'expectMatch',
+      createField({
+        value: savedState?.expectMatch ?? '',
+        validator: composeAndShortCircuitOnError(
+          regExpValidator,
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator
+        )
       })
     )
     .put(
@@ -199,4 +234,17 @@ export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([
   { value: 'DELETE', label: t('in-synthetics:dialog.httpMethods.delete'), isdisabled: true }
 ]);
 
-export const Validations: readonly any[] = Object.freeze([{ value: 'Expect Status', label: 'Expect Status' }]);
+export const Validations: readonly ValidationsType[] = Object.freeze([
+  {
+    value: 'Expect Status',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusLabel')
+  },
+  {
+    value: 'Expect JSON',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONLabel')
+  },
+  {
+    value: 'Expect Match',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchLabel')
+  }
+]);

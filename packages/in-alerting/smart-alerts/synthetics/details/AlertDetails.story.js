@@ -7,41 +7,55 @@
 import React from 'react';
 
 import {
+  syntheticSmartAlertsPath as alertsTabSegment,
+  alertsTabDetailsFullyQualified as detailsPath,
+  syntheticSmartAlertsPath as listPath,
+  dashboardTestAlertsTabDetailsFullyQualified as dashboardTestAlertDetailsPath,
+  dashboardAlertsFullyQualified as dashboardAlertPath,
+  alertsTab as dashboardTestAlertTabSegment
+} from 'in-synthetics/navigation/paths';
+import {
   deleteAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-import {
-  alertsTab as alertsTabSegment,
-  alertsTabDetailsFullyQualified as detailsPath,
-  alertsTabListFullyQualified as listPath
-} from 'in-websites/navigation/paths';
-import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
+import { Default as alertconfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
+import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
-import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
-import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
+import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { successObservable } from 'in-services/util/result';
 
 const tracking = {};
 const timeConfig = {
   windowSize: 12345678
 };
+const isMainPage = true;
 
-export default { component: AlertDetails };
+const alertConfig = alertconfigValue.args.alertConfig;
 
-export const AlertDetailsView = () => {
+export default { component: Alert };
+
+export const Default = () => {
   return (
-    <AlertDetails
+    <Alert
       timeConfig={timeConfig}
-      paths={{
-        detailsPath,
-        listPath,
-        alertsTabSegment
-      }}
+      paths={
+        isMainPage
+          ? {
+              detailsPath: detailsPath,
+              listPath: listPath,
+              alertsTabSegment: alertsTabSegment
+            }
+          : {
+              detailsPath: dashboardTestAlertDetailsPath,
+              listPath: dashboardAlertPath,
+              alertsTabSegment: dashboardTestAlertTabSegment
+            }
+      }
       matrix={{ alertIdParam, alertCreatedParam }}
-      getConfig={() => successObservable(generateAlertConfig())}
-      getConfigVersions={() => successObservable([generateAlertConfig()])}
+      getConfig={() => successObservable(alertConfig)}
+      getConfigVersions={() => successObservable([alertConfig])}
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}

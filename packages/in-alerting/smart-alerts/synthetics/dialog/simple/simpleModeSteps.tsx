@@ -44,8 +44,15 @@ export const stepRenderers = [
     <SimpleAlertConfigDialogStep2 {...parentProps} />
   ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.synthetics.simple.thresholdTitle')}>
-      <SimpleModeDialogThreshold {...parentProps} />
+    <SimpleModeStepContentWrapper
+      headline={t('in-alerting:smartAlerts.synthetics.simple.thresholdTitle')}
+      titleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdTitleHelpText')}
+    >
+      <SimpleModeDialogThreshold
+        {...parentProps}
+        subtitle={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitle')}
+        subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
+      />
     </SimpleModeStepContentWrapper>
   ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (

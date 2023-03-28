@@ -17,16 +17,17 @@ import {
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
-import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent, EventSpecification } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { Event, VolatileId, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
+  title?: string;
 }
 
 function getObservables(isCustomEvent: boolean) {
@@ -55,7 +56,7 @@ const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
 const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function AssociatedActionsCard({ event, volatileId }: AssociatedActionsCardProps) {
+export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
@@ -71,7 +72,7 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
 
   return (
     <ActionTable
-      title={t('in-automation:associatedActions')}
+      title={title ?? t('in-automation:associatedActions')}
       showExecuteColumn
       showActionLink
       event={event}

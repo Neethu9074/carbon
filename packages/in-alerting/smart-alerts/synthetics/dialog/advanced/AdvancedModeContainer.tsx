@@ -56,6 +56,7 @@ export default function AdvancedModeContainer(
           scrollId: '1',
           label: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel'),
           title: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsTitle'),
+          titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.simpleAlertConfigDialogStep1Tooltip'),
           valid: true,
           content: <ConfigureAlertTest {...props} />
         },
@@ -69,7 +70,8 @@ export default function AdvancedModeContainer(
         {
           scrollId: '3',
           label: t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdLabel'),
-          title: '',
+          title: t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdTitle'),
+          titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.thresholdTitleHelpText'),
           valid: true,
           content: (
             <LightCard
@@ -79,7 +81,8 @@ export default function AdvancedModeContainer(
             >
               <SimpleModeDialogThreshold
                 {...props}
-                title={t('in-alerting:smartAlerts.synthetics.advanced.failureThresholdTitle')}
+                subtitle={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitle')}
+                subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
               />
             </LightCard>
           )
@@ -121,25 +124,39 @@ export default function AdvancedModeContainer(
                   <AlertProperties
                     form={form}
                     onChange={onChange}
-                    getDescriptionPlaceholder={() => 'some Description'}
-                    getPreviewTitlePlaceholder={() => 'some Preview Title'}
+                    getDescriptionPlaceholder={() =>
+                      t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesDescriptionPlaceholder')
+                    }
                     renderAlertPopertiesTitleRow={() => (
                       <AlertPropertiesTitleRow
                         form={form}
                         onChange={onChange}
-                        getTitlePlaceholder={() => (form.get('name') as Field<string>).value ?? 'undefined'}
+                        getTitlePlaceholder={() =>
+                          t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesTitlePlaceholder')
+                        }
                         placeholders={[]}
                       />
                     )}
                   />
                 )}
                 renderAlertPreview={() => {
-                  const renderHeadline = () => <AlertPreviewHeadline title={nameField?.value ?? 'placeholder text'} />;
+                  const renderHeadline = () => (
+                    <AlertPreviewHeadline
+                      title={
+                        nameField?.value ||
+                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewTitlePlaceholder')
+                      }
+                    />
+                  );
                   return (
                     <AlertPreview
                       form={form}
                       renderHeadline={renderHeadline}
-                      getDescriptionPlaceholder={(_form: MapForm) => 'some Description Placeholder'}
+                      getDescriptionPlaceholder={(_form: MapForm) =>
+                        (form.get('description') as Field<string>).value ||
+                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewDescriptionPlaceholder')
+                      }
+                      entityLabel="Test_Name"
                       entityIconType="lib_synthetic"
                     />
                   );

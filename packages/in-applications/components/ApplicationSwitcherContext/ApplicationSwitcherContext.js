@@ -10,8 +10,8 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
+import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplications from 'in-applications/subscriptions/getApplications';
-import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import Overlay from 'in-components/overlays/Overlay';
@@ -23,6 +23,7 @@ export default function ApplicationSwitcherContext(props) {
   const { applicationId, serviceId, endpointId, timeConfig, boundaryScope, syntheticCalls } = props;
   const application = useObservable(getApplicationObservable, [applicationId]) ?? pendingResult;
   const applications = useObservable(getApplicationsObservable, [serviceId, endpointId, timeConfig]) ?? pendingResult;
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
 
   if (
     application.progress.loading ||
@@ -31,7 +32,10 @@ export default function ApplicationSwitcherContext(props) {
     applications.errors.length > 0
   ) {
     return (
-      <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}>
+      <Link
+        className={locals.link}
+        href={getLinkToApplicationDashboard({ applicationId, boundaryScope, syntheticCalls })}
+      >
         {t('in-applications:labelApplication')}
       </Link>
     );
@@ -43,7 +47,10 @@ export default function ApplicationSwitcherContext(props) {
   return (
     <>
       {hasOnlyOneApplication ? (
-        <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}>
+        <Link
+          className={locals.link}
+          href={getLinkToApplicationDashboard({ applicationId, boundaryScope, syntheticCalls })}
+        >
           <Context context={t('in-applications:labelApplication')} label={application.data.label} />
         </Link>
       ) : (
@@ -52,7 +59,7 @@ export default function ApplicationSwitcherContext(props) {
             <div className={locals.flexWrapper}>
               <Link
                 className={locals.link}
-                href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}
+                href={getLinkToApplicationDashboard({ applicationId, boundaryScope, syntheticCalls })}
               >
                 <Context
                   context={t('in-applications:labelApplicationWithNum', {

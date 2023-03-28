@@ -22,7 +22,8 @@ import {
   hasPHMCAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
-  hasZHMCAccess
+  hasZHMCAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import {
   applicationsAlertingShowDeprecationBanner,
@@ -63,11 +64,11 @@ const settingsKey = 'cockpit_widget_ordering';
 const itemIds = [];
 
 const LUT = {
-  '5': EventChartCard
+  5: EventChartCard
 };
 
 const configEnrichmentLookUpTable = {
-  '5': {
+  5: {
     label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
@@ -391,6 +392,7 @@ function getPlatformsTitle() {
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
+  if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return t('in-cockpit:cockpit.platforms');
   }
@@ -406,6 +408,9 @@ function getPlatformsTitle() {
   }
   if (hasPHMCAccess) {
     return t('in-cockpit:cockpit.ibmp');
+  }
+  if (hasSAPAccess) {
+    return t('in-cockpit:cockpit.sap');
   }
   if (hasZHMCAccess) {
     return t('in-cockpit:cockpit.ibmz');
@@ -424,6 +429,7 @@ function getPlatformCardIcon() {
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
+  if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return 'lib_platforms';
   }
@@ -444,6 +450,9 @@ function getPlatformCardIcon() {
   }
   if (hasKubernetesAccess) {
     return 'lib_kubernetes';
+  }
+  if (hasSAPAccess) {
+    return 'lib_sap';
   }
   return null;
 }

@@ -20,10 +20,10 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { servicesList, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { getServicesWithDefaults } from 'in-applications/subscriptions/getServices';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
@@ -50,19 +50,24 @@ import locals from './ServicesList.mless';
 
 const pathSegment = servicesList;
 
+function ServiceLabelContent({ item }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+  return (
+    <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
+      <Link href={item.service.id === 'ROOT' ? null : getLinkToServiceDashboard({ serviceId: item.service.id })}>
+        {item.service.label}
+      </Link>
+    </SeverityIndicatorCellContentWrapper>
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
     getContent(item) {
-      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
-      return (
-        <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
-          <Link href$={item.service.id === 'ROOT' ? null : getServiceDashboard(item.service.id)}>
-            {item.service.label}
-          </Link>
-        </SeverityIndicatorCellContentWrapper>
-      );
+      return <ServiceLabelContent item={item} />;
     }
   },
   {

@@ -1,33 +1,16 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
+
 @import '~in-themes/active.less';
 
 :local {
-  .list {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    overflow: hidden;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    width: 100%;
-  }
-
-  .label {
-    width: '30%';
-    min-width: 15rem;
-    margin-right: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
-  .metrics {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
   }
 
   .center {
@@ -35,17 +18,5 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-  }
-  .dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-  }
-
-  .header {
-    margin-left: auto;
-  }
-  .searchInput {
-    height: 1.6rem;
   }
 }

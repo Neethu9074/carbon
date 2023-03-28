@@ -6,29 +6,27 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/components';
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
 
+import {
+  getTimeConfigAlignedToResultTime,
+  timeConfig$,
+  urlParameters as timeConfigUrlParameters
+} from 'in-stores/time/config';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { linkToNewWebsite$, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
-import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { number, meanLatencyFixed } from 'in-services/formatters/number';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
+import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { websitesOpenAddForm } from 'in-websites/tracker';
-import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -38,17 +36,21 @@ import { t } from 'in-i18n';
 
 import locals from './WebsitesList.mless';
 
+const WebsiteLabelColumn = item => {
+  const websiteHref = useLinkToWebsite(item.website.id);
+
+  return (
+    <SeverityIndicatorCellContentWrapper severity={get(item, ['healthInfo', 'maxSeverity'], 0)}>
+      <Link href={websiteHref}>{item.website.label}</Link>
+    </SeverityIndicatorCellContentWrapper>
+  );
+};
+
 const columnDefinitions = [
   {
     id: 'websiteLabel',
     label: t('in-websites:websitesList.websitesListLabelName'),
-    getContent(item) {
-      return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['healthInfo', 'maxSeverity'], 0)}>
-          <Link href$={getLinkToWebsite(item.website.id)}>{item.website.label}</Link>
-        </SeverityIndicatorCellContentWrapper>
-      );
-    }
+    getContent: WebsiteLabelColumn
   },
   {
     id: 'pageViewsAgg',

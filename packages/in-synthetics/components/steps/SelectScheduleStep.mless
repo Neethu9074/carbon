@@ -27,4 +27,10 @@
       color: @lib__colors__N700Medium;
     }
   }
+
+  .outerBox {
+    border: 1px solid @lib__colors__N300;
+    padding: 10px;
+    margin-bottom: 2%;
+  }
 }

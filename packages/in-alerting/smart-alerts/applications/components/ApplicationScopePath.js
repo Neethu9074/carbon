@@ -5,7 +5,11 @@
 
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  useLinkToApplicationDashboard,
+  useLinkToEndpointDashboard,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import ScopePath from 'in-alerting/components/ScopePath';
 
 export default function ApplicationScopePath({
@@ -22,15 +26,19 @@ export default function ApplicationScopePath({
   noBottomMargin
 }) {
   const entries = [];
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
   if (applicationName) {
     entries.push({
       iconType: 'lib_application',
       label: applicationName,
-      href$:
+      href:
         showDashboardLinks &&
         applicationId &&
-        getApplicationDashboard(applicationId, {
+        getLinkToApplicationDashboard({
+          applicationId,
           timeConfig,
           boundaryScope
         })
@@ -41,11 +49,12 @@ export default function ApplicationScopePath({
     entries.push({
       iconType: 'lib_application_service',
       label: serviceName,
-      href$:
+      href:
         showDashboardLinks &&
         serviceId &&
-        getServiceDashboard(serviceId, {
+        getLinkToServiceDashboard({
           applicationId,
+          serviceId,
           timeConfig,
           boundaryScope
         })
@@ -56,12 +65,13 @@ export default function ApplicationScopePath({
     entries.push({
       iconType: 'lib_application_endpoint',
       label: endpointName,
-      href$:
+      href:
         showDashboardLinks &&
         endpointId &&
-        getEndpointDashboard(endpointId, {
+        getLinkToEndpointDashboard({
           applicationId,
           serviceId,
+          endpointId,
           timeConfig,
           boundaryScope
         })

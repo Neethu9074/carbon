@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Li, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
@@ -22,11 +22,9 @@ export const ApplicationSectionFullAccessContent = () => {
     <AreaExpandableListItem
       iconType="lib_application_invert"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.application')}
+      firstColumnLabel={t('in-settings:productAreas.title_applications')}
     >
-      <Li>
-        <Typography variant="body-regular">{t('in-settings:productAreas.allApplications')}</Typography>
-      </Li>
+      <Typography variant="body-small">{t('in-settings:productAreas.allApplications')}</Typography>
     </AreaExpandableListItem>
   );
 };

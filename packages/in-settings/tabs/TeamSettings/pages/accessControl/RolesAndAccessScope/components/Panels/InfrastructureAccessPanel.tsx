@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
+import { Link, SvgIcon, Stack, StackItem, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
@@ -22,9 +22,11 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
 import { AreaPermission } from 'in-stores/permission';
 import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -66,12 +68,7 @@ export default function InfrastructureAccessPanel({
     if (!permissionSet) return;
 
     const limitation = !infraDfq ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.LIMITED_ACCESS;
-    const restPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      limitation,
-      undefined
-    );
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation);
     const infraScope = { scopeId: infraDfq ? infraDfq : '', scopeRoleId: '-600' };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: infraScope });
   };
@@ -98,13 +95,22 @@ export default function InfrastructureAccessPanel({
         </Typography>
       </StackItem>
       <StackItem>
-        <Typography variant="body-bold" component="div">
-          {t('in-settings:PermissionSection.infrastructureDfqHeader')}
+        <Typography variant="body-regular" component="div">
+          {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;
+          <Link
+            external
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
+          >
+            {t('in-settings:PermissionSection.infrastructureDfqMore')}
+          </Link>
         </Typography>
-        <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
-        <Typography variant="code" component="div">
-          {t('in-settings:PermissionSection.infrastructureDfqExample')}
-        </Typography>
+      </StackItem>
+      <StackItem>
+        <FormGroup>
+          <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
+          <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
+          <DescriptionText>{t('in-settings:PermissionSection.infrastructureDfqExample')}</DescriptionText>
+        </FormGroup>
       </StackItem>
       <StackItem>
         <Typography variant="heading-200" component="h4">
@@ -137,9 +143,5 @@ export interface InfraDfqProps {
 }
 
 export function InfraDfq({ infraDfqFilter, update }: InfraDfqProps) {
-  return (
-    <FormGroup>
-      <Input id="infra-dfq-filter" value={infraDfqFilter} onChange={e => update(e.target.value)} />
-    </FormGroup>
-  );
+  return <Input id="infra-dfq-filter" value={infraDfqFilter} onChange={e => update(e.target.value)} />;
 }

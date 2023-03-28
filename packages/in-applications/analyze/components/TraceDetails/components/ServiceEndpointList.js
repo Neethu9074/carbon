@@ -7,13 +7,52 @@ import React from 'react';
 
 import { Link, SvgIcon } from '@instana/components';
 
-import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';
 import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';
+
+function ServiceLabelContent({ getColor, item, onClickTracker }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+
+  return (
+    <div className={locals.cell}>
+      <div style={{ background: getColor(item) }} className={locals.colorIndicator} />
+      <SvgIcon type="lib_application_service" className={locals.serviceIcon} />
+      <Link
+        className={locals.link}
+        href={getLinkToServiceDashboard({ serviceId: item.service.id })}
+        onClick={() => onClickTracker?.({ service: item.service.label })}
+      >
+        {item.service.label}
+      </Link>
+    </div>
+  );
+}
+
+function EndpointLabelContent({ item, onClickTracker }) {
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
+  if (!item.endpoint) {
+    return null;
+  }
+
+  return (
+    <div className={locals.cell}>
+      <SvgIcon type="lib_application_endpoint" className={locals.endpointIcon} />
+      <Link
+        className={locals.link}
+        href={getLinkToEndpointDashboard({ serviceId: item.service.id, endpointId: item.endpoint.id })}
+        onClick={() => onClickTracker?.({ endpoint: item.endpoint.label })}
+      >
+        {item.endpoint.label}
+      </Link>
+    </div>
+  );
+}
 
 export default function ServiceEndpointList({
   traceId,
@@ -27,19 +66,7 @@ export default function ServiceEndpointList({
       id: 'serviceLabel',
       label: t('in-analyze:traceDetails.labelService'),
       getContent(item) {
-        return (
-          <div className={locals.cell}>
-            <div style={{ background: getColor(item) }} className={locals.colorIndicator} />
-            <SvgIcon type="lib_application_service" className={locals.serviceIcon} />
-            <Link
-              className={locals.link}
-              href$={getServiceDashboard(item.service.id)}
-              onClick={() => onClickTracker?.({ service: item.service.label })}
-            >
-              {item.service.label}
-            </Link>
-          </div>
-        );
+        return <ServiceLabelContent getColor={getColor} item={item} onClickTracker={onClickTracker} />;
       }
     },
     {
@@ -47,22 +74,7 @@ export default function ServiceEndpointList({
       label: t('in-analyze:traceDetails.labelEndpoint'),
       ellipsis: '1vw',
       getContent(item) {
-        if (!item.endpoint) {
-          return null;
-        }
-
-        return (
-          <div className={locals.cell}>
-            <SvgIcon type="lib_application_endpoint" className={locals.endpointIcon} />
-            <Link
-              className={locals.link}
-              href$={getEndpointDashboard(item.endpoint.id, { serviceId: item.service.id })}
-              onClick={() => onClickTracker?.({ endpoint: item.endpoint.label })}
-            >
-              {item.endpoint.label}
-            </Link>
-          </div>
-        );
+        return <EndpointLabelContent item={item} onClickTracker={onClickTracker} />;
       }
     },
     {

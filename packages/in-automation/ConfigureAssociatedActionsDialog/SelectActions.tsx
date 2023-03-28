@@ -15,10 +15,8 @@ import {
 import SelectListDialogContent, {
   SelectListDialogContentProps
 } from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
-import ActionTable, {
-  ActionTableProps
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
+import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';

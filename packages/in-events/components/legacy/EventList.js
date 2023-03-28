@@ -8,12 +8,16 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
+import { isApplicationSmartAlertEvent, isWebsiteSmartAlertEvent } from 'in-events/components/eventUtil';
+import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventList.less';
@@ -22,12 +26,7 @@ const block = 'in-event-view-incident-event-list';
 
 export default connectTo(
   ({ incident }) => ({
-    events: combineLatest(
-      incident
-        .get('recentEvents', emptyList)
-        .toArray()
-        .map(getEvent)
-    )
+    events: combineLatest(incident.get('recentEvents', emptyList).toArray().map(getEvent))
       .map(events =>
         events
           .filter(e => e && !e.isEmpty())
@@ -39,7 +38,7 @@ export default connectTo(
       )
       .throttle(250)
   }),
-  function IncidentEventList({ events, incident, latestSnapshot }) {
+  function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
@@ -47,6 +46,7 @@ export default connectTo(
     const triggeringProblemId = incident.getIn(['problem', 'id']);
 
     const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
+    const triggerEvent = events.find(isTriggeringEvent);
 
     return (
       <>
@@ -64,6 +64,22 @@ export default connectTo(
           triggeringProblemId={triggeringProblemId}
           latestSnapshot={latestSnapshot}
         />
+        {actionAutomationEnabled &&
+          role.canConfigureAutomationActions &&
+          !isWebsiteSmartAlertEvent(triggerEvent) &&
+          !isApplicationSmartAlertEvent(triggerEvent) && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <Card>
+                  <AssociatedActions
+                    title={t('in-events:actionsAssociatedForTriggeringEvent')}
+                    volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+                    event={triggerEvent?.toJS()}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          )}
       </>
     );
   }

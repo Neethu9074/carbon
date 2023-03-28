@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState, ReactNode } from 'react';
 import { MapForm, Field } from 'formalistic';
-import React, { useState } from 'react';
 
 import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
@@ -22,6 +22,15 @@ import { t } from 'in-i18n';
 
 const logger = createLogger('in-synthetics/components/TestConfigDialogPresenter');
 
+export interface SlideInConfig {
+  title?: string;
+  component?: ReactNode;
+}
+
+export interface SliderState {
+  slideInConfig?: SlideInConfig;
+  isVisible: boolean;
+}
 interface Props {
   onClose: () => void;
   reloadTests: () => void;
@@ -35,6 +44,15 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const formId = 'create-synthetics-test-form';
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
+  const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
+
+  const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
+    if (slideInConfig) {
+      setSlideInConfig(slideInConfig);
+    }
+    setSlideInViewVisible(isVisible);
+  };
 
   const stepConfigs = Object.freeze([
     {
@@ -123,8 +141,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       titleIconType="lib_line_chart"
       onClose={onClose}
       doNotCloseOnOutsideClick
-      slideInViewVisible={false} // Change it when needed
-      slideInViewComponent={null}
+      slideInViewVisible={slideInViewVisible}
+      slideInViewComponent={slideInConfig?.component}
       removeBottomPaddingWhenFooterIsShown
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
@@ -160,18 +178,19 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         scriptErrors={scriptErrors}
         setScriptErrors={setScriptErrors}
         simpleMode={simpleMode}
+        setSliderState={setSliderState}
       />
       <DialogFooter
         formId={formId}
         form={form}
         primaryActionText={
-          simpleModeStep === stepConfigs.length - 1
+          simpleModeStep === stepConfigs.length - 1 || !simpleMode
             ? t('in-components:blueprintFormMultistep.buttonCreate')
             : t('in-components:blueprintFormMultistep.buttonNext')
         }
         onSecondaryActionClick={() => onGoBack()}
         secondaryActionText={
-          simpleModeStep === 0
+          simpleModeStep === 0 || !simpleMode
             ? t('in-components:blueprintFormMultistep.buttonCancel')
             : t('in-components:blueprintFormMultistep.buttonBack')
         }

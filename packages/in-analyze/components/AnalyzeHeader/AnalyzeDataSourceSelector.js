@@ -6,9 +6,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Li, Ul } from '@instana/components';
 
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
@@ -16,19 +15,18 @@ import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } fr
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import {
   hasApplicationsAccess,
+  hasInfrastructureAccess,
   hasMobileAppsAccess,
-  hasWebsitesAccess,
-  hasInfrastructureAnalyzeAccess
+  hasWebsitesAccess
 } from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
-import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
-import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
@@ -36,214 +34,15 @@ import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import unwrapLink from 'in-stores/navigation/unwrapLink';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeDataSourceSelector.mless';
-
-const productAreas = [
-  {
-    productArea: 'logs',
-    hasAccess: loggingEnabled && role.canViewLogs,
-    dataSources: [
-      {
-        dataSource: 'logs',
-        beta: true,
-        getHref$: getLinkToLogsAnalyze,
-        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
-      }
-    ]
-  },
-  {
-    productArea: 'application',
-    hasAccess: hasApplicationsAccess,
-    dataSources: [
-      {
-        dataSource: 'calls',
-        enabled: hasApplicationsAccess,
-        getHref$: ({ isGrouped, formModel, callsTagCatalog: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToApplicationAnalyze({
-            dataSource: 'calls',
-            formModel,
-            tagCatalog,
-            groupBy: isGrouped ? defaultApplicationGroupings.calls : emptyObject
-          })
-      },
-      {
-        dataSource: 'traces',
-        enabled: hasApplicationsAccess,
-        getHref$: ({ isGrouped, formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
-          tagCatalog &&
-          getLinkToApplicationAnalyze({
-            dataSource: 'traces',
-            formModel,
-            tagCatalog,
-            groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject,
-            setOnClickNotificationMessage
-          })
-      }
-    ]
-  },
-  {
-    productArea: 'website',
-    hasAccess: hasWebsitesAccess,
-    dataSources: [
-      {
-        dataSource: 'pageLoad',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogPageLoad: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
-            formModel,
-            beaconType: 'pageLoad',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'pageChange',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogPageChange: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
-            formModel,
-            beaconType: 'pageChange',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'resourceLoad',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogResourceLoad: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
-            formModel,
-            beaconType: 'resourceLoad',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'httpRequest',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogHttpRequest: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
-            formModel,
-            beaconType: 'httpRequest',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'error',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogError: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
-            formModel,
-            beaconType: 'error',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'custom',
-        getHref$: ({ isGrouped, formModel, websiteTagCatalogCustom: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToWebsiteAnalyze({
-            groupBy: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
-            formModel,
-            beaconType: 'custom',
-            tagCatalog
-          })
-      }
-    ]
-  },
-  {
-    productArea: 'mobileApp',
-    hasAccess: hasMobileAppsAccess,
-    dataSources: [
-      {
-        dataSource: 'sessionStart',
-        getHref$: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToMobileAppAnalyze({
-            groupBy: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
-            formModel,
-            beaconType: 'sessionStart',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'viewChange',
-        getHref$: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToMobileAppAnalyze({
-            groupBy: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
-            formModel,
-            beaconType: 'viewChange',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'httpRequest',
-        getHref$: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToMobileAppAnalyze({
-            groupBy: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
-            formModel,
-            beaconType: 'httpRequest',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'custom',
-        getHref$: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToMobileAppAnalyze({
-            groupBy: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
-            formModel,
-            beaconType: 'custom',
-            tagCatalog
-          })
-      },
-      {
-        dataSource: 'crash',
-        enabled: mobileAppCrashBeaconEnabled,
-        getHref$: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
-          tagCatalog &&
-          getLinkToMobileAppAnalyze({
-            groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
-            formModel,
-            beaconType: 'crash',
-            tagCatalog
-          })
-      }
-    ]
-  },
-  {
-    productArea: 'infrastructure',
-    hasAccess: hasInfrastructureAnalyzeAccess,
-    dataSources: [
-      {
-        dataSource: 'infrastructure',
-        beta: true,
-        getHref$: getLinkToExploreDefault
-      }
-    ]
-  },
-  {
-    productArea: 'profiles',
-    hasAccess: true,
-    dataSources: [
-      {
-        dataSource: 'profiles',
-        getHref$: getLinkToProfilesAnalyze
-      }
-    ]
-  }
-];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const websiteTagCatalogs = {
@@ -263,6 +62,209 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
+
+  const getAnalyzeHref = useGenerateLinkToAnalyze();
+
+  const productAreas = [
+    {
+      productArea: 'logs',
+      hasAccess: loggingEnabled && role.canViewLogs,
+      dataSources: [
+        {
+          dataSource: 'logs',
+          beta: true,
+          getHref$: getLinkToLogsAnalyze,
+          onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
+        }
+      ]
+    },
+    {
+      productArea: 'application',
+      hasAccess: hasApplicationsAccess,
+      dataSources: [
+        {
+          dataSource: 'calls',
+          enabled: hasApplicationsAccess,
+          getHref$: ({ isGrouped, formModel, callsTagCatalog: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToApplicationAnalyze({
+              dataSource: 'calls',
+              formModel,
+              tagCatalog,
+              groupBy: isGrouped ? defaultApplicationGroupings.calls : emptyObject
+            })
+        },
+        {
+          dataSource: 'traces',
+          enabled: hasApplicationsAccess,
+          getHref$: ({ isGrouped, formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
+            tagCatalog &&
+            getLinkToApplicationAnalyze({
+              dataSource: 'traces',
+              formModel,
+              tagCatalog,
+              groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject,
+              setOnClickNotificationMessage
+            })
+        }
+      ]
+    },
+    {
+      productArea: 'website',
+      hasAccess: hasWebsitesAccess,
+      dataSources: [
+        {
+          dataSource: 'pageLoad',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogPageLoad: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+              formModel,
+              beaconType: 'pageLoad',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'pageChange',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogPageChange: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
+              formModel,
+              beaconType: 'pageChange',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'resourceLoad',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogResourceLoad: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+              formModel,
+              beaconType: 'resourceLoad',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'httpRequest',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogHttpRequest: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+              formModel,
+              beaconType: 'httpRequest',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'error',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogError: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+              formModel,
+              beaconType: 'error',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'custom',
+          getHref: ({ isGrouped, formModel, websiteTagCatalogCustom: tagCatalog }) =>
+            tagCatalog &&
+            getAnalyzeHref({
+              groupBy: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+              formModel,
+              beaconType: 'custom',
+              tagCatalog
+            })
+        }
+      ]
+    },
+    {
+      productArea: 'mobileApp',
+      hasAccess: hasMobileAppsAccess,
+      dataSources: [
+        {
+          dataSource: 'sessionStart',
+          getHref$: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+              formModel,
+              beaconType: 'sessionStart',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'viewChange',
+          getHref$: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
+              formModel,
+              beaconType: 'viewChange',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'httpRequest',
+          getHref$: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+              formModel,
+              beaconType: 'httpRequest',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'custom',
+          getHref$: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+              formModel,
+              beaconType: 'custom',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'crash',
+          enabled: mobileAppCrashBeaconEnabled,
+          getHref$: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
+              formModel,
+              beaconType: 'crash',
+              tagCatalog
+            })
+        }
+      ]
+    },
+    {
+      productArea: 'infrastructure',
+      hasAccess: infraExploreDataEnabled && hasInfrastructureAccess,
+      dataSources: [
+        {
+          dataSource: 'infrastructure',
+          beta: true,
+          getHref$: getLinkToExploreDefault
+        }
+      ]
+    },
+    {
+      productArea: 'profiles',
+      hasAccess: true,
+      dataSources: [
+        {
+          dataSource: 'profiles',
+          getHref$: getLinkToProfilesAnalyze
+        }
+      ]
+    }
+  ];
 
   return (
     <Ul className={locals.wrapper}>
@@ -314,6 +316,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
 function ProductAreaEntry({
   dataSource,
   getHref$,
+  getHref,
   enabled$,
   isGrouped,
   formModel,
@@ -333,19 +336,26 @@ function ProductAreaEntry({
     return null;
   }
 
+  const hrefGetter = getHref$ || getHref;
+
+  const { href$, href } = unwrapLink(
+    hrefGetter?.({
+      isGrouped,
+      formModel,
+      ...websiteTagCatalogs,
+      ...mobileTagCatalogs,
+      callsTagCatalog,
+      tracesTagCatalog,
+      setOnClickNotificationMessage
+    })
+  );
+
   return (
     <Li
       key={dataSource}
       noAlternatingBg
-      href$={getHref$({
-        isGrouped,
-        formModel,
-        ...websiteTagCatalogs,
-        ...mobileTagCatalogs,
-        callsTagCatalog,
-        tracesTagCatalog,
-        setOnClickNotificationMessage
-      })}
+      href$={href$}
+      href={href}
       onDefaultHrefInteractionSideEffect={() => {
         close();
         if (onClickNotificationMessage) {

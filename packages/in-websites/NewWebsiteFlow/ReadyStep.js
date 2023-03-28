@@ -5,16 +5,15 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
-import { Trans, t, SecureString } from 'in-i18n';
+import { SecureString, t, Trans } from 'in-i18n';
 
-export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackSessions, setTrackSessions }) {
+export default function ReadyStep({ websiteId, websiteName, websiteLink, trackSessions, setTrackSessions }) {
   return (
     <Frame title={t('in-websites:newWebsiteFlow.readyStepTitleEverythingsReady')}>
       <Paragraph>
@@ -36,7 +35,7 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
       />
 
       <Actions>
-        <Button kind="primaryv2" href$={websiteLink$}>
+        <Button kind="primaryv2" href={websiteLink}>
           {t('in-websites:newWebsiteFlow.readyStepButtonGoToWebsiteDashboard')}
         </Button>
       </Actions>

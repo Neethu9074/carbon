@@ -5,22 +5,21 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import {
-  websiteIdUrlParameter,
+  pageIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
-  pageIdUrlParameter
+  websiteIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze, useLinkToError } from 'in-websites/navigation/paths';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
@@ -30,22 +29,19 @@ import { isNotBlank } from 'in-services/util/string';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
+const ErrorMessageContent = ({ item, websiteId, pageId }) => {
+  const errorHref = useLinkToError(websiteId, { errorId: item.error.id, pageId });
+
+  return <Link href={errorHref}>{item.error.message}</Link>;
+};
+
 const columnDefinitions = [
   {
     id: 'errorMessage',
     label: t('in-websites:websiteDashboard.tabs.errors.errorsLabelErrorMessage'),
-    getContent(item, { websiteId, pageId }) {
-      return (
-        <Link
-          href$={getLinkToError(websiteId, {
-            pageId,
-            errorId: item.error.id
-          })}
-        >
-          {item.error.message}
-        </Link>
-      );
-    }
+    getContent: (item, { websiteId, pageId }) => (
+      <ErrorMessageContent item={item} websiteId={websiteId} pageId={pageId} />
+    )
   },
   {
     id: 'errorsAgg',
@@ -106,23 +102,21 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel }) {
   const tagCatalogError = useTagCatalog('error');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogError && {
+      beaconType: 'error',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogError
+      }),
+      groupBy: defaultGroupings.error
+    }
+  );
+
   const rightHeader = (
-    <Button
-      kind="secondary"
-      href$={
-        tagCatalogError &&
-        getLinkToAnalyze({
-          beaconType: 'error',
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogError
-          }),
-          groupBy: defaultGroupings.error
-        })
-      }
-      style={{ marginRight: '0.5rem' }}
-    >
+    <Button kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
       {t('in-websites:websiteDashboard.tabs.errors.errorsButtonAnalyzeJSErrors')}
     </Button>
   );

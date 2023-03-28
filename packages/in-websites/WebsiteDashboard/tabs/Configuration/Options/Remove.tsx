@@ -7,9 +7,8 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
+import { Button, Card } from '@instana/components';
 import { Disposable } from '@instana/observables';
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 
 // @ts-expect-error needs migration to TS
 import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
@@ -19,7 +18,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Remove.mless';
 

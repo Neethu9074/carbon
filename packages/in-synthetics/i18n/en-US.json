@@ -96,10 +96,26 @@
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
-          "expectedStatus": "Enter expected status",
-          "allowInsecure": "Allow Insecure"
+          "allowInsecure": "Allow Insecure",
+          "expectStatusLabel": "Expect Status",
+          "expectJSONLabel": "Expect JSON",
+          "expectMatchLabel": "Expect Match",
+          "expectStatusPlaceholder": "Enter expected status",
+          "expectJSONPlaceholder": "Enter expected JSON",
+          "expectMatchPlaceholder": "Enter expected string",
+          "addValidations": "Add Validation",
+          "failedToParseInputAsJson": "Failed to parse input as JSON.",
+          "jsonRootMustBeAnObject": "JSON root must be an object.",
+          "mustBeValidHttpReturnCode": "Status must be a valid HTTP return code.",
+          "shouldBeValidRegExp": "String entered should be a valid regular expression."
         },
-        "loadMore": "Load More"
+        "loadMore": "Load More",
+        "selectTests": {
+          "addLocations": "Add {{count}} Locations",
+          "addLocation": "Add Location",
+          "cancel": "Cancel",
+          "selectLocation": "Select Location"
+        }
       }
     },
     "httpMethods": {
@@ -188,7 +204,10 @@
       "namespace": "Namespace",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
       "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
-      "deleteLocation": "Delete location"
+      "deleteLocation": "Delete location",
+      "noDataAvailable": {
+        "message": "{{component}} not available"
+      }
     },
     "summary": {
       "successRate": "Success Rate",
@@ -367,7 +386,7 @@
       "locationListDescription": "There are no Synthetic locations retrieved from the database."
     },
     "alertList": {
-      "timeThreshold": "Failure Threshold",
+      "timeThreshold": "Time Threshold",
       "testsApplied": "Tests Applied",
       "filterApplied": "Filter Applied",
       "violationsCount": "{{violationsCount}} failures",

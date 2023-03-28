@@ -11,7 +11,7 @@ import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsit
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -76,24 +76,22 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest, className }) {
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {
-            groupbyTag: 'beacon.error.type'
-          }
-        })
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {
+        groupbyTag: 'beacon.error.type'
       }
-    >
+    }
+  );
+
+  return (
+    <Link className={className} href={analyzeHref}>
       {t('in-websites:websiteDashboard.tabs.ajax.errorTypesTopListLinkLabel')}
     </Link>
   );
@@ -107,24 +105,18 @@ function Label({ item, websiteLabel, tagFilters, tagCatalogHttpRequest }) {
     // ignore
   }
 
-  return (
-    <Link
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters: tagFilters.concat({ name: 'beacon.error.type', stringValue: label, operator: 'EQUALS' }),
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {}
-        })
-      }
-    >
-      {label}
-    </Link>
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat({ name: 'beacon.error.type', stringValue: label, operator: 'EQUALS' }),
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {}
+    }
   );
+  return <Link href$={analyzeHref}>{label}</Link>;
 }
 
 function Metric({ formattedMetricValue }) {

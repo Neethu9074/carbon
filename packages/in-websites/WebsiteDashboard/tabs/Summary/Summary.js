@@ -13,16 +13,16 @@ import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/Website
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
-import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
+import { latency, meanLatency, millis, number } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { getLinkToAnalyze, summaryTab } from 'in-websites/navigation/paths';
+import { summaryTab, useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -33,6 +33,141 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
   const tagCatalogPageChange = useTagCatalog('pageChange');
 
   const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
+
+  const pageLoadsAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      }
+    }
+  );
+  const pageTransitionsAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageChange && {
+      beaconType: 'pageChange',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageChange
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.page.name'
+      }
+    }
+  );
+  const meanOnLoadTimeAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      },
+      fields: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'MEAN',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P90',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P95',
+          type: metricType
+        }
+      ],
+      chartedMetrics: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'MEAN'
+        }
+      ]
+    }
+  );
+  const topTenPercOnLoadTimeAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      },
+      fields: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'MEAN',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P90',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P95',
+          type: metricType
+        }
+      ],
+      chartedMetrics: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P90'
+        }
+      ]
+    }
+  );
+  const topFivePercOnLoadTimeAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: {
+        groupbyTag: 'beacon.location.path'
+      },
+      fields: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'MEAN',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P90',
+          type: metricType
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P95',
+          type: metricType
+        }
+      ],
+      chartedMetrics: [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: 'P95'
+        }
+      ]
+    }
+  );
 
   return (
     <Fragment>
@@ -55,19 +190,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogPageLoad &&
-                getLinkToAnalyze({
-                  beaconType: 'pageLoad',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogPageLoad
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  }
-                })
+              href: pageLoadsAnalyzeHref
             }}
           />
         </Col>
@@ -89,19 +212,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogPageChange &&
-                getLinkToAnalyze({
-                  beaconType: 'pageChange',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogPageChange
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.page.name'
-                  }
-                })
+              href: pageTransitionsAnalyzeHref
             }}
           />
         </Col>
@@ -123,42 +234,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogPageLoad &&
-                getLinkToAnalyze({
-                  beaconType: 'pageLoad',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogPageLoad
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  fields: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'MEAN',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P90',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P95',
-                      type: metricType
-                    }
-                  ],
-                  chartedMetrics: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'MEAN'
-                    }
-                  ]
-                })
+              href: meanOnLoadTimeAnalyzeHref
             }}
           />
         </Col>
@@ -180,42 +256,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogPageLoad &&
-                getLinkToAnalyze({
-                  beaconType: 'pageLoad',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogPageLoad
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  fields: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'MEAN',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P90',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P95',
-                      type: metricType
-                    }
-                  ],
-                  chartedMetrics: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P90'
-                    }
-                  ]
-                })
+              href: topTenPercOnLoadTimeAnalyzeHref
             }}
           />
         </Col>
@@ -237,42 +278,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalogPageLoad &&
-                getLinkToAnalyze({
-                  beaconType: 'pageLoad',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    websiteLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogPageLoad
-                  }),
-                  groupBy: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  fields: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'MEAN',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P90',
-                      type: metricType
-                    },
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P95',
-                      type: metricType
-                    }
-                  ],
-                  chartedMetrics: [
-                    {
-                      metricId: 'beaconDuration',
-                      aggregationId: 'P95'
-                    }
-                  ]
-                })
+              href: topFivePercOnLoadTimeAnalyzeHref
             }}
           />
         </Col>

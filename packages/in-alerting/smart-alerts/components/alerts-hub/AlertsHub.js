@@ -14,8 +14,8 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import { teamSettingsAlertingEvents, teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import AlertsHubElement from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHubElement';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertsList } from 'in-applications/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import { isLoading } from 'in-services/util/result';
@@ -50,13 +50,13 @@ export default function AlertsHub() {
   const data = useAlertStats();
   return (
     <div className={locals.container}>
-      {renderTitle()}
-      {renderContent(data)}
+      <AlertsHubTitle />
+      <AlertsHubContent {...data} />
     </div>
   );
 }
 
-function renderTitle() {
+function AlertsHubTitle() {
   return (
     <div>
       <h1 className={locals.headline}>Instana {t('in-alerting:smartAlerts.components.alertsHub.title')}</h1>
@@ -65,7 +65,7 @@ function renderTitle() {
   );
 }
 
-function renderContent({ websites, applications, infrastructure }) {
+function AlertsHubContent({ websites, applications, infrastructure }) {
   const content = [
     {
       title: t('in-alerting:smartAlerts.components.alertsHub.websites.title'),
@@ -124,6 +124,8 @@ function renderContent({ websites, applications, infrastructure }) {
       ]
     }
   ];
+  const { createHrefToPath } = useNavigation();
+
   return (
     <Row className={locals.mainRow}>
       {content.map((element, i) => (
@@ -138,7 +140,7 @@ function renderContent({ websites, applications, infrastructure }) {
                 {element.buttons.map((b, i) => {
                   const { text, path, ...buttonProps } = b;
                   return (
-                    <Button key={i} href$={getModifiedUrlStream(p => (p.pathname = path))} {...buttonProps}>
+                    <Button key={i} href={createHrefToPath(path)} {...buttonProps}>
                       {text}
                     </Button>
                   );

@@ -23,7 +23,7 @@ export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, 
     <div className={locals.tilesRow}>
       <div className={locals.tile}>
         <KeyValue
-          label={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
+          label={t('in-alerting:smartAlerts.synthetics.details.alertingType')}
           value={thresholdTypeLabel}
           className={locals.keyValueExtraGap}
           multilineLabel
@@ -31,7 +31,7 @@ export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, 
       </div>
       <div className={locals.tile}>
         <KeyValue
-          label={t('in-alerting:smartAlerts.details.metricTitle')}
+          label={t('in-alerting:smartAlerts.synthetics.details.timeThreshold')}
           value={metricLabel}
           className={locals.keyValueExtraGap}
           multilineLabel

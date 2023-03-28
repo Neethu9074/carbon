@@ -4,29 +4,20 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { useEffect } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
-import { Button, Message, Ul } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
+import { Button } from '@instana/components';
 
-import {
-  AnalyticsSection,
-  ApplicationsSection,
-  EventsAndAlertsSection,
-  InfrastructureSection,
-  GlobalFunctionsSection,
-  MobileAppsSection,
-  PlatformsSection,
-  WebsitesSection
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas';
+import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import { Col } from 'in-components/layout/Grid/Grid';
+import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export interface FormControlProps {
@@ -35,13 +26,25 @@ export interface FormControlProps {
 }
 interface RoleAndAccessScopeColumnsProps extends FormControlProps {
   readOnly?: boolean;
+  editMode?: boolean;
   onSave: (form: MapForm) => void;
 }
 
-export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onSave }: RoleAndAccessScopeColumnsProps) {
+export default function RoleAndAccessScopeColumns({
+  form,
+  setForm,
+  readOnly,
+  editMode,
+  onSave
+}: RoleAndAccessScopeColumnsProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
-  const includesRestrictedAccess = permissionSetField?.value?.permissions?.includes(RESTRICTED_ACCESS);
+  const closeAndBack = () => {
+    if (!editMode) {
+      goToPath(teamSettingsAccessControlGroups);
+    }
+    close();
+  };
 
   const openAccessScopeDialog = () => {
     addActiveDialog(
@@ -52,11 +55,20 @@ export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onS
           onSave(form);
           close();
         }}
-        onCancel={close}
-        editMode
+        onCancel={closeAndBack}
+        editMode={editMode}
       />
     );
   };
+
+  // while opening a new group we immediately want to start in creation wizard dialog
+  useEffect(() => {
+    if (!editMode) {
+      openAccessScopeDialog();
+    }
+    // as openAccessScopeDialog should not be be watched
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode]);
 
   return (
     <Col lg={6}>
@@ -70,21 +82,7 @@ export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onS
           )
         }
       >
-        {!includesRestrictedAccess && <Message type="warning">{t('in-stores:permissionRestrictedWarning')}</Message>}
-        {includesRestrictedAccess && permissionSetField && (
-          <Ul>
-            <RolesAndAccessScopeContext.Provider value={{ permissionsSet: permissionSetField.value }}>
-              <WebsitesSection />
-              <MobileAppsSection />
-              <ApplicationsSection />
-              <PlatformsSection />
-              <InfrastructureSection />
-              <AnalyticsSection />
-              <EventsAndAlertsSection />
-              <GlobalFunctionsSection />
-            </RolesAndAccessScopeContext.Provider>
-          </Ul>
-        )}
+        {permissionSetField && <RolesAndAccessScopeOverview permissionsSet={permissionSetField.value} />}
       </LightCard>
     </Col>
   );

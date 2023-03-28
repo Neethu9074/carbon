@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
-import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getLinkToAnalyze, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -32,6 +32,7 @@ export default connectTo(
 );
 
 export function ContextMenuContent({ applicationId, application, node, isTrafficEnabled }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
   // when traffic is disabled, we only see services filtered by this applicaiton id, therefore we can straight use it.
   // if traffic is enabled, the user wants to break the border of the application, therefore don't use a context at all.
   if (isTrafficEnabled) {
@@ -46,8 +47,9 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_views_stats"
-        href$={getServiceDashboard(node.id, {
+        href={getLinkToServiceDashboard({
           applicationId,
+          serviceId: node.id,
           boundaryScope: boundaryScopes.all
         })}
       >
@@ -58,7 +60,12 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_actions_flow_layout"
-        href$={getServiceDashboard(node.id, { applicationId, boundaryScope: boundaryScopes.all, tab: '/flowMap' })}
+        href={getLinkToServiceDashboard({
+          applicationId,
+          serviceId: node.id,
+          boundaryScope: boundaryScopes.all,
+          tab: '/flowMap'
+        })}
       >
         {t('in-applications:buttonGoToFlow')}
       </Button>

@@ -7,25 +7,25 @@ import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Card, Link, SvgIcon } from '@instana/components';
 
 import {
   getEntityIdView,
+  getModifyAlertChannelUrl,
   teamSettingsAlertingAlertChannels,
-  teamSettingsAlertingConfigurations,
-  getModifyAlertChannelUrl
+  teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
+import {
+  useAlertConfig as useApplicationsAlertConfig,
+  useLinkToGlobalAlertConfigWithoutAPDashboard
+} from 'in-applications/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { getLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
-import { getAlertConfig as getApplicationsAlertConfig } from 'in-applications/navigation/paths';
-import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
-import { getAlertConfig as getWebsiteAlertConfig } from 'in-websites/navigation/paths';
+import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { useAlertConfigLink } from 'in-websites/navigation/paths';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -186,6 +186,35 @@ const typeLabels = Object.freeze({
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert')
 });
 
+function AlertChannelLabel({ entity }) {
+  const { entityId, label, type, id } = entity;
+  const getApplicationsAlertConfig = useApplicationsAlertConfig();
+  const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
+  const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
+
+  let href;
+  let href$;
+  if (type === 'WebsiteSmartAlert') {
+    href = websiteAlertConfigLink;
+  } else if (type === 'ApplicationSmartAlert') {
+    href = getApplicationsAlertConfig(id, entityId);
+  } else if (type === 'GlobalApplicationSmartAlert') {
+    href = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
+  } else {
+    href$ = getEntityIdView(teamSettingsAlertingConfigurations, id);
+  }
+
+  return (
+    <Tooltip content={label} align="topLeft" delay={500}>
+      <WithSubscript subscript={getSubscript(entity)}>
+        <Link href$={href$} href={href} ellipsis>
+          {label}
+        </Link>
+      </WithSubscript>
+    </Tooltip>
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'icon',
@@ -203,28 +232,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-settings:tabs.name'),
     width: 50,
-    getContent(entity) {
-      const { entityId, label, type, id } = entity;
-      let url;
-      if (type === 'WebsiteSmartAlert') {
-        url = getWebsiteAlertConfig(id, entityId);
-      } else if (type === 'ApplicationSmartAlert') {
-        url = getApplicationsAlertConfig(id, entityId);
-      } else if (type === 'GlobalApplicationSmartAlert') {
-        url = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
-      } else {
-        url = getEntityIdView(teamSettingsAlertingConfigurations, id);
-      }
-      return (
-        <Tooltip content={label} align="topLeft" delay={500}>
-          <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={url} ellipsis>
-              {label}
-            </Link>
-          </WithSubscript>
-        </Tooltip>
-      );
-    }
+    getContent: entity => <AlertChannelLabel entity={entity} />
   },
   {
     id: 'kind',

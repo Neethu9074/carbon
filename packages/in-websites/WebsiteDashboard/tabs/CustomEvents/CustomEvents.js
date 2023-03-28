@@ -5,51 +5,49 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import {
-  websiteIdUrlParameter,
+  pageIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
-  pageIdUrlParameter
+  websiteIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { getLinkToCustomEvent, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useCustomEventLink, useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import { t, collationLanguage } from 'in-i18n';
+import { collationLanguage, t } from 'in-i18n';
+
+const CustomEventLabel = ({ item, websiteId, pageId }) => {
+  let label = item.name;
+
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    label = t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleCustomEvent');
+  }
+
+  const customEventHref = useCustomEventLink(websiteId, {
+    pageId,
+    customEventId: label
+  });
+
+  return <Link href={customEventHref}>{label}</Link>;
+};
 
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-websites:websiteDashboard.tabs.customEvents.customEventsLabelEventName'),
-    getContent(item, { websiteId, pageId }) {
-      let label = item.name;
-      try {
-        label = String(JSON.parse(label));
-      } catch (e) {
-        // ignore
-      }
-
-      return (
-        <Link
-          href$={getLinkToCustomEvent(websiteId, {
-            pageId,
-            customEventId: label
-          })}
-        >
-          {label}
-        </Link>
-      );
-    }
+    getContent: (item, { websiteId, pageId }) => <CustomEventLabel item={item} websiteId={websiteId} pageId={pageId} />
   },
   {
     id: 'occurrencesAgg',
@@ -110,23 +108,21 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function CustomEvents({ timeConfig, tagFilters, websiteId, websiteLabel, pageId }) {
   const tagCatalogCustom = useTagCatalog('custom');
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogCustom && {
+      beaconType: 'custom',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogCustom
+      }),
+      groupBy: defaultGroupings.custom
+    }
+  );
+
   const rightHeader = (
-    <Button
-      kind="secondary"
-      href$={
-        tagCatalogCustom &&
-        getLinkToAnalyze({
-          beaconType: 'custom',
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogCustom
-          }),
-          groupBy: defaultGroupings.custom
-        })
-      }
-      style={{ marginRight: '0.5rem' }}
-    >
+    <Button kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
       {t('in-websites:websiteDashboard.tabs.customEvents.customEventsButtonAnalyzeCustomEvents')}
     </Button>
   );

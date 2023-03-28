@@ -14,6 +14,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
@@ -38,6 +39,7 @@ import { t } from 'in-i18n';
 export default function PodDashboard({ location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
+    cronJobId: getMatrixParameter(location, podDashboard, matrixCronJobId),
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };

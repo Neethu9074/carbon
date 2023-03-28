@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { number, percentage } from 'in-services/formatters/number';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
@@ -80,24 +80,22 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 
 function ViewAll({ tagFilters, websiteLabel, className }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {
-            groupbyTag: 'beacon.page.name'
-          }
-        })
+
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {
+        groupbyTag: 'beacon.page.name'
       }
-    >
+    }
+  );
+  return (
+    <Link className={className} href={analyzeHref}>
       {t('in-websites:websiteDashboard.tabs.ajax.pagesTopListLinkLabel')}
     </Link>
   );
@@ -111,14 +109,13 @@ function Label({ item, websiteId }) {
     // ignore
   }
 
+  const websiteHref = useLinkToWebsite(websiteId, {
+    pageId: label,
+    tabPath: '/ajax'
+  });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToWebsite(websiteId, {
-        pageId: label,
-        tabPath: '/ajax'
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={websiteHref}>
       {label}
     </Link>
   );

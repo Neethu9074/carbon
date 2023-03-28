@@ -9,7 +9,7 @@ import { Link } from '@instana/components';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToError, getLinkToWebsite } from 'in-websites/navigation/paths';
+import { useLinkToError, useLinkToWebsite } from 'in-websites/navigation/paths';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
@@ -68,30 +68,25 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ websiteId, selectedMetric, className }) {
+  const websiteHref = useLinkToWebsite(websiteId, {
+    tabPath: '/errors',
+    tabParameters: {
+      orderBy: `${selectedMetric}Agg`
+    }
+  });
+
   return (
-    <Link
-      className={className}
-      href$={getLinkToWebsite(websiteId, {
-        tabPath: '/errors',
-        tabParameters: {
-          orderBy: `${selectedMetric}Agg`
-        }
-      })}
-    >
+    <Link className={className} href={websiteHref}>
       {t('in-websites:websiteDashboard.tabs.summary.errorTopListLinkLabelViewAllJSErrors')}
     </Link>
   );
 }
 
 function Label({ item, websiteId, pageId }) {
+  const linkHref = useLinkToError(websiteId, { errorId: item.error.id, pageId });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToError(websiteId, {
-        pageId,
-        errorId: item.error.id
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={linkHref}>
       {item.error.message}
     </Link>
   );

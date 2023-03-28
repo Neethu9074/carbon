@@ -10,18 +10,18 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
-import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
+import { useLinkToAnalyze, websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';
+import { pageId as matrixPageId, websiteId as matrixWebsiteId } from 'in-websites/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
+import { dashboardTagFilters as tagFiltersTrackers, tabChange } from 'in-websites/tracker';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
-import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
-import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
+import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -31,7 +31,6 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import DashboardHeader from 'in-components/DashboardHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { getTimeConfig } from 'in-stores/time/config';
-import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -174,7 +173,7 @@ function Header(props) {
             ? t('in-websites:websiteDashboard.websiteDashboardTitleWebsitePage')
             : t('in-websites:websiteDashboard.websiteDashboardTitleWebsite')
         }
-        renderButtonLine={renderButtonLine}
+        renderButtonLine={ButtonLine}
         contextConfigurations={contextConfigurations}
         tagCatalogPageLoad={tagCatalogPageLoad}
         showHistoricDataWarning={false}
@@ -192,7 +191,30 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, tagCatalogPageLoad }) {
+function ButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, tagCatalogPageLoad }) {
+  const transitionsAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageChange',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: defaultGroupings.pageLoad
+    }
+  );
+
+  const loadsAnalyzeHref = useLinkToAnalyze(
+    tagCatalogPageLoad && {
+      beaconType: 'pageLoad',
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogPageLoad
+      }),
+      groupBy: defaultGroupings.pageLoad
+    }
+  );
   return (
     <>
       <WebsiteHealthIndicatorBehavior
@@ -201,42 +223,12 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeCon
         timeConfig={timeConfig}
       />
       {pageId && (
-        <Button
-          kind="primary"
-          icon="lib_website_page_load"
-          href$={
-            tagCatalogPageLoad &&
-            getLinkToAnalyze({
-              beaconType: 'pageChange',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters,
-                tagCatalog: tagCatalogPageLoad
-              }),
-              groupBy: defaultGroupings.pageLoad
-            })
-          }
-        >
+        <Button kind="primary" icon="lib_website_page_load" href={transitionsAnalyzeHref}>
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageTransitions')}
         </Button>
       )}
       {!pageId && (
-        <Button
-          kind="primary"
-          icon="lib_website_page_load"
-          href$={
-            tagCatalogPageLoad &&
-            getLinkToAnalyze({
-              beaconType: 'pageLoad',
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                websiteLabel,
-                tagFilters,
-                tagCatalog: tagCatalogPageLoad
-              }),
-              groupBy: defaultGroupings.pageLoad
-            })
-          }
-        >
+        <Button kind="primary" icon="lib_website_page_load" href={loadsAnalyzeHref}>
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
         </Button>
       )}

@@ -12,13 +12,16 @@ import {
   isUnknownTypeSpan,
   isInternalCall
 } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
-import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointInformation.mless';
 
 export default function ServiceEndpointInformation({ call, nonInternalParentCall, onCallClicked, marginLeft }) {
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+
   if (
     ((!call.service || call.service.id === 'UNKNOWN') && (!call.endpoint || call.endpoint.id === 'UNKNOWN')) ||
     isUnknownTypeSpan(call)
@@ -43,7 +46,10 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
 
       <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" size="xs" />
       <Tooltip themeStyle="light" content={call.endpoint.label}>
-        <Link className={locals.link} href$={getEndpointDashboard(call.endpoint.id, { serviceId: call.service.id })}>
+        <Link
+          className={locals.link}
+          href={getLinkToEndpointDashboard({ serviceId: call.service.id, endpointId: call.endpoint.id })}
+        >
           {call.endpoint.label}
         </Link>
       </Tooltip>
@@ -52,7 +58,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
 
       <SvgIcon className={locals.serviceIcon} type="lib_application_service" size="xs" />
       <Tooltip themeStyle="light" content={call.service.label}>
-        <Link className={locals.link} href$={getServiceDashboard(call.service.id)}>
+        <Link className={locals.link} href={getLinkToServiceDashboard({ serviceId: call.service.id })}>
           {call.service.label}
         </Link>
       </Tooltip>

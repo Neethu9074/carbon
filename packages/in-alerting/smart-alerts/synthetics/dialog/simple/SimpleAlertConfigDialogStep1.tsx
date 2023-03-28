@@ -26,6 +26,7 @@ export default function SimpleAlertConfigDialogStep1(props: ConfigureAlertTestPr
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-alerting:smartAlerts.synthetics.simple.simpleAlertConfigDialogStep1Headline')}
+      titleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.simpleAlertConfigDialogStep1Tooltip')}
     >
       <div className={locals.alertTestsContainer}>{<ConfigureAlertTest {...props} />}</div>
     </SimpleModeStepContentWrapper>

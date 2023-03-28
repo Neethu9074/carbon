@@ -12,7 +12,7 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { ms, number, percentage } from 'in-services/formatters/number';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -82,24 +82,21 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest, className }) {
-  return (
-    <Link
-      className={className}
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters,
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {
-            groupbyTag: 'beacon.http.path'
-          }
-        })
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters,
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {
+        groupbyTag: 'beacon.http.path'
       }
-    >
+    }
+  );
+  return (
+    <Link className={className} href={analyzeHref}>
       {t('in-websites:websiteDashboard.tabs.ajax.locationsTopListLinkLabel')}
     </Link>
   );
@@ -113,24 +110,19 @@ function Label({ item, websiteLabel, tagFilters, tagCatalogHttpRequest }) {
     // ignore
   }
 
-  return (
-    <Link
-      href$={
-        tagCatalogHttpRequest &&
-        getLinkToAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            websiteLabel,
-            tagFilters: tagFilters.concat({ name: 'beacon.http.path', stringValue: label, operator: 'EQUALS' }),
-            tagCatalog: tagCatalogHttpRequest
-          }),
-          beaconType: 'httpRequest',
-          groupBy: {}
-        })
-      }
-    >
-      {label}
-    </Link>
+  const analyzeHref = useLinkToAnalyze(
+    tagCatalogHttpRequest && {
+      formModel: translateDemocratisationTagFiltersToFormModel({
+        websiteLabel,
+        tagFilters: tagFilters.concat({ name: 'beacon.http.path', stringValue: label, operator: 'EQUALS' }),
+        tagCatalog: tagCatalogHttpRequest
+      }),
+      beaconType: 'httpRequest',
+      groupBy: {}
+    }
   );
+
+  return <Link href={analyzeHref}>{label}</Link>;
 }
 
 function Metric({ formattedMetricValue }) {

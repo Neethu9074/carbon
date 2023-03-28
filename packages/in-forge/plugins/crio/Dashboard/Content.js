@@ -104,6 +104,18 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['memory.total_rss_percent'],
+            labels: [t('in-forge:plugins.crio.dashboard.memoryTotalRssPercentage')],
+            formatter: percentageTwoDecimalPlaces,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
       </DashboardSection>
 
       <DashboardSection title={t('in-forge:plugins.crio.dashboard.blockIo')}>

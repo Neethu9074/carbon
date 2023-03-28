@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 import SubView from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './View.mless';
@@ -38,6 +38,7 @@ export default connectTo(
     onMouseLeave,
     renderContent,
     setExpandedSubMenu,
+    isBeta,
     id
   }) {
     const isExpanded = label && expandedSubMenu === label;
@@ -78,7 +79,11 @@ export default connectTo(
             ) : (
               <>
                 <SvgIcon className={locals.icon} type={icon} size="l" />
-                {sidebarIsExpanded && <span className={locals.label}>{label}</span>}
+                {sidebarIsExpanded && (
+                  <Fragment>
+                    <span className={locals.label}>{label}</span> {isBeta && <BetaBadge />}
+                  </Fragment>
+                )}
               </>
             )}
           </Link>
