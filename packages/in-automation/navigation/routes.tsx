@@ -5,7 +5,7 @@
  */
 
 // @ts-expect-error
-import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalogTab';
+import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalog';
 // @ts-expect-error
 import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
 import { Route } from 'react-router';

@@ -7,15 +7,18 @@
 import React, { ReactNode } from 'react';
 
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import ViewSwitcher from 'in-automation/automationTabs/ViewSwitcher';
+import ViewSwitcher from 'in-automation/AutomationTabs/ViewSwitcher';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
-export default function Automation({ children }: { children?: ReactNode }) {
+interface AutomationTabsProps {
+  children: ReactNode;
+}
+
+export default function AutomationTabs({ children }: AutomationTabsProps) {
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>{children}</LeftRightPadding>
-
       <Footer />
     </Sticky>
   );
