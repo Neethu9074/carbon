@@ -8,7 +8,6 @@ import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Spacer, Toggle, Typography } from '@instana/components';
-import { Action } from '@instana/types';
 
 import {
   putApiKeyFields,
@@ -196,7 +195,7 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
         </>
       ) : (
-        <Typography variant="body-small">{getType(action as Action)}</Typography>
+        <Typography variant="body-small">{getType(action)}</Typography>
       )}
     </FormGroup>
   ));

@@ -8,10 +8,10 @@ import { keyBy } from 'lodash';
 
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { AdditionalHeaders, Authen } from 'in-automation/api';
-import { Field, Nullish, Action } from 'in-types';
+import { Field, Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
-export const getType = (action: Action | Nullish) => {
+export const getType = (action: ActionFormEntity | Nullish) => {
   if (isDocLink(action?.type)) {
     return t('in-automation:ActionCatalog.docLink');
   } else if (isScript(action?.type)) {
