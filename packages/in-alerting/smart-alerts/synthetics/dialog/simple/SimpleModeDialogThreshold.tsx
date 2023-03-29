@@ -22,8 +22,8 @@ import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAler
 export default function SimpleModeDialogThreshold(
   props: AlertConfigDialogPresenterProps &
     MainDialogControl & {
-      subtitle: string;
-      subTitleToolTipText: string;
+      subtitle?: string;
+      subTitleToolTipText?: string;
     }
 ) {
   const formatLabel = (value: number) =>
@@ -47,7 +47,7 @@ export default function SimpleModeDialogThreshold(
           {subtitle}
           {subTitleToolTipText && (
             <Tooltip align="bottomMiddle" content={subTitleToolTipText}>
-              <SvgIcon type="lib_help_error_error_outline" color={theme.lib.colors.N600Light} />
+              <SvgIcon type="lib_help_error_help_outline" color={theme.lib.colors.N600Light} />
             </Tooltip>
           )}
         </div>

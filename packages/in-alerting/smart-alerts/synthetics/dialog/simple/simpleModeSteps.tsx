@@ -50,7 +50,6 @@ export const stepRenderers = [
     >
       <SimpleModeDialogThreshold
         {...parentProps}
-        subtitle={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitle')}
         subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
       />
     </SimpleModeStepContentWrapper>

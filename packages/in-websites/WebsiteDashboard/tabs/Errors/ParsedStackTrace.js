@@ -12,15 +12,11 @@ import { isNotBlank } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function ParsedStackTrace({ lines }) {
+export default function ParsedStackTrace({ websiteId, lines }) {
   return (
     <StackTraceLines>
       {lines.map((line, i) => (
-        <StackTraceLine
-          key={i}
-          {...line}
-          indicator={(websiteId, line) => <Indicator websiteId={websiteId} line={line} />}
-        />
+        <StackTraceLine key={i} {...line} indicator={<Indicator websiteId={websiteId} line={line} />} />
       ))}
     </StackTraceLines>
   );

@@ -70,8 +70,6 @@ module.exports = {
   rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  syntheticSmartAlertsDetailsEnabled: true,
-  syntheticCreateSmartAlertsUIEnabled: true,
   syntheticCreateTestAdvanceModeEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,

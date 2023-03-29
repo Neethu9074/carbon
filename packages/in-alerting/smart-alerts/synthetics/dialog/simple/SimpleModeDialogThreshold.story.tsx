@@ -20,8 +20,8 @@ const failureAlertConfig = Object.freeze(generateAlertConfig());
 export const Threshold = (
   args: AlertConfigDialogPresenterProps &
     MainDialogControl & {
-      subtitle: string;
-      subTitleToolTipText: string;
+      subtitle?: string;
+      subTitleToolTipText?: string;
     }
 ) => {
   const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig));

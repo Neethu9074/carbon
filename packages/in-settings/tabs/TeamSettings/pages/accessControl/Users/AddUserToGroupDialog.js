@@ -37,7 +37,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
         <ApiList
           ListRenderer={ListRenderer}
           getItems={getGroupsAsResultObservable}
-          itemName="group"
+          itemName="Group"
           orderBy="name"
           searchFields={['name']}
           userId={userId}
