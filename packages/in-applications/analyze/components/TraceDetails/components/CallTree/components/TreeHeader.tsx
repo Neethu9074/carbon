@@ -21,30 +21,30 @@ import locals from './TreeHeader.mless';
 interface TreeHeaderProps {
   rootCall: LazyCallTree | TraceActivityTreeNode;
   traceSummary: TraceSummary;
-  isLazyParent?: boolean;
+  isLazyOrHiddenParent?: boolean;
 }
 
-export default function TreeHeader({ rootCall, traceSummary, isLazyParent = false }: TreeHeaderProps) {
+export default function TreeHeader({ rootCall, traceSummary, isLazyOrHiddenParent = false }: TreeHeaderProps) {
   return (
     <Fragment>
       {traceSummary && (
-        <div
-          className={classNames({
-            [locals.treeHeader2]: true,
-            [locals.extraMargin]: isLazyParent
-          })}
-        >
-          <div className={locals.started}>
-            <SvgIcon size="s" type="lib_datetime_time" />
-            <p>Started: {formatDateWithActiveLanguage(traceSummary.startTime, 'yyyy-MM-dd, HH:mm:ss')}</p>
-          </div>
-          <p className={locals.latency}>
-            {t('in-applications:traceDetail.components.treeHeaderLatency')}{' '}
-            {latencyDetailed.formatter(traceSummary.latency)}
-          </p>
+      <div
+        className={classNames({
+          [locals.treeHeader2]: true,
+          [locals.extraMargin]: isLazyOrHiddenParent
+        })}
+      >
+        <div className={locals.started}>
+          <SvgIcon size="s" type="lib_datetime_time" />
+          <p>Started: {formatDateWithActiveLanguage(traceSummary.startTime, 'yyyy-MM-dd, HH:mm:ss')}</p>
         </div>
+        <p className={locals.latency}>
+          {t('in-applications:traceDetail.components.treeHeaderLatency')}{' '}
+          {latencyDetailed.formatter(traceSummary.latency)}
+        </p>
+      </div>
       )}
-      {!isLazyParent && (
+      {!isLazyOrHiddenParent && (
         <div className={locals.axisWrapper}>
           <div className={locals.axis2}>{rootCall && <CallTimeAxis call={rootCall} />}</div>
         </div>

@@ -16,9 +16,9 @@ import {
   LazyNodeType,
   updateLazyCallTreeWithRelatedCalls,
   refreshAllParentNodesToForcePropsChange,
-  CallNode,
-  SearchIndexType
+  CallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import { SearchIndex } from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
@@ -555,14 +555,14 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
 
     const lazyCallTree = {
       root: root,
-      searchIndex: new Map() as SearchIndexType,
+      searchIndex: new Map() as SearchIndex<CallNode>,
       traceId: TEST_TRACE_ID
     };
     populateSearchIndex(lazyCallTree.searchIndex, lazyCallTree.root);
 
     const newLazyCallTree = {
       root: cloneDeep(lazyCallTree.root),
-      searchIndex: new Map() as SearchIndexType,
+      searchIndex: new Map() as SearchIndex<CallNode>,
       traceId: lazyCallTree.traceId
     };
     populateSearchIndex(newLazyCallTree.searchIndex, newLazyCallTree.root);
@@ -586,7 +586,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
   });
 });
 
-function populateSearchIndex(searchIndex: SearchIndexType, node: CallNode) {
+function populateSearchIndex(searchIndex: SearchIndex<CallNode>, node: CallNode) {
   if (node) {
     searchIndex.set(node.id, node);
   }

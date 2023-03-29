@@ -76,5 +76,6 @@ module.exports = {
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
+  limitVisibleNestingLevelsInTraceEnabled: true,
   oracleRacMonitoringEnabled: false
 };

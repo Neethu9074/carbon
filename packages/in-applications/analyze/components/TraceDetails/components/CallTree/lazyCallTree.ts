@@ -18,6 +18,7 @@ import {
 } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
+import { SearchIndex } from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
@@ -145,11 +146,9 @@ export interface CallDetailsNode extends Mutable<CallDetails> {
   children: CallNode[];
 }
 
-export type SearchIndexType = Map<string, CallNode>;
-
 export interface LazyCallTree {
   root: CallNode;
-  searchIndex: SearchIndexType;
+  searchIndex: SearchIndex<CallNode>;
   traceId: string;
 }
 

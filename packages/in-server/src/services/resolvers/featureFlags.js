@@ -340,6 +340,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
+    instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
     defaultValue: false

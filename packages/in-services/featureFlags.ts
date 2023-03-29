@@ -155,4 +155,9 @@ export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', f
 
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
 
+export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
+  'limitVisibleNestingLevelsInTraceEnabled',
+  false
+);
+
 export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);

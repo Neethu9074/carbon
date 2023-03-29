@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 
 import { Relation, TraceActivityTreeNode } from '@instana/types';
 import { useObservable } from '@instana/hooks';
@@ -16,10 +16,14 @@ import {
   initLazyCallTree,
   LazyCallTree,
   Relations,
-  CallNode,
   FAKE_ROOT_CALL_ID,
   isCallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import {
+  EagerCallTreeResult,
+  LazyCallTreeResult,
+  TraceActivityTreeNodeWithParentId
+} from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import searchForPathToSelectedNode from 'in-applications/analyze/components/TraceDetails/components/CallTree/searchForPathToSelectedNode';
 import getRelatedCallsDetailsWithCursor from 'in-applications/subscriptions/getRelatedCallsDetailsWithCursor';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
@@ -48,10 +52,6 @@ interface UseLoadCallTreeProps {
   lazyLoading: boolean;
 }
 
-interface LazyCallTreeResult extends Result<CallNode> {
-  lazyCallTree?: LazyCallTree;
-}
-
 /**
  * Initiates loading of a call tree and maintains the state of expanded nodes in the call tree.
  *
@@ -64,7 +64,7 @@ export function useLoadCallTree({
   callId: callIdOrMissing,
   lazyLoading
 }: UseLoadCallTreeProps): [
-  LazyCallTreeResult | Result<TraceActivityTreeNode>,
+  LazyCallTreeResult | EagerCallTreeResult,
   (params: OnRelatedCallsLoadedProps) => void,
   (params: OnParentAndSiblingCallsLoadedProps) => void,
   Set<string>,
@@ -82,14 +82,27 @@ export function useLoadCallTree({
     useObservable(!lazyLoading ? () => getTraceActivityTree({ id: traceId }) : just(null), [traceId, lazyLoading]) ??
     pendingResult;
 
+  const eagerCallTreeResultWithSearchIndex = useMemo(() => {
+    if ((!lazyLoading && isLoading(eagerCallTreeResult)) || hasError(eagerCallTreeResult)) {
+      return eagerCallTreeResult;
+    }
+    return createEagerSearchIndexAndSetParentIds(eagerCallTreeResult);
+  }, [lazyLoading, eagerCallTreeResult]);
+
   useEffect(() => {
-    if (!lazyLoading && (isLoading(eagerCallTreeResult) || hasError(eagerCallTreeResult))) {
+    if (
+      !lazyLoading &&
+      (isLoading(eagerCallTreeResultWithSearchIndex) || hasError(eagerCallTreeResultWithSearchIndex))
+    ) {
       return;
     }
     // auto expand all nodes from the root node to the selected call
-    const nodesToExpand = searchForPathToSelectedNode(eagerCallTreeResult.data, node => node.id === callIdOrMissing);
+    const nodesToExpand = searchForPathToSelectedNode(
+      eagerCallTreeResultWithSearchIndex.data,
+      node => node.id === callIdOrMissing
+    );
     expandCalls(nodesToExpand);
-  }, [lazyLoading, callIdOrMissing, eagerCallTreeResult, expandCalls]);
+  }, [lazyLoading, callIdOrMissing, eagerCallTreeResultWithSearchIndex, expandCalls]);
 
   // lazy loading tree ------------------------------------------------------------------------------------------
   const [lazyCallTreeResult, setLazyCallTreeResult] = useState<LazyCallTreeResult>(pendingResult);
@@ -111,7 +124,7 @@ export function useLoadCallTree({
     // auto expand all nodes from the root node to the selected call
     const nodesToExpand = searchForPathToSelectedNode(lazyCallTreeResult.data, node => node.id === callIdOrMissing);
     expandCalls(nodesToExpand);
-  }, [lazyLoading, callIdOrMissing, eagerCallTreeResult, lazyCallTreeResult, expandCalls]);
+  }, [lazyLoading, callIdOrMissing, eagerCallTreeResultWithSearchIndex, lazyCallTreeResult, expandCalls]);
 
   const callDetailsResult =
     useObservable(
@@ -169,7 +182,7 @@ export function useLoadCallTree({
           relation,
           getRelatedCallsDetailsResult
         );
-        return successfulResult(updatedTree);
+        return successfulLazyCallTreeResult(updatedTree);
       });
     },
     []
@@ -203,7 +216,7 @@ export function useLoadCallTree({
           onCallExpanded(parentId);
         }
 
-        return successfulResult(updatedTree);
+        return successfulLazyCallTreeResult(updatedTree);
       });
     },
     [onCallExpanded]
@@ -249,7 +262,7 @@ export function useLoadCallTree({
       );
     }
 
-    setLazyCallTreeResult(successfulResult(lazyCallTree));
+    setLazyCallTreeResult(successfulLazyCallTreeResult(lazyCallTree));
   }, [
     callDetailsResult,
     callId,
@@ -267,7 +280,7 @@ export function useLoadCallTree({
   ]);
 
   return [
-    lazyLoading ? lazyCallTreeResult : eagerCallTreeResult,
+    lazyLoading ? lazyCallTreeResult : eagerCallTreeResultWithSearchIndex,
     onRelatedCallsLoaded,
     onParentAndSiblingCallsLoaded,
     expandedCalls,
@@ -295,13 +308,46 @@ function isRootCallLoaded(lazyCallTree: LazyCallTree): boolean {
   );
 }
 
-function successfulResult(lazyCallTree: LazyCallTree): LazyCallTreeResult {
+function successfulLazyCallTreeResult(lazyCallTree: LazyCallTree): LazyCallTreeResult {
   return {
     progress: finishedProgress,
     errors: [],
     data: lazyCallTree.root,
-    lazyCallTree
+    lazyCallTree,
+    searchIndex: lazyCallTree.searchIndex
   };
+}
+
+function createEagerSearchIndexAndSetParentIds(
+  eagerCallTreeResult: Result<TraceActivityTreeNode>
+): EagerCallTreeResult {
+  const searchIndex = new Map<string, TraceActivityTreeNodeWithParentId>();
+  const node = populateEagerSearchIndexAndSetParentIds(searchIndex, eagerCallTreeResult.data);
+  return {
+    ...eagerCallTreeResult,
+    ...(node != null && { data: node }),
+    searchIndex
+  };
+}
+
+function populateEagerSearchIndexAndSetParentIds(
+  searchIndex: Map<string, TraceActivityTreeNodeWithParentId>,
+  node?: TraceActivityTreeNode
+): TraceActivityTreeNodeWithParentId | null {
+  let nodeCopy: TraceActivityTreeNodeWithParentId | null = null;
+  if (node != null) {
+    nodeCopy = { ...node } as TraceActivityTreeNodeWithParentId;
+    nodeCopy.children = [];
+    searchIndex.set(nodeCopy.id, nodeCopy);
+    node.children.forEach(child => {
+      const newChild = populateEagerSearchIndexAndSetParentIds(searchIndex, child);
+      if (newChild) {
+        newChild.parentId = node.id;
+        nodeCopy!.children.push(newChild);
+      }
+    });
+  }
+  return nodeCopy;
 }
 
 /**

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { useLimitVisibleNestingLevels } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLimitVisibleNestingLevels';
+import { isParenWithHiddenNestingLevel } from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
@@ -46,10 +48,48 @@ export default function CallTree({
     return <ErroneousResultPresenter errors={callTreeResult.errors} />;
   }
 
-  const rootCall = callTreeResult.data;
+  return (
+    <LoadedCallTree
+      callTreeResult={callTreeResult}
+      getColor={getColor}
+      openedCallId={openedCallId}
+      onCallClicked={onCallClicked}
+      onSubCallClicked={onSubCallClicked}
+      isLargeTrace={isLargeTrace}
+      selectedCall$={selectedCall$}
+      onRelatedCallsLoaded={onRelatedCallsLoaded}
+      onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
+      expandedCalls={expandedCalls}
+      onCallExpanded={onCallExpanded}
+      onCallCollapsed={onCallCollapsed}
+      traceSummary={traceSummary}
+    />
+  );
+}
 
-  const start = getStart(rootCall);
-  const end = getEnd(rootCall);
+function LoadedCallTree({
+  callTreeResult,
+  getColor,
+  openedCallId,
+  onCallClicked,
+  onSubCallClicked,
+  isLargeTrace,
+  selectedCall$,
+  onRelatedCallsLoaded,
+  onParentAndSiblingCallsLoaded,
+  expandedCalls,
+  onCallExpanded,
+  onCallCollapsed,
+  traceSummary
+}) {
+
+  const [rootNode, onShowHiddenParentNestingLevel, onShowHiddenChildNestingLevel] = useLimitVisibleNestingLevels(
+    callTreeResult,
+    openedCallId
+  );
+
+  const start = getStart(rootNode);
+  const end = getEnd(rootNode);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
@@ -58,9 +98,13 @@ export default function CallTree({
 
   return (
     <div className={locals.callTree}>
-      <TreeHeader traceSummary={traceSummary} rootCall={rootCall} isLazyParent={isLazyNode(rootCall)} />
+      <TreeHeader
+        traceSummary={traceSummary}
+        rootCall={rootNode}
+        isLazyOrHiddenParent={isLazyNode(rootNode) || isParenWithHiddenNestingLevel(rootNode)}
+      />
       <Row
-        call={rootCall}
+        call={rootNode}
         getColor={getColor}
         scale={scale}
         isLargeTrace={isLargeTrace}
@@ -73,6 +117,8 @@ export default function CallTree({
         expandedCalls={expandedCalls}
         onCallExpanded={onCallExpanded}
         onCallCollapsed={onCallCollapsed}
+        onShowHiddenParentNestingLevel={onShowHiddenParentNestingLevel}
+        onShowHiddenChildNestingLevel={onShowHiddenChildNestingLevel}
       />
     </div>
   );
