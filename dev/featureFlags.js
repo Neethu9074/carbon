@@ -66,6 +66,7 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   syntheticBrowserScriptEnabled: true,
+  syntheticBrowserCreateTestEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
   rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,

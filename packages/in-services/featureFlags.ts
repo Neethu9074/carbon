@@ -99,8 +99,9 @@ export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlerts
 // Synthetics test and  dashboard
 export const syntheticsEnabled = isFeatureFlagEnabled('syntheticsEnabled');
 
-// Synthetic BrowserScript feature flag
+// Synthetic BrowserScript feature flags
 export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');
+export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('syntheticBrowserCreateTestEnabled');
 
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');

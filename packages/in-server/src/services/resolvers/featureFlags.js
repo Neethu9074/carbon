@@ -250,6 +250,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticBrowserCreateTestEnabled',
+    instanaCtlKey: 'feature.synthetic.browser.create.test.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'syntheticCreateTestAdvanceModeEnabled',
     instanaCtlKey: 'feature.synthetic.create.test.advance.mode.enabled',
     defaultValue: false
