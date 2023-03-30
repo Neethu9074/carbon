@@ -308,6 +308,7 @@
     "applicationSmartAlert": "Application SmartAlert",
     "websiteSmartAlert": "Website SmartAlert",
     "globalApplicationSmartAlert": "Global Application SmartAlert",
+    "syntheticSmartAlert": "Synthetic SmartAlert",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "invalidQuery": "Invalid Query",
