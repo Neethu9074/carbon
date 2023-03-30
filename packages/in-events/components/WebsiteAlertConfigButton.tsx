@@ -24,7 +24,7 @@ export default function WebsiteAlertConfigButton({ alertConfig }: PropsType) {
       onClick={() => {
         websitesAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
       }}
-      href={getLinkToAlertConfig(alertConfig.id, String(alertConfig.created), alertConfig.websiteId)}
+      href={getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, String(alertConfig.created))}
     >
       {t('in-events:buttonViewAlertConfig')}
     </Button>
