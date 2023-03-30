@@ -1728,10 +1728,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@1.64.0":
-  version "1.64.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.64.0.tgz#c15e5062ec36110e38439ec3207db78e9e40f967"
-  integrity sha512-i7jgfNZiUjqjyZ4LRFfbrg952bE5r2S24l2+TZhuPCuXCuGl4lM1xVKXsKijjHlkVkWeGXBtArKio1FXMnxbnw==
+"@instana/components@1.65.0":
+  version "1.65.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.65.0.tgz#d1cbd12050522d1fb72ee3dfbd38698b9895a4f5"
+  integrity sha512-ryAp+LUr7DDN0m/vkdliG83bBvvzex3H9J/VqD/i/bcaUvEvvfEAaBUUENS4dNRVc3FYDu7NDvwCbMRzFUz7XA==
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
