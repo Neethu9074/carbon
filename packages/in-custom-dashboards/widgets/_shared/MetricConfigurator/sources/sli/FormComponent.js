@@ -31,8 +31,10 @@ export default function FormComponent({
   const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
   const metric = form.get('metric').value;
   const showSlo = metric && metric !== 'SLI';
+
   useEffect(() => {
     const withValidators = metric === 'ERROR_BUDGET_REMAINING';
+    //Dont validate slo field when value type is SLI
     onChange?.([], form => recreateSloField(form, withValidators));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metric]);
@@ -94,45 +96,41 @@ export default function FormComponent({
           {formatterSection}
         </Sections>
       ))}
-      {showSlo && (
-        <>
-          {form.get('slo').map(field => (
-            <Sections>
-              <InputInSection
-                label={t('in-custom-dashboards:widgets.slo.slo')}
-                id="metric-configurator-slo"
-                type="number"
-                value={
-                  typeof field.value === 'number'
-                    ? parseFloat(Number.parseFloat(field.value * 100).toPrecision(6))
-                    : field.value
+      {showSlo &&
+        form.get('slo').map(field => (
+          <Sections>
+            <InputInSection
+              label={t('in-custom-dashboards:widgets.slo.slo')}
+              id="metric-configurator-slo"
+              type="number"
+              value={
+                typeof field.value === 'number'
+                  ? parseFloat(Number.parseFloat(field.value * 100).toPrecision(6))
+                  : field.value
+              }
+              onChange={e => {
+                let newValue = undefined;
+                if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
+                  newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
                 }
-                onChange={e => {
-                  let newValue = undefined;
-                  if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
-                    newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
-                  }
-                  onChange(['slo'], field => field.setValue(newValue).setTouched(true));
-                }}
-                hasError={!field.valid && field.touched}
-                min={0}
-                max={99.99}
-                step="any"
-                actions={
-                  <HelpAction>
-                    <Trans
-                      i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
-                      values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
-                    />
-                  </HelpAction>
-                }
-                additionalContent={<TouchedMessages field={field} />}
-              />
-            </Sections>
-          ))}
-        </>
-      )}
-
+                onChange(['slo'], field => field.setValue(newValue).setTouched(true));
+              }}
+              hasError={!field.valid && field.touched}
+              min={0}
+              max={99.99}
+              step="any"
+              actions={
+                <HelpAction>
+                  <Trans
+                    i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
+                    values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
+                  />
+                </HelpAction>
+              }
+              additionalContent={<TouchedMessages field={field} />}
+            />
+          </Sections>
+        ))}
       {timeShiftConfiguration}
       {labelSection}
     </Stack>
