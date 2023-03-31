@@ -6,6 +6,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  trackAlertDeleteTrigger,
+  trackAlertEdit,
+  trackAlertPaused,
+  trackAlertResumed
+} from 'in-alerting/smart-alerts/components/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -46,6 +52,11 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
                 e.preventDefault();
                 stopPropagation(e);
                 handleToggleEnabled(enabled, id, setIsSaving);
+                if (enabled) {
+                  trackAlertPaused(config);
+                } else {
+                  trackAlertResumed(config);
+                }
               }}
             />
           </div>
@@ -75,7 +86,10 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <MoreMenuButton
               icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
               iconSpinning={isMoreMenuSaving}
-              onClick={() => handleEdit(config)}
+              onClick={() => {
+                handleEdit(config);
+                trackAlertEdit(config);
+              }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             </MoreMenuButton>
@@ -86,7 +100,13 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             </MoreMenuButton>
           )}
           {!builtIn && handleDelete && (
-            <MoreMenuButton icon="lib_actions_delete" onClick={() => handleDelete(id, setIsMoreMenuSaving, name)}>
+            <MoreMenuButton
+              icon="lib_actions_delete"
+              onClick={() => {
+                handleDelete(id, setIsMoreMenuSaving, name);
+                trackAlertDeleteTrigger(config);
+              }}
+            >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
             </MoreMenuButton>
           )}

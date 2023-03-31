@@ -41,7 +41,8 @@ export default function AlertHeader({
   onConfigRevisionChanged,
   renderCustomTitle,
   showActionButton,
-  allowActionButtons = true
+  allowActionButtons = true,
+  onConfigDeleteTrigger
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -229,6 +230,7 @@ export default function AlertHeader({
                     spinning={isDeleting}
                     onClick={() => {
                       if (!isDeleting) {
+                        onConfigDeleteTrigger?.(alertConfig.id);
                         addActiveDialog(
                           <ConfirmationDialog
                             header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
@@ -318,7 +320,8 @@ AlertHeader.propTypes = {
   onConfigRevisionChanged: PropTypes.func,
   renderCustomTitle: PropTypes.func,
   showActionButton: PropTypes.bool,
-  allowActionButtons: PropTypes.bool
+  allowActionButtons: PropTypes.bool,
+  onConfigDeleteTrigger: PropTypes.func
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

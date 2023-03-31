@@ -32,7 +32,6 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
-const tracking = {};
 
 export default function AlertDetails(props) {
   const { isMainPage, testId } = props;
@@ -63,7 +62,6 @@ export default function AlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} isMainPage={isMainPage} testId={testId} />}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
-      tracking={tracking}
     />
   );
 }

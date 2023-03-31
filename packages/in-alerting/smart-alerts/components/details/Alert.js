@@ -8,6 +8,13 @@ import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
+import {
+  trackAlertDeleteTrigger,
+  trackAlertDeleteConfirm,
+  trackAlertEdit,
+  trackAlertPaused,
+  trackAlertResumed
+} from 'in-alerting/smart-alerts/components/tracker';
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
@@ -102,7 +109,11 @@ export default function Alert({
                 isGlobalSmartAlert
               })
             );
-            tracking.trackEdit?.({ alertConfigId: alertConfig.id });
+            if (tracking.trackEdit) {
+              tracking.trackEdit?.({ alertConfigId: alertConfig.id });
+            } else if (!isCopy) {
+              trackAlertEdit(alertConfig);
+            }
           }}
           fullyQualifiedAlertsList={listPath}
           doEnableConfig$={enableConfig}
@@ -111,12 +122,26 @@ export default function Alert({
           doRestoreConfig$={restoreConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
-              tracking.trackPaused?.({ alertConfigId });
+              if (tracking.trackPaused) {
+                tracking.trackPaused?.({ alertConfigId });
+              } else {
+                trackAlertPaused(alertConfig);
+              }
             } else {
-              tracking.trackResumed?.({ alertConfigId });
+              if (tracking.trackResumed) {
+                tracking.trackResumed?.({ alertConfigId });
+              } else {
+                trackAlertResumed(alertConfig);
+              }
             }
           }}
-          onConfigDeleted={tracking.trackDeleted}
+          onConfigDeleted={() => {
+            if (tracking.trackDeleted) {
+              tracking.trackDeleted({ alertConfig });
+            } else {
+              trackAlertDeleteConfirm(alertConfig);
+            }
+          }}
           onConfigRevisionChanged={tracking.trackRevisionChanged}
           renderCustomTitle={() => {
             return (
@@ -133,6 +158,9 @@ export default function Alert({
           }}
           showActionButton={showActionButton}
           allowActionButtons={isGlobalSmartAlert ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts}
+          onConfigDeleteTrigger={() => {
+            trackAlertDeleteTrigger(alertConfig);
+          }}
         />
 
         <Row>
@@ -177,7 +205,8 @@ Alert.propTypes = {
     trackDeleted: PropTypes.func,
     trackPaused: PropTypes.func,
     trackResumed: PropTypes.func,
-    trackRevisionChanged: PropTypes.func
+    trackRevisionChanged: PropTypes.func,
+    trackDeleteTrigger: PropTypes.func
   }),
   paths: PropTypes.shape({
     detailsPath: PropTypes.string.isRequired,

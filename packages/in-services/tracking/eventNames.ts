@@ -398,3 +398,13 @@ export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
 export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
+
+// Smart Alert Tracking
+
+export const ALERTING_CREATE = 'alerting.add';
+export const ALERTING_SAVED = 'alerting.saved';
+export const ALERTING_EDIT = 'alerting.edit';
+export const ALERTING_DELETE_TRIGGER = 'alerting.delete.trigger';
+export const ALERTING_DELETE_CONFIRM = 'alerting.deleted.confirm';
+export const ALERTING_PAUSED = 'alerting.paused';
+export const ALERTING_RESUMED = 'alerting.resumed';

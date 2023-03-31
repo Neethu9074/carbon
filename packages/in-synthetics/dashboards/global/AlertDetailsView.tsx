@@ -54,7 +54,7 @@ export default function AlertDetailsView() {
           <ViewTrackingMeta
             data={{
               productArea: 'Synthetic Monitoring',
-              pageRootName: 'Synthetic Monitoring'
+              pageRootName: 'Global Alert Details'
             }}
           />
           <AlertDetails {...props} />
@@ -87,8 +87,8 @@ export default function AlertDetailsView() {
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'EUM: Synthetics',
-                pageRootName: 'Synthetics Test'
+                productArea: 'Synthetic Monitoring',
+                pageRootName: 'Local Alert Details'
               }}
             />
             <AlertDetails {...props} />

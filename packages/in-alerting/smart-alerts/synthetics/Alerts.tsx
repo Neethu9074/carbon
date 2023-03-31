@@ -24,6 +24,7 @@ import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -47,15 +48,22 @@ export default function Alerts({ testId }: AlertsProps) {
   const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
 
   return (
-    <AlertBaseList<SyntheticAlertConfigWithMetadata>
-      extraColumnDefinitions={extraColumnDefinitions}
-      getAlertConfigs={() => getAllAlertConfigs(testId, { asObservable: true })}
-      actionHandlers={handlers}
-      tableActions={tableActions}
-      getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
-      createRowLinkLocation={createRowLinkLocation}
-      sortOptions={sortOptions}
-    />
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Synthetics Monitoring',
+          pageRootName: 'Smart Alerts List'
+        }}
+      />
+      <AlertBaseList<SyntheticAlertConfigWithMetadata>
+        extraColumnDefinitions={extraColumnDefinitions}
+        getAlertConfigs={() => getAllAlertConfigs(testId, { asObservable: true })}
+        actionHandlers={handlers}
+        getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
+        createRowLinkLocation={createRowLinkLocation}
+        sortOptions={sortOptions}
+      />
+    </>
   );
 }
 
