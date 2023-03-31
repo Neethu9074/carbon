@@ -139,7 +139,7 @@
     }
   },
   "createTest": {
-    "buttonLabel": "New Synthetic Test"
+    "buttonLabel": "Add Synthetic Test"
   },
   "createSmartAlert": {
     "buttonLabel": "Add Synthetic Smart Alert"
