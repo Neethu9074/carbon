@@ -18,7 +18,7 @@ export default function EntityReadOnly({ entity }) {
         <SvgIcon
           className={locals.icon}
           style={{ cursor: 'not-allowed' }}
-          type={entity === SOURCE ? 'lib_arrow_incoming' : 'lib_arrow_outgoing'}
+          type={entity === SOURCE ? 'lib_arrow_outgoing' : 'lib_arrow_incoming'}
         />
       </div>
     );
