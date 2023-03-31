@@ -3,20 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
-import { getShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
+import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Input from 'in-components/form/Input';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './UrlShortenerOverlay.mless';
@@ -29,15 +28,15 @@ const tabList = [
   }
 ];
 
-export default compose(
-  withState('fixateTime', 'setFixateTime', true),
-  connectTo(({ fixateTime }) => ({
-    result: getShortUrl({ fixateTime }),
-    timeConfig: timeConfig$
-  }))
-)(UrlShortenerOverlay);
+export default function UrlShortenerOverlay() {
+  const [fixateTime, setFixateTime] = useState(true);
+  const result = useObservable(useShortUrl({ fixateTime }), [fixateTime]);
 
-function UrlShortenerOverlay({ result, fixateTime, setFixateTime, timeConfig }) {
+  // NOTE: this specifically needs to grab the user selected timeConfig from in-stores/time/config
+  // instead of the default useTimeConfig, because the analyze view employs a fixed timeConfig context,
+  // but needs to still show the original user selection
+  const timeConfig = useObservable(timeConfig$, []);
+
   const shortUrl = result?.data?.shortUrl;
 
   return (

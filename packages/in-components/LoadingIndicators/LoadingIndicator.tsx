@@ -13,7 +13,7 @@ import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/Indet
 import locals from './LoadingIndicator.mless';
 
 export interface LoadingIndicatorProps {
-  size: keyof typeof SvgIconSizes;
+  size?: keyof typeof SvgIconSizes;
   title?: string;
   text?: string;
   className?: string;
