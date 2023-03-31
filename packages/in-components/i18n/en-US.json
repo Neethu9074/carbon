@@ -77,9 +77,6 @@
     "avatarNullAlt": "Fallback avatar for {{email}}."
   },
   "messageFlyout": {
-    "infrastructurePageName": "Infrastructure",
-    "eumPageName": "EUM",
-    "settingsPageName": "Settings",
     "requestQuoteBtn": "Request a quote",
     "buyNowBtn": "Buy on AWS",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>."

@@ -8,9 +8,14 @@ import React, { ReactNode } from 'react';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { getTimeConfig } from 'in-stores/time/config';
-import history from 'in-stores/navigation/history';
 
-export const TimeConfigContext = React.createContext(getTimeConfig(history.location));
+export const TimeConfigContext = React.createContext(
+  getTimeConfig({
+    pathname: '',
+    query: {},
+    matrix: {}
+  })
+);
 
 export interface Props {
   children: ReactNode;
