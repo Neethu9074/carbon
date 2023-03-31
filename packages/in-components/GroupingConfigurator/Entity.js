@@ -28,7 +28,7 @@ export default function Entity({ groupbyTagEntity, onChange, sourceEnabled = tru
       {({ toggle, refSetter }) => (
         <SvgIcon
           className={locals.entityIcon}
-          type={groupbyTagEntity === SOURCE ? 'lib_application_call_source' : 'lib_application_call_destination'}
+          type={groupbyTagEntity === SOURCE ? 'lib_arrow_incoming' : 'lib_arrow_outgoing'}
           refSetter={compositeRef(refSetter, ref)}
           onClick={toggle}
         />

@@ -52,7 +52,7 @@ export default function SourceDestinationSelectorOverlay({
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
-            icon="lib_application_call_source"
+            icon="lib_arrow_incoming"
             label={t('in-components:queryBuilder.source')}
           />
         </OverlayOption>
@@ -68,7 +68,7 @@ export default function SourceDestinationSelectorOverlay({
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
-            icon="lib_application_call_destination"
+            icon="lib_arrow_outgoing"
             label={t('in-components:queryBuilder.destination')}
           />
         </OverlayOption>
