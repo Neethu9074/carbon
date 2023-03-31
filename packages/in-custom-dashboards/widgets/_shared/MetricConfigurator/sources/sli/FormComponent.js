@@ -34,8 +34,8 @@ export default function FormComponent({
 
   useEffect(() => {
     const withValidators = metric === 'ERROR_BUDGET_REMAINING';
-    //Dont validate slo field when value type is SLI
     onChange?.([], form => recreateSloField(form, withValidators));
+    // may lead to infinite loop when onChange is added to the dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metric]);
 

@@ -55,7 +55,7 @@ export function recreateSloField(form, withValidators) {
   return form.put(
     'slo',
     createField({
-      slo,
+      value: slo,
       validator: withValidators
         ? composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
         : undefined
