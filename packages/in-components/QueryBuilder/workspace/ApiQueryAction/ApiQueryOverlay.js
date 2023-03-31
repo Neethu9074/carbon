@@ -33,7 +33,7 @@ export default function ApiQueryOverlay({
     timeFrame,
     tagFilterExpression: backendQueryModel,
     pagination,
-    ...(groupBy[0] != null ? { groupBy: groupBy } : {}),
+    ...(groupBy != undefined && groupBy[0] != null ? { groupBy: groupBy } : {}),
     type,
     metrics,
     order
