@@ -36,7 +36,7 @@ export default React.forwardRef(function Entity(
           <div className={locals.wrapper}>
             <SvgIcon
               className={locals.icon}
-              type={entity === SOURCE ? 'lib_application_call_source' : 'lib_application_call_destination'}
+              type={entity === SOURCE ? 'lib_arrow_outgoing' : 'lib_arrow_incoming'}
               refSetter={compositeRef(refSetter, ref)}
               onClick={toggle}
             />
