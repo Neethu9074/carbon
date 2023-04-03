@@ -12,7 +12,7 @@
 # purposes (and teams). But if in doubt, the owner-team at least knows whom to ask for advice, i.e., which other team or
 # person.
 
-packages/in-amp                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-enterprise @instana/eng-portal @instana/eng-ui
+packages/in-amp                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-access-control @instana/eng-portal @instana/eng-ui
 packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection
 packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
@@ -123,7 +123,7 @@ packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application @instana/eng-alert-response
+packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
