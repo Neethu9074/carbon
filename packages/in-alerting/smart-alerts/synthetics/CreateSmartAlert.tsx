@@ -24,7 +24,7 @@ export default function CreateSmartAlert({ testId }: CreateSmartAlertProps) {
       }}
       withBoxShadow
     >
-      {t('in-alerting:smartAlerts.addSmartAlert')}
+      {t('in-alerting:smartAlerts.synthetics.addSmartAlert')}
     </FloatingActionButton>
   );
 }
