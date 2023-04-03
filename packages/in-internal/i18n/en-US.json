@@ -372,6 +372,11 @@
         "host": "Host",
         "garbageCollection": "Garbage Collection",
         "instances": "log-processors ({{length}})",
+        "incoming": {
+          "docker": "Ingested Docker logs",
+          "opentelemetry": "Ingested OpenTelemetry logs",
+          "action": "Ingested Action logs"
+        },
         "common": {
           "incoming": "Incoming Common Logs",
           "failIncoming": "Failed Incoming Common Logs",
