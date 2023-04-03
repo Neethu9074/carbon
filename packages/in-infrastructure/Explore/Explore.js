@@ -218,12 +218,21 @@ function Content({
   const onChartedMetricChange = useCallback(chartedMetric => setUrl({ chartedMetrics: chartedMetric }), [setUrl]);
   const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
-    isValid,
-    tagFilterExpression
-  ]);
+  const backendQueryModel = useMemo(
+    () => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION,
+    [isValid, tagFilterExpression]
+  );
   const pagination = { retrievalSize: 20 };
-  const groupBy = group ? [group.groupbyTag] : [];
+
+  let groupBy;
+  if (group) {
+    groupBy = group.groupbyTagSecondLevelKey
+      ? [group.groupbyTag + '.' + group.groupbyTagSecondLevelKey]
+      : [group.groupbyTag];
+  } else {
+    groupBy = [];
+  }
+
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
