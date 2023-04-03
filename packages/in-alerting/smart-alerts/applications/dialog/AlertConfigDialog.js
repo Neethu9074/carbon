@@ -18,10 +18,10 @@ import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
-import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialog';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
@@ -32,17 +32,16 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { t } from 'in-i18n';
 
-const logger = createLogger('in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialog');
-
+const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
 const initialChartConfigIndex = 0;
 
-export default function SmartAlertConfigDialogWrapper({
+export default function AlertConfigDialog({
   onClose,
   editMode,
   migrationMode,
   scopeMigrationDetails,
   isGlobalSmartAlert,
-  alertConfig, // type: CreateApplicationAlertConfig
+  alertConfig,
   startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -101,7 +100,7 @@ export default function SmartAlertConfigDialogWrapper({
   };
 
   return (
-    <SmartAlertConfigDialog
+    <AlertConfigDialogWithThreshold
       applicationLabel={applicationLabel}
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
@@ -119,19 +118,11 @@ export default function SmartAlertConfigDialogWrapper({
       withTrackClose={withTrackClose}
       withTrackCreate={withTrackCreate}
       trackModeSwitch={(simpleMode, step) => {
-        applicationsAlertingSwitchMode(
-          getTrackingObject(
-            form,
-            simpleMode
-              ? {
-                  destinationMode: 'Advanced',
-                  step
-                }
-              : {
-                  destinationMode: 'Simple'
-                }
-          )
-        );
+        if (simpleMode) {
+          applicationsAlertingSwitchMode(getTrackingObject(form, { destinationMode: 'Advanced', step }));
+        } else {
+          applicationsAlertingSwitchMode(getTrackingObject(form, { destinationMode: 'Simple' }));
+        }
       }}
       isSaving={isSaving}
       messages={messages}
@@ -139,29 +130,6 @@ export default function SmartAlertConfigDialogWrapper({
     />
   );
 }
-
-SmartAlertConfigDialogWrapper.propTypes = {
-  editMode: PropTypes.bool,
-  migrationMode: PropTypes.bool,
-  scopeMigrationDetails: PropTypes.shape({
-    query: PropTypes.string,
-    result: PropTypes.string.isRequired
-  }),
-  isGlobalSmartAlert: PropTypes.bool,
-  startWithSimpleMode: PropTypes.bool,
-  alertConfig: PropTypes.shape({
-    applications: PropTypes.object,
-    threshold: PropTypes.object,
-    boundaryScope: PropTypes.string,
-    calculateThresholdOnBackend: PropTypes.bool,
-    /**
-     * The backed model of tagFilterExpression
-     */
-    tagFilterExpression: PropTypes.object,
-    name: PropTypes.string
-  }).isRequired,
-  onClose: PropTypes.func.isRequired
-};
 
 function createOrSaveAlert({
   form,
@@ -285,3 +253,26 @@ function mapStatusCodeConfig(alertConfig) {
     }
   };
 }
+
+AlertConfigDialog.propTypes = {
+  editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
+  isGlobalSmartAlert: PropTypes.bool,
+  startWithSimpleMode: PropTypes.bool,
+  alertConfig: PropTypes.shape({
+    applications: PropTypes.object,
+    threshold: PropTypes.object,
+    boundaryScope: PropTypes.string,
+    calculateThresholdOnBackend: PropTypes.bool,
+    /**
+     * The backed model of tagFilterExpression
+     */
+    tagFilterExpression: PropTypes.object,
+    name: PropTypes.string
+  }).isRequired,
+  onClose: PropTypes.func.isRequired
+};

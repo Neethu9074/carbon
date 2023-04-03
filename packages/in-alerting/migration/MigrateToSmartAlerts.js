@@ -13,8 +13,8 @@ import {
   applicationsAlertingDeprecatedEventMigrateStarted,
   applicationsAlertingDeprecatedEventMigrateFinished
 } from 'in-alerting/smart-alerts/applications/tracker';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -117,7 +117,7 @@ function showSmartAlertDialog({
   applicationsAlertingDeprecatedEventMigrateStarted({ eventSpecificationId });
   if (config) {
     addActiveDialog(
-      <SmartAlertConfigDialogWrapper
+      <AlertConfigDialog
         applicationLabel={config.name}
         alertConfig={config}
         onClose={savedAlertConfig => {

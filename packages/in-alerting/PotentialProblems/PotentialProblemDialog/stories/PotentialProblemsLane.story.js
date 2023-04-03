@@ -10,7 +10,7 @@ import {
   potentialProblemsCluster
 } from 'in-alerting/PotentialProblems/PotentialProblemDialog/stories/potentialProblemsStorySharedData';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -67,7 +67,7 @@ export const PotentialProblemsMarkerLane = () => {
               potentialProblems={potentialProblemsCluster}
               alertRules={alertRules}
               renderSmartAlertDialogComponent={() => (
-                <SmartAlertConfigDialogWrapper
+                <AlertConfigDialog
                   applicationLabel="applicationLabel"
                   alertConfig={generateAlertConfig({ ...laneProps })}
                   onClose={close}

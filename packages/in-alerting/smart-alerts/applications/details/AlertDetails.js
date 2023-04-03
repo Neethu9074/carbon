@@ -42,9 +42,9 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
@@ -130,7 +130,7 @@ function getInventoryPathForLocation({ location }) {
 
 function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlobalSmartAlert }) {
   return (
-    <SmartAlertConfigDialogWrapper
+    <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       onClose={() => {
         close();

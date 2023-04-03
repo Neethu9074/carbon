@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -25,7 +25,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
     kind: 'primaryv2',
     onClick() {
       addActiveDialog(
-        <SmartAlertConfigDialogWrapper
+        <AlertConfigDialog
           isGlobalSmartAlert
           alertConfig={generateAlertConfig()}
           onClose={() => {

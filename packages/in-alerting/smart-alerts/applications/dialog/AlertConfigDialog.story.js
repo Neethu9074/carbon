@@ -6,8 +6,8 @@
 import { Router } from 'react-router-dom';
 import React from 'react';
 
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { someLogsFormData } from 'in-alerting/smart-alerts/applications/dialog/advanced/stories/formSampleData';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import history from 'in-stores/navigation/history';
@@ -22,17 +22,14 @@ const routerDecorator = Story => (
 
 export default {
   decorators: [routerDecorator],
-  component: SmartAlertConfigDialogWrapper,
-  parameters: {
-    chromatic: { disable: true }
-  }
+  component: AlertConfigDialog
 };
 
 export const AdvancedAlertConfigDialog = () => {
   const { applicationId = 'applicationId' } = {};
 
   return (
-    <SmartAlertConfigDialogWrapper
+    <AlertConfigDialog
       applicationLabel={'applicationLabel'}
       alertConfig={generateAlertConfig({
         applicationId,
@@ -63,21 +60,14 @@ export const AdvancedDialogWithInvalidLogs = () => {
       // without: value
     }
   };
-  return (
-    <SmartAlertConfigDialogWrapper
-      applicationLabel={'applicationLabel'}
-      alertConfig={alertConfig}
-      editMode
-      onClose={noop}
-    />
-  );
+  return <AlertConfigDialog applicationLabel={'applicationLabel'} alertConfig={alertConfig} editMode onClose={noop} />;
 };
 
 export const SimpleAlertConfigDialog = () => {
   const { applicationId = 'applicationId' } = {};
 
   return (
-    <SmartAlertConfigDialogWrapper
+    <AlertConfigDialog
       applicationLabel={'applicationLabel'}
       alertConfig={generateAlertConfig({
         applicationId,

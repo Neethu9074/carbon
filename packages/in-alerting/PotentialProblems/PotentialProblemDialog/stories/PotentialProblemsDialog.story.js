@@ -10,7 +10,7 @@ import {
   potentialProblemsCluster
 } from 'in-alerting/PotentialProblems/PotentialProblemDialog/stories/potentialProblemsStorySharedData';
 import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -73,7 +73,7 @@ const props = {
     }
 
     return (
-      <SmartAlertConfigDialogWrapper
+      <AlertConfigDialog
         applicationLabel={applicationLabel}
         alertConfig={{
           ...props,

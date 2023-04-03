@@ -27,13 +27,14 @@ import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applica
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export function SmartAlertConfigDialog(props) {
+export default function AlertConfigDialogWithThreshold(props) {
   const { form, isGlobalSmartAlert } = props;
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
+
   const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnrichedTagFilterFormModel(
     isGlobalSmartAlert,
     alertConfigWithFormModel,
