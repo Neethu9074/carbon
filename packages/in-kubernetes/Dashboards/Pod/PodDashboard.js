@@ -130,14 +130,16 @@ function renderButtonLine({ podId, timeConfig, result }) {
         podName={podName}
         timeConfig={timeConfig}
       />
-      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
     </>
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId }) {
+function renderButtonLineSecondary({ timeConfig, podId, result }) {
+  const podName = result.data?.label;
+
   return (
     <>
+      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
       {beeInstanaInfraMetricsEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
