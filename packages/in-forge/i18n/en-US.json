@@ -10992,7 +10992,6 @@
       "pid": "PID",
       "groupNo": "Group No",
       "groupName" :"Group Name",
-      "groupId": "Group ID",
       "queued": "Queued",
       "completed": "Completed",
       "health": "Health",
