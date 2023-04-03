@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { keyCodes, SvgIcon } from '@instana/components';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -85,9 +85,11 @@ export default function SearchInput({
           [inputClassName]: inputClassName
         })}
         disabled={disabled}
+        type="search"
         placeholder={placeholder ?? t('in-components:searchInput.placeholderSearch')}
         value={query}
         onChange={e => onChange(e.target.value)}
+        onClick={stopPropagation}
         autoFocus={autoFocus}
         onKeyDown={e => {
           if (onReturn && isReturn(e)) {
