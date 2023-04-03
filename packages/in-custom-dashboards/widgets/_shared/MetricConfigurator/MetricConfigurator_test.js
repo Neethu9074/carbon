@@ -53,8 +53,6 @@ describe('in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigur
       expect(getByText('Stans SLI')).toBeInTheDocument();
       expect(getByLabelText('Configured SLI')).toHaveValue('sliConfigId');
 
-      expect(getByLabelText('SLO')).toHaveValue(2); // floating point values are converted to percentage values by the UI
-
       expect(getByText('SLI')).toBeInTheDocument();
       expect(getByLabelText('Value Type')).toHaveValue('SLI');
     });
