@@ -16,6 +16,8 @@
   "newAction": "New Action",
   "yes": "Yes",
   "ok": "Ok",
+  "runAction": "Run action",
+  "testAction": "Test action",
   "targetAgent": "Target Agent",
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
@@ -45,7 +47,7 @@
   "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
   "description": "Description",
   "automation": "Automation",
-  "ActionCatalog":{
+  "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
     "action": "action",
@@ -90,7 +92,7 @@
     "name": "Name",
     "description": "Description",
     "value": "Value",
-    "type":"Type",
+    "type": "Type",
     "host": "Host",
     "method": "Method",
     "accept": "Accept (optional)",
