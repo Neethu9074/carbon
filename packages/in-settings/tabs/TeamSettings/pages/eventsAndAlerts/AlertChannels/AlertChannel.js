@@ -21,6 +21,7 @@ import {
 } from 'in-applications/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { createAlertChannel, getAlertChannel, saveAlertChannel } from 'in-api/alertChannels';
+import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
@@ -183,13 +184,15 @@ function getPropertyValue(entity, key) {
 const typeLabels = Object.freeze({
   ApplicationSmartAlert: t('in-settings:tabs.applicationSmartAlert'),
   WebsiteSmartAlert: t('in-settings:tabs.websiteSmartAlert'),
-  GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert')
+  GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert'),
+  SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert')
 });
 
 function AlertChannelLabel({ entity }) {
   const { entityId, label, type, id } = entity;
   const getApplicationsAlertConfig = useApplicationsAlertConfig();
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
+  const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
 
   let href;
@@ -200,6 +203,8 @@ function AlertChannelLabel({ entity }) {
     href = getApplicationsAlertConfig(id, entityId);
   } else if (type === 'GlobalApplicationSmartAlert') {
     href = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
+  } else if (type === 'SyntheticSmartAlert') {
+    href = getLinkToSyntheticAlertConfigWithoutAPDashboard(id);
   } else {
     href$ = getEntityIdView(teamSettingsAlertingConfigurations, id);
   }
