@@ -23,7 +23,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
       openIssues,
       maxSeverity
     }),
-    []
+    [timeConfig]
   );
 
   // Previous values when the openIssues, maxSeverity where undefined are needed to be replaced
