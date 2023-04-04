@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { ApplicationSliEntity, Result, SliEntityUnion } from '@instana/types';
+import { ApplicationSliEntity, AvailabilitySliEntity, Result, SliEntityUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import MonitoredEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoredEntityLabel';
@@ -15,7 +15,7 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
 
 interface UseApplicationPerspectiveLabelsProps {
-  sliEntity: ApplicationSliEntity;
+  sliEntity: ApplicationSliEntity | AvailabilitySliEntity;
 }
 
 interface UseApplicationPerspectiveLabelsReturn {
@@ -51,7 +51,10 @@ export interface SliEntityLabelProps<SLI_ENTITY extends SliEntityUnion> {
   sliName: string;
   sliEntity: SLI_ENTITY;
 }
-export function ApplicationPerspectiveLabel({ sliName, sliEntity }: SliEntityLabelProps<ApplicationSliEntity>) {
+export function ApplicationPerspectiveLabel({
+  sliName,
+  sliEntity
+}: SliEntityLabelProps<ApplicationSliEntity | AvailabilitySliEntity>) {
   const { applicationLabel, serviceLabel, endpointLabel } = useApplicationPerspectiveLabels({
     sliEntity
   });
