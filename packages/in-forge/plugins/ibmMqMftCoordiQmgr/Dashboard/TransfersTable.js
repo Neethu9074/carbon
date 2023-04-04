@@ -7,7 +7,7 @@
 import React from 'react';
 
 import getIbmMqMftTransfersForCoordiQmgr from '../subscriptions/getIbmMqMftTransfersForCoordiQmgr';
-import { number } from 'in-services/formatters/number';
+import { bytes, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -77,6 +77,22 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqMftTransfer.dashboard.transferRate'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'transferRate';
+      },
+      getContent: bytes.perSecond.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqMftTransfer.dashboard.statsTransferredBytes'),
     type: 'metric',
     typeArgs: {
@@ -86,7 +102,7 @@ const cols = [
       getMetricName() {
         return 'statsTransferredBytes';
       },
-      getContent: number.compact,
+      getContent: bytes.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -102,7 +118,7 @@ const cols = [
       getMetricName() {
         return 'currentItemSize';
       },
-      getContent: number.compact,
+      getContent: bytes.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

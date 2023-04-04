@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { seconds } from 'in-services/formatters/number';
+import { seconds, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -14,5 +14,12 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmMqMftTransfer.transfer')],
     formatter: seconds
+  },
+  {
+    metrics: ['transferRate'],
+    labels: [t('in-forge:plugins.ibmMqMftTransfer.dashboard.transferRate')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqMftTransfer.transfer')],
+    formatter: bytes.perSecond.compact
   }
 ];
