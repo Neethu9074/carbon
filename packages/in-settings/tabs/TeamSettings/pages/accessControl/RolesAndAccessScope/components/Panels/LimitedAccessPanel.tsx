@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import { PermissionSetWithRoles, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Button, Stack, StackItem, SvgIcon, Typography } from '@instana/components';
-import { PermissionSetWithRoles, ScopeBinding, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useTheme } from '@instana/hooks';
 
@@ -68,12 +68,13 @@ export default function LimitedAccessPanel<I>({
   setShowSubSlide,
   setSubSlideConfig
 }: LimitedAccessPanelProps<I>) {
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const theme = useTheme();
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
 
   const selectedIds = getFilteredScopeIds(scopeBindings);
-  const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable });
+  const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
 
   const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
@@ -118,6 +119,7 @@ export default function LimitedAccessPanel<I>({
       id: 'action',
       label: '',
       useMinimumAmountOfHorizontalSpace: true,
+      sortable: false,
       getContent(entity) {
         const id = extractId(entity);
         const name = extractName(entity);
@@ -182,8 +184,9 @@ export default function LimitedAccessPanel<I>({
         fetchedConfigState={selectedEntities}
         query=""
         orderBy="name"
-        orderDirection="ASC"
+        orderDirection={orderDirection}
         onClickItem={noop}
+        onChange={({ orderDirection: dir }) => setOrderDirection(dir ?? orderDirection)}
         columnDefinition={columnDefinition}
       />
     </Stack>
@@ -199,13 +202,15 @@ interface UseSelectEntitiesProps<I> {
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   observable: () => Observable<Result<I[]>>;
+  orderDirection: OrderDirection;
 }
 
 function useSelectedEntities<I>({
   selectedIds,
   extractId,
   extractName,
-  observable
+  observable,
+  orderDirection
 }: UseSelectEntitiesProps<I>): FetchedState<I[]> {
   const fetchedState = useFetchedStateObservable(observable);
   const [data, status, ...rest] = fetchedState;
@@ -217,7 +222,10 @@ function useSelectedEntities<I>({
       const id = extractId(entity);
       return selectedIds.includes(id);
     })
-    .sort((a, b) => compareIgnoreCase(extractName(a), extractName(b)));
+    .sort((a, b) => {
+      if (orderDirection === 'ASC') return compareIgnoreCase(extractName(a), extractName(b));
+      return compareIgnoreCase(extractName(b), extractName(a));
+    });
 
   return [filteredData, status, ...rest];
 }

@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { GroupPermissionEntity, PermissionSetWithRoles, Result } from '@instana/types';
+import { GroupPermissionEntity, OrderDirection, PermissionSetWithRoles, Result } from '@instana/types';
 import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useTheme } from '@instana/hooks';
@@ -42,11 +42,12 @@ interface Props extends FormControlProps {
  * @returns current instance
  */
 export default function _KubernetesEntityTable({ entityType, form, observable, setForm }: Props) {
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   // retrieve data from permissionSet
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
   const selectedIds: string[] = getSelectedEntityIds(entityType, permissionSetField?.value);
-  const selectedNamespaces = useSelectedEntities(observable, selectedIds);
+  const selected = useSelectedEntities(observable, orderDirection, selectedIds);
 
   // Column definition
   const theme = useTheme();
@@ -54,7 +55,6 @@ export default function _KubernetesEntityTable({ entityType, form, observable, s
     {
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
-      sortable: false,
       getContent(it) {
         return (
           <Stack gap="xsmall" direction="horizontal" align="start">
@@ -90,11 +90,12 @@ export default function _KubernetesEntityTable({ entityType, form, observable, s
   // Actual table
   return (
     <EntityTable
-      fetchedConfigState={selectedNamespaces}
+      fetchedConfigState={selected}
       query=""
       orderBy="name"
-      orderDirection="ASC"
+      orderDirection={orderDirection}
       onClickItem={noop}
+      onChange={({ orderDirection: newState }) => setOrderDirection(newState ?? orderDirection)}
       columnDefinition={columnDefinition}
       key={entityType + 'group-edit-summary-view'}
     />

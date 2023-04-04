@@ -82,14 +82,14 @@ export default function PermissionSection<I>({
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
-  const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
-    if (!permissionSet || role === 'CUSTOM') return;
+  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+    if (!permissionSet || selected === 'CUSTOM') return;
 
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
-      role
+      selected
     );
 
     const newPermissionSet = {
@@ -124,7 +124,7 @@ export default function PermissionSection<I>({
             {context === ScopedPermissionItem.ACCESS_ALL && (
               <AccessAllPanel
                 role={role}
-                onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.ACCESS_ALL)}
+                onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
                 entityPermissionKey={entityPermissionKey}
                 roleTooltipText={roleTooltipText}
                 description={accessAllDescription}
@@ -143,7 +143,7 @@ export default function PermissionSection<I>({
                 extractName={extractName}
                 setForm={setForm}
                 roleTooltipText={roleTooltipText}
-                onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.LIMITED_ACCESS)}
+                onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
               />

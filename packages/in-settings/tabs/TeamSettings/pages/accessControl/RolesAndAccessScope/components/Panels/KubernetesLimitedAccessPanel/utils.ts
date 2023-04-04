@@ -6,7 +6,7 @@
 
 import { MapForm } from 'formalistic';
 
-import { PermissionSetWithRoles, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
+import { OrderDirection, PermissionSetWithRoles, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
@@ -113,10 +113,12 @@ export interface KubernetesEntity extends GroupPermissionEntity {
  * Fetches and filters the entities provided by be
  * @param observable to fetch the data
  * @param selectedIds to be returned
+ * @param orderDirection to sort the data
  * @returns fetched and filtered data
  */
 export function useSelectedEntities(
   observable: () => Observable<Result<GroupPermissionEntity[]>>,
+  orderDirection: OrderDirection,
   selectedIds: string[] = []
 ): FetchedState<KubernetesEntity[]> {
   const fetchedState = useFetchedStateObservable(observable);
@@ -128,6 +130,9 @@ export function useSelectedEntities(
     .filter(id => !found.some(it => it.id === id))
     .map(id => ({ id, name: id, obsolete: true }));
   found.push(...missing);
-  found.sort((a, b) => compareIgnoreCase(a.name, b.name));
+  found.sort((a, b) => {
+    if (orderDirection === 'ASC') return compareIgnoreCase(a.name, b.name);
+    return compareIgnoreCase(b.name, a.name);
+  });
   return [found, status, ...rest];
 }
