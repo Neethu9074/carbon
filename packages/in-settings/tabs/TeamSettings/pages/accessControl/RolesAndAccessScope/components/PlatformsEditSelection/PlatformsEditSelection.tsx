@@ -15,7 +15,6 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import {
   hasKubernetesAccess,
   hasOpenStackAccess,
@@ -25,6 +24,7 @@ import {
   hasVSphereAccess,
   hasZHMCAccess
 } from 'in-stores/permission';
+import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
@@ -113,6 +113,7 @@ export default function _PlatformsEditSelection({
               size="large"
               checked={hasAnyAreaPermission(area)}
               onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
+              className={locals.clickable}
               label={
                 <Stack gap="xsmall" direction="horizontal" align="start">
                   <span>{platformTitle}</span>

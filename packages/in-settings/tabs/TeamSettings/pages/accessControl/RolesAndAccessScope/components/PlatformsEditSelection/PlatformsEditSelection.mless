@@ -8,4 +8,7 @@
   .sectionContent {
     padding: var(--ids-border-radius-option-large);
   }
+  .clickable {
+    cursor: pointer;
+  }
 }
