@@ -200,7 +200,7 @@ const cols = [
       getMetricName() {
         return `numberOfAgents`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
