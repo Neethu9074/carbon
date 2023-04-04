@@ -91,7 +91,7 @@
   "permissionCanViewLogsLabel": "Access to logs",
   "permissionCanViewLogsDescription": "Permits access to viewing logs.",
   "permissionCanViewLogsCategory": "Access Control",
-  "permissionCanViewTraceDetailsLabel": "Access of trace details in the trace detail view",
+  "permissionCanViewTraceDetailsLabel": "Access of call details in the trace detail view",
   "permissionCanViewTraceDetailsDescription": "Enable access to trace details.",
   "permissionCanViewTraceDetailsCategory": "Access Control",
   "permissionCanSeeUsageInformationLabel": "Access to license usage",
