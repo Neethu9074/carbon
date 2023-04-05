@@ -116,7 +116,7 @@ function Label({ item, websiteLabel, tagFilters, tagCatalogHttpRequest }) {
       groupBy: {}
     }
   );
-  return <Link href$={analyzeHref}>{label}</Link>;
+  return <Link href={analyzeHref}>{label}</Link>;
 }
 
 function Metric({ formattedMetricValue }) {
