@@ -247,11 +247,11 @@ export function createStore({
       }
     });
 
+    let shownPage;
     if (rows.length === 0) {
       return {
         totalRowCount: rows.length,
         rows,
-        // eslint-disable-next-line no-use-before-define
         page: shownPage,
         pageCount: 1,
         sortColumnIndex,
@@ -271,7 +271,6 @@ export function createStore({
     let start;
     let end;
     let pageCount = Math.ceil(rows.length / maxItemsPerPage);
-    let shownPage;
     if (page * maxItemsPerPage > rows.length) {
       start = Math.max(0, rows.length - maxItemsPerPage);
       end = start + maxItemsPerPage;
