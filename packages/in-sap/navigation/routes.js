@@ -69,7 +69,7 @@ export default [
     component={createAsyncViewComponent(SapJavaInstanceDashboard)}
   />,
   <Route
-    kay="SapDbTenantDashboard"
+    key="SapDbTenantDashboard"
     path={sapDbTenantDashboardFullyQualified}
     component={createAsyncViewComponent(SapDbTenantDashboard)}
   />,
