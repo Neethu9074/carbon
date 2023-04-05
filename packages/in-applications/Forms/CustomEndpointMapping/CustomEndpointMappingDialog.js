@@ -23,13 +23,13 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import Tooltip from 'in-components/Tooltip';
@@ -94,6 +94,7 @@ function RouteIdRule() {
 }
 
 export default function CustomEndpointMappingDialog({ location }) {
+  const { createHrefToPath } = useNavigation();
   const [isNewConfig, setIsNewConfig] = useState(false);
 
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
@@ -102,7 +103,7 @@ export default function CustomEndpointMappingDialog({ location }) {
       <BasicForm
         title={t('in-applications:forms.titleConfigureEndpointExtraction')}
         saveButtonLabel={isNewConfig ? t('in-applications:buttonAdd') : t('in-applications:buttonSave')}
-        onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
+        onCancelHref={createHrefToPath(`${serviceDashboard}/endpoints`)}
         getOnSavePath={() => `${serviceDashboard}/endpoints`}
         getEntity={() => {
           if (isNewConfig) {

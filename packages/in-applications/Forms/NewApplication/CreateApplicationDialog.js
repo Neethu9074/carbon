@@ -38,7 +38,7 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 
-export default function CreateApplicationDialog({ applicationId, onCancelHref$, getOnSavePath }) {
+export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <Card
@@ -50,7 +50,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
       >
         <BasicForm
           saveButtonLabel={applicationId ? t('in-applications:buttonSave') : t('in-applications:buttonCreate')}
-          onCancelHref$={onCancelHref$}
+          onCancelHref={onCancelHref}
           getOnSavePath={getOnSavePath}
           getEntity={() =>
             applicationId
