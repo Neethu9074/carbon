@@ -30,6 +30,8 @@ import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
+import locales from './InfrastructureAccessPanel.mless';
+
 interface InfrastructureAccessPanelProps extends FormControlProps {
   role?: AreaRoleWithCustomType;
   description: string;
@@ -120,6 +122,7 @@ export default function InfrastructureAccessPanel({
           <CheckboxFancy
             key={productPermission.keyForGroupApi}
             size="large"
+            className={locales.clickable}
             checked={permissionSet?.permissions.includes(productPermission.keyForGroupApi) || false}
             onChange={() => updatePermission(productPermission.keyForGroupApi)}
             label={
