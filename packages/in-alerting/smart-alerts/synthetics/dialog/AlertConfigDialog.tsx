@@ -20,6 +20,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/s
 import { useGetAlertConfigLink, useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 
 const logger = createLogger('in-alerting/smart-alert/synthetics/AlertDialog');
@@ -53,7 +54,7 @@ export default function AlertConfigDialog({
       }}
       form={form}
       onChange={createOnChange(setForm, form)}
-      onCreate={() => {
+      onCreate={simpleMode => {
         createOrSaveAlert(
           form,
           setForm,
@@ -63,7 +64,8 @@ export default function AlertConfigDialog({
           setMessages,
           testId,
           getLinkToAlertConfig,
-          getLinkToGlobalAlertConfig
+          getLinkToGlobalAlertConfig,
+          simpleMode
         );
       }}
       onClose={() => {
@@ -93,10 +95,10 @@ function createOrSaveAlert(
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>,
   testId: string | undefined,
   getLinkToAlertConfig: (id: string, testId: string, created?: number) => string,
-  getLinkToGlobalAlertConfig: (id: string) => string
+  getLinkToGlobalAlertConfig: (id: string) => string,
+  simpleMode: boolean
 ) {
   setIsSaving(true);
-
   // remove existing error messages:
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
 
@@ -117,6 +119,7 @@ function createOrSaveAlert(
       alertConfig => {
         onClose(alertConfig);
         showSuccessMessage(alertConfig.name, editMode);
+        trackAlertUpdated(alertConfig);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -132,6 +135,7 @@ function createOrSaveAlert(
           ? getLinkToAlertConfig(alertConfig?.id, testId, alertConfig?.created)
           : getLinkToGlobalAlertConfig(alertConfig?.id);
         showSuccessMessage(alertConfig.name, editMode, false, href);
+        trackAlertSaved(alertConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

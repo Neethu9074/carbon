@@ -14,7 +14,7 @@ import {
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/hooks/useVerifyCustomPayloadItemsWithTagCatalog';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
-import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
+import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
@@ -80,7 +80,11 @@ function SmartAlertConfigDialogWithQueryValidation({
   const { metricName } = rule;
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
-  const { getTagCatalog, QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
+  const {
+    getTagCatalog,
+    QueryBuilder: AlertQueryBuilder,
+    isQueryValid
+  } = useMemo(
     () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type, tagSuggestionTimeConfig),
     [websiteId, beaconType, threshold.type]
   );

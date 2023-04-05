@@ -7,6 +7,7 @@
 import React from 'react';
 
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { t } from 'in-i18n';
@@ -20,6 +21,7 @@ export default function CreateSmartAlert({ testId }: CreateSmartAlertProps) {
     <FloatingActionButton
       icon="lib_alerts_create"
       onClick={() => {
+        trackStartCreate();
         addActiveDialog(<CreateSmartAlertDialog testId={testId} />);
       }}
       withBoxShadow

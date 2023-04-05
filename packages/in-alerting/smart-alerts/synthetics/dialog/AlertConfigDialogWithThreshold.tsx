@@ -14,7 +14,7 @@ import {
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 //@ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
-import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
+import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/synthetics/dialog/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/synthetics/dialog/advanced/AdvancedModeContainer';
@@ -38,7 +38,7 @@ interface AlertConfigDialogWithThresholdProps {
   onClose: () => void;
   editMode: boolean;
   startWithSimpleMode: boolean;
-  onCreate: () => void;
+  onCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
 }
@@ -91,7 +91,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       form={form}
       setForm={updateForm}
       onClose={onClose}
-      onCreate={onCreate}
+      onCreate={() => onCreate(simpleMode)}
       isSaving={isSaving}
       editMode={editMode}
       additionalValidationCheck={() => isTagFilterFormModelValid}
@@ -104,7 +104,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       editMode={editMode}
       form={form}
       withTrackClose={onClose}
-      withTrackCreate={onCreate}
+      withTrackCreate={() => onCreate(simpleMode)}
       updateForm={updateForm}
       messages={messages}
       onChange={onChange}

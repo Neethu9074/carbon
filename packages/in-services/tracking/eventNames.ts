@@ -403,6 +403,7 @@ export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
 export const ALERTING_CREATE = 'alerting.add';
 export const ALERTING_SAVED = 'alerting.saved';
+export const ALERTING_UPDATED = 'alerting.updated';
 export const ALERTING_EDIT = 'alerting.edit';
 export const ALERTING_DELETE_TRIGGER = 'alerting.delete.trigger';
 export const ALERTING_DELETE_CONFIRM = 'alerting.deleted.confirm';

@@ -18,7 +18,7 @@ export interface SetupProps {
   stepConfigs: StepConfig[];
   form: MapForm;
   setForm: (form: MapForm) => void;
-  onCreate: () => void;
+  onCreate: (simpleMode: boolean) => void;
   onClose: () => void;
   onStepChanged: (oldStep: number, newStep: number) => void;
 }
@@ -51,7 +51,7 @@ export function useSimpleModePageNavigation({
   const nextOrCreate = (oldStep: number) => {
     if (oldStep === stepConfigs.length - 1) {
       if (form.hierarchyValid) {
-        onCreate();
+        onCreate(true);
       }
     } else {
       handleUpdateState(oldStep, oldStep + 1);

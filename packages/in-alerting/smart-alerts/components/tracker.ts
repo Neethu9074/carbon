@@ -7,6 +7,7 @@
 import {
   ALERTING_CREATE,
   ALERTING_SAVED,
+  ALERTING_UPDATED,
   ALERTING_EDIT,
   ALERTING_DELETE_TRIGGER,
   ALERTING_DELETE_CONFIRM,
@@ -18,10 +19,6 @@ import { track } from 'in-services/tracking/tracking';
 
 export function trackStartCreate(): void {
   track(ALERTING_CREATE);
-}
-
-export function trackAlertSaved<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
-  track(ALERTING_SAVED, alertConfig);
 }
 
 export function trackAlertEdit<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
@@ -42,4 +39,14 @@ export function trackAlertPaused<AlertConfig extends AlertConfigType>(alertConfi
 
 export function trackAlertResumed<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
   track(ALERTING_RESUMED, { alertConfig });
+}
+
+export function trackAlertSaved<AlertConfig extends AlertConfigType>(
+  alertConfig: AlertConfig,
+  dialogMode: boolean
+): void {
+  track(ALERTING_SAVED, { alertConfig, dialogMode: dialogMode ? 'Simple' : 'Advanced' });
+}
+export function trackAlertUpdated<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
+  track(ALERTING_UPDATED, { alertConfig });
 }

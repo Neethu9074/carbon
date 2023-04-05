@@ -53,6 +53,7 @@ import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -143,6 +144,7 @@ export default function TestSummaryList() {
     );
   }
   function showSADialog() {
+    trackStartCreate();
     return addActiveDialog(<CreateSmartAlertDialog />);
   }
 
