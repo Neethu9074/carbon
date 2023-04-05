@@ -1758,10 +1758,10 @@
     tslib "^2.4.1"
     typescript "^4.8.4"
 
-"@instana/eslint-config-commons@^1.1.1":
-  version "1.1.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/eslint-config-commons/-/@instana/eslint-config-commons-1.1.1.tgz#936f9460ee669272287b52b849c444b56c227538"
-  integrity sha512-/sP9thPY2jAZvXdx6LPMmzs3GvQMUQ7MOYdRSvCQGhemoa9pGdR+fasWhFh5s9utxYuUid9pDX2PJcYlfuCxqA==
+"@instana/eslint-config-commons@^1.2.0":
+  version "1.2.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/eslint-config-commons/-/@instana/eslint-config-commons-1.2.0.tgz#13f9d3401336962f20f4575df10821f2a3ff0115"
+  integrity sha512-noTSPknNWX+0iWdOXK/qmgjS9PQjKt0HVU6TzsMXxxtssHywNUW2s+7nc+BHrgCDKaD8EKe28dUYu7PYNvFuPA==
   dependencies:
     "@babel/eslint-parser" "^7.12.13"
     "@typescript-eslint/eslint-plugin" "^5.32.0"
