@@ -8,10 +8,16 @@ import React, { useContext } from 'react';
 
 import { Li, Typography, Ul } from '@instana/components';
 
+import {
+  getAreaRoleFromPermissionSet,
+  getScopeFromProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  ProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
 export const InfrastructureSection = () => {
@@ -19,10 +25,18 @@ export const InfrastructureSection = () => {
 
   const scopeId = permissionsSet.infraDfqFilter?.scopeId;
   const role = getAreaRoleFromPermissionSet(ProductArea.INFRASTRUCTURE, permissionsSet);
+  const areaAccessScope = getScopeFromProductArea(ProductArea.INFRASTRUCTURE, permissionsSet);
+  const hasNoAccess = areaAccessScope === ScopedPermissionItem.NO_ACCESS;
 
-  const columnHeadline = t('in-settings:productAreas.role', {
-    context: role?.toLowerCase()
-  });
+  const getColumnHeadline = () => {
+    if (hasNoAccess) {
+      return t('in-settings:productAreas.no_access');
+    }
+
+    return t('in-settings:productAreas.role', {
+      context: role?.toLowerCase()
+    });
+  };
 
   const subListContent = (
     <Ul>
@@ -35,11 +49,14 @@ export const InfrastructureSection = () => {
   return (
     <AreaExpandableListItem
       iconType="lib_infrastructure_inverted"
-      firstColumnHeadline={columnHeadline}
+      firstColumnHeadline={getColumnHeadline()}
       firstColumnLabel={t('in-settings:productAreas.title_infrastructure')}
       subList={scopeId ? subListContent : null}
+      disabled={hasNoAccess}
     >
-      <Typography variant="body-small">{t('in-settings:productAreas.infrastructureContentMessage')}</Typography>
+      {!hasNoAccess ? (
+        <Typography variant="body-small">{t('in-settings:productAreas.infrastructureContentMessage')}</Typography>
+      ) : null}
     </AreaExpandableListItem>
   );
 };

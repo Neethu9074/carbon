@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 export const AnalyticsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { columnHeadline } = getCapabilitiesSectionData({
+  const { columnHeadline, isDisabled } = getCapabilitiesSectionData({
     area: ProductArea.ANALYTICS,
     permissionsSet
   });
@@ -28,6 +28,7 @@ export const AnalyticsSection = () => {
       iconType="lib_analyze_inverted"
       firstColumnHeadline={columnHeadline}
       firstColumnLabel={t('in-settings:productAreas.title_analytics')}
+      disabled={isDisabled}
       subList={
         <Ul>
           <CapabilitySubsection
@@ -37,7 +38,9 @@ export const AnalyticsSection = () => {
         </Ul>
       }
     >
-      <Typography variant="body-small">{t('in-settings:productAreas.analyticsContentMessage')}</Typography>
+      {!isDisabled ? (
+        <Typography variant="body-small">{t('in-settings:productAreas.analyticsContentMessage')}</Typography>
+      ) : null}
     </AreaExpandableListItem>
   );
 };

@@ -16,13 +16,14 @@ import { t } from 'in-i18n';
 
 export const ApplicationSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
+  const { areaColumnHeadline, isDisabled } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
 
   return (
     <AreaExpandableListItem
       iconType="lib_application_invert"
       firstColumnHeadline={areaColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.title_applications')}
+      disabled={isDisabled}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allApplications')}</Typography>
     </AreaExpandableListItem>

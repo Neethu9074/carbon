@@ -99,10 +99,13 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     .filter(it => it.scopeId)
     .map(namespace => namespace.scopeId!!);
 
-  const kubernetesColumnHeadline = t('in-settings:productAreas.role_permissions', {
-    context: 'viewer',
-    quantityOfAreas: kubernetesQuantityOfAreas
-  });
+  const isDisabled = kubernetesAccess === ScopedPermissionItem.NO_ACCESS && !hasOtherPlatformsAccess;
+  const kubernetesColumnHeadline = isDisabled
+    ? t('in-settings:productAreas.no_access')
+    : t('in-settings:productAreas.role_permissions', {
+        context: 'viewer',
+        quantityOfAreas: kubernetesQuantityOfAreas
+      });
 
   return {
     countOfKubernetesItemsWithAccess,
@@ -117,6 +120,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     kubernetesClustersWithAccess,
     kubernetesColumnHeadline,
     kubernetesNamespacesWithAccess,
+    isDisabled,
     translations
   };
 };

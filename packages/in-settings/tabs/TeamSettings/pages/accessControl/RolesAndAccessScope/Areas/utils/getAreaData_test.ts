@@ -33,10 +33,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: 'viewer',
-        quantityOfAreas: 0
-      });
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {
@@ -93,10 +90,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: 'viewer',
-        quantityOfAreas: 0
-      });
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {
@@ -153,10 +147,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: 'viewer',
-        quantityOfAreas: 0
-      });
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {

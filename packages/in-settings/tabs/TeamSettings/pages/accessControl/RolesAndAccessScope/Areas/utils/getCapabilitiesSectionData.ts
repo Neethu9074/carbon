@@ -13,8 +13,11 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   ProductArea,
-  ProductAreaType
+  ProductAreaType,
+  ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData';
+import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { CapabilityType, hasAnalyzeAccess, hasEventsAccess } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
@@ -43,6 +46,24 @@ interface getCapabilitiesSectionDataProps {
 export const getCapabilitiesSectionData = ({ area, permissionsSet }: getCapabilitiesSectionDataProps) => {
   const capabilitiesDataMapItem = capabilitiesDataMap[area];
   const productAreaCapabilities = capabilitiesDataMapItem.productAreaCapabilities;
+  const disabledColumnHeadline = t('in-settings:productAreas.no_access');
+  let isDisabled = false;
+
+  if (area === ProductArea.ANALYTICS || area === ProductArea.EVENT) {
+    const groupConfig = getKubernetesData(permissionsSet);
+
+    // If no access for Websites, Applications, Platforms, Infrastructure
+    // => display "No access"
+    if (
+      getScopeFromProductArea(ProductArea.APPLICATION, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
+      getScopeFromProductArea(ProductArea.INFRASTRUCTURE, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
+      getScopeFromProductArea(ProductArea.WEBSITE, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
+      groupConfig.kubernetesAccess === ScopedPermissionItem.NO_ACCESS &&
+      groupConfig.hasOtherPlatformsAccess === false
+    ) {
+      isDisabled = true;
+    }
+  }
 
   const capabilitiesUserHas = permissionsSet.permissions.filter(permission =>
     productAreaCapabilities.includes(permission as CapabilityType)
@@ -58,7 +79,8 @@ export const getCapabilitiesSectionData = ({ area, permissionsSet }: getCapabili
   const shouldRenderContent = hasAnalyzeAccess && numberOfcapabilitiesUserHas !== 0;
 
   return {
-    columnHeadline,
-    shouldRenderContent
+    columnHeadline: isDisabled ? disabledColumnHeadline : columnHeadline,
+    shouldRenderContent,
+    isDisabled
   };
 };

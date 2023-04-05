@@ -18,7 +18,10 @@ import { t } from 'in-i18n';
 export const WebsiteSectionContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [websites, , , { loading }] = useWebsiteConfigurations();
-  const { areaColumnHeadline, areaItemIdsWithAccess } = getAreaData({ area: ProductArea.WEBSITE, permissionsSet });
+  const { areaColumnHeadline, areaItemIdsWithAccess, isDisabled } = getAreaData({
+    area: ProductArea.WEBSITE,
+    permissionsSet
+  });
 
   const websitesConfigurationsWithAccess = websites?.filter(website => areaItemIdsWithAccess.includes(website.id));
 
@@ -35,6 +38,7 @@ export const WebsiteSectionContent = () => {
       firstColumnLabel={t('in-settings:productAreas.title_websites')}
       loading={loading}
       subList={<Ul>{listItemContent}</Ul>}
+      disabled={isDisabled}
     />
   );
 };

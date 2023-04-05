@@ -52,6 +52,7 @@ export const KubernetesListItem = ({ clustersWithAccess, headline, selectedAcces
       firstColumnHeadline={headline}
       firstColumnLabel={t('in-settings:productAreas.kubernetes')}
       loading={clustersLoading || namespacesLoading}
+      disabled={selectedAccess === ScopedPermissionItem.NO_ACCESS}
       subList={<Ul>{selectedAccess === ScopedPermissionItem.LIMITED_ACCESS && kubeEntities()}</Ul>}
     />
   );

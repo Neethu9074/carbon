@@ -14,4 +14,4 @@ interface IFilterPermissionSet {
 }
 
 export const filterPermissionSet = ({ permissionsSet, capabilities }: IFilterPermissionSet) =>
-  permissionsSet.permissions.filter(permission => capabilities.includes(permission as CapabilityType));
+  capabilities.filter(capability => permissionsSet.permissions.includes(capability));

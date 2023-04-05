@@ -18,7 +18,10 @@ import { t } from 'in-i18n';
 export const MobileAppsSectionContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [mobileApps, , , { loading }] = useMobileAppsConfigurations();
-  const { areaColumnHeadline, areaItemIdsWithAccess } = getAreaData({ area: ProductArea.MOBILE_APP, permissionsSet });
+  const { areaColumnHeadline, areaItemIdsWithAccess, isDisabled } = getAreaData({
+    area: ProductArea.MOBILE_APP,
+    permissionsSet
+  });
 
   const mobileAppsToDisplay = mobileApps?.filter(mobileApp => areaItemIdsWithAccess.includes(mobileApp.id));
 
@@ -35,6 +38,7 @@ export const MobileAppsSectionContent = () => {
       firstColumnLabel={t('in-settings:productAreas.title_mobileApps')}
       loading={loading}
       subList={<Ul>{listItemContent}</Ul>}
+      disabled={isDisabled}
     />
   );
 };

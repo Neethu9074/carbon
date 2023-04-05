@@ -37,6 +37,7 @@ interface AreaData {
   areaColumnHeadline: string;
   hasFullAreaAccess: boolean;
   shouldRenderContent: boolean;
+  isDisabled: boolean;
 }
 
 interface getAreaDataProps {
@@ -67,6 +68,7 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
   const areaItemIds = permissionsSet[areaItemData.itemIdKey] ?? [];
 
   const areaAccessScope = getScopeFromProductArea(area, permissionsSet);
+  const isDisabled = areaAccessScope === ScopedPermissionItem.NO_ACCESS;
 
   const hasAreaAccess = areaItemData.hasAreaAccess;
   const hasAreaItemsAdded = areaItemIds.length !== 0;
@@ -77,10 +79,15 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
 
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole && hasAreaItemsAdded);
 
-  const areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
-    context: areaRole?.toLowerCase(),
-    quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
-  });
+  let areaColumnHeadline = '';
+  if (areaAccessScope === ScopedPermissionItem.NO_ACCESS) {
+    areaColumnHeadline = t('in-settings:productAreas.no_access');
+  } else {
+    areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
+      context: areaRole?.toLowerCase(),
+      quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
+    });
+  }
 
-  return { areaColumnHeadline, hasFullAreaAccess, areaItemIdsWithAccess, shouldRenderContent };
+  return { areaColumnHeadline, hasFullAreaAccess, areaItemIdsWithAccess, shouldRenderContent, isDisabled };
 };

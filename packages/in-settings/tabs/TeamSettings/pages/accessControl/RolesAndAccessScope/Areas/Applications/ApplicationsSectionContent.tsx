@@ -18,7 +18,10 @@ import { t } from 'in-i18n';
 export const ApplicationsSectionContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const [applications, , , { loading }] = useApplicationsConfigurations();
-  const { areaColumnHeadline, areaItemIdsWithAccess } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
+  const { areaColumnHeadline, areaItemIdsWithAccess, isDisabled } = getAreaData({
+    area: ProductArea.APPLICATION,
+    permissionsSet
+  });
 
   const applicationsToDisplay = applications?.filter(application => areaItemIdsWithAccess.includes(application.id));
 
@@ -37,6 +40,7 @@ export const ApplicationsSectionContent = () => {
       firstColumnLabel={t('in-settings:productAreas.title_applications')}
       loading={loading}
       subList={<Ul>{sublistContent}</Ul>}
+      disabled={isDisabled}
     />
   );
 };

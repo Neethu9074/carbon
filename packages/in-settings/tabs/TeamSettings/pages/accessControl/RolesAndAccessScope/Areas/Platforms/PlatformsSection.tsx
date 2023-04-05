@@ -54,6 +54,7 @@ export const PlatformsSection = () => {
       iconType="lib_platforms_inverted"
       firstColumnHeadline={groupConfig.translations.join(', ')}
       firstColumnLabel={t('in-settings:productAreas.title_platforms')}
+      disabled={groupConfig.isDisabled}
       subList={sublist}
     />
   );

@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { KeyValue, Li, SvgIcon, LiProps, LoadingSkeleton } from '@instana/components';
@@ -12,6 +13,7 @@ import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/Area
 
 interface AreaExpandableListItemProps extends Omit<LiProps, 'children'> {
   children?: React.ReactNode;
+  disabled?: boolean;
   firstColumnLabel?: string;
   firstColumnHeadline: string;
   iconType: string;
@@ -22,6 +24,7 @@ interface AreaExpandableListItemProps extends Omit<LiProps, 'children'> {
 
 export const AreaExpandableListItem = ({
   children,
+  disabled,
   firstColumnLabel,
   firstColumnHeadline,
   iconType,
@@ -47,16 +50,30 @@ export const AreaExpandableListItem = ({
   };
 
   return (
-    <Li noAlternatingBg toggleContentOnRowClick subList={subList} {...optionalProps}>
+    <Li
+      noAlternatingBg
+      toggleContentOnRowClick={!disabled}
+      subList={!disabled ? subList : null}
+      className={classNames({ [locals.listItemDisabled]: disabled })}
+      {...optionalProps}
+    >
       <div className={locals.container}>
-        <div className={locals.iconContainer}>
+        <div className={classNames({ [locals.iconContainer]: true, [locals.iconDisabled]: disabled })}>
           <SvgIcon type={iconType} />
         </div>
         <div className={locals.columnsContainer}>
-          <KeyValue label={firstColumnLabel} customValue={firstColumnHeadline} />
+          <KeyValue
+            className={classNames({ [locals.columnDisabled]: disabled })}
+            label={firstColumnLabel}
+            customValue={firstColumnHeadline}
+          />
           {shouldRenderSecondColumn && (
             <div className={locals.secondColumnContainer}>
-              <KeyValue label={secondColumnLabel} customValue={secondColumnHeadline} />
+              <KeyValue
+                className={classNames({ [locals.columnDisabled]: disabled })}
+                label={secondColumnLabel}
+                customValue={secondColumnHeadline}
+              />
             </div>
           )}
         </div>

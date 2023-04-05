@@ -48,4 +48,17 @@
 
     margin: 0.1rem 0;
   }
+
+  .iconDisabled {
+    fill: @lib__colors__N400;
+  }
+
+  .listItemDisabled {
+    padding: 0.5rem 1rem;
+    background: @lib__colors__N050;
+  }
+
+  .columnDisabled span {
+    color: @lib__colors__N500;
+  }
 }
