@@ -16,7 +16,7 @@ export type StepConfigs = {
 /**
  * if any field, specified in the stepConfig, in validateIntermediately is invalid the result is true, else false.
  */
-export function isStepInvalid(step: number, stepConfigs: StepConfigs, form: MapForm): boolean {
+export function isStepInvalid(step: number, stepConfigs: StepConfigs, form: MapForm<any>): boolean {
   const fieldsToValidate = stepConfigs[step].validateIntermediately;
   if (!fieldsToValidate || fieldsToValidate.length === 0) {
     return false;
@@ -24,6 +24,7 @@ export function isStepInvalid(step: number, stepConfigs: StepConfigs, form: MapF
 
   function isFieldInvalid(fieldPath: FieldPath) {
     try {
+      // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
       const field = form.getIn(fieldPath);
       if (field && !field.valid) {
         return true;

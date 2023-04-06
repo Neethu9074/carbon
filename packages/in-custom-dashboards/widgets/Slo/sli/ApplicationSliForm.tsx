@@ -33,14 +33,14 @@ import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 interface ApplicationSliFormProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (i: Item) => Item) => void;
   apName: string;
   QueryBuilderComponent: QueryBuilderComponent;
 }
 
 export function ApplicationSliForm({ form, onChange, apName, QueryBuilderComponent }: ApplicationSliFormProps) {
-  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const sliEntityForm = form.get('sliEntity') as MapForm<any>;
 
   const sliTypeForm = sliEntityForm.get('sliType') as Field<SliEntityType>;
   const sliType = sliTypeForm.value;
@@ -187,8 +187,8 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         <MetricsForm
           entityType="application"
           metricEntityType="calls"
-          form={form.get('metricConfiguration') as MapForm}
-          onChange={mc => onChange([], f => (f as MapForm).put('metricConfiguration', mc))}
+          form={form.get('metricConfiguration') as MapForm<any>}
+          onChange={mc => onChange([], f => (f as MapForm<any>).put('metricConfiguration', mc))}
         />
       )}
 
@@ -197,7 +197,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
           entityType="application"
           label={apName}
           form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm).put('sliEntity', updatedForm))}
+          updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
           QueryBuilderComponent={QueryBuilderComponent}
         />
       )}

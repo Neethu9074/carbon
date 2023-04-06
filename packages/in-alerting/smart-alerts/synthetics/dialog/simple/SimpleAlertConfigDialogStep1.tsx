@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep1.mless';
 
 export interface ConfigureAlertTestProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;

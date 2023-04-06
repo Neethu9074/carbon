@@ -22,6 +22,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { MapFormItems } from 'formalistic';
 
 /**
  * Properties for the component
@@ -29,7 +30,7 @@ import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
  * @property entityType type of Kubernetes object
  * @property obserable to fetch the entity list
  */
-interface Props extends FormControlProps, SlideControlProps<SubSlideConfig> {
+interface Props<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE>, SlideControlProps<SubSlideConfig> {
   addButtonLabel: string;
   entityType: KubernetesEntityType;
   observable: () => Observable<Result<GroupPermissionEntity[]>>;
@@ -40,7 +41,7 @@ interface Props extends FormControlProps, SlideControlProps<SubSlideConfig> {
  * @param param0 (props)
  * @returns specific instance
  */
-export default function _KubernetesAddEntityButton({
+export default function _KubernetesAddEntityButton<FORM_TYPE extends MapFormItems>({
   addButtonLabel,
   entityType,
   observable,
@@ -48,7 +49,7 @@ export default function _KubernetesAddEntityButton({
   setShowSubSlide,
   form,
   setForm
-}: Props) {
+}: Props<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 

@@ -74,7 +74,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
-    saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
+    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy),
     openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -141,7 +141,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
 interface ActionFormHeaderProps {
   isCreate: boolean;
   isCopy: boolean;
-  form: MapForm | null;
+  form: MapForm<any> | null;
   entity: ActionFormEntity | null;
   setForm: SetFormFunction;
 }
@@ -164,7 +164,7 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
   );
 };
 
-function save(form: MapForm, id: string | null, isCopy: boolean) {
+function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form);
   const isCreate = !id;
   if (isCreate || isCopy) {
@@ -182,7 +182,7 @@ function save(form: MapForm, id: string | null, isCopy: boolean) {
   }
 }
 
-export function getActionSpecification(form: MapForm): NewAction {
+export function getActionSpecification(form: MapForm<any>): NewAction {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;

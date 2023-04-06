@@ -4,22 +4,22 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 
-export interface ConfigDialogFooterProps {
-  form?: MapForm;
+export interface ConfigDialogFooterProps<FORM_TYPE extends MapFormItems> {
+  form?: MapForm<FORM_TYPE>;
   onClickCancel: VoidFunction;
-  onClickSave: (form?: MapForm) => void;
+  onClickSave: (form?: MapForm<FORM_TYPE>) => void;
   saveButtonText?: string;
   cancelButtonText?: string;
   isSaving?: boolean;
   disabledSaveButton?: boolean;
 }
 
-export default function ConfigDialogFooter({
+export default function ConfigDialogFooter<FORM_TYPE extends MapFormItems>({
   form,
   onClickCancel,
   onClickSave,
@@ -27,7 +27,7 @@ export default function ConfigDialogFooter({
   saveButtonText,
   isSaving,
   disabledSaveButton
-}: ConfigDialogFooterProps) {
+}: ConfigDialogFooterProps<FORM_TYPE>) {
   return (
     <FormFooter>
       <CancelButton onClick={() => onClickCancel()}>{cancelButtonText}</CancelButton>

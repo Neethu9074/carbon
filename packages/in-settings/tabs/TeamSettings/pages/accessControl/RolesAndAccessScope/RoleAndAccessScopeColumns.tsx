@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 
 import { PermissionSetWithRoles } from '@instana/types';
 import { Button } from '@instana/components';
@@ -20,23 +20,23 @@ import { Col } from 'in-components/layout/Grid/Grid';
 import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
-export interface FormControlProps {
-  form: MapForm;
-  setForm: (form: MapForm) => void;
+export interface FormControlProps<FORM_TYPE extends MapFormItems> {
+  form: MapForm<FORM_TYPE>;
+  setForm: (form: MapForm<FORM_TYPE>) => void;
 }
-interface RoleAndAccessScopeColumnsProps extends FormControlProps {
+interface RoleAndAccessScopeColumnsProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   readOnly?: boolean;
   editMode?: boolean;
-  onSave: (form: MapForm) => void;
+  onSave: (form: MapForm<FORM_TYPE>) => void;
 }
 
-export default function RoleAndAccessScopeColumns({
+export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
   readOnly,
   editMode,
   onSave
-}: RoleAndAccessScopeColumnsProps) {
+}: RoleAndAccessScopeColumnsProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
   const closeAndBack = () => {

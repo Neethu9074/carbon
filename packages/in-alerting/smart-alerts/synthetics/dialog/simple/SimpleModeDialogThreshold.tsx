@@ -33,7 +33,7 @@ export default function SimpleModeDialogThreshold(
 
   const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: value }));
   const { form, updateForm, subtitle, subTitleToolTipText } = props;
-  const timeThresholdForm = form.get('timeThreshold') as MapForm;
+  const timeThresholdForm = form.get('timeThreshold') as MapForm<any>;
   const violationsCount = (timeThresholdForm.get('violationsCount') as Field<number>).value;
 
   function onChangeViolationsInPeriod(_event: Event, value: number | number[]) {

@@ -18,16 +18,16 @@ import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-type FormUpdater<ENTITY> = (mapForm: MapForm, entity: ENTITY) => MapForm;
+type FormUpdater<ENTITY> = (mapForm: MapForm<any>, entity: ENTITY) => MapForm<any>;
 
 interface EntityTypeFormGroupProps {
-  form: MapForm;
+  form: MapForm<any>;
   pluginsWithMetricDefinitions: Options;
   onChange: (
     fieldName: string,
     value: string | Nullish,
     updateFormDefinition: FormUpdater<CustomEventSpecificationWithMetadata>
-  ) => MapForm;
+  ) => MapForm<any>;
 
   disabled: boolean;
 }

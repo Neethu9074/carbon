@@ -22,12 +22,12 @@ import { t } from 'in-i18n';
 const defaultPlaceholderLabel = t('in-settings:tabs.team.events.placeholder');
 
 interface DynamicBuiltInFormGroupProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (
     fieldName: string,
     value: string | Nullish,
-    updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
-  ) => MapForm;
+    updateFormDefinition?: (mapForm: MapForm<any>, entity: CustomEventSpecificationWithMetadata) => MapForm<any>
+  ) => MapForm<any>;
 
   disabled: boolean;
 }

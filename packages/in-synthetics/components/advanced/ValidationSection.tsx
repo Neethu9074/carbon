@@ -41,8 +41,8 @@ interface Error {
 }
 
 interface ValidationProps {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   isVisible: Visible;
   setIsVisible: React.Dispatch<React.SetStateAction<Visible>>;
   comboBoxSelections: Selection;
@@ -61,7 +61,7 @@ export default function ValidationSection({
   invalidJSON,
   setInvalidJSON
 }: ValidationProps) {
-  const configForm = form.get('configuration') as MapForm;
+  const configForm = form.get('configuration') as MapForm<any>;
   const expectStatus = configForm.get('expectStatus') as Field<string>;
   const expectJson = configForm.get('expectJson') as Field<Map<string, string>>;
   const expectMatch = configForm.get('expectMatch') as Field<string>;

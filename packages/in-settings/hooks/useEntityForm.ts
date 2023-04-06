@@ -15,18 +15,18 @@ import { t } from 'in-i18n';
 export const savingMessage = t('in-hoc:entityFormSaving');
 
 export type OnEntityChange<ENTITY> = <VALUETYPE>(
-  fieldName: string | ((mapForm: MapForm) => MapForm),
+  fieldName: string | ((mapForm: MapForm<any>) => MapForm<any>),
   value: VALUETYPE,
-  updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
-) => MapForm;
+  updateFormDefinition?: (mapForm: MapForm<any>, entity: ENTITY) => MapForm<any>
+) => MapForm<any>;
 
-export type SetFormFunction = (form: MapForm) => void;
+export type SetFormFunction = (form: MapForm<any>) => void;
 
 interface State<ENTITY> {
   loading: boolean;
   error: boolean;
   message: string | null;
-  form: MapForm | null;
+  form: MapForm<any> | null;
   saveEnabled: boolean;
   entity: ENTITY | null;
 }
@@ -35,10 +35,10 @@ interface Parameters<ENTITY> {
   entityId: string | null;
   createDefaultEntity: () => ENTITY;
   getEntityFromApi: (entityId: string) => Observable<ENTITY>;
-  createForm: (entity: ENTITY) => MapForm;
+  createForm: (entity: ENTITY) => MapForm<any>;
   onSaveSuccess?: () => void;
   openEntities?: () => void;
-  saveEntity: (entity: ENTITY, mapForm: MapForm) => Observable<any>;
+  saveEntity: (entity: ENTITY, mapForm: MapForm<any>) => Observable<any>;
   onSaveError?: (message: string) => void;
 }
 
@@ -54,7 +54,7 @@ const initialState = {
 interface EntityFormState<ENTITY> extends State<ENTITY> {
   onSubmit: (e: FormEvent) => void;
   onChange: OnEntityChange<ENTITY>;
-  setForm: (form: MapForm) => void;
+  setForm: (form: MapForm<any>) => void;
   setSaveEnabled: (saveEnabled: boolean) => void;
   isCreate: boolean;
 }
@@ -181,9 +181,9 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>): Entity
   }
 
   const onChange: OnEntityChange<ENTITY> = <VALUETYPE>(
-    fieldName: string | ((mapForm: MapForm) => MapForm),
+    fieldName: string | ((mapForm: MapForm<any>) => MapForm<any>),
     value: VALUETYPE,
-    updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
+    updateFormDefinition?: (mapForm: MapForm<any>, entity: ENTITY) => MapForm<any>
   ) => {
     let updatedForm = state.form!;
 
@@ -209,7 +209,7 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>): Entity
     return updatedForm;
   };
 
-  const setForm: SetFormFunction = function(form) {
+  const setForm: SetFormFunction = function (form) {
     setState({
       ...state,
       form

@@ -35,7 +35,7 @@ import { t } from 'in-i18n';
 import locals from './ActionForm.mless';
 
 export interface ParameterDialogProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   idToEdit?: string;
 }
@@ -60,10 +60,10 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
       <div className={locals.parameterDialog}>
         <Form
           form={parameterForm}
-          setForm={form => setParameterForm(form as MapForm)}
+          setForm={form => setParameterForm(form as MapForm<any>)}
           formId="action-parameter-form"
           onSubmit={parameterForm =>
-            onSubmit({ parameterForm: parameterForm as MapForm, parameter, form, onChange, idToEdit })
+            onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
           }
         >
           <MetaDataSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
@@ -110,8 +110,8 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
 
 interface SectionProps {
   parameter: MappedParameter | undefined;
-  parameterForm: MapForm;
-  setParameterForm: React.Dispatch<React.SetStateAction<MapForm>>;
+  parameterForm: MapForm<any>;
+  setParameterForm: React.Dispatch<React.SetStateAction<MapForm<any>>>;
 }
 
 const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
@@ -290,9 +290,15 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
 interface OnParameterChangeParams<T> {
   fieldName: string;
   value: T;
-  setParameterForm: React.Dispatch<React.SetStateAction<MapForm>>;
+  setParameterForm: React.Dispatch<React.SetStateAction<MapForm<any>>>;
   parameter: MappedParameter | undefined;
-  updateFormDefinition?: ({ form, parameter }: { form: MapForm; parameter: MappedParameter | undefined }) => MapForm;
+  updateFormDefinition?: ({
+    form,
+    parameter
+  }: {
+    form: MapForm<any>;
+    parameter: MappedParameter | undefined;
+  }) => MapForm<any>;
 }
 
 function onParameterChange<T>({
@@ -312,7 +318,7 @@ function onParameterChange<T>({
 }
 
 interface OnSubmitParams extends ParameterDialogProps {
-  parameterForm: MapForm;
+  parameterForm: MapForm<any>;
   parameter: MappedParameter | undefined;
 }
 

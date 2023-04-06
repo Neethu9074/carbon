@@ -15,8 +15,8 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2.mless';
 
 export interface SimpleAlertConfigDialogStep2Props {
-  form: MapForm;
-  updateForm?: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm?: (form: MapForm<any>) => void;
   QueryBuilderComponent: QueryBuilderComponent;
   headerTransparent?: boolean;
 }

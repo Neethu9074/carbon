@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 
 import { OrderDirection, PermissionSetWithRoles, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
 import { Observable } from '@instana/observables';
@@ -84,10 +84,10 @@ export function setNewSelected(
  * @param permissionSet to be copied
  * @param id to be removed
  */
-export function removeOneEntity(
+export function removeOneEntity<FORM_TYPE extends MapFormItems>(
   entityType: KubernetesEntityType,
-  form: MapForm,
-  setForm: (form: MapForm) => void,
+  form: MapForm<FORM_TYPE>,
+  setForm: (form: MapForm<FORM_TYPE>) => void,
   permissionSet: PermissionSetWithRoles,
   id: string
 ) {

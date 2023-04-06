@@ -23,7 +23,7 @@ import { t } from 'in-i18n';
 import locals from './ActionTable.mless';
 
 interface ParametersTableProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
 }

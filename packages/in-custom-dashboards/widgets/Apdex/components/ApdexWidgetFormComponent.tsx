@@ -37,7 +37,7 @@ import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 export interface FormComponentProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (f: Item) => Item) => void;
   setSlideInView: (view: SlideInViewConfig<'CREATE' | 'EDIT' | undefined>) => void;
 }
@@ -45,7 +45,7 @@ export interface FormComponentProps {
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
   const updateFormWithSideEffects = useApdexFormSideEffects(form, (f: Item) => onChange([], () => f));
   function updateForm<T>(path: string[], value: T) {
-    updateFormWithSideEffects(form.updateIn(path, f => setFieldValue<T>(f, value, true)));
+    updateFormWithSideEffects(form.updateIn(path as any, f => setFieldValue<T>(f, value, true)));
   }
 
   const track = useApdexWidgetTrackers();

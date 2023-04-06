@@ -44,8 +44,8 @@ interface RunActionDialogContentProps {
   error: string;
   actionInstanceId: string;
   action: Action;
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
 }
@@ -258,16 +258,16 @@ interface ParameterInputParams extends Pick<RunActionDialogContentProps, 'form' 
 }
 
 function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams) {
-  const parametersForm = form?.get('parameters') as MapForm | undefined;
-  const parameterField = parametersForm?.get(parameter.name!) as ListForm | undefined;
+  const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
+  const parameterField = parametersForm?.get(parameter.name!) as ListForm<any> | undefined;
   const pathField = parameterField?.get(0) as Field<string> | undefined;
   const keyField = parameterField?.get(1) as Field<string> | undefined;
 
   const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
-      (field as ListForm).set(
+      (field as ListForm<any>).set(
         index,
-        ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
+        ((field as ListForm<any>).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
       )
     );
     setForm(updatedForm);
@@ -306,7 +306,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
 }
 
 function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams) {
-  const parametersForm = form?.get('parameters') as MapForm | undefined;
+  const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
   const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
   return (

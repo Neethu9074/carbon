@@ -17,8 +17,8 @@ import { t } from 'in-i18n';
 import locals from 'in-synthetics/components/steps/SelectScheduleStep.mless';
 
 export interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   simpleMode: boolean;
 }
 
@@ -77,8 +77,8 @@ function getDisplayLabel(value: number) {
 function displaySlider(
   frequencyField: Field<Number>,
   marks: Shape[],
-  form: MapForm,
-  updateForm: (form: MapForm) => void
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
 ) {
   return (
     <DebouncedDistinctSlider

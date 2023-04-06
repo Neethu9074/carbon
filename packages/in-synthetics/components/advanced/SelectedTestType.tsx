@@ -17,8 +17,8 @@ import PingOrScriptOption from 'in-synthetics/components/advanced/PingOrScriptOp
 import locals from './SelectedTestType.mless';
 
 interface SelectedTestTypeProps {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   typeSelected: { ping: boolean; script: boolean };
   setTypeSelected: (type: { ping: boolean; script: boolean }) => void;
 }

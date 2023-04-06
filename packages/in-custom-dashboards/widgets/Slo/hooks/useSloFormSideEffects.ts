@@ -53,7 +53,7 @@ export default function useSloFormSideEffects(
   });
 }
 
-function handleTimeWindowChange(form: MapForm): Item {
+function handleTimeWindowChange(form: MapForm<any>): Item {
   let updatedForm = form;
   const value = (updatedForm.get(timeWindowType) as Field<TimeWindowType>).value;
   if (value === 'fixed') {
@@ -70,7 +70,7 @@ function handleTimeWindowChange(form: MapForm): Item {
   return updatedForm;
 }
 
-function clampTimeWindowDuration(form: MapForm): Item {
+function clampTimeWindowDuration(form: MapForm<any>): Item {
   const unit = (form.get(timeWindowDurationUnit) as Field<TimeWindowDuration>).value;
   const oldDuration = (form.get(timeWindowDuration) as Field<number>).value;
   const maxDurationForThisUnit = getMaxTimeWindowDurationValue(unit);
@@ -79,10 +79,10 @@ function clampTimeWindowDuration(form: MapForm): Item {
   );
 }
 
-function clearSliConfigId(form: MapForm): Item {
+function clearSliConfigId(form: MapForm<any>): Item {
   return form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(false));
 }
 
-function cleanEntityId(form: MapForm): Item {
+function cleanEntityId(form: MapForm<any>): Item {
   return form.updateIn([entityId], f => (f as Field<string>).setValue('').setTouched(false));
 }

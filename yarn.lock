@@ -7276,10 +7276,10 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-formalistic@^1.13.1:
-  version "1.13.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/formalistic/-/formalistic-1.13.1.tgz#190c01509847c0524586617a17f0a631286f208c"
-  integrity sha1-GQwBUJhHwFJFhmF6F/CmMShvIIw=
+formalistic@^2.0.0:
+  version "2.0.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/formalistic/-/formalistic-2.0.0.tgz#185fbbfdd8295e18db90078435236b6a69380fd4"
+  integrity sha512-5YH19OSjlVW6/ZGwSqdlPv+ho9NqxSxIaUDd97a6hkJ2oNCRH2KT31XC5a11xbl5XNt8ex1t5mXX7tb2wJlZOg==
 
 forwarded@0.2.0:
   version "0.2.0"

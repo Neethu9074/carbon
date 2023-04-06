@@ -16,8 +16,8 @@ export interface StepConfig {
 
 export interface SetupProps {
   stepConfigs: StepConfig[];
-  form: MapForm;
-  setForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  setForm: (form: MapForm<any>) => void;
   onCreate: (simpleMode: boolean) => void;
   onClose: () => void;
   onStepChanged: (oldStep: number, newStep: number) => void;
@@ -74,7 +74,12 @@ export function useSimpleModePageNavigation({
   };
 }
 
-function validateStep(step: number, stepConfigs: StepConfig[], form: MapForm, updateForm: (form: MapForm) => void) {
+function validateStep(
+  step: number,
+  stepConfigs: StepConfig[],
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
+) {
   const fieldsToValidate = stepConfigs[step].validateIntermediately;
   if (!fieldsToValidate || fieldsToValidate.length === 0) {
     return true;
@@ -83,9 +88,10 @@ function validateStep(step: number, stepConfigs: StepConfig[], form: MapForm, up
   let valid = true;
   fieldsToValidate.forEach((fieldPath: FieldPath) => {
     try {
+      // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
       const field: Item = form.getIn(fieldPath);
       if (field && !field.valid) {
-        updateForm(form.updateIn(fieldPath, (f: Item) => f.setTouched(true)));
+        updateForm(form.updateIn(fieldPath as any, (f: Item) => f.setTouched(true)));
         valid = false;
       }
     } catch (ignore) {

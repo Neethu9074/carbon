@@ -32,13 +32,13 @@ export default function useApdexFormSideEffects(
   });
 }
 
-function resetEntityId(form: MapForm): Item {
+function resetEntityId(form: MapForm<any>): Item {
   return form.updateIn([entityIdKey], field =>
     (field as Field<string | undefined>).setValue(undefined).setTouched(false)
   );
 }
 
-function resetApdexId(form: MapForm): Item {
+function resetApdexId(form: MapForm<any>): Item {
   return form.updateIn([apdexConfigIdKey], field =>
     (field as Field<string | undefined>).setValue(undefined).setTouched(false)
   );

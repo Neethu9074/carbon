@@ -49,7 +49,7 @@ export default function AlertConfigDialog({
   const getLinkToGlobalAlertConfig = useLinkToGlobalAlertConfigWithoutDashboard();
   return (
     <AlertConfigDialogWithThreshold
-      updateForm={(updateForm: MapForm) => {
+      updateForm={(updateForm: MapForm<any>) => {
         setForm(updateForm);
       }}
       form={form}
@@ -80,15 +80,16 @@ export default function AlertConfigDialog({
   );
 }
 
-function createOnChange(setForm: (form: MapForm) => void, externalForm: MapForm) {
+function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: MapForm<any>) {
   return function onChange(path: string[], updater: (item: Item) => Item): void {
+    // @ts-expect-error ts cant determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
 }
 
 function createOrSaveAlert(
-  form: MapForm,
-  setForm: (form: MapForm) => void,
+  form: MapForm<any>,
+  setForm: (form: MapForm<any>) => void,
   onClose: (config?: SyntheticAlertConfig & { readonly id?: string }) => void,
   editMode: boolean,
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
@@ -146,7 +147,7 @@ function createOrSaveAlert(
   }
 }
 
-function toAlertConfig(form: MapForm): Readonly<SyntheticAlertConfig> {
+function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({

@@ -39,7 +39,7 @@ export function createForm(
   { apdexName, apdexEntity }: Partial<ApdexConfiguration>,
   entityType: ApdexEntityTypes,
   entityId: string
-): MapForm {
+): MapForm<any> {
   const isWebsiteEntity = entityType === 'website';
 
   return createMapForm()
@@ -58,7 +58,7 @@ export function createForm(
     );
 }
 
-export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<WebsiteApdexEntity>): MapForm {
+export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<WebsiteApdexEntity>): MapForm<any> {
   return createMapForm()
     .put(
       entityIdKey,
@@ -99,7 +99,7 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
 export function createApplicationEntityForm(
   applicationId: string,
   apdexEntity: Partial<ApplicationApdexEntity>
-): MapForm {
+): MapForm<any> {
   return createMapForm({
     items: {
       [apdexTypeKey]: createField({

@@ -351,7 +351,7 @@ export const resultsFilterUrlStateDefinition = {
 } as Options<UrlState>;
 
 export interface AdvancedModeProps {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
 }

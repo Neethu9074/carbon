@@ -26,7 +26,7 @@ export const fieldNames = Object.freeze({
   timeThreshold: 'timeThreshold'
 });
 
-export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & VersionedConfig): MapForm {
+export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & VersionedConfig): MapForm<any> {
   const {
     tagFilterExpression,
     alertChannelIds = [],

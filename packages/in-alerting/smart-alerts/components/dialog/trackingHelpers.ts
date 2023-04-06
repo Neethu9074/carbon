@@ -6,7 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 
-export function getTrackingObject(form: MapForm, paramsObj: object): object {
+export function getTrackingObject(form: MapForm<any>, paramsObj: object): object {
   return {
     bluePrint: (form.getIn(['rule', 'alertType']) as Field<string>).value,
     ...paramsObj

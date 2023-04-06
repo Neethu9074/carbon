@@ -28,8 +28,8 @@ import { t } from 'in-i18n';
 interface MetricsFormProps<S extends MonitoringSource, E extends MetricEntityType<S>> {
   entityType: S;
   metricEntityType: E;
-  form: MapForm;
-  onChange: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  onChange: (updatedForm: MapForm<any>) => void;
 }
 
 export function MetricsForm<S extends MonitoringSource, E extends MetricEntityType<S>>({

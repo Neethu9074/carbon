@@ -26,8 +26,8 @@ import { t } from 'in-i18n';
 import locals from './BasicDetailsStep.mless';
 
 export interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   selectedBlueprint: BluePrint;
   applications: Result<Application[]>;
 }
@@ -48,10 +48,10 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
     [searchInput]
   );
 
-  const filteredApplications: Application[] | undefined = useMemo(() => filterApplications(applications), [
-    applications,
-    filterApplications
-  ]);
+  const filteredApplications: Application[] | undefined = useMemo(
+    () => filterApplications(applications),
+    [applications, filterApplications]
+  );
 
   function renderApplications() {
     if (applications.progress?.loading) {

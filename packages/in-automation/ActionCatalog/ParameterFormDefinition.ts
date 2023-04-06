@@ -17,7 +17,7 @@ interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit
 }
 
 export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
-  let newForm = createMapForm()
+  let newForm: MapForm<any> = createMapForm()
     .put(
       'name',
       createField({
@@ -119,7 +119,7 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
     .remove('value');
 }
 
-export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm; key: string; add: boolean }) {
+export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm<any>; key: string; add: boolean }) {
   const { value, touched } = form.get(key) as Field<string>;
   const validator = add ? notBlankValidator : undefined;
   return form.remove(key).put(

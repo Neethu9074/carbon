@@ -19,8 +19,8 @@ import locals from './BluePrintSelectionSection.mless';
 interface Props {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   typeSelected: { ping: boolean; script: boolean };
   setTypeSelected: (type: { ping: boolean; script: boolean }) => void;
 }

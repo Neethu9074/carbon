@@ -27,7 +27,7 @@ export interface StatusCodeRangeLikeApplicationAlertRule extends StatusCodeAppli
   };
 }
 
-export default function createRuleForm(rule: ApplicationAlertRule): MapForm {
+export default function createRuleForm(rule: ApplicationAlertRule): MapForm<any> {
   const alertType = rule.alertType as ApplicationAlertType;
 
   const baseForm = createBaseForm(rule);
@@ -51,7 +51,7 @@ export default function createRuleForm(rule: ApplicationAlertRule): MapForm {
   return baseForm;
 }
 
-function createBaseForm(rule: ApplicationAlertRule): MapForm {
+function createBaseForm(rule: ApplicationAlertRule): MapForm<any> {
   return createMapForm()
     .put(
       'alertType',
@@ -67,7 +67,7 @@ function createBaseForm(rule: ApplicationAlertRule): MapForm {
     );
 }
 
-function extendForSlowness(baseForm: MapForm, rule: ApplicationAlertRule): MapForm {
+function extendForSlowness(baseForm: MapForm<any>, rule: ApplicationAlertRule): MapForm<any> {
   return baseForm.put(
     'aggregation',
     createField({
@@ -76,7 +76,7 @@ function extendForSlowness(baseForm: MapForm, rule: ApplicationAlertRule): MapFo
   );
 }
 
-function extendForLogs(baseForm: MapForm, rule: LogsApplicationAlertRule): MapForm {
+function extendForLogs(baseForm: MapForm<any>, rule: LogsApplicationAlertRule): MapForm<any> {
   return baseForm
     .put(
       'operator',
@@ -110,7 +110,7 @@ function extendForLogs(baseForm: MapForm, rule: LogsApplicationAlertRule): MapFo
     );
 }
 
-function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplicationAlertRule) {
+function extendForStatusCode(baseForm: MapForm<any>, rule: StatusCodeRangeLikeApplicationAlertRule) {
   const statusCodeForm = createMapForm({
     items: {
       statusCodeStart: createField({

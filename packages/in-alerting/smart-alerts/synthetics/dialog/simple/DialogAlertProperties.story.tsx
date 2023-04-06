@@ -25,6 +25,7 @@ export const AlertProperties = (args: AlertConfigDialogPresenterProps & MainDial
       {...args}
       form={form}
       onChange={(path, updater) => {
+        // @ts-expect-error ts has problems with nested updates if on MapForm<any> since the form structure is not known
         updateForm(form.updateIn(path, updater));
       }}
     />

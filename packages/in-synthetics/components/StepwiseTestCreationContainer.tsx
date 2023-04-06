@@ -21,8 +21,8 @@ import locals from './StepwiseTestCreationContainer.mless';
 
 export interface Props {
   step: number;
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
   scriptErrors: ScriptError[];

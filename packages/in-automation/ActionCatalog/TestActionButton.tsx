@@ -20,7 +20,7 @@ import { t } from 'in-i18n';
 
 interface TestActionButtonProps {
   action: ActionFormEntity;
-  form?: MapForm;
+  form?: MapForm<any>;
   setForm?: SetFormFunction;
 }
 export default function TestActionButton({ action, form, setForm }: TestActionButtonProps) {

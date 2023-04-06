@@ -114,7 +114,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   return form;
 }
 
-export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
+export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
   const value = getDocLinkFromFields(action.fields).value;
 
   // TODO: add validator for URL???
@@ -127,11 +127,11 @@ export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
   );
 }
 
-export function removeDocLinkField(form: MapForm) {
+export function removeDocLinkField(form: MapForm<any>) {
   return form.remove('docLink');
 }
 
-export function putScriptField(form: MapForm, action: ActionFormEntity) {
+export function putScriptField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
@@ -147,11 +147,11 @@ export function putScriptField(form: MapForm, action: ActionFormEntity) {
   );
 }
 
-export function removeScriptField(form: MapForm) {
+export function removeScriptField(form: MapForm<any>) {
   return form.remove('script');
 }
 
-export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
+export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {
   const { method, host, body, headerParsed, ignoreCertErrors, authenParsed } = getWebhookFields(action);
   const {
     'Content-Type': contentType,
@@ -230,7 +230,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
   return form;
 }
 
-export function removeWebhookFields(form: MapForm) {
+export function removeWebhookFields(form: MapForm<any>) {
   return form
     .remove('method')
     .remove('host')
@@ -245,7 +245,7 @@ export function removeWebhookFields(form: MapForm) {
     .remove('authType');
 }
 
-export function putBasicFields(form: MapForm, action: ActionFormEntity) {
+export function putBasicFields(form: MapForm<any>, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
   const authen: BasicAuth = JSON.parse(authenString.value);
   form = removeApiKeyFields(form);
@@ -266,7 +266,7 @@ export function putBasicFields(form: MapForm, action: ActionFormEntity) {
       })
     );
 }
-export function putBearerField(form: MapForm, action: ActionFormEntity) {
+export function putBearerField(form: MapForm<any>, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
   const authen: BearerAuth = JSON.parse(authenString.value);
   form = removeBasicFields(form);
@@ -279,7 +279,7 @@ export function putBearerField(form: MapForm, action: ActionFormEntity) {
     })
   );
 }
-export function putApiKeyFields(form: MapForm, action: ActionFormEntity) {
+export function putApiKeyFields(form: MapForm<any>, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
   const authen: ApiKeyAuth = JSON.parse(authenString.value);
   form = removeBasicFields(form);
@@ -308,15 +308,12 @@ export function putApiKeyFields(form: MapForm, action: ActionFormEntity) {
     );
 }
 
-export function removeBasicFields(form: MapForm) {
+export function removeBasicFields(form: MapForm<any>) {
   return form.remove('username').remove('password');
 }
-export function removeBearerField(form: MapForm) {
+export function removeBearerField(form: MapForm<any>) {
   return form.remove('bearerToken');
 }
-export function removeApiKeyFields(form: MapForm) {
-  return form
-    .remove('apiKey')
-    .remove('apiKeyValue')
-    .remove('apiKeyAddTo');
+export function removeApiKeyFields(form: MapForm<any>) {
+  return form.remove('apiKey').remove('apiKeyValue').remove('apiKeyAddTo');
 }

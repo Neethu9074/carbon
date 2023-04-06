@@ -32,8 +32,8 @@ export const tagSuggestionTimeConfig = {
   autoRefresh: true
 };
 interface AlertConfigDialogWithThresholdProps {
-  form: MapForm;
-  updateForm: ((form: MapForm, setForm?: (form: MapForm) => void) => void) | ((form: MapForm) => void);
+  form: MapForm<any>;
+  updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   onClose: () => void;
   editMode: boolean;

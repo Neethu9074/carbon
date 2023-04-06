@@ -33,7 +33,7 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
     ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
   >[];
   data: ListItem<VALUETYPE>[];
-  form: MapForm;
+  form: MapForm<any>;
   formKey: string;
   defaultRow?: VALUETYPE;
   setForm: SetFormFunction;

@@ -76,7 +76,7 @@ function CreateApplicationSliFormComponent({
     >
       <ApplicationSliForm
         form={form}
-        onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
+        onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))}
         apName={application.label}
         QueryBuilderComponent={QueryBuilder}
       />
@@ -85,18 +85,18 @@ function CreateApplicationSliFormComponent({
 }
 
 interface UseValidateExpressionsProps {
-  form: MapForm;
+  form: MapForm<any>;
   isQueryValid: (filterExpression: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<boolean>>;
 }
 
 function useValidateExpressions({ form, isQueryValid }: UseValidateExpressionsProps): boolean {
-  const sliEntityForm = form.get('sliEntity') as MapForm;
-  const goodEventFilterExpression = (sliEntityForm.get(sliFieldNames.goodEventFilterExpression) as Field<
-    FormModelElement[]
-  >)?.value;
-  const badEventFilterExpression = (sliEntityForm.get(sliFieldNames.badEventFilterExpression) as Field<
-    FormModelElement[]
-  >)?.value;
+  const sliEntityForm = form.get('sliEntity') as MapForm<any>;
+  const goodEventFilterExpression = (
+    sliEntityForm.get(sliFieldNames.goodEventFilterExpression) as Field<FormModelElement[]>
+  )?.value;
+  const badEventFilterExpression = (
+    sliEntityForm.get(sliFieldNames.badEventFilterExpression) as Field<FormModelElement[]>
+  )?.value;
 
   const goodEventsValid = useValidateApplicationFilterExpression({
     filterExpression: goodEventFilterExpression,

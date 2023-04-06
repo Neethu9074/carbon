@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, createListForm, ValidationResult, Item } from 'formalistic';
+import { createMapForm, createField, createListForm, ValidationResult, Item, MapForm, Field } from 'formalistic';
 
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -16,8 +16,10 @@ interface TimeZoneConfiguration {
   label?: string;
 }
 
+type TimeZoneSubForm = MapForm<{ timeZone: Field<string>; label: Field<string> }>;
+
 export function createForm(savedState?: TimeZoneConfiguration[]) {
-  let listForm = createListForm({
+  let listForm = createListForm<TimeZoneSubForm[]>({
     validator: composeAndShortCircuitOnError(
       notUndefinedValidator,
       arrayValidator,
@@ -33,8 +35,8 @@ export function createForm(savedState?: TimeZoneConfiguration[]) {
   return listForm;
 }
 
-export function createTimeZoneSubForm({ timeZone, label }: TimeZoneConfiguration = {}) {
-  return createMapForm()
+export function createTimeZoneSubForm({ timeZone, label }: TimeZoneConfiguration = {}): TimeZoneSubForm {
+  return createMapForm<{}>()
     .put(
       'timeZone',
       createField({

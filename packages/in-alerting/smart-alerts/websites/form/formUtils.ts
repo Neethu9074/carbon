@@ -26,8 +26,8 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-export function getTitlePlaceholder(form: MapForm) {
-  const rule = (form.get('rule') as MapForm).toJS() as WebsiteAlertRule;
+export function getTitlePlaceholder(form: MapForm<any>) {
+  const rule = (form.get('rule') as MapForm<any>).toJS() as unknown as WebsiteAlertRule;
   const alertType = rule.alertType;
 
   switch (alertType) {
@@ -45,7 +45,8 @@ export function getTitlePlaceholder(form: MapForm) {
       });
     }
     case 'slowness': {
-      const thresholdOperator = ((form.get('threshold') as MapForm).get('operator') as Field<ThresholdOperator>).value;
+      const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>)
+        .value;
       return getSlownessSimpleHighOrLowOperatorText(
         getAggregationText((rule as SlownessWebsiteAlertRule).aggregation),
         thresholdOperator
@@ -54,7 +55,8 @@ export function getTitlePlaceholder(form: MapForm) {
     case 'throughput': {
       const blueprintConfig = getBlueprintConfig(alertType);
       const metricName = blueprintConfig!.getMetricName(rule as WebsiteAlertRule);
-      const thresholdOperator = ((form.get('threshold') as MapForm).get('operator') as Field<ThresholdOperator>).value;
+      const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>)
+        .value;
       return getThroughputSimpleHighOrLowOperatorText(
         blueprintConfig!.getMetricLabel(metricName as MetricName),
         thresholdOperator
@@ -69,10 +71,10 @@ export function getTitlePlaceholder(form: MapForm) {
   }
 }
 
-export function getDescriptionPlaceholder(form: MapForm) {
-  const rule = (form.get('rule') as MapForm).toJS() as WebsiteAlertRule;
+export function getDescriptionPlaceholder(form: MapForm<any>) {
+  const rule = (form.get('rule') as MapForm<any>).toJS() as unknown as WebsiteAlertRule;
   const alertType = rule.alertType;
-  const thresholdForm = form.get('threshold') as MapForm;
+  const thresholdForm = form.get('threshold') as MapForm<any>;
 
   const thresholdOperator = (thresholdForm.get('operator') as Field<ThresholdOperator>).value;
 

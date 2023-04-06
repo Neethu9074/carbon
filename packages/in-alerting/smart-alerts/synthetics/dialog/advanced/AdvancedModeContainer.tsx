@@ -34,7 +34,7 @@ import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
 
 interface AdvancedModeContainerProp {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   messages?: MessageType[];
   setSliderState: (state: SliderState) => void;
@@ -142,7 +142,7 @@ export default function AdvancedModeContainer(
                     <AlertPreview
                       form={form}
                       renderHeadline={renderHeadline}
-                      getDescriptionPlaceholder={(_form: MapForm) =>
+                      getDescriptionPlaceholder={(_form: MapForm<any>) =>
                         (form.get('description') as Field<string>).value ||
                         t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewDescriptionPlaceholder')
                       }

@@ -22,12 +22,12 @@ import { t } from 'in-i18n';
 import locals from './ConfigurationSection.mless';
 
 interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
 }
 
 export default function ConfigurationSection({ form, updateForm }: Props) {
-  const configForm = form.get('configuration') as MapForm;
+  const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;

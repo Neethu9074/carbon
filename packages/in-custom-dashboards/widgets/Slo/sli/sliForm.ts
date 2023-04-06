@@ -102,22 +102,22 @@ export function createForm(
   sliConfig: Partial<SliConfig<CombinedApplicationSliEntity>>,
   entityId: string,
   entity: Application
-): MapForm;
+): MapForm<any>;
 export function createForm(
   entityType: 'website',
   sliConfig: Partial<SliConfig<CombinedWebsiteSliEntity>>,
   entityId: string,
   entity: Website
-): MapForm;
+): MapForm<any>;
 export function createForm(
   entityType: MonitoringSource,
   sliConfig: Partial<SliConfig<CombinedSliEntity>>,
   entityId: string,
   entity: MonitoredEntity
-): MapForm {
+): MapForm<any> {
   const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 
-  let form = createMapForm();
+  let form = createMapForm<any>();
 
   if (id) {
     form = form.put('id', createField({ value: id }));
@@ -152,7 +152,7 @@ function createApplicationSliEntityForm(
   sliEntity: CombinedApplicationSliEntity,
   applicationId: string,
   application: Application
-): MapForm {
+): MapForm<any> {
   const { boundaryScope: apDefaultBoundaryScope } = application;
   const form = createMapForm()
     .put(
@@ -212,7 +212,7 @@ function createApplicationSliEntityForm(
   return form;
 }
 
-function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, websiteId: string): MapForm {
+function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, websiteId: string): MapForm<any> {
   let form = createMapForm()
     .put(
       sliSliTypeKey,
@@ -251,7 +251,7 @@ function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, website
   return form;
 }
 
-export function addGoodBadEventsForm(form: MapForm, sliEntity?: Partial<EventBasedSliEntity>) {
+export function addGoodBadEventsForm(form: MapForm<any>, sliEntity?: Partial<EventBasedSliEntity>) {
   return form
     .put(
       sliFieldNames.goodEventFilterExpression,
@@ -272,7 +272,7 @@ export function addGoodBadEventsForm(form: MapForm, sliEntity?: Partial<EventBas
 export function createMetricsForm(
   metricConfiguration: Partial<SliConfigMetricConfiguration>,
   sliType: string
-): MapForm {
+): MapForm<any> {
   const defaults =
     sliType === websiteTimeBased
       ? { name: 'beaconErrorRate', aggregation: 'MEAN' } // website metrics

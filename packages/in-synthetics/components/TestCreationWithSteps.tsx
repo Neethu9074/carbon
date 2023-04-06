@@ -18,13 +18,13 @@ import locals from './TestCreationWithSteps.mless';
 
 export interface Props {
   onDialogClose: () => void;
-  onSubmit: (form: MapForm) => void;
+  onSubmit: (form: MapForm<any>) => void;
   isSubmitting: boolean;
-  form: MapForm;
+  form: MapForm<any>;
   formId: string;
   step: number;
   updateStep: (step: number) => void;
-  updateForm: (form: MapForm) => void;
+  updateForm: (form: MapForm<any>) => void;
   stepConfigs: readonly { title: string }[];
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;

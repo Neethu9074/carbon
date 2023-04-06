@@ -25,13 +25,14 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+import { MapFormItems } from 'formalistic';
 
 /**
  * Table representive to display all currently selected
  * @property entityType to differ between Namespace / Cluster
  * @property observable to fetch the data
  */
-interface Props extends FormControlProps {
+interface Props<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   entityType: KubernetesEntityType;
   observable: () => Observable<Result<GroupPermissionEntity[]>>;
 }
@@ -41,7 +42,12 @@ interface Props extends FormControlProps {
  * @param param0   to get current selection / adjust and determine the entityType
  * @returns current instance
  */
-export default function _KubernetesEntityTable({ entityType, form, observable, setForm }: Props) {
+export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
+  entityType,
+  form,
+  observable,
+  setForm
+}: Props<FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   // retrieve data from permissionSet
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');

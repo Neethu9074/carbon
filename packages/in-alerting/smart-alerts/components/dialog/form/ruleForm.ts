@@ -13,8 +13,8 @@ import {
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 
-export function getAggregationOptions(form: MapForm): readonly Options[] {
-  const thresholdMapForm: MapForm = form.get('threshold') as MapForm;
+export function getAggregationOptions(form: MapForm<any>): readonly Options[] {
+  const thresholdMapForm: MapForm<any> = form.get('threshold') as MapForm<any>;
   if (getFormValueOrDefault(thresholdMapForm, 'seasonality') === WEEKLY) {
     return ruleAggregationForWeeklySeasonalityOptions;
   }

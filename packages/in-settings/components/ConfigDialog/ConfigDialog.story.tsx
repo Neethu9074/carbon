@@ -13,7 +13,7 @@ export default {
   component: ConfigDialog
 };
 
-export const ConfigDialogExample = (args: ConfigDialogProps) => {
+export const ConfigDialogExample = (args: ConfigDialogProps<any>) => {
   return <ConfigDialog {...args} />;
 };
 

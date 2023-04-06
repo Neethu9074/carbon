@@ -69,7 +69,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     }
   ]);
 
-  function onSubmit(form: MapForm) {
+  function onSubmit(form: MapForm<any>) {
     setIsSubmitting(true);
     const testConfig = {
       active: true,
@@ -101,7 +101,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
    * form inputs. This can be achieved by disabling the proceed button on specific steps based on conditions
    */
   const isProceedDisabled = () => {
-    const configForm = form.get('configuration') as MapForm;
+    const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const labelField = form.get('label') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;

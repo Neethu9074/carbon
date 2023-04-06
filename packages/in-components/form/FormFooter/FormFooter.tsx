@@ -12,6 +12,7 @@ import DeleteButtonComponent, { DeleteButtonProps } from 'in-components/form/Del
 import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
+import { MapFormItems } from 'formalistic';
 
 export interface FormFooterProps {
   className?: string;
@@ -53,11 +54,11 @@ export function CancelButton(props: CancelButtonProps) {
   );
 }
 
-interface ExtendedDeleteButtonProps extends DeleteButtonProps {
+interface ExtendedDeleteButtonProps<FORM_TYPE extends MapFormItems> extends DeleteButtonProps<FORM_TYPE> {
   label?: string;
 }
 
-export function DeleteButton(props: ExtendedDeleteButtonProps) {
+export function DeleteButton<FORM_TYPE extends MapFormItems>(props: ExtendedDeleteButtonProps<FORM_TYPE>) {
   return (
     <DeleteButtonComponent className={locals.button} {...props}>
       {props.label || t('forms.actions.delete')}

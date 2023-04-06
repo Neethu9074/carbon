@@ -62,7 +62,7 @@ import { t } from 'in-i18n';
 import locals from './ActionForm.mless';
 
 interface ActionFormProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   entity: ActionFormEntity;
   setForm: SetFormFunction;

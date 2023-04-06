@@ -27,8 +27,8 @@ import SaveButton from 'in-components/form/SaveButton';
 import locals from './ConfigureLocations.mless';
 
 interface ConfigureLocationsProps {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
 }
 
@@ -99,7 +99,7 @@ export default function ConfigureLocations({ form, updateForm, setSliderState }:
 }
 
 export interface SelectListDialogContentProps {
-  form: MapForm;
+  form: MapForm<any>;
   onSubmit: (selectedIds: string[]) => void;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig?: (state: { title: string | null; onClose: (() => void) | null }) => void;
@@ -160,7 +160,7 @@ function SelectListDialogContent({
   );
 }
 
-function locationTestSelectionTableActions(form: MapForm, updateForm: (form: MapForm) => void) {
+function locationTestSelectionTableActions(form: MapForm<any>, updateForm: (form: MapForm<any>) => void) {
   return {
     deselect: {
       deselect: (deselectedEntity: SyntheticLocation) => {

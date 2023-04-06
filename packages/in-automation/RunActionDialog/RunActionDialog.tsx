@@ -44,7 +44,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [form, setForm] = useState<MapForm>();
+  const [form, setForm] = useState<MapForm<any>>();
   const agentSnapShots = useAgentSnapShots({ action, form, volatileId, setForm });
   return (
     <Dialog
@@ -104,8 +104,8 @@ const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => 
 };
 
 interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
 }
 
 function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapShotsParams) {
@@ -121,8 +121,8 @@ function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapSh
 }
 
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -149,14 +149,14 @@ function onSave({
     actionName: action.name
   });
   const targetAgent = form?.get('targetAgent') as Field<string>;
-  const parameters = form?.get('parameters') as MapForm;
+  const parameters = form?.get('parameters') as MapForm<any>;
 
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.name);
     const name = parameterDefinition?.name ?? '';
     if (parameterDefinition?.type === 'vault') {
-      const pathField = (parameter as ListForm).get(0) as Field<string>;
-      const keyField = (parameter as ListForm).get(1) as Field<string>;
+      const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
+      const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
       return [
         ...acc,
         {
@@ -254,7 +254,7 @@ interface RunActionFooterProps {
   error: string;
   actionInstanceId: string;
   isSaving: boolean;
-  form: MapForm | undefined;
+  form: MapForm<any> | undefined;
   onSave: () => void;
 }
 

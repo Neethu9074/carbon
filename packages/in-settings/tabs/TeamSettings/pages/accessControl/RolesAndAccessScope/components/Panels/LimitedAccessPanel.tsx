@@ -36,11 +36,12 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+import { MapFormItems } from 'formalistic';
 
-interface LimitedAccessPanelProps<I>
-  extends FormControlProps,
+interface LimitedAccessPanelProps<I, FORM_TYPE extends MapFormItems>
+  extends FormControlProps<FORM_TYPE>,
     Pick<
-      PermissionSectionProps<I>,
+      PermissionSectionProps<I, FORM_TYPE>,
       'setSubSlideConfig' | 'setShowSubSlide' | 'roleTooltipText' | 'entityPermissionKey'
     > {
   role?: AreaRoleWithCustomType;
@@ -53,7 +54,7 @@ interface LimitedAccessPanelProps<I>
   onChangeRole: (role: AreaRoleType) => void;
 }
 
-export default function LimitedAccessPanel<I>({
+export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
   roleTooltipText,
   role,
   form,
@@ -67,7 +68,7 @@ export default function LimitedAccessPanel<I>({
   onChangeRole,
   setShowSubSlide,
   setSubSlideConfig
-}: LimitedAccessPanelProps<I>) {
+}: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const theme = useTheme();
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');

@@ -49,7 +49,7 @@ export default function createTimeThresholdForm(
   timeThresholdConfig?: ApplicationTimeThresholdUnion | WebsiteTimeThresholdUnion,
   granularity?: number,
   thresholdType?: ThresholdType
-): MapForm {
+): MapForm<any> {
   switch (timeThresholdConfig?.type) {
     case 'violationsInPeriod':
       return createViolationsInPeriodForm(timeThresholdConfig, thresholdType);
@@ -72,7 +72,7 @@ function createMapBase(type: TimeThresholdType, thresholdType?: ThresholdType, t
 export function createViolationsInPeriodForm(
   { timeWindow, violations }: ViolationsInPeriodApplicationTimeThreshold | ViolationsInPeriodWebsiteTimeThreshold,
   thresholdType: ThresholdType | undefined
-): MapForm {
+): MapForm<any> {
   return createMapBase('violationsInPeriod', thresholdType, timeWindow).put(
     'violations',
     createField({
@@ -84,8 +84,8 @@ export function createViolationsInPeriodForm(
 export function createUserImpactOfViolationsInSequenceForm(
   { timeWindow, impactMeasurementMethod, userPercentage, users }: UserImpactWebsiteTimeThreshold,
   thresholdType?: ThresholdType
-): MapForm {
-  let form = createMapBase('userImpactOfViolationsInSequence', thresholdType, timeWindow);
+): MapForm<any> {
+  let form: MapForm<any> = createMapBase('userImpactOfViolationsInSequence', thresholdType, timeWindow);
 
   form = form.put(
     'impactMeasurementMethod',
@@ -109,7 +109,7 @@ export function createTraceImpactForm(
   { requests }: TraceImpactApplicationTimeThreshold,
   granularity?: number,
   thresholdType?: ThresholdType
-): MapForm {
+): MapForm<any> {
   // For request impact timeWindow is always one bucket which means it would be same as granularity.
   return createMapBase('requestImpact', thresholdType, granularity ?? defaultGranularity).put(
     'requests',
@@ -141,7 +141,7 @@ const provideNumberGreaterEqualsOneValidator = (num: number | string): Validatio
   return null;
 };
 
-export function putUsersField(form: MapForm, users?: number | '') {
+export function putUsersField(form: MapForm<any>, users?: number | '') {
   return form.put(
     'users',
     createField({
@@ -151,7 +151,7 @@ export function putUsersField(form: MapForm, users?: number | '') {
   );
 }
 
-export function putUserPercentageField(form: MapForm, userPercentage?: number | '') {
+export function putUserPercentageField(form: MapForm<any>, userPercentage?: number | '') {
   return form.put(
     'userPercentage',
     createField({

@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { MapFormItems } from 'formalistic';
 import { PermissionSetWithRoles } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
 
@@ -26,7 +27,12 @@ import {
 } from 'in-stores/permission';
 import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
+import {
+  LimitableProductArea,
+  ProductArea,
+  ScopedPermissionItem,
+  ScopedPermissionType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -39,7 +45,9 @@ import locals from './PlatformsEditSelection.mless';
 /**
  * Properties for the platforms edit component
  */
-export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
+export interface PlatformsEditSelectionProps<FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {}
 
 const generalAreas: Array<LimitableProductArea> = [
   ...(hasPCFAccess ? [ProductArea.PCF] : []),
@@ -55,12 +63,12 @@ const generalAreas: Array<LimitableProductArea> = [
  * @param param see PlatformsEditSelectionProps
  * @returns component
  */
-export default function _PlatformsEditSelection({
+export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
   setShowSubSlide,
   setSubSlideConfig
-}: PlatformsEditSelectionProps) {
+}: PlatformsEditSelectionProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
 

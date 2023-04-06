@@ -22,18 +22,26 @@ import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './KubernetesLimitedAccessPanel.mless';
+import { MapFormItems } from 'formalistic';
 
 /**
  * Props for configuring this instance of the component
  */
-interface Props extends FormControlProps, SlideControlProps<SubSlideConfig> {}
+interface Props<FORM_TYPE extends MapFormItems>
+  extends FormControlProps<FORM_TYPE>,
+    SlideControlProps<SubSlideConfig> {}
 
 /**
  * Actual component
  * @param param0 props
  * @returns current instance
  */
-export default function _KubernetesLimitedAccessPanel({ form, setForm, setShowSubSlide, setSubSlideConfig }: Props) {
+export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormItems>({
+  form,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: Props<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;

@@ -5,8 +5,14 @@
 
 import { MapForm } from 'formalistic';
 
+import {
+  AdaptiveBaselineConfig,
+  ApplicationAlertRule,
+  HistoricBaselineConfig,
+  StaticThresholdConfig,
+  ThresholdConfigUnion
+} from 'in-types';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-import { AdaptiveBaselineConfig, ApplicationAlertRule, HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -14,16 +20,16 @@ import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thre
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 
 export default function createBlueprintForm(
-  form: MapForm,
+  form: MapForm<any>,
   alertType: ApplicationAlertType,
   alertThreshold = {},
   isSimpleMode: boolean
-): MapForm {
-  const threshold = (form.get('threshold') as MapForm).toJS();
+): MapForm<any> {
+  const threshold = (form.get('threshold') as MapForm<any>).toJS() as unknown as ThresholdConfigUnion;
 
   const blueprintConfig = getBlueprintConfig(alertType)!;
 
-  const newThresholdForm: MapForm = createThresholdForm(
+  const newThresholdForm: MapForm<any> = createThresholdForm(
     {
       ...threshold,
       ...alertThreshold,
@@ -38,12 +44,12 @@ export default function createBlueprintForm(
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
-    ...((form.get('rule') as MapForm)
+    ...((form.get('rule') as MapForm<any>)
       .remove('operator')
       .remove('value')
       .remove('message')
       .remove('level')
-      .toJS() as ApplicationAlertRule),
+      .toJS() as unknown as ApplicationAlertRule),
     alertType,
     metricName
   });

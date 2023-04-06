@@ -9,6 +9,7 @@ import React from 'react';
 import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { MapFormItems } from 'formalistic';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -45,7 +46,9 @@ import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
 
-export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideConfig>, FormControlProps {
+export interface PermissionSectionProps<I, FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {
   title: string;
   accessAllDescription: string;
   limitedAccessDescription: string;
@@ -59,7 +62,7 @@ export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideCon
   entityPermissionKey: EntityPermissionKey;
 }
 
-export default function PermissionSection<I>({
+export default function PermissionSection<I, FORM_TYPE extends MapFormItems>({
   title,
   accessAllDescription,
   limitedAccessDescription,
@@ -75,7 +78,7 @@ export default function PermissionSection<I>({
   setForm,
   setSubSlideConfig,
   setShowSubSlide
-}: PermissionSectionProps<I>) {
+}: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;

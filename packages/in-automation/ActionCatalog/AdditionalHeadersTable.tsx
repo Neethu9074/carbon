@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 import locals from './ServerTablePresenterWrapperConsumer.mless';
 
 interface AdditionalHeadersProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
 }

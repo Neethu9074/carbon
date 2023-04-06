@@ -11,7 +11,7 @@ import React from 'react';
 import ConfigFormFooter from 'in-custom-dashboards/widgets/Slo/components/ConfigFormFooter';
 
 interface UseSetFormFooterEffectProps {
-  form: MapForm;
+  form: MapForm<any>;
   formId: string;
   onCancel: () => void;
   setFooter: (footer: React.ReactNode) => void;

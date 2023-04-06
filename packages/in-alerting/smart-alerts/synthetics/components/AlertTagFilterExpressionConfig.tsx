@@ -21,8 +21,8 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig.mless';
 
 export interface AlertTagFilterExpressionConfigProps {
-  form: MapForm;
-  updateForm?: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm?: (form: MapForm<any>) => void;
   QueryBuilderComponent: QueryBuilderComponent;
   headerTransparent: boolean;
 }

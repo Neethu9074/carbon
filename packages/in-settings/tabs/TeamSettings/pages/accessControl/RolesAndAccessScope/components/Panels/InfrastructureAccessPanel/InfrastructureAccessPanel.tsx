@@ -29,20 +29,21 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+import { MapFormItems } from 'formalistic';
 
 import locales from './InfrastructureAccessPanel.mless';
 
-interface InfrastructureAccessPanelProps extends FormControlProps {
+interface InfrastructureAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   role?: AreaRoleWithCustomType;
   description: string;
 }
 
-export default function InfrastructureAccessPanel({
+export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems>({
   role,
   form,
   description,
   setForm
-}: InfrastructureAccessPanelProps) {
+}: InfrastructureAccessPanelProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
   const label = t('in-stores:permissionAccessInfrastructureAnalyzeLabel');

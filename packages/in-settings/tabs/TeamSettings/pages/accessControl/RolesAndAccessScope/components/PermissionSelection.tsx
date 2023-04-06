@@ -25,22 +25,25 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './PermissionSelection.mless';
+import { MapFormItems } from 'formalistic';
 
-export interface PermissionSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {
+export interface PermissionSelectionProps<FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {
   title: string;
   description?: string;
   productAreas: Array<ProductAreaType>;
   icon: string;
 }
 
-export default function PermissionSelection({
+export default function PermissionSelection<FORM_TYPE extends MapFormItems>({
   title,
   description = '',
   productAreas,
   icon,
   form,
   setForm
-}: PermissionSelectionProps) {
+}: PermissionSelectionProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const productAreaCapabilities = productAreas.map(productArea => ({

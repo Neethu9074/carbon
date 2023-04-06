@@ -68,10 +68,10 @@ interface InstanaGroup {
 
 type Updater = (f: Item) => Item;
 
-interface GroupMappingTableProps extends ServerTablePresenterProps<MapForm> {
+interface GroupMappingTableProps extends ServerTablePresenterProps<MapForm<any>> {
   getRowIndex: (payloadField: Item) => number;
   updateIn: (path: string[], updater: (item: Item) => Item) => void;
-  deleteRow: (toBeDeleted: MapForm) => void;
+  deleteRow: (toBeDeleted: MapForm<any>) => void;
 }
 
 const DENY_ACCESS = 'denyAccess';
@@ -99,8 +99,8 @@ export default function GroupMapping() {
   );
 }
 
-function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) => void }): JSX.Element {
-  if (!(form.get('hasIdp') as Field<boolean>)?.value) {
+function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapForm<any>) => void }): JSX.Element {
+  if (!form.get('hasIdp')?.value) {
     return (
       <>
         <Title title={t('in-settings:tabs.configureGroupMapping')} />
@@ -112,22 +112,22 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
 
   let instanaGroups: InstanaGroup[] = [];
   if (form.get(INSTANA_GROUPS)) {
-    const groupsField: Field<InstanaGroup[]> = form.get(INSTANA_GROUPS) as Field<InstanaGroup[]>;
+    const groupsField: Field<InstanaGroup[]> = form.get(INSTANA_GROUPS);
     instanaGroups = groupsField.value;
   }
 
   let denyAccess = false;
   if (form.get(DENY_ACCESS)) {
-    const denyAccessField: Field<boolean> = form.get(DENY_ACCESS) as Field<boolean>;
+    const denyAccessField: Field<boolean> = form.get(DENY_ACCESS);
     denyAccess = denyAccessField.value;
   }
 
   const shouldShowDenyIssue = internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(
-    form.get(GROUP_MAPPINGS) as ListForm,
-    form.get(DENY_ACCESS) as Field<boolean>
+    form.get(GROUP_MAPPINGS),
+    form.get(DENY_ACCESS)
   );
 
-  const groupMappings: MapForm[] = (form.get(GROUP_MAPPINGS) as MapForm[] | undefined) ?? [];
+  const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
 
   return (
     <>
@@ -151,7 +151,7 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
       {shouldShowDenyIssue && shouldShowDenyIssue.length > 0 && (
         <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
       )}
-      <ServerTablePresenter<MapForm, GroupMappingTableProps>
+      <ServerTablePresenter<MapForm<any>, GroupMappingTableProps>
         isSearchable={false}
         columnDefinitions={[
           keyColumnDefinition,
@@ -189,35 +189,38 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
       form.updateIn(
         [GROUP_MAPPINGS],
         (f: Item): Item =>
-          (f as ListForm).push(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
+          (f as ListForm<any>).push(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
       )
     );
   }
 
-  function deleteRow(payloadField: MapForm) {
+  function deleteRow(payloadField: MapForm<any>) {
     const entryPosition = getRowIndex(payloadField);
 
     if (entryPosition >= 0) {
-      setForm(form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm).remove(entryPosition).setTouched(true)));
+      setForm(
+        form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm<any>).remove(entryPosition).setTouched(true))
+      );
     }
   }
 
   function getRowIndex(payloadField: Item): number {
     if (form.get(GROUP_MAPPINGS)) {
-      const groupMappings: ListForm = form.get(GROUP_MAPPINGS) as ListForm;
+      const groupMappings: ListForm<any> = form.get(GROUP_MAPPINGS);
       return groupMappings.reduce((acc: number, item: Item, i: number) => (item === payloadField ? i : acc), -1);
     }
     return -1;
   }
 
   function updateIn(path: string[], updater: Updater) {
+    // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
     setForm(form.updateIn([GROUP_MAPPINGS, ...path], (f: Item) => updater(f).setTouched(true)));
   }
 }
 
 type OnChangeInput = (path: string[], doThis: (f: Item) => Field<string>) => void;
 
-function FormInputField(item: MapForm, itemKey: string, onChange: OnChangeInput): JSX.Element {
+function FormInputField(item: MapForm<any>, itemKey: string, onChange: OnChangeInput): JSX.Element {
   let inputValue: string = '';
   if (item.get(itemKey)) {
     const inputValueField: Field<string> = item.get(itemKey) as Field<string>;
@@ -256,7 +259,7 @@ function InstanaGroupPick(groups: InstanaGroup[], selectedGroupId: string, onCha
   );
 }
 
-function DeleteMapping(item: MapForm, deleteRow: (toBeDeleted: MapForm) => void): JSX.Element {
+function DeleteMapping(item: MapForm<any>, deleteRow: (toBeDeleted: MapForm<any>) => void): JSX.Element {
   return (
     <div>
       <Tooltip content={t('in-settings:tabs.deleteGroupMapping')}>
@@ -276,7 +279,7 @@ function onChangeFunctionFor(
 }
 
 type EditableContent = (
-  item: MapForm,
+  item: MapForm<any>,
   helpers: {
     getRowIndex: (payloadField: Item) => number;
     updateIn: (path: string[], updater: (item: Item) => Item) => void;
@@ -287,7 +290,7 @@ const keyColumnDefinition = {
   id: 'key',
   sortable: false,
   label: t('in-settings:tabs.groupMappingKey'),
-  getContent: ((item: MapForm, { getRowIndex, updateIn }) => {
+  getContent: ((item: MapForm<any>, { getRowIndex, updateIn }) => {
     const onChange = onChangeFunctionFor(updateIn, getRowIndex, item);
     return FormInputField(item, 'key', onChange);
   }) as EditableContent
@@ -297,7 +300,7 @@ const valueColumnDefinition = {
   id: 'value',
   sortable: false,
   label: t('in-settings:tabs.groupMappingValue'),
-  getContent: ((item: MapForm, { getRowIndex, updateIn }) => {
+  getContent: ((item: MapForm<any>, { getRowIndex, updateIn }) => {
     const onChange = onChangeFunctionFor(updateIn, getRowIndex, item);
     return FormInputField(item, 'value', onChange);
   }) as EditableContent
@@ -307,7 +310,7 @@ const instanaGroupColumnDefinition = (groups: InstanaGroup[]) => ({
   id: 'instanaGroup',
   sortable: false,
   label: t('in-settings:tabs.instanaGroup'),
-  getContent: ((item: MapForm, { getRowIndex, updateIn }) => {
+  getContent: ((item: MapForm<any>, { getRowIndex, updateIn }) => {
     let selectedGroup: string = '';
     if (item.get(GROUP_ID)) {
       const selectedGroupField: Field<string> = item.get(GROUP_ID) as Field<string>;
@@ -323,7 +326,7 @@ const deleteRowColumnDefinition = {
   label: '',
   width: '5',
   sortable: false,
-  getContent: (item: MapForm, { deleteRow }: { deleteRow: (toBeDeleted: MapForm) => void }) =>
+  getContent: (item: MapForm<any>, { deleteRow }: { deleteRow: (toBeDeleted: MapForm<any>) => void }) =>
     DeleteMapping(item, deleteRow)
 };
 
@@ -365,11 +368,11 @@ function saveItem({ form, setMessage, setForm }: { form: any; setMessage: any; s
   );
 }
 
-function trackDifference(form: MapForm) {
-  const tracking: MapForm = form.get('tracking') as MapForm;
+function trackDifference(form: MapForm<any>) {
+  const tracking: MapForm<any> = form.get('tracking');
 
-  if ((form.get('groupMappings') as ListForm).size > 0) {
-    if ((tracking.get('initialSize') as Field<number>).value === 0) {
+  if (form.get('groupMappings').size > 0) {
+    if (tracking.get('initialSize').value === 0) {
       firstMappingAdded({ groupMappings: form.get('groupMappings')?.toJS() });
     } else {
       mappingChanged({ groupMappings: form.get('groupMappings')?.toJS() });
@@ -378,9 +381,9 @@ function trackDifference(form: MapForm) {
     mappingRemoved();
   }
 
-  const initialRestrictAccessFlag: Field<boolean> = tracking.get('initialRestrictAccessFlag') as Field<boolean>;
-  if ((form.get('denyAccess') as Field<boolean>).value != initialRestrictAccessFlag.value) {
-    if ((form.get('denyAccess') as Field<boolean>).value) {
+  const initialRestrictAccessFlag: Field<boolean> = tracking.get('initialRestrictAccessFlag');
+  if (form.get('denyAccess').value != initialRestrictAccessFlag.value) {
+    if (form.get('denyAccess').value) {
       enabledRestrictedAccess();
     } else {
       disabledRestrictedAccess();
@@ -388,7 +391,7 @@ function trackDifference(form: MapForm) {
   }
 }
 
-function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm {
+function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm<any> {
   return createMapForm({
     items: {
       key: createField({
@@ -408,7 +411,7 @@ function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm {
   });
 }
 
-function enrichForm(_form: MapForm, { result }: { result: any }) {
+function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
   const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
 
   if (!hasIdp) {
@@ -438,13 +441,13 @@ function enrichForm(_form: MapForm, { result }: { result: any }) {
 }
 
 function checkThereIsAtLeastOneGroupMappingIfDenyIsChecked({ groupMappings, denyAccess }: MapFormItems) {
-  const groupMappingsList: ListForm = groupMappings as ListForm;
+  const groupMappingsList: ListForm<any> = groupMappings as ListForm<any>;
   const denyAccessField: Field<boolean> = denyAccess as Field<boolean>;
   return internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(groupMappingsList, denyAccessField);
 }
 
 function internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(
-  groupMappings: ListForm,
+  groupMappings: ListForm<any>,
   denyAccess: Field<boolean>
 ) {
   if (groupMappings.size <= 0 && denyAccess.value) {

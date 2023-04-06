@@ -34,12 +34,15 @@ import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
+import { MapFormItems } from 'formalistic';
 
 /**
  * Properties for the current component
  * @property isChild determines the header / icon size
  */
-export interface PermissionSectionInfrastructureProps extends FormControlProps, SlideControlProps<SubSlideConfig> {
+export interface PermissionSectionInfrastructureProps<FORM_TYPE extends MapFormItems>
+  extends FormControlProps<FORM_TYPE>,
+    SlideControlProps<SubSlideConfig> {
   isChild?: boolean;
 }
 
@@ -48,13 +51,13 @@ export interface PermissionSectionInfrastructureProps extends FormControlProps, 
  * @param to configure component
  * @returns component
  */
-export default function _KubernetesEditSection({
+export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
   form,
   isChild,
   setForm,
   setShowSubSlide,
   setSubSlideConfig
-}: PermissionSectionInfrastructureProps) {
+}: PermissionSectionInfrastructureProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 

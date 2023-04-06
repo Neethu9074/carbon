@@ -15,8 +15,8 @@ import { ThresholdType, Granularity } from 'in-types';
 
 export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
-  form: MapForm,
-  updateForm: (form: MapForm) => void,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void,
   trackThresholdTypeChanged: (trackingObject: object) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
@@ -24,7 +24,7 @@ export function onThresholdTypeChange(
 
   const rule = form.get('rule')!.toJS();
   const { alertType } = rule;
-  let newThresholdForm: MapForm = createThresholdForm(
+  let newThresholdForm: MapForm<any> = createThresholdForm(
     {
       ...form.get('threshold')!.toJS(),
       type: updatedThresholdType
@@ -53,7 +53,11 @@ export function onThresholdTypeChange(
   trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
 }
 
-function updateFormIfAdaptiveBaseline(form: MapForm, thresholdType: ThresholdType, granularity: Granularity): MapForm {
+function updateFormIfAdaptiveBaseline(
+  form: MapForm<any>,
+  thresholdType: ThresholdType,
+  granularity: Granularity
+): MapForm<any> {
   if (thresholdType != ADAPTIVE_BASELINE || granularity >= defaultAdaptiveBaselineTimeWindow) {
     return form;
   }
@@ -65,6 +69,7 @@ function updateFormIfAdaptiveBaseline(form: MapForm, thresholdType: ThresholdTyp
         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
       )
       // also adjust properties such as timeThreshold window size which depend on the used granularity
+      // @ts-expect-error ts has problems with nested updates if on MapForm<any> since the form structure is not known
       .updateIn(['timeThreshold', 'timeWindow'], f =>
         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
       )

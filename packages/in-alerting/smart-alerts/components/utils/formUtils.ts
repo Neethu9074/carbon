@@ -38,8 +38,8 @@ export function findEntryByValue(valueLabelPairList: ValueLabelPair[], value?: s
   return items.find(item => item?.value === value);
 }
 
-export function alertConfigWithDefaultThreshold(form: MapForm) {
-  const threshold: MapForm = form.get('threshold') as MapForm;
+export function alertConfigWithDefaultThreshold(form: MapForm<any>) {
+  const threshold: MapForm<any> = form.get('threshold') as MapForm<any>;
   const thresholdValue: Field<any> | undefined = threshold.get('value') as Field<any> | undefined;
   return {
     ...form.toJS(),
@@ -57,7 +57,7 @@ export function fieldTouchedAndInvalid(field: Field<any>): boolean {
   return field && field.touched && !field.valid;
 }
 
-function payloadItemInvalid(item: MapForm): boolean {
+function payloadItemInvalid(item: MapForm<any>): boolean {
   const key = item.get('key') as Field<any>;
   const val = item.get('value') as Field<any>;
   return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
@@ -71,11 +71,11 @@ function payloadItemInvalid(item: MapForm): boolean {
  *
  * @returns result or true when the customPayloads-field does not exist
  */
-export function isCustomPayloadValidOrUntouched(form: MapForm): boolean {
-  const customPayloadForm = (form.get('customPayloadFields') as ListForm) ?? {};
+export function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
+  const customPayloadForm = (form.get('customPayloadFields') as ListForm<any>) ?? {};
   const { touched, valid } = customPayloadForm;
   // @ts-expect-error TS2339: Property 'items' does not exist on type 'ListForm'.
-  const items: MapForm[] = customPayloadForm.items;
+  const items: MapForm<any>[] = customPayloadForm.items;
 
   if (!touched) {
     return true;

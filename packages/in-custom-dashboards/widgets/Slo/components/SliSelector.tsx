@@ -17,8 +17,8 @@ import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 interface SliSelectorProps {
-  form: MapForm;
-  updateForm: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (updatedForm: MapForm<any>) => void;
   entityType: MonitoringSource;
   entityId: string;
   openManageSLIComponent: ReactNode;

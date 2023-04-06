@@ -4,7 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
-import { MapForm } from 'formalistic';
+import { Item } from 'formalistic';
 
 import { Button } from '@instana/components';
 
@@ -14,7 +14,7 @@ import SaveButton from 'in-components/form/SaveButton';
 import locals from './DialogFooter.mless';
 
 interface DialogFooterBasicProps {
-  form?: MapForm;
+  form?: Item;
   /**
    * to enable browser default form submitting even
    * when footer is not part of this form

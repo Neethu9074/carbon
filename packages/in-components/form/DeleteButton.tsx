@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -11,14 +11,14 @@ import { Button, ButtonProps } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export interface DeleteButtonProps extends Partial<ButtonProps> {
-  form: MapForm;
+export interface DeleteButtonProps<FORM_TYPE extends MapFormItems> extends Partial<ButtonProps> {
+  form: MapForm<FORM_TYPE>;
   icon: string;
   isDeleting: boolean;
   onClick: () => void;
 }
 
-export default function DeleteButton({
+export default function DeleteButton<FORM_TYPE extends MapFormItems>({
   form,
   isDeleting,
   disabled,
@@ -27,7 +27,7 @@ export default function DeleteButton({
   kind = 'danger',
   icon,
   onClick
-}: DeleteButtonProps) {
+}: DeleteButtonProps<FORM_TYPE>) {
   return (
     <Button
       kind={kind}

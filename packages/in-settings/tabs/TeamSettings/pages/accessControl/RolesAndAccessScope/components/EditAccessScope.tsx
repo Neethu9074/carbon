@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm, Field } from 'formalistic';
+import { MapForm, Field, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
@@ -25,26 +25,26 @@ import { getWebsiteConfigurations } from 'in-websites/api/websites';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-interface EditAccessScopeDialogProps extends FormControlProps {
+interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   editMode?: boolean;
-  onSave: (form: MapForm) => void;
+  onSave: (form: MapForm<FORM_TYPE>) => void;
   onCancel: VoidFunction;
 }
 
-export default function EditAccessScopeDialog({
+export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   form: originForm,
   setForm: _originSetForm,
   onSave,
   onCancel,
   editMode
-}: EditAccessScopeDialogProps) {
+}: EditAccessScopeDialogProps<FORM_TYPE>) {
   const [form, setForm] = useState(originForm);
   const { subSlideConfig, setSubSlideConfig, showSubSlide, setShowSubSlide } = useSubSlideControl();
   const context = editMode ? 'edit' : 'create';
 
   const groupNameField = getField<string>(form, 'name');
 
-  const formControlProps: FormControlProps = {
+  const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm
   };
