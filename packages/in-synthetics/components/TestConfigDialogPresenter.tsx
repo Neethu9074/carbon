@@ -41,11 +41,13 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [simpleMode, setSimpleMode] = useState(true);
   const [form, setForm] = useState(() => createForm());
-  const formId = 'create-synthetics-test-form';
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
+  const [testTypeSelected, setTestTypeSelected] = useState({ simple: true, script: false });
+
+  const formId = 'create-synthetics-test-form';
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
@@ -157,7 +159,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                 resetScrollShadow();
               }}
             >
-              {t('in-synthetics:dialog.createTest.advancedMode.buttonContent')}
+              {t('in-synthetics:dialog.createTest.advancedMode.switchModeButton')}
             </Button>
           )}
         </>
@@ -179,6 +181,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setScriptErrors={setScriptErrors}
         simpleMode={simpleMode}
         setSliderState={setSliderState}
+        testTypeSelected={testTypeSelected}
+        setTestTypeSelected={setTestTypeSelected}
       />
       <DialogFooter
         formId={formId}

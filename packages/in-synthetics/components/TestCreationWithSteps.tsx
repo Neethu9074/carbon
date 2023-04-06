@@ -32,6 +32,8 @@ export interface Props {
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
   setSliderState: (state: SliderState) => void;
+  testTypeSelected: { simple: boolean; script: boolean };
+  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
 }
 
 export default function TestCreationWithSteps({
@@ -47,7 +49,9 @@ export default function TestCreationWithSteps({
   scriptErrors,
   setScriptErrors,
   simpleMode,
-  setSliderState
+  setSliderState,
+  testTypeSelected,
+  setTestTypeSelected
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -68,7 +72,13 @@ export default function TestCreationWithSteps({
       className={locals.form}
     >
       {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
-        <AdvancedMode form={form} updateForm={updateForm} setSliderState={setSliderState} />
+        <AdvancedMode
+          form={form}
+          updateForm={updateForm}
+          setSliderState={setSliderState}
+          testTypeSelected={testTypeSelected}
+          setTestTypeSelected={setTestTypeSelected}
+        />
       ) : (
         <>
           <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />

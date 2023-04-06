@@ -354,4 +354,6 @@ export interface AdvancedModeProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
+  testTypeSelected: { simple: boolean; script: boolean };
+  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
 }

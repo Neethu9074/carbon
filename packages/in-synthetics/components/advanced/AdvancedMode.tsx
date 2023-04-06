@@ -4,42 +4,59 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Application, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { AdvancedBluePrint, advancedBluePrintConfig } from 'in-synthetics/data/advancedModeBluePrints';
+import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/data/advancedModeBluePrints';
 import BluePrintSelectionSection from 'in-synthetics/components/advanced/BluePrintSelectionSection';
 import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
 import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 
-const AdvancedMode = ({ form, updateForm, setSliderState }: AdvancedModeProps) => {
-  const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(advancedBluePrintConfig[0]);
-  const [typeSelected, setTypeSelected] = useState({ ping: true, script: false });
+const AdvancedMode = ({
+  form,
+  updateForm,
+  setSliderState,
+  testTypeSelected,
+  setTestTypeSelected
+}: AdvancedModeProps) => {
+  const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
+    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+  );
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
+  const configForm = form.get('configuration') as MapForm<any>;
+  const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+  const getTestTypeSection = (syntheticType: string) => {
+    if (syntheticType === 'HTTPScript') {
+      // Script Component goes here
+      return <h1>{''}</h1>;
+    }
+    return <ConfigurationSection form={form} updateForm={updateForm} />;
+  };
   return (
     <StepsContainer
       navItems={[
         {
           scrollId: '1',
-          label: t('in-synthetics:dialog.createTest.advancedMode.selectedTestTypeSectionLabel'),
+          label: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.rightListLabel'),
           title: '',
           valid: true,
           content: (
             <BluePrintSelectionSection
               selectedBlueprint={selectedBlueprint}
               setSelectedBlueprint={setSelectedBlueprint}
-              typeSelected={typeSelected}
-              setTypeSelected={setTypeSelected}
-              form={form}
+              testTypeSelected={testTypeSelected}
+              setTestTypeSelected={setTestTypeSelected}
               updateForm={updateForm}
             />
           )
@@ -49,7 +66,7 @@ const AdvancedMode = ({ form, updateForm, setSliderState }: AdvancedModeProps) =
           label: t('in-synthetics:dialog.createTest.advancedMode.configurationLabel'),
           title: t('in-synthetics:dialog.createTest.advancedMode.configurationTitle'),
           valid: true,
-          content: <ConfigurationSection form={form} updateForm={updateForm} />
+          content: getTestTypeSection(syntheticTypeField.value)
         },
         {
           scrollId: '3',

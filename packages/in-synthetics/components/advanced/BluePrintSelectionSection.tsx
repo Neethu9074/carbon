@@ -9,69 +9,81 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import { AdvancedBluePrint, advancedBluePrintConfig } from 'in-synthetics/data/advancedModeBluePrints';
+import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/data/advancedModeBluePrints';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/components/advanced/SelectedTestType';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import Menu from 'in-components/Menu';
 
 import locals from './BluePrintSelectionSection.mless';
 
-interface Props {
+interface BluePrintSelectionSectionProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
-  form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  typeSelected: { ping: boolean; script: boolean };
-  setTypeSelected: (type: { ping: boolean; script: boolean }) => void;
+  testTypeSelected: { simple: boolean; script: boolean };
+  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
 }
 
 const BluePrintSelectionSection = ({
   selectedBlueprint,
   setSelectedBlueprint,
-  form,
   updateForm,
-  typeSelected,
-  setTypeSelected
-}: Props) => {
+  testTypeSelected,
+  setTestTypeSelected
+}: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
-      label={t('in-synthetics:dialog.createTest.advancedMode.testTypes')}
-      title={t('in-synthetics:dialog.createTest.advancedMode.selectedTestType')}
+      title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeLightCardTitle')}
+      label={selectedBlueprint.label}
       bodyWithoutPadding
       openByDefault
       darkFrame
     >
-      <div className={locals.container}>
-        <SelectionMenu selectedBlueprint={selectedBlueprint} setSelectedBlueprint={setSelectedBlueprint} />
-        <div className={locals.spanTwoColumns}>
-          <SelectedTestType
-            form={form}
-            updateForm={updateForm}
-            typeSelected={typeSelected}
-            setTypeSelected={setTypeSelected}
-          />
-        </div>
-      </div>
+      <SelectionMenu
+        selectedBlueprint={selectedBlueprint}
+        setSelectedBlueprint={setSelectedBlueprint}
+        updateForm={updateForm}
+        testTypeSelected={testTypeSelected}
+        setTestTypeSelected={setTestTypeSelected}
+      />
     </ExpandableLightCard>
   );
 };
 
-interface MenuProps {
+interface SelectionMenuProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
+  updateForm: (form: MapForm<any>) => void;
+  testTypeSelected: { simple: boolean; script: boolean };
+  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
 }
 
-const SelectionMenu = ({ selectedBlueprint, setSelectedBlueprint }: MenuProps) => {
+const SelectionMenu = ({
+  selectedBlueprint,
+  setSelectedBlueprint,
+  updateForm,
+  testTypeSelected,
+  setTestTypeSelected
+}: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
       <Menu
-        items={advancedBluePrintConfig}
+        items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
         addRightSeparator
         onItemClick={item => {
           setSelectedBlueprint(item as AdvancedBluePrint);
         }}
         initialItemSelected={selectedBlueprint}
       />
+      <div className={locals.spanTwoColumns}>
+        <SelectedTestType
+          selectedBlueprint={selectedBlueprint}
+          updateForm={updateForm}
+          testTypeSelected={testTypeSelected}
+          setTestTypeSelected={setTestTypeSelected}
+        />
+      </div>
     </div>
   );
 };

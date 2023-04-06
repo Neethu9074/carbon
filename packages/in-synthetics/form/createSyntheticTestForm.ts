@@ -9,6 +9,7 @@ import { arrayValidator, booleanValidator, numberValidator, stringValidator } fr
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -30,7 +31,7 @@ interface ValidationsType {
 
 export function createForm(
   simpleMode: boolean = true,
-  selectedBlueprint?: BluePrint,
+  selectedBlueprint?: BluePrint | AdvancedBluePrint,
   savedState?: Record<string, any>
 ) {
   return createMapForm({
@@ -38,7 +39,8 @@ export function createForm(
   })
     .put(
       'configuration',
-      selectedBlueprint?.type === 'Script API'
+      // @ts-expect-error testType does not exist in BluePrint type
+      selectedBlueprint?.type === 'Script API' || selectedBlueprint?.testType === 'HTTPScript'
         ? createScriptConfigurationForm(savedState ?? {})
         : !simpleMode
         ? createAdvancedActionConfigurationForm(savedState ?? {})
