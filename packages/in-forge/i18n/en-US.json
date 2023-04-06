@@ -10118,6 +10118,7 @@
       "fetchConsumerLatency": "Fetch Consumer Latency",
       "fetchFollowerLatency": "Fetch Follower Latency",
       "consumerGroup": "Consumer Group",
+      "consumerGroupAndTopicPlaceholder": "Consumer-Group#Topic",
       "topic": "Topic",
       "messagesLag": "Messages Lag",
       "consumerGroupsLagPerTopicWithCount": "Consumer Groups Lag Per Topic ({{len}})",
