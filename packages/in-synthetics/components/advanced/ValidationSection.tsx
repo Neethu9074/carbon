@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm } from 'formalistic';
+import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React from 'react';
 
 import { Button, Stack } from '@instana/components';
@@ -12,7 +12,10 @@ import { Button, Stack } from '@instana/components';
 // @ts-expect-error
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { Validations } from 'in-synthetics/form/createSyntheticTestForm';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input/Input';
@@ -32,6 +35,11 @@ export interface Selection {
   combo2: string;
 }
 
+interface Error {
+  invalid: boolean;
+  message: string;
+}
+
 interface ValidationProps {
   form: MapForm;
   updateForm: (form: MapForm) => void;
@@ -39,6 +47,8 @@ interface ValidationProps {
   setIsVisible: React.Dispatch<React.SetStateAction<Visible>>;
   comboBoxSelections: Selection;
   setComboBoxSelections: React.Dispatch<React.SetStateAction<Selection>>;
+  invalidJSON: Error;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<Error>>;
 }
 
 export default function ValidationSection({
@@ -47,11 +57,13 @@ export default function ValidationSection({
   isVisible,
   setIsVisible,
   comboBoxSelections,
-  setComboBoxSelections
+  setComboBoxSelections,
+  invalidJSON,
+  setInvalidJSON
 }: ValidationProps) {
   const configForm = form.get('configuration') as MapForm;
   const expectStatus = configForm.get('expectStatus') as Field<string>;
-  const expectJson = configForm.get('expectJson') as Field<string>;
+  const expectJson = configForm.get('expectJson') as Field<Map<string, string>>;
   const expectMatch = configForm.get('expectMatch') as Field<string>;
 
   const statusElement = (
@@ -79,17 +91,42 @@ export default function ValidationSection({
         rows={7}
         name="expectJson"
         placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONPlaceholder')}
-        value={expectJson.value}
-        hasError={!expectJson.valid && expectJson.touched}
+        value={JSON.stringify(expectJson.value)}
+        hasError={!expectJson.valid && expectJson.touched && invalidJSON.invalid}
         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-          updateForm(
-            form.updateIn(['configuration', 'expectJson'], (field: Item) =>
-              (field as Field<string>).setValue(target.value).setTouched(true)
-            )
-          );
+          const valueNotBlank: ValidationResult = notBlankValidator(target.value);
+          const valueUndefined: ValidationResult = notUndefinedValidator(target.value);
+          if (valueUndefined) {
+            setInvalidJSON({ invalid: true, message: valueUndefined[0].message! });
+          } else if (valueNotBlank) {
+            setInvalidJSON({ invalid: true, message: valueNotBlank[0].message! });
+          } else {
+            let config: any;
+            try {
+              config = JSON.parse(target.value);
+              if (!config || typeof config !== 'object') {
+                setInvalidJSON({
+                  invalid: true,
+                  message: t('in-synthetics:dialog.createTest.advancedMode.configStep.jsonRootMustBeAnObject')
+                });
+              } else {
+                updateForm(
+                  form.updateIn(['configuration', 'expectJson'], (field: Item) =>
+                    (field as Field<Map<string, string>>).setValue(new Map(Object.entries(config))).setTouched(true)
+                  )
+                );
+                setInvalidJSON({ invalid: false, message: '' });
+              }
+            } catch {
+              setInvalidJSON({
+                invalid: true,
+                message: t('in-synthetics:dialog.createTest.advancedMode.configStep.failedToParseInputAsJson')
+              });
+            }
+          }
         }}
       />
-      <TouchedMessages field={expectJson} />
+      {invalidJSON.invalid && <ValidationBlock>{invalidJSON.message}</ValidationBlock>}
     </>
   );
 
@@ -121,6 +158,7 @@ export default function ValidationSection({
   };
 
   const resetJSON = () => {
+    setInvalidJSON({ invalid: false, message: '' });
     updateForm(
       form.updateIn(['configuration', 'expectJson'], (field: Item) =>
         (field as Field<Map<string, string>>).setValue(new Map()).setTouched(false)

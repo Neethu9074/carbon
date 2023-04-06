@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { jsonValidator, regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
+import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -189,13 +189,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'expectJson',
       createField({
-        value: savedState?.expectJson ?? new Map(),
-        validator: composeAndShortCircuitOnError(
-          jsonValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        value: savedState?.expectJson ?? new Map()
       })
     )
     .put(

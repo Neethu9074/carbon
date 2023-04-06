@@ -37,6 +37,7 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
     combo1: '',
     combo2: ''
   });
+  const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
   return (
     <div>
@@ -97,6 +98,8 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
           setIsVisible={setIsVisible}
           comboBoxSelections={comboBoxSelections}
           setComboBoxSelections={setComboBoxSelections}
+          setInvalidJSON={setInvalidJSON}
+          invalidJSON={invalidJSON}
         />
       </div>
       <div className={locals.configContainer}>
