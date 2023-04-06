@@ -21,6 +21,7 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import { getGroupsOfASingleUser } from 'in-settings/tabs/TeamSettings/api/groups';
 import { hasError, isLoading } from 'in-services/util/result';
 import { success } from 'in-services/util/result';
+import { ownerRoleId } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -52,9 +53,18 @@ export default connectTo(
 );
 
 function collectIdsFromPermissionSets(permissionSetsToGroups) {
-  let allIds = [];
-
   const values = permissionSetsToGroups.values();
+
+  // OWNER always has all available permissions
+  // without evaluating limited_*_scopes from all groups owners can not be limited on any area
+  // similar to backend evaluations
+  for (const entry of values) {
+    if (ownerRoleId === entry.id) {
+      return collectIds(entry);
+    }
+  }
+
+  let allIds = [];
   for (const entry of values) {
     const ids = collectIds(entry);
     allIds = [...allIds, ...ids];
