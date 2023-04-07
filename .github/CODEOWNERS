@@ -36,7 +36,7 @@ packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 # packages/in-forge
 packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 # packages/in-forge/i18n
-packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-sensors-system @instana/eng-ibm-us-sensors @instana/eng-java 
+packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-sensors-system @instana/eng-ibm-us-sensors @instana/eng-java @instana/eng-synthetics-agent
 # Specific ownerships for different sensors
 packages/in-forge/plugins/ace*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/aliCloud*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
@@ -98,6 +98,7 @@ packages/in-forge/plugins/webSphere*                            @pr-approval @In
 packages/in-forge/plugins/zhmcConsole                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/zhmcCpc                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/jvmRuntimePlatform                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system @instana/eng-java
+packages/in-forge/plugins/syntheticPoP                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-synthetics-agent
 
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

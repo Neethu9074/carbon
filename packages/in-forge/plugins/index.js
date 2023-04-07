@@ -193,6 +193,7 @@ import './db2ZDatabase';
 import './tuxedoDomain';
 import './tuxedoServer';
 import './abapInstance';
+import './syntheticPoP';
 import './aliCloudOss';
 import './zhmcConsole';
 import './phmcConsole';
