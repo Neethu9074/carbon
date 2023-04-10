@@ -78,7 +78,7 @@ export default function RunActionDialogContent({
     );
   }
   return (
-    <HorizontalFlexWrapper>
+    <HorizontalFlexWrapper className={locals.alignStretch}>
       <div className={locals.borderRight}>
         <DescriptionList>
           <DescriptionItem

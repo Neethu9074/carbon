@@ -69,6 +69,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
         <FormFooter>
           <RunActionFooter
             error={error}
+            test={test}
             actionInstanceId={actionInstanceId}
             isSaving={isSaving}
             form={form}
@@ -256,9 +257,10 @@ interface RunActionFooterProps {
   isSaving: boolean;
   form: MapForm<any> | undefined;
   onSave: () => void;
+  test?: boolean;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: RunActionFooterProps) {
+function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test }: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
@@ -270,7 +272,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
       <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
-        {t('in-automation:yes')}
+        {test ? t('in-automation:testAction') : t('in-automation:runAction')}
       </SaveButton>
     </>
   );

@@ -42,7 +42,13 @@
   }
   .parameterContainer {
     overflow-y: scroll;
-    max-height: 25rem;
-    border-left: 1px solid @lib__colors__N300;
+    height: 100%;
+  }
+  .alignStretch {
+    align-items: stretch;
+  }
+  .borderRight {
+    border-right: 1px solid @lib__colors__N300;
+    padding-right: 1rem;
   }
 }
