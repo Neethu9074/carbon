@@ -6,9 +6,6 @@
 
 import React from 'react';
 
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, percentage, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -101,7 +98,7 @@ const cols = [
       }
     }
   },
- {
+  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity'),
     type: 'metric',
     typeArgs: {
@@ -117,38 +114,38 @@ const cols = [
       }
     }
   },
-    {
-      title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten'),
-      type: 'metric',
-      typeArgs: {
-        getSnapshotId(row) {
-          return row.snapshotId;
-        },
-        getMetricName(row) {
-          return `advanceSolidStateDiskMetrics.${row.key}.ssdSupportedBytesWritten`;
-        },
-        getContent: bytes.detailed,
-        getTimeWindowAggregation() {
-          return 'mean';
-        }
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `advanceSolidStateDiskMetrics.${row.key}.ssdSupportedBytesWritten`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
-    },
-    {
-      title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdBytesWritten'),
-      type: 'metric',
-      typeArgs: {
-        getSnapshotId(row) {
-          return row.snapshotId;
-        },
-        getMetricName(row) {
-          return `advanceSolidStateDiskMetrics.${row.key}.ssdBytesWritten`;
-        },
-        getContent: bytes.detailed,
-        getTimeWindowAggregation() {
-          return 'mean';
-        }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdBytesWritten'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `advanceSolidStateDiskMetrics.${row.key}.ssdBytesWritten`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
-    },
+    }
+  },
   {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPowerOnDays'),
     type: 'metric',
@@ -181,9 +178,7 @@ const cols = [
         return 'mean';
       }
     }
-  },
-
-
+  }
 ];
 
 export default connectTo(
@@ -214,16 +209,15 @@ export default connectTo(
       .valueSeq()
       .toArray();
 
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')}
-      cols={cols}
-      rows={rows}
-      initialSortColumn={2}
-      initialSortDirection="desc"
-    />
-  );
-}
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={2}
+        initialSortDirection="desc"
+      />
+    );
+  }
 );
-
