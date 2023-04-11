@@ -36,7 +36,7 @@ interface UrlStateParams {
   defaultQuery?: string;
   defaultDisabledColumns?: readonly string[];
 
-  paginationResettingUrlParameters: readonly ParameterDefinition<unknown>[];
+  paginationResettingUrlParameters?: readonly ParameterDefinition<unknown>[];
 }
 
 export default function useServerTableUrlState({
@@ -145,7 +145,7 @@ function createUrlStateDefinition({
 
     resets: [
       {
-        bind: [...paginationResettingUrlParameters],
+        bind: [...(paginationResettingUrlParameters ?? [])],
         reset: { page: 1 }
       }
     ],

@@ -12,6 +12,8 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloButton';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
+import { serviceLevelsDashboard } from 'in-service-levels/navigation/path';
+import SloList from 'in-service-levels/components/SloList/SloList';
 import Sticky from 'in-components/Sticky';
 
 export default function ServiceLevelsDashboard() {
@@ -29,7 +31,9 @@ export default function ServiceLevelsDashboard() {
         </>
       }
     >
-      <LeftRightPadding>{/* put your slo component here */}</LeftRightPadding>
+      <LeftRightPadding>
+        <SloList pathSegment={serviceLevelsDashboard} />
+      </LeftRightPadding>
       <FloatingAddSloButton />
     </Sticky>
   );

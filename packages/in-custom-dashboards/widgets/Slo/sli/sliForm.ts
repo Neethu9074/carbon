@@ -31,9 +31,9 @@ import {
 } from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
+import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';

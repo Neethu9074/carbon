@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import './DropDownDirection.less';
@@ -19,12 +20,16 @@ export interface Option {
 
 export type Options = ReadonlyArray<Option>;
 
+export function hasMultipleValuesSelected(value: Option | Options | null): value is Options {
+  return Array.isArray(value);
+}
+
 interface ComboBoxProps {
   id?: string;
   name?: string;
   isClearable?: boolean;
   options: Options;
-  value: string | ReadonlyArray<string> | null;
+  value: string | ReadonlyArray<string> | Nullish;
   defaultValue?: any;
   className?: string;
   placeholder?: React.ReactNode;

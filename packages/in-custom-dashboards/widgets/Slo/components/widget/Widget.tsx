@@ -13,8 +13,8 @@ import WidgetLoadingIndicator from 'in-custom-dashboards/widgets/Slo/components/
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
 import { TimeWindowConfig } from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import WidgetContent from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetContent';
-import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
+import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Slo';
