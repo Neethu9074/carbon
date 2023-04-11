@@ -150,18 +150,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "Infrastructure & Platforms Entity Count"
-      },
-      "entityCountFormComponent": {
-        "query": "Query",
-        "helpAction": "A Dynamic Focus Query (DFQ) as you would use it within the infrastructure map.",
-        "metric": "Metric",
-        "count": "Count",
-        "aggregation": "Aggregation",
-        "pleaseSelect": "Please select",
-        "pleaseSelectMetric": "Please select a metric"
-      },
       "metricsFormComponent": {
         "metric": "Metric",
         "selectMetric": "Select metric",

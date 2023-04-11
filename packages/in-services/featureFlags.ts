@@ -31,7 +31,6 @@ export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   true
 );
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
-export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
