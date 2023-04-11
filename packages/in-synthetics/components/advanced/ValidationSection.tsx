@@ -174,6 +174,59 @@ export default function ValidationSection({
     );
   };
 
+  const resetOtherThanMatch = () => {
+    setInvalidJSON({ invalid: false, message: '' });
+    updateForm(
+      form
+        .updateIn(['configuration', 'expectJson'], (field: Item) =>
+          (field as Field<Map<string, string>>).setValue(new Map()).setTouched(false)
+        )
+        .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+          (field as Field<string>).setValue('200').setTouched(false)
+        )
+    );
+  };
+
+  const resetOtherThanJSON = () => {
+    updateForm(
+      form
+        .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+          (field as Field<string>).setValue('200').setTouched(false)
+        )
+        .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+          (field as Field<string>).setValue('').setTouched(false)
+        )
+    );
+  };
+
+  const resetOtherThanStatus = () => {
+    setInvalidJSON({ invalid: false, message: '' });
+    updateForm(
+      form
+        .updateIn(['configuration', 'expectJson'], (field: Item) =>
+          (field as Field<Map<string, string>>).setValue(new Map()).setTouched(false)
+        )
+        .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+          (field as Field<string>).setValue('').setTouched(false)
+        )
+    );
+  };
+
+  const resetAll = () => {
+    updateForm(
+      form
+        .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+          (field as Field<string>).setValue('200').setTouched(false)
+        )
+        .updateIn(['configuration', 'expectJson'], (field: Item) =>
+          (field as Field<Map<string, string>>).setValue(new Map()).setTouched(false)
+        )
+        .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+          (field as Field<string>).setValue('').setTouched(false)
+        )
+    );
+  };
+
   function addNewValidationRow() {
     resetFields(comboBoxSelections.combo0, comboBoxSelections.combo1);
     if (isVisible.combo1) {
@@ -189,29 +242,24 @@ export default function ValidationSection({
         if (selection1 === 'Expect JSON') resetMatch();
         else resetJSON();
       } else {
-        resetMatch();
-        resetJSON();
+        resetOtherThanStatus();
       }
     } else if (selection0 === 'Expect JSON') {
       if (selection1 !== '' && isVisible.combo1) {
         if (selection1 === 'Expect Status') resetMatch();
         else resetStatus();
       } else {
-        resetMatch();
-        resetStatus();
+        resetOtherThanJSON();
       }
     } else if (selection0 === 'Expect Match') {
       if (selection1 !== '' && isVisible.combo1) {
         if (selection1 === 'Expect Status') resetJSON();
         else resetStatus();
       } else {
-        resetJSON();
-        resetStatus();
+        resetOtherThanMatch();
       }
     } else {
-      resetStatus();
-      resetJSON();
-      resetMatch();
+      resetAll();
     }
   }
 
