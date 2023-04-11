@@ -28,6 +28,8 @@ import HistoryLogTable from './HistoryLogTable';
 import SubsystemTable from './SubsystemTable';
 import JobQueueTable from './JobQueueTable';
 import AspTable from './AspTable';
+import NonVolatileMemoryTable from './NonVolatileMemoryTable'
+import SystemDiskStatusTable from './SystemDiskStatusTable'
 import { t } from 'in-i18n';
 
 export default function IbmIOsDashboard({ snapshot, timeConfig }) {
@@ -164,6 +166,9 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <BasicSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
+      <NonVolatileMemoryTable snapshot={snapshot} timeConfig={timeConfig} />
+      <SystemDiskStatusTable snapshot={snapshot} timeConfig={timeConfig} />
+
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')}>
           <Chart
