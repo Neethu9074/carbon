@@ -970,6 +970,7 @@
         "logByteRateLimitDropped": "Log Bytes dropped"
       },
       "infraDataStatistics": {
+        "numInstances": "Number of Filler Instances",
         "numEntities": "Number of Entities",
         "entityUsage": "Entity Usage",
         "rawMsgDropRateGroupOfEntityMsg": "Raw Message Drop Rate (group of entity messages)",
@@ -1049,6 +1050,7 @@
         "logByteRateLimitDropped": "Log Bytes dropped"
       },
       "infrastructure": {
+        "numInstances": "Number of Filler Instances",
         "numEntities": "Number of Entities",
         "entityUsage": "Entity Usage",
         "rawMzgDropRate": "Raw Message Drop Rate",

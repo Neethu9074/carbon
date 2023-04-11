@@ -42,6 +42,20 @@ export default function InfrastructureDataStatistics({ timeConfig, tenantUnitId 
         />
       </DashboardSection>
 
+      <DashboardSection title={t('in-internal:monitoringUnit.unit.infraDataStatistics.numInstances')}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: [`filler.numberOfInstances`],
+            labels: [t('in-internal:monitoringUnit.unit.infraDataStatistics.numInstances')],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title={t('in-internal:monitoringUnit.unit.infraDataStatistics.rawMsgDropRateGroupOfEntityMsg')}>
         <Chart
           snapshotId={tenantUnitId}
