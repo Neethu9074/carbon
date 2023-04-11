@@ -23,6 +23,7 @@ interface BluePrintSelectionSectionProps {
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const BluePrintSelectionSection = ({
@@ -30,7 +31,8 @@ const BluePrintSelectionSection = ({
   setSelectedBlueprint,
   updateForm,
   testTypeSelected,
-  setTestTypeSelected
+  setTestTypeSelected,
+  setRenderSectionsCounter
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -46,6 +48,7 @@ const BluePrintSelectionSection = ({
         updateForm={updateForm}
         testTypeSelected={testTypeSelected}
         setTestTypeSelected={setTestTypeSelected}
+        setRenderSectionsCounter={setRenderSectionsCounter}
       />
     </ExpandableLightCard>
   );
@@ -57,6 +60,7 @@ interface SelectionMenuProps {
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SelectionMenu = ({
@@ -64,7 +68,8 @@ const SelectionMenu = ({
   setSelectedBlueprint,
   updateForm,
   testTypeSelected,
-  setTestTypeSelected
+  setTestTypeSelected,
+  setRenderSectionsCounter
 }: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
@@ -82,6 +87,7 @@ const SelectionMenu = ({
           updateForm={updateForm}
           testTypeSelected={testTypeSelected}
           setTestTypeSelected={setTestTypeSelected}
+          setRenderSectionsCounter={setRenderSectionsCounter}
         />
       </div>
     </div>

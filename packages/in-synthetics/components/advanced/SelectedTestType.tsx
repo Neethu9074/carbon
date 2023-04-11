@@ -23,6 +23,7 @@ interface SelectedTestTypeProps {
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const pingAPIDescription = (
@@ -43,7 +44,8 @@ const SelectedTestType = ({
   selectedBlueprint,
   updateForm,
   testTypeSelected,
-  setTestTypeSelected
+  setTestTypeSelected,
+  setRenderSectionsCounter
 }: SelectedTestTypeProps) => {
   return (
     <div className={locals.container}>
@@ -70,6 +72,7 @@ const SelectedTestType = ({
           if (testTypeSelected.simple) selectedBlueprint.testType = 'HTTPAction';
           if (testTypeSelected.script) selectedBlueprint.testType = 'HTTPScript';
           updateForm(createForm(false, selectedBlueprint));
+          setRenderSectionsCounter(v => v + 1);
         }}
       >
         {t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeButton')}

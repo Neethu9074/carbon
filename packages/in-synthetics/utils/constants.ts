@@ -356,4 +356,6 @@ export interface AdvancedModeProps {
   setSliderState: (state: SliderState) => void;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  renderSectionsCounter: number;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }

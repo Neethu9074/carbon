@@ -45,7 +45,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
-  const [testTypeSelected, setTestTypeSelected] = useState({ simple: true, script: false });
+  const [testTypeSelected, setTestTypeSelected] = useState({ simple: false, script: false });
+  const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
 
   const formId = 'create-synthetics-test-form';
 
@@ -183,6 +184,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setSliderState={setSliderState}
         testTypeSelected={testTypeSelected}
         setTestTypeSelected={setTestTypeSelected}
+        renderSectionsCounter={renderSectionsCounter}
+        setRenderSectionsCounter={setRenderSectionsCounter}
       />
       <DialogFooter
         formId={formId}

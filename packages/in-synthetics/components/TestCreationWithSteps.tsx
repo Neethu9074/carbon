@@ -34,6 +34,8 @@ export interface Props {
   setSliderState: (state: SliderState) => void;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  renderSectionsCounter: number;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function TestCreationWithSteps({
@@ -51,7 +53,9 @@ export default function TestCreationWithSteps({
   simpleMode,
   setSliderState,
   testTypeSelected,
-  setTestTypeSelected
+  setTestTypeSelected,
+  renderSectionsCounter,
+  setRenderSectionsCounter
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -78,6 +82,8 @@ export default function TestCreationWithSteps({
           setSliderState={setSliderState}
           testTypeSelected={testTypeSelected}
           setTestTypeSelected={setTestTypeSelected}
+          renderSectionsCounter={renderSectionsCounter}
+          setRenderSectionsCounter={setRenderSectionsCounter}
         />
       ) : (
         <>
