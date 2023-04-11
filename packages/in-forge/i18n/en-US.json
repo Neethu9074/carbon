@@ -8648,7 +8648,6 @@
       "labelZone": "Zone"
     },
     "ibmCloudCloudant": {
-      "labelName": "Name",
       "labelHTTPRequestsTotal": "Total Http Requests",
       "titleRequestActivity": "Request Activity",
       "labelZone": "Zone"
@@ -8658,7 +8657,6 @@
       "pullTrafficQuota": "Traffic Quota",
       "storage": "Storage",
       "storageQuota": "Storage Quota",
-      "serviceName": "Service Name",
       "titlePullTraffic": "Pull Traffic",
       "titleStorage": "Storage",
       "zone": "Zone"
