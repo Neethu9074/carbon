@@ -14,7 +14,8 @@ import {
   createForm,
   addStaticField,
   addVaultFields,
-  mutateFieldBlankValidator
+  mutateFieldBlankValidator,
+  addDynamicFields
 } from 'in-automation/ActionCatalog/ParameterFormDefinition';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
@@ -73,6 +74,9 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
           {type.value === 'vault' && (
             <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
+          {type.value === 'dynamic' && (
+            <DynamicSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
+          )}
           <FormGroup>
             <CheckboxFancy
               checked={hidden.value}
@@ -89,7 +93,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
                         (field as Field<boolean>).setValue(true).setTouched(true)
                       );
                     }
-                    if (type.value === 'static') {
+                    if (type.value === 'static' || type.value === 'dynamic') {
                       form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
                     } else if (type.value === 'vault') {
                       form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
@@ -201,6 +205,22 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
               }
             />
           </Col>
+          <Col>
+            <CheckboxFancy
+              asRadioButton
+              checked={type.value === 'dynamic'}
+              label={t('in-automation:ActionCatalog.dynamic')}
+              onChange={() =>
+                onParameterChange({
+                  fieldName: 'type',
+                  value: 'dynamic',
+                  setParameterForm,
+                  parameter,
+                  updateFormDefinition: addDynamicFields
+                })
+              }
+            />
+          </Col>
         </Row>
       </FormGroup>
     </>
@@ -287,6 +307,18 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
     </>
   );
 };
+
+const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+  const dynamic = parameterForm.get('dynamic') as Field<boolean>;
+
+  return (
+    <>
+      <FormGroup></FormGroup>
+    </>
+  );
+};
+
 interface OnParameterChangeParams<T> {
   fieldName: string;
   value: T;

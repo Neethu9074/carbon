@@ -61,7 +61,9 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     );
   if (parameter?.value?.type === 'vault') {
     newForm = addVaultFields({ parameter, form: newForm });
-  } else {
+  } else if (parameter?.value?.type === 'static') {
+    newForm = addStaticField({ parameter, form: newForm });
+  } else if (parameter?.value?.type === 'dynamic') {
     newForm = addStaticField({ parameter, form: newForm });
   }
   return newForm;
@@ -69,7 +71,6 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
 
 interface AddFieldsParams extends Pick<ParameterDialogProps, 'form'> {
   parameter: MappedParameter | undefined;
-  isCreateForm?: boolean;
 }
 
 function getValidator({ form }: Pick<ParameterDialogProps, 'form'>) {
@@ -117,6 +118,21 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
       })
     )
     .remove('value');
+}
+
+export function addDynamicFields({ parameter, form }: AddFieldsParams) {
+  return form
+    .remove('value')
+    .put(
+      'value',
+      createField({
+        value: parameter?.value?.type === 'dynamic' ? parameter?.value?.value ?? '' : '',
+        validator: getValidator({ form }),
+        touched: form.touched
+      })
+    )
+    .remove('secretKey')
+    .remove('secretPath');
 }
 
 export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm<any>; key: string; add: boolean }) {
