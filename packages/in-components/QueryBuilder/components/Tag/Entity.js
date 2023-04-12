@@ -11,6 +11,7 @@ import SourceDestinationSelectorOverlay from 'in-components/QueryBuilder/SourceD
 import { SOURCE, DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { compositeRef } from 'in-services/util/react';
 import Overlay from 'in-components/overlays/Overlay';
+import { t } from 'in-i18n';
 
 import locals from './Entity.mless';
 
@@ -33,14 +34,22 @@ export default React.forwardRef(function Entity(
         }}
       >
         {({ toggle, refSetter }) => (
-          <div className={locals.wrapper}>
-            <SvgIcon
-              className={locals.icon}
-              type={entity === SOURCE ? 'lib_arrow_outgoing' : 'lib_arrow_incoming'}
-              refSetter={compositeRef(refSetter, ref)}
-              onClick={toggle}
-            />
-          </div>
+          <>
+            <div className={locals.wrapper}>
+              <SvgIcon
+                size="xs"
+                className={locals.icon}
+                type={entity === SOURCE ? 'lib_arrow_outgoing' : 'lib_arrow_incoming'}
+                refSetter={compositeRef(refSetter, ref)}
+                onClick={toggle}
+              />
+            </div>
+            <div onClick={toggle} className={locals.name}>
+              {entity === SOURCE
+                ? t('in-components:queryBuilder.sourceAbbreviated')
+                : t('in-components:queryBuilder.destinationAbbreviated')}
+            </div>
+          </>
         )}
       </Overlay>
     );
