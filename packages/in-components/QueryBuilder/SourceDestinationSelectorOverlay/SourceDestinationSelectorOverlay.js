@@ -19,9 +19,9 @@ import locals from './SourceDestinationSelectorOverlay.mless';
 
 const columnDefinitions = [
   {
-    width: '2rem',
+    width: '1.5rem',
     getContent({ icon }) {
-      return <SvgIcon className={locals.icon} type={icon} />;
+      return <SvgIcon size="xs" className={locals.icon} type={icon} />;
     }
   },
   {

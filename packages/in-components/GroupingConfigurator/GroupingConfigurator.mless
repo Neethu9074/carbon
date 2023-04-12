@@ -51,6 +51,16 @@
     }
   }
 
+  .srcDest {
+    margin-right: 0.5rem;
+    padding: 0.0225rem 0.3125rem;
+    margin-top: -0.25rem;
+    margin-bottom: -0.25rem;
+    border-right: 1px solid @lib__colors__N300;
+    border-bottom: none;
+    border-top: none;
+  }
+
   .icon {
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
