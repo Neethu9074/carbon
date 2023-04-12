@@ -19,7 +19,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.nonVolatileMemoryRawPayload.get('resourceName');
+        return row.nonVolatileMemoryRawData.get('resourceName');
       }
     }
   },
@@ -28,7 +28,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.nonVolatileMemoryRawPayload.get('hardwareModelNumber');
+        return row.nonVolatileMemoryRawData.get('hardwareModelNumber');
       }
     }
   },
@@ -197,7 +197,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.nonVolatileMemoryRawPayload.get('firmwareLevel');
+        return row.nonVolatileMemoryRawData.get('firmwareLevel');
       }
     }
   },
@@ -206,7 +206,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.nonVolatileMemoryRawPayload.get('serialNumber');
+        return row.nonVolatileMemoryRawData.get('serialNumber');
       }
     }
   }

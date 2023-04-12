@@ -4,109 +4,109 @@
  * Copyright IBM Corp. 2023
  */
 
- import React from 'react';
+import React from 'react';
 
- import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
- import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
- import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
- import { number, percentage, bytes } from 'in-services/formatters/number';
- import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
- import Table from 'in-sdk/components/dashboard/Table';
- import connectTo from 'in-hoc/connectTo';
- import { t } from 'in-i18n';
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { number, percentage, bytes } from 'in-services/formatters/number';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Table from 'in-sdk/components/dashboard/Table';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
- const ProtectionStatusEnum = protectionStatus => {
-   switch (protectionStatus) {
-     case 0:
-       return 'ACTIVE';
-     case 1:
-       return 'BUSY';
-     case 2:
-       return 'DEGRADED';
-     case 3:
-       return 'FAILED';
-     case 4:
-       return 'HARDWARE_FAILURE';
-     case 5:
-       return 'NOT_READY';
-     case 6:
-       return 'PARITY_REBUILD';
-     case 7:
-       return 'POWER_LOSS';
-     case 8:
-       return 'READ_WRITE_PROTECTED';
-     case 9:
-       return 'RESUME';
-     case 10:
-       return 'RESUME_PENDING';
-     case 11:
-       return 'SUSPEND';
-     case 12:
-       return 'UNKNOWN';
-     case 13:
-       return 'UNPROTECTED';
-     case 14:
-       return 'WRITE_PROTECTED';
-     default:
-       return '-';
-   }
- };
+const ProtectionStatusEnum = protectionStatus => {
+  switch (protectionStatus) {
+    case 0:
+      return 'ACTIVE';
+    case 1:
+      return 'BUSY';
+    case 2:
+      return 'DEGRADED';
+    case 3:
+      return 'FAILED';
+    case 4:
+      return 'HARDWARE_FAILURE';
+    case 5:
+      return 'NOT_READY';
+    case 6:
+      return 'PARITY_REBUILD';
+    case 7:
+      return 'POWER_LOSS';
+    case 8:
+      return 'READ_WRITE_PROTECTED';
+    case 9:
+      return 'RESUME';
+    case 10:
+      return 'RESUME_PENDING';
+    case 11:
+      return 'SUSPEND';
+    case 12:
+      return 'UNKNOWN';
+    case 13:
+      return 'UNPROTECTED';
+    case 14:
+      return 'WRITE_PROTECTED';
+    default:
+      return '-';
+  }
+};
 
- const RaidTypeEnum = raidType => {
-   switch (raidType) {
-     case 1:
-       return 'RAID5';
-     case 2:
-       return 'RAID6';
-     case 3:
-       return 'RAID10';
-     default:
-       return '-';
-   }
- };
+const RaidTypeEnum = raidType => {
+  switch (raidType) {
+    case 1:
+      return 'RAID5';
+    case 2:
+      return 'RAID6';
+    case 3:
+      return 'RAID10';
+    default:
+      return '-';
+  }
+};
 
- const cols = [
-   {
-     title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.resourceName'),
-     type: 'string',
-     typeArgs: {
-       getValue(row) {
-         return row.systemDiskStatusRawData.get('resourceName');
-       }
-     }
-   },
-   {
-     title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber'),
-     type: 'metric',
-     typeArgs: {
-       getSnapshotId(row) {
-         return row.snapshotId;
-       },
-       getMetricName(row) {
-         return `systemDiskStatusMetrics.${row.key}.unitNumber`;
-       },
-       getContent: number.compact,
-       getTimeWindowAggregation() {
-         return 'mean';
-       }
-     }
-   },
-   {
-     title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.aspNumber'),
-     type: 'metric',
-     typeArgs: {
-       getSnapshotId(row) {
-         return row.snapshotId;
-       },
-       getMetricName(row) {
-         return `systemDiskStatusMetrics.${row.key}.aspNumber`;
-       },
-       getContent: number.compact,
-       getTimeWindowAggregation() {
-         return 'mean';
-       }
-     }
-   },
+const cols = [
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.resourceName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.systemDiskStatusRawData.get('resourceName');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `systemDiskStatusMetrics.${row.key}.unitNumber`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.aspNumber'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `systemDiskStatusMetrics.${row.key}.aspNumber`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
   {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitStorageCapacity'),
     type: 'metric',
@@ -211,16 +211,16 @@ export default connectTo(
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const sysDiskStatRawPayload = data.get('raw_payload');
-    if (sysDiskStatRawPayload.size === 0) {
+    const systemDiskStatusRawPayload = data.get('raw_payload');
+    if (systemDiskStatusRawPayload.size === 0) {
       return null;
     }
 
-    const rows = sysDiskStatRawPayload
-      .map((sysDiskStatRawData, key) => {
+    const rows = systemDiskStatusRawPayload
+      .map((systemDiskStatusRawData, key) => {
         return {
           key,
-          sysDiskStatRawData,
+          systemDiskStatusRawData,
           timeConfig,
           snapshotId
         };
@@ -292,5 +292,3 @@ function getRowDetails(row) {
     </div>
   );
 }
-
-
