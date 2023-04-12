@@ -207,7 +207,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(snapshotId, 'systemDiskStatusRawPayload')
     };
   },
-  function SysDiskStatTable({ data, snapshotId, timeConfig }) {
+  function SystemDiskStatusTable({ data, snapshotId, timeConfig }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
