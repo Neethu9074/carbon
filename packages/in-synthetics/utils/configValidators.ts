@@ -6,6 +6,7 @@
 
 import { ValidationResult } from 'formalistic';
 
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export function statusCodeValidator(code: string): ValidationResult {
@@ -32,6 +33,18 @@ export function regExpValidator(pattern: string): ValidationResult {
       {
         severity: 'error',
         message: t('in-synthetics:dialog.createTest.advancedMode.configStep.shouldBeValidRegExp')
+      }
+    ];
+  }
+  return undefined;
+}
+
+export function blankKeyValidator(headers: Record<string, string>): ValidationResult {
+  if (Object.keys(headers).every(header => isNotBlank(header))) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
       }
     ];
   }

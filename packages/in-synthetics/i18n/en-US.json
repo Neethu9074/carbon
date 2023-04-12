@@ -123,7 +123,16 @@
           "failedToParseInputAsJson": "Failed to parse input as JSON.",
           "jsonRootMustBeAnObject": "JSON root must be an object.",
           "mustBeValidHttpReturnCode": "Status must be a valid HTTP return code.",
-          "shouldBeValidRegExp": "String entered should be a valid regular expression."
+          "shouldBeValidRegExp": "String entered should be a valid regular expression.",
+          "followRedirect": "Follow Redirect",
+          "header": "Header",
+          "headerValue": "Value",
+          "body": "Body",
+          "validationString": "Validation String",
+          "addHeader": "Add Header",
+          "operation": "Operation",
+          "HeadersCannotBeDuplicated": "Headers cannot be duplicated",
+          "theValueMustNotBeBlank": "The value must not be blank."
         },
         "loadMore": "Load More",
         "selectTests": {

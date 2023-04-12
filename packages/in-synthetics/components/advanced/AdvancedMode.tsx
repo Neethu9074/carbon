@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Application, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -18,8 +19,8 @@ import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocat
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { AdvancedModeProps, Header } from 'in-synthetics/utils/constants';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
-import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 
@@ -38,13 +39,32 @@ const AdvancedMode = ({
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+  const getDefaultHeaders = (): Header[] => {
+    const headersValue = (configForm.get('headers') as Field<Record<string, string>>).value;
+    const headerObject: Header[] = [];
+    Object.keys(headersValue).map(key =>
+      headerObject.push({ id: generateUniqueShortId(), key: key, value: headersValue[key] })
+    );
+    return headerObject;
+  };
+  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [isDuplicateHeader, setIsDuplicateHeader] = useState(false);
 
   const getTestTypeSection = (syntheticType: string) => {
     if (syntheticType === 'HTTPScript') {
       // Script Component goes here
       return <h1>{''}</h1>;
     }
-    return <ConfigurationSection form={form} updateForm={updateForm} />;
+    return (
+      <ConfigurationSection
+        form={form}
+        updateForm={updateForm}
+        headers={headers}
+        setHeaders={setHeaders}
+        isDuplicateHeader={isDuplicateHeader}
+        setIsDuplicateHeader={setIsDuplicateHeader}
+      />
+    );
   };
 
   const mainSection = {

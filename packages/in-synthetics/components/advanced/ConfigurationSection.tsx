@@ -7,14 +7,20 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Button, Stack, SvgIcon } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 
+// @ts-expect-error Module needs to be translated to TS
+import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import { HTTPMethods, Validations } from 'in-synthetics/form/createSyntheticTestForm';
 import ValidationSection from 'in-synthetics/components/advanced/ValidationSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import ComboBox from 'in-components/ComboBox/ComboBox';
+import { Header } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
+import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -24,14 +30,29 @@ import locals from './ConfigurationSection.mless';
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  headers: Header[];
+  setHeaders: React.Dispatch<React.SetStateAction<Header[]>>;
+  isDuplicateHeader: boolean;
+  setIsDuplicateHeader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ConfigurationSection({ form, updateForm }: Props) {
+export default function ConfigurationSection({
+  form,
+  updateForm,
+  headers,
+  setHeaders,
+  isDuplicateHeader,
+  setIsDuplicateHeader
+}: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;
   const [isVisible, setIsVisible] = useState({ combo0: true, combo1: false, combo2: false });
+  const followRedirect = configForm.get('followRedirect') as Field<boolean>;
+  const body = configForm.get('body') as Field<string>;
+  const validationString = configForm.get('validationString') as Field<string>;
+  const headersField = configForm.get('headers') as Field<Record<string, string>>;
   const [comboBoxSelections, setComboBoxSelections] = useState({
     combo0: Validations[0].value as string,
     combo1: '',
@@ -39,13 +60,46 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
   });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
+  function addNewHeaderRow() {
+    setHeaders([...headers, { id: generateUniqueShortId(), key: '', value: '' }]);
+    updateForm(
+      form.updateIn(['configuration', 'headers'], (field: Item) =>
+        (field as Field<{ [index: string]: string }>).setTouched(false)
+      )
+    );
+  }
+
+  function deleteHeaderAction(index: string) {
+    headers.splice(
+      headers.findIndex(h => h.id === index),
+      1
+    );
+    setHeaders([...headers]);
+    updateHeaders(true);
+  }
+
+  function updateHeaders(isDeleteAction: boolean) {
+    updateForm(
+      form.updateIn(['configuration', 'headers'], (field: Item) =>
+        (field as Field<{ [index: string]: string }>)
+          .setValue(
+            headers.reduce((headerObj: { [index: string]: string }, h: Header) => {
+              if (isNotBlank(h.key) || isNotBlank(h.value)) headerObj[h.key] = h.value;
+              return headerObj;
+            }, {})
+          )
+          .setTouched(!isDeleteAction)
+      )
+    );
+  }
+
   return (
     <div>
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <FormGroup>
             <Label htmlFor={'httpMethod'} hasError={!methodField?.valid && methodField?.touched}>
-              {t('in-synthetics:dialog.createTest.requestStep.labelOperation')}
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.operation')}
             </Label>
             <ComboBox
               name={'httpMethod'}
@@ -91,6 +145,112 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
         </Stack>
       </div>
       <div className={locals.configContainer}>
+        {headers.map(header => {
+          return (
+            <Stack direction="horizontal" component="li" key={header.id}>
+              <FormGroup className={locals.descriptionInput}>
+                <Label htmlFor="header">{t('in-synthetics:dialog.createTest.advancedMode.configStep.header')}</Label>
+                <Input
+                  name="header"
+                  value={header.key}
+                  hasError={!headersField.valid && headersField.touched && header.key === ''}
+                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                    const updatedHeaders = headers.slice();
+                    let hasDuplicateHeader = false;
+                    for (let i = 0; i < updatedHeaders.length; i++) {
+                      if (updatedHeaders[i].id === header.id) {
+                        updatedHeaders[i].key = target.value;
+                        if (
+                          updatedHeaders.filter(h => isNotBlank(h.key) && h.key === updatedHeaders[i].key).length > 1
+                        ) {
+                          hasDuplicateHeader = true;
+                        }
+                      }
+                    }
+                    setHeaders([...updatedHeaders]);
+                    setIsDuplicateHeader(hasDuplicateHeader);
+                    updateHeaders(false);
+                  }}
+                />
+                {!headersField.valid && headersField.touched && header.key === '' && (
+                  <TouchedMessages field={headersField} />
+                )}
+              </FormGroup>
+              <FormGroup className={locals.descriptionInput}>
+                <Label htmlFor="headerValue">
+                  {t('in-synthetics:dialog.createTest.advancedMode.configStep.headerValue')}
+                </Label>
+                <Input
+                  name="headerValue"
+                  value={header.value}
+                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                    const index = headers.findIndex((h: Header) => h.id === header.id);
+                    headers[index].value = target.value;
+                    setHeaders(headers);
+                    updateHeaders(false);
+                  }}
+                />
+              </FormGroup>
+              <div className={locals.deleteAction}>
+                <SvgIcon type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
+              </div>
+            </Stack>
+          );
+        })}
+        <section>
+          {isDuplicateHeader && (
+            <ValidationBlock>
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.HeadersCannotBeDuplicated')}
+            </ValidationBlock>
+          )}
+        </section>
+        <div>
+          <Button
+            className={locals.validationsBtn}
+            kind="action"
+            icon="lib_openclose_add_circle_outline"
+            onClick={addNewHeaderRow}
+          >
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.addHeader')}
+          </Button>
+        </div>
+      </div>
+      <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label htmlFor="body">{t('in-synthetics:dialog.createTest.advancedMode.configStep.body')}</Label>
+          <DebouncedTextArea
+            rows={3}
+            name="body"
+            value={body.value}
+            onChange={({ target }: React.ChangeEvent<any>) => {
+              updateForm(
+                form.updateIn(['configuration', 'body'], (field: Item) =>
+                  (field as Field<string>).setValue(target.value).setTouched(true)
+                )
+              );
+            }}
+          />
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label htmlFor="validationString">
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.validationString')}
+          </Label>
+          <Input
+            name="validationString"
+            value={validationString.value}
+            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+              updateForm(
+                form.updateIn(['configuration', 'validationString'], (field: Item) =>
+                  (field as Field<string>).setValue(target?.value).setTouched(true)
+                )
+              );
+            }}
+          />
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
         <ValidationSection
           form={form}
           updateForm={updateForm}
@@ -103,19 +263,36 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
         />
       </div>
       <div className={locals.configContainer}>
-        <CheckboxFancy
-          onChange={({ target }) => {
-            updateForm(
-              form.updateIn(['configuration', 'allowInsecure'], (field: Item) =>
-                (field as Field<boolean>).setValue(target.checked).setTouched(true)
-              )
-            );
-          }}
-          checked={allowInsecure.value}
-          size="larger"
-          label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
-          disabled={false}
-        />
+        <Stack direction="horizontal">
+          <CheckboxFancy
+            wrapperClassName={locals.configCheckbox}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'followRedirect'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
+            checked={followRedirect.value}
+            size="larger"
+            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect')}
+            disabled={false}
+          />
+          <CheckboxFancy
+            wrapperClassName={locals.configCheckbox}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'allowInsecure'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
+            checked={allowInsecure.value}
+            size="larger"
+            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
+            disabled={false}
+          />
+        </Stack>
       </div>
     </div>
   );

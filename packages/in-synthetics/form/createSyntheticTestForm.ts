@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
+import { blankKeyValidator, regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
@@ -177,6 +177,13 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
+      'headers',
+      createField({
+        value: savedState?.headers ?? { '': '' },
+        validator: composeAndShortCircuitOnError(blankKeyValidator)
+      })
+    )
+    .put(
       'expectStatus',
       createField({
         value: savedState?.expectStatus ?? '200',
@@ -204,6 +211,27 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
           stringValidator,
           notBlankValidator
         )
+      })
+    )
+    .put(
+      'body',
+      createField({
+        value: savedState?.body ?? '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'validationString',
+      createField({
+        value: savedState?.validationString ?? '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'followRedirect',
+      createField({
+        value: savedState?.followRedirect ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     )
     .put(

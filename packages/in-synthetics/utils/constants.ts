@@ -359,3 +359,9 @@ export interface AdvancedModeProps {
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export interface Header {
+  id: string;
+  key: string;
+  value: string;
+}
