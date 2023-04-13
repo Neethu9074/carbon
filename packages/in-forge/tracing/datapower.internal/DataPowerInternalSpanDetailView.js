@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 
 export default function DataPowerInternalSpanDetailView({ span }) {
   return (
-   <>
+    <>
       <Dl>
         <Di title={t('in-forge:tracing.ibmdatapower.titleOperationName')}>
           {span.getIn(['data', 'sdk', 'custom', 'tags', 'operationName'])}
@@ -23,6 +23,6 @@ export default function DataPowerInternalSpanDetailView({ span }) {
           {span.getIn(['data', 'sdk', 'custom', 'tags', 'objectType'])}
         </Di>
       </Dl>
-    </div>
+    </>
   );
 }
