@@ -6,17 +6,19 @@
 
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import { HTTPMethods, Validations } from 'in-synthetics/form/createSyntheticTestForm';
 import ValidationSection from 'in-synthetics/components/advanced/ValidationSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
+import { Validation } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { Header } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
@@ -48,16 +50,45 @@ export default function ConfigurationSection({
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;
-  const [isVisible, setIsVisible] = useState({ combo0: true, combo1: false, combo2: false });
   const followRedirect = configForm.get('followRedirect') as Field<boolean>;
   const body = configForm.get('body') as Field<string>;
   const validationString = configForm.get('validationString') as Field<string>;
   const headersField = configForm.get('headers') as Field<Record<string, string>>;
-  const [comboBoxSelections, setComboBoxSelections] = useState({
-    combo0: Validations[0].value as string,
-    combo1: '',
-    combo2: ''
-  });
+  const expectStatus = configForm.get('expectStatus') as Field<string>;
+  const expectJson = configForm.get('expectJson') as Field<Record<string, string>>;
+  const expectMatch = configForm.get('expectMatch') as Field<string>;
+  const getDefaultExpectValues = (): Validation[] => {
+    const expectedObject: Validation[] = [];
+    if (isNotBlank(expectStatus.value)) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect Status',
+        value: expectStatus.value,
+        fieldName: 'expectStatus'
+      });
+    }
+    if (Object.keys(expectJson.value).length !== 0) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect JSON',
+        value: expectJson.value,
+        fieldName: 'expectJson'
+      });
+    }
+    if (isNotBlank(expectMatch.value)) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect Match',
+        value: expectMatch.value,
+        fieldName: 'expectMatch'
+      });
+    }
+    return expectedObject.length > 0
+      ? expectedObject
+      : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
+  };
+
+  const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
   function addNewHeaderRow() {
@@ -191,7 +222,7 @@ export default function ConfigurationSection({
                   }}
                 />
               </FormGroup>
-              <div className={locals.deleteAction}>
+              <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
                 <SvgIcon type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
               </div>
             </Stack>
@@ -254,10 +285,8 @@ export default function ConfigurationSection({
         <ValidationSection
           form={form}
           updateForm={updateForm}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          comboBoxSelections={comboBoxSelections}
-          setComboBoxSelections={setComboBoxSelections}
+          expectSelections={expectSelections}
+          setExpectSelections={setExpectSelections}
           setInvalidJSON={setInvalidJSON}
           invalidJSON={invalidJSON}
         />
