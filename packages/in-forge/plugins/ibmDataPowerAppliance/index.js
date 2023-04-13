@@ -7,14 +7,10 @@ import metricDefinitions from 'in-forge/plugins/ibmDataPowerAppliance/metricDefi
 import kpiDefinitions from 'in-forge/plugins/ibmDataPowerAppliance/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmDataPowerAppliance,
 
   kpiDefinitions,
-  metricDefinitions,
-  technologyDescriptor: {
-    label: t('in-forge:tracingTypeName_datapower')
-  }
+  metricDefinitions
 });

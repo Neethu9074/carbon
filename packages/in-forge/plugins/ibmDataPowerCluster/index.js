@@ -6,9 +6,13 @@
 import kpiDefinitions from 'in-forge/plugins/ibmDataPowerCluster/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmDataPowerCluster,
 
-  kpiDefinitions
+  kpiDefinitions,
+  technologyDescriptor: {
+    label: t('in-forge:tracingTypeName_datapower')
+  }
 });
