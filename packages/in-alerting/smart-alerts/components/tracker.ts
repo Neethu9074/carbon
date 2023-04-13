@@ -12,8 +12,8 @@ import {
   ALERTING_DELETE_TRIGGER,
   ALERTING_DELETE_CONFIRM,
   ALERTING_PAUSED,
-  ALERTING_RESUMED,
-  ALERTING_CLONE_TRIGGER
+  ALERTING_CLONE_TRIGGER,
+  ALERTING_RESUMED
 } from 'in-services/tracking/eventNames';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import { track } from 'in-services/tracking/tracking';

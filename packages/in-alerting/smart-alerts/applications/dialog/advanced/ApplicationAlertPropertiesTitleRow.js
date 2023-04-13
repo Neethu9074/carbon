@@ -10,7 +10,6 @@ import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import { applicationsAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -62,7 +61,6 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
           id="name"
           onChange={e => {
             onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
-            applicationsAlertingAdditionalPropsTitleChanged();
           }}
           placeholder={getTitlePlaceholder(form)}
           formField={form.get('name')}

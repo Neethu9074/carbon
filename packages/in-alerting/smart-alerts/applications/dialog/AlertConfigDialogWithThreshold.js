@@ -23,7 +23,6 @@ import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScro
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
@@ -130,8 +129,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     form,
     setForm: updateForm,
     onCreate: withTrackCreate,
-    onClose: withTrackClose,
-    onStepChanged: (oldStep, nextStep) => applicationsAlertingStepSwitch({ oldStep, nextStep })
+    onClose: withTrackClose
   });
 
   const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);

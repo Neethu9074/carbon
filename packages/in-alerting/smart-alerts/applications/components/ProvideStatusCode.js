@@ -9,7 +9,6 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import StatusCodeRangeSelection from 'in-alerting/smart-alerts/applications/components/StatusCodeRangeSelection';
-import { applicationsAlertingStatusCodeChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -19,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage.mless';
 
-export default function ProvideStatusCode({ form, mode, updateForm }) {
+export default function ProvideStatusCode({ form, updateForm }) {
   const selection = getStatusCodeFieldValue(form);
   const field = form.get('rule').get('statusCode');
   const startField = field.get('statusCodeStart');
@@ -38,8 +37,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
             value={selection}
             options={ruleStatusCodeValueOptions}
             onChange={e => {
-              applicationsAlertingStatusCodeChanged({ mode });
-
               if (e.value === 'custom') {
                 updateForm(
                   form.updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(true).setTouched(true))
@@ -89,7 +86,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
 
 ProvideStatusCode.propTypes = {
   form: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired
 };
 

@@ -10,11 +10,6 @@ import { createLogger } from '@instana/logger';
 
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
-  applicationsAlertingAlertCreated,
-  applicationsAlertingCloseDialog,
-  applicationsAlertingSwitchMode
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
   createGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
@@ -25,9 +20,9 @@ import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } fr
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
+import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { t } from 'in-i18n';
@@ -68,23 +63,7 @@ export default function AlertConfigDialog({
 
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
-  const withTrackClose = trackingConfig => {
-    applicationsAlertingCloseDialog(
-      getTrackingObject(
-        form,
-        trackingConfig
-          ? {
-              step: trackingConfig
-            }
-          : {
-              mode: 'Advanced'
-            }
-      )
-    );
-    onClose({});
-  };
   const withTrackCreate = simpleMode => {
-    applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
     createOrSaveAlert({
       form,
       setForm,
@@ -95,7 +74,8 @@ export default function AlertConfigDialog({
       setIsSaving,
       setMessages,
       getLinkToGlobalAlertConfigWithoutAPDashboard,
-      getLinkToAlertConfig
+      getLinkToAlertConfig,
+      simpleMode
     });
   };
 
@@ -115,15 +95,8 @@ export default function AlertConfigDialog({
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       setForm={setForm}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-      withTrackClose={withTrackClose}
+      withTrackClose={() => onClose({})}
       withTrackCreate={withTrackCreate}
-      trackModeSwitch={(simpleMode, step) => {
-        if (simpleMode) {
-          applicationsAlertingSwitchMode(getTrackingObject(form, { destinationMode: 'Advanced', step }));
-        } else {
-          applicationsAlertingSwitchMode(getTrackingObject(form, { destinationMode: 'Simple' }));
-        }
-      }}
       isSaving={isSaving}
       messages={messages}
       initialConfiguredApplications={alertConfig?.applications ?? {}}
@@ -141,7 +114,8 @@ function createOrSaveAlert({
   setIsSaving,
   setMessages,
   getLinkToGlobalAlertConfigWithoutAPDashboard,
-  getLinkToAlertConfig
+  getLinkToAlertConfig,
+  simpleMode
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -170,6 +144,7 @@ function createOrSaveAlert({
       alertConfig => {
         onClose(alertConfig);
         showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+        trackAlertUpdated(alertConfig);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -186,6 +161,7 @@ function createOrSaveAlert({
           : getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
 
         showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+        trackAlertSaved(alertConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

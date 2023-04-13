@@ -9,8 +9,8 @@ import React from 'react';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -56,7 +56,7 @@ export default function CreateSmartAlert({
             startWithSimpleMode
           />
         );
-        applicationsAlertingAddAlert(location.pathname);
+        trackStartCreate();
       }}
       withBoxShadow
     >

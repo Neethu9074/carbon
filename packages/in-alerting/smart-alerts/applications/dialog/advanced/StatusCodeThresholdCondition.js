@@ -6,11 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  applicationsAlertingThresholdDeviationFactorChanged,
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
 import {
   getConfiguredThreshold,
@@ -22,10 +17,8 @@ import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dia
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdTypeSelection';
 import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { applicationsAlertingThresholdMetricChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -61,21 +54,14 @@ export default function StatusCodeThresholdCondition({
               items={ruleMetricNameOptions.statusCode}
               onChange={value => {
                 updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-
-                applicationsAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
               }}
             />
-            <ThresholdOperatorDropDown
-              form={form}
-              updateForm={updateForm}
-              trackingCallback={applicationsAlertingThresholdOperatorChanged}
-            />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
 
             <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
               blueprintType={blueprintConfig.type}
@@ -97,12 +83,7 @@ export default function StatusCodeThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          defaultValue={defaultDeviationFactor}
-          trackChange={applicationsAlertingThresholdDeviationFactorChanged}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );
