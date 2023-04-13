@@ -28,7 +28,6 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/hooks/useThresholdSuggestion';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
 import { days } from 'in-services/time';
 
 /**
@@ -120,8 +119,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     form,
     setForm: updateForm,
     onCreate: withTrackCreate,
-    onClose: withTrackClose,
-    onStepChanged: (oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })
+    onClose: withTrackClose
   });
 
   const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);

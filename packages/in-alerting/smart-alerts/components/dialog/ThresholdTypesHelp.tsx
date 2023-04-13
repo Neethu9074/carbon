@@ -12,7 +12,7 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface ThresholdTypesHelpProps {
-  trackHover: () => void;
+  trackHover?: () => void;
 }
 
 export function ThresholdTypesHelp({ trackHover }: ThresholdTypesHelpProps) {
@@ -27,13 +27,13 @@ const staticThresholdTypesTooltip = t(
   'in-alerting:smartAlerts.components.smartAlertDialog.staticThresholdTypeOptionsTooltip'
 );
 
-const ThresholdTypesHint = ({ trackHover }: { trackHover: () => void }) => {
+const ThresholdTypesHint = ({ trackHover }: { trackHover?: () => void }) => {
   useEffect(() => {
     // wrap it to avoid returning anything which would be called on unmounting this component.
     //
     // main reason: this could be used by javascript components which do not catch
     // invalid function type (and might return anything != void
-    trackHover();
+    if (trackHover) trackHover();
   });
   return <span>{staticThresholdTypesTooltip}</span>;
 };

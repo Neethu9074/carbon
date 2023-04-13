@@ -69,7 +69,7 @@ function BlueprintSelectionMenu({
         onItemClick={item => {
           setSelectButtonDisabled(false);
           setConfig(item);
-          trackBlueprintChange(item.type);
+          if (trackBlueprintChange) trackBlueprintChange(item.type);
         }}
         initialItemSelected={selectedBlueprintConfig}
       />

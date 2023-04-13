@@ -8,7 +8,6 @@ import { Field, MapForm } from 'formalistic';
 import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { ThresholdType, Granularity } from 'in-types';
@@ -16,8 +15,7 @@ import { ThresholdType, Granularity } from 'in-types';
 export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
   form: MapForm<any>,
-  updateForm: (form: MapForm<any>) => void,
-  trackThresholdTypeChanged: (trackingObject: object) => void
+  updateForm: (form: MapForm<any>) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
@@ -49,8 +47,6 @@ export function onThresholdTypeChange(
   updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
 
   updateForm(updatedForm);
-
-  trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
 }
 
 function updateFormIfAdaptiveBaseline(

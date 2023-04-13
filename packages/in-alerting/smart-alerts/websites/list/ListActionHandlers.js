@@ -7,11 +7,12 @@
 import React from 'react';
 
 import {
-  websitesAlertingAlertEdit,
-  websitesAlertingListAlertDeleted,
-  websitesAlertingListAlertPaused,
-  websitesAlertingListAlertResumed
-} from 'in-alerting/smart-alerts/websites/tracker';
+  trackAlertEdit,
+  trackAlertCloneTrigger,
+  trackAlertPaused,
+  trackAlertResumed,
+  trackAlertDeleteConfirm
+} from 'in-alerting/smart-alerts/components/tracker';
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -42,9 +43,7 @@ function handleDelete(id, setIsSaving, configName) {
         close();
         deleteAlertConfig(id).once(
           () => {
-            websitesAlertingListAlertDeleted({
-              alertConfigId: id
-            });
+            trackAlertDeleteConfirm(id);
             refreshSmartAlertConfigsList();
           },
           () => {
@@ -61,7 +60,7 @@ function handleToggleEnabled(enabled, id, setIsSaving) {
 
   (enabled ? disableAlertConfig(id) : enableAlertConfig(id)).once(
     () => {
-      (enabled ? websitesAlertingListAlertPaused : websitesAlertingListAlertResumed)({
+      (enabled ? trackAlertPaused : trackAlertResumed)({
         alertConfigId: id
       });
       refreshSmartAlertConfigsList();
@@ -74,12 +73,12 @@ function handleToggleEnabled(enabled, id, setIsSaving) {
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
-  websitesAlertingAlertEdit({ alertConfigId: config.id });
+  trackAlertCloneTrigger(config.id);
 }
 
 function handleEdit(config) {
   openSmartAlertDialog(config);
-  websitesAlertingAlertEdit({ alertConfigId: config.id });
+  trackAlertEdit(config);
 }
 
 function openSmartAlertDialog(config, isCopy = false) {
