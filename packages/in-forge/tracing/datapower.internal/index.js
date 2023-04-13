@@ -11,7 +11,6 @@ registerSpanDefinition({
   type: 'datapower.internal',
   category: t('in-forge:tracingCategory.http'),
   detailView: 'DataPowerInternalSpanDetailView',
-
   getLabel(span) {
     const method = span.getIn(['data', 'http', 'method'], '<unknown_method>');
     const path = span.getIn(['data', 'http', 'path'], '<unknown_path>');

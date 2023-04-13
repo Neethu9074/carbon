@@ -12,6 +12,5 @@ registerSpanDefinition({
   type: 'datapower.http.entry',
   category: t('in-forge:tracingCategory.http'),
   detailView: 'DataPowerEntrySpanDetailView',
-
   getLabel
 });
