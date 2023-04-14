@@ -3,14 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withProps } from 'recompose';
+import React, { forwardRef } from 'react';
 
-import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
+import KeyValueBarOverlayBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayBehavior';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
+import Overlay from 'in-components/overlays/Overlay';
 
-export default withProps({
-  serializeFilter: true,
-  getKeySuggestions: ({ timeConfig, tagFilters, tag }) => {
+export default function WebsiteKeyValueBarItem(props) {
+  const { timeConfig, tagFilters, tag, key } = props;
+
+  function mapData(result) {
+    if (!result.data) {
+      return result;
+    }
+
+    return {
+      progress: result.progress,
+      errors: result.errors,
+      time: result.time,
+      data: result.data.items.map(item => JSON.parse(item.name))
+    };
+  }
+
+  function getKeySuggestions(timeConfig, tagFilters, tag) {
     return getWebsiteBeaconGroups({
       timeConfig: timeConfig,
       tagFilters: tagFilters,
@@ -31,8 +47,9 @@ export default withProps({
         groupbyTag: tag
       }
     }).map(mapData);
-  },
-  getValueSuggestions: ({ timeConfig, tagFilters, tag, key }) => {
+  }
+
+  function getValueSuggestions(timeConfig, tagFilters, tag, key) {
     return getWebsiteBeaconGroups({
       timeConfig: timeConfig,
       tagFilters: tagFilters,
@@ -55,17 +72,37 @@ export default withProps({
       }
     }).map(mapData);
   }
-})(KeyValueBarItemBehavior);
 
-function mapData(result) {
-  if (!result.data) {
-    return result;
-  }
-
-  return {
-    progress: result.progress,
-    errors: result.errors,
-    time: result.time,
-    data: result.data.items.map(item => JSON.parse(item.name))
-  };
+  return (
+    <Overlay
+      withoutWrapper
+      content={KeyValueBarOverlayBehavior}
+      serializeFilter
+      getKeySuggestions={getKeySuggestions(timeConfig, tagFilters, tag)}
+      getValueSuggestions={getValueSuggestions(timeConfig, tagFilters, tag, key)}
+      props={props}
+      align="bottomMiddle"
+    >
+      {overlayProps => (
+        <Content
+          serializeFilter
+          {...props}
+          getKeySuggestions={getKeySuggestions(timeConfig, tagFilters, tag)}
+          getValueSuggestions={getValueSuggestions(timeConfig, tagFilters, tag, key)}
+          {...overlayProps}
+        />
+      )}
+    </Overlay>
+  );
 }
+
+const Content = forwardRef(function Content(props, ref) {
+  const { label, toggle, isOpen, tagFilters, tag } = props;
+  const hasFilters = tagFilters.reduce((agg, f) => agg || f.name === tag, false);
+
+  return (
+    <BarItem showArrow isOpen={isOpen} active={isOpen || hasFilters} onClick={toggle} ref={ref}>
+      {label}
+    </BarItem>
+  );
+});
