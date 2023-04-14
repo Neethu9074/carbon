@@ -25,22 +25,23 @@
 
   .loadMore {
     .typoSettings();
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
 
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
   .clearFacet {
     .typoSettings();
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
 
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
       text-decoration: none;
+      cursor: pointer;
     }
   }
 
