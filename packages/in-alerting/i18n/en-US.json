@@ -1115,6 +1115,15 @@
         "timeThreshold": "Time Threshold",
         "alertingType": "Alerting Type"
       }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Status Code Count",
+        "specificStatusCodeRate": "Status Code Rate",
+        "views": "Views",
+        "customEventBlueprintConfigMetricLabel": "Occurrences",
+        "sessions": "Sessions"
+      }
     }
   }
 }
