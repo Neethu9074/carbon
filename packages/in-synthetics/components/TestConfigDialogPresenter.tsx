@@ -129,6 +129,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   };
 
   const onGoBack = () => {
+    if (!simpleMode) onClose();
     if (simpleModeStep !== 0) {
       setSimpleModeStep(simpleModeStep - 1);
       return;
