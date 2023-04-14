@@ -21,9 +21,9 @@ import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/format
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -85,37 +85,37 @@ function ApplicationLabelContent({ item }: { item: TestResultListItem }) {
   );
 }
 
+function TestLabelContent({ item }: { item: TestResultListItem }) {
+  const { location, createHref } = useNavigation();
+  location.pathname = syntheticsSummaryPath;
+  setOrDeleteMatrixKey(
+    location,
+    syntheticsDashboard,
+    'testId',
+    item?.testResultCommonProperties?.testCommonProperties?.id
+  );
+  setOrDeleteMatrixKey(
+    location,
+    syntheticsDashboard,
+    'type',
+    item?.testResultCommonProperties?.testCommonProperties?.type
+  );
+
+  return (
+    <div>
+      <Link href={createHref(location)}>
+        <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
+      </Link>
+    </div>
+  );
+}
+
 export const columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
   {
     id: 'test_name',
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.testList.testLabel'),
-    getContent(item: TestResultListItem) {
-      return (
-        <div>
-          <Link
-            href$={getModifiedUrlStream(summaryUrl => {
-              summaryUrl.pathname = syntheticsSummaryPath;
-              setOrDeleteMatrixKey(
-                summaryUrl,
-                syntheticsDashboard,
-                'testId',
-                item?.testResultCommonProperties?.testCommonProperties?.id
-              );
-              setOrDeleteMatrixKey(
-                summaryUrl,
-                syntheticsDashboard,
-                'type',
-                item?.testResultCommonProperties?.testCommonProperties?.type
-              );
-              return summaryUrl;
-            })}
-          >
-            <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
-          </Link>
-        </div>
-      );
-    }
+    getContent: item => <TestLabelContent item={item} />
   },
   {
     id: 'status',
