@@ -32,20 +32,9 @@ import locals from './ConfigurationSection.mless';
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  headers: Header[];
-  setHeaders: React.Dispatch<React.SetStateAction<Header[]>>;
-  isDuplicateHeader: boolean;
-  setIsDuplicateHeader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ConfigurationSection({
-  form,
-  updateForm,
-  headers,
-  setHeaders,
-  isDuplicateHeader,
-  setIsDuplicateHeader
-}: Props) {
+export default function ConfigurationSection({ form, updateForm }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
@@ -87,6 +76,16 @@ export default function ConfigurationSection({
       ? expectedObject
       : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
   };
+  const getDefaultHeaders = (): Header[] => {
+    const headersValue = (configForm.get('headers') as Field<Record<string, string>>).value;
+    const headerObject: Header[] = [];
+    Object.keys(headersValue).map(key =>
+      headerObject.push({ id: generateUniqueShortId(), key: key, value: headersValue[key] })
+    );
+    return headerObject;
+  };
+  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [isDuplicateHeader, setIsDuplicateHeader] = useState(false);
 
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
