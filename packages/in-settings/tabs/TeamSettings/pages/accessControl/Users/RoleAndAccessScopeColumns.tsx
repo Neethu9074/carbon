@@ -49,19 +49,17 @@ function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined) 
   };
   if (!groups) return permissionSet;
 
-  const groupValues = groups.values();
-
   // OWNER always has all available permissions
   // without evaluating limited_*_scopes from all groups owners can not be limited on any area
   // similar to backend evaluations
-  for (const group of groupValues) {
+  for (const group of groups.values()) {
     if (ownerRoleId === group.id) {
       enrich(permissionSet, group);
       return permissionSet;
     }
   }
 
-  for (const group of groupValues) {
+  for (const group of groups.values()) {
     enrich(permissionSet, group);
   }
   return permissionSet;
@@ -89,8 +87,10 @@ function enrich(permissionSet: any, group: any) {
   // needs to be concatinated with OR as represented via single scopeId value only
   if (group.permissionSet.infraDfqFilter?.scopeId) {
     if (permissionSet.infraDfqFilter.scopeId) {
-      permissionSet.infraDfqFilter.scopeId.concat(' OR ');
+      permissionSet.infraDfqFilter.scopeId = permissionSet.infraDfqFilter.scopeId.concat(' OR ');
     }
-    permissionSet.infraDfqFilter.scopeId.concat(group.permissionSet.infraDfqFilter.scopeId.trim());
+    permissionSet.infraDfqFilter.scopeId = permissionSet.infraDfqFilter.scopeId.concat(
+      group.permissionSet.infraDfqFilter.scopeId.trim()
+    );
   }
 }
