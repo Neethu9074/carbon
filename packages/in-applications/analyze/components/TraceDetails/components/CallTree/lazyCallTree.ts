@@ -5,6 +5,7 @@
  */
 
 import invariant from 'invariant';
+import { maxBy } from 'lodash';
 
 import {
   CallDetails,
@@ -372,7 +373,7 @@ function addLazyRelatedCallNodes(
   }
 
   if (data.canLoadMore) {
-    const callWithLastCursor: CallDetailsItem = data.items.slice(addBefore ? 0 : -1)[0];
+    const callWithLastCursor: CallDetailsItem = maxBy(data.items, c => c.cursor.offset) as CallDetailsItem;
     createLazyRelatedCall(
       lazyCallTree,
       call.id,
