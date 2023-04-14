@@ -57,7 +57,6 @@ export default function ConfirmationDialog({
         {description && <p className={locals.description}>{description}</p>}
 
         <Actions>
-          {/** @ts-expect-error Needs upstream fix in ui-foundation */}
           <CancelButton onClick={close} isSaving={isSaving} autoFocus />
           <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
             {confirmButtonLabel}
