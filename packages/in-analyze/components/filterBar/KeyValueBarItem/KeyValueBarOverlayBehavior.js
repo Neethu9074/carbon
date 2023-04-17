@@ -55,9 +55,7 @@ export default function KeyValueBarOverlayBehavior(props) {
   const keySuggestionsLoading = keySuggestions$?.progress?.loading;
   const secondLevelKeySuggestionsLoading = secondLevelKeySuggestions$?.progress.loading;
   const valueSuggestionsLoading = valueSuggestions$?.progress.loading;
-
   const keySuggestions = !keySuggestionsLoading ? keySuggestions$?.data.slice().sort() : [];
-
   const secondLevelKeySuggestions = !secondLevelKeySuggestionsLoading
     ? secondLevelKeySuggestions$?.data.slice().sort()
     : [];
