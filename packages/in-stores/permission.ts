@@ -641,3 +641,8 @@ export const productOwnerPermissions = getProductPermissions().filter(permission
 export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
 export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
+export const fallBackPermissions = [
+  ...LimitedAccessScopes,
+  Capability.CAN_VIEW_LOGS,
+  Capability.CAN_VIEW_TRACE_DETAILS
+];
