@@ -6946,7 +6946,9 @@
       "aliveThreads": "Alive Threads",
       "dummyThreads": "Dummy Threads",
       "daemonThreads": "Daemon Threads",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "Long-term support docs",
+      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
     "rabbitMq": {
       "dashboard": {
