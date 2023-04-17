@@ -24,7 +24,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with an empty permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.WEBSITE,
         permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE] }
       });
@@ -33,12 +33,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
+      expect(isDisabled).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.WEBSITE,
         permissionsSet: mockPermissionsSetWithData
       });
@@ -47,6 +48,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['11', '12']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
@@ -55,7 +57,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with a full access permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.WEBSITE,
         permissionsSet: mockPermissionsSetWithFullAccessData
       });
@@ -64,6 +66,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['11', '12']);
       expect(hasFullAreaAccess).toBe(true);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
@@ -81,7 +84,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with an empty permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.MOBILE_APP,
         permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE] }
       });
@@ -90,12 +93,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
+      expect(isDisabled).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.MOBILE_APP,
         permissionsSet: mockPermissionsSetWithData
       });
@@ -104,6 +108,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['7', '8']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
@@ -112,7 +117,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with a full access permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.MOBILE_APP,
         permissionsSet: mockPermissionsSetWithFullAccessData
       });
@@ -121,6 +126,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['7', '8']);
       expect(hasFullAreaAccess).toBe(true);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
@@ -138,7 +144,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with an empty permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.APPLICATION,
         permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE] }
       });
@@ -147,12 +153,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
+      expect(isDisabled).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.no_access');
     });
 
     it('returns correct data and calls the translation function with correct params with a limited permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.APPLICATION,
         permissionsSet: mockPermissionsSetWithData
       });
@@ -161,6 +168,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['1', '2']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
@@ -169,7 +177,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     it('returns correct data and calls the translation function with correct params with a full access permissions set', () => {
       // Given
-      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
+      const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent, isDisabled } = getAreaData({
         area: ProductArea.APPLICATION,
         permissionsSet: mockPermissionsSetWithFullAccessData
       });
@@ -178,6 +186,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['1', '2']);
       expect(hasFullAreaAccess).toBe(true);
       expect(shouldRenderContent).toBe(true);
+      expect(isDisabled).toBe(false);
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
