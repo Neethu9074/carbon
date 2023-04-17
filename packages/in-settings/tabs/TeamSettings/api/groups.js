@@ -160,7 +160,7 @@ export function removeUserFromGroupWithoutMapAndRefresh(groupId, userId) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/rbac/groups/${groupId}/user/${userId}`
+    url: `${basePath}/${groupId}/user/${userId}`
   });
 }
 

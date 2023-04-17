@@ -23,6 +23,48 @@ import { t } from 'in-i18n';
 import locals from './AddUserButton.mless';
 
 export default function AddUserButton({ members, addUsers, groupId }) {
+  const onSubmit = (users, setIsSaving, setErrors) => {
+    const updateOldAndCloseDialog = () => {
+      setIsSaving(false);
+      addUsers(users);
+      close();
+    };
+    const handleError = (message, code) => {
+      if (!code) {
+        code = 'server';
+      }
+      if (!message) {
+        message = t('in-settings:tabs.failedToAddUsersToGroupWithoutDetails');
+      }
+      setIsSaving(false);
+      setErrors([{ code: code, message }]);
+    };
+    if (rbacImprovementEnabled) {
+      setIsSaving(true);
+      const userIds = users.map(user => user.id);
+      setUsersToGroup(groupId, userIds).once(
+        data => {
+          if (Number.isInteger(data.status) && data.status > 199 && data.status < 300) {
+            updateOldAndCloseDialog();
+          } else {
+            handleError(null, null);
+          }
+        },
+        errData => {
+          let code = null;
+          let message = null;
+          if (errData?.response?.status === 404) {
+            code = 'CLIENT';
+            const err = t('in-settings:tabs.groupNotFound');
+            message = t('in-settings:tabs.failedToAddUsersToGroup', { err });
+          }
+          handleError(message, code);
+        }
+      );
+    } else {
+      updateOldAndCloseDialog();
+    }
+  };
   return (
     <Button
       kind="action"
@@ -30,48 +72,7 @@ export default function AddUserButton({ members, addUsers, groupId }) {
         addActiveDialog(
           <AddUserDialog
             members={members}
-            onSubmit={(users, setIsSaving, setErrors) => {
-              const updateOldAndCloseDialog = () => {
-                setIsSaving(false);
-                addUsers(users);
-                close();
-              };
-              const handleError = (message, code) => {
-                if (!code) {
-                  code = 'server';
-                }
-                if (!message) {
-                  message = t('in-settings:tabs.failedToAddUsersToGroupWithoutDetails');
-                }
-                setIsSaving(false);
-                setErrors([{ code: code, message }]);
-              };
-              if (rbacImprovementEnabled) {
-                setIsSaving(true);
-                const userIds = users.map(user => user.id);
-                setUsersToGroup(groupId, userIds).once(
-                  data => {
-                    if (Number.isInteger(data.status) && data.status > 199 && data.status < 300) {
-                      updateOldAndCloseDialog();
-                    } else {
-                      handleError(null, null);
-                    }
-                  },
-                  errData => {
-                    let code = null;
-                    let message = null;
-                    if (errData?.response?.status === 404) {
-                      code = 'CLIENT';
-                      const err = t('in-settings:tabs.groupNotFound');
-                      message = t('in-settings:tabs.failedToAddUsersToGroup', { err });
-                    }
-                    handleError(message, code);
-                  }
-                );
-              } else {
-                updateOldAndCloseDialog();
-              }
-            }}
+            onSubmit={onSubmit}
           />
         );
       }}

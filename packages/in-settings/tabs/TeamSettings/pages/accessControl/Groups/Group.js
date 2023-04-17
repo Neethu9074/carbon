@@ -101,6 +101,25 @@ function renderGroup(props) {
       />
     </div>
   ) : null;
+  const removeUserFromGroup = (id, name) => {
+    const removeUserLocally = (touched) => {
+      const members = form.get('members').value.slice().filter(member => member.userId !== id);
+      if (touched) {
+        setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
+      } else {
+        setForm(form.updateIn(['members'], f => f.setValue(members)));
+      }
+    }
+    if (rbacImprovementEnabled) {
+      addActiveDialog(<RemoveUserDialog
+        userId={id}
+        groupId={group.id}
+        username={name}
+        removeLocally={() => removeUserLocally(false)} />);
+    } else {
+      removeUserLocally(true);
+    }
+  }
   return (
     <>
       <InlineEditorRow
@@ -118,28 +137,7 @@ function renderGroup(props) {
         <Col lg={6}>
           <Users
             members={form.get('members').value}
-            removeUser={(id, name) => {
-              const removeUserLocally = (touched) => {
-                const members = form
-                  .get('members')
-                  .value.slice()
-                  .filter(member => member.userId !== id);
-                if (touched) {
-                  setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
-                } else {
-                  setForm(form.updateIn(['members'], f => f.setValue(members)));
-                }
-              }
-              if (rbacImprovementEnabled) {
-                addActiveDialog(<RemoveUserDialog
-                  userId={id}
-                  groupId={group.id}
-                  username={name}
-                  removeLocally={() => removeUserLocally(false)} />);
-              } else {
-                removeUserLocally(true);
-              }
-            }}
+            removeUser={removeUserFromGroup}
             groupId={group.id}
             addUsers={users => addUsers(users, form, setForm)}
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
