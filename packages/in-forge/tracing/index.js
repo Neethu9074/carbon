@@ -4,12 +4,12 @@
  */
 
 import './micronaut.http.client';
-import './datapower.http.entry';
+import './datapower.http.server';
+import './datapower.http.client';
 import './spring-webflux-entry';
 import './aspnetmvccontroller';
 import './distributeme.client';
 import './spring-webflux-exit';
-import './datapower.http.exit';
 import './haskell.wai.server';
 import './datapower.internal';
 import './aws.lambda.invoke';

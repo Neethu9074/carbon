@@ -9,7 +9,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 import { t } from 'in-i18n';
 
 registerSpanDefinition({
-  type: 'datapower.http.entry',
+  type: 'datapower.http.server',
   category: t('in-forge:tracingCategory.http'),
   detailView: 'DataPowerEntrySpanDetailView',
   getLabel
