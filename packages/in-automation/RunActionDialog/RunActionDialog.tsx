@@ -158,6 +158,9 @@ function onSave({
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
       const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
+      if (!pathField?.value || !keyField?.value) {
+        return acc;
+      }
       return [
         ...acc,
         {
