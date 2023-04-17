@@ -73,15 +73,15 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
       })
     )
     .put(
-      fieldNames.description,
-      createField({
-        value: description
-      })
-    )
-    .put(
       fieldNames.name,
       createField({
         value: name
+      })
+    )
+    .put(
+      fieldNames.description,
+      createField({
+        value: description
       })
     )
     .put(
