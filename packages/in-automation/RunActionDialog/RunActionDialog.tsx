@@ -331,7 +331,7 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
                     return [
                       {
                         severity: 'error',
-                        message: t('in-automation:ActionCatalog.validVaultParameter')
+                        message: t('in-automation:validVaultParameter')
                       }
                     ];
                   }
