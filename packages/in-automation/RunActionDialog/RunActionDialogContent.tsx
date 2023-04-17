@@ -273,30 +273,32 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
     setForm(updatedForm);
   };
 
+  const pathHasError = !pathField?.valid && pathField?.touched;
+  const keyHasError = !keyField?.valid && keyField?.touched;
+  const hasError = (!parameterField?.valid && parameterField?.hierarchyTouched) || pathHasError || keyHasError;
+
   return (
     <>
-      {keyField && pathField && (
+      {parameterField && keyField && pathField && (
         <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label
               className={classNames({
-                [locals.parameterLabel]: !(
-                  (!keyField.valid && keyField.touched) ||
-                  (!pathField.valid && pathField.touched)
-                )
+                [locals.parameterLabel]: !hasError
               })}
-              hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}
+              hasError={hasError}
             >
-              {parameter.label}
+              {parameter.required ? parameter.label : t('in-automation:optional', { name: parameter.label })}
             </Label>
             <Label>{t('in-automation:vault')}</Label>
           </Row>
-          <Label hasError={!pathField.valid && pathField.touched}>{t('in-automation:secretPath')}</Label>
-          <Input value={pathField.value} onChange={onChange(0)} hasError={!pathField.valid && pathField.touched} />
+          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+          <Label hasError={pathHasError}>{t('in-automation:secretPath')}</Label>
+          <Input value={pathField.value} onChange={onChange(0)} hasError={pathHasError} />
           <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
           <Spacer vertical="small" />
-          <Label hasError={!keyField.valid && keyField.touched}>{t('in-automation:secretKey')}</Label>
-          <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
+          <Label hasError={keyHasError}>{t('in-automation:secretKey')}</Label>
+          <Input value={keyField.value} onChange={onChange(1)} hasError={keyHasError} />
           <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
         </FormGroup>
       )}

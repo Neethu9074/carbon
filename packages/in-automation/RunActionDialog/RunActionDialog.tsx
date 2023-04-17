@@ -314,13 +314,26 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
                 items: [
                   createField({
                     value: parsedVaultValue?.secretPath ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   }),
                   createField({
                     value: parsedVaultValue?.secretKey ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   })
-                ]
+                ],
+                validator: listForm => {
+                  const hasEmptyFields = listForm.some(field => field.value === '');
+                  const hasNonEmptyFields = listForm.some(field => field.value !== '');
+                  if (!parameter.required && hasEmptyFields && hasNonEmptyFields) {
+                    return [
+                      {
+                        severity: 'error',
+                        message: t('in-automation:ActionCatalog.validVaultParameter')
+                      }
+                    ];
+                  }
+                  return null;
+                }
               })
             };
           }

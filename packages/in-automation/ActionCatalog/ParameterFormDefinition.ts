@@ -44,7 +44,7 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     .put(
       'required',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.required ?? false : false
+        value: parameter?.value?.required ?? false
       })
     )
     .put(
