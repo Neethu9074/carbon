@@ -148,13 +148,47 @@ export function deleteGroup(id) {
   }).map(mapAndRefresh);
 }
 
-export function removeUserFromGroup(groupId, userId) {
+/**
+ * Removes the given user from the given group without doing any mapping or page reloads
+ *
+ * @param {string} groupId to be removed from
+ * @param {string} userId to be removed
+ * @returns Observable<Response<String>>
+ */
+export function removeUserFromGroupWithoutMapAndRefresh(groupId, userId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${basePath}/${groupId}/user/${userId}`
-  }).map(mapAndRefresh);
+    url: `/api/settings/rbac/groups/${groupId}/user/${userId}`
+  });
+}
+
+/**
+ * Removes the given user from the given group with mapAndRefresh
+ *
+ * @param {string} groupId to be removed from
+ * @param {string} userId to be removed
+ * @returns Observable<Response<String>>
+ */
+export function removeUserFromGroup(groupId, userId) {
+  return removeUserFromGroupWithoutMapAndRefresh(groupId, userId).map(mapAndRefresh);
+}
+
+/**
+ * Allows to set the given userIds as users to the current group
+ * @param {string} groupId id of group
+ * @param {string[]} userIds list of userIds to be set as users to group
+ * @returns {import('@instana/observables').Observable} of complete group
+ */
+export function setUsersToGroup(groupId, userIds) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${basePath}/${groupId}/users`,
+    data: userIds
+  });
 }
 
 function mapAndRefresh(response) {

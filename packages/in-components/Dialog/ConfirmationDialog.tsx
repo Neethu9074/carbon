@@ -57,7 +57,7 @@ export default function ConfirmationDialog({
         {description && <p className={locals.description}>{description}</p>}
 
         <Actions>
-          <CancelButton onClick={close} isSaving={isSaving} autoFocus />
+          <CancelButton onClick={onClose} isSaving={isSaving} autoFocus />
           <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
             {confirmButtonLabel}
           </SaveButton>

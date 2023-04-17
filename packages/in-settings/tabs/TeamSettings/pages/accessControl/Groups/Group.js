@@ -39,6 +39,7 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-settings/components/FormGroup';
+import { RemoveUserDialog } from './RemoveUserDialog';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
@@ -68,6 +69,7 @@ export default function Group({ match }) {
         saveItem={saveItem}
         onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
         renderLoadingState={renderLoadingState}
+        hideFooter={rbacImprovementEnabled}
         render={renderGroup}
         // additional props which are passed down
         groupId={groupId}
@@ -116,13 +118,29 @@ function renderGroup(props) {
         <Col lg={6}>
           <Users
             members={form.get('members').value}
-            removeUser={id => {
-              const members = form
-                .get('members')
-                .value.slice()
-                .filter(member => member.userId !== id);
-              setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
+            removeUser={(id, name) => {
+              const removeUserLocally = (touched) => {
+                const members = form
+                  .get('members')
+                  .value.slice()
+                  .filter(member => member.userId !== id);
+                if (touched) {
+                  setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
+                } else {
+                  setForm(form.updateIn(['members'], f => f.setValue(members)));
+                }
+              }
+              if (rbacImprovementEnabled) {
+                addActiveDialog(<RemoveUserDialog
+                  userId={id}
+                  groupId={group.id}
+                  username={name}
+                  removeLocally={() => removeUserLocally(false)} />);
+              } else {
+                removeUserLocally(true);
+              }
             }}
+            groupId={group.id}
             addUsers={users => addUsers(users, form, setForm)}
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
