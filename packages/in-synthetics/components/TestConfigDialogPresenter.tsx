@@ -10,6 +10,7 @@ import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
 import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -129,7 +130,6 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   };
 
   const onGoBack = () => {
-    if (!simpleMode) onClose();
     if (simpleModeStep !== 0) {
       setSimpleModeStep(simpleModeStep - 1);
       return;
@@ -137,8 +137,43 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     onClose();
   };
 
+  const footer = simpleMode ? (
+    <DialogFooter
+      formId={formId}
+      form={form}
+      primaryActionText={
+        simpleModeStep === stepConfigs.length - 1
+          ? t('in-components:blueprintFormMultistep.buttonCreate')
+          : t('in-components:blueprintFormMultistep.buttonNext')
+      }
+      onSecondaryActionClick={() => onGoBack()}
+      secondaryActionText={
+        simpleModeStep === 0
+          ? t('in-components:blueprintFormMultistep.buttonCancel')
+          : t('in-components:blueprintFormMultistep.buttonBack')
+      }
+      primaryActionDisabled={isProceedDisabled()}
+      saving={isSubmitting}
+    />
+  ) : (
+    <FormFooter>
+      <CancelButton onClick={() => onClose()} />
+      <SaveButton
+        type="submit"
+        kind="primary"
+        formId={formId}
+        form={form}
+        isSaving={isSubmitting}
+        disabled={isSubmitting}
+      >
+        {t('in-components:blueprintFormMultistep.buttonCreate')}
+      </SaveButton>
+    </FormFooter>
+  );
+
   return (
     <DialogWithSlideInView
+      footer={footer}
       title={t('in-synthetics:dialog.createTest.dialogTitle')}
       slideInViewTitle={''}
       onSlideInViewTitleClick={() => {}}
@@ -187,23 +222,6 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setTestTypeSelected={setTestTypeSelected}
         renderSectionsCounter={renderSectionsCounter}
         setRenderSectionsCounter={setRenderSectionsCounter}
-      />
-      <DialogFooter
-        formId={formId}
-        form={form}
-        primaryActionText={
-          simpleModeStep === stepConfigs.length - 1 || !simpleMode
-            ? t('in-components:blueprintFormMultistep.buttonCreate')
-            : t('in-components:blueprintFormMultistep.buttonNext')
-        }
-        onSecondaryActionClick={() => onGoBack()}
-        secondaryActionText={
-          simpleModeStep === 0 || !simpleMode
-            ? t('in-components:blueprintFormMultistep.buttonCancel')
-            : t('in-components:blueprintFormMultistep.buttonBack')
-        }
-        primaryActionDisabled={simpleMode ? isProceedDisabled() : false}
-        saving={isSubmitting}
       />
     </DialogWithSlideInView>
   );

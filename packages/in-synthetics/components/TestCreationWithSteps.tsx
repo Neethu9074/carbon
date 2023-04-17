@@ -4,6 +4,7 @@
  */
 
 import { MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
@@ -73,7 +74,10 @@ export default function TestCreationWithSteps({
         e.preventDefault();
         onProceed();
       }}
-      className={locals.form}
+      className={classNames({
+        [locals.form]: true,
+        [locals.advancedMode]: !simpleMode
+      })}
     >
       {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
         <AdvancedMode
