@@ -17,6 +17,7 @@ import { SyntheticAlertRuleUnion, SyntheticTimeThresholdUnion, SyntheticAlertCon
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import { useGetAlertConfigLink, useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -155,8 +156,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: (form.get(fieldNames.alertChannelIds) as Field<string[]>).value,
     severity: (form.get(fieldNames.severity) as Field<number>).value,
-    description: (form.get(fieldNames.description) as Field<string>).value,
-    name: (form.get(fieldNames.name) as Field<string>).value,
+    description: (form.get(fieldNames.description) as Field<string>).value || getDescriptionPlaceholder(form),
+    name: (form.get(fieldNames.name) as Field<string>).value || getTitlePlaceholder(),
     syntheticTestIds: (form.get(fieldNames.syntheticTestIds) as Field<string[]>).value,
     timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS()
   });
