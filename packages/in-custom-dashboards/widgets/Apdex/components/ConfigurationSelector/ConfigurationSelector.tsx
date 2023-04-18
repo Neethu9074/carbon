@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { useEffect } from 'react';
 import { Field } from 'formalistic';
-import React from 'react';
 
 import { Button } from '@instana/components';
 
@@ -41,6 +41,13 @@ export default function ConfigurationSelector({
   const hasSomeConfig = apdexConfigurations?.length !== 0;
   const configId = field?.value;
   const disabled = !entityId || !hasSomeConfig;
+
+  // clear the field when the selected configuration is deleted
+  useEffect(() => {
+    if (isResolved && configId && !apdexConfigurations?.some(config => config.id === configId)) {
+      onChange('');
+    }
+  }, [apdexConfigurations, configId, isResolved, onChange]);
 
   return (
     <SelectInSection
