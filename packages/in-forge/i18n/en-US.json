@@ -6997,7 +6997,7 @@
       "daemonThreads": "Daemon Threads",
       "python": "Python",
       "longTermSupportDocs": "Long-term support docs",
-      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it outside of the scope of the usual instana support. Update your Python version to avoid problems."
+      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
     "rabbitMq": {
       "dashboard": {
@@ -7339,7 +7339,9 @@
       "gcRunDuration": "#GC Run Duration",
       "threadCount": "#Thread Count",
       "threads": "Threads",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "Long-term support docs",
+      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems."
     },
     "sapHana": {
       "dashboard": {
