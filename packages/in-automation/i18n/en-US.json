@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "Add {{count}} Actions",
   "noActionsSelected": "No actions selected",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
+  "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
   "ok": "Ok",
   "runAction": "Run action",
