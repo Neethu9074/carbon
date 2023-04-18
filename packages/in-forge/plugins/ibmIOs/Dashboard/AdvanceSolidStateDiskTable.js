@@ -92,7 +92,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSolidStateDiskMetrics.${row.key}.ssdLifeRemaining`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -156,7 +156,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSolidStateDiskMetrics.${row.key}.ssdPowerOnDays`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

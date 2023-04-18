@@ -14,8 +14,10 @@ import AdvanceSpinningDiskTypeTable from './AdvanceSpinningDiskTypeTable';
 import BasicSpinningDiskTypeTable from './BasicSpinningDiskTypeTable';
 import AdvanceSolidStateDiskTable from './AdvanceSolidStateDiskTable';
 import BasicSolidStateDiskTable from './BasicSolidStateDiskTable';
+import NonVolatileMemoryTable from './NonVolatileMemoryTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import NetstatInterfaceTable from './NetstatInterfaceTable';
+import SystemDiskStatusTable from './SystemDiskStatusTable';
 import NetstatBytesOutTable from './NetstatBytesOutTable';
 import NetstatBytesInTable from './NetstatBytesInTable';
 import UserSpoolSpaceTable from './UserSpoolSpaceTable';
@@ -28,8 +30,6 @@ import HistoryLogTable from './HistoryLogTable';
 import SubsystemTable from './SubsystemTable';
 import JobQueueTable from './JobQueueTable';
 import AspTable from './AspTable';
-import NonVolatileMemoryTable from './NonVolatileMemoryTable'
-import SystemDiskStatusTable from './SystemDiskStatusTable'
 import { t } from 'in-i18n';
 
 export default function IbmIOsDashboard({ snapshot, timeConfig }) {
@@ -166,8 +166,8 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <BasicSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
-      <NonVolatileMemoryTable snapshot={snapshot} timeConfig={timeConfig} />
-      <SystemDiskStatusTable snapshot={snapshot} timeConfig={timeConfig} />
+      <NonVolatileMemoryTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <SystemDiskStatusTable snapshotId={snapshotId} timeConfig={timeConfig} />
 
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')}>

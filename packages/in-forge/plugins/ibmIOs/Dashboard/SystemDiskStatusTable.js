@@ -76,6 +76,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.diskType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.systemDiskStatusRawData.get('diskType');
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber'),
     type: 'metric',
     typeArgs: {
@@ -117,7 +126,7 @@ const cols = [
       getMetricName(row) {
         return `systemDiskStatusMetrics.${row.key}.unitStorageCapacity`;
       },
-      getContent: number.detailed,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -154,15 +163,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.systemDiskStatusRawData.get('serialNumber');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.protectionType'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.systemDiskStatusRawData.get('protectionType');
       }
     }
   },

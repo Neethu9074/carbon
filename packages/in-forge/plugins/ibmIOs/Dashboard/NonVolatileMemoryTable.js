@@ -58,7 +58,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.spareCapacity`;
       },
-      getContent: percentage,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -74,7 +74,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.spareCapacityThreshold`;
       },
-      getContent: percentage,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -90,7 +90,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.namespaceAvailable`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -106,7 +106,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.namespaceUsed`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -122,7 +122,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.powerCycles`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -138,7 +138,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.powerOnHours`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -154,7 +154,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.mediaErrors`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -170,7 +170,7 @@ const cols = [
       getMetricName(row) {
         return `nonVolatileMemoryMetrics.${row.key}.unSafeShutDowns`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
