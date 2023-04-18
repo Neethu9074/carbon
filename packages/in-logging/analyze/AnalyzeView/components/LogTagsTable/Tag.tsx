@@ -40,11 +40,10 @@ import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/hooks/us
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-//@ts-expect-error
-import HealthDot from 'in-components/health/HealthDot';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
+import HealthDot from 'in-components/health/HealthDot';
 import Overlay from 'in-components/overlays/Overlay';
 import Header from 'in-components/Dialog/Header';
 import Tooltip from 'in-components/Tooltip';
@@ -231,7 +230,7 @@ function EntityHealthDot({ snapshotId }: { snapshotId: string }) {
 
   if (!snapshot) return null;
 
-  const severity = snapshot.get('maxSeverity');
+  const severity = snapshot.get('maxSeverity') as number | undefined;
   const numberOfIssues = snapshot.get('numberOfOpenEvents');
   const tooltipText =
     numberOfIssues === 0
