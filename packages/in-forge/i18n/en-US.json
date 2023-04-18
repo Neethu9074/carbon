@@ -9394,7 +9394,6 @@
             "raidType": "Raid Type",
             "protectionStatus": "Protection Status",
             "multiplePathUnit": "Multiple Path Unit",
-            "protectionType": "Protection Type",
             "charts": {
               "elapsedIORequests": "Elapsed IO Requests",
               "elapsedRequestSize": "Elapsed Request Size",
