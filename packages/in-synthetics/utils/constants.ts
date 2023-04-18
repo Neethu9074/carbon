@@ -361,10 +361,11 @@ export interface AdvancedModeProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export interface Header {
+export interface ConfigItem {
   id: string;
   key: string;
   value: string;
+  error: Record<string, ErrorType>;
 }
 
 export interface Validation {
@@ -393,3 +394,8 @@ export const Placeholders: Record<string, Field> = {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchPlaceholder')
   }
 };
+
+export interface ErrorType {
+  invalid: boolean;
+  message: string;
+}

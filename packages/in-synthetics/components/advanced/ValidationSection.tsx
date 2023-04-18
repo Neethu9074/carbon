@@ -20,24 +20,20 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { Placeholders, Validation } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { ErrorType } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
 import locals from './ConfigurationSection.mless';
 
-interface Error {
-  invalid: boolean;
-  message: string;
-}
-
 interface ValidationProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   expectSelections: Validation[];
   setExpectSelections: React.Dispatch<React.SetStateAction<Validation[]>>;
-  invalidJSON: Error;
-  setInvalidJSON: React.Dispatch<React.SetStateAction<Error>>;
+  invalidJSON: ErrorType;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<ErrorType>>;
 }
 
 export default function ValidationSection({
