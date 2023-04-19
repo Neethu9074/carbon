@@ -4,19 +4,16 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
-
-import { floatingActionButtons$ } from '../FloatingActionButton/stores/floatingActionButtons';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './HorizontalControlsPresenter.mless';
 
-export default connectTo(() => ({
-  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
-}))(HorizontalControlsPresenter);
+interface Props {
+  children: React.ReactNode;
+  position: 'bottomLeft' | 'bottomMiddle' | 'bottomRight' | 'topLeft' | 'topMiddle' | 'topRight';
+}
 
-function HorizontalControlsPresenter({ children, position = 'bottomMiddle' }) {
+export default function HorizontalControlsPresenter({ children, position = 'bottomMiddle' }: Props) {
   return (
     <div
       className={classNames({
@@ -27,8 +24,3 @@ function HorizontalControlsPresenter({ children, position = 'bottomMiddle' }) {
     </div>
   );
 }
-
-HorizontalControlsPresenter.propTypes = {
-  children: PropTypes.node.isRequired,
-  position: PropTypes.oneOf(['bottomLeft', 'bottomMiddle', 'bottomRight', 'topLeft', 'topMiddle', 'topRight'])
-};
