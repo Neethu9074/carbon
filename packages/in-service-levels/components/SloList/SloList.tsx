@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
+import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -38,23 +39,31 @@ const columnDefinitions: ColumnDefinition<SloListItem>[] = [
   {
     id: 'name',
     label: t('in-service-levels:sloList.columnLabels.name'),
-    getContent: item => <SloNameColumnContent item={item} />
+    getContent: item => <SloNameColumnContent item={item} />,
+    width: 25
   },
   {
     id: 'entity',
     label: t('in-service-levels:sloList.columnLabels.entity'),
-    getContent: item => <SloEntityColumnContent item={item} />
+    getContent: item => <SloEntityColumnContent item={item} />,
+    width: 30
   },
   {
     id: 'blueprint',
     label: t('in-service-levels:sloList.columnLabels.blueprint'),
-    getContent: item => <SloBlueprintColumnContent item={item} />
+    getContent: item => <SloBlueprintColumnContent item={item} />,
+    width: 30
+  },
+  {
+    id: 'tags',
+    label: t('in-service-levels:sloList.columnLabels.tags'),
+    getContent: item => <SloTagsColumnContent item={item} />,
+    width: 10
   },
   {
     id: 'actions',
     label: '',
-    getContent: () => <SloActions />,
-    useMinimumAmountOfHorizontalSpace: true
+    getContent: () => <SloActions />
   }
 ];
 
@@ -109,6 +118,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
         />
       )}
       tableInCard
+      fixedLayout
     />
   );
 }
