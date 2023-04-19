@@ -286,7 +286,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'websiteUploadConfigEnabled',
-    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    instanaCtlKey: 'feature.website.upload.config.enabled',
     defaultValue: false
   },
   {
