@@ -4,12 +4,15 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import locals from './VerticalControlsPresenter.mless';
 
-export default function VerticalControlsPresenter({ children, position = 'rightMiddle' }) {
+interface Props {
+  children: React.ReactNode;
+  position: 'leftBottom' | 'leftMiddle' | 'leftTop' | 'rightBottom' | 'rightMiddle' | 'rightTop';
+}
+export default function VerticalControlsPresenter({ children, position = 'rightMiddle' }: Props) {
   return (
     <div
       className={classNames({
@@ -20,8 +23,3 @@ export default function VerticalControlsPresenter({ children, position = 'rightM
     </div>
   );
 }
-
-VerticalControlsPresenter.propTypes = {
-  children: PropTypes.node.isRequired,
-  position: PropTypes.oneOf(['leftBottom', 'leftMiddle', 'leftTop', 'rightBottom', 'rightMiddle', 'rightTop'])
-};
