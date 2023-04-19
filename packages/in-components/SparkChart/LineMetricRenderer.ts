@@ -26,7 +26,7 @@ interface Props {
   paddingBottom?: number;
 }
 
-interface UpdateProps {
+export interface LineMetricUpdateProps {
   metrics?: MetricDataSeries;
   rollup?: number;
   timeConfig: TimeConfig;
@@ -81,7 +81,7 @@ export default class LineMetricRenderer {
     this.ctx = canvas.getContext('2d')!;
   }
 
-  update({ metrics = [], rollup = 1000, timeConfig }: UpdateProps): void {
+  update({ metrics = [], rollup = 1000, timeConfig }: LineMetricUpdateProps): void {
     const to = timeConfig.to ?? 0;
     this.xScale.setDomainFrom(to - timeConfig.windowSize);
     this.xScale.setDomainTo(to);

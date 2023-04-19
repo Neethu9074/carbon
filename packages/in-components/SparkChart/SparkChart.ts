@@ -3,14 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import LineMetricRenderer from 'in-components/SparkChart/LineMetricRenderer';
+import LineMetricRenderer, { LineMetricUpdateProps } from 'in-components/SparkChart/LineMetricRenderer';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
+interface Props {
+  width: number;
+  height: number;
+  percentageMetric?: boolean;
+  showDots?: boolean;
+  theme?: string;
+}
+
 export default class SparkChart {
-  constructor(canvas, { width, height, percentageMetric, theme = 'light', showDots = false }) {
+  canvas: HTMLCanvasElement;
+  lineMetricRenderer: LineMetricRenderer | null;
+
+  constructor(
+    canvas: HTMLCanvasElement,
+    { width, height, percentageMetric, theme = 'light', showDots = false }: Props
+  ) {
     this.canvas = canvas;
 
-    updateCanvasDimensions(canvas, canvas.getContext('2d'), width, height);
+    updateCanvasDimensions(canvas, canvas.getContext('2d')!, width, height);
 
     this.lineMetricRenderer = new LineMetricRenderer(canvas, {
       theme,
@@ -25,12 +39,12 @@ export default class SparkChart {
     });
   }
 
-  update(props) {
-    this.lineMetricRenderer.update(props);
-    this.lineMetricRenderer.render();
+  update(props: LineMetricUpdateProps): void {
+    this.lineMetricRenderer?.update(props);
+    this.lineMetricRenderer?.render();
   }
 
-  dispose() {
+  dispose(): void {
     this.lineMetricRenderer = null;
   }
 }
