@@ -5,36 +5,60 @@
 
 import React from 'react';
 
+import { NumberFormatter } from '@instana/format-numbers';
 import { KeyValue } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { getFormatterType, number, PERCENTAGE_FORMATTER_TYPE } from 'in-services/formatters/number';
+import { LineMetricUpdateProps } from 'in-components/SparkChart/LineMetricRenderer';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import SparkChart, { SparkChartProps } from 'in-components/SparkChart/SparkChart';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import AggregationSymbol from 'in-components/AggregationSymbol';
-import SparkChart from 'in-components/SparkChart/SparkChart';
+import { MetricDataSeries } from 'in-components/Chart/types';
+import { FormatterFn } from 'in-stores/metric/formatters';
+import { getChartGranularity } from 'in-stores/metric';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './SparkChart.mless';
 
-export default function SparkChartReactComponent(props) {
+interface Props {
+  loading?: boolean;
+  timeConfig: TimeConfig;
+  width?: number;
+  height?: number;
+  rollup?: number;
+  label?: string;
+  metrics?: MetricDataSeries;
+  percentageMetric?: boolean;
+  tooltipFormatter?: NumberFormatter;
+  customValueTooltip?: React.ReactNode;
+  aggregation?: string;
+  showNullValuesChartOnEmptyMetrics?: boolean;
+  hideChartOnEmptyMetrics?: boolean;
+  horizontalMetricValue?: React.ReactNode;
+  verticalMetricValue?: React.ReactNode;
+}
+
+export default function SparkChartReactComponent(props: Props) {
   const {
     loading,
     timeConfig,
     width = 72,
     height = 24,
     horizontalMetricValue,
-    rollup,
+    rollup = getChartGranularity(timeConfig),
     label,
     customValueTooltip,
     verticalMetricValue,
     aggregation,
     showNullValuesChartOnEmptyMetrics,
-    hideChartOnEmptyMetrics,
-    valueTheme
+    hideChartOnEmptyMetrics
   } = props;
   let metrics = props.metrics;
 
@@ -47,7 +71,7 @@ export default function SparkChartReactComponent(props) {
   if (loading) {
     sparkChart = <LoadingIndicator text="" width={width} height={height} />;
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
-    sparkChart = <NoDataAvailable className={locals.noData} icon={'lib_bar_chart'} width={width} height={height} />;
+    sparkChart = <NoDataAvailable className={locals.noData} width={width} height={height} />;
   } else {
     sparkChart = (
       <SparkChartReactWrapper
@@ -58,7 +82,7 @@ export default function SparkChartReactComponent(props) {
           props.percentageMetric ?? getFormatterType(props.tooltipFormatter) === PERCENTAGE_FORMATTER_TYPE
         }
         timeConfig={timeConfig}
-        metrics={metrics}
+        metrics={metrics!}
       />
     );
   }
@@ -83,7 +107,7 @@ export default function SparkChartReactComponent(props) {
       return (
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
-          <KeyValue className={locals.keyValue} label={label} customValue={value} theme={valueTheme} accentuated />
+          <KeyValue className={locals.keyValue} label={label} customValue={value} accentuated />
         </div>
       );
     }
@@ -107,16 +131,24 @@ export default function SparkChartReactComponent(props) {
   return sparkChart;
 }
 
-class SparkChartReactWrapper extends React.Component {
+interface SparkChartReactWrapperProps extends SparkChartProps, LineMetricUpdateProps {
+  tooltipFormatter?: FormatterFn;
+  aggregation?: string;
+  metrics: MetricDataSeries;
+}
+
+class SparkChartReactWrapper extends React.Component<SparkChartReactWrapperProps> {
   static displayName = 'SparkChart';
+  sparkChart?: SparkChart | Nullish;
+  canvas?: HTMLCanvasElement | Nullish;
 
   componentDidMount() {
-    this.sparkChart = new SparkChart(this.canvas, this.props);
+    this.sparkChart = new SparkChart(this.canvas!, this.props);
     this.sparkChart.update(this.props);
   }
 
   componentDidUpdate() {
-    this.sparkChart.update(this.props);
+    this.sparkChart?.update(this.props);
   }
 
   componentWillUnmount() {
@@ -127,19 +159,11 @@ class SparkChartReactWrapper extends React.Component {
   }
 
   render() {
-    const { metrics, tooltipFormatter = number.detailed, timeConfig, width, height, rollup, aggregation } = this.props;
+    const { metrics, tooltipFormatter = number.detailed, timeConfig, width } = this.props;
 
     return (
       <div className={locals.sparkChart}>
-        <SparkTooltip
-          metrics={metrics}
-          timeConfig={timeConfig}
-          tooltipFormatter={tooltipFormatter}
-          rollup={rollup}
-          aggregation={aggregation}
-          width={width}
-          height={height}
-        />
+        <SparkTooltip metrics={metrics} timeConfig={timeConfig} tooltipFormatter={tooltipFormatter} width={width} />
         <canvas
           className={locals.canvas}
           ref={canvas => {
@@ -151,9 +175,9 @@ class SparkChartReactWrapper extends React.Component {
   }
 }
 
-function createSyntheticNullValues(timeConfig, rollup) {
-  const syntheticMetrics = [];
-  const from = timeConfig.to - timeConfig.windowSize;
+function createSyntheticNullValues(timeConfig: TimeConfig, rollup: number): MetricDataSeries {
+  const syntheticMetrics: MetricDataSeries = [];
+  const from = (timeConfig.to ?? 0) - timeConfig.windowSize;
   const numDataPoints = timeConfig.windowSize / rollup;
   for (let i = 0; i < numDataPoints; i++) {
     syntheticMetrics[i] = [from + rollup * i, 0];

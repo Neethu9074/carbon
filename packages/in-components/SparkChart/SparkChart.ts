@@ -6,7 +6,7 @@
 import LineMetricRenderer, { LineMetricUpdateProps } from 'in-components/SparkChart/LineMetricRenderer';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
-interface Props {
+export interface SparkChartProps {
   width: number;
   height: number;
   percentageMetric?: boolean;
@@ -20,7 +20,7 @@ export default class SparkChart {
 
   constructor(
     canvas: HTMLCanvasElement,
-    { width, height, percentageMetric, theme = 'light', showDots = false }: Props
+    { width, height, percentageMetric, theme = 'light', showDots = false }: SparkChartProps
   ) {
     this.canvas = canvas;
 
