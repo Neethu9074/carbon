@@ -600,19 +600,6 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
-        'unitStorageCapacity',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity')],
-    min: 0,
-    formatter: bytes.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
         'percentUsed',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )

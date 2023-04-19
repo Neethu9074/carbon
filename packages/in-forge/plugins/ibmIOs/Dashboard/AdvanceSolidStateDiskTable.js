@@ -99,22 +99,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.unitStorageCapacity`;
-      },
-      getContent: bytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten'),
     type: 'metric',
     typeArgs: {
