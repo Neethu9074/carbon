@@ -54,6 +54,7 @@ export interface AlertConfigDialogPresenterProps {
   initialConfiguredApplications?: object;
   isGlobalSmartAlert?: boolean;
   QueryBuilderComponent: QueryBuilderComponent;
+  isTagFilterFormModelValid: boolean;
 }
 
 export interface SlideInConfig {

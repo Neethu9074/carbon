@@ -47,7 +47,15 @@ interface AdvancedModeContainerProp {
 export default function AdvancedModeContainer(
   props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
 ) {
-  const { form, onChange, setSliderState, setCustomSlideInHeaderConfig, messages, headerTransparent = false } = props;
+  const {
+    form,
+    onChange,
+    setSliderState,
+    setCustomSlideInHeaderConfig,
+    messages,
+    headerTransparent = false,
+    isTagFilterFormModelValid
+  } = props;
 
   const nameField = form.get('name') as Field<string>;
   return (
@@ -66,7 +74,7 @@ export default function AdvancedModeContainer(
           scrollId: '2',
           label: t('in-alerting:smartAlerts.synthetics.advanced.scopeFilterLabel'),
           title: t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline'),
-          valid: true,
+          valid: isTagFilterFormModelValid,
           content: <AlertTagFilterExpressionConfig {...props} headerTransparent={headerTransparent} />
         },
         {
@@ -107,7 +115,7 @@ export default function AdvancedModeContainer(
           scrollId: '5',
           label: t('in-alerting:smartAlerts.synthetics.advanced.propertiesLabel'),
           title: t('in-alerting:smartAlerts.synthetics.advanced.propertiesTitle'),
-          valid: form.get('name')?.valid && form.get('description')?.valid,
+          valid: true,
           content: (
             <Section>
               <AlertPropertiesContainer

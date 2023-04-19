@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { SyntheticAlertConfig, TagFilter, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
-import { SyntheticAlertConfig, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 
@@ -44,7 +44,8 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
     .put(
       fieldNames.tagFilterExpression,
       createField({
-        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : []
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
+        validator: tagFilterValidator()
       })
     )
     .put(
@@ -114,4 +115,19 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
     );
 
   return form;
+}
+
+const isTagFilter = (element: FormModelElement): element is TagFilter => element.type === 'TAG_FILTER';
+
+function tagFilterValidator(): (str?: FormModelElement[]) => ValidationResult | null {
+  return (str?: any) => {
+    if (str?.find?.((item: FormModelElement) => isTagFilter(item) && !item.value)) {
+      return [
+        {
+          severity: 'error'
+        }
+      ];
+    }
+    return null;
+  };
 }
