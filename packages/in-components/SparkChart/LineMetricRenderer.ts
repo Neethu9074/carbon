@@ -3,19 +3,67 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 import {
   allowedMillisGapsInOneSecondResolution,
   allowedMultiplesOfRollupSizeMissingInCharts
 } from 'in-services/featureFlags';
-import createScale from 'in-services/scale';
+import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
+import createScale, { ScaleType } from 'in-services/scale';
 import theme from 'in-themes';
 
+interface Props {
+  width?: number;
+  height?: number;
+  theme?: string;
+  percentageMetric?: boolean;
+  showDots?: boolean;
+
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
+}
+
+interface UpdateProps {
+  metrics?: MetricDataSeries;
+  rollup?: number;
+  timeConfig: TimeConfig;
+}
+
+type MetricBlocks = ExpandedMetricDataSeries[];
+
+interface MetricStatistics {
+  lowerBound: number;
+  upperBound: number;
+}
+
+interface ExpandedMetricDataPoint {
+  x: number;
+  y: number;
+  xDomain: number;
+  value: number;
+}
+type ExpandedMetricDataSeries = ExpandedMetricDataPoint[];
+
 export default class LineMetricRenderer {
-  constructor(canvas, props = {}) {
+  canvas: HTMLCanvasElement;
+  width: number;
+  height: number;
+  theme: string | undefined;
+  percentageMetric: boolean | undefined;
+  showDots: boolean | undefined;
+  xScale: ScaleType;
+  yScale: ScaleType;
+  ctx: CanvasRenderingContext2D;
+  blocks: MetricBlocks = [];
+
+  constructor(canvas: HTMLCanvasElement, props: Props = {}) {
     this.canvas = canvas;
 
-    this.width = props.width;
-    this.height = props.height;
+    this.width = props.width ?? 0;
+    this.height = props.height ?? 0;
     this.percentageMetric = props.percentageMetric;
     this.theme = props.theme;
     this.showDots = props.showDots;
@@ -30,11 +78,11 @@ export default class LineMetricRenderer {
     this.yScale.setRangeFrom(paddingTop);
     this.yScale.setRangeTo(this.height - paddingBottom);
 
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas.getContext('2d')!;
   }
 
-  update({ metrics = [], rollup = 1000, timeConfig }) {
-    const to = timeConfig.to;
+  update({ metrics = [], rollup = 1000, timeConfig }: UpdateProps): void {
+    const to = timeConfig.to ?? 0;
     this.xScale.setDomainFrom(to - timeConfig.windowSize);
     this.xScale.setDomainTo(to);
 
@@ -46,7 +94,7 @@ export default class LineMetricRenderer {
     this.blocks = this.calculateBlocks(metrics, rollup);
   }
 
-  calculateMetricStatistics(metrics) {
+  calculateMetricStatistics(metrics: MetricDataSeries): MetricStatistics {
     let sumMetricValues = 0;
     let maxMetricValue = 0;
     let minMetricValue = 0;
@@ -125,24 +173,24 @@ export default class LineMetricRenderer {
     return { lowerBound, upperBound };
   }
 
-  calculateBlocks(metrics, rollup) {
-    const blocks = [];
+  calculateBlocks(metrics: MetricDataSeries, rollup: number): MetricBlocks {
+    const blocks: MetricBlocks = [];
     if (metrics.length === 0) {
       return blocks;
     }
 
     const maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints(rollup);
 
-    let currentBlock = [];
+    let currentBlock: ExpandedMetricDataSeries = [];
     blocks.push(currentBlock);
 
-    metrics = this.mapMetricsToAStructureWhichIsEasyToConsume(metrics);
+    const expandedMetrics = this.mapMetricsToAStructureWhichIsEasyToConsume(metrics);
 
-    for (let i = 0; i < metrics.length; i++) {
-      const dataPoint = metrics[i];
+    for (let i = 0; i < expandedMetrics.length; i++) {
+      const dataPoint = expandedMetrics[i];
       currentBlock.push(dataPoint);
 
-      const nextDataPoint = i + 1 < metrics.length ? metrics[i + 1] : dataPoint;
+      const nextDataPoint = i + 1 < expandedMetrics.length ? expandedMetrics[i + 1] : dataPoint;
       const isEndOfBlock = nextDataPoint.xDomain - dataPoint.xDomain > maxDistanceBetweenDatapointsInMillis;
       if (isEndOfBlock) {
         currentBlock = [];
@@ -153,14 +201,14 @@ export default class LineMetricRenderer {
     return blocks;
   }
 
-  calculateMaxMillisBetweenDatapoints(rollup) {
+  calculateMaxMillisBetweenDatapoints(rollup: number): number {
     if (rollup === 1000) {
       return allowedMillisGapsInOneSecondResolution;
     }
     return rollup * allowedMultiplesOfRollupSizeMissingInCharts;
   }
 
-  mapMetricsToAStructureWhichIsEasyToConsume(metrics) {
+  mapMetricsToAStructureWhichIsEasyToConsume(metrics: MetricDataSeries): ExpandedMetricDataSeries {
     return metrics.map(dataPoint => ({
       x: this.getX(dataPoint),
       y: this.getY(dataPoint),
@@ -169,11 +217,11 @@ export default class LineMetricRenderer {
     }));
   }
 
-  getX(dataPoint) {
+  getX(dataPoint: MetricDataPoint): number {
     return this.xScale.getRange(dataPoint[0]);
   }
 
-  getY(dataPoint) {
+  getY(dataPoint: MetricDataPoint): number {
     if (dataPoint[1] === 0) {
       // force 0 value data point to be rendered at the bottom
       return this.yScale.getRangeTo();
@@ -181,7 +229,7 @@ export default class LineMetricRenderer {
     return this.yScale.getRange(dataPoint[1]);
   }
 
-  render() {
+  render(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
     if (this.blocks.length === 0) {
       return;
@@ -194,7 +242,7 @@ export default class LineMetricRenderer {
     this.renderDataPoints();
   }
 
-  renderBlocks() {
+  renderBlocks(): void {
     if (this.theme === 'light') {
       this.ctx.fillStyle = theme.lib.colors.chart.strokeColors25[0];
     } else {
@@ -206,7 +254,7 @@ export default class LineMetricRenderer {
     }
   }
 
-  drawBlock(block) {
+  drawBlock(block: ExpandedMetricDataSeries): void {
     /*
      * Create paths that represent areas under sequences
      * that have no consecutive zeros inside, because in
@@ -216,7 +264,7 @@ export default class LineMetricRenderer {
     let dataPoints = Array.from(block);
 
     while (dataPoints.length) {
-      let firstDataPoint = dataPoints.shift();
+      let firstDataPoint = dataPoints.shift()!;
 
       if (!dataPoints.length || !dataPoints[0].value) {
         /*
@@ -264,7 +312,7 @@ export default class LineMetricRenderer {
        * the end of the series.
        */
       do {
-        nextDataPoint = dataPoints.shift();
+        nextDataPoint = dataPoints.shift()!;
         this.ctx.lineTo(nextDataPoint.x, nextDataPoint.y);
       } while (dataPoints.length && nextDataPoint.value);
 
@@ -309,7 +357,7 @@ export default class LineMetricRenderer {
     }
   }
 
-  renderDataPoints() {
+  renderDataPoints(): void {
     if (this.theme === 'light') {
       this.drawPoints('#ffffff', 3);
     } else {
@@ -318,7 +366,7 @@ export default class LineMetricRenderer {
     this.drawPoints(theme.lib.colors.chart.strokeColors100[0], 2, true);
   }
 
-  drawPoints(fillStyle, radius, withRespectToZeroValues = false) {
+  drawPoints(fillStyle: string, radius: number, withRespectToZeroValues = false): void {
     this.ctx.fillStyle = fillStyle;
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
@@ -336,7 +384,7 @@ export default class LineMetricRenderer {
           this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
           this.ctx.fill();
         } else if (block.length === 1) {
-          this.drawSinglePoints(dataPoint, fillStyle, radius);
+          this.drawSinglePoints(dataPoint, radius);
         }
 
         if (withRespectToZeroValues && dataPoint.value === 0) {
@@ -353,7 +401,7 @@ export default class LineMetricRenderer {
     }
   }
 
-  drawSinglePoints(dataPoint, fillStyle, radius) {
+  drawSinglePoints(dataPoint: ExpandedMetricDataPoint, radius: number): void {
     this.ctx.fillRect(dataPoint.x, dataPoint.y, radius, radius);
   }
 }
