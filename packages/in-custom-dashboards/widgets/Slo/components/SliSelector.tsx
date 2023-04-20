@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode, useEffect } from 'react';
 import { Field, MapForm } from 'formalistic';
-import React, { ReactNode } from 'react';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
@@ -25,6 +25,7 @@ interface SliSelectorProps {
 }
 
 type SliConfigIdFieldValue = string | undefined;
+
 export default function SliSelector({
   form,
   updateForm,
@@ -37,8 +38,19 @@ export default function SliSelector({
   const sliField = form.get(sliConfigId) as Field<SliConfigIdFieldValue>;
 
   const hasSomeConfig = sliConfigurations?.length !== 0;
+  const isResolved = status === 'resolved';
   const disabled = !entityId || !hasSomeConfig;
   const hasError = !sliField.valid && sliField.touched;
+  const selectedSliId = sliField?.value;
+
+  // clear the field when the selected configuration is deleted
+  useEffect(() => {
+    if (isResolved && selectedSliId && !sliConfigurations?.some(config => config.id === selectedSliId)) {
+      updateForm(
+        form.updateIn([sliConfigId], field => (field as Field<SliConfigIdFieldValue>).setValue('').setTouched(true))
+      );
+    }
+  }, [sliConfigurations, isResolved, selectedSliId, form, updateForm]);
 
   return (
     <Sections>
