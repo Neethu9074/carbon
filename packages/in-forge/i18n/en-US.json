@@ -9407,15 +9407,12 @@
             "lifeRemaining": "Life Remaining",
             "spareCapacity": "Spare Capacity",
             "spareCapacityThreshold": "Spare Capacity Threshold",
-            "namespaceAvailable": "Namespace Available",
             "namespaceUsed": "Namespace Used",
             "powerCycles": "Power Cycles",
             "powerOnHours": "Power On Hours",
             "mediaErrors": "Media Errors",
             "unSafeShutDowns": "Unsafe Shutdowns",
-            "compositeTemperature": "Composite Temperature",
-            "firmwareLevel": "Firmware Level",
-            "serialNumber": "Serial Number"
+            "firmwareLevel": "Firmware Level"
           }
         }
       } ,

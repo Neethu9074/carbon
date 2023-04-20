@@ -81,22 +81,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.namespaceAvailable'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `nonVolatileMemoryMetrics.${row.key}.namespaceAvailable`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.namespaceUsed'),
     type: 'metric',
     typeArgs: {
@@ -177,36 +161,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.compositeTemperature'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `nonVolatileMemoryMetrics.${row.key}.compositeTemperature`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.firmwareLevel'),
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.nonVolatileMemoryRawData.get('firmwareLevel');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.serialNumber'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.nonVolatileMemoryRawData.get('serialNumber');
       }
     }
   }

@@ -756,19 +756,6 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'nonVolatileMemoryMetrics',
-        'namespaceAvailable',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.namespaceAvailable')],
-    min: 0,
-    formatter: number.compact,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'nonVolatileMemoryMetrics',
         'namespaceUsed',
         t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
       )
@@ -828,19 +815,6 @@ export default [
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.unSafeShutDowns')],
     min: 0,
     formatter: number.compact,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'nonVolatileMemoryMetrics',
-        'compositeTemperature',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.compositeTemperature')],
-    min: 0,
-    formatter: number.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
   },
   {
