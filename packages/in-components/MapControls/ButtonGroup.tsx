@@ -8,12 +8,19 @@ import React from 'react';
 
 import locals from './ButtonGroup.mless';
 
-export default function ButtonGroup({ vertical, children, className }) {
+interface Props {
+  vertical?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export default function ButtonGroup({ vertical, children, className }: Props) {
   return (
     <div
       className={classNames({
         [locals.group]: true,
         [locals.vertical]: vertical,
+        // @ts-expect-error classnames explicitly can handle undefined object keys
         [className]: className
       })}
     >
