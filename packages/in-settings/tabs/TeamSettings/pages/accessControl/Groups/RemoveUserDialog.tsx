@@ -6,7 +6,6 @@
 
 import React, { useState } from 'react';
 
-// @ts-expect-error Expecting error, as this is currently only available as JS
 import { removeUserFromGroupWithoutMapAndRefresh as removeUserFromGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { close } from 'in-components/DialogPresenter/store';
@@ -62,7 +61,6 @@ export function RemoveUserDialog({ groupId, userId, username, removeLocally }: P
       setErrors([{ code: 'SERVER', message }]);
       setIsSaving(false);
     };
-    // @ts-expect-error Expecting error, as this is currently only available as JS
     removeUserFromGroup(groupId, userId).once(data => {
       if (isStatusOk(data.status)) {
         setIsSaving(false);

@@ -43,7 +43,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-// @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 // @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';

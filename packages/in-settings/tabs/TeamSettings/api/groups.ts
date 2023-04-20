@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
+import { GroupWithRoles, Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -19,35 +21,43 @@ export function refresh() {
 }
 
 // observables
-
 export const getGroupWithIdpFlagAsResultObservable = memoize(
   getGroupWithIdpFlagAsResultObservableInternal,
   groupId => groupId,
   60000
 );
-function getGroupWithIdpFlagAsResultObservableInternal(groupId) {
+
+function getGroupWithIdpFlagAsResultObservableInternal(groupId: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<{ groupWithRoles: GroupWithRoles; idpFlagMap: Object }>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/${groupId}/group-with-idp-mapping`
       }).map(r => {
         const groupWithRoles = r.body.groupWithRoles;
-        const idpFlagMap = r.body.idpFlagMap;
-        groupWithRoles.members.forEach(m => (m.joinedViaIdpMapping = idpFlagMap[m.userId]));
-        r.body = groupWithRoles;
-        return r;
+        const idpFlagMap = new Map(Object.entries(r.body.idpFlagMap));
+        return {
+          ...r,
+          body: {
+            ...groupWithRoles,
+            members: groupWithRoles.members.map(member => ({
+              ...member,
+              joinedViaIdpMapping: idpFlagMap.get(member.userId)
+            }))
+          }
+        };
       })
     )
   );
 }
 
-export const getGroupsAsResultObservable = memoize(getGroupsAsResultObservableInternal, () => '', 60000);
-function getGroupsAsResultObservableInternal() {
+export const getGroupsAsResultObservable = () =>
+  memoize<undefined, Result<GroupWithRoles[]>>(getGroupsAsResultObservableInternal, () => '', 60000)(undefined);
+function getGroupsAsResultObservableInternal(_arg: undefined) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<GroupWithRoles[]>({
         method: 'GET',
         maxRetries: 3,
         url: basePath
@@ -57,7 +67,7 @@ function getGroupsAsResultObservableInternal() {
 }
 
 export const getGroupAsResultObservable = memoize(getGroupAsResultObservableInternal, groupId => groupId, 60000);
-function getGroupAsResultObservableInternal(groupId) {
+function getGroupAsResultObservableInternal(groupId: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
       http({
@@ -70,7 +80,7 @@ function getGroupAsResultObservableInternal(groupId) {
 }
 
 export const getGroupsOfASingleUser = memoize(getGroupsOfASingleUserInternal, email => email, 60000);
-function getGroupsOfASingleUserInternal(email) {
+function getGroupsOfASingleUserInternal(email: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
       http({
@@ -82,13 +92,13 @@ function getGroupsOfASingleUserInternal(email) {
   );
 }
 
-export const getStrippedGroupsWithIdpFlagAsResultObservable = userId =>
+export const getStrippedGroupsWithIdpFlagAsResultObservable = (userId: string) =>
   memoize(
     () => getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId),
     () => '',
     60000
   );
-function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId) {
+function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
       http({
@@ -100,15 +110,12 @@ function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId) {
   );
 }
 
-export const getStrippedGroupsAsResultObservable = memoize(
-  getStrippedGroupsAsResultObservableInternal,
-  () => '',
-  60000
-);
-function getStrippedGroupsAsResultObservableInternal() {
+export const getStrippedGroupsAsResultObservable = () =>
+  memoize<undefined, Result<GroupWithRoles[]>>(getStrippedGroupsAsResultObservableInternal, () => '', 60000)(undefined);
+function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<GroupWithRoles[]>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/stripped`
@@ -119,7 +126,7 @@ function getStrippedGroupsAsResultObservableInternal() {
 
 // regular calls
 
-export function saveGroup(group) {
+export function saveGroup(group: GroupWithRoles) {
   return http({
     method: group.id ? 'PUT' : 'POST',
     maxRetries: 3,
@@ -129,7 +136,7 @@ export function saveGroup(group) {
   }).map(mapAndRefresh);
 }
 
-export function saveGroups(groups) {
+export function saveGroups(groups: GroupWithRoles[]) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -139,7 +146,7 @@ export function saveGroups(groups) {
   }).map(mapAndRefresh);
 }
 
-export function deleteGroup(id) {
+export function deleteGroup(id: string) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
@@ -150,17 +157,16 @@ export function deleteGroup(id) {
 
 /**
  * Removes the given user from the given group without doing any mapping or page reloads
- *
  * @param {string} groupId to be removed from
  * @param {string} userId to be removed
  * @returns Observable<Response<String>>
  */
-export function removeUserFromGroupWithoutMapAndRefresh(groupId, userId) {
+export function removeUserFromGroupWithoutMapAndRefresh(groupId: string, userId: string): Observable<Response<string>> {
   return http({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${basePath}/${groupId}/user/${userId}`
+    url: `/api/settings/rbac/groups/${groupId}/user/${userId}`
   });
 }
 
@@ -171,7 +177,7 @@ export function removeUserFromGroupWithoutMapAndRefresh(groupId, userId) {
  * @param {string} userId to be removed
  * @returns Observable<Response<String>>
  */
-export function removeUserFromGroup(groupId, userId) {
+export function removeUserFromGroup(groupId: string, userId: string) {
   return removeUserFromGroupWithoutMapAndRefresh(groupId, userId).map(mapAndRefresh);
 }
 
@@ -181,7 +187,7 @@ export function removeUserFromGroup(groupId, userId) {
  * @param {string[]} userIds list of userIds to be set as users to group
  * @returns {import('@instana/observables').Observable} of complete group
  */
-export function setUsersToGroup(groupId, userIds) {
+export function setUsersToGroup(groupId: string, userIds: string[]) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -191,14 +197,14 @@ export function setUsersToGroup(groupId, userIds) {
   });
 }
 
-function mapAndRefresh(response) {
+function mapAndRefresh<T>(response: Response<T>): T {
   refresh();
   return response.body;
 }
 
-export function createNewGroup() {
+export function createNewGroup(): GroupWithRoles {
   return {
-    id: null,
+    id: undefined,
     name: t('in-settings:teamSettings.newGroup'),
     members: [],
     permissionSet: createPermissionSet()

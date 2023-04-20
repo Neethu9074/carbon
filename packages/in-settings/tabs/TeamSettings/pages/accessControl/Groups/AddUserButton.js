@@ -7,8 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
-import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
+import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -69,12 +68,7 @@ export default function AddUserButton({ members, addUsers, groupId }) {
     <Button
       kind="action"
       onClick={() => {
-        addActiveDialog(
-          <AddUserDialog
-            members={members}
-            onSubmit={onSubmit}
-          />
-        );
+        addActiveDialog(<AddUserDialog members={members} onSubmit={onSubmit} />);
       }}
       icon="lib_openclose_add_circle_outline"
     >
