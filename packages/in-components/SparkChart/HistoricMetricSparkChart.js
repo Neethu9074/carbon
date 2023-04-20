@@ -105,7 +105,7 @@ const SparkChartWrapper = connectTo(
       }))
     };
   },
-  function(props) {
+  function (props) {
     return <SparkChart {...props} />;
   }
 );

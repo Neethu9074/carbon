@@ -3,11 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import locals from './MetricValue.mless';
 
-export default function MetricValue({ value, className }) {
+interface Props {
+  value?: ReactNode | undefined;
+  className?: string;
+}
+
+export default function MetricValue({ value, className }: Props) {
   return <span className={classNames(locals.metricValue, className)}>{value}</span>;
 }

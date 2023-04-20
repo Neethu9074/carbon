@@ -131,7 +131,8 @@ type AxisIcons = {
   types: string[];
 };
 
-export type MetricDataSeries = [number, number][];
+export type MetricDataPoint = [timeStamp: number, value: number];
+export type MetricDataSeries = MetricDataPoint[];
 
 type AxisColor = string | null;
 export type AxisName = 'y1' | 'y2';
