@@ -24,7 +24,7 @@ export default function useSloListItems({
   orderBy,
   orderDirection
 }: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<SloListItem>> {
-  const [configurationPage, configurationStatus, configrationErrors, configurationProgress] = useSloConfigurations({
+  const [configurationPage, configurationStatus, configurationErrors, configurationProgress] = useSloConfigurations({
     page,
     pageSize,
     query,
@@ -38,7 +38,7 @@ export default function useSloListItems({
 
   const status = allStatus(configurationStatus, labelsStatus);
   const progress = allProgress(configurationProgress, labelsProgress);
-  const errors = [...configrationErrors, ...labelsErrors];
+  const errors = [...configurationErrors, ...labelsErrors];
 
   if (status != 'resolved') {
     return [undefined, status, errors, progress];

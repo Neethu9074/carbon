@@ -12,6 +12,7 @@ import {
   trackAlertDeleteTrigger,
   trackAlertDeleteConfirm,
   trackAlertEdit,
+  trackAlertCloneTrigger,
   trackAlertPaused,
   trackAlertResumed
 } from 'in-alerting/smart-alerts/components/tracker';
@@ -109,8 +110,8 @@ export default function Alert({
                 isGlobalSmartAlert
               })
             );
-            if (tracking.trackEdit) {
-              tracking.trackEdit?.({ alertConfigId: alertConfig.id });
+            if (isCopy) {
+              trackAlertCloneTrigger(alertConfig.id);
             } else if (!isCopy) {
               trackAlertEdit(alertConfig);
             }

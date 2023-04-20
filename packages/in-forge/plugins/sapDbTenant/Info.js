@@ -11,13 +11,10 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.sapDbTenant.hostName')}>{data.get('hostName')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapDbTenant.resourceType')}>
-        {data.get('resourceType')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapDbTenant.objectType')}>{data.get('objectType')}</DescriptionItem>
     </DescriptionList>
   );
 }

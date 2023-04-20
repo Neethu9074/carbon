@@ -404,6 +404,11 @@
   "pluginName_sapJavaInstance_1": "SAP Java Instance",
   "pluginName_sapJavaInstance_2": "SAP Java Instance",
   "pluginName_sapJavaInstance": "SAP Java Instance",
+  "pluginName_sapHanaSystem_plural": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_0": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_1": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_2": "SAP Hana Systems",
+  "pluginName_sapHanaSystem": "SAP Hana System",
   "pluginName_sapHost_plural": "SAP Host",
   "pluginName_sapHost_0": "SAP Host",
   "pluginName_sapHost_1": "SAP Host",
@@ -5831,7 +5836,8 @@
         "hadr": "hadr",
         "vmonlockStatsValue": "Lock Statistics (Memory)",
         "vmonlockStats": "Lock Statistics",
-        "databaseVmondeltaStats": "Transaction Performance (Incremental Value)"
+        "databaseVmondeltaStats": "Transaction Performance (Incremental Value)",
+        "standbyId": "Standby ID"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6024,7 +6030,7 @@
       "secLogPage": "Secondary Log Page",
       "secLogPos": "Secondary Log Position",
       "secLogTime": "Secondary Log Time",
-      "HADR_CONNECT_STATUS": "HADR connect Status",
+      "hadrConnectStatus": "HADR connect Status",
       "hadrWaitsTotal": "HADR Waits Total",
       "sockSendBufReq": "Requested Send Buffer",
       "sockSendBufActual": "Actual Send Buffer",
@@ -6946,7 +6952,9 @@
       "aliveThreads": "Alive Threads",
       "dummyThreads": "Dummy Threads",
       "daemonThreads": "Daemon Threads",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "Long-term support docs",
+      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
     "rabbitMq": {
       "dashboard": {
@@ -9381,27 +9389,50 @@
             "resourceName": "Resource Name",
             "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
+            "unitNumber": "Unit Number",
+            "serialNumber": "Serial Number",
+            "aspNumber": "ASP Number",
+            "ssdLifeRemaining": "SSD Remaining Life",
+            "ssdPowerOnDays": "SSD Power On days",
+            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
+            "ssdBytesWritten": "SSD Bytes Written",
+            "ssdReadWriteProtected": "SSD Read Write Protected",
+            "ssdPFAWarning": "SSD PFA Warning"
+          },
+          "systemDiskStatus": {
+            "name": "System Overall Disk Information",
+            "resourceName": "Resource Name",
+            "unitStorageCapacity": "Storage Capacity",
+            "percentUsed": "Percent Used",
             "diskType": "Disk Type",
             "unitNumber": "Unit Number",
             "serialNumber": "Serial Number",
             "aspNumber": "ASP Number",
             "raidType": "Raid Type",
             "protectionStatus": "Protection Status",
-            "ssdLifeRemaining": "SSD Remaining Life",
-            "ssdPowerOnDays": "SSD Power On days",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
+            "multiplePathUnit": "Multiple Path Unit",
             "charts": {
               "elapsedIORequests": "Elapsed IO Requests",
               "elapsedRequestSize": "Elapsed Request Size",
-              "elapsedPercentBusy": "Elapsed Percent Busy",
-              "totalReadRequests": "Total Read Requests",
-              "totalWriteRequests": "Total Write Requests",
-              "elapsedDataRead": "Elapsed Data Read",
-              "elapsedDataWritten": "Elapsed Data Written"
-            }
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+              }
+            },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express(NVMe) Information",
+            "resourceName": "Resource Name",
+            "hardwareModelNumber": "Model Number",
+            "lifeRemaining": "Life Remaining",
+            "spareCapacity": "Spare Capacity",
+            "spareCapacityThreshold": "Spare Capacity Threshold",
+            "namespaceUsed": "Namespace Used",
+            "powerCycles": "Power Cycles",
+            "powerOnHours": "Power On Hours",
+            "mediaErrors": "Media Errors",
+            "unSafeShutDowns": "Unsafe Shutdowns",
+            "firmwareLevel": "Firmware Level"
           }
         }
-      },
+      } ,
       "name": "IBM i",
       "memoryPool": "Memory Pool",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
@@ -10218,14 +10249,13 @@
       "allocatedBytesPercent": "Allocated Bytes (%)",
       "pid": "PID",
       "state": "State",
-      "totalConnections":"Total Connections",
-      "dashboard":{
+      "totalConnections": "Total Connections",
+      "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
         "workerLua": "Allocated Bytes in Worker Lua VM",
         "totalConnections": "Total Connections"
       }
-
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
@@ -10953,7 +10983,7 @@
       "numOfSvcs": "Number of Services",
       "numOfReqQues": "Number of Request Queues",
       "numOfSrvGrps": "Number of Server Groups",
-      "numOfIntfs" : "Number of Interfaces",
+      "numOfIntfs": "Number of Interfaces",
       "totNumOfIPCMsgs": "Total Number of IPC Messages",
       "domain": "Domain"
     },
@@ -10988,7 +11018,7 @@
       "ipcQueues": "IPC Queues",
       "ipcQueueId": "IPC Queue Id",
       "machines": "Machines",
-      "stateMetric":"State Metric"
+      "stateMetric": "State Metric"
     },
     "tuxedoServer": {
       "tuxedoServer": "Tuxedo Server",
@@ -10997,7 +11027,7 @@
       "serverId": "Server Id",
       "pid": "PID",
       "groupNo": "Group No",
-      "groupName" :"Group Name",
+      "groupName": "Group Name",
       "queued": "Queued",
       "completed": "Completed",
       "health": "Health",
@@ -11014,7 +11044,7 @@
       "numQueued": "Number of requests initiated",
       "numCompletedEachServ": "Number of service requests completed",
       "numQueuedEachServ": "Number of requests currently enqueued",
-      "stateMetric":"State Metric"
+      "stateMetric": "State Metric"
     },
     "unmonitoredHost": {
       "headerNetworkInformation": "Network Information",
@@ -12625,9 +12655,9 @@
       "resourceType": "Resource Type",
       "serviceName": "Service Name",
       "cPUUsage": "CPU Usage",
-      "typeId": "Type Id",
       "memoryUsage": "Memory Usage",
       "CPU_IO_WAIT": "IO Wait",
+      "unit": "Unit",
       "cPU_SYSTEM_UTILIZATION": "System Utilization",
       "cPU_USER_UTILIZATION": "User Utilization",
       "mEMORY_Free_KB": "Free",
@@ -12638,9 +12668,15 @@
       "mEMORY_SWAP_TOTAL_KB": "Swap Total",
       "mEMORY_SWAP_FREE_KB": "Swap Free",
       "mEMORY_SWAP_FREE": "Swap Free %",
-      "fileSystem": "File System Used",
+      "fileSystem": "File System",
       "availabilityZone": "Availability Zone",
-      "rating": "Rating"
+      "rating": "Rating",
+      "webServiceAvailability": "Web Service Availability",
+      "agentAvailability": "SAP Agent Web Service Availability",
+      "oSCOLAvailability": "SAP OsCol Web Service Availability",
+      "cPUSystemUsage": "CPU System Utilization",
+      "totalMemoryUsage": "Total Memory Usage",
+      "fileSystemUsed": "File System Stats"
     },
     "abapInstance": {
       "label": "ABAP Instance",
@@ -12648,8 +12684,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "centralService": "Central Service",
       "instanceAvail": "Instance Avail",
       "javaToAbap": "Java To Abap",
@@ -12723,7 +12758,7 @@
       "minValue": "Minimum Value",
       "maxValue": "Maximum Value",
       "hostName": "Host Name",
-      "resourceType": "Resource Type",
+      "objectType": "Object Type",
       "host_id": "Host Id",
       "value": "Value",
       "abapSystemAvailability": "Abap System Availability",
@@ -12807,7 +12842,7 @@
     "sapDbTenant": {
       "label": "SAP DB Tenant",
       "hostName": "Host Name",
-      "resourceType": "Resource Type",
+      "objectType": "Object Type",
       "serviceAvailability": "Service Availability"
     },
     "sapDbInstance": {
@@ -12827,8 +12862,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "mergeDBKeyeq_1012": "Merge DB Key eq_1012",
       "reclaimDBKeyeq_1012": "Reclaim DB Key eq_1012",
       "sparseDBKeyeq_1012": "Sparse DB Key eq_1012",
@@ -12841,9 +12875,9 @@
       "minValue": "Minimum Value",
       "maxValue": "Maximum Value",
       "status": "Status",
+      "messageDeliveredStatus": "Message Delivered Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "systemHttpAvailability": "System Http Availability",
       "j2EEMessagesError": "J2EE Messages Error",
       "j2EEMessagesCancelled": "J2EE Messages Cancelled",
@@ -12855,8 +12889,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "httpAvailability": "Http Availability",
       "iCMStatus": "ICM Status",
       "gRMGServiceStatus": "GRMG Service Status",
@@ -12867,6 +12900,12 @@
       "webServicesStatus": "Web Services Status",
       "sCSEnqueueStatus": "SCS Enqueue Status",
       "sCSMessageServerStatus": "SCS Message Server Status"
+    },
+    "sapHanaSystem": {
+      "label": "SAP Hana System",
+      "hostName": "Host Name",
+      "objectType": "Object Type",
+      "systemAvailability": "System Availability"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",

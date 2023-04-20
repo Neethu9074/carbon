@@ -10,6 +10,9 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
@@ -20,7 +23,7 @@ export default function Summary({ timeConfig, data: vm }) {
   const snapshotId = vm.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[6, 6]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
         <InfraMetricKpiCard
           title={t('in-sap:dashboards.icmStatus')}
           snapshotId={snapshotId}
@@ -33,6 +36,12 @@ export default function Summary({ timeConfig, data: vm }) {
           metric="metrics.Availability.Java_Server_Node_Status.JAVA_SERVER_NODE_STATUS_Java_Server_Node_Status.value"
           formatter={number.compact}
         />
+        <KpiCard
+         title={t('in-sap:dashboards.httpAvailRating')}
+         value={vm.httpAvailRating || valueMissingPlaceholder}
+         borderless
+         color={colorFormatter(vm.httpAvailRating)}
+         />
       </KpiGridRow>
       <Row>
         <Col lg={12}>
@@ -48,10 +57,9 @@ export default function Summary({ timeConfig, data: vm }) {
               y1={{
                 formatter: number,
                 metrics: [
-                  'metrics.Availability.ADS_Instance_Http_Availability.ADS_AVAIL_HTTPPING.value',
                   'metrics.Availability.Java_Instance_Availability.HTTP_SERVICE_STATUS_(GRMG).value'
                 ],
-                labels: [t('in-sap:dashboards.aDSAvailability'), t('in-sap:dashboards.instanceAvailability')],
+                labels: [t('in-sap:dashboards.instanceAvailability')],
                 type: 'line'
               }}
             />

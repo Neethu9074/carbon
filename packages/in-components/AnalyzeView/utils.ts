@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { FacetedSearchItem, Facets } from 'in-components/AnalyzeView/StateManagement';
 import theme from 'in-themes';
 
 export const getLabel = ({ name }: { name: string }) => {
@@ -17,3 +18,12 @@ export const GROUP_COLORS = (() => {
   const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
   return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
 })();
+
+export const getConfiguredFacetTags = (facetedSearchItems: FacetedSearchItem[]) =>
+  facetedSearchItems.map(item => item.tag);
+
+export const getTotalActiveFacetItems = (facetedSearchItems: FacetedSearchItem[], facets: Facets) =>
+  getConfiguredFacetTags(facetedSearchItems).reduce(
+    (acc: number, facetTag: string) => (acc += facets[facetTag]?.length || 0),
+    0
+  );

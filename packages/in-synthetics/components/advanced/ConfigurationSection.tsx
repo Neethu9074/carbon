@@ -4,21 +4,30 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm } from 'formalistic';
+import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
+import {
+  onlyUniqueKeyNames,
+  requestHeaderNameValidator,
+  requestHeaderValueValidator
+} from 'in-synthetics/utils/configValidators';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import { HTTPMethods, Validations } from 'in-synthetics/form/createSyntheticTestForm';
 import ValidationSection from 'in-synthetics/components/advanced/ValidationSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
+import { Validation } from 'in-synthetics/utils/constants';
+import { ConfigItem } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
-import { Header } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
 import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label/Label';
@@ -30,38 +39,90 @@ import locals from './ConfigurationSection.mless';
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  headers: Header[];
-  setHeaders: React.Dispatch<React.SetStateAction<Header[]>>;
-  isDuplicateHeader: boolean;
-  setIsDuplicateHeader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ConfigurationSection({
-  form,
-  updateForm,
-  headers,
-  setHeaders,
-  isDuplicateHeader,
-  setIsDuplicateHeader
-}: Props) {
+export default function ConfigurationSection({ form, updateForm }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const allowInsecure = configForm.get('allowInsecure') as Field<boolean>;
-  const [isVisible, setIsVisible] = useState({ combo0: true, combo1: false, combo2: false });
   const followRedirect = configForm.get('followRedirect') as Field<boolean>;
   const body = configForm.get('body') as Field<string>;
   const validationString = configForm.get('validationString') as Field<string>;
-  const headersField = configForm.get('headers') as Field<Record<string, string>>;
-  const [comboBoxSelections, setComboBoxSelections] = useState({
-    combo0: Validations[0].value as string,
-    combo1: '',
-    combo2: ''
-  });
+  const expectStatus = configForm.get('expectStatus') as Field<string>;
+  const expectJson = configForm.get('expectJson') as Field<Record<string, string>>;
+  const expectMatch = configForm.get('expectMatch') as Field<string>;
+  const getDefaultExpectValues = (): Validation[] => {
+    const expectedObject: Validation[] = [];
+    if (isNotBlank(expectStatus.value)) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect Status',
+        value: expectStatus.value,
+        fieldName: 'expectStatus'
+      });
+    }
+    if (Object.keys(expectJson.value).length !== 0) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect JSON',
+        value: expectJson.value,
+        fieldName: 'expectJson'
+      });
+    }
+    if (isNotBlank(expectMatch.value)) {
+      expectedObject.push({
+        id: generateUniqueShortId(),
+        key: 'Expect Match',
+        value: expectMatch.value,
+        fieldName: 'expectMatch'
+      });
+    }
+    return expectedObject.length > 0
+      ? expectedObject
+      : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
+  };
+  const getDefaultHeaders = (): ConfigItem[] => {
+    const headersValue = (configForm.get('headers') as Field<Record<string, string>>).value;
+    const headerObject: ConfigItem[] = [];
+    Object.keys(headersValue).map(key =>
+      headerObject.push({
+        id: generateUniqueShortId(),
+        key,
+        value: headersValue[key],
+        error: {
+          name: { invalid: false, message: '' },
+          value: { invalid: false, message: '' }
+        }
+      })
+    );
+    return headerObject;
+  };
+  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
+
+  const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
   function addNewHeaderRow() {
-    setHeaders([...headers, { id: generateUniqueShortId(), key: '', value: '' }]);
+    setHeaders([
+      ...headers,
+      {
+        id: generateUniqueShortId(),
+        key: '',
+        value: '',
+        error: {
+          name: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+          },
+          value: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+          }
+        }
+      }
+    ]);
     updateForm(
       form.updateIn(['configuration', 'headers'], (field: Item) =>
         (field as Field<{ [index: string]: string }>).setTouched(false)
@@ -75,7 +136,17 @@ export default function ConfigurationSection({
       1
     );
     setHeaders([...headers]);
+    checkForUniqueHeaderNames();
     updateHeaders(true);
+  }
+
+  function checkForUniqueHeaderNames() {
+    const uniqueKeyName = onlyUniqueKeyNames(headers);
+    if (uniqueKeyName) {
+      setInvalidHeader({ invalid: true, message: uniqueKeyName[0].message! });
+    } else {
+      setInvalidHeader({ invalid: false, message: '' });
+    }
   }
 
   function updateHeaders(isDeleteAction: boolean) {
@@ -83,7 +154,7 @@ export default function ConfigurationSection({
       form.updateIn(['configuration', 'headers'], (field: Item) =>
         (field as Field<{ [index: string]: string }>)
           .setValue(
-            headers.reduce((headerObj: { [index: string]: string }, h: Header) => {
+            headers.reduce((headerObj: { [index: string]: string }, h: ConfigItem) => {
               if (isNotBlank(h.key) || isNotBlank(h.value)) headerObj[h.key] = h.value;
               return headerObj;
             }, {})
@@ -91,6 +162,38 @@ export default function ConfigurationSection({
           .setTouched(!isDeleteAction)
       )
     );
+  }
+
+  function validateHeaders(headers: ConfigItem[], value: string, index: number, isHeaderName: boolean): ConfigItem[] {
+    const headerName = isHeaderName ? value : headers[index].key;
+    const headerValue = isHeaderName ? headers[index].value : value;
+    const nameUndefined: ValidationResult = notUndefinedValidator(headerName);
+    const nameNotBlank: ValidationResult = notBlankValidator(headerName);
+    const nameNotValid: ValidationResult = requestHeaderNameValidator(headerName);
+    const valueUndefined: ValidationResult = notUndefinedValidator(headerValue);
+    const valueNotBlank: ValidationResult = notBlankValidator(headerValue);
+    const valueNotValid: ValidationResult = requestHeaderValueValidator(headerValue);
+
+    if (nameUndefined) {
+      headers[index].error['name'] = { invalid: true, message: nameUndefined[0].message! };
+    } else if (nameNotBlank) {
+      headers[index].error['name'] = { invalid: true, message: nameNotBlank[0].message! };
+    } else if (nameNotValid) {
+      headers[index].error['name'] = { invalid: true, message: nameNotValid[0].message! };
+    } else {
+      headers[index].error['name'] = { invalid: false, message: '' };
+    }
+
+    if (valueUndefined) {
+      headers[index].error['value'] = { invalid: true, message: valueUndefined[0].message! };
+    } else if (valueNotBlank) {
+      headers[index].error['value'] = { invalid: true, message: valueNotBlank[0].message! };
+    } else if (valueNotValid) {
+      headers[index].error['value'] = { invalid: true, message: valueNotValid[0].message! };
+    } else {
+      headers[index].error['value'] = { invalid: false, message: '' };
+    }
+    return headers;
   }
 
   return (
@@ -153,28 +256,18 @@ export default function ConfigurationSection({
                 <Input
                   name="header"
                   value={header.key}
-                  hasError={!headersField.valid && headersField.touched && header.key === ''}
+                  hasError={header.error['name'].invalid}
                   onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                    const updatedHeaders = headers.slice();
-                    let hasDuplicateHeader = false;
-                    for (let i = 0; i < updatedHeaders.length; i++) {
-                      if (updatedHeaders[i].id === header.id) {
-                        updatedHeaders[i].key = target.value;
-                        if (
-                          updatedHeaders.filter(h => isNotBlank(h.key) && h.key === updatedHeaders[i].key).length > 1
-                        ) {
-                          hasDuplicateHeader = true;
-                        }
-                      }
-                    }
+                    let updatedHeaders = headers.slice();
+                    const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
+                    updatedHeaders[index].key = target.value;
+                    checkForUniqueHeaderNames();
+                    updatedHeaders = validateHeaders(updatedHeaders, target.value, index, true);
                     setHeaders([...updatedHeaders]);
-                    setIsDuplicateHeader(hasDuplicateHeader);
                     updateHeaders(false);
                   }}
                 />
-                {!headersField.valid && headersField.touched && header.key === '' && (
-                  <TouchedMessages field={headersField} />
-                )}
+                {header.error['name'].invalid && <ValidationBlock>{header.error['name'].message}</ValidationBlock>}
               </FormGroup>
               <FormGroup className={locals.descriptionInput}>
                 <Label htmlFor="headerValue">
@@ -183,27 +276,25 @@ export default function ConfigurationSection({
                 <Input
                   name="headerValue"
                   value={header.value}
+                  hasError={header.error['value'].invalid}
                   onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                    const index = headers.findIndex((h: Header) => h.id === header.id);
-                    headers[index].value = target.value;
-                    setHeaders(headers);
+                    let updatedHeaders = headers.slice();
+                    const index = updatedHeaders.findIndex((h: ConfigItem) => h.id === header.id);
+                    updatedHeaders[index].value = target.value;
+                    updatedHeaders = validateHeaders(updatedHeaders, target.value, index, false);
+                    setHeaders([...updatedHeaders]);
                     updateHeaders(false);
                   }}
                 />
+                {header.error['value'].invalid && <ValidationBlock>{header.error['value'].message}</ValidationBlock>}
               </FormGroup>
-              <div className={locals.deleteAction}>
+              <div className={classNames(locals.deleteAction, locals.deleteHeader)}>
                 <SvgIcon type="lib_actions_delete" onClick={() => deleteHeaderAction(header.id)} />
               </div>
             </Stack>
           );
         })}
-        <section>
-          {isDuplicateHeader && (
-            <ValidationBlock>
-              {t('in-synthetics:dialog.createTest.advancedMode.configStep.HeadersCannotBeDuplicated')}
-            </ValidationBlock>
-          )}
-        </section>
+        <section>{invalidHeader.invalid && <ValidationBlock>{invalidHeader.message}</ValidationBlock>}</section>
         <div>
           <Button
             className={locals.validationsBtn}
@@ -254,10 +345,8 @@ export default function ConfigurationSection({
         <ValidationSection
           form={form}
           updateForm={updateForm}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          comboBoxSelections={comboBoxSelections}
-          setComboBoxSelections={setComboBoxSelections}
+          expectSelections={expectSelections}
+          setExpectSelections={setExpectSelections}
           setInvalidJSON={setInvalidJSON}
           invalidJSON={invalidJSON}
         />

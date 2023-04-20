@@ -32,7 +32,18 @@ interface CompactAndDetailedFormatter {
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format: (specifier: string) => (num: number) => string = isLocaleAware
-  ? createCustomLocaleFormat({
+  ? // @ts-expect-error type definition is not exact, and d3-format fully works even with undefined values for e.g. decimal
+    // The external type definitions for d3-format are "incomplete".
+    // Example:
+    //   decimal? string | undefined (field in numberLocale)
+    // won't match with
+    //   decimal: string
+    //
+    // All good, because implementation is actually checking via:
+    //   locale.decimal === undefined ? "." : locale.decimal + ""
+    //
+    // Verified for d3-format@1.4.5:
+    createCustomLocaleFormat({
       ...window.instana.numberLocale,
       // Some languages have alternative numerals, e.g., east arabic.
       // https://en.wikipedia.org/wiki/Eastern_Arabic_numerals
@@ -40,10 +51,6 @@ const format: (specifier: string) => (num: number) => string = isLocaleAware
       // Some of our formatters have assumptions about these numbers.
       // In order to avoid breakage, we will just disable alternative
       // numeral characters. To be revisited in the future :)
-      //
-      // Ignore unknown prop warning: The external type definitions for
-      // d3-format are incomplete.
-      // @ts-ignore
       numerals: undefined
     }).format
   : defaultLocaleFormat;

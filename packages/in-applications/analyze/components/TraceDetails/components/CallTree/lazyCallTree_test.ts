@@ -397,8 +397,8 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
         data: cloneDeep(PARENT_CALL),
         errors: []
       },
-      createSuccessfulResult([CHILD_CALL_BEFORE], 2),
-      createSuccessfulResult([CHILD_CALL_AFTER], 2)
+      createSuccessfulResult([CHILD_CALL_BEFORE, CHILD_CALL_BEFORE], 3),
+      createSuccessfulResult([CHILD_CALL_AFTER, CHILD_CALL_AFTER], 3)
     );
 
     expect(updatedLazyCallTree.root).to.deep.equal({
@@ -414,7 +414,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           parentId: PARENT_CALL.id,
           cursor: {
             ingestionTime: 1678116808000,
-            offset: 1
+            offset: 2
           }
         },
         {
@@ -423,7 +423,17 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           children: []
         },
         {
+          ...CHILD_CALL_BEFORE,
+          parentId: PARENT_CALL.id,
+          children: []
+        },
+        {
           ...callWithParent,
+          children: []
+        },
+        {
+          ...CHILD_CALL_AFTER,
+          parentId: PARENT_CALL.id,
           children: []
         },
         {
@@ -441,7 +451,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           parentId: PARENT_CALL.id,
           cursor: {
             ingestionTime: 1678116808000,
-            offset: 1
+            offset: 2
           }
         }
       ]

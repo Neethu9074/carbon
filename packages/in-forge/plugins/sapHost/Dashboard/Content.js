@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { number, bytes, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, kiloBytes, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -21,18 +21,18 @@ export default function sapApplicationDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.sapHost.cPUUsage')}>
+        <KpiKeyValue label={t('in-forge:plugins.sapHost.cPUSystemUsage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.Performance.CPU_SYSTEM_UTILIZATION.value"
             formatter={percentagePlainZeroDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.sapHost.memoryUsage')}>
+        <KpiKeyValue label={t('in-forge:plugins.sapHost.totalMemoryUsage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.Performance.MEMORY_TOTAL_KB.value"
-            formatter={bytes.compact}
+            formatter={kiloBytes.compact}
           />
         </KpiKeyValue>
       </KpiSection>
@@ -85,7 +85,7 @@ export default function sapApplicationDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.sapHost.mEMORY_PAGE_IN_KB'),
               t('in-forge:plugins.sapHost.mEMORY_PAGE_OUT_KB')
             ],
-            formatter: bytes.detailed,
+            formatter: kiloBytes.detailed,
             type: 'line'
           }}
           y2={{
@@ -98,14 +98,14 @@ export default function sapApplicationDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.sapHost.availability')}>
+      <DashboardSection title={t('in-forge:plugins.sapHost.webServiceAvailability')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['metrics.Availability.HOST_NETWORK_AVAILABILITY.value'],
-            labels: [t('in-forge:plugins.sapHost.value')],
+            metrics: ['metrics.http.HOST_SAPHOSTAGENT_WDSL.value', 'metrics.http.HOST_SAPOSCOL_WSDL.value'],
+            labels: [t('in-forge:plugins.sapHost.agentAvailability'), t('in-forge:plugins.sapHost.oSCOLAvailability')],
             formatter: number,
             type: 'line'
           }}

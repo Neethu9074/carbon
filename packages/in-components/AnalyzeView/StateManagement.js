@@ -23,6 +23,7 @@ import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tag
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
+import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
@@ -52,7 +53,7 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
   // change detection triggers in useUrlState.
   const urlStateDefinition = useMemo(
     () => ({
-      bind: Object.values(parameters),
+      bind: [...Object.values(parameters), hiddenCallsMatrixParameter],
       replaceHistory: false
     }),
     [parameters]
@@ -220,9 +221,9 @@ function AnalyzeStateManagement({
 
   const resetFacets = tag => {
     if (tag != null) {
-      return getChangeAsUrl({ facets: removeFacetTag(facets, tag) });
+      onChange({ facets: removeFacetTag(facets, tag) });
     } else {
-      return getChangeAsUrl({ facets: {} });
+      onChange({ facets: {} });
     }
   };
 
@@ -237,10 +238,10 @@ function AnalyzeStateManagement({
     });
   };
 
-  const facetsAsTagFilterExpression = useMemo(() => tagFiltersFromFacets(facetedSearchItems, facets), [
-    facetedSearchItems,
-    facets
-  ]);
+  const facetsAsTagFilterExpression = useMemo(
+    () => tagFiltersFromFacets(facetedSearchItems, facets),
+    [facetedSearchItems, facets]
+  );
 
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
@@ -252,6 +253,7 @@ function AnalyzeStateManagement({
   const chartedMetricData = useStableObjectInstance(
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
+  const hiddenCalls = useStableObjectInstance(urlState.hiddenCalls);
 
   const groupedPaginationRef = useRef({});
 
@@ -368,7 +370,7 @@ function AnalyzeStateManagement({
   });
 
   const timestampName = dataSourceConfigurations[dataSource].groupedView.timestampName;
-  const getOrderByGroupId = useCallback(createGetOrderByGroupId(timestampName), [timestampName]);
+  const getOrderByGroupId = useCallback(() => createGetOrderByGroupId(timestampName), [timestampName]);
 
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
@@ -492,7 +494,8 @@ function AnalyzeStateManagement({
       });
     },
     setDetailId: detailId => onChange({ detailId }),
-    groupedPaginationRef
+    groupedPaginationRef,
+    hiddenCalls
   });
 
   function getStateChangeForUngroupedView(groupValue) {

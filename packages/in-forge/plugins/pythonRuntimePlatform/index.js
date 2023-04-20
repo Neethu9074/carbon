@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/pythonRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/pythonRuntimePlatform/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/pythonRuntimePlatform/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/python';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
   plugin: plugins.pythonRuntimePlatform,
 
   kpiDefinitions,
+  agentMonitoringIssueDefinitions,
   metricDefinitions,
   getCodeView,
   supportsCodeView,

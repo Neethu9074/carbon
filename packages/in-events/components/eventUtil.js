@@ -37,6 +37,10 @@ export function isIbmMqFileTransferIssueEvent(event) {
   return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }
 
+export function isMobileSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'mobileAppId']);
+}
+
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 

@@ -42,6 +42,13 @@ export interface FormComponentProps {
   setSlideInView: (view: SlideInViewConfig<'CREATE' | 'EDIT' | undefined>) => void;
 }
 
+interface GetSlideInViewConfigProps {
+  entityType: ApdexEntityTypes;
+  entityId: string;
+  onChange: (value: string) => void;
+  track: ReturnType<typeof useApdexWidgetTrackers>;
+}
+
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
   const updateFormWithSideEffects = useApdexFormSideEffects(form, (f: Item) => onChange([], () => f));
   function updateForm<T>(path: string[], value: T) {
@@ -91,12 +98,12 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
             onChange={value => updateForm<string>([apdexConfigIdKey], value)}
             onOpenConfigurationManager={() => {
               track(APDEX_MANAGEMENT_VIEW, { entityType: entityType });
-              const config = getSlideInViewConfig(
+              const config = getSlideInViewConfig({
                 entityType,
                 entityId,
-                value => updateForm<string>([apdexConfigIdKey], value),
+                onChange: value => updateForm<string>([apdexConfigIdKey], value),
                 track
-              );
+              });
               setSlideInView(config);
             }}
           />
@@ -106,12 +113,12 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
   );
 }
 
-function getSlideInViewConfig(
-  entityType: ApdexEntityTypes,
-  entityId: string,
-  onChange: (value: string) => void,
-  track: ReturnType<typeof useApdexWidgetTrackers>
-): SlideInViewConfig<'CREATE' | 'EDIT' | undefined> {
+function getSlideInViewConfig({
+  entityType,
+  entityId,
+  onChange,
+  track
+}: GetSlideInViewConfigProps): SlideInViewConfig<'CREATE' | 'EDIT' | undefined> {
   return {
     renderTitle(showCreateFormState): string {
       if (!showCreateFormState) return t('in-custom-dashboards:widgets.apdex.formComponent.manageListTitle');

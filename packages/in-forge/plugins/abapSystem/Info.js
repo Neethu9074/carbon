@@ -15,10 +15,7 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.abapSystem.hostName')}>{data.get('hostName')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.abapSystem.resourceType')}>
-        {'resourceType'}
-        {data.get('resourceType')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.abapSystem.objectType')}>{data.get('objectType')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.abapSystem.host_id')}>{data.get('host_id')}</DescriptionItem>
     </DescriptionList>
   );

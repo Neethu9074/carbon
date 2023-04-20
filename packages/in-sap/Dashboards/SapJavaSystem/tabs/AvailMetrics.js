@@ -16,7 +16,7 @@ export default function AvailMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'JAVA_SYSTEM_HTTP_AVAILABILITY_Java_System_Http_Availability'}
+        configurationName={'JAVA SYSTEM AVAILABILITY'}
       />
     </Fragment>
   );

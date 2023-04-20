@@ -29,7 +29,12 @@ export type ActionHandlers<AlertConfig extends AlertConfigType> = {
   handleClone?: (config: AlertConfig) => void;
   handleDelete?: (id: string, setIsSaving: (saving: boolean) => void, configName: string) => void;
   handleEdit?: (config: AlertConfig) => void;
-  handleToggleEnabled?: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
+  handleToggleEnabled?: (
+    enabled: boolean,
+    id: string,
+    setIsSaving: (saving: boolean) => void,
+    config?: AlertConfig
+  ) => void;
 };
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {

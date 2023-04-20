@@ -142,90 +142,12 @@ export const WEBSITES_DASHBOARD_RENAME_WEBSITE = 'websites.dashboard.renameWebsi
 export const WEBSITES_DASHBOARD_TAB_CHANGE = 'websites.dashboard.tabChange';
 export const WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'websites.dashboard.viewDeprecationDetails';
 
-export const WEBSITES_ALERTING_ADD_ALERT = 'websites.alerting.addAlert';
-export const WEBSITES_ALERTING_CLOSE_DIALOG = 'websites.alerting.closeDialog';
-export const WEBSITES_ALERTING_SWITCH_MODE = 'websites.alerting.switchMode';
-export const WEBSITES_ALERTING_CREATE_ALERT = 'websites.alerting.createAlert';
-export const WEBSITES_ALERTING_JS_ERRORS_MSG_CHANGED = 'websites.alerting.jsErrorsMessageChanged';
-export const WEBSITES_ALERTING_JS_ERRORS_OPERATOR_CHANGED = 'websites.alerting.jsErrorsOperatorChanged';
-export const WEBSITES_ALERTING_JS_ERRORS_OPEN_ERROR_SELECT_VIEW = 'websites.alerting.jsErrorsOpenErrorSelectView';
-export const WEBSITES_ALERTING_JS_ERRORS_ERROR_SELECTED = 'websites.alerting.jsErrorsErrorSelected';
-export const WEBSITES_ALERTING_STATUS_CODE_CHANGED = 'websites.alerting.statusCodeChanged';
-export const WEBSITES_ALERTING_THRESHOLD_METRIC_CHANGED = 'websites.alerting.thresholdMetricChanged';
-export const WEBSITES_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'websites.alerting.thresholdOperatorChanged';
-export const WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED = 'websites.alerting.thresholdValueChanged';
-export const WEBSITES_ALERTING_AGGREGATION_CHANGED = 'websites.alerting.thresholdAggregationChanged';
-export const WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED = 'websites.alerting.thresholdTypeChanged';
-export const WEBSITES_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED = 'websites.alerting.thresholdTypeHelpIconHovered';
-export const WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED = 'websites.alerting.thresholdDeviationFactorChanged';
-export const WEBSITES_ALERTING_FILTER_ADD = 'websites.alerting.filter.add';
-export const WEBSITES_ALERTING_FILTER_REMOVE = 'websites.alerting.filter.remove';
-export const WEBSITES_ALERTING_FILTER_EDIT = 'websites.alerting.filter.edit';
-export const WEBSITES_ALERTING_FILTER_SET = 'websites.alerting.filter.set';
-export const WEBSITES_ALERTING_STEP_SWITCH = 'websites.alerting.stepSwitch';
-export const WEBSITES_ALERTING_BLUEPRINT_CHANGED = 'websites.alerting.bluePrintChanged';
-export const WEBSITES_ALERTING_ADDITIONAL_PROPS_TITLE_CHANGE = 'websites.alerting.additionalProps.titleChanged';
-export const WEBSITES_ALERTING_ADDITIONAL_PROPS_ALERT_LEVEL_CHANGED =
-  'websites.alerting.additionalProps.alertLevelChanged';
-export const WEBSITES_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
-  'websites.alerting.additionalProps.triggerChanged';
-export const WEBSITES_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
-  'websites.alerting.additionalProps.descriptionChanged';
-export const WEBSITES_ALERTING_LIST_ALERT_PAUSED = 'websites.alerting.list.alert.paused';
-export const WEBSITES_ALERTING_LIST_ALERT_DELETED = 'websites.alerting.list.alert.deleted';
-export const WEBSITES_ALERTING_LIST_ALERT_RESUMED = 'websites.alerting.list.alert.resumed';
-export const WEBSITES_ALERTING_ALERT_PAUSED = 'websites.alerting.alert.paused';
-export const WEBSITES_ALERTING_ALERT_DELETED = 'websites.alerting.alert.deleted';
-export const WEBSITES_ALERTING_ALERT_RESUMED = 'websites.alerting.alert.resumed';
-export const WEBSITES_ALERTING_ALERT_EDIT = 'websites.alerting.alert.edit';
-export const WEBSITES_ALERTING_ALERT_REVISION_CHANGED = 'websites.alerting.alert.revisionChanged';
 export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.event.details.goToAnalyze';
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
 
-export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
-export const APPLICATIONS_ALERTING_CLOSE_DIALOG = 'applications.alerting.closeDialog';
-export const APPLICATIONS_ALERTING_SWITCH_MODE = 'applications.alerting.switchMode';
-export const APPLICATIONS_ALERTING_CREATE_ALERT = 'applications.alerting.createAlert';
-export const APPLICATIONS_ALERTING_LIST_ALERT_PAUSED = 'applications.alerting.list.alert.paused';
-export const APPLICATIONS_ALERTING_LIST_ALERT_DELETED = 'applications.alerting.list.alert.deleted';
-export const APPLICATIONS_ALERTING_LIST_ALERT_RESUMED = 'applications.alerting.list.alert.resumed';
-export const APPLICATIONS_ALERTING_ALERT_PAUSED = 'applications.alerting.alert.paused';
-export const APPLICATIONS_ALERTING_ALERT_DELETED = 'applications.alerting.alert.deleted';
-export const APPLICATIONS_ALERTING_ALERT_RESUMED = 'applications.alerting.alert.resumed';
-export const APPLICATIONS_ALERTING_ALERT_EDIT = 'applications.alerting.alert.edit';
-export const APPLICATIONS_ALERTING_ALERT_REVISION_CHANGED = 'applications.alerting.alert.revisionChanged';
-export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_TITLE_CHANGE = 'applications.alerting.additionalProps.titleChanged';
-export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_ALERT_LEVEL_CHANGED =
-  'applications.alerting.additionalProps.alertLevelChanged';
-export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
-  'applications.alerting.additionalProps.triggerChanged';
-export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
-  'applications.alerting.additionalProps.descriptionChanged';
-export const APPLICATIONS_ALERTING_STEP_SWITCH = 'applications.alerting.stepSwitch';
-export const APPLICATIONS_ALERTING_BLUEPRINT_CHANGED = 'applications.alerting.bluePrintChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_METRIC_CHANGED = 'applications.alerting.thresholdMetricChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.alerting.thresholdOperatorChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
-export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED =
-  'applications.alerting.thresholdTypeHelpIconHovered';
-export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
-  'applications.alerting.thresholdDeviationFactorChanged';
-export const APPLICATIONS_ALERTING_LOG_MSG_CHANGED = 'applications.alerting.logMessageChanged';
-export const APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED = 'applications.alerting.logLevelChanged';
-export const APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED = 'applications.alerting.logOperatorChanged';
-export const APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW = 'applications.alerting.logOpenMessageSelectView';
-export const APPLICATIONS_ALERTING_LOG_MSG_SELECTED = 'applications.alerting.logMessageSelected';
-export const APPLICATIONS_ALERTING_FILTER_ADD = 'applications.alerting.filter.add';
-export const APPLICATIONS_ALERTING_FILTER_REMOVE = 'applications.alerting.filter.remove';
-export const APPLICATIONS_ALERTING_FILTER_EDIT = 'applications.alerting.filter.edit';
-export const APPLICATIONS_ALERTING_FILTER_SET = 'applications.alerting.filter.set';
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.alerting.event.details.goToAnalyze';
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
   'applications.alerting.event.details.ViewEditConfig';
-export const APPLICATIONS_ALERTING_STATUS_CODE_CHANGED = 'applications.alerting.statusCodeChanged';
-export const APPLICATIONS_ALERTING_ALERT_DUPLICATE = 'applications.alerting.duplicate';
 
 export const APPLICATIONS_ALERTING_SHOW_DEPRECATION_BANNER = 'applications.alerting.migration.deprecation.banner';
 export const APPLICATIONS_ALERTING_SHOW_MIGRATION_NOTIFICATION = 'applications.alerting.show.migration.notification';
@@ -409,3 +331,4 @@ export const ALERTING_DELETE_TRIGGER = 'alerting.delete.trigger';
 export const ALERTING_DELETE_CONFIRM = 'alerting.deleted.confirm';
 export const ALERTING_PAUSED = 'alerting.paused';
 export const ALERTING_RESUMED = 'alerting.resumed';
+export const ALERTING_CLONE_TRIGGER = 'alerting.clone.trigger';

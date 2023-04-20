@@ -37,4 +37,12 @@
     display: flex;
     align-items: center;
   }
+
+  .deleteHeader {
+    height: 4.5rem;
+  }
+
+  .deleteValidation {
+    height: 2rem;
+  }
 }

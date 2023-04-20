@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 import { LoadingSkeleton } from '@instana/components';
 
 import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RoleAndAccessScopeColumns';
+import { success as successResult, error as errorResult, isLoading, hasError } from 'in-services/util/result';
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
-import { success as successResult, error as errorResult } from 'in-services/util/result';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
@@ -19,7 +19,6 @@ import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
-import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-components/layout/Grid';

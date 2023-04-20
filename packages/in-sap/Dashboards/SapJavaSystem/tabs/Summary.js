@@ -9,7 +9,9 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
@@ -21,17 +23,17 @@ export default function Summary({ timeConfig, data: vm }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[6, 6]}>
-        <InfraMetricKpiCard
-          title={t('in-sap:dashboards.availability')}
-          snapshotId={snapshotId}
-          metric="metrics.http.JAVA_SYSTEM_HTTP_AVAILABILITY.value"
-          formatter={number.compact}
+        <KpiCard
+          title={t('in-sap:dashboards.deliveredMessages')}
+          value={vm.j2eePerfRating || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(vm.j2eePerfRating)}
         />
-        <InfraMetricKpiCard
-          title={t('in-sap:dashboards.j2eeMessage')}
-          snapshotId={snapshotId}
-          metric="metrics.Performance.J2EE_Messages_Performance.J2EE_SYS_J2EEMESSAGES_DELIVERED.value"
-          formatter={number.compact}
+        <KpiCard
+          title={t('in-sap:dashboards.hostAgentConnectionStatus')}
+          value={vm.javaHostAgentRating || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(vm.javaHostAgentRating)}
         />
       </KpiGridRow>
       <Row>
@@ -67,7 +69,7 @@ export default function Summary({ timeConfig, data: vm }) {
               y1={{
                 formatter: number,
                 metrics: ['metrics.Exceptions.J2EE_Messages_Issue.J2EE_SYS_J2EEMESSAGES_ERROR.value'],
-                labels: [t('in-sap:dashboards.J2EE_SYS_J2EEMESSAGES_ERROR')],
+                labels: [t('in-sap:dashboards.j2EE_SYS_J2EEMESSAGES_ERROR')],
                 type: 'line'
               }}
             />

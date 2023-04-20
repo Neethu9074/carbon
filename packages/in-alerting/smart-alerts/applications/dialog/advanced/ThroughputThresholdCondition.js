@@ -6,11 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  applicationsAlertingThresholdDeviationFactorChanged,
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
 import {
   getConfiguredThreshold,
@@ -58,14 +53,12 @@ export default function ThroughputThresholdCondition({
               customOnChange={newOperator => {
                 updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true)));
               }}
-              trackingCallback={applicationsAlertingThresholdOperatorChanged}
               allOptions
             />
             <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
               blueprintType={blueprintConfig.type}
@@ -86,12 +79,7 @@ export default function ThroughputThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={applicationsAlertingThresholdDeviationFactorChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

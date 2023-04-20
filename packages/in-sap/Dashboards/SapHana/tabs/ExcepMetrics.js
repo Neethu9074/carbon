@@ -16,27 +16,6 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Disk_Usage'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Failed_Delta_Merges'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Log_segments_not_free_for_reuse'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
         configurationName={'Age_of_Most_Recent_Data_Backup'}
       />
       <Exception
@@ -45,6 +24,13 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
         configurationName={'Auto_Merge_for_Column_Store_Tables'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Broken_Backup_History'}
       />
       <Exception
         snapshotId={vm.id}
@@ -65,6 +51,20 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
+        configurationName={'Consistency_of_Internal_System_Components_After_System_Upgrade'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Disk_Usage'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
         configurationName={'Existence_of_Data_Backup'}
       />
       <Exception
@@ -72,7 +72,49 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
+        configurationName={'Failed_Delta_Merges'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Failed_IO_Reads'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Failed_IO_Writes'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Internal_Events'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
         configurationName={'LCAPPS_Logging_Events'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'LCAPPS_Tracing'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Log_segments_not_free_for_reuse'}
       />
       <Exception
         snapshotId={vm.id}
@@ -100,6 +142,13 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
+        configurationName={'New_RTE_Dump_Files'}
+      />
+      <Exception
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
         configurationName={'Record_Count_of_Column_Table_Partitions'}
       />
       <Exception
@@ -107,14 +156,14 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Status_of_Most_Recent_Data_Backup'}
+        configurationName={'Size_of_Diagnosis_Files'}
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Status_of_Most_Recent_Log_Backup'}
+        configurationName={'Status_of_Most_Recent_Data_Backup'}
       />
       <Exception
         snapshotId={vm.id}
@@ -135,42 +184,7 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Failed_IO_Reads'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Failed_IO_Writes'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'New_HANA_Trace_Files'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'New_OOM_Trace_Files'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Size_of_backup_catalog_MB'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Tables_or_Table_histories_GT_1_billion_rows'}
+        configurationName={'Tables_or_Table_histories_>_1_billion_rows'}
       />
     </Fragment>
   );

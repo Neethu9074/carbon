@@ -14,7 +14,6 @@ import {
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
-import { applicationsAlertingThresholdTypeHelpIconHovered } from 'in-alerting/smart-alerts/applications/tracker';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
@@ -26,8 +25,6 @@ export default function ThresholdTypeSelection({
   editMode,
   isGlobalSmartAlert,
   showThresholdsHint,
-  blueprintType,
-  trackThresholdTypeChanged,
   thresholdTypeOptions
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
@@ -48,17 +45,13 @@ export default function ThresholdTypeSelection({
           value={thresholdComboBoxValue}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
-            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm, trackThresholdTypeChanged);
+            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
           }}
         />
       )}
       <Spacer vertical size="xxsmall" />
       <Stack space="xxsmall" align="center" direction="horizontal">
-        {options.length > 1 && showThresholdsHint && thresholdType !== ADAPTIVE_BASELINE && (
-          <ThresholdTypesHelp
-            trackHover={() => applicationsAlertingThresholdTypeHelpIconHovered({ blueprintType, thresholdType })}
-          />
-        )}
+        {options.length > 1 && showThresholdsHint && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
         {thresholdType === HISTORIC_BASELINE && (
           <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
         )}
@@ -72,14 +65,11 @@ ThresholdTypeSelection.propTypes = {
   form: PropTypes.object.isRequired,
   isGlobalSmartAlert: PropTypes.bool,
   showThresholdsHint: PropTypes.bool,
-  /** optional, only used when tracking the hovering of the help icon */
-  blueprintType: PropTypes.string,
   thresholdTypeOptions: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired
     })
   ).isRequired,
-  trackThresholdTypeChanged: PropTypes.func,
   updateForm: PropTypes.func.isRequired
 };

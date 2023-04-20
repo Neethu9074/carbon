@@ -48,7 +48,7 @@ export function MultiSelect(props) {
         !fallbackValues &&
         !hasError(tagSuggestions$)
     );
-  }, [setIsDisabledWithNoValues, valueFilter, selectedValues, tagSuggestions$]);
+  }, [setIsDisabledWithNoValues, valueFilter, selectedValues, tagSuggestions$, fallbackValues]);
 
   const loading = tagSuggestions$?.progress?.loading;
   const suggestions = tagSuggestions$?.data?.items;
@@ -104,9 +104,9 @@ export function MultiSelect(props) {
         )}
         <div />
         {selectedValues.length > 0 && (
-          <Link href={resetFacets?.(tag)} className={locals.clearFacet}>
-            {t('in-components:analyze.clearFacet')}
-          </Link>
+          <span className={locals.clearFacet}>
+            <Link onClick={() => resetFacets?.(tag)}>{t('in-components:analyze.clearFacet')}</Link>
+          </span>
         )}
       </div>
     </>

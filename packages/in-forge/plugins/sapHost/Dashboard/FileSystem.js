@@ -12,6 +12,7 @@ import { getUnitFormatter } from 'in-forge/plugins/sapHost/Dashboard/UnitFormatt
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { positiveNumber } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -38,11 +39,21 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.sapHost.typeId'),
+    title: t('in-forge:plugins.sapHost.value'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fileSystemMetric.get('value');
+      },
+      getContent: positiveNumber
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHost.unit'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.fileSystemMetric.get('typeId');
+        return row.fileSystemMetric.get('unit');
       }
     }
   }
@@ -80,7 +91,7 @@ export default connectTo(
         return;
       }
       return (
-        <Card title={t('in-forge:plugins.sapHost.fileSystem')} useMaxAvailableHeight>
+        <Card title={t('in-forge:plugins.sapHost.fileSystemUsed')} useMaxAvailableHeight>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

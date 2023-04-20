@@ -29,7 +29,9 @@ export const abapSystemDashboard = `/abapsystem`;
 export const sapDbmsDashboard = `/sapdbms`;
 export const sapHanaDashboard = `/saphana`;
 export const sapJavaSystemDashboard = `/sapjavasystem`;
+export const sapHanaSystemDashboard = `/saphanasystem`;
 export const sapJavaInstanceDashboard = `/sapjavainstance`;
+export const sapJavaCentralInstanceDashboard = `/sapjavacentralinstance`;
 export const sapDbInstanceDashboard = `/sapdbinstance`;
 export const sapDbTenantDashboard = `/sapdbtenant`;
 export const sapHostDashboardFullyQualified = `${sap}${sapHostList}`;
@@ -38,10 +40,12 @@ export const abapSystemDashboardFullyQualified = `${sap}${abapSystemDashboard}`;
 export const sapDbmsDashboardFullyQualified = `${sap}${sapDbmsDashboard}`;
 export const sapHanaDashboardFullyQualified = `${sap}${sapHanaDashboard}`;
 export const sapJavaSystemDashboardFullyQualified = `${sap}${sapJavaSystemDashboard}`;
+export const sapHanaSystemDashboardFullyQualified = `${sap}${sapHanaSystemDashboard}`;
 export const sapJavaInstanceDashboardFullyQualified = `${sap}${sapJavaInstanceDashboard}`;
 export const sapDbTenantDashboardFullyQualified = `${sap}${sapDbTenantDashboard}`;
 export const sapDbInstanceDashboardFullyQualified = `${sap}${sapDbInstanceDashboard}`;
 export const abapCentralInstanceDashboardFullyQualified = `${sap}${abapCentralInstanceDashboard}`;
+export const sapJavaCentralInstanceDashboardFullyQualified = `${sap}${sapJavaCentralInstanceDashboard}`;
 
 export function getAbapSystemDashboard(
   hostId,
@@ -106,6 +110,27 @@ export function getAbapCentralInstanceDashboard(
   });
 }
 
+export function getSapJavaCentralInstanceDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return getDashboard({
+    base: sapJavaCentralInstanceDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapJavaCentralInstanceDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
 export function getSapDbmsDashboard(
   hostId,
   matrixPrefix,
@@ -160,6 +185,27 @@ export function getSapJavaSystemDashboard(
     tabMatrix,
     timeConfig,
     matrixSegment: sapJavaSystemDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
+export function getSapHanaSystemDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return getDashboard({
+    base: sapHanaSystemDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapHanaSystemDashboard,
     matrixParam: matrixHostId,
     id: hostId,
     prefix: matrixPrefix,
@@ -242,7 +288,10 @@ export function getDashboardForEntity(snapshotId, plugin, label) {
     case plugins.sapJavaSystem:
       return getSapJavaSystemDashboard(snapshotId);
     case plugins.sapJavaInstance:
+      if (label && label.includes('Central')) return getSapJavaCentralInstanceDashboard(snapshotId);
       return getSapJavaInstanceDashboard(snapshotId);
+    case plugins.sapHanaSystem:
+      return getSapHanaSystemDashboard(snapshotId);
     case plugins.sapDbms:
       return getSapDbmsDashboard(snapshotId);
     case plugins.sapHanaPlatform:

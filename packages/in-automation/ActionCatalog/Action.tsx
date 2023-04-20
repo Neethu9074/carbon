@@ -38,6 +38,7 @@ import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -47,7 +48,6 @@ import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
 import { Action, Field } from 'in-types';
@@ -63,6 +63,8 @@ interface MatchParams {
 export type ActionFormEntity = NewAction | Action;
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
+  const { goToPath } = useNavigation();
+
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
   const isCopy = props.match.path.split('/').at(-2) === 'copy';

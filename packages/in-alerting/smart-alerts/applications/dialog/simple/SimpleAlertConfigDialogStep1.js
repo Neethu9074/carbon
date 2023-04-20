@@ -12,7 +12,6 @@ import {
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/applications/dialog/simple/SimpleAlertConfigDialogChart';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import { applicationsAlertingBlueprintChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
@@ -46,8 +45,6 @@ export default function SimpleAlertConfigDialogStep1({
         items={blueprintConfigList}
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
-
-          applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
         initialItemSelected={blueprintConfig}
         addRightSeparator
@@ -72,7 +69,7 @@ export default function SimpleAlertConfigDialogStep1({
         renderErrorRate={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter title={headline} description={text}>
-            <ProvideStatusCode form={form} updateForm={updateForm} mode="Simple" />
+            <ProvideStatusCode form={form} updateForm={updateForm} />
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}

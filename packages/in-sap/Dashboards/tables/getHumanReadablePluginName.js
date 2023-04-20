@@ -20,6 +20,8 @@ export const getHumanReadablePluginName = function (value) {
       return 'Java Instance';
     case 'sapJavaSystem':
       return 'Java System';
+    case 'sapHanaSystem':
+      return 'Hana System';
     default:
       return 'ABAP System';
   }

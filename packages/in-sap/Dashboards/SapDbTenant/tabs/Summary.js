@@ -24,13 +24,13 @@ export default function Summary({ timeConfig, data: vm }) {
         <InfraMetricKpiCard
           title={t('in-sap:dashboards.availability')}
           snapshotId={snapshotId}
-          metric="metrics.Availability.HDB_SERVICE_AVAILABILITY_INST_VIA_DA.value"
+          metric="metrics.Availability.HDB_Service_Availability_Inst_Via_DA.HDB_SERVICE_AVAILABILITY_INST_VIA_DA.value"
           formatter={number.compact}
         />
         <InfraMetricKpiCard
           title={t('in-sap:dashboards.performance')}
           snapshotId={snapshotId}
-          metric="metrics.Performance.DATABASE_PERFORMANCE.value"
+          metric="metrics.Performance.Host_CPU_Idle.HDB_STATISTICS_ALERT_005_INST.value"
           formatter={number.compact}
         />
       </KpiGridRow>
@@ -47,11 +47,8 @@ export default function Summary({ timeConfig, data: vm }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
-                metrics: [
-                  'metrics.Availability.HDB_SERVICE_AVAILABILITY_INST_VIA_DA.value',
-                  'metrics.Availability.RECEIVING_STATUS_FROM_DBTENANT.value'
-                ],
-                labels: [t('in-sap:dashboards.availability'), t('in-sap:dashboards.receivingStatus')],
+                metrics: ['metrics.Availability.DB_Instance_Status.HDB_HOST_STATUS_METRIC_INST.value'],
+                labels: [t('in-sap:dashboards.dbInstanceStatus')],
                 type: 'line'
               }}
             />
@@ -66,11 +63,8 @@ export default function Summary({ timeConfig, data: vm }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
-                metrics: [
-                  'metrics.Performance.DATABASE_PERFORMANCE.value',
-                  'metrics.Performance.RECEIVING_STATUS_FROM_DBTENANT.value'
-                ],
-                labels: [t('in-sap:dashboards.performance'), t('in-sap:dashboards.receivingStatus')],
+                metrics: ['metrics.Performance.Host_CPU_Idle.HDB_STATISTICS_ALERT_005_INST.value'],
+                labels: [t('in-sap:dashboards.hostCpuIdle')],
                 type: 'line'
               }}
             />

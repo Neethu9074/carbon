@@ -9,18 +9,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.sapJavaSystem.status'),
-    metric: 'metrics.Availability.DATABASE_AVAILABILITY.status',
-    formatter: number.compact
-  },
-  {
-    label: t('in-forge:plugins.sapJavaSystem.minValue'),
-    metric: 'metrics.Availability.DATABASE_AVAILABILITY.minValue',
-    formatter: number.compact
-  },
-  {
-    label: t('in-forge:plugins.sapJavaSystem.maxValue'),
-    metric: 'metrics.Availability.DATABASE_AVAILABILITY.maxValue',
+    label: t('in-forge:plugins.sapJavaSystem.messageDeliveredStatus'),
+    metric: 'metrics.Performance.J2EE_Messages_Performance.J2EE_SYS_J2EEMESSAGES_DELIVERED.status',
     formatter: number.compact
   }
 ];

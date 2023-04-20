@@ -12,6 +12,7 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { t } from 'in-i18n';
@@ -26,14 +27,12 @@ export default function DialogAlertProperties(props: AlertConfigDialogPresenterP
         <AlertProperties
           form={form}
           onChange={onChange}
-          getDescriptionPlaceholder={() =>
-            t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesDescriptionPlaceholder')
-          }
+          getDescriptionPlaceholder={getDescriptionPlaceholder}
           renderAlertPopertiesTitleRow={() => (
             <AlertPropertiesTitleRow
               form={form}
               onChange={onChange}
-              getTitlePlaceholder={() => t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesTitlePlaceholder')}
+              getTitlePlaceholder={getTitlePlaceholder}
               placeholders={[]}
             />
           )}

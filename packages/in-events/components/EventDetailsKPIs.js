@@ -114,7 +114,7 @@ const Ended = connectTo(
     };
   },
   function Ended({ event, isOpen }) {
-    const hasDuration = event.get('start') !== event.get('end');
+    const hasDuration = getEventType(event) !== EVENT_TYPES.CHANGE ? event.get('start') !== event.get('end') : true;
     return (
       <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? event.get('end') : null} />
     );

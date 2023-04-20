@@ -6,6 +6,7 @@
 
 import { ValidationResult } from 'formalistic';
 
+import { ConfigItem } from 'in-synthetics/utils/constants';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -39,12 +40,39 @@ export function regExpValidator(pattern: string): ValidationResult {
   return undefined;
 }
 
-export function blankKeyValidator(headers: Record<string, string>): ValidationResult {
-  if (Object.keys(headers).every(header => isNotBlank(header))) {
+export function requestHeaderNameValidator(headerName: string): ValidationResult {
+  const regExp = /^[ A-Za-z0-9_@./#&+-]*$/;
+  if (headerName && !regExp.test(headerName)) {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.shouldBeValidHeaderName')
+      }
+    ];
+  }
+  return undefined;
+}
+export function requestHeaderValueValidator(headerValue: string): ValidationResult {
+  const regExp = /^[ A-Za-z0-9_ :;.,/\\"'?!(){}[\]@<>=\-+*#$&`|~^%]*$/;
+  if (headerValue && !regExp.test(headerValue)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.shouldBeValidHeaderValue')
+      }
+    ];
+  }
+  return undefined;
+}
+
+export function onlyUniqueKeyNames(items: ConfigItem[]): ValidationResult {
+  const keys = items.map(i => i.key).filter(isNotBlank);
+  const keySet = new Set(keys);
+  if (keys.length > keySet.size) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.headerNameMustBeUnique')
       }
     ];
   }

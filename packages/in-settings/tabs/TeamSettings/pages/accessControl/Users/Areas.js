@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, Li, Ul } from '@instana/components';
-import { KeyValue } from '@instana/components';
+import { ColumnizedContent, Li, Ul, KeyValue } from '@instana/components';
 
 import {
   mapApplications,
@@ -19,8 +18,7 @@ import {
 import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaColumnDefinitions';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { getGroupsOfASingleUser } from 'in-settings/tabs/TeamSettings/api/groups';
-import { hasError, isLoading } from 'in-services/util/result';
-import { success } from 'in-services/util/result';
+import { hasError, isLoading, success } from 'in-services/util/result';
 import { ownerRoleId } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

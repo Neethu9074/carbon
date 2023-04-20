@@ -6,13 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  websitesAlertingAggregationChanged,
-  websitesAlertingThresholdDeviationFactorChanged,
-  websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged,
-  websitesAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
@@ -21,7 +14,6 @@ import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialo
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdTypeSelection';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -30,7 +22,6 @@ import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
 export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
-  const blueprintType = blueprintConfig.type;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -46,22 +37,14 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
           items={getAggregationOptions(form)}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
-
-            websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
-        <ThresholdOperatorDropDown
-          form={form}
-          updateForm={updateForm}
-          trackingCallback={websitesAlertingThresholdOperatorChanged}
-        />
+        <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
           editMode={editMode}
           thresholdTypeOptions={thresholdTypeOptions}
-          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
-          blueprintType={blueprintType}
           showThresholdsHint
         />
       </ThresholdConditionFormGroup>
@@ -73,17 +56,11 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
-          trackChange={websitesAlertingThresholdValueChanged}
         />
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={websitesAlertingThresholdDeviationFactorChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

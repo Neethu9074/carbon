@@ -145,12 +145,13 @@ export default connectTo(
       return <DashboardNotification type="info">{snapshotMap.eventNames}</DashboardNotification>;
     }
     if (!data) {
-      return <DashboardNotification type="info">No data found for {configurationName}</DashboardNotification>;
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
     }
     const perfMainMetrics = data.get('raw_payload', []);
     const rows = perfMainMetrics
       .keySeq()
       .toArray()
+      .filter(k1 => !(perfMainMetrics.get(k1).get('isEvent') === 'true'))
       .map(key => {
         const perfMainMetric = perfMainMetrics.get(key);
         return {
@@ -199,7 +200,7 @@ export default connectTo(
         cardTitle={configurationName.replaceAll('_', ' ')}
         cols={cols}
         rows={rows}
-        initialSortColumn={0}
+        initialSortColumn={1}
         initialSortDirection="asc"
         getRowDetails={getDetails}
       />

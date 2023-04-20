@@ -145,12 +145,13 @@ export default connectTo(
       return <DashboardNotification type="info">{snapshotMap.eventNames}</DashboardNotification>;
     }
     if (!data) {
-      return <DashboardNotification type="info">No data found for {configurationName}</DashboardNotification>;
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
     }
     const excepMainMetrics = data.get('raw_payload', []);
     const rows = excepMainMetrics
       .keySeq()
       .toArray()
+      .filter(k1 => !(excepMainMetrics.get(k1).get('isEvent') === 'true'))
       .map(key => {
         const excepMainMetric = excepMainMetrics.get(key);
         return {

@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import { Message, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error this is not yet typescript
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';

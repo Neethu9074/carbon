@@ -41,7 +41,8 @@
     "columnLabels": {
       "name": "Name",
       "entity": "Entity",
-      "blueprint": "Blueprint"
+      "blueprint": "Blueprint",
+      "tags": "Tags"
     }
   }
 }

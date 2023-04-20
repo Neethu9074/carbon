@@ -23,6 +23,7 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest';
@@ -46,7 +47,15 @@ interface AdvancedModeContainerProp {
 export default function AdvancedModeContainer(
   props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
 ) {
-  const { form, onChange, setSliderState, setCustomSlideInHeaderConfig, messages, headerTransparent = false } = props;
+  const {
+    form,
+    onChange,
+    setSliderState,
+    setCustomSlideInHeaderConfig,
+    messages,
+    headerTransparent = false,
+    isTagFilterFormModelValid
+  } = props;
 
   const nameField = form.get('name') as Field<string>;
   return (
@@ -65,7 +74,7 @@ export default function AdvancedModeContainer(
           scrollId: '2',
           label: t('in-alerting:smartAlerts.synthetics.advanced.scopeFilterLabel'),
           title: t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline'),
-          valid: true,
+          valid: isTagFilterFormModelValid,
           content: <AlertTagFilterExpressionConfig {...props} headerTransparent={headerTransparent} />
         },
         {
@@ -114,16 +123,12 @@ export default function AdvancedModeContainer(
                   <AlertProperties
                     form={form}
                     onChange={onChange}
-                    getDescriptionPlaceholder={() =>
-                      t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesDescriptionPlaceholder')
-                    }
+                    getDescriptionPlaceholder={getDescriptionPlaceholder}
                     renderAlertPopertiesTitleRow={() => (
                       <AlertPropertiesTitleRow
                         form={form}
                         onChange={onChange}
-                        getTitlePlaceholder={() =>
-                          t('in-alerting:smartAlerts.synthetics.simple.alertPropertiesTitlePlaceholder')
-                        }
+                        getTitlePlaceholder={getTitlePlaceholder}
                         placeholders={[]}
                       />
                     )}
@@ -131,20 +136,14 @@ export default function AdvancedModeContainer(
                 )}
                 renderAlertPreview={() => {
                   const renderHeadline = () => (
-                    <AlertPreviewHeadline
-                      title={
-                        nameField?.value ||
-                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewTitlePlaceholder')
-                      }
-                    />
+                    <AlertPreviewHeadline title={nameField?.value || getTitlePlaceholder()} />
                   );
                   return (
                     <AlertPreview
                       form={form}
                       renderHeadline={renderHeadline}
                       getDescriptionPlaceholder={(_form: MapForm<any>) =>
-                        (form.get('description') as Field<string>).value ||
-                        t('in-alerting:smartAlerts.synthetics.advanced.alertPropertiesPreviewDescriptionPlaceholder')
+                        (form.get('description') as Field<string>).value || getDescriptionPlaceholder(form)
                       }
                       entityLabel="Test_Name"
                       entityIconType="lib_synthetic"

@@ -7,12 +7,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  websitesAlertingThresholdDeviationFactorChanged,
-  websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged,
-  websitesAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
@@ -33,26 +27,18 @@ export default function CustomEventsThresholdCondition({ form, blueprintConfig, 
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdType = form.get('threshold').get('type')?.value;
-  const blueprintType = blueprintConfig.type;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   return (
     <>
       <ThresholdConditionFormGroup>
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
-        <ThresholdOperatorDropDown
-          form={form}
-          updateForm={updateForm}
-          trackingCallback={websitesAlertingThresholdOperatorChanged}
-          allOptions
-        />
+        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
           editMode={editMode}
           thresholdTypeOptions={thresholdTypeOptions}
-          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
-          blueprintType={blueprintType}
         />
       </ThresholdConditionFormGroup>
 
@@ -66,7 +52,6 @@ export default function CustomEventsThresholdCondition({ form, blueprintConfig, 
             form={form}
             updateForm={updateForm}
             percentageMetric={percentageMetric}
-            trackChange={websitesAlertingThresholdValueChanged}
             metricUnitPostfix={metricUnitPostfix}
           />
           <UseSuggestedValueButton
@@ -79,12 +64,7 @@ export default function CustomEventsThresholdCondition({ form, blueprintConfig, 
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={websitesAlertingThresholdDeviationFactorChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

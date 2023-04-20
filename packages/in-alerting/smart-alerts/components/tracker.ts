@@ -12,6 +12,7 @@ import {
   ALERTING_DELETE_TRIGGER,
   ALERTING_DELETE_CONFIRM,
   ALERTING_PAUSED,
+  ALERTING_CLONE_TRIGGER,
   ALERTING_RESUMED
 } from 'in-services/tracking/eventNames';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
@@ -49,4 +50,8 @@ export function trackAlertSaved<AlertConfig extends AlertConfigType>(
 }
 export function trackAlertUpdated<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
   track(ALERTING_UPDATED, { alertConfig });
+}
+
+export function trackAlertCloneTrigger(id: string): void {
+  track(ALERTING_CLONE_TRIGGER, { clonedFromId: id });
 }

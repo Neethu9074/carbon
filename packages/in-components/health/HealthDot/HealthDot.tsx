@@ -4,7 +4,6 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getColorBySeverity } from 'in-stores/events';
@@ -13,7 +12,14 @@ import theme from 'in-themes';
 
 import locals from './HealthDot.mless';
 
-export default function HealthDot({ severity = 0, explanation, iconSize, className }) {
+interface Props {
+  severity?: number;
+  explanation?: string;
+  iconSize?: number;
+  className?: string;
+}
+
+export default function HealthDot({ severity = 0, explanation, iconSize, className }: Props) {
   const dot = (
     <div
       style={{
@@ -21,6 +27,7 @@ export default function HealthDot({ severity = 0, explanation, iconSize, classNa
         height: iconSize,
         backgroundColor: getColorBySeverity(severity, { defaultColor: theme.lib.colors.success })
       }}
+      // @ts-expect-error classnames explicitly can handle undefined object keys
       className={classNames({ [locals.dot]: true, [className]: true })}
     />
   );
@@ -29,10 +36,3 @@ export default function HealthDot({ severity = 0, explanation, iconSize, classNa
   }
   return <Tooltip content={explanation}>{dot}</Tooltip>;
 }
-
-HealthDot.propTypes = {
-  severity: PropTypes.number,
-  explanation: PropTypes.string,
-  iconSize: PropTypes.number,
-  className: PropTypes.string
-};

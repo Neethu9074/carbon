@@ -12,6 +12,7 @@ import { Li, LoadingSkeleton } from '@instana/components';
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import { useGetGroupsForEmail } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { fallBackPermissions } from 'in-stores/permission';
 import { ownerRoleId } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -37,7 +38,7 @@ export default function RoleAndAccessScopeColumns({ email }: RoleAndAccessScopeC
   );
 }
 
-function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined) {
+function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined): PermissionSetWithRoles {
   const permissionSet = {
     websiteIds: [],
     mobileAppIds: [],
@@ -47,21 +48,21 @@ function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined) 
     permissions: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
-  if (!groups) return permissionSet;
 
-  const groupValues = groups.values();
+  // users not being member of any group fall back to a restricted default
+  if (!groups || groups.length === 0) return { ...permissionSet, permissions: fallBackPermissions };
 
   // OWNER always has all available permissions
   // without evaluating limited_*_scopes from all groups owners can not be limited on any area
   // similar to backend evaluations
-  for (const group of groupValues) {
+  for (const group of groups.values()) {
     if (ownerRoleId === group.id) {
       enrich(permissionSet, group);
       return permissionSet;
     }
   }
 
-  for (const group of groupValues) {
+  for (const group of groups.values()) {
     enrich(permissionSet, group);
   }
   return permissionSet;
@@ -89,8 +90,10 @@ function enrich(permissionSet: any, group: any) {
   // needs to be concatinated with OR as represented via single scopeId value only
   if (group.permissionSet.infraDfqFilter?.scopeId) {
     if (permissionSet.infraDfqFilter.scopeId) {
-      permissionSet.infraDfqFilter.scopeId.concat(' OR ');
+      permissionSet.infraDfqFilter.scopeId = permissionSet.infraDfqFilter.scopeId.concat(' OR ');
     }
-    permissionSet.infraDfqFilter.scopeId.concat(group.permissionSet.infraDfqFilter.scopeId.trim());
+    permissionSet.infraDfqFilter.scopeId = permissionSet.infraDfqFilter.scopeId.concat(
+      group.permissionSet.infraDfqFilter.scopeId.trim()
+    );
   }
 }

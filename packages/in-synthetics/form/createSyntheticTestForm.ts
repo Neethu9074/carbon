@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { blankKeyValidator, regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
+import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
@@ -179,14 +179,13 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'headers',
       createField({
-        value: savedState?.headers ?? { '': '' },
-        validator: composeAndShortCircuitOnError(blankKeyValidator)
+        value: savedState?.headers ?? { '': '' }
       })
     )
     .put(
       'expectStatus',
       createField({
-        value: savedState?.expectStatus ?? '200',
+        value: savedState?.expectStatus ?? '',
         validator: composeAndShortCircuitOnError(
           statusCodeValidator,
           notUndefinedValidator,
@@ -198,7 +197,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'expectJson',
       createField({
-        value: savedState?.expectJson ?? new Map()
+        value: savedState?.expectJson ?? {}
       })
     )
     .put(

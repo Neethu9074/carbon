@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { number, millis, seconds, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -15,6 +17,8 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './RawTableFormat.mless';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -330,6 +334,7 @@ const colsSecondaryLog = [
 
 export default connectTo(
   props => {
+    snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'hadrstats')
     };
@@ -338,6 +343,7 @@ export default connectTo(
     if (!data || !data.get('raw_payload')) {
       return null;
     }
+    const { snapshotId, timeConfig } = snapshotMap;
     const hadrGenerics = data.get('raw_payload');
     if (hadrGenerics.size === 0) {
       return null;
@@ -346,9 +352,32 @@ export default connectTo(
     const rows = hadrGenerics.toArray().map((hadrGeneric, idx) => {
       return {
         key: String(idx),
+        snapshotId,
+        timeConfig,
         hadrGeneric
       };
     });
+    const getDetails = () => {
+      if (!snapshotMap?.timeConfig) {
+        return;
+        }
+        return (
+          <div>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+               min: 0,
+               formatter: bytes.detailed,
+               metrics: ['hadrmetrics.hadrLogGap'],
+               labels: [t('in-forge:plugins.db2Database.hadrLogGap')],
+               type: 'line'
+               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+        </div>
+      );
+    };
 
     return (
       <div>
@@ -362,6 +391,7 @@ export default connectTo(
           }
           cols={cols}
           rows={rows}
+          getRowDetails={getDetails}
           initialSortDirection="desc"
         />
         <Table

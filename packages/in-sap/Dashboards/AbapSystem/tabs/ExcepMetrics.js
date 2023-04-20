@@ -72,13 +72,6 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'System_Availability'}
-      />
-      <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
         configurationName={'System_Exceptions'}
       />
       <Exception

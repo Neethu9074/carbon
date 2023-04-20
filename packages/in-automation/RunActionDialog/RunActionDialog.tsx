@@ -158,6 +158,9 @@ function onSave({
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
       const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
+      if (!pathField?.value || !keyField?.value) {
+        return acc;
+      }
       return [
         ...acc,
         {
@@ -314,13 +317,26 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
                 items: [
                   createField({
                     value: parsedVaultValue?.secretPath ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   }),
                   createField({
                     value: parsedVaultValue?.secretKey ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   })
-                ]
+                ],
+                validator: listForm => {
+                  const hasEmptyFields = listForm.some(field => field.value === '');
+                  const hasNonEmptyFields = listForm.some(field => field.value !== '');
+                  if (!parameter.required && hasEmptyFields && hasNonEmptyFields) {
+                    return [
+                      {
+                        severity: 'error',
+                        message: t('in-automation:validVaultParameter')
+                      }
+                    ];
+                  }
+                  return null;
+                }
               })
             };
           }

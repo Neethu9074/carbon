@@ -23,6 +23,7 @@ import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter'
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 export const pathSegment = syntheticsPath;
 export const matrixPrefix = '';
@@ -360,8 +361,41 @@ export interface AdvancedModeProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export interface Header {
+export interface ConfigItem {
   id: string;
   key: string;
   value: string;
+  error: Record<string, ErrorType>;
+}
+
+export interface Validation {
+  id: string;
+  key: string;
+  value: string | Record<string, string>;
+  fieldName: string;
+}
+
+interface Field {
+  field: string;
+  label: string;
+}
+
+export const Placeholders: Record<string, Field> = {
+  'Expect Status': {
+    field: 'expectStatus',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusPlaceholder')
+  },
+  'Expect JSON': {
+    field: 'expectJson',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONPlaceholder')
+  },
+  'Expect Match': {
+    field: 'expectMatch',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchPlaceholder')
+  }
+};
+
+export interface ErrorType {
+  invalid: boolean;
+  message: string;
 }

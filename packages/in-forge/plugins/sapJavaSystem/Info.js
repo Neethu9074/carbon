@@ -11,17 +11,13 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.hostName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.hostName')}
+        {data.get('hostName')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.eventName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.eventName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.category')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.category')}
+      <DescriptionItem title={t('in-forge:plugins.sapJavaSystem.objectType')}>
+        {data.get('objectType')}
       </DescriptionItem>
     </DescriptionList>
   );

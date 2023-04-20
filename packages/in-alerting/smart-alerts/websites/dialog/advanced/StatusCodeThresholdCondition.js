@@ -6,17 +6,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  websitesAlertingThresholdMetricChanged,
-  websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -34,20 +28,13 @@ export default function StatusCodeThresholdCondition({ form, blueprintConfig, up
         items={ruleMetricNameOptions.statusCode}
         onChange={value => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-
-          websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
         }}
       />
-      <ThresholdOperatorDropDown
-        form={form}
-        updateForm={updateForm}
-        trackingCallback={websitesAlertingThresholdOperatorChanged}
-      />
+      <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
       <ThresholdValueInputWithValidationMessage
         max={maxValue}
         form={form}
         updateForm={updateForm}
-        trackChange={websitesAlertingThresholdValueChanged}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
         isSmall

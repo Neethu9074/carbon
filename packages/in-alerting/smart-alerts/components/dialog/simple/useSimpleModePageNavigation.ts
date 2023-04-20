@@ -20,7 +20,7 @@ export interface SetupProps {
   setForm: (form: MapForm<any>) => void;
   onCreate: (simpleMode: boolean) => void;
   onClose: () => void;
-  onStepChanged: (oldStep: number, newStep: number) => void;
+  onStepChanged?: (oldStep: number, newStep: number) => void;
 }
 
 export function useSimpleModePageNavigation({
@@ -37,7 +37,7 @@ export function useSimpleModePageNavigation({
   const handleUpdateState = (oldStep: number, nextStep: number) => {
     setStep(nextStep);
     setSimpleModeStep(nextStep);
-    onStepChanged(oldStep, nextStep);
+    if (onStepChanged) onStepChanged(oldStep, nextStep);
   };
 
   const backOrCancel = (oldStep: number) => {

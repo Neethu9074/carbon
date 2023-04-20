@@ -48,7 +48,6 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
 
   const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
 
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
 
   return (
@@ -75,34 +74,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
             <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
           {type.value === 'dynamic' && <DynamicSection />}
-          <FormGroup>
-            <CheckboxFancy
-              checked={hidden.value}
-              label={t('in-automation:ActionCatalog.hiddenParam')}
-              onChange={e =>
-                onParameterChange({
-                  fieldName: 'hidden',
-                  value: e.target.checked,
-                  setParameterForm,
-                  parameter,
-                  updateFormDefinition: ({ form }) => {
-                    if (e.target.checked) {
-                      form = form.updateIn(['required'], field =>
-                        (field as Field<boolean>).setValue(true).setTouched(true)
-                      );
-                    }
-                    if (type.value === 'static' || type.value === 'dynamic') {
-                      form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
-                    } else if (type.value === 'vault') {
-                      form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
-                      form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
-                    }
-                    return form;
-                  }
-                })
-              }
-            />
-          </FormGroup>
+          <HiddenSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           <SaveCancel form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
@@ -121,6 +93,9 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
   const type = parameterForm.get('type') as Field<string>;
+  const required = parameterForm.get('required') as Field<boolean>;
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+
   return (
     <>
       <FormGroup>
@@ -221,17 +196,6 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
           </Col>
         </Row>
       </FormGroup>
-    </>
-  );
-};
-
-const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
-  const required = parameterForm.get('required') as Field<boolean>;
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const value = parameterForm.get('value') as Field<string>;
-
-  return (
-    <>
       <FormGroup>
         <CheckboxFancy
           disabled={hidden.value}
@@ -242,6 +206,50 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
           }
         />
       </FormGroup>
+    </>
+  );
+};
+
+const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+  const type = parameterForm.get('type') as Field<string>;
+
+  return (
+    <FormGroup>
+      <CheckboxFancy
+        checked={hidden.value}
+        label={t('in-automation:ActionCatalog.hiddenParam')}
+        onChange={e =>
+          onParameterChange({
+            fieldName: 'hidden',
+            value: e.target.checked,
+            setParameterForm,
+            parameter,
+            updateFormDefinition: ({ form }) => {
+              if (e.target.checked) {
+                form = form.updateIn(['required'], field => (field as Field<boolean>).setValue(true).setTouched(true));
+              }
+              if (type.value === 'static' || type.value === 'dynamic') {
+                form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
+              } else if (type.value === 'vault') {
+                form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
+                form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
+              }
+              return form;
+            }
+          })
+        }
+      />
+    </FormGroup>
+  );
+};
+
+const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+  const value = parameterForm.get('value') as Field<string>;
+
+  return (
+    <>
       <FormGroup>
         <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
           {hidden.value
@@ -370,7 +378,7 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     name,
     label,
     description,
-    required: type === 'vault' ? true : required,
+    required,
     hidden,
     value: paramValue,
     secured: false,

@@ -175,6 +175,7 @@ import './azureFunction';
 import './kongApigateway';
 import './tuxedoMachine';
 import './sapJavaSystem';
+import './sapHanaSystem';
 import './sapDbInstance';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';

@@ -131,8 +131,10 @@
           "validationString": "Validation String",
           "addHeader": "Add Header",
           "operation": "Operation",
-          "HeadersCannotBeDuplicated": "Headers cannot be duplicated",
-          "theValueMustNotBeBlank": "The value must not be blank."
+          "headerNameMustBeUnique": "Header name must be unique.",
+          "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
+          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
+          "theValueMustNotBeBlank": "The value must not be blank"
         },
         "loadMore": "Load More",
         "selectTests": {

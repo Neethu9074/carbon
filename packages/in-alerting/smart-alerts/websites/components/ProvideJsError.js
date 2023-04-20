@@ -9,12 +9,6 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import {
-  websitesAlertingJsErrorsMsgChanged,
-  websitesAlertingJsErrorsOperatorChanged,
-  websitesAlertingJsErrorsErrorSelected,
-  websitesAlertingJsErrorsOpenErrorSelectView
-} from 'in-alerting/smart-alerts/websites/tracker';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import { ruleJsErrorsOperatorOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import JsErrorsList from 'in-alerting/smart-alerts/websites/components/JsErrorsList';
@@ -52,7 +46,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
               })}
               onClick={() => {
-                websitesAlertingJsErrorsOpenErrorSelectView({ mode });
                 onSelectJsError({
                   slideInConfig: {
                     component: (
@@ -62,7 +55,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                           tagFilterExpression={form.get('tagFilterExpression').value}
                           timeConfig={timeConfig}
                           onJsErrorSelect={message => {
-                            websitesAlertingJsErrorsErrorSelected({ message, mode });
                             updateForm(
                               form
                                 .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
@@ -92,7 +84,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
             value={field.value}
             options={ruleJsErrorsOperatorOptions}
             onChange={e => {
-              websitesAlertingJsErrorsOperatorChanged({ mode });
               const previousOperator = field.value;
               const newOperator = (e && e.value) || '';
               let newRuleValueValue = 'Any';
@@ -123,7 +114,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               rows="3"
               value={field.value}
               onValueChange={value => {
-                websitesAlertingJsErrorsMsgChanged({ mode });
                 updateForm(form.updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true)));
               }}
               hasError={!field.valid && field.touched}

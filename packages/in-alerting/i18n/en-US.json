@@ -1071,8 +1071,12 @@
           "failuresWithCount_1": "{{count}} Failures",
           "failuresWithCount_2": "{{count}} Failures"
         },
-        "alertPropertiesTitlePlaceholder": "Insert title here",
-        "alertPropertiesDescriptionPlaceholder": "Insert description here"
+        "alertPropertiesTitlePlaceholder": "Synthetic test failed",
+        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed for {{count}} consecutive time",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
@@ -1081,8 +1085,6 @@
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
         "propertiesLabel": "Alert Properties",
-        "alertPropertiesPreviewTitlePlaceholder": "[Insert title here]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[Insert description here]",
         "propertiesTitle": "What should alert notification include?",
         "failureThreshold": "Time Threshold",
         "failureThresholdLabel": "Time Threshold",
@@ -1114,6 +1116,15 @@
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time Threshold",
         "alertingType": "Alerting Type"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Status Code Count",
+        "specificStatusCodeRate": "Status Code Rate",
+        "views": "Views",
+        "customEventBlueprintConfigMetricLabel": "Occurrences",
+        "sessions": "Sessions"
       }
     }
   }
