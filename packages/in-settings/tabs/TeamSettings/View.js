@@ -37,15 +37,20 @@ import {
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk,
-  teamSettingsAlertingHub
+  teamSettingsAlertingHub,
+  teamSettingsAlertingRecurrentMaintenanceConfigurations,
+  teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit
 } from 'in-settings/navigation/paths';
+import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
+import RecurrentMaintenanceWindowFormPage from './pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
+import { applicationSmartAlertsEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
@@ -67,7 +72,6 @@ import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -224,6 +228,20 @@ function navigationTreeForRole(role) {
           }
         ]
       });
+      if (recurrentMaintenanceWindowEnabled) {
+        eventsAndAlertsPages.push({
+          path: teamSettingsAlertingRecurrentMaintenanceConfigurations,
+          label: t('in-settings:tabs.recurrentMaintenanceWindows'),
+          component: RecurrentMaintenanceWindowsListPage,
+          isBeta: true,
+          subPages: [
+            {
+              path: teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit,
+              component: RecurrentMaintenanceWindowFormPage
+            }
+          ]
+        });
+      }
     }
 
     eventsAndAlertsPages.push({

@@ -79,6 +79,8 @@ export const teamSettingsAlertingAlertChannels = `${alerting}${channels}`;
 export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/maintenanceConfigurations/:id`;
 export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
 export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
+export const teamSettingsAlertingRecurrentMaintenanceConfigurations = `${alerting}/recurrentMaintenanceConfigurations`;
+export const teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit = `${alerting}/recurrentMaintenanceConfigurations/:id`;
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
 export const teamSettingsAlertingHub = `${alerting}/hub`;
 

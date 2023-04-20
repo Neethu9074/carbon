@@ -11,4 +11,13 @@
     position: relative;
     top: 0.5rem;
   }
+  .dialog {
+    width: 75vw;
+    height: fit-content;
+    padding-bottom: 6rem;
+  }
+  .simpleDialog {
+    width: 60vw;
+    height: fit-content;
+  }
 }

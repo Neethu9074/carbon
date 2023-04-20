@@ -219,6 +219,15 @@ export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
 export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
 export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
 export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
+export const SETTINGS_MAINTENANCE_WINDOW_RESUME = 'settings.maintenance.resume';
+export const SETTINGS_MAINTENANCE_WINDOW_PAUSE = 'settings.maintenance.pause';
+export const SETTINGS_MAINTENANCE_WINDOW_ADANCED = 'settings.maintenance.to.advanced';
+export const SETTINGS_MAINTENANCE_WINDOW_SIMPLE = 'settings.maintenance.to.simple';
+export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE = 'settings.maintenance.nextStep.one';
+export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO = 'settings.maintenance.nextStep.two';
+export const SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB = 'settings.maintenance.tab.active';
+export const SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB = 'settings.maintenance.tab.scheduled';
+export const SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB = 'settings.maintenance.tab.expired';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
