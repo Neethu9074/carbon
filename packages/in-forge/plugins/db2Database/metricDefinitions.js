@@ -190,7 +190,8 @@ export default [
     metrics: ['logs.availablePercentage'],
     labels: [t('in-forge:plugins.db2Database.availablePercentage')],
     min: 0,
-    formatter: percentagePlainZeroDecimalPlaces,
+    max: 1,
+    formatter: percentage,
     category: [t('in-forge:plugins.db2Database.logSpace')]
   },
   {
@@ -525,7 +526,7 @@ export default [
         t('in-forge:plugins.db2Database.dashboard.hadrConnectStatusOrStandbyId')
       )
     ],
-    labels: [t('in-forge:plugins.db2Database.HADR_CONNECT_STATUS')],
+    labels: [t('in-forge:plugins.db2Database.hadrConnectStatus')],
     category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
     min: 0,
     max: 1,
@@ -605,5 +606,18 @@ export default [
     labels: t('in-forge:plugins.db2Database.logHadrWaitTime'),
     metrics: ['hadrmetrics.hadrLastTakeOverTime'],
     formatter: millis
-  }
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+         'hadr',
+         'HADR_LOG_GAP',
+          t('in-forge:plugins.db2Database.dashboard.standbyId')
+        )
+      ],
+      labels: [t('in-forge:plugins.db2Database.hadrLogGap')],
+      category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
+      min: 0,
+      formatter: bytes.detailed
+   }
 ];

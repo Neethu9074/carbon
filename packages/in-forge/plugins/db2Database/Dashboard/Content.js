@@ -103,7 +103,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <HadrGenericsTable snapshotId={snapshotId} />
+      <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
         <TableSpaceUtil snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -357,7 +357,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: ['logs.availablePercentage'],
             labels: [t('in-forge:plugins.db2Database.availablePercentage')],
             type: 'line',
-            formatter: percentagePlainZeroDecimalPlaces
+            formatter: percentage.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
