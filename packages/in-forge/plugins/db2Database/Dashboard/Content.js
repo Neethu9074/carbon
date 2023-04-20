@@ -5,15 +5,7 @@
 
 import React from 'react';
 
-import {
-  number,
-  millis,
-  bytes,
-  micros,
-  positiveNumber,
-  percentage,
-  percentagePlainZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';

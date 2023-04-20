@@ -3,15 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import {
-  number,
-  kiloBytes,
-  bytes,
-  millis,
-  percentage,
-  micros,
-  percentagePlainZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, kiloBytes, bytes, millis, percentage, micros } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -608,16 +600,10 @@ export default [
     formatter: millis
   },
   {
-    metrics: [
-      getDynamicMetricMatch(
-         'hadr',
-         'HADR_LOG_GAP',
-          t('in-forge:plugins.db2Database.dashboard.standbyId')
-        )
-      ],
-      labels: [t('in-forge:plugins.db2Database.hadrLogGap')],
-      category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
-      min: 0,
-      formatter: bytes.detailed
-   }
+    metrics: [getDynamicMetricMatch('hadr', 'HADR_LOG_GAP', t('in-forge:plugins.db2Database.dashboard.standbyId'))],
+    labels: [t('in-forge:plugins.db2Database.hadrLogGap')],
+    category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
+    min: 0,
+    formatter: bytes.detailed
+  }
 ];
