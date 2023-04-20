@@ -10,11 +10,10 @@ import locals from './ButtonGroup.mless';
 
 interface Props {
   vertical?: boolean;
-  children: React.ReactNode;
   className?: string;
 }
 
-export default function ButtonGroup({ vertical, children, className }: Props) {
+export default function ButtonGroup({ vertical, children, className }: React.PropsWithChildren<Props>) {
   return (
     <div
       className={classNames({

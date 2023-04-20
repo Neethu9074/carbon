@@ -6,9 +6,8 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
+import { LinkProps, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import locals from './Button.mless';
@@ -18,7 +17,7 @@ interface Props {
   renderContent: () => React.ReactNode;
   icon?: string;
   dark?: boolean;
-  onClick?: (e: EventPlaceholder) => void;
+  onClick?: LinkProps['onClick'];
   href?: string;
   href$?: Observable<string>;
   appendTop?: boolean;
