@@ -47,15 +47,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.diskType'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.solidStateDiskRawData.get('diskType');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity'),
     type: 'metric',
     typeArgs: {
