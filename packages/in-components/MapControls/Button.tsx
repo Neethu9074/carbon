@@ -6,12 +6,29 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
+import { Observable } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import locals from './Button.mless';
 
-export default forwardRef(function Button(
+interface Props {
+  isActive?: boolean;
+  renderContent: () => React.ReactNode;
+  icon?: string;
+  dark?: boolean;
+  onClick?: (e: EventPlaceholder) => void;
+  href?: string;
+  href$?: Observable<string>;
+  appendTop?: boolean;
+  appendRight?: boolean;
+  appendBottom?: boolean;
+  appendLeft?: boolean;
+  className?: string;
+}
+
+export default forwardRef<HTMLAnchorElement, Props>(function Button(
   {
     isActive,
     renderContent,
@@ -37,6 +54,7 @@ export default forwardRef(function Button(
         [locals.appendBottom]: appendBottom,
         [locals.appendLeft]: appendLeft,
         [locals.appendRight]: appendRight,
+        // @ts-expect-error classnames explicitly can handle undefined object keys
         [className]: className
       })}
       onClick={onClick}
