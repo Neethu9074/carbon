@@ -13,9 +13,11 @@ import {
   getSapDbmsDashboard,
   getSapDbTenantDashboard,
   getSapHanaDashboard,
+  getSapJavaCentralInstanceDashboard,
   getSapJavaInstanceDashboard,
   getAbapSystemDashboard,
-  getSapJavaSystemDashboard
+  getSapJavaSystemDashboard,
+  getSapHanaSystemDashboard
 } from 'in-sap/navigation/paths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -73,10 +75,27 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         />
       );
     case plugins.sapJavaInstance:
+      if (value.label.includes('Central'))
+        return (
+          <EntityLink
+            label={value.label}
+            href$={getSapJavaCentralInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            icon={getIconType(value.pluginName)}
+          />
+        );
+      else
+        return (
+          <EntityLink
+            label={value.label}
+            href$={getSapJavaInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+            icon={getIconType(value.pluginName)}
+          />
+        );
+    case plugins.sapHanaSystem:
       return (
         <EntityLink
           label={value.label}
-          href$={getSapJavaInstanceDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          href$={getSapHanaSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );

@@ -16,13 +16,6 @@ export default function ConfigMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Trace_Settings'}
-      />
-      <Configuration
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
         configurationName={'Discrepancy_between_host_server_times'}
       />
       <Configuration
@@ -37,20 +30,6 @@ export default function ConfigMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'LOB_Garbage_Collection_Activity'}
-      />
-      <Configuration
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
-        configurationName={'Runtime_of_the_Log_Backups'}
-      />
-      <Configuration
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
-        timeConfig={timeConfig}
         configurationName={'Insecure_Instance_SSFS_Encryption_Configuration'}
       />
       <Configuration
@@ -58,7 +37,7 @@ export default function ConfigMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Unassigned_Volumes'}
+        configurationName={'LOB_Garbage_Collection_Activity'}
       />
       <Configuration
         snapshotId={vm.id}
@@ -80,6 +59,27 @@ export default function ConfigMetrics({ timeConfig, data: vm }) {
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
         configurationName={'RFC_Connections'}
+      />
+      <Configuration
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Runtime_of_the_Log_Backups'}
+      />
+      <Configuration
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Trace_Settings'}
+      />
+      <Configuration
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Unassigned_Volumes'}
       />
     </Fragment>
   );

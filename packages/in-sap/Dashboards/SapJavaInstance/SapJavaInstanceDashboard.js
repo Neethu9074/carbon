@@ -45,7 +45,7 @@ export default function SapJavaInstanceDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.SapJavaInstance')
+          pageRootName: t('in-sap:dashboards.sapJavaInstance')
         }}
       />
 
@@ -81,7 +81,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title={t('in-sap:dashboards.SapJavaInstance')}
+      title={t('in-sap:dashboards.sapJavaInstance')}
       icon="lib_sap_instances"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}

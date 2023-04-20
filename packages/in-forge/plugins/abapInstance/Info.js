@@ -11,18 +11,10 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.abapInstance.hostName')}>
-        {data.get('metrics.ABAP_INSTANCE_AVAILABILITY.hostName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.abapInstance.eventName')}>
-        {data.get('metrics.ABAP_INSTANCE_AVAILABILITY.eventName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.abapInstance.category')}>
-        {data.get('metrics.ABAP_INSTANCE_AVAILABILITY.category')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.abapInstance.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.abapInstance.objectType')}>{data.get('objectType')}</DescriptionItem>
     </DescriptionList>
   );
 }

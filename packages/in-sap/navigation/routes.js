@@ -7,8 +7,10 @@
 // the following components are all part of the same bundle (kubernetes)
 import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
 import AbapCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard';
+import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
 import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
 import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';
+import SapHanaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHanaSystem/SapHanaSystemDashboard';
 import SapDbInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbInstance/SapDbInstanceDashboard';
 import AbapInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapInstance/AbapInstanceDashboard';
 import SapDbTenantDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbTenant/SapDbTenantDashboard';
@@ -26,7 +28,9 @@ import {
   sapDbmsDashboardFullyQualified,
   sapHanaDashboardFullyQualified,
   sapJavaSystemDashboardFullyQualified,
+  sapHanaSystemDashboardFullyQualified,
   sapJavaInstanceDashboardFullyQualified,
+  sapJavaCentralInstanceDashboardFullyQualified,
   sapDbTenantDashboardFullyQualified,
   sapDbInstanceDashboardFullyQualified
 } from 'in-sap/navigation/paths';
@@ -64,10 +68,20 @@ export default [
     component={createAsyncViewComponent(SapJavaSystemDashboard)}
   />,
   <Route
+    key="sapHanaSystemDashboard"
+    path={sapHanaSystemDashboardFullyQualified}
+    component={createAsyncViewComponent(SapHanaSystemDashboard)}
+  />,
+  <Route
     key="sapJavaInstanceDashboard"
     path={sapJavaInstanceDashboardFullyQualified}
     component={createAsyncViewComponent(SapJavaInstanceDashboard)}
   />,
+    <Route
+      key="sapJavaCentralInstanceDashboard"
+      path={sapJavaCentralInstanceDashboardFullyQualified}
+      component={createAsyncViewComponent(SapJavaCentralInstanceDashboard)}
+    />,
   <Route
     key="SapDbTenantDashboard"
     path={sapDbTenantDashboardFullyQualified}

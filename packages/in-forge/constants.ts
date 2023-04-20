@@ -294,7 +294,8 @@ export const nonServicePlugins = {
   sapDbTenant: 'sapDbTenant',
   sapHanaPlatform: 'sapHanaPlatform',
   sapJavaInstance: 'sapJavaInstance',
-  sapJavaSystem: 'sapJavaSystem'
+  sapJavaSystem: 'sapJavaSystem',
+  sapHanaSystem: 'sapHanaSystem'
 };
 
 export const applicationPlugins = {
@@ -636,7 +637,8 @@ export const fullyQualifiedPlugins = {
   sapHost: 'com.instana.forge.infrastructure.paas.sap.SAPHost',
   sapHanaPlatform: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphana.SapHanaPlatform',
   sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
-  sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance'
+  sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
+  sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

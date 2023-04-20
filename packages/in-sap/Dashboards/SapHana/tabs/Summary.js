@@ -30,10 +30,10 @@ export default function Summary({ timeConfig, data: vm }) {
           color={colorFormatter(vm.connectStatusRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.hdbHostStatusMetric')}
-          value={vm.dbHostStatusRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.diskUsage')}
+          value={vm.diskUsageRating || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.dbHostStatusRating)}
+          color={colorFormatter(vm.diskUsageRating)}
         />
       </KpiGridRow>
       <Row>
@@ -49,28 +49,25 @@ export default function Summary({ timeConfig, data: vm }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
-                metrics: [
-                  'metrics.Availability.Database_Availability.HDB_DBA_CONNECT_STATUS.value',
-                  'metrics.Availability.Database_Availability.HDB_HOST_STATUS_METRIC_Database_Host_Status.value'
-                ],
-                labels: [t('in-sap:dashboards.DBA_CONNECT_STATUS'), t('in-sap:dashboards.HDB_Host_Status')],
+                metrics: ['metrics.Availability.Database_Availability.HDB_DBA_CONNECT_STATUS.value'],
+                labels: [t('in-sap:dashboards.dBAConnectStatus')],
                 type: 'line'
               }}
             />
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-sap:dashboards.ioReadsWrites')} useMaxAvailableHeight>
+          <Card title={t('in-sap:dashboards.dbStatistics')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: [
-                  'metrics.Exceptions.Failed_IO_Reads.HDB_FAILED_IO_READS_Failed_IO_Reads.value',
-                  'metrics.Exceptions.Failed_IO_Writes.HDB_FAILED_IO_WRITES_Failed_IO_Writes.value'
+                  'metrics.Performance.Long-Running_Blocking_Situations.HDB_STATISTICS_ALERT_049_.value',
+                  'metrics.Performance.Long_Running_Statement.HDB_STATISTICS_ALERT_039_.value'
                 ],
-                labels: [t('in-sap:dashboards.Failed_IO_Reads'), t('in-sap:dashboards.Failed_IO_Writes')],
+                labels: [t('in-sap:dashboards.blockingSituations'), t('in-sap:dashboards.longRunningStatement')],
                 type: 'line',
                 formatter: number
               }}

@@ -16,7 +16,14 @@ export default function AvailMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Database_Availability'}
+        configurationName={'Availability_of_Asynchronous_Table_Replication'}
+      />
+      <Availability
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'HDB_HOST_STATUS_METRIC_Database_Host_Status'}
       />
     </Fragment>
   );

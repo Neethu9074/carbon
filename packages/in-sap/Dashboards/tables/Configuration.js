@@ -145,13 +145,14 @@ export default connectTo(
       return <DashboardNotification type="info">{snapshotMap.eventNames}</DashboardNotification>;
     }
     if (!data) {
-      return <DashboardNotification type="info">No data found for {configurationName}</DashboardNotification>;
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
     }
 
     const configMainMetrics = data.get('raw_payload', []);
     const rows = configMainMetrics
       .keySeq()
       .toArray()
+      .filter(k1 => !(configMainMetrics.get(k1).get('isEvent') === 'true'))
       .map(key => {
         const configMainMetric = configMainMetrics.get(key);
         return {

@@ -404,6 +404,11 @@
   "pluginName_sapJavaInstance_1": "SAP Java Instance",
   "pluginName_sapJavaInstance_2": "SAP Java Instance",
   "pluginName_sapJavaInstance": "SAP Java Instance",
+  "pluginName_sapHanaSystem_plural": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_0": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_1": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_2": "SAP Hana Systems",
+  "pluginName_sapHanaSystem": "SAP Hana System",
   "pluginName_sapHost_plural": "SAP Host",
   "pluginName_sapHost_0": "SAP Host",
   "pluginName_sapHost_1": "SAP Host",
@@ -10221,14 +10226,13 @@
       "allocatedBytesPercent": "Allocated Bytes (%)",
       "pid": "PID",
       "state": "State",
-      "totalConnections":"Total Connections",
-      "dashboard":{
+      "totalConnections": "Total Connections",
+      "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
         "workerLua": "Allocated Bytes in Worker Lua VM",
         "totalConnections": "Total Connections"
       }
-
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
@@ -10956,7 +10960,7 @@
       "numOfSvcs": "Number of Services",
       "numOfReqQues": "Number of Request Queues",
       "numOfSrvGrps": "Number of Server Groups",
-      "numOfIntfs" : "Number of Interfaces",
+      "numOfIntfs": "Number of Interfaces",
       "totNumOfIPCMsgs": "Total Number of IPC Messages",
       "domain": "Domain"
     },
@@ -10991,7 +10995,7 @@
       "ipcQueues": "IPC Queues",
       "ipcQueueId": "IPC Queue Id",
       "machines": "Machines",
-      "stateMetric":"State Metric"
+      "stateMetric": "State Metric"
     },
     "tuxedoServer": {
       "tuxedoServer": "Tuxedo Server",
@@ -11000,7 +11004,7 @@
       "serverId": "Server Id",
       "pid": "PID",
       "groupNo": "Group No",
-      "groupName" :"Group Name",
+      "groupName": "Group Name",
       "queued": "Queued",
       "completed": "Completed",
       "health": "Health",
@@ -11017,7 +11021,7 @@
       "numQueued": "Number of requests initiated",
       "numCompletedEachServ": "Number of service requests completed",
       "numQueuedEachServ": "Number of requests currently enqueued",
-      "stateMetric":"State Metric"
+      "stateMetric": "State Metric"
     },
     "unmonitoredHost": {
       "headerNetworkInformation": "Network Information",
@@ -12628,9 +12632,9 @@
       "resourceType": "Resource Type",
       "serviceName": "Service Name",
       "cPUUsage": "CPU Usage",
-      "typeId": "Type Id",
       "memoryUsage": "Memory Usage",
       "CPU_IO_WAIT": "IO Wait",
+      "unit": "Unit",
       "cPU_SYSTEM_UTILIZATION": "System Utilization",
       "cPU_USER_UTILIZATION": "User Utilization",
       "mEMORY_Free_KB": "Free",
@@ -12641,9 +12645,15 @@
       "mEMORY_SWAP_TOTAL_KB": "Swap Total",
       "mEMORY_SWAP_FREE_KB": "Swap Free",
       "mEMORY_SWAP_FREE": "Swap Free %",
-      "fileSystem": "File System Used",
+      "fileSystem": "File System",
       "availabilityZone": "Availability Zone",
-      "rating": "Rating"
+      "rating": "Rating",
+      "webServiceAvailability": "Web Service Availability",
+      "agentAvailability": "SAP Agent Web Service Availability",
+      "oSCOLAvailability": "SAP OsCol Web Service Availability",
+      "cPUSystemUsage": "CPU System Utilization",
+      "totalMemoryUsage": "Total Memory Usage",
+      "fileSystemUsed": "File System Stats"
     },
     "abapInstance": {
       "label": "ABAP Instance",
@@ -12651,8 +12661,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "centralService": "Central Service",
       "instanceAvail": "Instance Avail",
       "javaToAbap": "Java To Abap",
@@ -12726,7 +12735,7 @@
       "minValue": "Minimum Value",
       "maxValue": "Maximum Value",
       "hostName": "Host Name",
-      "resourceType": "Resource Type",
+      "objectType": "Object Type",
       "host_id": "Host Id",
       "value": "Value",
       "abapSystemAvailability": "Abap System Availability",
@@ -12810,7 +12819,7 @@
     "sapDbTenant": {
       "label": "SAP DB Tenant",
       "hostName": "Host Name",
-      "resourceType": "Resource Type",
+      "objectType": "Object Type",
       "serviceAvailability": "Service Availability"
     },
     "sapDbInstance": {
@@ -12830,8 +12839,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "mergeDBKeyeq_1012": "Merge DB Key eq_1012",
       "reclaimDBKeyeq_1012": "Reclaim DB Key eq_1012",
       "sparseDBKeyeq_1012": "Sparse DB Key eq_1012",
@@ -12844,9 +12852,9 @@
       "minValue": "Minimum Value",
       "maxValue": "Maximum Value",
       "status": "Status",
+      "messageDeliveredStatus": "Message Delivered Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "systemHttpAvailability": "System Http Availability",
       "j2EEMessagesError": "J2EE Messages Error",
       "j2EEMessagesCancelled": "J2EE Messages Cancelled",
@@ -12858,8 +12866,7 @@
       "maxValue": "Maximum Value",
       "status": "Status",
       "hostName": "Host Name",
-      "eventName": "Event Name",
-      "category": "Category",
+      "objectType": "Object Type",
       "httpAvailability": "Http Availability",
       "iCMStatus": "ICM Status",
       "gRMGServiceStatus": "GRMG Service Status",
@@ -12870,6 +12877,12 @@
       "webServicesStatus": "Web Services Status",
       "sCSEnqueueStatus": "SCS Enqueue Status",
       "sCSMessageServerStatus": "SCS Message Server Status"
+    },
+    "sapHanaSystem": {
+      "label": "SAP Hana System",
+      "hostName": "Host Name",
+      "objectType": "Object Type",
+      "systemAvailability": "System Availability"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",

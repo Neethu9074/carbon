@@ -14,14 +14,9 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.sapHanaPlatform.hostName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.hostName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapHanaPlatform.eventName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.eventName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapHanaPlatform.category')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.category')}
+      <DescriptionItem title={t('in-forge:plugins.sapHanaPlatform.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHanaPlatform.objectType')}>
+        {data.get('objectType')}
       </DescriptionItem>
     </DescriptionList>
   );

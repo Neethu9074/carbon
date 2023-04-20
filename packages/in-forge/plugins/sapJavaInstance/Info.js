@@ -15,13 +15,10 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.hostName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.hostName')}
+        {data.get('hostName')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.eventName')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.eventName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.category')}>
-        {data.get('metrics.Availability.DATABASE_AVAILABILITY.category')}
+      <DescriptionItem title={t('in-forge:plugins.sapJavaInstance.objectType')}>
+        {data.get('objectType')}
       </DescriptionItem>
     </DescriptionList>
   );

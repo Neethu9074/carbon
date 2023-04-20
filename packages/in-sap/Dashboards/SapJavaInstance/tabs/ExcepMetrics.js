@@ -16,6 +16,7 @@ export default function ExcepMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
+        configurationName={'JAVA INSTANCE'}
       />
     </Fragment>
   );

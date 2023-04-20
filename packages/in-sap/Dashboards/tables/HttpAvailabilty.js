@@ -48,26 +48,6 @@ const cols = [
       },
       getContent: positiveNumber
     }
-  },
-  {
-    title: t('in-sap:dashboards.minValue'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.availMainMetric.get('minValue');
-      },
-      getContent: positiveNumber
-    }
-  },
-  {
-    title: t('in-sap:dashboards.maxValue'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.availMainMetric.get('maxValue');
-      },
-      getContent: positiveNumber
-    }
   }
 ];
 

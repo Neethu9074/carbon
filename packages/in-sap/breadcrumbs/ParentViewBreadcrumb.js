@@ -100,6 +100,16 @@ export default connectTo(
             {name}
           </Breadcrumb>
         );
+      case 'saphanasystems.':
+        return (
+          <Breadcrumb
+            label={label}
+            icon={getIconType(plugins.sapHanaSystem)}
+            href$={getDashboardForEntity(id, plugins.sapHanaSystem, label)}
+          >
+            {name}
+          </Breadcrumb>
+        );
       case 'abapsystems.':
         return (
           <Breadcrumb

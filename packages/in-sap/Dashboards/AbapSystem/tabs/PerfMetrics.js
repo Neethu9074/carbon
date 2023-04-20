@@ -23,14 +23,14 @@ export default function PerfMetrics({ timeConfig, data: vm }) {
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'User_Load'}
+        configurationName={'System_response_time'}
       />
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'System_Availability'}
+        configurationName={'User_Load'}
       />
       <Performance
         snapshotId={vm.id}
