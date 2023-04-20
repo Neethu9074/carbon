@@ -64,7 +64,7 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
   } else if (parameter?.value?.type === 'static') {
     newForm = addStaticField({ parameter, form: newForm });
   } else if (parameter?.value?.type === 'dynamic') {
-    newForm = addStaticField({ parameter, form: newForm });
+    // newForm = addDynamicFields({ parameter, form: newForm });
   }
   return newForm;
 }

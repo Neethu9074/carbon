@@ -74,9 +74,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
           {type.value === 'vault' && (
             <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
-          {type.value === 'dynamic' && (
-            <DynamicSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          )}
+          {type.value === 'dynamic' && <DynamicSection />}
           <FormGroup>
             <CheckboxFancy
               checked={hidden.value}
@@ -308,15 +306,11 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
   );
 };
 
-const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const dynamic = parameterForm.get('dynamic') as Field<boolean>;
+const DynamicSection = () => {
+  // const hidden = parameterForm.get('hidden') as Field<boolean>;
+  // const dynamic = parameterForm.get('dynamic') as Field<boolean>;
 
-  return (
-    <>
-      <FormGroup></FormGroup>
-    </>
-  );
+  return <></>;
 };
 
 interface OnParameterChangeParams<T> {
