@@ -619,7 +619,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdLifeRemaining')],
     min: 0,
-    formatter: number.compact,
+    formatter: percentage.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
   },
   {

@@ -208,7 +208,6 @@ export default connectTo(
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-
     const advanceSpinningDiskTypeRawPayload = data.get('raw_payload');
     if (advanceSpinningDiskTypeRawPayload.size === 0) {
       return null;

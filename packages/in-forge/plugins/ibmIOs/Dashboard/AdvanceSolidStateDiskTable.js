@@ -92,7 +92,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSolidStateDiskMetrics.${row.key}.ssdLifeRemaining`;
       },
-      getContent: number.compact,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
