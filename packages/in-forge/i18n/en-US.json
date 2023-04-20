@@ -9403,7 +9403,7 @@
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
             "resourceName": "Resource Name",
-            "hardwareModelNumber": "Hardware Model Number",
+            "hardwareModelNumber": "Model Number",
             "lifeRemaining": "Life Remaining",
             "spareCapacity": "Spare Capacity",
             "spareCapacityThreshold": "Spare Capacity Threshold",
