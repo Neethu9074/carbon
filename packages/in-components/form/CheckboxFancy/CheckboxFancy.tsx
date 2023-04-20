@@ -47,6 +47,7 @@ type CheckboxFancyProps = {
   wrapperClassName?: string;
   withControlsGrayscale?: boolean;
   labelClassName?: string;
+  value?: string;
 };
 
 export default function CheckboxFancy({
@@ -63,7 +64,8 @@ export default function CheckboxFancy({
   disabled,
   withControlsGrayscale,
   verticalLabel,
-  labelClassName
+  labelClassName,
+  value
 }: CheckboxFancyProps) {
   const input = (
     <Input
@@ -74,6 +76,7 @@ export default function CheckboxFancy({
       className={className}
       size={size}
       style={style}
+      value={value}
       disabled={disabled}
       withControlsGrayscale={withControlsGrayscale}
     />
@@ -109,6 +112,7 @@ type InputProps = {
   checked?: boolean;
   asRadioButton?: boolean;
   withControlsGrayscale?: boolean;
+  value?: string;
 } & Omit<Omit<IndeterminateInputProps, 'checked'>, 'size'>;
 
 function Input({
@@ -120,6 +124,7 @@ function Input({
   size = 'default',
   style,
   disabled,
+  value,
   withControlsGrayscale
 }: InputProps): JSX.Element {
   return (
@@ -129,6 +134,7 @@ function Input({
       indeterminate={indeterminate}
       onChange={onChange}
       disabled={disabled}
+      value={value}
       className={classNames(
         locals.control,
         asRadioButton ? locals.radiobutton : locals.checkbox,

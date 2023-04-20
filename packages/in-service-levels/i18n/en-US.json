@@ -10,12 +10,15 @@
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
-    }
+    },
+    "selectLabel": "Selection: "
   },
   "createSloDialog": {
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:"
+    "selectEntityTitle": "Select an entity to add SLO to:",
+    "websiteSelection": "Select Website",
+    "applicationSelection": "Select Application"
   },
   "sloList": {
     "components": {
