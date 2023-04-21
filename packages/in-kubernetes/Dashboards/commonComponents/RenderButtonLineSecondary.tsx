@@ -19,8 +19,10 @@ interface RenderButtonLineSecondaryProps {
 
 export default function RenderButtonLineSecondary({ timeConfig, snapshotId }: RenderButtonLineSecondaryProps) {
   const snapshot = useObservable(getSnapshot(snapshotId, timeConfig), [snapshotId, timeConfig]);
+
   if (!snapshot) {
     return <></>;
   }
+
   return <DashboardHeaderButtonSection snapshot={snapshot} snapshotId={snapshotId} timeConfig={timeConfig} />;
 }

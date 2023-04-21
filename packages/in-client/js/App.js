@@ -12,13 +12,13 @@ import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/Fl
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
+import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import MainNavigation from 'in-components/MainNavigation';
-import ScrollWrapper from 'in-components/ScrollWrapper';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
@@ -33,7 +33,7 @@ export default function App() {
       <LocationStateProvider>
         <GlobalTheme>
           <ThemeProvider theme="default">
-            <ScrollWrapper>
+            <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <NotificationBarSticky />
                 <ErrorBoundary name="main-navigation">
@@ -62,7 +62,7 @@ export default function App() {
                   <FloatingActionButtonPresenter />
                 </ErrorBoundary>
               </GlobalTimeConfig>
-            </ScrollWrapper>
+            </ScrollTrackingWrapper>
           </ThemeProvider>
         </GlobalTheme>
       </LocationStateProvider>
