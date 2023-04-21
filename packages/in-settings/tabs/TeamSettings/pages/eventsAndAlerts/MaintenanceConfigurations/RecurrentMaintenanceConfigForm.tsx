@@ -368,7 +368,9 @@ function save(
     isNew,
     isSimple
   });
-  return saveMaintenanceConfigV2(createMaintenanceConfigV2(config ? config.id : '', nameVal || '', query, scheduling));
+  return saveMaintenanceConfigV2(
+    createMaintenanceConfigV2(config ? config.id : '', config ? config.paused : false, nameVal || '', query, scheduling)
+  );
 }
 
 function getTime(subForm: MapForm<any>) {

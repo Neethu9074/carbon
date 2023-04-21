@@ -94,7 +94,7 @@ export function getMaintenanceConfig(id: string): Observable<MaintenanceConfig> 
   }).map(response => fromJS(response.body));
 }
 
-export function saveMaintenanceConfig(config: MaintenanceConfigV2): Observable<MaintenanceConfig> {
+export function saveMaintenanceConfig(config: MaintenanceConfig): Observable<MaintenanceConfig> {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -129,6 +129,7 @@ export function createMaintenanceConfig(
 
 export function createMaintenanceConfigV2(
   id?: string,
+  paused?: boolean,
   name: string = t('in-settings:api.newMaintenanceWindowDefaultName'),
   query: string = '',
   scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule()
@@ -137,6 +138,7 @@ export function createMaintenanceConfigV2(
     id: id || generateUniqueShortId(),
     name,
     query,
+    paused: paused || false,
     scheduling
   };
 }
