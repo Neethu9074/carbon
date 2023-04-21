@@ -6,8 +6,8 @@
 import React from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
+import WebsiteKeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarItem';
 import WebsiteSelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem';
-import KeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -75,7 +75,7 @@ export default function QuickFilterBar(props) {
           pluralLabel={t('in-websites:analyze.analyzeView.quickFilterBarLabelSubdivision', { count: 2 })}
         />
       )}
-      <KeyValueBarItem
+      <WebsiteKeyValueBarItem
         {...props}
         label={t('in-websites:analyze.analyzeView.quickFilterBarLabelMeta')}
         tag="beacon.meta"

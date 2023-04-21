@@ -3,24 +3,76 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withProps } from 'recompose';
 import { createField, createMapForm } from 'formalistic';
+import React, { useState } from 'react';
+
 import { timeout, empty } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { isBlank, compareIgnoreCase } from 'in-services/util/string';
-import { emptyArray, pendingResult } from 'in-services/fixedObjects';
-import { notBlankValidator } from 'in-services/validators/string';
 // eslint-disable-next-line no-restricted-imports
 import { requiresSecondLevelName } from 'in-applications/tags';
-import connect from 'in-hoc/connectTo';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { notBlankValidator } from 'in-services/validators/string';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isBlank } from 'in-services/util/string';
 
-export default compose(
-  withState('form', 'setForm', getEmptyForm()),
-  withProps(
-    ({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters, serializeFilter, trackFilterRemoved }) => ({
-      onKeyChange: key => {
+export default function KeyValueBarOverlayBehavior(props) {
+  const { addTagFilter, tag, close, tagFilters, setTagFilters, serializeFilter, trackFilterRemoved } = props;
+
+  const [form, setForm] = useState(getEmptyForm());
+  const keySuggestions$ = useObservable(props.getKeySuggestions ? props.getKeySuggestions(props) : empty, [
+    props.getKeySuggestions
+  ]);
+  const key = form.get('key').value;
+  const secondLevelKeySuggestions$ = useObservable(
+    !isBlank(key) && props.getSecondLevelKeySuggestions
+      ? timeout(1500)
+          .flatMap(() =>
+            props.getSecondLevelKeySuggestions({
+              ...props,
+              key
+            })
+          )
+          .startWith(pendingResult)
+      : empty,
+    [props.getSecondLevelKeySuggestions, key]
+  );
+  const valueSuggestions$ = useObservable(
+    !isBlank(key) && props.getValueSuggestions
+      ? timeout(1500)
+          .flatMap(() =>
+            props.getValueSuggestions({
+              ...props,
+              key
+            })
+          )
+          .startWith(pendingResult)
+      : empty,
+    [key]
+  );
+
+  const keySuggestionsLoading = keySuggestions$?.progress?.loading;
+  const secondLevelKeySuggestionsLoading = secondLevelKeySuggestions$?.progress.loading;
+  const valueSuggestionsLoading = valueSuggestions$?.progress.loading;
+  const keySuggestions = !keySuggestionsLoading ? keySuggestions$?.data.slice().sort() : [];
+  const secondLevelKeySuggestions = !secondLevelKeySuggestionsLoading
+    ? secondLevelKeySuggestions$?.data.slice().sort()
+    : [];
+
+  const valueSuggestions = !valueSuggestionsLoading ? valueSuggestions$?.data.slice().sort() : [];
+
+  return (
+    <KeyValueBarOverlayPresenter
+      form={form}
+      keySuggestions={keySuggestions}
+      secondLevelKeySuggestions={secondLevelKeySuggestions}
+      valueSuggestions={valueSuggestions}
+      secondLevelKeySuggestionsLoading={secondLevelKeySuggestionsLoading}
+      keySuggestionsLoading={keySuggestionsLoading}
+      valueSuggestionsLoading={valueSuggestionsLoading}
+      setForm={setForm}
+      onKeyChange={key => {
         let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
         if (requiresSecondLevelName(key)) {
           updatedForm = updatedForm.put('secondLevelName', getNotBlankValidatedFieldDefinition());
@@ -28,12 +80,12 @@ export default compose(
           updatedForm = updatedForm.remove('secondLevelName');
         }
         setForm(updatedForm);
-      },
-      onSecondLevelKeyChange: secondLevelKey => {
+      }}
+      onSecondLevelKeyChange={secondLevelKey => {
         setForm(form.updateIn(['secondLevelName'], f => f.setValue(secondLevelKey).setTouched(true)));
-      },
-      onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
-      onOperatorChange: e => {
+      }}
+      onValueChange={value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true)))}
+      onOperatorChange={e => {
         const newOperator = e.target.value;
         let updatedForm = form.updateIn(['operator'], f => f.setValue(newOperator).setTouched(true));
         const requiresValueField = newOperator !== 'NOT_EMPTY' && newOperator !== 'IS_EMPTY';
@@ -44,10 +96,9 @@ export default compose(
         } else {
           updatedForm = updatedForm.remove('value');
         }
-
         setForm(updatedForm);
-      },
-      onSubmit(e) {
+      }}
+      onSubmit={e => {
         stopPropagationAndPreventDefault(e);
         if (!form.hierarchyValid) {
           setForm(form.setTouched(true, { recurse: true }));
@@ -84,8 +135,8 @@ export default compose(
         }
 
         close();
-      },
-      onRemoveTagFilter(tagFilter) {
+      }}
+      onRemoveTagFilter={tagFilter => {
         setTagFilters(tagFilters.filter(f => f !== tagFilter));
 
         if (trackFilterRemoved) {
@@ -96,74 +147,11 @@ export default compose(
             trackFilterRemoved({ name: tagFilter.name });
           }
         }
-      }
-    })
-  ),
-  connect((props, prevProps) => {
-    let keySuggestions$;
-    if (props.getKeySuggestions) {
-      keySuggestions$ = props.getKeySuggestions(props);
-    } else {
-      keySuggestions$ = empty;
-    }
-
-    const key = props.form.get('key').value;
-    const keyChanged = prevProps && prevProps.form && key !== prevProps.form.get('key').value;
-
-    let secondLevelKeySuggestions$;
-    if (isBlank(key) || !props.getSecondLevelKeySuggestions) {
-      secondLevelKeySuggestions$ = empty;
-    } else if (keyChanged) {
-      secondLevelKeySuggestions$ = timeout(1500)
-        .flatMap(() =>
-          props.getSecondLevelKeySuggestions({
-            ...props,
-            key
-          })
-        )
-        .startWith(pendingResult);
-    } else {
-      secondLevelKeySuggestions$ = props.getSecondLevelKeySuggestions({
-        ...props,
-        key
-      });
-    }
-
-    let valueSuggestions$;
-    if (isBlank(key) || !props.getValueSuggestions) {
-      valueSuggestions$ = empty;
-    } else if (keyChanged) {
-      valueSuggestions$ = timeout(1500)
-        .flatMap(() =>
-          props.getValueSuggestions({
-            ...props,
-            key
-          })
-        )
-        .startWith(pendingResult);
-    } else {
-      valueSuggestions$ = props.getValueSuggestions({
-        ...props,
-        key
-      });
-    }
-
-    return {
-      keySuggestions: keySuggestions$
-        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
-        .startWith(emptyArray),
-      keySuggestionsLoading: keySuggestions$.map(r => r.progress.loading),
-      secondLevelKeySuggestions: secondLevelKeySuggestions$
-        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
-        .startWith(emptyArray),
-      secondLevelKeySuggestionsLoading: secondLevelKeySuggestions$.map(r => r.progress.loading),
-      valueSuggestions: valueSuggestions$
-        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
-        .startWith(emptyArray),
-      valueSuggestionsLoading: valueSuggestions$.map(r => r.progress.loading)
-    };
-  })
-)(KeyValueBarOverlayPresenter);
+      }}
+      {...props}
+    />
+  );
+}
 
 function getEmptyForm() {
   return createMapForm()
