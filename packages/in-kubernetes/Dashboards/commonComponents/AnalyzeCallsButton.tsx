@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -10,7 +11,20 @@ import { Button } from '@instana/components';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { Group } from 'in-types';
 import { t } from 'in-i18n';
+
+interface AnalyzeCallsProps {
+  clusterName: string;
+  namespaceName: string;
+  daemonSetName: string;
+  deploymentName: string;
+  deploymentConfigName: string;
+  serviceName: string;
+  statefulSetName: string;
+  podName: string;
+  groupBy: Partial<Group>;
+}
 
 export default function AnalyzeCallsButton({
   clusterName,
@@ -22,7 +36,7 @@ export default function AnalyzeCallsButton({
   statefulSetName,
   podName,
   groupBy
-}) {
+}: AnalyzeCallsProps) {
   return (
     <Button
       kind="primary"
@@ -47,8 +61,10 @@ export default function AnalyzeCallsButton({
   );
 }
 
-function getFormModel(params) {
+function getFormModel(params: Omit<AnalyzeCallsProps, 'groupBy'>) {
   const tagFilters = getFilters(params).map(tagFilter => ({ type: typeTagFilter, ...tagFilter }));
+
+  // @ts-expect-error
   return joinExpressions({ expressions: tagFilters });
 }
 
@@ -61,7 +77,7 @@ export function getFilters({
   serviceName,
   statefulSetName,
   podName
-}) {
+}: Omit<AnalyzeCallsProps, 'groupBy'>) {
   const filters = [];
 
   if (clusterName) {

@@ -1,6 +1,0 @@
-{
-  "name": "ScrollWrapper",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./ScrollWrapper.tsx"
-}
