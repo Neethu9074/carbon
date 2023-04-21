@@ -25,9 +25,18 @@ import {
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
   SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
   SETTINGS_MAINTENANCE_WINDOW_CANCEL,
+  SETTINGS_MAINTENANCE_WINDOW_RESUME,
+  SETTINGS_MAINTENANCE_WINDOW_PAUSE,
   SETTINGS_AUTOMATION_ACTION_CREATE,
   SETTINGS_AUTOMATION_ACTION_EDIT,
-  SETTINGS_AUTOMATION_ACTION_DELETE
+  SETTINGS_AUTOMATION_ACTION_DELETE,
+  SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
+  SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
+  SETTINGS_MAINTENANCE_WINDOW_ADANCED,
+  SETTINGS_MAINTENANCE_WINDOW_SIMPLE,
+  SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB,
+  SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB,
+  SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -56,6 +65,18 @@ export const removeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAIN
 export const editMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_EDIT, e);
 export const submitMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_SUBMIT, e);
 export const cancelMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_CANCEL, e);
+export const resumeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_RESUME, e);
+export const pauseMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_PAUSE, e);
+export const simpleModeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_SIMPLE, e);
+export const advancedModeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_ADANCED, e);
+export const nextStepOneMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE, e);
+export const nextStepTwoMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO, e);
+export const switchToActiveMaintenanceWindowsTabTracker = (e: Object) =>
+  track(SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB, e);
+export const switchToScheduledMaintenanceWindowsTabTracker = (e: Object) =>
+  track(SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB, e);
+export const switchToExpiredMaintenanceWindowsTabTracker = (e: Object) =>
+  track(SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB, e);
 
 export const createActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_CREATE, e);
 export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_EDIT, e);

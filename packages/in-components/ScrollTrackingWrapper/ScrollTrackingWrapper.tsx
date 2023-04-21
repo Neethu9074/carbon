@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function ScrollWrapper({ children }: Props) {
+export default function ScrollTrackingWrapper({ children }: Props) {
   const {
     location: { pathname }
   } = useNavigation();

@@ -1,0 +1,60 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React from 'react';
+
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import MaintenanceNamePreviewStep, { MaintenanceNamePreivewProps } from './steps/MaintenanceNamePreviewStep';
+import MaintenanceScopeStep, { MaintenanceScopeProps } from './steps/MaintenanceScopeStep';
+import { MaintenanceScheduleStepProps } from './steps/MaintenanceScheduleStep';
+import MaintenanceScheduleStep from './steps/MaintenanceScheduleStep';
+import { t } from 'in-i18n';
+
+export interface MaintenanceStepConfigObject {
+  title: string;
+  mustBeTouched: Array<Array<string>>;
+  mustBeValid: Array<Array<string>>;
+}
+
+export const stepConfigs = [
+  {
+    title: t('in-settings:tabs.step1RMWTitle'),
+    mustBeTouched: [
+      ['window', 'start', 'date'],
+      ['window', 'start', 'time'],
+      ['window', 'duration']
+    ],
+    mustBeValid: [['window']]
+  },
+  {
+    title: t('in-settings:tabs.step2RMWTitle'),
+    mustBeTouched: [['query'], ['applicationIds']],
+    mustBeValid: [['applyOn'], ['query'], ['applicationIds']]
+  },
+  {
+    title: t('in-settings:tabs.step3RMWTitle'),
+    mustBeTouched: [['name']],
+    mustBeValid: []
+  }
+];
+
+export const stepRenderers = [
+  ({ form, setForm }: MaintenanceScheduleStepProps) => (
+    <SimpleModeStepContentWrapper headline={t('in-settings:tabs.scheduleTitle')}>
+      <MaintenanceScheduleStep form={form} setForm={setForm} />
+    </SimpleModeStepContentWrapper>
+  ),
+  ({ form, onChange, onChangeApplyOn, setForm }: MaintenanceScopeProps) => (
+    <SimpleModeStepContentWrapper headline={t('in-settings:tabs.scopeTitle')}>
+      <MaintenanceScopeStep form={form} onChange={onChange} onChangeApplyOn={onChangeApplyOn} setForm={setForm} />
+    </SimpleModeStepContentWrapper>
+  ),
+  ({ form, onChange }: MaintenanceNamePreivewProps) => (
+    <SimpleModeStepContentWrapper headline={t('in-settings:tabs.namePreviewTitle')}>
+      <MaintenanceNamePreviewStep form={form} onChange={onChange} />
+    </SimpleModeStepContentWrapper>
+  )
+];
