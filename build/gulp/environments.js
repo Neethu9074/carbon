@@ -14,6 +14,11 @@ exports = module.exports = {
     unit: 'test',
     baseDomain: 'pink.instana.rocks'
   },
+  'K8s Test (heliconia)': {
+    tenant: 'tenant1',
+    unit: 'unit1',
+    baseDomain: 'instanatest.rocks'
+  },
   'Custom SaaS (run local UI against an arbitrary tenant unit in one of our SaaS or internal regions)': {
     // special case: Handled in `devModeQuestions`
     custom: 'saas'

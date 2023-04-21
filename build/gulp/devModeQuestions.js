@@ -66,6 +66,8 @@ function getTargetSelectedViaEnvironmentVariables() {
 
   if (/^test$/i.test(process.env.TARGET)) {
     return environments['K8s Test (pink)'];
+  } else if (/^heliconia$/i.test(process.env.TARGET)) {
+    return environments['K8s Test (heliconia)'];
   } else if (/^local$/i.test(process.env.TARGET)) {
     return {
       local: true
@@ -152,6 +154,10 @@ function getQuestions() {
         {
           name: 'pink.instana.rocks',
           value: 'pink.instana.rocks'
+        },
+        {
+          name: 'instanatest.rocks',
+          value: 'instanatest.rocks'
         }
       ]
     },

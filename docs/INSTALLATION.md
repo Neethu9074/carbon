@@ -23,6 +23,7 @@ In order for cookies to be send to the backend you need to configure rules in `/
 sudo sh -c 'echo "127.0.0.1 local-instana.instana.io" >> /etc/hosts'
 sudo sh -c 'echo "127.0.0.1 local-instana.instana.rocks" >> /etc/hosts'
 sudo sh -c 'echo "127.0.0.1 local-instana.pink.instana.rocks" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.instanatest.rocks" >> /etc/hosts'
 ```
 
 ## Installation of Node.js and Yarn
