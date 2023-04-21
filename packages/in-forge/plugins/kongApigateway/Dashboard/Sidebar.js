@@ -6,19 +6,23 @@
 
 import React from 'react';
 
+import { kongMonitoringEnabled } from 'in-services/featureFlags';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/kongApigateway/Info';
 import { t } from 'in-i18n';
 
 export default function KongSidebar({ snapshot }) {
-  return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.kongApigateway.kong')}</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
-    </div>
-  );
+  if (kongMonitoringEnabled) {
+    return (
+      <div>
+        <Collapsible initiallyOpen>
+          <Collapsible.Header>{t('in-forge:plugins.kongApigateway.kong')}</Collapsible.Header>
+          <Collapsible.Content>
+            <Info snapshot={snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+      </div>
+    );
+  }
+  return null;
 }
