@@ -105,6 +105,9 @@ export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAcce
 
 const permissions = role?.permissions ?? [];
 
+// @deprecated remove when completeley switched to using permissions
+export const hasRestrictedAccess = role?.restrictedAccess ?? false;
+
 /**
  * Verifies if the current user has access with the given scope and access
  * @param limitedScope if unlimited, then user has always access
