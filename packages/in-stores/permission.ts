@@ -103,9 +103,7 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
-const permissions = window.instana?.permissions ?? [];
-
-export const hasRestrictedAccess = role?.restrictedAccess ?? false;
+const permissions = role?.permissions ?? [];
 
 /**
  * Verifies if the current user has access with the given scope and access
@@ -114,10 +112,9 @@ export const hasRestrictedAccess = role?.restrictedAccess ?? false;
  * @return true if user has permission
  */
 function hasPermission(limitedScope: string, accessPermission: string): boolean {
-  // hasRestrictedAccess validation is required, support role does only contain the CAN_* permissions
-  // it is missing all the ACCESS_* permissions
-  if (!hasRestrictedAccess || permissions.indexOf(limitedScope) === -1) return true;
-  return permissions.indexOf(accessPermission) !== -1;
+  // users are not allowed to see an area once this area is limited and no additional access is given
+  if (!permissions.includes(limitedScope)) return true;
+  return permissions.includes(accessPermission);
 }
 
 export const hasApplicationsAccess = hasPermission(

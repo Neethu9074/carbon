@@ -18,11 +18,18 @@ export interface Tenant {
 
 export interface Role {
   id: string;
+  name: string;
+  // all product permissions
+  permissions: Array<string>;
+  // instana internal permissions
+  canAccessAllUnits: boolean;
   canSeeInternalTags: boolean;
+  canSetAgentTraceLogLevel: boolean;
+  canSeeExtendedInternalMonitoring: boolean;
+  // pre-evaluated permissions from backend
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
   canViewLogs: boolean;
-  restrictedAccess: boolean;
   canConfigureSyntheticLocations: boolean;
 }
 
