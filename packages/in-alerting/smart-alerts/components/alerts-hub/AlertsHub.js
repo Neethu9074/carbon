@@ -8,6 +8,12 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
+import {
+  alertHubAlertsClickTracker,
+  alertHubSmartAlertsClickTracker,
+  alertHubWebsiteClickTracker,
+  alertsHubEventsClickTracker
+} from 'in-settings/tracker';
 import getApplicationAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getApplicationAlertConfigStats';
 import getWebsiteAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getWebsiteAlertConfigStats';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
@@ -78,7 +84,8 @@ function AlertsHubContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.websites.button0'),
           icon: 'lib_website',
-          path: websitesPathFullyQualified
+          path: websitesPathFullyQualified,
+          onClick: () => alertHubWebsiteClickTracker()
         }
       ]
     },
@@ -94,7 +101,8 @@ function AlertsHubContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.applications.button0'),
           icon: 'lib_alerts_alert',
-          path: alertsList
+          path: alertsList,
+          onClick: () => alertHubSmartAlertsClickTracker()
         }
       ]
     },
@@ -113,13 +121,15 @@ function AlertsHubContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.infrastructure.button0'),
           icon: 'lib_events_critical',
-          path: teamSettingsAlertingAlerts
+          path: teamSettingsAlertingAlerts,
+          onClick: () => alertHubAlertsClickTracker()
         },
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.infrastructure.button1'),
           icon: 'lib_help_error_warning',
           path: teamSettingsAlertingEvents,
-          kind: 'info'
+          kind: 'info',
+          onClick: () => alertsHubEventsClickTracker()
         }
       ]
     }

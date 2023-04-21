@@ -12,6 +12,10 @@ import {
   SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM,
   SETTINGS_ALERT_SUBMIT,
   SETTINGS_ALERT_TOGGLE,
+  SETTINGS_ALERT_HUB_WEBSITES_CLICK,
+  SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK,
+  SETTINGS_ALERT_HUB_ALERTS_CLICK,
+  SETTINGS_ALERT_HUB_EVENTS_CLICK,
   SETTINGS_ALERT_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_VIEW,
   SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT,
@@ -55,6 +59,11 @@ export const submitAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALE
 export const addItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM, e);
 export const editAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM, e);
 export const removeItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM, e);
+
+export const alertHubWebsiteClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_WEBSITES_CLICK, e);
+export const alertHubSmartAlertsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK, e);
+export const alertHubAlertsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_ALERTS_CLICK, e);
+export const alertsHubEventsClickTracker = (e: Object) => track(SETTINGS_ALERT_HUB_EVENTS_CLICK, e);
 
 export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
 export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
