@@ -91,7 +91,7 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
             maxLength={256}
           />
           <TouchedMessages field={field} />
-          <DescriptionText>{t('in-settings:tabs.mainentanceWindowNamesShouldBeUniqueAndMeaningful')}</DescriptionText>
+          <DescriptionText>{t('in-settings:tabs.maintenanceWindowNamesShouldBeUniqueAndMeaningful')}</DescriptionText>
         </FormGroup>
       ))}
       <HorizontalFlexWrapper className={locals.labelWithTooltip} style={{ marginLeft: '0.5rem' }}>
