@@ -53,7 +53,7 @@ export default function AlertTestsList({
   const syntheticTests = getTestsAsResultObservable('')
     .map((result: Result<SyntheticTest[]> | null) => {
       if (result == null) {
-        return null;
+        return [];
       }
       return (result as Result<SyntheticTest[]>)?.data;
     })

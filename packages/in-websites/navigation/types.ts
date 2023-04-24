@@ -10,6 +10,7 @@ import { Group } from '@instana/types/typeDefinitions';
 import { ChartedMetric, ChartedTemplateMetric } from 'in-applications/navigation/paths';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { MetricField } from 'in-analyze/navigation/paths';
+import { ParameterDefinition } from 'in-stores/navigation/types';
 
 export interface Fields {
   metricId: string;
@@ -39,3 +40,5 @@ export interface UseLinkToPageLoadParams {
   beaconId: string;
   beaconTimestamp: string;
 }
+
+export type AnalyzeTagFilterParameter = ParameterDefinition<FormModelElement[] | [] | null>;
