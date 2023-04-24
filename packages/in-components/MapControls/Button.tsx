@@ -14,7 +14,7 @@ import locals from './Button.mless';
 
 interface Props {
   isActive?: boolean;
-  renderContent: () => React.ReactNode;
+  renderContent?: () => React.ReactNode;
   icon?: string;
   dark?: boolean;
   onClick?: LinkProps['onClick'];
