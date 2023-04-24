@@ -10293,7 +10293,7 @@
       "pid": "PID",
       "state": "State",
       "totalConnections": "Total Connections",
-      "connectionError": "Cannot connect to kong server since it is a closed beta version.",
+      "connectionError": "Cannot connect to Kong server since it is a closed beta version.",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
