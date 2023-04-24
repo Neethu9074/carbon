@@ -10,13 +10,13 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['cpcProcessorUsage', 'channelUsage'],
-    labels: [t('in-forge:plugins.zhmcConsole.cpcProcessorUsage'), t('in-forge:plugins.zhmcConsole.channelUsage')],
+    labels: [t('in-forge:plugins.zhmcCpc.cpcProcessorUsage'), t('in-forge:plugins.zhmcCpc.channelUsage')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['powerConsumptionWatts', 'temperatureCelsius'],
-    labels: [t('in-forge:plugins.zhmcConsole.powerConsumptionWatts'), t('in-forge:plugins.zhmcConsole.temperature')],
+    labels: [t('in-forge:plugins.zhmcCpc.powerConsumptionWatts'), t('in-forge:plugins.zhmcCpc.temperature')],
     min: 0,
     formatter: number
   },
@@ -29,11 +29,11 @@ export default [
       'cpAllProcessorUsage'
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.iip'),
-      t('in-forge:plugins.zhmcConsole.ifl'),
-      t('in-forge:plugins.zhmcConsole.icf'),
-      t('in-forge:plugins.zhmcConsole.cbp'),
-      t('in-forge:plugins.zhmcConsole.cp')
+      t('in-forge:plugins.zhmcCpc.iip'),
+      t('in-forge:plugins.zhmcCpc.ifl'),
+      t('in-forge:plugins.zhmcCpc.icf'),
+      t('in-forge:plugins.zhmcCpc.cbp'),
+      t('in-forge:plugins.zhmcCpc.cp')
     ],
     min: 0,
     formatter: percentage
@@ -47,11 +47,11 @@ export default [
       'aapSharedProcessorUsage'
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.ifl'),
-      t('in-forge:plugins.zhmcConsole.icf'),
-      t('in-forge:plugins.zhmcConsole.cbp'),
-      t('in-forge:plugins.zhmcConsole.cp'),
-      t('in-forge:plugins.zhmcConsole.aap')
+      t('in-forge:plugins.zhmcCpc.ifl'),
+      t('in-forge:plugins.zhmcCpc.icf'),
+      t('in-forge:plugins.zhmcCpc.cbp'),
+      t('in-forge:plugins.zhmcCpc.cp'),
+      t('in-forge:plugins.zhmcCpc.aap')
     ],
     min: 0,
     formatter: percentage
@@ -65,11 +65,11 @@ export default [
       'aapDedicatedProcessorUsage'
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.ifl'),
-      t('in-forge:plugins.zhmcConsole.icf'),
-      t('in-forge:plugins.zhmcConsole.cbp'),
-      t('in-forge:plugins.zhmcConsole.cp'),
-      t('in-forge:plugins.zhmcConsole.aap')
+      t('in-forge:plugins.zhmcCpc.ifl'),
+      t('in-forge:plugins.zhmcCpc.icf'),
+      t('in-forge:plugins.zhmcCpc.cbp'),
+      t('in-forge:plugins.zhmcCpc.cp'),
+      t('in-forge:plugins.zhmcCpc.aap')
     ],
     min: 0,
     formatter: percentage
@@ -77,10 +77,10 @@ export default [
   {
     metrics: ['envPowerConsumptionWatts', 'heatLoad', 'heatLoadForcedAir', 'heatLoadWater'],
     labels: [
-      t('in-forge:plugins.zhmcConsole.powerConsumptionWatts'),
-      t('in-forge:plugins.zhmcConsole.heatLoad'),
-      t('in-forge:plugins.zhmcConsole.heatLoadForcedAir'),
-      t('in-forge:plugins.zhmcConsole.heatLoadWater')
+      t('in-forge:plugins.zhmcCpc.powerConsumptionWatts'),
+      t('in-forge:plugins.zhmcCpc.heatLoad'),
+      t('in-forge:plugins.zhmcCpc.heatLoadForcedAir'),
+      t('in-forge:plugins.zhmcCpc.heatLoadWater')
     ],
     min: 0,
     formatter: number
@@ -88,32 +88,32 @@ export default [
   {
     metrics: ['envTemperatureCelsius', 'dewPointCelsius', 'humidity', 'exhaustTemperatureCelsius'],
     labels: [
-      t('in-forge:plugins.zhmcConsole.temperature'),
-      t('in-forge:plugins.zhmcConsole.dewPoint'),
-      t('in-forge:plugins.zhmcConsole.humidity'),
-      t('in-forge:plugins.zhmcConsole.temperature')
+      t('in-forge:plugins.zhmcCpc.temperature'),
+      t('in-forge:plugins.zhmcCpc.dewPoint'),
+      t('in-forge:plugins.zhmcCpc.humidity'),
+      t('in-forge:plugins.zhmcCpc.temperature')
     ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['processorUsage', 'networkUsage'],
-    labels: [t('in-forge:plugins.zhmcConsole.processorUsage'), t('in-forge:plugins.zhmcConsole.networkUsage')],
+    labels: [t('in-forge:plugins.zhmcCpc.processorUsage'), t('in-forge:plugins.zhmcCpc.networkUsage')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['dpmPowerConsumptionWatts', 'dpmTemperatureCelsius'],
-    labels: [t('in-forge:plugins.zhmcConsole.powerConsumptionWatts'), t('in-forge:plugins.zhmcConsole.temperature')],
+    labels: [t('in-forge:plugins.zhmcCpc.powerConsumptionWatts'), t('in-forge:plugins.zhmcCpc.temperature')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['storageUsage', 'acceleratorUsage', 'dpmCryptoUsage'],
     labels: [
-      t('in-forge:plugins.zhmcConsole.storageUsage'),
-      t('in-forge:plugins.zhmcConsole.acceleratorUsage'),
-      t('in-forge:plugins.zhmcConsole.cryptoUsage')
+      t('in-forge:plugins.zhmcCpc.storageUsage'),
+      t('in-forge:plugins.zhmcCpc.acceleratorUsage'),
+      t('in-forge:plugins.zhmcCpc.cryptoUsage')
     ],
     min: 0,
     formatter: percentage
@@ -127,148 +127,116 @@ export default [
       'dpmAllSharedProcessorUsage'
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.cpSharedProcessorUsage'),
-      t('in-forge:plugins.zhmcConsole.cpAllProcessorUsage'),
-      t('in-forge:plugins.zhmcConsole.iflSharedProcessorUsage'),
-      t('in-forge:plugins.zhmcConsole.iflAllProcessorUsage'),
-      t('in-forge:plugins.zhmcConsole.allSharedProcessorUsage')
+      t('in-forge:plugins.zhmcCpc.cpSharedProcessorUsage'),
+      t('in-forge:plugins.zhmcCpc.cpAllProcessorUsage'),
+      t('in-forge:plugins.zhmcCpc.iflSharedProcessorUsage'),
+      t('in-forge:plugins.zhmcCpc.iflAllProcessorUsage'),
+      t('in-forge:plugins.zhmcCpc.allSharedProcessorUsage')
     ],
     min: 0,
     formatter: percentage
   },
   {
-    metrics: [
-      getDynamicMetricMatch('logicalPartition', 'processor', t('in-forge:plugins.zhmcConsole.logicalPartition'))
-    ],
-    labels: [t('in-forge:plugins.zhmcConsole.processorUsage')],
-    category: [t('in-forge:plugins.zhmcConsole.logicalPartition')],
+    metrics: [getDynamicMetricMatch('logicalPartition', 'processor', t('in-forge:plugins.zhmcCpc.logicalPartition'))],
+    labels: [t('in-forge:plugins.zhmcCpc.processorUsage')],
+    category: [t('in-forge:plugins.zhmcCpc.logicalPartition')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: [
-      getDynamicMetricMatch('logicalPartition', 'zvmPagingRate', t('in-forge:plugins.zhmcConsole.logicalPartition'))
+      getDynamicMetricMatch('logicalPartition', 'zvmPagingRate', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
-    labels: [t('in-forge:plugins.zhmcConsole.zvm')],
-    category: [t('in-forge:plugins.zhmcConsole.logicalPartition')],
+    labels: [t('in-forge:plugins.zhmcCpc.zvm')],
+    category: [t('in-forge:plugins.zhmcCpc.logicalPartition')],
     min: 0,
     formatter: number
   },
   {
     metrics: [
-      getDynamicMetricMatch('logicalPartition', 'cpProcessorUsage', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'logicalPartition',
-        'iflProcessorUsage',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch(
-        'logicalPartition',
-        'icfProcessorUsage',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch(
-        'logicalPartition',
-        'iipProcessorUsage',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch('logicalPartition', 'cbpProcessorUsage', t('in-forge:plugins.zhmcConsole.logicalPartition'))
+      getDynamicMetricMatch('logicalPartition', 'cpProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('logicalPartition', 'iflProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('logicalPartition', 'icfProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('logicalPartition', 'iipProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('logicalPartition', 'cbpProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.cp'),
-      t('in-forge:plugins.zhmcConsole.ifl'),
-      t('in-forge:plugins.zhmcConsole.icf'),
-      t('in-forge:plugins.zhmcConsole.iip'),
-      t('in-forge:plugins.zhmcConsole.cbp')
+      t('in-forge:plugins.zhmcCpc.cp'),
+      t('in-forge:plugins.zhmcCpc.ifl'),
+      t('in-forge:plugins.zhmcCpc.icf'),
+      t('in-forge:plugins.zhmcCpc.iip'),
+      t('in-forge:plugins.zhmcCpc.cbp')
     ],
-    category: [t('in-forge:plugins.zhmcConsole.logicalPartition')],
+    category: [t('in-forge:plugins.zhmcCpc.logicalPartition')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: [
-      getDynamicMetricMatch('networkPorts', 'utilization', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'flags', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'networkPortId', t('in-forge:plugins.zhmcConsole.logicalPartition'))
+      getDynamicMetricMatch('networkPorts', 'utilization', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'flags', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'networkPortId', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.utilization'),
-      t('in-forge:plugins.zhmcConsole.flags'),
-      t('in-forge:plugins.zhmcConsole.networkPortId')
+      t('in-forge:plugins.zhmcCpc.utilization'),
+      t('in-forge:plugins.zhmcCpc.flags'),
+      t('in-forge:plugins.zhmcCpc.networkPortId')
     ],
-    category: [t('in-forge:plugins.zhmcConsole.networkPorts')],
+    category: [t('in-forge:plugins.zhmcCpc.networkPorts')],
     min: 0,
     formatter: number
   },
   {
     metrics: [
-      getDynamicMetricMatch('networkPorts', 'bytesSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'bytesReceived', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'intervalBytesSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'intervalBytesReceived',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch('networkPorts', 'bytesPerSecondSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'bytesPerSecondReceived',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      )
+      getDynamicMetricMatch('networkPorts', 'bytesSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'bytesReceived', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'intervalBytesSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'intervalBytesReceived', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.bytesSent'),
-      t('in-forge:plugins.zhmcConsole.bytesReceived'),
-      t('in-forge:plugins.zhmcConsole.intervalBytesSent'),
-      t('in-forge:plugins.zhmcConsole.intervalBytesReceived'),
-      t('in-forge:plugins.zhmcConsole.bytesPerSecondSent'),
-      t('in-forge:plugins.zhmcConsole.bytesPerSecondReceived')
+      t('in-forge:plugins.zhmcCpc.bytesSent'),
+      t('in-forge:plugins.zhmcCpc.bytesReceived'),
+      t('in-forge:plugins.zhmcCpc.intervalBytesSent'),
+      t('in-forge:plugins.zhmcCpc.intervalBytesReceived')
     ],
-    category: [t('in-forge:plugins.zhmcConsole.networkPorts')],
+    category: [t('in-forge:plugins.zhmcCpc.networkPorts')],
     min: 0,
     formatter: bytes
   },
   {
     metrics: [
-      getDynamicMetricMatch('networkPorts', 'packetsSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'packetsReceived', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch('networkPorts', 'packetsSentDiscarded', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'packetsReceivedDropped',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'packetsReceivedDiscarded',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch('networkPorts', 'multicastPacketsSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'multicastPacketsReceived',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      ),
-      getDynamicMetricMatch('networkPorts', 'broadcastPacketsSent', t('in-forge:plugins.zhmcConsole.logicalPartition')),
-      getDynamicMetricMatch(
-        'networkPorts',
-        'broadcastPacketsReceived',
-        t('in-forge:plugins.zhmcConsole.logicalPartition')
-      )
+      getDynamicMetricMatch('networkPorts', 'bytesPerSecondSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'bytesPerSecondReceived', t('in-forge:plugins.zhmcCpc.logicalPartition'))
+    ],
+    labels: [t('in-forge:plugins.zhmcCpc.bytesPerSecondSent'), t('in-forge:plugins.zhmcCpc.bytesPerSecondReceived')],
+    category: [t('in-forge:plugins.zhmcCpc.networkPorts')],
+    min: 0,
+    formatter: bytes.perSecond
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('networkPorts', 'packetsSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'packetsReceived', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'packetsSentDiscarded', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'packetsReceivedDropped', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'packetsReceivedDiscarded', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'multicastPacketsSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'multicastPacketsReceived', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'broadcastPacketsSent', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('networkPorts', 'broadcastPacketsReceived', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.packetsSent'),
-      t('in-forge:plugins.zhmcConsole.packetsReceived'),
-      t('in-forge:plugins.zhmcConsole.packetsSentDiscarded'),
-      t('in-forge:plugins.zhmcConsole.packetsReceivedDropped'),
-      t('in-forge:plugins.zhmcConsole.packetsReceivedDiscarded'),
-      t('in-forge:plugins.zhmcConsole.multicastPacketsSent'),
-      t('in-forge:plugins.zhmcConsole.multicastPacketsReceived'),
-      t('in-forge:plugins.zhmcConsole.broadcastPacketsSent'),
-      t('in-forge:plugins.zhmcConsole.broadcastPacketsReceived')
+      t('in-forge:plugins.zhmcCpc.packetsSent'),
+      t('in-forge:plugins.zhmcCpc.packetsReceived'),
+      t('in-forge:plugins.zhmcCpc.packetsSentDiscarded'),
+      t('in-forge:plugins.zhmcCpc.packetsReceivedDropped'),
+      t('in-forge:plugins.zhmcCpc.packetsReceivedDiscarded'),
+      t('in-forge:plugins.zhmcCpc.multicastPacketsSent'),
+      t('in-forge:plugins.zhmcCpc.multicastPacketsReceived'),
+      t('in-forge:plugins.zhmcCpc.broadcastPacketsSent'),
+      t('in-forge:plugins.zhmcCpc.broadcastPacketsReceived')
     ],
-    category: [t('in-forge:plugins.zhmcConsole.networkPorts')],
+    category: [t('in-forge:plugins.zhmcCpc.networkPorts')],
     min: 0,
     formatter: number
   }

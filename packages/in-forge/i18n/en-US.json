@@ -11444,7 +11444,7 @@
     "webSphereMember": {
       "weight": "Weight"
     },
-    "zhmcConsole": {
+    "zhmcCpc": {
       "logicalPartition": "Logical Partition",
       "channelUsage": "Channel Usage",
       "cpcProcessorUsage": "CPC Processor Usage",
