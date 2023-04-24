@@ -16,9 +16,7 @@
   "createSloDialog": {
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:",
-    "websiteSelection": "Select Website",
-    "applicationSelection": "Select Application"
+    "selectEntityTitle": "Select an entity to add SLO to:"
   },
   "sloList": {
     "components": {
