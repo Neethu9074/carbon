@@ -17,9 +17,9 @@ import ConfigurationSection from 'in-synthetics/components/advanced/Configuratio
 import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
-import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 
@@ -78,7 +78,14 @@ const AdvancedMode = ({
       label: t('in-synthetics:dialog.createTest.advancedMode.locationsLabel'),
       title: t('in-synthetics:dialog.createTest.advancedMode.locationsTitle'),
       valid: true,
-      content: <ConfigureLocations form={form} updateForm={updateForm} setSliderState={setSliderState} />
+      content: (
+        <ConfigureLocations
+          form={form}
+          updateForm={updateForm}
+          setSliderState={setSliderState}
+          syntheticType={syntheticTypeField.value}
+        />
+      )
     },
     {
       scrollId: '4',
