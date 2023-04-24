@@ -848,7 +848,7 @@
     "startTimeMustBeSmallerThanEndTime": "Start time must be smaller than end time.",
     "eitherBothOrNoneOfStartTimeAndEndTimeHaveToBeSpecified": "Either both or none of start time and end time have to be specified.",
     "1DefineANameForYourMaintenanceWindowThatWillShowUpInTheList": "1. Define a name for your maintenance window that will show up in the list",
-    "mainentanceWindowNamesShouldBeUniqueAndMeaningful": "Mainentance window names should be unique and meaningful.",
+    "maintenanceWindowNamesShouldBeUniqueAndMeaningful": "Maintenance window names should be unique and meaningful.",
     "2SelectTheEntitiesToBeMuted": "2. Select the entities to be muted",
     "applyOn": "Apply on",
     "applicationPerspective": "Application Perspective",
