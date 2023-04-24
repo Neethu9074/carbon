@@ -5,14 +5,18 @@
 
 import React, { Fragment, useEffect } from 'react';
 
+import { ResultPrecisionDetails } from '@instana/types';
+import { LinkProps } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
+// @ts-expect-error - Will get fixed in a future PR
+import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
-import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export const SIGNALS = {
@@ -20,13 +24,18 @@ export const SIGNALS = {
   HEATMAP: 'heatmap'
 };
 
-export const SIGNAL_VALUES = {
+const SIGNAL_VALUES = {
   HEATMAP_CALLS: 'calls',
-  HEATMAP_ERRORRATE: 'errors',
+  HEATMAP_ERROR_RATE: 'errors',
   HEATMAP_LATENCY: 'latency'
 };
 
-export default function Controls({ serviceLocatorUid, resultPrecisionDetails }) {
+interface Props {
+  serviceLocatorUid: string;
+  resultPrecisionDetails: ResultPrecisionDetails;
+}
+
+export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: Props) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
   const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
@@ -58,69 +67,72 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }) 
   function toggleParticles() {
     eventBusServiceLocator
       .on(SIGNALS.PARTICLES)
-      .once(_signal => eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal));
+      .once((_signal: string) => eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal));
   }
 
-  function zoomIn(serviceLocatorUid) {
-    getServiceLocators(serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .cameraController.zoomInOneStep();
+  function zoomIn(serviceLocatorUid: string) {
+    getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene().cameraController.zoomInOneStep();
   }
 
-  function zoomOut(serviceLocatorUid) {
-    getServiceLocators(serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .cameraController.zoomOutOneStep();
+  function zoomOut(serviceLocatorUid: string) {
+    getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene().cameraController.zoomOutOneStep();
   }
 }
 
-const ParticlesButton = connectTo(
-  props => ({
-    isEnabled: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.PARTICLES)
-  }),
-  function ParticlesButton({ onClick, isEnabled }) {
-    return <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />;
+interface ParticlesButtonProps {
+  onClick: LinkProps['onClick'];
+  serviceLocatorUid: string;
+}
+
+function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
+  const isEnabled = useObservable(
+    getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.PARTICLES),
+    []
+  ) as boolean;
+  return <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />;
+}
+
+interface HeatmapButtonsProps {
+  serviceLocatorUid: string;
+}
+
+function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
+  const currentSignal = useObservable(
+    getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP),
+    []
+  ) as string;
+  const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
+
+  function toggleHeatMapSignal(signal: string) {
+    eventBusServiceLocator.on(SIGNALS.HEATMAP).once((currentSignal: string) => {
+      if (currentSignal === signal) {
+        eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+      } else {
+        eventBusServiceLocator.emit(SIGNALS.HEATMAP, signal);
+      }
+    });
   }
-);
 
-const HeatmapButtons = connectTo(
-  props => ({
-    currentSignal: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP)
-  }),
-  function HeatmapButtons({ serviceLocatorUid, currentSignal }) {
-    const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-
-    function toggleHeatMapSignal(signal) {
-      eventBusServiceLocator.on(SIGNALS.HEATMAP).once(currentSignal => {
-        if (currentSignal === signal) {
-          eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
-        } else {
-          eventBusServiceLocator.emit(SIGNALS.HEATMAP, signal);
+  return (
+    <ButtonGroup
+      buttonPropsList={[
+        {
+          text: t('in-applications:labelCalls'),
+          key: SIGNAL_VALUES.HEATMAP_CALLS,
+          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
+        },
+        {
+          text: t('in-applications:labelLatency'),
+          key: SIGNAL_VALUES.HEATMAP_LATENCY,
+          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
+        },
+        {
+          text: t('in-applications:labelErrors'),
+          key: SIGNAL_VALUES.HEATMAP_ERROR_RATE,
+          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE)
         }
-      });
-    }
-
-    return (
-      <ButtonGroup
-        buttonPropsList={[
-          {
-            text: t('in-applications:labelCalls'),
-            key: SIGNAL_VALUES.HEATMAP_CALLS,
-            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
-          },
-          {
-            text: t('in-applications:labelLatency'),
-            key: SIGNAL_VALUES.HEATMAP_LATENCY,
-            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
-          },
-          {
-            text: t('in-applications:labelErrors'),
-            key: SIGNAL_VALUES.HEATMAP_ERRORRATE,
-            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)
-          }
-        ]}
-        activeKey={currentSignal}
-      />
-    );
-  }
-);
+      ]}
+      activeKey={currentSignal}
+    />
+  );
+}
