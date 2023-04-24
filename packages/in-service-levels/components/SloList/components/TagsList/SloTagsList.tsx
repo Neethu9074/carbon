@@ -7,8 +7,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { Typography } from '@instana/components';
-import { useTheme } from '@instana/hooks';
+import { Typography, useTheme } from '@instana/components';
 
 import {
   getTagsThatFitAfterResize,

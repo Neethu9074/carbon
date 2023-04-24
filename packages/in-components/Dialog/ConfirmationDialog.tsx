@@ -57,6 +57,7 @@ export default function ConfirmationDialog({
         {description && <p className={locals.description}>{description}</p>}
 
         <Actions>
+          {/* @ts-expect-error There seems to be a typescript issue with ts4.4.4 here. The prop is available and later ts versions don't fail on it*/}
           <CancelButton onClick={onClose} isSaving={isSaving} autoFocus />
           <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
             {confirmButtonLabel}
