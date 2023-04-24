@@ -47,7 +47,7 @@ export default function ConfigureAlertTest({
     return getTestsAsResultObservable('')
       .map((result: Result<SyntheticTest[]> | null) => {
         if (result == null) {
-          return null;
+          return [];
         }
         return (result as Result<SyntheticTest[]>)?.data?.filter(
           (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
