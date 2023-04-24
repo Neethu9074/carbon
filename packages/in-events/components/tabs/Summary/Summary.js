@@ -19,7 +19,8 @@ import {
   isInfraSmartAlertEvent,
   isSyntheticSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
-  isIbmMqFileTransferIssueEvent
+  isIbmMqFileTransferIssueEvent,
+  isMobileSmartAlertEvent
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
@@ -34,6 +35,7 @@ import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDes
 import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -116,6 +118,10 @@ const EventContent = connectTo(
 
     if (isSyntheticSmartAlertEvent(event)) {
       return <SyntheticEventContent event={event} />;
+    }
+
+    if (isMobileSmartAlertEvent(event)) {
+      return <MobileEventContent event={event} />;
     }
 
     const eventType = getEventType(event);
@@ -222,10 +228,14 @@ function ProcessContent({ snapshot, timeConfig }) {
 }
 
 const IncidentContent = connectTo(
-  ({ incident }) => ({
-    recentEvents: getRecentEvents$(incident)
+  ({ incident, latestSnapshot }) => ({
+    recentEvents: getRecentEvents$(incident),
+    snapshot: getSnapshot(
+      incident.get('entityId'),
+      getTimeConfigForSnapshotRetrieval(incident, latestSnapshot)
+    ).startWith(null)
   }),
-  function IncidentContent({ incident, recentEvents, latestSnapshot }) {
+  function IncidentContent({ incident, recentEvents, latestSnapshot, snapshot }) {
     const [changesAreVisible, setChangesAreVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -270,7 +280,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <IncidentEventListRows incident={incident} latestSnapshot={latestSnapshot} />
+        <IncidentEventListRows incident={incident} snapshot={snapshot} latestSnapshot={latestSnapshot} />
       </>
     );
   }

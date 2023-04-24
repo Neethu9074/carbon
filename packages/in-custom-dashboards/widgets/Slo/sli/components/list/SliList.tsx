@@ -15,7 +15,8 @@ import {
   isWebsiteEventBasedSliConfig,
   isApplicationSliEntity,
   isWebsiteEventBasedSliEntity,
-  isWebsiteTimeBasedSliEntity
+  isWebsiteTimeBasedSliEntity,
+  isAvailabilitySliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -192,7 +193,7 @@ interface SliNameWithSubscriptProps {
 }
 
 function SliNameWithSubscript({ sliConfig }: SliNameWithSubscriptProps) {
-  if (isApplicationSliEntity(sliConfig.sliEntity)) {
+  if (isApplicationSliEntity(sliConfig.sliEntity) || isAvailabilitySliEntity(sliConfig.sliEntity)) {
     return <ApplicationPerspectiveLabel sliName={sliConfig.sliName} sliEntity={sliConfig.sliEntity} />;
   }
 

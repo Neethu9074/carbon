@@ -39,16 +39,18 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
                   <Stack gap="normal">
                     {!noHeader && (
                       <Header>
-                        {title}
-                        {titleToolTipText && (
-                          <Tooltip align="bottomMiddle" content={titleToolTipText}>
-                            <SvgIcon
-                              className={locals.helpicon}
-                              type="lib_help_error_error_outline"
-                              color={theme.lib.colors.N600Light}
-                            />
-                          </Tooltip>
-                        )}
+                        <Stack gap="xxsmall" direction="horizontal">
+                          {title}
+                          {titleToolTipText && (
+                            <Tooltip align="bottomMiddle" content={titleToolTipText}>
+                              <SvgIcon
+                                className={locals.helpicon}
+                                type="lib_help_error_error_outline"
+                                color={theme.lib.colors.N600Light}
+                              />
+                            </Tooltip>
+                          )}
+                        </Stack>
                       </Header>
                     )}
                     {content}

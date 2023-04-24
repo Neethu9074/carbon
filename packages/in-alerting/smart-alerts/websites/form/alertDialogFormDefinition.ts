@@ -41,7 +41,7 @@ export interface AlertConfigHiddenFields {
 export default function alertFormDefinition(
   alertConfig: WebsiteAlertConfigWithMetadata & AlertConfigHiddenFields,
   editMode: boolean
-): MapForm {
+): MapForm<any> {
   const {
     tagFilterExpression,
     alertChannelIds = [],

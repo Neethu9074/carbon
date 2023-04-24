@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { isStepInvalid, StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { t } from 'in-i18n';
 
-interface SimpleDialogFooterProps {
+interface SimpleDialogFooterProps<FORM_TYPE extends MapFormItems> {
   backOrCancel: (step: number) => void;
-  form: MapForm;
+  form: MapForm<FORM_TYPE>;
   formId: string;
   step: number;
   stepConfigs: StepConfigs;
@@ -22,7 +22,7 @@ interface SimpleDialogFooterProps {
   customSaveButtonText?: string;
 }
 
-export function SimpleDialogFooter({
+export function SimpleDialogFooter<FORM_TYPE extends MapFormItems>({
   step,
   formId,
   backOrCancel,
@@ -31,7 +31,7 @@ export function SimpleDialogFooter({
   isSaving,
   additionalStepCheck = () => true,
   customSaveButtonText = t('in-components:blueprintFormMultistep.buttonCreate')
-}: SimpleDialogFooterProps) {
+}: SimpleDialogFooterProps<FORM_TYPE>) {
   const isDisabled =
     (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
     isStepInvalid(step, stepConfigs, form) ||

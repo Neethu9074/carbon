@@ -29,18 +29,24 @@ export default [
     formatter: millisPerSecondZeroDecimalPlaces
   },
   {
-    metrics: [
-      'container_memory_utilizations_p99',
-      'container_memory_utilizations_p95',
-      'container_memory_utilizations_p50'
-    ],
+    metrics: ['container_memory_utilizations_p99'],
     labels: [t('in-forge:plugins.googleCloudRunServiceRevision.containerMemoryUtilization')],
     min: 0,
-    category: [
-      t('in-forge:plugins.googleCloudRunServiceRevision.99thPercentile'),
-      t('in-forge:plugins.googleCloudRunServiceRevision.95thPercentile'),
-      t('in-forge:plugins.googleCloudRunServiceRevision.50thPercentile')
-    ],
+    category: [t('in-forge:plugins.googleCloudRunServiceRevision.99thPercentile')],
+    formatter: percentage.compact
+  },
+  {
+    metrics: ['container_memory_utilizations_p95'],
+    labels: [t('in-forge:plugins.googleCloudRunServiceRevision.containerMemoryUtilization')],
+    min: 0,
+    category: [t('in-forge:plugins.googleCloudRunServiceRevision.95thPercentile')],
+    formatter: percentage.compact
+  },
+  {
+    metrics: ['container_memory_utilizations_p50'],
+    labels: [t('in-forge:plugins.googleCloudRunServiceRevision.containerMemoryUtilization')],
+    min: 0,
+    category: [t('in-forge:plugins.googleCloudRunServiceRevision.50thPercentile')],
     formatter: percentage.compact
   }
 ];

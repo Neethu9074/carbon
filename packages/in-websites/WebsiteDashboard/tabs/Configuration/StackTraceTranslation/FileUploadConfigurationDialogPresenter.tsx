@@ -34,7 +34,7 @@ export interface MessageType {
 }
 
 interface Props {
-  form: MapForm;
+  form: MapForm<any>;
   websiteId: string;
   message?: MessageType | null;
   onSubmit: React.FormEventHandler<HTMLFormElement>;

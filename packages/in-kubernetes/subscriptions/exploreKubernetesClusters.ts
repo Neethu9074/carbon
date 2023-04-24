@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
+import { ExploreClusterQuery, ExploreClusterResponse } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import createSubscription from 'in-subscription/subscription';
 import { Result } from 'in-types';
 
-export default createSubscription<KubernetesExploreQuery, Result<any>>({
+export default createSubscription<ExploreClusterQuery, Result<ExploreClusterResponse>>({
   eventId: 'exploreClusters'
 });

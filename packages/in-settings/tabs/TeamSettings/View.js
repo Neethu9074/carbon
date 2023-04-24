@@ -38,24 +38,23 @@ import {
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk,
   teamSettingsAlertingHub,
-  teamSettingsActionCatalog,
-  teamSettingsActionDetails,
-  teamSettingsActionDetailsCopyForm
+  teamSettingsAlertingRecurrentMaintenanceConfigurations,
+  teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit
 } from 'in-settings/navigation/paths';
+import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
+import RecurrentMaintenanceWindowFormPage from './pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
-import ActionCatalogPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionCatalog';
+import { applicationSmartAlertsEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
-import ActionDetailsPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
-import { applicationSmartAlertsEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
@@ -229,6 +228,20 @@ function navigationTreeForRole(role) {
           }
         ]
       });
+      if (recurrentMaintenanceWindowEnabled) {
+        eventsAndAlertsPages.push({
+          path: teamSettingsAlertingRecurrentMaintenanceConfigurations,
+          label: t('in-settings:tabs.recurrentMaintenanceWindows'),
+          component: RecurrentMaintenanceWindowsListPage,
+          isBeta: true,
+          subPages: [
+            {
+              path: teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit,
+              component: RecurrentMaintenanceWindowFormPage
+            }
+          ]
+        });
+      }
     }
 
     eventsAndAlertsPages.push({
@@ -240,30 +253,6 @@ function navigationTreeForRole(role) {
     navigationTree.push({
       title: t('in-settings:tabs.eventsAlerts'),
       pages: eventsAndAlertsPages
-    });
-  }
-
-  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
-    navigationTree.push({
-      title: t('in-settings:tabs.automation'),
-      pages: [
-        {
-          path: teamSettingsActionCatalog,
-          label: t('in-settings:tabs.actionCatalog'),
-          isBeta: true,
-          component: ActionCatalogPage,
-          subPages: [
-            {
-              path: teamSettingsActionDetails,
-              component: ActionDetailsPage
-            },
-            {
-              path: teamSettingsActionDetailsCopyForm,
-              component: ActionDetailsPage
-            }
-          ]
-        }
-      ]
     });
   }
 

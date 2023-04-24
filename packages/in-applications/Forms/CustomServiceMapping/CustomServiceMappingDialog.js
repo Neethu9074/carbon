@@ -13,10 +13,10 @@ import { Button, Link } from '@instana/components';
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import { isBlank } from 'in-services/util/string';
@@ -25,11 +25,13 @@ import { Trans, t } from 'in-i18n';
 import locals from './CustomServiceMappingDialog.mless';
 
 export default function CustomServiceMappingDialog() {
+  const { createHrefToPath } = useNavigation();
+
   return (
     <BasicForm
       title={t('in-applications:titleConfigureCustomServiceRules')}
       saveButtonLabel={t('in-applications:buttonSave')}
-      onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
+      onCancelHref={createHrefToPath(servicesList)}
       getOnSavePath={() => servicesList}
       getEntity={() =>
         getServiceConfigs().map(result => {

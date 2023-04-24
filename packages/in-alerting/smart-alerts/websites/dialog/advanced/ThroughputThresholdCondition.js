@@ -6,20 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  websitesAlertingThresholdDeviationFactorChanged,
-  websitesAlertingThresholdMetricChanged,
-  websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged,
-  websitesAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdTypeSelection';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
@@ -32,7 +24,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
-  const blueprintType = blueprintConfig.type;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
@@ -44,7 +35,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
           items={ruleMetricNameOptions.throughput}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-            websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
           }}
         />
         <ThresholdOperatorDropDown
@@ -52,7 +42,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
           customOnChange={newOperator => {
             updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true)));
           }}
-          trackingCallback={websitesAlertingThresholdOperatorChanged}
           allOptions
         />
 
@@ -61,8 +50,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
           updateForm={updateForm}
           editMode={editMode}
           thresholdTypeOptions={thresholdTypeOptions}
-          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
-          blueprintType={blueprintType}
         />
       </ThresholdConditionFormGroup>
 
@@ -75,7 +62,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
             max={maxValue}
             form={form}
             updateForm={updateForm}
-            trackChange={websitesAlertingThresholdValueChanged}
             metricUnitPostfix={metricUnitPostfix}
           />
           <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
@@ -83,12 +69,7 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={websitesAlertingThresholdDeviationFactorChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

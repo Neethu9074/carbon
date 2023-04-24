@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { createField, createMapForm, Field, MapForm } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import {
   useApplicationSliFormSideEffects,
@@ -27,19 +27,19 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
     items: {
       sliEntity: createMapForm({
         items: {
-          sliType: createField({ value: null }),
+          sliType: createField<null | string>({ value: null }),
           goodEventFilterExpression: createField({ value: [] }),
           badEventFilterExpression: createField({ value: [] }),
-          serviceId: createField({ value: null }),
-          endpointId: createField({ value: null }),
+          serviceId: createField<null | string>({ value: null }),
+          endpointId: createField<null | string>({ value: null }),
           beaconType: createField({ value: 'httpRequest' })
         }
       }),
       metricConfiguration: createMapForm({
         items: {
-          metricName: createField({ value: null }),
-          threshold: createField({ value: null }),
-          metricAggregation: createField({ value: null })
+          metricName: createField<null | string>({ value: null }),
+          threshold: createField<null | number>({ value: null }),
+          metricAggregation: createField<null | string>({ value: null })
         }
       })
     }
@@ -52,7 +52,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       type => {
         // Given
         const updateForm = hookUnderTest(form, f => setForm(f.toJS()));
-        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(type));
+        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(type));
 
         // When
         updateForm(updatedForm);
@@ -81,7 +81,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       type => {
         // Given
         const updateForm = hookUnderTest(form, f => setForm(f.toJS()));
-        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(type));
+        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(type));
 
         // When
         updateForm(updatedForm);
@@ -111,7 +111,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       type => {
         // Given
         const updateForm = hookUnderTest(form, f => setForm(f.toJS()));
-        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(type));
+        const updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(type));
 
         // When
         updateForm(updatedForm);
@@ -138,10 +138,8 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
         // Given
         const updateForm = hookUnderTest(form, f => setForm(f.toJS()));
         const updatedForm = form
-          .updateIn(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(type))
-          .updateIn(['sliEntity'], f =>
-            (f as MapForm).remove('goodEventFilterExpression').remove('badEventFilterExpression')
-          );
+          .updateIn(['sliEntity', 'sliType'], f => f.setValue(type))
+          .updateIn(['sliEntity'], f => f.remove('goodEventFilterExpression').remove('badEventFilterExpression'));
 
         // When
         updateForm(updatedForm);
@@ -163,9 +161,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       // Given
       const updateForm = hookUnderTest(form, f => setForm(f.toJS()));
       const updatedForm = form
-        .updateIn(['sliEntity', 'sliType'], f => (f as Field<string>).setValue('availability'))
-        .updateIn(['sliEntity', 'serviceId'], f => (f as Field<string | null>).setValue('something'))
-        .updateIn(['sliEntity', 'endpointId'], f => (f as Field<string | null>).setValue('something'));
+        .updateIn(['sliEntity', 'sliType'], f => f.setValue('availability'))
+        .updateIn(['sliEntity', 'serviceId'], f => f.setValue('something'))
+        .updateIn(['sliEntity', 'endpointId'], f => f.setValue('something'));
 
       // When
       updateForm(updatedForm);
@@ -188,8 +186,8 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       // Given
       const updateForm = useApplicationSliFormSideEffects(form, f => setForm(f.toJS()));
       const updatedForm = form
-        .updateIn(['metricConfiguration', 'metricName'], f => (f as Field<string>).setValue('latency'))
-        .updateIn(['metricConfiguration', 'threshold'], f => (f as Field<number>).setValue(10));
+        .updateIn(['metricConfiguration', 'metricName'], f => f.setValue('latency'))
+        .updateIn(['metricConfiguration', 'threshold'], f => f.setValue(10));
       getMetricOptions.mockReturnValueOnce({
         // @ts-expect-error This is an incomplete mock and jest and ts cause an issue when casting it to the correct type. Since it would need to be casted anyway we might as well ignore the error
         latency: {}
@@ -212,9 +210,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
     it('sets metricAggregation to the default value if metricName changes', () => {
       // Given
       const updateForm = useApplicationSliFormSideEffects(form, f => setForm(f.toJS()));
-      const updatedForm = form.updateIn(['metricConfiguration', 'metricName'], f =>
-        (f as Field<string>).setValue('latency')
-      );
+      const updatedForm = form.updateIn(['metricConfiguration', 'metricName'], f => f.setValue('latency'));
       getMetricOptions.mockReturnValueOnce({
         // @ts-expect-error This is an incomplete mock and jest and ts cause an issue when casting it to the correct type. Since it would need to be casted anyway we might as well ignore the error
         latency: {
@@ -242,8 +238,8 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
       // Given
       const updateForm = useWebsiteSliFormSideEffects(form, f => setForm(f.toJS()));
       const updatedForm = form
-        .updateIn(['metricConfiguration', 'metricName'], f => (f as Field<string>).setValue('beaconErrorRate'))
-        .updateIn(['metricConfiguration', 'threshold'], f => (f as Field<number>).setValue(10));
+        .updateIn(['metricConfiguration', 'metricName'], f => f.setValue('beaconErrorRate'))
+        .updateIn(['metricConfiguration', 'threshold'], f => f.setValue(10));
       getMetricOptions.mockReturnValueOnce({
         // @ts-expect-error This is an incomplete mock and jest and ts cause an issue when casting it to the correct type. Since it would need to be casted anyway we might as well ignore the error
         beaconErrorRate: {}
@@ -266,9 +262,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects', () 
     it('sets metricAggregation to the default value if metricName changes', () => {
       // Given
       const updateForm = useWebsiteSliFormSideEffects(form, f => setForm(f.toJS()));
-      const updatedForm = form.updateIn(['metricConfiguration', 'metricName'], f =>
-        (f as Field<string>).setValue('beaconErrorRate')
-      );
+      const updatedForm = form.updateIn(['metricConfiguration', 'metricName'], f => f.setValue('beaconErrorRate'));
       getMetricOptions.mockReturnValueOnce({
         // @ts-expect-error This is an incomplete mock and jest and ts cause an issue when casting it to the correct type. Since it would need to be casted anyway we might as well ignore the error
         beaconErrorRate: {

@@ -61,7 +61,7 @@ export function createSmartAlertForm(
   alertConfig: CreateApplicationAlertConfig,
   editMode?: boolean,
   isGlobalSmartAlert?: boolean
-): MapForm {
+): MapForm<any> {
   const {
     applicationId,
     alertChannelIds,
@@ -87,108 +87,59 @@ export function createSmartAlertForm(
     triggering
   } = alertConfig;
 
-  const form = createMapForm()
-    .put(
-      'name',
-      createField({
+  const form = createMapForm({
+    items: {
+      name: createField({
         value: name ?? '',
         validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
-      })
-    )
-    .put(
-      'description',
-      createField({
+      }),
+      description: createField({
         value: description ?? '',
         validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
-      })
-    )
-    .put(
-      'applicationId', // deprecated: use 'applications' instead
-      createField({
+      }),
+      applicationId: createField({
         value: applicationId ?? ''
-      })
-    )
-    .put(
-      'boundaryScope',
-      createField({
+      }),
+      boundaryScope: createField({
         value: boundaryScope ?? boundaryScopes.inbound
-      })
-    )
-    .put(
-      'includeSynthetic',
-      createField({
+      }),
+      includeSynthetic: createField({
         value: includeSynthetic || false
-      })
-    )
-    .put(
-      'includeInternal',
-      createField({
+      }),
+      includeInternal: createField({
         value: includeInternal || false
-      })
-    )
-    .put(
-      'severity',
-      createField({
+      }),
+      severity: createField({
         value: severity ?? defaultSeverity
-      })
-    )
-    .put(
-      'triggering',
-      createField({
+      }),
+      triggering: createField({
         value: triggering ?? false
-      })
-    )
-    .put(
-      'tagFilterExpression',
-      createField({
+      }),
+      tagFilterExpression: createField({
         value: fromBackendModel(tagFilterExpression)
-      })
-    )
-    .put(
-      'evaluationType',
-      createField({
+      }),
+      evaluationType: createField({
         value: evaluationType ?? PER_AP
-      })
-    )
-    .put(
-      'alertChannelIds',
-      createField({
+      }),
+      alertChannelIds: createField({
         value: alertChannelIds ?? []
-      })
-    )
-    .put(
-      'granularity',
-      createField({
+      }),
+      granularity: createField({
         value: granularity ?? getDefaultGranularity(threshold)
-      })
-    )
-    .put(
-      'id',
-      createField({
+      }),
+      id: createField({
         value: id ?? ''
-      })
-    )
-    .put(
-      'created',
-      createField({
+      }),
+      created: createField({
         value: created ?? 0
-      })
-    )
-    .put(
-      'readOnly',
-      createField({
+      }),
+      readOnly: createField({
         value: readOnly ?? false
-      })
-    )
-    .put(
-      'enabled',
-      createField({
+      }),
+      enabled: createField({
         value: enabled ?? true
-      })
-    )
-    .put(
-      'builtIn',
-      createField({
+      }),
+      builtIn: createField({
         value: builtIn,
         validator: value => {
           if (value !== builtIn) {
@@ -201,11 +152,8 @@ export function createSmartAlertForm(
           }
           return [];
         }
-      })
-    )
-    .put(
-      'applications',
-      createField({
+      }),
+      applications: createField({
         value: applications ?? {},
         validator: entitySelection => {
           if (!isEntitySelectionValid(entitySelection, isGlobalSmartAlert)) {
@@ -218,16 +166,14 @@ export function createSmartAlertForm(
             return null;
           }
         }
-      })
-    )
-    .put('rule', createRuleForm(rule ?? defaultAlertRule))
-    .put('timeThreshold', createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig))
-    .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false))
-    .put(
-      'threshold',
-      createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
-    );
+      }),
+      rule: createRuleForm(rule ?? defaultAlertRule),
+      timeThreshold: createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType),
+      hiddenFields: createHiddenFieldsForm(alertConfig),
+      customPayloadFields: createListFormForCustomPayloads(customPayloadFields ?? [], false),
+      threshold: createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
+    }
+  });
 
   return applyEditMode(form, editMode ?? false);
 }
@@ -237,7 +183,7 @@ function getDefaultGranularity(threshold?: ThresholdConfigUnion) {
 }
 
 function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields) {
-  return createMapForm()
+  return createMapForm<{}>()
     .put(
       'calculateThresholdOnBackend',
       createField({

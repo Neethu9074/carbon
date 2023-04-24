@@ -44,7 +44,7 @@ interface ServerTableCustomPayloadConfig
 interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
   columnDefinitions: ColumnDefinition<CustomPayloadItem, ServerTableCustomPayloadConfig>[];
   addRow: () => void;
-  customPayloadForm: ListForm;
+  customPayloadForm: ListForm<any>;
   result?: Result<PaginatedResult<CustomPayloadItem>> | Nullish;
   canConfigureAlertPayload?: boolean;
 }

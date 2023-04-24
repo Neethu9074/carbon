@@ -54,10 +54,10 @@ export interface SloWidgetConfiguration {
   apConfigId?: string;
 }
 
-export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}): MapForm {
+export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}): MapForm<any> {
   const savedState = ensureConfigBackwardCompatibility(oldSavedState);
 
-  let form = createMapForm({
+  let form: MapForm<any> = createMapForm({
     validator: validateTimeWindow
   });
 
@@ -152,14 +152,14 @@ export const parseTimestamp = (str: string, strFormat: string = dateTimeFormat):
   return parseDateTime(str).getTime();
 };
 
-export function removeFormForStartTimeStamp(form: MapForm): MapForm {
+export function removeFormForStartTimeStamp(form: MapForm<any>): MapForm<any> {
   if (form.containsKey(timeWindowStart)) {
     return form.remove(timeWindowStart);
   }
   return form;
 }
 
-export function addFormForStartTimeStamp(form: MapForm, ts?: number | null): MapForm {
+export function addFormForStartTimeStamp(form: MapForm<any>, ts?: number | null): MapForm<any> {
   const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
     timeWindowStart,
@@ -181,7 +181,7 @@ export function addFormForStartTimeStamp(form: MapForm, ts?: number | null): Map
   );
 }
 
-export function removeFormForTimeDuration(form: MapForm): MapForm {
+export function removeFormForTimeDuration(form: MapForm<any>): MapForm<any> {
   if (form.containsKey(timeWindowDuration)) {
     form = form.remove(timeWindowDuration);
   }
@@ -192,10 +192,10 @@ export function removeFormForTimeDuration(form: MapForm): MapForm {
 }
 
 export function addFormForTimeDuration(
-  form: MapForm,
+  form: MapForm<any>,
   savedState: Partial<SloWidgetConfiguration>,
   override = true
-): MapForm {
+): MapForm<any> {
   if (override || !form.containsKey(timeWindowDuration))
     form = form.put(
       timeWindowDuration,
@@ -255,7 +255,11 @@ export function sloValidator(v?: number): ValidationResult {
   return;
 }
 
-export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
+/**
+ * @deprecated - formalistic v2 now supports generics out of the box
+ */
+export function getField<T>(form: MapForm<any>, path: string[] | string): Field<T> | undefined {
+  // @ts-expect-error this needs to be removed anyway
   const item = isArray(path) ? form.getIn(path) : form.get(path);
   return item as Field<T> | undefined;
 }

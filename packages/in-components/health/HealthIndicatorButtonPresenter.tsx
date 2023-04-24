@@ -5,13 +5,13 @@
 
 import React, { MutableRefObject, RefCallback } from 'react';
 
-import { Button, ButtonKinds } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { t } from 'in-i18n';
 
-interface Props {
+export interface HealthIndicatorButtonPresenterProps {
   openIssues?: number;
   openIncidents?: number;
   maxSeverity: number;
@@ -31,16 +31,10 @@ export default function HealthIndicatorButtonPresenter({
   href$,
   refSetter,
   showCheckAsNeutral = false
-}: Props) {
-  let kind: keyof typeof ButtonKinds;
-  let icon;
-  if (maxSeverity === 0 && showCheckAsNeutral) {
-    kind = 'create';
-    icon = 'lib_check';
-  } else {
-    kind = getButtonKindBySeverity(maxSeverity);
-    icon = 'lib_help_error_warning';
-  }
+}: HealthIndicatorButtonPresenterProps) {
+  const isWithoutIssues = maxSeverity === 0 && showCheckAsNeutral;
+  const kind = isWithoutIssues ? 'create' : getButtonKindBySeverity(maxSeverity);
+  const icon = isWithoutIssues ? 'lib_check' : 'lib_help_error_warning';
 
   return (
     <Button kind={kind} icon={icon} onClick={onClick} href$={href$} refSetter={refSetter} disabled={!onClick && !href$}>

@@ -161,7 +161,11 @@ export default [
     formatter: siPrefix
   },
   {
-    metric: getDynamicMetricMatch('broker.lagData.data', 'lag', t('in-forge:plugins.kafkaCluster.topic')),
+    metric: getDynamicMetricMatch(
+      'broker.lagData.data',
+      'lag',
+      t('in-forge:plugins.kafkaCluster.consumerGroupAndTopicPlaceholder')
+    ),
     label: t('in-forge:plugins.kafkaCluster.consumerGroupLag'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,

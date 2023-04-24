@@ -25,7 +25,6 @@ import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/Auth
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
-// @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { t } from 'in-i18n';
 

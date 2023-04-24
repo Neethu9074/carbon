@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import { websitesAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/websites/tracker';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
@@ -23,7 +22,6 @@ export default function WebsiteAlertPropertiesTitleRow({ form, onChange }) {
         id="name"
         onChange={e => {
           onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
-          websitesAlertingAdditionalPropsTitleChanged();
         }}
         placeholder={getTitlePlaceholder(form)}
         formField={form.get('name')}

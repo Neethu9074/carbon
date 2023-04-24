@@ -16,7 +16,6 @@ import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/Sel
 import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
-import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websites/tracker';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
@@ -44,8 +43,6 @@ export default function SimpleAlertConfigDialogStep1({
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
-
-          websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
         initialItemSelected={blueprintConfig}
         addRightSeparator
@@ -73,7 +70,7 @@ export default function SimpleAlertConfigDialogStep1({
         )}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter title={headline} description={text}>
-            <ProvideStatusCode form={form} updateForm={updateForm} mode="Simple" />
+            <ProvideStatusCode form={form} updateForm={updateForm} />
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}

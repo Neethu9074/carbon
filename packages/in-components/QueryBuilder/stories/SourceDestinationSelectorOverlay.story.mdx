@@ -20,6 +20,30 @@ source/destination for the application product area.
   </Story>
 </Preview>
 
+<Preview>
+  <Story name="sourceEnabled={true}">
+    <PermanentlyVisibleOverlay>
+      <SourceDestinationSelectorOverlay sourceEnabled={true} value={destination} onChange={storybookAction('onChange')} close={storybookAction('close')} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name="destinationEnabled={true}">
+    <PermanentlyVisibleOverlay>
+      <SourceDestinationSelectorOverlay destinationEnabled={true} value={destination} onChange={storybookAction('onChange')} close={storybookAction('close')} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name="sourceEnabled={true} destinationEnabled={true}">
+    <PermanentlyVisibleOverlay>
+      <SourceDestinationSelectorOverlay sourceEnabled={true} destinationEnabled={true} value={destination} onChange={storybookAction('onChange')} close={storybookAction('close')} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
 ### Props
 <Props of={SourceDestinationSelectorOverlay} />
 

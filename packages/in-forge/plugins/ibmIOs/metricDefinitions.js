@@ -600,32 +600,6 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
-        'unitMediaCapacityGb',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitMediaCapacityGb')],
-    min: 0,
-    formatter: number,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
-        'unitStorageCapacity',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity')],
-    min: 0,
-    formatter: bytes.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
         'percentUsed',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )
@@ -639,39 +613,13 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
-        'elapsedIORequests',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedIORequests')],
-    min: 0,
-    formatter: number.compact,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
-        'elapsedRequestSize',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedRequestSize')],
-    min: 0,
-    formatter: bytes.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
         'ssdLifeRemaining',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdLifeRemaining')],
     min: 0,
-    formatter: number,
+    formatter: percentage.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
   },
   {
@@ -684,18 +632,18 @@ export default [
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPowerOnDays')],
     min: 0,
-    formatter: number,
+    formatter: number.compact,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
   },
   {
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
-        'elapsedDataRead',
+        'ssdBytesWritten',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )
     ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedDataRead')],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdBytesWritten')],
     min: 0,
     formatter: bytes.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
@@ -704,26 +652,13 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
-        'elapsedDataWritten',
+        'ssdPowerOnDays',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )
     ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedDataWritten')],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten')],
     min: 0,
     formatter: bytes.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'advanceSolidStateDiskMetrics',
-        'elapsedPercentBusy',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedPercentBusy')],
-    min: 0,
-    formatter: percentage.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
   },
   {
@@ -777,5 +712,187 @@ export default [
     min: 0,
     formatter: percentage.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'lifeRemaining',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.lifeRemaining')],
+    min: 0,
+    formatter: number.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'spareCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.spareCapacity')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'spareCapacityThreshold',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.spareCapacityThreshold')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'namespaceUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.namespaceUsed')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'powerCycles',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.powerCycles')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'powerOnHours',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.powerOnHours')],
+    min: 0,
+    formatter: number.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'mediaErrors',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.mediaErrors')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'nonVolatileMemoryMetrics',
+        'unSafeShutDowns',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.unSafeShutDowns')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'unitNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber')],
+    min: 0,
+    formatter: number.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'aspNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.aspNumber')],
+    min: 0,
+    formatter: number.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'percentUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.percentUsed')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'elapsedIORequests',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedIORequests')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'elapsedRequestSize',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedRequestSize')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'systemDiskStatusMetrics',
+        'elapsedPercentBusy',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedPercentBusy')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
   }
 ];

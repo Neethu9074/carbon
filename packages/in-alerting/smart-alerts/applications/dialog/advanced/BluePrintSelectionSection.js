@@ -6,7 +6,6 @@
 import React from 'react';
 
 import BlueprintSelection from 'in-alerting/smart-alerts/components/dialog/advanced/BlueprintSelection';
-import { applicationsAlertingBlueprintChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
@@ -25,7 +24,6 @@ export default function BluePrintSelectionSection(props) {
         updateForm={updateForm}
         blueprintConfigs={blueprintConfigList}
         createBlueprintForm={createBlueprintForm}
-        trackBlueprintChange={newBlueprint => applicationsAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })}
       />
       <AlertTypeSwitch
         alertType={alertType}
@@ -54,7 +52,7 @@ export default function BluePrintSelectionSection(props) {
             withoutPadding
             darkFrame
           >
-            <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
+            <ProvideStatusCode form={form} updateForm={updateForm} />
           </LightCard>
         )}
       />

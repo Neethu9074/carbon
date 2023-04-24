@@ -19,13 +19,16 @@ import { find } from 'in-services/arrayUtils';
 
 const columnDefinition = [iconColumn, labelColumn, idpGroupColumn];
 
-export default function Users({ members, addUsers, removeUser, noDelete = false }) {
+export default function Users({ members, addUsers, removeUser, groupId, noDelete = false }) {
+  function renderAdditionalHeaderContent({ addUsers, members }) {
+    return <AddUserButton addUsers={addUsers} members={members} groupId={groupId} />;
+  }
   const columnDefinitionWithDelete = [
     ...columnDefinition,
     {
       width: '2rem',
-      getContent({ userId }) {
-        return <Delete skipDialog doDelete={() => removeUser(userId)} />;
+      getContent({ user: { id: userId, fullName }}) {
+        return <Delete skipDialog doDelete={() => removeUser(userId, fullName)} />;
       }
     }
   ];
@@ -45,6 +48,5 @@ export default function Users({ members, addUsers, removeUser, noDelete = false 
   );
 }
 
-function renderAdditionalHeaderContent({ addUsers, members }) {
-  return <AddUserButton addUsers={addUsers} members={members} />;
-}
+
+

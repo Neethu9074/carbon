@@ -19,9 +19,9 @@ import locals from './SourceDestinationSelectorOverlay.mless';
 
 const columnDefinitions = [
   {
-    width: '2rem',
+    width: '1.5rem',
     getContent({ icon }) {
-      return <SvgIcon className={locals.icon} type={icon} />;
+      return <SvgIcon size="xs" className={locals.icon} type={icon} />;
     }
   },
   {
@@ -52,7 +52,7 @@ export default function SourceDestinationSelectorOverlay({
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
-            icon="lib_application_call_source"
+            icon="lib_arrow_outgoing"
             label={t('in-components:queryBuilder.source')}
           />
         </OverlayOption>
@@ -68,7 +68,7 @@ export default function SourceDestinationSelectorOverlay({
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
-            icon="lib_application_call_destination"
+            icon="lib_arrow_incoming"
             label={t('in-components:queryBuilder.destination')}
           />
         </OverlayOption>

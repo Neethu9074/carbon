@@ -51,7 +51,27 @@ const mockPermissionsWithLimitedAccess = [
   'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   'CAN_CONFIGURE_LOG_MANAGEMENT',
   'LIMITED_PHMC_SCOPE',
+  'LIMITED_SAP_SCOPE',
   'CAN_CONFIGURE_APPLICATIONS'
+];
+
+const mockPermissionsLimitedNoAccess = [
+  'LIMITED_WEBSITES_SCOPE',
+  'LIMITED_APPLICATIONS_SCOPE',
+  'LIMITED_VSPHERE_SCOPE',
+  'CAN_VIEW_TRACE_DETAILS',
+  'LIMITED_MOBILE_APPS_SCOPE',
+  'LIMITED_OPENSTACK_SCOPE',
+  'RESTRICTED_ACCESS',
+  'LIMITED_ZHMC_SCOPE',
+  'ACCESS_SYNTHETICS',
+  'CAN_VIEW_LOGS',
+  'LIMITED_KUBERNETES_SCOPE',
+  'LIMITED_SAP_SCOPE',
+  'LIMITED_PCF_SCOPE',
+  'LIMITED_SYNTHETICS_SCOPE',
+  'LIMITED_PHMC_SCOPE',
+  'LIMITED_INFRASTRUCTURE_SCOPE'
 ];
 
 const mockPermissionsWithFullAccess = [
@@ -111,4 +131,9 @@ export const mockPermissionsSetWithData = {
 export const mockPermissionsSetWithFullAccessData = {
   ...mockPermissionsSetWithData,
   permissions: mockPermissionsWithFullAccess
+};
+
+export const mockPermissionsSetWithLimitedAccessEmptyData = {
+  ...mockEmptyPermissionsSet,
+  permissions: mockPermissionsLimitedNoAccess
 };

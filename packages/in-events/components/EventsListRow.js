@@ -72,13 +72,7 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
         <span className={locals.text}>{formatDateTime(start)}</span>
       </Td>
       <Td>
-        <span className={locals.text}>
-          {event.state === 'open'
-            ? t('in-events:active')
-            : start !== end
-            ? formatDateTime(end)
-            : valueMissingPlaceholder}
-        </span>
+        <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start)}</span>
       </Td>
       <Td>
         <div className={locals.timelineWrapper}>
@@ -159,4 +153,14 @@ function getLabel(entityType, entityOrSnapshot) {
   }
 
   return entityOrSnapshot?.data?.label ?? UNKNOWN_LABEL;
+}
+
+function getEndValue(event, isChangeEvent, end, start) {
+  if (event.state === 'open') {
+    return t('in-events:active');
+  }
+  if (isChangeEvent) {
+    return formatDateTime(end);
+  }
+  return start !== end ? formatDateTime(end) : valueMissingPlaceholder;
 }

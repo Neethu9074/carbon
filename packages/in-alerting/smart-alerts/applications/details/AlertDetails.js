@@ -31,34 +31,19 @@ import {
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import {
-  applicationsAlertingAlertDeleted,
-  applicationsAlertingAlertEdit,
-  applicationsAlertingAlertPaused,
-  applicationsAlertingAlertResumed,
-  applicationsAlertingAlertRevisionChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
   alertCreated as alertCreatedParam,
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
-
-const tracking = {
-  trackEdit: alertConfigId => applicationsAlertingAlertEdit({ alertConfigId }),
-  trackPaused: alertConfigId => applicationsAlertingAlertPaused({ alertConfigId }),
-  trackResumed: alertConfigId => applicationsAlertingAlertResumed({ alertConfigId }),
-  trackDeleted: alertConfigId => applicationsAlertingAlertDeleted({ alertConfigId }),
-  trackRevisionChanged: revision => applicationsAlertingAlertRevisionChanged({ revision })
-};
 
 export default function AlertDetails(props) {
   const { location } = props;
@@ -89,7 +74,6 @@ function GlobalAlertDetails(props) {
       restoreConfig={restoreGlobalAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
-      tracking={tracking}
       isGlobalSmartAlert
     />
   );
@@ -115,7 +99,6 @@ function IndividualAlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
-      tracking={tracking}
     />
   );
 }
@@ -130,7 +113,7 @@ function getInventoryPathForLocation({ location }) {
 
 function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlobalSmartAlert }) {
   return (
-    <SmartAlertConfigDialogWrapper
+    <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       onClose={() => {
         close();

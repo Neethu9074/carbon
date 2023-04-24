@@ -83,7 +83,23 @@
         "invalidHost": "Host format not valid"
       },
       "advancedMode": {
-        "buttonContent": "Switch to Advanced Mode",
+        "switchModeButton": "Switch to Advanced Mode",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Selected Test Type",
+          "rightListLabel": "Test Type",
+          "apiTypeLabel": "Simple Test | Script Test",
+          "apiTypeHeadline": "What kind of synthetic test would you like to create",
+          "apiTypeText": "API tests can be used to monitor the APIs provided by web applications. API tests can be used to measure availability and response time. The Simple test allows you to ping a URL or test a single API. The Script test allows you to provide a script that can check a set of API responses, simulate complex workflows and test specific functionalities.",
+          "selectedTestTypeButton": "Select",
+          "httpScriptTitle": "Script Test",
+          "httpActionTitle": "Simple Test",
+          "browserTypeLabel": "Browser",
+          "browserTypeHeadline": "Browser Synthetic Tests",
+          "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
+          "internetServicesTypeLabel": "Internet Services",
+          "internetServicesTypeHeadline": "Internet Services Tests",
+          "internetServicesTypeText": "Internet services synthetic testing involves simulating user interactions with web services to monitor and test their performance, helping identify and prevent downtime issues."
+        },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
         "locationsLabel": "Location(s)",
@@ -96,8 +112,29 @@
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
-          "expectedStatus": "Enter expected status",
-          "allowInsecure": "Allow Insecure"
+          "allowInsecure": "Allow Insecure",
+          "expectStatusLabel": "Expect Status",
+          "expectJSONLabel": "Expect JSON",
+          "expectMatchLabel": "Expect Match",
+          "expectStatusPlaceholder": "Enter expected status",
+          "expectJSONPlaceholder": "Enter expected JSON",
+          "expectMatchPlaceholder": "Enter expected string",
+          "addValidations": "Add Validation",
+          "failedToParseInputAsJson": "Failed to parse input as JSON.",
+          "jsonRootMustBeAnObject": "JSON root must be an object.",
+          "mustBeValidHttpReturnCode": "Status must be a valid HTTP return code.",
+          "shouldBeValidRegExp": "String entered should be a valid regular expression.",
+          "followRedirect": "Follow Redirect",
+          "header": "Header",
+          "headerValue": "Value",
+          "body": "Body",
+          "validationString": "Validation String",
+          "addHeader": "Add Header",
+          "operation": "Operation",
+          "headerNameMustBeUnique": "Header name must be unique.",
+          "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
+          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
+          "theValueMustNotBeBlank": "The value must not be blank"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -105,6 +142,11 @@
           "addLocation": "Add Location",
           "cancel": "Cancel",
           "selectLocation": "Select Location"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Browser",
+          "internetServicesName": "Internet Services"
         }
       }
     },
@@ -129,10 +171,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Create new Test"
+    "buttonLabel": "Add Synthetic Test"
   },
   "createSmartAlert": {
-    "buttonLabel": "Create new Smart Alert"
+    "buttonLabel": "Add Synthetic Smart Alert"
   },
   "navigation": {
     "synthetics": "Synthetic Monitoring"

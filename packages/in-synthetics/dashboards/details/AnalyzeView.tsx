@@ -58,9 +58,9 @@ export default function SyntheticAnalyzeView() {
   const testId: string = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
   const resultId: string = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
   const startTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'startTime') ?? 0);
-  const finishTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'finishTime') ?? 0);
   const status: number = +(getMatrixParameter(location, syntheticDetailsPath, 'status') ?? 0);
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
+  const finishTime: number = startTime + responseTime;
   const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';

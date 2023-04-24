@@ -52,10 +52,9 @@ import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filte
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
-import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import FloatingActionButton from 'in-components/FloatingActionButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -145,6 +144,7 @@ export default function TestSummaryList() {
     );
   }
   function showSADialog() {
+    trackStartCreate();
     return addActiveDialog(<CreateSmartAlertDialog />);
   }
 
@@ -188,26 +188,17 @@ export default function TestSummaryList() {
         />
       </LeftRightPadding>
       <Footer />
-
-      {syntheticCreateSmartAlertsUIEnabled ? (
-        <FloatingActionButtons>
-          <FloatingActionButtonMenu>
-            <Button onClick={onAddWidget} icon="lib_openclose_add" kind="primaryv2">
-              {t('in-synthetics:createTest.buttonLabel')}
-            </Button>
-
-            <Button onClick={showSADialog} icon="lib_openclose_add" kind="primaryv2">
-              {t('in-synthetics:createSmartAlert.buttonLabel')}
-            </Button>
-          </FloatingActionButtonMenu>
-        </FloatingActionButtons>
-      ) : (
-        <FloatingActionButtons>
-          <FloatingActionButton onClick={onAddWidget} withBoxShadow icon="lib_line_chart">
+      <FloatingActionButtons>
+        <FloatingActionButtonMenu>
+          <Button onClick={onAddWidget} icon="lib_openclose_add_box" kind="primaryv2">
             {t('in-synthetics:createTest.buttonLabel')}
-          </FloatingActionButton>
-        </FloatingActionButtons>
-      )}
+          </Button>
+
+          <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
+            {t('in-synthetics:createSmartAlert.buttonLabel')}
+          </Button>
+        </FloatingActionButtonMenu>
+      </FloatingActionButtons>
     </Sticky>
   );
 }

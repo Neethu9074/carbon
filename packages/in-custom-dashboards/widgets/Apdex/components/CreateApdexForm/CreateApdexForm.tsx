@@ -31,7 +31,7 @@ import locals from './CreateApdexForm.mless';
 
 export interface CreateApdexFormComponentProps
   extends Omit<CreateApdexFormProps, 'entityType' | 'onClose' | 'onSave' | 'entityId' | 'apdexConfig'> {
-  form: MapForm;
+  form: MapForm<any>;
   wasSuccessful?: boolean;
   isSaving?: boolean;
   hasError?: boolean;
@@ -124,6 +124,7 @@ export default function CreateApdexForm({
         isSaving={saving}
         hasError={error}
         onSubmit={onSubmit}
+        // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
         setFooter={setFooter}
         onCancel={onClose}

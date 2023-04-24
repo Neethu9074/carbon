@@ -14,10 +14,10 @@ import CustomSyntheticRuleDialog, {
 } from 'in-applications/Forms/SyntheticCallConfig/CustomSyntheticRuleDialog';
 import MatchedSyntheticEndpoints from 'in-applications/Forms/SyntheticCallConfig/MatchedSyntheticEndpoints';
 import { getSyntheticCallConfig, updateSyntheticCallConfig } from 'in-api/syntheticCallConfiguration';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import Rule from 'in-applications/Forms/components/Rule';
 import BasicForm from 'in-applications/Forms/BasicForm';
@@ -26,11 +26,13 @@ import { t } from 'in-i18n';
 import locals from './SyntheticCallConfigView.mless';
 
 export default function SyntheticCallConfigDialog() {
+  const { createHrefToPath } = useNavigation();
+
   return (
     <BasicForm
       title={t('in-applications:titleConfigureSyntheticEndpoints')}
       saveButtonLabel={t('in-applications:buttonSave')}
-      onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
+      onCancelHref={createHrefToPath(servicesList)}
       getEntity={() =>
         getSyntheticCallConfig().map(result => {
           return result;

@@ -29,7 +29,7 @@ import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 
 interface ApplicationScopeConfiguratorProps {
-  form: MapForm;
+  form: MapForm<any>;
   updateForm: (path: string[], updater: (i: Item) => Item) => void;
   QueryBuilder: QueryBuilderComponent;
 }

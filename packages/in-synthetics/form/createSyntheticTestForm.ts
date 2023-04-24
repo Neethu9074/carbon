@@ -6,8 +6,10 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -22,9 +24,14 @@ interface HTTPMethodType {
   isdisabled?: boolean;
 }
 
+interface ValidationsType {
+  value: 'Expect Status' | 'Expect JSON' | 'Expect Match';
+  label: string;
+}
+
 export function createForm(
   simpleMode: boolean = true,
-  selectedBlueprint?: BluePrint,
+  selectedBlueprint?: BluePrint | AdvancedBluePrint,
   savedState?: Record<string, any>
 ) {
   return createMapForm({
@@ -32,7 +39,8 @@ export function createForm(
   })
     .put(
       'configuration',
-      selectedBlueprint?.type === 'Script API'
+      // @ts-expect-error testType does not exist in BluePrint type
+      selectedBlueprint?.type === 'Script API' || selectedBlueprint?.testType === 'HTTPScript'
         ? createScriptConfigurationForm(savedState ?? {})
         : !simpleMode
         ? createAdvancedActionConfigurationForm(savedState ?? {})
@@ -169,17 +177,60 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
-      'expectedStatus',
+      'headers',
       createField({
-        value: savedState?.expectedStatus ?? Validations[0].value,
+        value: savedState?.headers ?? { '': '' }
+      })
+    )
+    .put(
+      'expectStatus',
+      createField({
+        value: savedState?.expectStatus ?? '',
+        validator: composeAndShortCircuitOnError(
+          statusCodeValidator,
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator
+        )
+      })
+    )
+    .put(
+      'expectJson',
+      createField({
+        value: savedState?.expectJson ?? {}
+      })
+    )
+    .put(
+      'expectMatch',
+      createField({
+        value: savedState?.expectMatch ?? '',
+        validator: composeAndShortCircuitOnError(
+          regExpValidator,
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator
+        )
+      })
+    )
+    .put(
+      'body',
+      createField({
+        value: savedState?.body ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
-      'expectedStatusDescription',
+      'validationString',
       createField({
-        value: savedState?.expectedStatusDescription ?? '200',
+        value: savedState?.validationString ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'followRedirect',
+      createField({
+        value: savedState?.followRedirect ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     )
     .put(
@@ -206,4 +257,17 @@ export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([
   { value: 'DELETE', label: t('in-synthetics:dialog.httpMethods.delete'), isdisabled: true }
 ]);
 
-export const Validations: readonly any[] = Object.freeze([{ value: 'Expect Status', label: 'Expect Status' }]);
+export const Validations: readonly ValidationsType[] = Object.freeze([
+  {
+    value: 'Expect Status',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusLabel')
+  },
+  {
+    value: 'Expect JSON',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectJSONLabel')
+  },
+  {
+    value: 'Expect Match',
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectMatchLabel')
+  }
+]);

@@ -34,10 +34,12 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
+import { getEntityHref } from 'in-settings/navigation/paths';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-settings/components/FormGroup';
+import { RemoveUserDialog } from './RemoveUserDialog';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
@@ -67,6 +69,7 @@ export default function Group({ match }) {
         saveItem={saveItem}
         onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
         renderLoadingState={renderLoadingState}
+        hideFooter={rbacImprovementEnabled}
         render={renderGroup}
         // additional props which are passed down
         groupId={groupId}
@@ -83,7 +86,11 @@ function renderGroup(props) {
   const { setForm, form, group, setMessage } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
+  const isExistingGroup = !!group.id;
 
+  const goToCreatedGroup = groupId => {
+    goToPath(getEntityHref(teamSettingsAccessControlGroups, groupId));
+  };
   const accessRestrictionWarning = needsToShowRestricAccessedWarning(form.get('permissionSet').value) ? (
     <div className="message message-small message-warning">
       <IconLabel
@@ -94,6 +101,25 @@ function renderGroup(props) {
       />
     </div>
   ) : null;
+  const removeUserFromGroup = (id, name) => {
+    const removeUserLocally = (touched) => {
+      const members = form.get('members').value.slice().filter(member => member.userId !== id);
+      if (touched) {
+        setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
+      } else {
+        setForm(form.updateIn(['members'], f => f.setValue(members)));
+      }
+    }
+    if (rbacImprovementEnabled) {
+      addActiveDialog(<RemoveUserDialog
+        userId={id}
+        groupId={group.id}
+        username={name}
+        removeLocally={() => removeUserLocally(false)} />);
+    } else {
+      removeUserLocally(true);
+    }
+  }
   return (
     <>
       <InlineEditorRow
@@ -111,13 +137,8 @@ function renderGroup(props) {
         <Col lg={6}>
           <Users
             members={form.get('members').value}
-            removeUser={id => {
-              const members = form
-                .get('members')
-                .value.slice()
-                .filter(member => member.userId !== id);
-              setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
-            }}
+            removeUser={removeUserFromGroup}
+            groupId={group.id}
             addUsers={users => addUsers(users, form, setForm)}
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
@@ -127,7 +148,8 @@ function renderGroup(props) {
             form={form}
             setForm={setForm}
             readOnly={isOwnerGroup}
-            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm })}
+            editMode={isExistingGroup}
+            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm, reload: goToCreatedGroup })}
           />
         )}
         {!rbacImprovementEnabled &&
@@ -399,7 +421,7 @@ function changeGroupName(form, updateForm, setMessage) {
   saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm });
 }
 
-function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
+function saveItem({ form, setMessage, setCanSaveItem, setForm, reload = noop }) {
   const group = {
     id: form.get('id').value,
     name: form.get('name').value,
@@ -414,6 +436,7 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
       setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: 'success' });
       setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
       setCanSaveItem(false);
+      reload(savedGroup.id);
     },
     error => {
       setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: 'error' });

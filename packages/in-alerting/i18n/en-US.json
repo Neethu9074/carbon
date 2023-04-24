@@ -1030,6 +1030,7 @@
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
+      "addSmartAlert": "Add Synthetic Smart Alert",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} more filter",
@@ -1053,6 +1054,7 @@
       "simple": {
         "stepConfigsStep1Title": "Step 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
+        "simpleAlertConfigDialogStep1Tooltip": "Individual alerts will be sent independently for each synthetic test, per location",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
@@ -1061,22 +1063,29 @@
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
         "thresholdTitleHelpText": "Failures determined in the PoP, based on retry interval configured in synthetic test creation.",
-        "thresholdSubTitleHelpText": "If the specified number of alerts occurs in every location, you will receive an alert for every location.",
-        "thresholdSubTitle": "Total locations in attached tests:",
+        "thresholdSubTitleHelpText": "If the specified number of failures occurs in every location, you will receive an alert for every location.",
         "slider": {
           "failuresWithCount": "{{count}} Failure",
           "failuresWithCount_plural": "{{count}} Failures",
           "failuresWithCount_0": "{{count}} Failures",
           "failuresWithCount_1": "{{count}} Failures",
           "failuresWithCount_2": "{{count}} Failures"
-        }
+        },
+        "alertPropertiesTitlePlaceholder": "Synthetic test failed",
+        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed for {{count}} consecutive time",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed for {{count}} consecutive times",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
+        "alertChannelsTitle": "Who should get the alerts?",
         "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
         "propertiesLabel": "Alert Properties",
+        "propertiesTitle": "What should alert notification include?",
         "failureThreshold": "Time Threshold",
         "failureThresholdLabel": "Time Threshold",
         "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
@@ -1107,6 +1116,15 @@
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time Threshold",
         "alertingType": "Alerting Type"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Status Code Count",
+        "specificStatusCodeRate": "Status Code Rate",
+        "views": "Views",
+        "customEventBlueprintConfigMetricLabel": "Occurrences",
+        "sessions": "Sessions"
       }
     }
   }

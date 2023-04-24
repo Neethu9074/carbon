@@ -24,8 +24,8 @@ import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless
 interface GoodBadEventsConfiguratorProps {
   entityType: MonitoringSource;
   label: string;
-  form: MapForm;
-  updateForm: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (updatedForm: MapForm<any>) => void;
   QueryBuilderComponent: QueryBuilderComponent;
 }
 
@@ -90,7 +90,7 @@ export default function GoodBadEventsConfigurator({
   );
 }
 
-function getIconType(entityType: MonitoringSource, form: MapForm): string {
+function getIconType(entityType: MonitoringSource, form: MapForm<any>): string {
   if (entityType === 'application') {
     return 'lib_application';
   }

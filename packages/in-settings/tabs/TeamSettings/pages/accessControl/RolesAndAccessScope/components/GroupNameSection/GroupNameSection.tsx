@@ -1,10 +1,10 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { Typography } from '@instana/components';
 
@@ -20,6 +20,15 @@ interface GroupNameSectionProps {
 }
 
 export default function GroupNameSection({ value, setValue }: GroupNameSectionProps) {
+  const groupNameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Focus on group name input to allow direct typing
+    if (groupNameInputRef.current) {
+      groupNameInputRef.current.focus();
+    }
+  }, []);
+
   return (
     <section>
       <Typography variant="heading-300" component="h3">
@@ -27,7 +36,12 @@ export default function GroupNameSection({ value, setValue }: GroupNameSectionPr
       </Typography>
       <Label className={locals.label}>
         {t('in-settings:groupSection.label')}
-        <Input onChange={e => setValue(e.target.value)} value={value ?? ''} style={{ width: '100%' }} />
+        <Input
+          onChange={e => setValue(e.target.value)}
+          value={value ?? ''}
+          style={{ width: '100%' }}
+          ref={groupNameInputRef}
+        />
       </Label>
     </section>
   );

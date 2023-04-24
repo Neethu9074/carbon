@@ -23,9 +23,9 @@ export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | App
   createThresholdForm: (
     threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
     alertType: ALERT_TYPE
-  ) => MapForm,
-  form: MapForm,
-  updateForm: (form: MapForm) => void,
+  ) => MapForm<any>,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void,
   data: { type: string; value: any },
   errors: string | any[],
   time: number,
@@ -33,9 +33,9 @@ export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | App
 ): void {
   thresholdOrBaselineLoadingSignal$.emit(false);
 
-  const alertType = ((form.get('rule') as MapForm).get('alertType') as Field<ALERT_TYPE>).value;
-  const thresholdForm = form.get('threshold') as MapForm;
-  const currentThreshold = thresholdForm.toJS() as ThresholdConfig;
+  const alertType = ((form.get('rule') as MapForm<any>).get('alertType') as Field<ALERT_TYPE>).value;
+  const thresholdForm = form.get('threshold') as MapForm<any>;
+  const currentThreshold = thresholdForm.toJS() as unknown as ThresholdConfig;
 
   let thresholdData;
   if (errors.length === 0) {
@@ -72,6 +72,7 @@ export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | App
   let newForm = form
     .put('threshold', updatedThresholdForm!)
     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false))
+    // @ts-expect-error ts has problems with nested fields on MapForm<any>, because it cant know the contents
     .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => (f as Field<number>).setValue(data?.value));
 
   updateForm(newForm);
@@ -95,10 +96,10 @@ export function duplicateAlertConfig<
  * Apply editMode to form state. We use the touched state of the value and baseline fields to indicate if they should be
  * updated with new suggestions.
  */
-export function applyEditMode(form: MapForm, editMode: boolean): MapForm {
+export function applyEditMode(form: MapForm<any>, editMode: boolean): MapForm<any> {
   if (!editMode) return form;
 
-  const type = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>).value;
+  const type = ((form.get('threshold') as MapForm<any>).get('type') as Field<ThresholdType>).value;
 
   if (type === STATIC_THRESHOLD) {
     return form
@@ -113,7 +114,7 @@ export function applyEditMode(form: MapForm, editMode: boolean): MapForm {
   return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
 }
 
-function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm): boolean {
+function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm<any>): boolean {
   if (simpleMode) return true;
 
   const type = (thresholdForm?.get('type') as Field<ThresholdType>)?.value;

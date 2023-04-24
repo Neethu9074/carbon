@@ -13,7 +13,13 @@ export default {
   component: StepProgressBar
 };
 
-const stepTitles = ['Step1: Lorem', 'Step2: Ipsum', 'Step3: dolor', 'Step4: sit', 'Step5: amet'];
+const stepTitles = [
+  'Step1: Lorem - with a very long',
+  'Step2: Ipsum - with another long title',
+  'Step3: dolor',
+  'Step4: sit',
+  'Step5: amet'
+];
 
 const divider = {
   marginTop: '2rem'

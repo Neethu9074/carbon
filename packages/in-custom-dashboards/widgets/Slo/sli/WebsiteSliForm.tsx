@@ -32,7 +32,7 @@ import { t } from 'in-i18n';
 
 interface WebsiteSliFormProps {
   websiteName: string;
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (i: Item) => Item) => void;
   QueryBuilderComponent: QueryBuilderComponent;
 }
@@ -43,7 +43,7 @@ export function WebsiteSliForm({
   websiteName,
   QueryBuilderComponent: QueryBuilder
 }: WebsiteSliFormProps) {
-  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const sliEntityForm = form.get('sliEntity') as MapForm<any>;
   const sliNameField = form.get('sliName') as Field<string>;
 
   const sliTypeField = sliEntityForm.get('sliType') as Field<SliEntityType>;
@@ -131,8 +131,8 @@ export function WebsiteSliForm({
         <MetricsForm
           entityType="website"
           metricEntityType={beaconTypeField?.value}
-          form={form.get('metricConfiguration') as MapForm}
-          onChange={mc => onChange([], f => (f as MapForm).put('metricConfiguration', mc))}
+          form={form.get('metricConfiguration') as MapForm<any>}
+          onChange={mc => onChange([], f => (f as MapForm<any>).put('metricConfiguration', mc))}
         />
       )}
 
@@ -146,7 +146,7 @@ export function WebsiteSliForm({
             })
           })}
           form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm).put('sliEntity', updatedForm))}
+          updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
           QueryBuilderComponent={QueryBuilder}
         />
       )}

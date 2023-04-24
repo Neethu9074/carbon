@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createMapForm, createField, Field } from 'formalistic';
+import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { FormEvent, useState } from 'react';
 
 import { Observable } from '@instana/observables';
@@ -28,13 +28,14 @@ interface Props {
 export default function FileUploadConfigurationDialog(props: Props) {
   const { websiteId, onFinished } = props;
   const inputConfig = props.config;
-  const [form, setForm] = useState(createForm(inputConfig));
+  const [form, setForm] = useState<MapForm<any>>(createForm(inputConfig));
   const [message, setMessage] = useState<MessageType | null>(null);
 
   const extraProps = {
     form,
     message,
     onChange(path: Array<string>, value: string) {
+      // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
       setForm(form.updateIn(path, field => (field as Field<string>).setValue(value).setTouched(true)));
     },
     onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -45,7 +46,7 @@ export default function FileUploadConfigurationDialog(props: Props) {
         return;
       }
 
-      const newConfig = form.toJS() as SourceMapUploadConfig;
+      const newConfig = form.toJS() as unknown as SourceMapUploadConfig;
       let response$: Observable<SourceMapUploadConfig>;
       let successMessage: string;
       setMessage({

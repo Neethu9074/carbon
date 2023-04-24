@@ -15,13 +15,6 @@ import {
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import {
-  websitesAlertingAlertDeleted,
-  websitesAlertingAlertEdit,
-  websitesAlertingAlertPaused,
-  websitesAlertingAlertResumed,
-  websitesAlertingAlertRevisionChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
-import {
   alertsTab as alertsTabSegment,
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
@@ -35,14 +28,6 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
-
-const tracking = {
-  trackEdit: alertConfigId => websitesAlertingAlertEdit({ alertConfigId }),
-  trackPaused: alertConfigId => websitesAlertingAlertPaused({ alertConfigId }),
-  trackResumed: alertConfigId => websitesAlertingAlertResumed({ alertConfigId }),
-  trackDeleted: alertConfigId => websitesAlertingAlertDeleted({ alertConfigId }),
-  trackRevisionChanged: revision => websitesAlertingAlertRevisionChanged({ revision })
-};
 
 export default function AlertDetails(props) {
   return (
@@ -64,7 +49,6 @@ export default function AlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} />}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
-      tracking={tracking}
     />
   );
 }

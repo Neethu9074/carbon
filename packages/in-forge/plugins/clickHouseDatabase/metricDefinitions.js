@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { number, bytes, millis, micros } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { number, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -313,7 +313,7 @@ export default [
   },
   {
     metric: 'CompressedReadBufferBytes',
-    formatter: number
+    formatter: bytes
   },
   {
     metric: 'ContextLock',
@@ -337,11 +337,11 @@ export default [
   },
   {
     metric: 'DiskReadElapsedMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'DiskWriteElapsedMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'DistributedConnectionFailAtAll',
@@ -397,11 +397,11 @@ export default [
   },
   {
     metric: 'InsertQueryTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'InsertedBytes',
-    formatter: number
+    formatter: bytes
   },
   {
     metric: 'InsertedRows',
@@ -449,15 +449,15 @@ export default [
   },
   {
     metric: 'MergesTimeMilliseconds',
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'NetworkReceiveElapsedMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'NetworkSendElapsedMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'NotCreatedLogEntryForMerge',
@@ -465,15 +465,15 @@ export default [
   },
   {
     metric: 'OSCPUVirtualTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'OSCPUWaitMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'OSIOWaitMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'ObsoleteReplicatedParts',
@@ -489,7 +489,7 @@ export default [
   },
   {
     metric: 'QueryTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'RWLockAcquiredReadLocks',
@@ -501,11 +501,11 @@ export default [
   },
   {
     metric: 'RWLockReadersWaitMilliseconds',
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'RWLockWritersWaitMilliseconds',
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'ReadBackoff',
@@ -533,7 +533,7 @@ export default [
   },
   {
     metric: 'RealTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'RegexpCreated',
@@ -580,16 +580,12 @@ export default [
     formatter: number
   },
   {
-    metric: '',
-    formatter: number
-  },
-  {
     metric: 'SelectQuery',
     formatter: number
   },
   {
     metric: 'SelectQueryTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'SelectedBytes',
@@ -621,11 +617,11 @@ export default [
   },
   {
     metric: 'SystemTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'UserTimeMicroseconds',
-    formatter: number
+    formatter: micros
   },
   {
     metric: 'WriteBufferFromFileDescriptorWrite',
@@ -695,7 +691,7 @@ export default [
   },
   {
     metric: 'MarkCacheBytes',
-    formatter: number
+    formatter: bytes
   },
   {
     metric: 'MarkCacheFiles',

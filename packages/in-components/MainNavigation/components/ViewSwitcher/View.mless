@@ -182,6 +182,7 @@
     color: @lib__colors__N400;
     font-size: 0.875rem;
     max-width: 10.25rem;
+    margin-right: 0.5rem;
     .ellipsis();
   }
 

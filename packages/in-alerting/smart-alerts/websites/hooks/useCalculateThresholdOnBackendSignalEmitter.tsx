@@ -9,10 +9,10 @@ import { useEffect } from 'react';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 
-export default function useCalculateThresholdOnBackendSignalEmitter(form: MapForm) {
-  const calculateThresholdOnBackend = ((form.get('hiddenFields') as MapForm)!.get(
-    'calculateThresholdOnBackend'
-  ) as Field<boolean>).value;
+export default function useCalculateThresholdOnBackendSignalEmitter(form: MapForm<any>) {
+  const calculateThresholdOnBackend = (
+    (form.get('hiddenFields') as MapForm<any>)!.get('calculateThresholdOnBackend') as Field<boolean>
+  ).value;
 
   useEffect(() => {
     thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);

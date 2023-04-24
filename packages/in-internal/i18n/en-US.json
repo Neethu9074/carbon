@@ -372,6 +372,11 @@
         "host": "Host",
         "garbageCollection": "Garbage Collection",
         "instances": "log-processors ({{length}})",
+        "incoming": {
+          "docker": "Ingested Docker logs",
+          "opentelemetry": "Ingested OpenTelemetry logs",
+          "action": "Ingested Action logs"
+        },
         "common": {
           "incoming": "Incoming Common Logs",
           "failIncoming": "Failed Incoming Common Logs",
@@ -641,6 +646,8 @@
         "kafka": "Kafka"
       },
       "eumHealthProcessor": {
+        "websiteMonitoring": "Website Monitoring",
+        "mobileAppMonitoring": "Mobile App Monitoring",
         "incomingBeacons": "Incoming Beacon Records",
         "droppedIncomingBeacons": "Dropped Incoming Beacon Records",
         "outgoingMatchedBeacons": "Outgoing Matched Beacons",
@@ -963,6 +970,7 @@
         "logByteRateLimitDropped": "Log Bytes dropped"
       },
       "infraDataStatistics": {
+        "numInstances": "Number of Filler Instances",
         "numEntities": "Number of Entities",
         "entityUsage": "Entity Usage",
         "rawMsgDropRateGroupOfEntityMsg": "Raw Message Drop Rate (group of entity messages)",
@@ -1042,6 +1050,7 @@
         "logByteRateLimitDropped": "Log Bytes dropped"
       },
       "infrastructure": {
+        "numInstances": "Number of Filler Instances",
         "numEntities": "Number of Entities",
         "entityUsage": "Entity Usage",
         "rawMzgDropRate": "Raw Message Drop Rate",

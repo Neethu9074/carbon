@@ -225,7 +225,7 @@ function save(event, form, actions) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
+  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
     const actionNames = actions.reduce(
       (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
       []

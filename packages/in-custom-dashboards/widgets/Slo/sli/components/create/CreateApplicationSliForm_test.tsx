@@ -52,7 +52,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
     );
 
     // Then
-    // @ts-expect-error
     expect(wrapper.containsMatchingElement(<LoadingIndicator />)).toBeTruthy();
   });
 
@@ -73,7 +72,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
     );
 
     // Then
-    // @ts-expect-error
     expect(wrapper.containsMatchingElement(<LoadingIndicator />)).toBeTruthy();
   });
 

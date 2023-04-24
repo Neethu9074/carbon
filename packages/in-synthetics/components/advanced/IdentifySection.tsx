@@ -25,8 +25,8 @@ import { t } from 'in-i18n';
 import locals from './IdentifySection.mless';
 
 export interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   applications: Result<Application[]>;
 }
 

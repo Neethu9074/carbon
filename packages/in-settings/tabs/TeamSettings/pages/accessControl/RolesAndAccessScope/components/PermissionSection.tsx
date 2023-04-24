@@ -9,6 +9,7 @@ import React from 'react';
 import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { MapFormItems } from 'formalistic';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -45,7 +46,9 @@ import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
 
-export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideConfig>, FormControlProps {
+export interface PermissionSectionProps<I, FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {
   title: string;
   accessAllDescription: string;
   limitedAccessDescription: string;
@@ -59,7 +62,7 @@ export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideCon
   entityPermissionKey: EntityPermissionKey;
 }
 
-export default function PermissionSection<I>({
+export default function PermissionSection<I, FORM_TYPE extends MapFormItems>({
   title,
   accessAllDescription,
   limitedAccessDescription,
@@ -75,21 +78,21 @@ export default function PermissionSection<I>({
   setForm,
   setSubSlideConfig,
   setShowSubSlide
-}: PermissionSectionProps<I>) {
+}: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
-  const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
-    if (!permissionSet || role === 'CUSTOM') return;
+  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+    if (!permissionSet || selected === 'CUSTOM') return;
 
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
-      role
+      selected
     );
 
     const newPermissionSet = {
@@ -124,7 +127,7 @@ export default function PermissionSection<I>({
             {context === ScopedPermissionItem.ACCESS_ALL && (
               <AccessAllPanel
                 role={role}
-                onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.ACCESS_ALL)}
+                onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
                 entityPermissionKey={entityPermissionKey}
                 roleTooltipText={roleTooltipText}
                 description={accessAllDescription}
@@ -143,7 +146,7 @@ export default function PermissionSection<I>({
                 extractName={extractName}
                 setForm={setForm}
                 roleTooltipText={roleTooltipText}
-                onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.LIMITED_ACCESS)}
+                onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
               />

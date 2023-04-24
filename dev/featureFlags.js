@@ -25,6 +25,7 @@ module.exports = {
   onPremLicenseInformationEnabled: false,
   pcfEnabled: true,
   phmcEnabled: true,
+  sapEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
   skipOnboardingDialog: false,
@@ -65,15 +66,16 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   syntheticBrowserScriptEnabled: true,
+  syntheticBrowserCreateTestEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  rbacImprovementEnabled: false,
+  rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  syntheticSmartAlertsDetailsEnabled: true,
-  syntheticCreateSmartAlertsUIEnabled: true,
   syntheticCreateTestAdvanceModeEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
-  oracleRacMonitoringEnabled: false
+  limitVisibleNestingLevelsInTraceEnabled: true,
+  oracleRacMonitoringEnabled: false,
+  recurrentMaintenanceWindows: true
 };

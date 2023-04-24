@@ -52,7 +52,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
   it('updates the forms metricName field on changes to the metric name select', () => {
     // Given
     const updatedFormCaptor = jest.fn();
-    const onChange = (f: MapForm) => updatedFormCaptor(f.toJS());
+    const onChange = (f: MapForm<any>) => updatedFormCaptor(f.toJS());
 
     // When
     const wrapper = shallow(
@@ -82,7 +82,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
         label: 'Solidity'
       }
     };
-    getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+    getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
 
     // When
     const wrapper = shallow(
@@ -124,7 +124,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
   it('updates the forms metricAggregation field on changes to the metric aggregation select', () => {
     // Given
     const updatedFormCaptor = jest.fn();
-    const onChange = (f: MapForm) => updatedFormCaptor(f.toJS());
+    const onChange = (f: MapForm<any>) => updatedFormCaptor(f.toJS());
 
     // When
     const wrapper = shallow(
@@ -155,7 +155,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
         ]
       }
     };
-    getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+    getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
 
     // When
     const wrapper = shallow(
@@ -192,7 +192,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
 
       // When
       const wrapper = shallow(
@@ -214,7 +214,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
       const form = baseForm
         .updateIn(['metricName'], f => (f as Field<string>).setValue('solidity'))
         .put('threshold', createField({ value: '', validator: notBlankValidator }))
@@ -232,7 +232,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
     it('updates the forms threshold field on changes to the threshold input', () => {
       // Given
       const updatedFormCaptor = jest.fn();
-      const onChange = (f: MapForm) => updatedFormCaptor(f.toJS());
+      const onChange = (f: MapForm<any>) => updatedFormCaptor(f.toJS());
       // Given
       const entityType = 'pizza' as MonitoringSource;
       const metricEntityType = 'cheese' as MetricEntityType<MonitoringSource>;
@@ -243,7 +243,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
       const form = baseForm.updateIn(['metricName'], f => (f as Field<string>).setValue('solidity'));
 
       // When
@@ -274,7 +274,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
 
       // When
       const wrapper = shallow(
@@ -296,7 +296,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
       const form = baseForm
         .updateIn(['metricName'], f => (f as Field<string>).setValue('temperature'))
         .put('threshold', createField({ value: '', validator: notBlankValidator }))
@@ -314,7 +314,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
     it('updates the forms threshold field on changes to the threshold input', () => {
       // Given
       const updatedFormCaptor = jest.fn();
-      const onChange = (f: MapForm) => updatedFormCaptor(f.toJS());
+      const onChange = (f: MapForm<any>) => updatedFormCaptor(f.toJS());
       // Given
       const entityType = 'pizza' as MonitoringSource;
       const metricEntityType = 'cheese' as MetricEntityType<MonitoringSource>;
@@ -325,7 +325,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/MetricsForm', () => {
           options: []
         }
       };
-      getMetricOptions.mockReturnValueOnce((metricOptions as unknown) as ReturnType<typeof getMetricOptions>);
+      getMetricOptions.mockReturnValueOnce(metricOptions as unknown as ReturnType<typeof getMetricOptions>);
       const form = baseForm.updateIn(['metricName'], f => (f as Field<string>).setValue('temperature'));
 
       // When

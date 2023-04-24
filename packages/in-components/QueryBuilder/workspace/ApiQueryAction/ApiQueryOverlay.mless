@@ -7,6 +7,10 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .apiQuery {
+    max-width: 30rem;
+  }
+
   .header {
     justify-content: space-between;
     min-width: 30rem;
@@ -15,9 +19,7 @@
 
   .content {
     max-height: 15rem;
-    padding-top: 1rem;
     overflow: auto;
-    background: #1b2733;
   }
 
   .toggleWrapper {

@@ -28,7 +28,7 @@ export type ConfigureAssociatedActionsDialogProps = {
 };
 
 export type ConfigureAssociatedActionsDialogState = {
-  form: MapForm;
+  form: MapForm<any>;
   setForm: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['form']>>;
   isSaving: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['isSaving']>>;

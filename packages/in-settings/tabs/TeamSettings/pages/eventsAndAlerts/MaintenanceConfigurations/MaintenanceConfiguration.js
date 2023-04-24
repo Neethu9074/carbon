@@ -4,7 +4,7 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-import { fromJS, List } from 'immutable';
+import { List } from 'immutable';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -24,6 +24,7 @@ import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/da
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -31,7 +32,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -40,7 +40,7 @@ import locals from './MaintenanceConfiguration.mless';
 
 export default function MaintenanceConfiguration(props) {
   const entityId = props.match.params.id;
-
+  const { goToPath } = useNavigation();
   return (
     <Form
       title={t('in-settings:tabs.maintenanceWindow')}
@@ -56,7 +56,7 @@ export default function MaintenanceConfiguration(props) {
 
 const Form = entityForm(function MaintenanceForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
-
+  const { goToPath } = useNavigation();
   if (!entity || !form) {
     return <LoadingIndicator />;
   }
@@ -127,15 +127,12 @@ function save(config, form, isNew) {
     mwID: config ? config.get('id') : null,
     name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
   }); //Mixpanel tracking
-
   return saveMaintenanceConfig(
-    fromJS(
-      createMaintenanceConfig(
-        config ? config.get('id') : null,
-        form.get('name').value,
-        query,
-        windowStart && windowEnd ? [createMaintenanceWindow(window.get('id').value, windowStart, windowEnd)] : []
-      )
+    createMaintenanceConfig(
+      config ? config.get('id') : null,
+      form.get('name').value,
+      query,
+      windowStart && windowEnd ? [createMaintenanceWindow(window.get('id').value, windowStart, windowEnd)] : []
     )
   );
 }

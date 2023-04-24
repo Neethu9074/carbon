@@ -20,8 +20,8 @@ export function ClusterList({ resources }: ClusterListProps) {
   return (
     <Card title={t('in-kubernetes:clusters')}>
       <Ul>
-        {resources.map(item => (
-          <ClusterRow item={item.item} />
+        {resources.map(({ item }) => (
+          <ClusterRow item={item} key={item.snapshotId} />
         ))}
         {resources.length === 0 && (
           <Li>

@@ -5,15 +5,7 @@
 
 import React from 'react';
 
-import {
-  number,
-  millis,
-  bytes,
-  micros,
-  positiveNumber,
-  percentage,
-  percentagePlainZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
@@ -103,7 +95,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <HadrGenericsTable snapshotId={snapshotId} />
+      <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
         <TableSpaceUtil snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -357,7 +349,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: ['logs.availablePercentage'],
             labels: [t('in-forge:plugins.db2Database.availablePercentage')],
             type: 'line',
-            formatter: percentagePlainZeroDecimalPlaces
+            formatter: percentage.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

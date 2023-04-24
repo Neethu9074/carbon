@@ -20,12 +20,13 @@ import { isQueryValid } from 'in-applications/creation/components/CreateApplicat
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
 import { addApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { pendingResult } from 'in-services/fixedObjects';
-import { goToPath } from 'in-stores/navigation';
 
 const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialog');
 
 export default function CreateApplicationDialog({ formData, timeConfig, onClose, getOnSavePath }) {
+  const { goToPath } = useNavigation();
   const [form, setForm] = useState(() => createApplicationPerspectiveForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   const [simpleMode, setSimpleMode] = useState(true);
@@ -35,15 +36,19 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const validTagFilterExpressionResult =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
 
+  const onSaveSuccess = result => {
+    goToPath(getOnSavePath(result));
+    onClose();
+  };
+
   const onCreate = () =>
     createApplication(
       form,
-      getOnSavePath,
       setForm,
       isSaving,
       setIsSaving,
       applicationCreationCreateClick,
-      onClose,
+      onSaveSuccess,
       setErrorMessage
     );
 
@@ -97,12 +102,11 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
 
 function createApplication(
   form,
-  getOnSavePath,
   setForm,
   isSaving,
   setIsSaving,
   applicationCreationCreateClick,
-  onClose,
+  onSuccess,
   setErrorMessage
 ) {
   setIsSaving(true);
@@ -119,8 +123,7 @@ function createApplication(
   result$.once(
     result => {
       applicationCreationCreateClick(entityToUpdate);
-      goToPath(getOnSavePath(result));
-      onClose();
+      onSuccess(result);
     },
     error => {
       logger.error(`failed to create AP: ${error.message}`, error);

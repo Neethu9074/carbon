@@ -7,11 +7,12 @@
 import React from 'react';
 
 import {
-  applicationsAlertingAlertEdit,
-  applicationsAlertingListAlertDeleted,
-  applicationsAlertingListAlertPaused,
-  applicationsAlertingListAlertResumed
-} from 'in-alerting/smart-alerts/applications/tracker';
+  trackAlertEdit,
+  trackAlertPaused,
+  trackAlertResumed,
+  trackAlertDeleteConfirm,
+  trackAlertCloneTrigger
+} from 'in-alerting/smart-alerts/components/tracker';
 import {
   deleteGlobalAlertConfig,
   disableGlobalAlertConfig,
@@ -22,9 +23,9 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -49,9 +50,7 @@ function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig) {
         close();
         deleteConfig(id).once(
           () => {
-            applicationsAlertingListAlertDeleted({
-              alertConfigId: id
-            });
+            trackAlertDeleteConfirm(id);
             refreshSmartAlertConfigsList();
           },
           () => {
@@ -71,7 +70,7 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
 
   (enabled ? disableConfig(id) : enableConfig(id)).once(
     () => {
-      (enabled ? applicationsAlertingListAlertPaused : applicationsAlertingListAlertResumed)({
+      (enabled ? trackAlertPaused : trackAlertResumed)({
         alertConfigId: id
       });
       refreshSmartAlertConfigsList();
@@ -84,17 +83,17 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
 
 function handleClone(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
+  trackAlertCloneTrigger(config.id);
 }
 
 function handleEdit(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
+  trackAlertEdit(config);
 }
 
 function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {
   addActiveDialog(
-    <SmartAlertConfigDialogWrapper
+    <AlertConfigDialog
       applicationLabel={config.name}
       alertConfig={isCopy ? duplicateAlertConfig(config) : config}
       onClose={() => {
@@ -109,16 +108,16 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
 
 export function actionHandlers(isGlobalSmartAlertConfig) {
   return {
-    handleClone: function(config) {
+    handleClone: function (config) {
       handleClone(config, isGlobalSmartAlertConfig);
     },
-    handleDelete: function(id, setIsSaving, configName) {
+    handleDelete: function (id, setIsSaving, configName) {
       handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
     },
-    handleEdit: function(config) {
+    handleEdit: function (config) {
       handleEdit(config, isGlobalSmartAlertConfig);
     },
-    handleToggleEnabled: function(enabled, id, setIsSaving) {
+    handleToggleEnabled: function (enabled, id, setIsSaving) {
       handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
     }
   };

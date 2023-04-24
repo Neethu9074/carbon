@@ -49,7 +49,7 @@ describe('in-alerting/smart-alerts/components/utils/formUtils ::isCustomPayloadV
     const invalidTouchedKeyField = createField({ value: '', validator: notBlankValidator }).setTouched(true);
     const invalidPayloadItem = createMapForm({ items: { key: invalidTouchedKeyField } });
     const withInvalidPayloadItem = createTestForm(true, true).updateIn(['customPayloadFields'], (payloadItems: Item) =>
-      (payloadItems as ListForm).push(invalidPayloadItem)
+      (payloadItems as ListForm<any>).push(invalidPayloadItem)
     );
 
     expect(isCustomPayloadValidOrUntouched(withInvalidPayloadItem)).toBe(false);

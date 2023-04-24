@@ -12,6 +12,7 @@ export interface KubernetesListItemWithCursor {
   cursor?: IngestionOffsetCursor;
 }
 export interface KubernetesClusterListItem {
+  clusterLabel: string;
   snapshotId: number;
   label: string;
   clusterDistribution?: string;
@@ -44,6 +45,21 @@ export interface Order {
 
 export interface KubernetesExploreQuery {
   query: ExploreClusterQuery;
+}
+
+export interface ExploreClusterResponse {
+  items: ClusterItem[];
+}
+
+export interface ClusterItem {
+  item: Cluster;
+  cursor: String;
+}
+
+export interface Cluster {
+  label: String;
+  snapshotId: String;
+  clusterDistribution: String;
 }
 
 export interface ExploreClusterQuery {

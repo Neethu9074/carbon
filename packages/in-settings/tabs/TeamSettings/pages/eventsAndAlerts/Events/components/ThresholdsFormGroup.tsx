@@ -27,24 +27,24 @@ import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 interface ThresholdsFormGroupProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (
     fieldName: string,
     value: string | Nullish,
-    updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
-  ) => MapForm;
+    updateFormDefinition?: (mapForm: MapForm<any>, entity: CustomEventSpecificationWithMetadata) => MapForm<any>
+  ) => MapForm<any>;
   hideTimeWindow: boolean;
   disabled: boolean;
 }
 
 interface TimeWindowFormGroupProps {
-  form: MapForm;
+  form: MapForm<any>;
   disabled: boolean;
   onChange: (
     fieldName: string,
     value: string | Nullish,
-    updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
-  ) => MapForm;
+    updateFormDefinition?: (mapForm: MapForm<any>, entity: CustomEventSpecificationWithMetadata) => MapForm<any>
+  ) => MapForm<any>;
   columnsSize?: number;
 }
 

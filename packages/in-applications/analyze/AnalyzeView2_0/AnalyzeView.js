@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { sortBy } from 'lodash';
 
 import {
@@ -137,17 +137,21 @@ export default function ApplicationsAnalyzeView() {
     alreadyConvertedAnalyticsWithHiddenTagsLocation(location)
   );
 
-  const onChangeHiddenCalls = hiddenCalls => {
-    onChange({ hiddenCalls });
-  };
+  const onChangeHiddenCalls = useCallback(
+    hiddenCalls => {
+      onChange({ hiddenCalls });
+    },
+    [onChange]
+  );
 
   const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
     ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
-  const dataSourceConfigurations = useMemo(() => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }), [
-    hiddenCalls
-  ]);
+  const dataSourceConfigurations = useMemo(
+    () => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }),
+    [hiddenCalls, onChangeHiddenCalls]
+  );
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 
@@ -186,6 +190,7 @@ export default function ApplicationsAnalyzeView() {
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
             getCustomGroupingTagFilter={getCustomGroupingTagFilter}
+            resetHiddenCalls={onChange}
           />
         ) : (
           <Results
@@ -196,6 +201,7 @@ export default function ApplicationsAnalyzeView() {
             fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
+            resetHiddenCalls={onChange}
           />
         )
       }

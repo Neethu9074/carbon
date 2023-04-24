@@ -3,13 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { identity as identityFn } from 'in-services/util/function';
-
-export const identity = {
-  compact: identityFn,
-  detailed: identityFn
-};
-
 /**
  * Uppercases the first letter of the string.
  */

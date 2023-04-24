@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Field, Item, MapForm } from 'formalistic';
+
 import {
   applicationType,
   availabilityType,
   SliEntityType,
   websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { createMetricsForm, addGoodBadEventsForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { getMetricOptions, MetricEntityType, MetricType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
+import { createMetricsForm, addGoodBadEventsForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { Field, Item, MapForm } from 'formalistic';
 import { AggregationType } from 'in-types';
 
 const formSideEffects = [
@@ -38,13 +39,13 @@ const websiteFormSideEffects = [
     effects: [
       resetMetricConfiguration(
         'website',
-        f => ((f.get('sliEntity') as MapForm).get('beaconType') as Field<MetricEntityType<'website'>>).value
+        f => ((f.get('sliEntity') as MapForm<any>).get('beaconType') as Field<MetricEntityType<'website'>>).value
       )
     ]
   }
 ];
 
-export function useApplicationSliFormSideEffects(form: MapForm, setForm: (f: Item) => void) {
+export function useApplicationSliFormSideEffects(form: MapForm<any>, setForm: (f: Item) => void) {
   return useFormSideEffects({
     form,
     setForm,
@@ -53,7 +54,7 @@ export function useApplicationSliFormSideEffects(form: MapForm, setForm: (f: Ite
   });
 }
 
-export function useWebsiteSliFormSideEffects(form: MapForm, setForm: (f: Item) => void) {
+export function useWebsiteSliFormSideEffects(form: MapForm<any>, setForm: (f: Item) => void) {
   return useFormSideEffects({
     form,
     setForm,
@@ -62,21 +63,21 @@ export function useWebsiteSliFormSideEffects(form: MapForm, setForm: (f: Item) =
   });
 }
 
-function resetFormForSliType(form: MapForm): MapForm {
+function resetFormForSliType(form: MapForm<any>): MapForm<any> {
   let updatedForm = form;
-  const sliType = ((form.get('sliEntity') as MapForm).get('sliType') as Field<SliEntityType>).value;
+  const sliType = ((form.get('sliEntity') as MapForm<any>).get('sliType') as Field<SliEntityType>).value;
   if (sliType === applicationType || sliType === websiteTimeBased) {
     // Time Based SLIs
     updatedForm = updatedForm
       .put('metricConfiguration', createMetricsForm({}, sliType))
       .updateIn(['sliEntity'], f =>
-        (f as MapForm).remove('goodEventFilterExpression').remove('badEventFilterExpression')
+        (f as MapForm<any>).remove('goodEventFilterExpression').remove('badEventFilterExpression')
       );
   } else {
     // Event Based SLIs
     updatedForm = updatedForm
       .remove('metricConfiguration')
-      .updateIn(['sliEntity'], sliEntitySubForm => addGoodBadEventsForm(sliEntitySubForm as MapForm));
+      .updateIn(['sliEntity'], sliEntitySubForm => addGoodBadEventsForm(sliEntitySubForm as MapForm<any>));
   }
 
   if (sliType === availabilityType) {
@@ -90,13 +91,13 @@ function resetFormForSliType(form: MapForm): MapForm {
 
 function resetMetricConfiguration<S extends MonitoringSource>(
   entityType: S,
-  getMetricEntityType: (f: MapForm) => MetricEntityType<S>
+  getMetricEntityType: (f: MapForm<any>) => MetricEntityType<S>
 ): EffectFunction {
   return f => {
-    const form = f as MapForm;
-    const metricName = ((form.get('metricConfiguration') as MapForm).get('metricName') as Field<
-      MetricType<S, MetricEntityType<S>>
-    >).value;
+    const form = f as MapForm<any>;
+    const metricName = (
+      (form.get('metricConfiguration') as MapForm<any>).get('metricName') as Field<MetricType<S, MetricEntityType<S>>>
+    ).value;
     const aggregationData = getMetricOptions(entityType, getMetricEntityType(form))[metricName];
 
     // reset threshold value when metric changed, because value for metric A does not have any meaning

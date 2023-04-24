@@ -77,9 +77,6 @@
     "avatarNullAlt": "Fallback avatar for {{email}}."
   },
   "messageFlyout": {
-    "infrastructurePageName": "Infrastructure",
-    "eumPageName": "EUM",
-    "settingsPageName": "Settings",
     "requestQuoteBtn": "Request a quote",
     "buyNowBtn": "Buy on AWS",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>."
@@ -419,6 +416,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherButtonSignOut": "Sign Out",
@@ -711,7 +709,10 @@
     "sanitizedTagFilterValue": "The tag filter value was shortened to the maximum allowed length.",
     "sanitizedTagFilterValueAndOperator": "The tag filter value was shortened to the maximum allowed length and the operator was adjusted accordingly.",
     "source": "Source",
+    "sourceAbbreviated": "Src",
     "destination": "Destination",
+    "destinationAbbreviated": "Dest",
+    "documentation": "Documentation",
     "string": {
       "contains": "contains",
       "doesNotContain": "does not contain",

@@ -189,6 +189,22 @@ const cols = [
       },
       forceTimeWindowAggregation: true
     }
+  },
+  {
+    title: t('in-internal:monitoringUnit.agents.agents'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `numberOfAgents`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 

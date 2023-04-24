@@ -13,6 +13,7 @@
 /metricOverviewForDocs.md
 /metricOverviewForGrafana.ts
 /metricOverviewForUiBackend.json
+/metricDefinitionsForUiBackend.json
 ui-client.iml
 .npmrc
 !/.npmrc

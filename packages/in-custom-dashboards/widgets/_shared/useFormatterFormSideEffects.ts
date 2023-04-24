@@ -87,8 +87,8 @@ interface MetricConfig {
   aggregation: AggregationType;
 }
 
-function handleFormatterUpdate(form: MapForm): Item {
-  const metricConfig = form.get(metricConfigurationPath) as MapForm;
+function handleFormatterUpdate(form: MapForm<any>): Item {
+  const metricConfig = form.get(metricConfigurationPath) as MapForm<any>;
   const sourceField = metricConfig.get(sourcePath) as Field<MetricSource>;
   const metricField = metricConfig.get(metricPath) as Field<string>;
   const aggregationField = metricConfig.get(aggregationPath) as Field<AggregationType>;
@@ -104,26 +104,24 @@ function handleFormatterUpdate(form: MapForm): Item {
 }
 
 function handleChartAxisFormatterUpdate(axisName: 'y1' | 'y2') {
-  return (form: MapForm): Item => {
-    const axis = form.get(axisName) as MapForm;
+  return (form: MapForm<any>): Item => {
+    const axis = form.get(axisName) as MapForm<any>;
 
-    const metricsForAxis = axis.get(metricsPath) as ListForm;
-    const metricConfigurations = metricsForAxis?.map(
-      (metricList): MetricConfig => {
-        const sourceField = (metricList as MapForm).get(sourcePath);
-        const source = (sourceField as Field<MetricSource>)?.value;
-        const metricField = (metricList as MapForm).get(metricPath);
-        const metric = (metricField as Field<string>)?.value;
-        const aggregationField = (metricList as MapForm).get(aggregationPath);
-        const aggregation = (aggregationField as Field<AggregationType>)?.value;
+    const metricsForAxis = axis.get(metricsPath) as ListForm<any>;
+    const metricConfigurations = metricsForAxis?.map((metricList): MetricConfig => {
+      const sourceField = (metricList as MapForm<any>).get(sourcePath);
+      const source = (sourceField as Field<MetricSource>)?.value;
+      const metricField = (metricList as MapForm<any>).get(metricPath);
+      const metric = (metricField as Field<string>)?.value;
+      const aggregationField = (metricList as MapForm<any>).get(aggregationPath);
+      const aggregation = (aggregationField as Field<AggregationType>)?.value;
 
-        return {
-          source,
-          metric,
-          aggregation
-        };
-      }
-    );
+      return {
+        source,
+        metric,
+        aggregation
+      };
+    });
 
     const formatters =
       metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];

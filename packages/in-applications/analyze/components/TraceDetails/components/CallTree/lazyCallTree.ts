@@ -5,6 +5,7 @@
  */
 
 import invariant from 'invariant';
+import { maxBy } from 'lodash';
 
 import {
   CallDetails,
@@ -18,10 +19,12 @@ import {
 } from '@instana/types';
 import { createLogger } from '@instana/logger';
 
+import { SearchIndex } from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import { hasError, isLoading } from 'in-services/util/result';
+import { Mutable } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree');
@@ -140,15 +143,13 @@ type FakeRootCall = {
 
 export type CallNode = LazyParentNode | LazyChildNode | LazySiblingNode | LazyNode | CallDetailsNode | FakeRootCall;
 
-export interface CallDetailsNode extends Writeable<CallDetails> {
+export interface CallDetailsNode extends Mutable<CallDetails> {
   children: CallNode[];
 }
 
-export type SearchIndexType = Map<string, CallNode>;
-
 export interface LazyCallTree {
   root: CallNode;
-  searchIndex: SearchIndexType;
+  searchIndex: SearchIndex<CallNode>;
   traceId: string;
 }
 
@@ -372,7 +373,7 @@ function addLazyRelatedCallNodes(
   }
 
   if (data.canLoadMore) {
-    const callWithLastCursor: CallDetailsItem = data.items.slice(addBefore ? 0 : -1)[0];
+    const callWithLastCursor: CallDetailsItem = maxBy(data.items, c => c.cursor.offset) as CallDetailsItem;
     createLazyRelatedCall(
       lazyCallTree,
       call.id,
@@ -529,5 +530,3 @@ export function refreshAllParentNodesToForcePropsChange(lazyCallTree: LazyCallTr
 function getLazyNodeId(callId: string, lazyNodeType: LazyNodeType): string {
   return lazyNodeType + ':' + callId;
 }
-
-type Writeable<T> = { -readonly [P in keyof T]: Writeable<T[P]> };

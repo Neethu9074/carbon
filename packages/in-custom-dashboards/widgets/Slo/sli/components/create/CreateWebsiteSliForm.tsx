@@ -76,7 +76,7 @@ function CreateWebsiteSliFormComponent({
     >
       <WebsiteSliForm
         form={form}
-        onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
+        onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))}
         websiteName={website.label}
         QueryBuilderComponent={QueryBuilder}
       />

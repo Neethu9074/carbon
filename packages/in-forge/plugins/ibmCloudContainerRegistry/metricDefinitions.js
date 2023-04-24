@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { identity } from 'in-services/formatters/string';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -31,11 +30,5 @@ export default [
     labels: [t('in-forge:plugins.ibmCloudContainerRegistry.storageQuota')],
     min: 0,
     formatter: number
-  },
-  {
-    metrics: ['service_name'],
-    labels: [t('in-forge:plugins.ibmCloudContainerRegistry.serviceName')],
-    min: 0,
-    formatter: identity
   }
 ];

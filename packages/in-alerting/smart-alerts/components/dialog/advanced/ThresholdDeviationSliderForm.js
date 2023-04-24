@@ -23,7 +23,7 @@ export function ThresholdDeviationSliderForm({ form, updateForm, trackChange, de
         defaultValue={defaultValue}
         onChange={value => {
           updateForm(form.updateIn(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true)));
-          trackChange(getTrackingObject(form, { value }));
+          if (trackChange) trackChange(getTrackingObject(form, { value }));
         }}
       />
     </ThresholdConditionFormGroup>
@@ -34,5 +34,5 @@ ThresholdDeviationSliderForm.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   defaultValue: PropTypes.number.isRequired,
-  trackChange: PropTypes.func.isRequired
+  trackChange: PropTypes.func
 };

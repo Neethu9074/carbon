@@ -54,6 +54,24 @@ export default {
       }
     },
     {
+      id: 'Number of Instances',
+      title: t('in-internal:monitoringUnit.units.infrastructure.numInstances'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'filler.numberOfInstances';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
       id: 'Raw Message Drop Rate',
       title: t('in-internal:monitoringUnit.units.infrastructure.rawMzgDropRate'),
       type: 'metric',
@@ -114,6 +132,18 @@ export default {
               formatter: percentage.detailed,
               metrics: [`filler.entityUsage`],
               labels: [t('in-internal:monitoringUnit.units.infrastructure.entityUsage')],
+              type: 'stackedArea'
+            }}
+          />
+          <Chart
+            snapshotId={id}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: 1,
+              formatter: number.compact,
+              metrics: [`filler.numberOfInstances`],
+              labels: [t('in-internal:monitoringUnit.units.infrastructure.numInstances')],
               type: 'stackedArea'
             }}
           />

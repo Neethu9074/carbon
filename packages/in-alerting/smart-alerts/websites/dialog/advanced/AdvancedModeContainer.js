@@ -7,11 +7,6 @@ import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
 
-import {
-  websitesAlertingAdditionalPropsAlertLevelChanged,
-  websitesAlertingAdditionalPropsDescriptionChanged,
-  websitesAlertingAdditionalPropsTriggerChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertPreview,
@@ -203,9 +198,6 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  trackAlertLevelChanged={websitesAlertingAdditionalPropsAlertLevelChanged}
-                  trackDescriptionChanged={websitesAlertingAdditionalPropsDescriptionChanged}
-                  trackTriggerChanged={websitesAlertingAdditionalPropsTriggerChanged}
                   renderAlertPopertiesTitleRow={() => (
                     <WebsiteAlertPropertiesTitleRow form={form} onChange={onChange} />
                   )}

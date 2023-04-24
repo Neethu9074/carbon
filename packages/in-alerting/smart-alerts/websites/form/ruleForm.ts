@@ -19,7 +19,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
+export default function createRuleForm(rule: WebsiteAlertRule): MapForm<any> {
   const alertType = rule.alertType as WebsitesAlertType;
 
   const baseForm = createBaseForm(rule);
@@ -38,7 +38,7 @@ export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
   }
 }
 
-function createBaseForm(rule: WebsiteAlertRule): MapForm {
+function createBaseForm(rule: WebsiteAlertRule): MapForm<any> {
   return createMapForm()
     .put(
       'alertType',
@@ -54,7 +54,7 @@ function createBaseForm(rule: WebsiteAlertRule): MapForm {
     );
 }
 
-function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule): MapForm {
+function extendForSlowness(baseForm: MapForm<any>, rule: WebsiteAlertRule): MapForm<any> {
   return baseForm.put(
     'aggregation',
     createField({
@@ -63,7 +63,10 @@ function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule): MapForm {
   );
 }
 
-function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }): MapForm {
+function extendForSpecificJsError(
+  baseForm: MapForm<any>,
+  rule: { operator?: TagFilterOperator; value?: string }
+): MapForm<any> {
   return baseForm
     .put(
       'operator',
@@ -92,9 +95,9 @@ function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilte
 }
 
 function extendForSpecificStatusCode(
-  baseForm: MapForm,
+  baseForm: MapForm<any>,
   rule: { operator?: TagFilterOperator; value?: string }
-): MapForm {
+): MapForm<any> {
   return baseForm
     .put(
       'operator',
@@ -111,7 +114,7 @@ function extendForSpecificStatusCode(
     );
 }
 
-function extendForCustomEvent(baseForm: MapForm, rule: { customEventName?: string }): MapForm {
+function extendForCustomEvent(baseForm: MapForm<any>, rule: { customEventName?: string }): MapForm<any> {
   return baseForm.put(
     'customEventName',
     createField({

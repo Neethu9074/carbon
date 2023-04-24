@@ -33,8 +33,8 @@ import { t } from 'in-i18n';
 import locals from './RequestResponseStep.mless';
 
 export interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   selectedBlueprint: BluePrint;
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
@@ -60,7 +60,7 @@ export default function RequestResponseStep({
   scriptErrors,
   setScriptErrors
 }: Props) {
-  const configForm = form.get('configuration') as MapForm;
+  const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const locations: LocationsResponse = useObservable<any, []>(() => getLocations(), []) || dummyLocations;

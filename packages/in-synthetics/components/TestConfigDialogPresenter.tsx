@@ -10,6 +10,7 @@ import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
 import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -41,11 +42,14 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [simpleMode, setSimpleMode] = useState(true);
   const [form, setForm] = useState(() => createForm());
-  const formId = 'create-synthetics-test-form';
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
+  const [testTypeSelected, setTestTypeSelected] = useState({ simple: false, script: false });
+  const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
+
+  const formId = 'create-synthetics-test-form';
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
@@ -69,7 +73,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     }
   ]);
 
-  function onSubmit(form: MapForm) {
+  function onSubmit(form: MapForm<any>) {
     setIsSubmitting(true);
     const testConfig = {
       active: true,
@@ -101,7 +105,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
    * form inputs. This can be achieved by disabling the proceed button on specific steps based on conditions
    */
   const isProceedDisabled = () => {
-    const configForm = form.get('configuration') as MapForm;
+    const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const labelField = form.get('label') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;
@@ -133,8 +137,43 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     onClose();
   };
 
+  const footer = simpleMode ? (
+    <DialogFooter
+      formId={formId}
+      form={form}
+      primaryActionText={
+        simpleModeStep === stepConfigs.length - 1
+          ? t('in-components:blueprintFormMultistep.buttonCreate')
+          : t('in-components:blueprintFormMultistep.buttonNext')
+      }
+      onSecondaryActionClick={() => onGoBack()}
+      secondaryActionText={
+        simpleModeStep === 0
+          ? t('in-components:blueprintFormMultistep.buttonCancel')
+          : t('in-components:blueprintFormMultistep.buttonBack')
+      }
+      primaryActionDisabled={isProceedDisabled()}
+      saving={isSubmitting}
+    />
+  ) : (
+    <FormFooter>
+      <CancelButton onClick={() => onClose()} />
+      <SaveButton
+        type="submit"
+        kind="primary"
+        formId={formId}
+        form={form}
+        isSaving={isSubmitting}
+        disabled={isSubmitting}
+      >
+        {t('in-components:blueprintFormMultistep.buttonCreate')}
+      </SaveButton>
+    </FormFooter>
+  );
+
   return (
     <DialogWithSlideInView
+      footer={footer}
       title={t('in-synthetics:dialog.createTest.dialogTitle')}
       slideInViewTitle={''}
       onSlideInViewTitleClick={() => {}}
@@ -157,7 +196,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                 resetScrollShadow();
               }}
             >
-              {t('in-synthetics:dialog.createTest.advancedMode.buttonContent')}
+              {t('in-synthetics:dialog.createTest.advancedMode.switchModeButton')}
             </Button>
           )}
         </>
@@ -179,23 +218,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setScriptErrors={setScriptErrors}
         simpleMode={simpleMode}
         setSliderState={setSliderState}
-      />
-      <DialogFooter
-        formId={formId}
-        form={form}
-        primaryActionText={
-          simpleModeStep === stepConfigs.length - 1 || !simpleMode
-            ? t('in-components:blueprintFormMultistep.buttonCreate')
-            : t('in-components:blueprintFormMultistep.buttonNext')
-        }
-        onSecondaryActionClick={() => onGoBack()}
-        secondaryActionText={
-          simpleModeStep === 0 || !simpleMode
-            ? t('in-components:blueprintFormMultistep.buttonCancel')
-            : t('in-components:blueprintFormMultistep.buttonBack')
-        }
-        primaryActionDisabled={simpleMode ? isProceedDisabled() : false}
-        saving={isSubmitting}
+        testTypeSelected={testTypeSelected}
+        setTestTypeSelected={setTestTypeSelected}
+        renderSectionsCounter={renderSectionsCounter}
+        setRenderSectionsCounter={setRenderSectionsCounter}
       />
     </DialogWithSlideInView>
   );

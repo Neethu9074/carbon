@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 import locals from './RolesSelector.mless';
 
 export interface Props {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (fieldName: string, value: string) => void;
 }
 

@@ -57,8 +57,8 @@ import locals from './SloFormComponent.mless';
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
 
 export interface FormComponentProps {
-  form: MapForm;
-  onChange: (path: string[], updater: (f: MapForm) => MapForm) => void;
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (f: MapForm<any>) => MapForm<any>) => void;
   setSlideInView: (view: SlideInViewConfig<'CREATE' | 'EDIT' | undefined>) => void;
 }
 
@@ -68,7 +68,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     if (!configChanged) {
       setConfigChanged(true);
     }
-    originalOnChange([], () => updatedForm as MapForm);
+    originalOnChange([], () => updatedForm as MapForm<any>);
   });
 
   const track = useSloWidgetTrackers();
@@ -98,8 +98,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       form.updateIn([timeWindowDurationUnit], f => (f as Field<TimeWindowDuration>).setValue(value).setTouched(true))
     );
   };
-  const dateField = (form.get(timeWindowStart) as MapForm)?.get('date') as Field<string>;
-  const timeField = (form.get(timeWindowStart) as MapForm)?.get('time') as Field<string>;
+  const dateField = (form.get(timeWindowStart) as MapForm<any>)?.get('date') as Field<string>;
+  const timeField = (form.get(timeWindowStart) as MapForm<any>)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
     track(SLI_MANAGEMENT_VIEW, { entityType: entityTypeValue });

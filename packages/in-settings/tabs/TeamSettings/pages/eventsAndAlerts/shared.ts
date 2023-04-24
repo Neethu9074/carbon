@@ -73,7 +73,7 @@ export function parseQuery(query: string | Nullish): QueryParsingResult {
   return { applyOn: scopeDfq };
 }
 
-export function serializeQuery(form: MapForm) {
+export function serializeQuery(form: MapForm<any>) {
   const applyOn = (form.get('applyOn') as Field<string>)?.value ?? null;
   const query = (form.get('query') as Field<string>)?.value ?? null;
   const applicationIds = (form.get('applicationIds') as Field<string[]>)?.value ?? null;

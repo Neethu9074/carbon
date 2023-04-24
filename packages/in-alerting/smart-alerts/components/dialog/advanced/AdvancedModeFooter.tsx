@@ -21,8 +21,8 @@ interface AdvancedModeFooterProps {
    * gets triggered after pressing submit, if there was an error while validating the form
    */
   scrollToFirstFormError: () => void;
-  form: MapForm;
-  setForm: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  setForm: (updatedForm: MapForm<any>) => void;
   isSaving?: boolean;
   editMode?: boolean;
   migrationMode?: boolean;

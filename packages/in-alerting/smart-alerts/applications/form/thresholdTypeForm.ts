@@ -20,8 +20,8 @@ import { AlertEvaluationType, ThresholdType, Granularity } from 'in-types';
 
 export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
-  form: MapForm,
-  updateForm: (form: MapForm) => void,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void,
   trackThresholdTypeChanged?: (trackingObject: object) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
@@ -29,7 +29,7 @@ export function onThresholdTypeChange(
 
   const rule = form.get('rule')!.toJS();
   const { alertType } = rule;
-  let newThresholdForm: MapForm = createThresholdForm(
+  let newThresholdForm: MapForm<any> = createThresholdForm(
     {
       ...form.get('threshold')!.toJS(),
       type: updatedThresholdType
@@ -58,11 +58,11 @@ export function onThresholdTypeChange(
 }
 
 function updateFormIfAdaptiveBaseline(
-  form: MapForm,
+  form: MapForm<any>,
   thresholdType: ThresholdType,
   granularity: Granularity,
   evaluationType: AlertEvaluationType
-): MapForm {
+): MapForm<any> {
   if (thresholdType != ADAPTIVE_BASELINE) {
     return form;
   }
@@ -82,6 +82,7 @@ function updateFormIfAdaptiveBaseline(
         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
       )
       // also adjust properties such as timeThreshold window size which depend on the used granularity
+      // @ts-expect-error ts cant determine nested paths of MapForm<any>
       .updateIn(['timeThreshold', 'timeWindow'], f =>
         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
       );

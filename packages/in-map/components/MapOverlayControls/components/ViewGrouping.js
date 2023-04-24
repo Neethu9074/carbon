@@ -24,9 +24,9 @@ import CustomHostGroupingDialog from 'in-map/components/MapOverlayControls/compo
 import MapButtonGroup from 'in-map/components/MapOverlayControls/components/MapButtonGroup';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { view$, types } from 'in-infrastructure/perspectives';
-import { getView } from 'in-stores/navigation/navigation';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -44,39 +44,36 @@ export default function ViewGrouping() {
   );
 }
 
-const ViewGroupingMenu = connectTo(
-  {
-    view: view$
-  },
-  function ViewGroupingMenu({ view }) {
-    return (
-      <div className={block}>
-        <div className={`${block}__left`}>
-          <h3 className={`${block}__heading`}>{t('in-map:perspective')}</h3>
-          <MapButtonGroup>
-            <Button
-              kind={view === types.physical ? 'primaryv2' : 'info'}
-              size="compact"
-              href$={getView(physicalPath)}
-              className={`${block}__button`}
-            >
-              {t('in-map:host')}
-            </Button>
-            <Button
-              kind={view === types.container ? 'primaryv2' : 'info'}
-              size="compact"
-              href$={getView(containerPath)}
-              className={`${block}__button`}
-            >
-              {t('in-map:container')}
-            </Button>
-          </MapButtonGroup>
-        </div>
-        <MenuContent />
+function ViewGroupingMenu() {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  return (
+    <div className={block}>
+      <div className={`${block}__left`}>
+        <h3 className={`${block}__heading`}>{t('in-map:perspective')}</h3>
+        <MapButtonGroup>
+          <Button
+            kind={matchLocation(physicalPath) ? 'primaryv2' : 'info'}
+            size="compact"
+            href={createHrefToPath(physicalPath)}
+            className={`${block}__button`}
+          >
+            {t('in-map:host')}
+          </Button>
+          <Button
+            kind={matchLocation(containerPath) ? 'primaryv2' : 'info'}
+            size="compact"
+            href={createHrefToPath(containerPath)}
+            className={`${block}__button`}
+          >
+            {t('in-map:container')}
+          </Button>
+        </MapButtonGroup>
       </div>
-    );
-  }
-);
+      <MenuContent />
+    </div>
+  );
+}
 
 const availableGroupings$ = view$.map(view => {
   const groupings = availableGroupings[view].slice(0);

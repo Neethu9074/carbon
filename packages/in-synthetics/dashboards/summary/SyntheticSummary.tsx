@@ -17,7 +17,6 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
-import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
@@ -67,11 +66,9 @@ export default function SyntheticSummaryDashboard() {
         })}
       />
       <Footer />
-      {syntheticCreateSmartAlertsUIEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert testId={testId} />
-        </FloatingActionButtons>
-      )}
+      <FloatingActionButtons>
+        <CreateSmartAlert testId={testId} />
+      </FloatingActionButtons>
     </>
   );
 }

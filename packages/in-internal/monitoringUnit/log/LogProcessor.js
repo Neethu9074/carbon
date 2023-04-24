@@ -58,12 +58,7 @@ export default connectTo(
     }
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
-    const labels = rows.map(r =>
-      r.host
-        .get('label')
-        .replace('.instana.io', '')
-        .replace('ip-', '')
-    );
+    const labels = rows.map(r => r.host.get('label').replace('.instana.io', '').replace('ip-', ''));
 
     return (
       <div>
@@ -373,7 +368,47 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
-
+        <Columize>
+          <DashboardSection title={t(`in-internal:monitoringUnit.log.processor.incoming.docker`)}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.docker_logs.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={t(`in-internal:monitoringUnit.log.processor.incoming.action`)}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.action_logs.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={t(`in-internal:monitoringUnit.log.processor.incoming.opentelemetry`)}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.opentelemetry_logs.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
         <DashboardSection
           title={t('in-internal:monitoringUnit.log.processor.instances', {
             length: rows.length

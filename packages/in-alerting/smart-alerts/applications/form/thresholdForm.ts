@@ -27,7 +27,7 @@ export const defaultDeviationFactor = 3;
 export default function createThresholdForm(
   threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
   alertType: ApplicationAlertType
-): MapForm {
+): MapForm<any> {
   if (!threshold) {
     return createBaselineEnabledForm();
   }
@@ -41,14 +41,14 @@ export default function createThresholdForm(
   }
 }
 
-function createAdaptiveOrStaticThresholdForm(threshold: ThresholdConfig): MapForm {
+function createAdaptiveOrStaticThresholdForm(threshold: ThresholdConfig): MapForm<any> {
   if (isAdaptiveBaselineData(threshold)) {
     return createAdaptiveBaselineForm(threshold);
   }
   return createStaticThresholdForm(threshold as StaticThresholdConfig);
 }
 
-function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
+function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
   if (!threshold || isStaticThresholdConfig(threshold)) {
     return createStaticThresholdForm(threshold);
   }
@@ -64,7 +64,7 @@ function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
 
-function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm {
+function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<any> {
   return createBaseForm(threshold).put(
     'value',
     createField({
@@ -84,7 +84,7 @@ function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm {
   );
 }
 
-function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm {
+function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm<any> {
   return createBaseForm(threshold)
     .put(
       'seasonality',
@@ -138,7 +138,7 @@ function createBaseForm(threshold?: {
   type?: ThresholdType;
   operator?: ThresholdOperator;
   lastUpdated?: number;
-}): MapForm {
+}): MapForm<any> {
   return createMapForm()
     .put(
       'type',

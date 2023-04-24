@@ -4,4 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-export default [];
+export default [
+  // Metric definitions for this plugin are only defined in the backend.
+  // The these backend metric definitions will become the ground truth, and generally replace definitions in the UI.
+];

@@ -25,8 +25,8 @@ import { t } from 'in-i18n';
 
 interface CreateSliFormProps<SLI_TYPE extends SliType> {
   entityType: SLI_TYPE;
-  form: MapForm;
-  updateForm: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (updatedForm: MapForm<any>) => void;
   setFooter: (footer: React.ReactNode) => void;
   close: () => void;
   children: React.ReactNode;

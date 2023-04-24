@@ -29,7 +29,7 @@ import locals from 'in-alerting/smart-alerts/synthetics/components/ConfigureAler
 export const limitForConnectedAlertTests = 100;
 
 export interface ConfigureAlertChannelProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
@@ -43,7 +43,7 @@ export default function ConfigureAlertTest({
   setCustomSlideInHeaderConfig,
   numberOfAlertTestListRows = 5
 }: ConfigureAlertChannelProps) {
-  const getSelectedTests = createMemoizedObservableForReferencedEntities(function(alertTestIds) {
+  const getSelectedTests = createMemoizedObservableForReferencedEntities(function (alertTestIds) {
     return getTestsAsResultObservable('')
       .map((result: Result<SyntheticTest[]> | null) => {
         if (result == null) {
@@ -104,7 +104,7 @@ export default function ConfigureAlertTest({
 }
 
 export interface SelectListDialogContentProps {
-  form: MapForm;
+  form: MapForm<any>;
   onSubmit: (selectedIds: string[]) => void;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
@@ -173,7 +173,7 @@ function SelectListDialogContent({
 }
 
 function alertTestSelectionTableActions(
-  form: MapForm,
+  form: MapForm<any>,
   onChange: (path: string[], updater: (item: Item) => Item) => void
 ) {
   return {

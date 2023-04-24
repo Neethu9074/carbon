@@ -49,9 +49,8 @@ export default function ConfigureAssociatedActionsDialog({
   eventSpecification,
   savingError
 }: ConfigureAssociatedActionsDialogContentProps) {
-  const [slideInViewVisible, setSlideInViewVisible] = useState<
-    ConfigureAssociatedActionsDialogContentState['slideInViewVisible']
-  >(false);
+  const [slideInViewVisible, setSlideInViewVisible] =
+    useState<ConfigureAssociatedActionsDialogContentState['slideInViewVisible']>(false);
 
   return (
     <DialogWithSlideInView
@@ -117,7 +116,7 @@ function StaticContent({
   eventSpecification
 }: StaticContentProps) {
   return (
-    <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
+    <Form form={form} setForm={form => setForm(form as MapForm<any>)} formId={formId} onSubmit={onSubmit}>
       <div className={locals.dialog}>
         {savingError && (
           <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>

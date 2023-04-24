@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Field } from 'formalistic';
-
 import { createForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 
 describe('in-custom-dashboards/widgets/TimeZones/form.ts', () => {
   describe('create form', () => {
     it('create timezone form without saved state', () => {
       const listForm = createForm(undefined);
-      const timeZone = (listForm.getIn(['0', 'timeZone']) as Field<string>).value;
-      const label = (listForm.getIn(['0', 'label']) as Field<string>).value;
+      const timeZone = listForm.getIn([0, 'timeZone']).value;
+      const label = listForm.getIn([0, 'label']).value;
 
       expect(timeZone).toBe('UTC');
       expect(label).toBe('');
@@ -26,18 +24,18 @@ describe('in-custom-dashboards/widgets/TimeZones/form.ts', () => {
         }
       ]);
 
-      const timeZone = (listForm.getIn(['0', 'timeZone']) as Field<string>).value;
-      const label = (listForm.getIn(['0', 'label']) as Field<string>).value;
+      const timeZone = listForm.getIn([0, 'timeZone']).value;
+      const label = listForm.getIn([0, 'label']).value;
 
       expect(timeZone).toBe('UTC');
       expect(label).toBe('');
 
-      const newListForm = listForm.updateIn(['0', 'timeZone'], item => {
-        const newItem = item as Field<string>;
+      const newListForm = listForm.updateIn([0, 'timeZone'], item => {
+        const newItem = item;
         return newItem.setValue('');
       });
 
-      const secondTimeZone = (newListForm.getIn(['0', 'timeZone']) as Field<string>).valid;
+      const secondTimeZone = newListForm.getIn([0, 'timeZone']).valid;
 
       expect(secondTimeZone).toBeFalsy();
     });

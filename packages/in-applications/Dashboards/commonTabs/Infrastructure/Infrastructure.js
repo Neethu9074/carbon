@@ -17,7 +17,14 @@ import {
   getPodDashboard,
   getServiceDashboard
 } from 'in-kubernetes/navigation/paths';
-import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  openstackEnabled,
+  phmcEnabled,
+  zhmcEnabled,
+  sapEnabled
+} from 'in-services/featureFlags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -30,6 +37,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
+import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -291,6 +299,30 @@ function WithPhmcPhysicalContext({ children, phmc }) {
   );
 }
 
+function WithSapPhysicalContext({ children, sap }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {sap && (
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+              values={{ entityLabel: sap.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_sap" />,
+                entityLink: (
+                  <Link className={locals.entityLink} href$={sapEnabled ? getAbapSystemDashboard(sap.id) : null} />
+                )
+              }}
+            />
+          </Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function WithZhmcPhysicalContext({ children, zhmc }) {
   const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
 
@@ -460,7 +492,7 @@ function hasSomeClusterTechnologies(entity) {
     return false;
   }
 
-  return entity.technologies.some(function(technology) {
+  return entity.technologies.some(function (technology) {
     return isClusterTechnology(technology);
   });
 }
@@ -470,7 +502,7 @@ function hasSomeNonClusterTechnologies(entity) {
     return true;
   }
 
-  return entity.technologies.some(function(technology) {
+  return entity.technologies.some(function (technology) {
     return !isClusterTechnology(technology);
   });
 }
@@ -619,6 +651,9 @@ function getColumnDefinitions(type) {
         }
         if (item.physicalContext.phmc) {
           return <WithPhmcPhysicalContext {...item.physicalContext.phmc}>{link}</WithPhmcPhysicalContext>;
+        }
+        if (item.physicalContext.sap) {
+          return <WithSapPhysicalContext {...item.physicalContext.sap}>{link}</WithSapPhysicalContext>;
         }
         if (item.physicalContext.zhmc) {
           return <WithZhmcPhysicalContext {...item.physicalContext.zhmc}>{link}</WithZhmcPhysicalContext>;

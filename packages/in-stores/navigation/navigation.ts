@@ -31,6 +31,9 @@ history.listen(location => {
 
 export type LocationMutator = (location: Location) => void;
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function mutateUrl(mutator: LocationMutator, replace = false) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneLocation(currentLocation);
@@ -46,6 +49,9 @@ export function mutateUrl(mutator: LocationMutator, replace = false) {
   });
 }
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function getModifiedUrl(currentLocation: Location, modifyLocation: LocationMutator): string {
   const newLocation = cloneLocation(currentLocation);
   modifyLocation(newLocation);
@@ -53,14 +59,23 @@ export function getModifiedUrl(currentLocation: Location, modifyLocation: Locati
   return '/#' + stringify(newLocation);
 }
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function getModifiedUrlStream(modifyLocation: LocationMutator) {
   return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
 }
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function goToPath(path: string) {
   mutateUrl(location => (location.pathname = path));
 }
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function getView(path: string) {
   return getModifiedUrlStream((location: Location) => {
     // checks the current and next path if navigating into another area.
@@ -69,6 +84,9 @@ export function getView(path: string) {
   });
 }
 
+/**
+ * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
+ */
 export function isView(...args: IsViewArg[]) {
   const predicates = args.reduce((agg, arg) => {
     if (typeof arg === 'function') {

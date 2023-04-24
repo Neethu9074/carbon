@@ -80,6 +80,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'sapEnabled',
+    instanaCtlKey: 'feature.sap.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false
@@ -245,6 +250,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticBrowserCreateTestEnabled',
+    instanaCtlKey: 'feature.synthetic.browser.create.test.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'syntheticCreateTestAdvanceModeEnabled',
     instanaCtlKey: 'feature.synthetic.create.test.advance.mode.enabled',
     defaultValue: false
@@ -252,16 +262,6 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticSmartAlertsEnabled',
     instanaCtlKey: 'feature.synthetic.smart.alerts.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticSmartAlertsDetailsEnabled',
-    instanaCtlKey: 'feature.synthetic.smart.alerts.details.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticCreateSmartAlertsUIEnabled',
-    instanaCtlKey: 'feature.synthetic.create.smart.alerts.ui.enabled',
     defaultValue: false
   },
   {
@@ -332,6 +332,11 @@ module.exports = exports = [
   {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
+    instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
   },
   {

@@ -5,7 +5,7 @@
  */
 
 import React, { ReactNode } from 'react';
-import { MapForm } from 'formalistic';
+import { MapForm, MapFormItems } from 'formalistic';
 
 import ConfigDialogFooter, { ConfigDialogFooterProps } from 'in-settings/components/ConfigDialog/ConfigDialogFooter';
 import DialogWithSlideInView, { DialogWithSlideInViewProps } from 'in-components/Dialog/DialogWithSlideInView';
@@ -20,22 +20,22 @@ export interface SubSlideConfig {
   content?: ReactNode;
 }
 
-export interface ConfigDialogProps
+export interface ConfigDialogProps<FORM_TYPE extends MapFormItems>
   extends Pick<DialogWithSlideInViewProps, 'title'>,
-    Pick<ConfigDialogFooterProps, 'onClickSave' | 'onClickCancel' | 'isSaving' | 'disabledSaveButton'> {
+    Pick<ConfigDialogFooterProps<FORM_TYPE>, 'onClickSave' | 'onClickCancel' | 'isSaving' | 'disabledSaveButton'> {
   navItems: Array<NavItem>;
   subSlideConfig?: SubSlideConfig;
-  form?: MapForm;
+  form?: MapForm<FORM_TYPE>;
   formId?: string;
   messages?: MessageType[];
   showSubSlide?: boolean;
   noHeader?: boolean;
   noDivider?: boolean;
-  onSubmit?: (form?: MapForm) => void;
+  onSubmit?: (form?: MapForm<FORM_TYPE>) => void;
   onCloseSubSlide?: VoidFunction;
 }
 
-export default function ConfigDialog({
+export default function ConfigDialog<FORM_TYPE extends MapFormItems>({
   form,
   formId,
   messages,
@@ -51,7 +51,7 @@ export default function ConfigDialog({
   onClickSave,
   onSubmit,
   onCloseSubSlide
-}: ConfigDialogProps) {
+}: ConfigDialogProps<FORM_TYPE>) {
   return (
     <DialogWithSlideInView
       title={title}
@@ -59,6 +59,7 @@ export default function ConfigDialog({
       slideInViewComponent={subSlideConfig?.content}
       slideInViewTitle={subSlideConfig?.title}
       onSlideInViewTitleClick={onCloseSubSlide}
+      onClose={onClickCancel}
       footer={
         <ConfigDialogFooter
           form={form}

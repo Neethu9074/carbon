@@ -63,22 +63,24 @@ function GetK8sClusterItemCounters({ snapshotId, timeConfig, metric }: MetricsPa
   return <>{r?.data?.[metric as keyof KubernetesClusterItemCounters]}</>;
 }
 
-export function ClusterRow({ item }: KubernetesListItemWithCursor) {
+export function ClusterRow({
+  item: { snapshotId, clusterLabel, clusterDistribution, label }
+}: KubernetesListItemWithCursor) {
   const timeConfig = useTimeConfig();
-  let nodeCount = GetMetrics({ snapshotId: item.snapshotId, metric: 'nodes.count', timeConfig });
-  let podCount = GetMetrics({ snapshotId: item.snapshotId, metric: 'pods.count', timeConfig });
-  let nameSpaceCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'namespaces', timeConfig });
-  let appWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'appWorkloads', timeConfig });
-  let batchWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'cronJobs', timeConfig });
-  let serviceCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'services', timeConfig });
+  let nodeCount = GetMetrics({ snapshotId, metric: 'nodes.count', timeConfig });
+  let podCount = GetMetrics({ snapshotId, metric: 'pods.count', timeConfig });
+  let nameSpaceCount = GetK8sClusterItemCounters({ snapshotId, metric: 'namespaces', timeConfig });
+  let appWorkloadCount = GetK8sClusterItemCounters({ snapshotId, metric: 'appWorkloads', timeConfig });
+  let batchWorkloadCount = GetK8sClusterItemCounters({ snapshotId, metric: 'cronJobs', timeConfig });
+  let serviceCount = GetK8sClusterItemCounters({ snapshotId, metric: 'services', timeConfig });
   return (
-    <Li key={item.snapshotId} roundShadow toggleContentOnRowClick>
+    <Li roundShadow toggleContentOnRowClick>
       <div className={locals.list}>
         <div className={locals.label}>
-          <WithIcon icon={`lib_${item.clusterDistribution}`}>
+          <WithIcon icon={`lib_${clusterDistribution}`}>
             <KeyValue
               label={t('in-kubernetes:dashboards.name')}
-              value={<a href={'#/kubernetes/cluster;clusterId=' + item.snapshotId + '/summary'}>{item.label}</a>}
+              value={<a href={'#/kubernetes/cluster;clusterId=' + snapshotId + '/summary'}>{clusterLabel || label}</a>}
               accentuated
             />
           </WithIcon>

@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
 import ProfileMarker from './ProfileMarker';
@@ -22,6 +24,7 @@ import locals from './ProfilesLane.mless';
 export default function ProfilesLane(props) {
   const clusteredProfiles = useClusteredTimestamps(props.chartWidth, props.timeConfig, props.profileTimestamps);
   const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
+  const { location, createHref } = useNavigation();
 
   return (
     <MarkerLane
@@ -37,14 +40,14 @@ export default function ProfilesLane(props) {
         color: theme.lib.colors.N700Medium
       }}
       color={theme.lib.colors.N700Medium}
-      getHref$={({ from, to }) =>
-        getModifiedUrlStream(params => {
-          if (highlightedTimeframe && highlightedTimeframe[0] === from && highlightedTimeframe[1] === to) {
-            return addOrDeleteHighlightedTimeframeToParams(params);
-          }
-          addOrDeleteHighlightedTimeframeToParams(params, from, to);
-        })
-      }
+      getHref$={({ from, to }) => {
+        if (highlightedTimeframe && highlightedTimeframe[0] === from && highlightedTimeframe[1] === to) {
+          addOrDeleteHighlightedTimeframeToParams(location);
+        } else {
+          addOrDeleteHighlightedTimeframeToParams(location, from, to);
+        }
+        return just(createHref(location));
+      }}
       tooltipContent={TooltipContent}
       LaneItem={SingleMarkerLaneItem}
       HoverOverlay={HoverClusterArea}

@@ -7,8 +7,17 @@
 import { Item } from 'formalistic';
 import React from 'react';
 
-import { AggregationType, Cursor, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
-import { AggregationType, Group, MetricDescription, Result } from '@instana/types/typeDefinitions';
+import {
+  AggregationType,
+  Cursor,
+  TagFilter,
+  TagFilterExpression,
+  TimeConfig,
+  TagFilterExpressionElementUnion,
+  Group,
+  MetricDescription,
+  Result
+} from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
@@ -16,14 +25,13 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { GetLogGroupsResponse } from 'in-logging/subscriptions/getLogGroups';
-import { TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { UrlState } from 'in-synthetics/utils/constants';
 import { Options } from 'in-hooks/useUrlState';
 
-export type Facets = Record<unknown, unknown>;
+export type Facets = Record<string, unknown[]>;
 
 type Direction = 'ASC' | 'DESC';
 

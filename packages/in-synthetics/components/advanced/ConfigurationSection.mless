@@ -8,16 +8,41 @@
 
 :local {
   .configContainer {
-    > div {
-      margin-bottom: 4%;
-    }
+    border: 1px solid @lib__colors__N300;
+    padding: 10px;
+    margin-bottom: 2%;
   }
 
   .descriptionInput {
     flex: 1;
+    .validationsBtn {
+      padding-left: 0;
+    }
   }
 
   .statusBox {
     width: 20%;
+    font-weight: 600;
+  }
+
+  .validationsBtn {
+    padding-left: 0;
+  }
+
+  .configCheckbox {
+    width: 50%;
+  }
+
+  .deleteAction {
+    display: flex;
+    align-items: center;
+  }
+
+  .deleteHeader {
+    height: 4.5rem;
+  }
+
+  .deleteValidation {
+    height: 2rem;
   }
 }

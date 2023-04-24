@@ -11,8 +11,7 @@ import { DistinctSlider, SvgIcon } from '@instana/components';
 
 import {
   AlertConfigDialogPresenterProps,
-  MainDialogControl,
-  SlideInConfig
+  MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
@@ -21,7 +20,11 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleModeDialogThreshold(
-  props: AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
+  props: AlertConfigDialogPresenterProps &
+    MainDialogControl & {
+      subtitle?: string;
+      subTitleToolTipText?: string;
+    }
 ) {
   const formatLabel = (value: number) =>
     t('in-alerting:smartAlerts.synthetics.simple.slider.failuresWithCount', {
@@ -30,7 +33,7 @@ export default function SimpleModeDialogThreshold(
 
   const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: value }));
   const { form, updateForm, subtitle, subTitleToolTipText } = props;
-  const timeThresholdForm = form.get('timeThreshold') as MapForm;
+  const timeThresholdForm = form.get('timeThreshold') as MapForm<any>;
   const violationsCount = (timeThresholdForm.get('violationsCount') as Field<number>).value;
 
   function onChangeViolationsInPeriod(_event: Event, value: number | number[]) {
@@ -44,7 +47,7 @@ export default function SimpleModeDialogThreshold(
           {subtitle}
           {subTitleToolTipText && (
             <Tooltip align="bottomMiddle" content={subTitleToolTipText}>
-              <SvgIcon type="lib_help_error_error_outline" color={theme.lib.colors.N600Light} />
+              <SvgIcon type="lib_help_error_help_outline" color={theme.lib.colors.N600Light} />
             </Tooltip>
           )}
         </div>

@@ -257,11 +257,15 @@ export const nonServicePlugins = {
   springbootApplicationContainer: 'springbootApplicationContainer',
   statsd: 'statsd',
   sybase: 'sybase',
+  syntheticPoP: 'syntheticPoP',
   tanzuFoundation: 'tanzuFoundation',
   tanzuFoundationMember: 'tanzuFoundationMember',
   tibcoEMS: 'tibcoEMS',
   tomcatApplicationContainer: 'tomcatApplicationContainer',
   traefik: 'traefik',
+  tuxedoDomain: 'tuxedoDomain',
+  tuxedoMachine: 'tuxedoMachine',
+  tuxedoServer: 'tuxedoServer',
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   vault: 'vault',
@@ -281,7 +285,17 @@ export const nonServicePlugins = {
   zOS: 'zOS',
   zDb2: 'zDb2',
   zCics: 'zCics',
-  zIms: 'zIms'
+  zIms: 'zIms',
+  abapInstance: 'abapInstance',
+  abapSystem: 'abapSystem',
+  sapDbms: 'sapDbms',
+  sapHost: 'sapHost',
+  sapDbInstance: 'sapDbInstance',
+  sapDbTenant: 'sapDbTenant',
+  sapHanaPlatform: 'sapHanaPlatform',
+  sapJavaInstance: 'sapJavaInstance',
+  sapJavaSystem: 'sapJavaSystem',
+  sapHanaSystem: 'sapHanaSystem'
 };
 
 export const applicationPlugins = {
@@ -583,11 +597,15 @@ export const fullyQualifiedPlugins = {
   sparkStandalone: 'com.instana.forge.infrastructure.dataanalytics.sparkstandalone.SparkStandalone',
   statsd: 'com.instana.forge.common.Statsd',
   sybase: 'com.instana.forge.infrastructure.database.sybase.Sybase',
+  syntheticPoP: 'com.instana.forge.infrastructure.synthetic.pop.SyntheticPoP',
   tanzuFoundation: 'com.instana.forge.infrastructure.paas.cloudfoundry.tanzu_foundation.TanzuFoundation',
   tanzuFoundationMember: 'com.instana.forge.infrastructure.paas.cloudfoundry.tanzu_foundation.TanzuFoundationMember',
   tibcoEMS: 'com.instana.forge.infrastructure.messaging.tibcoems.TibcoEMS',
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   traefik: 'com.instana.forge.infrastructure.loadbalancer.traefik.Traefik',
+  tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
+  tuxedoMachine: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.machine.TuxedoMachine',
+  tuxedoServer: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.server.TuxedoServer',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   vault: 'com.instana.forge.infrastructure.database.vault.Vault',
@@ -610,7 +628,17 @@ export const fullyQualifiedPlugins = {
   zOS: 'com.instana.forge.ibm.ibmz.os.ZOS',
   zDb2: 'com.instana.forge.ibm.ibmz.db2.ZDb2',
   zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics',
-  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms'
+  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms',
+  abapInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.abapinstance.AbapInstance',
+  abapSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.abapsystem.ABAPSystem',
+  sapDbms: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbms.SAPDbms',
+  sapDbInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbinstance.SAPDbInstance',
+  sapDbTenant: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapdbtenant.SAPDbTenant',
+  sapHost: 'com.instana.forge.infrastructure.paas.sap.SAPHost',
+  sapHanaPlatform: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphana.SapHanaPlatform',
+  sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
+  sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
+  sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

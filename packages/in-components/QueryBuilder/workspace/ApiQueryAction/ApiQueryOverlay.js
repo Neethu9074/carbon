@@ -5,10 +5,10 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Toggle } from '@instana/components';
+import { KeyValue, Toggle, Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CodeComponent from 'in-components/Code';
 import Tooltip from 'in-components/Tooltip';
@@ -24,7 +24,9 @@ export default function ApiQueryOverlay({
   order,
   pagination,
   groupBy,
-  metrics
+  metrics,
+  endpointUrl,
+  docsLink
 }) {
   useDisabledBodyScroll();
   const [includeFacets, setIncludeFacets] = useState(backendQueryModelWithFacets != null);
@@ -33,16 +35,27 @@ export default function ApiQueryOverlay({
     timeFrame,
     tagFilterExpression: backendQueryModel,
     pagination,
-    ...(groupBy[0] != null ? { groupBy: groupBy } : {}),
     type,
     metrics,
-    order
+    order,
+    ...(groupBy != undefined && groupBy[0] != null ? { groupBy: groupBy } : {})
   };
 
   const jsonString = JSON.stringify(model, 0, 2);
 
+  const curl =
+    'curl -XPOST ' +
+    endpointUrl +
+    " -H 'Content-Type: application/json'" +
+    " -H 'authorization: apiToken xxxxxxxxxxxxx' -d '" +
+    jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
+    "'";
+
+  const tabList = [{ text: 'curl' }, { text: 'JSON tree' }];
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+
   return (
-    <div>
+    <div className={locals.apiQuery}>
       <HorizontalFlexWrapper className={locals.header}>
         <KeyValue
           inverted
@@ -50,11 +63,27 @@ export default function ApiQueryOverlay({
           label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
-        <CopyToClipboardButton kind="action" getText={() => jsonString} />
+        {docsLink && (
+          <Link href={docsLink} target="_blank">
+            {t('in-components:queryBuilder.documentation')}
+          </Link>
+        )}
       </HorizontalFlexWrapper>
-      <div className={locals.content}>
-        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} withoutCopyButton />
-      </div>
+      {docsLink != undefined ? (
+        <div className={locals.content}>
+          <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
+          {activeTabIndex == 0 ? (
+            <CodeComponent code={curl} lang="java" softWrap="true" />
+          ) : (
+            <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+          )}
+        </div>
+      ) : (
+        <div className={locals.content}>
+          <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        </div>
+      )}
+
       {backendQueryModelWithFacets != null && (
         <div className={locals.toggleWrapper}>
           <Toggle

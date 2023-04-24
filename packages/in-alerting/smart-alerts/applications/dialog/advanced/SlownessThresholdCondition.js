@@ -7,12 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  applicationsAlertingThresholdAggregationChanged,
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged,
-  applicationsAlertingThresholdValueChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
   getAggregationLabel,
   getAggregationValue,
   getConfiguredThreshold,
@@ -27,7 +21,6 @@ import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -67,21 +60,14 @@ export default function SlownessThresholdCondition({
               items={getAggregationOptions(form)}
               onChange={value => {
                 updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
-
-                applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));
               }}
             />
-            <ThresholdOperatorDropDown
-              form={form}
-              updateForm={updateForm}
-              trackingCallback={applicationsAlertingThresholdOperatorChanged}
-            />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
             <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}
               editMode={editMode}
               thresholdTypeOptions={thresholdTypeOptions}
-              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}
               blueprintType={blueprintType}
               showThresholdsHint
@@ -98,17 +84,11 @@ export default function SlownessThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}
           isGlobalSmartAlert={isGlobalSmartAlert}
-          trackChange={applicationsAlertingThresholdValueChanged}
         />
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={applicationsAlertingThresholdTypeChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

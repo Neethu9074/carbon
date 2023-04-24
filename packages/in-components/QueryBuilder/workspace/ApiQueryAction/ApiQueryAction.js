@@ -20,14 +20,27 @@ export default function ApiQueryAction({
   groupBy,
   metrics,
   pagination,
-  tracking
+  tracking,
+  endpointUrl,
+  docsLink
 }) {
   return (
     <Overlay
       withoutWrapper
       align="bottomMiddle"
       content={ApiQueryOverlay}
-      props={{ backendQueryModel, backendQueryModelWithFacets, timeFrame, type, order, groupBy, metrics, pagination }}
+      props={{
+        backendQueryModel,
+        backendQueryModelWithFacets,
+        timeFrame,
+        type,
+        order,
+        groupBy,
+        metrics,
+        pagination,
+        endpointUrl,
+        docsLink
+      }}
     >
       {({ toggle, refSetter }) => (
         <Action
@@ -57,6 +70,8 @@ ApiQueryAction.propTypes = {
   groupBy: rpt.array,
   metrics: rpt.array,
   pagination: rpt.object,
+  endpointUrl: rpt.string,
+  docsLink: rpt.string,
   tracking: rpt.shape({
     onClick: rpt.func
   })

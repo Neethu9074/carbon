@@ -16,13 +16,14 @@ import { t } from 'in-i18n';
 
 export const WebsiteSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { areaColumnHeadline } = getAreaData({ area: ProductArea.WEBSITE, permissionsSet });
+  const { areaColumnHeadline, isDisabled } = getAreaData({ area: ProductArea.WEBSITE, permissionsSet });
 
   return (
     <AreaExpandableListItem
       iconType="lib_website_inverted"
       firstColumnHeadline={areaColumnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.website')}
+      firstColumnLabel={t('in-settings:productAreas.title_websites')}
+      disabled={isDisabled}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allWebsites')}</Typography>
     </AreaExpandableListItem>

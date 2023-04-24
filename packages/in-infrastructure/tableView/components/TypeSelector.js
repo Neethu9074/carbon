@@ -27,7 +27,8 @@ const physicalDomains = {
   lxc: t('in-infrastructure:tableView.physicalDomains.lxc'),
   nodejs: t('in-infrastructure:tableView.physicalDomains.nodejs'),
   ping: t('in-infrastructure:tableView.physicalDomains.ping'),
-  process: t('in-infrastructure:tableView.physicalDomains.process')
+  process: t('in-infrastructure:tableView.physicalDomains.process'),
+  syntheticPoP: t('in-infrastructure:tableView.physicalDomains.syntheticPoP')
 };
 
 export default connectTo(

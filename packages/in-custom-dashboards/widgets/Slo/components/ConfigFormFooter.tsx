@@ -11,7 +11,7 @@ import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFoo
 import { t } from 'in-i18n';
 
 interface ConfigFormFooterProps {
-  form: MapForm;
+  form: MapForm<any>;
   formId: string;
   onCancel: VoidFunction;
   cloneOnly?: boolean;

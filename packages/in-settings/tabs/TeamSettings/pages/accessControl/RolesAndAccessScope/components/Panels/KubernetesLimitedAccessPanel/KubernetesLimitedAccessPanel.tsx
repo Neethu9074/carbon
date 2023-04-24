@@ -6,23 +6,43 @@
 
 import React from 'react';
 
-import { Button, Stack, StackItem, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
+import { Stack, StackItem, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import KubernetesNamespacesTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesNamespacesTable';
-import KubernetesClustersTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesClustersTable';
+import KubernetesAddEntityButton from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesAddEntityButton';
+import KubernetesEntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesEntityTable';
+import { KubernetesEntityType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/utils';
+import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
+import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { noop } from 'in-services/fixedObjects';
+import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
+import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './KubernetesLimitedAccessPanel.mless';
+import { MapFormItems } from 'formalistic';
+
+/**
+ * Props for configuring this instance of the component
+ */
+interface Props<FORM_TYPE extends MapFormItems>
+  extends FormControlProps<FORM_TYPE>,
+    SlideControlProps<SubSlideConfig> {}
 
 /**
  * Actual component
+ * @param param0 props
  * @returns current instance
  */
-export default function _KubernetesLimitedAccessPanel({ form, setForm }: FormControlProps) {
+export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormItems>({
+  form,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: Props<FORM_TYPE>) {
+  const timeConfig = useTimeConfig();
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 
@@ -44,11 +64,22 @@ export default function _KubernetesLimitedAccessPanel({ form, setForm }: FormCon
         </div>
       </StackItem>
       <StackItem>
-        <Button kind="action" onClick={noop} icon="lib_openclose_add_circle_outline" disabled>
-          {t('in-settings:PermissionSection.limitedAccessKubernetes_addNamespace')}
-        </Button>
+        <KubernetesAddEntityButton
+          addButtonLabel={t('in-settings:PermissionSection.limitedAccessKubernetes_addNamespace')}
+          entityType={KubernetesEntityType.Namespace}
+          form={form}
+          setForm={setForm}
+          observable={() => getAllKubernetesNamespacesForEntitySelectionWithDefaults({ timeConfig })}
+          setSubSlideConfig={setSubSlideConfig}
+          setShowSubSlide={setShowSubSlide}
+        />
       </StackItem>
-      <KubernetesNamespacesTable form={form} setForm={setForm} />
+      <KubernetesEntityTable
+        entityType={KubernetesEntityType.Namespace}
+        form={form}
+        observable={() => getAllKubernetesNamespacesForEntitySelectionWithDefaults({ timeConfig })}
+        setForm={setForm}
+      />
       <StackItem>
         <div className={locals.contentHeader}>
           <Typography variant="body-bold" component="div">
@@ -57,11 +88,22 @@ export default function _KubernetesLimitedAccessPanel({ form, setForm }: FormCon
         </div>
       </StackItem>
       <StackItem>
-        <Button kind="action" onClick={noop} icon="lib_openclose_add_circle_outline" disabled>
-          {t('in-settings:PermissionSection.limitedAccessKubernetes_addCluster')}
-        </Button>
+        <KubernetesAddEntityButton
+          addButtonLabel={t('in-settings:PermissionSection.limitedAccessKubernetes_addCluster')}
+          entityType={KubernetesEntityType.Cluster}
+          form={form}
+          setForm={setForm}
+          observable={() => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig })}
+          setSubSlideConfig={setSubSlideConfig}
+          setShowSubSlide={setShowSubSlide}
+        />
       </StackItem>
-      <KubernetesClustersTable form={form} setForm={setForm} />
+      <KubernetesEntityTable
+        entityType={KubernetesEntityType.Cluster}
+        form={form}
+        observable={() => getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig })}
+        setForm={setForm}
+      />
     </Stack>
   );
 }

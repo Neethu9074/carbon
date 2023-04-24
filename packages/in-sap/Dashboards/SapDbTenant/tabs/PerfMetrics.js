@@ -1,0 +1,128 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { Fragment } from 'react';
+
+import Performance from 'in-sap/Dashboards/tables/Performance';
+
+export default function PerfMetrics({ timeConfig, data: vm }) {
+  return (
+    <Fragment>
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Host_CPU_Idle'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Large_Heap_Areas'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Log_Switch_Race_Count_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Log_Switch_Wait_Count_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'MVCC_Versions'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Memory_Usage_of_Main_Storage_of_Column-Store_Tables'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Memory_Usage_of_Name_Server'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Minimum_CPU_rate_(MHz)'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Plan_Cache_Hit_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Row_Store_Fragmentation'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Row_Store_version_space_skew'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'SQL_Plan_Cache_Hit_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Savepoint_Critical_Blocking_Phases_Duration'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Sync\\/Async_Read_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Sync\\/Async_Write_Ratio'}
+      />
+      <Performance
+        snapshotId={vm.id}
+        techEventName={vm.missingMetrics}
+        eventNames={vm.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName={'Threads_currently_waiting_for_locks_(%)'}
+      />
+    </Fragment>
+  );
+}

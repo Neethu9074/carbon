@@ -19,11 +19,10 @@ export default function generateAlertConfig(testIds?: string[]): SyntheticAlertC
   return {
     enabled: true,
     readOnly: false,
-    id: '123',
     //@ts-expect-error type-conflict: created would be a timestamp if created on the server.
     created: undefined,
-    description: 'new config description',
-    name: 'new config',
+    description: '',
+    name: '',
     severity: 5,
     rule,
     alertChannelIds: [],

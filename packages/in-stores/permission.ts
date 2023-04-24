@@ -12,6 +12,7 @@ import {
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
+  sapEnabled,
   infraExploreDataEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -31,7 +32,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
-  LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE'
+  LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
+  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -48,12 +50,12 @@ export const AreaPermission = Object.freeze({
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
-  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
-  ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE'
+  ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
+  ACCESS_SAP: 'ACCESS_SAP',
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
-
 export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
   CAN_CONFIGURE_MOBILE_APP_MONITORING: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
@@ -89,7 +91,11 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
   CAN_VIEW_SYNTHETIC_LOCATIONS: 'CAN_VIEW_SYNTHETIC_LOCATIONS',
-  CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS'
+  CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS',
+  CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
+  CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
+  CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
+  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -97,8 +103,9 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
-const permissions = window.instana?.permissions ?? [];
+const permissions = role?.permissions ?? [];
 
+// @deprecated remove when completeley switched to using permissions
 export const hasRestrictedAccess = role?.restrictedAccess ?? false;
 
 /**
@@ -108,10 +115,9 @@ export const hasRestrictedAccess = role?.restrictedAccess ?? false;
  * @return true if user has permission
  */
 function hasPermission(limitedScope: string, accessPermission: string): boolean {
-  // hasRestrictedAccess validation is required, support role does only contain the CAN_* permissions
-  // it is missing all the ACCESS_* permissions
-  if (!hasRestrictedAccess || permissions.indexOf(limitedScope) === -1) return true;
-  return permissions.indexOf(accessPermission) !== -1;
+  // users are not allowed to see an area once this area is limited and no additional access is given
+  if (!permissions.includes(limitedScope)) return true;
+  return permissions.includes(accessPermission);
 }
 
 export const hasApplicationsAccess = hasPermission(
@@ -151,12 +157,34 @@ export const hasPCFAccess =
   hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, AreaPermission.ACCESS_PCF) && pcfEnabled;
 export const hasOpenStackAccess =
   hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
+export const hasSAPAccess =
+  hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
 export const hasAPlatformAccess =
-  hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
+  hasVSphereAccess ||
+  hasPHMCAccess ||
+  hasZHMCAccess ||
+  hasPCFAccess ||
+  hasOpenStackAccess ||
+  hasKubernetesAccess ||
+  hasSAPAccess;
+
+export const amountPlatformAccesses = (() => {
+  if (!hasAPlatformAccess) return 0;
+  let count = 0;
+  if (hasVSphereAccess) count++;
+  if (hasPHMCAccess) count++;
+  if (hasZHMCAccess) count++;
+  if (hasPCFAccess) count++;
+  if (hasOpenStackAccess) count++;
+  if (hasKubernetesAccess) count++;
+  if (hasSAPAccess) count++;
+  return count;
+})();
+
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
-export const hasBizOpsAccess = businessObservabilityEnabled;
-// RBAC for BizOps willl be resolved in another PR hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
+export const hasBizOpsAccess =
+  hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -185,7 +213,9 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   if (zhmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
-
+  if (sapEnabled) {
+    areaPermissions.push({ value: AreaPermission.ACCESS_SAP, label: t('in-stores:permissionAccessSAPLabel') });
+  }
   areaPermissions.push({
     value: AreaPermission.ACCESS_KUBERNETES,
     label: t('in-stores:permissionAccessKubernetesLabel')
@@ -516,6 +546,39 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
     description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  /* BizOps */
+  [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
+    keyForApiTokenApi: 'canViewBusinessProcesses',
+    label: t('in-stores:permissionCanViewBusinessProcessesLabel'),
+    description: t('in-stores:permissionCanViewBusinessProcessesDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
+    keyForApiTokenApi: 'canViewBusinessProcessDetails',
+    label: t('in-stores:permissionCanViewBusinessProcessDetailsLabel'),
+    description: t('in-stores:permissionCanViewBusinessProcessDetailsDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BUSINESS_ACTIVITIES]: {
+    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
+    keyForApiTokenApi: 'canViewBusinessActivities',
+    label: t('in-stores:permissionCanViewBusinessActivitiesLabel'),
+    description: t('in-stores:permissionCanViewBusinessActivitiesDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_BIZOPS_ALERTS]: {
+    keyForGroupApi: Capability.CAN_VIEW_BIZOPS_ALERTS,
+    keyForApiTokenApi: 'canViewBizAlerts',
+    label: t('in-stores:permissionCanViewBusinessSmartAlertsLabel'),
+    description: t('in-stores:permissionCanViewBusinessSmartAlertsDescription'),
+    category: t('in-stores:permissionBusinessProcessesCategory'),
+    isOwnerPermission: false
   }
 };
 
@@ -546,6 +609,18 @@ export function getProductPermissions(): Array<ProductPermission> {
       return !automationCapabilities.includes(keyForGroupApi);
     });
   }
+  if (!businessObservabilityEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const bizopsCapabilities: Array<CapabilityType> = [
+        Capability.CAN_VIEW_BUSINESS_PROCESSES,
+        Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
+        Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
+        Capability.CAN_VIEW_BIZOPS_ALERTS
+      ];
+
+      return !bizopsCapabilities.includes(keyForGroupApi);
+    });
+  }
 
   return permissions;
 }
@@ -566,3 +641,8 @@ export const productOwnerPermissions = getProductPermissions().filter(permission
 export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
 export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
+export const fallBackPermissions = [
+  ...LimitedAccessScopes,
+  Capability.CAN_VIEW_LOGS,
+  Capability.CAN_VIEW_TRACE_DETAILS
+];

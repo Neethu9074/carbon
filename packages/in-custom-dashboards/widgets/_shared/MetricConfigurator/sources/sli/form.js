@@ -24,8 +24,7 @@ export function createForm(form, savedState) {
     .put(
       'slo',
       createField({
-        value: (savedState && savedState.slo) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
+        value: (savedState && savedState.slo) || ''
       })
     )
     .put(
@@ -51,6 +50,18 @@ export function createForm(form, savedState) {
     );
 }
 
+export function recreateSloField(form, withValidators) {
+  const slo = form.get('slo').value;
+  return form.put(
+    'slo',
+    createField({
+      value: slo,
+      validator: withValidators
+        ? composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
+        : undefined
+    })
+  );
+}
 const sloValidatorFailureMessage = [
   {
     severity: 'error',

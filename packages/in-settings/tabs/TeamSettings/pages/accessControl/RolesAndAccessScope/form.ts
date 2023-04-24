@@ -20,14 +20,20 @@ import {
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { PermissionsUnion } from 'in-stores/permission';
 
-export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
+export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
+  // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
   const item = Array.isArray(path) ? form.getIn(path) : form.get(path);
   return item as Field<T> | undefined;
 }
 
-export function updateFormField<T>(form: MapForm, path: string | Array<string>, value: T, isTouched = false): MapForm {
+export function updateFormField<T>(
+  form: MapForm<any>,
+  path: string | Array<string>,
+  value: T,
+  isTouched = false
+): MapForm<any> {
   const pathArr = typeof path === 'string' ? [path] : path;
-  return form.updateIn(pathArr, field => setFieldValue<T>(field, value, isTouched));
+  return form.updateIn(pathArr as any, field => setFieldValue<T>(field, value, isTouched));
 }
 
 export function setFieldValue<T>(field: Item, value: T, isTouched = false): Field<T> {

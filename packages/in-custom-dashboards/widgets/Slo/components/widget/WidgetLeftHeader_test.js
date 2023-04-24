@@ -10,8 +10,8 @@ import { LoadingSkeleton } from '@instana/components';
 
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
-import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import { t } from 'in-i18n';
+import SloEntityInfo from "in-service-levels/components/SloList/components/SloEntityInfo";
 
 describe('in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader', () => {
   describe('if status equals pending and monitoredEntity is set', () => {

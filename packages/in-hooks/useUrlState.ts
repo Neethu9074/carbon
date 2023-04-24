@@ -6,12 +6,14 @@
 import { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
 
+// This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+// eslint-disable-next-line import/no-deprecated
+import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
-import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';
 
 type StateWithoutGuarantees = Record<string, any>;
@@ -29,13 +31,19 @@ export interface Options<State> {
   replaceHistory?: boolean;
 }
 
+export type UrlStateReturn<State> = [
+  State: State,
+  SetState: (change: Partial<State>) => void,
+  GetStateChangeUrl: (change: Partial<State>) => string
+];
+
 export default function useUrlState<State>({
   bind,
   resets = emptyArray as [],
   reducer = defaultingReducer,
   onUpdate,
   replaceHistory = true
-}: Options<State>): [State, (change: Partial<State>) => void, (change: Partial<State>) => string] {
+}: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject
@@ -60,6 +68,8 @@ export default function useUrlState<State>({
     // we want. Furthermore, this can have nasty consequences when replaceHistory=false, e.g., back button might
     // break because the previous page will immediately change the URL and through this initiate a 'forward'-action.
     if ((state as any).__writeToUrl) {
+      // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+      // eslint-disable-next-line import/no-deprecated
       mutateUrl(location => modifyLocation(bind, state, location), replaceHistory);
       (state as any).__writeToUrl = false;
     }
@@ -126,6 +136,8 @@ export default function useUrlState<State>({
   }
 
   function exposedGetStateChangeUrl(change: Partial<State>): string {
+    // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+    // eslint-disable-next-line import/no-deprecated
     return getModifiedUrl(location, location => {
       const newState = reducer(state as State, change);
       modifyLocation(bind, newState, location);

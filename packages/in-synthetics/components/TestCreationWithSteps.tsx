@@ -4,6 +4,7 @@
  */
 
 import { MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
@@ -18,13 +19,13 @@ import locals from './TestCreationWithSteps.mless';
 
 export interface Props {
   onDialogClose: () => void;
-  onSubmit: (form: MapForm) => void;
+  onSubmit: (form: MapForm<any>) => void;
   isSubmitting: boolean;
-  form: MapForm;
+  form: MapForm<any>;
   formId: string;
   step: number;
   updateStep: (step: number) => void;
-  updateForm: (form: MapForm) => void;
+  updateForm: (form: MapForm<any>) => void;
   stepConfigs: readonly { title: string }[];
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
@@ -32,6 +33,10 @@ export interface Props {
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
   setSliderState: (state: SliderState) => void;
+  testTypeSelected: { simple: boolean; script: boolean };
+  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  renderSectionsCounter: number;
+  setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function TestCreationWithSteps({
@@ -47,7 +52,11 @@ export default function TestCreationWithSteps({
   scriptErrors,
   setScriptErrors,
   simpleMode,
-  setSliderState
+  setSliderState,
+  testTypeSelected,
+  setTestTypeSelected,
+  renderSectionsCounter,
+  setRenderSectionsCounter
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -65,10 +74,21 @@ export default function TestCreationWithSteps({
         e.preventDefault();
         onProceed();
       }}
-      className={locals.form}
+      className={classNames({
+        [locals.form]: true,
+        [locals.advancedMode]: !simpleMode
+      })}
     >
       {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
-        <AdvancedMode form={form} updateForm={updateForm} setSliderState={setSliderState} />
+        <AdvancedMode
+          form={form}
+          updateForm={updateForm}
+          setSliderState={setSliderState}
+          testTypeSelected={testTypeSelected}
+          setTestTypeSelected={setTestTypeSelected}
+          renderSectionsCounter={renderSectionsCounter}
+          setRenderSectionsCounter={setRenderSectionsCounter}
+        />
       ) : (
         <>
           <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />

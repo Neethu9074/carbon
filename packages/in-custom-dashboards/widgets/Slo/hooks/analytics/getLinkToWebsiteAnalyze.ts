@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { Observable } from '@instana/observables';
+import { just, Observable } from '@instana/observables';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { BeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
-import { ChartedMetric, getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
+import { ChartedMetric } from 'in-applications/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { Fields } from 'in-websites/navigation/types';
+import { MetricField } from 'in-analyze/navigation/paths';
 
 interface GetLinkToWebsiteAnalyzeProps {
   websiteId: string;
@@ -20,7 +21,8 @@ interface GetLinkToWebsiteAnalyzeProps {
   tagCatalog?: TagCatalog;
   filterExpression?: TagFilterExpressionElementUnion;
   chartedMetrics?: ChartedMetric[];
-  fields?: Fields[];
+  fields?: MetricField[];
+  generator: ReturnType<typeof useGenerateLinkToAnalyze>;
 }
 
 export default function getLinkToWebsiteAnalyze({
@@ -30,7 +32,8 @@ export default function getLinkToWebsiteAnalyze({
   tagCatalog,
   filterExpression,
   chartedMetrics,
-  fields
+  fields,
+  generator
 }: GetLinkToWebsiteAnalyzeProps): Observable<string> {
   return getWebsite({ id: websiteId! })
     .filter(result => !isLoading(result) && !hasError(result))
@@ -47,14 +50,16 @@ export default function getLinkToWebsiteAnalyze({
       // default groupings also have no groupbyTagEntity available - see: in-websites/tags.js
       const groupBy = { groupbyTag: 'beacon.location.url' } as Group;
 
-      return getLinkToAnalyze({
-        beaconType,
-        groupBy,
-        formModel,
-        tagCatalog,
-        timeConfig,
-        chartedMetrics,
-        fields
-      });
+      return just(
+        generator({
+          beaconType,
+          groupBy,
+          formModel,
+          tagCatalog,
+          timeConfig,
+          chartedMetrics,
+          fields
+        })!
+      );
     });
 }

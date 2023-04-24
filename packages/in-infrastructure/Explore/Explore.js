@@ -69,6 +69,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 import locals from './Explore.mless';
@@ -218,12 +219,21 @@ function Content({
   const onChartedMetricChange = useCallback(chartedMetric => setUrl({ chartedMetrics: chartedMetric }), [setUrl]);
   const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
-    isValid,
-    tagFilterExpression
-  ]);
+  const backendQueryModel = useMemo(
+    () => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION,
+    [isValid, tagFilterExpression]
+  );
   const pagination = { retrievalSize: 20 };
-  const groupBy = group ? [group.groupbyTag] : [];
+
+  let groupBy;
+  if (group) {
+    groupBy = group.groupbyTagSecondLevelKey
+      ? [group.groupbyTag + '.' + group.groupbyTagSecondLevelKey]
+      : [group.groupbyTag];
+  } else {
+    groupBy = [];
+  }
+
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
@@ -247,6 +257,14 @@ function Content({
   }
 
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+
+  const isGroupByDefined = groupBy[0] != undefined;
+  const docLink = `https://instana.github.io/openapi/#operation${
+    isGroupByDefined ? '/getEntityGroups' : '/getEntities'
+  }`;
+  const endpointUrl = `https://${config.butlerDomain}/api/infrastructure-monitoring/analyze${
+    isGroupByDefined ? '/entity-groups' : '/entities'
+  }`;
 
   const topSection = !isInitPage && (
     <Sections>
@@ -286,6 +304,8 @@ function Content({
             type={type}
             metrics={metrics}
             order={order}
+            endpointUrl={endpointUrl}
+            docsLink={docLink}
           />
         }
       />

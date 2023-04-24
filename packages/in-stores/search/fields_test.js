@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global __dirname: false */
-
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 

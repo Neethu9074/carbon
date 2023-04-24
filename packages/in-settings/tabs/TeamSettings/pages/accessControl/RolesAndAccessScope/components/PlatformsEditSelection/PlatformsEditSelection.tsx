@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { MapFormItems } from 'formalistic';
 import { PermissionSetWithRoles } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
 
@@ -15,10 +16,23 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
 import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { openstackEnabled, pcfEnabled, phmcEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
-import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
+import {
+  LimitableProductArea,
+  ProductArea,
+  ScopedPermissionItem,
+  ScopedPermissionType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -31,14 +45,17 @@ import locals from './PlatformsEditSelection.mless';
 /**
  * Properties for the platforms edit component
  */
-export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
+export interface PlatformsEditSelectionProps<FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {}
 
 const generalAreas: Array<LimitableProductArea> = [
-  ...(pcfEnabled ? [ProductArea.PCF] : []),
-  ...(phmcEnabled ? [ProductArea.PHMC] : []),
-  ...(zhmcEnabled ? [ProductArea.ZHMC] : []),
-  ...(openstackEnabled ? [ProductArea.OPENSTACK] : []),
-  ...(vsphereEnabled ? [ProductArea.VSPHERE] : [])
+  ...(hasPCFAccess ? [ProductArea.PCF] : []),
+  ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
+  ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
+  ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
+  ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
+  ...(hasSAPAccess ? [ProductArea.SAP] : [])
 ];
 
 /**
@@ -46,7 +63,12 @@ const generalAreas: Array<LimitableProductArea> = [
  * @param param see PlatformsEditSelectionProps
  * @returns component
  */
-export default function _PlatformsEditSelection({ form, setForm }: PlatformsEditSelectionProps) {
+export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>({
+  form,
+  setForm,
+  setShowSubSlide,
+  setSubSlideConfig
+}: PlatformsEditSelectionProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
 
@@ -76,13 +98,20 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
     return access === ScopedPermissionItem.ACCESS_ALL ? true : false;
   };
 
-  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S
+  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S (complete area will only be rendered if a platform is available)
   if (generalAreas.length === 0) {
-    return <KubernetesEditSection form={form} setForm={setForm} />;
+    return (
+      <KubernetesEditSection
+        form={form}
+        setForm={setForm}
+        setSubSlideConfig={setSubSlideConfig}
+        setShowSubSlide={setShowSubSlide}
+      />
+    );
   }
   // standard case
   return (
-    <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
+    <Section icon="lib_platforms" title={t('in-settings:productAreas.title_platforms')} panelNoIndentation>
       <div className={locals.sectionContent}>
         {generalAreas.map(area => {
           const platformTitle = t('in-settings:productAreas.permissions', { context: area });
@@ -92,6 +121,7 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
               size="large"
               checked={hasAnyAreaPermission(area)}
               onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
+              className={locals.clickable}
               label={
                 <Stack gap="xsmall" direction="horizontal" align="start">
                   <span>{platformTitle}</span>
@@ -109,7 +139,15 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
           );
         })}
       </div>
-      <KubernetesEditSection form={form} isChild setForm={setForm} />
+      {hasKubernetesAccess && (
+        <KubernetesEditSection
+          form={form}
+          isChild
+          setForm={setForm}
+          setSubSlideConfig={setSubSlideConfig}
+          setShowSubSlide={setShowSubSlide}
+        />
+      )}
     </Section>
   );
 }

@@ -117,7 +117,7 @@ export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig,
 
 export function getPodDashboard(
   podId,
-  { tab, tabMatrix, timeConfig, clusterId, namespaceId, deploymentId, nodeId } = emptyObject
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId, deploymentId, nodeId, cronJobId } = emptyObject
 ) {
   return getDashboard({
     base: podDashboardFullyQualified,
@@ -127,10 +127,12 @@ export function getPodDashboard(
     matrixSegment: podDashboard,
     matrixParam: matrixPodId,
     id: podId,
+    cronJobId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, podDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, podDashboard, matrixNamespaceId, namespaceId);
       setOrDeleteMatrixKey(params, podDashboard, matrixDeploymentId, deploymentId);
+      setOrDeleteMatrixKey(params, podDashboard, matrixCronJobId, cronJobId);
       setOrDeleteMatrixKey(params, podDashboard, matrixNodeId, nodeId);
     }
   });
@@ -149,7 +151,7 @@ export function getNodeDashboard(nodeId, { tab, tabMatrix, timeConfig, clusterId
   });
 }
 
-export function getCronJobDashboard(cronJobId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
+export function getCronJobDashboard(cronJobId, { tab, tabMatrix, timeConfig, clusterId, podId } = emptyObject) {
   return getDashboard({
     base: cronJobDashboardFullyQualified,
     tab,
@@ -158,7 +160,10 @@ export function getCronJobDashboard(cronJobId, { tab, tabMatrix, timeConfig, clu
     matrixSegment: cronJobDashboard,
     matrixParam: matrixCronJobId,
     id: cronJobId,
-    paramsCallback: params => setOrDeleteMatrixKey(params, cronJobDashboard, matrixClusterId, clusterId)
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, cronJobDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, cronJobDashboard, matrixPodId, podId);
+    }
   });
 }
 

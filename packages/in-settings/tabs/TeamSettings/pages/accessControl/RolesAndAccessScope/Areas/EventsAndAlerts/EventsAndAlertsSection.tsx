@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 export const EventsAndAlertsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { columnHeadline } = getCapabilitiesSectionData({
+  const { columnHeadline, isDisabled } = getCapabilitiesSectionData({
     area: ProductArea.EVENT,
     permissionsSet
   });
@@ -27,7 +27,8 @@ export const EventsAndAlertsSection = () => {
     <AreaExpandableListItem
       iconType="lib_events_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.event')}
+      firstColumnLabel={t('in-settings:productAreas.title_events_and_alerts')}
+      disabled={isDisabled}
       subList={
         <Ul>
           <CapabilitySubsection
@@ -37,7 +38,9 @@ export const EventsAndAlertsSection = () => {
         </Ul>
       }
     >
-      <Typography variant="body-small">{t('in-settings:productAreas.eventsAndAlertsContentMessage')}</Typography>
+      {!isDisabled ? (
+        <Typography variant="body-small">{t('in-settings:productAreas.eventsAndAlertsContentMessage')}</Typography>
+      ) : null}
     </AreaExpandableListItem>
   );
 };

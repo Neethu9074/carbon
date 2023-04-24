@@ -31,6 +31,7 @@ export default function CreateSmartAlertDialog({ testId }: CreateSmartAlertProps
       editMode={false}
       alertConfig={alertConfig}
       startWithSimpleMode
+      testId={testId}
     />
   );
 }

@@ -14,6 +14,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
@@ -38,6 +39,7 @@ import { t } from 'in-i18n';
 export default function PodDashboard({ location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
+    cronJobId: getMatrixParameter(location, podDashboard, matrixCronJobId),
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };
@@ -52,7 +54,6 @@ export default function PodDashboard({ location }) {
           })
         }}
       />
-
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
@@ -68,7 +69,6 @@ export default function PodDashboard({ location }) {
           />
         )}
       />
-
       <TabView
         result$={getKubernetesPod({
           id: props.podId,
@@ -90,7 +90,6 @@ export default function PodDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );
@@ -111,9 +110,8 @@ function Header(props) {
 }
 
 function renderButtonLine({ podId, timeConfig, result }) {
-  const clusterName = result.data?.clusterId;
-  const namespaceName = result.data?.namespace;
-  const podName = result.data?.label;
+  const { clusterId: clusterName, namespace: namespaceName, label: podName } = result?.data;
+
   return (
     <>
       <DashboardButtonLine
@@ -121,21 +119,25 @@ function renderButtonLine({ podId, timeConfig, result }) {
         timeConfig={timeConfig}
         plugin={plugins.kubernetesPod}
         tagFilters={getFilters({ clusterName, namespaceName, podName })}
+        pod={result.data}
       />
+
       <AnalyzeCallsButton
         clusterName={clusterName}
         namespaceName={namespaceName}
         podName={podName}
         timeConfig={timeConfig}
       />
-      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
     </>
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId }) {
+function renderButtonLineSecondary({ timeConfig, podId, result }) {
+  const { label: podName } = result.data?.label;
+
   return (
     <>
+      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
       {beeInstanaInfraMetricsEnabled && (
         <TimeShiftDropdown
           onChange={offset =>

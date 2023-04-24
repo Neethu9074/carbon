@@ -20,7 +20,6 @@ import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import LogDetails from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogDetails';
-import CallTree2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/CallTree2';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
@@ -39,7 +38,7 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { minutes } from 'in-services/time';
+import { minutes, seconds } from 'in-services/time';
 import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -71,6 +70,9 @@ export default function Summary({
   const largeTrace = isLargeTrace(trace);
   const lazyLoading = shouldUseLazyLoadedCallTree(trace);
 
+  const [selectedCall$] = useState(() => create());
+  const [hoveredServiceEndpoint$] = useState(() => create());
+
   const [
     callTreeResult,
     onRelatedCallsLoaded,
@@ -86,45 +88,29 @@ export default function Summary({
 
   const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
 
-  const selectedCall$ = create();
-  const hoveredServiceEndpoint$ = create();
-  const selectedCallTimeoutHandle = useRef(null);
-  const traceViewedTimeoutHandle = useRef(null);
-  const selectedCallSubscription = useRef(null);
-
+  // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
+  const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);
   useEffect(() => {
-    selectedCallSubscription.current = selectedCall$.subscribe(call => {
+    const subscription = selectedCall$.subscribe(call => {
       if (call) {
-        selectedCallTimeoutHandle.current = setTimeout(() => {
+        selectedCallFadeOutEffectTimeoutIdRef.current = setTimeout(() => {
           selectedCall$.emit(null);
         }, 1000);
       }
     });
-    sendTraceViewedEventAfterDelay(traceId);
     return () => {
-      clearTimeout(selectedCallTimeoutHandle.current);
-
-      if (selectedCallSubscription.current) {
-        selectedCallSubscription.current.dispose();
-        selectedCallSubscription.current = null;
-      }
-
-      clearTimeout(traceViewedTimeoutHandle.current);
+      clearTimeout(selectedCallFadeOutEffectTimeoutIdRef.current);
+      subscription.dispose();
     };
-  }, []);
+  }, [selectedCall$]);
 
+  // if a trace is viewed for at least 15s store it long term
   useEffect(() => {
-    sendTraceViewedEventAfterDelay(traceId);
+    const timeoutID = setTimeout(() => connection.send('traceViewed', { traceId }), seconds.toMillis(15));
+    return () => {
+      clearTimeout(timeoutID);
+    };
   }, [traceId]);
-
-  const sendTraceViewedEventAfterDelay = traceId => {
-    clearTimeout(traceViewedTimeoutHandle.current);
-    traceViewedTimeoutHandle.current = setTimeout(() => {
-      connection.send('traceViewed', {
-        traceId: traceId
-      });
-    }, 15000);
-  };
 
   const onCallClicked = call => {
     setCallId(call.id);
@@ -306,7 +292,7 @@ export default function Summary({
           </Row>
         )}
 
-        {!lazyLoading && (!largeTrace || showLargeTrace) && (
+        {(lazyLoading || !largeTrace || showLargeTrace) && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card
@@ -334,45 +320,7 @@ export default function Summary({
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
-                  isLargeTrace={largeTrace}
-                  timeConfigForLogs={timeConfigForLogs}
-                  selectLogId={selectLogId}
-                  totalNumberOfLogs={totalNumberOfLogs}
-                />
-              </Card>
-            </Col>
-          </Row>
-        )}
-
-        {lazyLoading && (
-          <Row singleRowTopMargin withoutSideMargin>
-            <Col lg={12}>
-              <Card
-                title={t('in-applications:traceDetail.tabs.summary.calls')}
-                header={
-                  <ColorCodingToggleButtons
-                    colorCodeType={colorCodeType}
-                    setColorCodeMechanism={setColorCodeMechanism}
-                  />
-                }
-              >
-                <CallTree2
-                  callTreeResult={callTreeResult}
-                  traceId={traceId}
-                  getColor={getColor}
-                  selectedCall$={selectedCall$}
-                  onSubCallClicked={call => {
-                    selectedCall$.emit(call);
-                    const domElement = document.getElementById(`call-${call.id}`);
-                    if (domElement) {
-                      domElement.focus();
-                      scrollIntoView(domElement);
-                    }
-                    tracker.traceViewCallTreeDetailClickedTracker();
-                  }}
-                  onCallClicked={onCallClicked}
-                  openedCallId={effectiveCallId}
-                  isLargeTrace={false}
+                  isLargeTrace={lazyLoading ? false : largeTrace}
                   timeConfigForLogs={timeConfigForLogs}
                   selectLogId={selectLogId}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}

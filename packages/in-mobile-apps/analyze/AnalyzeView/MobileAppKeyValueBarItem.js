@@ -3,59 +3,64 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withProps } from 'recompose';
+import React from 'react';
 
 import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 
-export default withProps({
-  serializeFilter: true,
-  getKeySuggestions: ({ timeConfig, tagFilters, tag }) => {
-    return getMobileAppBeaconGroups({
-      timeConfig: timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
-      },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: tag
-      }
-    }).map(mapData);
-  },
-  getValueSuggestions: ({ timeConfig, tagFilters, tag, key }) => {
-    return getMobileAppBeaconGroups({
-      timeConfig: timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
-      },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: tag,
-        groupbyTagSecondLevelKey: key
-      }
-    }).map(mapData);
-  }
-})(KeyValueBarItemBehavior);
+export default function MobileAppKeyValueBarItem(props) {
+  return (
+    <KeyValueBarItemBehavior
+      serializeFilter
+      getKeySuggestions={({ timeConfig, tagFilters, tag }) => {
+        return getMobileAppBeaconGroups({
+          timeConfig: timeConfig,
+          tagFilters: tagFilters,
+          metrics: {
+            beaconCount: {
+              metric: 'beaconCount',
+              aggregation: 'SUM'
+            }
+          },
+          order: {
+            by: 'beaconCount',
+            direction: 'DESC'
+          },
+          pagination: {
+            retrievalSize: 200
+          },
+          group: {
+            groupbyTag: tag
+          }
+        }).map(mapData);
+      }}
+      getValueSuggestions={({ timeConfig, tagFilters, tag, key }) => {
+        return getMobileAppBeaconGroups({
+          timeConfig: timeConfig,
+          tagFilters: tagFilters,
+          metrics: {
+            beaconCount: {
+              metric: 'beaconCount',
+              aggregation: 'SUM'
+            }
+          },
+          order: {
+            by: 'beaconCount',
+            direction: 'DESC'
+          },
+          pagination: {
+            retrievalSize: 200
+          },
+          group: {
+            groupbyTag: tag,
+            groupbyTagSecondLevelKey: key
+          }
+        }).map(mapData);
+      }}
+      {...props}
+    />
+  );
+}
 
 function mapData(result) {
   if (!result.data) {

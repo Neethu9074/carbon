@@ -34,15 +34,15 @@ export interface AlertConfigDialogPresenterProps {
   step?: number;
   //stepRenderers: (() => ReactNode)[];
   AdvancedModeElement: (props: AlertConfigDialogPresenterProps & MainDialogControl) => JSX.Element;
-  form: MapForm;
+  form: MapForm<any>;
   handleSubmit: () => void;
   formId: string;
   SimpleModeElement: (
     props: AlertConfigDialogPresenterProps & MainDialogControl & SimpleModeContainerProps
   ) => JSX.Element;
   footer?: ReactNode;
-  trackModeSwitch?: (simpleMode: boolean, simpleModeStep: number, form: MapForm) => void;
-  updateForm?: (form: MapForm) => void;
+  trackModeSwitch?: (simpleMode: boolean, simpleModeStep: number, form: MapForm<any>) => void;
+  updateForm?: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   withTrackClose: (step: number | false | undefined) => void;
   withTrackCreate: () => void;
@@ -54,12 +54,11 @@ export interface AlertConfigDialogPresenterProps {
   initialConfiguredApplications?: object;
   isGlobalSmartAlert?: boolean;
   QueryBuilderComponent: QueryBuilderComponent;
+  isTagFilterFormModelValid: boolean;
 }
 
 export interface SlideInConfig {
   title?: string;
-  subtitle?: string;
-  subTitleToolTipText?: string;
   component?: ReactNode;
 }
 

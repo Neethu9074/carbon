@@ -5,11 +5,6 @@
 
 import React from 'react';
 
-import {
-  applicationsAlertingAdditionalPropsAlertLevelChanged,
-  applicationsAlertingAdditionalPropsDescriptionChanged,
-  applicationsAlertingAdditionalPropsTriggerChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -220,9 +215,6 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}
-                  trackDescriptionChanged={applicationsAlertingAdditionalPropsDescriptionChanged}
-                  trackTriggerChanged={applicationsAlertingAdditionalPropsTriggerChanged}
                   renderAlertPopertiesTitleRow={() => (
                     <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
                   )}

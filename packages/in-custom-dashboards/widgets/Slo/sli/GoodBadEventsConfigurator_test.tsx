@@ -95,7 +95,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator', () =>
   it('updates the form for changes to the good events expression', () => {
     // Given
     const formUpdateCaptor = jest.fn();
-    const updateForm = (updatedForm: MapForm) => formUpdateCaptor(updatedForm.toJS());
+    const updateForm = (updatedForm: MapForm<any>) => formUpdateCaptor(updatedForm.toJS());
 
     // When
     shallow(
@@ -126,7 +126,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator', () =>
   it('updates the form for changes to the bad events expression', () => {
     // Given
     const formUpdateCaptor = jest.fn();
-    const updateForm = (updatedForm: MapForm) => formUpdateCaptor(updatedForm.toJS());
+    const updateForm = (updatedForm: MapForm<any>) => formUpdateCaptor(updatedForm.toJS());
 
     // When
     shallow(

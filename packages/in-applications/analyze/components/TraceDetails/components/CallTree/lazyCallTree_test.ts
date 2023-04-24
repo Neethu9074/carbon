@@ -16,9 +16,9 @@ import {
   LazyNodeType,
   updateLazyCallTreeWithRelatedCalls,
   refreshAllParentNodesToForcePropsChange,
-  CallNode,
-  SearchIndexType
+  CallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import { SearchIndex } from 'in-applications/analyze/components/TraceDetails/components/CallTree/callTrees';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
@@ -397,8 +397,8 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
         data: cloneDeep(PARENT_CALL),
         errors: []
       },
-      createSuccessfulResult([CHILD_CALL_BEFORE], 2),
-      createSuccessfulResult([CHILD_CALL_AFTER], 2)
+      createSuccessfulResult([CHILD_CALL_BEFORE, CHILD_CALL_BEFORE], 3),
+      createSuccessfulResult([CHILD_CALL_AFTER, CHILD_CALL_AFTER], 3)
     );
 
     expect(updatedLazyCallTree.root).to.deep.equal({
@@ -414,7 +414,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           parentId: PARENT_CALL.id,
           cursor: {
             ingestionTime: 1678116808000,
-            offset: 1
+            offset: 2
           }
         },
         {
@@ -423,7 +423,17 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           children: []
         },
         {
+          ...CHILD_CALL_BEFORE,
+          parentId: PARENT_CALL.id,
+          children: []
+        },
+        {
           ...callWithParent,
+          children: []
+        },
+        {
+          ...CHILD_CALL_AFTER,
+          parentId: PARENT_CALL.id,
           children: []
         },
         {
@@ -441,7 +451,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
           parentId: PARENT_CALL.id,
           cursor: {
             ingestionTime: 1678116808000,
-            offset: 1
+            offset: 2
           }
         }
       ]
@@ -555,14 +565,14 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
 
     const lazyCallTree = {
       root: root,
-      searchIndex: new Map() as SearchIndexType,
+      searchIndex: new Map() as SearchIndex<CallNode>,
       traceId: TEST_TRACE_ID
     };
     populateSearchIndex(lazyCallTree.searchIndex, lazyCallTree.root);
 
     const newLazyCallTree = {
       root: cloneDeep(lazyCallTree.root),
-      searchIndex: new Map() as SearchIndexType,
+      searchIndex: new Map() as SearchIndex<CallNode>,
       traceId: lazyCallTree.traceId
     };
     populateSearchIndex(newLazyCallTree.searchIndex, newLazyCallTree.root);
@@ -586,7 +596,7 @@ describe('in-applications/analyze/components/TraceDetails/components/CallTree/la
   });
 });
 
-function populateSearchIndex(searchIndex: SearchIndexType, node: CallNode) {
+function populateSearchIndex(searchIndex: SearchIndex<CallNode>, node: CallNode) {
   if (node) {
     searchIndex.set(node.id, node);
   }

@@ -10,18 +10,19 @@ import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
-import { goToPath } from 'in-stores/navigation';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Remove.mless';
 
 export default function RemoveSection({ application }) {
+  const { goToPath } = useNavigation();
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);

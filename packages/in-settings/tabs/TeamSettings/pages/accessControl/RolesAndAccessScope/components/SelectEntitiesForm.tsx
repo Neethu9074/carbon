@@ -6,8 +6,8 @@
 
 import React, { useState } from 'react';
 
+import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { Result } from '@instana/types';
 
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
@@ -46,7 +46,9 @@ export default function SelectEntitiesForm<I>({
     setSelectedIds,
     nameQuery,
     setNameQuery,
-    filteredEntities
+    filteredEntities,
+    orderDirection,
+    setOrderDirection
   ] = useSelectEntities({
     preselectedIds,
     observable,
@@ -72,24 +74,35 @@ export default function SelectEntitiesForm<I>({
     setSelectedIds(selectedEntities);
   };
 
+  /**
+   * resets the Sorting and the query filter
+   */
+  const resetForm = () => {
+    setOrderDirection('ASC');
+    setNameQuery('');
+  };
+
   return (
     <SelectItemForm
       onClickCancel={() => {
         onClickCancel();
         setSelectedIds([...preselectedIds]);
+        resetForm();
       }}
       onClickSave={() => {
         onClickSave(selectedIds);
+        resetForm();
       }}
     >
       <EntityTable
         fetchedConfigState={filteredEntities}
-        onChange={({ query }) => {
+        onChange={({ query, orderDirection: newState }) => {
           setNameQuery(query ?? '');
+          setOrderDirection(newState ?? orderDirection);
         }}
         query={nameQuery}
         orderBy="name"
-        orderDirection="ASC"
+        orderDirection={orderDirection}
         onClickItem={onClickItem}
         columnDefinition={getColumnDefinition({ selectedIds, onClickItem, extractId, extractName })}
         allRowsAreSelected={allVisibleRowsSelected}
@@ -114,7 +127,9 @@ type UseSelectEntitiesResponse<I> = [
   React.Dispatch<React.SetStateAction<string[]>>,
   string,
   React.Dispatch<React.SetStateAction<string>>,
-  FetchedState<Array<I>>
+  FetchedState<Array<I>>,
+  OrderDirection,
+  React.Dispatch<React.SetStateAction<OrderDirection>>
 ];
 
 function useSelectEntities<I>({
@@ -126,9 +141,10 @@ function useSelectEntities<I>({
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
   const [nameQuery, setNameQuery] = useState('');
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const fetchedState = useFetchedStateObservable(observable);
   const withoutPreselectedState = filterByPreselection(fetchedState, preselectedIds, extractId);
-  const filteredEntities = filterByName(withoutPreselectedState, nameQuery, extractName);
+  const filteredEntities = filterByName(withoutPreselectedState, nameQuery, extractName, orderDirection);
 
   return [
     allVisibleRowsSelected,
@@ -137,7 +153,9 @@ function useSelectEntities<I>({
     setSelectedIds,
     nameQuery,
     setNameQuery,
-    filteredEntities
+    filteredEntities,
+    orderDirection,
+    setOrderDirection
   ];
 }
 
@@ -156,12 +174,16 @@ function filterByPreselection<I>(
 function filterByName<I>(
   fetchedState: FetchedState<I[]>,
   nameQuery: string,
-  extractName: ExtractNameFunction<I>
+  extractName: ExtractNameFunction<I>,
+  orderDirection: OrderDirection
 ): FetchedState<I[]> {
   const [entities, status, ...rest] = fetchedState;
   if (!entities || status !== 'resolved') return fetchedState;
 
-  const sortedEntities = [...entities].sort((a, b) => compareIgnoreCase(extractName(a), extractName(b)));
+  const sortedEntities = [...entities].sort((a, b) => {
+    if (orderDirection === 'ASC') return compareIgnoreCase(extractName(a), extractName(b));
+    return compareIgnoreCase(extractName(b), extractName(a));
+  });
   if (!nameQuery) return [sortedEntities, status, ...rest];
 
   const lowerCaseQuery = nameQuery.toLowerCase();

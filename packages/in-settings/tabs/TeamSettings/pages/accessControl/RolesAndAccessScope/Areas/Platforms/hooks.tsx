@@ -4,23 +4,27 @@
  * Copyright IBM Corp. 2023
  */
 
-import { KubernetesNamespace, PaginatedResult } from '@instana/types';
+import { GroupPermissionEntity } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { getKubernetesNamespacesWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesNamespaces';
+import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
+import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-// This is using paginated fetching since at the moment of writing this code
-// there was no endpoint to fetch all namespaces at once. It should be replaced once it is done
-export const useKubernetesNamespacesConfigs = (): FetchedState<PaginatedResult<KubernetesNamespace>> => {
+export const useKubernetesClustersConfigs = (): FetchedState<GroupPermissionEntity[]> => {
   const timeConfig = useTimeConfig();
   const result = useObservable(() => {
-    return getKubernetesNamespacesWithDefaults({
-      pageSize: 200,
-      timeConfig
-    });
-  }, [getKubernetesNamespacesWithDefaults]);
+    return getAllKubernetesClustersForEntitySelectionWithDefaults({ timeConfig });
+  }, [getAllKubernetesClustersForEntitySelectionWithDefaults]);
+  return resultToFetchedStateResponse(result);
+};
+
+export const useKubernetesNamespacesConfigs = (): FetchedState<GroupPermissionEntity[]> => {
+  const timeConfig = useTimeConfig();
+  const result = useObservable(() => {
+    return getAllKubernetesNamespacesForEntitySelectionWithDefaults({ timeConfig });
+  }, [getAllKubernetesNamespacesForEntitySelectionWithDefaults]);
   return resultToFetchedStateResponse(result);
 };

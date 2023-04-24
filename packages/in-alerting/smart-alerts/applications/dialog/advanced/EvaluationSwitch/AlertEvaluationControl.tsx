@@ -21,16 +21,16 @@ import { AlertEvaluationType, ThresholdConfigUnion, ThresholdType } from 'in-typ
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
   isGlobalSmartAlert?: boolean;
 }
 
 export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }: Props) {
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
-  const alertType = ((form.get('rule') as MapForm)!.get('alertType') as Field<ApplicationAlertType>)!.value;
+  const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
-  const thresholdType = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>)?.value;
+  const thresholdType = ((form.get('threshold') as MapForm<any>).get('type') as Field<ThresholdType>)?.value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
 
   const setEvaluationType = (newEvaluationType: AlertEvaluationType) => {

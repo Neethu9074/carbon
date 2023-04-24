@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { KeyValue } from '@instana/components';
+import { ColumnizedContent, KeyValue, Ul, Li } from '@instana/components';
 
 import {
   removeUserFromGroup,

@@ -16,7 +16,7 @@ import {
   getWebhookFields,
   isScript,
   isWebhook
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+} from 'in-automation/ActionCatalog/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
@@ -44,7 +44,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [form, setForm] = useState<MapForm>();
+  const [form, setForm] = useState<MapForm<any>>();
   const agentSnapShots = useAgentSnapShots({ action, form, volatileId, setForm });
   return (
     <Dialog
@@ -69,6 +69,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
         <FormFooter>
           <RunActionFooter
             error={error}
+            test={test}
             actionInstanceId={actionInstanceId}
             isSaving={isSaving}
             form={form}
@@ -104,8 +105,8 @@ const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => 
 };
 
 interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
 }
 
 function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapShotsParams) {
@@ -121,8 +122,8 @@ function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapSh
 }
 
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -149,14 +150,17 @@ function onSave({
     actionName: action.name
   });
   const targetAgent = form?.get('targetAgent') as Field<string>;
-  const parameters = form?.get('parameters') as MapForm;
+  const parameters = form?.get('parameters') as MapForm<any>;
 
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.name);
     const name = parameterDefinition?.name ?? '';
     if (parameterDefinition?.type === 'vault') {
-      const pathField = (parameter as ListForm).get(0) as Field<string>;
-      const keyField = (parameter as ListForm).get(1) as Field<string>;
+      const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
+      const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
+      if (!pathField?.value || !keyField?.value) {
+        return acc;
+      }
       return [
         ...acc,
         {
@@ -254,11 +258,12 @@ interface RunActionFooterProps {
   error: string;
   actionInstanceId: string;
   isSaving: boolean;
-  form: MapForm | undefined;
+  form: MapForm<any> | undefined;
   onSave: () => void;
+  test?: boolean;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: RunActionFooterProps) {
+function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test }: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
@@ -270,7 +275,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
       <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
-        {t('in-automation:yes')}
+        {test ? t('in-automation:testAction') : t('in-automation:runAction')}
       </SaveButton>
     </>
   );
@@ -312,13 +317,26 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
                 items: [
                   createField({
                     value: parsedVaultValue?.secretPath ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   }),
                   createField({
                     value: parsedVaultValue?.secretKey ?? '',
-                    validator: notBlankValidator
+                    validator: parameter.required ? notBlankValidator : undefined
                   })
-                ]
+                ],
+                validator: listForm => {
+                  const hasEmptyFields = listForm.some(field => field.value === '');
+                  const hasNonEmptyFields = listForm.some(field => field.value !== '');
+                  if (!parameter.required && hasEmptyFields && hasNonEmptyFields) {
+                    return [
+                      {
+                        severity: 'error',
+                        message: t('in-automation:validVaultParameter')
+                      }
+                    ];
+                  }
+                  return null;
+                }
               })
             };
           }

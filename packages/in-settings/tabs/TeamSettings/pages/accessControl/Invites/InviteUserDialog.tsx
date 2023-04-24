@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, createListForm, Field, Item, ListForm, MapForm } from 'formalistic';
+import { createField, createMapForm, createListForm, Field, Item, ListForm, MapForm, Path } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Message, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error this is not yet typescript
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -46,7 +45,7 @@ export default function InviteUserDialog({
 }) {
   const initialState = createListForm({
     validator: invites => {
-      const invitesMapForms: MapForm[] = invites as MapForm[];
+      const invitesMapForms: MapForm<any>[] = invites as MapForm<any>[];
       const rows: Field<UserSentState>[] = invitesMapForms.map(mF => mF.get('userSentState') as Field<UserSentState>);
       const someNotSent = rows.some(r => r.value === 'notSentYet' || r.value === 'sentFailureServerError');
       if (!someNotSent) {
@@ -73,11 +72,11 @@ export default function InviteUserDialog({
     items: previousResult ? previousResult.map(mapToFormItem) : [emptyInvite()]
   });
 
-  const [form, setForm]: [ListForm, any] = useState(initialState);
+  const [form, setForm]: [ListForm<any>, any] = useState(initialState);
   const groups: any = useObservable(getStrippedGroupsAsResultObservable(), []);
 
-  const onChange = (path: string[], value: any) => {
-    setForm(form.updateIn(path, field => (field as Field<any>).setValue(value).setTouched(true) as Item));
+  const onChange = (path: Path<any>, value: any) => {
+    setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
   };
 
   const onRemove = (index: number) => {
@@ -96,8 +95,8 @@ export default function InviteUserDialog({
       // use default role when user is not allowed to choose a role
       let groupId: string;
 
-      (form as ListForm).map((inviteItem: Item) => {
-        const invite: MapForm = inviteItem as MapForm;
+      (form as ListForm<any>).map((inviteItem: Item) => {
+        const invite: MapForm<any> = inviteItem as MapForm<any>;
         if (canSelectGroup) {
           groupId = (invite.get('groupId') as Field<string>).value;
           const group: GroupWithRoles = groups.length
@@ -112,7 +111,7 @@ export default function InviteUserDialog({
       });
 
       onSubmit(
-        form.toJS().map(e => ({
+        form.toJS().map((e: any) => ({
           groupId: e.groupId,
           email: e.email,
           userSentState: e.userSentState === 'sentFailureServerError' ? 'notSentYet' : e.userSentState
@@ -138,7 +137,7 @@ export default function InviteUserDialog({
 
   const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
-  const renderRow = (invite: MapForm, index: number) => {
+  const renderRow = (invite: MapForm<any>, index: number) => {
     const i: string = `${index}`;
     let iconOrButton = (
       <SvgIcon
@@ -224,7 +223,7 @@ export default function InviteUserDialog({
     );
   };
 
-  const invitesMapForms: MapForm[] = form.map(i => i) as MapForm[];
+  const invitesMapForms: MapForm<any>[] = form.map(i => i) as MapForm<any>[];
   const rows: Field<UserSentState>[] = invitesMapForms.map(mF => mF.get('userSentState') as Field<UserSentState>);
   const hasSentFailures = rows.some(r => r.value === 'sentFailureServerError');
 
@@ -236,7 +235,7 @@ export default function InviteUserDialog({
     >
       <>
         <form onSubmit={internalOnSubmit(canSelectGroup)}>
-          {(form as any).map((entry: MapForm, i: number) => renderRow(entry, i))}
+          {(form as any).map((entry: MapForm<any>, i: number) => renderRow(entry, i))}
 
           <div className={locals.anotherUserRow}>
             <Button
@@ -270,10 +269,11 @@ export default function InviteUserDialog({
   );
 }
 
-function anyValidEntry(form: ListForm) {
+function anyValidEntry(form: ListForm<any>) {
   const asJsObject = form.toJS();
   return asJsObject.some(
-    e => (e.userSentState === 'notSentYet' || e.userSentState === 'sentFailureServerError') && e.email.trim() !== ''
+    (e: any) =>
+      (e.userSentState === 'notSentYet' || e.userSentState === 'sentFailureServerError') && e.email.trim() !== ''
   );
 }
 

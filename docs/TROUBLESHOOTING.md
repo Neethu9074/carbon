@@ -72,4 +72,55 @@ Object.keys(instana.dev.storeStates).forEach(key => {
   }
 });
 ```
-This is a small test change for the branch-updater
+
+## Connecting local UI client to Remote, Self-Hosted installation (Fyre)
+
+
+Here are some additional setup and troubleshooting steps for hooking up a locally-run UI client to a remote installation, such as a tenant unit hosted on IBM Fyre systems. 
+
+This example is written given a backend that's been deployed to `instana.apps.leaps.cp.fyre.ibm.com`. Tenants are a logical grouping of 1 or more units with shared processing components. If a tenant is registered with the name `tenant0` and contains the unit `unit0`, then a k8s-hosted remote UI backend will likely be in the format `unit0-tenant0.instana.apps.leaps.cp.fyre.ibm.com`. 
+For on-prem and single unit docker envs, this format may not be used, so confirm that you have the correct unit and tenant names with the env owner.
+
+To connect a local ui-client you will need to prefix `local-instana` to the tenant units URL like this: `local-instana.unit0-tenant0.instana.apps.clusername.cp.fyre.ibm.com`.
+
+### Setup
+
+- Add the following to your `/etc/hosts` file:
+```
+ 9.XX.XXX.XXX instana.apps.leaps.cp.fyre.ibm.com
+ 127.0.0.1 local-instana.unit0-tenant0.instana.apps.clusername.cp.fyre.ibm.com
+```
+  - Note that the first entry may not be needed if you have configured your DNS resolver to go through the fyre nameservers `9.0.0.1` and `9.0.0.2` (at time of writing).
+  - You can get the IP address of a fyre server with `ping -c 1 xyz.fyre.ibm.com`, even if the packet is not received.
+
+- Once you're able to `yarn run dev` and see the prompt asking `Environment?`, select the `Custom Self Hosted (run local UI against an arbitrary remote self hosted installation)` option. Fill out:
+  - Hostname? `unit0-tenant0.instana.apps.leaps.cp.fyre.ibm.com`
+  - Tenant? `tenant0`
+  - Unit? `unit0`
+
+- After a minute, a window should open in your browser for `https://local-instana.unit0-tenant0.instana.apps.leaps.cp.fyre.ibm.com:4000/`, terminal output should clear, and it should display that same url and that everything is ok (No issues found.)...(or not).
+
+### Troubleshooting:
+
+- may need to refresh locally-run page after it initially opens, once the terminal says `Compiled Successfully!`
+- if a page is blank and gives a randomly generated error code, you probably have an issue in whatever you added to the `ui-client` code
+- make sure nginx is started
+- make sure hosts file has appropriate entries
+- if locally-run UI page isn't working, refresh the webpage you have with the remote UI for unit0-tenant0 (or whatever tenant you're connecting to), then try again. Make sure you're logged in there.
+
+
+## Connecting local UI client to Heliconia environment
+
+Similar to the above case where you are connecting your locally built ui to a remote self hosted fyre environment, you can connect to the new Heliconia environment backend (eventual pink replacement).  
+
+- Add an local-instana entry with the base domain for heliconia to your `/etc/hosts` file if it is not already there :
+```sh
+sudo sh -c 'echo "127.0.0.1 local-instana.instanatest.rocks" >> /etc/hosts'
+```
+
+- Once you're able to `yarn run dev` and see the prompt asking `Environment?`, select the `Custom SaaS (run local UI against an arbitrary tenant unit in one of our SaaS or internal regions)` option. Fill out:
+  - Base Domain? `instanatest.rocks`
+  - Tenant? `tenant1`
+  - Unit? `unit1`
+- Alternatively, you can select in the `Environment?` question the environment `K8s Test (heliconia)` or run `TARGET=heliconia yarn run dev` as a short cut.
+- After a minute, a window should open in your browser for `https://local-instana.instanatest.rocks:4000/`, terminal output should clear, and it should display that same url and that everything is ok (No issues found.)...(or not).

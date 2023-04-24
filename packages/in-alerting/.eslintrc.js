@@ -12,7 +12,13 @@ module.exports = {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
 
-      patterns: ['!in-websites/navigation', '!in-synthetics/navigation', '!in-synthetics/api'],
+      patterns: [
+        '!in-mobile-apps/subscriptions',
+        '!in-mobile-apps/api',
+        '!in-synthetics/navigation',
+        '!in-synthetics/api',
+        '!in-websites/navigation'
+      ],
 
       allowedInPackages: [
         'in-alerting',
@@ -23,6 +29,7 @@ module.exports = {
         'in-events',
         'in-hoc',
         'in-hooks',
+        'in-mobile-apps',
         'in-services',
         'in-settings',
         'in-stores',

@@ -13,7 +13,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-import { websitesAlertingAddAlert } from 'in-alerting/smart-alerts/websites/tracker';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -75,7 +75,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
             startWithSimpleMode
           />
         );
-        websitesAlertingAddAlert(location.pathname, website.label);
+        trackStartCreate();
       }}
       withBoxShadow
     >

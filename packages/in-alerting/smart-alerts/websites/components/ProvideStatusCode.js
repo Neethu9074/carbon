@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import { websitesAlertingStatusCodeChanged } from 'in-alerting/smart-alerts/websites/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';
@@ -17,7 +16,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/components/ProvideJsError.mless';
 
-export default function ProvideStatusCode({ form, mode, updateForm }) {
+export default function ProvideStatusCode({ form, updateForm }) {
   return (
     <div className={locals.container}>
       {form
@@ -34,8 +33,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
               value={field.value}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
-                websitesAlertingStatusCodeChanged({ mode });
-
                 updateForm(
                   form
                     .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))
@@ -54,7 +51,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
 
 ProvideStatusCode.propTypes = {
   form: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired
 };
 

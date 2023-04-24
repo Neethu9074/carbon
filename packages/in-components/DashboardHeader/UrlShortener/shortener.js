@@ -4,7 +4,7 @@
  */
 
 import { getTimeConfig, setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -30,14 +30,17 @@ const getShortUrlInternal = memoize(
   hours.toMillis(1)
 );
 
-export function getShortUrl({ fixateTime = true } = emptyObject) {
-  return getModifiedUrlStream(location => {
-    if (fixateTime) {
-      setTimeConfig(location, fixateTimeConfig(getTimeConfig(location)));
-    }
-  })
-    .map(toAbsoluteUrl)
-    .flatMap(getShortUrlInternal);
+export function useShortUrl({ fixateTime = true } = emptyObject) {
+  const { location, createHref } = useNavigation();
+
+  if (fixateTime) {
+    setTimeConfig(location, fixateTimeConfig(getTimeConfig(location)));
+  }
+
+  const href = createHref(location);
+  const absoluteUrl = toAbsoluteUrl(href);
+
+  return getShortUrlInternal(absoluteUrl);
 }
 
 function toAbsoluteUrl(partialUrl) {

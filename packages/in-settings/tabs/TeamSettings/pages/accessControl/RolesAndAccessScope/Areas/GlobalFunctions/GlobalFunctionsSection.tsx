@@ -22,7 +22,7 @@ import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/access
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticsEnabled } from 'in-services/featureFlags';
+import { syntheticsEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
@@ -47,6 +47,12 @@ export const GlobalFunctionsSection = () => {
           headerText={t('in-settings:productAreas.permissions', { context: ProductArea.SYNTHETICS })}
         />
       ) : null}
+      {actionAutomationEnabled ? (
+        <CapabilitySubsection
+          capabilities={automationCapabilities}
+          headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
+        />
+      ) : null}
       <CapabilitySubsection
         capabilities={agentsCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AGENTS })}
@@ -59,10 +65,6 @@ export const GlobalFunctionsSection = () => {
         capabilities={accountAndBillingCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCOUNT })}
       />
-      <CapabilitySubsection
-        capabilities={automationCapabilities}
-        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
-      />
     </Ul>
   );
 
@@ -70,7 +72,7 @@ export const GlobalFunctionsSection = () => {
     <AreaExpandableListItem
       iconType="lib_actions_settings_inverted"
       firstColumnHeadline={columnHeadline}
-      firstColumnLabel={t('in-settings:productAreas.function')}
+      firstColumnLabel={t('in-settings:productAreas.title_global_functions')}
       subList={subListContent}
     />
   );

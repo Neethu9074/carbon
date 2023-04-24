@@ -6,10 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
 import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
@@ -52,18 +48,13 @@ export default function ErrorRateThresholdCondition({
         ) : (
           <>
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
-            <ThresholdOperatorDropDown
-              form={form}
-              updateForm={updateForm}
-              trackingCallback={applicationsAlertingThresholdOperatorChanged}
-            />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
 
             <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}
               editMode={editMode}
               thresholdTypeOptions={thresholdTypeOptions}
-              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}
             />
           </>
@@ -83,12 +74,7 @@ export default function ErrorRateThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm
-          form={form}
-          updateForm={updateForm}
-          trackChange={applicationsAlertingThresholdTypeChanged}
-          defaultValue={defaultDeviationFactor}
-        />
+        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

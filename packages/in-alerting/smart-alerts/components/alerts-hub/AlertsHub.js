@@ -8,14 +8,20 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
+import {
+  alertHubAlertsClickTracker,
+  alertHubSmartAlertsClickTracker,
+  alertHubWebsiteClickTracker,
+  alertsHubEventsClickTracker
+} from 'in-settings/tracker';
 import getApplicationAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getApplicationAlertConfigStats';
 import getWebsiteAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getWebsiteAlertConfigStats';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { teamSettingsAlertingEvents, teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import AlertsHubElement from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHubElement';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertsList } from 'in-applications/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import { isLoading } from 'in-services/util/result';
@@ -50,13 +56,13 @@ export default function AlertsHub() {
   const data = useAlertStats();
   return (
     <div className={locals.container}>
-      {renderTitle()}
-      {renderContent(data)}
+      <AlertsHubTitle />
+      <AlertsHubContent {...data} />
     </div>
   );
 }
 
-function renderTitle() {
+function AlertsHubTitle() {
   return (
     <div>
       <h1 className={locals.headline}>Instana {t('in-alerting:smartAlerts.components.alertsHub.title')}</h1>
@@ -65,7 +71,7 @@ function renderTitle() {
   );
 }
 
-function renderContent({ websites, applications, infrastructure }) {
+function AlertsHubContent({ websites, applications, infrastructure }) {
   const content = [
     {
       title: t('in-alerting:smartAlerts.components.alertsHub.websites.title'),
@@ -78,7 +84,8 @@ function renderContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.websites.button0'),
           icon: 'lib_website',
-          path: websitesPathFullyQualified
+          path: websitesPathFullyQualified,
+          onClick: () => alertHubWebsiteClickTracker()
         }
       ]
     },
@@ -94,7 +101,8 @@ function renderContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.applications.button0'),
           icon: 'lib_alerts_alert',
-          path: alertsList
+          path: alertsList,
+          onClick: () => alertHubSmartAlertsClickTracker()
         }
       ]
     },
@@ -113,17 +121,21 @@ function renderContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.infrastructure.button0'),
           icon: 'lib_events_critical',
-          path: teamSettingsAlertingAlerts
+          path: teamSettingsAlertingAlerts,
+          onClick: () => alertHubAlertsClickTracker()
         },
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.infrastructure.button1'),
           icon: 'lib_help_error_warning',
           path: teamSettingsAlertingEvents,
-          kind: 'info'
+          kind: 'info',
+          onClick: () => alertsHubEventsClickTracker()
         }
       ]
     }
   ];
+  const { createHrefToPath } = useNavigation();
+
   return (
     <Row className={locals.mainRow}>
       {content.map((element, i) => (
@@ -138,7 +150,7 @@ function renderContent({ websites, applications, infrastructure }) {
                 {element.buttons.map((b, i) => {
                   const { text, path, ...buttonProps } = b;
                   return (
-                    <Button key={i} href$={getModifiedUrlStream(p => (p.pathname = path))} {...buttonProps}>
+                    <Button key={i} href={createHrefToPath(path)} {...buttonProps}>
                       {text}
                     </Button>
                   );

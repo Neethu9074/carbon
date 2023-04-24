@@ -12,10 +12,10 @@ import { useObservable } from '@instana/hooks';
 import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
-import history from 'in-stores/navigation/history';
 import Sticky from 'in-components/Sticky';
 import { t, Trans } from 'in-i18n';
 
@@ -54,6 +54,8 @@ export default function NotificationBarSticky() {
   );
 }
 function Content({ message }) {
+  const location = useLocation();
+
   return (
     <Sticky
       header={
@@ -94,7 +96,7 @@ function Content({ message }) {
                     target="_blank"
                     href="https://aws.amazon.com/marketplace/pp/prodview-hnqy5e3t3fzda"
                     rel="noopener noreferrer"
-                    onClick={track(BUY_NOW_BUTTON_CLICKED, getPageType(history.location.pathname))}
+                    onClick={track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
                   >
                     {t('in-components:messageFlyout.buyNowBtn')}
                   </Button>
@@ -105,7 +107,7 @@ function Content({ message }) {
                   target="_blank"
                   onClick={e => {
                     stopPropagationAndPreventDefault(e);
-                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
+                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
                     addActiveDialog(<RequestQuoteDialog />);
                   }}
                 >

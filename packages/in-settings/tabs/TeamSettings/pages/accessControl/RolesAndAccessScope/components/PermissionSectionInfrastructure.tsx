@@ -8,6 +8,7 @@ import React from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
+import { MapFormItems } from 'formalistic';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -40,19 +41,21 @@ import { t } from 'in-i18n';
 export type EntityPermissionKey = 'infraDfqFilter';
 const VIEWER_ACCESS = 'VIEWER_ACCESS';
 
-export interface PermissionSectionInfrastructureProps extends SlideControlProps<SubSlideConfig>, FormControlProps {
+export interface PermissionSectionInfrastructureProps<FORM_TYPE extends MapFormItems>
+  extends SlideControlProps<SubSlideConfig>,
+    FormControlProps<FORM_TYPE> {
   title: string;
   viewerAccessDescription: string;
   icon: string;
 }
 
-export default function PermissionSectionInfrastructure({
+export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFormItems>({
   title,
   viewerAccessDescription,
   icon,
   form,
   setForm
-}: PermissionSectionInfrastructureProps) {
+}: PermissionSectionInfrastructureProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
 

@@ -15,8 +15,8 @@ export default function useCreateApdexForm(
   apdexConfig: Partial<ApdexConfiguration>,
   entityType: ApdexEntityTypes,
   entityId: string
-): [MapForm, React.Dispatch<React.SetStateAction<MapForm>>] {
-  const [form, setForm] = useState<MapForm>(createForm(apdexConfig, entityType, entityId));
+): [MapForm<any>, React.Dispatch<React.SetStateAction<MapForm<any>>>] {
+  const [form, setForm] = useState<MapForm<any>>(createForm(apdexConfig, entityType, entityId));
 
   useEffect(() => {
     // Re-initialize form if apdexConfig has changed

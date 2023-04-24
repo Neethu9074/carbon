@@ -115,7 +115,7 @@ export default connectTo(
 );
 
 function getDetails(row) {
-  return <Code code={formatSql(row.topQuery.get('qt'))} lang="sql" />;
+  return row.topQuery.get('qt') ? <Code code={formatSql(row.topQuery.get('qt'))} lang="sql" /> : null;
 }
 
 function Args({ args }) {

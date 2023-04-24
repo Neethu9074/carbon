@@ -90,7 +90,7 @@ export default function LightCard({
           className={classNames({
             [locals.nonClickable]: isInteractiveCard
           })}
-          onClick={isInteractiveCard ? onClickPrevented : undefined}
+          onClick={onClickPrevented}
         >
           {header}
         </div>

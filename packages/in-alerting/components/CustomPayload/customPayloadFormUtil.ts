@@ -81,7 +81,7 @@ function keyNameValidator(s: string | null): ValidationResult {
   return null;
 }
 
-function createFormFieldForField(field: CustomPayloadFieldUnion & { id?: string }): MapForm {
+function createFormFieldForField(field: CustomPayloadFieldUnion & { id?: string }): MapForm<any> {
   const fieldType = field.type ?? staticType;
 
   return createMapForm()
@@ -116,7 +116,7 @@ function createFormFieldForField(field: CustomPayloadFieldUnion & { id?: string 
 function onlyUniqueKeyNames(payloadItems: Item[]): ValidationResult {
   if (!payloadItems) return;
 
-  const keys = payloadItems.map(item => ((item as MapForm).get('key') as Field<string>).value).filter(isNotBlank);
+  const keys = payloadItems.map(item => ((item as MapForm<any>).get('key') as Field<string>).value).filter(isNotBlank);
   const keySet = new Set(keys);
 
   if (keys.length > keySet.size) {
@@ -129,13 +129,13 @@ export function defaultValueForType(type?: FieldType): {} | '' {
   return type === dynamicType ? {} : '';
 }
 
-export function createNewFormEntry(): MapForm {
+export function createNewFormEntry(): MapForm<any> {
   return createFormFieldForField(enrichedWithUniqId({}));
 }
 
 /** ListForm<MapForm>, if ListForm would be typed */
-export function createForm(payloadFields: CustomPayloadFieldUnion[], addEmptyEntry = true): ListForm {
-  const initializeListForm: ListForm = createListForm({
+export function createForm(payloadFields: CustomPayloadFieldUnion[], addEmptyEntry = true): ListForm<any> {
+  const initializeListForm: ListForm<any> = createListForm({
     validator: onlyUniqueKeyNames
   });
 
@@ -144,7 +144,7 @@ export function createForm(payloadFields: CustomPayloadFieldUnion[], addEmptyEnt
     return initializeListForm.push(createNewFormEntry());
   }
 
-  return payloadFields.reduce<ListForm>(
+  return payloadFields.reduce<ListForm<any>>(
     (result, payloadField) => result.push(createFormFieldForField(payloadField)),
     initializeListForm
   );

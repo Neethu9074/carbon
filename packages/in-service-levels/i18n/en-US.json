@@ -1,2 +1,48 @@
 {
+  "general": {
+    "addButtonLabel": "Add",
+    "saveButtonLabel": "Save",
+    "cancelButtonLabel": "Cancel",
+    "editButtonLabel": "Edit",
+    "copyButtonLabel": "Copy",
+    "deleteButtonLabel": "Delete",
+    "entityTypes": {
+      "label": "Unknown Entity",
+      "label_application": "Application",
+      "label_website": "Website"
+    }
+  },
+  "createSloDialog": {
+    "title": "Create Service Level Objective (SLO)",
+    "selectEntityNavItem": "Select Entity",
+    "selectEntityTitle": "Select an entity to add SLO to:"
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "Application SLO",
+          "websites": "Website SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "Unknown blueprint",
+        "blueprint_latency": "Latency",
+        "blueprint_availability": "Availability"
+      },
+      "entityTypeFilter": {
+        "placeholder": "Entity Type"
+      },
+      "sloTagFilter": {
+        "placeholder": "Tag"
+      }
+    },
+    "title": "Service Level Objectives",
+    "columnLabels": {
+      "name": "Name",
+      "entity": "Entity",
+      "blueprint": "Blueprint",
+      "tags": "Tags"
+    }
+  }
 }

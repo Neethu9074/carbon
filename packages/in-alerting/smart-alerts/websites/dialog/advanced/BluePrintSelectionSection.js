@@ -9,7 +9,6 @@ import BlueprintSelection from 'in-alerting/smart-alerts/components/dialog/advan
 import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
-import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websites/tracker';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { blueprintConfigs } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
@@ -27,7 +26,6 @@ export default function BluePrintSelectionSection(props) {
         updateForm={updateForm}
         blueprintConfigs={blueprintConfigs}
         createBlueprintForm={createBlueprintForm}
-        trackBlueprintChange={newBlueprint => websitesAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })}
       />
       <AlertTypeSwitch
         alertType={alertType}
@@ -46,7 +44,7 @@ export default function BluePrintSelectionSection(props) {
         )}
         renderStatusCode={() => (
           <LightCard title={t('in-alerting:smartAlerts.websites.advanced.HTTPStatusCode')} withoutPadding darkFrame>
-            <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
+            <ProvideStatusCode form={form} updateForm={updateForm} />
           </LightCard>
         )}
         renderCustomEvent={() => (

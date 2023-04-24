@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 import { t } from '@instana/i18n-react';
 
 export function customEventRulesValidator(mapFormRules: Item[] = []): ValidationResult {
-  const interactedRules = (mapFormRules as MapForm[]).filter(
+  const interactedRules = (mapFormRules as MapForm<any>[]).filter(
     rule => rule.get('metricName')?.touched || !isEmpty((rule.get('metricName') as Field<string>)?.value)
   );
 

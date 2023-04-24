@@ -25,7 +25,8 @@ import {
   hasSyntheticsAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
-  hasZHMCAccess
+  hasZHMCAccess,
+  hasSAPAccess
 } from 'in-stores/permission';
 import {
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -58,8 +59,10 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
+import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { isSloView, serviceLevelsDashboard } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -71,10 +74,11 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
-import { isSloView, sloList } from 'in-service-levels/navigation/path';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -143,6 +147,7 @@ export default function ViewSwitcher({
       {hasFirstSectionAccess && <SpacerListItem />}
       <Analyze {...commonProps} />
       {hasEventsAccess && <Incidents {...commonProps} />}
+      <AutomationMenu {...commonProps} />
       <SloDashboard {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
       <View
@@ -384,7 +389,27 @@ function SloDashboard(props) {
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}
-      href={createHrefToPath(sloList)}
+      href={createHrefToPath(serviceLevelsDashboard)}
+      {...props}
+    />
+  );
+}
+
+function AutomationMenu(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!role.canConfigureAutomationActions || !actionAutomationEnabled) {
+    return null;
+  }
+
+  return (
+    <View
+      id="main-nav-automation-dashboard"
+      label={t('in-automation:automation')}
+      icon="lib_automation"
+      isActive={matchLocation(actionCatalogPath)}
+      href={createHrefToPath(actionCatalogPath)}
+      isBeta
       {...props}
     />
   );
@@ -502,6 +527,7 @@ function Platforms(props) {
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -560,6 +586,16 @@ function Platforms(props) {
           {...props}
         />
       )}
+      {hasSAPAccess && (
+        <ViewItemForPlatforms
+          id="main-nav-sap"
+          label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
+          icon="lib_sap"
+          href={createHrefToPath(sapSystemList)}
+          isActive={matchLocation(sap)}
+          {...props}
+        />
+      )}
       {hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
@@ -574,7 +610,7 @@ function Platforms(props) {
   );
 
   if (numPlatformsAvailable > 1) {
-    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp);
+    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, sap);
 
     return (
       <View

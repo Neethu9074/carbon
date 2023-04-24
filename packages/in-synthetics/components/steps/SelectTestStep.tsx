@@ -20,7 +20,7 @@ import locals from './SelectTestStep.mless';
 export interface Props {
   selectedBlueprint: BluePrint;
   onSelectBluePrint: (item: BluePrint) => void;
-  updateForm: (form: MapForm) => void;
+  updateForm: (form: MapForm<any>) => void;
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
 }

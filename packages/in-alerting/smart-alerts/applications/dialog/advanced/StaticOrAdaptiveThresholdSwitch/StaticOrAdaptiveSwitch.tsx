@@ -19,18 +19,18 @@ import { ThresholdType } from 'in-types';
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
 
 interface Props {
-  form: MapForm;
-  setForm: (updatedForm: MapForm) => void;
+  form: MapForm<any>;
+  setForm: (updatedForm: MapForm<any>) => void;
   onThresholdTypeChange: (
     typeWithOptionalSeasonality: string,
-    form: MapForm,
-    updateForm: (form: MapForm) => void,
+    form: MapForm<any>,
+    updateForm: (form: MapForm<any>) => void,
     trackThresholdTypeChanged: (trackingObject: any) => void
   ) => void;
 }
 
 export default function StaticOrAdaptiveSwitch({ form, setForm, onThresholdTypeChange }: Props) {
-  const thresholdType = ((form.get('threshold') as MapForm)?.get('type') as Field<ThresholdType>)?.value;
+  const thresholdType = ((form.get('threshold') as MapForm<any>)?.get('type') as Field<ThresholdType>)?.value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (

@@ -8,6 +8,7 @@ import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 
 export default function CamundaSpanDetailView({ span }) {
@@ -34,8 +35,20 @@ export default function CamundaSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.camunda.titleExternalTaskRetries')}>
           {span.getIn(['data', 'externalTask', 'retries'])}
         </Di>
+        {getBusinessVariables(span)}
         <ErrorDescriptionItem error={span.getIn(['data', 'camunda', 'error'])} />
       </Dl>
     </div>
   );
+}
+function getBusinessVariables(span) {
+  return span
+    .getIn(['data', 'bpm', 'variable'], emptyMap)
+    .map((v, k) => {
+      return (
+        <Di title={t('in-forge:tracing.camunda.titleBusinessVariable', { businessVariableKey: `bpm-${k}` })}>{v}</Di>
+      );
+    })
+    .valueSeq()
+    .toArray();
 }

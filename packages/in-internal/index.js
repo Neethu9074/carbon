@@ -114,7 +114,11 @@ export default function Internal() {
           path="/internal/monitoringUnit/eum/eumHealthProcessor"
           children={wrapInInternalView(EumHealthProcessor)}
         />,
-        <Route key="internalEum" path="/internal/monitoringUnit/eum" children={wrapInInternalView(EumOverview)} />,
+        <Route
+          key="internalEum"
+          path="/internal/monitoringUnit/eum/overview"
+          children={wrapInInternalView(EumOverview)}
+        />,
         <Route
           key="internalFillerStats"
           path="/internal/monitoringUnit/fillerStats"

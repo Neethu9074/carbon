@@ -21,7 +21,10 @@ const oneZeroEntitiesDeprecationReason =
   'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
 
 const ignoredPlugins = [
-  'defaultEntity20' // is a pseudo-entity only used for inheritance in the UI for AP/S/E entities
+  'defaultEntity20', // is a pseudo-entity only used for inheritance in the UI for AP/S/E entities
+  'application', // because the export is only used in infra metrics API
+  'service', // because the export is only used in infra metrics API
+  'endpoint' // because the export is only used in infra metrics API
 ];
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
@@ -31,16 +34,23 @@ if (process.env.GENERATE_METRIC_OVERVIEW) {
 }
 
 function doGenerate() {
-  const relevantPlugins = Object.keys(allMetricDefinitions).filter(plugin => !ignoredPlugins.includes(plugin));
+  const pluginsFromMetricDefinitions = Object.keys(allMetricDefinitions);
+  const relevantPlugins = pluginsFromMetricDefinitions.filter(plugin => !ignoredPlugins.includes(plugin));
 
-  it('must generate a metric overview for docs', () => {
-    const plugins = relevantPlugins.sort((a, b) => getPluginName(a, 2).localeCompare(getPluginName(b, 2)));
+  const isStaticMetric = metric => typeof metric.label === 'string' && typeof metric.metric === 'string';
+
+  // Removes metrics using a raw pattern defined by getCustomMetricMatch, such as JVM JMX.
+  // This check works, because each metric pattern always has a prefix so far.
+  const isDynamicMetric = metric => typeof metric.metric === 'object' && typeof metric.metric.pre === 'string';
+
+  it('must generate static metric overview for docs', () => {
+    const plugins = pluginsFromMetricDefinitions.sort((a, b) => getPluginName(a, 2).localeCompare(getPluginName(b, 2)));
 
     let str = '';
 
     plugins.forEach(plugin => {
       const metrics = allMetricDefinitions[plugin]
-        .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
+        .filter(isStaticMetric)
         .sort((a, b) => a.label.localeCompare(b.label));
 
       if (metrics.length === 0) {
@@ -69,14 +79,12 @@ function doGenerate() {
     console.log('Metric overview written to %s', targetFileName);
   });
 
-  it('must generate a metric overview for Grafana plugin', () => {
-    const result = relevantPlugins.reduce((plugins, pluginName) => {
-      const metrics = allMetricDefinitions[pluginName]
-        .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
-        .reduce((agg, metric) => {
-          agg[metric.metric] = metric.label;
-          return agg;
-        }, {});
+  it('must generate static metric overview for Grafana plugin', () => {
+    const result = pluginsFromMetricDefinitions.reduce((plugins, pluginName) => {
+      const metrics = allMetricDefinitions[pluginName].filter(isStaticMetric).reduce((agg, metric) => {
+        agg[metric.metric] = metric.label;
+        return agg;
+      }, {});
       const deprecated = Boolean(!allPlugins[pluginName]);
       plugins[pluginName.toLowerCase()] = {
         label: getPluginName(pluginName, 2),
@@ -93,20 +101,18 @@ function doGenerate() {
     console.log('Metric overview for Grafana written to %s', targetFileName);
   });
 
-  it('must generate a metric overview for UI backend', () => {
+  it('must generate static metric overview for UI backend', () => {
     const result = relevantPlugins.reduce((plugins, pluginName) => {
-      const metrics = allMetricDefinitions[pluginName]
-        .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
-        .map(metric => {
-          return {
-            formatter: getFormatterType(metric.formatter),
-            label: getPluginName(pluginName, 2) + ' ' + metric.label,
-            description: metric.label,
-            metricId: metric.metric,
-            pluginId: pluginName,
-            custom: false
-          };
-        });
+      const metrics = allMetricDefinitions[pluginName].filter(isStaticMetric).map(metric => {
+        return {
+          formatter: getFormatterType(metric.formatter),
+          label: getPluginName(pluginName, 2) + ' ' + metric.label,
+          description: metric.label,
+          metricId: metric.metric,
+          pluginId: pluginName,
+          custom: false
+        };
+      });
       plugins[pluginName] = metrics;
       return plugins;
     }, {});
@@ -115,5 +121,65 @@ function doGenerate() {
     const content = `${JSON.stringify(result, 0, 2)}`;
     fs.writeFileSync(targetFileName, content);
     console.log('Metric overview for ui backend written to %s', targetFileName);
+  });
+
+  it('must generate static and dynamic metric definitions for UI backend', () => {
+    const PLACEHOLDER = '<placeholder>';
+    const patterMetricWithPlaceholder = metric => {
+      const { pre, post } = metric;
+
+      if (pre != null && post != null) {
+        return `${pre}.${PLACEHOLDER}.${post}`;
+      }
+      if (pre != null) {
+        return `${pre}.${PLACEHOLDER}`;
+      }
+
+      throw Error(`Unexpected metric pattern w/o prefix: ${metric}`);
+    };
+
+    const result = relevantPlugins.reduce((plugins, pluginName) => {
+      const metrics = allMetricDefinitions[pluginName]
+        .filter(metric => isStaticMetric(metric) || isDynamicMetric(metric))
+        .map(metric => {
+          const category = metric.category.length > 0 ? metric.category[0] : null;
+          const label = typeof metric.label === 'function' ? metric.label() : metric.label;
+          const description = category == null ? label : `${category} ${label}`;
+          const baseMetricDefinition = {
+            formatter: getFormatterType(metric.formatter),
+            label,
+            description,
+            category,
+            entityType: pluginName
+          };
+
+          if (isDynamicMetric(metric)) {
+            return {
+              type: 'DYNAMIC',
+              ...baseMetricDefinition,
+              metricId: patterMetricWithPlaceholder(metric.metric),
+              metricPrefix: metric.metric.pre,
+              metricPostfix: metric.metric.post,
+              metricPlaceholderLabel: metric.metric.placeholderLabel
+            };
+          }
+
+          return {
+            type: 'STATIC',
+            ...baseMetricDefinition,
+            metricId: metric.metric
+          };
+        });
+
+      if (metrics.length > 0) {
+        plugins[pluginName] = metrics;
+      }
+      return plugins;
+    }, {});
+
+    const targetFileName = path.join(process.cwd(), 'metricDefinitionsForUiBackend.json');
+    const content = `${JSON.stringify(result, 0, 2)}`;
+    fs.writeFileSync(targetFileName, content);
+    console.log('Dynamic metric overview for ui backend written to %s', targetFileName);
   });
 }

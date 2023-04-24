@@ -31,7 +31,6 @@ export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   true
 );
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
-export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
@@ -41,6 +40,7 @@ export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
+export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
@@ -98,17 +98,12 @@ export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlerts
 // Synthetics test and  dashboard
 export const syntheticsEnabled = isFeatureFlagEnabled('syntheticsEnabled');
 
-// Synthetic BrowserScript feature flag
+// Synthetic BrowserScript feature flags
 export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');
+export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('syntheticBrowserCreateTestEnabled');
 
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
-
-// Synthetic SmartAlert details feature flag
-export const syntheticSmartAlertsDetailsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsDetailsEnabled');
-
-// Create Synthetic SmartAlert UI feature flag
-export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
 
 // Create Synthetic Test in Advance Mode
 export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
@@ -154,6 +149,15 @@ export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', f
 
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
 
+export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
+  'limitVisibleNestingLevelsInTraceEnabled',
+  false
+);
+
 export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
 
+
 export const kongMonitoringEnabled = isFeatureFlagEnabled('kongMonitoringEnabled', false);
+// Recurrent Maintenance Window Flag
+export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindows', true);
+
