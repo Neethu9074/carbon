@@ -1597,6 +1597,22 @@
   "tracingTypeName_cxfserver_0": "HTTP Call",
   "tracingTypeName_cxfserver_1": "HTTP Calls",
   "tracingTypeName_cxfserver_2": "HTTP Calls",
+  "tracingTypeName_datapower": "IBM DataPower",
+  "tracingTypeName_datapowerhttpserver": "IBM DataPower HTTP Call",
+  "tracingTypeName_datapowerhttpserver_plural": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerhttpserver_0": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerhttpserver_1": "IBM DataPower HTTP Call",
+  "tracingTypeName_datapowerhttpserver_2": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerhttpclient": "IBM DataPower HTTP Call",
+  "tracingTypeName_datapowerhttpclient_plural": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerhttpclient_0": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerhttpclient_1": "IBM DataPower HTTP Call",
+  "tracingTypeName_datapowerhttpclient_2": "IBM DataPower HTTP Calls",
+  "tracingTypeName_datapowerinternal": "IBM DataPower Internal Call",
+  "tracingTypeName_datapowerinternal_plural": "IBM DataPower Internal Calls",
+  "tracingTypeName_datapowerinternal_0": "IBM DataPower Internal Calls",
+  "tracingTypeName_datapowerinternal_1": "IBM DataPower Internal Call",
+  "tracingTypeName_datapowerinternal_2": "IBM DataPower Internal Calls",
   "tracingTypeName_distributeme": "DistributeMe call",
   "tracingTypeName_distributeme_plural": "DistributeMe calls",
   "tracingTypeName_distributeme_0": "DistributeMe calls",
@@ -13423,6 +13439,11 @@
     },
     "ibmdb2": {
       "titleQuery": "Query"
+    },
+    "ibmdatapower": {
+      "titleOperationName": "Operation Name",
+      "titleObjectName": "Object Name",
+      "titleObjectType": "Object Type"
     },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} to {{returnDestination}}",
