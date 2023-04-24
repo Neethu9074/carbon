@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { Fragment, useCallback } from 'react';
@@ -9,6 +10,7 @@ import { Map } from 'immutable';
 import { Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
+import { beeinstanaHistogramsEnabled } from 'in-services/featureFlags';
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -19,10 +21,12 @@ import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
+import { hours } from 'in-services/time';
 
 import locals from './CustomMetricsV2.mless';
 
 const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
+const beeInstanaMinimumWindowSize = hours.toMillis(6);
 
 interface CustomMetricProps {
   specs: MetricsSpec[];
@@ -152,6 +156,9 @@ const cols = [
       },
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getTimeConfig(row: Row) {
+        return row.timeConfig;
       }
     }
   }
@@ -261,7 +268,7 @@ function getDetails(row: Row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeConfig={row.timeConfig}
+      timeConfig={adjustHistogramWindowSize(row.type, row.name, row.timeConfig)}
       margins={{
         left: 90,
         right: 90
@@ -296,7 +303,7 @@ export function getDefaultRows({
         color,
         tableMetric,
         snapshotId,
-        timeConfig,
+        timeConfig: adjustHistogramWindowSize(metric.type, metric.name, timeConfig),
         setPinnedMetrics,
         pinnedMetrics,
         metrics: []
@@ -336,6 +343,49 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
     tableMetric,
     ...metric
   };
+}
+
+
+/*
+ * Increases the TimeConfig windowSize if necessary
+ * to enable the retrieval of histogram metrics
+ * that are stored only in BeeInstana.
+ */
+function adjustHistogramWindowSize(
+  metricType: string,
+  metricName: string,
+  timeConfig: TimeConfig): TimeConfig {
+
+    if (beeinstanaHistogramsEnabled && timeConfig.windowSize < beeInstanaMinimumWindowSize) {
+      if (metricType === "histogram" && nativeBeeInstanaHistogram(metricName)) {
+        return {
+          to: timeConfig.to,
+          focusedMoment: timeConfig.focusedMoment,
+          windowSize: beeInstanaMinimumWindowSize,
+          autoRefresh: timeConfig.autoRefresh
+        };
+      }
+    }
+    return timeConfig;
+}
+
+/*
+ * Returns true if a histogram metric is stored
+ * natively in BeeInstana. Native histograms
+ * do not include _bucket, _sum, or _count as
+ * part of the metric name.
+ */
+function nativeBeeInstanaHistogram(metricName: string): boolean {
+  const nonNativeMetrics = ["_bucket","_count","_sum","_mean","_gcount","_gsum"];
+  const metricSplit = metricName.split("{");
+  if (metricSplit.length > 0) {
+    let index = metricSplit[0].lastIndexOf("_");
+    if (index === -1 ||
+      !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export const AVAILABLE_SPECS: MetricsSpecs = {

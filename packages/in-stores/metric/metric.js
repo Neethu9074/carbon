@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { just } from '@instana/observables';
@@ -152,7 +153,7 @@ function resolveRollup(rollup, timeConfig) {
 }
 
 export const getMetric = memoize(
-  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation }) => {
+  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation, timeConfig }) => {
     if (!timeWindowAggregation) {
       return getMetricForFocusedMoment({ snapshotId, metric });
     }
@@ -167,11 +168,15 @@ export const getMetric = memoize(
           });
         }
 
+        if (timeConfig) {
+          return getHistoricMetric({ snapshotId, metric, timeConfig }).map(v => v[1]);
+        }
         return getMetricForFocusedMoment({ snapshotId, metric }).map(v => v[1]);
       })
       .distinct();
   },
-  ({ snapshotId, metric, timeWindowAggregation }) => snapshotId + metric + timeWindowAggregation,
+  ({ snapshotId, metric, timeWindowAggregation, timeConfig }) =>
+  snapshotId + metric + timeWindowAggregation + (timeConfig ? timeConfig.to + timeConfig.focusedMoment + timeConfig.windowSize + timeConfig.autoRefresh : ""),
   500
 );
 

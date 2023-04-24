@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 // the keys (not the values) need to be kept in sync with
@@ -14,6 +15,7 @@ module.exports = {
   infraMetricsWidgetEnabled: true,
   infraExploreDataEnabled: true,
   beeInstanaInfraMetricsEnabled: true,
+  beeinstanaHistogramsEnabled: true,
   highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
   enableTroubleshootingMode: true,
