@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { GroupPermissionEntity, OrderDirection, PermissionSetWithRoles, Result } from '@instana/types';
-import { Stack, SvgIcon, Typography } from '@instana/components';
+import { Stack, SvgIcon, Typography, useTheme } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { useTheme } from '@instana/hooks';
 
 import {
   getSelectedEntityIds,
@@ -25,7 +25,6 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 /**
  * Table representive to display all currently selected
