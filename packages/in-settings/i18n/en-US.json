@@ -609,6 +609,8 @@
     "failIfNoIdp": "To change this settings you need to have an identity provider configured.",
     "noGroupMapping": "There are no mappings configured between identity provider and Instana",
     "denyUserWithNoGroup": "Deny access when no mapping is found. If unchecked, users with no group mappings and no groups found will be added to the Default group.",
+    "ownerGroupMemberNotLimitable": "User is member of the Owner group and will not be limited by other group memberships.",
+    "mergedPermissionWithCombinationOfLimitedAndUnlimited": "Effective set of permissions is the sum for the most permissive, granted through different group assignments. However, the sum of limited access scopes determines the effective scope for the user.",
     "twoFactor": "Two-Factor",
     "settings": "Settings",
     "users": "Users",

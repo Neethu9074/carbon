@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, KeyValue, Ul, Li } from '@instana/components';
+import { ColumnizedContent, KeyValue, Ul, Li, Message } from '@instana/components';
 
 import {
   removeUserFromGroup,
@@ -17,6 +17,7 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import ApiList from 'in-settings/components/ApiList';
+import { ownerRoleId } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 export default function Groups({ userId, refresh }) {
@@ -81,20 +82,45 @@ const columnDefinitions = [
   }
 ];
 
-function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds }) {
+/**
+ * Determines the warning message
+ *
+ * @param {{data:object|null}|null}} itemsResult fetched result
+ * @returns message or null
+ */
+const determineMessage = itemsResult => {
+  let message = null;
+  const items = itemsResult?.data ?? [];
+  const filterOwnerGroup = ({ groupId }) => groupId === ownerRoleId;
+  const filterNonLimitedAccessGroups = ({ limited }) => !limited;
+
+  const hasLimitedAccessGroups = items.some(({ limited }) => limited);
+  if (items.some(filterOwnerGroup) && hasLimitedAccessGroups) {
+    message = t('in-settings:tabs.ownerGroupMemberNotLimitable');
+  } else if (hasLimitedAccessGroups && items.some(filterNonLimitedAccessGroups)) {
+    message = t('in-settings:tabs.mergedPermissionWithCombinationOfLimitedAndUnlimited');
+  }
+  return message;
+};
+
+function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult }) {
+  const message = determineMessage(itemsResult);
   return (
-    <Ul>
-      {items.map(group => (
-        <Li key={group.groupId} href$={getEntityIdView(teamSettingsAccessControlGroups, group.groupId)}>
-          <ColumnizedContent
-            columnDefinitions={columnDefinitions}
-            group={group}
-            deleteItem={() => removeUserFromGroupInternal(userId, group.groupId, refresh, setErrorMessage)}
-            currentDeletingItemIds={currentDeletingItemIds}
-          />
-        </Li>
-      ))}
-    </Ul>
+    <>
+      {message && <Message type="warning" title={message} />}
+      <Ul>
+        {items.map(group => (
+          <Li key={group.groupId} href$={getEntityIdView(teamSettingsAccessControlGroups, group.groupId)}>
+            <ColumnizedContent
+              columnDefinitions={columnDefinitions}
+              group={group}
+              deleteItem={() => removeUserFromGroupInternal(userId, group.groupId, refresh, setErrorMessage)}
+              currentDeletingItemIds={currentDeletingItemIds}
+            />
+          </Li>
+        ))}
+      </Ul>
+    </>
   );
 }
 
