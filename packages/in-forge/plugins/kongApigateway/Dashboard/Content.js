@@ -57,5 +57,5 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
       </div>
     );
   }
-  return <DashboardNotification>Cannot connect to kong server since it is closed beta version.</DashboardNotification>;
+  return <DashboardNotification label={t('in-forge:plugins.kongApigateway.connectionError')} />;
 }
