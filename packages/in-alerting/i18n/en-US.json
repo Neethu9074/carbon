@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure Alerting"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
