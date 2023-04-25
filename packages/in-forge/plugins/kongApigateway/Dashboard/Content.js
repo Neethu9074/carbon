@@ -57,5 +57,5 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
       </div>
     );
   }
-  return <DashboardNotification label={t('in-forge:plugins.kongApigateway.connectionError')} />;
+  return <DashboardNotification>{t('in-forge:plugins.kongApigateway.connectionError')}</DashboardNotification>;
 }
