@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { PermissionSetWithRoles, ScopeBinding, Result, OrderDirection } from '@instana/types';
-import { Button, Stack, StackItem, SvgIcon, Typography } from '@instana/components';
+import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { useTheme } from '@instana/hooks';
 
 import {
   EntityPermissionKey,
@@ -36,7 +36,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 interface LimitedAccessPanelProps<I, FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE>,

@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { useTheme } from '@instana/hooks';
+import { Message, useTheme } from '@instana/components';
 
 import { t } from 'in-i18n';
 
