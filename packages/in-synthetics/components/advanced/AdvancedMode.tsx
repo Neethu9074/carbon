@@ -32,7 +32,9 @@ const AdvancedMode = ({
   testTypeSelected,
   setTestTypeSelected,
   renderSectionsCounter,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
@@ -61,6 +63,8 @@ const AdvancedMode = ({
         setTestTypeSelected={setTestTypeSelected}
         updateForm={updateForm}
         setRenderSectionsCounter={setRenderSectionsCounter}
+        commonAttributes={commonAttributes}
+        setCommonAttributes={setCommonAttributes}
       />
     )
   };

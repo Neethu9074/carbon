@@ -24,6 +24,8 @@ interface BluePrintSelectionSectionProps {
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
 const BluePrintSelectionSection = ({
@@ -32,7 +34,9 @@ const BluePrintSelectionSection = ({
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -49,6 +53,8 @@ const BluePrintSelectionSection = ({
         testTypeSelected={testTypeSelected}
         setTestTypeSelected={setTestTypeSelected}
         setRenderSectionsCounter={setRenderSectionsCounter}
+        commonAttributes={commonAttributes}
+        setCommonAttributes={setCommonAttributes}
       />
     </ExpandableLightCard>
   );
@@ -61,6 +67,8 @@ interface SelectionMenuProps {
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
 const SelectionMenu = ({
@@ -69,7 +77,9 @@ const SelectionMenu = ({
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes
 }: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
@@ -88,6 +98,8 @@ const SelectionMenu = ({
           testTypeSelected={testTypeSelected}
           setTestTypeSelected={setTestTypeSelected}
           setRenderSectionsCounter={setRenderSectionsCounter}
+          commonAttributes={commonAttributes}
+          setCommonAttributes={setCommonAttributes}
         />
       </div>
     </div>

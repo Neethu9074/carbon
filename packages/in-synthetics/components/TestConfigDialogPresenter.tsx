@@ -48,6 +48,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
   const [testTypeSelected, setTestTypeSelected] = useState({ simple: false, script: false });
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
+  //commonAttributes stores common SyntheticTest configuration attributes
+  //between Simple Mode and Advanced Mode. These attributes are: syntheticType, url (HTTPAction),
+  //script (HTTPScript), locations, testFrequency, label, description, and applicationId.
+  const [commonAttributes, setCommonAttributes] = useState<Record<string, any>>({});
 
   const formId = 'create-synthetics-test-form';
 
@@ -171,6 +175,18 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     </FormFooter>
   );
 
+  const populateCommonAttributes = (form: MapForm<any>) => {
+    commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
+    commonAttributes['url'] = form.get('configuration').get('url')?.value;
+    commonAttributes['testFrequency'] = form.get('testFrequency').value;
+    commonAttributes['locations'] = form.get('locations').value;
+    commonAttributes['label'] = form.get('label').value;
+    commonAttributes['description'] = form.get('description').value;
+    commonAttributes['applicationId'] = form.get('applicationId').value;
+    commonAttributes['script'] = form.get('script')?.value;
+    setCommonAttributes(commonAttributes);
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
@@ -191,8 +207,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
               onClick={() => {
                 // TODO: Reset form state
                 // TODO: Track mode switching state
+                // Pass attributes set in the basic mode to advanced mode
+                populateCommonAttributes(form);
                 setSimpleMode(!simpleMode);
-                setForm(createForm(!simpleMode));
+                setForm(createForm(!simpleMode, selectedBlueprint, commonAttributes));
                 resetScrollShadow();
               }}
             >
@@ -222,6 +240,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setTestTypeSelected={setTestTypeSelected}
         renderSectionsCounter={renderSectionsCounter}
         setRenderSectionsCounter={setRenderSectionsCounter}
+        commonAttributes={commonAttributes}
+        setCommonAttributes={setCommonAttributes}
       />
     </DialogWithSlideInView>
   );

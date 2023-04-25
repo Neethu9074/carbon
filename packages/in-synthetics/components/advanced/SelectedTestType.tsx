@@ -24,6 +24,8 @@ interface SelectedTestTypeProps {
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
 const pingAPIDescription = (
@@ -45,7 +47,9 @@ const SelectedTestType = ({
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes
 }: SelectedTestTypeProps) => {
   return (
     <div className={locals.container}>
@@ -61,6 +65,8 @@ const SelectedTestType = ({
               selectedBlueprint={selectedBlueprint}
               testTypeSelected={testTypeSelected}
               setTestTypeSelected={setTestTypeSelected}
+              commonAttributes={commonAttributes}
+              setCommonAttributes={setCommonAttributes}
             />
           )
         }
@@ -71,7 +77,7 @@ const SelectedTestType = ({
         onClick={() => {
           if (testTypeSelected.simple) selectedBlueprint.testType = 'HTTPAction';
           if (testTypeSelected.script) selectedBlueprint.testType = 'HTTPScript';
-          updateForm(createForm(false, selectedBlueprint));
+          updateForm(createForm(false, selectedBlueprint, commonAttributes));
           setRenderSectionsCounter(v => v + 1);
         }}
       >
@@ -85,9 +91,19 @@ interface RenderHttpTestsProps {
   selectedBlueprint: AdvancedBluePrint;
   testTypeSelected: { simple: boolean; script: boolean };
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
-const RenderHttpTests = ({ selectedBlueprint, testTypeSelected, setTestTypeSelected }: RenderHttpTestsProps) => {
+const RenderHttpTests = ({
+  selectedBlueprint,
+  testTypeSelected,
+  setTestTypeSelected,
+  commonAttributes,
+  setCommonAttributes
+}: RenderHttpTestsProps) => {
+  const simple: boolean = commonAttributes.syntheticType === 'HTTPAction' ? true : false;
+  const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
   return (
     <>
       <h3 className={locals.headline}>
@@ -97,22 +113,28 @@ const RenderHttpTests = ({ selectedBlueprint, testTypeSelected, setTestTypeSelec
       <Row>
         <Col lg={6} className={locals.column}>
           <PingOrScriptOption
-            checked={testTypeSelected.simple}
+            //The default behavior is that both testTypeSelected.simple and
+            //testTypeSelected.script are false, i.e, neither Simple Test nor Script Test is selected.
+            checked={!testTypeSelected.simple && !testTypeSelected.script ? simple : testTypeSelected.simple}
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.httpActionTitle')}
             description={pingAPIDescription}
             onChange={() => {
               setTestTypeSelected({ simple: true, script: false });
+              setCommonAttributes({ ...commonAttributes, syntheticType: 'HTTPAction' });
             }}
             asRadioButton
           />
         </Col>
         <Col lg={6} className={locals.column}>
           <PingOrScriptOption
-            checked={testTypeSelected.script}
+            //The default behavior is that both testTypeSelected.simple and
+            //testTypeSelected.script are false, i.e, neither Simple Test nor Script Test is selected.
+            checked={!testTypeSelected.simple && !testTypeSelected.script ? script : testTypeSelected.script}
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.httpScriptTitle')}
             description={scriptAPIDescription}
             onChange={() => {
               setTestTypeSelected({ simple: false, script: true });
+              setCommonAttributes({ ...commonAttributes, syntheticType: 'HTTPScript' });
             }}
             asRadioButton
           />

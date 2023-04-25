@@ -359,6 +359,8 @@ export interface AdvancedModeProps {
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
 export interface ConfigItem {
