@@ -6,13 +6,12 @@
 
 import React, { ReactNode } from 'react';
 
-import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
+import { SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
 import List, { TableActions, leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './LocationsSection.mless';
@@ -20,7 +19,7 @@ import locals from './LocationsSection.mless';
 export interface LocationsListProps {
   setTitle: boolean;
   tableActions?: TableActions<SyntheticLocation>;
-  loadEntities?: () => Observable<SyntheticLocation[]>;
+  loadEntities: () => Observable<SyntheticLocation[]>;
   noDataMessage?: string;
   renderNoDataAvailable?: (message?: string) => React.ReactNode;
   hiddenIds?: string[];
@@ -49,23 +48,13 @@ export default function LocationsSection({
   onRowClick,
   inSelectListDialog = false
 }: LocationsListProps): JSX.Element {
-  const locations = getLocationsAsResultObservable('')
-    .map((result: Result<SyntheticLocation[]> | null) => {
-      if (result == null) {
-        return null;
-      }
-      return (result as Result<SyntheticLocation[]>)?.data;
-    })
-    .startWith(null);
-
   return (
     <List<SyntheticLocation>
       title={setTitle ? t('in-synthetics:dialog.createTest.advancedMode.locationsLabel') : null}
       getHeader={defaultGetHeader(inSelectListDialog, tableActions)}
       columnDefinitions={columnDefinitions()}
       tableActions={tableActions}
-      //@ts-expect-error
-      loadEntities={loadEntities ? loadEntities : () => locations}
+      loadEntities={loadEntities}
       noDataMessage={noDataMessage}
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}

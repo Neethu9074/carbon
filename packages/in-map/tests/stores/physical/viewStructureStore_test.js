@@ -18,7 +18,7 @@ describe('viewStructureStore', () => {
       jest.resetModules();
       jest.doMock('in-stores/permission', () => ({
         __esModule: true,
-        hasRestrictedAccess: true
+        hasInfrastructureAccess: false
       }));
       const store = require('in-infrastructure/perspectives/viewStructureStore');
 
@@ -52,7 +52,7 @@ describe('viewStructureStore', () => {
       jest.resetModules();
       jest.doMock('in-stores/permission', () => ({
         __esModule: true,
-        hasRestrictedAccess: false
+        hasInfrastructureAccess: true
       }));
       const store = require('in-infrastructure/perspectives/viewStructureStore');
 

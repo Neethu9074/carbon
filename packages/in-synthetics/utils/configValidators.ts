@@ -65,14 +65,16 @@ export function requestHeaderValueValidator(headerValue: string): ValidationResu
   return undefined;
 }
 
-export function onlyUniqueKeyNames(items: ConfigItem[]): ValidationResult {
+export function onlyUniqueKeyNames(items: ConfigItem[], category: string): ValidationResult {
   const keys = items.map(i => i.key).filter(isNotBlank);
   const keySet = new Set(keys);
   if (keys.length > keySet.size) {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.headerNameMustBeUnique')
+        message: category === 'headers' 
+                ? t('in-synthetics:dialog.createTest.advancedMode.configStep.headerNameMustBeUnique')
+                : t('in-synthetics:dialog.createTest.advancedMode.customProperties.propertyNameMustBeUnique')
       }
     ];
   }

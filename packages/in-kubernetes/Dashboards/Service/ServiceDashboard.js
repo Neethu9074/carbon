@@ -8,7 +8,7 @@ import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import { kubernetesTimeShiftSelectTracker, serviceTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';

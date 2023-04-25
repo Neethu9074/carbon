@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 module.exports = exports = [
@@ -112,6 +113,11 @@ module.exports = exports = [
   {
     uiClientKey: 'beeInstanaInfraMetricsEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'beeinstanaHistogramsEnabled',
+    instanaCtlKey: 'feature.beeinstana.histograms.enabled',
     defaultValue: false
   },
   {
@@ -286,7 +292,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'websiteUploadConfigEnabled',
-    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    instanaCtlKey: 'feature.website.upload.config.enabled',
     defaultValue: false
   },
   {

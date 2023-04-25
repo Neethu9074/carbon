@@ -12,7 +12,6 @@
     max-height: fit-content;
     grid-template-areas: 'content' 'errors';
     grid-auto-rows: 1fr min-content;
-    margin-bottom: 4%;
   }
 
   .rightHeader {

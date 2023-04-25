@@ -31,8 +31,6 @@ export interface Role {
   canConfigureCustomAlerts: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
-  // @deprecated remove when completeley switched to using permissions
-  restrictedAccess: boolean;
 }
 
 export interface User {
