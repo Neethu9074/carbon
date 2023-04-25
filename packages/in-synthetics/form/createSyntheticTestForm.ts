@@ -87,6 +87,12 @@ export function createForm(
         value: savedState?.applicationId ?? null,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
+    )
+    .put(
+      'customProperties',
+      createField({
+        value: savedState?.headers ?? { '': '' }
+      })
     );
 }
 

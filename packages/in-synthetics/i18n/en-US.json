@@ -108,6 +108,7 @@
         "scheduleTitle": "Schedule: When will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
+        "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
@@ -133,8 +134,7 @@
           "operation": "Operation",
           "headerNameMustBeUnique": "Header name must be unique.",
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
-          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
-          "theValueMustNotBeBlank": "The value must not be blank"
+          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value."
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -147,6 +147,12 @@
           "apiName": "API",
           "browserName": "Browser",
           "internetServicesName": "Internet Services"
+        },
+        "customProperties": {
+          "property": "Property",
+          "propertyValue": "Value",
+          "addProperty": "Add Property",
+          "propertyNameMustBeUnique": "Property name must be unique."
         }
       }
     },

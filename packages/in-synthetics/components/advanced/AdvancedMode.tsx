@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/data/advancedModeBluePrints';
 import BluePrintSelectionSection from 'in-synthetics/components/advanced/BluePrintSelectionSection';
+import CustomPropertiesSection from 'in-synthetics/components/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
 import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
@@ -100,6 +101,13 @@ const AdvancedMode = ({
       title: t('in-synthetics:dialog.createTest.advancedMode.identifyTitle'),
       valid: true,
       content: <IdentifySection form={form} updateForm={updateForm} applications={applications} />
+    },
+    {
+      scrollId: '6',
+      label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
+      title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
+      valid: true,
+      content: <CustomPropertiesSection form={form} updateForm={updateForm} />
     }
   ];
 

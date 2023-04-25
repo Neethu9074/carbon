@@ -113,12 +113,12 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
         value: '',
         error: {
           name: {
-            invalid: true,
-            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+            invalid: false,
+            message: ''
           },
           value: {
-            invalid: true,
-            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+            invalid: false,
+            message: ''
           }
         }
       }
@@ -141,7 +141,7 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
   }
 
   function checkForUniqueHeaderNames() {
-    const uniqueKeyName = onlyUniqueKeyNames(headers);
+    const uniqueKeyName = onlyUniqueKeyNames(headers, 'headers');
     if (uniqueKeyName) {
       setInvalidHeader({ invalid: true, message: uniqueKeyName[0].message! });
     } else {
