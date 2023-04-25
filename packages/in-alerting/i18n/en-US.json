@@ -1125,7 +1125,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Status Code Count",
-        "specificStatusCodeRate": "Status Code Rate",
+        "beaconRate": "Beacon Rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions"

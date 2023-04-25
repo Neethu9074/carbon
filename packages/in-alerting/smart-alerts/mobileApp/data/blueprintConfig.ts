@@ -23,11 +23,11 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { t } from 'in-i18n';
 
-export type MetricName = 'httpxxx' | 'specificStatusCodeRate' | 'sessions' | 'views' | 'beaconCount';
+export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
 
 const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   httpxxx: t('in-alerting:smartAlerts.mobileApp.data.statusCodeCount'),
-  specificStatusCodeRate: t('in-alerting:smartAlerts.mobileApp.data.specificStatusCodeRate')
+  beaconRate: t('in-alerting:smartAlerts.mobileApp.data.beaconRate')
 });
 
 const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -78,7 +78,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
       (alertRule as StatusCodeMobileAppAlertRule).value
     )
   ],
-  getAggregation: () => 'MEAN',
+  getAggregation: (alertRule: MobileAppAlertRule) =>
+    isCustomRateMetric((alertRule as StatusCodeMobileAppAlertRule).metricName) ? 'MEAN' : 'SUM',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName]
 });
@@ -142,5 +143,5 @@ export function getBlueprintConfig(alertType: MobileAlertType): BluePrint {
 }
 
 function isCustomRateMetric(metricName: MetricName | string): boolean {
-  return metricName === 'specificStatusCodeRate';
+  return metricName === 'beaconRate';
 }
