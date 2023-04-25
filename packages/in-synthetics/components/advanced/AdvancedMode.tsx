@@ -18,6 +18,7 @@ import ConfigurationSection from 'in-synthetics/components/advanced/Configuratio
 import ConfigureLocations from 'in-synthetics/components/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
+import ScriptsSection from 'in-synthetics/components/advanced/ScriptsSection';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
@@ -42,8 +43,7 @@ const AdvancedMode = ({
 
   const getTestTypeSection = (syntheticType: string) => {
     if (syntheticType === 'HTTPScript') {
-      // Script Component goes here
-      return <h1>{''}</h1>;
+      return <ScriptsSection form={form} updateForm={updateForm} />;
     }
     return <ConfigurationSection form={form} updateForm={updateForm} />;
   };

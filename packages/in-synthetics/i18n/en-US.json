@@ -134,7 +134,12 @@
           "operation": "Operation",
           "headerNameMustBeUnique": "Header name must be unique.",
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
-          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value."
+          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
+          "scriptLabel": "Script",
+          "addscriptAction": "Add script",
+          "editscriptAction": "Edit script",
+          "scriptFileName": "File Name",
+          "scriptNotAdded" : "No script added"
         },
         "loadMore": "Load More",
         "selectTests": {
