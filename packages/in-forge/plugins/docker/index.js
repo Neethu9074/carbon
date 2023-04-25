@@ -14,8 +14,8 @@ import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
 import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
+import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { hasRestrictedAccess } from 'in-stores/permission';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { plugins } from 'in-forge/constants';
 
@@ -44,7 +44,7 @@ registerSnapshotDefinition({
           timeConfig
         }
       },
-      containerInfoEnabled && containerInfoAvailable(snapshot) && !hasRestrictedAccess && containerInfoButtonConfig
+      containerInfoEnabled && containerInfoAvailable(snapshot) && hasInfrastructureAccess && containerInfoButtonConfig
     ].filter(Boolean);
   }
 });
