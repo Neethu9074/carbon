@@ -93,6 +93,7 @@ export default function ClusterDashboard({ location }) {
 
 function Header(props) {
   const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
+
   return (
     <DashboardHeader
       {...props}
@@ -127,11 +128,11 @@ function renderButtonLineSecondary({ timeConfig, podId }) {
 }
 
 function renderButtonLine({ clusterId, timeConfig, result }) {
-  let clusterName = result.data?.label;
   const clusterNameSuffix = ' (cluster)';
-  if (clusterName.endsWith(clusterNameSuffix)) {
-    clusterName = clusterName.replace(clusterNameSuffix, '');
-  }
+  const clusterLabel = result?.data.label;
+  const clusterName = clusterLabel.endsWith(clusterNameSuffix)
+    ? clusterLabel.replace(clusterNameSuffix, '')
+    : clusterLabel;
 
   return (
     <>
@@ -141,6 +142,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
         timeConfig={timeConfig}
         tagFilters={getFilters({ clusterName })}
       />
+
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
         groupBy={createGroupBy('kubernetes.namespace', DESTINATION)}

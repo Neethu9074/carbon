@@ -11,7 +11,6 @@ import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/c
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Result } from 'in-types';
 
-// @ts-ignore
 import locals from 'in-components/KpiCard/ResultAwareKpiCard.mless';
 
 export interface MultiMetricResultAwareKpiCardProps<T> {
