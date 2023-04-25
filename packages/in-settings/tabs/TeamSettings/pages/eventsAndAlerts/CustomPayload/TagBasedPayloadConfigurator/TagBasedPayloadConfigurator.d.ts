@@ -10,6 +10,26 @@ import { GetSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
 import { GetTagSuggestionsProps } from 'in-components/QueryBuilder';
 import { Result, TagCatalog, TagSuggestions } from 'in-types';
 
+declare function TagBasedPayloadConfigurator<T>({
+  value,
+  disabled,
+  tagFilterExpression,
+  onChange,
+  getTagCatalog,
+  suggestionsAlignedLeft,
+  getSuggestions
+}: {
+  value: T;
+  disabled: boolean;
+  tagFilterExpression: boolean;
+  onChange: (value: T) => void;
+  getTagCatalog: () => Observable<Result<TagCatalog>>;
+  suggestionsAlignedLeft: boolean;
+  getSuggestions: (
+    args: GetTagSuggestionsProps | GetSuggestionsProps
+  ) => Observable<Result<TagSuggestions | Suggestions>>;
+}): JSX.Element;
+
 export function createTagBasedPayloadConfigurator({
   getTagCatalog,
   getSuggestions
@@ -18,7 +38,7 @@ export function createTagBasedPayloadConfigurator({
   getSuggestions?: (
     args: GetTagSuggestionsProps | GetSuggestionsProps
   ) => Observable<Result<TagSuggestions | Suggestions>>;
-});
+}): TagBasedPayloadConfigurator;
 
 export function createTagBasedApplicationPayloadConfigurator({
   getTagCatalog,
@@ -42,3 +62,16 @@ interface TagNodeLike {
 
 export function doesTagNodeNeedSecondLevelKey(tagNode: TagNodeLike): boolean;
 
+interface ViewModel {
+  tagName: string;
+  secondLevelKey: string;
+}
+
+interface FormModel {
+  tagName: string;
+  key: string;
+}
+
+export function toViewModel(formModel: FormModel): ViewModel;
+
+export function toFormModel(viewModel: ViewModel): FormModel;

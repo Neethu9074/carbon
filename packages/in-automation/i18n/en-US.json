@@ -117,6 +117,7 @@
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
+    "valueOptional": "Value (optional)",
     "defaultValue": "Default Value",
     "defaultValueOptional": "Default Value (optional)",
     "parameters": "Parameters",
@@ -136,6 +137,7 @@
     "uniqueName": "Parameter names must be unique.",
     "static": "Static",
     "vault": "Vault",
+    "dynamic": "Dynamic",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
     "actionCopy": "(Copy of) {{name}}"
   }

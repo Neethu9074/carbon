@@ -13,11 +13,13 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  CustomEventSpecificationWithMetadata
+  CustomEventSpecificationWithMetadata,
+  TagCatalog
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
@@ -95,7 +97,7 @@ export function deleteAction(actionId: string) {
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
 export function getScoredActionsForEvent(selectedActions: string[], eventSpecification: EventSpecification) {
   if (selectedActions.length === 0) {
-    return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+    return alwaysEmptyArray as unknown as Observable<Action[]>;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
@@ -389,4 +391,14 @@ export function runWebhookAction({
       }
     ]
   });
+}
+
+export function getDynamicParameterTagCatalog() {
+  return createObservable(
+    http<TagCatalog>({
+      method: 'GET',
+      url: `${actionUrl}/catalog`,
+      maxRetries: 3
+    })
+  );
 }

@@ -11,14 +11,25 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Parameter } from '@instana/types';
 
 import {
+  FormModel,
+  ViewModel,
+  createTagBasedPayloadConfigurator,
+  toFormModel,
+  toViewModel
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
   createForm,
   addStaticField,
   addVaultFields,
   mutateFieldBlankValidator,
-  addDynamicFields
+  addDynamicFields,
+  emptyObjectValidator
 } from 'in-automation/ActionCatalog/ParameterFormDefinition';
+import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
@@ -50,6 +61,12 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
 
   const type = parameterForm.get('type') as Field<string>;
 
+  const sectionProps = {
+    parameterForm,
+    setParameterForm,
+    parameter,
+    form
+  };
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -66,15 +83,11 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
             onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
           }
         >
-          <MetaDataSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          {type.value === 'static' && (
-            <StaticSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          )}
-          {type.value === 'vault' && (
-            <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          )}
-          {type.value === 'dynamic' && <DynamicSection />}
-          <HiddenSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
+          <MetaDataSection {...sectionProps} />
+          {type.value === 'static' && <StaticSection {...sectionProps} />}
+          {type.value === 'vault' && <VaultSection {...sectionProps} />}
+          {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
+          <HiddenSection {...sectionProps} />
           <SaveCancel form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
@@ -229,8 +242,15 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
               if (e.target.checked) {
                 form = form.updateIn(['required'], field => (field as Field<boolean>).setValue(true).setTouched(true));
               }
-              if (type.value === 'static' || type.value === 'dynamic') {
+              if (type.value === 'static') {
                 form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
+              } else if (type.value === 'dynamic') {
+                form = mutateFieldBlankValidator({
+                  form,
+                  key: 'value',
+                  add: e.target.checked,
+                  validatorForField: emptyObjectValidator
+                });
               } else if (type.value === 'vault') {
                 form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
                 form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
@@ -314,11 +334,43 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
   );
 };
 
-const DynamicSection = () => {
-  // const hidden = parameterForm.get('hidden') as Field<boolean>;
-  // const dynamic = parameterForm.get('dynamic') as Field<boolean>;
+const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: getCustomPayloadTagCatalog,
+  getSuggestions: ({ name, timeConfig, tagFilterExpression }) =>
+    getTagSuggestions({
+      tagName: name,
+      entity: DESTINATION,
+      filter: {
+        includeInternalCalls: false,
+        includeSyntheticCalls: false,
+        timeConfig: timeConfig,
+        useLongTermDataOnly: false
+      },
+      requestingSecondaryKeySuggestions: true,
+      tagFilterExpression: tagFilterExpression
+    })
+});
 
-  return <></>;
+const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+  const value = parameterForm.get('value') as Field<FormModel>;
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+
+  return (
+    <FormGroup>
+      <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
+        {hidden.value ? t('in-automation:ActionCatalog.value') : t('in-automation:ActionCatalog.valueOptional')}
+      </Label>
+      <div>
+        <TagBasedPayloadConfigurator
+          value={toViewModel(value.value)}
+          onChange={(viewModel: ViewModel) =>
+            onParameterChange({ fieldName: 'value', value: toFormModel(viewModel), setParameterForm, parameter })
+          }
+        />
+      </div>
+      <TouchedMessages field={value} className={locals.subErrorTextFormField} />
+    </FormGroup>
+  );
 };
 
 interface OnParameterChangeParams<T> {
@@ -373,6 +425,10 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     const secretPath = (parameterForm.get('secretPath') as Field<string>).value;
     paramValue = JSON.stringify({ secretKey: secretKey, secretPath: secretPath });
     valueType = 'map';
+  } else if (type === 'dynamic') {
+    const value = (parameterForm.get('value') as Field<FormModel>).value;
+    paramValue = JSON.stringify(value);
+    valueType = 'map';
   }
   const parameterToSubmit: Parameter = {
     name,
@@ -381,7 +437,6 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     required,
     hidden,
     value: paramValue,
-    secured: false,
     type,
     valueType
   };
