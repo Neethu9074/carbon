@@ -36,26 +36,6 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
             {data.get('totalNumberofDB')}
           </KpiKeyValue>
-
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNginxMetricErrorsTotal')}>
-            {data.get('kongNginxMetricErrorsTotal')}
-          </KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongEnterpriseLicenseErrors')}>
-            {data.get('kongEnterpriseLicenseErrors')}
-          </KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.database')}>{data.get('database')}</KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
-            {data.get('kongDbEntitiesTotal')}
-          </KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
-            {data.get('workerStateUpdateFrequency')}
-          </KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
-            {data.get('workerConsistency')}
-          </KpiKeyValue>
-          <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
-            {data.get('prometheusEnabled')}
-          </KpiKeyValue>
         </KpiSection>
 
         <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongNginxTimers')}>
@@ -66,30 +46,6 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               metrics: ['nginxTimers.running', 'nginxTimers.pending'],
               labels: [t('in-forge:plugins.kongApigateway.running'), t('in-forge:plugins.kongApigateway.pending')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.totalTraffic')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              metrics: [
-                'totalTraffic.status2xx',
-                'totalTraffic.status3xx',
-                'totalTraffic.status4xx',
-                'totalTraffic.status5xx'
-              ],
-              labels: [
-                t('in-forge:plugins.kongApigateway.status2xx'),
-                t('in-forge:plugins.kongApigateway.status3xx'),
-                t('in-forge:plugins.kongApigateway.status4xx'),
-                t('in-forge:plugins.kongApigateway.status5xx')
-              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
