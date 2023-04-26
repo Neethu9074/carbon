@@ -22,6 +22,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { Event, VolatileId, Action } from 'in-types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface AssociatedActionsCardProps {
@@ -40,9 +41,10 @@ function getObservables(isCustomEvent: boolean) {
 function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
   const actions =
-    useObservable<Action[], [string]>(() => getActionsForEventSpecification(eventSpecificationId), [
-      eventSpecificationId
-    ]) ?? [];
+    useObservable<Action[], [string]>(
+      () => getActionsForEventSpecification(eventSpecificationId),
+      [eventSpecificationId]
+    ) ?? [];
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
@@ -73,7 +75,7 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   return (
     <ActionTable
       title={title ?? t('in-automation:associatedActions')}
-      showExecuteColumn
+      showExecuteColumn={role?.canRunAutomationActions}
       showActionLink
       event={event}
       rightHeader={

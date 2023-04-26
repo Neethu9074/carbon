@@ -66,6 +66,7 @@ export default connectTo(
         />
         {actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
+          role.canConfigureCustomAlerts &&
           !isWebsiteSmartAlertEvent(triggerEvent) &&
           !isApplicationSmartAlertEvent(triggerEvent) && (
             <Row withoutSideMargin>

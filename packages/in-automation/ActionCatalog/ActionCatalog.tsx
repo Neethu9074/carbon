@@ -12,6 +12,7 @@ import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
 import { deleteActionTracker } from 'in-automation/tracker';
+import { role } from 'in-stores/user';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -36,7 +37,7 @@ export default function ActionCatalogTab() {
         rightHeader={rightHeader()}
         loadEntities={getAllActions}
         showActionLink
-        showTestColumn
+        showTestColumn={role?.canRunAutomationActions}
         showDuplicateColumn
         isBeta
       />
