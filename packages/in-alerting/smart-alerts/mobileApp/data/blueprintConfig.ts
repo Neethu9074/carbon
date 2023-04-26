@@ -21,6 +21,7 @@ import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/tr
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
@@ -44,6 +45,10 @@ interface BluePrintBase {
     operator: TagFilterOperator;
     value?: any;
   };
+  readonly getExtraAnalyzeLinkTagFilterFormModel: (
+    alertConfig: MobileAppAlertConfig,
+    timeConfig: FixedTimeConfig
+  ) => FormModelElement[];
 }
 
 export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
@@ -63,7 +68,8 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getMetricsRequest: () => getMobileAppMetrics,
   getRuleTagFilterFormModel: () => [],
   getEntityTagFilterFormModel: (alertConfig: MobileAppAlertConfig) =>
-    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId)
+    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
+  getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
