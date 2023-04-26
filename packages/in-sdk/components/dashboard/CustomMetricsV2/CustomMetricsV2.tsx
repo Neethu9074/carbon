@@ -15,18 +15,18 @@ import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import Table from 'in-sdk/components/dashboard/Table';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
-import { hours } from 'in-services/time';
 
 import locals from './CustomMetricsV2.mless';
 
 const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
-const beeInstanaMinimumWindowSize = hours.toMillis(6);
+const beeInstanaMinimumRollupMillis = 10000;
 
 interface CustomMetricProps {
   specs: MetricsSpec[];
@@ -75,6 +75,7 @@ interface Row {
   tableMetric: number;
   snapshotId: string;
   timeConfig: TimeConfig;
+  rollup?: number;
   metrics: Metric[];
   pinnedMetrics: string[];
   setPinnedMetrics: (p: string[]) => void;
@@ -159,6 +160,9 @@ const cols = [
       },
       getTimeConfig(row: Row) {
         return row.timeConfig;
+      },
+      getRollup(row: Row) {
+        return row.rollup;
       }
     }
   }
@@ -268,7 +272,8 @@ function getDetails(row: Row) {
   return (
     <Chart
       snapshotId={row.snapshotId}
-      timeConfig={adjustHistogramWindowSize(row.type, row.name, row.timeConfig)}
+      timeConfig={row.timeConfig}
+      minRollup={adjustMetricRollup(row.type, row.name, getInfraGranularity(row.timeConfig))}
       margins={{
         left: 90,
         right: 90
@@ -288,6 +293,7 @@ export function getDefaultRows({
   specs = DEFAULT_SPECS
 }: GetRowsProps) {
   const snapshotId = snapshot.get('id');
+  const defaultRollup = getInfraGranularity(timeConfig);
 
   const metrics =
     metricIdsResult.data?.reduce<{ [key: string]: Row }>((acc, id) => {
@@ -303,7 +309,8 @@ export function getDefaultRows({
         color,
         tableMetric,
         snapshotId,
-        timeConfig: adjustHistogramWindowSize(metric.type, metric.name, timeConfig),
+        timeConfig,
+        rollup: adjustMetricRollup(metric.type, metric.name, defaultRollup),
         setPinnedMetrics,
         pinnedMetrics,
         metrics: []
@@ -347,26 +354,23 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
 
 
 /*
- * Increases the TimeConfig windowSize if necessary
+ * Adjusts the metric rollup if necessary
  * to enable the retrieval of histogram metrics
- * that are stored only in BeeInstana.
+ * that are stored only in BeeInstana. Returns
+ * undefined if the rollup does not need to
+ * be changed.
  */
-function adjustHistogramWindowSize(
+function adjustMetricRollup(
   metricType: string,
   metricName: string,
-  timeConfig: TimeConfig): TimeConfig {
+  defaultRollup: number): number | undefined {
 
-    if (beeinstanaHistogramsEnabled && timeConfig.windowSize < beeInstanaMinimumWindowSize) {
+    if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
       if (metricType === "histogram" && nativeBeeInstanaHistogram(metricName)) {
-        return {
-          to: timeConfig.to,
-          focusedMoment: timeConfig.focusedMoment,
-          windowSize: beeInstanaMinimumWindowSize,
-          autoRefresh: timeConfig.autoRefresh
-        };
+        return beeInstanaMinimumRollupMillis;
       }
     }
-    return timeConfig;
+  return;
 }
 
 /*
