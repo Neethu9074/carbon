@@ -345,7 +345,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'kongMonitoringEnabled',
+    uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
     defaultValue: false
   }

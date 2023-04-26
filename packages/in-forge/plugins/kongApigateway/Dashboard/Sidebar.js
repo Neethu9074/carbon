@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-import { kongMonitoringEnabled } from 'in-services/featureFlags';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/kongApigateway/Info';
+import { kongEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function KongSidebar({ snapshot }) {
-  if (kongMonitoringEnabled) {
+  if (kongEnabled) {
     return (
       <div>
         <Collapsible initiallyOpen>

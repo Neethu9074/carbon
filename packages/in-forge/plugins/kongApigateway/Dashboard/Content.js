@@ -11,7 +11,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { kongMonitoringEnabled } from 'in-services/featureFlags';
+import { kongEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import SharedDictionary from './SharedDictionary';
 import TotalConnections from './TotalConnections';
@@ -22,7 +22,7 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
 
-  if (kongMonitoringEnabled) {
+  if (kongEnabled) {
     return (
       <div>
         <KpiSection>

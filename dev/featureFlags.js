@@ -78,5 +78,5 @@ module.exports = {
   limitVisibleNestingLevelsInTraceEnabled: true,
   oracleRacMonitoringEnabled: false,
   recurrentMaintenanceWindows: true,
-  kongMonitoringEnabled: false
+  kongEnabled: false
 };
