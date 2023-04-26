@@ -34,5 +34,12 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmMqTopic.subscriptions')],
     formatter: number
+  },
+  {
+    metrics: ['pubMessagesCount'],
+    labels: [t('in-forge:plugins.ibmMqTopic.count')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqTopic.pubMessagesCount')],
+    formatter: number
   }
 ];

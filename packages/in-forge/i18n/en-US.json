@@ -9571,8 +9571,8 @@
         "queueManagersWithCount": "Queue Managers ({{len}})",
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
-        "messages": "Messages",
-        "publications": "Publications",
+        "pubMessagesCount": "Current publishes",
+        "publications": "Current Publications",
         "subscriptions": "Subscriptions",
         "topicString": "Topic String",
         "topicsWithCount": "Topics ({{len}})"
@@ -9844,10 +9844,11 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "Messages",
-        "publications": "Publications",
+        "pubMessagesCount": "Current publishes",
+        "publications": "Current Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
+
         "ibmMqTopic": "IBM MQ Topic"
       },
       "name": "Name",
@@ -9856,7 +9857,8 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publications": "Publications",
+      "publications": "Current Publications",
+      "pubMessagesCount": "Current publishes",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
