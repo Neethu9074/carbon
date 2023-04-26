@@ -370,7 +370,21 @@ function AnalyzeStateManagement({
   });
 
   const timestampName = dataSourceConfigurations[dataSource].groupedView.timestampName;
-  const getOrderByGroupId = useCallback(() => createGetOrderByGroupId(timestampName), [timestampName]);
+  const getOrderByGroupId = useCallback(
+    ({ field }) => {
+      if (field.type === customType) {
+        if (field.customFieldId === 'timestamp') {
+          return timestampName ?? 'earliestTimestamp';
+        }
+        return field.customFieldId;
+      }
+      if (field.type === metricType) {
+        return getSingleNumberMetricId(field);
+      }
+      return null;
+    },
+    [timestampName]
+  );
 
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
@@ -521,21 +535,6 @@ function getOrderById({ metricCatalog, field }) {
     return metricDefinition?.tagName;
   }
   return null;
-}
-
-function createGetOrderByGroupId(timestampName) {
-  return ({ field }) => {
-    if (field.type === customType) {
-      if (field.customFieldId === 'timestamp') {
-        return timestampName ?? 'earliestTimestamp';
-      }
-      return field.customFieldId;
-    }
-    if (field.type === metricType) {
-      return getSingleNumberMetricId(field);
-    }
-    return null;
-  };
 }
 
 const metricCatalogPropType = rpt.arrayOf(
