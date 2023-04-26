@@ -126,10 +126,10 @@ export default function AlertingChart({
   }
 
   function computeMax(metricsMaxValue) {
+    const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
     if (threshold.type === STATIC_THRESHOLD) {
       return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
     } else if (threshold.type === ADAPTIVE_BASELINE) {
-      const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
       return getMaxForAdaptiveBaselineChart({
         metricsMaxValue,
         operator: threshold.operator,
@@ -145,7 +145,8 @@ export default function AlertingChart({
       metricsMaxValue,
       operator: threshold.operator,
       baseline: threshold.baseline,
-      sensitivity: threshold.deviationFactor
+      sensitivity: threshold.deviationFactor,
+      fromTime
     });
   }
 
