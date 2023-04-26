@@ -70,7 +70,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
   getBeaconType: () => 'httpRequest',
-  getMetricFormat: () => percentage,
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => [
     tagFilter(
       'mobileBeacon.http.status',
@@ -89,7 +89,7 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   type: 'throughput',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricFormat: () => number.forcedCompact,
-  getBeaconType: () => 'viewChange',
+  getBeaconType: (metricName: MetricName) => (metricName === 'views' ? 'viewChange' : 'sessionStart'),
   getAggregation: () => 'SUM',
   impactTimeThresholdDisabled: true,
   getMetricLabel: (metricName: MetricName) => throughputMetricLabelsByName[metricName]
