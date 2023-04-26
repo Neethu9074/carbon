@@ -349,5 +349,10 @@ module.exports = exports = [
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'kongEnabled',
+    instanaCtlKey: 'feature.infrastructure.kong.enabled',
+    defaultValue: false
   }
 ];
