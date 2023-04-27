@@ -4,24 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-// import classNames from 'classnames';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Typography } from '@instana/components';
 
 import { playwithEnabled } from 'in-services/featureFlags';
+import { t } from 'in-i18n';
 
 import locals from './PlayWithHeader.mless';
 
 export default function PlayWithHeader() {
   const playwitHeaderClass = playwithEnabled ? locals.playWithInstana : locals.playWitHeaderClassDisable;
+
   return (
     <div className={playwitHeaderClass}>
-      <h1 className={locals.headerHeading}>Play with Instana</h1>
+      <div className={locals.headerHeading}>
+        <Typography variant="heading-600">{t('in-new-components:playwithinstana.title')}</Typography>
+      </div>
 
-      <p className={locals.readyToMonitor}>
-        <b>Ready to monitor your own environment?</b>
-      </p>
+      <div className={locals.readyToMonitor}>
+        <Typography variant="body-bold">{t('in-new-components:playwithinstana.content')}?</Typography>
+      </div>
+
       <Button
         id="free_trial"
         kind="secondary"
@@ -38,7 +42,7 @@ export default function PlayWithHeader() {
           ]);
         }}
       >
-        Free trial
+        {t('in-new-components:playwithinstana.freetrial')}
       </Button>
 
       <Button
@@ -57,7 +61,7 @@ export default function PlayWithHeader() {
           ]);
         }}
       >
-        Book a demo
+        {t('in-new-components:playwithinstana.bookdemo')}
       </Button>
     </div>
   );

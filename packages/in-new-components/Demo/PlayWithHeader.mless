@@ -7,6 +7,7 @@
   .playWitHeaderClassEnable {
     display: block;
   }
+
   .playWitHeaderClassDisable {
     display: none;
   }
@@ -35,7 +36,6 @@
     .readyToMonitor {
       margin-right: 12px;
       font-size: 0.875rem;
-      margin-top: 14px;
     }
 
     .buttonFreeTrial {
