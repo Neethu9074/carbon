@@ -19,7 +19,7 @@
     left: 0px;
     display: flex;
     background: rgb(23, 161, 230);
-    z-index: 124;
+    z-index: 125;
     color: white;
     align-items: center;
     width: 100%;
