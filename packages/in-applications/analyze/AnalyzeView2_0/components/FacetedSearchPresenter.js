@@ -35,9 +35,11 @@ export function FacetedSearchPresenter(props) {
     totalActiveCount += 1;
   }
 
-  function resetFacetsAndHiddenCalls() {
-    resetFacets?.();
-    resetHiddenCalls?.({ hiddenCalls: {} });
+  function resetFacetsAndHiddenCalls(tag) {
+    resetFacets?.(tag);
+    if (tag == null) {
+      resetHiddenCalls?.({ hiddenCalls: {} });
+    }
   }
 
   return facetedSearchItems?.length > 0 ? (
