@@ -38,7 +38,7 @@ export default function ViewSwitcher({ selectedEventType }) {
     </div>
   );
 }
-//comment
+
 function AllEventsNavigationItem({ selectedEventType }) {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, 'view', null);

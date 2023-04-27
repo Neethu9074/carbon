@@ -1,0 +1,22 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import icons from 'in-components/SvgIcon/registry.json';
+import { getIconTypeCallback } from 'in-sdk/iconType';
+
+export function getIconType(snapshotOrPlugin) {
+  let plugin = snapshotOrPlugin;
+  if (typeof snapshotOrPlugin === 'object') {
+    plugin = snapshotOrPlugin.get('plugin');
+    const callback = getIconTypeCallback(plugin);
+    if (callback) {
+      plugin = callback(snapshotOrPlugin);
+    }
+  }
+
+  const name = `lib_infra_${plugin}`;
+  return icons[name] ? name : 'lib_infra_unknownIcon';
+}
