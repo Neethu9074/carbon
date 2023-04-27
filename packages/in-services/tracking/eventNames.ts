@@ -336,12 +336,12 @@ export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
 // Smart Alert Tracking
 
-export const ALERTING_CREATE = 'alerting.add';
-export const ALERTING_SAVED = 'alerting.saved';
-export const ALERTING_UPDATED = 'alerting.updated';
-export const ALERTING_EDIT = 'alerting.edit';
-export const ALERTING_DELETE_TRIGGER = 'alerting.delete.trigger';
-export const ALERTING_DELETE_CONFIRM = 'alerting.deleted.confirm';
-export const ALERTING_PAUSED = 'alerting.paused';
-export const ALERTING_RESUMED = 'alerting.resumed';
-export const ALERTING_CLONE_TRIGGER = 'alerting.clone.trigger';
+export const ALERTING_CREATE = 'smartalert.add.clicked';
+export const ALERTING_SAVED = 'smartalert.saved';
+export const ALERTING_UPDATED = 'smartalert.updated';
+export const ALERTING_EDIT = 'smartalert.edit.clicked';
+export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
+export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
+export const ALERTING_PAUSED = 'smartalert.paused';
+export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
