@@ -353,6 +353,6 @@ module.exports = exports = [
   {
     uiClientKey: 'playwithEnabled',
     instanaCtlKey: 'feature.playwithEnabled.enabled',
-    defaultValue: true
+    defaultValue: false
   }
 ];
