@@ -25,7 +25,7 @@ import {
   getMaintenanceConfigsMutableV2,
   deleteMaintenanceConfigV2
 } from 'in-api/maintenanceConfiguration';
-import { getEntityIdView, teamSettingsAlertingRecurrentMaintenanceConfigurations } from 'in-settings/navigation/paths';
+import { getEntityIdView, teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RecurrentMaintenanceConfigForm from './RecurrentMaintenanceConfigForm';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -150,7 +150,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingRecurrentMaintenanceConfigurations)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>

@@ -972,7 +972,6 @@
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
-    "recurrentMaintenanceWindows": "Recurrent Maintenance Windows",
     "scope": "Scope",
     "duration": "Duration",
     "every": "Every",

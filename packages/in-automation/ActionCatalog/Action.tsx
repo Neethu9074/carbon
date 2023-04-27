@@ -51,6 +51,7 @@ import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
 import { Action, Field } from 'in-types';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -158,7 +159,9 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
       </SubViewHeader>
       {!isNewAction && (
         <HorizontalFlexWrapper>
-          {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
+          {form && role?.canRunAutomationActions && (
+            <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />
+          )}
           {entity && isAction(entity) && <CopyActionLink action={entity} />}
         </HorizontalFlexWrapper>
       )}

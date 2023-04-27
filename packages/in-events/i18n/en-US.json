@@ -24,6 +24,8 @@
   "titleAnalyzeJsErrors": "Analyze JS Errors",
   "titleAnalyzePageLoads": "Analyze Page Loads",
   "titleAnalyzePageTransitions": "Analyze Page Transitions",
+  "titleAnalyzeViewTransitions": "Analyze View Transitions",
+  "titleAnalyzeSessionStarts": "Analyze Session Starts",
   "titleAnalyzeLoadTime": "Analyze Load Time",
   "titleViewRelatedTestResults": "View Related Test Results",
   "titleTime": "Time",
@@ -115,7 +117,7 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
   "deprecatedCustomEventWarning": "<strong>Custom Events on entity types Application, Service and Endpoint are deprecated. In the future, Custom Events for these three entity types will be removed, and you will no longer receive this {{issueOrIncident}}</strong><br/>View Custom Event configuration to migrate to Smart Alert. <documentationLink>Read more in our documentation</documentationLink>",
-  "actionsAssociatedForTriggeringEvent":"Actions Associated For Triggering Event",
+  "actionsAssociatedForTriggeringEvent": "Actions Associated For Triggering Event",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Custom Events require action",
     "message": "Custom events on Application, Service and Endpoint are deprecated. You will not be able to create or update these types of custom events in the future.",

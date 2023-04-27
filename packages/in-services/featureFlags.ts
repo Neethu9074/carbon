@@ -158,6 +158,7 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
 
 export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
 
+export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindows', true);
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);

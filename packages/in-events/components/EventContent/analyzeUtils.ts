@@ -7,6 +7,7 @@
 import {
   TimeConfig,
   WebsiteAlertConfig,
+  MobileAppAlertConfig,
   ApplicationAlertConfig,
   GlobalApplicationsAlertConfig,
   InfraAlertConfig
@@ -17,6 +18,7 @@ import { EventOrMap } from 'in-events/types';
 
 type AnySmartAlertConfig =
   | WebsiteAlertConfig
+  | MobileAppAlertConfig
   | ApplicationAlertConfig
   | GlobalApplicationsAlertConfig
   | InfraAlertConfig;
