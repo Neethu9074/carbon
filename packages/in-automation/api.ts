@@ -13,13 +13,11 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  CustomEventSpecificationWithMetadata,
-  TagCatalog
+  CustomEventSpecificationWithMetadata
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
@@ -393,12 +391,17 @@ export function runWebhookAction({
   });
 }
 
-export function getDynamicParameterTagCatalog() {
-  return createObservable(
-    http<TagCatalog>({
-      method: 'GET',
-      url: `${actionUrl}/catalog`,
-      maxRetries: 3
-    })
-  );
+export function resolveDynamicParameters(eventId: string, parameters: ActionExecutionParameter[]) {
+  return http<{
+    parameters: ActionExecutionParameter[];
+  }>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${automationAPIBase}/parameters/dynamic`,
+    headers: getCsrfHeader(),
+    data: {
+      eventId,
+      parameters
+    }
+  }).map(response => response.body);
 }

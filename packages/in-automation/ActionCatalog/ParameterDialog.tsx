@@ -334,7 +334,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
   );
 };
 
-const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
   getTagCatalog: getCustomPayloadTagCatalog,
   getSuggestions: ({ name, timeConfig, tagFilterExpression }) =>
     getTagSuggestions({

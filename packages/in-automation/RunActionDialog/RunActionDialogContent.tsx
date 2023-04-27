@@ -39,6 +39,11 @@ import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
+import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
+import {
+  FormModel,
+  toViewModel
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 
 interface RunActionDialogContentProps {
   error: string;
@@ -245,6 +250,8 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentPr
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
           return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
+        } else if (parameter.type === 'dynamic') {
+          return <DynamicParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
         }
         // Will need to handle rendering dynamic parameters here
         return <StaticParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
@@ -325,6 +332,52 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
             </Label>
             <Label>{t('in-automation:static')}</Label>
           </Row>
+          <Input
+            id={`${parameter.name}-input`}
+            value={parameterField.value}
+            placeholder={t('in-automation:enterParameterValue')}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!parameterField.valid && parameterField.touched}
+          />
+          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+      <Spacer vertical="medium" />
+    </>
+  );
+}
+
+function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
+  const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
+
+  const parsedDynamicValue: FormModel = (raw => {
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return {};
+    }
+  })(parameter.value ?? '{}');
+  return (
+    <>
+      {parameterField && (
+        <FormGroup key={`${parameter.name}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label
+              className={classNames({ [locals.parameterLabel]: !(!parameterField.valid && parameterField.touched) })}
+              htmlFor={parameter.name}
+              hasError={!parameterField.valid && parameterField.touched}
+            >
+              {parameter.required ? parameter.label : t('in-automation:optional', { name: parameter.label })}
+            </Label>
+            <Label>{t('in-automation:static')}</Label>
+          </Row>
+          <TagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
           <Input
             id={`${parameter.name}-input`}
             value={parameterField.value}

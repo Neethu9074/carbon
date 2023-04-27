@@ -13,6 +13,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
+import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 
 interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit'> {
   parameter: MappedParameter | undefined;
@@ -124,13 +125,25 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
 }
 
 export function addDynamicFields({ parameter, form }: AddFieldsParams) {
+  const parsedDynamicValue: FormModel = (raw => {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return {};
+    }
+  })(parameter?.value?.value ?? '{}');
+
   return form
     .remove('value')
     .put(
       'value',
       createField({
-        value: parameter?.value?.type === 'dynamic' ? parameter?.value?.value ?? {} : {},
-        validator: getValidator(form, emptyObjectValidator),
+        value: parsedDynamicValue,
+        validator:
+          getValidator(
+            form,
+            composeAndShortCircuitOnError(emptyObjectValidator, needsTagAndSecondKeyMayNotBeMissingValidator)
+          ) ?? needsTagAndSecondKeyMayNotBeMissingValidator,
         touched: form.touched
       })
     )
