@@ -9844,11 +9844,10 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "pubMessagesCount": "Current publishes",
+        "pubMessagesCount": "Publish Count",
         "publications": "Current Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
-
         "ibmMqTopic": "IBM MQ Topic"
       },
       "name": "Name",
