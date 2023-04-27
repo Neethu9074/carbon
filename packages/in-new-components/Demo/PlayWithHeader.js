@@ -7,8 +7,9 @@
 // import classNames from 'classnames';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { playwithEnabled } from 'in-services/featureFlags';
-import Button from '../Button';
 
 import locals from './PlayWithHeader.mless';
 
