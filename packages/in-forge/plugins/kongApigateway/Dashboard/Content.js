@@ -96,6 +96,30 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
+        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongBandwidthBytes')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'totalTraffic.status2xx',
+                'totalTraffic.status3xx',
+                'totalTraffic.status4xx',
+                'totalTraffic.status5xx'
+              ],
+              labels: [
+                t('in-forge:plugins.kongApigateway.status2xx'),
+                t('in-forge:plugins.kongApigateway.status3xx'),
+                t('in-forge:plugins.kongApigateway.status4xx'),
+                t('in-forge:plugins.kongApigateway.status5xx')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
         <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
         <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
         <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
