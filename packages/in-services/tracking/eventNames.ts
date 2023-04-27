@@ -212,9 +212,16 @@ export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.cli
 export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
 export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
 export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
-export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
-export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
-export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+
+//Events
+export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
+export const SETTINGS_EVENT_SUBMIT = 'settings.event.saved';
+export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.add.clicked';
+export const SETTINGS_EVENT_ENABLE = 'settings.event.enabled';
+export const SETTINGS_EVENT_DISABLE = 'settings.event.disabled';
+export const SETTINGS_EVENT_DELETE_TRIGGER = 'settings.event.delete.clicked';
+export const SETTINGS_EVENT_DELETED = 'settings.event.delete.confirmed';
+
 export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
 export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
 export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';

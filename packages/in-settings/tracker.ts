@@ -24,6 +24,10 @@ import {
   SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
   SETTINGS_EVENT_SUBMIT,
   SETTINGS_EVENT_OPEN_SUBMIT_FORM,
+  SETTINGS_EVENT_ENABLE,
+  SETTINGS_EVENT_DISABLE,
+  SETTINGS_EVENT_DELETED,
+  SETTINGS_EVENT_DELETE_TRIGGER,
   SETTINGS_MAINTENANCE_WINDOW_NEW,
   SETTINGS_MAINTENANCE_WINDOW_REMOVE,
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
@@ -68,6 +72,10 @@ export const alertsHubEventsClickTracker = (e: Object) => track(SETTINGS_ALERT_H
 export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
 export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
+export const trackerEventEnabled = (e: Object) => track(SETTINGS_EVENT_ENABLE, e);
+export const trackerEventDisabled = (e: Object) => track(SETTINGS_EVENT_DISABLE, e);
+export const trackerEventDeleted = (e: Object) => track(SETTINGS_EVENT_DELETED, e);
+export const trackerEventDeleteTrigger = (e: Object) => track(SETTINGS_EVENT_DELETE_TRIGGER, e);
 
 export const newMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEW, e);
 export const removeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_REMOVE, e);
