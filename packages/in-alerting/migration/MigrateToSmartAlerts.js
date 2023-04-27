@@ -52,7 +52,9 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
       <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500}>
         <Button
           kind="primaryv2"
-          onClick={() => doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress)}
+          onClick={() =>
+            doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
+          }
           icon={migrating ? 'lib_actions_loading' : undefined}
           iconSpinning={migrating}
           // TODO unfortunately when we disable the button, which would be the right thing to do here after the user clicks the
@@ -78,7 +80,7 @@ function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSu
       confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
       onSubmit={() => {
         applicationsAlertingDeprecatedEventConfirmMigrated({ eventSpecificationId });
-        handleDisableCustomEvent({ setDisablingEvent, onSuccess, eventSpecificationId });
+        handleDisableCustomEvent({ setPendingState: setDisablingEvent, onSuccess, eventSpecificationId });
         close();
       }}
     />
@@ -123,7 +125,12 @@ function showSmartAlertDialog({
         onClose={savedAlertConfig => {
           const applicationAlertConfigId = savedAlertConfig.id;
           if (applicationAlertConfigId) {
-            handleDisableCustomEvent({ setMigrating, onSuccess, eventSpecificationId, applicationAlertConfigId });
+            handleDisableCustomEvent({
+              setPendingState: setMigrating,
+              onSuccess,
+              eventSpecificationId,
+              applicationAlertConfigId
+            });
           }
           applicationsAlertingDeprecatedEventMigrateFinished({ eventSpecificationId });
           setMigrationInProgress(false);
