@@ -48,6 +48,7 @@ export default function AlertConfigDialog({
   const [messages, setMessages] = useState([]);
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
+  const duplicateFrom = alertConfig?.duplicateFrom;
 
   useEffect(() => {
     if (migrationMode) {
@@ -75,7 +76,8 @@ export default function AlertConfigDialog({
       setMessages,
       getLinkToGlobalAlertConfigWithoutAPDashboard,
       getLinkToAlertConfig,
-      simpleMode
+      simpleMode,
+      duplicateFrom
     });
   };
 
@@ -115,7 +117,8 @@ function createOrSaveAlert({
   setMessages,
   getLinkToGlobalAlertConfigWithoutAPDashboard,
   getLinkToAlertConfig,
-  simpleMode
+  simpleMode,
+  duplicateFrom
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -161,7 +164,8 @@ function createOrSaveAlert({
           : getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
 
         showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-        trackAlertSaved(alertConfig, simpleMode);
+        const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+        trackAlertSaved(newConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
@@ -248,7 +252,8 @@ AlertConfigDialog.propTypes = {
      * The backed model of tagFilterExpression
      */
     tagFilterExpression: PropTypes.object,
-    name: PropTypes.string
+    name: PropTypes.string,
+    duplicateFrom: PropTypes.string
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };

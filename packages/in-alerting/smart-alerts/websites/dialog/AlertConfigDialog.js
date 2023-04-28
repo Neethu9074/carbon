@@ -34,9 +34,19 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
-
+  const duplicateFrom = alertConfig?.duplicateFrom;
   const withTrackCreate = simpleMode => {
-    createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages, getLinkToAlertConfig, simpleMode);
+    createOrSaveAlert(
+      form,
+      setForm,
+      onClose,
+      editMode,
+      setIsSaving,
+      setMessages,
+      getLinkToAlertConfig,
+      simpleMode,
+      duplicateFrom
+    );
   };
 
   return (
@@ -89,7 +99,8 @@ function createOrSaveAlert(
   setIsSaving,
   setMessages,
   getLinkToAlertConfig,
-  simpleMode
+  simpleMode,
+  duplicateFrom
 ) {
   setIsSaving(true);
 
@@ -128,7 +139,8 @@ function createOrSaveAlert(
         const href = getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, null);
 
         showSuccessMessage(alertConfig.name, editMode, false, href);
-        trackAlertSaved(alertConfig, simpleMode);
+        const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+        trackAlertSaved(newConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
@@ -167,7 +179,8 @@ AlertConfigDialog.propTypes = {
      * The backed model of tagFilterExpression
      */
     tagFilterExpression: PropTypes.object,
-    name: PropTypes.string
+    name: PropTypes.string,
+    duplicateFrom: PropTypes.string
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
