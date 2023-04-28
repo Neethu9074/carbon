@@ -122,9 +122,9 @@ export default function FacetedFilterRangeInput({
       </Row>
       {isValidNumberRange(minInput, maxInput) && (
         <div className={locals.buttonRow}>
-          <span className={locals.clearFacet}>
-            <Link onClick={() => resetFacets?.(tag)}>{t('in-components:analyze.clearFacet')}</Link>
-          </span>
+          <Link href={resetFacets?.(tag)} className={locals.clearFacet}>
+            {t('in-components:analyze.clearFacet')}
+          </Link>
         </div>
       )}
     </FacetedExpandableCard>
