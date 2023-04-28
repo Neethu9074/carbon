@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
 import { just, combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   getNamespaceDashboard,
@@ -26,29 +26,41 @@ import { settings$ } from 'in-services/settings/settings';
 import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
 import TreeMap from 'in-components/TreeMap';
-import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default compose(
-  withProps(() => ({
-    colorPool: createColorPool(
-      'podTreeMapColors',
-      theme.lib.colors.chart.strokeColors100.length,
-      theme.lib.colors.chart.strokeColors100
-    )
-  })),
-  connect(getObservables)
-)(PodTreeMap);
+const { strokeColors100 } = theme.lib.colors.chart;
 
-function PodTreeMap(props) {
-  const { timeConfig, showHealth, grouping, colorPool } = props;
+export default function PodTreeMap(props) {
+  const { timeConfig, showHealth, grouping, sizeMetricConfig, data } = props;
+
+  const colorPool = createColorPool('podTreeMapColors', strokeColors100.length, strokeColors100);
+
+  const entitiesHealthInfo = getEntitiesHealthInfoData({ showHealth, timeConfig, data });
+
+  const metricValues = useObservable(
+    () => getMetricValues({ sizeMetricConfig, data, timeConfig }),
+    [sizeMetricConfig, data, timeConfig]
+  );
+
+  const showUngroupedPods = useObservable(
+    () => settings$.map(settings => get(settings, ['kubernetes_ungrouped_pods_enabled'], true)),
+    [settings$]
+  );
+
+  const treeMapDataProps = {
+    ...props,
+    colorPool,
+    metricValues,
+    showUngroupedPods,
+    entitiesHealthInfo
+  };
 
   return (
     <FullHeightWrapper
       render={height => (
         <TreeMap
-          data={mapTreeMapData(props)}
+          data={mapTreeMapData(treeMapDataProps)}
           customHeight={height}
           groupProps={{
             renderTooltip: renderGroupTooltip.bind(null, timeConfig, grouping),
@@ -65,26 +77,31 @@ function PodTreeMap(props) {
   );
 }
 
-function getObservables({ showHealth, timeConfig, data, sizeMetricConfig }) {
+function getEntitiesHealthInfoData({ showHealth, timeConfig, data }) {
   const podIds = data.ids[1]; // level 0 = groups, level 1 = pods, level 2 = container
-  const observables = {
-    showUngroupedPods: settings$.map(settings => get(settings, ['kubernetes_ungrouped_pods_enabled'], true))
-  };
 
-  if (podIds.length === 0) {
-    return observables;
+  if (podIds.length == 0 || !showHealth) {
+    return;
   }
 
-  if (showHealth) {
-    observables.entitiesHealthInfo = getEntitiesHealthInfo({
-      timeConfig,
-      ids: podIds
-    }).map(result => result.data);
+  return getEntitiesHealthInfo({
+    timeConfig,
+    ids: podIds
+  }).map(result => result.data);
+}
+
+function getMetricValues({ sizeMetricConfig, data, timeConfig }) {
+  const podIds = data.ids[1]; // level 0 = groups, level 1 = pods, level 2 = container
+
+  if (podIds.length == 0) {
+    return;
   }
+
+  let metricValues;
 
   // the number of containers is an information we already have so we don't have to subscribe against anything here
   if (sizeMetricConfig.value !== 'containers') {
-    observables.metricValues = combineLatest(
+    metricValues = combineLatest(
       podIds.map(id =>
         getTimeWindowBasedMetricAggregation({
           snapshotId: id,
@@ -98,12 +115,10 @@ function getObservables({ showHealth, timeConfig, data, sizeMetricConfig }) {
       .map(metrics => mapMetricResult(metrics, sizeMetricConfig));
   } else {
     // transform the already available information into a metric result so we don't have a special handling for this case when consuming the data
-    observables.metricValues = just(
-      mapMetricResult(gatherContainersAsMetricValues(data.root.children), sizeMetricConfig)
-    );
+    metricValues = just(mapMetricResult(gatherContainersAsMetricValues(data.root.children), sizeMetricConfig));
   }
 
-  return observables;
+  return metricValues;
 }
 
 function gatherContainersAsMetricValues(groups) {
