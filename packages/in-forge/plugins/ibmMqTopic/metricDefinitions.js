@@ -39,7 +39,7 @@ export default [
     metrics: ['pubMessagesCount'],
     labels: [t('in-forge:plugins.ibmMqTopic.count')],
     min: 0,
-    category: [t('in-forge:plugins.ibmMqTopic.messages')], //MESSAGES
+    category: [t('in-forge:plugins.ibmMqTopic.messages')],
     formatter: number
   }
 ];
