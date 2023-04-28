@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import SqlDatasourcesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/SqlDatasourcesTable.js';
-import QueueManagersTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/QueueManagersTable.js';
-import ServicesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/ServicesTable.js';
+import SqlDatasourcesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/SqlDatasourcesTable';
+import QueueManagersTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/QueueManagersTable';
+import XmlNamesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/XmlNamesTable';
+import ServicesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/ServicesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -41,6 +42,7 @@ export default function IbmDataPowerDomainDashboard({ snapshot, timeConfig }) {
       <QueueManagersTable snapshot={snapshot} timeConfig={timeConfig} />
       <ServicesTable snapshot={snapshot} timeConfig={timeConfig} />
       <SqlDatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <XmlNamesTable snapshot={snapshot} />
     </div>
   );
 }

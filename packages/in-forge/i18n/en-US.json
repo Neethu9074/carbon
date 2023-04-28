@@ -751,6 +751,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmDataPowerXmlName_plural": "IBM DataPower XML Names",
+  "pluginName_ibmDataPowerXmlName_0": "IBM DataPower XML Names",
+  "pluginName_ibmDataPowerXmlName_1": "IBM DataPower XML Names",
+  "pluginName_ibmDataPowerXmlName_2": "IBM DataPower XML Names",
+  "pluginName_ibmDataPowerXmlName": "IBM DataPower XML Name",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
@@ -2970,6 +2975,15 @@
       "domainName": "Domain Name",
       "dsName": "Data Source Name",
       "activeConnections": "Active Connections"
+    },
+    "ibmDataPowerXmlName": {
+      "ibmDataPowerXmlNameInfo": "IBM DataPower XML Name",
+      "xmlNamesNumber": "XML Name ({{count}})",
+      "xmlNamesNumber_plural": "XML Names ({{count}})",
+      "type": "Type",
+      "used": "Used",
+      "percentFree": "Percentage Free",
+      "maximum": "Maximum"
     },
     "aceIntegrationNode": {
       "integrationNodeInfo": "IBM ACE Integration Node",
