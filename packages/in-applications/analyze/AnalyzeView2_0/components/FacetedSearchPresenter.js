@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { getTotalActiveFacetItems } from 'in-components/AnalyzeView/utils';
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -19,34 +18,12 @@ export function FacetedSearchPresenter(props) {
     facets,
     filteringTagCatalog,
     formModel,
-    getFacetedSearchSuggestions,
-    hiddenCalls,
-    resetFacets,
-    resetHiddenCalls
+    getFacetedSearchSuggestions
   } = props;
-
-  let totalActiveCount = getTotalActiveFacetItems(facetedSearchItems, facets);
-
-  if (hiddenCalls.includeSynthetic) {
-    totalActiveCount += 1;
-  }
-
-  if (hiddenCalls.includeInternal) {
-    totalActiveCount += 1;
-  }
-
-  function resetFacetsAndHiddenCalls(tag) {
-    resetFacets?.(tag);
-    if (tag == null) {
-      resetHiddenCalls?.({ hiddenCalls: {} });
-    }
-  }
 
   return facetedSearchItems?.length > 0 ? (
     <FacetedSearch
       {...props}
-      resetFacets={resetFacetsAndHiddenCalls}
-      totalActiveCount={totalActiveCount}
       getSuggestions={({ tag, entity }) =>
         getFacetedSearchSuggestions({
           timeConfig,

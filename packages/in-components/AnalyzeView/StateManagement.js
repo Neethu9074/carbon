@@ -23,7 +23,6 @@ import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tag
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
-import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
@@ -53,7 +52,7 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
   // change detection triggers in useUrlState.
   const urlStateDefinition = useMemo(
     () => ({
-      bind: [...Object.values(parameters), hiddenCallsMatrixParameter],
+      bind: Object.values(parameters),
       replaceHistory: false
     }),
     [parameters]
@@ -221,9 +220,9 @@ function AnalyzeStateManagement({
 
   const resetFacets = tag => {
     if (tag != null) {
-      onChange({ facets: removeFacetTag(facets, tag) });
+      return getChangeAsUrl({ facets: removeFacetTag(facets, tag) });
     } else {
-      onChange({ facets: {} });
+      return getChangeAsUrl({ facets: {} });
     }
   };
 
@@ -253,7 +252,6 @@ function AnalyzeStateManagement({
   const chartedMetricData = useStableObjectInstance(
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
-  const hiddenCalls = useStableObjectInstance(urlState.hiddenCalls);
 
   const groupedPaginationRef = useRef({});
 
@@ -508,8 +506,7 @@ function AnalyzeStateManagement({
       });
     },
     setDetailId: detailId => onChange({ detailId }),
-    groupedPaginationRef,
-    hiddenCalls
+    groupedPaginationRef
   });
 
   function getStateChangeForUngroupedView(groupValue) {
