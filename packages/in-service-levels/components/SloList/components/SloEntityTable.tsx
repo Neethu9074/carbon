@@ -7,24 +7,20 @@
 import React, { useState } from 'react';
 
 import { Card, Li, Stack, Ul } from '@instana/components';
+import { Application, Website } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-export default function SloEntityTable({ value, chooseValue }: { value: string; chooseValue: any }) {
-  const [checked, setChecked] = useState('');
-  const [query, setQuery] = useState('');
-  const App = [
-    { id: 1, name: 'Application 1' },
-    { id: 2, name: 'Application 2' },
-    { id: 3, name: 'Application 3' }
-  ];
-  const Web = [
-    { id: 1, name: 'Website 1' },
-    { id: 2, name: 'Website 2' },
-    { id: 3, name: 'Website 3' }
-  ];
 
+interface SloEntityTableProps {
+  entityList?: Application[] | Website[];
+  value?: Application | Website;
+  onChange: React.Dispatch<React.SetStateAction<Application | Website | undefined>>;
+}
+
+export default function SloEntityTable({ value, onChange, entityList = [] }: SloEntityTableProps) {
+  const [query, setQuery] = useState('');
   return (
     <>
       <Card
@@ -32,22 +28,21 @@ export default function SloEntityTable({ value, chooseValue }: { value: string; 
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
         <Ul>
-          {(value === 'application' ? App : Web)
-            .filter(({ name }) => name.includes(query))
-            .map(({ name, id }) => {
+          {entityList
+            .filter(({ label }) => label.includes(query))
+            .map(({ label, id }) => {
               return (
                 <Li key={id}>
                   <Stack direction="horizontal">
                     <CheckboxFancy
                       asRadioButton
-                      value={name}
-                      onChange={e => {
-                        setChecked(e.target.value);
-                        chooseValue(e.target.value);
+                      value={label}
+                      onChange={() => {
+                        onChange({ id, label });
                       }}
-                      checked={name === checked}
+                      checked={id === value?.id}
                     />
-                    {name}
+                    {label}
                   </Stack>
                 </Li>
               );

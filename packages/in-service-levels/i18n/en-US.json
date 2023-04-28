@@ -6,12 +6,13 @@
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "noSelection": "None selected",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
-    "selectLabel": "Selection: "
+    "selectLabel": "Selection: {{selectedLabel}}"
   },
   "createSloDialog": {
     "title": "Create Service Level Objective (SLO)",

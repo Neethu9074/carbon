@@ -6,15 +6,17 @@
 
 import React from 'react';
 
+import { SloEntityType } from '@instana/types';
 import { Stack } from '@instana/components';
 
-import { AvailableEntityTypes, SloEntityTypes } from 'in-service-levels/types';
+// import { entityTypes } from 'in-service-levels/constants';
 import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
+import { AvailableEntityTypes } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 export interface SloEntityTypeSelectorProps {
-  value: SloEntityTypes;
-  onChange: (v: SloEntityTypes) => void;
+  value: SloEntityType;
+  onChange: (v: SloEntityType) => void;
 }
 
 export default function SloEntityTypeSelector({ value, onChange }: SloEntityTypeSelectorProps) {
