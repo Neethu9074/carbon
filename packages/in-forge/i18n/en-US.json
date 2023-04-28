@@ -9571,7 +9571,7 @@
         "queueManagersWithCount": "Queue Managers ({{len}})",
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
-        "pubMessagesCount": "Current publishes",
+        "pubMessagesCount": "Current Publish Count",
         "publications": "Current Publications",
         "subscriptions": "Subscriptions",
         "topicString": "Topic String",
@@ -9844,7 +9844,7 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "pubMessagesCount": "Publish Count",
+        "pubMessagesCount": "Current Publish Count",
         "publications": "Current Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
