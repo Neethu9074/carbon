@@ -7,9 +7,17 @@
 import { createField, createListForm, createMapForm, Field, ListForm, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
+import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
+import {
+  ActionExecutionParameter,
+  ResolvedDynamicParamValue,
+  resolveDynamicParameters,
+  runScriptAction,
+  runWebhookAction
+} from 'in-automation/api';
 import {
   getInterpreterFromFields,
   getScriptFromFields,
@@ -18,12 +26,6 @@ import {
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import {
-  ActionExecutionParameter,
-  resolveDynamicParameters,
-  runScriptAction,
-  runWebhookAction
-} from 'in-automation/api';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -31,14 +33,13 @@ import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { Observable } from '@instana/observables';
 
 interface RunActionDialogProps {
   volatileId: VolatileId;
@@ -52,10 +53,8 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const agentSnapShots = useAgentSnapShots({ action });
-  console.log('action,event', action, event);
   const resolvedDynamicParameters = useResolvedDynamicParameters({ action, event });
   const [form, setForm] = useRunActionForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters });
-  console.log('resolvedDynamicParameters', resolvedDynamicParameters);
   return (
     <Dialog
       className={locals.dialog}
@@ -92,7 +91,8 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
                 agentSnapShots,
                 setError,
                 setActionInstanceId,
-                event
+                event,
+                resolvedDynamicParameters
               })
             }
           />
@@ -121,7 +121,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   return agentSnapShots;
 }
 
-const emptyParametersArray = alwaysEmptyArray as unknown as Observable<ActionExecutionParameter[]>;
+const emptyParametersArray = alwaysEmptyArray as unknown as Observable<ResolvedDynamicParamValue[]>;
 
 const useResolvedDynamicParameters = ({ action, event }: { action: Action; event?: Event }) => {
   const resolvedDynamicParameters = useObservable(() => {
@@ -130,16 +130,21 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
     if (dynamicParameters.length === 0) return emptyParametersArray;
     return resolveDynamicParameters(
       event.id,
-      dynamicParameters.map(({ value = '{}', name }) => ({
-        name,
-        value: (raw => {
+      dynamicParameters.map(({ value = '{}', name }) => {
+        const { key = '', tagName = '' }: { key: string; tagName: string } = (raw => {
           try {
-            return JSON.parse(raw)?.tagName ?? '';
+            return JSON.parse(raw);
           } catch (e) {
             return '';
           }
-        })(value)
-      }))
+        })(value);
+
+        return {
+          name,
+          key,
+          tagName
+        };
+      })
     ).map(response => response.parameters);
   }, [event, action]);
   return resolvedDynamicParameters;
@@ -154,7 +159,7 @@ const useRunActionForm = ({
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
   action: Action;
-  resolvedDynamicParameters: ActionExecutionParameter[] | null | undefined;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
 }) => {
   const [form, setForm] = useState<MapForm<any>>();
   useEffect(() => {
@@ -172,6 +177,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
 }
 
 function onSave({
@@ -182,7 +188,8 @@ function onSave({
   agentSnapShots,
   setError,
   setActionInstanceId,
-  event
+  event,
+  resolvedDynamicParameters
 }: OnSaveParams) {
   if (!form?.hierarchyValid) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -217,7 +224,6 @@ function onSave({
         }
       ];
     }
-    // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
     const value = (parameter as Field<string>).value;
     if (value) {
       return [...acc, { name, value: value?.trim() }];
@@ -246,6 +252,9 @@ function onSave({
             })
           }
         ];
+      } else if (parameter.type === 'dynamic') {
+        const { resolvedValue } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+        return [...acc, { name: parameter.name, value: resolvedValue ?? '' }];
       }
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
@@ -327,7 +336,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
 
 interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action'> {
   agentSnapShots: OUT;
-  resolvedDynamicParameters: ActionExecutionParameter[];
+  resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
 function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters }: CreateFormParams) {
   const defaultValue =
@@ -386,8 +395,8 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
             };
           } else if (parameter.type === 'dynamic') {
             const resolvedValue =
-              resolvedDynamicParameters.find(resolvedParameter => resolvedParameter.name === parameter.name)?.value ??
-              '';
+              resolvedDynamicParameters.find(resolvedParameter => resolvedParameter.name === parameter.name)
+                ?.resolvedValue ?? '';
 
             return {
               ...acc,

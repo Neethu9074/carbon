@@ -391,9 +391,19 @@ export function runWebhookAction({
   });
 }
 
-export function resolveDynamicParameters(eventId: string, parameters: ActionExecutionParameter[]) {
+export type DynamicParamValue = {
+  name: string;
+  key: string;
+  tagName: string;
+};
+
+export type ResolvedDynamicParamValue = DynamicParamValue & {
+  resolvedValue: string;
+};
+
+export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[]) {
   return http<{
-    parameters: ActionExecutionParameter[];
+    parameters: ResolvedDynamicParamValue[];
   }>({
     method: 'PUT',
     maxRetries: 3,

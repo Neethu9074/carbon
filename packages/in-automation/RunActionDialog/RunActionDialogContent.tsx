@@ -11,6 +11,10 @@ import React from 'react';
 import { Link, Typography, Spacer } from '@instana/components';
 
 import {
+  FormModel,
+  toViewModel
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
   AUTH_TYPES,
   getScriptFromFields,
   getType,
@@ -20,6 +24,7 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -39,11 +44,6 @@ import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
-import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
-import {
-  FormModel,
-  toViewModel
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 
 interface RunActionDialogContentProps {
   error: string;
@@ -375,9 +375,10 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
             >
               {parameter.required ? parameter.label : t('in-automation:optional', { name: parameter.label })}
             </Label>
-            <Label>{t('in-automation:static')}</Label>
+            <Label>{t('in-automation:dynamic')}</Label>
           </Row>
           <TagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
+          <Spacer vertical="small" />
           <Input
             id={`${parameter.name}-input`}
             value={parameterField.value}

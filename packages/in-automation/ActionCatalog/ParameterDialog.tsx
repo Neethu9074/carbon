@@ -25,6 +25,7 @@ import {
   addDynamicFields,
   emptyObjectValidator
 } from 'in-automation/ActionCatalog/ParameterFormDefinition';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
@@ -163,7 +164,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'static'}
-              label={t('in-automation:ActionCatalog.static')}
+              label={t('in-automation:static')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -179,7 +180,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'vault'}
-              label={t('in-automation:ActionCatalog.vault')}
+              label={t('in-automation:vault')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -195,7 +196,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'dynamic'}
-              label={t('in-automation:ActionCatalog.dynamic')}
+              label={t('in-automation:dynamic')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -347,14 +348,13 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
         useLongTermDataOnly: false
       },
       requestingSecondaryKeySuggestions: true,
-      tagFilterExpression: tagFilterExpression
+      tagFilterExpression: tagFilterExpression ?? EMPTY_EXPRESSION
     })
 });
 
 const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
   const value = parameterForm.get('value') as Field<FormModel>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
-
   return (
     <FormGroup>
       <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
@@ -366,6 +366,7 @@ const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionP
           onChange={(viewModel: ViewModel) =>
             onParameterChange({ fieldName: 'value', value: toFormModel(viewModel), setParameterForm, parameter })
           }
+          tagFilterExpression={EMPTY_EXPRESSION}
         />
       </div>
       <TouchedMessages field={value} className={locals.subErrorTextFormField} />
