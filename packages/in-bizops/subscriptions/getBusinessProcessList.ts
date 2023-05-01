@@ -1,0 +1,75 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import {
+  GetBusinessProcessesQuery,
+  OrderDirection,
+  PaginatedResult,
+  Result,
+  BusinessProcess,
+  TimeConfig,
+  TagFilterExpression
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+
+const getBusinessProcessList = createResultSubscriptionFactory<
+  GetBusinessProcessesQuery,
+  Result<PaginatedResult<BusinessProcess>>
+>({
+  eventId: 'getBusinessProcesses',
+  trackSubscriptionStatistics: true
+});
+
+export default getBusinessProcessList;
+
+interface GetBusinessProcessListDefaultProps {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  timeConfig: TimeConfig;
+  tagFilterExpression?: TagFilterExpression;
+}
+export function getBusinessProcessListWithDefaults({
+  //The value of query is from the Search box, by default, it is ''.
+  page = 1,
+  pageSize = 20,
+  orderBy = 'bpm_process_name',
+  orderDirection = 'ASC',
+  timeConfig,
+  tagFilterExpression
+}: GetBusinessProcessListDefaultProps): Observable<Result<PaginatedResult<BusinessProcess>>> {
+  return getBusinessProcessList({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    //Having the metrics block in the payload mainly for passing the granularity (unit is in seconds)
+    //to the backend to get the data for the response time spark chart.
+    metrics: {
+      startedProcessesCount: {
+        metric: 'bpm_root_process_id',
+        granularity: 60,
+        aggregation: 'DISTINCT_COUNT'
+      }
+    },
+    filter: {
+      timeConfig
+      //includeInternalCalls: false,
+      //includeSyntheticCalls: false,
+      //useLongTermDataOnly: false
+    },
+    timeConfig,
+    tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
+  });
+}

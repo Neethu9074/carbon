@@ -4,12 +4,19 @@
  "labelSmartAlerts": "Smart Alerts",
  "labelActivities": "Activities",
  "lists": {
-  "activityLabel": "Activity Count",
-  "idLabel": "Process ID",
+  "pageTitle": "Business Processes",
+  "activityLabel": "Activities",
+  "nameLabel": "Name",
   "noData": "No data available",
-  "toolLabel": "Tool"
+  "healthLabel": "Health",
+  "startLabel": "Started"
  },
  "navigation": {
    "bizOps": "Business Processes"
+ },
+ "dashboards": {
+  "summary": {
+    "summaryTab": "Summary"
+  }
  }
 }
