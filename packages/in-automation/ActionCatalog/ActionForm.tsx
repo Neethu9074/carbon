@@ -43,6 +43,7 @@ import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeader
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
+import EventSelection from 'in-automation/ActionCatalog/EventSelection';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -92,6 +93,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </>
             )}
           </>
+          <EventSelection form={form} setForm={setForm} />
         </Col>
       </Row>
     </fieldset>

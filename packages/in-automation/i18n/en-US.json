@@ -137,6 +137,7 @@
     "static": "Static",
     "vault": "Vault",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
-    "actionCopy": "(Copy of) {{name}}"
+    "actionCopy": "(Copy of) {{name}}",
+    "ActionAssociationsForEvent": "Action Associations for Events"
   }
 }

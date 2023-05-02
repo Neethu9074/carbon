@@ -62,6 +62,7 @@ interface MatchParams {
 }
 
 export type ActionFormEntity = NewAction | Action;
+type NewActionwithEvents = ActionFormEntity & { selectedEvents?: string[] };
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
@@ -72,7 +73,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   const entityFormParam = {
     entityId,
     createDefaultEntity: createAction,
-    createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
+    createForm: (action: NewActionwithEvents) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: (actionId: string) =>
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
@@ -187,12 +188,13 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   }
 }
 
-export function getActionSpecification(form: MapForm<any>): NewAction {
+export function getActionSpecification(form: MapForm<any>): NewActionwithEvents {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
+  const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
 
   const fields: Field[] = [];
 
@@ -267,6 +269,7 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
     fields,
     type,
     tags: tags.map((tag: Tag) => tag.value),
-    inputParameters
+    inputParameters,
+    selectedEvents
   };
 }
