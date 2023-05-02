@@ -110,7 +110,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.kongbandwidth')}
+        cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}

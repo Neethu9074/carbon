@@ -10295,6 +10295,7 @@
       "totalConnections": "Total Connections",
       "connectionError": "Cannot connect to Kong server since it is a closed beta version.",
       "totalHttpRequests": "Total Http Requests",
+      "nginxtotalRequests": "NGINX Total Requests",
       "httpRequests":"HTTP Requests",
       "service":"Service",
       "route": "Route",
@@ -10305,6 +10306,8 @@
       "dynamic":"Dynamic",
       "failed":"Failed",
       "kongHttpRequestsTotal": "Http Requests",
+      "kongBandwidth": "Bandwidth",
+      "bytes": "Bytes",
 
       "kongNginxMetricErrorsTotal":"Kong Nginx Metric Errors Total",
       "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",

@@ -32,8 +32,7 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.totalConnection.get('route');
-      },
-     
+      }
     }
   },
   {
@@ -52,8 +51,7 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.totalConnection.get('source');
-      },
-    
+      }
     }
   },
   {
@@ -106,7 +104,7 @@ export default connectTo(
     if (rows.length === 0) {
       return null;
     }
-    const getDetails = row => {
+    const getDetails = () => {
       if (!snapshotMap?.timeConfig) {
         return;
       }
@@ -118,7 +116,11 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['kongHttpRequestsTotal.request', 'kongHttpRequestsTotal.dynamic','kongHttpRequestsTotal.failed' ],
+              metrics: [
+                'kongHttpRequestsTotal.request',
+                'kongHttpRequestsTotal.dynamic',
+                'kongHttpRequestsTotal.failed'
+              ],
               labels: [t('in-forge:plugins.kongApigateway.totalHttpRequests')],
               type: 'line'
             }}
@@ -130,7 +132,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.kongHttpRequestsTotal')}
+        cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
