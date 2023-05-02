@@ -160,7 +160,19 @@ export const WidthLoadingIndicator = () => {
     />
   );
 };
-
+export const MarkerLanesBelowChartForceHoverArea = () => {
+  return (
+    <ChartWithSomeData
+      renderPostChartContent={props => (
+        <MarkerLanesPresenter {...props} chartBucketWidth={0}>
+          <ReleasesLanePresenter releases={getReleases(timeConfig)} />
+          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
+          <ReleasesLanePresenter releases={getReleases(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
 function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
   return (
     // define a width so in storybook the whole chart fits easily without any need for scrolling
