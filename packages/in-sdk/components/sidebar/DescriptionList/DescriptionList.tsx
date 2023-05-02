@@ -3,22 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-disable react/no-multi-comp */
-import React, { Fragment } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import classNames from 'classnames';
 
 import locals from './DescriptionList.mless';
 
-export function DescriptionList({ children, className }) {
+export function DescriptionList({ children, className }: PropsWithChildren<{ className?: string }>) {
   return (
-    <Fragment>
+    <>
       <dl className={classNames(locals.descriptionList, className)}>{children}</dl>
       <div className={locals.descriptionListNoDetails}>No details available.</div>
-    </Fragment>
+    </>
   );
 }
 
-export function DescriptionItem({ title, children, onClick }) {
+export function DescriptionItem({
+  title,
+  children,
+  onClick
+}: PropsWithChildren<{ title: string; onClick?: () => void }>) {
   if (isItemEmpty(children)) {
     return null;
   }
@@ -33,7 +36,7 @@ export function DescriptionItem({ title, children, onClick }) {
   );
 }
 
-function isItemEmpty(children) {
+function isItemEmpty(children?: ReactNode): boolean {
   if (children === null || children === undefined) {
     return true;
   }

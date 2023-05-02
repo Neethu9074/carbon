@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-// @ts-expect-error
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { t } from 'in-i18n';
 
