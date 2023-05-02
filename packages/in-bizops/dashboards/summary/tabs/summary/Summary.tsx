@@ -4,13 +4,27 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
-// To be implemented
+import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
+import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
+import Timeline from 'in-bizops/dashboards/summary/tabs/summary/components/Timeline';
+import { Col, Row } from 'in-components/layout/Grid';
+
 export default function Summary() {
   return (
-    <>
-      <h1>Business Process charts</h1>
-    </>
+    <Fragment>
+      <Row>
+        <Col xs>
+          <Timeline />
+        </Col>
+        <Col xs>
+          <TopActivities />
+        </Col>
+        <Col xs>
+          <InfrastructureIssuesAndChanges />
+        </Col>
+      </Row>
+    </Fragment>
   );
 }
