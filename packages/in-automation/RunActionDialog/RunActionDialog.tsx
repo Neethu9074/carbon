@@ -12,19 +12,21 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
+  getInterpreterFromFields,
+  getScriptFromFields,
+  getWebhookFields,
+  isScript,
+  isWebhook,
+  parseDynamicParameter,
+  parseVaultParameter
+} from 'in-automation/ActionCatalog/shared';
+import {
   ActionExecutionParameter,
   ResolvedDynamicParamValue,
   resolveDynamicParameters,
   runScriptAction,
   runWebhookAction
 } from 'in-automation/api';
-import {
-  getInterpreterFromFields,
-  getScriptFromFields,
-  getWebhookFields,
-  isScript,
-  isWebhook
-} from 'in-automation/ActionCatalog/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
@@ -128,24 +130,11 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
     if (!event) return emptyParametersArray;
     const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
     if (dynamicParameters.length === 0) return emptyParametersArray;
-    return resolveDynamicParameters(
-      event.id,
-      dynamicParameters.map(({ value = '{}', name }) => {
-        const { key = '', tagName = '' }: { key: string; tagName: string } = (raw => {
-          try {
-            return JSON.parse(raw);
-          } catch (e) {
-            return '';
-          }
-        })(value);
-
-        return {
-          name,
-          key,
-          tagName
-        };
-      })
-    ).map(response => response.parameters);
+    const parsedParameters = dynamicParameters.map(({ value, name }) => ({
+      name,
+      ...parseDynamicParameter(value)
+    }));
+    return resolveDynamicParameters(event.id, parsedParameters);
   }, [event, action]);
   return resolvedDynamicParameters;
 };
@@ -233,28 +222,21 @@ function onSave({
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
     if (parameter.hidden) {
       if (parameter.type === 'vault') {
-        const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
-          try {
-            return JSON.parse(raw);
-          } catch (e) {
-            return {};
-          }
-        })(parameter.value ?? '{}');
-        const { secretKey, secretPath } = parsedVaultValue;
+        const { secretKey, secretPath } = parseVaultParameter(parameter.value);
         return [
           ...acc,
           {
             name: parameter.name,
             type: 'vault',
             value: JSON.stringify({
-              secretPath: secretPath ?? '',
-              secretKey: secretKey ?? ''
+              secretPath: secretPath,
+              secretKey: secretKey
             })
           }
         ];
       } else if (parameter.type === 'dynamic') {
-        const { resolvedValue } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
-        return [...acc, { name: parameter.name, value: resolvedValue ?? '' }];
+        const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+        return [...acc, { name: parameter.name, value: resolvedValue }];
       }
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
@@ -358,23 +340,17 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
             return acc;
           }
           if (parameter.type === 'vault') {
-            const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
-              try {
-                return JSON.parse(raw);
-              } catch (e) {
-                return {};
-              }
-            })(parameter?.value ?? '{}');
+            const { secretKey, secretPath } = parseVaultParameter(parameter.value);
             return {
               ...acc,
               [parameter.name]: createListForm({
                 items: [
                   createField({
-                    value: parsedVaultValue?.secretPath ?? '',
+                    value: secretPath,
                     validator: parameter.required ? notBlankValidator : undefined
                   }),
                   createField({
-                    value: parsedVaultValue?.secretKey ?? '',
+                    value: secretKey,
                     validator: parameter.required ? notBlankValidator : undefined
                   })
                 ],
@@ -394,9 +370,7 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
               })
             };
           } else if (parameter.type === 'dynamic') {
-            const resolvedValue =
-              resolvedDynamicParameters.find(resolvedParameter => resolvedParameter.name === parameter.name)
-                ?.resolvedValue ?? '';
+            const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
 
             return {
               ...acc,

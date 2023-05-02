@@ -89,3 +89,35 @@ export const AUTH_TYPES = Object.freeze([
   { value: BEARER_TOKEN, translation: t('in-automation:ActionCatalog.bearerToken') },
   { value: API_KEY, translation: t('in-automation:ActionCatalog.apiKey') }
 ]);
+
+function safeParseJSON<T>(str: string = '{}') {
+  try {
+    return JSON.parse(str) as T;
+  } catch {
+    return {};
+  }
+}
+
+type VaultParameter = { secretKey: string; secretPath: string };
+const isVaultParameter = (param: any): param is VaultParameter => {
+  return 'secretKey' in param && 'secretPath' in param;
+};
+export const parseVaultParameter = (str?: string) => {
+  const vaultParameter = safeParseJSON<VaultParameter>(str);
+  if (!isVaultParameter(vaultParameter)) {
+    return { secretKey: '', secretPath: '' };
+  }
+  return vaultParameter;
+};
+
+type DynamicParameter = { key?: string; tagName: string };
+const isDynamicParameter = (param: any): param is DynamicParameter => {
+  return 'tagName' in param;
+};
+export const parseDynamicParameter = (str?: string) => {
+  const dynamicParameter = safeParseJSON<DynamicParameter>(str);
+  if (!isDynamicParameter(dynamicParameter)) {
+    return { key: '', tagName: '' };
+  }
+  return dynamicParameter;
+};

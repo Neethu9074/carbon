@@ -29,6 +29,7 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
@@ -67,6 +68,7 @@ export default function RunActionDialogContent({
   const timeConfig = useTimeConfig();
 
   if (error) return <Typography variant="body-small">{error}</Typography>;
+  if (!form) return <LoadingIndicator size="xxl" />;
   if (actionInstanceId) {
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
     const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
@@ -233,7 +235,6 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
 
 function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
-
   if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
     return (
       <NoDataAvailable

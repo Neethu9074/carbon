@@ -393,7 +393,7 @@ export function runWebhookAction({
 
 export type DynamicParamValue = {
   name: string;
-  key: string;
+  key?: string;
   tagName: string;
 };
 
@@ -413,5 +413,7 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
       eventId,
       parameters
     }
-  }).map(response => response.body);
+  })
+    .map(response => response.body)
+    .map(response => response.parameters);
 }
