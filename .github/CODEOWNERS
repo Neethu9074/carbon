@@ -107,7 +107,7 @@ packages/in-init                    @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-integrations            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-forge/tracing
-packages/in-forge/tracing/camunda   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-forge/tracing/bpm   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
 # Shared ownership
 # packages/in-internal
 packages/in-kubernetes              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui

@@ -9,9 +9,9 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'camunda',
-  category: t('in-forge:tracingCategory.batch'),
+  category: t('in-forge:tracingCategory.bpm'),
 
-  detailView: 'CamundaSpanDetailView',
+  detailView: 'BPMSpanDetailView',
 
   getLabel(span) {
     return span.getIn(['data', 'rootProcess', 'id']);

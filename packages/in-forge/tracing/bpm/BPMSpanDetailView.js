@@ -11,7 +11,7 @@ import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 
-export default function CamundaSpanDetailView({ span }) {
+export default function BPMSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
@@ -21,12 +21,13 @@ export default function CamundaSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.camunda.titleCaseIntanceId')}>
           {span.getIn(['data', 'process', 'caseInstanceId'])}
         </Di>
-        <Di title={t('in-forge:tracing.camunda.titleRootProcessUUID')}>{span.getIn(['data', 'rootProcess', 'id'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleActivityId')}>{span.getIn(['data', 'activity', 'id'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleActivityName')}>{span.getIn(['data', 'activity', 'name'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleActivityDesc')}>{span.getIn(['data', 'activity', 'desc'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleExternalTaskId')}>{span.getIn(['data', 'externalTask', 'id'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleExternalTaskWorkerId')}>
+        <Di title={t('in-forge:tracing.bpm.titleRootProcessUUID')}>{span.getIn(['data', 'rootProcess', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleActivityId')}>{span.getIn(['data', 'activity', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleActivityName')}>{span.getIn(['data', 'activity', 'name'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleActivityDesc')}>{span.getIn(['data', 'activity', 'desc'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleActivityType')}>{span.getIn(['data', 'activity', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleExternalTaskId')}>{span.getIn(['data', 'externalTask', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleExternalTaskWorkerId')}>
           {span.getIn(['data', 'externalTask', 'workerId'])}
         </Di>
         <Di title={t('in-forge:tracing.camunda.titleExternalTaskTopic')}>
@@ -36,7 +37,7 @@ export default function CamundaSpanDetailView({ span }) {
           {span.getIn(['data', 'externalTask', 'retries'])}
         </Di>
         {getBusinessVariables(span)}
-        <ErrorDescriptionItem error={span.getIn(['data', 'camunda', 'error'])} />
+        <ErrorDescriptionItem error={span.getIn(['data', 'bpm', 'error'])} />
       </Dl>
     </div>
   );
@@ -45,9 +46,7 @@ function getBusinessVariables(span) {
   return span
     .getIn(['data', 'bpm', 'variable'], emptyMap)
     .map((v, k) => {
-      return (
-        <Di title={t('in-forge:tracing.camunda.titleBusinessVariable', { businessVariableKey: `bpm-${k}` })}>{v}</Di>
-      );
+      return <Di title={t('in-forge:tracing.bpm.titleBusinessVariable', { businessVariableKey: `bpm-${k}` })}>{v}</Di>;
     })
     .valueSeq()
     .toArray();
