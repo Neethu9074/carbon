@@ -10306,6 +10306,18 @@
       "status3xx":"status3xx",
       "status4xx":"status4xx",
       "status5xx":"status5xx",
+      "totalHttpRequests": "Total Http Requests",
+      "httpRequests":"HTTP Requests",
+      "service":"Service",
+      "route": "Route",
+      "code": "Code",
+      "source":"Source",
+      "consumer":"Consumer",
+      "noofRequests":"Number of Requests",
+      "dynamic":"Dynamic",
+      "failed":"Failed",
+      "kongHttpRequestsTotal": "Http Requests",
+
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",

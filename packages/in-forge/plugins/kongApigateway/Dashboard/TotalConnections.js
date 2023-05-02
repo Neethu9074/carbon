@@ -35,6 +35,15 @@ const cols = [
       },
       getContent: number.compact
     }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.subsystem'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.totalConnection.get('subsystem');
+      }
+    }
   }
 ];
 

@@ -15,7 +15,10 @@ import { kongEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import SharedDictionary from './SharedDictionary';
 import TotalConnections from './TotalConnections';
+import TotalHttpRequest from './TotalHttpRequest';
+import TotalRequest from './TotalRequest';
 import WorkerLuaVM from './WorkerLuaVM';
+import BandWidth from './BandWidth';
 import { t } from 'in-i18n';
 
 export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
@@ -36,7 +39,8 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
             {data.get('totalNumberofDB')}
           </KpiKeyValue>
-
+        </KpiSection>
+        <KpiSection>
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNginxMetricErrorsTotal')}>
             {data.get('kongNginxMetricErrorsTotal')}
           </KpiKeyValue>
@@ -50,6 +54,8 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
             {data.get('workerStateUpdateFrequency')}
           </KpiKeyValue>
+        </KpiSection>
+        <KpiSection>
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
             {data.get('workerConsistency')}
           </KpiKeyValue>
@@ -72,31 +78,7 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.totalTraffic')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              metrics: [
-                'totalTraffic.status2xx',
-                'totalTraffic.status3xx',
-                'totalTraffic.status4xx',
-                'totalTraffic.status5xx'
-              ],
-              labels: [
-                t('in-forge:plugins.kongApigateway.status2xx'),
-                t('in-forge:plugins.kongApigateway.status3xx'),
-                t('in-forge:plugins.kongApigateway.status4xx'),
-                t('in-forge:plugins.kongApigateway.status5xx')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongBandwidthBytes')}>
+        <DashboardSection title={t('in-forge:plugins.kongApigateway.totalTraffic')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -123,6 +105,9 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
         <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
         <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
         <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
+        <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
+        <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
+        <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       </div>
     );
   }
