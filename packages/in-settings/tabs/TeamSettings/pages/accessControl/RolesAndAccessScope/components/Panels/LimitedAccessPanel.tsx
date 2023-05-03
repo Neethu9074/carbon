@@ -188,6 +188,7 @@ export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
         onClickItem={noop}
         onChange={({ orderDirection: dir }) => setOrderDirection(dir ?? orderDirection)}
         columnDefinition={columnDefinition}
+        paginated
       />
     </Stack>
   );
