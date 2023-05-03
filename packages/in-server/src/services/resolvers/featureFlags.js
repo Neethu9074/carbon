@@ -354,5 +354,10 @@ module.exports = exports = [
     uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'recurrentMaintenanceWindowsEnabled',
+    instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
+    defaultValue: false
   }
 ];

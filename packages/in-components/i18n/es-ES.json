@@ -76,9 +76,6 @@
     "avatarNullAlt": "Avatar de reserva para {{email}}."
   },
   "messageFlyout": {
-    "infrastructurePageName": "Infraestructura",
-    "eumPageName": "EUM",
-    "settingsPageName": "Valores",
     "requestQuoteBtn": "Solicitar un presupuesto",
     "buyNowBtn": "Comprar en AWS",
     "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>."
@@ -417,6 +414,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherButtonSignOut": "Cerrar sesión",
@@ -710,6 +708,7 @@
     "sanitizedTagFilterValueAndOperator": "El valor de filtro de código se ha reducido a la longitud máxima permitida y el operador se ha ajustado en consecuencia.",
     "source": "Origen",
     "destination": "Destino",
+    "documentation": "Documentation",
     "string": {
       "contains": "contiene",
       "doesNotContain": "no contiene",
@@ -818,6 +817,9 @@
     "retainedLabel_viewChange_0": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})",
     "retainedLabel_viewChange_1": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})",
     "retainedLabel_viewChange_2": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})"
+  },
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "Este widget no se actualiza durante la modalidad activa."
   },
   "migratedTenantBanner": {
     "title": "Unidad de arrendatario migrada",

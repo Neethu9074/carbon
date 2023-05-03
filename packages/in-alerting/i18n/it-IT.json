@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Operatore non supportato: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Aggiungi avviso smart",
     "applicationSmartAlert": "Avviso smart dell'applicazione",
     "globalApplicationSmartAlert": "Avviso smart dell'applicazione globale",
     "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Seleziona evento personalizzato",
         "customEventListInfoLabel": "Visualizzazione di eventi personalizzati che sono stati attivati negli ultimi 7 giorni"
       },
-      "addSmartAlert": "Aggiungi avviso smart",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "Abilita",
     "disable": "Disabilita",
     "synthetics": {
+      "addSmartAlert": "Aggiungi avviso smart sintetico",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} altri filtri",
@@ -1037,15 +1038,15 @@
           "moreFiltersWithCount_0": "+{{count}} altri filtri",
           "moreFiltersWithCount_1": "+{{count}} altri filtri",
           "moreFiltersWithCount_2": "+{{count}} altri filtri",
-          "filter": "filtro",
-          "filter_plural": "filtri",
+          "filter": "Filtro",
+          "filter_plural": "Filtri",
           "filter_0": "filtri",
           "filter_1": "filtri",
           "filter_2": "filtri"
         }
       },
       "alertList": {
-        "timeThreshold": "Soglia di errore",
+        "timeThreshold": "Soglia temporale",
         "filterApplied": "Filtro applicato",
         "violationsCount": "{{violationsCount}} errori",
         "numberOfFailures": "Generazione di avvisi di errore"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "Passo 1: Test",
         "simpleAlertConfigDialogStep1Headline": "Quali test sintetici dovrebbero essere segnalati?",
+        "simpleAlertConfigDialogStep1Tooltip": "I singoli avvisi verranno inviati indipendentemente per ogni test sintetico, per ubicazione",
         "stepConfigsStep4Title": "Passo 4: Canali di avviso",
         "alertDialogHeadline": "Cosa dovrebbe apparire nell'avviso?",
         "stepConfigsStep2Title": "Passo 2: ambito",
         "scopeHeadline": "Dove si desidera attivare l'avviso?",
-        "stepConfigsStep3Title": "Passo 3: soglia",
+        "stepConfigsStep3Title": "Passo 3: soglia di durata",
         "stepConfigsStep5Title": "Passo 5: proprietà dei messaggi di avviso",
-        "thresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?"
+        "thresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?",
+        "thresholdTitleHelpText": "Errori determinati nel PoP, in base all'intervallo di tentativi configurato nella creazione del test sintetico.",
+        "thresholdSubTitleHelpText": "Se il numero specificato di errori si verifica in ogni ubicazione, si riceverà un avviso per ogni ubicazione.",
+        "slider": {
+          "failuresWithCount": "{{count}} malfunzionamento",
+          "failuresWithCount_plural": "{{count}} malfunzionamenti",
+          "failuresWithCount_0": "{{count}} malfunzionamenti",
+          "failuresWithCount_1": "{{count}} malfunzionamenti",
+          "failuresWithCount_2": "{{count}} malfunzionamenti"
+        },
+        "alertPropertiesTitlePlaceholder": "Inserisci titolo qui",
+        "alertPropertiesDescriptionPlaceholder": "Inserisci descrizione qui"
       },
       "advanced": {
         "alertChannelsLabel": "Canali di avviso",
+        "alertChannelsTitle": "Chi deve ricevere gli avvisi?",
         "scopeFilterLabel": "Ambito",
         "alertTestsLabel": "Test sintetici",
         "alertTestsTitle": "Test sintetici: quali test sintetici dovrebbero essere segnalati?",
         "propertiesLabel": "Proprietà avviso",
-        "failureThreshold": "Soglia di errore",
-        "failureThresholdLabel": "Soglia di errore",
+        "alertPropertiesPreviewTitlePlaceholder": "[Inserisci titolo qui]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserisci descrizione qui]",
+        "propertiesTitle": "Cosa deve includere la notifica di avviso?",
+        "failureThreshold": "Soglia temporale",
+        "failureThresholdLabel": "Soglia temporale",
         "failureThresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "test sintetico {{entityName}}",
         "testAttachedCount": "Test collegati ({{count}})",
         "testAttached": "Test collegati"
+      },
+      "details": {
+        "threshold": "Soglia",
+        "alertConfigurationListTitleAlertConfiguration": "Configurazione avviso",
+        "scope": {
+          "perLocation": {
+            "shortText": "Per ciascuna ubicazione"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Test selezionati",
+        "alertConfigurationTitleAlertChannels": "Canali di avviso",
+        "alertConfigurationTitleAlertProperties": "Proprietà avviso",
+        "failureThreshold": "{{failureCount}} errori",
+        "alertConfigurationTitleScope": "Ambito",
+        "noOfFailure": "Numero di errori",
+        "timeThreshold": "Soglia temporale",
+        "alertingType": "Tipo di avviso"
       }
     }
   }

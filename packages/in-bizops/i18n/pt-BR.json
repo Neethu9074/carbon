@@ -1,0 +1,14 @@
+{
+  "labelBizOps": "Processos",
+  "labelSmartAlerts": "Alertas inteligentes",
+  "labelActivities": "Atividades",
+  "lists": {
+    "activityLabel": "Contagem da atividade",
+    "idLabel": "ID de Processo",
+    "noData": "Dados não disponíveis",
+    "toolLabel": "Ferramenta"
+  },
+  "navigation": {
+    "bizOps": "Processos de negócios"
+  }
+}

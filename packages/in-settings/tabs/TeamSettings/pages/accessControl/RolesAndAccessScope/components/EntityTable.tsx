@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Result, PaginatedResult } from '@instana/types';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import EntityTablePaginator from './EntityTablePaginator';
 import { FetchedState } from 'in-hooks/utils/types';
 
 type OverwrittenServerTableProps =
@@ -27,6 +28,7 @@ interface EntityTableProps<ITEM_CONFIG>
   onClickItem: (item: ITEM_CONFIG) => void;
   fetchedConfigState: FetchedState<ITEM_CONFIG[]>;
   isSearchable?: boolean;
+  paginated?: boolean;
 }
 
 export default function EntityTable<ITEM_CONFIG>({
@@ -34,10 +36,39 @@ export default function EntityTable<ITEM_CONFIG>({
   columnDefinition,
   fetchedConfigState,
   isSearchable = false,
+  paginated = false,
   ...restProps
 }: EntityTableProps<ITEM_CONFIG>) {
-  const paginatedResult = fetchedStateToPaginatedResult(fetchedConfigState);
-  const { page = 0, pageSize = 0 } = paginatedResult?.data ?? {};
+  const [page, setPage] = useState(1);
+  const result = fetchedStateToPaginatedResult(fetchedConfigState);
+
+  let paginatedResult: Result<PaginatedResult<ITEM_CONFIG>>;
+  let loadMore: () => void;
+  let hasMorePages: boolean;
+  let pageSize: number;
+
+  if (paginated) {
+    const size = 10;
+    const start = page === 1 ? 0 : page * size;
+    const end = start + size;
+    paginatedResult = {
+      ...result,
+      data: {
+        pageSize: size,
+        page,
+        totalHits: result.data?.totalHits ?? 0,
+        items: result.data?.items?.slice(0, end) ?? []
+      }
+    };
+    loadMore = () => setPage(c => c + 1);
+    hasMorePages = paginatedResult.data?.items?.length !== paginatedResult.data?.totalHits;
+    pageSize = paginatedResult.data?.items?.length ?? 0;
+  } else {
+    paginatedResult = result;
+    loadMore = () => {};
+    hasMorePages = false;
+    pageSize = paginatedResult.data?.totalHits ?? 0;
+  }
 
   return (
     <ServerTablePresenter<ITEM_CONFIG, ServerTablePresenterProps<ITEM_CONFIG>>
@@ -48,6 +79,7 @@ export default function EntityTable<ITEM_CONFIG>({
       page={page}
       pageSize={pageSize}
       columnDefinitions={columnDefinition}
+      renderPagination={() => hasMorePages && <EntityTablePaginator loadMore={loadMore} />}
       isSearchable={isSearchable}
       {...restProps}
     />

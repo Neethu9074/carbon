@@ -71,6 +71,7 @@ export default function PotentialProblemContentControls({
         <Button
           kind="secondaryDarker"
           onClick={() => {
+            close();
             addActiveDialog(
               renderSmartAlertDialogComponent({
                 rule,

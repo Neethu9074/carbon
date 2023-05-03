@@ -33,7 +33,7 @@
         "scriptTitle": "Wie lautet der Name dieses HTTP-Script-Tests?",
         "labelName": "Name des Tests",
         "labelDescription": "Beschreibung",
-        "labelFrequency": "Frequenz",
+        "labelFrequency": "Häufigkeit (Minute)",
         "labelApplications": "Anwendung auswählen"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "Hostformat ungültig"
       },
       "advancedMode": {
-        "buttonContent": "Zum erweiterten Modus wechseln"
+        "switchModeButton": "Zum erweiterten Modus wechseln",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Ausgewählter Testtyp",
+          "rightListLabel": "Testtyp",
+          "apiTypeLabel": "Einfacher Test | Scripttest",
+          "apiTypeHeadline": "Welche Art von synthetischem Test soll erstellt werden",
+          "apiTypeText": "API-Tests können verwendet werden, um die von Webanwendungen bereitgestellten APIs zu überwachen. API-Tests können verwendet werden, um die Verfügbarkeit und Antwortzeit zu messen. Mit dem einfachen Test können Sie eine URL mit Ping überprüfen oder eine einzelne API testen. Mit dem Scripttest können Sie ein Script bereitstellen, das eine Gruppe von API-Antworten überprüfen, komplexe Workflows simulieren und bestimmte Funktionen testen kann.",
+          "selectedTestTypeButton": "Wählen",
+          "httpScriptTitle": "Scripttest",
+          "httpActionTitle": "Einfacher Test",
+          "browserTypeLabel": "Browser",
+          "browserTypeHeadline": "Synthetische Browsertests",
+          "browserTypeText": "Synthetische Browsertests sind eine Methode zur Überwachung der Leistung von Webanwendungen durch Simulation von Benutzerinteraktionen mit einer Website über ein Script in einem Web-Browser. Sie bieten wertvolle Einblicke in Probleme, die sich auf die Benutzererfahrung auswirken, und stellen die Funktionalität der Website sicher.",
+          "internetServicesTypeLabel": "Internetservices",
+          "internetServicesTypeHeadline": "Tests von Internet-Services",
+          "internetServicesTypeText": "Synthetische Internet-Services-Tests beinhalten die Simulation von Benutzerinteraktionen mit Web-Services, um deren Leistung zu überwachen und zu testen und so Ausfallzeiten zu erkennen und zu verhindern."
+        },
+        "configurationLabel": "Konfiguration",
+        "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
+        "locationsLabel": "Standort(e)",
+        "locationsTitle": "Standort(e): Wo wird dieser Test ausgeführt?",
+        "scheduleLabel": "Planen",
+        "scheduleTitle": "Zeitplan: Wann wird dieser Test ausgeführt?",
+        "identifyLabel": "Identifizieren",
+        "identifyTitle": "Ermitteln: Was wird der Test tun?",
+        "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
+        "simultaneous": "Simultan",
+        "simultaneousDescription": "Dieser Test wird gleichzeitig an jeder ausgewählten Position ausgeführt.",
+        "configStep": {
+          "allowInsecure": "Unsichere zulassen",
+          "expectStatusLabel": "Status erwarten",
+          "expectJSONLabel": "JSON erwarten",
+          "expectMatchLabel": "Übereinstimmung erwarten",
+          "expectStatusPlaceholder": "Erwarteten Status eingeben",
+          "expectJSONPlaceholder": "Erwartete JSON eingeben",
+          "expectMatchPlaceholder": "Erwartete Zeichenfolge eingeben",
+          "addValidations": "Validierung hinzufügen",
+          "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
+          "jsonRootMustBeAnObject": "JSON-Root muss ein Objekt sein.",
+          "mustBeValidHttpReturnCode": "Status muss ein gültiger HTTP-Rückkehrcode sein.",
+          "shouldBeValidRegExp": "Die eingegebene Zeichenfolge muss ein gültiger regulärer Ausdruck sein."
+        },
+        "loadMore": "Mehr laden",
+        "selectTests": {
+          "addLocations": "{{count}} Positionen hinzufügen",
+          "addLocation": "Position hinzufügen",
+          "cancel": "Abbrechen",
+          "selectLocation": "Position auswählen"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Browser",
+          "internetServicesName": "Internetservices"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Neuen Test erstellen"
+    "buttonLabel": "Synthetischen Test hinzufügen"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "Synthetischen Smart Alert hinzufügen"
   },
   "navigation": {
     "synthetics": "Überwachung der synthetischen Transaktionen"
@@ -169,7 +225,10 @@
       "namespace": "Namensbereich",
       "labelConfirmRemoveLocation": "Möchten Sie die Position von <strong>{{label}}</strong> ({{status}}) wirklich entfernen?",
       "activeTestLinked": "An Position <strong>{{label}}</strong> ({{status}}) sind aktive Tests zugewiesen. Möchten Sie diese Position wirklich entfernen?",
-      "deleteLocation": "Position löschen"
+      "deleteLocation": "Position löschen",
+      "noDataAvailable": {
+        "message": "{{component}} nicht verfügbar"
+      }
     },
     "summary": {
       "successRate": "Erfolgsquote",
@@ -348,7 +407,7 @@
       "locationListDescription": "Es wurden keine synthetischen Positionen aus der Datenbank abgerufen."
     },
     "alertList": {
-      "timeThreshold": "Fehlerschwellenwert",
+      "timeThreshold": "Zeitschwellenwert",
       "testsApplied": "Angewendete Tests",
       "filterApplied": "Angewendeter Filter",
       "violationsCount": "{{violationsCount}} Fehler",

@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Opérateur non pris en charge : {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Ajouter une alerte intelligente",
     "applicationSmartAlert": "Alerte intelligente d'application",
     "globalApplicationSmartAlert": "Alerte intelligente d'application globale",
     "titleNoSmartAlertsConfigured": "Aucune alerte intelligente configurée",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Sélectionner un événement personnalisé",
         "customEventListInfoLabel": "Affichage des événements personnalisés qui ont été déclenchés au cours des 7 derniers jours"
       },
-      "addSmartAlert": "Ajouter une alerte intelligente",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "Activer",
     "disable": "Désactiver",
     "synthetics": {
+      "addSmartAlert": "Ajouter une Smart Alert synthétique",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
@@ -1037,15 +1038,15 @@
           "moreFiltersWithCount_0": "+{{count}} filtres supplémentaires",
           "moreFiltersWithCount_1": "+{{count}} filtres supplémentaires",
           "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
-          "filter": "filtre",
-          "filter_plural": "filtres",
+          "filter": "Filtrer",
+          "filter_plural": "Filtres",
           "filter_0": "filtres",
           "filter_1": "filtres",
           "filter_2": "filtres"
         }
       },
       "alertList": {
-        "timeThreshold": "Seuil d'échec",
+        "timeThreshold": "Seuil de temps",
         "filterApplied": "Filtre appliqué",
         "violationsCount": "{{violationsCount}} échec(s)",
         "numberOfFailures": "Alerte d'échec"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "Etape 1 : Tests",
         "simpleAlertConfigDialogStep1Headline": "Quels tests synthétiques doivent être signalés par une alerte ?",
+        "simpleAlertConfigDialogStep1Tooltip": "Des alertes individuelles seront envoyées indépendamment pour chaque test synthétique, par emplacement",
         "stepConfigsStep4Title": "Etape 4 : Canaux d'alerte",
         "alertDialogHeadline": "Que doit-on voir dans l'alerte ?",
         "stepConfigsStep2Title": "Etape 2 : Portée",
         "scopeHeadline": "Où voulez-vous que l'alerte se déclenche ?",
-        "stepConfigsStep3Title": "Etape 3 : Seuil",
+        "stepConfigsStep3Title": "Etape 3 : Seuil de temps",
         "stepConfigsStep5Title": "Etape 5 : Propriétés d'alerte",
-        "thresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?"
+        "thresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?",
+        "thresholdTitleHelpText": "Echecs déterminés dans le PoP, en fonction de l'intervalle de nouvelle tentative configuré dans la création du test synthétique.",
+        "thresholdSubTitleHelpText": "Si le nombre spécifié d'échecs se produit à chaque emplacement, vous recevrez une alerte pour chaque emplacement.",
+        "slider": {
+          "failuresWithCount": "{{count}} échec",
+          "failuresWithCount_plural": "{{count}} échecs",
+          "failuresWithCount_0": "{{count}} échecs",
+          "failuresWithCount_1": "{{count}} échecs",
+          "failuresWithCount_2": "{{count}} échecs"
+        },
+        "alertPropertiesTitlePlaceholder": "Insérer un titre ici",
+        "alertPropertiesDescriptionPlaceholder": "Insérer une description ici"
       },
       "advanced": {
         "alertChannelsLabel": "Canaux d'alerte",
+        "alertChannelsTitle": "Qui doit recevoir les alertes ?",
         "scopeFilterLabel": "Portée",
         "alertTestsLabel": "Tests synthétiques",
         "alertTestsTitle": "Tests synthétiques : Quels tests synthétiques doivent être signalés par une alerte ?",
         "propertiesLabel": "Propriétés d'alerte",
-        "failureThreshold": "Seuil d'échec",
-        "failureThresholdLabel": "Seuil d'échec",
+        "alertPropertiesPreviewTitlePlaceholder": "[Insérer le titre ici]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Insérer la description ici]",
+        "propertiesTitle": "Que doit inclure la notification d'alerte ?",
+        "failureThreshold": "Seuil de temps",
+        "failureThresholdLabel": "Seuil de temps",
         "failureThresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "test synthétique {{entityName}}",
         "testAttachedCount": "Tests joints ({{count}})",
         "testAttached": "Tests joints"
+      },
+      "details": {
+        "threshold": "Seuil",
+        "alertConfigurationListTitleAlertConfiguration": "Configuration d'alerte",
+        "scope": {
+          "perLocation": {
+            "shortText": "Par emplacement"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Tests sélectionnés",
+        "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
+        "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
+        "failureThreshold": "{{failureCount}} échecs",
+        "alertConfigurationTitleScope": "Portée",
+        "noOfFailure": "Nombre d'échecs",
+        "timeThreshold": "Seuil de temps",
+        "alertingType": "Type d'alerte"
       }
     }
   }

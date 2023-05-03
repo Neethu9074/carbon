@@ -15,7 +15,9 @@
    "bizOps": "Business Processes"
  },
  "dashboards": {
+  "analyzeInstancesButton": "Analyze Instances",
   "summary": {
+    "pageTitle": "Business Process",
     "summaryTab": "Summary"
   }
  }

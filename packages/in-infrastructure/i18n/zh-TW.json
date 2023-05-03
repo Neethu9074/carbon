@@ -96,7 +96,8 @@
       "lxc": "LXC 儲存器",
       "nodejs": "Node.js 應用程式",
       "ping": "連線測試",
-      "process": "程序"
+      "process": "程序",
+      "syntheticPoP": "綜合 PoP"
     },
     "tableContent": "表格內容：",
     "remove": "移除",
