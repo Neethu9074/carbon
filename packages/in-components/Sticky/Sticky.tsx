@@ -8,10 +8,10 @@ import React from 'react';
 
 import { create, Disposable } from '@instana/observables';
 
+// import { playwithEnabled } from 'in-services/featureFlags';
+import { debouncedResize$ } from 'in-services/browser';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
-import { playwithEnabled } from 'in-services/featureFlags';
-import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
 import theme from 'in-themes';
 
@@ -67,7 +67,7 @@ export default class Sticky extends React.Component<StickyProps> {
     if (!this.wrapper || !this.header || !this.contentWrapper) {
       return;
     }
-    const offset = playwithEnabled ? 57 : 0;
+    // const offset = playwithEnabled ? 57 : 0;
     this.wrapper.style.paddingTop = `0px`;
     this.header.style.position = `static`;
     this.header.style.width = 'auto';
@@ -77,7 +77,7 @@ export default class Sticky extends React.Component<StickyProps> {
     this.headerWidth = this.header.clientWidth;
 
     this.header.style.position = `fixed`;
-    this.header.style.top = `${this.headerCoords.top + offset}px`;
+    this.header.style.top = `${this.headerCoords.top}px`;
     this.header.style.left = `${this.headerCoords.left}px`;
     this.header.style.width = `${this.headerWidth}px`;
     this.wrapper.style.paddingTop = `${this.headerHeight}px`;

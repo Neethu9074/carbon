@@ -21,7 +21,7 @@
     display: flex;
     background: rgb(23, 161, 230);
     z-index: 125;
-    color: white;
+    color: white !important;
     align-items: center;
     width: 100%;
 
@@ -31,11 +31,18 @@
       font-size: 28px;
       margin: 0;
       margin-left: 100px;
+      color: white !important;
+      h2 {
+        color: white;
+      }
     }
 
     .readyToMonitor {
       margin-right: 12px;
       font-size: 0.875rem;
+      span {
+        color: white;
+      }
     }
 
     .buttonFreeTrial {

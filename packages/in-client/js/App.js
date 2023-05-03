@@ -16,7 +16,6 @@ import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
-import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import MainNavigation from 'in-components/MainNavigation';
@@ -33,7 +32,6 @@ export default function App() {
     <ErrorBoundary name="app">
       <LocationStateProvider>
         <GlobalTheme>
-          <PlayWithHeader />
           <ThemeProvider theme="default">
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
