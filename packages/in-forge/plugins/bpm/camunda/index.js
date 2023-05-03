@@ -8,7 +8,7 @@ import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
-  plugin: plugins.bpm,
+  plugin: plugins.camunda,
 
   technologyDescriptor: {
     label: t('in-forge:plugins.bpm.camunda')
