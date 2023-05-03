@@ -28,42 +28,38 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.route'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.totalHttpRequest.get('route');
-      },
-     
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.code'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.totalHttpRequest.get('code');
-      },
-      getContent: number.compact
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.source'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.totalHttpRequest.get('source');
-      },
-    
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.consumer'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.totalHttpRequest.get('consumer');
-      },
-      getContent: number.compact
+      }
     }
   },
   {
@@ -71,7 +67,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalHttpRequest.get('request');
+        return row.totalHttpRequest.get('requests');
       },
       getContent: number.compact
     }
@@ -106,7 +102,7 @@ export default connectTo(
     if (rows.length === 0) {
       return null;
     }
-    const getDetails = () => {
+    const getDetails = row => {
       if (!snapshotMap?.timeConfig) {
         return;
       }
@@ -118,11 +114,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: [
-                'kongHttpRequestsTotal.request',
-                'kongHttpRequestsTotal.dynamic',
-                'kongHttpRequestsTotal.failed'
-              ],
+              metrics: ['kongHttpRequestsTotal.' + row.key + '.requests'],
               labels: [t('in-forge:plugins.kongApigateway.totalHttpRequests')],
               type: 'line'
             }}

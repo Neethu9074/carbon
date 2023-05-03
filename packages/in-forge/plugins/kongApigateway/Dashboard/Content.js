@@ -6,15 +6,16 @@
 
 import React from 'react';
 
-// import TotalHttpRequest from './TotalHttpRequest';
-import TotalRequest from './TotalRequest';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
+import TotalHttpRequest from './TotalHttpRequest';
 import SharedDictionary from './SharedDictionary';
 import TotalConnections from './TotalConnections';
+import TotalRequest from './TotalRequest';
 import WorkerLuaVM from './WorkerLuaVM';
 import BandWidth from './BandWidth';
 import { t } from 'in-i18n';
@@ -27,7 +28,7 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDatastoreReachable')}>
-          {data.get('datastoreReachable')}
+          {yesOrNo(data.get('datastoreReachable'))}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>{data.get('errorsInLic')}</KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
@@ -38,9 +39,6 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNginxMetricErrorsTotal')}>
-          {data.get('kongNginxMetricErrorsTotal')}
-        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongEnterpriseLicenseErrors')}>
           {data.get('kongEnterpriseLicenseErrors')}
         </KpiKeyValue>
@@ -57,7 +55,7 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           {data.get('workerConsistency')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
-          {data.get('prometheusEnabled')}
+          {yesOrNo(data.get('prometheusEnabled'))}
         </KpiKeyValue>
       </KpiSection>
 
@@ -104,7 +102,7 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
-      {/* <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} /> */}
+      <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

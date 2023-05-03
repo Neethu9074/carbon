@@ -10315,7 +10315,7 @@
       "kongDbEntitiesTotal":"Kong Db EntitiesTotal",
       "workerStateUpdateFrequency":"Worker State Update Frequency",
       "workerConsistency":"Worker Consistency",
-      "prometheusEnabled":"Prometheus Enabled",
+      "prometheusEnabled":"Prometheus Plugin Enabled",
       "totalTraffic":"Total Traffic",
       "status2xx":"Status 2XX",
       "status3xx":"Status 3XX",

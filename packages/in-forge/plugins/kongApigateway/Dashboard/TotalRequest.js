@@ -31,7 +31,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalRequests.get('totalRequests');
+        return row.totalRequests.get('requests');
       },
       getContent: number.compact
     }
@@ -42,7 +42,7 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongNginxRequestsTotal')
     };
   },
   function TotalRequest({ data }) {
@@ -78,7 +78,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['kongNginxRequestsTotal.' + row.key + '.connections'],
+              metrics: ['kongNginxRequestsTotal.' + row.key + '.requests'],
               labels: [t('in-forge:plugins.kongApigateway.totalRequests')],
               type: 'line'
             }}

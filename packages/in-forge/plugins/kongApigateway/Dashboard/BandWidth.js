@@ -22,28 +22,26 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('service');
+        return row.bandWidth.get('service');
       }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.route'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('route');
-      },
-      getContent: number.compact
+        return row.bandWidth.get('route');
+      }
     }
   },
   {
     title: t('in-forge:plugins.kongApigateway.consumer'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('consumer');
-      },
-      getContent: number.compact
+        return row.bandWidth.get('consumer');
+      }
     }
   },
   {
@@ -51,7 +49,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('bytes');
+        return row.bandWidth.get('bytes');
       },
       getContent: number.compact
     }
@@ -75,12 +73,12 @@ export default connectTo(
       .keySeq()
       .toArray()
       .map(key => {
-        const BandWidth = kongBandwidthBytes.get(key);
+        const bandWidth = kongBandwidthBytes.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          BandWidth
+          bandWidth
         };
       });
     if (rows.length === 0) {
@@ -98,7 +96,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['nginxHttpCurrentConnections.' + row.key + '.connections'],
+              metrics: ['kongBandwidthBytes.' + row.key + '.bytes'],
               labels: [t('in-forge:plugins.kongApigateway.kongbandwidth')],
               type: 'line'
             }}
