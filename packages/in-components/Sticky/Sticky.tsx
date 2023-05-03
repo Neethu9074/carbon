@@ -67,7 +67,6 @@ export default class Sticky extends React.Component<StickyProps> {
     if (!this.wrapper || !this.header || !this.contentWrapper) {
       return;
     }
-    // const offset = playwithEnabled ? 57 : 0;
     this.wrapper.style.paddingTop = `0px`;
     this.header.style.position = `static`;
     this.header.style.width = 'auto';
