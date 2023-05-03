@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -12,7 +11,7 @@ import { Card } from '@instana/components';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
-import getHostByKubernetesNode from 'in-kubernetes/subscriptions/getHostByKubernetesNode';
+import getHostByKubernetesNodeId from 'in-kubernetes/Dashboards/utils/getHostByKubernetesNodeId';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -24,24 +23,12 @@ import { t } from 'in-i18n';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({
-    hostResult: getHostByKubernetesNode({
-      filter: {
-        nodeId,
-        timeConfig
-      }
-    }).map(hostResult => {
-      if (!hostResult || !hostResult.data) {
-        return hostResult;
-      }
-      return {
-        ...hostResult,
-        data: fromJS(hostResult.data)
-      };
-    })
+    host: getHostByKubernetesNodeId({ nodeId, timeConfig })
   }),
-  function Infrastructure({ hostResult, timeConfig }) {
-    const isLoading = hostResult && get(hostResult, ['progress', 'loading']);
-    const hostIsUnmonitored = hostResult && hostResult.errors.length > 0;
+  function Infrastructure({ host, timeConfig }) {
+    const isLoading = host && get(host, ['progress', 'loading']);
+    const isHostUnmonitored = host && host.errors.length > 0;
+
     if (isLoading) {
       return (
         <Table>
@@ -53,7 +40,7 @@ export default connectTo(
       );
     }
 
-    if (hostIsUnmonitored) {
+    if (isHostUnmonitored) {
       return (
         <LeftRightPadding>
           <NoDataAvailable
@@ -80,9 +67,9 @@ export default connectTo(
             <Tr>
               <Td>
                 <EntityLink
-                  snapshot={hostResult.data}
-                  label={getLabel(hostResult.data)}
-                  href$={getDashboardLink(hostResult.data.get('id'), {
+                  snapshot={host.data}
+                  label={getLabel(host.data)}
+                  href$={getDashboardLink(host.data.get('id'), {
                     pathname: '/physical/dashboard',
                     to: timeConfig.to,
                     focusedMoment: timeConfig.to
@@ -91,7 +78,7 @@ export default connectTo(
               </Td>
               <Td>
                 <InfrastructureMetricSparkChart
-                  snapshotId={hostResult.data.get('id')}
+                  snapshotId={host.data.get('id')}
                   timeConfig={timeConfig}
                   formatter={percentageZeroDecimalPlaces}
                   tooltipFormatter={percentageTwoDecimalPlaces}
@@ -101,7 +88,7 @@ export default connectTo(
               </Td>
               <Td>
                 <InfrastructureMetricSparkChart
-                  snapshotId={hostResult.data.get('id')}
+                  snapshotId={host.data.get('id')}
                   timeConfig={timeConfig}
                   formatter={percentageZeroDecimalPlaces}
                   tooltipFormatter={percentageTwoDecimalPlaces}
