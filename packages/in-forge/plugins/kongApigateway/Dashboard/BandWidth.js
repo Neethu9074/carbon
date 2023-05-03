@@ -62,7 +62,7 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongBandwidthBytes')
     };
   },
   function BandWidth({ data }) {
@@ -70,17 +70,17 @@ export default connectTo(
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongBandwidthBytes = data.get('raw_payload');
+    const rows = kongBandwidthBytes
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const BandWidth = kongBandwidthBytes.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          BandWidth
         };
       });
     if (rows.length === 0) {

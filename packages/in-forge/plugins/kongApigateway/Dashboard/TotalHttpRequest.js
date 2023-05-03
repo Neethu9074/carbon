@@ -22,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('service');
+        return row.totalHttpRequest.get('service');
       }
     }
   },
@@ -31,7 +31,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('route');
+        return row.totalHttpRequest.get('route');
       },
      
     }
@@ -41,7 +41,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('code');
+        return row.totalHttpRequest.get('code');
       },
       getContent: number.compact
     }
@@ -51,7 +51,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('source');
+        return row.totalHttpRequest.get('source');
       },
     
     }
@@ -61,7 +61,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('consumer');
+        return row.totalHttpRequest.get('consumer');
       },
       getContent: number.compact
     }
@@ -71,7 +71,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('request');
+        return row.totalHttpRequest.get('request');
       },
       getContent: number.compact
     }
@@ -82,7 +82,7 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongHttpRequestsTotal')
     };
   },
   function TotalHttpRequest({ data }) {
@@ -90,17 +90,17 @@ export default connectTo(
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongHttpRequestsTotal = data.get('raw_payload');
+    const rows = kongHttpRequestsTotal
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const totalHttpRequest = kongHttpRequestsTotal.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          totalHttpRequest
         };
       });
     if (rows.length === 0) {

@@ -22,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('subsystem');
+        return row.totalRequests.get('subsystem');
       }
     }
   },
@@ -31,7 +31,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('totalRequests');
+        return row.totalRequests.get('totalRequests');
       },
       getContent: number.compact
     }
@@ -50,17 +50,17 @@ export default connectTo(
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongNginxRequestsTotal = data.get('raw_payload');
+    const rows = kongNginxRequestsTotal
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const totalRequests = kongNginxRequestsTotal.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          totalRequests
         };
       });
     if (rows.length === 0) {
@@ -78,7 +78,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['nginxHttpCurrentConnections.' + row.key + '.connections'],
+              metrics: ['kongNginxRequestsTotal.' + row.key + '.connections'],
               labels: [t('in-forge:plugins.kongApigateway.totalRequests')],
               type: 'line'
             }}
