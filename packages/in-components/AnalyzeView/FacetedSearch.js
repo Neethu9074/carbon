@@ -31,12 +31,11 @@ export default function FacetedSearch({
   isValid,
   getSuggestions,
   groupbyTag,
-  tagCatalog,
-  totalActiveCount
+  tagCatalog
 }) {
   return (
     <div className={locals.wrapper}>
-      <FacetedSearchHeader totalActiveCount={totalActiveCount} resetFacets={resetFacets} />
+      <FacetedSearchHeader facets={facets} facetedSearchItems={facetedSearchItems} resetFacets={resetFacets} />
       {facetedSearchItems.map(facetedSearchItem => {
         const FilterComponent = facetedSearchItem.renderer;
         return (

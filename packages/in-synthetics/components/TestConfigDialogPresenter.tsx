@@ -5,6 +5,7 @@
 
 import React, { useState, ReactNode } from 'react';
 import { MapForm, Field } from 'formalistic';
+import { isEmpty } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
@@ -79,10 +80,20 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
 
   function onSubmit(form: MapForm<any>) {
     setIsSubmitting(true);
-    const testConfig = {
-      active: true,
-      ...form.toJS()
-    } as SyntheticTest;
+    let testConfig: SyntheticTest;
+    let updatedForm: MapForm<any>;
+    if (isEmpty(form.get('configuration').get('headers').value)) {
+      updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
+      testConfig = {
+        active: true,
+        ...updatedForm.toJS()
+      } as SyntheticTest;
+    } else {
+      testConfig = {
+        active: true,
+        ...form.toJS()
+      } as SyntheticTest;
+    }
 
     /**
      * Make the api call with the formated payload

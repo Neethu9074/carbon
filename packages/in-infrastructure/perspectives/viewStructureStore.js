@@ -69,18 +69,7 @@ export function getViewStructure() {
 }
 
 export function getPermittedIds(searchMatches, scope, query) {
-  let hasSearchMatches = (searchMatches && searchMatches.length > 0) || false;
-  let hasPermittedScope = (scope && scope.length > 0) || false;
-
-  if (hasPermittedScope && !hasInfrastructureAccess && !hasSearchMatches) {
-    return isBlank(query) ? scope : [];
-  }
-  if (!hasSearchMatches) {
-    if (isBlank(query) && hasInfrastructureAccess) {
-      return null; //  everything matches
-    } else {
-      return []; // nothing matches
-    }
-  }
-  return searchMatches;
+  if (!hasInfrastructureAccess) return []; // if has no access at all
+  if (isBlank(query)) return scope; // empty query then return all accessible (scope)
+  return searchMatches; // filtered with rbac by backend
 }

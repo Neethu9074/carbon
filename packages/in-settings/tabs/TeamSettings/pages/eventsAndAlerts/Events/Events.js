@@ -37,12 +37,18 @@ import {
   smartAlertMigrationDocs,
   MessageContentModernDesign
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  openEventSubmitFormTracker,
+  viewEventTracker,
+  trackerEventEnabled,
+  trackerEventDisabled,
+  trackerEventDeleted
+} from 'in-settings/tracker';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -233,7 +239,7 @@ function combineAndSortByLabel(array1, array2) {
         .concat(array2)
         .sort((a, b) => compareIgnoreCase(a.label, b.label))
         // remove duplicates from sorted array
-        .filter(function(item, pos, array) {
+        .filter(function (item, pos, array) {
           return !pos || compareIgnoreCase(item.label, array[pos - 1].label) !== 0;
         })
     : array1;
@@ -324,6 +330,11 @@ const defaultTableActions = {
     get: isEnabled,
     disabled: entity => entity.migrated,
     toggle: entity => {
+      if (entity.enabled) {
+        trackerEventDisabled(entity);
+      } else {
+        trackerEventEnabled(entity);
+      }
       if (isBuiltInRule(entity)) {
         return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);
       } else {
@@ -332,7 +343,11 @@ const defaultTableActions = {
     }
   },
   delete: {
-    deleteEntity: entity => deleteCustomEventSpecification(entity.id),
+    deleteEntity: entity => {
+      const deletion$ = deleteCustomEventSpecification(entity.id);
+      deletion$.once(() => trackerEventDeleted(entity));
+      return deletion$;
+    },
     deleteProtection: entity => isBuiltInRule(entity)
   }
 };

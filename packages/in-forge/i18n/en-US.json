@@ -1291,6 +1291,16 @@
   "pluginName_tibcoEMS_1": "Tibco EMS",
   "pluginName_tibcoEMS_2": "Tibco EMS",
   "pluginName_tibcoEMS": "Tibco EMS",
+  "pluginName_tibcoEMSQueue_plural": "Tibco EMS Queues",
+  "pluginName_tibcoEMSQueue_0": "Tibco EMS Queue",
+  "pluginName_tibcoEMSQueue_1": "Tibco EMS Queue",
+  "pluginName_tibcoEMSQueue_2": "Tibco EMS Queues",
+  "pluginName_tibcoEMSQueue": "Tibco EMS Queue",
+  "pluginName_tibcoEMSTopic_plural": "Tibco EMS Topics",
+  "pluginName_tibcoEMSTopic_0": "Tibco EMS Topic",
+  "pluginName_tibcoEMSTopic_1": "Tibco EMS Topic",
+  "pluginName_tibcoEMSTopic_2": "Tibco EMS Topics",
+  "pluginName_tibcoEMSTopic": "Tibco EMS Topic",
   "pluginName_tomcatApplicationContainer_plural": "Tomcats",
   "pluginName_tomcatApplicationContainer_0": "Tomcats",
   "pluginName_tomcatApplicationContainer_1": "Tomcats",
@@ -2547,8 +2557,6 @@
       "databases": "Databases",
       "processId": "Process ID",
       "startTime": "Start Time",
-      "topics": "Topics",
-      "queues": "Queues",
       "sealed": "Sealed",
       "standby": "Standby",
       "initialized": "Initialized",
@@ -6997,7 +7005,7 @@
       "daemonThreads": "Daemon Threads",
       "python": "Python",
       "longTermSupportDocs": "Long-term support docs",
-      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it outside of the scope of the usual instana support. Update your Python version to avoid problems."
+      "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
     "rabbitMq": {
       "dashboard": {
@@ -7339,7 +7347,9 @@
       "gcRunDuration": "#GC Run Duration",
       "threadCount": "#Thread Count",
       "threads": "Threads",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "Long-term support docs",
+      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems."
     },
     "sapHana": {
       "dashboard": {
@@ -9571,8 +9581,8 @@
         "queueManagersWithCount": "Queue Managers ({{len}})",
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
-        "messages": "Messages",
-        "publications": "Publications",
+        "pubMessagesCount": "Current Publish Count",
+        "publications": "Current Publications",
         "subscriptions": "Subscriptions",
         "topicString": "Topic String",
         "topicsWithCount": "Topics ({{len}})"
@@ -9844,8 +9854,8 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "Messages",
-        "publications": "Publications",
+        "pubMessagesCount": "Current Publish Count",
+        "publications": "Current Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -9856,7 +9866,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publications": "Publications",
+      "publications": "Current Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
@@ -10917,19 +10927,13 @@
       "labelUpTime": "UpTime",
       "labelCount": "Count",
       "labelSize": "Size",
-      "labelTopic": "Topic",
-      "categoryTopics": "Topics",
-      "labelQueue": "Queue",
-      "categoryQueues": "Queues",
       "labelReadOperationsRate": "Read Operations Rate",
       "labelWriteOperationsRate": "Write Operations Rate",
       "labelUsedMemory": "Used Memory",
       "labelInMessagesCount": "In Messages Count",
       "labelInMessagesRate": "In Messages Rate",
-      "labelInMessagesSize": "In Messages Size",
       "labelOutMessagesCount": "Out Messages Count",
       "labelOutMessagesRate": "Out Messages Rate",
-      "labelOutMessagesSize": "Out Messages Size",
       "labelConnectionsCount": "Connections Count",
       "labelSessionsCount": "Sessions Count",
       "labelDurablesCount": "Durables Count",
@@ -10940,6 +10944,12 @@
       "labelReceiversCount": "Receivers Count",
       "infoStatisticsDisabled": "Please enable statistics for Tibco EMS to enable metric collection. Add <codeTag>statistics = enabled</codeTag> to <bold>tibemsd.conf</bold> file and restart the server or run <codeTag>set server statistics=enabled</codeTag> using <bold>tibemsadmin</bold>.",
       "infoEnableMetricCollection": "To enable metric collection, please add <bold>tibjms-8.5.1.jar</bold> and <bold>tibjmsadmin-8.5.1.jar</bold> to <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 and <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1 respetively."
+    },
+    "tibcoEMSTopic": {
+      "headerTibcoEMSTopic": "Tibco EMS Topic"
+    },
+    "tibcoEMSQueue": {
+      "headerTibcoEMSQueue": "Tibco EMS Queue"
     },
     "tomcatAppContainer": {
       "titleName": "Name",

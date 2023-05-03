@@ -48,7 +48,7 @@ export default function ErrorRateThresholdCondition({
         ) : (
           <>
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
-            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
             <ThresholdTypeSelection
               form={form}

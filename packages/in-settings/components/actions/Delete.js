@@ -8,6 +8,7 @@ import React, { forwardRef } from 'react';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { trackerEventDeleteTrigger } from 'in-settings/tracker';
 import IconButton from 'in-components/IconButton/IconButton';
 import { t, Trans } from 'in-i18n';
 
@@ -23,6 +24,9 @@ export default forwardRef(function Delete(
       kind="primaryv2"
       onClick={e => {
         stopPropagationAndPreventDefault(e);
+        if (entity?.type == 'CUSTOM') {
+          trackerEventDeleteTrigger(entity);
+        }
         addActiveDialog(
           <ConfirmationDialog
             header={t('in-settings:components.pleaseConfirm')}

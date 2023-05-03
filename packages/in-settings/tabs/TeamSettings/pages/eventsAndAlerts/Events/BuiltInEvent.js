@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -30,6 +30,7 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import FormGroup from 'in-settings/components/FormGroup';
+import { viewEventTracker } from 'in-settings/tracker';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
 import { getPlainMetricList } from 'in-sdk/metrics';
@@ -56,7 +57,13 @@ const paramCols = [
 
 export default function BuiltinEvent(props) {
   const entityId = props.match.params.id;
+  const entityData = useObservable(mergeResultData(), []);
 
+  useEffect(() => {
+    if (entityData && entityData?.get('shortPluginId'))
+      viewEventTracker({ id: entityId, entityType: entityData.get('shortPluginId'), type: 'BUILT_IN' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityData]);
   const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);

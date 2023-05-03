@@ -190,7 +190,6 @@ export default function ApplicationsAnalyzeView() {
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
             getCustomGroupingTagFilter={getCustomGroupingTagFilter}
-            resetHiddenCalls={onChange}
           />
         ) : (
           <Results
@@ -201,7 +200,6 @@ export default function ApplicationsAnalyzeView() {
             fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
-            resetHiddenCalls={onChange}
           />
         )
       }

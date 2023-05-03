@@ -1,0 +1,47 @@
+{
+  "general": {
+    "addButtonLabel": "Incluir",
+    "saveButtonLabel": "Salvar",
+    "cancelButtonLabel": "Cancelar",
+    "editButtonLabel": "Editar",
+    "copyButtonLabel": "Copiar",
+    "deleteButtonLabel": "Excluir",
+    "entityTypes": {
+      "label": "Entidade desconhecida",
+      "label_application": "Aplicativo",
+      "label_website": "Website"
+    }
+  },
+  "createSloDialog": {
+    "title": "Criar Objetivo de nível de serviço (SLO)",
+    "selectEntityNavItem": "Selecionar entidade",
+    "selectEntityTitle": "Selecione uma entidade na qual incluir o SLO:"
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "Aplicativo do SLO",
+          "websites": "Website do SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "Blueprint desconhecido",
+        "blueprint_latency": "Latência",
+        "blueprint_availability": "Disponibilidade"
+      },
+      "entityTypeFilter": {
+        "placeholder": "Tipo de entidade"
+      },
+      "sloTagFilter": {
+        "placeholder": "Marcar"
+      }
+    },
+    "title": "Objetivos de nível de serviço",
+    "columnLabels": {
+      "name": "Nome",
+      "entity": "Entidade",
+      "blueprint": "Blueprint"
+    }
+  }
+}

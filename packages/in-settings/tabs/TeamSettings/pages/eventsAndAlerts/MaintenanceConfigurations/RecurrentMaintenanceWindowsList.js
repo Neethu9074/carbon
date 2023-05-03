@@ -86,7 +86,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
       }
     },
     toggleEnabled: {
-      get: entity => entity.paused,
+      get: entity => !entity.paused,
       toggle: entity => {
         const entityEventObject = {
           mwID: entity.id,
@@ -95,11 +95,11 @@ export default function RecurrentMaintenanceWindowsList(props) {
           currentState: entity.state
         };
         if (entity.paused) {
-          resumeMaintenanceConfig(entity.id);
           resumeMaintenanceWindowTracker(entityEventObject);
+          return resumeMaintenanceConfig(entity.id);
         } else {
-          pauseMaintenanceConfig(entity.id);
           pauseMaintenanceWindowTracker(entityEventObject);
+          return pauseMaintenanceConfig(entity.id);
         }
       },
       disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED'
@@ -127,7 +127,9 @@ export default function RecurrentMaintenanceWindowsList(props) {
         }}
         onRowClick={entity => {
           editMaintenanceWindowTracker();
-          addActiveDialog(<RecurrentMaintenanceConfigForm {...props} onClose={close} existingID={entity.id} />);
+          addActiveDialog(
+            <RecurrentMaintenanceConfigForm {...props} onClose={close} setSaved={setSaved} existingID={entity.id} />
+          );
         }}
         trackEvent={newMaintenanceWindowTracker}
         searchAttributes={['name', 'scope', getStartAsString, getEndAsString, 'status']}

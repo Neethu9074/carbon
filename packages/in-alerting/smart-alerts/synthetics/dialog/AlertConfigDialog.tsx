@@ -25,10 +25,12 @@ import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/com
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 
 const logger = createLogger('in-alerting/smart-alert/synthetics/AlertDialog');
-
+export interface DuplicateFrom {
+  duplicateFrom?: string;
+}
 interface AlertConfigDialogType {
   onClose: (config?: SyntheticAlertConfigWithID) => void;
-  alertConfig: SyntheticAlertConfig & VersionedConfig;
+  alertConfig: SyntheticAlertConfig & VersionedConfig & DuplicateFrom;
   editMode: boolean;
   startWithSimpleMode: boolean;
   testId?: string;
@@ -48,6 +50,7 @@ export default function AlertConfigDialog({
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
   const getLinkToGlobalAlertConfig = useLinkToGlobalAlertConfigWithoutDashboard();
+  const duplicateFrom = alertConfig?.duplicateFrom;
   return (
     <AlertConfigDialogWithThreshold
       updateForm={(updateForm: MapForm<any>) => {
@@ -66,7 +69,8 @@ export default function AlertConfigDialog({
           testId,
           getLinkToAlertConfig,
           getLinkToGlobalAlertConfig,
-          simpleMode
+          simpleMode,
+          duplicateFrom
         );
       }}
       onClose={() => {
@@ -98,7 +102,8 @@ function createOrSaveAlert(
   testId: string | undefined,
   getLinkToAlertConfig: (id: string, testId: string, created?: number) => string,
   getLinkToGlobalAlertConfig: (id: string) => string,
-  simpleMode: boolean
+  simpleMode: boolean,
+  duplicateFrom?: string
 ) {
   setIsSaving(true);
   // remove existing error messages:
@@ -137,7 +142,8 @@ function createOrSaveAlert(
           ? getLinkToAlertConfig(alertConfig?.id, testId, alertConfig?.created)
           : getLinkToGlobalAlertConfig(alertConfig?.id);
         showSuccessMessage(alertConfig.name, editMode, false, href);
-        trackAlertSaved(alertConfig, simpleMode);
+        const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+        trackAlertSaved(newConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

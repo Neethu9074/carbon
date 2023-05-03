@@ -34,11 +34,12 @@
       "vMs": "VMs",
       "instances": "Instanzen",
       "namespaces": "Namensbereiche",
-      "cpuUsage": "CPU-Auslastung",
+      "cpuUsage": "CPU-Nutzung",
       "memoryLimit": "Speicherlimit",
       "pods": "Pods",
-      "memoryUsage": "Speicherbelegung",
-      "cloudFoundryApplication": "Cloud-Foundry-Anwendung",
+      "memoryUsage": " Speichernutzung           ",
+      "cloudFoundryApplication": "Cloud Foundry-Anwendung",
+      "sapRegion": "SAP-Region",
       "openstackRegion": "OpenStack-Region",
       "vSphereDatacenter": "vSphere-Rechenzentrum",
       "ibmz": "IBM Z HMC",
@@ -63,7 +64,7 @@
       "addMobileApp": "Mobile App hinzufügen",
       "allWebsites": "Alle Websites",
       "allMobileApps": "Alle mobilen Apps",
-      "allWebsitesMobileApps": "Alle Websites & Mobilen Apps",
+      "allWebsitesMobileApps": "Alle Websites und mobilen Apps",
       "pageViews": "Seitenaufrufe",
       "sessions": "Sitzungen",
       "onLoadTime": "onLoad-Zeit",
@@ -77,13 +78,14 @@
     "applications": "Anwendungen",
     "infrastructure": "Infrastruktur",
     "events": "Ereignisse",
-    "home": "Ausgangsverzeichnis",
+    "home": "Home",
     "addUser": "Benutzer hinzufügen",
     "platforms": "Plattformen",
     "cloudFoundry": "Cloud Foundry",
     "ibmz": "IBM Z",
     "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "sap": "SAP",
     "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
     "websites": "Websites",
@@ -98,20 +100,20 @@
   "widgets": {
     "columnDefinitions": {
       "numCpU": "Anzahl CPUs",
-      "cpuUsage": "CPU-Auslastung",
+      "cpuUsage": "CPU-Nutzung",
       "created": "Erstellt",
       "started": "Gestartet",
       "os": "Betriebssystem",
       "mean": "Mittelwert"
     },
     "topListWidget": {
-      "noLabelYet": "Noch keine {{nolabel}}"
+      "noLabelYet": "Noch keine {{nolabel}} "
     },
     "websites": {
       "noData": "Beginnen Sie mit der Website-Überwachung, um besser zu verstehen, wie Ihre Websiteleistung die Benutzererfahrung beeinflusst. Die Konfiguration ist einfach!",
       "createWebsite": "Website erstellen",
       "createMobileApp": "Mobile App erstellen",
-      "noLabelYet": "Noch keine {{nolabel}}"
+      "noLabelYet": "Noch keine {{nolabel}} "
     }
   }
 }

@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "サポートされない演算子: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "スマート・アラートの追加",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
     "titleNoSmartAlertsConfigured": "スマート・アラートが構成されていません",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "カスタム・イベントの選択",
         "customEventListInfoLabel": "過去 7 日間にトリガーされたカスタム・イベントの表示"
       },
-      "addSmartAlert": "スマート・アラートの追加",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "有効にする",
     "disable": "無効化",
     "synthetics": {
+      "addSmartAlert": "合成スマート・アラートの追加",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
@@ -1045,7 +1046,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "障害しきい値",
+        "timeThreshold": "時間しきい値",
         "filterApplied": "適用されているフィルター",
         "violationsCount": "{{violationsCount}}件の障害",
         "numberOfFailures": "障害アラート"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "ステップ1: テスト",
         "simpleAlertConfigDialogStep1Headline": "アラートを出す必要があるのはどのシンセティック・テストですか?",
+        "simpleAlertConfigDialogStep1Tooltip": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます",
         "stepConfigsStep4Title": "ステップ4: アラート・チャネル",
         "alertDialogHeadline": "アラートには何が表示されますか?",
         "stepConfigsStep2Title": "ステップ2: 範囲",
         "scopeHeadline": "どこでアラートをトリガーしますか?",
-        "stepConfigsStep3Title": "ステップ3: しきい値",
+        "stepConfigsStep3Title": "ステップ 3: 時間しきい値",
         "stepConfigsStep5Title": "ステップ5: アラート・プロパティー",
-        "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?"
+        "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?",
+        "thresholdTitleHelpText": "シンセティック・テストの作成で設定された再試行間隔に基づいて、 PoPで判別された失敗。",
+        "thresholdSubTitleHelpText": "指定された数の障害がすべてのロケーションで発生すると、すべてのロケーションについてアラートを受け取ります。",
+        "slider": {
+          "failuresWithCount": "{{count}} 件の失敗",
+          "failuresWithCount_plural": "{{count}} 件の失敗",
+          "failuresWithCount_0": "{{count}} 件の失敗",
+          "failuresWithCount_1": "{{count}} 件の失敗",
+          "failuresWithCount_2": "{{count}} 件の失敗"
+        },
+        "alertPropertiesTitlePlaceholder": "ここにタイトルを挿入",
+        "alertPropertiesDescriptionPlaceholder": "ここに説明を挿入"
       },
       "advanced": {
         "alertChannelsLabel": "アラート・チャネル",
+        "alertChannelsTitle": "だれがアラートを受け取りますか?",
         "scopeFilterLabel": "範囲",
         "alertTestsLabel": "シンセティック・テスト",
         "alertTestsTitle": "シンセティック・テスト: アラートを出す必要があるのはどのシンセティック・テストですか?",
         "propertiesLabel": "アラートのプロパティー",
-        "failureThreshold": "障害しきい値",
-        "failureThresholdLabel": "障害しきい値",
+        "alertPropertiesPreviewTitlePlaceholder": "[ここにタイトルを挿入]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[ここに説明を挿入]",
+        "propertiesTitle": "アラート通知には何を含める必要がありますか?",
+        "failureThreshold": "時間しきい値",
+        "failureThresholdLabel": "時間しきい値",
         "failureThresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "シンセティック・テスト{{entityName}}",
         "testAttachedCount": "接続されたテスト数 ({{count}})",
         "testAttached": "接続されたテスト"
+      },
+      "details": {
+        "threshold": "しきい値",
+        "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
+        "scope": {
+          "perLocation": {
+            "shortText": "ロケーションごと"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "選択されたテスト",
+        "alertConfigurationTitleAlertChannels": "アラート・チャネル",
+        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "failureThreshold": "{{failureCount}} 件の失敗",
+        "alertConfigurationTitleScope": "範囲",
+        "noOfFailure": "失敗の数",
+        "timeThreshold": "時間しきい値",
+        "alertingType": "アラート・タイプ"
       }
     }
   }

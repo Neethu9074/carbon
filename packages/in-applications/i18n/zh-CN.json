@@ -194,6 +194,7 @@
     "hiddenCalls": "隐藏的调用",
     "fastQueryMode": "快速查询方式",
     "fastQueryModeTooltip": "如果针对完整数据集的查询执行时间过长，那么快速查询方式会针对部分调用或跟踪启用查询执行。",
+    "filteredInThisTrace": "已在此跟踪中过滤",
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "指标中仅显示且仅包含合成调用"
   },
   "traceDetail": {
+    "beta": "BETA",
+    "foreignRootCall": "未受 Instana 监视",
+    "notYetReceivedRootCall": "尚未收到根调用",
     "tabs": {
       "summary": {
         "duplicateCalls": "重复调用",
@@ -575,16 +579,20 @@
         "largeTrace": "大跟踪",
         "largeTraceLink": "此跟踪很大，且呈现此跟踪可能会导致浏览器出现性能问题。您可以<linkToDocs>下载跟踪</linkToDocs>以进行手动检查，或者尝试在浏览器中呈现跟踪。我们将仅呈现组件的一个子集，以提高本次尝试的性能。",
         "calls": "调用数",
-        "erroneousTrace": "错误跟踪",
         "attemptToRenderTrace": "尝试呈现跟踪",
         "analyzeBeacons": "分析信标",
         "adjustedTimeConfigForTrace": "时间范围已调整为包含所选跟踪的所有调用。",
-        "adjustedTimeConfigForBeacon": "时间范围已调整为包含所选信标。"
+        "adjustedTimeConfigForBeacon": "时间范围已调整为包含所选信标。",
+        "timeLineViewNotAvailable": "这是具有多个 {{maximumNumberOfCallsForLargeTraceConsideration}} 调用的跟踪。 时间线视图不可用。 最初仅显示所选调用及其直接同代。"
       }
     },
     "components": {
       "callTreeHeaderParent": "装入父调用",
-      "callTreeHeaderCalls": "装入更多调用"
+      "callTreeHeaderCalls": "装入更多调用",
+      "callTreeLoadingOfParentFailed": "此时无法装入父调用",
+      "callTreeLoadingOfCallsFailed": "此时无法装入调用",
+      "retry": "请重试",
+      "treeHeaderLatency": "根调用等待时间"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>是否可以看到替代服务？</bold>",
     "alternativeServicesProblem": "<bold>否</bold>，如果当前服务的名称来自 HTTP“主机”头（标识为 call.http.host 的服务映射规则），并且替代服务的名称不存在（因为其名称来自基于基础架构标记的规则），或者反之亦然。 这些是重复服务。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果当前服务和替代服务名称不是来自 HTTP“主机”头，那么它们要么是位于代理后面的服务（良好），要么是重复的服务（较差）：某些服务完全链接到基础架构，而其他服务部分链接到基础架构。"
-  },
-  "widgetNotActive": {
-    "title": "实时模式不支持窗口小部件",
-    "button": "停止实时方式"
   }
 }

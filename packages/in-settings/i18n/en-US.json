@@ -1,6 +1,7 @@
 {
   "general": {
-    "all": "All"
+    "all": "All",
+    "loadMore": "Load more"
   },
   "termsDialog": {
     "back": "Back",

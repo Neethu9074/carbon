@@ -81,5 +81,6 @@ module.exports = {
   oracleRacMonitoringEnabled: false,
   recurrentMaintenanceWindows: true,
   playwithEnabled: true,
+  recurrentMaintenanceWindowsEnabled: false,
   kongEnabled: false
 };

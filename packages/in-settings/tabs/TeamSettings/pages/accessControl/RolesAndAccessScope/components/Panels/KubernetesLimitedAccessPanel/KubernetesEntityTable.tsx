@@ -103,6 +103,7 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
       onChange={({ orderDirection: newState }) => setOrderDirection(newState ?? orderDirection)}
       columnDefinition={columnDefinition}
       key={entityType + 'group-edit-summary-view'}
+      paginated
     />
   );
 }

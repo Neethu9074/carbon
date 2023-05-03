@@ -76,9 +76,6 @@
     "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
   },
   "messageFlyout": {
-    "infrastructurePageName": "인프라",
-    "eumPageName": "EUM",
-    "settingsPageName": "설정",
     "requestQuoteBtn": "견적 요청",
     "buyNowBtn": "AWS에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오."
@@ -417,6 +414,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "플랫폼",
     "viewSwitcherButtonSignOut": "로그아웃",
@@ -710,6 +708,7 @@
     "sanitizedTagFilterValueAndOperator": "태그 필터 값이 허용된 최대 길이로 단축되었으며 연산자가 그에 따라 조정되었습니다.",
     "source": "소스",
     "destination": "대상",
+    "documentation": "Documentation",
     "string": {
       "contains": "포함",
       "doesNotContain": "포함하지 않음",
@@ -818,6 +817,9 @@
     "retainedLabel_viewChange_0": "근사 데이터({{totalHits}}개의 보기 변경이 {{representedHits}}에서 유지됨)",
     "retainedLabel_viewChange_1": "근사 데이터({{totalHits}}개의 보기 변경이 {{representedHits}}에서 유지됨)",
     "retainedLabel_viewChange_2": "근사 데이터({{totalHits}}개의 보기 변경이 {{representedHits}}에서 유지됨)"
+  },
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "이 위젯은 라이브 모드 동안 업데이트되지 않습니다."
   },
   "migratedTenantBanner": {
     "title": "마이그레이션된 테넌트 단위",
