@@ -5,9 +5,11 @@
 
 import React from 'react';
 
-import { emptyMap } from 'in-services/fixedImmutables';
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -72,33 +74,47 @@ const cols = [
   }
 ];
 
-export default function subsystemTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const rows = snapshot
-    .getIn(['data', 'subsystemStringMap'], emptyMap)
-    .map((subsystemStringData, key) => {
-      return {
-        key,
-        subsystemStringData,
-        timeConfig,
-        snapshotId
-      };
-    })
-    .valueSeq()
-    .toArray();
+export default connectTo(
+  props => {
+    const { snapshotId } = props;
+    return {
+      data: getRawPayloadWithTimestamp(snapshotId, 'subSystemRawPayload')
+    };
+  },
+  function subsystemTable({ data, snapshotId, timeConfig }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+    const subSystemRawPayload = data.get('raw_payload');
+    if (subSystemRawPayload.size === 0) {
+      return null;
+    }
+    const rows = subSystemRawPayload
+      .map((subsystemStringData, key) => {
+        return {
+          key,
+          subsystemStringData,
+          timeConfig,
+          snapshotId
+        };
+      })
+      .valueSeq()
+      .toArray();
 
-  if (rows.length === 0) {
-    return null;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')}
+            timestamp={data.get('timestamp')}
+          />
+        }
+        cols={cols}
+        rows={rows}
+        initialSortColumn={6}
+        initialSortDirection="desc"
+      />
+    );
   }
-
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')}
-      cols={cols}
-      rows={rows}
-      initialSortColumn={2}
-      initialSortDirection="desc"
-    />
-  );
-}
+);
