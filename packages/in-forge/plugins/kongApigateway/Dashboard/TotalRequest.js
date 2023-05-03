@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalRequests'),
+    title: t('in-forge:plugins.kongApigateway.totalHttpRequests'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -90,7 +90,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.totalRequests')}
+        cardTitle={t('in-forge:plugins.kongApigateway.nginxtotalRequests')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
