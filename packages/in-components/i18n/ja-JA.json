@@ -76,9 +76,6 @@
     "avatarNullAlt": "{{email}} のフォールバック・アバター。"
   },
   "messageFlyout": {
-    "infrastructurePageName": "インフラストラクチャー",
-    "eumPageName": "EUM",
-    "settingsPageName": "設定",
     "requestQuoteBtn": "見積もり依頼",
     "buyNowBtn": "AWS で購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
@@ -417,6 +414,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
     "viewSwitcherButtonSignOut": "サインアウト",
@@ -710,6 +708,7 @@
     "sanitizedTagFilterValueAndOperator": "タグ・フィルター値が最大許容長に短縮され、それに応じて演算子が調整されました。",
     "source": "ソース",
     "destination": "宛先",
+    "documentation": "Documentation",
     "string": {
       "contains": "次を含む",
       "doesNotContain": "次を含まない",
@@ -818,6 +817,9 @@
     "retainedLabel_viewChange_0": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）",
     "retainedLabel_viewChange_1": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）",
     "retainedLabel_viewChange_2": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）"
+  },
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "このウィジェットはライブ・モード中には更新されません。"
   },
   "migratedTenantBanner": {
     "title": "マイグレーションされたテナント・ユニット",

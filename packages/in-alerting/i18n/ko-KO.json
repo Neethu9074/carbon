@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "지원되지 않는 연산자: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "스마트 경보 추가",
     "applicationSmartAlert": "애플리케이션 스마트 경보",
     "globalApplicationSmartAlert": "글로벌 애플리케이션 스마트 경보",
     "titleNoSmartAlertsConfigured": "스마트 경보가 구성되지 않음",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "사용자 정의 이벤트 선택",
         "customEventListInfoLabel": "지난 7일 동안 트리거된 사용자 정의 이벤트 표시"
       },
-      "addSmartAlert": "스마트 경보 추가",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "사용",
     "disable": "사용 안함",
     "synthetics": {
+      "addSmartAlert": "합성 SMART 경보 추가",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "{{count}}개 추가 필터",
@@ -1045,7 +1046,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "실패 임계값",
+        "timeThreshold": "시간 임계값",
         "filterApplied": "필터 적용됨",
         "violationsCount": "{{violationsCount}} 실패",
         "numberOfFailures": "실패 경보"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "1단계: 테스트",
         "simpleAlertConfigDialogStep1Headline": "어떤 합성 테스트에 대해 경보해야 합니까?",
+        "simpleAlertConfigDialogStep1Tooltip": "각 합성 테스트에 대해 위치별로 개별 경고가 전송됩니다.",
         "stepConfigsStep4Title": "4단계: 경보 채널",
         "alertDialogHeadline": "이 경보에 어떤 것을 표시해야 합니까?",
         "stepConfigsStep2Title": "2단계: 범위",
         "scopeHeadline": "경보를 트리거하려는 항목",
-        "stepConfigsStep3Title": "3단계: 임계치",
+        "stepConfigsStep3Title": "단계 3: 시간 임계값",
         "stepConfigsStep5Title": "5단계: 경보 특성",
-        "thresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?"
+        "thresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?",
+        "thresholdTitleHelpText": "모의 테스트 생성에서 구성된 재시도 간격을 기준으로 PoP에서 확인된 오류입니다.",
+        "thresholdSubTitleHelpText": "모든 위치에서 지정된 횟수의 실패가 발생하면 모든 위치에 대한 경고를 받게 됩니다.",
+        "slider": {
+          "failuresWithCount": "{{count}}개 실패",
+          "failuresWithCount_plural": "{{count}}개 실패",
+          "failuresWithCount_0": "{{count}}개 실패",
+          "failuresWithCount_1": "{{count}}개 실패",
+          "failuresWithCount_2": "{{count}}개 실패"
+        },
+        "alertPropertiesTitlePlaceholder": "여기에 제목 입력",
+        "alertPropertiesDescriptionPlaceholder": "여기에 설명 입력"
       },
       "advanced": {
         "alertChannelsLabel": "경보 채널",
+        "alertChannelsTitle": "경보 수신 대상",
         "scopeFilterLabel": "범위",
         "alertTestsLabel": "합성 테스트",
         "alertTestsTitle": "합성 테스트: 어떤 합성 테스트에 대해 경보해야 합니까?",
         "propertiesLabel": "경보 특성",
-        "failureThreshold": "실패 임계값",
-        "failureThresholdLabel": "실패 임계값",
+        "alertPropertiesPreviewTitlePlaceholder": "[여기에 제목 삽입]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[여기에 설명 입력]",
+        "propertiesTitle": "경보에는 어떤 항목이 포함되어야 하나요?",
+        "failureThreshold": "시간 임계값",
+        "failureThresholdLabel": "시간 임계값",
         "failureThresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "합성 테스트 {{entityName}}",
         "testAttachedCount": "첨부된 ({{count}})개 테스트",
         "testAttached": "첨부된 테스트"
+      },
+      "details": {
+        "threshold": "임계값",
+        "alertConfigurationListTitleAlertConfiguration": "경보 구성",
+        "scope": {
+          "perLocation": {
+            "shortText": "위치별"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "선택된 테스트",
+        "alertConfigurationTitleAlertChannels": "경보 채널",
+        "alertConfigurationTitleAlertProperties": "경보 특성",
+        "failureThreshold": "{{failureCount}}개 실패",
+        "alertConfigurationTitleScope": "범위",
+        "noOfFailure": "실패 횟수",
+        "timeThreshold": "시간 임계값",
+        "alertingType": "경보 유형"
       }
     }
   }

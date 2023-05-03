@@ -96,7 +96,8 @@
       "lxc": "LXC コンテナー",
       "nodejs": "Node.js アプリケーション",
       "ping": "Ping",
-      "process": "プロセス"
+      "process": "プロセス",
+      "syntheticPoP": "合成 PoP"
     },
     "tableContent": "表の内容:",
     "remove": "削除",

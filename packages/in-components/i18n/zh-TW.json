@@ -76,9 +76,6 @@
     "avatarNullAlt": "{{email}} 的備用頭像。"
   },
   "messageFlyout": {
-    "infrastructurePageName": "基礎架構",
-    "eumPageName": "EUM",
-    "settingsPageName": "設定",
     "requestQuoteBtn": "要求報價",
     "buyNowBtn": "在 AWS 上購買",
     "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。"
@@ -417,6 +414,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "登出",
@@ -710,6 +708,7 @@
     "sanitizedTagFilterValueAndOperator": "標籤過濾器值已縮短成容許的長度上限，並已據此調整運算子。",
     "source": "來源",
     "destination": "目的地",
+    "documentation": "Documentation",
     "string": {
       "contains": "包含",
       "doesNotContain": "不包含",
@@ -818,6 +817,9 @@
     "retainedLabel_viewChange_0": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）",
     "retainedLabel_viewChange_1": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）",
     "retainedLabel_viewChange_2": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）"
+  },
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "在「即時模式」期間不會更新此小組件。"
   },
   "migratedTenantBanner": {
     "title": "已移轉租戶單元",

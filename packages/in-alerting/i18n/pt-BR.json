@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Operador não suportado: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Incluir alerta inteligente",
     "applicationSmartAlert": "Alerta inteligente de aplicativos",
     "globalApplicationSmartAlert": "Alerta inteligente global de aplicativo",
     "titleNoSmartAlertsConfigured": "Nenhum Alerta inteligente configurado",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Selecionar um evento customizado",
         "customEventListInfoLabel": "Mostrando eventos customizados que foram acionados nos últimos 7 dias"
       },
-      "addSmartAlert": "Incluir alerta inteligente",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "Ativar",
     "disable": "Desativar",
     "synthetics": {
+      "addSmartAlert": "Incluir alerta inteligente sintético",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} mais filtro",
@@ -1038,14 +1039,14 @@
           "moreFiltersWithCount_1": "+{{count}} mais filtros",
           "moreFiltersWithCount_2": "+{{count}} mais filtros",
           "filter": "Filtro",
-          "filter_plural": "filtros",
+          "filter_plural": "Filtros",
           "filter_0": "filtros",
           "filter_1": "filtros",
           "filter_2": "filtros"
         }
       },
       "alertList": {
-        "timeThreshold": "Limite de falha",
+        "timeThreshold": "Limite de tempo",
         "filterApplied": "Filtro aplicado",
         "violationsCount": "{{violationsCount}} falhas",
         "numberOfFailures": "Alerta de falha"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "Etapa 1: testes",
         "simpleAlertConfigDialogStep1Headline": "Quais testes sintéticos devem ser alertados?",
+        "simpleAlertConfigDialogStep1Tooltip": "Os alertas individuais serão enviados independentemente para cada teste sintético, por local",
         "stepConfigsStep4Title": "Etapa 4: canais de alerta",
         "alertDialogHeadline": "O que deve aparecer no alerta?",
         "stepConfigsStep2Title": "Etapa 2: escopo",
         "scopeHeadline": "Onde você deseja que o alerta seja acionado?",
-        "stepConfigsStep3Title": "Etapa 3: limite",
+        "stepConfigsStep3Title": "Etapa 3: limite de tempo",
         "stepConfigsStep5Title": "Etapa 5: propriedades de alerta",
-        "thresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?"
+        "thresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?",
+        "thresholdTitleHelpText": "Falhas determinadas no PoP, com base no intervalo de nova tentativa configurado na criação do teste sintético.",
+        "thresholdSubTitleHelpText": "Se o número especificado de falhas ocorrer em cada local, você receberá um alerta para cada local.",
+        "slider": {
+          "failuresWithCount": "{{count}} falha",
+          "failuresWithCount_plural": "{{count}} falhas",
+          "failuresWithCount_0": "{{count}} falhas",
+          "failuresWithCount_1": "{{count}} falhas",
+          "failuresWithCount_2": "{{count}} falhas"
+        },
+        "alertPropertiesTitlePlaceholder": "Inserir o título aqui",
+        "alertPropertiesDescriptionPlaceholder": "Inserir a descrição aqui"
       },
       "advanced": {
         "alertChannelsLabel": "Canais de alerta",
+        "alertChannelsTitle": "Quem deve receber os alertas?",
         "scopeFilterLabel": "Escopo",
         "alertTestsLabel": "Testes sintéticos",
         "alertTestsTitle": "Testes sintéticos: quais testes sintéticos devem ser alertados?",
         "propertiesLabel": "Propriedades de alerta",
-        "failureThreshold": "Limite de falha",
-        "failureThresholdLabel": "Limite de falha",
+        "alertPropertiesPreviewTitlePlaceholder": "[Inserir o título aqui]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserir a descrição aqui]",
+        "propertiesTitle": "O que a notificação de alerta deve incluir?",
+        "failureThreshold": "Limite de tempo",
+        "failureThresholdLabel": "Limite de tempo",
         "failureThresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "teste sintético {{entityName}}",
         "testAttachedCount": "({{count}}) teste(s) anexado(s)",
         "testAttached": "Testes anexados"
+      },
+      "details": {
+        "threshold": "Limite",
+        "alertConfigurationListTitleAlertConfiguration": "Configuração de alerta",
+        "scope": {
+          "perLocation": {
+            "shortText": "Por local"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Testes selecionados",
+        "alertConfigurationTitleAlertChannels": "Canais de alerta",
+        "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
+        "failureThreshold": "{{failureCount}} falhas",
+        "alertConfigurationTitleScope": "Escopo",
+        "noOfFailure": "Número de falhas",
+        "timeThreshold": "Limite de tempo",
+        "alertingType": "Tipo de alerta"
       }
     }
   }

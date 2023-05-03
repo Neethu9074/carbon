@@ -194,6 +194,7 @@
     "hiddenCalls": "Chiamate nascoste",
     "fastQueryMode": "Modalità di query veloce",
     "fastQueryModeTooltip": "La modalità di query veloce consente l'esecuzione di query su un sottoinsieme di chiamate o tracce, se l'esecuzione sul dataset completo richiederebbe troppo tempo.",
+    "filteredInThisTrace": "filtrato in questa traccia",
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",
     "traceIdTooltip": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
   },
   "traceDetail": {
+    "beta": "BETA",
+    "foreignRootCall": "Non monitorato da Instana",
+    "notYetReceivedRootCall": "Chiamata root non ancora ricevuta",
     "tabs": {
       "summary": {
         "duplicateCalls": "Chiamate duplicate",
@@ -575,16 +579,20 @@
         "largeTrace": "Traccia di grande dimensioni",
         "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
         "calls": "Chiamate",
-        "erroneousTrace": "Traccia errata",
         "attemptToRenderTrace": "Tentativo di rendering della traccia",
         "analyzeBeacons": "Analizza beacon",
         "adjustedTimeConfigForTrace": "L'intervallo di tempo è stato regolato per includere tutte le chiamate della traccia selezionata.",
-        "adjustedTimeConfigForBeacon": "L'intervallo di tempo è stato adattato per includere il beacon selezionato."
+        "adjustedTimeConfigForBeacon": "L'intervallo di tempo è stato adattato per includere il beacon selezionato.",
+        "timeLineViewNotAvailable": "Questa è una traccia con più di {{maximumNumberOfCallsForLargeTraceConsideration}} chiamate. La vista temporale non è disponibile. Inizialmente vengono visualizzati solo la chiamata selezionata e i relativi elementi di pari livello immediati."
       }
     },
     "components": {
       "callTreeHeaderParent": "Carica chiamata parent",
-      "callTreeHeaderCalls": "Carica altre chiamate"
+      "callTreeHeaderCalls": "Carica altre chiamate",
+      "callTreeLoadingOfParentFailed": "La chiamata principale non può essere caricata in questo momento",
+      "callTreeLoadingOfCallsFailed": "Impossibile caricare le chiamate in questo momento",
+      "retry": "Riprova",
+      "treeHeaderLatency": "Latenza chiamata root"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>È accettabile esaminare i servizi alternativi?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, se il nome del servizio corrente proviene dall'intestazione \"Host\" HTTP (regola di associazione dei servizi il cui l'ID è call.http.host) ma il nome del servizio alternativo no (poiché il relativo nome proviene da una regola che si basa sui tag dell'infrastruttura), o viceversa. Questi sono servizi duplicati.",
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
-  },
-  "widgetNotActive": {
-    "title": "Il widget non è supportato in Live Mode",
-    "button": "Arresta modalità Live"
   }
 }
