@@ -9,10 +9,9 @@ import { ResultPrecisionDetails } from '@instana/types';
 import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error - Will get fixed in a future PR
-import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
+import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
