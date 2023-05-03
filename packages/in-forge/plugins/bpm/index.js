@@ -11,6 +11,6 @@ registerSnapshotDefinition({
   plugin: plugins.bpm,
 
   technologyDescriptor: {
-    label: t('in-forge:plugins.bpm.camunda')
+    label: t('in-forge:plugins.bpm')
   }
 });

@@ -15,10 +15,10 @@ export default function BPMSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.camunda.titleProcessId')}>{span.getIn(['data', 'process', 'id'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleProcessName')}>{span.getIn(['data', 'process', 'name'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleBusinessKey')}>{span.getIn(['data', 'process', 'businessKey'])}</Di>
-        <Di title={t('in-forge:tracing.camunda.titleCaseIntanceId')}>
+        <Di title={t('in-forge:tracing.bpm.titleProcessId')}>{span.getIn(['data', 'process', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleProcessName')}>{span.getIn(['data', 'process', 'name'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleBusinessKey')}>{span.getIn(['data', 'process', 'businessKey'])}</Di>
+        <Di title={t('in-forge:tracing.bpm.titleCaseIntanceId')}>
           {span.getIn(['data', 'process', 'caseInstanceId'])}
         </Di>
         <Di title={t('in-forge:tracing.bpm.titleRootProcessUUID')}>{span.getIn(['data', 'rootProcess', 'id'])}</Di>
