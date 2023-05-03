@@ -30,10 +30,10 @@ export default function BPMSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.bpm.titleExternalTaskWorkerId')}>
           {span.getIn(['data', 'externalTask', 'workerId'])}
         </Di>
-        <Di title={t('in-forge:tracing.camunda.titleExternalTaskTopic')}>
+        <Di title={t('in-forge:tracing.bpm.titleExternalTaskTopic')}>
           {span.getIn(['data', 'externalTask', 'topic'])}
         </Di>
-        <Di title={t('in-forge:tracing.camunda.titleExternalTaskRetries')}>
+        <Di title={t('in-forge:tracing.bpm.titleExternalTaskRetries')}>
           {span.getIn(['data', 'externalTask', 'retries'])}
         </Di>
         {getBusinessVariables(span)}

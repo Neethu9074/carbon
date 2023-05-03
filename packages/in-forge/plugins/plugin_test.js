@@ -20,7 +20,14 @@ import enUsLocalizations from 'in-forge/i18n/en-US.json';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 
-const dirNames = fs.readdirSync(__dirname).filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
+let dirNames = fs.readdirSync(__dirname).filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
+// remove bpm directory and add subdirectories of bpm folder
+var index = dirNames.indexOf('bpm');
+if (index !== -1) {
+  dirNames.splice(index, 1);
+  const internalDirNames = fs.statSync(path.join(__dirname, 'bpm')).isDirectory();
+  dirNames = dirNames.push(internalDirNames);
+}
 
 describe('in-forge/plugins', () => {
   it('must define as many short plugin IDs as long plugin IDs', () => {
