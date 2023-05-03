@@ -24,13 +24,13 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopLi
 // @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getDatabaseStatementTopList from 'in-applications/subscriptions/getDatabaseStatementTopList';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { UrlMatrixParamConfig, WithLabel } from 'in-applications/types';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
@@ -163,11 +163,13 @@ interface LabelProps {
 }
 
 function Label({ item, applicationLabel, serviceLabel, endpointLabel, className }: LabelProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Fragment>
       <Link
         className={className}
-        href$={getLinkToAnalyze({
+        href={getLinkToApplicationAnalyze({
           applicationName: applicationLabel,
           serviceName: serviceLabel,
           endpointName: endpointLabel,

@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { ApplicationBoundaryScope } from '@instana/types';
-import { Observable } from '@instana/observables';
+import { TagFilter } from '@instana/types/typeDefinitions';
 
 import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from 'in-types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -33,7 +32,7 @@ interface MetricFields {
   type: unknown;
 }
 
-interface GetLinkToAnalyzProps {
+interface GetLinkToAnalyzeProps {
   beaconType: string;
   applicationName: string;
   serviceName: string;
@@ -55,7 +54,22 @@ interface GetLinkToAnalyzProps {
   setOnClickNotificationMessage: (message: string) => void;
 }
 
-export function getLinkToAnalyze(props: Partial<GetLinkToAnalyzProps>): Observable<string>;
+interface UseLinkToListProps {
+  timeConfig?: TimeConfig;
+  applicationId: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: string;
+  tagFilters?: TagFilter[];
+  snapshotId: string;
+  plugin?: string;
+}
+
+export function useLinkToApplicationList(): (props: UseLinkToListProps) => string;
+
+export function useLinkToServiceList(): (props: UseLinkToListProps) => string;
+
+export function useLinkToAnalyze(): (props: Partial<GetLinkToAnalyzeProps>) => string;
 
 export function useAlertConfig(): (alertConfigId: string, applicationId: string) => string;
 
@@ -96,5 +110,7 @@ interface EndpointDashboardProps extends UseDashboardProps {
 }
 
 export function useLinkToApplicationDashboard(): (applicationDashboardProps: ApplicationDashboardProps) => string;
+
 export function useLinkToServiceDashboard(): (serviceDashboardProps: ServiceDashboardProps) => string;
+
 export function useLinkToEndpointDashboard(): (endpointDashboardProps: EndpointDashboardProps) => string;

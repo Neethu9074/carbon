@@ -11,16 +11,19 @@ import { Link } from '@instana/components';
 
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
+import unwrapLink from 'in-stores/navigation/unwrapLink';
 import { number } from 'in-services/formatters/number';
 
 import locals from 'in-events/components/AffectedEntities/AffectedEntity.mless';
 
-export function AffectedEntity({ item, createItemLink$, children }) {
+export function AffectedEntity({ item, createItemLink, children }) {
+  const { href, href$ } = unwrapLink(createItemLink(item));
+
   return (
     <Tr size="compact">
       <Td className={locals.labelCell} ellipsis="50vw">
         <div className={locals.cell}>
-          <Link onClick={() => applicationsAlertingEventDetailsGoToAnalyze()} href$={createItemLink$?.(item)}>
+          <Link onClick={() => applicationsAlertingEventDetailsGoToAnalyze()} href$={href$} href={href}>
             {item.name}
           </Link>
         </div>
@@ -39,7 +42,7 @@ export function AffectedEntity({ item, createItemLink$, children }) {
 
 AffectedEntity.propTypes = {
   children: PropTypes.any,
-  createItemLink$: PropTypes.func,
+  createItemLink: PropTypes.func,
   item: PropTypes.shape({
     metrics: PropTypes.shape({
       calls_SUM_Agg: PropTypes.any,

@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { renderHook } from '@testing-library/react-hooks';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { t } from 'in-i18n';
 
@@ -639,12 +640,13 @@ const traceFilters = [
 ];
 
 describe('in-applications/navigation/paths', () => {
-  describe('getLinkToAnalyze', () => {
+  describe('useLinkToApplicationAnalyze', () => {
     cases.forEach(({ testName, params, expected }) => {
       it(testName, () => {
-        const subscriber = sinon.stub();
-        getLinkToAnalyze(params).subscribe(subscriber);
-        expect(parseUrl(subscriber.getCall(0).args[0])).to.deep.equal(expected);
+        const { result } = renderHook(() => useLinkToApplicationAnalyze());
+        const getLinkToApplicationAnalyze = result.current;
+
+        expect(parseUrl(getLinkToApplicationAnalyze(params))).to.deep.equal(expected);
       });
     });
   });
@@ -653,14 +655,14 @@ describe('in-applications/navigation/paths', () => {
     traceFilters.forEach(({ testName, params, expected }) => {
       it(testName, () => {
         // GIVEN
-        const subscriber = sinon.stub();
+        const { result } = renderHook(() => useLinkToApplicationAnalyze());
+        const getLinkToApplicationAnalyze = result.current;
 
         // WHEN
-        getLinkToAnalyze(params).subscribe(subscriber);
-        const result = parseUrl(subscriber.getCall(0).args[0]);
+        const url = parseUrl(getLinkToApplicationAnalyze(params));
 
         // THEN
-        expect(result).to.deep.equal(expected);
+        expect(url).to.deep.equal(expected);
       });
     });
   });
@@ -669,7 +671,9 @@ describe('in-applications/navigation/paths', () => {
     filtersWithNotifications.forEach(({ testName, params, expectedNotificationMessage }) => {
       it(`should trigger a notification for ${testName}`, () => {
         // GIVEN
-        const subscriber = sinon.stub();
+        const { result } = renderHook(() => useLinkToApplicationAnalyze());
+        const getLinkToApplicationAnalyze = result.current;
+
         const notificationSpy = sinon.spy();
         const spyParameters = {
           ...params,
@@ -677,7 +681,7 @@ describe('in-applications/navigation/paths', () => {
         };
 
         // WHEN
-        getLinkToAnalyze(spyParameters).subscribe(subscriber);
+        getLinkToApplicationAnalyze(spyParameters);
         const notificationMessage = notificationSpy.getCall(0).args[0];
 
         // THEN
@@ -688,20 +692,19 @@ describe('in-applications/navigation/paths', () => {
 
     it('should handle the optional notification callback gracefully', () => {
       // GIVEN
-      const subscriber = sinon.stub();
+      const { result } = renderHook(() => useLinkToApplicationAnalyze());
+      const getLinkToApplicationAnalyze = result.current;
+
       const undefinedCallback = {
         ...filtersWithNotifications[0].params,
         setOnClickNotificationMessage: undefined
       };
-      let caughtError = false;
 
       // WHEN
-      getLinkToAnalyze(undefinedCallback).subscribe(subscriber, () => {
-        caughtError = true;
-      });
+      const linkToApplicationAnalyze = getLinkToApplicationAnalyze(undefinedCallback);
 
       // THEN
-      expect(caughtError).to.equal(false);
+      expect(linkToApplicationAnalyze).to.equal('/#/analyze;dataSource=traces');
     });
   });
 });

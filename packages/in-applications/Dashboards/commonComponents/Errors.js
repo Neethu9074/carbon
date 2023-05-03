@@ -11,6 +11,7 @@ import {
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -38,6 +39,7 @@ export default function Errors({
   const granularity = getChartGranularity(timeConfig);
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const timeShiftConfig = useTimeShiftConfig();
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const errorRate = {
     metric: 'errors',
@@ -131,7 +133,8 @@ export default function Errors({
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
                   chartedMetrics: [createChartedMetric('errors', 'MEAN')]
-                }
+                },
+                getLinkToApplicationAnalyze
               )
           }
         ]

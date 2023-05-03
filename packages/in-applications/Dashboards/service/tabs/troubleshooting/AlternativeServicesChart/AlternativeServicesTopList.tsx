@@ -12,8 +12,8 @@ import { t } from '@instana/i18n-react';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // eslint-disable-next-line no-restricted-imports
 import { PaginatedResult, Result, ServiceItem } from 'in-types';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { createServiceNameTagFilter } from '../metricConfigs';
 import { number } from 'in-services/formatters/number';
 
@@ -60,6 +60,8 @@ function TopListPresenter({
   cardHeader,
   renderHistoricDataIndicator = true
 }: TopListPresenterProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   const sortedItems = [...(result?.data?.items ?? [])].sort((first: ServiceItem, second: ServiceItem) => {
     return second.metrics[selectedMetric][0][1] - first.metrics[selectedMetric][0][1];
   });
@@ -92,7 +94,7 @@ function TopListPresenter({
       ViewAll={() => {
         return (
           <Link
-            href$={getLinkToAnalyze({
+            href={getLinkToApplicationAnalyze({
               groupBy: {
                 groupbyTag: 'service.name',
                 groupbyTagEntity: 'DESTINATION'
@@ -128,10 +130,12 @@ interface LabelProps {
 }
 
 function Label({ item, className }: LabelProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Fragment>
       <SvgIcon type="lib_application_service" size="xs" style={{ marginRight: '0.5rem' }} />
-      <Link className={className} href$={getLinkToAnalyze({ serviceName: item.label })}>
+      <Link className={className} href={getLinkToApplicationAnalyze({ serviceName: item.label })}>
         {item.label}
       </Link>
     </Fragment>
