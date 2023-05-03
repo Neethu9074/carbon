@@ -4,7 +4,6 @@
  */
 
 // there is no null service needed, so always use the default implementation
-// @ts-expect-error - Will fix in next PR
 import createNullService from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 
