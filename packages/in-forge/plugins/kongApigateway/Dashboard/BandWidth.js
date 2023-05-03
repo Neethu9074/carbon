@@ -97,7 +97,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['kongBandwidthBytes.' + row.key + '.bytes'],
-              labels: [t('in-forge:plugins.kongApigateway.kongbandwidth')],
+              labels: [t('in-forge:plugins.kongApigateway.direction')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

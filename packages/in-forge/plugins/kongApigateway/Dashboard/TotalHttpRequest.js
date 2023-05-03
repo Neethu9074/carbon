@@ -115,7 +115,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['kongHttpRequestsTotal.' + row.key + '.requests'],
-              labels: [t('in-forge:plugins.kongApigateway.totalHttpRequests')],
+              labels: [t('in-forge:plugins.kongApigateway.noofrequests')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
