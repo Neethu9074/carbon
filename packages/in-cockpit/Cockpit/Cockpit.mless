@@ -52,6 +52,7 @@
   .customEventDeprecatedWarning {
     margin-bottom: 1.5rem;
   }
+
   .marginTop57 {
     margin-top: 2%;
   }

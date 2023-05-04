@@ -10,12 +10,15 @@
   .playwithEnabled {
     margin-top: 1.5%;
   }
+
   .playwithDisabled {
     margin-top: 0;
   }
+
   .dashboardHeader {
     padding: 0 1.5rem;
   }
+
   .borderBottom {
     border-bottom: 1px solid @lib__colors__N300;
   }

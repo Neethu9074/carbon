@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 import locals from './PlayWithHeader.mless';
 
 export default function PlayWithHeader() {
-  const playwitHeaderClass = playwithEnabled ? locals.playWithInstana : locals.playWitHeaderClassDisable;
+  const playwitHeaderClass = !playwithEnabled ? locals.playWitHeaderClassDisable : '';
 
   return (
     <div className={playwitHeaderClass}>
@@ -37,14 +37,6 @@ export default function PlayWithHeader() {
         className={locals.buttonFreeTrial}
         target="_blank"
         href="https://www.instana.com/trial/"
-        onClick={() => {
-          // window._hsq.push([
-          //   'trackEvent',
-          //   {
-          //     id: '000009109797'
-          //   }
-          // ]);
-        }}
       >
         {t('in-new-components:playwithinstana.freetrial')}
       </Button>
@@ -56,14 +48,6 @@ export default function PlayWithHeader() {
         className={locals.buttonDemo}
         target="_blank"
         href="https://www.instana.com/schedule-demo/"
-        onClick={() => {
-          // window._hsq.push([
-          //   'trackEvent',
-          //   {
-          //     id: '000009109817'
-          //   }
-          // ]);
-        }}
       >
         {t('in-new-components:playwithinstana.bookdemo')}
       </Button>

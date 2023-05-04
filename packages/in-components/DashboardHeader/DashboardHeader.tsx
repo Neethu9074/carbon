@@ -128,7 +128,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   const playwithTopClass = playwithEnabled ? locals.playwithEnabled : locals.playwithDisable;
   return (
     <>
-      {playwithEnabled ? <PlayWithHeader /> : ''}
+      {playwithEnabled && <PlayWithHeader />}
 
       <header
         className={classNames(
