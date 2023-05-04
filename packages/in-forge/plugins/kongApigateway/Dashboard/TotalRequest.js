@@ -90,7 +90,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.nginxtotalRequests')}
+        cardTitle={t('in-forge:plugins.kongApigateway.nginxTotalRequests')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
