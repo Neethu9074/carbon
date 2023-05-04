@@ -10297,7 +10297,7 @@
       "totalHttpRequests": "Total Http Requests",
       "nginxtotalRequests": "Kong NGINX Total Requests",
       "httpRequests":"HTTP Requests",
-      "totalnoofrequests":"Total Number Of Requests",
+      "totalnoofrequests":"Total Number of Requests",
       "noofrequests":"Number Of Requests",
       "direction":"Direction",
       "service":"Service",
