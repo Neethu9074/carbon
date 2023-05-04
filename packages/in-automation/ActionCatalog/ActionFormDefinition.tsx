@@ -15,6 +15,7 @@ import {
   BEARER_TOKEN,
   getAuthenFromFields,
   getDocLinkFromFields,
+  getInterpreterFromFields,
   getScriptFromFields,
   getWebhookFields,
   isDocLink,
@@ -133,18 +134,31 @@ export function removeDocLinkField(form: MapForm<any>) {
 
 export function putScriptField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
   const script = getScriptFromFields(action.fields);
+  const interpreter = getInterpreterFromFields(action.fields);
+  let plaintextInterpreter = interpreter.value;
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
     plaintextScript = atob(plaintextScript);
   }
+  if (interpreter.encoding === 'base64') {
+    plaintextInterpreter = atob(plaintextInterpreter);
+  }
 
-  return form.put(
-    'script',
-    createField({
-      value: plaintextScript,
-      validator: notBlankValidator
-    })
-  );
+  return form
+    .put(
+      'script',
+      createField({
+        value: plaintextScript,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'subtype',
+      createField({
+        value: plaintextInterpreter,
+        validator: notBlankValidator
+      })
+    );
 }
 
 export function removeScriptField(form: MapForm<any>) {

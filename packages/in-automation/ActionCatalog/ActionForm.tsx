@@ -224,15 +224,37 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
 
 const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const script = form.get('script') as Field<string>;
-  return script.map(field => (
-    <FormGroup>
-      <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-        {t('in-automation:ActionCatalog.script')}
-      </Label>
-      <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
-      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-    </FormGroup>
-  ));
+  const subtype = form.get('subtype') as Field<string>;
+  return (
+    <>
+      {subtype.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-subtype" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.interpreter')}
+          </Label>
+          <Input
+            id="action-subtype"
+            type="text"
+            value={field.value}
+            onChange={e => onChange('subtype', e.target.value)}
+            hasError={!field.valid && field.touched}
+            maxLength={256}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.interpreterHelper')}</HelpText>
+        </FormGroup>
+      ))}
+      {script.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.script')}
+          </Label>
+          <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      ))}
+    </>
+  );
 };
 
 const WebhookSection = ({

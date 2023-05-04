@@ -95,7 +95,7 @@ export function deleteAction(actionId: string) {
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
 export function getScoredActionsForEvent(selectedActions: string[], eventSpecification: EventSpecification) {
   if (selectedActions.length === 0) {
-    return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+    return alwaysEmptyArray as unknown as Observable<Action[]>;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
@@ -112,12 +112,17 @@ export const createDocLinkField = (value: string): Field => ({
   name: 'URL'
 });
 
-export const createScriptFields = (value: string): Field[] => [
+interface ScriptFields {
+  value: string;
+  subtype: string;
+}
+
+export const createScriptFields = ({ value, subtype }: ScriptFields): Field[] => [
   {
+    value: btoa(subtype),
     description: 'script subtype',
     encoding: 'base64',
-    name: 'subtype',
-    value: btoa('bash')
+    name: 'subtype'
   },
   {
     value: btoa(value),
