@@ -35,8 +35,8 @@ import {
 } from 'in-mobile-apps/navigation/paths';
 import {
   applicationsList,
-  getLinkToAnalyze as getLinkToApplicationsAnalyze,
-  isApplicationsView
+  isApplicationsView,
+  useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
   agentsPath,
@@ -430,6 +430,7 @@ function Analyze(props) {
   const analyzeHref = useLinkToAnalyze({
     beaconType: 'pageLoad'
   });
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -447,9 +448,13 @@ function Analyze(props) {
       href$={
         [
           hasApplicationsAccess &&
-            getLinkToApplicationsAnalyze({
-              dataSource: 'calls'
-            }).map(urlWithoutQueryParameter),
+            just(
+              urlWithoutQueryParameter(
+                getLinkToApplicationAnalyze({
+                  dataSource: 'calls'
+                })
+              )
+            ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({

@@ -13,6 +13,7 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
@@ -43,6 +44,8 @@ export default function LatencyDistributionHistogram({
   renderHistoricDataIndicator = false,
   renderWidgetNotSupportedIndicator = false
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
   const [hasApproximateData, setApproximateData] = useState(false);
   const timeShiftConfig = useTimeShiftConfig();
@@ -142,7 +145,8 @@ export default function LatencyDistributionHistogram({
                   hiddenCalls,
                   chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
                   orderBy: createOrderBy('latency', 'DESC')
-                }
+                },
+                getLinkToApplicationAnalyze
               ),
             onClick: () => {
               jumpToUnboundedAnalyticsFromLatencyTracker({

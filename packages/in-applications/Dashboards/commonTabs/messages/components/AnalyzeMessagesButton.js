@@ -7,11 +7,11 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function AnalyzeMessagesButton({
@@ -26,6 +26,8 @@ export default function AnalyzeMessagesButton({
   includeSynthetic,
   showErroneous
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   const groupBy = { groupbyTag: groupByTagName };
   let formModel = [];
   if (query.length > 0) {
@@ -44,7 +46,7 @@ export default function AnalyzeMessagesButton({
     <Button
       className={className}
       kind="secondary"
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         applicationName,
         serviceName,
         endpointName,

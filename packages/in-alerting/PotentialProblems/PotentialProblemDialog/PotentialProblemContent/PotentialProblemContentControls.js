@@ -14,6 +14,7 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
@@ -35,21 +36,25 @@ export default function PotentialProblemContentControls({
   threshold,
   renderSmartAlertDialogComponent
 }) {
-  const linkToUnboundAnalytics = getLinkToUnboundAnalytics({
-    applicationId,
-    applicationName: applicationLabel,
-    alertConfig: {
-      boundaryScope,
-      applications,
-      rule,
-      threshold,
-      tagFilterExpression,
-      includeSynthetic,
-      includeInternal,
-      granularity: defaultGranularity
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const linkToUnboundAnalytics = getLinkToUnboundAnalytics(
+    {
+      applicationId,
+      applicationName: applicationLabel,
+      alertConfig: {
+        boundaryScope,
+        applications,
+        rule,
+        threshold,
+        tagFilterExpression,
+        includeSynthetic,
+        includeInternal,
+        granularity: defaultGranularity
+      },
+      timeConfig: getTimeConfigForAnalyzeLink(alert)
     },
-    timeConfig: getTimeConfigForAnalyzeLink(alert)
-  });
+    getLinkToApplicationAnalyze
+  );
 
   return (
     <>
@@ -63,7 +68,7 @@ export default function PotentialProblemContentControls({
           close();
         }}
         icon="lib_analyze"
-        href$={linkToUnboundAnalytics}
+        href={linkToUnboundAnalytics}
       >
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>

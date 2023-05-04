@@ -23,6 +23,11 @@ import {
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import {
+  ChartedMetric,
+  GetLinkToAnalyzeProps,
+  useLinkToAnalyze as useLinkToApplicationAnalyze
+} from 'in-applications/navigation/paths';
 import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { useGenerateLinkToAnalyze as useGenerateLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
@@ -30,7 +35,6 @@ import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/tran
 import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TimeConfigAwareHref$Creator } from 'in-components/Chart/types';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
-import { ChartedMetric } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 
 export function useLinkToUnboundedAnalytics(
@@ -38,17 +42,20 @@ export function useLinkToUnboundedAnalytics(
   tagCatalog: TagCatalog | undefined
 ): TimeConfigAwareHref$Creator {
   const generateLinkToWebsiteUA = useGenerateLinkToWebsiteAnalyze();
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   if (!sliConfig || !tagCatalog) {
     return () => just('');
   }
 
   if (isAvailabilitySliConfig(sliConfig)) {
-    return highlightedTime => buildAvailabilitySliEntityUA2Link(sliConfig, highlightedTime);
+    return highlightedTime =>
+      buildAvailabilitySliEntityUA2Link(sliConfig, highlightedTime, getLinkToApplicationAnalyze);
   }
 
   if (isApplicationSliConfig(sliConfig)) {
-    return highlightedTime => buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
+    return highlightedTime =>
+      buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime, getLinkToApplicationAnalyze);
   }
 
   if (isWebsiteTimeBasedSliConfig(sliConfig)) {
@@ -64,7 +71,11 @@ export function useLinkToUnboundedAnalytics(
   return () => just('');
 }
 
-function buildAvailabilitySliEntityUA2Link(sliConfig: SliConfig<AvailabilitySliEntity>, highlightedTime: TimeConfig) {
+function buildAvailabilitySliEntityUA2Link(
+  sliConfig: SliConfig<AvailabilitySliEntity>,
+  highlightedTime: TimeConfig,
+  getLinkToApplicationAnalyze: (props: Partial<GetLinkToAnalyzeProps>) => string
+) {
   const {
     boundaryScope,
     includeInternal,
@@ -85,14 +96,16 @@ function buildAvailabilitySliEntityUA2Link(sliConfig: SliConfig<AvailabilitySliE
     badEventFilterExpression,
     [],
     boundaryScope,
-    additionalParams
+    additionalParams,
+    getLinkToApplicationAnalyze
   );
 }
 
 function buildApplicationSliEntityUA2Link(
   sliConfig: SliConfig<ApplicationSliEntity>,
   tagCatalog: TagCatalog,
-  highlightedTime: TimeConfig
+  highlightedTime: TimeConfig,
+  getLinkToApplicationAnalyze: (props: Partial<GetLinkToAnalyzeProps>) => string
 ): Observable<string> {
   const filters = getAdditionalFiltersForApplicationSli(sliConfig);
   const { boundaryScope, ...remainingSliEntityProps } = sliConfig.sliEntity;
@@ -108,7 +121,8 @@ function buildApplicationSliEntityUA2Link(
     getEmptyTagFilterExpression(),
     filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
     boundaryScope,
-    additionalParams
+    additionalParams,
+    getLinkToApplicationAnalyze
   );
 }
 
@@ -170,6 +184,7 @@ interface EntityIds {
   readonly serviceId?: string;
   readonly endpointId?: string;
 }
+
 function getGroupByParam(enityIds: EntityIds) {
   const groupbyTag = enityIds.serviceId == null && enityIds.endpointId == null ? 'service.name' : 'endpoint.name';
   return {
