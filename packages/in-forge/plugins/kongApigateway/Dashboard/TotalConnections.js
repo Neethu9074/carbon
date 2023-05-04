@@ -18,6 +18,15 @@ let snapshotMap = {};
 
 const cols = [
   {
+    title: t('in-forge:plugins.kongApigateway.subsystem'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.totalConnection.get('subsystem');
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.kongApigateway.state'),
     type: 'string',
     typeArgs: {
@@ -34,15 +43,6 @@ const cols = [
         return row.totalConnection.get('connections');
       },
       getContent: number.compact
-    }
-  },
-  {
-    title: t('in-forge:plugins.kongApigateway.subsystem'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.totalConnection.get('subsystem');
-      }
     }
   }
 ];

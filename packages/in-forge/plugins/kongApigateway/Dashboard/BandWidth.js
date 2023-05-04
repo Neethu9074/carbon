@@ -9,7 +9,7 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
+import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -51,7 +51,7 @@ const cols = [
       getValue(row) {
         return row.bandWidth.get('bytes');
       },
-      getContent: number.compact
+      getContent: bytes.compact
     }
   }
 ];
@@ -95,7 +95,7 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: number.compact,
+              formatter: bytes.compact,
               metrics: ['kongBandwidthBytes.' + row.key + '.bytes'],
               labels: [t('in-forge:plugins.kongApigateway.direction')],
               type: 'line'

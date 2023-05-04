@@ -6,18 +6,18 @@
 
 import React from 'react';
 
+import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
+import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDictionary';
+import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
-import TotalHttpRequest from './TotalHttpRequest';
-import SharedDictionary from './SharedDictionary';
-import TotalConnections from './TotalConnections';
-import TotalRequest from './TotalRequest';
-import WorkerLuaVM from './WorkerLuaVM';
-import BandWidth from './BandWidth';
 import { t } from 'in-i18n';
 
 export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {

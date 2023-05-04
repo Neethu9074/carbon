@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalnoofrequests'),
+    title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -79,7 +79,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['kongNginxRequestsTotal.' + row.key + '.requests'],
-              labels: [t('in-forge:plugins.kongApigateway.totalnoofrequests')],
+              labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
