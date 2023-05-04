@@ -8,8 +8,6 @@ import {
   SETTINGS_USER_INVITE_SUBMIT,
   SETTINGS_ROLE_SUBMIT,
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
-  SETTINGS_ALERT_CHANNEL_SUBMIT,
-  SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM,
   SETTINGS_ALERT_SUBMIT,
   SETTINGS_ALERT_TOGGLE,
   SETTINGS_ALERT_HUB_WEBSITES_CLICK,
@@ -35,16 +33,24 @@ import {
   SETTINGS_MAINTENANCE_WINDOW_CANCEL,
   SETTINGS_MAINTENANCE_WINDOW_RESUME,
   SETTINGS_MAINTENANCE_WINDOW_PAUSE,
-  SETTINGS_AUTOMATION_ACTION_CREATE,
-  SETTINGS_AUTOMATION_ACTION_EDIT,
-  SETTINGS_AUTOMATION_ACTION_DELETE,
   SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
   SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
-  SETTINGS_MAINTENANCE_WINDOW_ADANCED,
+  SETTINGS_MAINTENANCE_WINDOW_ADVANCED,
   SETTINGS_MAINTENANCE_WINDOW_SIMPLE,
   SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB,
   SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB,
-  SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB
+  SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB,
+  SETTINGS_AUTOMATION_ACTION_CREATE,
+  SETTINGS_AUTOMATION_ACTION_EDIT,
+  SETTINGS_AUTOMATION_ACTION_DELETE,
+  SETTINGS_ALERT_CHANNEL_CREATE,
+  SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM,
+  SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK,
+  SETTINGS_ALERT_CHANNEL_ADD_CLICK,
+  SETTINGS_ALERT_CHANNEL_TEST_CLICK,
+  SETTINGS_ALERT_CHANNEL_CLICK,
+  SETTINGS_ALERT_CHANNEL_DELETE,
+  SETTINGS_ALERT_CHANNEL_EDIT
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -56,8 +62,15 @@ export const submitAlertTracker = (e: Object) => track(SETTINGS_ALERT_SUBMIT, e)
 export const openAlertSubmitFormTracker = (e: Object) => track(SETTINGS_ALERT_OPEN_SUBMIT_FORM, e);
 export const toggleAlertTracker = (e: Object) => track(SETTINGS_ALERT_TOGGLE, e);
 
-export const submitAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_SUBMIT, e);
+// Maintained by Team Alert Response
+export const createAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_CREATE, e);
 export const openAlertChannelSubmitFormTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM, e);
+export const clickAddAlertChannelMenuTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK, e);
+export const clickAddAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_ADD_CLICK, e);
+export const clickTestAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_TEST_CLICK, e);
+export const clickAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_CLICK, e);
+export const deleteAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_DELETE, e);
+export const editAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_EDIT, e);
 
 export const submitAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT, e);
 export const addItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM, e);
@@ -85,7 +98,7 @@ export const cancelMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAIN
 export const resumeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_RESUME, e);
 export const pauseMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_PAUSE, e);
 export const simpleModeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_SIMPLE, e);
-export const advancedModeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_ADANCED, e);
+export const advancedModeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_ADVANCED, e);
 export const nextStepOneMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE, e);
 export const nextStepTwoMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO, e);
 export const switchToActiveMaintenanceWindowsTabTracker = (e: Object) =>

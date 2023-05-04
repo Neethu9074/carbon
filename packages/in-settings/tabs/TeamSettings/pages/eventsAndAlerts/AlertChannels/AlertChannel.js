@@ -25,18 +25,19 @@ import { useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/naviga
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { editAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import { toTitleCase } from 'in-services/util/string';
 import { Col, Row } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
-import { goToPath } from 'in-stores/navigation';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
@@ -49,6 +50,7 @@ import locals from './AlertChannel.mless';
 export default function AlertChannel(props) {
   const kind = getMatrixParameter(props.location, '/channels', 'kind');
   const entityId = props.match.params.id;
+  const { goToPath } = useNavigation();
 
   return (
     <AlertChannelForm
@@ -116,7 +118,16 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
           <Card
             title={t('in-settings:tabs.properties')}
             header={
-              <Link href={getModifyAlertChannelUrl(entity.get('kind'), entityId)}>
+              <Link
+                onClick={() =>
+                  editAlertChannelTracker({
+                    alertChannelType: entity.get('kind') ?? '',
+                    alertChannelId: entity.get('id') ?? '',
+                    alertChannelName: entity.get('name') ?? ''
+                  })
+                }
+                href={getModifyAlertChannelUrl(entity.get('kind'), entityId)}
+              >
                 <SvgIcon type={'lib_actions_edit'} size="s" color="#40535b" />
               </Link>
             }
