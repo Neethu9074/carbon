@@ -8,10 +8,9 @@ import React from 'react';
 
 import { create, Disposable } from '@instana/observables';
 
-// import { playwithEnabled } from 'in-services/featureFlags';
-import { debouncedResize$ } from 'in-services/browser';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
+import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
 import theme from 'in-themes';
 
