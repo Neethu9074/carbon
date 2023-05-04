@@ -79,7 +79,7 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', fal
 export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
-export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
+export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
