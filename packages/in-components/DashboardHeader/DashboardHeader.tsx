@@ -13,7 +13,7 @@ import { Observable } from '@instana/observables';
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import PlayWithHeader from '../../in-new-components/Demo/PlayWithHeader';
+import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Title from 'in-components/Title';
