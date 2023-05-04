@@ -8,16 +8,13 @@ import React from 'react';
 
 import { Button, Typography } from '@instana/components';
 
-import { playwithEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './PlayWithHeader.mless';
 
 export default function PlayWithHeader() {
-  const playwitHeaderClass = !playwithEnabled ? locals.playWitHeaderClassDisable : '';
-
   return (
-    <div className={playwitHeaderClass}>
+    <div className={locals.playWithInstana}>
       <div className={locals.headerHeading}>
         <Typography onDark variant="heading-600">
           {t('in-new-components:playwithinstana.title')}
