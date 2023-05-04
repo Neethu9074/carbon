@@ -17,8 +17,10 @@ import {
   getSapJavaInstanceDashboard,
   getAbapSystemDashboard,
   getSapJavaSystemDashboard,
-  getSapHanaSystemDashboard
+  getSapHanaSystemDashboard,
+  getSapWebDispatcherDashboard
 } from 'in-sap/navigation/paths';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
@@ -99,6 +101,14 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
           icon={getIconType(value.pluginName)}
         />
       );
+    case plugins.sapWebDispatcher:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapWebDispatcherDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
     case plugins.sapJavaSystem:
       return (
         <EntityLink
@@ -115,5 +125,7 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
           icon={getIconType(value.pluginName)}
         />
       );
+    default:
+      return <EntityLink label={value.label} href$={getDashboardLink(value.id, { pathname: '/physical/dashboard' })} />;
   }
 };

@@ -10,6 +10,7 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -39,6 +40,7 @@ export default function CallsErrorsChart({
   rightHeaderContent,
   endpointTypes
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
@@ -206,7 +208,8 @@ export default function CallsErrorsChart({
                   hiddenCalls,
                   fields: [createMetricField('erroneousCalls', aggregation), createMetricField('latency', 'MEAN')],
                   chartedMetrics: getChartedMetrics(config, aggregation)
-                }
+                },
+                getLinkToApplicationAnalyze
               )
           }
         ]

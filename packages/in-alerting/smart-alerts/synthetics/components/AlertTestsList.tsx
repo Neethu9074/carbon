@@ -52,10 +52,10 @@ export default function AlertTestsList({
 }: AlertTestsListProps): JSX.Element {
   const syntheticTests = getTestsAsResultObservable('')
     .map((result: Result<SyntheticTest[]> | null) => {
-      if (result == null) {
-        return [];
+      if (result == null || result?.progress?.loading) {
+        return null;
       }
-      return (result as Result<SyntheticTest[]>)?.data;
+      return (result as Result<SyntheticTest[]>)?.data ?? [];
     })
     .startWith(null);
 

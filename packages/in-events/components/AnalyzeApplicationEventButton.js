@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
@@ -17,7 +18,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -37,15 +37,20 @@ export default function AnalyzeApplicationEventButton({
   endpointId,
   adaptiveBaselineInfo = {}
 }) {
-  const linkToUA = getLinkToUnboundAnalytics({
-    applicationId,
-    applicationName,
-    serviceId,
-    endpointId,
-    alertConfig,
-    timeConfig,
-    adaptiveBaselineInfo
-  });
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
+  const linkToUA = getLinkToUnboundAnalytics(
+    {
+      applicationId,
+      applicationName,
+      serviceId,
+      endpointId,
+      alertConfig,
+      timeConfig,
+      adaptiveBaselineInfo
+    },
+    getLinkToApplicationAnalyze
+  );
 
   const linkDisabled = !linkToUA;
 
@@ -63,7 +68,7 @@ export default function AnalyzeApplicationEventButton({
         kind="primary"
         icon="lib_application_call"
         onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
-        href$={linkToUA}
+        href={linkToUA}
         disabled={linkDisabled}
       >
         {t('in-events:analyzeCalls')}
@@ -82,18 +87,21 @@ AnalyzeApplicationEventButton.propTypes = {
   endpointId: PropTypes.string
 };
 
-export function getLinkToUnboundAnalytics({
-  applicationId,
-  applicationName,
-  serviceId,
-  serviceName, // still used for link in Affected Entities list
-  endpointId,
-  endpointName, // still used for link in Affected Entities list
-  alertConfig,
-  timeConfig,
-  adaptiveBaselineInfo,
-  groupingTagName = null
-}) {
+export function getLinkToUnboundAnalytics(
+  {
+    applicationId,
+    applicationName,
+    serviceId,
+    serviceName, // still used for link in Affected Entities list
+    endpointId,
+    endpointName, // still used for link in Affected Entities list
+    alertConfig,
+    timeConfig,
+    adaptiveBaselineInfo,
+    groupingTagName = null
+  },
+  getLinkToApplicationAnalyze
+) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
   const { alertType } = rule;
 
@@ -113,7 +121,7 @@ export function getLinkToUnboundAnalytics({
     adaptiveBaselineInfo
   });
 
-  return getLinkToAnalyze({
+  const linkToApplicationAnalyze = getLinkToApplicationAnalyze({
     dataSource,
     timeConfig,
     groupBy: toGroupByTag(groupByTag),
@@ -123,7 +131,9 @@ export function getLinkToUnboundAnalytics({
       includeInternal,
       includeSynthetic
     }
-  }).map(urlWithoutQueryParameter);
+  });
+
+  return urlWithoutQueryParameter(linkToApplicationAnalyze);
 }
 
 export function getEnrichedAnalyzeTagFilterFormModel({

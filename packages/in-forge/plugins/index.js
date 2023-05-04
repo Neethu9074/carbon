@@ -178,6 +178,7 @@ import './rocketMqTopic';
 import './azureFunction';
 import './tuxedoMachine';
 import './sapHanaSystem';
+import './sapWebDispatcher';
 import './sapDbInstance';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';

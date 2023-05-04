@@ -20,6 +20,7 @@ import {
   AreaRoleType,
   AreaRoleWithCustomType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
   ExtractIdFunction,
@@ -111,8 +112,7 @@ export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
       getContent(entity) {
-        const name = extractName(entity);
-        return <>{name}</>;
+        return <EntityTableCellWithOverflow content={extractName(entity)} />;
       }
     },
     {

@@ -99,6 +99,15 @@ packages/in-forge/plugins/zhmcConsole                           @pr-approval @In
 packages/in-forge/plugins/zhmcCpc                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/jvmRuntimePlatform                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system @instana/eng-java
 packages/in-forge/plugins/syntheticPoP                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-synthetics-agent
+packages/in-forge/plugins/abap*                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbInstance                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbms                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbTenant                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHanaPlatform                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHanaSystem                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHost                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapJava*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapWebDispatcher                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -137,6 +146,7 @@ packages/in-test                    @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-themes                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-types                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-vsphere                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-sap                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-enterprise-apps
 packages/in-zhmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 # Shared ownership
 # packages/in-waiting-for-deployment

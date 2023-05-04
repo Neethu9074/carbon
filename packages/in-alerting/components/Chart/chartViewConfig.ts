@@ -17,12 +17,13 @@ export const chartViewConfigPropType = PropTypes.shape({
 
 export interface ChartViewConfigItem {
   label: string;
-  timeConfig: Omit<TimeConfig, 'autoRefresh'>;
+  timeConfig: TimeConfig;
 }
 
 export const chartViewConfig24hours: ChartViewConfigItem = {
   label: t('in-alerting:components.chart.chartViewConfigsLast24Hours'),
   timeConfig: {
+    autoRefresh: false,
     windowSize: days.toMillis(1)
   }
 };
@@ -30,6 +31,7 @@ export const chartViewConfig24hours: ChartViewConfigItem = {
 export const chartViewConfig7days: ChartViewConfigItem = {
   label: t('in-alerting:components.chart.chartViewConfigsLast7Days'),
   timeConfig: {
+    autoRefresh: false,
     windowSize: days.toMillis(7)
   }
 };
