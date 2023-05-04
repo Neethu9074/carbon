@@ -6,6 +6,7 @@
 
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { GroupPermissionEntity, OrderDirection, PermissionSetWithRoles, Result } from '@instana/types';
 import { Stack, SvgIcon, Typography, useTheme } from '@instana/components';
@@ -25,6 +26,8 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+
+import locals from './KubernetesEntityTable.mless';
 
 /**
  * Table representive to display all currently selected
@@ -60,13 +63,22 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
     {
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
-      getContent(it) {
+      getContent({ name, obsolete }) {
         return (
           <Stack gap="xsmall" direction="horizontal" align="start">
-            <Typography variant="body-regular" component="span">
-              {it.name}
-            </Typography>
-            {it.obsolete && (
+            <Tooltip content={name} align="topLeft">
+              <div
+                className={classNames({
+                  [locals.abbreviatedContent]: true,
+                  [locals.obsolete]: obsolete
+                })}
+              >
+                <Typography variant="body-regular" component="span">
+                  {name}
+                </Typography>
+              </div>
+            </Tooltip>
+            {obsolete && (
               <Tooltip content={t('in-settings:productAreas.obsoleteEntityDescription')} align="rightMiddle">
                 <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
               </Tooltip>
