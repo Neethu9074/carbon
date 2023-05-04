@@ -409,6 +409,11 @@
   "pluginName_sapHanaSystem_1": "SAP Hana Systems",
   "pluginName_sapHanaSystem_2": "SAP Hana Systems",
   "pluginName_sapHanaSystem": "SAP Hana System",
+  "pluginName_sapWebDispatcher_plural": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_0": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_1": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_2": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher": "SAP Web Dispatcher",
   "pluginName_sapHost_plural": "SAP Host",
   "pluginName_sapHost_0": "SAP Host",
   "pluginName_sapHost_1": "SAP Host",
@@ -12957,6 +12962,12 @@
     },
     "sapHanaSystem": {
       "label": "SAP Hana System",
+      "hostName": "Host Name",
+      "objectType": "Object Type",
+      "systemAvailability": "System Availability"
+    },
+    "sapWebDispatcher": {
+      "label": "SAP Web Dispatcher",
       "hostName": "Host Name",
       "objectType": "Object Type",
       "systemAvailability": "System Availability"

@@ -17,6 +17,7 @@ import SapDbTenantBreadcrumb from 'in-sap/breadcrumbs/SapDbTenantBreadcrumb';
 import AbapSystemBreadcrumb from 'in-sap/breadcrumbs/AbapSystemBreadcrumb';
 import JavaSystemBreadcrumb from 'in-sap/breadcrumbs/JavaSystemBreadcrumb';
 import SapHanaSystemBreadcrumb from 'in-sap/breadcrumbs/SapHanaSystemBreadcrumb';
+import SapWebDispatcherBreadcrumb from 'in-sap/breadcrumbs/SapWebDispatcherBreadcrumb';
 import SapDbmsBreadcrumb from 'in-sap/breadcrumbs/SapDbmsBreadcrumb';
 import HanaBreadcrumb from 'in-sap/breadcrumbs/HanaBreadcrumb';
 
@@ -63,6 +64,15 @@ export function SapHanaSystemBreadcrumbs(props) {
     return RelatedResourcesBreadcrumbs(props);
   } else {
     return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapHanaSystemBreadcrumb {...props} />];
+  }
+}
+
+export function SapWebDispatcherBreadcrumbs(props) {
+  const { hostId, systemPrefix } = props;
+  if (systemPrefix) {
+    return RelatedResourcesBreadcrumbs(props);
+  } else {
+    return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapWebDispatcherBreadcrumb {...props} />];
   }
 }
 
