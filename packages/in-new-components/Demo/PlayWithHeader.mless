@@ -28,9 +28,6 @@
 
     .headerHeading {
       flex-grow: 1;
-      font-weight: 300;
-      font-size: 28px;
-      margin: 0;
       margin-left: 100px;
       color: white !important;
       h2 {
