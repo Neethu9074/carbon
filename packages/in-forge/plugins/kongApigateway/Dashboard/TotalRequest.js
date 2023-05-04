@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalHttpRequests'),
+    title: t('in-forge:plugins.kongApigateway.totalnoofrequests'),
     type: 'number',
     typeArgs: {
       getValue(row) {

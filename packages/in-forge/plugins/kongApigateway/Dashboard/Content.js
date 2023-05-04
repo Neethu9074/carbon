@@ -27,35 +27,37 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.database')}>{data.get('database')}</KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDatastoreReachable')}>
           {yesOrNo(data.get('datastoreReachable'))}
-        </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>{data.get('errorsInLic')}</KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
-          {data.get('kongNgnixMetricErrors')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
           {data.get('totalNumberofDB')}
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
+          {data.get('kongDbEntitiesTotal')}
+        </KpiKeyValue>
       </KpiSection>
+
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongEnterpriseLicenseErrors')}>
           {data.get('kongEnterpriseLicenseErrors')}
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.database')}>{data.get('database')}</KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
-          {data.get('kongDbEntitiesTotal')}
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
+          {data.get('kongNgnixMetricErrors')}
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>{data.get('errorsInLic')}</KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
           {data.get('workerStateUpdateFrequency')}
         </KpiKeyValue>
       </KpiSection>
+
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
-          {data.get('workerConsistency')}
-        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
           {yesOrNo(data.get('prometheusEnabled'))}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
+          {data.get('workerConsistency')}
         </KpiKeyValue>
       </KpiSection>
 
