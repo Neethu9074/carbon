@@ -4,20 +4,37 @@
  */
 
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
-import { just } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
+//@ts-expect-error TS migration
 import AlertingChart from 'in-alerting/components/Chart/AlertingChart';
+import { QueryValidatorType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
+import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-export default function AlertingChartWithErrorMessage({
+interface AlertingChartWithErrorMessageProps<AlertConfig extends Object> {
+  viewConfig: ChartViewConfigItem;
+  alertConfigWithFormModel: AlertConfig & { tagFilterExpression: FormModelElement[] };
+  blueprintConfig: object;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  alertsPreviewEnabled?: boolean;
+  canReload?: boolean;
+  setMetricResultPrecision: () => void;
+  queryValidator?: QueryValidatorType;
+  getErrorMessage: (args: boolean) => string | undefined;
+  customValidators?: (args: boolean) => boolean;
+}
+export default function AlertingChartWithErrorMessage<AlertConfig extends Object>({
   getErrorMessage,
   customValidators,
   queryValidator,
@@ -28,7 +45,7 @@ export default function AlertingChartWithErrorMessage({
   blueprintConfig,
   viewConfig,
   ...remainingProps
-}) {
+}: AlertingChartWithErrorMessageProps<AlertConfig>) {
   const { numeratorTagFilterFormModel, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
     blueprintConfig,
@@ -37,14 +54,12 @@ export default function AlertingChartWithErrorMessage({
     endpointId
   );
 
-  const queryValidationResult =
-    useObservable(
-      args => {
-        if (queryValidator) return queryValidator(args);
-        return just({ data: true });
-      },
-      [alertConfigWithFormModel.tagFilterExpression, viewConfig.timeConfig, queryValidator]
-    ) ?? pendingResult;
+  const queryValidationResult: Result<boolean> =
+    useObservable(() => {
+      if (queryValidator) return queryValidator([alertConfigWithFormModel.tagFilterExpression, viewConfig.timeConfig]);
+      return successObservable(true);
+    }, [alertConfigWithFormModel.tagFilterExpression, viewConfig.timeConfig, queryValidator]) ?? pendingResult;
+
   const isValid = Boolean(queryValidationResult?.data);
 
   const enrichedTagFilterExpression = useMemo(
@@ -74,37 +89,3 @@ export default function AlertingChartWithErrorMessage({
     </Message>
   );
 }
-
-AlertingChartWithErrorMessage.propTypes = {
-  viewConfig: chartViewConfigPropType.isRequired,
-  alertConfigWithFormModel: PropTypes.object.isRequired,
-  blueprintConfig: PropTypes.object.isRequired,
-  /**
-   * Optional applicationId, used
-   * to scope down the metric in the chart to a single application config
-   **/
-  applicationId: PropTypes.string,
-  /**
-   * Optional serviceId
-   * to scope down the metric in the chart to a single entity
-   **/
-  serviceId: PropTypes.string,
-  /**
-   * Optional endpointId
-   * to scope down the metric in the chart to a single entity
-   **/
-  endpointId: PropTypes.string,
-  alertsPreviewEnabled: PropTypes.bool,
-  canReload: PropTypes.bool,
-  isQB1only: PropTypes.bool,
-  setMetricResultPrecision: PropTypes.func,
-  /**
-   * Optionally add a specific validation.
-   * Called to verify if filters are valid.
-   * function returning an observable: If the result is false, an error will be shown.
-   * if not set, there will be no validation.
-   */
-  queryValidator: PropTypes.func,
-  getErrorMessage: PropTypes.func,
-  customValidators: PropTypes.func
-};

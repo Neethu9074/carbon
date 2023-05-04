@@ -311,7 +311,6 @@ AlertingChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   numeratorTagFilterExpression: PropTypes.object,
-  isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,

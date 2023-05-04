@@ -4,8 +4,8 @@
  */
 
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 
+import { WebsiteAlertConfigWithMetadata } from '@instana/types';
 import { Spacer, Message } from '@instana/components';
 
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/websites/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
@@ -13,13 +13,26 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t, Trans } from 'in-i18n';
 
-export default function WebsitesAlertingChartWithErrorMessage(props) {
+interface WebsitesAlertingChartWithErrorMessageProps {
+  viewConfig: ChartViewConfigItem;
+  blueprintConfig: object;
+  alertConfigWithFormModel: Omit<WebsiteAlertConfigWithMetadata, 'tagFilterExpression'> & {
+    tagFilterExpression: FormModelElement[];
+  };
+  isEventsView?: boolean;
+  isAlertDetailView?: boolean;
+  setMetricResultPrecision: () => void;
+  eventBasedAdaptiveBaseline: [number, number][];
+}
+
+export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAlertingChartWithErrorMessageProps) {
   const {
     alertConfigWithFormModel: { threshold },
     isEventsView,
@@ -34,7 +47,7 @@ export default function WebsitesAlertingChartWithErrorMessage(props) {
   return <ChartWithErrorMessageAndData {...props} />;
 }
 
-function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertingChartWithErrorMessageProps) {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
   return (
     <>
@@ -52,13 +65,13 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
 }
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
-function ChartWithErrorMessageAndData(props) {
+function ChartWithErrorMessageAndData(props: WebsitesAlertingChartWithErrorMessageProps) {
   const { alertConfigWithFormModel } = props;
 
   const { threshold, rule, websiteId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const isAlertQueryValid = useMemo(() => {
     const { isQueryValid } = createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type);
@@ -69,36 +82,15 @@ function ChartWithErrorMessageAndData(props) {
   return (
     <AlertingChartWithErrorMessage
       {...props}
-      getErrorMessage={isValidDependingOnMode => getErrorMessage(!isValidDependingOnMode)}
+      getErrorMessage={(isValidDependingOnMode: boolean) => getErrorMessage(!isValidDependingOnMode)}
       queryValidator={isAlertQueryValid}
     />
   );
 }
 
-function getErrorMessage(isQB2Error) {
-  if (isQB2Error) {
+function getErrorMessage(queryError: boolean) {
+  if (queryError) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
+  return;
 }
-
-WebsitesAlertingChartWithErrorMessage.propTypes = {
-  viewConfig: chartViewConfigPropType.isRequired,
-  alertConfigWithFormModel: PropTypes.shape({
-    eventBasedAdaptiveBaseline: PropTypes.array,
-    id: PropTypes.string.isRequired,
-    created: PropTypes.number,
-    websiteId: PropTypes.string.required,
-    rule: PropTypes.shape({
-      alertType: PropTypes.string
-    }),
-    threshold: PropTypes.object,
-    builtIn: PropTypes.bool
-  }).isRequired,
-
-  // enables rendering of a persisted baseline:
-  isEventsView: PropTypes.bool,
-  // enables rendering of a persisted baseline:
-  isAlertDetailView: PropTypes.bool,
-
-  setMetricResultPrecision: PropTypes.func
-};
