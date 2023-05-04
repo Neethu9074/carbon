@@ -9,7 +9,7 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
+import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -18,31 +18,40 @@ let snapshotMap = {};
 
 const cols = [
   {
-    title: t('in-forge:plugins.kongApigateway.subsystem'),
+    title: t('in-forge:plugins.kongApigateway.service'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('subsystem');
+        return row.bandWidth.get('service');
       }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.state'),
+    title: t('in-forge:plugins.kongApigateway.route'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('state');
+        return row.bandWidth.get('route');
       }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalConnections'),
+    title: t('in-forge:plugins.kongApigateway.consumer'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.bandWidth.get('consumer');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.bytes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('connections');
+        return row.bandWidth.get('bytes');
       },
-      getContent: number.compact
+      getContent: bytes.compact
     }
   }
 ];
@@ -51,25 +60,25 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongBandwidthBytes')
     };
   },
-  function TotalConnections({ data }) {
+  function BandWidth({ data }) {
     if (!data) {
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongBandwidthBytes = data.get('raw_payload');
+    const rows = kongBandwidthBytes
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const bandWidth = kongBandwidthBytes.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          bandWidth
         };
       });
     if (rows.length === 0) {
@@ -86,9 +95,9 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: number.compact,
-              metrics: ['nginxHttpCurrentConnections.' + row.key + '.connections'],
-              labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
+              formatter: bytes.compact,
+              metrics: ['kongBandwidthBytes.' + row.key + '.bytes'],
+              labels: [t('in-forge:plugins.kongApigateway.direction')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -99,7 +108,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.totalConnections')}
+        cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}

@@ -22,25 +22,16 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('subsystem');
+        return row.totalRequests.get('subsystem');
       }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.state'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.totalConnection.get('state');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.kongApigateway.totalConnections'),
+    title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('connections');
+        return row.totalRequests.get('requests');
       },
       getContent: number.compact
     }
@@ -51,25 +42,25 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongNginxRequestsTotal')
     };
   },
-  function TotalConnections({ data }) {
+  function TotalRequest({ data }) {
     if (!data) {
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongNginxRequestsTotal = data.get('raw_payload');
+    const rows = kongNginxRequestsTotal
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const totalRequests = kongNginxRequestsTotal.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          totalRequests
         };
       });
     if (rows.length === 0) {
@@ -87,8 +78,8 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['nginxHttpCurrentConnections.' + row.key + '.connections'],
-              labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
+              metrics: ['kongNginxRequestsTotal.' + row.key + '.requests'],
+              labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -99,7 +90,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.totalConnections')}
+        cardTitle={t('in-forge:plugins.kongApigateway.nginxTotalRequests')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}

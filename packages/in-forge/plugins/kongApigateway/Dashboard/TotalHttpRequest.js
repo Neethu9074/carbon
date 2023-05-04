@@ -18,29 +18,56 @@ let snapshotMap = {};
 
 const cols = [
   {
-    title: t('in-forge:plugins.kongApigateway.subsystem'),
+    title: t('in-forge:plugins.kongApigateway.service'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('subsystem');
+        return row.totalHttpRequest.get('service');
       }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.state'),
+    title: t('in-forge:plugins.kongApigateway.route'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('state');
+        return row.totalHttpRequest.get('route');
       }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.totalConnections'),
+    title: t('in-forge:plugins.kongApigateway.code'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.totalHttpRequest.get('code');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.source'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.totalHttpRequest.get('source');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.consumer'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.totalHttpRequest.get('consumer');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.totalConnection.get('connections');
+        return row.totalHttpRequest.get('requests');
       },
       getContent: number.compact
     }
@@ -51,25 +78,25 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'nginxHttpCurrentConnections')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongHttpRequestsTotal')
     };
   },
-  function TotalConnections({ data }) {
+  function TotalHttpRequest({ data }) {
     if (!data) {
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const nginxHttpCurrentConnection = data.get('raw_payload');
-    const rows = nginxHttpCurrentConnection
+    const kongHttpRequestsTotal = data.get('raw_payload');
+    const rows = kongHttpRequestsTotal
       .keySeq()
       .toArray()
       .map(key => {
-        const totalConnection = nginxHttpCurrentConnection.get(key);
+        const totalHttpRequest = kongHttpRequestsTotal.get(key);
         return {
           key: String(key),
           snapshotId,
           timeConfig,
-          totalConnection
+          totalHttpRequest
         };
       });
     if (rows.length === 0) {
@@ -87,8 +114,8 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['nginxHttpCurrentConnections.' + row.key + '.connections'],
-              labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
+              metrics: ['kongHttpRequestsTotal.' + row.key + '.requests'],
+              labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -99,7 +126,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.totalConnections')}
+        cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
