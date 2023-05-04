@@ -10294,7 +10294,7 @@
       "state": "State",
       "totalConnections": "Total Connections",
       "totalHttpRequests": "Total Http Requests",
-      "nginxtotalRequests": "Kong NGINX Total Requests",
+      "nginxTotalRequests": "Kong NGINX Total Requests",
       "totalNumberofRequests":"Total Number of Requests",
       "direction":"Direction",
       "service":"Service",
