@@ -146,6 +146,7 @@ export const nonServicePlugins = {
   ibmDataPowerSqlDatasource: 'ibmDataPowerSqlDatasource',
   ibmDataPowerQueueManager: 'ibmDataPowerQueueManager',
   ibmDataPowerEthernetInterface: 'ibmDataPowerEthernetInterface',
+  ibmDataPowerXmlName: 'ibmDataPowerXmlName',
   ibmIDb2: 'ibmIDb2',
   ibmIOs: 'ibmIOs',
   ibmIms: 'ibmIms',
