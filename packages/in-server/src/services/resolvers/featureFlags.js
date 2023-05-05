@@ -271,6 +271,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCredentialEnabled',
+    instanaCtlKey: 'feature.synthetic.credential.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false

@@ -74,6 +74,7 @@ module.exports = {
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
   syntheticCreateTestAdvanceModeEnabled: true,
+  syntheticCredentialEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,

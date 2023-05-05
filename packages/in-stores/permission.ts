@@ -13,7 +13,8 @@ import {
   vsphereEnabled,
   zhmcEnabled,
   sapEnabled,
-  infraExploreDataEnabled
+  infraExploreDataEnabled,
+  syntheticCredentialEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -95,7 +96,9 @@ export const Capability = Object.freeze({
   CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
   CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
   CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
-  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS'
+  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
+  CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
+  CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -544,6 +547,20 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
   },
+  [Capability.CAN_USE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canUseSyntheticCredentials',
+    label: t('in-stores:permissionCanUseSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanUseSyntheticCredentialsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canConfigureSyntheticCredentials',
+    label: t('in-stores:permissionCanConfigureSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
   /* BizOps */
   [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
     keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
@@ -589,7 +606,19 @@ export function getProductPermissions(): Array<ProductPermission> {
         Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
         Capability.CAN_VIEW_SYNTHETIC_TESTS,
         Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
+        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+      ];
+
+      return !syntheticCapabilities.includes(keyForGroupApi);
+    });
+  } else if (!syntheticCredentialEnabled) {
+    //Synthetic credential is controlled by syntheticCredentialEnabled FF
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const syntheticCapabilities: Array<CapabilityType> = [
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
       ];
 
       return !syntheticCapabilities.includes(keyForGroupApi);
