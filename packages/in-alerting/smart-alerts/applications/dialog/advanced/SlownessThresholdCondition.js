@@ -62,7 +62,7 @@ export default function SlownessThresholdCondition({
                 updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
               }}
             />
-            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
             <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}

@@ -70,7 +70,7 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
     goToPath(teamSettingsAlertingMaintenanceConfigurations);
   };
   const [step, setStep] = useState<number>(0);
-  const [simpleMode, setSimpleMode] = useState(true);
+  const [simpleMode, setSimpleMode] = useState(!entityId);
   const entityFormParams = {
     entityId,
     createDefaultEntity: createMaintenanceConfigV2,

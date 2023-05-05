@@ -33,7 +33,7 @@
         "scriptTitle": "Nom de ce test de script HTTP",
         "labelName": "Nom du test",
         "labelDescription": "Description",
-        "labelFrequency": "Fréquence",
+        "labelFrequency": "Fréquence (minutes)",
         "labelApplications": "Sélectionner une application"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "Format d'hôte non valide"
       },
       "advancedMode": {
-        "buttonContent": "Passer en mode avancé"
+        "switchModeButton": "Passer en mode avancé",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Type de test sélectionné",
+          "rightListLabel": "Type de test",
+          "apiTypeLabel": "Test simple | Script de test",
+          "apiTypeHeadline": "Quel type de test synthétique souhaitez-vous créer ?",
+          "apiTypeText": "Les tests d'API peuvent être utilisés pour surveiller les API fournies par les applications Web. Les tests d'API peuvent être utilisés pour mesurer la disponibilité et le temps de réponse. Le test simple vous permet d'envoyer un ping à une URL ou de tester une API. Le test par script vous permet de fournir un script qui peut vérifier un ensemble de réponses d'API, simuler des flux de travaux complexes ou tester des fonctionnalités spécifiques.",
+          "selectedTestTypeButton": "Sélectionner",
+          "httpScriptTitle": "Script de test",
+          "httpActionTitle": "Test simple",
+          "browserTypeLabel": "Navigateur",
+          "browserTypeHeadline": "Tests synthétiques de navigateur",
+          "browserTypeText": "Les tests synthétiques de navigateur sont une méthode pour surveiller les performances des applications Web en simulant des interactions utilisateur avec un site Web à l'aide d'un script dans un navigateur Web, pour fournir des informations utiles sur les problèmes qui affectent l'expérience utilisateur et pour garantir le bon fonctionnement du site Web.",
+          "internetServicesTypeLabel": "Services Internet",
+          "internetServicesTypeHeadline": "Tests de services Internet",
+          "internetServicesTypeText": "Les tests synthétiques de services Internet impliquent la simulation d'interactions utilisateurs avec les services Web pour surveiller et tester leurs performances, afin d'identifier et d'éviter les problèmes d'indisponibilité."
+        },
+        "configurationLabel": "Configuration",
+        "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
+        "locationsLabel": "Emplacement(s)",
+        "locationsTitle": "Emplacement(s) : Où ce test s'exécutera-t-il ?",
+        "scheduleLabel": "Planifier",
+        "scheduleTitle": "Planification : Quand ce test s'exécutera-t-il ?",
+        "identifyLabel": "S'identifier",
+        "identifyTitle": "Identification : Que va faire le test ?",
+        "frequency": "Ce test s'exécutera toutes les {{frequencyValue}} minutes.",
+        "simultaneous": "Simultanée",
+        "simultaneousDescription": "Ce test s'exécutera simultanément à chaque emplacement sélectionné.",
+        "configStep": {
+          "allowInsecure": "Autoriser un accès non sécurisé",
+          "expectStatusLabel": "Statut attendu",
+          "expectJSONLabel": "JSON attendu",
+          "expectMatchLabel": "Correspondance attendue",
+          "expectStatusPlaceholder": "Entrez le statut attendu",
+          "expectJSONPlaceholder": "Entrez le JSON attendu",
+          "expectMatchPlaceholder": "Entrez la chaîne attendue",
+          "addValidations": "Ajouter une validation",
+          "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
+          "jsonRootMustBeAnObject": "La racine JSON doit être un objet.",
+          "mustBeValidHttpReturnCode": "Le statut doit être un code retour HTTP valide.",
+          "shouldBeValidRegExp": "La chaîne entrée doit être une expression régulière valide."
+        },
+        "loadMore": "Charger plus",
+        "selectTests": {
+          "addLocations": "Ajouter {{count}} emplacements",
+          "addLocation": "Ajouter un emplacement",
+          "cancel": "Annuler",
+          "selectLocation": "Sélectionner un emplacement"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Navigateur",
+          "internetServicesName": "Services Internet"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Créer un nouveau test"
+    "buttonLabel": "Ajouter un test synthétique"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "Ajouter une Smart Alert synthétique"
   },
   "navigation": {
     "synthetics": "Surveillance synthétique"
@@ -169,7 +225,10 @@
       "namespace": "Espace de nom",
       "labelConfirmRemoveLocation": "Voulez-vous vraiment retirer l'emplacement <strong>{{label}}</strong> ({{status}}) ?",
       "activeTestLinked": "Il y a des tests actifs affectés à l'emplacement <strong>{{label}}</strong> ({{status}}). Voulez-vous vraiment retirer cet emplacement ?",
-      "deleteLocation": "Supprimer l'emplacement"
+      "deleteLocation": "Supprimer l'emplacement",
+      "noDataAvailable": {
+        "message": "{{component}} non disponible"
+      }
     },
     "summary": {
       "successRate": "Taux de réussite",
@@ -348,7 +407,7 @@
       "locationListDescription": "Aucun emplacement synthétique n'est extrait de la base de données."
     },
     "alertList": {
-      "timeThreshold": "Seuil d'échec",
+      "timeThreshold": "Seuil de temps",
       "testsApplied": "Tests appliqués",
       "filterApplied": "Filtre appliqué",
       "violationsCount": "{{violationsCount}} échec(s)",

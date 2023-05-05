@@ -22,6 +22,7 @@ import {
   TimeShift
 } from 'in-types';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { createServiceIdTagFilter, createTagFilterExpression } from './metricConfigs';
@@ -68,6 +69,7 @@ export const groupedBigNumberKpiMapper = (result: GetCallGroupsResult): Result<M
 };
 
 export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const {
     title,
     timeConfig,
@@ -154,7 +156,8 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
             chartedMetrics: [createChartedMetric('calls', 'SUM')]
-          }
+          },
+          getLinkToApplicationAnalyze
         )
       }}
       result={result}

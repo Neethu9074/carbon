@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/rubyRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/rubyRuntimePlatform/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/rubyRuntimePlatform/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/ruby';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
   plugin: plugins.rubyRuntimePlatform,
 
   kpiDefinitions,
+  agentMonitoringIssueDefinitions,
   metricDefinitions,
   getCodeView,
   supportsCodeView,

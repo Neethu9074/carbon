@@ -13,7 +13,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { GetLinkToAnalyzeProps } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 
 interface GetLabelsProps {
@@ -22,11 +22,7 @@ interface GetLabelsProps {
   endpointId?: string;
 }
 
-function getLabels({
-  applicationId,
-  serviceId,
-  endpointId
-}: GetLabelsProps): Observable<{
+function getLabels({ applicationId, serviceId, endpointId }: GetLabelsProps): Observable<{
   applicationName: string | Nullish;
   serviceName: string | Nullish;
   endpointName: string | Nullish;
@@ -51,36 +47,35 @@ export default function getJumpDirectlyToApplicationLikeUA2Href$(
   backendModel: TagFilterExpressionElementUnion,
   filters: TagFilter[] = [],
   boundaryScope: ApplicationBoundaryScope,
-  additionalParams: { [key: string]: unknown }
+  additionalParams: { [key: string]: unknown },
+  getLinkToApplicationAnalyze: (props: Partial<GetLinkToAnalyzeProps>) => string
 ): Observable<string> {
-  return getLabels(ids).flatMap(
-    ({ applicationName, serviceName, endpointName }): Observable<string> => {
-      const tagFilterFormModel = fromBackendModel(backendModel);
-      const entityFilters: TagFilter[] = [];
-      if (applicationName) {
-        entityFilters.push(
-          createEqualsTagFilter(
-            boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
-            applicationName
-          )
-        );
-      }
-      if (serviceName) {
-        entityFilters.push(createEqualsTagFilter('service.name', serviceName));
-      }
-      if (endpointName) {
-        entityFilters.push(createEqualsTagFilter('endpoint.name', endpointName));
-      }
-
-      return getLinkToAnalyze({
-        dataSource: 'calls',
-        ...additionalParams,
-        formModel: joinExpressions({
-          expressions: [...entityFilters, ...filters, tagFilterFormModel]
-        })
-      });
+  return getLabels(ids).map(({ applicationName, serviceName, endpointName }): string => {
+    const tagFilterFormModel = fromBackendModel(backendModel);
+    const entityFilters: TagFilter[] = [];
+    if (applicationName) {
+      entityFilters.push(
+        createEqualsTagFilter(
+          boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
+          applicationName
+        )
+      );
     }
-  );
+    if (serviceName) {
+      entityFilters.push(createEqualsTagFilter('service.name', serviceName));
+    }
+    if (endpointName) {
+      entityFilters.push(createEqualsTagFilter('endpoint.name', endpointName));
+    }
+
+    return getLinkToApplicationAnalyze({
+      dataSource: 'calls',
+      ...additionalParams,
+      formModel: joinExpressions({
+        expressions: [...entityFilters, ...filters, tagFilterFormModel]
+      })
+    });
+  });
 }
 
 function createEqualsTagFilter(name: string, value: string): TagFilter {

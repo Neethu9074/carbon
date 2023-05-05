@@ -45,6 +45,10 @@ export default function AlertingChart({
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
+  if (!idValidTimeThreshold(timeThreshold)) {
+    return null;
+  }
+
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
@@ -166,6 +170,17 @@ export default function AlertingChart({
       }
     };
   }
+}
+
+function idValidTimeThreshold(timeThreshold) {
+  if (
+    (timeThreshold?.users !== undefined && !timeThreshold.users) ||
+    (timeThreshold?.userPercentage !== undefined && !timeThreshold.userPercentage) ||
+    (timeThreshold?.requests !== undefined && !timeThreshold?.requests)
+  ) {
+    return false;
+  }
+  return true;
 }
 
 function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
@@ -296,7 +311,6 @@ AlertingChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   numeratorTagFilterExpression: PropTypes.object,
-  isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,

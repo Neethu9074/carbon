@@ -185,7 +185,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'headers',
       createField({
-        value: savedState?.headers ?? { '': '' }
+        value: savedState?.headers ?? {}
       })
     )
     .put(

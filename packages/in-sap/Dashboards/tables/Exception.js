@@ -50,10 +50,19 @@ const cols = [
       getValue(row) {
         return row.excepMainMetric.get('rating');
       },
-      getContent(args) {
+      getContent(args, row) {
         return (
           <div className={locals.center}>
-            <HealthDot color={statusToColour[args || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />
+            <HealthDot
+              yellowToGreen={row.excepMainMetric.get('yellowToGreen')}
+              greenToYellow={row.excepMainMetric.get('greenToYellow')}
+              redToYellow={row.excepMainMetric.get('redToYellow')}
+              yellowToRed={row.excepMainMetric.get('yellowToRed')}
+              unit={row.excepMainMetric.get('unit')}
+              explanation={theme.lib.colors.success}
+              color={statusToColour[args || statusToColour.Unknown]}
+              iconSize={SvgIconSizes.xxs}
+            />
           </div>
         );
       }
@@ -78,54 +87,6 @@ const cols = [
           return 'Count';
         }
         return row.excepMainMetric.get('unit');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.greenToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.excepMainMetric.get('greenToYellow'))) {
-          return '-';
-        }
-        return row.excepMainMetric.get('greenToYellow').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToGreen'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.excepMainMetric.get('yellowToGreen'))) {
-          return '-';
-        }
-        return row.excepMainMetric.get('yellowToGreen').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToRed'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.excepMainMetric.get('yellowToRed'))) {
-          return '-';
-        }
-        return row.excepMainMetric.get('yellowToRed').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.redToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.excepMainMetric.get('redToYellow'))) {
-          return '-';
-        }
-        return row.excepMainMetric.get('redToYellow').toString();
       }
     }
   }
@@ -161,6 +122,10 @@ export default connectTo(
           excepMainMetric
         };
       });
+
+    if (rows.length === 0) {
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
+    }
 
     const getDetails = row => {
       if (!snapshotMap?.timeConfig) {

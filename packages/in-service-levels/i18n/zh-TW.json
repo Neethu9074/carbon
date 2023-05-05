@@ -1,0 +1,47 @@
+{
+  "general": {
+    "addButtonLabel": "新增",
+    "saveButtonLabel": "儲存",
+    "cancelButtonLabel": "取消",
+    "editButtonLabel": "編輯",
+    "copyButtonLabel": "複製",
+    "deleteButtonLabel": "刪除",
+    "entityTypes": {
+      "label": "不明的實體",
+      "label_application": "應用程式",
+      "label_website": "網站"
+    }
+  },
+  "createSloDialog": {
+    "title": "建立服務水準目標 (SLO)",
+    "selectEntityNavItem": "選取實體",
+    "selectEntityTitle": "選取要新增 SLO 的實體："
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "應用程式 SLO",
+          "websites": "網站 SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "不明藍圖",
+        "blueprint_latency": "延遲",
+        "blueprint_availability": "可用性"
+      },
+      "entityTypeFilter": {
+        "placeholder": "實體類型"
+      },
+      "sloTagFilter": {
+        "placeholder": "標籤"
+      }
+    },
+    "title": "服務水準目標",
+    "columnLabels": {
+      "name": "名稱",
+      "entity": "實體",
+      "blueprint": "藍圖"
+    }
+  }
+}

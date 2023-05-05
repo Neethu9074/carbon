@@ -35,8 +35,8 @@ import {
 } from 'in-mobile-apps/navigation/paths';
 import {
   applicationsList,
-  getLinkToAnalyze as getLinkToApplicationsAnalyze,
-  isApplicationsView
+  isApplicationsView,
+  useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
   agentsPath,
@@ -68,6 +68,7 @@ import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/pat
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
+import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -75,7 +76,6 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
@@ -352,7 +352,7 @@ function BizOps(props) {
       label={t('in-bizops:navigation.bizOps')}
       icon={'lib_bizops'}
       isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(bizOpsPath)}
+      href={createHrefToPath(businessProcessPath)}
       {...props}
     />
   );
@@ -425,6 +425,7 @@ function Analyze(props) {
   const analyzeHref = useLinkToAnalyze({
     beaconType: 'pageLoad'
   });
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -442,9 +443,13 @@ function Analyze(props) {
       href$={
         [
           hasApplicationsAccess &&
-            getLinkToApplicationsAnalyze({
-              dataSource: 'calls'
-            }).map(urlWithoutQueryParameter),
+            just(
+              urlWithoutQueryParameter(
+                getLinkToApplicationAnalyze({
+                  dataSource: 'calls'
+                })
+              )
+            ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({

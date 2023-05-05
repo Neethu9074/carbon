@@ -19,10 +19,13 @@ import { role } from 'in-stores/user';
 export default function AlertTestsViewer({ alertTestIds = [] }) {
   const syntheticTests = useObservable(() => getTestsAsResultObservable().startWith(null), []);
 
-  const getSelectedAlertTests = createMemoizedObservableForReferencedEntities(function(alertTestIds = []) {
+  const getSelectedAlertTests = createMemoizedObservableForReferencedEntities(function (alertTestIds = []) {
     // null is treated as a pending result when converting the HTTP response into a result
+    if (syntheticTests === undefined || syntheticTests?.progress?.loading) {
+      return just(null);
+    }
     return just(
-      syntheticTests?.data?.filter(listItems => alertTestIds.filter(ids => ids === listItems?.id).length > 0) ?? null
+      syntheticTests?.data?.filter(listItems => alertTestIds.filter(ids => ids === listItems?.id).length > 0) ?? []
     );
   });
 

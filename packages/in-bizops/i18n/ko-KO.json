@@ -1,0 +1,14 @@
+{
+  "labelBizOps": "프로세스",
+  "labelSmartAlerts": "스마트 경보",
+  "labelActivities": "활동",
+  "lists": {
+    "activityLabel": "활동 수",
+    "idLabel": "프로세스 ID",
+    "noData": "사용 가능한 데이터 없음",
+    "toolLabel": "도구"
+  },
+  "navigation": {
+    "bizOps": "비즈니스 프로세스"
+  }
+}

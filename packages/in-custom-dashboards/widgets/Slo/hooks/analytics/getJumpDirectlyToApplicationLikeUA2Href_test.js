@@ -10,16 +10,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { noop } from 'in-services/util/function';
-
-jest.mock('in-applications/navigation/paths', () => {
-  const { just } = jest.requireActual('@instana/observables');
-  return {
-    // This is not strictly needed, but it prevents potential confusing error messages
-    getLinkToAnalyze: jest.fn(() => just(''))
-  };
-});
 
 jest.mock('in-applications/subscriptions/getEndpointInfo', () => {
   const { just } = jest.requireActual('@instana/observables');
@@ -119,13 +110,14 @@ describe('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToAppl
       endpointId: 'someEndpoint'
     };
     getApplication.mockReturnValueOnce(just({ data: { label: 'Stans Lab' } }));
+    const getLinkToApplicationAnalyze = jest.fn(() => '');
 
     // When
-    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {});
+    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {}, getLinkToApplicationAnalyze);
     href$.subscribe(noop);
 
     // Then
-    expect(getLinkToAnalyze).toHaveBeenLastCalledWith(
+    expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
       expect.objectContaining({
         formModel: expect.arrayContaining([
           tagFilter('application.name', 'EQUALS', 'Stans Lab', undefined, 'DESTINATION')
@@ -142,13 +134,21 @@ describe('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToAppl
       endpointId: 'someEndpoint'
     };
     getApplication.mockReturnValueOnce(just({ data: { label: 'Stans Lab' } }));
+    const getLinkToApplicationAnalyze = jest.fn(() => '');
 
     // When
-    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'INBOUND', {});
+    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(
+      ids,
+      undefined,
+      [],
+      'INBOUND',
+      {},
+      getLinkToApplicationAnalyze
+    );
     href$.subscribe(noop);
 
     // Then
-    expect(getLinkToAnalyze).toHaveBeenLastCalledWith(
+    expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
       expect.objectContaining({
         formModel: expect.arrayContaining([
           tagFilter('call.inbound_of_application', 'EQUALS', 'Stans Lab', undefined, 'DESTINATION')
@@ -165,13 +165,14 @@ describe('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToAppl
       endpointId: 'someEndpoint'
     };
     getServiceLabel.mockReturnValueOnce(just({ data: { label: 'Snack Distribution' } }));
+    const getLinkToApplicationAnalyze = jest.fn(() => '');
 
     // When
-    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {});
+    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {}, getLinkToApplicationAnalyze);
     href$.subscribe(noop);
 
     // Then
-    expect(getLinkToAnalyze).toHaveBeenLastCalledWith(
+    expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
       expect.objectContaining({
         formModel: expect.arrayContaining([
           tagFilter('service.name', 'EQUALS', 'Snack Distribution', undefined, 'DESTINATION')
@@ -188,13 +189,14 @@ describe('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToAppl
       endpointId: 'someEndpoint'
     };
     getEndpointInfo.mockReturnValueOnce(just({ data: { label: 'distribute' } }));
+    const getLinkToApplicationAnalyze = jest.fn(() => '');
 
     // When
-    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {});
+    const href$ = getJumpDirectlyToApplicationLikeUA2Href$(ids, undefined, [], 'ALL', {}, getLinkToApplicationAnalyze);
     href$.subscribe(noop);
 
     // Then
-    expect(getLinkToAnalyze).toHaveBeenLastCalledWith(
+    expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
       expect.objectContaining({
         formModel: expect.arrayContaining([
           tagFilter('endpoint.name', 'EQUALS', 'distribute', undefined, 'DESTINATION')

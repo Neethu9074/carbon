@@ -11,6 +11,7 @@ import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Da
 import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
 import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';
 import SapHanaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHanaSystem/SapHanaSystemDashboard';
+import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
 import SapDbInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbInstance/SapDbInstanceDashboard';
 import AbapInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapInstance/AbapInstanceDashboard';
 import SapDbTenantDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbTenant/SapDbTenantDashboard';
@@ -29,6 +30,7 @@ import {
   sapHanaDashboardFullyQualified,
   sapJavaSystemDashboardFullyQualified,
   sapHanaSystemDashboardFullyQualified,
+  sapWebDispatcherDashboardFullyQualified,
   sapJavaInstanceDashboardFullyQualified,
   sapJavaCentralInstanceDashboardFullyQualified,
   sapDbTenantDashboardFullyQualified,
@@ -72,6 +74,11 @@ export default [
     path={sapHanaSystemDashboardFullyQualified}
     component={createAsyncViewComponent(SapHanaSystemDashboard)}
   />,
+    <Route
+      key="sapWebDispatcherDashboard"
+      path={sapWebDispatcherDashboardFullyQualified}
+      component={createAsyncViewComponent(SapWebDispatcherDashboard)}
+    />,
   <Route
     key="sapJavaInstanceDashboard"
     path={sapJavaInstanceDashboardFullyQualified}

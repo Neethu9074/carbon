@@ -81,6 +81,7 @@
     "lastScheduled": "Last Scheduled",
     "concurrencyPolicy": "Concurrency Policy",
     "health": "Health",
+    "monitoredByInstana": "Monitored By Instana",
     "type": "Type",
     "namespace": "Namespace",
     "involvedObject": "Involved Object",

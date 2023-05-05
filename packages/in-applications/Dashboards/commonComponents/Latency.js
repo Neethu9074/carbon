@@ -12,6 +12,7 @@ import {
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -42,6 +43,7 @@ export default function Latency({
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
   const aggregations = ['P90'];
   const alertRules = {};
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   for (const aggregation of aggregations) {
     alertRules[`slowness_${aggregation}`] = {
@@ -194,7 +196,8 @@ export default function Latency({
                   hiddenCalls,
                   fields: getFields(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
                   chartedMetrics: getChartedMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
-                }
+                },
+                getLinkToApplicationAnalyze
               )
           }
         ]

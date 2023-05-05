@@ -13,6 +13,7 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 // @ts-expect-error
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
@@ -45,6 +46,7 @@ export default function TroubleShootingChart({
 }: TroubleShootingChartProps) {
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   return (
     <UnifiedMetricsChart
@@ -77,7 +79,8 @@ export default function TroubleShootingChart({
                   formModel: createFormModelFromSyntheticOption(syntheticCalls),
                   hiddenCalls,
                   fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')]
-                }
+                },
+                getLinkToApplicationAnalyze
               );
             }
           }

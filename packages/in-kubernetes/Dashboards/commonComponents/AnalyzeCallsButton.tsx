@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { Group } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -37,11 +37,13 @@ export default function AnalyzeCallsButton({
   podName,
   groupBy
 }: AnalyzeCallsProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
         formModel: getFormModel({
           clusterName,

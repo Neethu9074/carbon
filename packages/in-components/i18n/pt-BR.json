@@ -76,9 +76,6 @@
     "avatarNullAlt": "Fallback do avatar para {{email}}."
   },
   "messageFlyout": {
-    "infrastructurePageName": "Infraestrutura",
-    "eumPageName": "EUM",
-    "settingsPageName": "Configurações",
     "requestQuoteBtn": "Solicitar uma cotação",
     "buyNowBtn": "Comprar na AWS",
     "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>."
@@ -417,6 +414,7 @@
     "viewSwitcherLabelphmc": "Energia IBM",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherButtonSignOut": "Sair",
@@ -710,6 +708,7 @@
     "sanitizedTagFilterValueAndOperator": "O valor do filtro de tag foi encurtado para o comprimento máximo permitido e o operador foi ajustado de acordo.",
     "source": "Origem",
     "destination": "Destino",
+    "documentation": "Documentation",
     "string": {
       "contains": "contém",
       "doesNotContain": "não contém",
@@ -818,6 +817,9 @@
     "retainedLabel_viewChange_0": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})",
     "retainedLabel_viewChange_1": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})",
     "retainedLabel_viewChange_2": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})"
+  },
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "Este widget não é atualizado durante o Modo em tempo real."
   },
   "migratedTenantBanner": {
     "title": "Unidade de locatário migrada",

@@ -10,7 +10,8 @@ import {
   trackAlertDeleteTrigger,
   trackAlertEdit,
   trackAlertPaused,
-  trackAlertResumed
+  trackAlertResumed,
+  trackAlertCloneTrigger
 } from 'in-alerting/smart-alerts/components/tracker';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -95,7 +96,13 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             </MoreMenuButton>
           )}
           {handleClone && (
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
+            <MoreMenuButton
+              icon="lib_actions_copy"
+              onClick={() => {
+                trackAlertCloneTrigger(config);
+                handleClone(config);
+              }}
+            >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             </MoreMenuButton>
           )}

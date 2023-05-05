@@ -46,11 +46,13 @@ export default function ConfigureAlertTest({
   const getSelectedTests = createMemoizedObservableForReferencedEntities(function (alertTestIds) {
     return getTestsAsResultObservable('')
       .map((result: Result<SyntheticTest[]> | null) => {
-        if (result == null) {
-          return [];
+        if (result == null || result?.progress?.loading) {
+          return null;
         }
-        return (result as Result<SyntheticTest[]>)?.data?.filter(
-          (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+        return (
+          (result as Result<SyntheticTest[]>)?.data?.filter(
+            (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+          ) ?? []
         );
       })
       .startWith(null);
