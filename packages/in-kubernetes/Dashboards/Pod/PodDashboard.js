@@ -133,7 +133,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
 }
 
 function renderButtonLineSecondary({ timeConfig, podId, result }) {
-  const { label: podName } = result.data?.label;
+  const podName = result?.data?.label;
 
   return (
     <>
