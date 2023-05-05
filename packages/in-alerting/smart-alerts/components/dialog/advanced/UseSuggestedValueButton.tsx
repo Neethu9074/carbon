@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import { Field, MapForm } from 'formalistic';
 
 import { Button } from '@instana/components';
 
@@ -14,13 +14,20 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton.mless';
 
+interface UseSuggestedValueButtonProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  percentageMetric?: boolean;
+  isGlobalSmartAlert?: boolean;
+  metricUnitPostfix?: string;
+}
 export default function UseSuggestedValueButton({
   form,
   updateForm,
-  percentageMetric,
+  percentageMetric = false,
   metricUnitPostfix,
   isGlobalSmartAlert = false
-}) {
+}: UseSuggestedValueButtonProps) {
   const suggestedThresholdValue = form.get('hiddenFields').get('suggestedThresholdValue').value;
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
   const thresholdValueItem = form.get('threshold').get('value');
@@ -47,14 +54,16 @@ export default function UseSuggestedValueButton({
                 kind="secondaryDarker"
                 onClick={() =>
                   updateForm(
-                    form.updateIn(['threshold', 'value'], f => f.setValue(suggestedThresholdValue).setTouched(true))
+                    form.updateIn(['threshold', 'value'], f =>
+                      (f as Field<any>).setValue(suggestedThresholdValue).setTouched(true)
+                    )
                   )
                 }
                 disabled={suggestedThresholdValue === thresholdValue}
               >
                 <span>
                   {t('in-alerting:smartAlerts.components.smartAlertDialog.useSuggestedvalue')} &nbsp;
-                  <b>{getValueRoundedToDecimals(suggestedThresholdValue, !!percentageMetric)}</b>
+                  <b>{getValueRoundedToDecimals(suggestedThresholdValue, percentageMetric)}</b>
                   &nbsp; {metricUnitPostfix}
                 </span>
               </Button>
@@ -66,9 +75,9 @@ export default function UseSuggestedValueButton({
   );
 }
 
-function useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged) {
+function useShowButton(suggestedThresholdValue: number, thresholdValueManuallyChanged: boolean): boolean {
   const [isNewThresholdValue, setIsNewThresholdValue] = useState(false);
-  const lastValue = useRef(null);
+  const lastValue = useRef<number | null>(null);
 
   useEffect(() => {
     if (lastValue.current !== suggestedThresholdValue) {
@@ -83,11 +92,3 @@ function useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged) {
 
   return showButton;
 }
-
-UseSuggestedValueButton.propTypes = {
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  percentageMetric: PropTypes.bool,
-  isGlobalSmartAlert: PropTypes.bool,
-  metricUnitPostfix: PropTypes.string
-};
