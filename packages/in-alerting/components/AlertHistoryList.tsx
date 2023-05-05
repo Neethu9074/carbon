@@ -3,21 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Li, LiLoadMore, Ul } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
+import { getEventsViewFilteredBy, GetEventsViewProps } from 'in-stores/navigation/paths/eventPaths';
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
 import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import useCursorPagination from 'in-hooks/useCursorPagination';
-import { propTypeTimeConfig } from 'in-stores/time/config';
+//@ts-expect-error
 import getRawEvents from 'in-subscription/getRawEvents';
+import useCursorPagination, { State } from 'in-hooks/useCursorPagination';
+import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
+import { TimeConfig, RawEvent, Result, Cursor } from 'in-types';
 import { isLoading } from 'in-services/util/result';
 import ListTitle from 'in-components/lists/Title';
 import WithIcon from 'in-components/WithIcon';
@@ -25,9 +25,17 @@ import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventsListRowDense.mless';
 
-export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
+interface AlertHistoryListPresenterProps {
+  timeConfig: TimeConfig;
+  tableProps: State<Cursor, RawEvent> & {
+    loadMore: () => void;
+    reload: () => void;
+  };
+}
+export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHistoryListPresenterProps) => {
   const { canLoadMore, items = [], totalRepresentedItemCount = 0, loadMore } = tableProps;
-  const loading = isLoading(tableProps);
+
+  const loading = isLoading(tableProps as Result<RawEvent>);
   return (
     <>
       <ListTitle>
@@ -37,7 +45,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
       </ListTitle>
       <Ul>
         {items.map(event => {
-          const viewFilterParams = {
+          const viewFilterParams: GetEventsViewProps = {
             eventId: event.id,
             eventTypeFilter: 'issue',
             timeConfig
@@ -48,11 +56,12 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
 
           const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
           const eventType = getEventType(event);
+          const severity = event.severity;
 
           return (
             <Li key={event.id}>
               <Link href={analyseEvent$} ellipsis>
-                <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(event.severity)}>
+                <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(severity)}>
                   <div className={locals.label}>
                     <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
                     &nbsp;
@@ -63,7 +72,10 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
             </Li>
           );
         })}
-        {canLoadMore && <LiLoadMore loadMore={loadMore} />}
+        {
+          //@ts-expect-error
+          canLoadMore && <LiLoadMore loadMore={loadMore} label={''} />
+        }
         {loading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
         {!loading && !items?.length && (
           <SmartAlertsNoDataAvailable
@@ -76,26 +88,23 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
   );
 };
 
-AlertHistoryListPresenter.propTypes = {
-  timeConfig: propTypeTimeConfig,
-  tableProps: PropTypes.shape({
-    canLoadMore: PropTypes.bool,
-    items: PropTypes.array,
-    totalRepresentedItemCount: PropTypes.any,
-    loadMore: PropTypes.func
-  })
-};
-
-function getDurationOrActive(event) {
+function getDurationOrActive(event: RawEvent) {
   if (event.state === 'closed') {
     return formatDurationAccurately(event.end - event.start, 60000);
   }
   return t('in-alerting:components.alertStateActive');
 }
 
-export default function AlertHistoryList(props) {
+interface AlertHistoryListProps {
+  alertConfigId: string;
+  timeConfig: TimeConfig;
+}
+export default function AlertHistoryList(props: AlertHistoryListProps) {
   const { alertConfigId, timeConfig } = props;
-  const tableProps = useCursorPagination(
+  const tableProps: State<Cursor, RawEvent> & {
+    loadMore: () => void;
+    reload: () => void;
+  } = useCursorPagination<Cursor, RawEvent>(
     ({ cursor }) =>
       getRawEvents({
         timeConfig,
@@ -112,9 +121,5 @@ export default function AlertHistoryList(props) {
     [alertConfigId, timeConfig]
   );
 
-  return (
-    <AlertDetailsCard>
-      <AlertHistoryListPresenter {...props} tableProps={tableProps} />
-    </AlertDetailsCard>
-  );
+  return <AlertDetailsCard>{<AlertHistoryListPresenter {...props} tableProps={tableProps} />}</AlertDetailsCard>;
 }

@@ -6,6 +6,8 @@
 
 import { ButtonKinds } from '@instana/components';
 
+import { RawEvent } from 'in-types';
+
 type Kind = keyof typeof ButtonKinds;
 
 export function getDesignLibraryColorBySeverity(severity: number, fallback?: string): string;
@@ -16,3 +18,5 @@ interface Parms {
   defaultColor?: string;
 }
 export function getColorBySeverity(severity: number, parms?: Parms): Property.BackgroundColor | undefined;
+export function getIcon(eventType: number): string;
+export function getEventType(event: RawEvent): number;

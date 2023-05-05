@@ -4,10 +4,13 @@
  */
 
 import { Card } from '@instana/components';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from 'in-alerting/components/AlertDetailsCard.mless';
 
-export default function AlertDetailsCard({ children }) {
+export type childrenProp = {
+  children: ReactNode;
+};
+export default function AlertDetailsCard({ children }: childrenProp) {
   return <Card bodyClassName={locals.cardBody}>{children}</Card>;
 }

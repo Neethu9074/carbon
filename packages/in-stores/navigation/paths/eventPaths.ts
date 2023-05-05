@@ -45,8 +45,8 @@ export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter:
     }
   });
 }
-interface GetEventsViewProps {
-  query: string;
+export interface GetEventsViewProps {
+  query?: string;
   applicationId?: string;
   serviceId?: string;
   endpointId?: string;
