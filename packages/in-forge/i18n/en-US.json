@@ -2977,9 +2977,7 @@
       "activeConnections": "Active Connections"
     },
     "ibmDataPowerXmlName": {
-      "ibmDataPowerXmlNameInfo": "IBM DataPower XML Name",
-      "xmlNamesNumber": "XML Name ({{count}})",
-      "xmlNamesNumber_plural": "XML Names ({{count}})",
+      "xmlNamesNumber": "XML Names ({{len}})",
       "type": "Type",
       "used": "Used",
       "percentFree": "Percentage Free",
