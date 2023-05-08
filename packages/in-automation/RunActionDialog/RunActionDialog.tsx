@@ -227,7 +227,16 @@ function onSave({
   const { id: actionId, name: actionName } = action;
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
-    const interpreter = getInterpreterFromFields(action.fields);
+    const scriptContent = atob(script.value);
+    let interpreter = getInterpreterFromFields(action.fields);
+    const hasShebang = scriptContent.startsWith('#!');
+    const emptyInterpreter = interpreter.value === '';
+    if (emptyInterpreter && hasShebang) {
+      interpreter = {
+        ...interpreter,
+        value: btoa(scriptContent.split('\n')[0].replace('#!', '').trim())
+      };
+    }
     runScriptAction({
       script,
       volatileId: selectedVolatileId,

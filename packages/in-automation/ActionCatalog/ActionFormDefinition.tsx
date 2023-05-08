@@ -155,8 +155,7 @@ export function putScriptField(form: MapForm<any>, action: ActionFormEntity): Ma
     .put(
       'subtype',
       createField({
-        value: plaintextInterpreter,
-        validator: notBlankValidator
+        value: plaintextInterpreter
       })
     );
 }
