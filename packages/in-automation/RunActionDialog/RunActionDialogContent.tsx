@@ -34,6 +34,7 @@ import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import Notification from 'in-components/form/Notification';
 import { Action, Parameter, VolatileId } from 'in-types';
 import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
@@ -54,6 +55,7 @@ interface RunActionDialogContentProps {
   setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
+  errorResolvingDynamicParameters: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -63,7 +65,8 @@ export default function RunActionDialogContent({
   form,
   setForm,
   volatileId,
-  agentSnapShots
+  agentSnapShots,
+  errorResolvingDynamicParameters
 }: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
 
@@ -113,7 +116,12 @@ export default function RunActionDialogContent({
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:parameters')}
           >
-            <ParameterInput action={action} form={form} setForm={setForm} />
+            <ParameterInput
+              errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+              action={action}
+              form={form}
+              setForm={setForm}
+            />
           </DescriptionItem>
         </DescriptionList>
       </Col>
@@ -233,7 +241,12 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
   );
 }
 
-function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm'>) {
+function ParameterInput({
+  action,
+  form,
+  setForm,
+  errorResolvingDynamicParameters
+}: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters'>) {
   const { inputParameters } = action;
   if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
     return (
@@ -246,6 +259,9 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentPr
   }
   return (
     <Col>
+      {errorResolvingDynamicParameters && (
+        <Notification failure>{t('in-automation:failedToResolveDynamicParameters')}</Notification>
+      )}
       <Spacer vertical="normal" />
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;

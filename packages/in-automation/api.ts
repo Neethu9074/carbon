@@ -409,11 +409,10 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
     maxRetries: 3,
     url: `${automationAPIBase}/parameters/dynamic`,
     headers: getCsrfHeader(),
+    mapToResultObject: true,
     data: {
       eventId,
       parameters
     }
-  })
-    .map(response => response.body)
-    .map(response => response.parameters);
+  });
 }

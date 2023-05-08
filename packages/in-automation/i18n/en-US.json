@@ -48,6 +48,7 @@
   "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
   "description": "Description",
   "automation": "Automation",
+  "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",

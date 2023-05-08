@@ -38,6 +38,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hasError } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -55,8 +56,12 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const agentSnapShots = useAgentSnapShots({ action });
-  const resolvedDynamicParameters = useResolvedDynamicParameters({ action, event });
+  const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
+    action,
+    event
+  });
   const [form, setForm] = useRunActionForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters });
+
   return (
     <Dialog
       className={locals.dialog}
@@ -75,6 +80,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
             setForm={setForm}
             agentSnapShots={agentSnapShots}
             volatileId={volatileId}
+            errorResolvingDynamicParameters={errorResolvingDynamicParameters}
           />
         </div>
         <FormFooter>
@@ -126,6 +132,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
 const emptyParametersArray = alwaysEmptyArray as unknown as Observable<ResolvedDynamicParamValue[]>;
 
 const useResolvedDynamicParameters = ({ action, event }: { action: Action; event?: Event }) => {
+  const [errorResolvingDynamicParameters, setErrorResolvingDynamicParameters] = useState(false);
   const resolvedDynamicParameters = useObservable(() => {
     if (!event) return emptyParametersArray;
     const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
@@ -134,9 +141,14 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
       name,
       ...parseDynamicParameter(value)
     }));
-    return resolveDynamicParameters(event.id, parsedParameters);
+    return resolveDynamicParameters(event.id, parsedParameters).map(result => {
+      if (hasError(result)) {
+        setErrorResolvingDynamicParameters(true);
+      }
+      return result.data?.parameters ?? [];
+    });
   }, [event, action]);
-  return resolvedDynamicParameters;
+  return { resolvedDynamicParameters, errorResolvingDynamicParameters };
 };
 
 const useRunActionForm = ({
