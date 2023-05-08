@@ -401,7 +401,7 @@ export type ResolvedDynamicParamValue = DynamicParamValue & {
   resolvedValue: string;
 };
 
-export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[]) {
+export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[], timestamp: number) {
   return http<{
     parameters: ResolvedDynamicParamValue[];
   }>({
@@ -412,7 +412,8 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
     mapToResultObject: true,
     data: {
       eventId,
-      parameters
+      parameters,
+      timestamp
     }
   });
 }

@@ -140,7 +140,9 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
       name,
       ...parseDynamicParameter(value)
     }));
-    return resolveDynamicParameters(event.id, parsedParameters).map(result => {
+    const timestamp: number =
+      event.metadata?.triggerTime != null ? Math.min(event.start, event.metadata.triggerTime) : event.start;
+    return resolveDynamicParameters(event.id, parsedParameters, timestamp).map(result => {
       if (hasError(result)) {
         setErrorResolvingDynamicParameters(true);
       }
