@@ -36,46 +36,50 @@ import {
 } from 'in-services/tracking/tracking';
 
 // mobile app entry point
-export const mobileAppsOpenAddForm = e => track(MOBILE_APPS_OPEN_ADD_FORM, e);
-export const addMobileApp = e => track(MOBILE_APPS_ADD_MOBILE_APP, e);
+export const mobileAppsOpenAddForm = (e?: Object) => track(MOBILE_APPS_OPEN_ADD_FORM, e);
+export const addMobileApp = (e?: Object) => track(MOBILE_APPS_ADD_MOBILE_APP, e);
 
 // democratisation dashboard
-export const renameMobileApp = e => track(MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP, e);
-export const removeMobileApp = e => track(MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP, e);
-export const tabChange = e => track(MOBILE_APPS_DASHBOARD_TAB_CHANGE, e);
+export const renameMobileApp = (e?: Object) => track(MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP, e);
+export const removeMobileApp = (e?: Object) => track(MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP, e);
+export const tabChange = (e?: Object) => track(MOBILE_APPS_DASHBOARD_TAB_CHANGE, e);
 export const dashboardTagFilters = {
-  add: e => track(MOBILE_APPS_DASHBOARD_FILTER_ADD, e),
-  change: e => track(MOBILE_APPS_DASHBOARD_FILTER_CHANGE, e),
-  remove: e => track(MOBILE_APPS_DASHBOARD_FILTER_REMOVE, e),
-  clear: e => track(MOBILE_APPS_DASHBOARD_FILTER_CLEAR, e),
-  set: e => track(MOBILE_APPS_DASHBOARD_FILTER_SET, e)
+  add: (e?: Object) => track(MOBILE_APPS_DASHBOARD_FILTER_ADD, e),
+  change: (e?: Object) => track(MOBILE_APPS_DASHBOARD_FILTER_CHANGE, e),
+  remove: (e?: Object) => track(MOBILE_APPS_DASHBOARD_FILTER_REMOVE, e),
+  clear: (e?: Object) => track(MOBILE_APPS_DASHBOARD_FILTER_CLEAR, e),
+  set: (e?: Object) => track(MOBILE_APPS_DASHBOARD_FILTER_SET, e)
 };
 
+export type DashboardTagFiltersTracker = typeof dashboardTagFilters;
+
 // analyze
-export const changeAnalyzeMetrics = e => track(MOBILE_APPS_ANALYZE_CHANGE_METRICS, e);
-export const showMobileAppDetailsInTraceView = e => track(MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
-export const hideMobileAppDetailsInTraceView = e => track(MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
+export const changeAnalyzeMetrics = (e?: Object) => track(MOBILE_APPS_ANALYZE_CHANGE_METRICS, e);
+export const showMobileAppDetailsInTraceView = (e?: Object) =>
+  track(MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
+export const hideMobileAppDetailsInTraceView = (e?: Object) =>
+  track(MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
 export const analyzeTagFilters = {
-  add: e => track(MOBILE_APPS_ANALYZE_FILTER_ADD, e),
-  change: e => track(MOBILE_APPS_ANALYZE_FILTER_CHANGE, e),
-  remove: e => track(MOBILE_APPS_ANALYZE_FILTER_REMOVE, e),
-  clear: e => track(MOBILE_APPS_ANALYZE_FILTER_CLEAR, e),
-  set: e => track(MOBILE_APPS_ANALYZE_FILTER_SET, e)
+  add: (e?: Object) => track(MOBILE_APPS_ANALYZE_FILTER_ADD, e),
+  change: (e?: Object) => track(MOBILE_APPS_ANALYZE_FILTER_CHANGE, e),
+  remove: (e?: Object) => track(MOBILE_APPS_ANALYZE_FILTER_REMOVE, e),
+  clear: (e?: Object) => track(MOBILE_APPS_ANALYZE_FILTER_CLEAR, e),
+  set: (e?: Object) => track(MOBILE_APPS_ANALYZE_FILTER_SET, e)
 };
 export const analyzeGrouping = {
-  remove: e => track(MOBILE_APPS_ANALYZE_GROUP_REMOVE, e),
-  set: e => track(MOBILE_APPS_ANALYZE_GROUP_SET, e)
+  remove: (e?: Object) => track(MOBILE_APPS_ANALYZE_GROUP_REMOVE, e),
+  set: (e?: Object) => track(MOBILE_APPS_ANALYZE_GROUP_SET, e)
 };
 
 // session view
-export const openSession = e => track(MOBILE_APPS_ANALYZE_OPEN_SESSION, e);
-export const navigateToBackendTraceFromSession = e =>
+export const openSession = (e?: Object) => track(MOBILE_APPS_ANALYZE_OPEN_SESSION, e);
+export const navigateToBackendTraceFromSession = (e?: Object) =>
   track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_SESSION, e);
-export const navigateToSessionFromBackendTrace = e =>
+export const navigateToSessionFromBackendTrace = (e?: Object) =>
   track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_SESSION_FROM_BACKEND_TRACE, e);
 
-export const ua2QueryBuilderFilterAddedTracker = e => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
-export const ua2GroupChangedTracker = e => track(ANALYZE_UA2_GROUP_CHANGED, e);
-export const ua2ChartChangedTracker = e => track(ANALYZE_UA2_CHART_CHANGED, e);
-export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
-export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);
+export const ua2QueryBuilderFilterAddedTracker = (e?: Object) => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
+export const ua2GroupChangedTracker = (e?: Object) => track(ANALYZE_UA2_GROUP_CHANGED, e);
+export const ua2ChartChangedTracker = (e?: Object) => track(ANALYZE_UA2_CHART_CHANGED, e);
+export const ua2ApiQueryPressedTracker = (e?: Object) => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
+export const ua2NestingDepthTracker = (e?: Object) => track(ANALYZE_UA2_NESTING_DEPTH, e);
