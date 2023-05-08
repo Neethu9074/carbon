@@ -121,6 +121,7 @@ function renderGroup(props) {
         setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
       } else {
         setForm(form.updateIn(['members'], f => f.setValue(members)));
+        setMessage({ text: t('in-settings:tabs.successfullyRemovedUserFromGroup', { name }), type: 'success' });
       }
     };
     if (rbacImprovementEnabled) {
@@ -155,7 +156,7 @@ function renderGroup(props) {
             members={form.get('members').value}
             removeUser={removeUserFromGroup}
             groupId={group.id}
-            addUsers={users => addUsers(users, form, setForm)}
+            addUsers={users => addUsers(users, form, setForm, setMessage)}
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
@@ -412,7 +413,7 @@ function removeDfq(form, setForm) {
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
 
-function addUsers(users, form, setForm) {
+function addUsers(users, form, setForm, setMessage) {
   setForm(
     form.updateIn(['members'], f =>
       f
@@ -423,6 +424,16 @@ function addUsers(users, form, setForm) {
         .setTouched(true)
     )
   );
+  if (rbacImprovementEnabled) {
+    let text;
+    if (users.length === 1) {
+      const name = users[0].fullName;
+      text = t('in-settings:tabs.successfullyAddedUserToGroup', { name });
+    } else {
+      text = t('in-settings:tabs.successfullyAddedUsersToGroup');;
+    }
+    setMessage({ text, type: 'success'});
+  }
 }
 
 function copyPermissionSet(form) {
