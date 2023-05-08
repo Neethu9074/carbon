@@ -9,7 +9,6 @@ import React, { useContext } from 'react';
 import { Ul } from '@instana/components';
 
 import {
-  accountAndBillingCapabilities,
   agentsCapabilities,
   syntheticMonitoringCapabilities,
   automationCapabilities,
@@ -60,10 +59,6 @@ export const GlobalFunctionsSection = () => {
       <CapabilitySubsection
         capabilities={accessControlCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCESS_CONTROL })}
-      />
-      <CapabilitySubsection
-        capabilities={accountAndBillingCapabilities}
-        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCOUNT })}
       />
     </Ul>
   );

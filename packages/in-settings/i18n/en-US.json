@@ -86,7 +86,6 @@
     "permissions_SYNTHETICS": "Synthetic monitoring permissions",
     "permissions_AGENTS": "Agent permissions",
     "permissions_ACCESS_CONTROL": "Access control permissions",
-    "permissions_ACCOUNT": "Account & billing permissions",
     "permissions_AUTOMATION": "Automation permissions",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power",

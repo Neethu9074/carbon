@@ -49,7 +49,6 @@ export const ProductArea = Object.freeze({
   SYNTHETICS: 'SYNTHETICS',
   AGENTS: 'AGENTS',
   ACCESS_CONTROL: 'ACCESS_CONTROL',
-  ACCOUNT: 'ACCOUNT',
   AUTOMATION: 'AUTOMATION',
   MIXED: 'MIXED',
   GLOBAL: 'GLOBAL'
@@ -113,7 +112,8 @@ export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
@@ -145,12 +145,6 @@ export const accessControlCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SESSION_SETTINGS
 ];
 
-export const accountAndBillingCapabilities: Array<CapabilityType> = [
-  Capability.CAN_SEE_USAGE_INFORMATION,
-  Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
-];
-
 export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS
@@ -162,7 +156,6 @@ export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...syntheticMonitoringCapabilities,
   ...agentsCapabilities,
   ...accessControlCapabilities,
-  ...accountAndBillingCapabilities,
   ...automationCapabilities
 ];
 
@@ -240,7 +233,6 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },
   [ProductArea.AGENTS]: { capabilities: agentsCapabilities },
   [ProductArea.ACCESS_CONTROL]: { capabilities: accessControlCapabilities },
-  [ProductArea.ACCOUNT]: { capabilities: accountAndBillingCapabilities },
   [ProductArea.AUTOMATION]: { capabilities: automationCapabilities },
   [ProductArea.GLOBAL]: { capabilities: unionGlobalCapabilities }
 } as const);

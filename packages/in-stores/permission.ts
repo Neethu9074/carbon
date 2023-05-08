@@ -83,8 +83,6 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
-  CAN_SEE_USAGE_INFORMATION: 'CAN_SEE_USAGE_INFORMATION',
-  CAN_SEE_ON_PREM_LICENE_INFORMATION: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
@@ -471,22 +469,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     isOwnerPermission: false
   },
   /* Account Information */
-  [Capability.CAN_SEE_USAGE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
-    keyForApiTokenApi: 'canSeeUsageInformation',
-    label: t('in-stores:permissionCanSeeUsageInformationLabel'),
-    description: t('in-stores:permissionCanSeeUsageInformationDescription'),
-    category: t('in-stores:permissionCanSeeUsageInformationCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-    keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
-    label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
-    description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
-    category: t('in-stores:permissionCanSeeOnPremLicenseInformationCategory'),
-    isOwnerPermission: false
-  },
   [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION]: {
     keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
     keyForApiTokenApi: 'canViewAccountAndBillingInformation',
