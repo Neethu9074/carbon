@@ -42,3 +42,9 @@ interface TagNodeLike {
 
 export function doesTagNodeNeedSecondLevelKey(tagNode: TagNodeLike): boolean;
 
+interface ViewModel {
+  tagName: string;
+  secondLevelKey: string;
+}
+
+export const toViewModel = ({ tagName = '', key }: DynamicFieldValue) => ViewModel;

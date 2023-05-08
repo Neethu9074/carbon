@@ -3,14 +3,23 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 import { Message } from '@instana/components';
 
 import CustomPayloadViewer from 'in-alerting/smart-alerts/components/details/CustomPayloadViewer';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { t } from 'in-i18n';
+
+export interface CustomPayloadCardProps {
+  customPayloadFields?: CustomPayloadFieldUnion[];
+  title?: string;
+  noCustomPayloadConfiguredText?: string;
+  openByDefault?: boolean;
+  alternatingBg?: boolean;
+  TagBasedPayloadConfigurator: React.FunctionComponent<any>;
+}
 
 export default function CustomPayloadCard({
   customPayloadFields = [],
@@ -21,7 +30,7 @@ export default function CustomPayloadCard({
   openByDefault = false,
   alternatingBg,
   TagBasedPayloadConfigurator
-}) {
+}: CustomPayloadCardProps) {
   const hasCustomPayload = Boolean(customPayloadFields.length);
 
   return (
@@ -44,12 +53,3 @@ export default function CustomPayloadCard({
     </ExpandableLightCard>
   );
 }
-
-CustomPayloadCard.propTypes = {
-  TagBasedPayloadConfigurator: PropTypes.func,
-  customPayloadFields: PropTypes.array,
-  title: PropTypes.string,
-  noCustomPayloadConfiguredText: PropTypes.string,
-  openByDefault: PropTypes.bool,
-  alternatingBg: PropTypes.bool
-};
