@@ -33,12 +33,12 @@ import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFoot
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
+import { hasError, isLoading } from 'in-services/util/result';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { hasError } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -61,7 +61,6 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
     event
   });
   const [form, setForm] = useRunActionForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters });
-
   return (
     <Dialog
       className={locals.dialog}
@@ -145,7 +144,10 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
       if (hasError(result)) {
         setErrorResolvingDynamicParameters(true);
       }
-      return result.data?.parameters ?? [];
+      if (!isLoading(result)) {
+        return result.data?.parameters ?? [];
+      }
+      return null;
     });
   }, [event, action]);
   return { resolvedDynamicParameters, errorResolvingDynamicParameters };
