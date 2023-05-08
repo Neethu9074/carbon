@@ -13,9 +13,8 @@ import { Disposable } from '@instana/observables';
 // @ts-expect-error needs migration to TS
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 // @ts-expect-error needs migration to TS
-import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
-// @ts-expect-error needs migration to TS
 import { mobileAppsPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { removeMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { combineDataAndError } from 'in-services/util/ro';

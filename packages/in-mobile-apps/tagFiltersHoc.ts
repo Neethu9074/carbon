@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilter, TagFilterOperator } from '@instana/types';
+import { MobileAppBeaconTagGroup, TagFilter, TagFilterOperator } from '@instana/types';
 
 import { DashboardTagFiltersTracker } from 'in-mobile-apps/tracker';
 import { noop } from 'in-services/util/function';
@@ -20,7 +20,7 @@ export function useTagFilterManipulators(
   tagFiltersTrackers: DashboardTagFiltersTracker,
   tagFilters: Array<TagFilter>,
   setTagFilters: (v: Array<TagFilter>) => void,
-  group: string
+  group?: MobileAppBeaconTagGroup
 ): TagFilterManipulator {
   const trackedSetTagFilters = (newTagFilters: Array<TagFilter>) => {
     setTagFilters(newTagFilters);
