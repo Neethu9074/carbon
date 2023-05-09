@@ -8,7 +8,7 @@ import { keyBy } from 'lodash';
 
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { AdditionalHeaders, Authen } from 'in-automation/api';
-import { Field, Nullish } from 'in-types';
+import { Action, Field, Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (action: ActionFormEntity | Nullish) => {
@@ -44,6 +44,23 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.ignoreCertErrors ?? { value: 'false', encoding: 'ascii', name: 'ignoreCertErrors' };
 export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
+
+export const getInterpreterToUse = (action: Action) => {
+  const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
+  const hasShebang = plaintextScript.startsWith('#!');
+  if (hasShebang) {
+    return {
+      encoding: 'base64',
+      name: 'subtype',
+      value: btoa(plaintextScript.split('\n')[0].replace('#!', '').trim())
+    };
+  }
+  return getInterpreterFromFields(action.fields);
+};
 
 interface WebhookFields {
   host: Field;

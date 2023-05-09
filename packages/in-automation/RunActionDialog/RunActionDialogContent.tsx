@@ -12,6 +12,7 @@ import { Link, Typography, Spacer } from '@instana/components';
 
 import {
   AUTH_TYPES,
+  getInterpreterToUse,
   getScriptFromFields,
   getType,
   getWebhookFields,
@@ -171,8 +172,19 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   if (script.encoding === 'base64') {
     plaintextScript = atob(plaintextScript);
   }
+  const interpreter = getInterpreterToUse(action);
+  let plaintextInterpreter = interpreter.value;
+  if (interpreter.encoding === 'base64') {
+    plaintextInterpreter = atob(plaintextInterpreter);
+  }
   return (
     <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:titleInterpreter')}
+      >
+        {plaintextInterpreter}
+      </DescriptionItem>
       <DescriptionItem
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleScriptContent')}
