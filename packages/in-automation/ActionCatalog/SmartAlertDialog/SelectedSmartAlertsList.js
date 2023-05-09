@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 
@@ -18,6 +18,7 @@ import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/a
 import SelectSmartAlertsDialogButton from 'in-automation/ActionCatalog/SmartAlertDialog/SelectSmartAlertsDialogButton';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import SectionHeading from 'in-settings/components/SectionHeading';
 import { isLoading, hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -31,17 +32,21 @@ export default function SelectedSmartAlertsList({ form, setForm }) {
   const selection = form.get('applicationAlertConfigIds')?.value;
 
   return (
-    <List
-      title={title}
-      columnDefinitions={getColumnDefinitions(form, setForm)}
-      loadEntities={() => loadEntities(selection)}
-      searchAttributes={[getEntityName, getEntityType]}
-      getHeader={defaultHeaderWithCount(title)}
-      rightHeader={<RightHeader form={form} setForm={setForm} />}
-      noDataMessage={t('in-settings:tabs.noSmartAlertsSelected')}
-      searchPlaceholder={t('in-settings:tabs.filter')}
-      isSearchable
-    />
+    <Fragment>
+      <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}</SectionHeading>
+      <List
+        title={title}
+        columnDefinitions={getColumnDefinitions(form, setForm)}
+        loadEntities={() => loadEntities(selection)}
+        searchAttributes={[getEntityName, getEntityType]}
+        getHeader={defaultHeaderWithCount(title)}
+        rightHeader={<RightHeader form={form} setForm={setForm} />}
+        noDataMessage={t('in-settings:tabs.noSmartAlertsSelected')}
+        searchPlaceholder={t('in-automation:ActionCatalog.searchSmartAlerts')}
+        searchMaxWidth={300}
+        isSearchable
+      />
+    </Fragment>
   );
 }
 
