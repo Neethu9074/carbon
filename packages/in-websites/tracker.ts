@@ -37,47 +37,51 @@ import {
 } from 'in-services/tracking/tracking';
 
 // website entry point
-export const websitesOpenAddForm = e => track(WEBSITES_OPEN_ADD_FORM, e);
-export const addWebsite = e => track(WEBSITES_ADD_WEBSITE, e);
+export const websitesOpenAddForm = (e?: Object) => track(WEBSITES_OPEN_ADD_FORM, e);
+export const addWebsite = (e?: Object) => track(WEBSITES_ADD_WEBSITE, e);
 
 // democratisation dashboard
-export const renameWebsite = e => track(WEBSITES_DASHBOARD_RENAME_WEBSITE, e);
-export const removeWebsite = e => track(WEBSITES_DASHBOARD_REMOVE_WEBSITE, e);
-export const viewDeprecationDetails = e => track(WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS, e);
-export const tabChange = e => track(WEBSITES_DASHBOARD_TAB_CHANGE, e);
+export const renameWebsite = (e?: Object) => track(WEBSITES_DASHBOARD_RENAME_WEBSITE, e);
+export const removeWebsite = (e?: Object) => track(WEBSITES_DASHBOARD_REMOVE_WEBSITE, e);
+export const viewDeprecationDetails = (e?: Object) => track(WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS, e);
+export const tabChange = (e?: Object) => track(WEBSITES_DASHBOARD_TAB_CHANGE, e);
 export const dashboardTagFilters = {
-  add: e => track(WEBSITES_DASHBOARD_FILTER_ADD, e),
-  change: e => track(WEBSITES_DASHBOARD_FILTER_CHANGE, e),
-  remove: e => track(WEBSITES_DASHBOARD_FILTER_REMOVE, e),
-  clear: e => track(WEBSITES_DASHBOARD_FILTER_CLEAR, e),
-  set: e => track(WEBSITES_DASHBOARD_FILTER_SET, e)
+  add: (e?: Object) => track(WEBSITES_DASHBOARD_FILTER_ADD, e),
+  change: (e?: Object) => track(WEBSITES_DASHBOARD_FILTER_CHANGE, e),
+  remove: (e?: Object) => track(WEBSITES_DASHBOARD_FILTER_REMOVE, e),
+  clear: (e?: Object) => track(WEBSITES_DASHBOARD_FILTER_CLEAR, e),
+  set: (e?: Object) => track(WEBSITES_DASHBOARD_FILTER_SET, e)
 };
 
+export type DashboardTagFiltersTracker = typeof dashboardTagFilters;
+
 // analyze
-export const changeAnalyzeMetrics = e => track(WEBSITES_ANALYZE_CHANGE_METRICS, e);
-export const showWebsiteDetailsInTraceView = e => track(WEBSITES_ANALYZE_SHOW_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
-export const hideWebsiteDetailsInTraceView = e => track(WEBSITES_ANALYZE_HIDE_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
+export const changeAnalyzeMetrics = (e?: Object) => track(WEBSITES_ANALYZE_CHANGE_METRICS, e);
+export const showWebsiteDetailsInTraceView = (e?: Object) =>
+  track(WEBSITES_ANALYZE_SHOW_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
+export const hideWebsiteDetailsInTraceView = (e?: Object) =>
+  track(WEBSITES_ANALYZE_HIDE_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
 export const analyzeTagFilters = {
-  add: e => track(WEBSITES_ANALYZE_FILTER_ADD, e),
-  change: e => track(WEBSITES_ANALYZE_FILTER_CHANGE, e),
-  remove: e => track(WEBSITES_ANALYZE_FILTER_REMOVE, e),
-  clear: e => track(WEBSITES_ANALYZE_FILTER_CLEAR, e),
-  set: e => track(WEBSITES_ANALYZE_FILTER_SET, e)
+  add: (e?: Object) => track(WEBSITES_ANALYZE_FILTER_ADD, e),
+  change: (e?: Object) => track(WEBSITES_ANALYZE_FILTER_CHANGE, e),
+  remove: (e?: Object) => track(WEBSITES_ANALYZE_FILTER_REMOVE, e),
+  clear: (e?: Object) => track(WEBSITES_ANALYZE_FILTER_CLEAR, e),
+  set: (e?: Object) => track(WEBSITES_ANALYZE_FILTER_SET, e)
 };
 export const analyzeGrouping = {
-  remove: e => track(WEBSITES_ANALYZE_GROUP_REMOVE, e),
-  set: e => track(WEBSITES_ANALYZE_GROUP_SET, e)
+  remove: (e?: Object) => track(WEBSITES_ANALYZE_GROUP_REMOVE, e),
+  set: (e?: Object) => track(WEBSITES_ANALYZE_GROUP_SET, e)
 };
 
 // page load view
-export const openPageLoad = e => track(WEBSITES_ANALYZE_OPEN_PAGE_LOAD, e);
-export const navigateToBackendTraceFromPageLoad = e =>
+export const openPageLoad = (e?: Object) => track(WEBSITES_ANALYZE_OPEN_PAGE_LOAD, e);
+export const navigateToBackendTraceFromPageLoad = (e?: Object) =>
   track(WEBSITES_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD, e);
-export const navigateToPageLoadFromBackendTrace = e =>
+export const navigateToPageLoadFromBackendTrace = (e?: Object) =>
   track(WEBSITES_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE, e);
 
-export const ua2QueryBuilderFilterAddedTracker = e => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
-export const ua2GroupChangedTracker = e => track(ANALYZE_UA2_GROUP_CHANGED, e);
-export const ua2ChartChangedTracker = e => track(ANALYZE_UA2_CHART_CHANGED, e);
-export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
-export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);
+export const ua2QueryBuilderFilterAddedTracker = (e?: Object) => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
+export const ua2GroupChangedTracker = (e?: Object) => track(ANALYZE_UA2_GROUP_CHANGED, e);
+export const ua2ChartChangedTracker = (e?: Object) => track(ANALYZE_UA2_CHART_CHANGED, e);
+export const ua2ApiQueryPressedTracker = (e?: Object) => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
+export const ua2NestingDepthTracker = (e?: Object) => track(ANALYZE_UA2_NESTING_DEPTH, e);
