@@ -16,7 +16,6 @@ import {
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SelectSmartAlertsDialogButton from 'in-automation/ActionCatalog/SmartAlertDialog/SelectSmartAlertsDialogButton';
-import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { isLoading, hasError } from 'in-services/util/result';
@@ -25,10 +24,6 @@ import { t } from 'in-i18n';
 const loadApAlertConfigs = memoize(
   entities => getAllAlertConfigsForAllApplications(entities, { asObservable: true }),
   selection => `getAllAlertConfigsForAllApplications-${selection.join('-')}`
-);
-const loadGlobalAlertConfigs = memoize(
-  entities => getAllGlobalAlertConfigs(entities, { asObservable: true }),
-  selection => `getAllGlobalAlertConfigs-${selection.join('-')}`
 );
 
 export default function SelectedSmartAlertsList({ form, setForm }) {
@@ -55,7 +50,7 @@ function RightHeader({ form, setForm }) {
 }
 
 function loadEntities(entities) {
-  return combineLatest([loadApAlertConfigs(entities), loadGlobalAlertConfigs(entities)])
+  return combineLatest([loadApAlertConfigs(entities)])
     .map(e => (e.some(resp => isLoading(resp) || hasError(resp)) ? null : e))
     .map(e => {
       if (e === null) {
@@ -69,10 +64,6 @@ function loadEntities(entities) {
           if (apData) {
             return { config: apData, isGlobalSmartAlertConfig: false };
           }
-          // const globalData = globalResult.data?.find(({ id: i }) => i === id);
-          // if (globalData) {
-          //   return { config: globalData, isGlobalSmartAlertConfig: true };
-          // }
           return undefined;
         })
         .filter(Boolean);
