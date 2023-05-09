@@ -42,7 +42,7 @@ export function simpleListNameColumnDefinition(width = '35%') {
     label: t('in-alerting:smartAlerts.sortOptions.name'),
     width,
     sortable: true,
-    getContent({ config }) {
+    getContent(config) {
       return <SimpleListNameColumn config={config} />;
     },
     getValue({ config }) {
@@ -62,7 +62,7 @@ export function evaluationInfoColumnDefinition(params = {}) {
     label: t('in-alerting:smartAlerts.sortOptions.type'),
     sortable: false,
     width,
-    getContent({ config }) {
+    getContent(config) {
       return <EvaluationTypeColumn config={config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
     }
   };
@@ -75,7 +75,7 @@ export function entityNameColumnDefinition(params = {}) {
     id: 'entityName',
     width,
     sortable: false,
-    getContent({ config }) {
+    getContent(config) {
       return (
         <div className={locals.filters}>
           <span className={classNames(locals.centered, locals.space)}>
@@ -124,7 +124,7 @@ export function deselectActionColumnDefinition(onDeselect, width) {
     id: 'actions',
     sortable: false,
     width,
-    getContent({ config }) {
+    getContent(config) {
       return <ListDeselectionColumn onDeselect={onDeselect} config={config} />;
     }
   };

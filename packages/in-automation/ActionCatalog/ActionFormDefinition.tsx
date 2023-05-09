@@ -28,7 +28,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-type NewAction = ActionFormEntity & { selectedEvents?: string[] };
+type NewAction = ActionFormEntity & { selectedEvents?: string[]; applicationAlertConfigIds?: string[] };
 
 function mimeValidator(str: string): ValidationResult {
   if (isNotBlank(str) && !(str in mimeDb)) {
@@ -62,6 +62,7 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
 export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const selectedEvents = action?.selectedEvents ?? [];
+  const applicationAlertConfigIds = action?.applicationAlertConfigIds ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
@@ -91,6 +92,13 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
       'selectedEvents',
       createField({
         value: selectedEvents,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'applicationAlertConfigIds',
+      createField({
+        value: applicationAlertConfigIds,
         validator: notBlankValidator
       })
     )

@@ -3,43 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-// import { Col, Row } from 'in-components/layout/Grid/Grid';
-// import FormGroup from 'in-settings/components/FormGroup';
-import { MapForm } from 'formalistic';
 import React, { Fragment } from 'react';
+import { MapForm } from 'formalistic';
 
 import { Spacer, Message, MessageTypes } from '@instana/components';
 
-// import SelectedSmartAlertsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectedSmartAlertsList';
-// import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
-// import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-// import DescriptionText from 'in-components/form/DescriptionText';
-import TouchedMessages from 'in-components/form/TouchedMessages';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-// import ComboBox from 'in-components/ComboBox';
-import { t } from 'in-i18n';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-// import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 
-// import locals from './Step2.mless';
-
-// export const modeEventTypes = 'event-types';
-// export const modeSelectedEvents = 'selected-events';
-// export const modeSelectedSmartAlerts = 'selected-smart-alerts';
-
-// const eventSelectionModeOptions = [
-//   { value: modeEventTypes, label: t('in-settings:tabs.alertOnEventTypeS') },
-//   { value: modeSelectedEvents, label: t('in-settings:tabs.alertOnEventS') },
-//   ...(applicationSmartAlertsEnabled
-//     ? [{ value: modeSelectedSmartAlerts, label: t('in-settings:tabs.alertOnApSmartAlerts') }]
-//     : [])
-// ];
 interface ActionFormProps {
   form: MapForm<any>;
   setForm: SetFormFunction;
@@ -50,41 +29,10 @@ interface submitEventSelectionProps extends ActionFormProps {
 }
 
 export default function EventSelection({ form, setForm }: Pick<ActionFormProps, 'form' | 'setForm'>) {
-  // const eventSelectionMode = form.get('eventSelectionMode').value;
-  // const types = eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null;
-
   return (
     <Fragment>
       <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForEvent')}</SectionHeading>
-      {/* <DescriptionText>{t('in-settings:tabs.onlySendAlertsForEventTypesOrOnSelectedEvents')}</DescriptionText> */}
-      {/* <Row className={locals.eventSelection}>
-        <Col lg={6}>
-          {form.get('eventSelectionMode').map(field => (
-            <FormGroup>
-              <ComboBox
-                name="alert-event-selection-mode"
-                value={field.value}
-                options={eventSelectionModeOptions}
-                isClearable={false}
-                onChange={e => {
-                  const updatedForm = onChangeEventSelectionMode(form, e ? e.value : null);
-                  if (updatedForm) {
-                    setForm(updatedForm);
-                  }
-                }}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
-      </Row> */}
-      {/* {eventSelectionMode === modeEventTypes && types && (
-        <EventTypeSelection form={form} types={types} onChange={onChange} />
-      )} */}
-      {/* {eventSelectionMode === modeSelectedEvents && form.get('selectedEvents') && ( */}
       <EventsSelection form={form} setForm={setForm} />
-      {/* )} */}
-      {/* {eventSelectionMode === modeSelectedSmartAlerts && <SmartAlertsSelection form={form} setForm={setForm} />} */}
     </Fragment>
   );
 }
@@ -165,13 +113,3 @@ function EventsSelection({ form, setForm }: Pick<ActionFormProps, 'form' | 'setF
     </Fragment>
   );
 }
-
-// function SmartAlertsSelection({ form, setForm }:Pick<ActionFormProps, 'form' | 'setForm'>) {
-//   return (
-//     <>
-//       <SelectedSmartAlertsList form={form} setForm={setForm} />
-//       <TouchedMessages field={form.get('applicationAlertConfigIds')} />
-//       <Spacer vertical="large" />
-//     </>
-//   );
-// }

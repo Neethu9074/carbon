@@ -40,6 +40,7 @@ import {
   getType
 } from 'in-automation/ActionCatalog/shared';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import SmartAlertsSelection from 'in-automation/ActionCatalog/SmartAlertsSelection';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
@@ -94,6 +95,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
             )}
           </>
           <EventSelection form={form} setForm={setForm} />
+          <SmartAlertsSelection form={form} setForm={setForm} />
         </Col>
       </Row>
     </fieldset>

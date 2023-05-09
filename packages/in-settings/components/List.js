@@ -16,9 +16,11 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+// eslint-disable-next-line
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
-import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -135,10 +137,14 @@ function List({
   customSortEntities,
   onPageChange
 }) {
-  if (hideWhenEmpty && (!entities || entities.length === 0)) {
+  const { goToPath } = useNavigation();
+  if ((hideWhenEmpty && (!entities || entities.length === 0)) || (entities && entities.progress?.loading)) {
     return null;
   }
 
+  if (entities?.data) {
+    entities = entities.data;
+  }
   let totalHitsBeforeFilter = 0;
   let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
@@ -310,6 +316,7 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
   if (!pathNew && !onCreateNew) {
     return null;
   }
+  // eslint-disable-next-line
   const href$ = onCreateNew ? null : getModifiedUrlStream(p => (p.pathname = pathNew));
   if (disabledMessage) {
     return (

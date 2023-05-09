@@ -38,15 +38,19 @@ export type ActionHandlers<AlertConfig extends AlertConfigType> = {
 };
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
-  loadEntities?: () => Observable<AlertConfig[]>;
+  loadEntities?: any;
   getAlertConfigs?: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
   tableActions?: TableActions<AlertConfig>;
+  rightHeader?: any;
+  noDataMessage?: string;
+  pageSize?: any;
   getSubtitle?: (config: AlertConfig) => string;
   onRowClick?: (config: AlertConfig) => void;
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
   actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
+  addExtraColumn?: boolean;
 }
 
 export interface AlertConfigType {
@@ -81,11 +85,15 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   onRowClick,
   createRowLinkLocation,
   sortOptions = [],
+  rightHeader,
+  noDataMessage,
+  pageSize,
+  addExtraColumn = false,
   actionHandlers
 }: AlertBaseListProps<AlertConfig>) {
   const [alertsSize, setAlertsSize] = useState<number | null>(null);
   const header = t('in-alerting:smartAlerts.list.header.configuredAlerts', { numberOfAlerts: alertsSize });
-  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle);
+  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle, addExtraColumn);
 
   if (loadEntities)
     return (
@@ -95,9 +103,11 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           getEntityName={entity => entity.name}
           tableActions={tableActions}
           columnDefinitions={columnDef}
-          loadEntities={() => loadEntities().tap(alerts => setAlertsSize(alerts.length))}
+          noDataMessage={noDataMessage}
+          loadEntities={() => loadEntities().tap((alerts: any) => setAlertsSize(alerts.length))}
           searchAttributes={[(entity: AlertConfig) => entity.name]}
-          pageSize={15}
+          pageSize={pageSize ?? 15}
+          rightHeader={rightHeader}
           onRowClick={onRowClick}
         />
       </Card>
@@ -127,7 +137,8 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
 function createColumnDefinition<AlertConfig extends AlertConfigType>(
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
   actionHandlers: ActionHandlers<AlertConfig> | undefined,
-  getSubtitle?: (config: AlertConfig) => string
+  getSubtitle?: (config: AlertConfig) => string,
+  addExtraColumn?: boolean
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
@@ -146,7 +157,8 @@ function createColumnDefinition<AlertConfig extends AlertConfigType>(
     };
     return [nameColumn, ...extraColumnDefinitions, actionsColumn];
   }
-  return [nameColumn, ...extraColumnDefinitions];
+  if (!addExtraColumn) return [nameColumn, ...extraColumnDefinitions];
+  return [...extraColumnDefinitions];
 }
 
 /** adapter, because we use a different column format:
