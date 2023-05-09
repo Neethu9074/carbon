@@ -4,10 +4,12 @@
  */
 
 // there is no null service needed, so always use the default implementation
-import createNullService from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusService';
+import createNullService, {
+  EventBusService
+} from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 
-export default class EventBusServiceLocator extends BaseServiceLocator<any> {
+export default class EventBusServiceLocator extends BaseServiceLocator<EventBusService> {
   constructor() {
     super(createNullService);
   }

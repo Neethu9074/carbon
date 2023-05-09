@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error will migrate in future commit
-import createNullService from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/NullService';
+import createNullService, {
+  ServiceNullService
+} from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/NullService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 
-export default class SceneServiceLocator extends BaseServiceLocator<any> {
+export default class SceneServiceLocator extends BaseServiceLocator<ServiceNullService> {
   constructor() {
     super(createNullService);
   }

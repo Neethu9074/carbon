@@ -6,14 +6,20 @@
 // @ts-expect-error This will be fixed in UI-foundation
 import RoEmitter from '@instana/roemitter';
 
-export default function createEventBusService() {
+export interface EventBusService {
+  emit: (msg: string, payload: boolean) => void;
+  on: (msg: string) => void;
+  dispose: () => void;
+}
+
+export default function createEventBusService(): EventBusService {
   let eventEmitter = new RoEmitter(`global_event_bus`);
 
-  function emit(msg: string, payload: boolean) {
+  function emit(msg: string, payload: boolean): void {
     return eventEmitter.emit(msg, payload);
   }
 
-  function on(msg: string) {
+  function on(msg: string): void {
     return eventEmitter.on(msg);
   }
 
