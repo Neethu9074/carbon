@@ -3,9 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-function noop() {}
+import { noop } from 'in-services/fixedObjects';
 
-const nullService = {
+export interface ServiceNullService {
+  getScene: () => GetScene;
+  dispose: () => void;
+}
+
+interface GetScene {
+  addSceneObject: () => void;
+  removeSceneObject: () => void;
+  requestRendering: () => void;
+}
+
+const nullService: ServiceNullService = {
   getScene: () => ({ addSceneObject: noop, removeSceneObject: noop, requestRendering: noop }),
   dispose: noop
 };
