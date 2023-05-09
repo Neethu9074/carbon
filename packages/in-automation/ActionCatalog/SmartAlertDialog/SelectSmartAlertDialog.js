@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack } from '@instana/components';
 
 // import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import SmartAlertSelectionList from 'in-alerting/smart-alerts/applications/list/SmartAlertSelectionList';
+import SmartAlertSelectionList from 'in-automation/ActionCatalog/SmartAlertDialog/SmartAlertSelectionList';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close } from 'in-components/DialogPresenter/store';

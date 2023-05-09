@@ -12,7 +12,7 @@ import {
   selectActionColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import SmartAlertsBaseList from 'in-automation/ActionCatalog/SmartAlertDialog/SmartAlertsBaseList';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 
 /* Application specific selection list */
@@ -20,7 +20,6 @@ export default function SmartAlertSelectionList({
   onNoData,
   selection = [],
   onChange,
-  getGlobalAlertConfigFetchFunction,
   getLocalAlertConfigsFetchFunction,
   pageSize
 }) {
@@ -32,7 +31,6 @@ export default function SmartAlertSelectionList({
       configsCategory={configsCategory}
       setConfigsCategory={setConfigsCategory}
       getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
-      getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
       columnDefinitions={getColumnDefinitions(selection, onChange, isCategoryGlobal(configsCategory))}
       sortOptions={sortOptions}
       extraSearchAttributes={[getMetricName]}
@@ -62,7 +60,6 @@ SmartAlertSelectionList.propTypes = {
    * This is done so that it is possible to configure the respective fetcher function from teh outside
    * aka. injecting params etc.
    */
-  getGlobalAlertConfigFetchFunction: PropTypes.func,
   /**
    * A function which returns an observable resolving with the api call result for
    * local smart alert configsSelected. Please wrap http() calls in createObservable()
