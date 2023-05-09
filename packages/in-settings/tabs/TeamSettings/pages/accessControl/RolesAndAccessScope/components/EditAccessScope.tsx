@@ -222,6 +222,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           title={t('in-settings:productAreas.title_global_functions')}
           productAreas={[
             ProductArea.MIXED,
+            ProductArea.LOGS,
             ProductArea.DASHBOARD,
             ProductArea.SYNTHETICS,
             ProductArea.AUTOMATION,
