@@ -17,6 +17,8 @@ import {
   NewAction,
   saveAction,
   saveNewAction,
+  concatObservables,
+  addAssociations,
   getAction,
   createAction
 } from 'in-automation/api';
@@ -172,13 +174,20 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
 
 function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form);
+  // console.log("actionSpecification----->",actionSpecification);
+  const associationsdata = {
+    action_id: id,
+    application_alert_ids: actionSpecification?.applicationAlertConfigIds
+  };
+
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    return saveNewAction(actionSpecification);
+    // return saveNewAction(actionSpecification);
+    return concatObservables(saveNewAction(actionSpecification), addAssociations(associationsdata));
   } else {
     editActionTracker({
       actionType: actionSpecification.type,
@@ -195,6 +204,7 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
   const tags = (form.get('tags') as FormField<Tag[]>).value;
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
+  const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
 
   const fields: Field[] = [];
 
@@ -270,6 +280,7 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
     type,
     tags: tags.map((tag: Tag) => tag.value),
     inputParameters,
-    selectedEvents
+    selectedEvents,
+    applicationAlertConfigIds
   };
 }
