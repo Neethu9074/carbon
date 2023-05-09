@@ -17,7 +17,6 @@ import {
   NewAction,
   saveAction,
   saveNewAction,
-  concatObservables,
   addAssociations,
   getAction,
   createAction
@@ -174,20 +173,18 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
 
 function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form);
-  // console.log("actionSpecification----->",actionSpecification);
-  const associationsdata = {
-    action_id: id,
-    application_alert_ids: actionSpecification?.applicationAlertConfigIds
-  };
-
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    // return saveNewAction(actionSpecification);
-    return concatObservables(saveNewAction(actionSpecification), addAssociations(associationsdata));
+    return saveNewAction(actionSpecification).flatMap(action =>
+      addAssociations({
+        action_id: action.id,
+        application_alert_ids: actionSpecification?.applicationAlertConfigIds
+      })
+    );
   } else {
     editActionTracker({
       actionType: actionSpecification.type,

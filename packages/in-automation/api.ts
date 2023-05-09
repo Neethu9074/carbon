@@ -25,6 +25,7 @@ import { t } from 'in-i18n';
 
 const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions`;
+const associationsUrl = `${automationAPIBase}/settings/actions-associations`;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -64,7 +65,7 @@ export function getAction(actionId: string): Observable<Action> {
 }
 
 export function saveNewAction(actionSpecification: NewAction) {
-  return http({
+  return http<Action>({
     method: 'POST',
     maxRetries: 3,
     url: actionUrl,
@@ -435,7 +436,7 @@ export function addAssociations(data: any) {
   return http({
     method: 'POST',
     maxRetries: 3,
-    url: `${automationAPIBase}/actions-associations`,
+    url: associationsUrl,
     headers: getCsrfHeader(),
     data: data
   }).map(response => response.body);
