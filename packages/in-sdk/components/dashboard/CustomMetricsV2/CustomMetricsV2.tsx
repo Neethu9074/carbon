@@ -10,13 +10,13 @@ import { Map } from 'immutable';
 import { Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
-import { beeinstanaHistogramsEnabled } from 'in-services/featureFlags';
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
-import { getInfraGranularity } from 'in-stores/metric/metric';
+import { beeinstanaHistogramsEnabled } from 'in-services/featureFlags';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import Table from 'in-sdk/components/dashboard/Table';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';

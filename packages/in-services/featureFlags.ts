@@ -163,4 +163,5 @@ export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitor
 
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
+export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', false);

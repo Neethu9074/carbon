@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'playwithEnabled',
+    instanaCtlKey: 'feature.playwithEnabled.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
     defaultValue: false

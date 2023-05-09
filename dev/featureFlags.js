@@ -80,6 +80,8 @@ module.exports = {
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
   oracleRacMonitoringEnabled: false,
+  recurrentMaintenanceWindows: true,
+  playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
   kongEnabled: false
 };
