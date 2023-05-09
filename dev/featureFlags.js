@@ -80,7 +80,7 @@ module.exports = {
   limitVisibleNestingLevelsInTraceEnabled: true,
   oracleRacMonitoringEnabled: false,
   recurrentMaintenanceWindows: true,
-  playwithEnabled: true,
+  playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
   kongEnabled: false
 };
