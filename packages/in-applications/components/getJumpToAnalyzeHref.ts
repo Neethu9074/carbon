@@ -10,7 +10,7 @@ import { combineLatest } from '@instana/observables';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { GetLinkToAnalyzeProps } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Result } from 'in-types';
 
@@ -40,9 +40,13 @@ function getLabel(result: Result<ResultWithLabel>) {
   return get(result, ['data', 'label'], null);
 }
 
-export default function getJumpToAnalyzeHref$(ids: GetLabelsProps, additionalParams: any) {
-  return getLabels(ids).flatMap(({ applicationLabel, serviceLabel, endpointLabel }) =>
-    getLinkToAnalyze({
+export default function getJumpToAnalyzeHref$(
+  ids: GetLabelsProps,
+  additionalParams: any,
+  getLinkToApplicationAnalyze: (props: Partial<GetLinkToAnalyzeProps>) => string
+) {
+  return getLabels(ids).map(({ applicationLabel, serviceLabel, endpointLabel }) =>
+    getLinkToApplicationAnalyze({
       applicationName: applicationLabel,
       serviceName: serviceLabel,
       endpointName: endpointLabel,

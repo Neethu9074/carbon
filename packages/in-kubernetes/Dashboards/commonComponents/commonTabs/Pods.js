@@ -4,7 +4,6 @@
  */
 
 import { get, filter } from 'lodash';
-import { compose } from 'recompose';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -27,6 +26,7 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
@@ -39,7 +39,7 @@ import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -52,13 +52,21 @@ const allColumnDefinitions = [
   {
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
-    getContent(item, { deploymentId, serviceId, nodeId }) {
+    getContent({ entityHealthInfo, pod, statusSummary }, { deploymentId, serviceId, nodeId }) {
+      const { label: podLabel, id: podId } = pod;
+
+      const { maxSeverity } = getHealthyStatus({
+        podConditions: pod.conditions,
+        entityHealthInfo,
+        statusSummary
+      });
+
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
-          label={item.pod.label}
-          href$={getPodDashboard(item.pod.id, { deploymentId, serviceId, nodeId })}
-          severity={item.entityHealthInfo.maxSeverity}
+          label={podLabel}
+          href$={getPodDashboard(podId, { deploymentId, serviceId, nodeId })}
+          severity={maxSeverity}
         />
       );
     }
@@ -67,8 +75,8 @@ const allColumnDefinitions = [
     id: 'namespace',
     label: t('in-kubernetes:dashboards.namespace'),
     optional: true,
-    getContent(item) {
-      return item.pod.namespace;
+    getContent({ pod: { namespace } }) {
+      return namespace;
     }
   },
   {
@@ -170,26 +178,22 @@ const allColumnDefinitions = [
   {
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
-    getContent(item, { timeConfig }) {
-      const statusSuccess = ['running', 'completed', 'pending', 'created', 'started', 'succeeded'];
-      let openIssuesCount = item.entityHealthInfo.openIssues.length;
-      var conditionStatusFalseFound = item.pod.conditions.some(condition => condition.status.toLowerCase() === 'false');
+    getContent({ pod, entityHealthInfo, statusSummary }, { timeConfig }) {
+      const { conditions, id: podId } = pod;
 
-      let maxSeverity = item.entityHealthInfo.maxSeverity;
-      if (
-        (item.entityHealthInfo.openIssues.length === 0 && !statusSuccess.includes(item.statusSummary.toLowerCase())) ||
-        conditionStatusFalseFound
-      ) {
-        openIssuesCount = 1;
-        maxSeverity = 10;
-      }
+      const { maxSeverity, openIssuesCount } = getHealthyStatus({
+        podConditions: conditions,
+        entityHealthInfo,
+        statusSummary
+      });
+
       return (
         <EntityHealthIndicator
           openIssues={openIssuesCount}
           maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          snapshotId={item.pod.id}
+          snapshotId={podId}
           inContentArea
         />
       );
@@ -237,15 +241,12 @@ export function PodsWithNamespaces({ ...props }) {
   return <Pods columnDefinitions={allColumnDefinitions} Table={ServerTableWithUrlState} {...props} />;
 }
 
-const Pods = compose(
-  withUrlState({
-    reducerName: 'setPhase',
-    bind: [phasePodListUrlParameter]
-  })
-)(function Pods(props) {
+const urlStateDefinition = {
+  bind: [phasePodListUrlParameter]
+};
+
+export default function Pods(props) {
   const {
-    phase,
-    setPhase,
     timeConfig,
     namespaceId,
     clusterId,
@@ -256,6 +257,8 @@ const Pods = compose(
     cronJobId,
     Table = ServerTableWithUrlStateWithoutNamespace
   } = props;
+
+  const [{ phase }, setPhase] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
     <ComboBox
@@ -288,7 +291,7 @@ const Pods = compose(
       </Card>
     </>
   );
-});
+}
 
 function getTableData({
   query = '',
@@ -328,5 +331,3 @@ function getTableData({
     granularity: getInfraGranularity(timeConfig)
   });
 }
-
-export default Pods;

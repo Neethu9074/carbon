@@ -33,7 +33,7 @@
         "scriptTitle": "此 HTTP 脚本测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述",
-        "labelFrequency": "频率",
+        "labelFrequency": "频率（分钟）",
         "labelApplications": "选择应用程序"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "主机格式无效"
       },
       "advancedMode": {
-        "buttonContent": "切换到高级模式"
+        "switchModeButton": "切换到高级模式",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "所选测试类型",
+          "rightListLabel": "测试类型",
+          "apiTypeLabel": "简单测试 | 脚本测试",
+          "apiTypeHeadline": "您想创建什么样的合成测试",
+          "apiTypeText": "API 测试可用于监视 Web 应用程序提供的 API。 API 测试可用于度量可用性和响应时间。 简单测试允许您对 URL 执行 ping 操作或测试单个 API。 “脚本”测试允许您提供可以检查一组 API 响应、模拟复杂工作流程以及测试特定功能的脚本。",
+          "selectedTestTypeButton": "选择",
+          "httpScriptTitle": "脚本测试",
+          "httpActionTitle": "简单测试",
+          "browserTypeLabel": "浏览器",
+          "browserTypeHeadline": "浏览器合成测试",
+          "browserTypeText": "浏览器合成测试是一种监视 Web 应用程序性能的方法，通过 Web 浏览器中的脚本模拟用户与 Web 站点的交互，对影响用户体验的问题提供有价值的洞察并确保 Web 站点功能。",
+          "internetServicesTypeLabel": "因特网服务",
+          "internetServicesTypeHeadline": "因特网服务测试",
+          "internetServicesTypeText": "因特网服务合成测试涉及模拟用户与 Web 服务的交互，以监控和测试其性能，帮助识别和预防停机问题。"
+        },
+        "configurationLabel": "配置",
+        "configurationTitle": "配置：此测试将如何工作？",
+        "locationsLabel": "位置",
+        "locationsTitle": "位置：此测试将在何处运行？",
+        "scheduleLabel": "调度",
+        "scheduleTitle": "调度：此测试将在何时运行？",
+        "identifyLabel": "识别",
+        "identifyTitle": "识别：测试将要做什么？",
+        "frequency": "此测试将每 {{frequencyValue}} 分钟运行一次。",
+        "simultaneous": "同时",
+        "simultaneousDescription": "此测试将在所选的每个位置同时运行。",
+        "configStep": {
+          "allowInsecure": "允许不安全",
+          "expectStatusLabel": "期望状态",
+          "expectJSONLabel": "期望 JSON",
+          "expectMatchLabel": "期望匹配",
+          "expectStatusPlaceholder": "输入期望的状态",
+          "expectJSONPlaceholder": "输入期望的 JSON",
+          "expectMatchPlaceholder": "输入期望的字符串",
+          "addValidations": "添加验证",
+          "failedToParseInputAsJson": "无法将输入解析为 JSON。",
+          "jsonRootMustBeAnObject": "JSON 根必须为一个对象。",
+          "mustBeValidHttpReturnCode": "状态必须是有效的 HTTP 返回码。",
+          "shouldBeValidRegExp": "输入的字符串应该是有效的正则表达式。"
+        },
+        "loadMore": "加载更多",
+        "selectTests": {
+          "addLocations": "添加 {{count}} 个位置",
+          "addLocation": "添加位置",
+          "cancel": "取消",
+          "selectLocation": "选择位置"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "浏览器",
+          "internetServicesName": "因特网服务"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "创建新测试"
+    "buttonLabel": "添加合成测试"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "添加合成智能警报"
   },
   "navigation": {
     "synthetics": "合成监视"
@@ -169,7 +225,10 @@
       "namespace": "名称空间",
       "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？",
       "activeTestLinked": "在位置 <strong>{{label}}</strong> ({{status}}) 上分配了活动的测试，确定要除去此位置吗？",
-      "deleteLocation": "删除位置"
+      "deleteLocation": "删除位置",
+      "noDataAvailable": {
+        "message": "{{component}} 不可用"
+      }
     },
     "summary": {
       "successRate": "成功率",
@@ -348,7 +407,7 @@
       "locationListDescription": "没有从数据库中检索到合成位置。"
     },
     "alertList": {
-      "timeThreshold": "故障阈值",
+      "timeThreshold": "时间阈值",
       "testsApplied": "已应用的测试",
       "filterApplied": "已应用的过滤器",
       "violationsCount": "{{violationsCount}} 个故障",

@@ -9,7 +9,7 @@ import React from 'react';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
@@ -54,7 +54,6 @@ export default function PodDashboard({ location }) {
           })
         }}
       />
-
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
@@ -70,7 +69,6 @@ export default function PodDashboard({ location }) {
           />
         )}
       />
-
       <TabView
         result$={getKubernetesPod({
           id: props.podId,
@@ -92,7 +90,6 @@ export default function PodDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );
@@ -113,9 +110,8 @@ function Header(props) {
 }
 
 function renderButtonLine({ podId, timeConfig, result }) {
-  const clusterName = result.data?.clusterId;
-  const namespaceName = result.data?.namespace;
-  const podName = result.data?.label;
+  const { clusterId: clusterName, namespace: namespaceName, label: podName } = result?.data;
+
   return (
     <>
       <DashboardButtonLine
@@ -123,7 +119,9 @@ function renderButtonLine({ podId, timeConfig, result }) {
         timeConfig={timeConfig}
         plugin={plugins.kubernetesPod}
         tagFilters={getFilters({ clusterName, namespaceName, podName })}
+        pod={result.data}
       />
+
       <AnalyzeCallsButton
         clusterName={clusterName}
         namespaceName={namespaceName}
@@ -135,7 +133,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
 }
 
 function renderButtonLineSecondary({ timeConfig, podId, result }) {
-  const podName = result.data?.label;
+  const podName = result?.data?.label;
 
   return (
     <>

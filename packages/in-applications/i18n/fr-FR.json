@@ -194,6 +194,7 @@
     "hiddenCalls": "Appels masqués",
     "fastQueryMode": "Mode requête rapide",
     "fastQueryModeTooltip": "Le mode requête rapide permet d'exécuter des requêtes sur un sous-ensemble d'appels ou de traces si l'exécution sur le jeu de données complet risque de prendre trop de temps.",
+    "filteredInThisTrace": "filtré dans cette trace",
     "listBatchTypeTooltip": "Ce {{type}} est traité par lots et représente {{batchCount}} {{types}} individuels.",
     "listBatchLatencyTooltip": "Temps d'attente total de {{batchCount}} {{types}} par lots.",
     "traceIdTooltip": "Certaines données relatives à cette trace sont retardées. Rechargez la page dans quelques instants. C'est le cas, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Seuls les appels synthétiques sont affichés et inclus dans les métriques."
   },
   "traceDetail": {
+    "beta": "BÊTA",
+    "foreignRootCall": "Non surveillé par Instana",
+    "notYetReceivedRootCall": "Appel racine non encore reçu",
     "tabs": {
       "summary": {
         "duplicateCalls": "Appels en double",
@@ -575,16 +579,20 @@
         "largeTrace": "Grande trace",
         "largeTraceLink": "Cette trace est grande, et son rendu peut entraîner des incidents de performances dans votre navigateur. Vous pouvez <linkToDocs>télécharger la trace</linkToDocs> pour une inspection manuelle ou tenter d'effectuer le rendu de la trace dans votre navigateur. Nous ne rendrons qu'un sous-ensemble des composants, afin d'augmenter les performances de la  tentative.",
         "calls": "Appels",
-        "erroneousTrace": "Trace erronée",
         "attemptToRenderTrace": "Trace de tentative de rendu",
         "analyzeBeacons": "Analyser les balises",
         "adjustedTimeConfigForTrace": "L'intervalle a été ajusté pour inclure tous les appels de la trace sélectionnée.",
-        "adjustedTimeConfigForBeacon": "La période a été ajustée pour inclure la balise sélectionnée."
+        "adjustedTimeConfigForBeacon": "La période a été ajustée pour inclure la balise sélectionnée.",
+        "timeLineViewNotAvailable": "Il s'agit d'une trace comportant plus de {{maximumNumberOfCallsForLargeTraceConsideration}} appels. La vue chronologique n'est pas disponible. Seuls l'appel sélectionné et ses frères immédiats sont affichés initialement."
       }
     },
     "components": {
       "callTreeHeaderParent": "Charger l'appel parent",
-      "callTreeHeaderCalls": "Charger plus d'appels"
+      "callTreeHeaderCalls": "Charger plus d'appels",
+      "callTreeLoadingOfParentFailed": "L'appel parent ne peut pas être chargé pour le moment",
+      "callTreeLoadingOfCallsFailed": "Les appels ne peuvent pas être chargés pour le moment",
+      "retry": "Réessayer",
+      "treeHeaderLatency": "Temps d'attente de l'appels racine"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>Est-il bon de voir d'autres services ?</bold>",
     "alternativeServicesProblem": "<bold>Non</bold>, si le nom du service en cours provient de l'en-tête HTTP \"Host\" (règle de mappage de service dont l'ID est call.http.host) et que le nom du service de remplacement ne le fait pas (car son nom provient d'une règle basée sur des balises d'infrastructure), ou vice versa. Il s'agit de services en double.",
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
-  },
-  "widgetNotActive": {
-    "title": "Le widget n'est pas pris en charge en mode interactif",
-    "button": "Arrêter le mode opérationnel"
   }
 }

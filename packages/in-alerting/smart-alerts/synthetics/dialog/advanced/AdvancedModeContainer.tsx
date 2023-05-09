@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm } from 'formalistic';
+import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import {
@@ -13,18 +13,9 @@ import {
   MainDialogControl,
   SlideInConfig
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-// @ts-expect-error needs migration
-import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
-// @ts-expect-error needs migration
-import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
+import SyntheticsAlertProperties from 'in-alerting/smart-alerts/synthetics/dialog/SyntheticsAlertProperties';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -57,7 +48,6 @@ export default function AdvancedModeContainer(
     isTagFilterFormModelValid
   } = props;
 
-  const nameField = form.get('name') as Field<string>;
   return (
     <StepsContainer
       messages={messages}
@@ -118,39 +108,7 @@ export default function AdvancedModeContainer(
           valid: true,
           content: (
             <Section>
-              <AlertPropertiesContainer
-                renderAlertProperties={() => (
-                  <AlertProperties
-                    form={form}
-                    onChange={onChange}
-                    getDescriptionPlaceholder={getDescriptionPlaceholder}
-                    renderAlertPopertiesTitleRow={() => (
-                      <AlertPropertiesTitleRow
-                        form={form}
-                        onChange={onChange}
-                        getTitlePlaceholder={getTitlePlaceholder}
-                        placeholders={[]}
-                      />
-                    )}
-                  />
-                )}
-                renderAlertPreview={() => {
-                  const renderHeadline = () => (
-                    <AlertPreviewHeadline title={nameField?.value || getTitlePlaceholder()} />
-                  );
-                  return (
-                    <AlertPreview
-                      form={form}
-                      renderHeadline={renderHeadline}
-                      getDescriptionPlaceholder={(_form: MapForm<any>) =>
-                        (form.get('description') as Field<string>).value || getDescriptionPlaceholder(form)
-                      }
-                      entityLabel="Test_Name"
-                      entityIconType="lib_synthetic"
-                    />
-                  );
-                }}
-              />
+              <SyntheticsAlertProperties form={form} onChange={onChange} />
             </Section>
           )
         }

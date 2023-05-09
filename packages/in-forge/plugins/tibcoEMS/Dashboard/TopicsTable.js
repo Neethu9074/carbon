@@ -5,23 +5,20 @@
 
 import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import getTibcoEMSTopics from 'in-forge/plugins/tibcoEMS/subscriptions/getTibcoEMSTopics';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { just } from '@instana/observables';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
   {
     title: t('in-forge:plugins.tibcoEMS.titleName'),
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
+      getSnapshotId(row) {
         return row.key;
       }
     }
@@ -31,10 +28,10 @@ const cols = [
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.key;
       },
-      getMetricName(row) {
-        return 'topics.' + row.key + '.subscriberCount';
+      getMetricName() {
+        return 'subscriberCount';
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -44,13 +41,13 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.tibcoEMS.titleInMessages'),
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.key;
       },
-      getMetricName(row) {
-        return 'topics.' + row.key + '.inMessagesCount';
+      getMetricName() {
+        return 'inMessagesCount';
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -60,13 +57,13 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.tibcoEMS.titleOutMessages'),
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.key;
       },
-      getMetricName(row) {
-        return 'topics.' + row.key + '.outMessagesCount';
+      getMetricName() {
+        return 'outMessagesCount';
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -76,13 +73,13 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.key;
       },
-      getMetricName(row) {
-        return 'topics.' + row.key + '.inMessages';
+      getMetricName() {
+        return 'inMessages';
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -92,13 +89,13 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.tibcoEMS.labelOutMessagesRate'),
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
-        return row.snapshotId;
+        return row.key;
       },
-      getMetricName(row) {
-        return 'topics.' + row.key + '.outMessages';
+      getMetricName() {
+        return 'outMessages';
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -109,27 +106,22 @@ const cols = [
 ];
 
 export default connectTo(
-  props => {
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'topicNames'),
-      snapshot: just(props.snapshot),
-      timeConfig: just(props.timeConfig)
-    };
-  },
-  function TopicsTable({ data, snapshot, timeConfig }) {
-    if (!data || !data.get('raw_payload')) {
+  props => ({
+    topics: timeConfig$
+      .flatMap(timeConfig => getTibcoEMSTopics({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(getSnapshots)
+  }),
+
+  function TopicsTable({ topics, timeConfig }) {
+    if (topics == null || topics.length === 0) {
       return null;
     }
 
-    const topicNames = data.get('raw_payload');
-    if (topicNames.size === 0) {
-      return null;
-    }
-
-    const rows = topicNames.toArray().map(key => {
+    const rows = topics.map(topic => {
       return {
-        key,
-        snapshotId: snapshot.get('id'),
+        key: topic.get('id'),
+        topicName: topic.getIn(['data', 'topicName']),
+        topic,
         timeConfig
       };
     });
@@ -140,78 +132,7 @@ export default connectTo(
         cardTitle={t('in-forge:plugins.tibcoEMS.titleTopicsCount', { len: rows.length })}
         cols={cols}
         rows={rows}
-        getRowDetails={getRowDetails}
       />
     );
   }
 );
-
-function getRowDetails(row) {
-  const snapshotId = row.snapshotId;
-  const timeConfig = row.timeConfig;
-
-  return (
-    <div>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titlePendingMessages')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.detailed,
-              metrics: ['topics.' + row.key + '.pendingMessagesCount'],
-              labels: [t('in-forge:plugins.tibcoEMS.labelCount')],
-              type: 'line'
-            }}
-            y2={{
-              formatter: bytesTwoDecimalPlaces,
-              metrics: ['topics.' + row.key + '.pendingMessagesSize'],
-              labels: [t('in-forge:plugins.tibcoEMS.labelSize')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleSubscribers')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.detailed,
-              metrics: ['topics.' + row.key + '.subscriberCount'],
-              labels: [t('in-forge:plugins.tibcoEMS.labelCount')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-
-      <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleMessages')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: number.detailed,
-            metrics: ['topics.' + row.key + '.inMessagesCount', 'topics.' + row.key + '.outMessagesCount'],
-            labels: [
-              t('in-forge:plugins.tibcoEMS.labelInMessagesCount'),
-              t('in-forge:plugins.tibcoEMS.labelOutMessagesCount')
-            ],
-            type: 'line'
-          }}
-          y2={{
-            formatter: number.detailed,
-            metrics: ['topics.' + row.key + '.inMessages', 'topics.' + row.key + '.outMessages'],
-            labels: [
-              t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
-              t('in-forge:plugins.tibcoEMS.labelOutMessagesRate')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-    </div>
-  );
-}

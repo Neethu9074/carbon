@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { KeyValue } from '@instana/components';
+import { ColumnizedContent, KeyValue, Li, Ul } from '@instana/components';
 
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
@@ -90,8 +89,21 @@ function DefaultListRenderer({
   currentDeletingItemIds,
   columnDefinitions = defaultColumnDefinitions,
   getUserLink,
-  onUserClick
+  onUserClick,
+  page,
+  setPage,
+  itemsResult
 }) {
+  /**
+   * called to remove a user
+   * in order to fix the pagination the page number needs to be decreased - after removing the last user of a page
+   */
+  const remove = id => {
+    if (items.length === 1 && itemsResult.length !== 1) {
+      setPage(page - 1);
+    }
+    deleteItem(id);
+  };
   return (
     <Ul>
       {items.map(user => {
@@ -108,7 +120,7 @@ function DefaultListRenderer({
               email={user.email}
               joinedViaIdpMapping={members?.find(m => m.userId === user.id).joinedViaIdpMapping}
               groups={user.groupCount}
-              deleteItem={deleteItem}
+              deleteItem={remove}
               currentDeletingItemIds={currentDeletingItemIds}
             />
           </Li>

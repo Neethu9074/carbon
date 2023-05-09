@@ -8,6 +8,7 @@ import RelatedResources from 'in-sap/Dashboards/SapJavaSystem/tabs/RelatedResour
 import Infrastructure from 'in-sap/Dashboards/SapJavaSystem/tabs/Infrastructure';
 import SelfMonitoring from 'in-sap/Dashboards/SapJavaSystem/tabs/SelfMonitoring';
 import { sapJavaSystemDashboardFullyQualified } from 'in-sap/navigation/paths';
+import ConfigMetrics from 'in-sap/Dashboards/SapJavaSystem/tabs/ConfigMetrics';
 import AvailMetrics from 'in-sap/Dashboards/SapJavaSystem/tabs/AvailMetrics';
 import ExcepMetrics from 'in-sap/Dashboards/SapJavaSystem/tabs/ExcepMetrics';
 import PerfMetrics from 'in-sap/Dashboards/SapJavaSystem/tabs/PerfMetrics';
@@ -22,17 +23,22 @@ export default [
   },
   {
     label: t('in-sap:dashboards.availability'),
-    path: `${sapJavaSystemDashboardFullyQualified}/availMetrics`,
+    path: `${sapJavaSystemDashboardFullyQualified}/availability`,
     component: AvailMetrics
   },
   {
+    label: t('in-sap:dashboards.configurations'),
+    path: `${sapJavaSystemDashboardFullyQualified}/configurations`,
+    component: ConfigMetrics
+  },
+  {
     label: t('in-sap:dashboards.exceptions'),
-    path: `${sapJavaSystemDashboardFullyQualified}/excepMetrics`,
+    path: `${sapJavaSystemDashboardFullyQualified}/exceptions`,
     component: ExcepMetrics
   },
   {
     label: t('in-sap:dashboards.performance'),
-    path: `${sapJavaSystemDashboardFullyQualified}/perfMetrics`,
+    path: `${sapJavaSystemDashboardFullyQualified}/performance`,
     component: PerfMetrics
   },
   {

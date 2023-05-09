@@ -13,8 +13,8 @@ import tableDefinition from 'in-forge/plugins/containerd/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/containerd/kpiDefinitions';
 import { isWithinKubernetes } from 'in-forge/plugins/containerd/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
+import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { hasRestrictedAccess } from 'in-stores/permission';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { plugins } from 'in-forge/constants';
 
@@ -41,7 +41,7 @@ registerSnapshotDefinition({
           timeConfig
         }
       },
-      containerInfoEnabled && containerInfoAvailable(snapshot) && !hasRestrictedAccess && containerInfoButtonConfig
+      containerInfoEnabled && containerInfoAvailable(snapshot) && hasInfrastructureAccess && containerInfoButtonConfig
     ].filter(Boolean);
   }
 });

@@ -22,6 +22,17 @@ import { getChartWiggleRoom } from 'in-sdk/snapshot';
 
 const dirNames = fs.readdirSync(__dirname).filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
 
+const internalDirNames = fs
+  .readdirSync(path.join(__dirname, 'bpm'))
+  .filter(file => fs.statSync(path.join(__dirname, 'bpm', file)).isDirectory());
+internalDirNames.forEach(internalDirName => {
+  dirNames.push(internalDirName);
+});
+var index = dirNames.indexOf('bpm');
+if (index >= 0) {
+  dirNames.splice(index, 1);
+}
+
 describe('in-forge/plugins', () => {
   it('must define as many short plugin IDs as long plugin IDs', () => {
     expect(Object.keys(plugins).length).to.equal(Object.keys(fullyQualifiedPlugins).length);

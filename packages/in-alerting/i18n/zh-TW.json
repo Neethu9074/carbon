@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "不支援的運算子：{{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "新增智慧型警示",
     "applicationSmartAlert": "應用程式智慧型警示",
     "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
     "titleNoSmartAlertsConfigured": "未配置任何智慧型警示",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "選取自訂事件",
         "customEventListInfoLabel": "顯示過去 7 天內已觸發的自訂事件"
       },
-      "addSmartAlert": "新增智慧型警示",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "啟用",
     "disable": "停用",
     "synthetics": {
+      "addSmartAlert": "新增綜合智慧型警示",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
@@ -1045,7 +1046,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "失敗臨界值",
+        "timeThreshold": "時間臨界值",
         "filterApplied": "已套用過濾器",
         "violationsCount": "{{violationsCount}} 次失敗",
         "numberOfFailures": "失敗警示"
@@ -1053,33 +1054,66 @@
       "simple": {
         "stepConfigsStep1Title": "步驟 1：測試",
         "simpleAlertConfigDialogStep1Headline": "應該警示哪些綜合測試？",
+        "simpleAlertConfigDialogStep1Tooltip": "針對每一個綜合測試，每個位置將獨立傳送個別警示",
         "stepConfigsStep4Title": "步驟 4：警示通道",
         "alertDialogHeadline": "警示中應該顯示哪些內容？",
         "stepConfigsStep2Title": "步驟 2：範圍",
         "scopeHeadline": "您希望警示在何處觸發？",
-        "stepConfigsStep3Title": "步驟 3：臨界值",
+        "stepConfigsStep3Title": "步驟 3：時間臨界值",
         "stepConfigsStep5Title": "步驟 5：警示內容",
-        "thresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？"
+        "thresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？",
+        "thresholdTitleHelpText": "根據在綜合測試建立中配置的重試間隔，在 PoP 中判定失敗。",
+        "thresholdSubTitleHelpText": "如果每個位置都發生指定的失敗次數，您會收到每個位置的警示。",
+        "slider": {
+          "failuresWithCount": "{{count}} 個失敗",
+          "failuresWithCount_plural": "{{count}} 個失敗",
+          "failuresWithCount_0": "{{count}} 個失敗",
+          "failuresWithCount_1": "{{count}} 個失敗",
+          "failuresWithCount_2": "{{count}} 個失敗"
+        },
+        "alertPropertiesTitlePlaceholder": "在這裡插入標題",
+        "alertPropertiesDescriptionPlaceholder": "在這裡插入說明"
       },
       "advanced": {
         "alertChannelsLabel": "警示通道",
+        "alertChannelsTitle": "誰應該取得警示？",
         "scopeFilterLabel": "範圍",
-        "alertTestsLabel": "虛構測試",
+        "alertTestsLabel": "綜合測試",
         "alertTestsTitle": "綜合測試：應警示哪些綜合測試？",
         "propertiesLabel": "警示內容",
-        "failureThreshold": "失敗臨界值",
-        "failureThresholdLabel": "失敗臨界值",
+        "alertPropertiesPreviewTitlePlaceholder": "[在這裡插入標題]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[在這裡插入說明]",
+        "propertiesTitle": "警示通知應包含哪些內容？",
+        "failureThreshold": "時間臨界值",
+        "failureThresholdLabel": "時間臨界值",
         "failureThresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "新增綜合測試",
         "selectAlertTestButton": "新增綜合測試",
         "addTest": "新增 {{count}} 個測試",
-        "alertTests": "虛構測試",
+        "alertTests": "綜合測試",
         "noTestSelectedText": "未選取綜合測試",
         "alertTestEntityName": "綜合測試 {{entityName}}",
         "testAttachedCount": "附加測試 ({{count}})",
         "testAttached": "附加的測試"
+      },
+      "details": {
+        "threshold": "臨界值",
+        "alertConfigurationListTitleAlertConfiguration": "警示配置",
+        "scope": {
+          "perLocation": {
+            "shortText": "個別位置"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "選取的測試",
+        "alertConfigurationTitleAlertChannels": "警示通道",
+        "alertConfigurationTitleAlertProperties": "警示內容",
+        "failureThreshold": "{{failureCount}} 個失敗",
+        "alertConfigurationTitleScope": "範圍",
+        "noOfFailure": "失敗次數",
+        "timeThreshold": "時間臨界值",
+        "alertingType": "警示類型"
       }
     }
   }

@@ -33,7 +33,7 @@
         "scriptTitle": "Qual é o nome deste teste de Script de HTTP",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
-        "labelFrequency": "Frequência",
+        "labelFrequency": "Frequência (minuto)",
         "labelApplications": "Selecionar um aplicativo"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "O formato do host não é válido"
       },
       "advancedMode": {
-        "buttonContent": "Alternar para o modo avançado"
+        "switchModeButton": "Alternar para o modo avançado",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Tipo de teste selecionado",
+          "rightListLabel": "Tipo de teste",
+          "apiTypeLabel": "Teste simples | Teste de script",
+          "apiTypeHeadline": "Qual tipo de teste sintético você gostaria de criar",
+          "apiTypeText": "Os testes de API podem ser usados para monitorar as APIs fornecidas por aplicativos da web. Os testes de API podem ser usados para medir a disponibilidade e o tempo de resposta. O teste Simples permite executar ping em uma URL ou testar uma única API. O teste de Script permite fornecer um script que pode verificar um conjunto de respostas de API, simular fluxos de trabalho complexos e testar funcionalidades específicas.",
+          "selectedTestTypeButton": "Selecionar",
+          "httpScriptTitle": "Teste de script",
+          "httpActionTitle": "Teste simples",
+          "browserTypeLabel": "Navegador",
+          "browserTypeHeadline": "Testes sintéticos do navegador",
+          "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
+          "internetServicesTypeLabel": "Serviços de Internet",
+          "internetServicesTypeHeadline": "Testes de serviços da Internet",
+          "internetServicesTypeText": "O teste sintético de serviços da Internet envolve a simulação de interações do usuário com os serviços da web para monitorar e testar seu desempenho, ajudando a identificar e evitar problemas de tempo de inatividade."
+        },
+        "configurationLabel": "Configuração",
+        "configurationTitle": "Configuração: como esse teste funcionará?",
+        "locationsLabel": "Locais",
+        "locationsTitle": "Locais: onde esse teste será executado?",
+        "scheduleLabel": "Planejar",
+        "scheduleTitle": "Planejamento: quando esse teste será executado?",
+        "identifyLabel": "Identificar",
+        "identifyTitle": "Identificar: o que o teste vai fazer?",
+        "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
+        "simultaneous": "Simultânea",
+        "simultaneousDescription": "Esse teste será executado simultaneamente em cada local selecionado.",
+        "configStep": {
+          "allowInsecure": "Permitir inseguro",
+          "expectStatusLabel": "Status esperado",
+          "expectJSONLabel": "JSON esperado",
+          "expectMatchLabel": "Correspondência esperada",
+          "expectStatusPlaceholder": "Inserir o status esperado",
+          "expectJSONPlaceholder": "Inserir o JSON esperado",
+          "expectMatchPlaceholder": "Inserir a sequência esperada",
+          "addValidations": "Incluir validação",
+          "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
+          "jsonRootMustBeAnObject": "A raiz JSON deve ser um objeto.",
+          "mustBeValidHttpReturnCode": "O status deve ser um código de retorno HTTP válido.",
+          "shouldBeValidRegExp": "A sequência inserida deve ser uma expressão regular válida."
+        },
+        "loadMore": "Carregar mais",
+        "selectTests": {
+          "addLocations": "Incluir {{count}} locais",
+          "addLocation": "Incluir local",
+          "cancel": "Cancelar",
+          "selectLocation": "Selecionar localização"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Navegador",
+          "internetServicesName": "Serviços de Internet"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Criar novo teste"
+    "buttonLabel": "Incluir teste sintético"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "Incluir alerta inteligente sintético"
   },
   "navigation": {
     "synthetics": "Monitoramento sintético"
@@ -169,7 +225,10 @@
       "namespace": "Namespace",
       "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Existem testes ativos designados ao local <strong>{{label}}</strong> ({{status}}), você tem certeza de que deseja remover esse local?",
-      "deleteLocation": "Excluir local"
+      "deleteLocation": "Excluir local",
+      "noDataAvailable": {
+        "message": "{{component}} não disponível"
+      }
     },
     "summary": {
       "successRate": "Taxa de sucesso",
@@ -348,7 +407,7 @@
       "locationListDescription": "Não há locais sintéticos recuperados do banco de dados."
     },
     "alertList": {
-      "timeThreshold": "Limite de falha",
+      "timeThreshold": "Limite de tempo",
       "testsApplied": "Testes aplicados",
       "filterApplied": "Filtro aplicado",
       "violationsCount": "{{violationsCount}} falhas",

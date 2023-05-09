@@ -101,6 +101,8 @@ for `yarn dev / yarn debug`:
 - `TARGET`:
   - If this is set to `test` (non case-sensitive) the UI client will connect to the test environment automatically
     instead of asking you for the target environment.
+  - If this is set to `heliconia` (non case-sensitive) the UI client will connect to the heliconia environment automatically
+    instead of asking you for the target environment.
   - If this is set to `local` (non case-sensitive) the UI client will connect to your local back end instead of asking.
   - Otherwise, `yarn run dev` will ask for the target environment during startup.
 - `BUILD_MODE`:

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -13,6 +15,7 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import getHostByKubernetesNodeId from 'in-kubernetes/Dashboards/utils/getHostByKubernetesNodeId';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
@@ -20,13 +23,49 @@ import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
+import { pendingResult } from 'in-services/fixedObjects';
+import EntityLink from 'in-components/EntityLink';
+import { shorten } from 'in-services/util/string';
+import { getLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
+
+function EntityHost({ nodeId, timeConfig }) {
+  const host = useObservable(getHostByKubernetesNodeId({ nodeId, timeConfig }), []) ?? pendingResult;
+  const isLoading = host && get(host, ['progress', 'loading']);
+  const isHostUnmonitored = host?.errors.length > 0;
+  const hostData = host?.data;
+
+  if (!isLoading && !isHostUnmonitored) {
+    const shortenStringLength = 25;
+    const label = getLabel(hostData);
+    const shortenedLabel = shorten(getLabel(hostData), shortenStringLength);
+    const isLabelShortened = label.length > shortenStringLength;
+
+    return (
+      <EntityLink
+        snapshot={hostData}
+        label={shortenedLabel}
+        href$={getDashboardLink(hostData.get('id'), {
+          pathname: '/physical/dashboard',
+          to: timeConfig.to,
+          focusedMoment: timeConfig.to
+        })}
+        {...(isLabelShortened && {
+          tooltip: getLabel(hostData)
+        })}
+      />
+    );
+  }
+
+  return valueMissingPlaceholder;
+}
 
 const columnDefinitions = [
   {
@@ -140,6 +179,14 @@ const columnDefinitions = [
           inContentArea
         />
       );
+    }
+  },
+  {
+    id: 'host',
+    label: t('in-kubernetes:dashboards.monitoredByInstana'),
+    sortable: true,
+    getContent({ snapshotIdForMetric }, { timeConfig }) {
+      return <EntityHost nodeId={snapshotIdForMetric} timeConfig={timeConfig} />;
     }
   }
 ];

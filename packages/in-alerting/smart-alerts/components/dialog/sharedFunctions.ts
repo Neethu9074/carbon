@@ -87,6 +87,7 @@ export function duplicateAlertConfig<
 
   return {
     ...withoutId,
+    duplicateFrom: id,
     name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: config.name }),
     builtIn: false
   };

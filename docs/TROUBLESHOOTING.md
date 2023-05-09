@@ -107,3 +107,20 @@ To connect a local ui-client you will need to prefix `local-instana` to the tena
 - make sure nginx is started
 - make sure hosts file has appropriate entries
 - if locally-run UI page isn't working, refresh the webpage you have with the remote UI for unit0-tenant0 (or whatever tenant you're connecting to), then try again. Make sure you're logged in there.
+
+
+## Connecting local UI client to Heliconia environment
+
+Similar to the above case where you are connecting your locally built ui to a remote self hosted fyre environment, you can connect to the new Heliconia environment backend (eventual pink replacement).  
+
+- Add an local-instana entry with the base domain for heliconia to your `/etc/hosts` file if it is not already there :
+```sh
+sudo sh -c 'echo "127.0.0.1 local-instana.instanatest.rocks" >> /etc/hosts'
+```
+
+- Once you're able to `yarn run dev` and see the prompt asking `Environment?`, select the `Custom SaaS (run local UI against an arbitrary tenant unit in one of our SaaS or internal regions)` option. Fill out:
+  - Base Domain? `instanatest.rocks`
+  - Tenant? `tenant1`
+  - Unit? `unit1`
+- Alternatively, you can select in the `Environment?` question the environment `K8s Test (heliconia)` or run `TARGET=heliconia yarn run dev` as a short cut.
+- After a minute, a window should open in your browser for `https://local-instana.instanatest.rocks:4000/`, terminal output should clear, and it should display that same url and that everything is ok (No issues found.)...(or not).

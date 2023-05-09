@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { Fragment, useCallback } from 'react';
@@ -13,7 +14,9 @@ import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
+import { beeinstanaHistogramsEnabled } from 'in-services/featureFlags';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import Table from 'in-sdk/components/dashboard/Table';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
@@ -23,6 +26,7 @@ import { t } from 'in-i18n';
 import locals from './CustomMetricsV2.mless';
 
 const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
+const beeInstanaMinimumRollupMillis = 10000;
 
 interface CustomMetricProps {
   specs: MetricsSpec[];
@@ -71,6 +75,7 @@ interface Row {
   tableMetric: number;
   snapshotId: string;
   timeConfig: TimeConfig;
+  rollup?: number;
   metrics: Metric[];
   pinnedMetrics: string[];
   setPinnedMetrics: (p: string[]) => void;
@@ -152,6 +157,12 @@ const cols = [
       },
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getTimeConfig(row: Row) {
+        return row.timeConfig;
+      },
+      getRollup(row: Row) {
+        return row.rollup;
       }
     }
   }
@@ -262,6 +273,7 @@ function getDetails(row: Row) {
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
+      minRollup={adjustMetricRollup(row.type, row.name, getInfraGranularity(row.timeConfig))}
       margins={{
         left: 90,
         right: 90
@@ -281,6 +293,7 @@ export function getDefaultRows({
   specs = DEFAULT_SPECS
 }: GetRowsProps) {
   const snapshotId = snapshot.get('id');
+  const defaultRollup = getInfraGranularity(timeConfig);
 
   const metrics =
     metricIdsResult.data?.reduce<{ [key: string]: Row }>((acc, id) => {
@@ -297,6 +310,7 @@ export function getDefaultRows({
         tableMetric,
         snapshotId,
         timeConfig,
+        rollup: adjustMetricRollup(metric.type, metric.name, defaultRollup),
         setPinnedMetrics,
         pinnedMetrics,
         metrics: []
@@ -336,6 +350,46 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
     tableMetric,
     ...metric
   };
+}
+
+
+/*
+ * Adjusts the metric rollup if necessary
+ * to enable the retrieval of histogram metrics
+ * that are stored only in BeeInstana. Returns
+ * undefined if the rollup does not need to
+ * be changed.
+ */
+function adjustMetricRollup(
+  metricType: string,
+  metricName: string,
+  defaultRollup: number): number | undefined {
+
+    if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
+      if (metricType === "histogram" && nativeBeeInstanaHistogram(metricName)) {
+        return beeInstanaMinimumRollupMillis;
+      }
+    }
+  return;
+}
+
+/*
+ * Returns true if a histogram metric is stored
+ * natively in BeeInstana. Native histograms
+ * do not include _bucket, _sum, or _count as
+ * part of the metric name.
+ */
+function nativeBeeInstanaHistogram(metricName: string): boolean {
+  const nonNativeMetrics = ["_bucket","_count","_sum","_mean","_gcount","_gsum"];
+  const metricSplit = metricName.split("{");
+  if (metricSplit.length > 0) {
+    let index = metricSplit[0].lastIndexOf("_");
+    if (index === -1 ||
+      !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export const AVAILABLE_SPECS: MetricsSpecs = {

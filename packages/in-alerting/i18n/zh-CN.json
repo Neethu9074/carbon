@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "不受支持的运算符：{{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "添加智能警报",
     "applicationSmartAlert": "应用程序智能警报",
     "globalApplicationSmartAlert": "全局应用程序智能警报",
     "titleNoSmartAlertsConfigured": "未配置智能警报",
@@ -490,8 +491,8 @@
       "inventory": {
         "noData": "未配置智能警报。单击以下按钮来配置您的首个智能警报。",
         "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。请联系您的管理员。",
-        "labelGlobalSmartAlertsList": "全局应用程序智能警报数（{{numberOfAlerts}} 个）",
-        "labelSmartAlertsList": "应用程序智能警报数（{{numberOfAlerts}} 个）",
+        "labelGlobalSmartAlertsList": "全局应用程序智能警报（{{numberOfAlerts}} 个）",
+        "labelSmartAlertsList": "应用程序智能警报（{{numberOfAlerts}} 个）",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "静态阈值：{{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
@@ -537,7 +538,7 @@
     },
     "list": {
       "header": {
-        "configuredAlerts": "已配置的警报数（{{numberOfAlerts}} 个）"
+        "configuredAlerts": "已配置的警报（{{numberOfAlerts}} 个）"
       },
       "columns": {
         "name": "名称"
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "选择定制事件",
         "customEventListInfoLabel": "显示过去 7 天内触发的定制事件"
       },
-      "addSmartAlert": "添加智能警报",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "启用",
     "disable": "禁用",
     "synthetics": {
+      "addSmartAlert": "添加合成智能警报",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
@@ -1037,7 +1038,7 @@
           "moreFiltersWithCount_0": "+其他 {{count}} 个过滤器",
           "moreFiltersWithCount_1": "+其他 {{count}} 个过滤器",
           "moreFiltersWithCount_2": "+其他 {{count}} 个过滤器",
-          "filter": "过滤器",
+          "filter": "过滤",
           "filter_plural": "过滤器",
           "filter_0": "过滤器",
           "filter_1": "过滤器",
@@ -1045,7 +1046,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "故障阈值",
+        "timeThreshold": "时间阈值",
         "filterApplied": "已应用的过滤器",
         "violationsCount": "{{violationsCount}} 个故障",
         "numberOfFailures": "故障警报"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "步骤 1：测试",
         "simpleAlertConfigDialogStep1Headline": "应该在哪些合成测试上发出警报？",
+        "simpleAlertConfigDialogStep1Tooltip": "将针对每个合成测试，每个位置单独发送单独的警报",
         "stepConfigsStep4Title": "步骤 4：警报通道",
         "alertDialogHeadline": "警报中应该显示哪些内容？",
         "stepConfigsStep2Title": "步骤 2：作用域",
         "scopeHeadline": "您希望在何处触发警报？",
-        "stepConfigsStep3Title": "步骤 3：阈值",
+        "stepConfigsStep3Title": "步骤 3：时间阈值",
         "stepConfigsStep5Title": "步骤 5：警报属性",
-        "thresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？"
+        "thresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？",
+        "thresholdTitleHelpText": "根据在合成测试创建中配置的重试时间间隔，在 PoP 中确定失败。",
+        "thresholdSubTitleHelpText": "如果每个位置发生指定数量的失败数，那么您将收到每个位置的警报。",
+        "slider": {
+          "failuresWithCount": "{{count}} 个失败",
+          "failuresWithCount_plural": "{{count}} 个失败",
+          "failuresWithCount_0": "{{count}} 个失败",
+          "failuresWithCount_1": "{{count}} 个失败",
+          "failuresWithCount_2": "{{count}} 个失败"
+        },
+        "alertPropertiesTitlePlaceholder": "在此处插入标题",
+        "alertPropertiesDescriptionPlaceholder": "在此处插入描述"
       },
       "advanced": {
         "alertChannelsLabel": "警报通道",
+        "alertChannelsTitle": "谁应该接收警报？",
         "scopeFilterLabel": "作用域",
         "alertTestsLabel": "合成测试",
         "alertTestsTitle": "合成测试：应该在哪些合成测试上发出警报？",
         "propertiesLabel": "警报属性",
-        "failureThreshold": "故障阈值",
-        "failureThresholdLabel": "故障阈值",
+        "alertPropertiesPreviewTitlePlaceholder": "[在此处插入标题]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[在此处插入描述]",
+        "propertiesTitle": "警报通知应包含哪些内容？",
+        "failureThreshold": "时间阈值",
+        "failureThresholdLabel": "时间阈值",
         "failureThresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "合成测试 {{entityName}}",
         "testAttachedCount": "附加的测试（{{count}} 个）",
         "testAttached": "附加的测试"
+      },
+      "details": {
+        "threshold": "阈值",
+        "alertConfigurationListTitleAlertConfiguration": "警报配置",
+        "scope": {
+          "perLocation": {
+            "shortText": "每个位置"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "所选测试",
+        "alertConfigurationTitleAlertChannels": "警报通道",
+        "alertConfigurationTitleAlertProperties": "警报属性",
+        "failureThreshold": "{{failureCount}} 个失败",
+        "alertConfigurationTitleScope": "作用域",
+        "noOfFailure": "失败数",
+        "timeThreshold": "时间阈值",
+        "alertingType": "警报类型"
       }
     }
   }

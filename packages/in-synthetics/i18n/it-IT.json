@@ -33,7 +33,7 @@
         "scriptTitle": "Qual è il nome di questo test di script HTTP",
         "labelName": "Nome del test",
         "labelDescription": "Descrizione",
-        "labelFrequency": "Frequenza",
+        "labelFrequency": "Frequenza (minuti)",
         "labelApplications": "Selezionare un'applicazione"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "Formato host non valido"
       },
       "advancedMode": {
-        "buttonContent": "Passa alla modalità avanzata"
+        "switchModeButton": "Passa alla modalità avanzata",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Tipo di test selezionato",
+          "rightListLabel": "Tipo di test",
+          "apiTypeLabel": "Test semplice | Test script",
+          "apiTypeHeadline": "Quale tipo di test sintetico si desidera creare",
+          "apiTypeText": "I test API possono essere utilizzati per monitorare le API fornite dalle applicazioni web. I test API possono essere utilizzati per misurare la disponibilità e il tempo di risposta. Il test semplice consente di eseguire il ping di un URL o il test di una singola API. Il test di script consente di fornire uno script che può controllare una serie di risposte API, simulare flussi di lavoro complessi e verificare funzionalità specifiche.",
+          "selectedTestTypeButton": "Seleziona",
+          "httpScriptTitle": "Test script",
+          "httpActionTitle": "Test semplice",
+          "browserTypeLabel": "Browser",
+          "browserTypeHeadline": "Test sintetici del browser",
+          "browserTypeText": "Il test sintetico del browser è un metodo di monitoraggio delle prestazioni delle applicazioni Web simulando le interazioni dell'utente con un sito Web tramite uno script in un browser Web, fornendo informazioni preziose sui problemi che influenzano l'esperienza dell'utente e garantendo la funzionalità del sito Web.",
+          "internetServicesTypeLabel": "Servizi Internet",
+          "internetServicesTypeHeadline": "Test servizi Internet",
+          "internetServicesTypeText": "Il test sintetico dei servizi Internet implica la simulazione delle interazioni degli utenti con i servizi Web per monitorare e testare le loro prestazioni, consentendo di individuare e prevenire i tempi di inattività."
+        },
+        "configurationLabel": "Configurazione",
+        "configurationTitle": "Configurazione: come funzionerà questo test?",
+        "locationsLabel": "Ubicazione/i",
+        "locationsTitle": "Ubicazione/i: dove verrà eseguito questo test?",
+        "scheduleLabel": "Pianifica",
+        "scheduleTitle": "Pianificazione: quando verrà eseguito questo test?",
+        "identifyLabel": "Identifica",
+        "identifyTitle": "Identificazione: cosa farà il test?",
+        "frequency": "Questo test verrà eseguito ogni {{frequencyValue}} minuti.",
+        "simultaneous": "Simultanea",
+        "simultaneousDescription": "Questo test verrà eseguito simultaneamente in ogni ubicazione selezionata.",
+        "configStep": {
+          "allowInsecure": "Consenti nessuna protezione",
+          "expectStatusLabel": "Stato previsto",
+          "expectJSONLabel": "JSON previsto",
+          "expectMatchLabel": "Corrispondenza prevista",
+          "expectStatusPlaceholder": "Immettere lo stato previsto",
+          "expectJSONPlaceholder": "Immettere il JSON previsto",
+          "expectMatchPlaceholder": "Immettere la stringa prevista",
+          "addValidations": "Aggiungi convalida",
+          "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
+          "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto",
+          "mustBeValidHttpReturnCode": "Lo stato deve essere un codice di ritorno HTTP valido.",
+          "shouldBeValidRegExp": "La stringa immessa deve essere un'espressione regolare valida."
+        },
+        "loadMore": "Carica altro",
+        "selectTests": {
+          "addLocations": "Aggiungi {{count}} ubicazioni",
+          "addLocation": "Aggiungi ubicazione",
+          "cancel": "Annulla",
+          "selectLocation": "Seleziona ubicazione"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Browser",
+          "internetServicesName": "Servizi Internet"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Crea nuovo test"
+    "buttonLabel": "Aggiungi test sintetico"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "Aggiungi avviso smart sintetico"
   },
   "navigation": {
     "synthetics": "Monitoraggio sintetico"
@@ -169,7 +225,10 @@
       "namespace": "Spazio dei nomi",
       "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
-      "deleteLocation": "Elimina ubicazione"
+      "deleteLocation": "Elimina ubicazione",
+      "noDataAvailable": {
+        "message": "{{component}} non disponibile"
+      }
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -348,7 +407,7 @@
       "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database."
     },
     "alertList": {
-      "timeThreshold": "Soglia di errore",
+      "timeThreshold": "Soglia temporale",
       "testsApplied": "Test applicati",
       "filterApplied": "Filtro applicato",
       "violationsCount": "{{violationsCount}} errori",

@@ -37,7 +37,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
           {applications.data.items
             .filter(item => item.application.id !== applicationId)
             .map(item => (
-              <ApplicationButtonItem item={item} viewPath={viewPath} />
+              <ApplicationButtonItem key={item.application.id} item={item} viewPath={viewPath} />
             ))}
         </ul>
       </div>

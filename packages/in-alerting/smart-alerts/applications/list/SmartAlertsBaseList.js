@@ -98,6 +98,14 @@ export default function SmartAlertsBaseList({
     searchResultsSelected = localSearchResults;
   }
 
+  // set the page parameter in Url to 1 once the loading is complete.
+  useEffect(() => {
+    if (!loading) {
+      setState({ page: 1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
+
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
 
@@ -125,6 +133,7 @@ export default function SmartAlertsBaseList({
                 }),
                 key: categoryGlobal,
                 onClick() {
+                  setState({ page: 1 });
                   setConfigsCategory(categoryGlobal);
                 }
               },
@@ -134,6 +143,7 @@ export default function SmartAlertsBaseList({
                 }),
                 key: categoryLocal,
                 onClick() {
+                  setState({ page: 1 });
                   setConfigsCategory(categoryLocal);
                 }
               }

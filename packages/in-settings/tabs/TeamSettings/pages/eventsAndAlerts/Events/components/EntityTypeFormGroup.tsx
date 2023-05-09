@@ -15,6 +15,7 @@ import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
+import { toTitleCase } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -39,7 +40,7 @@ export function EntityTypeFormGroup({
   disabled
 }: EntityTypeFormGroupProps) {
   const entityTypeField = form.get('entityType') as Field<string>;
-
+  pluginsWithMetricDefinitions = fillEntityType(pluginsWithMetricDefinitions, entityTypeField?.value);
   return (
     <FormGroup>
       <Label htmlFor="event-entity-type" hasError={!entityTypeField.valid && entityTypeField.touched}>
@@ -67,6 +68,20 @@ export function EntityTypeFormGroup({
       <TouchedMessages field={entityTypeField} />
     </FormGroup>
   );
+}
+
+function fillEntityType(pluginsWithMetricDefinitions: Options, entityTypeValue: string) {
+  if (
+    pluginsWithMetricDefinitions?.filter((plugin: Option) => plugin.value === entityTypeValue).length == 0 &&
+    entityTypeValue
+  ) {
+    const plugin = {
+      label: toTitleCase(entityTypeValue?.replace(/([a-z])([A-Z])/g, '$1 $2')) || '',
+      value: entityTypeValue
+    };
+    pluginsWithMetricDefinitions = [...pluginsWithMetricDefinitions, plugin];
+  }
+  return pluginsWithMetricDefinitions;
 }
 
 function entityTypesFilter(entityType: string, readOnly: boolean): boolean {

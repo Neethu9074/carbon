@@ -23,12 +23,17 @@ import {
   websiteId as websiteIdMatrixParameter,
   xhrId as xhrIdMatrixParameter
 } from 'in-websites/navigation/matrix';
-import { NavigateToWebsiteParams, UseLinkToAnalyzeParams, UseLinkToPageLoadParams } from 'in-websites/navigation/types';
+import {
+  AnalyzeTagFilterParameter,
+  NavigateToWebsiteParams,
+  UseLinkToAnalyzeParams,
+  UseLinkToPageLoadParams
+} from 'in-websites/navigation/types';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Location, ParameterDefinition } from 'in-stores/navigation/types';
+import { Location } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -234,19 +239,19 @@ export const useLinkToAnalyze = (params: Partial<UseLinkToAnalyzeParams>) => {
   setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
 
   if (formModel) {
-    let tagFilterExpression = [...formModel];
+    let tagFilterExpression: FormModelElement[] | null = [...formModel];
     if (tagCatalog && tagFilterExpression?.length > 0) {
       const availableTags = tagCatalog.tags.map(t => t.name);
       const allTagsSupported = tagFilterExpression
         .filter(element => element.type === TAG_FILTER)
         .every(tagFilter => availableTags.includes((tagFilter as TagFilter).name));
       if (!allTagsSupported) {
-        return;
+        tagFilterExpression = null;
       }
     }
     setOrDeleteMatrixParameter(
       location,
-      analyzeTwoParameters.tagFilterExpression as ParameterDefinition<FormModelElement[] | []>,
+      analyzeTwoParameters.tagFilterExpression as AnalyzeTagFilterParameter,
       tagFilterExpression
     );
   }
@@ -288,19 +293,19 @@ export const useGenerateLinkToAnalyze = () => {
     setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
 
     if (formModel) {
-      let tagFilterExpression = [...formModel];
+      let tagFilterExpression: FormModelElement[] | null = [...formModel];
       if (tagCatalog && tagFilterExpression?.length > 0) {
         const availableTags = tagCatalog.tags.map(t => t.name);
         const allTagsSupported = tagFilterExpression
           .filter(element => element.type === TAG_FILTER)
           .every(tagFilter => availableTags.includes((tagFilter as TagFilter).name));
         if (!allTagsSupported) {
-          return;
+          tagFilterExpression = null;
         }
       }
       setOrDeleteMatrixParameter(
         location,
-        analyzeTwoParameters.tagFilterExpression as ParameterDefinition<FormModelElement[] | []>,
+        analyzeTwoParameters.tagFilterExpression as AnalyzeTagFilterParameter,
         tagFilterExpression
       );
     }

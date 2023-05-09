@@ -96,7 +96,8 @@
       "lxc": "Contêineres do LXC",
       "nodejs": "Aplicativos Node.js",
       "ping": "Ping",
-      "process": "Processos"
+      "process": "Processos",
+      "syntheticPoP": "PoP sintético"
     },
     "tableContent": "Conteúdo da tabela:",
     "remove": "Remover",

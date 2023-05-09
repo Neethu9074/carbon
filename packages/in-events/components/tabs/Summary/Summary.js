@@ -206,15 +206,19 @@ const EventContent = connectTo(
             </Col>
           </Row>
         )}
-        {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card>
-                <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-              </Card>
-            </Col>
-          </Row>
-        )}
+        {actionAutomationEnabled &&
+          role.canConfigureAutomationActions &&
+          role.canConfigureCustomAlerts &&
+          isIssue &&
+          hasEventSpec && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <Card>
+                  <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
+                </Card>
+              </Col>
+            </Row>
+          )}
       </>
     );
   }

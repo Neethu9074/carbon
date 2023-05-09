@@ -4,7 +4,7 @@
       "openCreationDialog": "開啟建立對話框",
       "allApps": "所有應用程式",
       "errCallRate": "錯誤呼叫率",
-      "latency": "延遲",
+      "latency": "延遲時間",
       "calls": "呼叫",
       "newAppPerspect": "新建應用程式視景",
       "services": "{{count}} 個服務",
@@ -25,7 +25,7 @@
       "allContainers": "所有儲存器",
       "allProcesses": "所有程序",
       "hosts": "主機",
-      "containers": "貨櫃",
+      "containers": "儲存器",
       "processes": "程序"
     },
     "platformsTopList": {
@@ -35,10 +35,11 @@
       "instances": "實例",
       "namespaces": "名稱空間",
       "cpuUsage": "CPU 使用率",
-      "memoryLimit": "記憶體\n限制",
+      "memoryLimit": "記憶體限制",
       "pods": "Pod",
       "memoryUsage": "記憶體用量",
       "cloudFoundryApplication": "Cloud Foundry 應用程式",
+      "sapRegion": "SAP 區域",
       "openstackRegion": "OpenStack 區域",
       "vSphereDatacenter": "vSphere 資料中心",
       "ibmz": "IBM Z HMC",
@@ -63,11 +64,11 @@
       "addMobileApp": "新增行動式應用程式",
       "allWebsites": "所有網站",
       "allMobileApps": "所有行動式應用程式",
-      "allWebsitesMobileApps": "所有網站及行動式應用程式",
+      "allWebsitesMobileApps": "所有網站和行動式應用程式",
       "pageViews": "頁面檢視數",
       "sessions": "階段作業",
       "onLoadTime": "載入時間",
-      "views": "檢視表",
+      "views": "視圖",
       "website": "網站",
       "mobileApp": "行動式應用程式"
     }
@@ -84,11 +85,12 @@
     "ibmz": "IBM Z",
     "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "sap": "SAP",
     "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
     "websites": "網站",
     "mobileApps": "行動式應用程式",
-    "websitesMobileApps": "網站與行動應用程式",
+    "websitesMobileApps": "網站和行動式應用程式",
     "customEventDeprecatedWarning": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
@@ -99,8 +101,8 @@
     "columnDefinitions": {
       "numCpU": "CPU 數目",
       "cpuUsage": "CPU 使用率",
-      "created": "已建立",
-      "started": "已開始",
+      "created": "建立日期",
+      "started": "開始日期",
       "os": "作業系統",
       "mean": "平均值"
     },
@@ -108,7 +110,7 @@
       "noLabelYet": "尚無 {{nolabel}}"
     },
     "websites": {
-      "noData": "著手進行網站監視，以充分瞭解您的網站效能如何影響使用者體驗。 配置很簡單！",
+      "noData": "著手進行網站監視，以充分瞭解您的網站效能如何影響使用者體驗。配置很簡單！",
       "createWebsite": "建立網站",
       "createMobileApp": "建立行動式應用程式",
       "noLabelYet": "尚無 {{nolabel}}"

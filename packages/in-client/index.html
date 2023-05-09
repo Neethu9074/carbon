@@ -21,12 +21,12 @@
   <script>
     window.instana.user = <!--#include virtual="/api/checkUserAccessPermitted" -->;
   </script>
+
   <script>
     window.instana.build = <!--#include virtual="build.json" -->;
     window.instana.config = <!--#include virtual="config.json" -->;
     window.instana.searchFields = <!--#include virtual="/api/search/fields" -->;
     window.instana.settings = <!--#include virtual="/api/ui/settings" -->;
-    window.instana.permissions = <!--#include virtual="/api/permissions" -->;
     window.instana.tags = <!--#include virtual="/api/tags" -->;
     window.instana.termsAndPrivacyAccepted = <!--#include virtual = "/api/tos-privacy-agreement/checkUserAcceptance" -->;
     window.instana.termsAndPrivacySettings = <!--#include virtual = "/api/user-settings" -->;
@@ -40,6 +40,17 @@
     //   "currency": ["", "\u00a0€"]
     // };
   </script>
+   <script type="text/javascript">
+      if (window.instana.config.featureFlags.playwithEnabled) {
+    (function() {
+      var walkme = document.createElement('script');
+      walkme.type = 'text/javascript'; walkme.async = true;
+      walkme.src = 'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/test/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(walkme, s);
+      window._walkmeConfig = {smartLoad:true}; })();
+    }
+      </script>
   <script>
     var req = new XMLHttpRequest();
     req.open("GET", "/csrf/token");

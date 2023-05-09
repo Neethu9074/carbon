@@ -261,6 +261,8 @@ export const nonServicePlugins = {
   tanzuFoundation: 'tanzuFoundation',
   tanzuFoundationMember: 'tanzuFoundationMember',
   tibcoEMS: 'tibcoEMS',
+  tibcoEMSTopic: 'tibcoEMSTopic',
+  tibcoEMSQueue: 'tibcoEMSQueue',
   tomcatApplicationContainer: 'tomcatApplicationContainer',
   traefik: 'traefik',
   tuxedoDomain: 'tuxedoDomain',
@@ -295,7 +297,8 @@ export const nonServicePlugins = {
   sapHanaPlatform: 'sapHanaPlatform',
   sapJavaInstance: 'sapJavaInstance',
   sapJavaSystem: 'sapJavaSystem',
-  sapHanaSystem: 'sapHanaSystem'
+  sapHanaSystem: 'sapHanaSystem',
+  sapWebDispatcher: 'sapWebDispatcher'
 };
 
 export const applicationPlugins = {
@@ -601,6 +604,8 @@ export const fullyQualifiedPlugins = {
   tanzuFoundation: 'com.instana.forge.infrastructure.paas.cloudfoundry.tanzu_foundation.TanzuFoundation',
   tanzuFoundationMember: 'com.instana.forge.infrastructure.paas.cloudfoundry.tanzu_foundation.TanzuFoundationMember',
   tibcoEMS: 'com.instana.forge.infrastructure.messaging.tibcoems.TibcoEMS',
+  tibcoEMSTopic: 'com.instana.forge.infrastructure.messaging.tibcoems.derivedentity.topic.TibcoEMSTopic',
+  tibcoEMSQueue: 'com.instana.forge.infrastructure.messaging.tibcoems.derivedentity.queue.TibcoEMSQueue',
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   traefik: 'com.instana.forge.infrastructure.loadbalancer.traefik.Traefik',
   tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
@@ -638,7 +643,8 @@ export const fullyQualifiedPlugins = {
   sapHanaPlatform: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphana.SapHanaPlatform',
   sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
   sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
-  sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem'
+  sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem',
+  sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

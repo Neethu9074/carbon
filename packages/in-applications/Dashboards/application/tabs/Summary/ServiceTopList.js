@@ -12,7 +12,7 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import getServices from 'in-applications/subscriptions/getServices';
+import getTopServices from 'in-applications/subscriptions/getTopServices';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -99,23 +99,19 @@ function getList({
       };
     }
   }
-
-  return getServices({
+  return getTopServices({
     pagination: {
-      page: 1,
-      pageSize: 5
+      retrievalSize: 5
     },
     order: {
       by: selectedMetric,
       direction: 'DESC'
     },
     metrics: metrics,
-    filter: {
-      application: applicationId,
-      applicationBoundaryScope: boundaryScope,
-      timeConfig,
-      includeSyntheticCalls: isSyntheticOption(syntheticCalls)
-    }
+    applicationBoundaryScope: boundaryScope,
+    applicationId,
+    timeConfig,
+    includeSynthetic: isSyntheticOption(syntheticCalls)
   });
 }
 

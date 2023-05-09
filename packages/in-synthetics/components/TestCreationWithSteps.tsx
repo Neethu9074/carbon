@@ -37,6 +37,8 @@ export interface Props {
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
 }
 
 export default function TestCreationWithSteps({
@@ -56,7 +58,9 @@ export default function TestCreationWithSteps({
   testTypeSelected,
   setTestTypeSelected,
   renderSectionsCounter,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -88,6 +92,8 @@ export default function TestCreationWithSteps({
           setTestTypeSelected={setTestTypeSelected}
           renderSectionsCounter={renderSectionsCounter}
           setRenderSectionsCounter={setRenderSectionsCounter}
+          commonAttributes={commonAttributes}
+          setCommonAttributes={setCommonAttributes}
         />
       ) : (
         <>
