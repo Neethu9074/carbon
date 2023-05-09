@@ -8,11 +8,13 @@ import React from 'react';
 
 import { sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
+
 //import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 // import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 
 export default function SmartAlertsBaseList(props: any) {
-  const { rightHeader, tableActions, noDataMessage, pageSize, columnDefinitions, loadEntities } = props;
+  const { rightHeader, tableActions, noDataMessage, getAlertConfigs, pageSize, columnDefinitions, loadEntities } =
+    props;
   return (
     <AlertBaseList<any>
       extraColumnDefinitions={columnDefinitions}
@@ -20,6 +22,7 @@ export default function SmartAlertsBaseList(props: any) {
       loadEntities={loadEntities}
       rightHeader={rightHeader}
       tableActions={tableActions}
+      getAlertConfigs={getAlertConfigs}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       sortOptions={sortOptions}

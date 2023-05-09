@@ -14,14 +14,14 @@ import { Spacer } from '@instana/components';
 import {
   simpleListNameColumnDefinition,
   evaluationInfoColumnDefinition,
-  entityNameColumnDefinition,
-  deselectActionColumnDefinition
+  entityNameColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 // import memoize from 'in-services/util/memoizingObservableGenerator';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsBaseList from 'in-automation/ActionCatalog/SmartAlertsBaseList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
@@ -75,6 +75,20 @@ interface ActionsSelectionProps {
 export default function SmartAlertsSelection({ form, setForm }: ActionsSelectionProps) {
   const selectedActions = (form.get('applicationAlertConfigIds') as Field<string[]>)?.value ?? [];
 
+  // function getColumnDefinitionsForList(selection, onChange, isGlobalSmartAlertConfig) {
+  //   return [
+  //     selectActionColumnDefinition(selection, (id, state) => {
+  //       if (state) {
+  //         onChange([...selection, id]);
+  //       } else {
+  //         onChange(selection.filter(i => i !== id));
+  //       }
+  //     }),
+  //     simpleListNameColumnDefinition('70%'),
+  //     evaluationInfoColumnDefinition({ width: '25%', isGlobalSmartAlertConfig })
+  //   ];
+  // }
+
   const RightHeader = (
     <SelectListDialogButton
       form={form}
@@ -83,10 +97,11 @@ export default function SmartAlertsSelection({ form, setForm }: ActionsSelection
       label={t('in-settings:tabs.addActions')}
       listComponent={(props: any) => (
         <SmartAlertsBaseList
-          loadEntities={() => getSelectedActionsForAll([])}
+          getAlertConfigs={() => getSelectedActionsForAll([])}
           noDataMessage={t('in-settings:tabs.noActionsSelected')}
           pageSize={10}
-          columnDefinitions={getColumnDefinitions(form, setForm, false)}
+          sortOptions={sortOptions}
+          columnDefinitions={getColumnDefinitions()}
           {...props}
         />
       )}
@@ -100,29 +115,29 @@ export default function SmartAlertsSelection({ form, setForm }: ActionsSelection
     />
   );
 
-  function getColumnDefinitions(form: any, updateForm: any, showDelete: boolean) {
-    const columnDefinitionsToShow = [
+  function getColumnDefinitions() {
+    return [
       simpleListNameColumnDefinition('50%'),
       evaluationInfoColumnDefinition('20%'),
       entityNameColumnDefinition('20%')
     ];
-    if (showDelete) {
-      return [
-        ...columnDefinitionsToShow,
-        deselectActionColumnDefinition(
-          (id: any) =>
-            updateForm(
-              form.updateIn(['applicationAlertConfigIds'], (f: any) => {
-                const selection = f.value;
-                const idx = selection.findIndex((config: any) => config === id);
-                return idx >= 0 ? f.setValue(selection.remove(idx)).setTouched(true) : f;
-              })
-            ),
-          '5%'
-        )
-      ];
-    }
-    return columnDefinitionsToShow;
+    // if (showDelete) {
+    //   return [
+    //     ...columnDefinitionsToShow,
+    //     deselectActionColumnDefinition(
+    //       (id: any) =>
+    //         updateForm(
+    //           form.updateIn(['applicationAlertConfigIds'], (f: any) => {
+    //             const selection = f.value;
+    //             const idx = selection.findIndex((config: any) => config === id);
+    //             return idx >= 0 ? f.setValue(selection.remove(idx)).setTouched(true) : f;
+    //           })
+    //         ),
+    //       '5%'
+    //     )
+    //   ];
+    // }
+    // return columnDefinitionsToShow;
   }
 
   return (
@@ -133,7 +148,7 @@ export default function SmartAlertsSelection({ form, setForm }: ActionsSelection
         tableActions={actionSelectionTableActions(form, setForm)}
         pageSize={10}
         rightHeader={RightHeader}
-        columnDefinitions={getColumnDefinitions(form, setForm, true)}
+        columnDefinitions={getColumnDefinitions()}
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />
