@@ -226,8 +226,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
             ProductArea.SYNTHETICS,
             ProductArea.AUTOMATION,
             ProductArea.AGENTS,
-            ProductArea.ACCESS_CONTROL,
-            ProductArea.ACCOUNT
+            ProductArea.ACCESS_CONTROL
           ]}
           icon="lib_actions_settings"
           {...formControlProps}

@@ -9,19 +9,20 @@ import { useObservable } from '@instana/hooks';
 
 import getBaselinePredictions from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteAdaptiveBaselinePredictions';
 import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { pendingResult } from 'in-services/fixedObjects';
 
 interface useFetchAdaptiveBaselineProps {
-  alertConfigWithFormModel: WebsiteAlertConfigWithMetadata; //{ created; id; granularity; websiteId };
+  alertConfigWithFormModel: Omit<WebsiteAlertConfigWithMetadata, 'tagFilterExpression'> & {
+    tagFilterExpression: FormModelElement[];
+  };
   viewConfig: {
     timeConfig: TimeConfig;
   };
   eventBasedAdaptiveBaseline: [number, number][];
 }
 
-export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(
-  props: useFetchAdaptiveBaselineProps
-): {
+export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAdaptiveBaselineProps): {
   baseline: [number, number][];
   error?: boolean;
 } {

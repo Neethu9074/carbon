@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
@@ -22,7 +23,6 @@ import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './KubernetesLimitedAccessPanel.mless';
-import { MapFormItems } from 'formalistic';
 
 /**
  * Props for configuring this instance of the component

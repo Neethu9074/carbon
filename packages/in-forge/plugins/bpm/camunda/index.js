@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -11,6 +12,6 @@ registerSnapshotDefinition({
   plugin: plugins.camunda,
 
   technologyDescriptor: {
-    label: t('in-forge:plugins.camunda.camunda')
+    label: t('in-forge:plugins.bpm.camunda')
   }
 });

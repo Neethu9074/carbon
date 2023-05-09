@@ -199,8 +199,18 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
-export const SETTINGS_ALERT_CHANNEL_SUBMIT = 'settings.alertChannel.submit';
+
+// Owned by Team Alert Response
+// Tracking all team owned components
+export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
 export const SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM = 'settings.alertChannel.new';
+export const SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK = 'settings.alertChannel.addMenu.click';
+export const SETTINGS_ALERT_CHANNEL_ADD_CLICK = 'settings.alertChannel.add.click';
+export const SETTINGS_ALERT_CHANNEL_TEST_CLICK = 'settings.alertChannel.test.click';
+export const SETTINGS_ALERT_CHANNEL_CLICK = 'settings.alertChannel.click';
+export const SETTINGS_ALERT_CHANNEL_DELETE = 'settings.alertChannel.delete';
+export const SETTINGS_ALERT_CHANNEL_EDIT = 'settings.alertChannel.edit';
+
 export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
 export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
@@ -232,7 +242,7 @@ export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
 export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
 export const SETTINGS_MAINTENANCE_WINDOW_RESUME = 'settings.maintenance.resume';
 export const SETTINGS_MAINTENANCE_WINDOW_PAUSE = 'settings.maintenance.pause';
-export const SETTINGS_MAINTENANCE_WINDOW_ADANCED = 'settings.maintenance.to.advanced';
+export const SETTINGS_MAINTENANCE_WINDOW_ADVANCED = 'settings.maintenance.to.advanced';
 export const SETTINGS_MAINTENANCE_WINDOW_SIMPLE = 'settings.maintenance.to.simple';
 export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE = 'settings.maintenance.nextStep.one';
 export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO = 'settings.maintenance.nextStep.two';

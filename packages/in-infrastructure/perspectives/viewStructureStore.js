@@ -70,6 +70,6 @@ export function getViewStructure() {
 
 export function getPermittedIds(searchMatches, scope, query) {
   if (!hasInfrastructureAccess) return []; // if has no access at all
-  if (isBlank(query)) return scope; // empty query then return all accessible (scope)
+  if (isBlank(query) || searchMatches === null) return scope; // empty query or searchMatches not yet set then return all accessible (scope)
   return searchMatches; // filtered with rbac by backend
 }

@@ -46,7 +46,7 @@ function onDidMount({ containerElement }, beacon) {
     colorSteps: 10,
     dataProvider: worldDataProvider,
     mouseWheelZoomEnabled: true,
-    hideCredits: false,
+    hideCredits: true,
     areasSettings: {
       color: '#39BF7C',
       rollOverColor: '#58aee4'

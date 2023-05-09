@@ -108,8 +108,9 @@ function withWebsiteIdFilter(args: GetSuggestionsProps, websiteId: string | Null
 }
 
 /** helper, to create a query-builder dependent query validator */
+export type QueryValidatorType = (tagFilterTime: TagFilterTimeConfigTuple) => Observable<Result<boolean>>;
 
-type isQueryValidType = (tagFilterFormModel: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<Boolean>>;
+type isQueryValidType = (tagFilterFormModel: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<boolean>>;
 type TagFilterTimeConfigTuple = [FormModelElement[], TimeConfig];
 export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
   return ([tagFilterFormModel, timeConfig]: TagFilterTimeConfigTuple) => {

@@ -15,7 +15,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { submitAlertChannelTracker } from 'in-settings/tracker';
+import { createAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 import Notification from 'in-components/form/Notification';
@@ -100,9 +100,7 @@ function getConfig(alertChannel) {
 }
 
 export function save(alertChannel, form) {
-  const alertChannelType = form.get('kind').value;
-
-  submitAlertChannelTracker({ type: alertChannelType });
+  createAlertChannelTracker({ alertChannelType: form.get('kind').value, alertChannelName: form.get('name').value });
   return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 

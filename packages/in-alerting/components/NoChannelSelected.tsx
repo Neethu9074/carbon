@@ -11,6 +11,9 @@ import { t } from 'in-i18n';
 export default function NoChannelSelected({
   height = 80, // default height of an empty row with icon
   text = t('in-alerting:components.noChannelSelectedText')
+}: {
+  height?: number;
+  text?: string;
 }) {
   return <NoItemSelected text={text} height={height} />;
 }

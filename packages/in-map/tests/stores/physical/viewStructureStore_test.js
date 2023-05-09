@@ -29,6 +29,7 @@ describe('viewStructureStore', () => {
         expect(store.getPermittedIds(match, empty, '')).to.be.deep.equal(empty);
         expect(store.getPermittedIds(match, scope, query)).to.be.deep.equal(empty);
         expect(store.getPermittedIds(match, scope, '')).to.be.deep.equal(empty);
+        expect(store.getPermittedIds(null, scope, '')).to.be.deep.equal(empty);
       });
     });
 
@@ -48,6 +49,12 @@ describe('viewStructureStore', () => {
       it('should permit everything on empty query - whilst having no limitations', () => {
         expect(store.getPermittedIds(null, null, '')).to.equal(null);
         expect(store.getPermittedIds(empty, null, '')).to.equal(null);
+      });
+
+      it('should handle loading situations - where searchMatches are null', () => {
+        expect(store.getPermittedIds(null, scope, '')).to.be.deep.equal(scope);
+        expect(store.getPermittedIds(null, empty, '')).to.be.deep.equal(empty);
+        expect(store.getPermittedIds(null, null, '')).to.be.deep.equal(null);
       });
 
       it('should permit everything on empty query - whilst having limitations', () => {
