@@ -69,7 +69,6 @@ export function getBusinessProcessListWithDefaults({
       //includeSyntheticCalls: false,
       //useLongTermDataOnly: false
     },
-    timeConfig,
     tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
   });
 }

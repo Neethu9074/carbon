@@ -121,7 +121,6 @@ function getBusinessProcessListData({
     filter: {
       timeConfig
     },
-    timeConfig,
     tagFilterExpression
   });
 }
