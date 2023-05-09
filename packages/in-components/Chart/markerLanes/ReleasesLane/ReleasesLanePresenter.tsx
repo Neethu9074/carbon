@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 
+import { ReleaseCluster } from '@instana/types/typeDefinitions';
+
+import MarkerLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
+import { ChartContentPostition } from 'in-components/Chart/types';
 import { formatDateTime } from 'in-services/formatters/date';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -20,19 +22,19 @@ import locals from './ReleasesLanePresenter.mless';
 
 const maxNumReleasesToShow = 3;
 
-export default function ReleasesLanePresenter(props) {
+interface ReleasesLanePresenterProps extends PresentedLaneProps {
+  releases: ReleaseCluster[];
+  labelVisible: boolean;
+  chartContentPosition: ChartContentPostition;
+}
+export default function ReleasesLanePresenter(props: ReleasesLanePresenterProps) {
   return (
-    <MarkerLane
+    <MarkerLane<ReleaseCluster>
       {...props}
       events={props.releases}
       label={t('in-components:chart.chartReleasesLanePresenterReleasesLabel')}
-      iconConfig={{
-        type: 'lib_release_rocket',
-        typeCluster: 'lib_release_rocket',
-        color: theme.lib.colors.N700Medium
-      }}
       color={theme.lib.colors.N700Medium}
-      TooltipContent={({ clusteredReleases }) => (
+      TooltipContent={({ clusteredReleases = [] }) => (
         <div className={locals.tooltipContent}>
           {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
             <div key={start}>
@@ -49,29 +51,30 @@ export default function ReleasesLanePresenter(props) {
           )}
         </div>
       )}
-      LaneItem={SingleMarkerLaneItem}
+      LaneItem={ReleasesMarkerLaneItem}
       HoverOverlay={props.isClustered ? HoverArea : HoverLine}
-      renderMarkerItem={LaneIcon}
     />
   );
 }
 
-ReleasesLanePresenter.propTypes = {
-  timeConfig: propTypeTimeConfig,
-  labelVisible: PropTypes.bool,
-  labelAlignment: PropTypes.string,
-  releases: PropTypes.arrayOf(
-    PropTypes.shape({
-      timestamp: PropTypes.number.isRequired,
-      clusteredReleases: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          id: PropTypes.string.isRequired,
-          lastUpdated: PropTypes.number,
-          start: PropTypes.number
-        })
-      )
-    })
-  ).isRequired,
-  isClustered: PropTypes.bool
-};
+const ReleasesMarkerLaneItem = forwardRef(function ReleasesMarkerLaneItem(
+  props: LaneItemProps<MarkerLaneEvent>,
+  ref: ForwardedRef<HTMLDivElement>
+) {
+  return (
+    <SingleMarkerLaneItem<MarkerLaneEvent>
+      ref={ref}
+      renderMarkerItem={p => (
+        <LaneIcon
+          {...p}
+          iconConfig={{
+            type: 'lib_release_rocket',
+            typeCluster: 'lib_release_rocket',
+            color: theme.lib.colors.N700Medium
+          }}
+        />
+      )}
+      {...props}
+    />
+  );
+});
