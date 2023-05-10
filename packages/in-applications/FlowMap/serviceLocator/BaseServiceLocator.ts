@@ -3,8 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-export default class BaseServiceLocator {
-  constructor(createNullService) {
+interface NullService {
+  dispose: () => void;
+}
+
+export default class BaseServiceLocator<T extends NullService> {
+  nullService: T;
+  service: T;
+
+  constructor(createNullService: () => T) {
     this.nullService = createNullService();
     this.service = this.nullService;
   }
@@ -15,7 +22,7 @@ export default class BaseServiceLocator {
     }
   }
 
-  provide(_service) {
+  provide(_service: T) {
     if (this.service) {
       this.service.dispose();
     }

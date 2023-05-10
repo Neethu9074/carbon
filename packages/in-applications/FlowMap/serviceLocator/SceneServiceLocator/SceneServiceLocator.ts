@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import createNullService from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/NullService';
+import createNullService, {
+  ServiceNullService
+} from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/NullService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 
-export default class SceneServiceLocator extends BaseServiceLocator {
+export default class SceneServiceLocator extends BaseServiceLocator<ServiceNullService> {
   constructor() {
     super(createNullService);
   }
