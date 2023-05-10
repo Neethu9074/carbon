@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, TimeConfig, VersionedConfig } from '@instana/types';
+
 import {
   syntheticSmartAlertsPath as alertsTabSegment,
   alertsTabDetailsFullyQualified as detailsPath,
@@ -24,16 +26,28 @@ import {
   getAllVersionsOfAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
+//@ts-expect-error need TS migration
+import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { TestResponse } from 'in-synthetics/utils/constants';
+import { Location } from 'in-stores/navigation/types';
+import { Nullish } from 'in-types';
 
-const endpointConfig = { asObservable: true };
+const endpointConfig: { asObservable: true } = { asObservable: true };
 
-export default function AlertDetails(props) {
+export interface AlertDetailsProps {
+  testId: string;
+  test: TestResponse;
+  location: Location;
+  timeConfig: TimeConfig;
+  isMainPage: boolean;
+}
+
+export default function AlertDetails(props: AlertDetailsProps) {
   const { isMainPage, testId } = props;
   return (
     <Alert
@@ -52,18 +66,38 @@ export default function AlertDetails(props) {
             }
       }
       matrix={{ alertIdParam, alertCreatedParam }}
-      getConfig={(id, created) =>
+      getConfig={(id: string, created: number) =>
         created ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig) : getLatestAlertConfig(id, endpointConfig)
       }
-      getConfigVersions={id => getAllVersionsOfAlertConfig(id, endpointConfig)}
+      getConfigVersions={(id: string) => getAllVersionsOfAlertConfig(id, endpointConfig)}
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} isMainPage={isMainPage} testId={testId} />}
-      renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
+      renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => (
+        <SmartAlertDialogWrapper {...props} isMainPage={isMainPage} testId={testId} />
+      )}
+      renderAlertConfiguration={({ alertConfig }: { alertConfig: SyntheticAlertConfigWithMetadata }) => (
+        <AlertConfiguration alertConfig={alertConfig} />
+      )}
     />
   );
+}
+
+interface SmartAlertDialogWrapperProps {
+  close: () => void;
+  alertConfig: SyntheticAlertConfig & VersionedConfig & { duplicateFrom?: string };
+  setRevision: (arg: string | Nullish) => void;
+  isCopy: boolean;
+  detailsPath: string;
+  alertConfigId: string;
+  testId: string;
+  isMainPage: boolean;
+}
+
+interface CloseProps {
+  id?: string;
+  created?: number;
 }
 
 function SmartAlertDialogWrapper({
@@ -75,13 +109,13 @@ function SmartAlertDialogWrapper({
   alertConfigId,
   testId,
   isMainPage
-}) {
+}: SmartAlertDialogWrapperProps) {
   const { location, navigate } = useNavigation();
   const alertTabPath = isMainPage ? alertsTabSegment : dashboardTestAlertTabSegment;
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id, created } = {}) => {
+      onClose={({ id, created }: CloseProps = {}) => {
         close();
         setRevision(null);
         if (isCopy) {
@@ -96,6 +130,7 @@ function SmartAlertDialogWrapper({
       }}
       editMode={!isCopy}
       testId={testId}
+      startWithSimpleMode={false}
     />
   );
 }
