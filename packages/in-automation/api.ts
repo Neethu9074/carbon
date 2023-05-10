@@ -446,7 +446,7 @@ export function getAssociations(actionId: string) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `${associationsUrl}?actionId=${encodeURIComponent(actionId)}`,
+    url: `${associationsUrl}?action_id=${actionId}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }

@@ -22,7 +22,8 @@ import {
   addAssociations,
   getAction,
   createAction,
-  getAssociations
+  getAssociations,
+  concatObservables
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -81,7 +82,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     // calling Get Action and Get action associations call and combining results
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
       ...(actionResponse as any),
-      applicationAlertConfigIds: (associationsResponse as any)?.map((action: any) => action.id) ?? []
+      applicationAlertConfigIds: (associationsResponse as any)?.map((action: any) => action.application_alert?.id) ?? []
     }));
   }
 
@@ -204,7 +205,15 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    return saveAction(actionSpecification, id);
+    // return saveAction(actionSpecification, id);
+
+    return concatObservables(
+      saveAction(actionSpecification, id),
+      addAssociations({
+        action_id: id,
+        application_alert_ids: actionSpecification?.applicationAlertConfigIds
+      })
+    );
   }
 }
 
