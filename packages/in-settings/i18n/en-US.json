@@ -87,6 +87,7 @@
     "permissions_AGENTS": "Agent permissions",
     "permissions_ACCESS_CONTROL": "Access control permissions",
     "permissions_AUTOMATION": "Automation permissions",
+    "permissions_LOGS": "Log permissions",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power",
     "permissions_ZHMC": "IBM Z",
