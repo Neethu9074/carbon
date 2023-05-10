@@ -16,6 +16,8 @@ export default function MSMQSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.msmq.titleQueue')}>{span.getIn(['data', 'msmq', 'queueName'])}</Di>
         <Di title={t('in-forge:tracing.msmq.titleOperation')}>{span.getIn(['data', 'msmq', 'operation'])}</Di>
         <Di title={t('in-forge:tracing.msmq.titleTransactionType')}>{span.getIn(['data', 'msmq', 'txType'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleExceptionType')}>{span.getIn(['data', 'msmq', 'exctype'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleError')}>{span.getIn(['data', 'msmq', 'error'])}</Di>
       </Dl>
     </div>
   );
