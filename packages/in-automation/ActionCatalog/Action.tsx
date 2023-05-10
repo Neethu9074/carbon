@@ -8,6 +8,8 @@ import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+
 import {
   AdditionalHeaders,
   Authen,
@@ -19,7 +21,8 @@ import {
   saveNewAction,
   addAssociations,
   getAction,
-  createAction
+  createAction,
+  getAssociations
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -71,12 +74,23 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
   const isCopy = props.match.path.split('/').at(-2) === 'copy';
+
+  function mergeResultData() {
+    const actionDetails$ = getAction(id);
+    const associationsDetails$ = getAssociations(id);
+    // calling Get Action and Get action associations call and combining results
+    return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
+      ...(actionResponse as any),
+      applicationAlertConfigIds: (associationsResponse as any)?.map((action: any) => action.id) ?? []
+    }));
+  }
+
   const entityFormParam = {
     entityId,
     createDefaultEntity: createAction,
     createForm: (action: NewActionwithEvents) => createActionFormDefinition(action, !entityId),
-    getEntityFromApi: (actionId: string) =>
-      getAction(actionId).map(action =>
+    getEntityFromApi: () =>
+      mergeResultData().map((action: any) =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
     saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy),

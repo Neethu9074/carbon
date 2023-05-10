@@ -441,3 +441,12 @@ export function addAssociations(data: any) {
     data: data
   }).map(response => response.body);
 }
+
+export function getAssociations(actionId: string) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${associationsUrl}?actionId=${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
