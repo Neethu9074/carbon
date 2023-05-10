@@ -64,9 +64,9 @@ const ReleasesMarkerLaneItem = forwardRef(function ReleasesMarkerLaneItem(
   return (
     <SingleMarkerLaneItem<MarkerLaneEvent>
       ref={ref}
-      renderMarkerItem={p => (
+      renderMarkerItem={markerItemProps => (
         <LaneIcon
-          {...p}
+          {...markerItemProps}
           iconConfig={{
             type: 'lib_release_rocket',
             typeCluster: 'lib_release_rocket',
