@@ -44,6 +44,7 @@ import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -67,7 +68,11 @@ interface MatchParams {
 }
 
 export type ActionFormEntity = NewAction | Action;
-type NewActionwithEvents = ActionFormEntity & { selectedEvents?: string[]; applicationAlertConfigIds?: string[] };
+type NewActionwithEvents = ActionFormEntity & {
+  selectedEvents?: string[];
+  applicationAlertConfigIds?: string[];
+  selectedEventsTypes?: { builtin_event_ids: string[]; custom_event_ids: string[] };
+};
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
@@ -82,7 +87,12 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     // calling Get Action and Get action associations call and combining results
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
       ...(actionResponse as any),
-      applicationAlertConfigIds: (associationsResponse as any)?.map((action: any) => action.application_alert?.id) ?? []
+      applicationAlertConfigIds:
+        (associationsResponse as any)?.map((action: any) => action.application_alert?.id) ?? [],
+      selectedEvents:
+        (associationsResponse as any)
+          ?.map((action: any) => action.custom_event?.id)
+          .concat((associationsResponse as any)?.map((action: any) => action.builtin_event_id)) ?? []
     }));
   }
 
@@ -197,7 +207,9 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
     return saveNewAction(actionSpecification).flatMap(action =>
       addAssociations({
         action_id: action.id,
-        application_alert_ids: actionSpecification?.applicationAlertConfigIds
+        application_alert_ids: actionSpecification?.applicationAlertConfigIds,
+        builtin_event_ids: actionSpecification?.selectedEventsTypes?.builtin_event_ids ?? [],
+        custom_event_ids: actionSpecification?.selectedEventsTypes?.custom_event_ids ?? []
       })
     );
   } else {
@@ -211,7 +223,9 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
       saveAction(actionSpecification, id),
       addAssociations({
         action_id: id,
-        application_alert_ids: actionSpecification?.applicationAlertConfigIds
+        application_alert_ids: actionSpecification?.applicationAlertConfigIds,
+        builtin_event_ids: actionSpecification?.selectedEventsTypes?.builtin_event_ids ?? [],
+        custom_event_ids: actionSpecification?.selectedEventsTypes?.custom_event_ids ?? []
       })
     );
   }
@@ -225,6 +239,18 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
   const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
+  const selectedEventsTypes: any = { builtin_event_ids: [], custom_event_ids: [] };
+  if (selectedEvents.length > 0) {
+    getEventSpecificationByIds(selectedEvents).once((data: any) => {
+      data.map((event1: any) => {
+        if (event1?.type === 'BUILT_IN') {
+          selectedEventsTypes.builtin_event_ids.push(event1.id);
+        } else {
+          selectedEventsTypes.custom_event_ids.push(event1.id);
+        }
+      });
+    });
+  }
 
   const fields: Field[] = [];
 
@@ -301,6 +327,7 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
     tags: tags.map((tag: Tag) => tag.value),
     inputParameters,
     selectedEvents,
-    applicationAlertConfigIds
+    applicationAlertConfigIds,
+    selectedEventsTypes
   };
 }
