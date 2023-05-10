@@ -3,27 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error will migrate in future commit
 import ConnectionsServiceLocator from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsServiceLocator';
+// @ts-expect-error will migrate in future commit
+import NodesServiceLocator from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/NodesServiceLocator';
 import EventBusServiceLocator from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusServiceLocator';
 import SceneServiceLocator from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/SceneServiceLocator';
-import NodesServiceLocator from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/NodesServiceLocator';
 
 const locatorMap = new Map();
 
-export function createNewServiceLocators(id) {
+export function createNewServiceLocators(id: string) {
   locatorMap.set(id, {
     sceneServiceLocator: new SceneServiceLocator(),
     nodesServiceLocator: new NodesServiceLocator(),
-    eventBusServiceLocator: new EventBusServiceLocator(id),
+    eventBusServiceLocator: new EventBusServiceLocator(),
     connectionsServiceLocator: new ConnectionsServiceLocator()
   });
 }
 
-export function getServiceLocators(id) {
+export function getServiceLocators(id: string) {
   return locatorMap.get(id);
 }
 
-export function removeServiceLocators(id) {
+export function removeServiceLocators(id: string) {
   const locators = getServiceLocators(id);
 
   locators.sceneServiceLocator.dispose();
