@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Stack, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
@@ -22,10 +22,29 @@ interface Props {
   test: TestResponse;
 }
 
-const Configuration = ({ test }: Props) => {
+const ActionButtons = () => {
   return (
-    <Card>
-      <Header>{t('in-synthetics:dashboard.configuration.configurationTitle')}</Header>
+    <Stack gap="normal" direction="horizontal">
+      <SvgIcon type={'lib_actions_edit'} />
+      {/* <SvgIcon type={'lib_actions_copy'} /> */}
+      <SvgIcon type={'lib_actions_delete'} />
+    </Stack>
+  );
+};
+
+const Configuration = ({ test }: Props) => {
+  const testType: string = test.data.configuration.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
+  return (
+    <Card
+      leftHeaderContent={
+        <Header>
+          {t('in-synthetics:dashboard.configuration.configurationTitle', {
+            testType: testType
+          })}
+        </Header>
+      }
+      rightHeaderContent={<ActionButtons />}
+    >
       <TestType test={test} />
       <ConfigSection />
       <Locations />
