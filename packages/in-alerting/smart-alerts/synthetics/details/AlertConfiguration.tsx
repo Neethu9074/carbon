@@ -14,8 +14,6 @@ import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthet
 //@ts-expect-error needs migration
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 //@ts-expect-error needs migration
-import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
-//@ts-expect-error needs migration
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/synthetics/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -23,6 +21,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 //@ts-expect-error needs migration
 import ListTitle from 'in-components/lists/Title';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 

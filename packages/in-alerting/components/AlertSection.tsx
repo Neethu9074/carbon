@@ -3,10 +3,21 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import Section from 'in-components/workspace/Section';
 import theme from 'in-themes';
+
+interface AlertSectionProps {
+  title: ReactNode;
+  children: ReactNode;
+  useAlternateBg?: boolean;
+  actions?: ReactNode;
+  icon?: string;
+  iconColor?: string;
+  titleHtmlFor?: string;
+  hasError?: boolean;
+}
 
 export default function AlertSection({
   title,
@@ -17,7 +28,7 @@ export default function AlertSection({
   actions,
   useAlternateBg,
   iconColor = theme.lib.colors.N600Light
-}) {
+}: AlertSectionProps) {
   return (
     <Section
       titleHtmlFor={titleHtmlFor}

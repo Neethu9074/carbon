@@ -82,6 +82,7 @@ import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
 import { all, any } from 'in-services/fixedStreams';
@@ -150,76 +151,80 @@ export default function ViewSwitcher({
       <AutomationMenu {...commonProps} />
       <SloDashboard {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
-      <View
-        id="main-nav-settings"
-        label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
-        icon="lib_actions_settings_inverted"
-        isActive={matchLocation(settingsPath)}
-        href={createHrefToPath(settingsPath)}
-        {...commonProps}
-      />
-      <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
-      <View
-        id="main-nav-more"
-        label={t('in-components:mainNavigation.viewSwitcherLabelMore')}
-        icon="lib_menu_additional_resources"
-        expandedSubMenu={expandedSubMenu}
-        setExpandedSubMenu={setExpandedSubMenu}
-        isActive={matchLocation(agentsPath)}
-        sidebarIsExpanded={isExpanded}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        {tenantSwitcherEnabled && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
-            href={tenantSwitcherLink}
-            external
-            id="main-nav-tenants"
+      {!playwithEnabled && (
+        <>
+          <View
+            id="main-nav-settings"
+            label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
+            icon="lib_actions_settings_inverted"
+            isActive={matchLocation(settingsPath)}
+            href={createHrefToPath(settingsPath)}
+            {...commonProps}
           />
-        )}
-        {role.canConfigureAgents && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
-            href={createHrefToPath(agentsPath)}
+          <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
+          <View
+            id="main-nav-more"
+            label={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+            icon="lib_menu_additional_resources"
+            expandedSubMenu={expandedSubMenu}
+            setExpandedSubMenu={setExpandedSubMenu}
             isActive={matchLocation(agentsPath)}
-            onClick={onViewSwitched}
-            id="main-nav-agents"
-          />
-        )}
-        {releaseNotesEnabled && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
-            onClick={e => {
-              showReleaseNotes();
-              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
-            }}
-            id="main-nav-release-notes"
-          />
-        )}
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          href="https://www.ibm.com/docs/en/obi/current"
-          external
-          id="main-nav-documentation"
-        />
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
-          className={locals.linkElement}
-          href="https://support.instana.com"
-          external
-          id="main-nav-support"
-        />
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
-          onClick={e => {
-            addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
-          }}
-          id="main-nav-about"
-        />
-        <SignOut />
-      </View>
+            sidebarIsExpanded={isExpanded}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            {tenantSwitcherEnabled && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
+                href={tenantSwitcherLink}
+                external
+                id="main-nav-tenants"
+              />
+            )}
+            {role.canConfigureAgents && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
+                href={createHrefToPath(agentsPath)}
+                isActive={matchLocation(agentsPath)}
+                onClick={onViewSwitched}
+                id="main-nav-agents"
+              />
+            )}
+            {releaseNotesEnabled && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
+                onClick={e => {
+                  showReleaseNotes();
+                  onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
+                }}
+                id="main-nav-release-notes"
+              />
+            )}
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
+              href="https://www.ibm.com/docs/en/obi/current"
+              external
+              id="main-nav-documentation"
+            />
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
+              className={locals.linkElement}
+              href="https://support.instana.com"
+              external
+              id="main-nav-support"
+            />
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
+              onClick={e => {
+                addActiveDialog(<AboutInstanaDialog />);
+                onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
+              }}
+              id="main-nav-about"
+            />
+            <SignOut />
+          </View>
+        </>
+      )}
     </ul>
   );
 }

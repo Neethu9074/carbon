@@ -15,7 +15,19 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/components/AlertPropertyInfos.mless';
 
-const propertiesBySeverity = Object.freeze({
+interface PropertiesBySeverityProps {
+  icon: string;
+  label: string;
+}
+
+interface AlertConfigProps {
+  name: string;
+  description: string;
+  triggering?: boolean;
+  severity: number;
+}
+
+const propertiesBySeverity: Readonly<Record<number, PropertiesBySeverityProps>> = Object.freeze({
   5: {
     icon: 'lib_events_warning',
     label: t('in-alerting:components.alertPropertyInfosWarning')
@@ -26,11 +38,17 @@ const propertiesBySeverity = Object.freeze({
   }
 });
 
+interface AlertPropertyInfosProps {
+  alertConfig: AlertConfigProps;
+  renderCustomTitle?: () => string;
+  disableTrigger: boolean;
+}
+
 export default function AlertPropertyInfos({
-  alertConfig: { name, description, triggering, severity },
+  alertConfig: { name, description, triggering = false, severity },
   renderCustomTitle,
   disableTrigger
-}) {
+}: AlertPropertyInfosProps) {
   const severityProperty = propertiesBySeverity[severity];
   return (
     <Sections>

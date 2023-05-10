@@ -13,6 +13,7 @@ import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import CancelButton from 'in-components/form/CancelButton';
 import SaveButton from 'in-components/form/SaveButton';
 import { setUsersToGroup } from '../../../api/groups';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -76,6 +77,36 @@ export default function AddUserButton({ members, addUsers, groupId }) {
     </Button>
   );
 }
+/**
+ * Provides a button as done before the featureFlag was introduced
+ * @param {isSaving: boolean, disabled: boolean} param0 props for component
+ * @returns new Component instance
+ */
+function LegacyAddUserToGroupButton({ isSaving, disabled }) {
+  return (
+    <SaveButton isSaving={isSaving} className={locals.legacyButton} disabled={disabled} kind="primary">
+      {t('in-settings:tabs.addUserToGroup')}
+    </SaveButton>
+  );
+}
+
+/**
+ * Provides an action-bar providing a cancel and submit button
+ * @param {isSaving: boolean, disabled: boolean} param0 props for component
+ * @returns new Component instance
+ */
+function Actions({ isSaving, disabled }) {
+  return (
+    <div className={locals.actionsWrapper}>
+      <CancelButton className={locals.button} onClick={close} isSaving={isSaving}>
+        {t('in-settings:tabs.cancel')}
+      </CancelButton>
+      <SaveButton isSaving={isSaving} className={locals.button} disabled={disabled} kind="primary">
+        {t('in-settings:termsDialog.save')}
+      </SaveButton>
+    </div>
+  );
+}
 
 const AddUserDialog = withSelectableItems(function AddUserDialog({
   onSubmit,
@@ -86,9 +117,8 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
 }) {
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState([]);
-  const submitBtnText = rbacImprovementEnabled
-    ? t('in-settings:termsDialog.save')
-    : t('in-settings:tabs.addUserToGroup');
+  const disabled = selectedEntities.size === 0;
+
   return (
     <Dialog className={locals.dialog} title={t('in-settings:tabs.inviteUserToGroup')} onClose={close}>
       <ErroneousResultPresenter errors={errors} addBottomMargin />
@@ -114,10 +144,11 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
             labelColumn
           ]}
         />
-
-        <SaveButton isSaving={isSaving} className={locals.button} disabled={selectedEntities.size === 0} kind="primary">
-          {submitBtnText}
-        </SaveButton>
+        {rbacImprovementEnabled ? (
+          <Actions isSaving={isSaving} disabled={disabled} />
+        ) : (
+          <LegacyAddUserToGroupButton isSaving={isSaving} disabled={disabled} />
+        )}
       </form>
     </Dialog>
   );

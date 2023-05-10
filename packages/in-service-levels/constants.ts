@@ -7,6 +7,8 @@
 import { SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+export const SLO_TARGET_DECIMAL_PRECISION = 2;
+
 interface EntityTypeData {
   label: string;
 }

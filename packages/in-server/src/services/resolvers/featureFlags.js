@@ -271,6 +271,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCredentialEnabled',
+    instanaCtlKey: 'feature.synthetic.credential.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
@@ -348,6 +353,11 @@ module.exports = exports = [
   {
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'playwithEnabled',
+    instanaCtlKey: 'feature.playwithEnabled.enabled',
     defaultValue: false
   },
   {
