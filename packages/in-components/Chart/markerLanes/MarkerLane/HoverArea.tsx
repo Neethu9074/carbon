@@ -10,24 +10,18 @@ import { MarkerLaneHoverOverlayConfig } from './MarkerLane';
 import locals from './HoverArea.mless';
 
 interface HoverAreaProps extends MarkerLaneHoverOverlayConfig {
-  renderLine: boolean;
-
-  //Don't think these can be optional as used in calculations below
-  xPos: number;
-  chartHeight: number;
-  timeAxisHeight: number;
-  markerPaneHeight: number;
+  renderLine?: boolean;
 }
 export default function HoverArea({
-  xPos,
+  xPos = 0,
   fromXPos,
   toXPos,
   clusterWidth,
   chartContentPosition,
-  timeAxisHeight,
-  markerPaneHeight,
+  timeAxisHeight = 0,
+  markerPaneHeight = 0,
   renderLine = true,
-  chartHeight,
+  chartHeight = 0,
   commonOverlayStyles
 }: HoverAreaProps) {
   return (
