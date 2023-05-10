@@ -4,110 +4,144 @@
  * Copyright IBM Corp. 2023
  */
 
+import { List } from 'immutable';
 import React from 'react';
 
-import { combineLatest, just } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
-
-import getIbmDataPowerXmlNamesForDomain from '../subscriptions/getIbmDataPowerXmlNamesForDomain';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
-import { pendingResult } from 'in-services/fixedObjects';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-const cols = [
-  {
-    title: t('in-forge:plugins.ibmDataPowerXmlName.type'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'type']);
-      }
+const typeCol = {
+  title: t('in-forge:plugins.ibmDataPowerDomain.xmlNameType'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.key.split('.')[1];
     }
-  },
-  {
-    title: t('in-forge:plugins.ibmDataPowerXmlName.used'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'used';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+  }
+};
+
+const uesdCol = {
+  title: t('in-forge:plugins.ibmDataPowerDomain.xmlNameUsed'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.snapshotId;
+    },
+    getMetricName(row: any) {
+      return 'xmlNames.' + row.key.split('.')[1] + '.used';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
-  },
-  {
-    title: t('in-forge:plugins.ibmDataPowerXmlName.percentFree'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'percentFree';
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+  }
+};
+
+const percentFreeCol = {
+  title: t('in-forge:plugins.ibmDataPowerDomain.xmlNamePercentFree'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.snapshotId;
+    },
+    getMetricName(row: any) {
+      return 'xmlNames.' + row.key.split('.')[1] + '.percentFree';
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
-  },
-  {
-    title: t('in-forge:plugins.ibmDataPowerXmlName.maximum'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'maximum';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+  }
+};
+
+const maximumCol = {
+  title: t('in-forge:plugins.ibmDataPowerDomain.xmlNameMaximum'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      if (row.key.startsWith('xmlNames')) {
+        return row.xmlName.toString();
       }
     }
   }
-];
+};
 
-export default function GetXmlNames({ snapshot }: { snapshot: SnapshotData }) {
+export default function XmlNamesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
-  const xmlNames = useObservable(
-    getIbmDataPowerXmlNamesForDomain({ snapshotId, timeConfig: timeConfig }).flatMap(result =>
-      result.data
-        ? combineLatest(result.data.map(xmlName => getSnapshot(xmlName, timeConfig))).map(xmlNames => success(xmlNames))
-        : just(pendingResult as Result<SnapshotData[]>)
-    ),
-    [snapshotId, timeConfig]
-  );
+  const rows = snapshot
+    .getIn(['data'], List())
+    .map((xmlName: Map<string, any>, name: string) => {
+      if (name.startsWith('xmlNames') && name.endsWith('maximum')) {
+        return {
+          key: name,
+          xmlName,
+          timeConfig,
+          snapshotId
+        };
+      }
+      return null;
+    })
+    .valueSeq()
+    .toArray()
+    .filter(Boolean);
 
-  if (!xmlNames?.data) {
+  if (rows.length === 0) {
     return null;
   }
-
-  const rows =
-    xmlNames.data.map(xmlName => ({
-      key: xmlName.get('id'),
-      snapshot: xmlName,
-      timeConfig
-    })) || [];
-
+  const cols = [typeCol, uesdCol, percentFreeCol, maximumCol];
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.ibmDataPowerXmlName.xmlNamesNumber', { len: rows.length })}
+      cardTitle={t('in-forge:plugins.ibmDataPowerDomain.xmlNamesCount', {
+        len: rows.length
+      })}
       cols={cols}
       rows={rows}
+      getRowDetails={getRowDetails}
+      initialSortColumn={cols.indexOf(typeCol)}
     />
+  );
+}
+
+function getRowDetails(row: any) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Chart
+        margins={{
+          left: 90,
+          right: 90
+        }}
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: ['xmlNames.' + row.key.split('.')[1] + '.used'],
+          labels: [t('in-forge:plugins.ibmDataPowerDomain.xmlNameUsed')],
+          type: 'line',
+          formatter: number.compact
+        }}
+      />
+      <Chart
+        margins={{
+          left: 90,
+          right: 90
+        }}
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: ['xmlNames.' + row.key.split('.')[1] + '.percentFree'],
+          labels: [t('in-forge:plugins.ibmDataPowerDomain.xmlNamePercentFree')],
+          type: 'line',
+          formatter: percentage.compact
+        }}
+      />
+    </div>
   );
 }
