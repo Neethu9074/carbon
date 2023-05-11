@@ -13,10 +13,6 @@ export type SelectedSmartAlertsListProps = {
   setForm: SetFormFunction;
 };
 
-declare function SelectedSmartAlertsList({
-  config,
-  isLoading,
-  actionHandlers = {}
-}: SelectedSmartAlertsListProps): JSX.Element;
+declare function SelectedSmartAlertsList({ form, setForm }: SelectedSmartAlertsListProps): JSX.Element;
 
 export default SelectedSmartAlertsList;

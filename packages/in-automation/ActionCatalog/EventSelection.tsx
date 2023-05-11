@@ -7,6 +7,7 @@ import { MapForm, Field } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { Spacer, Message, MessageTypes } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
@@ -41,7 +42,7 @@ export default function EventSelection({ form, setForm }: Pick<ActionFormProps, 
 
 const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function (selectedEvents) {
   if (selectedEvents.length === 0) {
-    return alwaysEmptyArray;
+    return alwaysEmptyArray as unknown as Observable<EventSpecificationInfo[]>;
   }
 
   // null is treated as a pending result when converting the HTTP response into a result

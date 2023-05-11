@@ -44,7 +44,7 @@ export default function SelectedSmartAlertsList({ form, setForm }) {
         rightHeader={<RightHeader form={form} setForm={setForm} />}
         noDataMessage={t('in-settings:tabs.noSmartAlertsSelected')}
         searchPlaceholder={t('in-automation:ActionCatalog.searchSmartAlerts')}
-        searchMaxWidth={300}
+        searchMaxWidth={350}
         isSearchable
       />
     </Fragment>
