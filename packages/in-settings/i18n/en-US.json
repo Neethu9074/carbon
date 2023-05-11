@@ -159,6 +159,7 @@
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_access_all": "Access all without limitation",
     "role": "Select a role",
+    "roleSelection": "Role",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_custom": "Custom",
