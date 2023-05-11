@@ -24,10 +24,10 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 export default function useSloWindowTimeConfig(timeWindow: TimeWindow): TimeConfig {
   const timeConfig = useTimeConfig();
 
-  return useMemo(() => calculate(timeConfig, timeWindow), [timeConfig, timeWindow]);
+  return useMemo(() => calculateTimeConfigForSloTimeWindow(timeConfig, timeWindow), [timeConfig, timeWindow]);
 }
 
-function calculate(timeConfig: TimeConfig, timeWindow: TimeWindow): TimeConfig {
+export function calculateTimeConfigForSloTimeWindow(timeConfig: TimeConfig, timeWindow: TimeWindow): TimeConfig {
   const { duration, durationUnit } = timeWindow;
   let toTimestamp = timeConfig.to ?? Date.now();
   let fromTimestamp = toTimestamp - timeConfig.windowSize;

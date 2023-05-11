@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE Count",
       "httpRequestHttpDeleteRawDataLabel": "HTTP Method",
       "customBeaconCountLabel": "Occurrences",
-      "customBeaconDurationLabel": "Duration"
+      "customBeaconDurationLabel": "Duration",
+      "crashBeaconCountLabel": "Crashes"
     },
     "quickFilterBar": {
       "mobileAppLabel": "Mobile App",

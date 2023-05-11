@@ -438,7 +438,7 @@
       "numberOfFailures": "Failure Alerting"
     },
     "configuration": {
-      "configurationTitle": "Configuration: How will this test work?",
+      "configurationTitle": "API {{testType}} Test Configuration",
       "testTypeTitle": "Test Type",
       "testType": "Type",
       "subType": "Subtype",

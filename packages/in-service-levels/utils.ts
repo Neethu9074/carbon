@@ -8,7 +8,7 @@ import { weeksToDays } from 'date-fns';
 import { isUndefined } from 'lodash';
 
 import { getIntlNumberFormatter, NumberFormatter } from '@instana/format-numbers';
-import { TimeConfig, TimeWindow } from '@instana/types';
+import { MetricResult, TimeConfig, TimeWindow } from '@instana/types';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
@@ -99,4 +99,11 @@ export function calculateTimeRemaining(timeConfig: TimeConfig): number {
   const now = Date.now();
   const to = timeConfig.to ?? now;
   return to - now;
+}
+
+export function getSingleNumberMetricValue(metric?: MetricResult): number | undefined {
+  if (!metric || metric.values.length !== 1) {
+    return undefined;
+  }
+  return metric.values[0][1];
 }
