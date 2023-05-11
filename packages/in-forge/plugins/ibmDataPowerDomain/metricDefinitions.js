@@ -16,18 +16,14 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('xmlNames', 'used', t('in-forge:plugins.ibmDataPowerDomain.xmlNameUsed')),
+    metric: getDynamicMetricMatch('xmlNames', 'used', t('in-forge:plugins.ibmDataPowerDomain.xmlNameType')),
     label: t('in-forge:plugins.ibmDataPowerDomain.xmlNameUsed'),
     category: [t('in-forge:plugins.ibmDataPowerDomain.xmlNames')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch(
-      'xmlNames',
-      'percentFree',
-      t('in-forge:plugins.ibmDataPowerDomain.xmlNamePercentFree')
-    ),
+    metric: getDynamicMetricMatch('xmlNames', 'percentFree', t('in-forge:plugins.ibmDataPowerDomain.xmlNameType')),
     label: t('in-forge:plugins.ibmDataPowerDomain.xmlNamePercentFree'),
     category: [t('in-forge:plugins.ibmDataPowerDomain.xmlNames')],
     min: 0,

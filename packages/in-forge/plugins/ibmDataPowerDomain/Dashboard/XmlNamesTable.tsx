@@ -60,13 +60,12 @@ const percentFreeCol = {
 
 const maximumCol = {
   title: t('in-forge:plugins.ibmDataPowerDomain.xmlNameMaximum'),
-  type: 'string',
+  type: 'number',
   typeArgs: {
     getValue(row: any) {
-      if (row.key.startsWith('xmlNames')) {
-        return row.xmlName.toString();
-      }
-    }
+      return row.maximum;
+    },
+    getContent: number.compact
   }
 };
 
@@ -75,11 +74,11 @@ export default function XmlNamesTable({ snapshot }: { snapshot: SnapshotData }) 
   const snapshotId = snapshot.get('id') as string;
   const rows = snapshot
     .getIn(['data'], List())
-    .map((xmlName: Map<string, any>, name: string) => {
+    .map((maximum: Map<string, any>, name: string) => {
       if (name.startsWith('xmlNames') && name.endsWith('maximum')) {
         return {
           key: name,
-          xmlName,
+          maximum,
           timeConfig,
           snapshotId
         };
