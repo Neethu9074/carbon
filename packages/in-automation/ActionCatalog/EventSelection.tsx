@@ -52,7 +52,7 @@ function eventSelectionTableActions({ form, setForm }: Pick<ActionFormProps, 'fo
       deselect: (deselectedEntity: any) => {
         if (deselectedEntity) {
           form = form.updateIn(['selectedEvents'], field => {
-            return field.setValue(field.value.filterNot((referencedId: any) => referencedId === deselectedEntity.id));
+            return field.setValue(field.value.filter((referencedId: any) => referencedId !== deselectedEntity.id));
           });
           setForm(form);
         }

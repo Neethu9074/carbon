@@ -85,7 +85,7 @@ function getColumnDefinitions(form, updateForm) {
           form.updateIn(['applicationAlertConfigIds'], f => {
             const selection = f.value;
             const idx = selection.findIndex(config => config === id);
-            return idx >= 0 ? f.setValue(selection.remove(idx)).setTouched(true) : f;
+            return idx >= 0 ? f.setValue(selection.filter((e, i) => i === idx)).setTouched(true) : f;
           })
         ),
       '5%'
