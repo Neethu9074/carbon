@@ -138,13 +138,10 @@ function List({
   onPageChange
 }) {
   const { goToPath } = useNavigation();
-  if ((hideWhenEmpty && (!entities || entities.length === 0)) || (entities && entities.progress?.loading)) {
+  if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
   }
 
-  if (entities?.data) {
-    entities = entities.data;
-  }
   let totalHitsBeforeFilter = 0;
   let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
