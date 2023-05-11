@@ -13,7 +13,9 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  CustomEventSpecificationWithMetadata
+  CustomEventSpecificationWithMetadata,
+  ActionAssociations,
+  ActionAssociation
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
@@ -105,6 +107,7 @@ export function getScoredActionsForEvent(selectedActions: string[], eventSpecifi
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;
+export type NewActionAssociation = Omit<ActionAssociations, 'id'>;
 
 export const createDocLinkField = (value: string): Field => ({
   value,
@@ -432,7 +435,7 @@ export function concatObservables<T extends Observable<any>[]>(...observables: T
   }
 }
 
-export function addAssociations(data: any) {
+export function addAssociations(data: NewActionAssociation) {
   return http({
     method: 'POST',
     maxRetries: 3,
@@ -443,7 +446,7 @@ export function addAssociations(data: any) {
 }
 
 export function getAssociations(actionId: string) {
-  return http({
+  return http<ActionAssociation[]>({
     method: 'GET',
     maxRetries: 3,
     url: `${associationsUrl}?action_id=${actionId}`,

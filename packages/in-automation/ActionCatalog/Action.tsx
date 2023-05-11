@@ -33,10 +33,11 @@ import {
   isScript,
   isWebhook,
   NO_AUTH,
-  AssociationsProps
+  selectedEventsTypesProps
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
+import { Action, Field, ActionAssociation, EventSpecificationInfo } from 'in-types';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-automation/tracker';
@@ -57,7 +58,6 @@ import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
-import { Action, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -72,7 +72,7 @@ export type ActionFormEntity = NewAction | Action;
 type NewActionwithEvents = ActionFormEntity & {
   selectedEvents?: string[];
   applicationAlertConfigIds?: string[];
-  selectedEventsTypes?: { builtin_event_ids: string[]; custom_event_ids: string[] };
+  selectedEventsTypes?: selectedEventsTypesProps;
 };
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
@@ -88,16 +88,16 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     // calling Get Action and Get action associations call and combining results
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
       ...(actionResponse as Action),
-      applicationAlertConfigIds: (associationsResponse as AssociationsProps[])
-        ?.map((action: AssociationsProps) => action?.application_alert?.id)
+      applicationAlertConfigIds: (associationsResponse as ActionAssociation[])
+        ?.map((action: ActionAssociation) => action?.application_alert?.id)
         .filter(function (x: string | undefined) {
           return x !== undefined;
         }),
       selectedEvents:
-        (associationsResponse as AssociationsProps[])
-          ?.map((action: AssociationsProps) => action.custom_event?.id)
+        (associationsResponse as ActionAssociation[])
+          ?.map((action: ActionAssociation) => action.custom_event?.id)
           .concat(
-            (associationsResponse as AssociationsProps[])?.map((action: AssociationsProps) => action.builtin_event_id)
+            (associationsResponse as ActionAssociation[])?.map((action: ActionAssociation) => action.builtin_event_id)
           )
           .filter(function (x: string | undefined) {
             return x !== undefined;
@@ -248,10 +248,10 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
   const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
-  const selectedEventsTypes: any = { builtin_event_ids: [], custom_event_ids: [] };
+  const selectedEventsTypes: selectedEventsTypesProps = { builtin_event_ids: [], custom_event_ids: [] };
   if (selectedEvents.length > 0) {
-    getEventSpecificationByIds(selectedEvents).once((data: any) => {
-      data.map((event: any) => {
+    getEventSpecificationByIds(selectedEvents).once((data: EventSpecificationInfo[]) => {
+      data.map((event: EventSpecificationInfo) => {
         if (event?.type === 'BUILT_IN') {
           selectedEventsTypes.builtin_event_ids.push(event.id);
         } else {
