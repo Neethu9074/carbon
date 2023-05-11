@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { SyntheticTest } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -15,7 +16,31 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
-const ConfigSection = () => {
+interface Props {
+  test: SyntheticTest;
+}
+
+const renderHeaders = (headers: any) => {
+  let content = [];
+  if (Object.entries(headers).length > 0) {
+    for (const key in headers) {
+      content.push(
+        <Row key={key} className={locals.configRow}>
+          <Col xs={3}>
+            <KeyValue label={t('in-synthetics:dashboard.configuration.header')} value={key} />
+          </Col>
+          <Col xs={3}>
+            <KeyValue label={t('in-synthetics:dashboard.configuration.value')} value={headers[key]} />
+          </Col>
+        </Row>
+      );
+    }
+  }
+  return content;
+};
+
+const ConfigSection = ({ test }: Props) => {
+  const { configuration } = test;
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
@@ -26,51 +51,108 @@ const ConfigSection = () => {
     >
       <Row className={locals.configRow}>
         <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.operation')} value={'GET'} />
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.operation')}
+            value={
+              //@ts-expect-error
+              configuration.operation
+            }
+          />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.url')}
-            value={'http://www.myurl.com/test-this-url'}
+            value={
+              //@ts-expect-error
+              configuration.url
+            }
           />
         </Col>
       </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.header')} value={'header1'} />
-        </Col>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.value')} value={'value1'} />
-        </Col>
-      </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.body')} value={'body of the input'} />
-        </Col>
-      </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue
-            label={t('in-synthetics:dashboard.configuration.validationString')}
-            value={'validate this, please'}
-          />
-        </Col>
-      </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.expectStatus')} value={200} />
-        </Col>
-      </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.expectMatch')} value={'match this string'} />
-        </Col>
-      </Row>
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue label={t('in-synthetics:dashboard.configuration.expectJSON')} value={'{json:data array: {}}'} />
-        </Col>
-      </Row>
+      {
+        //@ts-expect-error
+        configuration.headers && renderHeaders(configuration.headers)
+      }
+      {
+        //@ts-expect-error
+        configuration.body && (
+          <Row className={locals.configRow}>
+            <Col xs={3}>
+              <KeyValue
+                label={t('in-synthetics:dashboard.configuration.body')}
+                value={
+                  //@ts-expect-error
+                  configuration.body
+                }
+              />
+            </Col>
+          </Row>
+        )
+      }
+      {
+        //@ts-expect-error
+        configuration.validationString && (
+          <Row className={locals.configRow}>
+            <Col xs={3}>
+              <KeyValue
+                label={t('in-synthetics:dashboard.configuration.validationString')}
+                value={
+                  //@ts-expect-error
+                  configuration.validationString
+                }
+              />
+            </Col>
+          </Row>
+        )
+      }
+      {
+        //@ts-expect-error
+        configuration.expectStatus && (
+          <Row className={locals.configRow}>
+            <Col xs={3}>
+              <KeyValue
+                label={t('in-synthetics:dashboard.configuration.expectStatus')}
+                value={
+                  //@ts-expect-error
+                  configuration.expectStatus
+                }
+              />
+            </Col>
+          </Row>
+        )
+      }
+      {
+        //@ts-expect-error
+        configuration.expectMatch && (
+          <Row className={locals.configRow}>
+            <Col xs={3}>
+              <KeyValue
+                label={t('in-synthetics:dashboard.configuration.expectMatch')}
+                value={
+                  //@ts-expect-error
+                  configuration.expectMatch
+                }
+              />
+            </Col>
+          </Row>
+        )
+      }
+      {
+        //@ts-expect-error
+        configuration.expectJson && (
+          <Row className={locals.configRow}>
+            <Col xs={3}>
+              <KeyValue
+                label={t('in-synthetics:dashboard.configuration.expectJSON')}
+                value={
+                  //@ts-expect-error
+                  JSON.stringify(configuration.expectJson)
+                }
+              />
+            </Col>
+          </Row>
+        )
+      }
       <Row>
         <LightCard
           className={locals.lastConfigRow}
