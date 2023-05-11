@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { Fragment } from 'react';
@@ -85,7 +86,7 @@ function getColumnDefinitions(form, updateForm) {
           form.updateIn(['applicationAlertConfigIds'], f => {
             const selection = f.value;
             const idx = selection.findIndex(config => config === id);
-            return idx >= 0 ? f.setValue(selection.filter((e, i) => i === idx)).setTouched(true) : f;
+            return idx >= 0 ? f.setValue(selection.filter((e, i) => i !== idx)).setTouched(true) : f;
           })
         ),
       '5%'

@@ -3,20 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
+import { MapForm, Field } from 'formalistic';
 import React, { Fragment } from 'react';
-import { MapForm } from 'formalistic';
 
 import { Spacer, Message, MessageTypes } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { EventsProps } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { EventSpecificationInfo } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ActionFormProps {
@@ -49,10 +51,10 @@ const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(
 function eventSelectionTableActions({ form, setForm }: Pick<ActionFormProps, 'form' | 'setForm'>) {
   return {
     deselect: {
-      deselect: (deselectedEntity: any) => {
+      deselect: (deselectedEntity: EventSpecificationInfo) => {
         if (deselectedEntity) {
           form = form.updateIn(['selectedEvents'], field => {
-            return field.setValue(field.value.filter((referencedId: any) => referencedId !== deselectedEntity.id));
+            return field.setValue(field.value.filter((referencedId: string) => referencedId !== deselectedEntity.id));
           });
           setForm(form);
         }
@@ -69,8 +71,8 @@ function submitEventSelection({ form, setForm, selectedIds }: submitEventSelecti
   );
 }
 
-function EventsSelection({ form, setForm }: Pick<ActionFormProps, 'form' | 'setForm'>) {
-  const selectedEvents = form.get('selectedEvents')?.value ?? [];
+function EventsSelection({ form, setForm }: ActionFormProps) {
+  const selectedEvents = (form.get('selectedEvents') as Field<string[]>)?.value ?? [];
 
   return (
     <Fragment>
@@ -94,7 +96,7 @@ function EventsSelection({ form, setForm }: Pick<ActionFormProps, 'form' | 'setF
                 </Message>
               ) : null
             }
-            listComponent={(props: any) => (
+            listComponent={(props: EventsProps) => (
               <Events {...props} withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled} />
             )}
             hiddenIds={selectedEvents}

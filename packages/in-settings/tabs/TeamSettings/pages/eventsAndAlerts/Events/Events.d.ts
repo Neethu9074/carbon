@@ -6,15 +6,22 @@
 
 import { ReactNode } from 'react';
 
-interface EventsProps {
+import { EventSpecificationInfo } from 'in-types';
+
+export interface TableActions<ItemType extends Object> {
+  deselect?: {
+    deselect: (entity: ItemType) => void;
+  };
+}
+
+export interface EventsProps {
   setTitle: boolean;
   pageSize?: number;
   rightHeader?: ReactNode;
-  loadEntities: () => Observable<any[]>;
-  tableActions?: TableActions<any>;
+  loadEntities: () => Observable<EventSpecificationInfo[]>;
+  tableActions?: TableActions<EventSpecificationInfo>;
   noDataMessage?: string;
   hiddenIds?: string[];
-
   isSearchable?: boolean;
   onRowClick?: () => void;
   hasRowNavigation?: boolean;

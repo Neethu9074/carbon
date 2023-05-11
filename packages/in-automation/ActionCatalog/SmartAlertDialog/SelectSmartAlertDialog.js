@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
@@ -8,9 +9,8 @@ import PropTypes from 'prop-types';
 
 import { Button, Stack } from '@instana/components';
 
-// import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import SmartAlertSelectionList from 'in-automation/ActionCatalog/SmartAlertDialog/SmartAlertSelectionList';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import SmartAlertSelectionList from 'in-automation/ActionCatalog/SmartAlertDialog/SmartAlertSelectionList';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
