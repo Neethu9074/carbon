@@ -45,7 +45,7 @@ export function simpleListNameColumnDefinition(width = '35%') {
     getContent({ config }) {
       return <SimpleListNameColumn config={config} />;
     },
-    getValue(config) {
+    getValue({ config }) {
       return config?.name;
     }
   };

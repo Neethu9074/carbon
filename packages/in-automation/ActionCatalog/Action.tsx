@@ -87,12 +87,18 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     // calling Get Action and Get action associations call and combining results
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
       ...(actionResponse as any),
-      applicationAlertConfigIds:
-        (associationsResponse as any)?.map((action: any) => action.application_alert?.id) ?? [],
+      applicationAlertConfigIds: (associationsResponse as any)
+        ?.map((action: any) => action?.application_alert?.id)
+        .filter(function (x: any) {
+          return x !== undefined;
+        }),
       selectedEvents:
         (associationsResponse as any)
           ?.map((action: any) => action.custom_event?.id)
-          .concat((associationsResponse as any)?.map((action: any) => action.builtin_event_id)) ?? []
+          .concat((associationsResponse as any)?.map((action: any) => action.builtin_event_id))
+          .filter(function (x: any) {
+            return x !== undefined;
+          }) ?? []
     }));
   }
 
