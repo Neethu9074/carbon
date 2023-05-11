@@ -89,3 +89,13 @@ export const AUTH_TYPES = Object.freeze([
   { value: BEARER_TOKEN, translation: t('in-automation:ActionCatalog.bearerToken') },
   { value: API_KEY, translation: t('in-automation:ActionCatalog.apiKey') }
 ]);
+
+export type AssociationsProps = {
+  application_alert?: {
+    id: string;
+  };
+  custom_event?: {
+    id: string;
+  };
+  builtin_event_id?: string;
+};

@@ -32,7 +32,8 @@ import {
   isDocLink,
   isScript,
   isWebhook,
-  NO_AUTH
+  NO_AUTH,
+  AssociationsProps
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -86,17 +87,19 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     const associationsDetails$ = getAssociations(id);
     // calling Get Action and Get action associations call and combining results
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
-      ...(actionResponse as any),
-      applicationAlertConfigIds: (associationsResponse as any)
-        ?.map((action: any) => action?.application_alert?.id)
-        .filter(function (x: any) {
+      ...(actionResponse as Action),
+      applicationAlertConfigIds: (associationsResponse as AssociationsProps[])
+        ?.map((action: AssociationsProps) => action?.application_alert?.id)
+        .filter(function (x: string | undefined) {
           return x !== undefined;
         }),
       selectedEvents:
-        (associationsResponse as any)
-          ?.map((action: any) => action.custom_event?.id)
-          .concat((associationsResponse as any)?.map((action: any) => action.builtin_event_id))
-          .filter(function (x: any) {
+        (associationsResponse as AssociationsProps[])
+          ?.map((action: AssociationsProps) => action.custom_event?.id)
+          .concat(
+            (associationsResponse as AssociationsProps[])?.map((action: AssociationsProps) => action.builtin_event_id)
+          )
+          .filter(function (x: string | undefined) {
             return x !== undefined;
           }) ?? []
     }));

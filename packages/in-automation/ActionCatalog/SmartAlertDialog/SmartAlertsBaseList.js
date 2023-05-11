@@ -10,10 +10,8 @@ import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
-import { categoryLocal, isCategoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
-// import ButtonGroup from 'in-components/ButtonGroup';
-import SearchInput from 'in-components/SearchInput';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
+import { categoryLocal, isCategoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
@@ -23,6 +21,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
+import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
@@ -46,7 +45,6 @@ export function refreshSmartAlertConfigsList() {
 
 export default function SmartAlertsBaseList({
   onNoData,
-  // getGlobalAlertConfigFetchFunction,
   getLocalAlertConfigsFetchFunction,
   columnDefinitions,
   externalState,
@@ -54,7 +52,6 @@ export default function SmartAlertsBaseList({
   pageSize = defaultPageSize,
   createRowLinkLocation,
   configsCategory = categoryLocal,
-  // setConfigsCategory,
   sortOptions,
   extraSearchAttributes = emptyArray,
   ...remainingProps
@@ -64,31 +61,24 @@ export default function SmartAlertsBaseList({
     setExternalState
   );
 
-  // const fetchedGlobalAlerts = useSmartAlertConfigs(getGlobalAlertConfigFetchFunction);
   const fetchedLocalAlerts = useSmartAlertConfigs(getLocalAlertConfigsFetchFunction);
 
   const { configs, loading, errors } = getConfigByCategory({
-    // fetchedGlobalAlerts,
     fetchedLocalAlerts,
     configsCategory
   });
 
   useOnNoData({
-    // fetchedGlobalAlerts,
     fetchedLocalAlerts,
     onNoData
   });
 
   const { localSearchResults } = getSearchResults({
     query,
-    // fetchedGlobalAlerts,
     fetchedLocalAlerts,
     extraSearchAttributes
   });
   let searchResultsSelected = configs;
-  // if (isCategoryGlobal(configsCategory)) {
-  //   searchResultsSelected = globalSearchResults;
-  // }
   if (isCategoryLocal(configsCategory)) {
     searchResultsSelected = localSearchResults;
   }
@@ -117,35 +107,6 @@ export default function SmartAlertsBaseList({
             })}
           </ListTitle>
         )}
-
-        {/* {!hasSingleCategory && (
-          <ButtonGroup
-            segmented
-            buttonPropsList={[
-              {
-                text: t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
-                  numberOfAlerts: globalSearchResults.length || 0
-                }),
-                key: categoryGlobal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryGlobal);
-                }
-              },
-              {
-                text: t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
-                  numberOfAlerts: localSearchResults.length || 0
-                }),
-                key: categoryLocal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryLocal);
-                }
-              }
-            ]}
-            activeKey={configsCategory}
-          />
-        )} */}
         <HorizontalFlexWrapper>
           <div className={locals.sortingConfiguratorWrapper}>
             <SortingConfigurator
@@ -201,23 +162,13 @@ export default function SmartAlertsBaseList({
 }
 
 function getSearchResults({ query, fetchedLocalAlerts, extraSearchAttributes }) {
-  // const globalConfigs = fetchedGlobalAlerts.configs;
   const localConfigs = fetchedLocalAlerts.configs;
-  // const globalSearchResults = getResultsToDisplay(globalConfigs, query, extraSearchAttributes);
   const localSearchResults = getResultsToDisplay(localConfigs, query, extraSearchAttributes);
 
   return { localSearchResults };
 }
 
 function getConfigByCategory({ configsCategory, fetchedLocalAlerts }) {
-  // if (isCategoryGlobal(configsCategory)) {
-  //   return {
-  //     configs: fetchedGlobalAlerts.configs,
-  //     errors: fetchedGlobalAlerts.errors,
-  //     loading: fetchedGlobalAlerts.isLoading
-  //   };
-  // }
-
   if (isCategoryLocal(configsCategory)) {
     return {
       configs: fetchedLocalAlerts.configs,
@@ -243,9 +194,7 @@ function useSmartAlertConfigs(getAlertConfigFetchFunction) {
 }
 
 function useOnNoData({ fetchedLocalAlerts, onNoData }) {
-  // const numberGlobalSmartAlertConfigs = fetchedGlobalAlerts.configs?.length ?? 0;
   const numberLocalSmartAlertConfigs = fetchedLocalAlerts.configs?.length ?? 0;
-  // const isLoadingGlobalConfigs = fetchedGlobalAlerts.isLoading;
   const isLoadingLocalConfig = fetchedLocalAlerts.isLoading;
 
   const loadingFinished = !isLoadingLocalConfig;
