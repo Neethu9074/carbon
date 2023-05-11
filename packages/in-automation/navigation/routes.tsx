@@ -15,9 +15,8 @@ import { actionCatalogPath, actionDetailsPath, actionDetailsCopyFormPath } from 
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
-const addKeyToComponent = (component: React.ReactElement, key: string) => {
-  return React.cloneElement(component, { key });
-};
+const addKeyToComponent = (component: React.ReactElement, key = '') => React.cloneElement(component, { key });
+
 export default [
   <Route exact path={actionCatalogPath} key="actionCatalog">
     {renderAsyncRouteChildren(ActionCatalogTab)}
@@ -26,6 +25,6 @@ export default [
     exact
     path={[actionDetailsPath, actionDetailsCopyFormPath]}
     key="actionDetails"
-    render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props?.match?.params?.id ?? '')}
+    render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props?.match?.params?.id)}
   />
 ];
