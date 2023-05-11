@@ -25,6 +25,6 @@ export default [
     exact
     path={[actionDetailsPath, actionDetailsCopyFormPath]}
     key="actionDetails"
-    render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props?.match?.params?.id)}
+    render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props.match.params?.id)}
   />
 ];
