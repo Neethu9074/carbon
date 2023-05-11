@@ -90,10 +90,10 @@ export const AUTH_TYPES = Object.freeze([
   { value: API_KEY, translation: t('in-automation:ActionCatalog.apiKey') }
 ]);
 
-export type selectedEventsTypesProps = { builtin_event_ids: string[]; custom_event_ids: string[] };
+export type selectedEventsTypes = { builtin_event_ids: string[]; custom_event_ids: string[] };
 
 export type NewActionWithAssociations = ActionFormEntity & {
   selectedEvents?: string[];
   applicationAlertConfigIds?: string[];
-  selectedEventsTypes?: selectedEventsTypesProps;
+  selectedEventsTypes?: selectedEventsTypes;
 };

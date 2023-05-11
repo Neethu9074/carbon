@@ -33,7 +33,7 @@ import {
   isScript,
   isWebhook,
   NO_AUTH,
-  selectedEventsTypesProps
+  selectedEventsTypes
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -41,10 +41,10 @@ import { Action, Field, ActionAssociation, EventSpecificationInfo } from 'in-typ
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-automation/tracker';
+import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
-import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -244,7 +244,7 @@ export function getActionSpecification(form: MapForm<any>): NewActionWithAssocia
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
   const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
-  const selectedEventsTypes: selectedEventsTypesProps = { builtin_event_ids: [], custom_event_ids: [] };
+  const selectedEventsTypes: selectedEventsTypes = { builtin_event_ids: [], custom_event_ids: [] };
   if (selectedEvents.length > 0) {
     getEventSpecificationByIds(selectedEvents).once((data: EventSpecificationInfo[]) => {
       data.map((event: EventSpecificationInfo) => {
