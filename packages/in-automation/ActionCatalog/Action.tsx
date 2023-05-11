@@ -65,7 +65,6 @@ export type ActionFormEntity = NewAction | Action;
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
-
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
   const isCopy = props.match.path.split('/').at(-2) === 'copy';
