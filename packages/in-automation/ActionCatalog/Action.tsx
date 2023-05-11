@@ -242,11 +242,11 @@ export function getActionSpecification(form: MapForm<any>): NewActionwithEvents 
   const selectedEventsTypes: any = { builtin_event_ids: [], custom_event_ids: [] };
   if (selectedEvents.length > 0) {
     getEventSpecificationByIds(selectedEvents).once((data: any) => {
-      data.map((event1: any) => {
-        if (event1?.type === 'BUILT_IN') {
-          selectedEventsTypes.builtin_event_ids.push(event1.id);
+      data.map((event: any) => {
+        if (event?.type === 'BUILT_IN') {
+          selectedEventsTypes.builtin_event_ids.push(event.id);
         } else {
-          selectedEventsTypes.custom_event_ids.push(event1.id);
+          selectedEventsTypes.custom_event_ids.push(event.id);
         }
       });
     });
