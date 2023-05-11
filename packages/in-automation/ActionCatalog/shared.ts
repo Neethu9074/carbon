@@ -91,3 +91,9 @@ export const AUTH_TYPES = Object.freeze([
 ]);
 
 export type selectedEventsTypesProps = { builtin_event_ids: string[]; custom_event_ids: string[] };
+
+export type NewActionWithAssociations = ActionFormEntity & {
+  selectedEvents?: string[];
+  applicationAlertConfigIds?: string[];
+  selectedEventsTypes?: selectedEventsTypesProps;
+};

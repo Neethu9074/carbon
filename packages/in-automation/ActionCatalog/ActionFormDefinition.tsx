@@ -22,17 +22,12 @@ import {
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
-
-type NewAction = ActionFormEntity & {
-  selectedEvents?: string[];
-  applicationAlertConfigIds?: string[];
-  selectedEventsTypes?: { builtin_event_ids: string[]; custom_event_ids: string[] };
-};
 
 function mimeValidator(str: string): ValidationResult {
   if (isNotBlank(str) && !(str in mimeDb)) {
@@ -63,7 +58,7 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
   return null;
 }
 
-export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
+export function createActionFormDefinition(action: NewActionWithAssociations, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const selectedEvents = action?.selectedEvents ?? [];
   const selectedEventsTypes = action?.selectedEventsTypes ?? { builtin_event_ids: [], custom_event_ids: [] };
@@ -347,34 +342,3 @@ export function removeBearerField(form: MapForm<any>) {
 export function removeApiKeyFields(form: MapForm<any>) {
   return form.remove('apiKey').remove('apiKeyValue').remove('apiKeyAddTo');
 }
-
-// function selectedEventsValidator(selectedEvents) {
-//   if (selectedEvents.size === 0) {
-//     return [
-//       {
-//         severity: 'error',
-//         message: t('in-settings:tabs.pleaseSelectAtLeastOneEvent')
-//       }
-//     ];
-//   }
-//   if (selectedEvents.size > limitForConnectedEvents) {
-//     return [
-//       {
-//         severity: 'error',
-//         message: t('in-settings:tabs.pleaseSelectAtMostLimitForConnectedEventsEvents', {
-//           limitForConnectedEvents: limitForConnectedEvents
-//         })
-//       }
-//     ];
-//   }
-// }
-
-// export function putSelectedEventsField(form, selectedEvents) {
-//   return form.put(
-//     'selectedEvents',
-//     createField({
-//       value: selectedEvents ? selectedEvents : List([]),
-//       validator: selectedEventsValidator
-//     })
-//   );
-// }

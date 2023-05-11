@@ -44,6 +44,7 @@ import { createActionTracker, editActionTracker } from 'in-automation/tracker';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
+import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -69,11 +70,6 @@ interface MatchParams {
 }
 
 export type ActionFormEntity = NewAction | Action;
-type NewActionwithEvents = ActionFormEntity & {
-  selectedEvents?: string[];
-  applicationAlertConfigIds?: string[];
-  selectedEventsTypes?: selectedEventsTypesProps;
-};
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
@@ -108,7 +104,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   const entityFormParam = {
     entityId,
     createDefaultEntity: createAction,
-    createForm: (action: NewActionwithEvents) => createActionFormDefinition(action, !entityId),
+    createForm: (action: NewActionWithAssociations) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: () =>
       mergeResultData().map((action: any) =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
@@ -240,7 +236,7 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   }
 }
 
-export function getActionSpecification(form: MapForm<any>): NewActionwithEvents {
+export function getActionSpecification(form: MapForm<any>): NewActionWithAssociations {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
