@@ -95,8 +95,9 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           getEntityName={entity => entity.name}
           tableActions={tableActions}
           columnDefinitions={columnDef}
-          loadEntities={() => loadEntities().tap((alerts: any) => setAlertsSize(alerts.length))}
+          loadEntities={() => loadEntities().tap(alerts => setAlertsSize(alerts.length))}
           searchAttributes={[(entity: AlertConfig) => entity.name]}
+          pageSize={15}
           onRowClick={onRowClick}
         />
       </Card>
