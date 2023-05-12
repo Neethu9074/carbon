@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { SyntheticTest, SyntheticType } from '@instana/types';
 import { KeyValue } from '@instana/components';
-import { SyntheticTest } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -19,7 +19,36 @@ interface Props {
   test: SyntheticTest;
 }
 
+type SyntheticMapping = {
+  testType: 'API' | 'Browser' | 'Webpage' | 'DNS';
+  subTestType: 'Simple' | 'Script';
+};
+
+type TypeMap = Record<SyntheticType, SyntheticMapping>;
+
 const TestTypeSection = ({ test }: Props) => {
+  const { configuration } = test;
+
+  const mapSyntheticType = (syntheticType: string) => {
+    const typeMap: TypeMap = {
+      HTTPAction: { testType: 'API', subTestType: 'Simple' },
+      HTTPScript: { testType: 'API', subTestType: 'Script' },
+      BrowserScript: { testType: 'Browser', subTestType: 'Script' },
+      WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
+      WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
+      DNSAction: { testType: 'DNS', subTestType: 'Simple' }
+    };
+
+    //@ts-expect-error expression of type 'string' can't be used to index type 'TypeMap'.
+    const syntheticMapping = typeMap[syntheticType];
+
+    if (syntheticMapping) {
+      return syntheticMapping;
+    } else {
+      return { testType: '', subTestType: '' };
+    }
+  };
+
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
@@ -32,13 +61,13 @@ const TestTypeSection = ({ test }: Props) => {
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.testType')}
-            value={test.configuration.syntheticType}
+            value={mapSyntheticType(configuration.syntheticType).testType}
           />
         </Col>
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.subType')}
-            value={test.configuration.syntheticType}
+            value={mapSyntheticType(configuration.syntheticType).subTestType}
           />
         </Col>
       </Row>
