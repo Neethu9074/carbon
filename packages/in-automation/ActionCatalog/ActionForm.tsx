@@ -39,10 +39,9 @@ import {
   WEBHOOK_TYPE,
   getType
 } from 'in-automation/ActionCatalog/shared';
-// import SmartAlertsSelection from 'in-automation/ActionCatalog/SmartAlertsSelection';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import SelectedSmartAlertsList from 'in-automation/ActionCatalog/SmartAlertDialog/SelectedSmartAlertsList';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import EventSelection from 'in-automation/ActionCatalog/EventSelection';
