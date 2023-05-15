@@ -91,6 +91,8 @@ export const ID_KUBERNETES_NODE = 'id.kubernetesNode';
 export const ID_KUBERNETES_NAMESPACE = 'id.kubernetesNamespace';
 export const ID_KUBERNETES_DEPLOYMENT = 'id.kubernetesDeployment';
 export const ID_DOCKER = 'id.docker';
+export const ID_CONTAINERD = 'id.containerd';
+export const CONTAINERD_NAME = 'containerd.name';
 
 export const kubernetesEntitySnapshotIds = [
   KUBERNETES_CLUSTER_SNAPSHOT_ID,
@@ -132,6 +134,8 @@ export const logTableTags = [
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE,
   ID_DOCKER,
+  ID_CONTAINERD,
+  CONTAINERD_NAME,
   ...kubernetesTags
 ];
 
