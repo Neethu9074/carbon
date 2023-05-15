@@ -123,7 +123,7 @@ export function addSourceMapUploadConfiguration(
 ): Observable<SourceMapUploadConfig> {
   return http<SourceMapUploadConfig>({
     method: 'POST',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload`,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
@@ -135,7 +135,7 @@ export function updateSourceMapUploadConfiguration(
 ): Observable<SourceMapUploadConfig> {
   return http<SourceMapUploadConfig>({
     method: 'PUT',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${encodeURIComponent(
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(
       config.id
     )}`,
     headers: getCsrfHeader(),
@@ -147,7 +147,7 @@ export function getSourceMapUploadConfigurations(id: string): Observable<Array<S
   return http<SourceMapUploadConfigs>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourceMapUpload`,
+    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourcemap-upload`,
     headers: getCsrfHeader()
   }).map(response => response.body.configs);
 }
@@ -156,7 +156,7 @@ export function removeSourceMapUploadConfiguration(websiteId: string, sourceMapC
   return http<never>({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${encodeURIComponent(
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(
       sourceMapConfigId
     )}`,
     headers: getCsrfHeader()

@@ -44,7 +44,7 @@ interface Props {
 export default function FileUploadConfigurationDialogPresenter(props: Props) {
   const { form, message, onSubmit, onChange, websiteId } = props;
 
-  const apiBaseUrl = `${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload`;
+  const apiBaseUrl = `${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload`;
   const apiUploadUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/form`;
   const apiClearUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/clear`;
 
