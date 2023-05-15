@@ -1008,6 +1008,7 @@
   "pluginName_msiis_1": "Internet Information Servers",
   "pluginName_msiis_2": "Internet Information Servers",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "MSMQ Message",
   "pluginName_msSqlDatabase_plural": "MS SQL Instances",
   "pluginName_msSqlDatabase_0": "MS SQL Instances",
   "pluginName_msSqlDatabase_1": "MS SQL Instances",
@@ -13610,7 +13611,9 @@
       "titleMachine": "Machine",
       "titleQueue": "Queue",
       "titleOperation": "Operation",
-      "titleTransactionType": "Transaction-Type"
+      "titleTransactionType": "Transaction-Type",
+      "titleExceptionType": "Exception-Type",
+      "titleError": "Error"
     },
     "muleClient": {
       "titleProtocol": "Protocol",

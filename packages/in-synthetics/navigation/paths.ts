@@ -10,10 +10,11 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
+// eslint-disable-next-line import/no-deprecated
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { stringify } from 'in-services/util/json';
@@ -26,6 +27,7 @@ const matrixLocationLabels = 'locationLabels';
 const summaryTab = '/summary';
 export const resultsTab = '/results';
 export const alertsTab = '/alerts';
+const configurationTab = '/configuration';
 
 export const syntheticsPath = '/syntheticTests';
 export const syntheticLocationPath = '/syntheticLocations';
@@ -33,6 +35,7 @@ export const syntheticsDashboard = '/synthetic';
 export const syntheticAlertListPath = `${syntheticsDashboard}${alertsTab}`;
 export const syntheticsSummaryPath = `${syntheticsDashboard}${summaryTab}`;
 export const syntheticResultsListPath = `${syntheticsDashboard}${resultsTab}`;
+export const syntheticConfigurationPath = `${syntheticsDashboard}${configurationTab}`;
 export const syntheticDetailsPath = `/syntheticDetails`;
 export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 export const syntheticSmartAlertsDetailsPath = '/details';
@@ -72,6 +75,7 @@ function getDashboard(
   failedStatusFilter?: boolean,
   locationLabelFilters?: string[]
 ): Observable<string> {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${basePath}${tab}`;
     setOrDeleteMatrixKey(params, basePath, matrixTestId, testId);

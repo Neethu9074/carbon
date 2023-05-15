@@ -15,6 +15,7 @@ import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './RoleFormGroup.mless';
 
@@ -35,17 +36,8 @@ export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole
   return (
     <FormGroup>
       <Label htmlFor={htmlFor} className={locals.label}>
-        <Typography variant="body-regular">Role</Typography>
-        <Tooltip
-          themeStyle="dark"
-          content={
-            <Typography variant="body-regular" onDark>
-              {tooltipText}
-            </Typography>
-          }
-          align="bottomMiddle"
-          delay={250}
-        >
+        <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
+        <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
           <SvgIcon type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       </Label>

@@ -291,7 +291,8 @@
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
-      "smartAlertsTab": "Smart Alerts"
+      "smartAlertsTab": "Smart Alerts",
+      "configurationTab": "Configuration"
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -435,6 +436,29 @@
       "violationsCount": "{{violationsCount}} failures",
       "testsCount": "{{testsCount}} tests",
       "numberOfFailures": "Failure Alerting"
+    },
+    "configuration": {
+      "configurationTitle": "API {{testType}} Test Configuration",
+      "testTypeTitle": "Test Type",
+      "testType": "Type",
+      "subType": "Subtype",
+      "configSectionTitle": "Configuration",
+      "operation": "Operation",
+      "url": "URL",
+      "header": "Header",
+      "value": "Value",
+      "body": "Body",
+      "validationString": "Validation String",
+      "expectStatus": "Expect Status",
+      "expectMatch": "Expect Match",
+      "expectJSON": "Expect JSON",
+      "additionalOptionsTitle": "Additional Options",
+      "followRedirect": "Follow Redirect",
+      "allowInsecure": "Allow Insecure",
+      "locationsTitle": "Location(s)",
+      "scheduleTitle": "Schedule",
+      "identifyTitle": "Identify",
+      "customProperties": "Custom Properties"
     }
   }
 }

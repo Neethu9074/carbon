@@ -10,9 +10,8 @@ import { get } from 'lodash';
 import { Button, Card } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
-// @ts-expect-error needs migration to TS
-import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { combineDataAndError } from 'in-services/util/ro';

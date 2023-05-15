@@ -82,17 +82,24 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     setIsSubmitting(true);
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
-    if (isEmpty(form.get('configuration').get('headers').value)) {
-      updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
-      testConfig = {
-        active: true,
-        ...updatedForm.toJS()
-      } as SyntheticTest;
-    } else {
+    if (simpleMode) {
       testConfig = {
         active: true,
         ...form.toJS()
       } as SyntheticTest;
+    } else {
+      if (isEmpty(form.get('configuration').get('headers').value)) {
+        updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
+        testConfig = {
+          active: true,
+          ...updatedForm.toJS()
+        } as SyntheticTest;
+      } else {
+        testConfig = {
+          active: true,
+          ...form.toJS()
+        } as SyntheticTest;
+      }
     }
 
     /**

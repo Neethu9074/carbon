@@ -39,6 +39,7 @@ export default function SmartAlertList() {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
+            pageName: 'Synthetic Monitoring > Smart Alerts',
             productArea: 'Synthetics Monitoring',
             pageRootName: 'Smart Alerts'
           }}
