@@ -19,6 +19,7 @@ import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { SyntheticTest, Error as ScriptError } from 'in-types';
+import { SlideInHeader } from 'in-synthetics/utils/constants';
 import { createTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -53,6 +54,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   //between Simple Mode and Advanced Mode. These attributes are: syntheticType, url (HTTPAction),
   //script (HTTPScript), locations, testFrequency, label, description, and applicationId.
   const [commonAttributes, setCommonAttributes] = useState<Record<string, any>>({});
+  const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
+    title: null,
+    onClose: null
+  });
 
   const formId = 'create-synthetics-test-form';
 
@@ -88,7 +93,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         ...form.toJS()
       } as SyntheticTest;
     } else {
-      if (isEmpty(form.get('configuration').get('headers').value)) {
+      if (
+        form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+        isEmpty(form.get('configuration').get('headers').value)
+      ) {
         updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
         testConfig = {
           active: true,
@@ -209,8 +217,12 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     <DialogWithSlideInView
       footer={footer}
       title={t('in-synthetics:dialog.createTest.dialogTitle')}
-      slideInViewTitle={''}
-      onSlideInViewTitleClick={() => {}}
+      slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
+      onSlideInViewTitleClick={() =>
+        customSlideInHeaderConfig.onClose
+          ? customSlideInHeaderConfig.onClose()
+          : setSlideInViewVisible(!slideInViewVisible)
+      }
       titleIconType="lib_line_chart"
       onClose={onClose}
       doNotCloseOnOutsideClick
@@ -260,6 +272,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setRenderSectionsCounter={setRenderSectionsCounter}
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
+        setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
       />
     </DialogWithSlideInView>
   );

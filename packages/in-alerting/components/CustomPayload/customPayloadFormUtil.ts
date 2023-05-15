@@ -60,7 +60,7 @@ function nonBlankValidator(s: string | Nullish): ValidationResult {
 
 export function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject?: {
   tagName: string | Nullish;
-  key: string | Nullish;
+  key?: string | Nullish;
 }): ValidationResult {
   if (!tagObject || !tagObject.tagName) {
     return tagNeedsToBeSelectedError;

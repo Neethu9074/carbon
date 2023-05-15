@@ -10,10 +10,7 @@ import React from 'react';
 
 import { Link, Typography, Spacer } from '@instana/components';
 
-import {
-  FormModel,
-  toViewModel
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   AUTH_TYPES,
   getScriptFromFields,
@@ -28,6 +25,7 @@ import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/Paramet
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
@@ -35,7 +33,6 @@ import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
-import { Action, Parameter, VolatileId } from 'in-types';
 import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
@@ -373,7 +370,7 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
   const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
   const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
-  const parsedDynamicValue: FormModel = (raw => {
+  const parsedDynamicValue: DynamicFieldValue = (raw => {
     try {
       return JSON.parse(raw);
     } catch (e) {

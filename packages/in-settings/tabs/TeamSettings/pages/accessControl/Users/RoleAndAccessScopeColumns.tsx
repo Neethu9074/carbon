@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { PermissionSetWithRoles, GroupWithRoles } from '@instana/types';
 import { Li, LoadingSkeleton } from '@instana/components';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
-import { useGetGroupsForEmail } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
+import { getGroupsOfASingleUserAsResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { fallBackPermissions } from 'in-stores/permission';
 import { ownerRoleId } from 'in-stores/user';
@@ -18,10 +18,26 @@ import { t } from 'in-i18n';
 
 interface RoleAndAccessScopeColumnsProps {
   email: string;
+  refresh: boolean;
 }
 
-export default function RoleAndAccessScopeColumns({ email }: RoleAndAccessScopeColumnsProps) {
-  const [groups, , , { loading }] = useGetGroupsForEmail(email);
+export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAccessScopeColumnsProps) {
+  const [loading, setLoading] = useState(true);
+  const [permissionsSet, setPermissionsSet] = useState<PermissionSetWithRoles | undefined>(undefined);
+
+  useEffect(() => {
+    // Refreshes permissionsSet initially or when triggered by removing or adding groups for a user
+    setLoading(true);
+    const groupsObservable = getGroupsOfASingleUserAsResult(email);
+    groupsObservable.subscribe(result => {
+      if (result?.data) {
+        // Groups have been fetched
+        setPermissionsSet(mergeGroupsAndMapToPermissionSet(result.data));
+        setLoading(false);
+      }
+    });
+  }, [email, refresh]);
+
   if (loading) {
     return (
       <Li>
@@ -30,7 +46,6 @@ export default function RoleAndAccessScopeColumns({ email }: RoleAndAccessScopeC
     );
   }
 
-  const permissionsSet: PermissionSetWithRoles = mergeGroupsAndMapToPermissionSet(groups);
   return (
     <LightCard title={t('in-settings:roleAndAccessScope.productArea')}>
       {permissionsSet && <RolesAndAccessScopeOverview permissionsSet={permissionsSet} />}

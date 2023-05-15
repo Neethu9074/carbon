@@ -7,13 +7,13 @@
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 import { isEmpty } from 'lodash';
 
-import { FormModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { ParameterDialogProps } from 'in-automation/ActionCatalog/ParameterDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { notBlankValidator } from 'in-services/validators/string';
+import { DynamicFieldValue } from 'in-types';
 import { t } from 'in-i18n';
-import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 
 interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit'> {
   parameter: MappedParameter | undefined;
@@ -125,7 +125,7 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
 }
 
 export function addDynamicFields({ parameter, form }: AddFieldsParams) {
-  const parsedDynamicValue: FormModel = (raw => {
+  const parsedDynamicValue: DynamicFieldValue = (raw => {
     try {
       return JSON.parse(raw);
     } catch {
@@ -174,7 +174,7 @@ export function mutateFieldBlankValidator({
   );
 }
 
-export function emptyObjectValidator(value: FormModel): ValidationResult {
+export function emptyObjectValidator(value: DynamicFieldValue): ValidationResult {
   if (isEmpty(value)) {
     return [
       {

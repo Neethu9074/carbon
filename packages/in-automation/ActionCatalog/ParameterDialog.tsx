@@ -7,11 +7,10 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { Parameter, DynamicFieldValue } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { Parameter } from '@instana/types';
 
 import {
-  FormModel,
   ViewModel,
   createTagBasedPayloadConfigurator,
   toFormModel,
@@ -353,7 +352,7 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
 });
 
 const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
-  const value = parameterForm.get('value') as Field<FormModel>;
+  const value = parameterForm.get('value') as Field<DynamicFieldValue>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   return (
     <FormGroup>
@@ -427,7 +426,7 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     paramValue = JSON.stringify({ secretKey: secretKey, secretPath: secretPath });
     valueType = 'map';
   } else if (type === 'dynamic') {
-    const value = (parameterForm.get('value') as Field<FormModel>).value;
+    const value = (parameterForm.get('value') as Field<DynamicFieldValue>).value;
     paramValue = JSON.stringify(value);
     valueType = 'map';
   }

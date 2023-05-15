@@ -67,11 +67,6 @@ interface ViewModel {
   secondLevelKey: string;
 }
 
-interface FormModel {
-  tagName: string;
-  key: string;
-}
+export function toViewModel(formModel: DynamicFieldValue): ViewModel;
 
-export function toViewModel(formModel: FormModel): ViewModel;
-
-export function toFormModel(viewModel: ViewModel): FormModel;
+export function toFormModel(viewModel: ViewModel): DynamicFieldValue;
