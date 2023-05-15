@@ -18,6 +18,8 @@ import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
 
+import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
+
 interface Props {
   test: TestResponse;
 }
@@ -34,7 +36,7 @@ const ActionButtons = () => {
 
 const Configuration = ({ test }: Props) => {
   if (test.progress.loading) {
-    return <LoadingSkeleton />;
+    return <LoadingSkeleton className={locals.skeleton} />;
   }
   const testType: string = test.data.configuration.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
   return (

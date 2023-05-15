@@ -4,40 +4,81 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm } from 'formalistic';
+import { Field, Item, MapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+// eslint-disable-next-line no-restricted-imports
+import List from 'in-settings/components/List';
+import AddScriptDialogContent from 'in-synthetics/components/advanced/AddScriptDialogContent';
+import { createZipScriptConfigurationForm } from 'in-synthetics/form/createSyntheticTestForm';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { isNotBlank } from 'in-services/util/string';
-import Label from 'in-components/form/Label/Label';
+import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { SlideInHeader, Zip } from 'in-synthetics/utils/constants';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import locals from './ScriptsSection.mless';
 
-interface Props {
+interface ScriptProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  setSliderState: (state: SliderState) => void;
+  setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
 }
 
-export default function ScriptsSection({ form, updateForm }: Props): JSX.Element {
+export default function ScriptsSection({
+  form,
+  updateForm,
+  setSliderState,
+  setCustomSlideInHeaderConfig
+}: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
-  const scriptField = configForm.get('script') as Field<string>;
-  //state variable to store file name
-  const [script, setScript] = useState(isNotBlank(scriptField.value) ? 'fileName.js' : null);
+  const [script, setScript] = useState({ name: '', text: '', extension: 'js' });
+  const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
+  const [columnLabel, setColumnLabel] = useState(
+    t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
+  );
+
+  function deleteScript() {
+    if (script.extension !== 'zip') {
+      updateForm(
+        form.updateIn(['configuration', 'script'], (field: Item) =>
+          (field as Field<string>).setValue('').setTouched(true)
+        )
+      );
+    } else {
+      //@ts-ignore-next-line
+      let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
+        (field as Field<string>).setValue('').setTouched(true)
+      );
+      //@ts-ignore-next-line
+      updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'scriptFile'], (field: Item) =>
+        (field as Field<string>).setValue('').setTouched(true)
+      );
+      updateForm(updatedForm);
+    }
+    setScript({ name: '', text: '', extension: '' });
+    setColumnLabel(t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'));
+  }
+
   const columnDefinition = [
     {
       id: 'file_name',
-      label: t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'),
+      label: columnLabel,
       sortable: false,
       getContent() {
         return (
           <HorizontalFlexWrapper className={locals.row}>
-            <span>{script}</span>
+            <span>
+              {isBlank(script.extension)
+                ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
+                : script.name}
+            </span>
             <SvgIcon type="lib_actions_delete" onClick={deleteScript} />
           </HorizontalFlexWrapper>
         );
@@ -45,64 +86,10 @@ export default function ScriptsSection({ form, updateForm }: Props): JSX.Element
     }
   ];
 
-  const scriptResult = {
-    progress: {
-      loading: false
-    },
-    errors: [],
-    data: {
-      items: isNotBlank(scriptField.value) ? [scriptField] : [],
-      page: 0,
-      pageSize: 1,
-      totalHits: 0
-    }
-  };
-
-  const rightHeader =
-    script === null ? (
-      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addScript}>
-        {t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
-      </Button>
-    ) : (
-      <Button kind="action" icon="lib_actions_edit" onClick={editScript}>
-        {t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')}
-      </Button>
-    );
-
-  function addScript() {
-    // open add script dialog will be moved
-    // updateForm will be moved to dialog section later
-    updateForm(
-      form.updateIn(['configuration', 'script'], (field: Item) =>
-        (field as Field<string>).setValue('script content to be updated here').setTouched(true)
-      )
-    );
-    setScript('filename.js');
-  }
-
-  function editScript() {
-    // open edit script dialog
-  }
-
-  function deleteScript() {
-    updateForm(
-      form.updateIn(['configuration', 'script'], (field: Item) =>
-        (field as Field<string>).setValue('').setTouched(true)
-      )
-    );
-    setScript(null);
-  }
-
   return (
-    <ServerTablePresenter
+    <List
+      getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
       columnDefinitions={columnDefinition}
-      result={scriptResult}
-      rightHeader={rightHeader}
-      leftHeader={
-        <Label className={locals.leftHeader}>
-          {t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
-        </Label>
-      }
       renderNoDataAvailable={() => (
         <NoDataAvailable
           type="lib_help_error_warning_outline"
@@ -111,11 +98,116 @@ export default function ScriptsSection({ form, updateForm }: Props): JSX.Element
           text={t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptNotAdded')}
         />
       )}
-      page={0}
       pageSize={1}
-      orderBy={''}
-      orderDirection={'ASC'}
+      initialOrderBy={''}
+      rightHeader={
+        <Button
+          className={locals.selectButton}
+          kind="action"
+          onClick={() => {
+            setSliderState({
+              slideInConfig: {
+                component: (
+                  <AddScriptDialogContent
+                    form={form}
+                    scriptContent={script}
+                    zipFileDetails={zipFile}
+                    setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                    onSubmit={(scriptContent, zipFile) => {
+                      let updatedForm;
+                      if (scriptContent.extension !== 'zip') {
+                        if (!form.get('configuration').get('script')) {
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .put(
+                                'script',
+                                createField({
+                                  value: scriptContent.text,
+                                  validator: notUndefinedValidator
+                                }).setTouched(true)
+                              )
+                              .remove('scripts')
+                          );
+                        } else {
+                          updatedForm = form
+                            .updateIn(['configuration', 'script'], (field: Item) =>
+                              (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                            )
+                            .remove('scripts');
+                        }
+                        updateForm(updatedForm);
+                      } else {
+                        if (!form.get('configuration').get('scripts')) {
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .put(
+                                'scripts',
+                                createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
+                              )
+                              .remove('script')
+                          );
+                        } else {
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .updateIn(['scripts', 'bundle'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                              )
+                              .updateIn(['scripts', 'scriptFile'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+                              )
+                              .remove('script')
+                          );
+                        }
+                        updateForm(updatedForm);
+                      }
+                      setScript(scriptContent);
+                      setZipFile(zipFile);
+                      setSliderState({
+                        slideInConfig: {},
+                        isVisible: false
+                      });
+                      setColumnLabel(
+                        isBlank(scriptContent.extension)
+                          ? ''
+                          : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
+                      );
+                    }}
+                    setSliderState={setSliderState}
+                  />
+                ),
+                title:
+                  script.text === ''
+                    ? t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
+                    : t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+              },
+              isVisible: true
+            });
+          }}
+          icon={script.text === '' ? 'lib_openclose_add_circle_outline' : 'lib_actions_edit'}
+        >
+          {script.text === ''
+            ? t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
+            : t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')}
+        </Button>
+      }
       isSearchable={false}
+      loadEntities={() => {
+        return just(
+          script.extension !== 'zip'
+            ? configForm.get('script') && isNotBlank((configForm.getIn(['script']) as Field<string>)?.value)
+              ? [configForm.getIn(['script']) as Field<string>]
+              : []
+            : configForm.get('scripts') && isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+            ? [configForm.getIn(['scripts', 'bundle']) as Field<string>]
+            : []
+        );
+      }}
     />
   );
 }

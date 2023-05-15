@@ -72,9 +72,25 @@ export function onlyUniqueKeyNames(items: ConfigItem[], category: string): Valid
     return [
       {
         severity: 'error',
-        message: category === 'headers' 
-                ? t('in-synthetics:dialog.createTest.advancedMode.configStep.headerNameMustBeUnique')
-                : t('in-synthetics:dialog.createTest.advancedMode.customProperties.propertyNameMustBeUnique')
+        message:
+          category === 'headers'
+            ? t('in-synthetics:dialog.createTest.advancedMode.configStep.headerNameMustBeUnique')
+            : t('in-synthetics:dialog.createTest.advancedMode.customProperties.propertyNameMustBeUnique')
+      }
+    ];
+  }
+  return undefined;
+}
+
+export function mainFileNameValidator(
+  zipFile: { name: string; files: string[] },
+  mainFileName: string
+): ValidationResult {
+  if (zipFile.files.indexOf(zipFile.name.replace('.zip', '').concat('/', mainFileName)) === -1) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.invalidMainFileName')
       }
     ];
   }
