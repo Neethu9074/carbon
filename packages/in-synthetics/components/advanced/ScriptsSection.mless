@@ -17,4 +17,34 @@
   .row {
     justify-content: space-between;
   }
+  .section {
+    border: 1px solid #dfe4e8;
+    padding: 1rem;
+  }
+  .upload {
+    justify-content: space-between;
+  }
+  .fileName {
+    width: 25%;
+    padding-top: 1rem;
+    margin-bottom: 0;
+  }
+  .innerBox {
+    padding: 2rem 0 4rem 0;
+  }
+  .scriptTitle {
+    font-size: 1rem;
+    padding-bottom: 10px;
+  }
+  .scriptSubTitle {
+    padding-bottom: 1rem;
+  }
+  .errorList {
+    margin-top: -1px;
+  }
+  .message {
+    border: 1px solid #dfe4e8;
+    margin-top: -1px;
+    padding: 0.75rem 1rem;
+  }
 }

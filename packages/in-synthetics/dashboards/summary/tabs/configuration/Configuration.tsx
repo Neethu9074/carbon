@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card, Stack, SvgIcon } from '@instana/components';
+import { Card, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
@@ -17,6 +17,8 @@ import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
+
+import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
 interface Props {
   test: TestResponse;
@@ -33,6 +35,9 @@ const ActionButtons = () => {
 };
 
 const Configuration = ({ test }: Props) => {
+  if (test.progress.loading) {
+    return <LoadingSkeleton className={locals.skeleton} />;
+  }
   const testType: string = test.data.configuration.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
   return (
     <Card
@@ -45,8 +50,8 @@ const Configuration = ({ test }: Props) => {
       }
       rightHeaderContent={<ActionButtons />}
     >
-      <TestType test={test} />
-      <ConfigSection />
+      <TestType test={test.data} />
+      <ConfigSection test={test.data} />
       <Locations />
       <Schedule />
       <Identify />

@@ -34,7 +34,8 @@ const AdvancedMode = ({
   renderSectionsCounter,
   setRenderSectionsCounter,
   commonAttributes,
-  setCommonAttributes
+  setCommonAttributes,
+  setCustomSlideInHeaderConfig
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
@@ -45,7 +46,14 @@ const AdvancedMode = ({
 
   const getTestTypeSection = (syntheticType: string) => {
     if (syntheticType === 'HTTPScript') {
-      return <ScriptsSection form={form} updateForm={updateForm} />;
+      return (
+        <ScriptsSection
+          form={form}
+          updateForm={updateForm}
+          setSliderState={setSliderState}
+          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+        />
+      );
     }
     return <ConfigurationSection form={form} updateForm={updateForm} />;
   };

@@ -4,21 +4,23 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Li, Ul, KeyValue } from '@instana/components';
+import { DynamicFieldValue } from '@instana/types';
 
-import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import * as tagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { CustomPayloadCardProps } from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/details/CustomPayloadViewer.mless';
 
+const toViewModel = tagBasedPayload.toViewModel;
 export default function CustomPayloadViewer({
   customPayloadFields = [],
   TagBasedPayloadConfigurator,
   alternatingBg = false
-}) {
+}: CustomPayloadCardProps) {
   return (
     <Ul framed={false}>
       <Li className={locals.listItem} noAlternatingBg>
@@ -34,13 +36,12 @@ export default function CustomPayloadViewer({
     </Ul>
   );
 
-  function ValueCell({ value }) {
+  function ValueCell({ value }: { value: string | DynamicFieldValue }) {
     if (typeof value === 'string') {
       return <KeyValue className={locals.valueCell} label={value} />;
     }
 
     if (!TagBasedPayloadConfigurator) return null;
-
     return (
       <KeyValue
         className={locals.valueCell}
@@ -49,15 +50,3 @@ export default function CustomPayloadViewer({
     );
   }
 }
-
-CustomPayloadViewer.propTypes = {
-  TagBasedPayloadConfigurator: PropTypes.func,
-  customPayloadFields: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
-    })
-  ),
-  alternatingBg: PropTypes.bool
-};

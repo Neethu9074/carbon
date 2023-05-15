@@ -179,6 +179,7 @@ export default function TestSummaryList() {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
+            pageName: 'Synthetic Monitoring > Tests',
             productArea: 'Synthetic Monitoring',
             pageRootName: 'Synthetic Monitoring'
           }}
