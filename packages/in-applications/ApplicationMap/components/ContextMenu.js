@@ -8,9 +8,12 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import {
+  useLinkToAnalyze as useLinkToApplicationAnalyze,
+  useLinkToServiceDashboard
+} from 'in-applications/navigation/paths';
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
-import { getLinkToAnalyze, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -33,7 +36,8 @@ export default connectTo(
 
 export function ContextMenuContent({ applicationId, application, node, isTrafficEnabled }) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
-  // when traffic is disabled, we only see services filtered by this applicaiton id, therefore we can straight use it.
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  // when traffic is disabled, we only see services filtered by this application id, therefore we can straight use it.
   // if traffic is enabled, the user wants to break the border of the application, therefore don't use a context at all.
   if (isTrafficEnabled) {
     applicationId = null;
@@ -74,7 +78,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_analyze"
-        href$={getLinkToAnalyze({
+        href={getLinkToApplicationAnalyze({
           applicationName: !application || isTrafficEnabled ? null : application.label,
           serviceName: node.data.label,
           // the dependency map shows services using all calls of the application

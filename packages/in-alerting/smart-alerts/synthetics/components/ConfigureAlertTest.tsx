@@ -15,6 +15,7 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import TestSummaryList from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList';
 import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTestSelected';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
@@ -46,11 +47,13 @@ export default function ConfigureAlertTest({
   const getSelectedTests = createMemoizedObservableForReferencedEntities(function (alertTestIds) {
     return getTestsAsResultObservable('')
       .map((result: Result<SyntheticTest[]> | null) => {
-        if (result == null) {
+        if (result == null || result?.progress?.loading) {
           return null;
         }
-        return (result as Result<SyntheticTest[]>)?.data?.filter(
-          (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+        return (
+          (result as Result<SyntheticTest[]>)?.data?.filter(
+            (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+          ) ?? []
         );
       })
       .startWith(null);
@@ -126,7 +129,7 @@ function SelectListDialogContent({
       staticContent={
         <AlertConfigSlideInContentWrapper>
           <SelectListDialogContentComponent
-            listComponent={AlertTestsList}
+            listComponent={props => <TestSummaryList tableActions={props.tableActions} hiddenIds={props.hiddenIds} />}
             hiddenIds={(form.get('syntheticTestIds') as Field<string[]>)?.value ?? []}
             limit={limitForConnectedAlertTests}
             onSubmit={onSubmit}

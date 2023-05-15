@@ -2,5 +2,5 @@
   "name": "sidebar-DescriptionList",
   "version": "0.0.0",
   "private": true,
-  "main": "./DescriptionList.js"
+  "main": "./DescriptionList"
 }

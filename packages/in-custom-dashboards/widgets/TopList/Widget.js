@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -22,7 +23,6 @@ import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -107,6 +107,7 @@ function Label({ item, config, result, tagCatalog }) {
     beaconType: config.metricConfiguration.beaconType,
     tagCatalog
   });
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   let filters = config.metricConfiguration.tagFilters;
   if (filters) {
@@ -198,7 +199,7 @@ function Label({ item, config, result, tagCatalog }) {
   const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
 
   let link = config.metricConfiguration.tagFilterExpression
-    ? getLinkToAnalyze({
+    ? getLinkToApplicationAnalyze({
         dataSource: 'calls',
         formModel
       })

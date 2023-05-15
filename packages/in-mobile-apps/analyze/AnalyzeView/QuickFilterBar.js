@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import MobileAppKeyValueBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppKeyValueBarItem';
 import MobileAppSelectBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppSelectBarItem';
-import KeyValueBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppKeyValueBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -83,7 +83,7 @@ export default function QuickFilterBar(props) {
           pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.subdivisionLabel', { count: 2 })}
         />
       )}
-      <KeyValueBarItem
+      <MobileAppKeyValueBarItem
         {...props}
         label={t('in-mobile-apps:analyzeView.quickFilterBar.metaLabel')}
         tag="mobileBeacon.meta"

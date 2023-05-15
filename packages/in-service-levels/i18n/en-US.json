@@ -37,6 +37,40 @@
       },
       "sloTagFilter": {
         "placeholder": "Tag"
+      },
+      "sloStatusColumnContent": {
+        "target": "Target {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} min",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} beacon",
+        "remainingEvent_website_plural": "{{count}} beacons",
+        "remainingEvent_website_0": "{{count}} beacons",
+        "remainingEvent_website_1": "{{count}} beacon",
+        "remainingEvent_website_2": "{{count}} beacons",
+        "remainingEvent_application": "{{count}} call",
+        "remainingEvent_application_plural": "{{count}} calls",
+        "remainingEvent_application_0": "{{count}} calls",
+        "remainingEvent_application_1": "{{count}} call",
+        "remainingEvent_application_2": "{{count}} calls",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
+        "timeWindowSize_month": "{{count}} month",
+        "timeWindowSize_month_plural": "{{count}} months",
+        "timeWindowSize_month_0": "{{count}} months",
+        "timeWindowSize_month_1": "{{count}} month",
+        "timeWindowSize_month_2": "{{count}} months",
+        "timeWindowSize_week": "{{count}} week",
+        "timeWindowSize_week_plural": "{{count}} weeks",
+        "timeWindowSize_week_0": "{{count}} weeks",
+        "timeWindowSize_week_1": "{{count}} week",
+        "timeWindowSize_week_2": "{{count}} weeks",
+        "timeWindowSize_day": "{{count}} day",
+        "timeWindowSize_day_plural": "{{count}} days",
+        "timeWindowSize_day_0": "{{count}} days",
+        "timeWindowSize_day_1": "{{count}} day",
+        "timeWindowSize_day_2": "{{count}} days"
       }
     },
     "title": "Service Level Objectives",
@@ -44,6 +78,8 @@
       "name": "Name",
       "entity": "Entity",
       "blueprint": "Blueprint",
+      "errorBudget": "Error Budget Remaining",
+      "status": "Status / Target",
       "tags": "Tags"
     }
   }

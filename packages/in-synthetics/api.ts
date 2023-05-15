@@ -49,14 +49,18 @@ export function deleteLocation(locationId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export const getLocationsAsResultObservable = memoize(getLocationsAsResultObservableInternal, () => '', 1000);
-export function getLocationsAsResultObservableInternal() {
+export const getLocationsAsResultObservable = memoize(
+  getLocationsAsResultObservableInternal,
+  (testType: string) => testType,
+  1000
+);
+export function getLocationsAsResultObservableInternal(testType: string) {
   return refreshSignal.flatMap(() =>
     createObservable(
       http<SyntheticLocation[]>({
         method: 'GET',
         maxRetries: 3,
-        url: locationUrl
+        url: testType === '' ? locationUrl : locationUrl + `?filter={playbackCapabilities.syntheticType=${testType}}`
       }).map(response => deepFreeze(response))
     ).startWith(null)
   );

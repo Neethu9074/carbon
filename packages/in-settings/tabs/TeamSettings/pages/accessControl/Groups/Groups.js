@@ -14,6 +14,7 @@ import {
 } from 'in-settings/navigation/paths';
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { ProductAreaPermissionMap } from '../RolesAndAccessScope/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
@@ -77,12 +78,15 @@ function AdditionalHeaderContent() {
 const columnDefinitions = [
   {
     getContent({ group }) {
+      const isLimitedAccessGroup = () => {
+        if (group.permissionSet.permissions?.includes(RESTRICTED_ACCESS)) return true;
+        for (const [, { limitation }] of Object.entries(ProductAreaPermissionMap)) {
+          if (limitation && group.permissionSet.permissions?.includes(limitation)) return true;
+        }
+        return false;
+      };
       return (
-        <WithSubscript
-          subscript={
-            group.permissionSet.permissions?.includes(RESTRICTED_ACCESS) ? t('in-settings:tabs.limitedAccess') : null
-          }
-        >
+        <WithSubscript subscript={isLimitedAccessGroup() ? t('in-settings:tabs.limitedAccess') : null}>
           {group.name}
         </WithSubscript>
       );

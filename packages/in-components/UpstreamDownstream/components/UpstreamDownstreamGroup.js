@@ -11,7 +11,7 @@ import { Ul } from '@instana/components';
 
 import UpstreamDownstreamItem from 'in-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
 import UpstreamDownstreamMetric from 'in-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
-import { getApplicationList, getServiceList } from 'in-applications/navigation/paths';
+import { useLinkToApplicationList, useLinkToServiceList } from 'in-applications/navigation/paths';
 import { relationships } from 'in-components/UpstreamDownstream/constants';
 import { t } from 'in-i18n';
 
@@ -31,6 +31,8 @@ export default function UpstreamDownstreamGroup({
   plugin
 }) {
   const [selectedMetric, onChangeMetric] = useState('errors');
+  const getLinkToApplicationList = useLinkToApplicationList();
+  const getLinkToServiceList = useLinkToServiceList();
   const totalHits = result.data.totalHits;
   const relationshipTypeText = relationships.info[activeTab][itemType].type;
   const relationshipText = relationships.info[activeTab][itemType].text;
@@ -70,7 +72,7 @@ export default function UpstreamDownstreamGroup({
         ))}
       </Ul>
       <div className={locals.seeAll}>
-        {itemType == relationships.APPLICATION
+        {itemType === relationships.APPLICATION
           ? getSeeAllApplicationsLink(
               totalHits,
               activeTab,
@@ -79,7 +81,8 @@ export default function UpstreamDownstreamGroup({
               endpointId,
               tagFilters,
               snapshotId,
-              plugin
+              plugin,
+              getLinkToApplicationList
             )
           : getSeeAllServicesLink(
               totalHits,
@@ -89,7 +92,8 @@ export default function UpstreamDownstreamGroup({
               endpointId,
               tagFilters,
               snapshotId,
-              plugin
+              plugin,
+              getLinkToServiceList
             )}
       </div>
     </div>
@@ -104,7 +108,8 @@ function getSeeAllApplicationsLink(
   endpointId,
   tagFilters,
   snapshotId,
-  plugin
+  plugin,
+  getLinkToApplicationList
 ) {
   let tagFilterEntity = activeTab === 'UPSTREAM' ? 'DESTINATION' : 'SOURCE';
   let tagFiltersWithEntity;
@@ -114,7 +119,7 @@ function getSeeAllApplicationsLink(
 
   return (
     <Link
-      href$={getApplicationList({
+      href={getLinkToApplicationList({
         applicationId,
         serviceId,
         endpointId,
@@ -142,7 +147,8 @@ function getSeeAllServicesLink(
   endpointId,
   tagFilters,
   snapshotId,
-  plugin
+  plugin,
+  getLinkToServiceList
 ) {
   let tagFilterEntity = activeTab === 'UPSTREAM' ? 'DESTINATION' : 'SOURCE';
   let tagFiltersWithEntity;
@@ -152,7 +158,7 @@ function getSeeAllServicesLink(
 
   return (
     <Link
-      href$={getServiceList({
+      href={getLinkToServiceList({
         applicationId,
         serviceId,
         endpointId,

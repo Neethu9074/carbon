@@ -17,6 +17,7 @@ import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndA
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { isBuiltInDynamicMetric } from 'in-sdk/metrics';
+import { toTitleCase } from 'in-services/util/string';
 import { Row, Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -34,7 +35,7 @@ export function ConditionItem({
 }) {
   const metricNameField = form.get('metricName');
   const metricName = metricNameField?.value;
-
+  customMetricsForPlugin = fillMetricType(customMetricsForPlugin, metricName);
   const isNotDynamic = !entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName);
 
   return (
@@ -119,4 +120,15 @@ export function ConditionItem({
       )}
     </>
   );
+}
+
+function fillMetricType(customMetricsForPlugin, metricName) {
+  if (customMetricsForPlugin?.filter(metric => metric.value === metricName).length == 0 && metricName) {
+    const plugin = {
+      label: toTitleCase(metricName),
+      value: metricName
+    };
+    customMetricsForPlugin = [...customMetricsForPlugin, plugin];
+  }
+  return customMetricsForPlugin;
 }

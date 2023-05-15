@@ -8,14 +8,15 @@ import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
+import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-// eslint-disable-next-line no-restricted-imports
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 import ConfigSlideContentWrapper from 'in-synthetics/components/advanced/ConfigSlideContentWrapper';
+import { LocationsListProps } from 'in-synthetics/components/advanced/LocationsSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LocationsSection from 'in-synthetics/components/advanced/LocationsSection';
 import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
@@ -30,28 +31,58 @@ interface ConfigureLocationsProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
+  syntheticType: string;
 }
 
-export default function ConfigureLocations({ form, updateForm, setSliderState }: ConfigureLocationsProps) {
-  const getSelectedLocations = createMemoizedObservableForReferencedEntities(locationIds => {
-    return getLocationsAsResultObservable('')
+function createMemoizedObservableForReferencedLocations<RESULT>(
+  createObservable: ObservableCreator<string[], RESULT>,
+  tti: number | TtiGenerator<string[], RESULT> = 60000
+) {
+  return memoize(
+    createObservable,
+    // generate cache ID by concatenating all referenced IDs
+    arrayOfIds => (arrayOfIds == null ? 'null' : arrayOfIds.join(':')),
+    tti
+  );
+}
+
+export default function ConfigureLocations({
+  form,
+  updateForm,
+  setSliderState,
+  syntheticType
+}: ConfigureLocationsProps) {
+  const EMPTY = [] as SyntheticLocation[];
+  const getSelectedLocations = createMemoizedObservableForReferencedLocations(locationIds => {
+    return getLocationsAsResultObservable(syntheticType)
       .map((result: Result<SyntheticLocation[]> | null) => {
         if (result == null) {
-          return null;
+          return EMPTY;
         }
         return (result as Result<SyntheticLocation[]>)?.data?.filter(
           (location: SyntheticLocation) => locationIds.filter(ids => ids === location.id).length > 0
         );
       })
-      .startWith(null);
+      .map(result => result ?? EMPTY);
   });
+
+  const locations = getLocationsAsResultObservable(syntheticType)
+    .map((result: Result<SyntheticLocation[]> | null) => {
+      if (result == null) {
+        return EMPTY;
+      }
+      return (result as Result<SyntheticLocation[]>)?.data;
+    })
+    .map(result => result ?? EMPTY);
+
+  const loadEntities = () => getSelectedLocations((form.get('locations') as Field<string[]>).value ?? []);
 
   return (
     <>
       <LocationsSection
         setTitle={false}
         // @ts-expect-error
-        loadEntities={() => getSelectedLocations((form.get('locations') as Field<string[]>).value ?? [])}
+        loadEntities={loadEntities ? loadEntities : () => locations}
         renderNoDataAvailable={() => (
           <NoDataAvailable
             type="lib_synthetic"
@@ -69,6 +100,7 @@ export default function ConfigureLocations({ form, updateForm, setSliderState }:
                 slideInConfig: {
                   component: (
                     <SelectListDialogContent
+                      locations={locations}
                       form={form}
                       onSubmit={(selectedIds: string[]) => {
                         const currentLocationIds = (form.get('locations') as Field<string[]>)?.value ?? [];
@@ -104,23 +136,29 @@ export interface SelectListDialogContentProps {
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig?: (state: { title: string | null; onClose: (() => void) | null }) => void;
   numberOfLocationListRows: number;
+  locations: Observable<SyntheticLocation[]>;
 }
 
 function SelectListDialogContent({
   form,
   onSubmit,
   setSliderState,
-  numberOfLocationListRows
+  numberOfLocationListRows,
+  locations
 }: SelectListDialogContentProps) {
   const initialState = false;
   const [slideInContentVisible, setSlideInContentVisible] = useState(initialState);
+
+  const LoadingListComponent = (props: Omit<LocationsListProps, 'loadEntities'>) => (
+    <LocationsSection {...props} loadEntities={() => locations} />
+  );
 
   return (
     <SlideInView
       staticContent={
         <ConfigSlideContentWrapper>
           <SelectListDialogContentComponent
-            listComponent={LocationsSection}
+            listComponent={LoadingListComponent}
             hiddenIds={(form.get('locations') as Field<string[]>)?.value ?? []}
             limit={100}
             onSubmit={onSubmit}

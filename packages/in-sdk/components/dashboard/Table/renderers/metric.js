@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import invariant from 'invariant';
@@ -37,6 +38,14 @@ export function validate(col) {
     col.typeArgs.getFallbackContent == null || typeof col.typeArgs.getFallbackContent === 'function',
     'Columns with type=metric may define a getFallbackContent property of type function or not define the property at all'
   );
+  invariant(
+    col.typeArgs.getTimeConfig == null || typeof col.typeArgs.getTimeConfig === 'function',
+    'Columns with type=metric may define a getTimeConfig(row) function or not define the function at all'
+  );
+  invariant(
+    col.typeArgs.getRollup == null || typeof col.typeArgs.getRollup === 'function',
+    'Columns with type=metric may define a getRollup(row) function PLUS getTimeConfig(row) (required) or not define the function at all'
+  );
 }
 
 export function initialize(row, columnDefinition, columnIndex, emitRawDataChange) {
@@ -57,6 +66,20 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
   }
 
+  let timeConfig$;
+  if (columnDefinition.typeArgs.getTimeConfig) {
+    timeConfig$ = columnDefinition.typeArgs.getTimeConfig(row.rowConfig);
+  } else {
+    timeConfig$ = null;
+  }
+
+  let rollup$;
+  if (columnDefinition.typeArgs.getRollup) {
+    rollup$ = columnDefinition.typeArgs.getRollup(row.rowConfig);
+  } else {
+    rollup$ = null;
+  }
+
   column.subscription = snapshotId$
     .flatMap(snapshotId =>
       getMetric({
@@ -64,7 +87,9 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
         metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
         timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
         // this flag enforces the metric subscription to always use the time window aggregated metric values
-        forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
+        forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation,
+        timeConfig: timeConfig$,
+        rollup: rollup$
       })
     )
     .subscribe(v => {

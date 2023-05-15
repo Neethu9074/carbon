@@ -212,7 +212,7 @@ function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapF
   }
 
   function updateIn(path: string[], updater: Updater) {
-    // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
+    // @ts-ignore Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
     setForm(form.updateIn([GROUP_MAPPINGS, ...path], (f: Item) => updater(f).setTouched(true)));
   }
 }

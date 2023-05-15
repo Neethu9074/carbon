@@ -14,22 +14,26 @@ import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
+import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
-import { EventMap } from 'in-events/types';
+import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/MobileEventContent.mless';
 
 interface Props {
-  event: EventMap;
+  event: EventOrMap;
 }
 
 export default function MobileEventContent({ event }: Props) {
@@ -39,6 +43,7 @@ export default function MobileEventContent({ event }: Props) {
   if (!eventEntity || !alertConfig) {
     return null;
   }
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const { tagFilterExpression, rule } = alertConfig;
   const { alertType, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -52,6 +57,22 @@ export default function MobileEventContent({ event }: Props) {
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   return (
     <>
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card title={t('in-events:titleDescription')}>
+            <MobileAppScopePath {...eventEntity} showDashboardLinks />
+
+            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+            <DescriptionButtons>
+              <AnalyzeMobileAppEventButton
+                mobileAppName={eventEntity.mobileAppName}
+                alertConfig={alertConfig}
+                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+              />
+            </DescriptionButtons>
+          </Card>
+        </Col>
+      </Row>
       <Row withoutSideMargin>
         <Col xs>
           <Card

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { just } from '@instana/observables';
@@ -152,7 +153,7 @@ function resolveRollup(rollup, timeConfig) {
 }
 
 export const getMetric = memoize(
-  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation }) => {
+  ({ snapshotId, metric, timeWindowAggregation, forceTimeWindowAggregation, timeConfig, rollup }) => {
     if (!timeWindowAggregation) {
       return getMetricForFocusedMoment({ snapshotId, metric });
     }
@@ -167,11 +168,20 @@ export const getMetric = memoize(
           });
         }
 
+        if (timeConfig) {
+          return getHistoricMetric({ snapshotId, metric, timeConfig, rollup }).map(v => v[1]);
+        }
         return getMetricForFocusedMoment({ snapshotId, metric }).map(v => v[1]);
       })
       .distinct();
   },
-  ({ snapshotId, metric, timeWindowAggregation }) => snapshotId + metric + timeWindowAggregation,
+  ({ snapshotId, metric, timeWindowAggregation, timeConfig, rollup }) =>
+    snapshotId +
+    metric +
+    timeWindowAggregation +
+    (timeConfig
+      ? timeConfig.to + timeConfig.focusedMoment + timeConfig.windowSize + timeConfig.autoRefresh
+      : '' + rollup),
   500
 );
 
@@ -186,13 +196,18 @@ export const getMetricForFocusedMoment = memoize(
   500
 );
 
-export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
-  const rollup = getInfraGranularity(timeConfig);
+export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup }) {
+  let rollup$;
+  if (arguments.length == 3 || rollup == undefined || rollup == null) {
+    rollup$ = getInfraGranularity(timeConfig);
+  } else {
+    rollup$ = rollup;
+  }
 
   return getLatestMetrics({
     snapshotId,
     metric,
-    rollup,
+    rollup: rollup$,
     timeConfig
   });
 }

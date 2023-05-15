@@ -9,11 +9,12 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsGood
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
+import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
@@ -28,18 +29,24 @@ export default function CallsBigNumberCard({
   boundaryScope,
   jumpToAnalyze
 }: BigNumberCardProps) {
-  const jumpToAnalyzeHref = getJumpToAnalyzeHref$(jumpToAnalyze.ids, {
-    timeConfig: timeConfig,
-    boundaryScope: boundaryScope,
-    groupBy: jumpToAnalyze.groupBy,
-    formModel: joinExpressions({
-      expressions: [createFormModelFromSyntheticOption(syntheticCallsOption), ...filterByEndpointType(endpointTypes)]
-    }),
-    hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
-    fields: [createMetricField('calls', 'PER_SECOND'), createMetricField('latency', 'MEAN')],
-    orderByGroups: createOrderBy('calls_PER_SECOND', 'DESC'),
-    chartedMetrics: [createChartedMetric('calls', 'PER_SECOND')]
-  });
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
+  const jumpToAnalyzeHref = getJumpToAnalyzeHref$(
+    jumpToAnalyze.ids,
+    {
+      timeConfig: timeConfig,
+      boundaryScope: boundaryScope,
+      groupBy: jumpToAnalyze.groupBy,
+      formModel: joinExpressions({
+        expressions: [createFormModelFromSyntheticOption(syntheticCallsOption), ...filterByEndpointType(endpointTypes)]
+      }),
+      hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
+      fields: [createMetricField('calls', 'PER_SECOND'), createMetricField('latency', 'MEAN')],
+      orderByGroups: createOrderBy('calls_PER_SECOND', 'DESC'),
+      chartedMetrics: [createChartedMetric('calls', 'PER_SECOND')]
+    },
+    getLinkToApplicationAnalyze
+  );
   return (
     <DashboardBigNumberCard
       title={t('in-applications:labelCallsPerSecondFull')}

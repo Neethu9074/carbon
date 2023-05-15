@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useRef } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { Card, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -20,6 +20,7 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
@@ -92,7 +93,10 @@ export default function CallDetails(props) {
 
   return (
     <aside className={locals.callDetails}>
-      <Card title={<Header call={call} getColor={getColor} />} header={<CloseButton onClick={onClose} />}>
+      <Card
+        title={<Header call={call} getColor={getColor} />}
+        rightHeaderContent={<ActionButtons call={call} onClose={onClose} />}
+      >
         <Stack direction="vertical" gap="normal">
           <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
           <IsSynthetic call={call} />
@@ -102,11 +106,36 @@ export default function CallDetails(props) {
   );
 }
 
-function CloseButton({ onClick }) {
+function ActionButtons({ call, onClose }) {
+  const downloadLinkRef = useRef();
+
+  useEffect(() => {
+    let url = null;
+    if (call) {
+      const callBlob = new Blob([JSON.stringify(call, null, 2)], { type: 'application/json' });
+      url = URL.createObjectURL(callBlob);
+      downloadLinkRef.current.href = url;
+    }
+    return () => {
+      if (url) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [call]);
+
+  const downloadLabel = t('in-analyze:traceDetail.components.callDetails.downloadRawSpanData');
   const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
+  const svgIconColor = theme.lib.colors.N500;
   return (
-    <Tooltip content={closeLabel}>
-      <SvgIcon onClick={onClick} aria-label={closeLabel} type="lib_openclose_cancel" />
-    </Tooltip>
+    <>
+      <a ref={downloadLinkRef} className={locals.downloadLink} rel="noopener noreferrer" target="_blank">
+        <Tooltip content={downloadLabel}>
+          <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />
+        </Tooltip>
+      </a>
+      <Tooltip content={closeLabel}>
+        <SvgIcon onClick={onClose} aria-label={closeLabel} type="lib_openclose_cancel" color={svgIconColor} />
+      </Tooltip>
+    </>
   );
 }

@@ -33,7 +33,7 @@
         "scriptTitle": "이 HTTP 스크립트 테스트의 이름은 무엇입니까",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
-        "labelFrequency": "빈도",
+        "labelFrequency": "빈도(분)",
         "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "호스트 형식이 유효하지 않음"
       },
       "advancedMode": {
-        "buttonContent": "고급 모드로 전환"
+        "switchModeButton": "고급 모드로 전환",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "선택된 테스트 유형",
+          "rightListLabel": "테스트 유형",
+          "apiTypeLabel": "간단한 테스트 | 스크립트 테스트",
+          "apiTypeHeadline": "작성하려는 합성 테스트 종류",
+          "apiTypeText": "API 테스트를 사용하여 웹 애플리케이션에서 제공하는 API를 모니터링할 수 있습니다. API 테스트를 사용하여 가용성 및 응답 시간을 측정할 수 있습니다. 간단한 테스트를 사용하면 URL을 ping하거나 단일 API를 테스트할 수 있습니다. 스크립트 테스트를 사용하면 API 응답 세트를 확인하고 복잡한 워크플로우를 시뮬레이션하고 특정 기능을 테스트할 수 있는 스크립트를 제공할 수 있습니다.",
+          "selectedTestTypeButton": "선택",
+          "httpScriptTitle": "스크립트 테스트",
+          "httpActionTitle": "간단한 테스트",
+          "browserTypeLabel": "브라우저",
+          "browserTypeHeadline": "브라우저 합성 테스트",
+          "browserTypeText": "브라우저 합성 테스트는 웹 브라우저의 스크립트를 통해 웹 사이트와의 사용자 상호작용을 시뮬레이션하여 웹 애플리케이션 성능을 모니터링하는 방법으로, 사용자 환경에 영향을 미치는 문제에 대한 유용한 통찰력을 제공하고 웹 사이트가 제대로 기능하는 데 도움이 됩니다.",
+          "internetServicesTypeLabel": "인터넷 서비스",
+          "internetServicesTypeHeadline": "인터넷 서비스 테스트",
+          "internetServicesTypeText": "인터넷 서비스 합성 테스트는 사용자와 웹 서비스 간의 상호 작용을 시뮬레이션하여 서비스 성능을 모니터링하고 테스트함으로써 다운타임 문제를 파악하고 방지하는 데 도움이 됩니다."
+        },
+        "configurationLabel": "구성",
+        "configurationTitle": "구성: 이 테스트는 어떻게 작동하나요?",
+        "locationsLabel": "위치",
+        "locationsTitle": "위치: 이 테스트는 어디에서 실행되나요?",
+        "scheduleLabel": "스케줄",
+        "scheduleTitle": "일정: 테스트 실행 시점은 언제인가요?",
+        "identifyLabel": "식별",
+        "identifyTitle": "식별: 테스트는 무엇을 하나요?",
+        "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
+        "simultaneous": "동시",
+        "simultaneousDescription": "이 테스트는 선택한 각 위치에서 동시에 실행됩니다.",
+        "configStep": {
+          "allowInsecure": "비보안 허용",
+          "expectStatusLabel": "예상 상태",
+          "expectJSONLabel": "예상 JSON",
+          "expectMatchLabel": "예상 일치",
+          "expectStatusPlaceholder": "예상 상태 입력",
+          "expectJSONPlaceholder": "예상 JSON 입력",
+          "expectMatchPlaceholder": "예상 스트링 입력",
+          "addValidations": "유효성 검증 추가",
+          "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
+          "jsonRootMustBeAnObject": "JSON 루트는 오브젝트여야 합니다.",
+          "mustBeValidHttpReturnCode": "상태는 유효한 HTTP 리턴 코드여야 합니다.",
+          "shouldBeValidRegExp": "입력된 문자열은 유효한 정규식이어야 합니다."
+        },
+        "loadMore": "추가 로드",
+        "selectTests": {
+          "addLocations": "{{count}}개 위치 추가",
+          "addLocation": "위치 추가",
+          "cancel": "취소",
+          "selectLocation": "위치 선택"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "브라우저",
+          "internetServicesName": "인터넷 서비스"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "새 테스트 작성"
+    "buttonLabel": "합성 테스트 추가"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "합성 SMART 경보 추가"
   },
   "navigation": {
     "synthetics": "합성 모니터링"
@@ -169,7 +225,10 @@
       "namespace": "네임스페이스",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
       "activeTestLinked": "<strong>{{label}}</strong>({{status}}) 위치에 지정된 활성 테스트가 있습니다. 이 위치를 제거하시겠습니까?",
-      "deleteLocation": "위치 삭제"
+      "deleteLocation": "위치 삭제",
+      "noDataAvailable": {
+        "message": "{{component}} 사용 불가"
+      }
     },
     "summary": {
       "successRate": "성공률",
@@ -348,7 +407,7 @@
       "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
     },
     "alertList": {
-      "timeThreshold": "실패 임계값",
+      "timeThreshold": "시간 임계값",
       "testsApplied": "적용된 테스트 수",
       "filterApplied": "필터 적용됨",
       "violationsCount": "{{violationsCount}} 실패",

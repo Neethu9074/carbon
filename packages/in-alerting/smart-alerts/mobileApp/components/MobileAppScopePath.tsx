@@ -17,6 +17,7 @@ interface MobileAppScopePathProps {
   mobileAppId?: string;
   mobileAppName?: string;
   iconSize?: Size;
+  showDashboardLinks?: boolean;
   noBottomMargin?: boolean;
 }
 
@@ -24,11 +25,12 @@ export default function MobileAppScopePath({
   mobileAppId,
   mobileAppName,
   iconSize,
+  showDashboardLinks,
   noBottomMargin
 }: MobileAppScopePathProps) {
   const entries = [];
   if (mobileAppName) {
-    const href$ = getLinkToMobileApp(mobileAppId);
+    const href$ = showDashboardLinks && mobileAppId ? getLinkToMobileApp(mobileAppId) : undefined;
     entries.push({
       iconType: 'lib_mobile_app',
       label: mobileAppName,

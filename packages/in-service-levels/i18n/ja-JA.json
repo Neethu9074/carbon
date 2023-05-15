@@ -1,0 +1,47 @@
+{
+  "general": {
+    "addButtonLabel": "追加",
+    "saveButtonLabel": "保存",
+    "cancelButtonLabel": "キャンセル",
+    "editButtonLabel": "編集",
+    "copyButtonLabel": "コピー",
+    "deleteButtonLabel": "削除",
+    "entityTypes": {
+      "label": "不明なエンティティー",
+      "label_application": "アプリケーション",
+      "label_website": "Web サイト"
+    }
+  },
+  "createSloDialog": {
+    "title": "サービス・レベル目標 (SLO) の作成",
+    "selectEntityNavItem": "エンティティーの選択",
+    "selectEntityTitle": "SLO を追加するエンティティーの選択:"
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "アプリケーション SLO",
+          "websites": "Web サイト SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "不明なブループリント",
+        "blueprint_latency": "待ち時間",
+        "blueprint_availability": "アベイラビリティー"
+      },
+      "entityTypeFilter": {
+        "placeholder": "エンティティー・タイプ"
+      },
+      "sloTagFilter": {
+        "placeholder": "タグ"
+      }
+    },
+    "title": "サービス・レベル目標",
+    "columnLabels": {
+      "name": "名前",
+      "entity": "エンティティー",
+      "blueprint": "ブループリント"
+    }
+  }
+}

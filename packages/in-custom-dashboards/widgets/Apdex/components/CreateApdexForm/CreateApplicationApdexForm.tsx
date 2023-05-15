@@ -24,6 +24,8 @@ import {
 import ApplicationScopeConfiguratorSections from 'in-custom-dashboards/widgets/Apdex/components/ApplicationScopeConfiguratorSections';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
+// eslint-disable-next-line import/no-deprecated
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/EditConfigNotice';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
@@ -34,7 +36,6 @@ import { entityIdKey, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/f
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Header from 'in-components/workspace/Header/Header';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
@@ -48,10 +49,13 @@ export default function CreateApplicationApdexForm({
   setFooter,
   onChange
 }: CreateApdexFormComponentProps) {
+  // eslint-disable-next-line import/no-deprecated
   const applicationId = getField<string>(form, [apdexEntityKey, entityIdKey])?.value;
+  // eslint-disable-next-line import/no-deprecated
   const boundaryScope = getField<ApplicationBoundaryScope>(form, [apdexEntityKey, boundaryScopeKey])?.value;
   const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder({ applicationId, boundaryScope });
 
+  // eslint-disable-next-line import/no-deprecated
   const filterExpression = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey])?.value;
 
   const isFilterExpressionValid = useValidateApplicationFilterExpression({
@@ -60,7 +64,6 @@ export default function CreateApplicationApdexForm({
   });
 
   useSetFormFooterEffect({
-    form,
     formId: 'createApdexForm',
     isDisabled: !form.hierarchyTouched || !form.hierarchyValid || !isFilterExpressionValid,
     cloneOnly: isEditing,
@@ -69,7 +72,9 @@ export default function CreateApplicationApdexForm({
     setFooter
   });
 
+  // eslint-disable-next-line import/no-deprecated
   const apdexNameField = getField<string>(form, [apdexNameKey]);
+  // eslint-disable-next-line import/no-deprecated
   const thresholdField = getField<number>(form, [apdexEntityKey, thresholdKey]);
   const apdexName = apdexNameField?.value;
   const threshold = thresholdField?.value;

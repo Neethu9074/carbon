@@ -4,11 +4,14 @@
  */
 
 import './micronaut.http.client';
+import './datapower.http.server';
+import './datapower.http.client';
 import './spring-webflux-entry';
 import './aspnetmvccontroller';
 import './distributeme.client';
 import './spring-webflux-exit';
 import './haskell.wai.server';
+import './datapower.internal';
 import './aws.lambda.invoke';
 import './akka-remote-entry';
 import './mail.actionmailer';
@@ -84,7 +87,6 @@ import './spring-batch';
 import './vertx.client';
 import './vertx.server';
 import './airflow-task';
-import './camunda-exit';
 import './ims.mq.exit';
 import './axis.client';
 import './axis.server';
@@ -95,6 +97,7 @@ import './php.compile';
 import './sdk.graphql';
 import './spring-rest';
 import './vertx.redis';
+import './bpm/camunda';
 import './actionview';
 import './cxf.client';
 import './cxf.server';
@@ -143,7 +146,6 @@ import './servlet';
 import './session';
 import './symfony';
 import './urllib3';
-import './camunda';
 import './prisma';
 import './ibm-mq';
 import './cosmos';

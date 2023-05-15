@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import metricDefinitions from 'in-forge/plugins/phmcConsole/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/phmcConsole/kpiDefinitions';
+import metricDefinitions from 'in-forge/plugins/phmcVIOS/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/phmcVIOS/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({

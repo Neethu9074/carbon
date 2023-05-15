@@ -13,6 +13,8 @@ interface AlertPreviewProps {
   getDescriptionPlaceholder: (form: MapForm) => string;
   entityIconType: string;
   entityLabel?: string;
+  entityIconType2?: string;
+  entityLabel2?: string;
 }
 
 export function AlertPreview({
@@ -20,7 +22,9 @@ export function AlertPreview({
   renderHeadline,
   getDescriptionPlaceholder,
   entityLabel,
-  entityIconType
+  entityIconType,
+  entityLabel2,
+  entityIconType2
 }: AlertPreviewProps);
 
 interface AlertPreviewHeadlineProps {

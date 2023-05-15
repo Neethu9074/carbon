@@ -24,6 +24,23 @@ const queueIdCol = {
   }
 };
 
+const messagesCol = {
+  title: t('in-forge:plugins.tuxedoMachine.messages'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.snapshotId;
+    },
+    getMetricName(row: any) {
+      return 'ipcQueues.' + row.key + `.qnum`;
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+
 const senderServerCol = {
   title: t('in-forge:plugins.tuxedoMachine.senderServer'),
   type: 'string',
@@ -107,18 +124,16 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   if (ipcQueuesIds.length === 0) {
     return null;
   }
-  const rows = ipcQueuesIds.toArray()
-    .map((key: any) => {
-        return {
-          key: key,
-          timeConfig,
-          snapshotId,
-          snapshot
-        };
-      }
-    );
+  const rows = ipcQueuesIds.toArray().map((key: any) => {
+    return {
+      key: key,
+      timeConfig,
+      snapshotId,
+      snapshot
+    };
+  });
 
-  const cols = [queueIdCol, senderServerCol, senderPIDCol, receiverServerCol, receiverPIDCol, usageCol];
+  const cols = [queueIdCol, messagesCol, senderServerCol, senderPIDCol, receiverServerCol, receiverPIDCol, usageCol];
   return (
     <Table
       withoutPadding

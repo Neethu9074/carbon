@@ -6,8 +6,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIconSizes } from '@instana/components';
-
 import IconButton from 'in-components/IconButton/IconButton';
 
 import locals from './DialogHeader.mless';
@@ -27,7 +25,7 @@ export default function DialogHeader({ title, onTitleIconClick, scrollShadow }: 
       })}
     >
       <span className={locals.titleContainer}>
-        <IconButton iconSize={SvgIconSizes.l} type="lib_arrow_left" onClick={onTitleIconClick} alignment="left" />
+        <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} alignment="left" />
         <h1 className={locals.title}>{title}</h1>
       </span>
     </div>

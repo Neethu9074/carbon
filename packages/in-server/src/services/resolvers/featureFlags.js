@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 module.exports = exports = [
@@ -112,6 +113,11 @@ module.exports = exports = [
   {
     uiClientKey: 'beeInstanaInfraMetricsEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'beeinstanaHistogramsEnabled',
+    instanaCtlKey: 'feature.beeinstana.histograms.enabled',
     defaultValue: false
   },
   {
@@ -265,6 +271,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCredentialEnabled',
+    instanaCtlKey: 'feature.synthetic.credential.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
@@ -286,8 +297,8 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'websiteUploadConfigEnabled',
-    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
-    defaultValue: false
+    instanaCtlKey: 'feature.website.upload.config.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
@@ -342,6 +353,21 @@ module.exports = exports = [
   {
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'playwithEnabled',
+    instanaCtlKey: 'feature.playwithEnabled.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'kongEnabled',
+    instanaCtlKey: 'feature.infrastructure.kong.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'recurrentMaintenanceWindowsEnabled',
+    instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
     defaultValue: false
   }
 ];

@@ -52,6 +52,6 @@ export function trackAlertUpdated<AlertConfig extends AlertConfigType>(alertConf
   track(ALERTING_UPDATED, { alertConfig });
 }
 
-export function trackAlertCloneTrigger(id: string): void {
-  track(ALERTING_CLONE_TRIGGER, { clonedFromId: id });
+export function trackAlertCloneTrigger<AlertConfig extends AlertConfigType>(alertConfig: AlertConfig): void {
+  track(ALERTING_CLONE_TRIGGER, { clonedFrom: alertConfig });
 }

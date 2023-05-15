@@ -4,62 +4,62 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import SelfMonitoringMetrics from 'in-sap/Dashboards/tables/SelfMonitoringMetrics';
 
 export default function SelfMonitoring({ timeConfig, data: vm }) {
   return (
-    <Fragment>
+    <>
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Configuration_XML_is_outdated'}
+        configurationName="Configuration_XML_is_outdated"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Connection_from_SMD_Agent_to_Host_Agent_failed'}
+        configurationName="Connection_from_SMD_Agent_to_Host_Agent_failed"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'DPC_Database_Extractor'}
+        configurationName="DPC_Database_Extractor"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Data_Supplier_for_Technical_System_is_missing_or_outdated'}
+        configurationName="Data_Supplier_for_Technical_System_is_missing_or_outdated"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Diagnostic_Agent_for_Technical_System_Monitoring_unavailable'}
+        configurationName="Diagnostic_Agent_for_Technical_System_Monitoring_unavailable"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Errors_in_Last_Monitoring_Configuration'}
+        configurationName="Errors_in_Last_Monitoring_Configuration"
       />
       <SelfMonitoringMetrics
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'System_Self-Monitoring'}
+        configurationName="System_Self-Monitoring"
       />
-    </Fragment>
+    </>
   );
 }

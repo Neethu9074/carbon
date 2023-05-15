@@ -83,20 +83,17 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
       : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
   };
   const getDefaultHeaders = (): ConfigItem[] => {
-    const headersValue = (configForm.get('headers') as Field<Record<string, string>>).value;
-    const headerObject: ConfigItem[] = [];
-    Object.keys(headersValue).map(key =>
-      headerObject.push({
+    return [
+      {
         id: generateUniqueShortId(),
-        key,
-        value: headersValue[key],
+        key: '',
+        value: '',
         error: {
           name: { invalid: false, message: '' },
           value: { invalid: false, message: '' }
         }
-      })
-    );
-    return headerObject;
+      }
+    ];
   };
   const [headers, setHeaders] = useState(getDefaultHeaders());
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
@@ -113,12 +110,12 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
         value: '',
         error: {
           name: {
-            invalid: true,
-            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+            invalid: false,
+            message: ''
           },
           value: {
-            invalid: true,
-            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.theValueMustNotBeBlank')
+            invalid: false,
+            message: ''
           }
         }
       }
@@ -141,7 +138,7 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
   }
 
   function checkForUniqueHeaderNames() {
-    const uniqueKeyName = onlyUniqueKeyNames(headers);
+    const uniqueKeyName = onlyUniqueKeyNames(headers, 'headers');
     if (uniqueKeyName) {
       setInvalidHeader({ invalid: true, message: uniqueKeyName[0].message! });
     } else {

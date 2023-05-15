@@ -33,7 +33,7 @@
         "scriptTitle": "此 HTTP Script 測試的名稱",
         "labelName": "測試的名稱",
         "labelDescription": "說明",
-        "labelFrequency": "頻率",
+        "labelFrequency": "頻率（分鐘）",
         "labelApplications": "選取應用程式"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "主機格式無效"
       },
       "advancedMode": {
-        "buttonContent": "切換至進階模式"
+        "switchModeButton": "切換至進階模式",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "選取的測試類型",
+          "rightListLabel": "測試類型",
+          "apiTypeLabel": "簡式測試 | Script 測試",
+          "apiTypeHeadline": "您要建立何種類型的綜合測試",
+          "apiTypeText": "API 測試可用來監視 Web 應用程式所提供的 API。 API 測試可用來測量可用性及回應時間。 簡式測試可讓您對 URL 進行連線測試或測試單一 API。 Script 測試可讓您提供 Script 來檢查一組 API 回應、模擬複雜的工作流程，以及測試特定的功能。",
+          "selectedTestTypeButton": "選取",
+          "httpScriptTitle": "Script 測試",
+          "httpActionTitle": "簡式測試",
+          "browserTypeLabel": "瀏覽器",
+          "browserTypeHeadline": "瀏覽器綜合測試",
+          "browserTypeText": "瀏覽器綜合測試是一種監視 Web 應用程式效能的方法，其方式是透過 Web 瀏覽器中的 Script 來模擬使用者與網站的互動，對影響使用者體驗的問題提供有價值的見解並確保網站正常發揮作用。",
+          "internetServicesTypeLabel": "網際網路服務",
+          "internetServicesTypeHeadline": "網際網路服務測試",
+          "internetServicesTypeText": "網際網路服務綜合測試涉及模擬使用者與 Web 服務的互動，以監視及測試其效能，協助識別並防止關閉時間問題。"
+        },
+        "configurationLabel": "配置",
+        "configurationTitle": "配置：此測試將如何運作？",
+        "locationsLabel": "位置",
+        "locationsTitle": "位置：此測試將在何處執行？",
+        "scheduleLabel": "排程",
+        "scheduleTitle": "排程：何時執行此測試？",
+        "identifyLabel": "識別",
+        "identifyTitle": "識別：測試將執行什麼動作？",
+        "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
+        "simultaneous": "同時",
+        "simultaneousDescription": "此測試將在每一個選取的位置上同步執行。",
+        "configStep": {
+          "allowInsecure": "容許不安全",
+          "expectStatusLabel": "預期狀態",
+          "expectJSONLabel": "預期 JSON",
+          "expectMatchLabel": "預期符合",
+          "expectStatusPlaceholder": "輸入預期狀態",
+          "expectJSONPlaceholder": "輸入預期的 JSON",
+          "expectMatchPlaceholder": "輸入預期字串",
+          "addValidations": "新增驗證",
+          "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
+          "jsonRootMustBeAnObject": "JSON root 必須是物件。",
+          "mustBeValidHttpReturnCode": "狀態必須是有效的 HTTP 回覆碼。",
+          "shouldBeValidRegExp": "輸入的字串應該是有效的正規表示式。"
+        },
+        "loadMore": "載入更多",
+        "selectTests": {
+          "addLocations": "新增 {{count}} 個位置",
+          "addLocation": "新增位置",
+          "cancel": "取消",
+          "selectLocation": "選取位置"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "瀏覽器",
+          "internetServicesName": "網際網路服務"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "建立新的測試"
+    "buttonLabel": "新增綜合測試"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "新增綜合智慧型警示"
   },
   "navigation": {
     "synthetics": "綜合監視"
@@ -155,7 +211,7 @@
       "action": "動作",
       "delete": "刪除測試",
       "labelConfirm": "請確認",
-      "labelConfirmRemoveTest": "您確定要移除虛構測試 <strong>{{testLabel}}</strong> 嗎？",
+      "labelConfirmRemoveTest": "您確定要移除綜合測試 <strong>{{testLabel}}</strong> 嗎？",
       "labelRemove": "移除",
       "na": "N/A"
     },
@@ -169,7 +225,10 @@
       "namespace": "名稱空間",
       "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
       "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中的測試，您確定要移除此位置嗎？",
-      "deleteLocation": "刪除位置"
+      "deleteLocation": "刪除位置",
+      "noDataAvailable": {
+        "message": "{{component}} 無法使用"
+      }
     },
     "summary": {
       "successRate": "成功率",
@@ -348,7 +407,7 @@
       "locationListDescription": "沒有從資料庫擷取的綜合位置。"
     },
     "alertList": {
-      "timeThreshold": "失敗臨界值",
+      "timeThreshold": "時間臨界值",
       "testsApplied": "已套用測試",
       "filterApplied": "已套用過濾器",
       "violationsCount": "{{violationsCount}} 次失敗",

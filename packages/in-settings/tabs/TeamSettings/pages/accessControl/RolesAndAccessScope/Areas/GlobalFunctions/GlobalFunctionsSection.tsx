@@ -9,12 +9,12 @@ import React, { useContext } from 'react';
 import { Ul } from '@instana/components';
 
 import {
-  accountAndBillingCapabilities,
   agentsCapabilities,
   syntheticMonitoringCapabilities,
   automationCapabilities,
   customDashboardCapabilities,
   mixedCapabilities,
+  logCapabilities,
   accessControlCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getCapabilitiesSectionData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getCapabilitiesSectionData';
@@ -38,6 +38,10 @@ export const GlobalFunctionsSection = () => {
     <Ul>
       <CapabilitySubsection capabilities={mixedCapabilities} headerText={t('in-settings:productAreas.permissions')} />
       <CapabilitySubsection
+        capabilities={logCapabilities}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.LOGS })}
+      />
+      <CapabilitySubsection
         capabilities={customDashboardCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
       />
@@ -60,10 +64,6 @@ export const GlobalFunctionsSection = () => {
       <CapabilitySubsection
         capabilities={accessControlCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCESS_CONTROL })}
-      />
-      <CapabilitySubsection
-        capabilities={accountAndBillingCapabilities}
-        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCOUNT })}
       />
     </Ul>
   );

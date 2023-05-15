@@ -39,6 +39,7 @@ import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/Percent
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelector from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -53,8 +54,6 @@ import { Nullish } from 'in-types';
 import { t, Trans } from 'in-i18n';
 
 import locals from './SloFormComponent.mless';
-
-export const SLO_TARGET_DECIMAL_PRECISION = 2;
 
 export interface FormComponentProps {
   form: MapForm<any>;
