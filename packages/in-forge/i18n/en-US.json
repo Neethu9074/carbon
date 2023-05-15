@@ -9337,7 +9337,7 @@
             "libraryName": "Library",
             "activeJobs": "Active Jobs",
             "maxActiveJobs": "Max Active Jobs",
-            "description": "Description"
+            "description": "Descriptions"
           },
           "userSpoolSpace": {
             "name": "Top Spool Space Consumption",
