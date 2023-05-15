@@ -12,9 +12,10 @@ def instanaImageVersion = null
 def majorReleaseVersion = null
 def archiveName         = null
 def latestReleaseBranch = null
-def backendComponents   = null
-def uiClientComponents  = null
-def backendRepoPath     = null
+def backendComponents = null
+def plgProviderComponents = null
+def uiClientComponents = null
+def backendRepoPath = null
 
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -62,12 +63,15 @@ pipeline {
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
-              .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
+              .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) && !(it.name ==~ /^plg-provider.*/) }
               .collect { it.name }
               .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
               .collect { it.name }
+          plgProviderComponents = getBackendComponents()
+            .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^plg-provider.*/) }
+            .collect { it.name }
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaUiClientVersion}"
           archiveName = "ui-client-${branchName}-${instanaUiClientVersion}.tar.gz"
@@ -141,7 +145,7 @@ pipeline {
               script {
                 if (isDeliveryBranch) {
                   instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
-                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
+                  buildAndPublishImages(gitCommitId, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
             }
@@ -165,7 +169,7 @@ pipeline {
                    backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
                 }
                 if (isDeliveryBranch) {
-                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
+                  rebuildBackend(backendComponents, plgProviderComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
                 }
               }
             }
@@ -252,7 +256,7 @@ pipeline {
   }
 }
 
-def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
+def buildAndPublishImages(gitCommitId, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
   def buildAndPublish = [:]
   uiClientComponents.each { component ->
     buildAndPublish[component] = {
@@ -282,44 +286,49 @@ def markStableImageVersions(branchName, instanaImageVersion) {
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
-def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath) {
-  try {
-    waitForStableBackendVersions(branchName)
-    def backendStableVersion =
-        sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
-    def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
+def rebuildBackend(backendComponents, plgProviderComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath) {
+  retagComponentGroup('backend', backendComponents, branchName, backendRepoPath, instanaImageVersion, instanaUiClientVersion)
+  retagComponentGroup('plg-provider', plgProviderComponents, branchName, backendRepoPath, instanaImageVersion, instanaUiClientVersion)
+}
 
-    def rebuildBackendComponents = [:]
-    backendComponents.each {
-        def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
-        def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
-        rebuildBackendComponents[it] = {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-            sh """
+def retagComponentGroup(groupId, componentsList, branchName, backendRepoPath, instanaImageVersion, instanaUiClientVersion) {
+  try {
+    waitForStableVersionsForComponent(groupId, branchName)
+    def componentStableVersion =
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js ${groupId} ${branchName}").trim()
+    def componentStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-${groupId} ${branchName}").trim()
+
+    def componentsToRetag = [:]
+    componentsList.each {
+      def currentComponentTag = "${backendRepoPath}/${it}:${componentStableImageVersion}"
+      def newComponentTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
+      componentsToRetag[it] = {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh """
             INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
             ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-            ${currentBackendTag} \
-            ${newBackendTag} \
-            "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+            ${currentComponentTag} \
+            ${newComponentTag} \
+            "--build-arg current_fully_qualified_tag=${currentComponentTag} --label com.instana.image.tag=${instanaImageVersion}"
             """
-          }
+        }
       }
-    }
-    parallel rebuildBackendComponents
+      parallel componentsToRetag
 
-    currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
-    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
-  } catch(e) {
+      currentBuild.description = "${groupId}: ${componentStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
+      notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+    }
+  } catch (e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
     throw e
   }
 }
 
-def waitForStableBackendVersions(branchName) {
+def waitForStableVersionsForComponent(componentGroupId, branchName) {
   waitUntil {
     try {
-      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}")
-      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}")
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js ${componentGroupId} ${branchName}")
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-${componentGroupId} ${branchName}")
       true
     } catch(ignored) {
       false
