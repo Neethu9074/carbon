@@ -28,7 +28,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "Unknown blueprint",
         "blueprint_latency": "Latency",
-        "blueprint_availability": "Availability"
+        "blueprint_availability": "Availability",
+        "blueprint_custom": "Custom"
       },
       "entityTypeFilter": {
         "placeholder": "Entity Type"
@@ -40,18 +41,19 @@
         "target": "Target {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}} min",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
-        "remainingEvent_website": "{{count}} beacon",
-        "remainingEvent_website_plural": "{{count}} beacons",
-        "remainingEvent_website_0": "{{count}} beacons",
-        "remainingEvent_website_1": "{{count}} beacon",
-        "remainingEvent_website_2": "{{count}} beacons",
-        "remainingEvent_application": "{{count}} call",
-        "remainingEvent_application_plural": "{{count}} calls",
-        "remainingEvent_application_0": "{{count}} calls",
-        "remainingEvent_application_1": "{{count}} call",
-        "remainingEvent_application_2": "{{count}} calls",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "{{formatted}} beacon",
+        "remainingEvent_website_plural": "{{formatted}} beacons",
+        "remainingEvent_website_0": "{{formatted}} beacons",
+        "remainingEvent_website_1": "{{formatted}} beacon",
+        "remainingEvent_website_2": "{{formatted}} beacons",
+        "remainingEvent_application": "{{formatted}} call",
+        "remainingEvent_application_plural": "{{formatted}} calls",
+        "remainingEvent_application_0": "{{formatted}} calls",
+        "remainingEvent_application_1": "{{formatted}} call",
+        "remainingEvent_application_2": "{{formatted}} calls",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
         "timeWindowSize_month": "{{count}} month",
