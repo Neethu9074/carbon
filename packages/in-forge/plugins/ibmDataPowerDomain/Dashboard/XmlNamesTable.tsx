@@ -24,7 +24,7 @@ const typeCol = {
   }
 };
 
-const uesdCol = {
+const usedCol = {
   title: t('in-forge:plugins.ibmDataPowerDomain.xmlNameUsed'),
   type: 'metric',
   typeArgs: {
@@ -74,7 +74,7 @@ export default function XmlNamesTable({ snapshot }: { snapshot: SnapshotData }) 
   const snapshotId = snapshot.get('id') as string;
   const rows = snapshot
     .getIn(['data'], List())
-    .map((maximum: Map<string, any>, name: string) => {
+    .map((maximum: Map<BigInteger, any>, name: string) => {
       if (name.startsWith('xmlNames') && name.endsWith('maximum')) {
         return {
           key: name,
@@ -92,7 +92,7 @@ export default function XmlNamesTable({ snapshot }: { snapshot: SnapshotData }) 
   if (rows.length === 0) {
     return null;
   }
-  const cols = [typeCol, uesdCol, percentFreeCol, maximumCol];
+  const cols = [typeCol, usedCol, percentFreeCol, maximumCol];
   return (
     <Table
       withoutPadding
