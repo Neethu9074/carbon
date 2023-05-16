@@ -11,7 +11,6 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-// @ts-expect-error
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';

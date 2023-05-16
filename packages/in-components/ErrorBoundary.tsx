@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ErrorInfo } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
+import { t } from '@instana/i18n-react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ineum } from 'in-services/tracking/ineum';
@@ -16,8 +17,25 @@ const logger = createLogger('in-component.ErrorBoundary');
 
 const messageId = 'errorBoundary-uncaught-error';
 
-export default class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface ReportArgs {
+  name: string;
+  errorId: string;
+  meta: Record<string, string | number | boolean> & { errorId: string };
+  error: Error;
+  info: ErrorInfo;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+type Props = React.PropsWithChildren<{
+  name: string;
+  meta?: Record<string, string | number | boolean>;
+}>;
+
+export default class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
   }
@@ -26,9 +44,9 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: ErrorInfo) {
     const errorId = generateUniqueShortId();
-    const args = {
+    const args: ReportArgs = {
       name: this.props.name,
       errorId,
       meta: {
@@ -52,15 +70,15 @@ export default class ErrorBoundary extends React.Component {
   }
 }
 
-function reportErrorToInstana({ meta, error, info }) {
+function reportErrorToInstana({ meta, error, info }: ReportArgs) {
   ineum('reportError', error, {
     componentStack: info.componentStack,
     meta: meta
   });
 }
 
-function reportErrorToConsole({ name, error, info }) {
-  const message = ['An unhandled error occurred within the React component tree'];
+function reportErrorToConsole({ name, error, info }: ReportArgs) {
+  const message: any[] = ['An unhandled error occurred within the React component tree'];
   if (name) {
     message.push(`which was caught at boundary ${name}.`);
   }
@@ -70,11 +88,11 @@ function reportErrorToConsole({ name, error, info }) {
   logger.error.apply(logger, message);
 }
 
-function reportErrorToEndUser({ errorId }) {
+function reportErrorToEndUser({ errorId }: ReportArgs) {
   addMessage(
     {
       type: 'danger',
-      title: <Trans i18nKey="in-components:errorBoundary.message.title" />,
+      title: t('in-components:errorBoundary.message.title'),
       content: <Trans i18nKey="in-components:errorBoundary.message.content" values={{ errorId }} />
     },
     messageId

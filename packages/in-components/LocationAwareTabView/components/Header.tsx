@@ -12,11 +12,31 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import { getModifiedUrlStream } from 'in-stores/navigation';
 
 import locals from './Header.mless';
+import { Tab, TabHeaderProps } from 'in-components/LocationAwareTabView/types';
+import { Result } from '@instana/types';
+import { Location } from 'in-stores/navigation/types';
+import { Nullish } from 'in-types';
 
-export default function Header({ tabs, result, HeaderComponent, location, props, tabChangeTracker }) {
+interface HeaderProps<TabData, TabProps extends {}> {
+  tabs: Tab<TabData, TabProps>[];
+  result: Result<TabData> | Nullish;
+  props: TabProps | undefined;
+  HeaderComponent: React.ComponentType<TabProps & { result: Result<TabData> | Nullish }>;
+  location: Location;
+  tabChangeTracker?: (props: { tab: string }) => void;
+}
+
+export default function Header<TabData, TabProps extends {} = {}>({
+  tabs,
+  result,
+  HeaderComponent,
+  location,
+  props,
+  tabChangeTracker
+}: HeaderProps<TabData, TabProps>) {
   return (
     <div className={locals.header}>
-      <HeaderComponent result={result} {...props} />
+      <HeaderComponent result={result} {...(props as TabProps)} />
 
       <DashboardHeaderModule theme={themes.light}>
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
@@ -41,7 +61,11 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
   );
 }
 
-function TabComponent(props) {
+interface TapComponentProps<TabData, TabProps extends {}> extends TabHeaderProps<TabData, TabProps> {
+  tabChangeTracker?: (props: { tab: string }) => void;
+}
+
+function TabComponent<TabData, TabProps extends {}>(props: TapComponentProps<TabData, TabProps>) {
   const { tab, result, location, tabChangeTracker } = props;
   if (tab.isVisible && !tab.isVisible(result)) {
     return null;
@@ -59,10 +83,11 @@ function TabComponent(props) {
       isActive={isActive}
       isDisabled={isDisabled}
       href$={
-        !isDisabled &&
-        getModifiedUrlStream(params => {
-          params.pathname = tab.path;
-        })
+        !isDisabled
+          ? getModifiedUrlStream(params => {
+              params.pathname = tab.path;
+            })
+          : undefined
       }
       onClick={() => {
         if (tabChangeTracker) {
