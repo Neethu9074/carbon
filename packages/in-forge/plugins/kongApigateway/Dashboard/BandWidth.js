@@ -16,7 +16,6 @@ import { t } from 'in-i18n';
 
 let snapshotMap = {};
 
-// { console.log(ingressBytes,"kongApigateway.ingressBytes");}
 const cols = [
   {
     title: t('in-forge:plugins.kongApigateway.service'),
