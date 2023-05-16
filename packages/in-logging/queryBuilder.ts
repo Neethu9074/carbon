@@ -135,7 +135,6 @@ export const logTableTags = [
   LOG_EXCEPTION_STACK_TRACE,
   ID_DOCKER,
   ID_CONTAINERD,
-  CONTAINERD_NAME,
   ...kubernetesTags
 ];
 
@@ -153,5 +152,6 @@ export const restrictedTags = new Set<string>([
   ID_KUBERNETES_NAMESPACE,
   ID_KUBERNETES_DEPLOYMENT,
   ID_DOCKER,
+  ID_CONTAINERD,
   ...kubernetesEntitySnapshotIds
 ]);
