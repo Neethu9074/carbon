@@ -5,5 +5,18 @@
  */
 
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-export const serviceLevelsDashboard = '/slo';
-export const isSloView = getRootPathPredicate(serviceLevelsDashboard);
+
+const serviceLevelsRoot = '/slo';
+
+export const serviceLevelsOverview = serviceLevelsRoot;
+
+export const serviceLevelsObjective = '/objective';
+export const serviceLevelsObjectiveFullyQualified = `${serviceLevelsRoot}${serviceLevelsObjective}`;
+
+export const serviceLevelsObjectiveSummary = `/summary`;
+export const serviceLevelsObjectiveSummaryFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveSummary}`;
+
+export const serviceLevelsObjectiveConfiguration = `/configuration`;
+export const serviceLevelsObjectiveConfigurationFullyQualified = `${serviceLevelsObjectiveFullyQualified}${serviceLevelsObjectiveConfiguration}`;
+
+export const isSloView = getRootPathPredicate(serviceLevelsRoot);

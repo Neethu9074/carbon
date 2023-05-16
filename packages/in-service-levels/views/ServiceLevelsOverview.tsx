@@ -9,14 +9,14 @@ import React from 'react';
 import { t } from '@instana/i18n-react';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloButton';
-import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
-import { serviceLevelsDashboard } from 'in-service-levels/navigation/path';
+import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
+import DashboardHeader from 'in-components/DashboardHeader';
 import Sticky from 'in-components/Sticky';
 
-export default function ServiceLevelsDashboard() {
+export default function ServiceLevelsOverview() {
   return (
     <Sticky
       header={
@@ -32,7 +32,7 @@ export default function ServiceLevelsDashboard() {
       }
     >
       <LeftRightPadding>
-        <SloList pathSegment={serviceLevelsDashboard} />
+        <SloList pathSegment={serviceLevelsOverview} />
       </LeftRightPadding>
       <FloatingAddSloButton />
     </Sticky>

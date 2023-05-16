@@ -9,15 +9,16 @@ import React from 'react';
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
+import useNavigateToSloDashboard from 'in-service-levels/navigation/hooks/useNavigateToSloDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -106,6 +107,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     entityType
   });
   const [availableTags, , tagsErrors, tagsProgress] = useSloTags();
+  const navigateToSloDashboard = useNavigateToSloDashboard();
 
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
@@ -113,7 +115,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const errors = [...sloErrors, ...tagsErrors];
 
   return (
-    <ServerTablePresenter
+    <ServerTablePresenter<SloListItem, ServerTablePresenterProps<SloListItem>>
       cardTitle={t('in-service-levels:sloList.title')}
       page={actualPage}
       pageSize={actualPageSize}
@@ -127,6 +129,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
         data: result
       }}
       onChange={setServerTableState}
+      onRowClick={({ configuration }) => navigateToSloDashboard(configuration)}
       rightHeader={() => (
         <SloListFilters
           tags={availableTags ?? []}
