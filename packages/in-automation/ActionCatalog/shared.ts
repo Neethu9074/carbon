@@ -99,7 +99,7 @@ function safeParseJSON<T>(str: string = '{}') {
 }
 
 type VaultParameter = { secretKey: string; secretPath: string };
-const isVaultParameter = (param: any): param is VaultParameter => {
+const isVaultParameter = (param: VaultParameter | {}): param is VaultParameter => {
   return 'secretKey' in param && 'secretPath' in param;
 };
 export const parseVaultParameter = (str?: string) => {
@@ -111,7 +111,7 @@ export const parseVaultParameter = (str?: string) => {
 };
 
 type DynamicParameter = { key?: string; tagName: string };
-const isDynamicParameter = (param: any): param is DynamicParameter => {
+const isDynamicParameter = (param: DynamicParameter | {}): param is DynamicParameter => {
   return 'tagName' in param;
 };
 export const parseDynamicParameter = (str?: string) => {
