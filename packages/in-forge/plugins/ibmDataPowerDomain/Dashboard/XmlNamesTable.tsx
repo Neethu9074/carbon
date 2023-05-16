@@ -74,7 +74,7 @@ export default function XmlNamesTable({ snapshot }: { snapshot: SnapshotData }) 
   const snapshotId = snapshot.get('id') as string;
   const rows = snapshot
     .getIn(['data'], List())
-    .map((maximum: Map<BigInteger, any>, name: string) => {
+    .map((maximum: BigInteger, name: string) => {
       if (name.startsWith('xmlNames') && name.endsWith('maximum')) {
         return {
           key: name,
