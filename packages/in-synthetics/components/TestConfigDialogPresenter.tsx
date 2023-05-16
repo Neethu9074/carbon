@@ -94,9 +94,9 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       } as SyntheticTest;
     } else {
       if (
-        form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
-        isEmpty(form.get('configuration').get('headers').value)
-      ) {
+      form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+      isEmpty(form.get('configuration').get('headers').value)
+    ) {
         updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
         testConfig = {
           active: true,
