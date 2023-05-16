@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-// @ts-expect-error
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 

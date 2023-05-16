@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-// @ts-expect-error
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }: { snapshot: any }) {
