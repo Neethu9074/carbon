@@ -15,7 +15,7 @@ import {
   hideMobileAppDetailsInTraceView,
   navigateToSessionFromBackendTrace
 } from 'in-mobile-apps/tracker';
-import { getLinkToAnalyze, getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
+import { getLinkToAnalyze, getLinkToSession, useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -88,7 +88,7 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
                 i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnTheMobileApp"
                 values={{ mobileAppLabel: beacon.mobileAppLabel }}
                 components={{
-                  linkToMobileApp: <Link href$={getLinkToMobileApp(beacon.mobileAppId)} className={locals.link} />
+                  linkToMobileApp: <LinkToMobileApp beacon={beacon} />
                 }}
               />
             </span>
@@ -146,4 +146,11 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
       {showDetails && <BeaconUserSummary beacon={beacon} />}
     </Fragment>
   );
+}
+
+function LinkToMobileApp(props) {
+  const { beacon, ...others } = props;
+  const linkToMobileAppHref = useGetLinkToMobileApp(beacon.mobileAppId);
+
+  return <Link {...others} href={linkToMobileAppHref} className={locals.link} />;
 }

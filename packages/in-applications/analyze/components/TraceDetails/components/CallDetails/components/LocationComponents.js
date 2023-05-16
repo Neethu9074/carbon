@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { Link, SvgIcon } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import { shorten } from 'in-services/util/string';
@@ -113,6 +113,9 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
 };
 
 export const MobileAppSourceLocation = ({ location, beacon }) => {
+  const linkToMobileAppHref = useGetLinkToMobileApp(beacon.mobileAppId);
+  const linkToMobileAppWithViewHref = useGetLinkToMobileApp(beacon.mobileAppId, { viewId: beacon.view });
+
   return (
     <div
       className={classNames({
@@ -123,7 +126,7 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
         <span className={locals.locationText}>{location}</span>
         {beacon.view ? (
           <Fragment>
-            <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId, { viewId: beacon.view })}>
+            <Link className={locals.link} href={linkToMobileAppWithViewHref}>
               <SvgIcon type="lib_mobile_app_view" size="s" className={locals.icon} />
               {shortenedLabel(beacon.view)}
             </Link>
@@ -132,7 +135,7 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
         ) : (
           ''
         )}
-        <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
+        <Link className={locals.link} href={linkToMobileAppHref}>
           <SvgIcon className={locals.entityIcon} type="lib_mobile_app" />
           {shortenedLabel(beacon.mobileAppLabel)}
         </Link>

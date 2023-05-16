@@ -10,11 +10,13 @@ import { Button } from '@instana/components';
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import { newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
+import { useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import ArticleContent from 'in-components/ArticleContent';
 import { t } from 'in-i18n';
 
 export default function EmptyStateContent({ cardIcon, label }) {
+  const linkToNewMobileAppHref = useLinkToNewMobileApp();
+
   const { createHrefToPath } = useNavigation();
   return (
     <EntityPageMainNotification
@@ -27,7 +29,7 @@ export default function EmptyStateContent({ cardIcon, label }) {
             <Button kind="create" href={createHrefToPath(newWebsitePathFullyQualified)}>
               {t('in-cockpit:widgets.websites.createWebsite')}
             </Button>
-            <Button kind="create" href$={linkToNewMobileApp$}>
+            <Button kind="create" href={linkToNewMobileAppHref}>
               {t('in-cockpit:widgets.websites.createMobileApp')}
             </Button>
           </div>
