@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
 import { List } from 'immutable';
+import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
