@@ -9,6 +9,8 @@ import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   AdditionalHeaders,
@@ -22,8 +24,7 @@ import {
   addAssociations,
   getAction,
   createAction,
-  getAssociations,
-  concatObservables
+  getAssociations
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -35,13 +36,13 @@ import {
   NO_AUTH,
   selectedEventsTypes
 } from 'in-automation/ActionCatalog/shared';
+import { NewActionWithAssociations, NewActionWithAssociationsWithUndefined } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { Action, Field, ActionAssociation, EventSpecificationInfo } from 'in-types';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-automation/tracker';
-import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
@@ -85,19 +86,14 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     return combineLatest([actionDetails$, associationsDetails$]).map(([actionResponse, associationsResponse]) => ({
       ...(actionResponse as Action),
       applicationAlertConfigIds: (associationsResponse as ActionAssociation[])
-        ?.map((action: ActionAssociation) => action?.application_alert?.id)
-        .filter(function (x: string | undefined) {
-          return x !== undefined;
-        }),
-      selectedEvents:
-        (associationsResponse as ActionAssociation[])
-          ?.map((action: ActionAssociation) => action.custom_event?.id)
-          .concat(
-            (associationsResponse as ActionAssociation[])?.map((action: ActionAssociation) => action.builtin_event_id)
-          )
-          .filter(function (x: string | undefined) {
-            return x !== undefined;
-          }) ?? []
+        .map((action: ActionAssociation) => action?.application_alert?.id)
+        .filter((id: string | undefined) => id !== undefined),
+      selectedEvents: (associationsResponse as ActionAssociation[])
+        ?.map((action: ActionAssociation) => action.custom_event?.id)
+        .concat(
+          (associationsResponse as ActionAssociation[])?.map((action: ActionAssociation) => action.builtin_event_id)
+        )
+        .filter((id: string | undefined) => id !== undefined)
     }));
   }
 
@@ -106,14 +102,23 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     createDefaultEntity: createAction,
     createForm: (action: NewActionWithAssociations) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: () =>
-      mergeResultData().map((action: any) =>
+      mergeResultData().map((action: NewActionWithAssociationsWithUndefined) =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
-    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy),
+    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, result),
     openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<ActionFormEntity>(entityFormParam);
+
+  const EventsAssociatedValue = (form?.get('selectedEvents') as FormField<string[]>)?.value;
+  const result: EventSpecificationInfo[] | null | undefined = useObservable(() => {
+    if (EventsAssociatedValue) {
+      return getEventSpecificationByIds(EventsAssociatedValue);
+    }
+    return just(null);
+  }, [EventsAssociatedValue]);
+
   let content: JSX.Element;
   const errorLoading = error && !entity;
   if (loading) {
@@ -192,7 +197,7 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
       {!isNewAction && (
         <HorizontalFlexWrapper>
           {form && role?.canRunAutomationActions && (
-            <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />
+            <TestActionButton form={form} setForm={setForm} action={getActionSpecification({ form })} />
           )}
           {entity && isAction(entity) && <CopyActionLink action={entity} />}
         </HorizontalFlexWrapper>
@@ -201,8 +206,8 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
   );
 };
 
-function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
-  const actionSpecification = getActionSpecification(form);
+function save(form: MapForm<any>, id: string | null, isCopy: boolean, result: any) {
+  const actionSpecification = getActionSpecification({ form, result });
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({
@@ -222,12 +227,10 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    // return saveAction(actionSpecification, id);
 
-    return concatObservables(
-      saveAction(actionSpecification, id),
+    return saveAction(actionSpecification, id).flatMap(action =>
       addAssociations({
-        action_id: id,
+        action_id: action.id,
         application_alert_ids: actionSpecification?.applicationAlertConfigIds,
         builtin_event_ids: actionSpecification?.selectedEventsTypes?.builtin_event_ids ?? [],
         custom_event_ids: actionSpecification?.selectedEventsTypes?.custom_event_ids ?? []
@@ -236,7 +239,13 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
   }
 }
 
-export function getActionSpecification(form: MapForm<any>): NewActionWithAssociations {
+export function getActionSpecification({
+  form,
+  result = []
+}: {
+  form: MapForm<any>;
+  result?: EventSpecificationInfo[] | null | undefined;
+}): NewActionWithAssociations {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
@@ -245,15 +254,14 @@ export function getActionSpecification(form: MapForm<any>): NewActionWithAssocia
   const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
   const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
   const selectedEventsTypes: selectedEventsTypes = { builtin_event_ids: [], custom_event_ids: [] };
-  if (selectedEvents.length > 0) {
-    getEventSpecificationByIds(selectedEvents).once((data: EventSpecificationInfo[]) => {
-      data.map((event: EventSpecificationInfo) => {
-        if (event?.type === 'BUILT_IN') {
-          selectedEventsTypes.builtin_event_ids.push(event.id);
-        } else {
-          selectedEventsTypes.custom_event_ids.push(event.id);
-        }
-      });
+  if (selectedEvents.length > 0 && result) {
+    result.map((event: EventSpecificationInfo) => {
+      if (event?.type === 'BUILT_IN' && selectedEvents.includes(event?.id)) {
+        selectedEventsTypes.builtin_event_ids.push(event.id);
+      }
+      if (event?.type === 'CUSTOM' && selectedEvents.includes(event?.id)) {
+        selectedEventsTypes.custom_event_ids.push(event.id);
+      }
     });
   }
 

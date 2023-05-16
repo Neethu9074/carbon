@@ -97,3 +97,9 @@ export type NewActionWithAssociations = ActionFormEntity & {
   applicationAlertConfigIds?: string[];
   selectedEventsTypes?: selectedEventsTypes;
 };
+
+export type NewActionWithAssociationsWithUndefined = ActionFormEntity & {
+  selectedEvents?: (string | undefined)[];
+  applicationAlertConfigIds?: (string | undefined)[];
+  selectedEventsTypes?: selectedEventsTypes;
+};

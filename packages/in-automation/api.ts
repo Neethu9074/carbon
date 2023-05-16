@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { combineLatest, just, Observable, timeout, Disposable, create } from '@instana/observables';
+import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import {
   Action,
@@ -77,7 +77,7 @@ export function saveNewAction(actionSpecification: NewAction) {
 }
 
 export function saveAction(actionSpecification: NewAction, id: string) {
-  return http({
+  return http<Action>({
     method: 'PUT',
     maxRetries: 3,
     url: `${actionUrl}/${encodeURIComponent(id)}`,
@@ -393,46 +393,6 @@ export function runWebhookAction({
       }
     ]
   });
-}
-
-type GetObservableTypes<T extends Observable<any>[]> = {
-  [K in keyof T]: T[K] extends Observable<infer U> ? U : never;
-};
-export function concatObservables<T extends Observable<any>[]>(...observables: T) {
-  let subscriptions: Disposable[] = [];
-  let emitted: any = [];
-  let activeSubscriptions = 0;
-  let combinedObservables = create<GetObservableTypes<T>>({ start, stop });
-  return combinedObservables;
-
-  function subscribe() {
-    const subscriptionIndex = activeSubscriptions++;
-    subscriptions.push(
-      observables[subscriptionIndex].subscribe(value => {
-        emitted[subscriptionIndex] = value;
-        if (activeSubscriptions < observables.length) {
-          subscribe();
-        } else {
-          checkWhetherAllObservablesEmitted();
-        }
-      })
-    );
-  }
-  function start() {
-    subscribe();
-  }
-
-  function stop() {
-    subscriptions.forEach(subscription => subscription.dispose());
-  }
-  function checkWhetherAllObservablesEmitted() {
-    for (let i = 0; i < observables.length; i++) {
-      if (emitted[i] === undefined) {
-        return;
-      }
-    }
-    combinedObservables.emit(emitted.slice() as GetObservableTypes<T>);
-  }
 }
 
 export function addAssociations(data: NewActionAssociation) {
