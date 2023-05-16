@@ -10,16 +10,15 @@ import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
+import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
-import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { number } from 'in-services/formatters/number';
@@ -38,7 +37,7 @@ const columnDefinitions = [
     id: 'mobileAppLabel',
     label: t('in-mobile-apps:appsList.nameLabel'),
     getContent(item) {
-      return <Link href$={getLinkToMobileApp(item.mobileApp.id)}>{item.mobileApp.label}</Link>;
+      return <MobileAppLabel item={item} />;
     }
   },
   {
@@ -79,6 +78,11 @@ const columnDefinitions = [
   }
 ];
 
+function MobileAppLabel({ item }) {
+  const linkToMobileAppHref = useGetLinkToMobileApp(item.mobileApp.id);
+  return <Link href={linkToMobileAppHref}>{item.mobileApp.label}</Link>;
+}
+
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
@@ -87,17 +91,21 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: mobileAppsPath
 });
 
-const rightHeader = role.canConfigureMobileAppMonitoring && (
-  <Button
-    kind="action"
-    onClick={() => mobileAppsOpenAddForm()}
-    className={locals.button}
-    icon="lib_openclose_add_circle_outline"
-    href$={linkToNewMobileApp$}
-  >
-    {t('in-mobile-apps:appsList.addMobileAppBtn')}
-  </Button>
-);
+function RightHeader() {
+  const linkToNewMobileApp = useLinkToNewMobileApp();
+
+  return (
+    <Button
+      kind="action"
+      onClick={() => mobileAppsOpenAddForm()}
+      className={locals.button}
+      icon="lib_openclose_add_circle_outline"
+      href={linkToNewMobileApp}
+    >
+      {t('in-mobile-apps:appsList.addMobileAppBtn')}
+    </Button>
+  );
+}
 
 export default connectTo(
   {
@@ -119,7 +127,11 @@ export default connectTo(
             FallbackComponent={MobileAppsNoDataNotification}
           >
             <Card hasMarginBottom>
-              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+              <ServerTableWithUrlState
+                get={getTableData}
+                timeConfig={timeConfig}
+                rightHeader={role.canConfigureMobileAppMonitoring ? RightHeader : null}
+              />
             </Card>
           </WithEmptyStateFallback>
         </LeftRightPadding>

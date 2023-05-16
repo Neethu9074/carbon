@@ -8,7 +8,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error Module needs to be translated to TS
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -28,7 +27,7 @@ const dashboardHeaderProps = {
   }
 };
 export default function ViewSwitcher() {
-  const isCatalogActive = useObservable(isView(actionCatalogPath), []);
+  const isCatalogActive = useObservable(isView(actionCatalogPath), []) ?? false;
 
   return (
     <>

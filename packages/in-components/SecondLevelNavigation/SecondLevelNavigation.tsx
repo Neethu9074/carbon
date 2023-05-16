@@ -6,18 +6,30 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { LinkProps, SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import locals from './SecondLevelNavigation.mless';
 
-export function SecondLevelNavigation({ className, children, darkTheme = false, hasGroups = false }) {
+interface SecondLevelNavigationProps {
+  className?: string;
+  darkTheme?: boolean;
+  hasGroups?: boolean;
+}
+
+export function SecondLevelNavigation({
+  className,
+  children,
+  darkTheme = false,
+  hasGroups = false
+}: React.PropsWithChildren<SecondLevelNavigationProps>) {
   let content = (
     <div
       className={classNames({
         [locals.tabList]: true,
         [locals.tabListLight]: darkTheme,
         [locals.tabListWithGroups]: hasGroups,
+        // @ts-expect-error classNames can explicitly handle undefined keys
         [className]: className
       })}
     >
@@ -36,6 +48,16 @@ export function SecondLevelNavigation({ className, children, darkTheme = false, 
   );
 }
 
+interface SecondLevelNavigationItemProps extends Pick<LinkProps, 'className' | 'href$' | 'href' | 'onClick'> {
+  isActive?: boolean;
+  isDisabled?: boolean;
+  label?: React.ReactNode;
+  icon?: string;
+  postIcon?: string;
+  addSeparator?: boolean;
+  addGroupSeparator?: boolean;
+}
+
 export function SecondLevelNavigationItem({
   className,
   isActive,
@@ -48,13 +70,14 @@ export function SecondLevelNavigationItem({
   postIcon,
   addSeparator,
   addGroupSeparator
-}) {
+}: SecondLevelNavigationItemProps) {
   return (
     <Link
       className={classNames({
         [locals.link]: true,
         [locals.addSeparator]: addSeparator,
         [locals.addGroupSeparator]: addGroupSeparator,
+        // @ts-expect-error classNames can explicitly handle undefined keys
         [className]: className
       })}
       href$={href$}
@@ -78,7 +101,18 @@ export function SecondLevelNavigationItem({
   );
 }
 
-export function SecondLevelNavigationGroup({ label, children, withSeparator, isActive }) {
+interface SecondLevelNavigationGroupProps {
+  label: React.ReactNode;
+  isActive?: boolean;
+  withSeparator?: boolean;
+}
+
+export function SecondLevelNavigationGroup({
+  label,
+  children,
+  withSeparator,
+  isActive
+}: React.PropsWithChildren<SecondLevelNavigationGroupProps>) {
   if (!children) {
     return null;
   }

@@ -2,5 +2,5 @@
   "name": "DashboardErroneousResultPresenter",
   "version": "0.0.0",
   "private": true,
-  "main": "./DashboardErroneousResultPresenter.js"
+  "main": "DashboardErroneousResultPresenter.tsx"
 }
