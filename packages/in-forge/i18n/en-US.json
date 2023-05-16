@@ -2934,7 +2934,13 @@
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
-      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})"
+      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})",
+      "xmlNamesCount": "XML Names ({{len}})",
+      "xmlNames": "XML Names",
+      "xmlNameType": "Type",
+      "xmlNameUsed": "Used",
+      "xmlNamePercentFree": "Percentage Free",
+      "xmlNameMaximum": "Maximum"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
