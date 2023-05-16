@@ -45,11 +45,21 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.bytes'),
+    title: t('in-forge:plugins.kongApigateway.ingressBytes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.bandWidth.get('bytes');
+        return row.bandWidth.get('ingressBytes');
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
+    title: t('in-forge:plugins.kongApigateway.egressBytes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.bandWidth.get('egressBytes');
       },
       getContent: bytes.compact
     }
@@ -96,8 +106,11 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: bytes.compact,
-              metrics: ['kongBandwidthBytes.' + row.key + '.bytes'],
-              labels: [t('in-forge:plugins.kongApigateway.direction')],
+              metrics: [
+                'kongBandwidthBytes.' + row.key + '.ingressBytes',
+                'kongBandwidthBytes.' + row.key + '.egressBytes'
+              ],
+              labels: [t('in-forge:plugins.kongApigateway.ingress'), t('in-forge:plugins.kongApigateway.egress')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
