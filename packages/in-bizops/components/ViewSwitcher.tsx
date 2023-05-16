@@ -28,8 +28,8 @@ export default function ViewSwitcher() {
 
   const dashboardHeaderProps = {
     icon: 'lib_bizops',
-    label: t('in-bizops:navigation.bizOps'),
-    title: t('in-bizops:navigation.bizOps'),
+    label: t('in-bizops:navigation.businessMonitoring'),
+    title: t('in-bizops:navigation.businessMonitoring'),
     showHistoricDataWarning: false,
     renderMetaInformation
   };
