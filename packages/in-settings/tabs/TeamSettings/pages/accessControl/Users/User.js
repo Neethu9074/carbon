@@ -77,6 +77,18 @@ const UserRenderer = props => {
   const { userId, setMessage } = props;
   const [user, setUser] = useState({ ...props.user });
   const [form, setForm] = useState(() => createUserNameForm(user.fullName));
+  const [refreshPermissions, setRefreshPermissions] = useState(false);
+
+  const refreshGroupsAndPermissions = () => {
+    // Reset
+    setRefreshPermissions(false);
+
+    // Refresh groups
+    refresh();
+
+    // Refresh permissions set
+    setRefreshPermissions(true);
+  };
 
   const changeUserName = (userMail, form, updateForm, setMessage) => {
     if (!form.hierarchyValid) {
@@ -122,10 +134,10 @@ const UserRenderer = props => {
 
       <Row>
         <Col lg={6}>
-          <Groups userId={userId} refresh={refresh} />
+          <Groups userId={userId} refresh={rbacImprovementEnabled ? refreshGroupsAndPermissions : refresh} />
         </Col>
         <Col lg={6}>
-          {rbacImprovementEnabled && <RoleAndAccessScopeColumns email={user.email} />}
+          {rbacImprovementEnabled && <RoleAndAccessScopeColumns email={user.email} refresh={refreshPermissions} />}
           {!rbacImprovementEnabled && <Areas userEmail={user.email} refresh={refresh} />}
         </Col>
       </Row>
