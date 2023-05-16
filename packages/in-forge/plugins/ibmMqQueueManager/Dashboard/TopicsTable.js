@@ -51,14 +51,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqCluster.dashboard.messages'),
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.pubMessagesCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'messagesCount';
+        return 'pubMessagesCount';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {

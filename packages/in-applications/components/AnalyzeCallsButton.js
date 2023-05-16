@@ -12,11 +12,11 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -49,6 +49,8 @@ function AnalyzeCallsButton({
   formModel = emptyArray,
   groupBy
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   let syntheticOption = syntheticCallsOptions.exclude;
   if (syntheticCallsEnabled) {
     syntheticOption = syntheticCalls;
@@ -59,7 +61,7 @@ function AnalyzeCallsButton({
     <Button
       kind="primary"
       icon="lib_application_call"
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointLabel,

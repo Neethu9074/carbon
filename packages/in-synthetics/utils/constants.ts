@@ -359,6 +359,9 @@ export interface AdvancedModeProps {
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
 }
 
 export interface ConfigItem {
@@ -398,4 +401,22 @@ export const Placeholders: Record<string, Field> = {
 export interface ErrorType {
   invalid: boolean;
   message: string;
+}
+
+export interface SlideInHeader {
+  title: string | null;
+  onClose: (() => void) | null;
+}
+
+export interface Script {
+  name: string;
+  text: string;
+  scriptFile?: string;
+  errorMessage?: string;
+  extension: string;
+}
+
+export interface Zip {
+  name: string;
+  files: string[];
 }

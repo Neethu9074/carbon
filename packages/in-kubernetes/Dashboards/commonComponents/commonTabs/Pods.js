@@ -4,7 +4,6 @@
  */
 
 import { get, filter } from 'lodash';
-import { compose } from 'recompose';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -40,7 +39,7 @@ import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -242,15 +241,12 @@ export function PodsWithNamespaces({ ...props }) {
   return <Pods columnDefinitions={allColumnDefinitions} Table={ServerTableWithUrlState} {...props} />;
 }
 
-const Pods = compose(
-  withUrlState({
-    reducerName: 'setPhase',
-    bind: [phasePodListUrlParameter]
-  })
-)(function Pods(props) {
+const urlStateDefinition = {
+  bind: [phasePodListUrlParameter]
+};
+
+export default function Pods(props) {
   const {
-    phase,
-    setPhase,
     timeConfig,
     namespaceId,
     clusterId,
@@ -261,6 +257,8 @@ const Pods = compose(
     cronJobId,
     Table = ServerTableWithUrlStateWithoutNamespace
   } = props;
+
+  const [{ phase }, setPhase] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
     <ComboBox
@@ -293,7 +291,7 @@ const Pods = compose(
       </Card>
     </>
   );
-});
+}
 
 function getTableData({
   query = '',
@@ -333,5 +331,3 @@ function getTableData({
     granularity: getInfraGranularity(timeConfig)
   });
 }
-
-export default Pods;

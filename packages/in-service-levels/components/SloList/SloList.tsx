@@ -6,11 +6,13 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
+import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -20,14 +22,19 @@ import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUr
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
 import { all } from 'in-hooks/utils/progress';
 
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
-  status: number;
   entity: LabeledEntity;
+  status: number;
+  remainingBudget: number;
+  burnDown: MetricDataSeries;
+  metricTimeConfig: TimeConfig;
+  metricGranularity: number;
 }
 
 interface Props {
@@ -46,24 +53,37 @@ const columnDefinitions: ColumnDefinition<SloListItem>[] = [
     id: 'entity',
     label: t('in-service-levels:sloList.columnLabels.entity'),
     getContent: item => <SloEntityColumnContent item={item} />,
-    width: 30
+    width: 20
   },
   {
     id: 'blueprint',
     label: t('in-service-levels:sloList.columnLabels.blueprint'),
     getContent: item => <SloBlueprintColumnContent item={item} />,
-    width: 30
+    width: 5
+  },
+  {
+    id: 'errorBudget',
+    label: t('in-service-levels:sloList.columnLabels.errorBudget'),
+    getContent: item => <SloErrorBudgetColumnContent item={item} />,
+    width: 22.5
+  },
+  {
+    id: 'status',
+    label: t('in-service-levels:sloList.columnLabels.status'),
+    getContent: item => <SloStatusColumnContent item={item} />,
+    width: 10
   },
   {
     id: 'tags',
     label: t('in-service-levels:sloList.columnLabels.tags'),
     getContent: item => <SloTagsColumnContent item={item} />,
-    width: 10
+    width: 15
   },
   {
     id: 'actions',
     label: '',
-    getContent: () => <SloActions />
+    getContent: () => <SloActions />,
+    width: 2.5
   }
 ];
 

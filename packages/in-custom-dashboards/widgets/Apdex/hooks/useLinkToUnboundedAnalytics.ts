@@ -14,6 +14,10 @@ import {
   WebsiteApdexConfiguration
 } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import {
+  GetLinkToAnalyzeProps,
+  useLinkToAnalyze as useLinkToApplicationAnalyze
+} from 'in-applications/navigation/paths';
 import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { useGenerateLinkToAnalyze as useGenerateLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { TimeConfigAwareHref$Creator } from 'in-components/Chart/types';
@@ -26,6 +30,7 @@ interface Props {
 
 export default function useLinkToUnboundedAnalytics({ apdexConfig, tagCatalog }: Props): TimeConfigAwareHref$Creator {
   const generateLinkToWebsiteUA = useGenerateLinkToWebsiteAnalyze();
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   if (!apdexConfig || !tagCatalog) {
     return () => just('');
@@ -37,7 +42,7 @@ export default function useLinkToUnboundedAnalytics({ apdexConfig, tagCatalog }:
   }
 
   if (isApplicationApdexConfiguration(apdexConfig)) {
-    return highlightedTime => buildApplicationApdexUA2Link(apdexConfig, highlightedTime);
+    return highlightedTime => buildApplicationApdexUA2Link(apdexConfig, highlightedTime, getLinkToApplicationAnalyze);
   }
 
   return () => just('');
@@ -70,7 +75,8 @@ function buildWebsiteApdexUA2Link(
 
 function buildApplicationApdexUA2Link(
   apdexConfig: ApplicationApdexConfiguration,
-  highlightedTime: TimeConfig
+  highlightedTime: TimeConfig,
+  getLinkToApplicationAnalyze: (props: Partial<GetLinkToAnalyzeProps>) => string
 ): ReturnType<TimeConfigAwareHref$Creator> {
   const {
     entityId: applicationId,
@@ -99,6 +105,7 @@ function buildApplicationApdexUA2Link(
     tagFilterExpression,
     [],
     boundaryScope,
-    additionalParams
+    additionalParams,
+    getLinkToApplicationAnalyze
   );
 }

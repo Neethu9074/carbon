@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SvgIcon, Button, Toggle } from '@instana/components';
 import { just } from '@instana/observables';
@@ -32,6 +33,7 @@ import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/User
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { success as successResult } from 'in-services/util/result';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import { getEntityHref } from 'in-settings/navigation/paths';
@@ -42,7 +44,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { RemoveUserDialog } from './RemoveUserDialog';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
-import { goToPath } from 'in-stores/navigation';
 import { noop } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
@@ -55,7 +56,16 @@ import locals from './Group.mless';
 const permissionsForList = productPermissions.filter(permission => !permission.isOwnerPermission);
 
 export default function Group({ match }) {
-  const groupId = match.params.id;
+  const [groupId, setGroupId] = useState(match.params.id);
+  const { navigate, goToPath } = useNavigation();
+
+  function updateGroupId(id) {
+    setGroupId(id);
+
+    // Update URL path to replace 'new' with actual new group id (will not cause a page reload)
+    navigate(getEntityHref(teamSettingsAccessControlGroups, id), true);
+  }
+
   return (
     <>
       <Title title={t('in-settings:tabs.group')} />
@@ -67,12 +77,15 @@ export default function Group({ match }) {
         })}
         enrichForm={createForm}
         saveItem={saveItem}
-        onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
+        onCancelClick={() => {
+          goToPath(teamSettingsAccessControlGroups);
+        }}
         renderLoadingState={renderLoadingState}
         hideFooter={rbacImprovementEnabled}
         render={renderGroup}
         // additional props which are passed down
         groupId={groupId}
+        updateGroupId={updateGroupId}
       />
     </>
   );
@@ -83,14 +96,11 @@ function renderLoadingState() {
 }
 
 function renderGroup(props) {
-  const { setForm, form, group, setMessage } = props;
+  const { setForm, form, group, setMessage, updateGroupId } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
   const isExistingGroup = !!group.id;
 
-  const goToCreatedGroup = groupId => {
-    goToPath(getEntityHref(teamSettingsAccessControlGroups, groupId));
-  };
   const accessRestrictionWarning = needsToShowRestricAccessedWarning(form.get('permissionSet').value) ? (
     <div className="message message-small message-warning">
       <IconLabel
@@ -102,24 +112,31 @@ function renderGroup(props) {
     </div>
   ) : null;
   const removeUserFromGroup = (id, name) => {
-    const removeUserLocally = (touched) => {
-      const members = form.get('members').value.slice().filter(member => member.userId !== id);
+    const removeUserLocally = touched => {
+      const members = form
+        .get('members')
+        .value.slice()
+        .filter(member => member.userId !== id);
       if (touched) {
         setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
       } else {
         setForm(form.updateIn(['members'], f => f.setValue(members)));
+        setMessage({ text: t('in-settings:tabs.successfullyRemovedUserFromGroup', { name }), type: 'success' });
       }
-    }
+    };
     if (rbacImprovementEnabled) {
-      addActiveDialog(<RemoveUserDialog
-        userId={id}
-        groupId={group.id}
-        username={name}
-        removeLocally={() => removeUserLocally(false)} />);
+      addActiveDialog(
+        <RemoveUserDialog
+          userId={id}
+          groupId={group.id}
+          username={name}
+          removeLocally={() => removeUserLocally(false)}
+        />
+      );
     } else {
       removeUserLocally(true);
     }
-  }
+  };
   return (
     <>
       <InlineEditorRow
@@ -129,7 +146,7 @@ function renderGroup(props) {
         inputValue={form.get('name').value}
         onInputChange={value => setForm(form.updateIn(['name'], f => f.setValue(value).setTouched(true)))}
         hasError={!form.get('name').valid && form.get('name').touched}
-        onClickSave={() => changeGroupName(form, setForm, setMessage)}
+        onClickSave={() => changeGroupName(form, setForm, setMessage, updateGroupId)}
         onClickCancel={() => setForm(form.updateIn(['name'], f => f.setValue(group.name).setTouched(false)))}
       />
 
@@ -139,7 +156,7 @@ function renderGroup(props) {
             members={form.get('members').value}
             removeUser={removeUserFromGroup}
             groupId={group.id}
-            addUsers={users => addUsers(users, form, setForm)}
+            addUsers={users => addUsers(users, form, setForm, setMessage)}
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
@@ -149,7 +166,7 @@ function renderGroup(props) {
             setForm={setForm}
             readOnly={isOwnerGroup}
             editMode={isExistingGroup}
-            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm, reload: goToCreatedGroup })}
+            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm, updateGroupId })}
           />
         )}
         {!rbacImprovementEnabled &&
@@ -396,7 +413,7 @@ function removeDfq(form, setForm) {
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
 
-function addUsers(users, form, setForm) {
+function addUsers(users, form, setForm, setMessage) {
   setForm(
     form.updateIn(['members'], f =>
       f
@@ -407,21 +424,31 @@ function addUsers(users, form, setForm) {
         .setTouched(true)
     )
   );
+  if (rbacImprovementEnabled) {
+    let text;
+    if (users.length === 1) {
+      const name = users[0].fullName;
+      text = t('in-settings:tabs.successfullyAddedUserToGroup', { name });
+    } else {
+      text = t('in-settings:tabs.successfullyAddedUsersToGroup');;
+    }
+    setMessage({ text, type: 'success'});
+  }
 }
 
 function copyPermissionSet(form) {
   return { ...form.get('permissionSet').value };
 }
 
-function changeGroupName(form, updateForm, setMessage) {
+function changeGroupName(form, updateForm, setMessage, updateGroupId) {
   if (!form.hierarchyValid) {
     return updateForm(form.setTouched(true, { recurse: true }));
   }
 
-  saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm });
+  saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm, updateGroupId });
 }
 
-function saveItem({ form, setMessage, setCanSaveItem, setForm, reload = noop }) {
+function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
   const group = {
     id: form.get('id').value,
     name: form.get('name').value,
@@ -436,7 +463,10 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, reload = noop }) 
       setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: 'success' });
       setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
       setCanSaveItem(false);
-      reload(savedGroup.id);
+
+      if (group.id !== savedGroup.id) {
+        updateGroupId(savedGroup.id);
+      }
     },
     error => {
       setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: 'error' });

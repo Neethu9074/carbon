@@ -42,6 +42,10 @@ export function validate(col) {
     col.typeArgs.getTimeConfig == null || typeof col.typeArgs.getTimeConfig === 'function',
     'Columns with type=metric may define a getTimeConfig(row) function or not define the function at all'
   );
+  invariant(
+    col.typeArgs.getRollup == null || typeof col.typeArgs.getRollup === 'function',
+    'Columns with type=metric may define a getRollup(row) function PLUS getTimeConfig(row) (required) or not define the function at all'
+  );
 }
 
 export function initialize(row, columnDefinition, columnIndex, emitRawDataChange) {
@@ -69,6 +73,13 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
     timeConfig$ = null;
   }
 
+  let rollup$;
+  if (columnDefinition.typeArgs.getRollup) {
+    rollup$ = columnDefinition.typeArgs.getRollup(row.rowConfig);
+  } else {
+    rollup$ = null;
+  }
+
   column.subscription = snapshotId$
     .flatMap(snapshotId =>
       getMetric({
@@ -77,7 +88,8 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
         timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
         // this flag enforces the metric subscription to always use the time window aggregated metric values
         forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation,
-        timeConfig: timeConfig$
+        timeConfig: timeConfig$,
+        rollup: rollup$
       })
     )
     .subscribe(v => {

@@ -164,7 +164,7 @@ function onDidMount({
       projection,
       colorSteps: 10,
       dataProvider,
-      hideCredits: false,
+      hideCredits: true,
       listeners,
 
       mouseWheelZoomEnabled: true,

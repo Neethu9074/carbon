@@ -74,11 +74,14 @@ module.exports = {
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
   syntheticCreateTestAdvanceModeEnabled: true,
+  syntheticCredentialEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
   oracleRacMonitoringEnabled: false,
   recurrentMaintenanceWindows: true,
-  kongMonitoringEnabled: false
+  playwithEnabled: false,
+  recurrentMaintenanceWindowsEnabled: false,
+  kongEnabled: false
 };

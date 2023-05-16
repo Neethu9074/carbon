@@ -134,7 +134,23 @@
           "operation": "Operation",
           "headerNameMustBeUnique": "Header name must be unique.",
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
-          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value."
+          "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
+          "scriptLabel": "Script",
+          "addscriptAction": "Add Script",
+          "editscriptAction": "Edit Script",
+          "scriptFileName": "File Name",
+          "scriptNotAdded" : "No script added.",
+          "buttonAdd": "Add",
+          "buttonBack": "Back",
+          "buttonSave": "Save",
+          "uploadFileLabel": "Upload File",
+          "uploadFileDescription": "You can upload either a single .js file or a zip file of bundled .js files.",
+          "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
+          "validScriptMessage": "Script is valid.",
+          "zipFileUploadedMessage": "Bundled files cannot be modified or validated",
+          "scriptEditedManuallyMessage": "Script added or modified manually",
+          "mainFileNameLabel": "Main File Name",
+          "invalidMainFileName": "Main file name not valid"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -286,7 +302,8 @@
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
-      "smartAlertsTab": "Smart Alerts"
+      "smartAlertsTab": "Smart Alerts",
+      "configurationTab": "Configuration"
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -430,6 +447,29 @@
       "violationsCount": "{{violationsCount}} failures",
       "testsCount": "{{testsCount}} tests",
       "numberOfFailures": "Failure Alerting"
+    },
+    "configuration": {
+      "configurationTitle": "API {{testType}} Test Configuration",
+      "testTypeTitle": "Test Type",
+      "testType": "Type",
+      "subType": "Subtype",
+      "configSectionTitle": "Configuration",
+      "operation": "Operation",
+      "url": "URL",
+      "header": "Header",
+      "value": "Value",
+      "body": "Body",
+      "validationString": "Validation String",
+      "expectStatus": "Expect Status",
+      "expectMatch": "Expect Match",
+      "expectJSON": "Expect JSON",
+      "additionalOptionsTitle": "Additional Options",
+      "followRedirect": "Follow Redirect",
+      "allowInsecure": "Allow Insecure",
+      "locationsTitle": "Location(s)",
+      "scheduleTitle": "Schedule",
+      "identifyTitle": "Identify",
+      "customProperties": "Custom Properties"
     }
   }
 }

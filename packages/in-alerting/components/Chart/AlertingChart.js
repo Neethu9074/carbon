@@ -45,6 +45,10 @@ export default function AlertingChart({
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
+  if (!idValidTimeThreshold(timeThreshold)) {
+    return null;
+  }
+
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
@@ -126,10 +130,10 @@ export default function AlertingChart({
   }
 
   function computeMax(metricsMaxValue) {
+    const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
     if (threshold.type === STATIC_THRESHOLD) {
       return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
     } else if (threshold.type === ADAPTIVE_BASELINE) {
-      const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
       return getMaxForAdaptiveBaselineChart({
         metricsMaxValue,
         operator: threshold.operator,
@@ -145,7 +149,8 @@ export default function AlertingChart({
       metricsMaxValue,
       operator: threshold.operator,
       baseline: threshold.baseline,
-      sensitivity: threshold.deviationFactor
+      sensitivity: threshold.deviationFactor,
+      fromTime
     });
   }
 
@@ -165,6 +170,17 @@ export default function AlertingChart({
       }
     };
   }
+}
+
+function idValidTimeThreshold(timeThreshold) {
+  if (
+    (timeThreshold?.users !== undefined && !timeThreshold.users) ||
+    (timeThreshold?.userPercentage !== undefined && !timeThreshold.userPercentage) ||
+    (timeThreshold?.requests !== undefined && !timeThreshold?.requests)
+  ) {
+    return false;
+  }
+  return true;
 }
 
 function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
@@ -295,7 +311,6 @@ AlertingChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   numeratorTagFilterExpression: PropTypes.object,
-  isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,

@@ -6,32 +6,22 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-// import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
-// import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
-// import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
-import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 // @ts-expect-error Module needs to be translated to TS
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-// import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import * as paths from 'in-bizops/navigation/paths';
+import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
-  const isProcessesActive = useObservable(isView(paths.bizOpsPath), []);
-  const isActivitiesActive = useObservable(isView(paths.activitiesPath), []);
-  const isSmartAlertsActive = useObservable(isView(paths.smartAlertsPath), []);
-
-  // const popProperties: PoPInstallationPropertiesResponse =
-  //   useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
-  //   dummyPoPProperties;
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const isProcessesActive = matchLocation(paths.businessProcessPath);
+  const isActivitiesActive = matchLocation(paths.activitiesPath);
 
   const renderMetaInformation = () => {
     return <BetaBadge />;
@@ -52,32 +42,18 @@ export default function ViewSwitcher() {
         <div className={locals.firstLine}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.bizOpsPath))}
+              href={createHrefToPath(paths.businessProcessPath)}
               label={t('in-bizops:labelBizOps')}
-              isActive={isProcessesActive && !isActivitiesActive && !isSmartAlertsActive}
+              isActive={isProcessesActive && !isActivitiesActive}
               icon={'lib_bizops'}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.activitiesPath))}
+              href={createHrefToPath(paths.activitiesPath)}
               label={t('in-bizops:labelActivities')}
-              isActive={isActivitiesActive && !isProcessesActive && !isSmartAlertsActive}
+              isActive={isActivitiesActive && !isProcessesActive}
               icon={'lib_application_service'}
             />
-            <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.smartAlertsPath))}
-              label={t('in-bizops:labelSmartAlerts')}
-              isActive={isSmartAlertsActive && !isProcessesActive && !isActivitiesActive}
-              icon={'lib_alerts_alert'}
-            />
           </SecondLevelNavigation>
-          {/* {!popProperties.progress.loading && role?.canConfigureSyntheticLocations && (
-            <PopDeployButton
-              downloadKey={popProperties.data?.downloadKey || ''}
-              agentKey={popProperties.data?.downloadKey || ''}
-              agentKeys={popProperties.data?.agentKeys || []}
-              syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
-            />
-          )} */}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

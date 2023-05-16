@@ -5,9 +5,10 @@
 
 import { Observable } from '@instana/observables';
 
+// eslint-disable-next-line
+import { getView, mutateUrl } from 'in-stores/navigation';
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getView, mutateUrl } from 'in-stores/navigation';
 
 export const settingsBasePath = settingsPath;
 
@@ -79,8 +80,6 @@ export const teamSettingsAlertingAlertChannels = `${alerting}${channels}`;
 export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/maintenanceConfigurations/:id`;
 export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
 export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
-export const teamSettingsAlertingRecurrentMaintenanceConfigurations = `${alerting}/recurrentMaintenanceConfigurations`;
-export const teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit = `${alerting}/recurrentMaintenanceConfigurations/:id`;
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
 export const teamSettingsAlertingHub = `${alerting}/hub`;
 
@@ -133,10 +132,12 @@ export function getEntityIdView(path: string, id: string): Observable<string> {
   if (id) {
     path = `${path}/${encodeURIComponent(id)}`;
   }
+  // eslint-disable-next-line
   return getView(path);
 }
 
 export function goToIntegrationView(kind: string): void {
+  // eslint-disable-next-line
   mutateUrl(location => {
     location.pathname = teamSettingsAlertingIntegrationNew;
     setOrDeleteMatrixKey(location, '/integrations', 'kind', kind);
@@ -144,6 +145,7 @@ export function goToIntegrationView(kind: string): void {
 }
 
 export function goToAlertChannelView(kind: string): void {
+  // eslint-disable-next-line
   mutateUrl(location => {
     location.pathname = teamSettingsAlertingAlertChannelNew;
     setOrDeleteMatrixKey(location, '/channels', 'kind', kind);

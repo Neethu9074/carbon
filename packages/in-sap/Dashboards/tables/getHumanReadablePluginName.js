@@ -22,6 +22,8 @@ export const getHumanReadablePluginName = function (value) {
       return 'Java System';
     case 'sapHanaSystem':
       return 'Hana System';
+    case 'sapWebDispatcher':
+      return 'Web Dispatcher';
     default:
       return 'ABAP System';
   }

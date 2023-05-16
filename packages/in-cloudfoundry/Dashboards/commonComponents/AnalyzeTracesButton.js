@@ -7,13 +7,13 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -25,12 +25,14 @@ export default connect(({ applicationId, timeConfig }) => ({
     }
   }).map(result => result.data)
 }))(function AnalyzeTracesButton({ application }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
       disabled={!application}
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
         formModel: joinExpressions({
           expressions: [

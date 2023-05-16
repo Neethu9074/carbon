@@ -4,188 +4,188 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Exception from 'in-sap/Dashboards/tables/Exception';
 
 export default function ExcepMetrics({ timeConfig, data: vm }) {
   return (
-    <Fragment>
+    <>
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Age_of_Most_Recent_Data_Backup'}
+        configurationName="Age_of_Most_Recent_Data_Backup"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Auto_Merge_for_Column_Store_Tables'}
+        configurationName="Auto_Merge_for_Column_Store_Tables"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Broken_Backup_History'}
+        configurationName="Broken_Backup_History"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Catalog_Consistency'}
+        configurationName="Catalog_Consistency"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Columnstore_Unloads'}
+        configurationName="Columnstore_Unloads"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Consistency_of_Internal_System_Components_After_System_Upgrade'}
+        configurationName="Consistency_of_Internal_System_Components_After_System_Upgrade"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Disk_Usage'}
+        configurationName="Disk_Usage"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Existence_of_Data_Backup'}
+        configurationName="Existence_of_Data_Backup"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Failed_Delta_Merges'}
+        configurationName="Failed_Delta_Merges"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Failed_IO_Reads'}
+        configurationName="Failed_IO_Reads"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Failed_IO_Writes'}
+        configurationName="Failed_IO_Writes"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Internal_Events'}
+        configurationName="Internal_Events"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'LCAPPS_Logging_Events'}
+        configurationName="LCAPPS_Logging_Events"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'LCAPPS_Tracing'}
+        configurationName="LCAPPS_Tracing"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Log_segments_not_free_for_reuse'}
+        configurationName="Log_segments_not_free_for_reuse"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Missing_Volume_Files'}
+        configurationName="Missing_Volume_Files"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'New_Crash_Dump_Files'}
+        configurationName="New_Crash_Dump_Files"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'New_Page_Dump_Files'}
+        configurationName="New_Page_Dump_Files"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'New_RTE_Dump_Files'}
+        configurationName="New_RTE_Dump_Files"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Record_Count_of_Column_Table_Partitions'}
+        configurationName="Record_Count_of_Column_Table_Partitions"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Size_of_Diagnosis_Files'}
+        configurationName="Size_of_Diagnosis_Files"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Status_of_Most_Recent_Data_Backup'}
+        configurationName="Status_of_Most_Recent_Data_Backup"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Storage_Snapshot_Preparation_Time'}
+        configurationName="Storage_Snapshot_Preparation_Time"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Table_Growth_of_Rowstore_Tables'}
+        configurationName="Table_Growth_of_Rowstore_Tables"
       />
       <Exception
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Tables_or_Table_histories_>_1_billion_rows'}
+        configurationName="Tables_or_Table_histories_>_1_billion_rows"
       />
-    </Fragment>
+    </>
   );
 }

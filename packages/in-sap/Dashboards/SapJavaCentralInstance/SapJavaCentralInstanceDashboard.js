@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { hostId as matrixHostId, systemPrefix, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
@@ -39,7 +39,7 @@ export default function SapJavaCentralInstanceDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
   return (
-    <Fragment>
+    <>
       <Breadcrumbs items={SapJavaInstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
@@ -72,7 +72,7 @@ export default function SapJavaCentralInstanceDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 

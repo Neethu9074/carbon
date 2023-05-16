@@ -8,7 +8,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getType, getSpanDetailView } from 'in-sdk/tracing';
+import { getType, getSpanDetailView, getCategory } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
 export default class extends React.PureComponent {
@@ -38,6 +38,7 @@ export default class extends React.PureComponent {
 
   updateForge = props => {
     const type = getType(props.span);
+    const category = getCategory(props.span);
     const detailViewPath = getSpanDetailView(props.span);
     // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
     // We therefore have to explicitly remember the value of 'this' :sadpanda:.
@@ -45,10 +46,17 @@ export default class extends React.PureComponent {
     if (detailViewPath) {
       require(['./forgeDetailProvider.js'], loadSpanDetailComponent => {
         if (self.mounted) {
-          self.setState({
-            componentType: type,
-            Component: loadSpanDetailComponent.default(type, detailViewPath)
-          });
+          if (category === 'bpm') {
+            self.setState({
+              componentType: type,
+              Component: loadSpanDetailComponent.default(category, detailViewPath)
+            });
+          } else {
+            self.setState({
+              componentType: type,
+              Component: loadSpanDetailComponent.default(type, detailViewPath)
+            });
+          }
         }
       });
     }

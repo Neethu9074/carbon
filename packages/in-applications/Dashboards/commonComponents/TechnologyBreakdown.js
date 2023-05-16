@@ -12,6 +12,7 @@ import {
   createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
 import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
@@ -45,6 +46,7 @@ export default function TechnologyBreakdownPresenter({
   renderWidgetNotSupportedIndicator,
   disableChartInLive
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   let config = {
     cardTitle: t('in-applications:titleProcessingTime')
   };
@@ -130,7 +132,8 @@ export default function TechnologyBreakdownPresenter({
                 groupBy: createGroupBy('call.type'),
                 orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
                 chartedMetrics: [createChartedMetric('latency', 'MEAN')]
-              }
+              },
+              getLinkToApplicationAnalyze
             )
         }
       ]

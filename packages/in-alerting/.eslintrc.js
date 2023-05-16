@@ -15,8 +15,12 @@ module.exports = {
       patterns: [
         '!in-mobile-apps/subscriptions',
         '!in-mobile-apps/api',
-        '!in-synthetics/navigation',
         '!in-synthetics/api',
+        '!in-synthetics/dashboards',
+        '!in-synthetics/navigation',
+        '!in-synthetics/subscriptions',
+        '!in-synthetics/tags',
+        '!in-synthetics/utils',
         '!in-websites/navigation'
       ],
 

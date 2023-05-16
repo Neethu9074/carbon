@@ -12,12 +12,12 @@ import {
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
-  TagFilterOperator,
   ThresholdConfig,
   ThresholdOperator,
   WebsiteAlertConfig,
   WebsiteAlertRule,
-  isStaticThresholdConfig
+  isStaticThresholdConfig,
+  TagFilter
 } from '@instana/types';
 
 import {
@@ -82,9 +82,7 @@ interface BluePrintBase {
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 
-  readonly getEntityTagFilterFormModel: (
-    alertConfig: WebsiteAlertConfig
-  ) => { name: string; operator: TagFilterOperator; value?: any };
+  readonly getEntityTagFilterFormModel: (alertConfig: WebsiteAlertConfig) => TagFilter;
 
   readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
@@ -135,16 +133,18 @@ const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
-  getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
-  getAlertsPreviewRequest: metricName =>
+  getMetricsRequest: (metricName: MetricName) =>
+    isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics,
+  getAlertsPreviewRequest: (metricName: MetricName) =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
-  getThresholdSuggestionRequest: metricName =>
+  getThresholdSuggestionRequest: (metricName: MetricName) =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
   getThresholdTypeOptions: () => websitesThresholdTypeOptions,
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilterFormModel: alertConfig => tagFilter('beacon.website.id', EQUALS, alertConfig.websiteId),
+  getEntityTagFilterFormModel: (alertConfig: WebsiteAlertConfig) =>
+    tagFilter('beacon.website.id', EQUALS, alertConfig.websiteId),
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });

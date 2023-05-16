@@ -33,7 +33,7 @@
         "scriptTitle": "この HTTP スクリプト・テストの名前は何ですか",
         "labelName": "テストの名前",
         "labelDescription": "説明",
-        "labelFrequency": "頻度",
+        "labelFrequency": "頻度 (分)",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "ホスト形式が無効です"
       },
       "advancedMode": {
-        "buttonContent": "拡張モードに切り替える"
+        "switchModeButton": "拡張モードに切り替える",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "選択されたテスト・タイプ",
+          "rightListLabel": "テスト・タイプ",
+          "apiTypeLabel": "シンプル・テスト | スクリプト・テスト",
+          "apiTypeHeadline": "どのような種類のシンセティック・テストを作成しますか",
+          "apiTypeText": "API テストを使用して、Web アプリケーションによって提供される API をモニターできます。 API テストを使用して、可用性と応答時間を測定できます。 単純テストでは、URL を ping するか、単一の API をテストすることができます。 「スクリプト」テストでは、API 応答のセットの検査、複雑なワークフローのシミュレート、および特定の機能のテストを行うことができるスクリプトを提供できます。",
+          "selectedTestTypeButton": "選択",
+          "httpScriptTitle": "スクリプト・テスト",
+          "httpActionTitle": "単純テスト",
+          "browserTypeLabel": "ブラウザー",
+          "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
+          "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
+          "internetServicesTypeLabel": "インターネット・サービス",
+          "internetServicesTypeHeadline": "インターネット・サービス・テスト",
+          "internetServicesTypeText": "インターネット・サービスのシンセティック・テストには、Web サービスとのユーザー対話をシミュレートしてパフォーマンスをモニターおよびテストし、ダウンタイムの問題を特定して回避することが含まれます。"
+        },
+        "configurationLabel": "構成",
+        "configurationTitle": "構成: このテストはどのように機能しますか?",
+        "locationsLabel": "ロケーション",
+        "locationsTitle": "ロケーション: このテストはどこで実行されますか?",
+        "scheduleLabel": "スケジュール",
+        "scheduleTitle": "スケジュール: このテストはいつ実行されますか?",
+        "identifyLabel": "識別",
+        "identifyTitle": "識別: テストは何を行いますか?",
+        "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
+        "simultaneous": "同時",
+        "simultaneousDescription": "このテストは、選択した各ロケーションで同時に実行されます。",
+        "configStep": {
+          "allowInsecure": "非セキュアを許可",
+          "expectStatusLabel": "予期される状況",
+          "expectJSONLabel": "JSON を予期",
+          "expectMatchLabel": "一致を予期",
+          "expectStatusPlaceholder": "予期される状況の入力",
+          "expectJSONPlaceholder": "予期される JSON の入力",
+          "expectMatchPlaceholder": "予期されるストリングの入力",
+          "addValidations": "検証の追加",
+          "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
+          "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。",
+          "mustBeValidHttpReturnCode": "状況は有効な HTTP 戻りコードでなければなりません。",
+          "shouldBeValidRegExp": "入力するストリングは有効な正規表現でなければなりません。"
+        },
+        "loadMore": "さらにロード",
+        "selectTests": {
+          "addLocations": "{{count}} 個のロケーションの追加",
+          "addLocation": "ロケーションの追加",
+          "cancel": "キャンセル",
+          "selectLocation": "ロケーションの選択"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "ブラウザー",
+          "internetServicesName": "インターネット・サービス"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "新規テストの作成"
+    "buttonLabel": "シンセティック・テストの追加"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "合成スマート・アラートの追加"
   },
   "navigation": {
     "synthetics": "シンセティック・モニタリング"
@@ -169,7 +225,10 @@
       "namespace": "名前空間",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか?",
       "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) にはアクティブなテストが割り当てられています。このロケーションを削除しますか?",
-      "deleteLocation": "ロケーションの削除"
+      "deleteLocation": "ロケーションの削除",
+      "noDataAvailable": {
+        "message": "{{component}} が使用不可です"
+      }
     },
     "summary": {
       "successRate": "成功率",
@@ -348,7 +407,7 @@
       "locationListDescription": "データベースから取得されたシンセティック・ロケーションがありません。"
     },
     "alertList": {
-      "timeThreshold": "障害しきい値",
+      "timeThreshold": "時間しきい値",
       "testsApplied": "適用されているテスト",
       "filterApplied": "適用されているフィルター",
       "violationsCount": "{{violationsCount}}件の障害",

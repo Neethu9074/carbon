@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -13,6 +14,7 @@ import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyIn
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { clickAlertChannelTracker } from 'in-settings/tracker';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -56,7 +58,16 @@ export default function AlertChannelsList({
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       getDetailsHref={
-        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)
+        onRowClick || !hasRowNavigation
+          ? null
+          : entity => {
+              clickAlertChannelTracker({
+                alertChannelName: entity.name ?? '',
+                alertChannelId: entity.id ?? '',
+                alertChannelKind: entity.kind ?? ''
+              });
+              return getEntityHref(teamSettingsAlertingAlertChannels, entity.id);
+            }
       }
     />
   );

@@ -4,48 +4,48 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Performance from 'in-sap/Dashboards/tables/Performance';
 
 export default function PerfMetrics({ timeConfig, data: vm }) {
   return (
-    <Fragment>
+    <>
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'System_Performance'}
+        configurationName="System_Performance"
       />
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'System_response_time'}
+        configurationName="System_response_time"
       />
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'User_Load'}
+        configurationName="User_Load"
       />
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Performance_of_Gateway_Service_Requests'}
+        configurationName="Performance_of_Gateway_Service_Requests"
       />
       <Performance
         snapshotId={vm.id}
         techEventName={vm.missingMetrics}
         eventNames={vm.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Average_payload_size_sent_per_service_call'}
+        configurationName="Average_payload_size_sent_per_service_call"
       />
-    </Fragment>
+    </>
   );
 }

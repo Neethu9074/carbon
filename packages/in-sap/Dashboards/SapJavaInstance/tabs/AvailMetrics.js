@@ -4,27 +4,27 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Availability from 'in-sap/Dashboards/tables/Availability';
 
-export default function AvailMetrics({ timeConfig, data: vm }) {
+export default function AvailMetrics({ timeConfig, data: sap }) {
   return (
-    <Fragment>
+    <>
       <Availability
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
+        snapshotId={sap.id}
+        techEventName={sap.missingMetrics}
+        eventNames={sap.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Java_Instance_Availability'}
+        configurationName="ADS_Instance_Http_Availability"
       />
       <Availability
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
+        snapshotId={sap.id}
+        techEventName={sap.missingMetrics}
+        eventNames={sap.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'Java_Server_Node_Status'}
+        configurationName="Portal_Start_Page_Http_Availability"
       />
-    </Fragment>
+    </>
   );
 }

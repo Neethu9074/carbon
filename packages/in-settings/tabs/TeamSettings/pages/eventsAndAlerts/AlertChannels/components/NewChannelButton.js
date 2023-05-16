@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { clickAddAlertChannelMenuTracker, clickAddAlertChannelTracker } from 'in-settings/tracker';
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -23,6 +24,7 @@ export default function NewChannelButton(props) {
       kind="action"
       icon="lib_openclose_add_circle_outline"
       label={t('in-settings:tabs.addAlertChannel')}
+      trackEventDropdown={clickAddAlertChannelMenuTracker}
       buttons={Object.keys(configs).map(kind => (
         <AlertChannelButton type={kind} {...props} />
       ))}
@@ -38,7 +40,10 @@ function AlertChannelButton({ type, className }) {
         [className]: className
       })}
       kind="secondary"
-      onClick={() => goToAlertChannelView(type)}
+      onClick={() => {
+        goToAlertChannelView(type);
+        clickAddAlertChannelTracker({ alertChannelType: configs[type].label });
+      }}
     >
       {configs[type].label}
       {configs[type].isBeta && (

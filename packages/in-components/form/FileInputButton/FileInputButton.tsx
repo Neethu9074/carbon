@@ -16,11 +16,13 @@ import locals from './FileInputButton.mless';
 
 export type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'children' | 'type'> & {
   children?: ReactNode;
+  icon?: string;
 };
 
 export default forwardRef<HTMLInputElement, Props>(function FileInput({ children, ...inputProps }: Props, outerRef) {
   const [fileList, setFileList] = useState<FileList | File[] | undefined>();
   const ref = useRef<HTMLInputElement | undefined>();
+  const icon = inputProps.icon ?? 'lib_views_file';
 
   if (!children) {
     if (!fileList || fileList.length === 0) {
@@ -51,7 +53,7 @@ export default forwardRef<HTMLInputElement, Props>(function FileInput({ children
       />
       <Button
         kind="secondary"
-        icon="lib_views_file"
+        icon={icon}
         disabled={inputProps.disabled}
         onClick={e => {
           e.preventDefault();

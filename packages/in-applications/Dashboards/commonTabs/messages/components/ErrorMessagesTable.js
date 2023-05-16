@@ -9,6 +9,7 @@ import { Link } from '@instana/components';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -18,7 +19,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { t, collationLanguage } from 'in-i18n';
 
@@ -170,6 +170,7 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   let displayedMessage;
   let errorMessageFilter;
   const erroneousFilter = tagFilter('call.erroneous', EQUALS, true);
@@ -184,7 +185,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
 
   return (
     <Link
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         applicationName,
         serviceName,
         endpointName,

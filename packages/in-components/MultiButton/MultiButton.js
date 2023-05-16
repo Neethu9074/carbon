@@ -17,11 +17,20 @@ export default function MultiButton(props) {
   return <Fragment>{buttons.length > 1 ? <MultiButtonDropdown {...props} /> : buttons[0]}</Fragment>;
 }
 
-function MultiButtonDropdown({ label, icon, buttons, className, kind }) {
+function MultiButtonDropdown({ label, icon, buttons, className, kind, trackEventDropdown, trackEventContent }) {
   return (
-    <Overlay content={ButtonList} props={{ buttons }} align="bottomMiddle" withoutWrapper>
+    <Overlay content={ButtonList} props={{ buttons, trackEventContent }} align="bottomMiddle" withoutWrapper>
       {({ toggle, isOpen, refSetter }) => (
-        <Button kind={kind ? kind : 'primary'} icon={icon} onClick={toggle} refSetter={refSetter} className={className}>
+        <Button
+          kind={kind ? kind : 'primary'}
+          icon={icon}
+          onClick={() => {
+            toggle();
+            trackEventDropdown?.();
+          }}
+          refSetter={refSetter}
+          className={className}
+        >
           {label}
           <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>

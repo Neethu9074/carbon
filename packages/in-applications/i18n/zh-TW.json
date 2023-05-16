@@ -194,6 +194,7 @@
     "hiddenCalls": "隱藏的呼叫",
     "fastQueryMode": "快速查詢模式",
     "fastQueryModeTooltip": "如果針對完整資料集執行會花費太長時間，則快速查詢模式會針對呼叫或追蹤子集啟用查詢執行。",
+    "filteredInThisTrace": "在此追蹤中過濾",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "唯有合成呼叫會顯示及包含在度量中"
   },
   "traceDetail": {
+    "beta": "測試版",
+    "foreignRootCall": "未受 Instana 監視",
+    "notYetReceivedRootCall": "尚未收到根呼叫",
     "tabs": {
       "summary": {
         "duplicateCalls": "重複的呼叫",
@@ -575,16 +579,20 @@
         "largeTrace": "大型追蹤",
         "largeTraceLink": "此追蹤很大，在呈現此追蹤時可能導致您瀏覽器內出現效能問題。您可以<linkToDocs>下載追蹤</linkToDocs>以手動檢驗，或在您的瀏覽器內嘗試呈現追蹤。為了在此嘗試期間提高效能，我們只會呈現一部分的元件。",
         "calls": "呼叫",
-        "erroneousTrace": "錯誤追蹤",
         "attemptToRenderTrace": "嘗試呈現追蹤",
         "analyzeBeacons": "分析引標",
         "adjustedTimeConfigForTrace": "已調整時間範圍，以併入所選取追蹤的所有呼叫。",
-        "adjustedTimeConfigForBeacon": "已將時間範圍調整為包括選取的引標。"
+        "adjustedTimeConfigForBeacon": "已將時間範圍調整為包括選取的引標。",
+        "timeLineViewNotAvailable": "這是超過 {{maximumNumberOfCallsForLargeTraceConsideration}} 個呼叫的追蹤。 時間表視圖無法使用。 一開始只會顯示選取的呼叫及其直接同層級。"
       }
     },
     "components": {
       "callTreeHeaderParent": "載入母項呼叫",
-      "callTreeHeaderCalls": "載入更多呼叫"
+      "callTreeHeaderCalls": "載入更多呼叫",
+      "callTreeLoadingOfParentFailed": "此時無法載入母項呼叫",
+      "callTreeLoadingOfCallsFailed": "此時無法載入通話",
+      "retry": "請再試一次",
+      "treeHeaderLatency": "根呼叫延遲"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>可以看到替代服務嗎？</bold>",
     "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
-  },
-  "widgetNotActive": {
-    "title": "在「即時模式」中不支援小組件",
-    "button": "停止即時模式"
   }
 }

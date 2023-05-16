@@ -30,6 +30,7 @@ export const sapDbmsDashboard = `/sapdbms`;
 export const sapHanaDashboard = `/saphana`;
 export const sapJavaSystemDashboard = `/sapjavasystem`;
 export const sapHanaSystemDashboard = `/saphanasystem`;
+export const sapWebDispatcherDashboard = `/sapwebdispatcher`;
 export const sapJavaInstanceDashboard = `/sapjavainstance`;
 export const sapJavaCentralInstanceDashboard = `/sapjavacentralinstance`;
 export const sapDbInstanceDashboard = `/sapdbinstance`;
@@ -41,6 +42,7 @@ export const sapDbmsDashboardFullyQualified = `${sap}${sapDbmsDashboard}`;
 export const sapHanaDashboardFullyQualified = `${sap}${sapHanaDashboard}`;
 export const sapJavaSystemDashboardFullyQualified = `${sap}${sapJavaSystemDashboard}`;
 export const sapHanaSystemDashboardFullyQualified = `${sap}${sapHanaSystemDashboard}`;
+export const sapWebDispatcherDashboardFullyQualified = `${sap}${sapWebDispatcherDashboard}`;
 export const sapJavaInstanceDashboardFullyQualified = `${sap}${sapJavaInstanceDashboard}`;
 export const sapDbTenantDashboardFullyQualified = `${sap}${sapDbTenantDashboard}`;
 export const sapDbInstanceDashboardFullyQualified = `${sap}${sapDbInstanceDashboard}`;
@@ -215,6 +217,27 @@ export function getSapHanaSystemDashboard(
   });
 }
 
+export function getSapWebDispatcherDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return getDashboard({
+    base: sapWebDispatcherDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapWebDispatcherDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
 export function getSapJavaInstanceDashboard(
   hostId,
   matrixPrefix,
@@ -292,6 +315,8 @@ export function getDashboardForEntity(snapshotId, plugin, label) {
       return getSapJavaInstanceDashboard(snapshotId);
     case plugins.sapHanaSystem:
       return getSapHanaSystemDashboard(snapshotId);
+    case plugins.sapWebDispatcher:
+      return getSapWebDispatcherDashboard(snapshotId);
     case plugins.sapDbms:
       return getSapDbmsDashboard(snapshotId);
     case plugins.sapHanaPlatform:

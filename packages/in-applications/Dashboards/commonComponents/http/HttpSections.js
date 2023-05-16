@@ -12,6 +12,7 @@ import {
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -48,6 +49,7 @@ export default function HttpSections({
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const defaultMetricConfig = {
     granularity,
@@ -272,7 +274,8 @@ export default function HttpSections({
                   groupBy,
                   timeConfig: highlightedTime,
                   chartedMetrics: [createChartedMetric('calls', 'SUM')]
-                }
+                },
+                getLinkToApplicationAnalyze
               )
           }
         ]

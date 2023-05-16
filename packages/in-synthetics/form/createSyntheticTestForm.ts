@@ -41,7 +41,9 @@ export function createForm(
       'configuration',
       // @ts-expect-error testType does not exist in BluePrint type
       selectedBlueprint?.type === 'Script API' || selectedBlueprint?.testType === 'HTTPScript'
-        ? createScriptConfigurationForm(savedState ?? {})
+        ? !simpleMode
+          ? createAdvancedScriptConfigurationForm(savedState ?? {})
+          : createScriptConfigurationForm(savedState ?? {})
         : !simpleMode
         ? createAdvancedActionConfigurationForm(savedState ?? {})
         : createActionConfigurationForm(savedState ?? {})
@@ -149,6 +151,32 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
     );
 }
 
+function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm().put(
+    'syntheticType',
+    createField({
+      value: savedState?.syntheticType ?? 'HTTPScript',
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+    })
+  );
+}
+
+export function createZipScriptConfigurationForm(bundle: string, scriptFile: string) {
+  return createMapForm()
+    .put(
+      'bundle',
+      createField({
+        value: bundle
+      })
+    )
+    .put(
+      'scriptFile',
+      createField({
+        value: scriptFile
+      })
+    );
+}
+
 function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
@@ -185,7 +213,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'headers',
       createField({
-        value: savedState?.headers ?? { '': '' }
+        value: savedState?.headers ?? {}
       })
     )
     .put(

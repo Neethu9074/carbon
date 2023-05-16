@@ -245,5 +245,12 @@ export const availableMetrics = {
       }
     ),
     uniqueUsers
+  ],
+  crash: [
+    newNumberMetric({
+      metric: 'beaconCount',
+      label: t('in-mobile-apps:analyzeView.availableMetrics.crashBeaconCountLabel')
+    }),
+    uniqueUsers
   ]
 };

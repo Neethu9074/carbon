@@ -6,12 +6,7 @@
 import { v4 as uuid } from 'uuid';
 
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
-
-jest.mock('in-applications/navigation/paths', () => ({
-  getLinkToAnalyze: jest.fn().mockReturnValue([])
-}));
 
 describe('AnalyzeApplicationEventButton', () => {
   describe('getLinkToUnboundAnalytics', () => {
@@ -76,13 +71,18 @@ describe('AnalyzeApplicationEventButton', () => {
     };
     it('adds service grouping for per AP smart alerts', () => {
       const args = { ...testArguments, alertConfig: { ...testArguments.alertConfig, evaluationType: 'PER_AP' } };
+      const getLinkToApplicationAnalyze = jest.fn(() => '');
 
-      getLinkToUnboundAnalytics(args);
-      const { groupBy } = getLinkToAnalyze.mock.calls.at(-1)[0];
-      expect(groupBy).toEqual({
-        groupbyTag: 'service.name',
-        groupbyTagEntity: entityTypes.DESTINATION
-      });
+      getLinkToUnboundAnalytics(args, getLinkToApplicationAnalyze);
+
+      expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          groupBy: {
+            groupbyTag: 'service.name',
+            groupbyTagEntity: entityTypes.DESTINATION
+          }
+        })
+      );
     });
 
     it('adds endpoint grouping for per Service smart alerts', () => {
@@ -90,14 +90,18 @@ describe('AnalyzeApplicationEventButton', () => {
         ...testArguments,
         alertConfig: { ...testArguments.alertConfig, evaluationType: 'PER_AP_SERVICE' }
       };
+      const getLinkToApplicationAnalyze = jest.fn(() => '');
 
-      getLinkToUnboundAnalytics(args);
+      getLinkToUnboundAnalytics(args, getLinkToApplicationAnalyze);
 
-      const { groupBy } = getLinkToAnalyze.mock.calls.at(-1)[0];
-      expect(groupBy).toEqual({
-        groupbyTag: 'endpoint.name',
-        groupbyTagEntity: entityTypes.DESTINATION
-      });
+      expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          groupBy: {
+            groupbyTag: 'endpoint.name',
+            groupbyTagEntity: entityTypes.DESTINATION
+          }
+        })
+      );
     });
 
     it('adds call name grouping for per endpoint smart alerts', () => {
@@ -105,13 +109,17 @@ describe('AnalyzeApplicationEventButton', () => {
         ...testArguments,
         alertConfig: { ...testArguments.alertConfig, evaluationType: 'PER_AP_ENDPOINT' }
       };
+      const getLinkToApplicationAnalyze = jest.fn(() => '');
 
-      getLinkToUnboundAnalytics(args);
+      getLinkToUnboundAnalytics(args, getLinkToApplicationAnalyze);
 
-      const { groupBy } = getLinkToAnalyze.mock.calls.at(-1)[0];
-      expect(groupBy).toEqual({
-        groupbyTag: 'call.name'
-      });
+      expect(getLinkToApplicationAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          groupBy: {
+            groupbyTag: 'call.name'
+          }
+        })
+      );
     });
   });
 });

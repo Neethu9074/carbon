@@ -29,7 +29,7 @@ export default function AffectedEntitiesPresenter(props) {
     canLoadMore,
     progress = finishedProgress,
     renderLinkToAnalyzeAll,
-    createItemLink$,
+    createItemLink,
     items = []
   } = props;
 
@@ -47,7 +47,7 @@ export default function AffectedEntitiesPresenter(props) {
         <Tbody>
           <TableHorizontalIndicatorRow cols={4} progress={progress} />
           {items.map((item, groupIndex) => (
-            <AffectedEntity key={`${item.name}${groupIndex}`} item={item} createItemLink$={createItemLink$} />
+            <AffectedEntity key={`${item.name}${groupIndex}`} item={item} createItemLink={createItemLink} />
           ))}
           {canLoadMore && renderLinkToAnalyzeAll && (
             <Tr size="compact">
@@ -69,7 +69,7 @@ AffectedEntitiesPresenter.propTypes = {
       name: PropTypes.string
     })
   ),
-  createItemLink$: PropTypes.any,
+  createItemLink: PropTypes.any,
 
   progress: PropTypes.shape({
     loading: PropTypes.bool

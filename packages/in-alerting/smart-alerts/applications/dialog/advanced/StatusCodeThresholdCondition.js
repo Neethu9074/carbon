@@ -56,7 +56,7 @@ export default function StatusCodeThresholdCondition({
                 updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
               }}
             />
-            <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
+            <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
             <ThresholdTypeSelection
               form={form}

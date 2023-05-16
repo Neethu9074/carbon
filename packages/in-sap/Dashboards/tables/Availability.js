@@ -29,7 +29,7 @@ const statusToColour = {
   Yellow: theme.lib.colors.yellow800,
   Grey: theme.lib.colors.success,
   Green: theme.lib.colors.success,
-  Red: theme.lib.colors.failure,
+  Red: theme.lib.colors.yellow800,
   Unknown: theme.lib.colors.N400
 };
 
@@ -53,7 +53,16 @@ const cols = [
       getContent(args) {
         return (
           <div className={locals.center}>
-            <HealthDot color={statusToColour[args || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />
+            <HealthDot
+              type={'availability'}
+              yellowToGreen={'-'}
+              greenToYellow={'-'}
+              redToYellow={'-'}
+              yellowToRed={'-'}
+              explanation={theme.lib.colors.success}
+              color={statusToColour[args || statusToColour.Unknown]}
+              iconSize={SvgIconSizes.xxs}
+            />
           </div>
         );
       }
@@ -101,6 +110,10 @@ export default connectTo(
           availMainMetric
         };
       });
+
+    if (rows.length === 0) {
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
+    }
 
     const getDetails = row => {
       if (!snapshotMap?.timeConfig) {

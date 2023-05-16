@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -19,7 +18,8 @@ import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeader
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
-import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -28,67 +28,38 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
-export default compose(
-  withUrlState({
-    bind: [
-      {
-        ...tagFiltersInDashboardUrlParameter,
-        as: 'tagFilters'
-      }
-    ],
-    replaceHistory: false,
-    reducerName: 'onChange'
-  }),
-  withProps(({ onChange }) => ({
-    onChange: ({ tagFilters }) => {
+const urlStateDefinition = {
+  bind: [{ ...tagFiltersInDashboardUrlParameter, as: 'tagFilters' }],
+  replaceHistory: false,
+  reducerName: 'onChange'
+};
+
+export default function MobileAppDashboard() {
+  const location = useLocation();
+  const [{ tagFilters: customTagFilters }, setUrl] = useUrlState(urlStateDefinition);
+
+  const setUrlNew = tagFilters =>
+    setUrl({
       // We have to pass down the mobile app ID and view name tag filters to the analyze bar. This is necessary
       // so that the analyze bar loads meaningful suggestions. Unfortunately this also means that the analyze
       // bar will eventually to try set these kinds of tag filters. We must forbid setting of these, as
       // otherwise the UI behavior will be super confusing.
-      onChange({
-        tagFilters: tagFilters.filter(
-          f => f.name !== 'mobileBeacon.mobileApp.id' && f.name !== 'mobileBeacon.view.name'
-        )
-      });
-    }
-  })),
-  withProps(({ onChange, location }) => ({
-    setTagFilters(tagFilters) {
-      onChange({
-        // drop the implicit tag filters
-        tagFilters: tagFilters.filter(
-          f => f.name !== 'mobileBeacon.mobileApp.id' && f.name !== 'mobileBeacon.view.name'
-        )
-      });
-    },
-    timeConfig: getTimeConfig(location)
-  })),
-  tagFilterManipulators({ tagFiltersTrackers })
-)(MobileAppDashboard);
+      //
+      // drop the implicit tag filters
+      tagFilters: tagFilters.filter(f => f.name !== 'mobileBeacon.mobileApp.id' && f.name !== 'mobileBeacon.view.name')
+    });
 
-function MobileAppDashboard({
-  location,
-  tagFilters: customTagFilters,
-  removeTagFilter,
-  upsertTagFilter,
-  clearTagFilters,
-  setTagFilters,
-  addTagFilter
-}) {
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, customTagFilters, setUrlNew);
   const props = {
     mobileAppId: getMatrixParameter(location, mobileAppPath, matrixMobileAppId),
     viewId: getMatrixParameter(location, mobileAppPath, matrixViewId),
     viewPath: mobileAppPathFullyQualified,
     timeConfig: getTimeConfig(location),
-    removeTagFilter,
-    upsertTagFilter,
-    clearTagFilters,
-    setTagFilters,
-    addTagFilter
+    ...tagFilterManipulators
   };
 
   const implicitTagFilters = (props.implicitTagFilters = [

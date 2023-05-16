@@ -13,6 +13,7 @@ import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsBad
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
@@ -28,6 +29,8 @@ export default function LatencyBigNumberCard({
   boundaryScope,
   jumpToAnalyze
 }: BigNumberCardProps) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <DashboardBigNumberCard
       title={t('in-applications:titleMeanLatency')}
@@ -42,19 +45,23 @@ export default function LatencyBigNumberCard({
         })
       }
       comparisonColors={increaseIsBad}
-      jumpToAnalyzeHref={getJumpToAnalyzeHref$(jumpToAnalyze.ids, {
-        timeConfig,
-        boundaryScope,
-        groupBy: jumpToAnalyze.groupBy,
-        formModel: joinExpressions({
-          expressions: [
-            createFormModelFromSyntheticOption(syntheticCallsOption),
-            ...filterByEndpointType(endpointTypes)
-          ]
-        }),
-        hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
-        orderByGroups: createOrderBy('latency_MEAN', 'DESC')
-      })}
+      jumpToAnalyzeHref={getJumpToAnalyzeHref$(
+        jumpToAnalyze.ids,
+        {
+          timeConfig,
+          boundaryScope,
+          groupBy: jumpToAnalyze.groupBy,
+          formModel: joinExpressions({
+            expressions: [
+              createFormModelFromSyntheticOption(syntheticCallsOption),
+              ...filterByEndpointType(endpointTypes)
+            ]
+          }),
+          hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
+          orderByGroups: createOrderBy('latency_MEAN', 'DESC')
+        },
+        getLinkToApplicationAnalyze
+      )}
       tagFilters={tagFilters}
       syntheticCallsOption={syntheticCallsOption}
       timeConfig={timeConfig}
