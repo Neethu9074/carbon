@@ -18,8 +18,8 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import emptyListExplanation from 'in-mobile-apps/emptyListExplanation';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -36,16 +36,7 @@ const columnDefinitions = [
         // ignore
       }
 
-      return (
-        <Link
-          href$={getLinkToMobileApp(mobileAppId, {
-            viewId: label,
-            tabPath: '/summary'
-          })}
-        >
-          {label}
-        </Link>
-      );
+      return <LabelLink mobileAppId={mobileAppId} label={label} />;
     }
   },
   {
@@ -67,6 +58,15 @@ const columnDefinitions = [
     }
   }
 ];
+
+function LabelLink({ mobileAppId, label }) {
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    viewId: label,
+    tabPath: '/summary'
+  });
+
+  return <Link href={linkToMobileAppHref}>{label}</Link>;
+}
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({

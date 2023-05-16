@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { SyntheticTest } from '@instana/types';
+import { SyntheticTest, SyntheticTypeConfigurationUnion } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import CodeComponent from 'in-components/Code';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
@@ -36,6 +37,23 @@ const renderHeaders = (headers: any) => {
       );
     }
   }
+  return content;
+};
+
+const showAdditionalOptions = (configuration: SyntheticTypeConfigurationUnion) => {
+  const content = [];
+  //@ts-expect-error
+  if (configuration.allowInsecure)
+    content.push(
+      <Row className={locals.additionalOptionsRow}>{t('in-synthetics:dashboard.configuration.followRedirect')}</Row>
+    );
+
+  //@ts-expect-error
+  if (configuration.followRedirect)
+    content.push(
+      <Row className={locals.additionalOptionsRow}>{t('in-synthetics:dashboard.configuration.allowInsecure')}</Row>
+    );
+
   return content;
 };
 
@@ -141,12 +159,22 @@ const ConfigSection = ({ test }: Props) => {
         //@ts-expect-error
         configuration.expectJson && (
           <Row className={locals.configRow}>
-            <Col xs={3}>
+            <Col xs={12}>
               <KeyValue
                 label={t('in-synthetics:dashboard.configuration.expectJSON')}
                 value={
-                  //@ts-expect-error
-                  JSON.stringify(configuration.expectJson)
+                  <CodeComponent
+                    wrapperClassName={locals.code}
+                    code={
+                      //@ts-expect-error
+                      JSON.stringify(configuration.expectJson, undefined, 2)
+                    }
+                    lang="json"
+                    showLineNumbers={false}
+                    withoutCopyButton
+                    withExpandButton
+                    softWrap
+                  />
                 }
               />
             </Col>
@@ -160,8 +188,7 @@ const ConfigSection = ({ test }: Props) => {
           darkFrame
           useMaxAvailableHeight
         >
-          <Row>{t('in-synthetics:dashboard.configuration.followRedirect')}</Row>
-          <Row>{t('in-synthetics:dashboard.configuration.allowInsecure')}</Row>
+          {showAdditionalOptions(configuration)}
         </LightCard>
       </Row>
     </ExpandableLightCard>

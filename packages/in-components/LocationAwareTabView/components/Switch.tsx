@@ -7,19 +7,40 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { Result, Error } from '@instana/types';
+
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { Location } from 'in-stores/navigation/types';
 import Title from 'in-components/Title';
+import { Nullish } from 'in-types';
 
 import locals from './Switch.mless';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 
-export default function TabSwitch({ tabs, result, hasErrors, location, props, renderErrors }) {
+interface TabSwitchProps<TabData, TabProps extends {}> {
+  tabs: Tab<TabData, TabProps>[];
+  result: Result<TabData> | Nullish;
+  props: TabProps | undefined;
+  hasErrors?: boolean;
+  location: Location;
+  renderErrors?: (errors: Error[]) => JSX.Element;
+}
+
+export default function TabSwitch<TabData, TabProps extends {} = {}>({
+  tabs,
+  result,
+  hasErrors,
+  location,
+  props,
+  renderErrors
+}: TabSwitchProps<TabData, TabProps>) {
   const isLoading = result && result.progress.loading;
 
-  if (hasErrors) {
+  if (result && hasErrors) {
     return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
     return <DefaultLoadingDashboard lightMode />;
@@ -29,7 +50,12 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
     <Switch>
       {tabs.map(tab => (
         <Route key={tab.path} path={tab.path}>
-          <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />
+          <ViewWrapper<TabData, TabProps>
+            tab={tab}
+            data={result ? result.data : null}
+            location={location}
+            props={props ?? ({} as TabProps)}
+          />
         </Route>
       ))}
       <Route>
@@ -39,7 +65,16 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
   );
 }
 
-function ViewWrapper({ tab, data, location, props }) {
+type ViewWrapperProps<TabData, TabProps extends {}> = {
+  tab: Tab<TabData, TabProps>;
+  data: TabData | Nullish;
+} & Pick<TabSwitchProps<TabData, TabProps>, 'location' | 'props'>;
+function ViewWrapper<TabData, TabProps extends {}>({
+  tab,
+  data,
+  location,
+  props
+}: ViewWrapperProps<TabData, TabProps>) {
   let content = (
     <div
       className={classNames({
@@ -55,7 +90,7 @@ function ViewWrapper({ tab, data, location, props }) {
           activeTabName: tab.label
         }}
       />
-      <tab.component data={data} location={location} {...props} />
+      <tab.component data={data} location={location} {...(props as TabProps)} />
     </div>
   );
 
@@ -71,7 +106,11 @@ function ViewWrapper({ tab, data, location, props }) {
   );
 }
 
-function RedirectOnNoActiveTab({ tabs, location }) {
+interface RedirectOnNoActiveTabProps {
+  tabs: { path: string }[];
+  location: Location;
+}
+function RedirectOnNoActiveTab({ tabs, location }: RedirectOnNoActiveTabProps) {
   for (const tab of tabs) {
     if (location && location.pathname.indexOf(tab.path) === 0) {
       return null;

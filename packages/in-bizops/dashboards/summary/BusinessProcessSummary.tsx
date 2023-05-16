@@ -11,12 +11,11 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-// @ts-expect-error Module needs to be translated to TS
-import TabView from 'in-components/LocationAwareTabView/TabView';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-bizops/dashboards/summary/tabs/index';
@@ -54,6 +53,7 @@ export default function BusinessProcessDashboard() {
           pageRootName: 'Business Process Dashboard'
         }}
       />
+      {/* @ts-expect-error -- This is clearly wrong usage of the component, likely from testing */}
       <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} result$={''} withProps={''} />
     </>
   );

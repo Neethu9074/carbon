@@ -13,7 +13,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 
 import locals from './DefaultLoadingDashboard.mless';
 
-export default function DefaultLoadingDashboard({ lightMode }) {
+export default function DefaultLoadingDashboard({ lightMode }: { lightMode?: boolean }) {
   const kpiClassName = classNames({
     [locals.skeletonKpi]: true,
     [locals.lightMode]: lightMode

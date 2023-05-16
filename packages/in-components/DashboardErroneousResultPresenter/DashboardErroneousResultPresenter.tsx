@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import ErroneousResultPresenter, { Props } from 'in-components/Errors/ErroneousResultPresenter';
 
 import locals from './DashboardErroneousResultPresenter.mless';
 
-export default function DashboardErroneousResultPresenter(props) {
+export default function DashboardErroneousResultPresenter(props: Props) {
   return <ErroneousResultPresenter {...props} className={locals.wrapper} />;
 }

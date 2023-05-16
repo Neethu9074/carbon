@@ -16,8 +16,8 @@ import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DashboardHeader.mless';
@@ -47,7 +47,7 @@ export interface ContextConfiguration {
 
 export interface DashboardHeaderProps {
   theme?: keyof typeof themes;
-  result?: Result<any>;
+  result?: Result<any> | Nullish;
   icon?: string;
   renderIcon?: (() => JSX.Element) | typeof getSkeletonIcon;
   title: string;

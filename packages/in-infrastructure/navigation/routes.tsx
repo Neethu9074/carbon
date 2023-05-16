@@ -11,7 +11,6 @@ import TableView from 'promise-loader?global,infrastructure!in-infrastructure/ta
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 // @ts-expect-error module need to be translated to TS
 import Map from 'promise-loader?global,infrastructure!in-map/index';
-// @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
 import React from 'react';
 

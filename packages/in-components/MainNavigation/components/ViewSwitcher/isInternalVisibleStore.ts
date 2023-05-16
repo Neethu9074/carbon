@@ -23,15 +23,15 @@ const isInternalVisibleStore = createStore({
 });
 export const isInternalVisible$ = isInternalVisibleStore.observable;
 
-let setAutoInvisibleHandle;
+let setAutoInvisibleHandle: ReturnType<typeof setTimeout>;
 function toggleVisible() {
   isInternalVisibleStore.applyStateMutation(oldContent => {
     // Make sure both the current setting is updated (toggled) but also persisted in the local-store
     if (oldContent === true) {
-      trySet(localStorageKey, -1);
+      trySet(localStorageKey, '-1');
       return false;
     } else {
-      trySet(localStorageKey, Date.now());
+      trySet(localStorageKey, JSON.stringify(Date.now()));
       return true;
     }
   });
@@ -41,7 +41,7 @@ function toggleVisible() {
 }
 
 const numClicksNeeded = 10;
-let timesClicked = [];
+let timesClicked: number[] = [];
 let currentIndex = 0;
 export function click() {
   const timeClicked = Date.now();

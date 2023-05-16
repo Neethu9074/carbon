@@ -14,7 +14,7 @@ import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } fr
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import { getLinkToMobileApp, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
+import { getLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
@@ -40,6 +40,7 @@ import { t } from 'in-i18n';
 export default function WebsitesAndMobileTopList({ config }) {
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
+  const linkToNewMobileAppHref = useLinkToNewMobileApp();
 
   const header = (
     <>
@@ -58,7 +59,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           kind="action"
           onClick={() => mobileAppsOpenAddForm()}
           icon="lib_openclose_add_circle_outline"
-          href$={linkToNewMobileApp$}
+          href={linkToNewMobileAppHref}
         >
           {t('in-cockpit:component.websiteMobileTopList.addMobileApp')}
         </Button>

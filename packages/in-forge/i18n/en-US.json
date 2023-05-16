@@ -2939,7 +2939,13 @@
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
-      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})"
+      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})",
+      "xmlNamesCount": "XML Names ({{len}})",
+      "xmlNames": "XML Names",
+      "xmlNameType": "Type",
+      "xmlNameUsed": "Used",
+      "xmlNamePercentFree": "Percentage Free",
+      "xmlNameMaximum": "Maximum"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
@@ -9339,7 +9345,7 @@
             "libraryName": "Library",
             "activeJobs": "Active Jobs",
             "maxActiveJobs": "Max Active Jobs",
-            "description": "Description"
+            "description": "Descriptions"
           },
           "userSpoolSpace": {
             "name": "Top Spool Space Consumption",
@@ -10308,14 +10314,16 @@
       "totalHttpRequests": "Total Http Requests",
       "nginxTotalRequests": "Kong NGINX Total Requests",
       "totalNumberofRequests":"Total Number of Requests",
-      "direction":"Direction",
+      "ingressBytes":"Ingress Bandwidth (Bytes)",
+      "egressBytes":"Egress Bandwidth (Bytes)",
+      "ingress":"Ingress",
+      "egress":"Egress",
       "service":"Service",
       "route": "Route",
       "code": "Code",
       "source":"Source",
       "consumer":"Consumer",
       "kongBandwidth": "Bandwidth",
-      "bytes": "Bytes",
       "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",
       "database":"Kong Database",
       "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
