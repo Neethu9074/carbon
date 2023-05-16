@@ -7426,7 +7426,8 @@
       "threads": "Threads",
       "ruby": "Ruby",
       "longTermSupportDocs": "Long-term support docs",
-      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems."
+      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems.",
+      "inProcessCollectorVersion": "Instana Gem Version"
     },
     "sapHana": {
       "dashboard": {
@@ -8436,7 +8437,8 @@
       "maxBytesLostToSlop": "Max #Bytes Lost to Slop",
       "maxMbAllocated": "Max MB Allocated",
       "copiedBytesWoMutableLists": "Copied Bytes /wo Mutable Lists",
-      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists"
+      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists",
+      "inProcessCollectorVersion": "instana-haskell-trace-sdk Version"
     },
     "hazelcastCluster": {
       "isClusterSafe": "Is Cluster Safe",
@@ -12198,7 +12200,8 @@
       "nodeJsModuleAnalysis": "Node.js module analysis",
       "app": "App",
       "gcPauseS": "GC pause/s",
-      "eventLoopLag": "Event Loop Lag"
+      "eventLoopLag": "Event Loop Lag",
+      "inProcessCollectorVersion": "@instana/collector Version"
     },
     "packet": {
       "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity.",
