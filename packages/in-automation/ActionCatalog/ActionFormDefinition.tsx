@@ -21,8 +21,8 @@ import {
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
-import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
+import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -61,7 +61,6 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
 export function createActionFormDefinition(action: NewActionWithAssociations, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const selectedEvents = action?.selectedEvents ?? [];
-  const selectedEventsTypes = action?.selectedEventsTypes ?? { builtin_event_ids: [], custom_event_ids: [] };
   const applicationAlertConfigIds = action?.applicationAlertConfigIds ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
@@ -92,13 +91,6 @@ export function createActionFormDefinition(action: NewActionWithAssociations, _i
       'selectedEvents',
       createField({
         value: selectedEvents,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'selectedEventsTypes',
-      createField({
-        value: selectedEventsTypes,
         validator: notBlankValidator
       })
     )

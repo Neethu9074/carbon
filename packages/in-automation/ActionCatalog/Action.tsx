@@ -105,19 +105,19 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       mergeResultData().map((action: NewActionWithAssociationsWithUndefined) =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
-    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, result),
+    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, selectedEventSpecifications),
     openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<ActionFormEntity>(entityFormParam);
 
-  const EventsAssociatedValue = (form?.get('selectedEvents') as FormField<string[]>)?.value;
-  const result: EventSpecificationInfo[] | null | undefined = useObservable(() => {
-    if (EventsAssociatedValue) {
-      return getEventSpecificationByIds(EventsAssociatedValue);
+  const eventsAssociatedValue = (form?.get('selectedEvents') as FormField<string[]>)?.value;
+  const selectedEventSpecifications: EventSpecificationInfo[] | null | undefined = useObservable(() => {
+    if (eventsAssociatedValue) {
+      return getEventSpecificationByIds(eventsAssociatedValue);
     }
     return just(null);
-  }, [EventsAssociatedValue]);
+  }, [eventsAssociatedValue]);
 
   let content: JSX.Element;
   const errorLoading = error && !entity;
