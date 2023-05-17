@@ -34,7 +34,7 @@ export default function ApiQueryOverlay({
 
   const model = {
     timeFrame,
-    tagFilterExpression: backendQueryModel,
+    tagFilterExpression: includeFacets ? backendQueryModelWithFacets : backendQueryModel,
     pagination,
     type,
     metrics,

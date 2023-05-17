@@ -1,11 +1,11 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
 import { MapForm, MapFormItems } from 'formalistic';
+import React, { useEffect } from 'react';
 
 import { PermissionSetWithRoles } from '@instana/types';
 import { Button } from '@instana/components';
@@ -15,9 +15,9 @@ import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessCon
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col } from 'in-components/layout/Grid/Grid';
-import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export interface FormControlProps<FORM_TYPE extends MapFormItems> {
@@ -38,6 +38,8 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   onSave
 }: RoleAndAccessScopeColumnsProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+
+  const { goToPath } = useNavigation();
 
   const closeAndBack = () => {
     if (!editMode) {

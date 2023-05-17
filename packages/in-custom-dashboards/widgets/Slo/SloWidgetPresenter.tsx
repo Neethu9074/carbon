@@ -12,10 +12,9 @@ import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidge
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
+import { calculateSloGranularity } from 'in-service-levels/utils';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
-import { days, hours, minutes } from 'in-services/time/time';
 import { all as allProgress } from 'in-hooks/utils/progress';
-import { TimeConfig } from 'in-types';
 
 interface SloWidgetPresenterProps {
   actions: React.ReactNode;
@@ -64,7 +63,7 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
 
   const [entity, entityStatus, , entityProgress] = useMonitoredEntity({ entityId, entityType });
 
-  const granularity = getGranularity(timeConfig);
+  const granularity = calculateSloGranularity(timeConfig);
   const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
     slo,
     sliId: sliConfigId,
@@ -101,19 +100,4 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
       disableZooming={isFixed || isRolling}
     />
   );
-}
-
-function getGranularity(timeConfig: TimeConfig): number {
-  const now = Date.now();
-  const toOrNow = timeConfig.to ?? now;
-  const from = toOrNow - timeConfig.windowSize;
-  const oneDay = days.toMillis(1);
-
-  if (timeConfig.windowSize < oneDay && from > now - oneDay) {
-    // if timeframe is within the last 24 hours, and window-size less than a day, then request metric in
-    // one minute granularity. We do not want to query CH with oneMinute granularity with large windowSize as
-    // this would lead to performance problems.
-    return minutes.toMillis(1);
-  }
-  return hours.toMillis(1);
 }

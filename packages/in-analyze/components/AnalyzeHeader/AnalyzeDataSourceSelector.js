@@ -22,7 +22,7 @@ import {
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
-import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
@@ -64,6 +64,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
 
   const getAnalyzeHref = useGenerateLinkToAnalyze();
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const productAreas = [
     {
@@ -85,7 +86,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'calls',
           enabled: hasApplicationsAccess,
-          getHref$: ({ isGrouped, formModel, callsTagCatalog: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, callsTagCatalog: tagCatalog }) =>
             tagCatalog &&
             getLinkToApplicationAnalyze({
               dataSource: 'calls',
@@ -97,7 +98,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'traces',
           enabled: hasApplicationsAccess,
-          getHref$: ({ isGrouped, formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
+          getHref: ({ isGrouped, formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
             tagCatalog &&
             getLinkToApplicationAnalyze({
               dataSource: 'traces',

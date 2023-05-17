@@ -11,6 +11,7 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableLoadMoreRow, TableHorizontalIndic
 import { Link } from '@instana/components';
 
 import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -19,7 +20,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { number } from 'in-services/formatters/number';
@@ -103,9 +103,11 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
 }
 
 function EndpointName({ item }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Link
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
         groupBy: createGroupBy('endpoint.name', DESTINATION),
         formModel: getDefaultFormModel(item),
@@ -118,9 +120,11 @@ function EndpointName({ item }) {
 }
 
 function ServicesAffected({ item }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Link
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
         groupBy: createGroupBy('service.name', DESTINATION),
         formModel: getDefaultFormModel(item),

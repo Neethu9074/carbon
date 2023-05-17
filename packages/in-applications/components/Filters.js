@@ -8,6 +8,7 @@ import { get } from 'lodash';
 
 import { Button } from '@instana/components';
 
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { type as tagFilterType } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -16,7 +17,6 @@ import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox';
 import connect from 'in-hoc/connectTo';
@@ -50,6 +50,8 @@ function Filters({
   groupBy,
   query
 }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   let queryFilter = [];
   if (query) {
     if (serviceName) {
@@ -96,7 +98,7 @@ function Filters({
       <Button
         kind="secondary"
         className={locals.button}
-        href$={getLinkToAnalyze({
+        href={getLinkToApplicationAnalyze({
           applicationName,
           serviceName,
           endpointName,

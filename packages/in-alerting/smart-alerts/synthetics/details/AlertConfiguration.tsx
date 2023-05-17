@@ -8,21 +8,19 @@ import React, { useMemo } from 'react';
 
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
-//@ts-expect-error needs migration
-import AlertTestsViewer from 'in-alerting/smart-alerts/synthetics/details/AlertTestsViewer';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 //@ts-expect-error needs migration
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 //@ts-expect-error needs migration
-import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
-//@ts-expect-error needs migration
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/synthetics/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import AlertTestsViewer from 'in-alerting/smart-alerts/synthetics/details/AlertTestsViewer';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 //@ts-expect-error needs migration
 import ListTitle from 'in-components/lists/Title';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 

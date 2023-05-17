@@ -274,11 +274,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Camunda Exit",
-  "pluginName_camundaexit_0": "Camunda Exit",
-  "pluginName_camundaexit_1": "Camunda Exit",
-  "pluginName_camundaexit_2": "Camunda Exit",
-  "pluginName_camundaexit": "Camunda Exit",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -409,6 +404,11 @@
   "pluginName_sapHanaSystem_1": "SAP Hana Systems",
   "pluginName_sapHanaSystem_2": "SAP Hana Systems",
   "pluginName_sapHanaSystem": "SAP Hana System",
+  "pluginName_sapWebDispatcher_plural": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_0": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_1": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_2": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher": "SAP Web Dispatcher",
   "pluginName_sapHost_plural": "SAP Host",
   "pluginName_sapHost_0": "SAP Host",
   "pluginName_sapHost_1": "SAP Host",
@@ -1008,6 +1008,7 @@
   "pluginName_msiis_1": "Internet Information Servers",
   "pluginName_msiis_2": "Internet Information Servers",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "MSMQ Message",
   "pluginName_msSqlDatabase_plural": "MS SQL Instances",
   "pluginName_msSqlDatabase_0": "MS SQL Instances",
   "pluginName_msSqlDatabase_1": "MS SQL Instances",
@@ -1547,11 +1548,6 @@
   "tracingTypeName_camunda_0": "Camunda Calls",
   "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
-  "tracingTypeName_camundaexit": "Camunda External Task Message",
-  "tracingTypeName_camundaexit_plural": "Camunda External Task Messages",
-  "tracingTypeName_camundaexit_0": "Camunda External Task Messages",
-  "tracingTypeName_camundaexit_1": "Camunda External Task Message",
-  "tracingTypeName_camundaexit_2": "Camunda External Task Messages",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -2482,7 +2478,8 @@
     "graphql": "graphql",
     "logger": "logger",
     "missing": "missing",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2937,7 +2934,13 @@
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
-      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})"
+      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})",
+      "xmlNamesCount": "XML Names ({{len}})",
+      "xmlNames": "XML Names",
+      "xmlNameType": "Type",
+      "xmlNameUsed": "Used",
+      "xmlNamePercentFree": "Percentage Free",
+      "xmlNameMaximum": "Maximum"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
@@ -4948,7 +4951,7 @@
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
     },
-    "camunda": {
+    "bpm": {
       "camunda": "Camunda"
     },
     "cassandraCluster": {
@@ -9337,7 +9340,7 @@
             "libraryName": "Library",
             "activeJobs": "Active Jobs",
             "maxActiveJobs": "Max Active Jobs",
-            "description": "Description"
+            "description": "Descriptions"
           },
           "userSpoolSpace": {
             "name": "Top Spool Space Consumption",
@@ -10303,7 +10306,30 @@
       "pid": "PID",
       "state": "State",
       "totalConnections": "Total Connections",
-      "connectionError": "Cannot connect to Kong server since it is a closed beta version.",
+      "totalHttpRequests": "Total Http Requests",
+      "nginxTotalRequests": "Kong NGINX Total Requests",
+      "totalNumberofRequests":"Total Number of Requests",
+      "ingressBytes":"Ingress Bandwidth (Bytes)",
+      "egressBytes":"Egress Bandwidth (Bytes)",
+      "ingress":"Ingress",
+      "egress":"Egress",
+      "service":"Service",
+      "route": "Route",
+      "code": "Code",
+      "source":"Source",
+      "consumer":"Consumer",
+      "kongBandwidth": "Bandwidth",
+      "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",
+      "database":"Kong Database",
+      "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
+      "workerStateUpdateFrequency":"Worker State Update Frequency",
+      "workerConsistency":"Worker Consistency",
+      "prometheusEnabled":"Prometheus Plugin Enabled",
+      "totalTraffic":"Total Traffic",
+      "status2xx":"Status 2XX",
+      "status3xx":"Status 3XX",
+      "status4xx":"Status 4XX",
+      "status5xx":"Status 5XX",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
@@ -12961,6 +12987,12 @@
       "objectType": "Object Type",
       "systemAvailability": "System Availability"
     },
+    "sapWebDispatcher": {
+      "label": "SAP Web Dispatcher",
+      "hostName": "Host Name",
+      "objectType": "Object Type",
+      "systemAvailability": "System Availability"
+    },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",
       "tlsNotConfigured": "TLS key and certificate files should be configured in sensor configuration to access the PoP controller health HTTPS API",
@@ -13156,7 +13188,7 @@
       "titleSort": "Sort",
       "titleSize": "Size"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "Business Key",
       "titleCaseIntanceId": "Case Instance ID",
       "titleRootProcessUUID": "Root Process UUID",
@@ -13165,14 +13197,12 @@
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
       "titleActivityDesc": "Activity Description",
+      "titleActivityType": "Activity Type",
       "titleExternalTaskWorkerId": "External Task Worker ID",
       "titleExternalTaskTopic": "External Task Topic",
       "titleExternalTaskId": "External Task ID",
       "titleExternalTaskRetries": "Retries",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "External Task Topic"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -13589,7 +13619,9 @@
       "titleMachine": "Machine",
       "titleQueue": "Queue",
       "titleOperation": "Operation",
-      "titleTransactionType": "Transaction-Type"
+      "titleTransactionType": "Transaction-Type",
+      "titleExceptionType": "Exception-Type",
+      "titleError": "Error"
     },
     "muleClient": {
       "titleProtocol": "Protocol",

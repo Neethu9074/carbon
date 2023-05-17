@@ -17,13 +17,13 @@ import {
   hasErrors
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { boundaryScopes } from 'in-applications/constants';
 import connectTo from 'in-hoc/connectTo';
@@ -42,6 +42,8 @@ export default connectTo(
     return observables;
   },
   function AnalyzeIssueCalls({ className, event, endpointEntity }) {
+    const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
     if (!event) {
       return null;
     }
@@ -80,20 +82,22 @@ export default connectTo(
         className={className}
         kind="primary"
         icon="lib_application_call"
-        href$={getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          boundaryScope,
-          dataSource,
-          formModel,
-          hiddenCalls,
-          groupBy,
-          chartedMetrics,
-          orderBy,
-          orderByGroups,
-          timeConfig: getTimeConfigFromEvent(event)
-        }).map(urlWithoutQueryParameter)}
+        href={urlWithoutQueryParameter(
+          getLinkToApplicationAnalyze({
+            applicationName,
+            serviceName,
+            endpointName,
+            boundaryScope,
+            dataSource,
+            formModel,
+            hiddenCalls,
+            groupBy,
+            chartedMetrics,
+            orderBy,
+            orderByGroups,
+            timeConfig: getTimeConfigFromEvent(event)
+          })
+        )}
       >
         {t('in-events:analyzeCalls')}
       </Button>

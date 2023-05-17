@@ -50,7 +50,9 @@ interface GetSlideInViewConfigProps {
 }
 
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
-  const updateFormWithSideEffects = useApdexFormSideEffects(form, (f: Item) => onChange([], () => f));
+  const updateFormWithSideEffects = useApdexFormSideEffects(form, (f: Item) =>
+    onChange([], () => (form.touched ? f.setTouched(true, { recurse: true }) : f))
+  );
   function updateForm<T>(path: string[], value: T) {
     updateFormWithSideEffects(form.updateIn(path as any, f => setFieldValue<T>(f, value, true)));
   }

@@ -61,7 +61,7 @@ export const defaultNumberOfSuggestedDatapoints = 80;
 // among others, to handle this result expansion and to adapt the metric configurations accordingly.
 // By handling the expansion logic in UnifiedMetricsChart, we can realize even more advanced use cases. For example,
 // one by place a grouped metric and a regular metric on the same axis. Thus creating 1..N data series on a
-// single axis. Handling this expansion is non-trivial. Whereever this happens, you can be sure to find a call to
+// single axis. Handling this expansion is non-trivial. Wherever this happens, you can be sure to find a call to
 // getMetricIdForGroup – at least as long as this comment is up to date :-)
 export default function UnifiedMetricsChart({
   forceLoadingIndicator,

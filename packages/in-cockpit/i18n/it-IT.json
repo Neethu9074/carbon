@@ -3,7 +3,7 @@
     "applTopList": {
       "openCreationDialog": "Apri finestra di dialogo di creazione",
       "allApps": "Tutte le applicazioni",
-      "errCallRate": "Tasso di chiamate con errori",
+      "errCallRate": "Tasso di chiamate errate",
       "latency": "Latenza",
       "calls": "Chiamate",
       "newAppPerspect": "Nuova prospettiva applicazione",
@@ -33,12 +33,13 @@
       "nodes": "Nodi",
       "vMs": "VM",
       "instances": "Istanze",
-      "namespaces": "Spazio dei nomi",
-      "cpuUsage": "Utilizzo CPU",
+      "namespaces": "Spazi dei nomi",
+      "cpuUsage": "utilizzo CPU",
       "memoryLimit": "Limite di memoria",
       "pods": "Pod",
-      "memoryUsage": "Utilizzo della memoria",
+      "memoryUsage": "Utilizzo memoria",
       "cloudFoundryApplication": "Applicazione Cloud Foundry",
+      "sapRegion": "Regione SAP",
       "openstackRegion": "Regione OpenStack",
       "vSphereDatacenter": "Datacenter vSphere",
       "ibmz": "IBM Z HMC",
@@ -59,17 +60,17 @@
       "numberOfPods_2": "{{count}} Pod"
     },
     "websiteMobileTopList": {
-      "addWebsite": "Aggiungi sito web",
-      "addMobileApp": "Aggiungi app per dispositivi mobili",
+      "addWebsite": "Aggiungi sito Web",
+      "addMobileApp": "Aggiungi App mobile",
       "allWebsites": "Tutti i siti Web",
       "allMobileApps": "Tutte le App mobili",
-      "allWebsitesMobileApps": "Tutti i siti web e le app mobili",
+      "allWebsitesMobileApps": "Tutti i siti Web & App mobili",
       "pageViews": "Visualizzazioni pagina",
       "sessions": "Sessioni",
       "onLoadTime": "Tempo onLoad",
       "views": "Viste",
-      "website": "Sito web",
-      "mobileApp": "App per dispositivi mobili"
+      "website": "Sito Web",
+      "mobileApp": "App mobile"
     }
   },
   "cockpit": {
@@ -84,11 +85,12 @@
     "ibmz": "IBM Z",
     "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "sap": "SAP",
     "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
-    "websites": "Siti web",
-    "mobileApps": "App per dispositivi mobili",
-    "websitesMobileApps": "Siti web & App per dispositivi mobili",
+    "websites": "Siti Web",
+    "mobileApps": "App mobili",
+    "websitesMobileApps": "Siti Web & App mobili",
     "customEventDeprecatedWarning": "<strong>{{count}} evento personalizzato su applicazione, servizio ed endpoint richiede un'azione</strong><affectedCustomEvents>Visualizza evento personalizzato interessato</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>",
@@ -101,8 +103,8 @@
       "cpuUsage": "Utilizzo CPU",
       "created": "Creato",
       "started": "Avviato",
-      "os": "Sistemi operativi",
-      "mean": "media"
+      "os": "Sistema operativo",
+      "mean": "medio"
     },
     "topListWidget": {
       "noLabelYet": "Ancora nessuna {{nolabel}}"

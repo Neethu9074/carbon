@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Operador no soportado: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Añadir alerta inteligente",
     "applicationSmartAlert": "Añadir alerta inteligente",
     "globalApplicationSmartAlert": "Aplicación global SmartAlert",
     "titleNoSmartAlertsConfigured": "No hay alertas inteligentes configuradas",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Seleccionar suceso personalizado",
         "customEventListInfoLabel": "Mostrando sucesos personalizados que se han desencadenado en los últimos 7 días"
       },
-      "addSmartAlert": "Añadir alerta inteligente",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "Habilitar",
     "disable": "Inhabilitar",
     "synthetics": {
+      "addSmartAlert": "Añadir alerta inteligente sintética",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} filtro más",
@@ -1037,15 +1038,15 @@
           "moreFiltersWithCount_0": "+{{count}} filtros más",
           "moreFiltersWithCount_1": "+{{count}} filtros más",
           "moreFiltersWithCount_2": "+{{count}} filtros más",
-          "filter": "filtro",
-          "filter_plural": "filtros",
+          "filter": "Filtrar",
+          "filter_plural": "Filtros",
           "filter_0": "filtros",
           "filter_1": "filtros",
           "filter_2": "filtros"
         }
       },
       "alertList": {
-        "timeThreshold": "Umbral de error",
+        "timeThreshold": "Umbral de tiempo",
         "filterApplied": "Filtro aplicado",
         "violationsCount": "{{violationsCount}} anomalías",
         "numberOfFailures": "Alerta de anomalía"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "Paso 1: Pruebas",
         "simpleAlertConfigDialogStep1Headline": "¿Sobre qué pruebas sintéticas se debe alertar?",
+        "simpleAlertConfigDialogStep1Tooltip": "Las alertas individuales se enviarán de forma independiente para cada prueba sintética, por ubicación",
         "stepConfigsStep4Title": "Paso 4: Canales de alerta",
         "alertDialogHeadline": "¿Qué debe aparecer en la alerta?",
         "stepConfigsStep2Title": "Paso 2: Ámbito",
         "scopeHeadline": "¿Dónde desea que se active la alerta?",
-        "stepConfigsStep3Title": "Paso 3: Umbral",
+        "stepConfigsStep3Title": "Paso 3: Umbral de tiempo",
         "stepConfigsStep5Title": "Paso 5: Propiedades de alerta",
-        "thresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?"
+        "thresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?",
+        "thresholdTitleHelpText": "Anomalías determinadas en el PoP, basándose en el intervalo de reintentos  configurado en la creación de pruebas sintéticas.",
+        "thresholdSubTitleHelpText": "Si el número especificado de anomalías se produce en cada ubicación, recibirá una alerta para cada ubicación.",
+        "slider": {
+          "failuresWithCount": "{{count}} anomalía",
+          "failuresWithCount_plural": "{{count}} anomalías",
+          "failuresWithCount_0": "{{count}} anomalías",
+          "failuresWithCount_1": "{{count}} anomalías",
+          "failuresWithCount_2": "{{count}} anomalías"
+        },
+        "alertPropertiesTitlePlaceholder": "Insertar título aquí",
+        "alertPropertiesDescriptionPlaceholder": "Insertar descripción aquí"
       },
       "advanced": {
         "alertChannelsLabel": "Canales de alerta",
+        "alertChannelsTitle": "¿Quién debe recibir las alertas?",
         "scopeFilterLabel": "Ámbito",
         "alertTestsLabel": "Pruebas sintéticas",
         "alertTestsTitle": "Pruebas sintéticas: ¿Sobre qué pruebas sintéticas se debe alertar?",
         "propertiesLabel": "Propiedades de alerta",
-        "failureThreshold": "Umbral de error",
-        "failureThresholdLabel": "Umbral de error",
+        "alertPropertiesPreviewTitlePlaceholder": "[Insertar título aquí]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserte la descripción aquí]",
+        "propertiesTitle": "¿Qué debe incluir la notificación de alerta?",
+        "failureThreshold": "Umbral de tiempo",
+        "failureThresholdLabel": "Umbral de tiempo",
         "failureThresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "prueba sintética {{entityName}}",
         "testAttachedCount": "Pruebas adjuntas ({{count}})",
         "testAttached": "Pruebas adjuntas"
+      },
+      "details": {
+        "threshold": "Umbral",
+        "alertConfigurationListTitleAlertConfiguration": "Configuración de alertas",
+        "scope": {
+          "perLocation": {
+            "shortText": "Por ubicación"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Pruebas seleccionadas",
+        "alertConfigurationTitleAlertChannels": "Canales de alerta",
+        "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
+        "failureThreshold": "{{failureCount}} anomalías",
+        "alertConfigurationTitleScope": "Ámbito",
+        "noOfFailure": "Número de anomalías",
+        "timeThreshold": "Umbral de tiempo",
+        "alertingType": "Tipo de alerta"
       }
     }
   }

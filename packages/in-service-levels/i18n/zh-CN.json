@@ -1,0 +1,47 @@
+{
+  "general": {
+    "addButtonLabel": "添加",
+    "saveButtonLabel": "保存",
+    "cancelButtonLabel": "取消",
+    "editButtonLabel": "编辑",
+    "copyButtonLabel": "副本",
+    "deleteButtonLabel": "删除",
+    "entityTypes": {
+      "label": "未知实体",
+      "label_application": "应用程序",
+      "label_website": "Web 站点"
+    }
+  },
+  "createSloDialog": {
+    "title": "创建服务级别目标 (SLO)",
+    "selectEntityNavItem": "选择实体",
+    "selectEntityTitle": "选择要向其添加 SLO 的实体："
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "应用程序 SLO",
+          "websites": "Web 站点 SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "未知蓝图",
+        "blueprint_latency": "等待时间",
+        "blueprint_availability": "可用性"
+      },
+      "entityTypeFilter": {
+        "placeholder": "实体类型"
+      },
+      "sloTagFilter": {
+        "placeholder": "标记"
+      }
+    },
+    "title": "服务级别目标",
+    "columnLabels": {
+      "name": "名称",
+      "entity": "实体",
+      "blueprint": "蓝图"
+    }
+  }
+}

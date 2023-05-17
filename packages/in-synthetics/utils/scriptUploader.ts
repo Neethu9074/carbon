@@ -25,7 +25,13 @@ export function validate(code: string) {
 
     if (syntax.errors.length > 0) {
       syntax.errors.forEach((e: ErrorType) => {
-        let message = e.description + '(line number: ' + e.lineNumber + ', column number: ' + e.column + ')';
+        let message =
+          e.description.replace(/Invalid/gi, 'Incorrect') +
+          '(line number: ' +
+          e.lineNumber +
+          ', column number: ' +
+          e.column +
+          ')';
         errors.push({
           code: errorCode,
           message: message
@@ -41,11 +47,17 @@ export function validate(code: string) {
     }
   } catch (e) {
     let error = e as ErrorType;
-    let errorContent = code.split('\n')[((error.lineNumber as unknown) as number) - 1];
+    let errorContent = code.split('\n')[(error.lineNumber as unknown as number) - 1];
     let nodeJSOperatorRegex = /(\?\.|\?\?|\?\?=)/;
     let isnodeJSErr = nodeJSOperatorRegex.test(errorContent);
     if (!isnodeJSErr) {
-      let message = error.description + '(line number: ' + error.lineNumber + ', column number: ' + error.column + ')';
+      let message =
+        error.description.replace(/Invalid/gi, 'Incorrect') +
+        '(line number: ' +
+        error.lineNumber +
+        ', column number: ' +
+        error.column +
+        ')';
       errors.push({
         code: errorCode,
         message: message

@@ -7,13 +7,13 @@ import React, { Fragment } from 'react';
 
 import { Button } from '@instana/components';
 
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { CONTAINS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -24,6 +24,8 @@ import { t } from 'in-i18n';
 export default connectTo({
   timeConfig: timeConfig$
 })(function AppdataWriterStatistics({ timeConfig }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   return (
     <Fragment>
       <h1>appdata-reader</h1>
@@ -35,7 +37,7 @@ export default connectTo({
             cardHeader={
               <Fragment>
                 <Button
-                  href$={getLinkToAnalyze({
+                  href={getLinkToApplicationAnalyze({
                     dataSource: 'calls',
                     timeConfig,
                     formModel: [tagFilter('service.name', CONTAINS, 'clickhouse', null, DESTINATION)],
@@ -80,7 +82,7 @@ export default connectTo({
             cardHeader={
               <Fragment>
                 <Button
-                  href$={getLinkToAnalyze({
+                  href={getLinkToApplicationAnalyze({
                     dataSource: 'calls',
                     timeConfig,
                     formModel: joinExpressions({

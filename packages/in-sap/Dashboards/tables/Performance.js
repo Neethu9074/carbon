@@ -50,10 +50,20 @@ const cols = [
       getValue(row) {
         return row.perfMainMetric.get('rating');
       },
-      getContent(args) {
+      getContent(args, row) {
         return (
           <div className={locals.center}>
-            <HealthDot color={statusToColour[args || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />
+            <HealthDot
+              type={'performance'}
+              yellowToGreen={row.perfMainMetric.get('yellowToGreen')}
+              greenToYellow={row.perfMainMetric.get('greenToYellow')}
+              redToYellow={row.perfMainMetric.get('redToYellow')}
+              yellowToRed={row.perfMainMetric.get('yellowToRed')}
+              unit={row.perfMainMetric.get('unit')}
+              explanation={theme.lib.colors.success}
+              color={statusToColour[args || statusToColour.Unknown]}
+              iconSize={SvgIconSizes.xxs}
+            />
           </div>
         );
       }
@@ -78,54 +88,6 @@ const cols = [
           return 'Count';
         }
         return row.perfMainMetric.get('unit');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.greenToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.perfMainMetric.get('greenToYellow'))) {
-          return '-';
-        }
-        return row.perfMainMetric.get('greenToYellow').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToGreen'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.perfMainMetric.get('yellowToGreen'))) {
-          return '-';
-        }
-        return row.perfMainMetric.get('yellowToGreen').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToRed'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.perfMainMetric.get('yellowToRed'))) {
-          return '-';
-        }
-        return row.perfMainMetric.get('yellowToRed').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.redToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.perfMainMetric.get('redToYellow'))) {
-          return '-';
-        }
-        return row.perfMainMetric.get('redToYellow').toString();
       }
     }
   }
@@ -161,6 +123,10 @@ export default connectTo(
           perfMainMetric
         };
       });
+
+    if (rows.length === 0) {
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
+    }
 
     const getDetails = row => {
       if (!snapshotMap?.timeConfig) {

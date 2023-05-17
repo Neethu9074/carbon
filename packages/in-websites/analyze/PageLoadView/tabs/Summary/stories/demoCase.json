@@ -15,7 +15,6 @@
     "type": "pageLoad",
     "customEventName": "",
     "meta": {
-      "permission.canSeeOnPremLicenseInformation": "true",
       "featureFlag.releaseNotesEnabled": "true",
       "featureFlag.tenantSwitcherEnabled": "true",
       "permission.canConfigureObjectives": "true",
@@ -45,7 +44,6 @@
       "permission.canViewAuditLog": "true",
       "permission.canConfigureApplications": "true",
       "config.maxAllowedAlertingConfigurations": "200",
-      "permission.canSeeUsageInformation": "true",
       "permission.canViewAccountAndBillingInformation": "true",
       "region": "test-us-west-2"
     },

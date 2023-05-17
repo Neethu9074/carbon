@@ -19,7 +19,7 @@ export default function SloBlueprintColumnContent({ item }: Props) {
   return (
     <Typography variant="body-regular">
       {t('in-service-levels:sloList.components.sloBlueprintColumnContent.blueprint', {
-        context: item.configuration.indicator.blueprint
+        context: item.configuration.indicator.blueprint ?? 'custom'
       })}
     </Typography>
   );

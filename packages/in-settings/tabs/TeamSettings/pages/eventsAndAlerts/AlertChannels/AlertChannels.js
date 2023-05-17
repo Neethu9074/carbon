@@ -7,6 +7,7 @@ import React from 'react';
 
 import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
 import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+import { deleteAlertChannelTracker } from 'in-settings/tracker';
 import { deleteAlertChannel } from 'in-api/alertChannels';
 
 export default function AlertChannels(props) {
@@ -16,7 +17,14 @@ export default function AlertChannels(props) {
       rightHeader={<NewChannelButton />}
       tableActions={{
         delete: {
-          deleteEntity: entity => deleteAlertChannel(entity.id)
+          deleteEntity: entity => {
+            deleteAlertChannelTracker({
+              alertChannelId: entity.id ?? '',
+              alertChannelKind: entity.kind ?? '',
+              alertChannelName: entity.name ?? ''
+            });
+            return deleteAlertChannel(entity.id);
+          }
         }
       }}
     />

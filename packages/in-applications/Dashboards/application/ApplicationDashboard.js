@@ -143,10 +143,10 @@ function renderButtonLine(props) {
     />
   );
 
+  const allowActionButtons = isGlobalAlertConfig ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts;
+
   const showAlertButton =
-    role.canConfigureCustomAlerts &&
-    applicationSmartAlertsEnabled &&
-    !location.pathname.includes('/application/configuration');
+    allowActionButtons && applicationSmartAlertsEnabled && !location.pathname.includes('/application/configuration');
 
   return (
     <>

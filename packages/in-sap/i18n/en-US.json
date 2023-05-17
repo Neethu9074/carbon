@@ -14,7 +14,8 @@
     "SapJavaInstance": " SAP Java Instance",
     "sapDbInstance": "Databases",
     "sapDbTenant": "SAP DB Tenant",
-    "sapHanaSystem": "SAP Hana System"
+    "sapHanaSystem": "SAP Hana System",
+    "sapWebDispatcher": "SAP Web Dispatcher"
   },
   "objectType": "Type",
   "sapdbinstance": "Databases",
@@ -26,6 +27,7 @@
     "cpuUsage": "CPU Usage",
     "name": "Name",
     "sapHanaSystem": "Sap Hana System",
+    "sapWebDispatcher": "SAP Web Dispatcher",
     "systemAvailability": "System Availability",
     "memoryUsage": "Memory Usage",
     "infrastructure": "Infrastructure",
@@ -195,10 +197,6 @@
     "Maximum_Number_of_Objects_in_Tablespace": "Maximum Number of Objects in Tablespace",
     "Transaction_Log_Full": "Transaction Log Full",
     "HDB_SERVICE_AVAILABILITY_INST_VIA_DA": "HDB SERVICE AVAILABILITY INST VIA DA",
-    "greenToYellow": "Green To Yellow",
-    "redToYellow": "Red To Yellow",
-    "yellowToGreen": "Yellow To Green",
-    "yellowToRed": "Yellow To Red",
     "status": "Status",
     "age": "Age",
     "value": "Value",

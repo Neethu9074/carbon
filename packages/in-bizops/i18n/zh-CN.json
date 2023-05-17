@@ -1,0 +1,14 @@
+{
+  "labelBizOps": "进程",
+  "labelSmartAlerts": "智能警报",
+  "labelActivities": "活动",
+  "lists": {
+    "activityLabel": "活动计数",
+    "idLabel": "进程标识",
+    "noData": "无可用数据",
+    "toolLabel": "工具"
+  },
+  "navigation": {
+    "bizOps": "业务流程"
+  }
+}

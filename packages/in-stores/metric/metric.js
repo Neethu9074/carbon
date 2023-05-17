@@ -176,7 +176,12 @@ export const getMetric = memoize(
       .distinct();
   },
   ({ snapshotId, metric, timeWindowAggregation, timeConfig, rollup }) =>
-  snapshotId + metric + timeWindowAggregation + (timeConfig ? timeConfig.to + timeConfig.focusedMoment + timeConfig.windowSize + timeConfig.autoRefresh : "" + rollup),
+    snapshotId +
+    metric +
+    timeWindowAggregation +
+    (timeConfig
+      ? timeConfig.to + timeConfig.focusedMoment + timeConfig.windowSize + timeConfig.autoRefresh
+      : '' + rollup),
   500
 );
 
@@ -196,7 +201,7 @@ export function getHistoricMetric({ snapshotId, metric, timeConfig, rollup }) {
   if (arguments.length == 3 || rollup == undefined || rollup == null) {
     rollup$ = getInfraGranularity(timeConfig);
   } else {
-    rollup$=rollup;
+    rollup$ = rollup;
   }
 
   return getLatestMetrics({

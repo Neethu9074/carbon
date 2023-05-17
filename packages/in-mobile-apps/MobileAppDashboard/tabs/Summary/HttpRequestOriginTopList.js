@@ -9,7 +9,7 @@ import { Link } from '@instana/components';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { getLinkToHttpRequest, getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { getLinkToHttpRequest, useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -78,16 +78,15 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ mobileAppId, selectedMetric, className }) {
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    tabPath: '/httpRequests',
+    tabParameters: {
+      orderBy: `${selectedMetric}Agg`
+    }
+  });
+
   return (
-    <Link
-      className={className}
-      href$={getLinkToMobileApp(mobileAppId, {
-        tabPath: '/httpRequests',
-        tabParameters: {
-          orderBy: `${selectedMetric}Agg`
-        }
-      })}
-    >
+    <Link className={className} href={linkToMobileAppHref}>
       {t('in-mobile-apps:dashboard.tabs.viewAllOriginsLink')}
     </Link>
   );

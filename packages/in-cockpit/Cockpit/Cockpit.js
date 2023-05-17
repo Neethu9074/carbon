@@ -49,6 +49,7 @@ import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
@@ -174,7 +175,7 @@ function Header() {
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (
           <>
-            {role.canConfigureAgents && (
+            {role.canConfigureAgents && !playwithEnabled && (
               <Button
                 kind="secondaryDarker"
                 icon="lib_actions_settings"
@@ -184,7 +185,7 @@ function Header() {
               </Button>
             )}
 
-            {role.canConfigureUsers && (
+            {role.canConfigureUsers && !playwithEnabled && (
               <Button
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
@@ -260,7 +261,8 @@ const Content = function Content({ itemOrder, applicationId, width }) {
   return (
     <div
       className={classNames(locals.wrapper, {
-        [locals.wrapperWithRightContent]: !!renderNavigation
+        [locals.wrapperWithRightContent]: !!renderNavigation,
+        [locals.marginTop57]: playwithEnabled
       })}
     >
       <div

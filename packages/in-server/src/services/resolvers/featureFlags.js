@@ -271,6 +271,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCredentialEnabled',
+    instanaCtlKey: 'feature.synthetic.credential.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
@@ -293,7 +298,7 @@ module.exports = exports = [
   {
     uiClientKey: 'websiteUploadConfigEnabled',
     instanaCtlKey: 'feature.website.upload.config.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
@@ -351,8 +356,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'playwithEnabled',
+    instanaCtlKey: 'feature.playwithEnabled.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'recurrentMaintenanceWindowsEnabled',
+    instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
     defaultValue: false
   }
 ];

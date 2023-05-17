@@ -33,7 +33,7 @@
         "scriptTitle": "Cuál es el nombre de esta prueba de script HTTP",
         "labelName": "Nombre de la prueba",
         "labelDescription": "Descripción",
-        "labelFrequency": "Frecuencia",
+        "labelFrequency": "Frecuencia (minutos)",
         "labelApplications": "Seleccionar una aplicación"
       },
       "bluePrint": {
@@ -83,7 +83,60 @@
         "invalidHost": "Formato de host no válido"
       },
       "advancedMode": {
-        "buttonContent": "Cambiar a modalidad avanzada"
+        "switchModeButton": "Cambiar a modalidad avanzada",
+        "testTypeSection": {
+          "selectedTestTypeLightCardTitle": "Tipo de prueba seleccionado",
+          "rightListLabel": "Tipo de prueba",
+          "apiTypeLabel": "Prueba simple | Prueba de script",
+          "apiTypeHeadline": "¿Qué tipo de prueba sintética le gustaría crear?",
+          "apiTypeText": "Las pruebas de API se pueden utilizar para supervisar las API proporcionadas por las aplicaciones web. Las pruebas de API se pueden utilizar para medir la disponibilidad y el tiempo de respuesta. La prueba simple le permite hacer ping a un URL o probar una única API. La prueba de script le permite proporcionar un script que puede comprobar un conjunto de respuestas de API, simular flujos de trabajo complejos y probar funcionalidades específicas.",
+          "selectedTestTypeButton": "Select",
+          "httpScriptTitle": "Prueba de script",
+          "httpActionTitle": "Prueba simple",
+          "browserTypeLabel": "Navegador",
+          "browserTypeHeadline": "Pruebas sintéticas de navegador",
+          "browserTypeText": "La prueba sintética del navegador es un método para supervisar el rendimiento de las aplicaciones web simulando las interacciones del usuario con un sitio web a través de un script en un navegador web, proporcionando información valiosa sobre los problemas que afectan a la experiencia del usuario y garantizando la funcionalidad del sitio web.",
+          "internetServicesTypeLabel": "Servicios de Internet",
+          "internetServicesTypeHeadline": "Pruebas de servicios de Internet",
+          "internetServicesTypeText": "Las pruebas sintéticas de servicios de Internet implican simular las interacciones de los usuarios con los servicios web para supervisar y probar su rendimiento, lo que ayuda a identificar y evitar problemas de tiempo de inactividad."
+        },
+        "configurationLabel": "Configuración",
+        "configurationTitle": "Configuración: ¿Cómo funcionará esta prueba?",
+        "locationsLabel": "Ubicaciones",
+        "locationsTitle": "Ubicaciones: ¿Dónde se ejecutará esta prueba?",
+        "scheduleLabel": "Planificación",
+        "scheduleTitle": "Planificación: ¿Cuándo se ejecutará esta prueba?",
+        "identifyLabel": "Identificar",
+        "identifyTitle": "Identificar: ¿Qué va a hacer la prueba?",
+        "frequency": "Esta prueba se ejecutará cada {{frequencyValue}} minutos.",
+        "simultaneous": "Simultáneo",
+        "simultaneousDescription": "Esta prueba se ejecutará simultáneamente en casa una de las ubicaciones seleccionadas.",
+        "configStep": {
+          "allowInsecure": "Permitir los no seguros",
+          "expectStatusLabel": "Estado esperado",
+          "expectJSONLabel": "JSON esperado",
+          "expectMatchLabel": "Coincidencia esperada",
+          "expectStatusPlaceholder": "Especificar estado esperado",
+          "expectJSONPlaceholder": "Especificar JSON esperado",
+          "expectMatchPlaceholder": "Especificar serie esperada",
+          "addValidations": "Añadir validación",
+          "failedToParseInputAsJson": "No se ha podido analizar la entrada como JSON.",
+          "jsonRootMustBeAnObject": "La raíz JSON debe ser un objeto.",
+          "mustBeValidHttpReturnCode": "El estado debe ser un código de retorno HTTP válido.",
+          "shouldBeValidRegExp": "La serie especificada debe ser una expresión regular válida."
+        },
+        "loadMore": "Cargar más",
+        "selectTests": {
+          "addLocations": "Añadir {{count}} ubicaciones",
+          "addLocation": "Añadir ubicación",
+          "cancel": "Cancelar",
+          "selectLocation": "Seleccionar ubicación"
+        },
+        "advancedBluePrint": {
+          "apiName": "API",
+          "browserName": "Navegador",
+          "internetServicesName": "Servicios de Internet"
+        }
       }
     },
     "httpMethods": {
@@ -107,7 +160,10 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Crear nueva prueba"
+    "buttonLabel": "Añadir prueba sintética"
+  },
+  "createSmartAlert": {
+    "buttonLabel": "Añadir alerta inteligente sintética"
   },
   "navigation": {
     "synthetics": "Supervisión sintética"
@@ -169,7 +225,10 @@
       "namespace": "Espacio de nombres",
       "labelConfirmRemoveLocation": "¿Seguro que desea eliminar la ubicación <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Hay pruebas activas asignadas en la ubicación <strong>{{label}}</strong> ({{status}}), ¿seguro que desea eliminar esta ubicación?",
-      "deleteLocation": "Suprimir ubicación"
+      "deleteLocation": "Suprimir ubicación",
+      "noDataAvailable": {
+        "message": "{{component}} no disponible"
+      }
     },
     "summary": {
       "successRate": "Tasa de éxito",
@@ -348,7 +407,7 @@
       "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos."
     },
     "alertList": {
-      "timeThreshold": "Umbral de error",
+      "timeThreshold": "Umbral de tiempo",
       "testsApplied": "Pruebas aplicadas",
       "filterApplied": "Filtro aplicado",
       "violationsCount": "{{violationsCount}} anomalías",

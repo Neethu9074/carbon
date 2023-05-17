@@ -4,20 +4,27 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Exception from 'in-sap/Dashboards/tables/Exception';
 
-export default function ExcepMetrics({ timeConfig, data: vm }) {
+export default function ExcepMetrics({ timeConfig, data: sap }) {
   return (
-    <Fragment>
+    <>
       <Exception
-        snapshotId={vm.id}
-        techEventName={vm.missingMetrics}
-        eventNames={vm.missingEventNames}
+        snapshotId={sap.id}
+        techEventName={sap.missingMetrics}
+        eventNames={sap.missingEventNames}
         timeConfig={timeConfig}
-        configurationName={'J2EE_Messages_Issue'}
+        configurationName="J2EE_Messages_Issue"
       />
-    </Fragment>
+      <Exception
+        snapshotId={sap.id}
+        techEventName={sap.missingMetrics}
+        eventNames={sap.missingEventNames}
+        timeConfig={timeConfig}
+        configurationName="Number_of_erroneous_messages"
+      />
+    </>
   );
 }

@@ -110,6 +110,16 @@ export default connectTo(
             {name}
           </Breadcrumb>
         );
+      case 'sapwebdispatchers.':
+        return (
+          <Breadcrumb
+            label={label}
+            icon={getIconType(plugins.sapWebDispatchers)}
+            href$={getDashboardForEntity(id, plugins.sapWebDispatchers, label)}
+          >
+            {name}
+          </Breadcrumb>
+        );
       case 'abapsystems.':
         return (
           <Breadcrumb

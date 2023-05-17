@@ -194,6 +194,7 @@
     "hiddenCalls": "Chamadas ocultas",
     "fastQueryMode": "Modo de consulta rápida",
     "fastQueryModeTooltip": "O modo de consulta rápida possibilita a execução de consulta com relação a um subconjunto de chamadas ou rastreios, se a execução com relação ao conjunto de dados completo levaria muito tempo.",
+    "filteredInThisTrace": "filtrado neste rastreio",
     "listBatchTypeTooltip": "Este {{type}} está em lote e representa {{batchCount}} {{types}} individuais.",
     "listBatchLatencyTooltip": "Latência total de {{batchCount}} {{types}} em lote.",
     "traceIdTooltip": "Alguns dados relacionados a esse rastreio estão atrasados, portanto, recarregue a página um pouco mais tarde. Um exemplo no qual isso pode acontecer é visualizar um rastreio muito recente com alguns dos dados dele ainda sendo processados.",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Apenas chamadas sintéticas são mostradas e incluídas nas métricas"
   },
   "traceDetail": {
+    "beta": "BETA",
+    "foreignRootCall": "Não monitorado pelo Instana",
+    "notYetReceivedRootCall": "Chamada raiz ainda não recebida",
     "tabs": {
       "summary": {
         "duplicateCalls": "Chamadas duplicadas",
@@ -575,16 +579,20 @@
         "largeTrace": "Rastreio grande",
         "largeTraceLink": "Este rastreio é grande e sua renderização pode resultar em problemas de desempenho dentro do seu navegador. Também é possível <linkToDocs>fazer download do rastreio</linkToDocs> para inspeção manual ou tentar a renderização do rastreio dentro do seu navegador. Renderizaremos somente um subconjunto dos componentes a fim de aumentar o desempenho dessa tentativa.",
         "calls": "Chamadas",
-        "erroneousTrace": "Rastreio errôneo",
         "attemptToRenderTrace": "Tentativa de renderização de rastreio",
         "analyzeBeacons": "Analisar indicadores",
         "adjustedTimeConfigForTrace": "O intervalo de tempo foi ajustado para incluir todas as chamadas do rastreio selecionado.",
-        "adjustedTimeConfigForBeacon": "O intervalo de tempo foi ajustado para incluir o indicador selecionado."
+        "adjustedTimeConfigForBeacon": "O intervalo de tempo foi ajustado para incluir o indicador selecionado.",
+        "timeLineViewNotAvailable": "Este é um rastreio com mais de {{maximumNumberOfCallsForLargeTraceConsideration}} chamadas. A visualização de linha de tempo não está disponível. Apenas a chamada selecionada e seus irmãos imediatos são exibidos inicialmente."
       }
     },
     "components": {
       "callTreeHeaderParent": "Carregar chamada pai",
-      "callTreeHeaderCalls": "Carregar mais chamadas"
+      "callTreeHeaderCalls": "Carregar mais chamadas",
+      "callTreeLoadingOfParentFailed": "A chamada pai não pode ser carregada neste momento",
+      "callTreeLoadingOfCallsFailed": "As chamadas não podem ser carregadas neste momento",
+      "retry": "Tente novamente.",
+      "treeHeaderLatency": "Latência de chamada raiz"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>Está ok para consultar serviços alternativos?</bold>",
     "alternativeServicesProblem": "<bold>Não</bold>, se o nome do serviço atual vem do cabeçalho HTTP \"Host\" (regra de mapeamento de serviço cujo id é call.http.host) e o nome do serviço alternativo não (porque seu nome vem de uma regra que tem base em tags de infraestrutura), ou vice-versa. São serviços duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Talvez</bold>, se o serviço atual e os nomes de serviços alternativos não provarem do cabeçalho HTTP \"Host\", então eles são serviços sentados atrás de um proxy (bom) ou são serviços duplicados (ruim): alguns dos serviços estão integralmente vinculados a infraestrutura, enquanto outros estão parcialmente vinculados a infraestrutura."
-  },
-  "widgetNotActive": {
-    "title": "O widget não é suportado no Modo Tempo Real",
-    "button": "Parar Modo em Tempo Real"
   }
 }
