@@ -382,21 +382,6 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={t(`in-internal:monitoringUnit.log.processor.incoming.containerd`)}>
-            <Chart
-              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.KPI.incoming.containerd_logs.calls`),
-                labels,
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
-        <Columize>
           <DashboardSection title={t(`in-internal:monitoringUnit.log.processor.incoming.action`)}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
