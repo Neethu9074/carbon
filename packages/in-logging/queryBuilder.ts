@@ -92,7 +92,6 @@ export const ID_KUBERNETES_NAMESPACE = 'id.kubernetesNamespace';
 export const ID_KUBERNETES_DEPLOYMENT = 'id.kubernetesDeployment';
 export const ID_DOCKER = 'id.docker';
 export const ID_CONTAINERD = 'id.containerd';
-export const CONTAINERD_NAME = 'containerd.name';
 
 export const kubernetesEntitySnapshotIds = [
   KUBERNETES_CLUSTER_SNAPSHOT_ID,
