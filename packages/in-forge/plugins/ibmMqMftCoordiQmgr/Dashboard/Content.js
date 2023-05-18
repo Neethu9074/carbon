@@ -35,10 +35,10 @@ export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
-            metrics: [`successfulTransfers`, `failedTransfers`, `partiallySuccessfulTransfers`, `cancelledTransfers`],
+            metrics: [`partiallySuccessfulTransfers`, `successfulTransfers`, `failedTransfers`, `cancelledTransfers`],
             labels: [
-              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.successfulTransfers'),
               t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.partiallySuccessfulTransfers'),
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.successfulTransfers'),
               t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.failedTransfers'),
               t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.cancelledTransfers')
             ],
