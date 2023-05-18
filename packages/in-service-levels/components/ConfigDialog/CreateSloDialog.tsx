@@ -4,16 +4,24 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import SelectEntity from 'in-service-levels/components/SloList/components/SelectEntity';
+// import SelectEntity from 'in-service-levels/components/SloList/components/SelectEntity';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+import { Item } from 'formalistic';
+
+import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloEntitySection';
+import { createSloForm } from 'in-service-levels/components/ConfigDialog/form';
+import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
 
 export default function CreateSloDialog() {
+  const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
+
+  const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
   const navItems: Array<NavItem> = [
     {
       scrollId: '1-select-entity',
@@ -22,7 +30,8 @@ export default function CreateSloDialog() {
       valid: true,
       content: (
         <>
-          <SelectEntity />
+          {/* <SelectEntity /> */}
+          <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />
         </>
       )
     }

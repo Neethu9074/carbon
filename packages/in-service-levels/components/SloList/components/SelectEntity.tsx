@@ -25,9 +25,9 @@ import { t } from 'in-i18n';
 const entityType = 'application';
 export default function SelectEntity() {
   const [monitoringSource, setMonitoringSource] = useState<SloEntityType>();
-  const [selectedEntity, setSelectedEntity] = useState<Application | Website>();
+  const [selectedEntity, setSelectedEntity] = useState<SloEntityType>();
   const [entityList] = useEntityConfigurations(monitoringSource);
-  const selectedLabel = selectedEntity ? selectedEntity.label : t('in-service-levels:general.noSelection');
+  const selectedLabel = selectedEntity ? selectedEntity : t('in-service-levels:general.noSelection');
   return (
     <>
       <Typography variant="heading-200" component="h2">
