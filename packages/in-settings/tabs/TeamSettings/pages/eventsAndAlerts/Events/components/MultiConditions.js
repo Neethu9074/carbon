@@ -10,9 +10,11 @@ import React from 'react';
 import { Stack, Button, SvgIcon } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { logicalOperatorOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { Row, Col } from 'in-components/layout/Grid';
+import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import theme from 'in-themes';
@@ -40,6 +42,7 @@ function getOnChangeUpdateRuleByIdx(onChangeRoot, idx) {
 
 export function MultiConditions({
   rulesForm,
+  ruleLogicalOperator,
   onChange: onChangeRoot,
   disabled,
   customMetricsForPlugin,
@@ -108,10 +111,26 @@ export function MultiConditions({
         const buttonDisabled = disabled || rulesForm.size === 1;
         return (
           <React.Fragment key={idx}>
-            {idx > 0 && (
-              <Row className={locals.andPill}>
-                <Col lg={12}>
-                  <Pill color={theme.lib.colors.primary1}>AND</Pill>
+            {idx == 1 && (
+              <Row className={locals.logicalOperator}>
+                <Col lg={1}>
+                  <ComboBox
+                    isDisabled={disabled}
+                    name="event-ruleLogicalOperator"
+                    value={ruleLogicalOperator}
+                    options={logicalOperatorOptions}
+                    onChange={e => onChangeRoot('ruleLogicalOperator', e ? e.value : '')}
+                    isClearable={false}
+                  />
+                </Col>
+              </Row>
+            )}
+            {idx > 1 && (
+              <Row className={locals.logicalOperator}>
+                <Col lg={1}>
+                  <Pill color={theme.lib.colors.primary1}>
+                    {t('in-settings:tabs.team.events.logicalOperator', { context: ruleLogicalOperator })}
+                  </Pill>
                 </Col>
               </Row>
             )}

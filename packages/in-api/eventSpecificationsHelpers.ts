@@ -6,7 +6,14 @@
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import { AlertingAggregation, AlertingConditionOperator, MetricPattern, Nullish, ThresholdRule } from 'in-types';
+import {
+  AlertingAggregation,
+  AlertingConditionOperator,
+  MetricPattern,
+  Nullish,
+  ThresholdRule,
+  LogicalOperator
+} from 'in-types';
 import { t } from 'in-i18n';
 
 /** if no id is given, it creates an uuid */
@@ -79,6 +86,7 @@ export function createCustomMultiThresholdBasedEventSpecification(
   entityType: string,
   expirationTime: number,
   rules: ThresholdRule[],
+  ruleLogicalOperator: LogicalOperator,
   name = t('in-settings:tabs.newEvent'),
   description: string = '',
   query = '',
@@ -94,6 +102,7 @@ export function createCustomMultiThresholdBasedEventSpecification(
     description,
     expirationTime,
     enabled,
-    rules
+    rules,
+    ruleLogicalOperator
   };
 }
