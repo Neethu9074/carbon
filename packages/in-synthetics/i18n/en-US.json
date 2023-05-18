@@ -468,6 +468,10 @@
       "allowInsecure": "Allow Insecure",
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
+      "frequencyTitle": "Frequency",
+      "simultaneousValue":"Simultaneous",
+      "frequencyPluralValue": "{{minutes}} minutes",
+      "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
       "customProperties": "Custom Properties"
     }

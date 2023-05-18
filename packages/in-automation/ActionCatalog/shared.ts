@@ -101,5 +101,37 @@ export type NewActionWithAssociations = ActionFormEntity & {
 export type NewActionWithAssociationsWithUndefined = ActionFormEntity & {
   selectedEvents?: (string | undefined)[];
   applicationAlertConfigIds?: (string | undefined)[];
-  selectedEventsTypes?: selectedEventsTypes;
+  selectedEventsTypes?: selectedEventsTypes; 
+};
+
+function safeParseJSON<T>(str: string = '{}') {
+  try {
+    return JSON.parse(str) as T;
+  } catch {
+    return {};
+  }
+}
+
+type VaultParameter = { secretKey: string; secretPath: string };
+const isVaultParameter = (param: VaultParameter | {}): param is VaultParameter => {
+  return 'secretKey' in param && 'secretPath' in param;
+};
+export const parseVaultParameter = (str?: string) => {
+  const vaultParameter = safeParseJSON<VaultParameter>(str);
+  if (!isVaultParameter(vaultParameter)) {
+    return { secretKey: '', secretPath: '' };
+  }
+  return vaultParameter;
+};
+
+type DynamicParameter = { key?: string; tagName: string };
+const isDynamicParameter = (param: DynamicParameter | {}): param is DynamicParameter => {
+  return 'tagName' in param;
+};
+export const parseDynamicParameter = (str?: string) => {
+  const dynamicParameter = safeParseJSON<DynamicParameter>(str);
+  if (!isDynamicParameter(dynamicParameter)) {
+    return { key: '', tagName: '' };
+  }
+  return dynamicParameter;
 };

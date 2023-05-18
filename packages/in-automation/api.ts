@@ -413,3 +413,30 @@ export function getAssociations(actionId: string) {
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
+
+export type DynamicParamValue = {
+  name: string;
+  key?: string;
+  tagName: string;
+};
+
+export type ResolvedDynamicParamValue = DynamicParamValue & {
+  resolvedValue: string;
+};
+
+export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[], timestamp: number) {
+  return http<{
+    parameters: ResolvedDynamicParamValue[];
+  }>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${automationAPIBase}/parameters/dynamic`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
+    data: {
+      eventId,
+      parameters,
+      timestamp
+    }
+  });
+}
