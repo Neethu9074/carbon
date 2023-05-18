@@ -52,7 +52,7 @@ const Configuration = ({ test }: Props) => {
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />
-      <Locations />
+      <Locations test={test.data} />
       <Schedule />
       <Identify />
       <CustomProperties />
