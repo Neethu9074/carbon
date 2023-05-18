@@ -62,7 +62,7 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
-import { isSloView, serviceLevelsDashboard } from 'in-service-levels/navigation/path';
+import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -354,7 +354,7 @@ function BizOps(props) {
   return (
     <View
       id="main-nav-bizops"
-      label={t('in-bizops:navigation.bizOps')}
+      label={t('in-bizops:navigation.businessMonitoring')}
       icon={'lib_bizops'}
       isActive={matchLocation(isBizOpsView)}
       href={createHrefToPath(businessProcessPath)}
@@ -394,7 +394,7 @@ function SloDashboard(props) {
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsDashboard)}
+      href={createHrefToPath(serviceLevelsOverview)}
       {...props}
     />
   );

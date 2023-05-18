@@ -5,19 +5,33 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { megaBytes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
+
+interface DatasourcesTableProps {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}
+
+interface Row {
+  key: string;
+  differentPoolsInSGA: Map<string, string | number>;
+  timeConfig: TimeConfig;
+  snapshotId: string;
+}
 
 const cols = [
   {
     title: t('in-forge:plugins.oracleDB.pool'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.differentPoolsInSGA.get('name');
       }
     }
@@ -26,7 +40,7 @@ const cols = [
     title: t('in-forge:plugins.oracleDB.totalMemory'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.differentPoolsInSGA.get('totalSize');
       },
       getContent: megaBytes.detailed
@@ -36,10 +50,10 @@ const cols = [
     title: t('in-forge:plugins.oracleDB.usedMemory'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: Row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: Row) {
         return `stats.differentPoolsInSGAStats.${row.key}.used`;
       },
       getContent: megaBytes.detailed,
@@ -50,11 +64,11 @@ const cols = [
   }
 ];
 
-export default function DatasourcesTable({ snapshot, timeConfig }) {
+export default function DatasourcesTable({ snapshot, timeConfig }: DatasourcesTableProps) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'differentPoolsInSGA'], emptyMap)
-    .map((differentPoolsInSGA, key) => {
+    .map((differentPoolsInSGA: Object, key: string) => {
       return {
         key,
         differentPoolsInSGA,
@@ -82,7 +96,7 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   );
 }
 
-function getRowDetails(row) {
+function getRowDetails(row: Row) {
   return (
     <div>
       <Chart
@@ -94,7 +108,10 @@ function getRowDetails(row) {
           labels: [t('in-forge:plugins.oracleDB.usedMemory')],
           type: 'area'
         }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
+        margins={{
+          left: 90,
+          right: 90
+        }}
       />
     </div>
   );

@@ -54,7 +54,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
 }: TabViewProps<TabData, TabProps, ExtensionProps>) {
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
-  const result: Result<TabData> = useObservable(() => result$ ?? alwaysNull, [result$]) ?? pendingResult;
+  const result = useObservable(() => result$?.startWith(pendingResult as Result<TabData>) ?? alwaysNull, [result$]);
 
   let tabProps = props as TabProps & ExtensionProps;
   if (customWithPropsExtension) {

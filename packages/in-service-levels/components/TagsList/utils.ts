@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagsType } from 'in-service-levels/components/SloList/components/TagsList/SloTagsList';
-import { tagsCssGap } from 'in-service-levels/components/SloList/components/TagsList/constants';
+import { TagsType } from 'in-service-levels/components/TagsList/SloTagsList';
+import { tagsCssGap } from 'in-service-levels/components/TagsList/constants';
 
 export const getTagsThatFitIntoMaxWidth = (tags: TagsType, targetWidth: number) => {
   const tagsThatFit: TagsType = [];

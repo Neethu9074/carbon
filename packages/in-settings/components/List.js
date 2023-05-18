@@ -380,11 +380,10 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
         return <TableActionLoadingIndicator />;
       }
       const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
+      const customDefinedDisableLabel = actionDefinition.disableLabel || t('in-settings:components.disable');
+      const customDefinedEnableLabel = actionDefinition.enableLabel || t('in-settings:components.enable');
       return (
-        <Tooltip
-          content={entityEnabled ? t('in-settings:components.disable') : t('in-settings:components.enable')}
-          delay={500}
-        >
+        <Tooltip content={entityEnabled ? customDefinedDisableLabel : customDefinedEnableLabel} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
