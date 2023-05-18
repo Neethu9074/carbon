@@ -473,7 +473,11 @@
       "frequencyPluralValue": "{{minutes}} minutes",
       "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
-      "customProperties": "Custom Properties"
+      "customProperties": "Custom Properties",
+      "identifySectionName": "Name",
+      "identifySectionDescription": "Description",
+      "associatedApplication": "Associated Application",
+      "noApplicationAssociated": "No application associated"
     }
   }
 }
