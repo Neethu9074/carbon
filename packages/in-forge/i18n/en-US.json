@@ -10335,8 +10335,7 @@
         "workerLua": "Allocated Bytes in Worker Lua VM",
         "totalConnections": "Total Connections"
       }
-      },
-      "connectionError": "Cannot connect to kong server since it is a closed beta version"
+      }
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
