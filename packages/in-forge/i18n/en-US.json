@@ -7010,6 +7010,10 @@
       "longTermSupportDocs": "Long-term support docs",
       "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
+    "processingStatistics": {
+      "hostCount": "Host Count",
+      "instanaAgentCount": "Instana Agent Count"
+    },
     "rabbitMq": {
       "dashboard": {
         "messagesReady": "Messages ready",
