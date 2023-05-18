@@ -10319,7 +10319,6 @@
       "source":"Source",
       "consumer":"Consumer",
       "kongBandwidth": "Bandwidth",
-      "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",
       "database":"Kong Database",
       "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
       "workerStateUpdateFrequency":"Worker State Update Frequency",
