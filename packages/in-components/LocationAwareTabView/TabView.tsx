@@ -15,7 +15,6 @@ import Switch from 'in-components/LocationAwareTabView/components/Switch';
 import Header from 'in-components/LocationAwareTabView/components/Header';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { Tab } from 'in-components/LocationAwareTabView/types';
-import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
@@ -54,7 +53,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
 }: TabViewProps<TabData, TabProps, ExtensionProps>) {
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
-  const result = useObservable(() => result$?.startWith(pendingResult as Result<TabData>) ?? alwaysNull, [result$]);
+  const result = useObservable(() => result$ ?? alwaysNull, [result$]);
 
   let tabProps = props as TabProps & ExtensionProps;
   if (customWithPropsExtension) {
