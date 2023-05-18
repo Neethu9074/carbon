@@ -18,6 +18,7 @@ import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigra
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { useCockpitLink } from 'in-cockpit/navigation/paths';
+import { playwithEnabled } from 'in-services/featureFlags';
 import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
@@ -52,6 +53,7 @@ function DashboardSwitcherOverlayPresenter({
           />
 
           <Button
+            disabled={playwithEnabled}
             kind="action"
             icon="lib_openclose_add_circle_outline"
             className={locals.addDashboard}
@@ -65,7 +67,7 @@ function DashboardSwitcherOverlayPresenter({
         </Li>
 
         <DashboardList
-          customDashboards={customDashboards}
+          customDashboards={playwithEnabled ? [] : customDashboards}
           query={query}
           activeLandingPageConfiguration={activeLandingPageConfiguration}
         />
