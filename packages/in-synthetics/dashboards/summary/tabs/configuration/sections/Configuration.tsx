@@ -61,6 +61,166 @@ const showAdditionalOptions = (configuration: SyntheticTypeConfigurationUnion) =
   return content;
 };
 
+const renderSimpleTestTypeContent = (configuration: SyntheticTypeConfigurationUnion) => {
+  const content = [
+    <Row className={locals.configRow}>
+      <Col xs={3}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.operation')}
+          value={
+            //@ts-expect-error
+            configuration.operation
+          }
+        />
+      </Col>
+      <Col xs={3}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.url')}
+          value={
+            //@ts-expect-error
+            configuration.url
+          }
+        />
+      </Col>
+    </Row>,
+    //@ts-expect-error
+    configuration.headers && renderHeaders(configuration.headers),
+    //@ts-expect-error
+    configuration.body && (
+      <Row className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.body')}
+            value={
+              //@ts-expect-error
+              configuration.body
+            }
+          />
+        </Col>
+      </Row>
+    ),
+    //@ts-expect-error
+    configuration.validationString && (
+      <Row className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.validationString')}
+            value={
+              //@ts-expect-error
+              configuration.validationString
+            }
+          />
+        </Col>
+      </Row>
+    ),
+    //@ts-expect-error
+    configuration.expectStatus && (
+      <Row className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.expectStatus')}
+            value={
+              //@ts-expect-error
+              configuration.expectStatus
+            }
+          />
+        </Col>
+      </Row>
+    ),
+    //@ts-expect-error
+    configuration.expectMatch && (
+      <Row className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.expectMatch')}
+            value={
+              //@ts-expect-error
+              configuration.expectMatch
+            }
+          />
+        </Col>
+      </Row>
+    ),
+    //@ts-expect-error
+    configuration.expectJson && (
+      <Row className={locals.configRow}>
+        <Col xs={12}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.expectJSON')}
+            value={
+              <CodeComponent
+                wrapperClassName={locals.code}
+                code={
+                  //@ts-expect-error
+                  JSON.stringify(configuration.expectJson, undefined, 2)
+                }
+                lang="json"
+                showLineNumbers={false}
+                withoutCopyButton
+                withExpandButton
+                softWrap
+              />
+            }
+          />
+        </Col>
+      </Row>
+    ),
+    <Row>
+      <LightCard
+        className={locals.lastConfigRow}
+        title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
+        darkFrame
+        useMaxAvailableHeight
+      >
+        {showAdditionalOptions(configuration)}
+      </LightCard>
+    </Row>
+  ];
+  return content;
+};
+
+const renderScriptTestTypeContent = (configuration: SyntheticTypeConfigurationUnion) => {
+  return (
+    <Row>
+      <LightCard
+        className={locals.lastConfigRow}
+        title={t('in-synthetics:dashboard.configuration.configScriptTitle')}
+        darkFrame
+        framed
+      >
+        {
+          //@ts-expect-error
+          configuration.script != undefined ? (
+            <CodeComponent
+              wrapperClassName={locals.code}
+              code={
+                //@ts-expect-error
+                JSON.stringify(configuration.script, undefined, 2)
+              }
+              lang="json"
+              showLineNumbers={false}
+              withoutCopyButton
+              withExpandButton
+              softWrap
+            />
+          ) : //@ts-expect-error
+          configuration.scripts ? (
+            <KeyValue
+              label={t('in-synthetics:dashboard.configuration.configScriptFileName')}
+              value={
+                //@ts-expect-error
+                configuration.scripts.scriptFile
+              }
+            />
+          ) : (
+            t('in-synthetics:dashboard.configuration.noScriptFileFound')
+          )
+        }
+      </LightCard>
+    </Row>
+  );
+};
+
 const ConfigSection = ({ test }: Props) => {
   const { configuration } = test;
   return (
@@ -71,130 +231,9 @@ const ConfigSection = ({ test }: Props) => {
       useMaxAvailableHeight
       openByDefault
     >
-      <Row className={locals.configRow}>
-        <Col xs={3}>
-          <KeyValue
-            label={t('in-synthetics:dashboard.configuration.operation')}
-            value={
-              //@ts-expect-error
-              configuration.operation
-            }
-          />
-        </Col>
-        <Col xs={3}>
-          <KeyValue
-            label={t('in-synthetics:dashboard.configuration.url')}
-            value={
-              //@ts-expect-error
-              configuration.url
-            }
-          />
-        </Col>
-      </Row>
-      {
-        //@ts-expect-error
-        configuration.headers && renderHeaders(configuration.headers)
-      }
-      {
-        //@ts-expect-error
-        configuration.body && (
-          <Row className={locals.configRow}>
-            <Col xs={3}>
-              <KeyValue
-                label={t('in-synthetics:dashboard.configuration.body')}
-                value={
-                  //@ts-expect-error
-                  configuration.body
-                }
-              />
-            </Col>
-          </Row>
-        )
-      }
-      {
-        //@ts-expect-error
-        configuration.validationString && (
-          <Row className={locals.configRow}>
-            <Col xs={3}>
-              <KeyValue
-                label={t('in-synthetics:dashboard.configuration.validationString')}
-                value={
-                  //@ts-expect-error
-                  configuration.validationString
-                }
-              />
-            </Col>
-          </Row>
-        )
-      }
-      {
-        //@ts-expect-error
-        configuration.expectStatus && (
-          <Row className={locals.configRow}>
-            <Col xs={3}>
-              <KeyValue
-                label={t('in-synthetics:dashboard.configuration.expectStatus')}
-                value={
-                  //@ts-expect-error
-                  configuration.expectStatus
-                }
-              />
-            </Col>
-          </Row>
-        )
-      }
-      {
-        //@ts-expect-error
-        configuration.expectMatch && (
-          <Row className={locals.configRow}>
-            <Col xs={3}>
-              <KeyValue
-                label={t('in-synthetics:dashboard.configuration.expectMatch')}
-                value={
-                  //@ts-expect-error
-                  configuration.expectMatch
-                }
-              />
-            </Col>
-          </Row>
-        )
-      }
-      {
-        //@ts-expect-error
-        configuration.expectJson && (
-          <Row className={locals.configRow}>
-            <Col xs={12}>
-              <KeyValue
-                label={t('in-synthetics:dashboard.configuration.expectJSON')}
-                value={
-                  <CodeComponent
-                    wrapperClassName={locals.code}
-                    code={
-                      //@ts-expect-error
-                      JSON.stringify(configuration.expectJson, undefined, 2)
-                    }
-                    lang="json"
-                    showLineNumbers={false}
-                    withoutCopyButton
-                    withExpandButton
-                    softWrap
-                  />
-                }
-              />
-            </Col>
-          </Row>
-        )
-      }
-      <Row>
-        <LightCard
-          className={locals.lastConfigRow}
-          title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
-          darkFrame
-          useMaxAvailableHeight
-        >
-          {showAdditionalOptions(configuration)}
-        </LightCard>
-      </Row>
+      {test.configuration.syntheticType === 'HTTPAction'
+        ? renderSimpleTestTypeContent(configuration)
+        : renderScriptTestTypeContent(configuration)}
     </ExpandableLightCard>
   );
 };

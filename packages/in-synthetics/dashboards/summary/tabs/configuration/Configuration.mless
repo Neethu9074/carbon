@@ -51,7 +51,7 @@
     margin: 0.1rem 0;
   }
   .code {
-    max-width: 42rem;
+    max-width: 100%;
   }
 }
 
