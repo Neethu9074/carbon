@@ -10335,7 +10335,6 @@
         "workerLua": "Allocated Bytes in Worker Lua VM",
         "totalConnections": "Total Connections"
       }
-      }
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
