@@ -58,9 +58,9 @@ function nonBlankValidator(s: string | Nullish): ValidationResult {
   return null;
 }
 
-function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject?: {
+export function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject?: {
   tagName: string | Nullish;
-  key: string | Nullish;
+  key?: string | Nullish;
 }): ValidationResult {
   if (!tagObject || !tagObject.tagName) {
     return tagNeedsToBeSelectedError;
