@@ -55,7 +55,7 @@ const Configuration = ({ test }: Props) => {
       <Locations test={test.data} />
       <Schedule test={test.data}/>
       <Identify test={test.data}/>
-      <CustomProperties />
+      <CustomProperties test={test.data} />
     </Card>
   );
 };

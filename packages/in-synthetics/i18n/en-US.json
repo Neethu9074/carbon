@@ -480,7 +480,10 @@
       "noApplicationAssociated": "No application associated",
       "configScriptTitle": "Script",
       "configScriptFileName": "File Name",
-      "noScriptFileFound": "No script file found."
+      "noScriptFileFound": "No script file found.",
+      "noCustomProperties": "No custom properties defined for this test.",
+      "propertyTitle": "Property",
+      "valueTitle": "Value"
     }
   }
 }
