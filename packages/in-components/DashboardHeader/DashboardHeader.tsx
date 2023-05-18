@@ -93,7 +93,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     renderButtonLineSecondary,
     renderTopLevelButtonLine
   } = props;
-  const isLoading = result && result.data == null;
+  const isLoading = result && result?.data == null;
 
   if (isLoading) {
     label = getSkeletonLabel(props);
@@ -114,7 +114,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   }
 
   const SyntheticIcon = () => {
-    const isSynthetic = result && result.data?.synthetic;
+    const isSynthetic = result && result?.data?.synthetic;
     if (isSynthetic)
       return (
         <Tooltip content={t('in-applications:labelSyntheticEndpoint')}>
