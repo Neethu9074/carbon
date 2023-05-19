@@ -82,5 +82,6 @@ module.exports = {
   recurrentMaintenanceWindows: true,
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
-  kongEnabled: false
+  kongEnabled: false,
+  mobileAppSmartAlertsEnabled: true
 };

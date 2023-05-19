@@ -9,6 +9,8 @@ import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
+import { mobileAppSmartAlertsEnabled } from 'in-services/featureFlags';
+import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -46,6 +48,11 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/configuration`,
     component: Configuration,
     mobileAppOnly: true
+  },
+  mobileAppSmartAlertsEnabled && {
+    label: t('in-mobile-apps:dashboard.tabs.smartAlerts'),
+    path: `${mobileAppPathFullyQualified}/alerts`,
+    component: Alerts
   }
 ].filter(Boolean);
 
