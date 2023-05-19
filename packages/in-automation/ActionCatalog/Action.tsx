@@ -61,7 +61,7 @@ interface MatchParams {
   id: string;
 }
 
-export type ActionFormEntity = NewAction | Action;
+export type ActionFormEntity = (NewAction | Action) & { builtIn?: boolean };
 const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();

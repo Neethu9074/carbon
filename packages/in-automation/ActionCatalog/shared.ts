@@ -18,6 +18,8 @@ export const getType = (action: ActionFormEntity | Nullish) => {
     return t('in-automation:ActionCatalog.script');
   } else if (isWebhook(action?.type)) {
     return t('in-automation:ActionCatalog.http');
+  } else if (isAnsible(action?.type)) {
+    return t('in-automation:ActionCatalog.ansible');
   } else {
     return action?.type;
   }
@@ -70,10 +72,12 @@ export function getWebhookFields(action: ActionFormEntity): WebhookFields {
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
+export const isAnsible = (type?: string) => type === ANSIBLE_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
+export const ANSIBLE_TYPE = 'ANSIBLE';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);

@@ -37,7 +37,8 @@ import {
   NO_AUTH,
   SCRIPT_TYPE,
   WEBHOOK_TYPE,
-  getType
+  getType,
+  isAnsible
 } from 'in-automation/ActionCatalog/shared';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -77,12 +78,13 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
       <Row>
         <Col lg={8}>
           <>
-            <MetaDataSection form={form} setForm={setForm} onChange={onChange} />
+            <MetaDataSection form={form} setForm={setForm} entity={action} onChange={onChange} />
             <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
             <TypeSection form={form} onChange={onChange} entity={action} isCreate={isCreate} />
-            {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
-            {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
+            {isDocLink(type) && <DocLinkSection form={form} entity={action} onChange={onChange} />}
+            {isScript(type) && <ScriptSection form={form} entity={action} onChange={onChange} />}
             {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
+            {isAnsible(type) && <AnsibleSection entity={action} />}
             {!isDocLink(type) && (
               <>
                 <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
@@ -98,7 +100,17 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
   );
 }
 
-const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
+// @ts-expect-error
+const AnsibleSection = ({ entity: action }: Pick<ActionFormProps, 'entity'>) => {
+  return null;
+};
+
+const MetaDataSection = ({
+  form,
+  setForm,
+  onChange,
+  entity: action
+}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'entity'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   return (
@@ -111,6 +123,7 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
           <Input
             id="action-name"
             type="text"
+            disabled={isNotEditable(action)}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -131,6 +144,7 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
           <TextArea
             id="action-description"
             value={field.value}
+            disabled={isNotEditable(action)}
             onChange={e => onChange('description', (e.target as HTMLTextAreaElement).value)}
             hasError={!field.valid && field.touched}
           />
@@ -160,7 +174,7 @@ const TypeSection = ({
       <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.type')}
       </Label>
-      {isCreate ? (
+      {isCreate && !isNotEditable(action) ? (
         <>
           <Select
             id="action-type"
@@ -201,7 +215,7 @@ const TypeSection = ({
   ));
 };
 
-const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const DocLinkSection = ({ form, onChange, entity: action }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'>) => {
   const docLink = form.get('docLink') as Field<string>;
   return docLink.map(field => (
     <FormGroup>
@@ -212,6 +226,7 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
         id="action-docLink"
         type="text"
         value={field.value}
+        disabled={isNotEditable(action)}
         onChange={e => onChange('docLink', e.target.value)}
         hasError={!field.valid && field.touched}
         maxLength={256}
@@ -222,14 +237,20 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
   ));
 };
 
-const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const ScriptSection = ({ form, onChange, entity: action }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'>) => {
   const script = form.get('script') as Field<string>;
   return script.map(field => (
     <FormGroup>
       <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.script')}
       </Label>
-      <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
+      <Code
+        readOnly={isNotEditable(action)}
+        lineNumbers
+        mode={'shell'}
+        value={field.value}
+        onChange={value => onChange('script', value)}
+      />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
     </FormGroup>
   ));
@@ -263,6 +284,7 @@ const WebhookSection = ({
               <Input
                 id="action-host"
                 type="text"
+                disabled={isNotEditable(action)}
                 value={field.value}
                 onChange={e => onChange('host', e.target.value)}
                 hasError={!field.valid && field.touched}
@@ -281,6 +303,7 @@ const WebhookSection = ({
               <Select
                 id="action-method"
                 value={field.value}
+                disabled={isNotEditable(action)}
                 onChange={e => onChange('method', e.target.value)}
                 hasError={!field.valid && field.touched}
               >
@@ -306,6 +329,7 @@ const WebhookSection = ({
                 id="action-contentType"
                 type="text"
                 value={field.value}
+                disabled={isNotEditable(action)}
                 onChange={e => onChange('contentType', e.target.value)}
                 hasError={!field.valid && field.touched}
                 maxLength={256}
@@ -324,6 +348,7 @@ const WebhookSection = ({
               <TextArea
                 id="action-body"
                 value={field.value}
+                disabled={isNotEditable(action)}
                 onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => onChange('body', target.value)}
                 hasError={!field.valid && field.touched}
               />
@@ -342,7 +367,11 @@ const WebhookSection = ({
               <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
                 {t('in-automation:ActionCatalog.ignoreCertErrors')}
               </Label>
-              <Toggle checked={field.value} onChange={e => onChange('ignoreCertErrors', e.target.checked)} />
+              <Toggle
+                disabled={isNotEditable(action)}
+                checked={field.value}
+                onChange={e => onChange('ignoreCertErrors', e.target.checked)}
+              />
             </FormGroup>
           ))}
         </Col>
@@ -355,6 +384,7 @@ const WebhookSection = ({
               <Select
                 id="action-authType"
                 value={field.value}
+                disabled={isNotEditable(action)}
                 onChange={e =>
                   onChange('authType', e.target.value, updatedForm => {
                     const authType = (updatedForm.get('authType') as Field<string>).value;
@@ -385,9 +415,9 @@ const WebhookSection = ({
           ))}
         </Col>
       </Row>
-      {authType.value === BASIC_AUTH && <BasicAuth form={form} onChange={onChange} />}
-      {authType.value === BEARER_TOKEN && <BearerAuth form={form} onChange={onChange} />}
-      {authType.value === API_KEY && <APIAuth form={form} onChange={onChange} />}
+      {authType.value === BASIC_AUTH && <BasicAuth entity={action} form={form} onChange={onChange} />}
+      {authType.value === BEARER_TOKEN && <BearerAuth entity={action} form={form} onChange={onChange} />}
+      {authType.value === API_KEY && <APIAuth entity={action} form={form} onChange={onChange} />}
       <Row>
         <Col lg={6}>
           {accept.map(field => (
@@ -398,6 +428,7 @@ const WebhookSection = ({
               <Input
                 id="action-accept"
                 type="text"
+                disabled={isNotEditable(action)}
                 value={field.value}
                 onChange={e => onChange('accept', e.target.value)}
                 hasError={!field.valid && field.touched}
@@ -419,6 +450,7 @@ const WebhookSection = ({
               <Input
                 id="action-acceptLanguage"
                 type="text"
+                disabled={isNotEditable(action)}
                 value={field.value}
                 onChange={e => onChange('acceptLanguage', e.target.value)}
                 hasError={!field.valid && field.touched}
@@ -439,7 +471,7 @@ const WebhookSection = ({
   );
 };
 
-const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const BasicAuth = ({ form, onChange, entity: action }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'>) => {
   const username = form.get('username') as Field<string>;
   const password = form.get('password') as Field<string>;
   return (
@@ -453,6 +485,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
             <Input
               id="action-username"
               type="text"
+              disabled={isNotEditable(action)}
               value={field.value}
               onChange={e => onChange('username', e.target.value)}
               hasError={!field.valid && field.touched}
@@ -468,7 +501,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
             <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
               {t('in-automation:ActionCatalog.password')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="password" />
+            <SecuredInput entity={action} form={form} onChange={onChange} fieldKey="password" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -477,7 +510,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
   );
 };
 
-const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const BearerAuth = ({ form, onChange, entity: action }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'>) => {
   const bearerToken = form.get('bearerToken') as Field<string>;
   return (
     <Row>
@@ -487,7 +520,7 @@ const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange
             <Label htmlFor="action-bearerToken" hasError={!field.valid && field.touched}>
               {t('in-automation:ActionCatalog.bearerToken')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="bearerToken" />
+            <SecuredInput entity={action} form={form} onChange={onChange} fieldKey="bearerToken" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -496,7 +529,7 @@ const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange
   );
 };
 
-const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const APIAuth = ({ form, onChange, entity: action }: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'>) => {
   const apiKey = form.get('apiKey') as Field<string>;
   const apiKeyValue = form.get('apiKeyValue') as Field<string>;
   const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
@@ -512,6 +545,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
             <Input
               id="action-apiKey"
               type="text"
+              disabled={isNotEditable(action)}
               value={field.value}
               onChange={e => onChange('apiKey', e.target.value)}
               hasError={!field.valid && field.touched}
@@ -527,7 +561,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
             <Label htmlFor="action-apiKeyValue" hasError={!field.valid && field.touched}>
               {t('in-automation:ActionCatalog.value')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="apiKeyValue" />
+            <SecuredInput entity={action} form={form} onChange={onChange} fieldKey="apiKeyValue" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -540,6 +574,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
             </Label>
             <Select
               id="action-apiKeyAddTo"
+              disabled={isNotEditable(action)}
               value={field.value}
               onChange={e => onChange('apiKeyAddTo', e.target.value)}
               hasError={!field.valid && field.touched}
@@ -570,8 +605,9 @@ const tooltipTranslation = {
 const SecuredInput = ({
   form,
   onChange,
-  fieldKey
-}: Pick<ActionFormProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
+  fieldKey,
+  entity: action
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity'> & { fieldKey: keyof typeof tooltipTranslation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const field = form.get(fieldKey) as Field<string>;
   return (
@@ -580,6 +616,7 @@ const SecuredInput = ({
         className={locals.width100}
         id="action-password"
         type={showPassword ? 'text' : 'password'}
+        disabled={isNotEditable(action)}
         placeholder={'*******************'}
         value={field.value}
         onChange={e => onChange(fieldKey, e.target.value)}
@@ -602,3 +639,5 @@ const SecuredInput = ({
     </HorizontalFlexWrapper>
   );
 };
+
+const isNotEditable = (action: ActionFormEntity) => Boolean(isAnsible(action.type) || action.builtIn);
