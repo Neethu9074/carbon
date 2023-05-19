@@ -119,7 +119,7 @@ function Header(props) {
       {...props}
       icon="lib_application"
       title={t('in-applications:labelApplication')}
-      label={get(props?.result, ['data', 'label']) ?? ''}
+      label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
       showHistoricDataWarning={false}
@@ -138,7 +138,7 @@ function renderButtonLine(props) {
       applicationId={applicationId}
       location={location}
       boundaryScope={boundaryScope}
-      defaultBoundaryScope={props?.result?.data?.boundaryScope}
+      defaultBoundaryScope={props.result.data.boundaryScope}
       includeSynthetic={isSyntheticOption(props.syntheticCalls)}
     />
   );
@@ -207,14 +207,14 @@ function renderButtonLineSecondary({
         }
       />
       <InboundAllCallsDropdown
-        data={result?.data}
+        data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
         disabled={disableAllCallsDropdown(currentTab)}
       />
       {syntheticCallsEnabled && (
         <IncludeSyntheticCallsDropdown
-          data={result?.data}
+          data={result.data}
           syntheticCalls={syntheticCalls}
           onSyntheticCallsStateChange={onSyntheticCallsStateChange}
           disabled={currentTab === errorMessagesTab || currentTab === logMessagesTab}
