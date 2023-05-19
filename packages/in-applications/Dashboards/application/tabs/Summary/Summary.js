@@ -38,12 +38,12 @@ export default function Summary({
   syntheticCalls: urlIncludeSyntheticCalls,
   endpointTypes: types
 }) {
-  const boundaryScope = urlBoundaryScope || application?.boundaryScope;
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
   const syntheticCalls = urlIncludeSyntheticCalls || syntheticCallsOptions.default;
   const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
 
   let tagFilters = [
-    boundaryScope === boundaryScopes?.all
+    boundaryScope === boundaryScopes.all
       ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
       : {
           stringValue: applicationId,

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-//@ts-expect-error TS error
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
