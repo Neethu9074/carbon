@@ -1141,6 +1141,11 @@
           }
         },
         "filterApplied": "Filter Applied"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Step 1: Select Alert",
+        "stepConfigsStep2Title": "Step 2: Select Scope",
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       }
     },
     "inventory": {
