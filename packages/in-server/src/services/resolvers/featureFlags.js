@@ -351,11 +351,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'oracleRacMonitoringEnabled',
-    instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'playwithEnabled',
     instanaCtlKey: 'feature.playwithEnabled.enabled',
     defaultValue: false

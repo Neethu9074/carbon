@@ -6,8 +6,33 @@
 
 import React from 'react';
 
-import DashboardHeader from 'in-components/DashboardHeader';
+import { Result } from '@instana/types';
+import { t } from '@instana/i18n-react';
 
-export default function SloDashboardHeader(props: any) {
-  return <DashboardHeader {...props} title={'foo title'} label={'fooo label'} icon="lib_service_level" />;
+import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo';
+import AnalyzeSloEventsButton from 'in-service-levels/components/AnalyzeSloEventsButton';
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import DashboardHeader from 'in-components/DashboardHeader';
+import { Nullish } from 'in-types';
+
+interface SloDashboardHeaderProps {
+  result: Result<SloTabData> | Nullish;
+}
+
+export default function SloDashboardHeader({ result }: SloDashboardHeaderProps) {
+  const { configuration, entity } = result?.data ?? {};
+  const { name } = configuration ?? {};
+
+  return (
+    <DashboardHeader
+      title={t('in-service-levels:general.serviceLevelObjective')}
+      label={name ?? ''}
+      icon="lib_service_level"
+      result={result}
+      renderMetaInformation={() =>
+        configuration && <SloDashboardMetaInfo configuration={configuration} entity={entity} />
+      }
+      renderButtonLine={() => configuration && <AnalyzeSloEventsButton configuration={configuration} />}
+    />
+  );
 }

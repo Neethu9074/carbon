@@ -6,14 +6,13 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Nullish } from 'in-types';
 
 interface SloSummaryProps {
-  data: ServiceLevelObjectiveConfiguration | Nullish;
+  data: SloTabData | Nullish;
 }
 
 export default function SloSummary({ data }: SloSummaryProps) {
-  return <div>{data?.id}</div>;
+  return <div>{data?.configuration.id}</div>;
 }

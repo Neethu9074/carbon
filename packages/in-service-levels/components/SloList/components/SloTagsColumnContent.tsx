@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SloTagsList } from 'in-service-levels/components/SloList/components/TagsList/SloTagsList';
+import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 
 interface Props {

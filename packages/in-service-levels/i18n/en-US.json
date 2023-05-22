@@ -10,7 +10,8 @@
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
-    }
+    },
+    "serviceLevelObjective": "Service Level Objective"
   },
   "createSloDialog": {
     "title": "Create Service Level Objective (SLO)",
@@ -82,5 +83,8 @@
       "status": "Status / Target",
       "tags": "Tags"
     }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "Analyze {{entity}}"
   }
 }

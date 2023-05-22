@@ -95,7 +95,7 @@ export function deleteAction(actionId: string) {
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
 export function getScoredActionsForEvent(selectedActions: string[], eventSpecification: EventSpecification) {
   if (selectedActions.length === 0) {
-    return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+    return alwaysEmptyArray as unknown as Observable<Action[]>;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
@@ -388,5 +388,32 @@ export function runWebhookAction({
         encoding: authen.encoding
       }
     ]
+  });
+}
+
+export type DynamicParamValue = {
+  name: string;
+  key?: string;
+  tagName: string;
+};
+
+export type ResolvedDynamicParamValue = DynamicParamValue & {
+  resolvedValue: string;
+};
+
+export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[], timestamp: number) {
+  return http<{
+    parameters: ResolvedDynamicParamValue[];
+  }>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${automationAPIBase}/parameters/dynamic`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
+    data: {
+      eventId,
+      parameters,
+      timestamp
+    }
   });
 }

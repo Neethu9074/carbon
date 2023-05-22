@@ -10,7 +10,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const cols = [
+const instCols = [
   {
     title: t('in-forge:plugins.oracleDB.sqlId'),
     type: 'string',
@@ -49,6 +49,21 @@ const cols = [
   }
 ];
 
+const instIdCol = [
+  {
+    title: t('in-forge:plugins.oracleDB.instanceID'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.instId;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
 export default connectTo(
   props => {
     return {
@@ -56,8 +71,9 @@ export default connectTo(
     };
   },
 
-  function T({ data }) {
-    if (!data || !data.get('raw_payload')) {
+  function T(props) {
+    const { data, snapshot } = props;
+    if (!data || !data.get('raw_payload') || !snapshot || !snapshot.get('data')) {
       return null;
     }
     const activeSessionHistoryPayload = data.get('raw_payload');
@@ -65,11 +81,21 @@ export default connectTo(
       return null;
     }
 
+    const snapshotData = snapshot.get('data');
+    const racEnabled = snapshotData.get('enableRacMonitoring');
+    var cols = instCols;
+    var initialSortColumn = 1;
+    if (racEnabled) {
+      cols = instIdCol.concat(cols);
+      initialSortColumn = 2;
+    }
+
     const rows = activeSessionHistoryPayload.toJS().map(activeSession => {
       return {
         key: activeSession.sqlId,
         count: activeSession.count,
-        loadPercentage: activeSession.loadPercentage
+        loadPercentage: activeSession.loadPercentage,
+        instId: activeSession.instId
       };
     });
     return (
@@ -79,7 +105,7 @@ export default connectTo(
         cols={cols}
         rows={rows}
         maxItemsPerPage={5}
-        initialSortColumn={1}
+        initialSortColumn={initialSortColumn}
         initialSortDirection="desc"
       />
     );

@@ -10,7 +10,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const cols = [
+const instCols = [
   {
     title: t('in-forge:plugins.oracleDB.sessionId'),
     type: 'string',
@@ -181,20 +181,45 @@ const cols = [
   }
 ];
 
+const instIdCol = [
+  {
+    title: t('in-forge:plugins.oracleDB.instanceID'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.instId;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'foregroundSessions')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'foregroundSessions'),
+      oracleRacMonitoringEnabled: props.snapshot.get('enableRacMonitoring')
     };
   },
 
-  function T({ data }) {
-    if (!data || !data.get('raw_payload')) {
+  function T(props) {
+    const { data, snapshot } = props;
+
+    if (!data || !data.get('raw_payload') || !snapshot || !snapshot.get('data')) {
       return null;
     }
     const foregroundSessionsPayload = data.get('raw_payload');
     if (foregroundSessionsPayload.size === 0) {
       return null;
+    }
+
+    const snapshotData = snapshot.get('data');
+    const racEnabled = snapshotData.get('enableRacMonitoring');
+    var cols = instCols;
+    if (racEnabled) {
+      cols = instIdCol.concat(cols);
     }
 
     const rows = foregroundSessionsPayload.toJS().map(foregroundSession => {
@@ -215,7 +240,8 @@ export default connectTo(
         schema: foregroundSession.schema,
         schemaName: foregroundSession.schemaName,
         osUser: foregroundSession.osUser,
-        process: foregroundSession.process
+        process: foregroundSession.process,
+        instId: foregroundSession.instId
       };
     });
     return (

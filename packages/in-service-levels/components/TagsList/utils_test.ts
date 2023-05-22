@@ -4,11 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import {
-  getTagsThatFitIntoMaxWidth,
-  getTagsThatFitAfterResize
-} from 'in-service-levels/components/SloList/components/TagsList/utils';
-import { TagsType } from 'in-service-levels/components/SloList/components/TagsList/SloTagsList';
+import { getTagsThatFitIntoMaxWidth, getTagsThatFitAfterResize } from 'in-service-levels/components/TagsList/utils';
+import { TagsType } from 'in-service-levels/components/TagsList/SloTagsList';
 
 const mockTags = [
   {

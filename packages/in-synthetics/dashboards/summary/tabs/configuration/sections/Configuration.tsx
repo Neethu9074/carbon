@@ -45,13 +45,17 @@ const showAdditionalOptions = (configuration: SyntheticTypeConfigurationUnion) =
   //@ts-expect-error
   if (configuration.allowInsecure)
     content.push(
-      <Row className={locals.additionalOptionsRow}>{t('in-synthetics:dashboard.configuration.followRedirect')}</Row>
+      <Row key={'allowInsecure'} className={locals.additionalOptionsRow}>
+        {t('in-synthetics:dashboard.configuration.followRedirect')}
+      </Row>
     );
 
   //@ts-expect-error
   if (configuration.followRedirect)
     content.push(
-      <Row className={locals.additionalOptionsRow}>{t('in-synthetics:dashboard.configuration.allowInsecure')}</Row>
+      <Row key={'followRedirect'} className={locals.additionalOptionsRow}>
+        {t('in-synthetics:dashboard.configuration.allowInsecure')}
+      </Row>
     );
 
   return content;

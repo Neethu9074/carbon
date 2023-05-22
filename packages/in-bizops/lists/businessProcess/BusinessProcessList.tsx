@@ -60,7 +60,7 @@ export default function BizOpsList() {
         <ServerTableWithUrlState
           get={getBusinessProcessListData}
           timeConfig={timeConfig}
-          cardTitle={t('in-bizops:lists.pageTitle')}
+          cardTitle={t('in-bizops:lists.cardTitle')}
         />
       </LeftRightPadding>
       <Footer />

@@ -7011,6 +7011,10 @@
       "longTermSupportDocs": "Long-term support docs",
       "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
+    "processingStatistics": {
+      "hostCount": "Host Count",
+      "instanaAgentCount": "Instana Agent Count"
+    },
     "rabbitMq": {
       "dashboard": {
         "messagesReady": "Messages ready",
@@ -10320,7 +10324,6 @@
       "source":"Source",
       "consumer":"Consumer",
       "kongBandwidth": "Bandwidth",
-      "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",
       "database":"Kong Database",
       "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
       "workerStateUpdateFrequency":"Worker State Update Frequency",
@@ -12492,7 +12495,12 @@
       "executions": "Executions",
       "sharableMemInMB": "Sharable Memory (MB)",
       "oracleRAC": "Oracle RAC",
-      "serviceName": "Service Name"
+      "serviceName": "Service Name",
+      "instanceCount": "Instance Count",
+      "instanceID": "Instance ID",
+      "processDetails": "Process Details",
+      "dbDetails": "DB Details",
+      "sqlExecutionAndParseDetails": "SQL Execution And Parse Details"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",

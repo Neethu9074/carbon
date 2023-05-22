@@ -7,17 +7,29 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { Parameter, DynamicFieldValue } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { Parameter } from '@instana/types';
 
+import {
+  ViewModel,
+  createTagBasedPayloadConfigurator,
+  toFormModel,
+  toViewModel
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   createForm,
   addStaticField,
   addVaultFields,
-  mutateFieldBlankValidator
+  mutateFieldBlankValidator,
+  addDynamicFields,
+  emptyObjectValidator
 } from 'in-automation/ActionCatalog/ParameterFormDefinition';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
@@ -49,6 +61,12 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
 
   const type = parameterForm.get('type') as Field<string>;
 
+  const sectionProps = {
+    parameterForm,
+    setParameterForm,
+    parameter,
+    form
+  };
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -65,14 +83,11 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
             onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
           }
         >
-          <MetaDataSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          {type.value === 'static' && (
-            <StaticSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          )}
-          {type.value === 'vault' && (
-            <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
-          )}
-          <HiddenSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
+          <MetaDataSection {...sectionProps} />
+          {type.value === 'static' && <StaticSection {...sectionProps} />}
+          {type.value === 'vault' && <VaultSection {...sectionProps} />}
+          {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
+          <HiddenSection {...sectionProps} />
           <SaveCancel form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
@@ -148,7 +163,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'static'}
-              label={t('in-automation:ActionCatalog.static')}
+              label={t('in-automation:static')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -164,7 +179,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'vault'}
-              label={t('in-automation:ActionCatalog.vault')}
+              label={t('in-automation:vault')}
               onChange={() =>
                 onParameterChange({
                   fieldName: 'type',
@@ -172,6 +187,22 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
                   setParameterForm,
                   parameter,
                   updateFormDefinition: addVaultFields
+                })
+              }
+            />
+          </Col>
+          <Col>
+            <CheckboxFancy
+              asRadioButton
+              checked={type.value === 'dynamic'}
+              label={t('in-automation:dynamic')}
+              onChange={() =>
+                onParameterChange({
+                  fieldName: 'type',
+                  value: 'dynamic',
+                  setParameterForm,
+                  parameter,
+                  updateFormDefinition: addDynamicFields
                 })
               }
             />
@@ -213,6 +244,13 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
               }
               if (type.value === 'static') {
                 form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
+              } else if (type.value === 'dynamic') {
+                form = mutateFieldBlankValidator({
+                  form,
+                  key: 'value',
+                  add: e.target.checked,
+                  validatorForField: emptyObjectValidator
+                });
               } else if (type.value === 'vault') {
                 form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
                 form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
@@ -295,6 +333,46 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
     </>
   );
 };
+
+export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: getCustomPayloadTagCatalog,
+  getSuggestions: ({ name, timeConfig, tagFilterExpression }) =>
+    getTagSuggestions({
+      tagName: name,
+      entity: DESTINATION,
+      filter: {
+        includeInternalCalls: false,
+        includeSyntheticCalls: false,
+        timeConfig: timeConfig,
+        useLongTermDataOnly: false
+      },
+      requestingSecondaryKeySuggestions: true,
+      tagFilterExpression: tagFilterExpression ?? EMPTY_EXPRESSION
+    })
+});
+
+const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+  const value = parameterForm.get('value') as Field<DynamicFieldValue>;
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
+  return (
+    <FormGroup>
+      <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
+        {hidden.value ? t('in-automation:ActionCatalog.value') : t('in-automation:ActionCatalog.valueOptional')}
+      </Label>
+      <div>
+        <TagBasedPayloadConfigurator
+          value={toViewModel(value.value)}
+          onChange={(viewModel: ViewModel) =>
+            onParameterChange({ fieldName: 'value', value: toFormModel(viewModel), setParameterForm, parameter })
+          }
+          tagFilterExpression={EMPTY_EXPRESSION}
+        />
+      </div>
+      <TouchedMessages field={value} className={locals.subErrorTextFormField} />
+    </FormGroup>
+  );
+};
+
 interface OnParameterChangeParams<T> {
   fieldName: string;
   value: T;
@@ -347,6 +425,10 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     const secretPath = (parameterForm.get('secretPath') as Field<string>).value;
     paramValue = JSON.stringify({ secretKey: secretKey, secretPath: secretPath });
     valueType = 'map';
+  } else if (type === 'dynamic') {
+    const value = (parameterForm.get('value') as Field<DynamicFieldValue>).value;
+    paramValue = JSON.stringify(value);
+    valueType = 'map';
   }
   const parameterToSubmit: Parameter = {
     name,
@@ -355,7 +437,6 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     required,
     hidden,
     value: paramValue,
-    secured: false,
     type,
     valueType
   };

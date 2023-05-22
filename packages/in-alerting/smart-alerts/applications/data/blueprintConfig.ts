@@ -76,7 +76,7 @@ interface BluePrintBase {
   readonly isBeta: boolean;
 }
 
-export type ApplicationAlertType = 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
+export type ApplicationAlertType = 'errors' | 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
 
 type ThresholdTypeOptions = readonly Option[];
 
@@ -218,7 +218,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: (alertRule: ApplicationAlertRule) => {
     // TODO replace by introducing a new type reflecting the client-side view model
-    const rule = (alertRule as unknown) as {
+    const rule = alertRule as unknown as {
       statusCode: {
         statusCodeStart: string;
         statusCodeEnd: string;
@@ -325,7 +325,7 @@ function getStatusCodeFormModel(alertRule: StatusCodeApplicationAlertRule): Form
   // for alert configurations. To fix this, we need a bigger refactoring which will be tackled separately
 
   // TODO replace by introducing a new type reflecting the client-side view model
-  const rule = (alertRule as unknown) as {
+  const rule = alertRule as unknown as {
     statusCode: {
       statusCodeStart: string;
       statusCodeEnd: string;

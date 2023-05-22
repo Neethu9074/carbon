@@ -7,7 +7,6 @@
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { oracleRacMonitoringEnabled } from 'in-services/featureFlags';
 import InstanceDashboard from './instance/InstanceContent';
 import RacDashboard from './rac/RacContent';
 
@@ -18,8 +17,8 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
   }
 
   const data = snapshot.get('data');
-  if (oracleRacMonitoringEnabled && data.get('enableRacMonitoring')) {
-    return RacDashboard({ snapshot, timeConfig });
+  if (data.get('enableRacMonitoring')) {
+    return <RacDashboard snapshot={snapshot} timeConfig={timeConfig} />;
   }
-  return InstanceDashboard({ snapshot, timeConfig });
+  return <InstanceDashboard snapshot={snapshot} timeConfig={timeConfig} />;
 }

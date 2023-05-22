@@ -354,7 +354,7 @@ function BizOps(props) {
   return (
     <View
       id="main-nav-bizops"
-      label={t('in-bizops:navigation.bizOps')}
+      label={t('in-bizops:navigation.businessMonitoring')}
       icon={'lib_bizops'}
       isActive={matchLocation(isBizOpsView)}
       href={createHrefToPath(businessProcessPath)}
