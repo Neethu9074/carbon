@@ -30,13 +30,13 @@ const tabList = [
 
 export default function UrlShortenerOverlay() {
   const [fixateTime, setFixateTime] = useState(true);
-  const result = useObservable(useShortUrl({ fixateTime }), [fixateTime]);
+  const getShortUrl = useShortUrl();
+  const result = useObservable(() => getShortUrl({ fixateTime }), [fixateTime]);
 
   // NOTE: this specifically needs to grab the user selected timeConfig from in-stores/time/config
   // instead of the default useTimeConfig, because the analyze view employs a fixed timeConfig context,
   // but needs to still show the original user selection
   const timeConfig = useObservable(timeConfig$, []);
-
   const shortUrl = result?.data?.shortUrl;
 
   return (
