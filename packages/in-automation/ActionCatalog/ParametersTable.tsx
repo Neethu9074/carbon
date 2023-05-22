@@ -83,9 +83,11 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     label: t('in-automation:ActionCatalog.type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
-        return t('in-automation:ActionCatalog.vault');
+        return t('in-automation:vault');
       } else if (item.value.type === 'static') {
-        return t('in-automation:ActionCatalog.static');
+        return t('in-automation:static');
+      } else if (item.value.type === 'dynamic') {
+        return t('in-automation:dynamic');
       }
       return null;
     }

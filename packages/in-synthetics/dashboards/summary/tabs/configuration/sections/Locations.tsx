@@ -6,22 +6,61 @@
 
 import React from 'react';
 
+import { Result, SyntheticLocation, SyntheticTest } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+// eslint-disable-next-line no-restricted-imports
+import List from 'in-settings/components/List';
+import { columnDefinitions } from 'in-synthetics/components/advanced/LocationsSection';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { getLocationsAsResultObservable } from 'in-synthetics/api';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
-const LocationSection = () => {
+interface Props {
+  test: SyntheticTest;
+}
+
+const LocationSection = ({ test }: Props) => {
+  const EMPTY = [] as SyntheticLocation[];
+  const locationsByTest = test.locations;
+
+  const locations = getLocationsAsResultObservable('')
+    .map((result: Result<SyntheticLocation[]> | null) => {
+      if (result == null) {
+        return EMPTY;
+      }
+      return (result as Result<SyntheticLocation[]>)?.data?.filter(location =>
+        locationsByTest.includes(location.id || '')
+      );
+    })
+    .map(result => result ?? EMPTY);
+
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
       title={t('in-synthetics:dashboard.configuration.locationsTitle')}
       darkFrame
       useMaxAvailableHeight
+      bodyWithoutPadding
       openByDefault
     >
-      <h1>Settings Section</h1>
+      <List<SyntheticLocation>
+        title={null}
+        loadEntities={() => locations}
+        columnDefinitions={columnDefinitions()}
+        getHeader={() => null}
+        isSearchable={false}
+        rightHeader={null}
+        renderNoDataAvailable={() => (
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
+          />
+        )}
+      />
     </ExpandableLightCard>
   );
 };

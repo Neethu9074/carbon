@@ -61,6 +61,7 @@ export function ConditionsSection({
   const entityType = entityTypeField?.value;
 
   const rulesForm = form.get('rules');
+  const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
 
   const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
   const customDataSourceSelected = isCustomDataSourceSelected(form);
@@ -174,6 +175,7 @@ export function ConditionsSection({
         customDataSourceSelected={customDataSourceSelected}
         entityType={entityType}
         rulesForm={rulesForm}
+        ruleLogicalOperator={ruleLogicalOperator}
         onChange={onChange}
         disabled={disabled}
         customMetricsForPlugin={customMetricsForPlugin}

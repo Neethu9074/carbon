@@ -1128,8 +1128,25 @@
         "beaconRate": "Beacon Rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
-        "sessions": "Sessions"
+        "sessions": "Sessions",
+        "statusCodeBlueprintConfigName": "HTTP Status Codes",
+        "throughputBlueprintConfigName": "Throughput",
+        "customEventBlueprintConfigName": "Custom Events"
+      },
+      "alertList": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}"
+          }
+        },
+        "filterApplied": "Filter Applied"
       }
+    },
+    "inventory": {
+      "labelConfirm": "Please Confirm",
+      "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
+      "labelRemove": "Remove"
     }
   }
 }

@@ -9,12 +9,19 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
+import { LabeledEntity } from 'in-service-levels/types';
 
-const tabs: Tab<ServiceLevelObjectiveConfiguration, {}>[] = [
+export interface SloTabData {
+  configuration: ServiceLevelObjectiveConfiguration;
+  entity: LabeledEntity;
+}
+
+const tabs: Tab<SloTabData, {}>[] = [
   {
     label: 'Summary',
     path: serviceLevelsObjectiveSummaryFullyQualified,
-    component: SloSummary
+    component: SloSummary,
+    hideTabLabelWhenAlone: true
   }
 ];
 

@@ -31,9 +31,43 @@ export function getAllAlertConfigs(id: string, timestamp: number): Observable<Mo
 }
 
 export function getAllAlertConfigsWithResult(
-  id: string,
-  timestamp: number
-): Observable<Result<MobileAppAlertConfigWithMetadata>> {
-  const request = getRequest(id, timestamp);
+  mobileAppId?: string
+): Observable<Result<MobileAppAlertConfigWithMetadata[]>> {
+  const request = http<MobileAppAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    queryParams: {
+      mobileAppId
+    },
+    url: baseUrl
+  });
   return createObservable(request);
+}
+
+export function enableAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/enable`
+  }).map(response => response.body);
+}
+
+export function disableAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/disable`
+  }).map(response => response.body);
+}
+
+export function deleteAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  }).map(response => response.body);
 }

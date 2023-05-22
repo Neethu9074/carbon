@@ -5,11 +5,14 @@
  */
 
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
+import { isEmpty } from 'lodash';
 
+import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { ParameterDialogProps } from 'in-automation/ActionCatalog/ParameterDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { notBlankValidator } from 'in-services/validators/string';
+import { DynamicFieldValue } from 'in-types';
 import { t } from 'in-i18n';
 
 interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit'> {
@@ -17,7 +20,7 @@ interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit
 }
 
 export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
-  let newForm: MapForm<any> = createMapForm()
+  const newForm: MapForm<any> = createMapForm()
     .put(
       'name',
       createField({
@@ -59,30 +62,32 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
         value: parameter?.value?.type ?? 'static'
       })
     );
+
   if (parameter?.value?.type === 'vault') {
-    newForm = addVaultFields({ parameter, form: newForm });
+    return addVaultFields({ parameter, form: newForm });
+  } else if (parameter?.value?.type === 'dynamic') {
+    return addDynamicFields({ parameter, form: newForm });
   } else {
-    newForm = addStaticField({ parameter, form: newForm });
+    return addStaticField({ parameter, form: newForm });
   }
-  return newForm;
 }
 
 interface AddFieldsParams extends Pick<ParameterDialogProps, 'form'> {
   parameter: MappedParameter | undefined;
-  isCreateForm?: boolean;
 }
 
-function getValidator({ form }: Pick<ParameterDialogProps, 'form'>) {
-  return (form.get('hidden') as Field<boolean>).value ? notBlankValidator : undefined;
+function getValidator(form: MapForm<any>, validator: (...args: any) => ValidationResult) {
+  return (form.get('hidden') as Field<boolean>).value ? validator : undefined;
 }
 
 export function addStaticField({ parameter, form }: AddFieldsParams) {
   return form
+    .remove('value')
     .put(
       'value',
       createField({
         value: parameter?.value?.type === 'static' ? parameter?.value?.value ?? '' : '',
-        validator: getValidator({ form }),
+        validator: getValidator(form, notBlankValidator),
         touched: form.touched
       })
     )
@@ -104,7 +109,7 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
       'secretKey',
       createField({
         value: secretKey ?? '',
-        validator: getValidator({ form }),
+        validator: getValidator(form, notBlankValidator),
         touched: form.touched
       })
     )
@@ -112,16 +117,53 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
       'secretPath',
       createField({
         value: secretPath ?? '',
-        validator: getValidator({ form }),
+        validator: getValidator(form, notBlankValidator),
         touched: form.touched
       })
     )
     .remove('value');
 }
 
-export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm<any>; key: string; add: boolean }) {
+export function addDynamicFields({ parameter, form }: AddFieldsParams) {
+  const parsedDynamicValue: DynamicFieldValue = (raw => {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return {};
+    }
+  })(parameter?.value?.value ?? '{}');
+
+  return form
+    .remove('value')
+    .put(
+      'value',
+      createField({
+        value: parsedDynamicValue,
+        validator:
+          getValidator(
+            form,
+            composeAndShortCircuitOnError(emptyObjectValidator, needsTagAndSecondKeyMayNotBeMissingValidator)
+          ) ?? needsTagAndSecondKeyMayNotBeMissingValidator,
+        touched: form.touched
+      })
+    )
+    .remove('secretKey')
+    .remove('secretPath');
+}
+
+export function mutateFieldBlankValidator({
+  form,
+  key,
+  add,
+  validatorForField = notBlankValidator
+}: {
+  form: MapForm<any>;
+  key: string;
+  add: boolean;
+  validatorForField?: (...args: any) => ValidationResult;
+}) {
   const { value, touched } = form.get(key) as Field<string>;
-  const validator = add ? notBlankValidator : undefined;
+  const validator = add ? validatorForField : undefined;
   return form.remove(key).put(
     key,
     createField({
@@ -130,6 +172,18 @@ export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm<an
       touched
     })
   );
+}
+
+export function emptyObjectValidator(value: DynamicFieldValue): ValidationResult {
+  if (isEmpty(value)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
+      }
+    ];
+  }
+  return undefined;
 }
 
 function validName(value: string): ValidationResult {

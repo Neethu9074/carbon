@@ -351,11 +351,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'oracleRacMonitoringEnabled',
-    instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'playwithEnabled',
     instanaCtlKey: 'feature.playwithEnabled.enabled',
     defaultValue: false
@@ -368,6 +363,11 @@ module.exports = exports = [
   {
     uiClientKey: 'recurrentMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppSmartAlertsEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alerts.enabled',
     defaultValue: false
   }
 ];

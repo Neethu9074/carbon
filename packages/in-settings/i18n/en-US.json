@@ -214,7 +214,9 @@
       "events": {
         "addCondition": "Add Condition",
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
-        "placeholder": "Placeholder"
+        "placeholder": "Placeholder",
+        "logicalOperator_AND": "AND",
+        "logicalOperator_OR": "OR"
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"

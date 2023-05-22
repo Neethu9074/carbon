@@ -113,6 +113,9 @@ export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('synth
 // Synthetic credential feature flag
 export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
 
+// MobileApp Smart Alerts
+export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
@@ -158,8 +161,6 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
   'limitVisibleNestingLevelsInTraceEnabled',
   false
 );
-
-export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
 
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag

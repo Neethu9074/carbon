@@ -79,9 +79,9 @@ module.exports = {
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
-  oracleRacMonitoringEnabled: false,
   recurrentMaintenanceWindows: true,
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
-  kongEnabled: false
+  kongEnabled: false,
+  mobileAppSmartAlertsEnabled: true
 };

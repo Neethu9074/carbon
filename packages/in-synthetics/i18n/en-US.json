@@ -468,8 +468,22 @@
       "allowInsecure": "Allow Insecure",
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
+      "frequencyTitle": "Frequency",
+      "simultaneousValue":"Simultaneous",
+      "frequencyPluralValue": "{{minutes}} minutes",
+      "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
-      "customProperties": "Custom Properties"
+      "customProperties": "Custom Properties",
+      "identifySectionName": "Name",
+      "identifySectionDescription": "Description",
+      "associatedApplication": "Associated Application",
+      "noApplicationAssociated": "No application associated",
+      "configScriptTitle": "Script",
+      "configScriptFileName": "File Name",
+      "noScriptFileFound": "No script file found.",
+      "noCustomProperties": "No custom properties defined for this test.",
+      "propertyTitle": "Property",
+      "valueTitle": "Value"
     }
   }
 }

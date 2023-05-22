@@ -9,16 +9,13 @@ import classNames from 'classnames';
 
 import { Typography, useTheme } from '@instana/components';
 
-import {
-  getTagsThatFitAfterResize,
-  getTagsThatFitIntoMaxWidth
-} from 'in-service-levels/components/SloList/components/TagsList/utils';
-import { tagsCssGap } from 'in-service-levels/components/SloList/components/TagsList/constants';
+import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
+import { tagsCssGap } from 'in-service-levels/components/TagsList/constants';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill/Pill';
+import Pill from 'in-components/Pill';
 
-import locals from 'in-service-levels/components/SloList/components/TagsList/SloTagsList.mless';
+import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
 
 export type TagsType = {
   text: string;
