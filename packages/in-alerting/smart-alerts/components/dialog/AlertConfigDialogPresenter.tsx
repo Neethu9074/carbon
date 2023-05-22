@@ -55,7 +55,7 @@ export interface AlertConfigDialogPresenterProps {
   isGlobalSmartAlert?: boolean;
   QueryBuilderComponent: QueryBuilderComponent;
   isTagFilterFormModelValid: boolean;
-  TagBasedPayloadConfigurator: React.ReactNode;
+  TagBasedPayloadConfigurator: React.FunctionComponent<any>;
 }
 
 export interface SlideInConfig {

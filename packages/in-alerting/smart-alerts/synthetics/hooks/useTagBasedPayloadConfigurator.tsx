@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { Observable } from '@instana/observables';
 
@@ -13,7 +13,9 @@ import { getTagSuggestions } from 'in-alerting/smart-alerts/synthetics/component
 import { getTagCatalog } from 'in-alerting/smart-alerts/synthetics/api/tagCatalog';
 import { TimeConfig, Result, TagCatalog } from 'in-types';
 
-export default function useTagBasedPayloadConfigurator(suggestionTimeConfig?: TimeConfig): ReactNode {
+export default function useTagBasedPayloadConfigurator(
+  suggestionTimeConfig?: TimeConfig
+): React.FunctionComponent<any> {
   return useMemo(() => {
     const customPayloadTagCatalog: Observable<Result<TagCatalog>> = getTagCatalog({
       useCase: 'SMART_ALERTS_CUSTOM_PAYLOAD'
