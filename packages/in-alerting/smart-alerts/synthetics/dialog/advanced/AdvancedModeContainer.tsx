@@ -16,6 +16,9 @@ import {
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
 import SyntheticsAlertProperties from 'in-alerting/smart-alerts/synthetics/dialog/SyntheticsAlertProperties';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -27,11 +30,13 @@ import { t } from 'in-i18n';
 
 interface AdvancedModeContainerProp {
   form: MapForm<any>;
+  updateForm?: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   messages?: MessageType[];
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
   QueryBuilderComponent: QueryBuilderComponent;
+  TagBasedPayloadConfigurator: React.ReactNode;
   headerTransparent?: boolean;
 }
 
@@ -40,9 +45,11 @@ export default function AdvancedModeContainer(
 ) {
   const {
     form,
+    updateForm,
     onChange,
     setSliderState,
     setCustomSlideInHeaderConfig,
+    TagBasedPayloadConfigurator,
     messages,
     headerTransparent = false,
     isTagFilterFormModelValid
@@ -110,6 +117,24 @@ export default function AdvancedModeContainer(
             <Section>
               <SyntheticsAlertProperties form={form} onChange={onChange} />
             </Section>
+          )
+        },
+        {
+          scrollId: '6',
+          label: t('in-alerting:smartAlerts.websites.advanced.payloadsLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.payloadsTitle'),
+          valid: isCustomPayloadValidOrUntouched(form),
+          content: (
+            <>
+              <GlobalCustomPayloadCard context="SYNTHETIC" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
           )
         }
       ]}
