@@ -10,6 +10,7 @@ import {
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
   SETTINGS_ALERT_SUBMIT,
   SETTINGS_ALERT_TOGGLE,
+  SETTINGS_ALERT_DELETE,
   SETTINGS_ALERT_HUB_WEBSITES_CLICK,
   SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK,
   SETTINGS_ALERT_HUB_ALERTS_CLICK,
@@ -61,6 +62,7 @@ export const openRoleSubmitFormTracker = (e: Object) => track(SETTINGS_ROLE_OPEN
 export const submitAlertTracker = (e: Object) => track(SETTINGS_ALERT_SUBMIT, e);
 export const openAlertSubmitFormTracker = (e: Object) => track(SETTINGS_ALERT_OPEN_SUBMIT_FORM, e);
 export const toggleAlertTracker = (e: Object) => track(SETTINGS_ALERT_TOGGLE, e);
+export const deleteAlertTracker = (e: Object) => track(SETTINGS_ALERT_DELETE, e);
 
 // Maintained by Team Alert Response
 export const createAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_CREATE, e);

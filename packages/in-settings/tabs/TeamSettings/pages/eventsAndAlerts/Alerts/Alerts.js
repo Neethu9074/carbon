@@ -16,9 +16,9 @@ import {
 } from 'in-settings/navigation/paths';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
+import { toggleAlertTracker, openAlertSubmitFormTracker, deleteAlertTracker } from 'in-settings/tracker';
 import List, { createNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
-import { toggleAlertTracker, openAlertSubmitFormTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -105,7 +105,12 @@ const columnDefinitions = [
 
 const tableActions = {
   delete: {
-    deleteEntity: entity => deleteAlertingConfig(entity.id)
+    deleteEntity: entity => {
+      deleteAlertTracker({
+        alertID: entity.id || ''
+      });
+      return deleteAlertingConfig(entity.id);
+    }
   },
   toggleEnabled: {
     get: isEnabled,

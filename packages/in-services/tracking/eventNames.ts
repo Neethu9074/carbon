@@ -212,6 +212,7 @@ export const SETTINGS_ALERT_CHANNEL_DELETE = 'settings.alertChannel.delete';
 export const SETTINGS_ALERT_CHANNEL_EDIT = 'settings.alertChannel.edit';
 
 export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
+export const SETTINGS_ALERT_DELETE = 'settings.alert.delete';
 export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayload.submit';
