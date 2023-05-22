@@ -12,7 +12,7 @@ import { useObservable } from '@instana/hooks';
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
-import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
+import { isUsageInfoPopupEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -38,7 +38,7 @@ export default connectTo(
         <div
           className={classNames({
             [locals.scrollWrapper]: true,
-            [locals.scrollWrapperBanner]: isUsageInfoPopupEnabled,
+            [locals.scrollWrapperBanner]: isUsageInfoPopupEnabled | playwithEnabled,
             [locals.scrollWrapperNoBanner]: !isUsageInfoPopupEnabled
           })}
         >

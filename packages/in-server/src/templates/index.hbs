@@ -37,7 +37,7 @@
   </script>
 
   {{#if config.featureFlags.playwithEnabled }}
-  <script type="text/javascript">
+  <script type="text/javascript" nonce="{{nonce}}">
   (function() {
     var walkme = document.createElement('script');
     walkme.type = 'text/javascript'; walkme.async = true;
