@@ -214,7 +214,9 @@
       "events": {
         "addCondition": "Add Condition",
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
-        "placeholder": "Placeholder"
+        "placeholder": "Placeholder",
+        "logicalOperator_AND": "AND",
+        "logicalOperator_OR": "OR"
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
@@ -673,7 +675,7 @@
     "groups": "Groups",
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
-    "addGroup": "Add Group",
+    "addGroup": "New group",
     "pendingInvitations": "Pending Invitations",
     "revoke": "Revoke",
     "sendingInvitation": "Sending invitation…",
@@ -1087,8 +1089,5 @@
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
-  "teamSettings": {
-    "newGroup": "New Group"
-  },
   "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
 }

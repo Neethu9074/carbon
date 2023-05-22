@@ -364,5 +364,10 @@ module.exports = exports = [
     uiClientKey: 'recurrentMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppSmartAlertsEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alerts.enabled',
+    defaultValue: false
   }
 ];

@@ -113,6 +113,9 @@ export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('synth
 // Synthetic credential feature flag
 export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
 
+// MobileApp Smart Alerts
+export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

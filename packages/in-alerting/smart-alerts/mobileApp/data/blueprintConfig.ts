@@ -55,12 +55,14 @@ export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
 
 export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
+  readonly defaultMetric: MetricName;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconType;
   readonly getAggregation: (alertRule: MobileAppAlertRule) => AggregationType;
   readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
+  readonly name: string;
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -75,6 +77,8 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
+  name: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigName'),
+  defaultMetric: 'httpxxx',
   getBeaconType: () => 'httpRequest',
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => [
@@ -93,6 +97,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
+  name: t('in-alerting:smartAlerts.mobileApp.data.throughputBlueprintConfigName'),
+  defaultMetric: 'views',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricFormat: () => number.forcedCompact,
   getBeaconType: (metricName: MetricName) => (metricName === 'views' ? 'viewChange' : 'sessionStart'),
@@ -104,6 +110,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'customEvent',
+  name: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigName'),
+  defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigMetricLabel'),
   getMetricFormat: () => number.forcedCompact,

@@ -85,7 +85,7 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
   }
 }
 
-const conditionValueValidator = function(value) {
+const conditionValueValidator = function (value) {
   if (isBlank(value)) {
     return [
       {
@@ -124,13 +124,8 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
   const dataSource = getDataSourceFromEventSpecification(entityType, ruleAttributes);
-  const {
-    applyOn,
-    applicationName,
-    applicationIds,
-    tagValueForHostAvailability,
-    tagOperatorForHostAvailability
-  } = getScopeFields(isCreate, query, ruleType, tagFilter);
+  const { applyOn, applicationName, applicationIds, tagValueForHostAvailability, tagOperatorForHostAvailability } =
+    getScopeFields(isCreate, query, ruleType, tagFilter);
 
   let form = createMapForm()
     .put(
@@ -219,7 +214,7 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
 }
 
 function putAllDataSourceFields(form, eventSpec) {
-  const entityType = eventSpec?.entityType ?? null;
+  const { entityType, ruleLogicalOperator } = eventSpec;
 
   form = form.put(
     'entityType',
@@ -234,9 +229,13 @@ function putAllDataSourceFields(form, eventSpec) {
     validator: customEventRulesValidator
   });
 
-  form = form.put('rules', rulesFormList);
-
-  return form;
+  return form.put('rules', rulesFormList).put(
+    'ruleLogicalOperator',
+    createField({
+      value: ruleLogicalOperator ?? 'AND',
+      validator: notBlankValidator
+    })
+  );
 }
 
 export function putAllDataSourceFieldsForOneRule(entityType, rule) {

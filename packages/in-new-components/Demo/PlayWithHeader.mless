@@ -5,20 +5,9 @@
  */
 
 :local {
-  .playWitHeaderClassEnable {
-    display: block;
-  }
-
-  .playWitHeaderClassDisable {
-    display: none;
-  }
-
   .playWithInstana {
-    top: 0px;
-    position: fixed;
     width: stretch;
     height: 57px;
-    left: 0px;
     display: flex;
     background: rgb(23, 161, 230);
     z-index: 125;

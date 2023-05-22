@@ -47,6 +47,8 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+// eslint-disable-next-line
+import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -61,7 +63,6 @@ import { viewEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-automation/api';
-import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
@@ -88,6 +89,7 @@ export default function CustomEvent(props) {
         ? mergeResultData
         : getCustomEventSpecificationMutable,
     saveEntity: (event, form) => save(event, form, actions),
+    // eslint-disable-next-line
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
 
@@ -326,12 +328,14 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const entityType = form.get('entityType')?.value ?? null;
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
+  const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
 
   return createCustomMultiThresholdBasedEventSpecification(
     event?.id ?? null,
     entityType,
     form.get('gracePeriod').value,
     rules ?? [],
+    ruleLogicalOperator,
     form.get('name').value,
     form.get('description').value,
     query,

@@ -34,6 +34,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-cockpit/starredItems';
 import Tooltip from 'in-components/Tooltip';
@@ -46,26 +47,27 @@ export default function ApplicationsTopList({ applicationId, config }) {
   const { createHrefToPath } = useNavigation();
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
 
-  const header = role.canConfigureApplications ? (
-    <Button
-      kind="action"
-      icon="lib_openclose_add_circle_outline"
-      onClick={() => {
-        addActiveDialog(
-          <CreateApplicationDialog
-            timeConfig={getTimeConfig({ pathname: '/applications', query: {} })}
-            formData={entityResult.data}
-            onClose={close}
-            getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
-            editMode
-          />
-        );
-        applicationCreationOpenDialogClick({ status: t('in-cockpit:component.applTopList.openCreationDialog') });
-      }}
-    >
-      {t('in-cockpit:component.applTopList.newAppPerspect')}
-    </Button>
-  ) : null;
+  const header =
+    role.canConfigureApplications && !playwithEnabled ? (
+      <Button
+        kind="action"
+        icon="lib_openclose_add_circle_outline"
+        onClick={() => {
+          addActiveDialog(
+            <CreateApplicationDialog
+              timeConfig={getTimeConfig({ pathname: '/applications', query: {} })}
+              formData={entityResult.data}
+              onClose={close}
+              getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+              editMode
+            />
+          );
+          applicationCreationOpenDialogClick({ status: t('in-cockpit:component.applTopList.openCreationDialog') });
+        }}
+      >
+        {t('in-cockpit:component.applTopList.newAppPerspect')}
+      </Button>
+    ) : null;
 
   return (
     <TopListWidget
