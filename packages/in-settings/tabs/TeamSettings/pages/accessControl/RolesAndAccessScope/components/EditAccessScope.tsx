@@ -174,7 +174,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
         <PermissionSectionInfrastructure
           title={t('in-settings:productAreas.title_infrastructure')}
           viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
-          icon="lib_application"
+          icon="lib_infrastructure"
           {...formControlProps}
           {...slideControlProps}
         />
