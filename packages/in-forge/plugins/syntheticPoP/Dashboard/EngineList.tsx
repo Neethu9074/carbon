@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 // @ts-expect-error
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
