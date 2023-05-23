@@ -24,7 +24,7 @@ const renderCustomProperties = (customProperties: { [index: string]: string }) =
   const content = [];
   for (const property in customProperties) {
     content.push(
-      <Row className={locals.configRow}>
+      <Row key={property} className={locals.configRow}>
         <Col xs={3}>{property}</Col>
         <Col xs={3}>{customProperties[property]}</Col>
       </Row>
@@ -48,7 +48,7 @@ const isValidToRenderCustomProperties = (customProperties: { [index: string]: st
 
 const renderCompleteView = (customProperties: { [index: string]: string }) => {
   const toRender = [
-    <Row className={locals.configRow} withoutTopMargin>
+    <Row key={'customProperties'} className={locals.configRow} withoutTopMargin>
       <Col xs={3}>
         <KeyValue value={t('in-synthetics:dashboard.configuration.propertyTitle')} />
       </Col>
