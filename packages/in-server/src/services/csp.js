@@ -12,7 +12,6 @@ const allowedScriptOrigins = ['*.instana.io'];
 if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
-console.log('serverConfig', serverConfig);
 
 if (serverConfig.mixpanelToken) {
   allowedScriptOrigins.push('https://cdn.mxpnl.com');
