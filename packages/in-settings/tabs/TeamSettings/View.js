@@ -7,37 +7,38 @@ import React, { Fragment } from 'react';
 
 import {
   teamSettings,
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlUserEdit,
-  teamSettingsAccessControlInvites,
-  teamSettingsAccessControlGroups,
+  teamSettingsAccessControlApiTokenEdit,
+  teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlGroupEdit,
   teamSettingsAccessControlGroupNew,
-  teamSettingsAccessControlApiTokens,
-  teamSettingsAccessControlApiTokenEdit,
-  teamSettingsAlertingEventCustomNew,
-  teamSettingsAlertingEventCustomEdit,
-  teamSettingsAlertingEventBuiltInEdit,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingAlertEdit,
-  teamSettingsAlertingAlertNew,
-  teamSettingsAlertingAlerts,
+  teamSettingsAccessControlGroups,
+  teamSettingsAccessControlInvites,
+  teamSettingsAccessControlUserEdit,
+  teamSettingsAccessControlUsers,
+  teamSettingsAccessLog,
+  teamSettingsActionLog,
   teamSettingsAlertingAlertChannelEdit,
   teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
   teamSettingsAlertingAlertChannels,
+  teamSettingsAlertingAlertEdit,
+  teamSettingsAlertingAlertNew,
+  teamSettingsAlertingAlerts,
+  teamSettingsAlertingCustomPayloadConfiguration,
+  teamSettingsAlertingEventBuiltInEdit,
+  teamSettingsAlertingEventCustomEdit,
+  teamSettingsAlertingEventCustomNew,
+  teamSettingsAlertingEvents,
+  teamSettingsAlertingHub,
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAlertingCustomPayloadConfiguration,
-  teamSettingsActionLog,
-  teamSettingsAccessLog,
   teamSettingsLogManagementCoralogix,
+  teamSettingsLogManagementDeleteLogs,
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
-  teamSettingsLogManagementSplunk,
-  teamSettingsAlertingHub
+  teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
@@ -51,6 +52,7 @@ import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import { applicationSmartAlertsEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
+import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
@@ -256,35 +258,49 @@ function navigationTreeForRole(role) {
   }
 
   if (role.canConfigureLogManagement) {
+    const pages = [
+      {
+        path: teamSettingsLogManagementCoralogix,
+        label: t('in-settings:tabs.coralogix'),
+        component: CoralogixPage
+      },
+      {
+        path: teamSettingsLogManagementElk,
+        label: t('in-settings:tabs.elk'),
+        component: ElkPage
+      },
+      {
+        path: teamSettingsLogManagementHumio,
+        label: t('in-settings:tabs.humio'),
+        component: HumioPage
+      },
+      {
+        path: teamSettingsLogManagementLogDna,
+        label: t('in-settings:tabs.logDna'),
+        component: LogDnaPage
+      },
+      {
+        path: teamSettingsLogManagementSplunk,
+        label: t('in-settings:tabs.splunk'),
+        component: SplunkPage
+      }
+    ];
+
+    /**
+     TODO: change this when implemented on BE
+     Also add the permissions settings in
+     in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants.ts
+     **/
+    if (__DEV__)
+      pages.push({
+        path: teamSettingsLogManagementDeleteLogs,
+        label: t('in-settings:tabs.deleteLogs.deleteLogs'),
+        component: DeleteLogsPage
+      });
+
     navigationTree.push({
       title: t('in-settings:tabs.logManagement'),
-      pages: [
-        {
-          path: teamSettingsLogManagementCoralogix,
-          label: t('in-settings:tabs.coralogix'),
-          component: CoralogixPage
-        },
-        {
-          path: teamSettingsLogManagementElk,
-          label: t('in-settings:tabs.elk'),
-          component: ElkPage
-        },
-        {
-          path: teamSettingsLogManagementHumio,
-          label: t('in-settings:tabs.humio'),
-          component: HumioPage
-        },
-        {
-          path: teamSettingsLogManagementLogDna,
-          label: t('in-settings:tabs.logDna'),
-          component: LogDnaPage
-        },
-        {
-          path: teamSettingsLogManagementSplunk,
-          label: t('in-settings:tabs.splunk'),
-          component: SplunkPage
-        }
-      ]
+      pages
     });
   }
 
