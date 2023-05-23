@@ -163,7 +163,7 @@ router.get('/', async (req, res) => {
 
     const nonce = uuidv4();
     res.set('Content-Security-Policy', getCsp(nonce));
-    req.log.info('HIT HERE BRY YEET');
+
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     res.send(
       compiledTemplate({
