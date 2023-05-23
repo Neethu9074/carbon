@@ -85,7 +85,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       messages={messages}
       onChange={onChange}
       stepConfigs={stepConfigs}
-      //@ts-expect-error needs adaption in SimpleModeContainerProps
+      //@ts-expect-error
       stepRenderers={[() => {}]}
       step={step}
       formId={FORM_ID}
@@ -94,6 +94,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={{}}
+      //@ts-expect-error
       TagBasedPayloadConfigurator={null}
       isDynamicCustomPayloadValid
       AdvancedModeElement={AdvancedModeContainer}
