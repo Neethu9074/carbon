@@ -33,6 +33,8 @@ export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
 export const successValue = '1';
+export const apiSimpleTest = 'API Simple';
+export const apiScriptTest = 'API Script';
 
 export const dummyLocations = {
   data: [],

@@ -14,6 +14,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { apiScriptTest } from 'in-synthetics/utils/constants';
 import { minValidator } from 'in-services/validators/number';
 import urlValidator from 'in-synthetics/utils/urlValidator';
 import { t } from 'in-i18n';
@@ -40,7 +41,7 @@ export function createForm(
     .put(
       'configuration',
       // @ts-expect-error testType does not exist in BluePrint type
-      selectedBlueprint?.type === 'Script API' || selectedBlueprint?.testType === 'HTTPScript'
+      selectedBlueprint?.type === apiScriptTest || selectedBlueprint?.testType === 'HTTPScript'
         ? !simpleMode
           ? createAdvancedScriptConfigurationForm(savedState ?? {})
           : createScriptConfigurationForm(savedState ?? {})

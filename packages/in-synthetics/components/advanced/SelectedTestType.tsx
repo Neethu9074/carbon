@@ -30,15 +30,15 @@ interface SelectedTestTypeProps {
 
 const pingAPIDescription = (
   <>
-    <b>{t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.title')}</b>
-    <p>{t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.line1')}</p>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.line1')}</p>
   </>
 );
 
 const scriptAPIDescription = (
   <>
-    <b>{t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.title')}</b>
-    <p>{t('in-synthetics:dialog.createTest.bluePrint.scriptApi.whenToUse.line1')}</p>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.apiScript.whenToUse.line1')}</p>
   </>
 );
 
