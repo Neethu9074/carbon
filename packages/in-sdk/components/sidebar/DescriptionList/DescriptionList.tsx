@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable react/no-multi-comp */
-import React, { Fragment, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import locals from './DescriptionList.mless';
@@ -16,10 +16,10 @@ interface DescriptionListProps {
 
 export function DescriptionList({ children, className }: DescriptionListProps) {
   return (
-    <Fragment>
+    <>
       <dl className={classNames(locals.descriptionList, className)}>{children}</dl>
       <div className={locals.descriptionListNoDetails}>No details available.</div>
-    </Fragment>
+    </>
   );
 }
 
