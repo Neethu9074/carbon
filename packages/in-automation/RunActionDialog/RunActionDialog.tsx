@@ -415,6 +415,6 @@ const formatResolvedValue = (value: string) => {
     }
     return parsedValue;
   } catch {
-    return '';
+    return value;
   }
 };
