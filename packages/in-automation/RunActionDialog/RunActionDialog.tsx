@@ -409,11 +409,11 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
 
 const formatResolvedValue = (value: string) => {
   try {
-    const parsedValue = JSON.parse(value);
-    if (Array.isArray(parsedValue) && parsedValue.length > 1) {
+    const parsedValue: string[] = JSON.parse(value);
+    if (parsedValue.length > 1) {
       return '[' + parsedValue.join(',') + ']';
     }
-    return parsedValue;
+    return parsedValue[0] ?? '';
   } catch {
     return value;
   }
