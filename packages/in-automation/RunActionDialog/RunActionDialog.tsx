@@ -211,6 +211,7 @@ function onSave({
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.name);
     const name = parameterDefinition?.name ?? '';
+    const label = parameterDefinition?.label ?? '';
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
       const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
@@ -231,7 +232,7 @@ function onSave({
     }
     const value = (parameter as Field<string>).value;
     if (value) {
-      return [...acc, { name, value: value?.trim() }];
+      return [...acc, { name, value: value?.trim(), label, type: 'static' }];
     }
     return acc;
   }, []);
@@ -244,6 +245,7 @@ function onSave({
           {
             name: parameter.name,
             type: 'vault',
+            label: parameter.label,
             value: JSON.stringify({
               secretPath: secretPath,
               secretKey: secretKey
@@ -254,7 +256,7 @@ function onSave({
         const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
         return [...acc, { name: parameter.name, value: resolvedValue }];
       }
-      return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
+      return [...acc, { name: parameter.name, value: parameter.value ?? '', type: 'static', label: parameter.label }];
     }
     return acc;
   }, []);

@@ -6,13 +6,11 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
+import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { t } from 'in-i18n';
@@ -27,19 +25,28 @@ const dashboardHeaderProps = {
   }
 };
 export default function ViewSwitcher() {
-  const isCatalogActive = useObservable(isView(actionCatalogPath), []) ?? false;
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const isCatalogActive = matchLocation(actionCatalogPath);
+  const isHistoryActive = matchLocation(actionHistoryPath);
 
   return (
     <>
       <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
-        <SecondLevelNavigation>
-          <SecondLevelNavigationItem
-            href$={getModifiedUrlStream(p => (p.pathname = actionCatalogPath))}
-            label={t('in-automation:ActionCatalog.actionCatalog')}
-            isActive={isCatalogActive}
-          />
-        </SecondLevelNavigation>
+        <div>
+          <SecondLevelNavigation>
+            <SecondLevelNavigationItem
+              href={createHrefToPath(actionCatalogPath)}
+              label={t('in-automation:ActionCatalog.actionCatalog')}
+              isActive={isCatalogActive}
+            />
+            <SecondLevelNavigationItem
+              href={createHrefToPath(actionHistoryPath)}
+              label={t('in-automation:actionHistory.actionHistory')}
+              isActive={isHistoryActive}
+            />
+          </SecondLevelNavigation>
+        </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
     </>

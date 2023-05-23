@@ -18,7 +18,7 @@ import { Button } from '@instana/components';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
-import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -110,6 +110,7 @@ function List({
   tableInCard,
   rightHeader,
   isSearchable = true,
+  searchWidth,
   withBottomPadding = false,
   searchAttributes = [],
   extraFilters,
@@ -135,6 +136,7 @@ function List({
   customSortEntities,
   onPageChange
 }) {
+  const { goToPath, createHrefToPath } = useNavigation();
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
   }
@@ -210,6 +212,7 @@ function List({
         isSearchable={isSearchable}
         searchPlaceholder={searchPlaceholder}
         searchMaxWidth={searchMaxWidth}
+        searchWidth={searchWidth}
         result={result}
         noDataMessage={noDataMessage}
         renderNoDataAvailable={renderNoDataAvailable}
@@ -219,7 +222,14 @@ function List({
         rightHeader={
           rightHeader
             ? rightHeader
-            : createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage: newDisabledMessage, trackEvent })
+            : createNewEntityButton({
+                labelNew,
+                pathNew,
+                onCreateNew,
+                disabledMessage: newDisabledMessage,
+                trackEvent,
+                createHrefToPath
+              })
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
@@ -306,11 +316,18 @@ function handleClickCreateNewEntity(onCreateNew, trackEvent) {
   }
 }
 
-export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage, trackEvent }) {
+export function createNewEntityButton({
+  labelNew,
+  pathNew,
+  onCreateNew,
+  disabledMessage,
+  trackEvent,
+  createHrefToPath
+}) {
   if (!pathNew && !onCreateNew) {
     return null;
   }
-  const href$ = onCreateNew ? null : getModifiedUrlStream(p => (p.pathname = pathNew));
+  const href$ = onCreateNew ? null : createHrefToPath(pathNew);
   if (disabledMessage) {
     return (
       <Tooltip content={disabledMessage} delay={500} align="bottomMiddle">
@@ -680,7 +697,8 @@ List.propTypes = {
   onPageChange: PropTypes.func,
   // Disabled this line because
   // eslint-disable-next-line react/no-unused-prop-types
-  initialPageNumber: PropTypes.number
+  initialPageNumber: PropTypes.number,
+  searchWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export function reload() {

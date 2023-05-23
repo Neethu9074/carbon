@@ -138,6 +138,32 @@
     "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
     "uniqueName": "Parameter names must be unique.",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
-    "actionCopy": "(Copy of) {{name}}"
+    "actionCopy": "(Copy of) {{name}}",
+    "actionHistory": {
+      "actionHistory": "Action History",
+      "noActionInstances": "No data available",
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "eventName": "Event Name",
+      "searchActionInstances": "Search Action Instances",
+      "property": "Property",
+      "value": "Value",
+      "actionInstanceId": "Action Instance Id",
+      "eventId": "Event Id",
+      "returnCode": "Return Code",
+      "errorMessage":"Error Message",
+      "actionId":"Action Id",
+      "actionContent":"Action Content",
+      "hostSnapshotId":"Host Snapshot Id",
+      "log":"Log",
+      "viewLog":"View Log",
+      "displayName":"Display Name",
+      "noParams":"No parameters available",
+      "inputParameters":"Input Parameters",
+      "properties":"Properties"
+  }
   }
 }

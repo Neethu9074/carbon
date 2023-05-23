@@ -1,0 +1,31 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .title button {
+    font-size: 16px;
+    border: none;
+    text-decoration: none;
+    color: #6a7c8f;
+    &:hover {
+      text-decoration: none;
+      color: #6a7c8f;
+      background: none;
+      border-bottom: 3px solid #637282;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .title[class~='active'] button {
+    border-bottom: 3px solid #00cccc;
+    cursor: default;
+    color: #3c444d;
+  }
+}
