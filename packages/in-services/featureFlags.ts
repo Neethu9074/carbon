@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
@@ -26,6 +27,7 @@ export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog')
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
+export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   'highResolutionInfrastructureMetricsEnabled',
   true
@@ -77,7 +79,7 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', fal
 export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
-export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
+export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
@@ -107,6 +109,12 @@ export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartA
 
 // Create Synthetic Test in Advance Mode
 export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
+
+// Synthetic credential feature flag
+export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
+
+// MobileApp Smart Alerts
+export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -154,8 +162,7 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
   false
 );
 
-export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
-
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
-export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindows', true);
+export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
+export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', false);

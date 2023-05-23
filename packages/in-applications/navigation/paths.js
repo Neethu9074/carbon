@@ -47,7 +47,6 @@ import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navi
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
@@ -88,31 +87,11 @@ export const analyzeTwoParameters = createParameters(analyzePath);
 
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
 // setOnClickNotificationMessage - an optional callback which takes a string used to display a notification message on link click
-export function getLinkToAnalyze({
-  applicationName,
-  serviceName,
-  endpointName,
-  boundaryScope,
-  contextScope,
-  jumpToSource,
-  dataSource,
-  groupBy,
-  orderBy,
-  orderByGroups,
-  formModel,
-  facets,
-  hiddenCalls,
-  chartedMetrics,
-  fields,
-  fastQueryModeEnabled,
-  timeConfig,
-  tagCatalog,
-  setOnClickNotificationMessage,
-  resetUndefinedParams
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = analyzePath;
-    return updateLocationToAnalyze(params, {
+export function useLinkToAnalyze() {
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    ({
       applicationName,
       serviceName,
       endpointName,
@@ -133,8 +112,36 @@ export function getLinkToAnalyze({
       tagCatalog,
       setOnClickNotificationMessage,
       resetUndefinedParams
-    });
-  });
+    }) => {
+      location.pathname = analyzePath;
+
+      updateLocationToAnalyze(location, {
+        applicationName,
+        serviceName,
+        endpointName,
+        boundaryScope,
+        contextScope,
+        jumpToSource,
+        dataSource,
+        groupBy,
+        orderBy,
+        orderByGroups,
+        formModel,
+        facets,
+        hiddenCalls,
+        chartedMetrics,
+        fields,
+        fastQueryModeEnabled,
+        timeConfig,
+        tagCatalog,
+        setOnClickNotificationMessage,
+        resetUndefinedParams
+      });
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 }
 
 export function updateLocationToAnalyze(
@@ -329,86 +336,46 @@ export const isApplicationsView = getRootPathPredicate(
   alertsList
 );
 
-export function getApplicationList({
-  timeConfig,
-  applicationId,
-  serviceId,
-  endpointId,
-  contextScope,
-  tagFilters,
-  snapshotId,
-  plugin
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = applicationsList;
-    let tagFilter = null;
+function useLinkToList(pathName, keyPrefix) {
+  const { location, createHref } = useNavigation();
 
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixApplicationId, applicationId);
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixServiceId, serviceId);
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixEndpointId, endpointId);
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixContextScope, contextScope);
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixSnapshotId, snapshotId);
-    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixPlugin, plugin);
+  return useCallback(
+    ({ timeConfig, applicationId, serviceId, endpointId, contextScope, tagFilters, snapshotId, plugin }) => {
+      location.pathname = pathName;
+      let tagFilter = null;
 
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixApplicationId, applicationId);
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixServiceId, serviceId);
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixEndpointId, endpointId);
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixContextScope, contextScope);
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixSnapshotId, snapshotId);
+      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixPlugin, plugin);
 
-    if (tagFilters) {
-      tagFilter = tagFilter || [];
-      tagFilter.push(...tagFilters);
-    }
+      if (timeConfig != null) {
+        setTimeConfig(location, timeConfig);
+      }
 
-    if (tagFilter != null) {
-      setOrDeleteMatrixKey(
-        params,
-        applicationsList,
-        applicationListMatrixPrefix + tagFiltersMatrixParam,
-        getTagFilterToUrlString(tagFilter)
-      );
-    }
-  });
+      if (tagFilters) {
+        tagFilter = tagFilter || [];
+        tagFilter.push(...tagFilters);
+      }
+
+      if (tagFilter != null) {
+        setOrDeleteMatrixKey(location, pathName, keyPrefix + tagFiltersMatrixParam, getTagFilterToUrlString(tagFilter));
+      }
+
+      return createHref(location);
+    },
+    [location, createHref, pathName, keyPrefix]
+  );
 }
 
-export function getServiceList({
-  timeConfig,
-  applicationId,
-  serviceId,
-  endpointId,
-  contextScope,
-  tagFilters,
-  snapshotId,
-  plugin
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = servicesList;
-    let tagFilter = null;
+export function useLinkToApplicationList() {
+  return useLinkToList(applicationsList, applicationListMatrixPrefix);
+}
 
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixApplicationId, applicationId);
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixServiceId, serviceId);
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixEndpointId, endpointId);
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixContextScope, contextScope);
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixSnapshotId, snapshotId);
-    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixPlugin, plugin);
-
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
-
-    if (tagFilters) {
-      tagFilter = tagFilter || [];
-      tagFilter.push(...tagFilters);
-    }
-
-    if (tagFilter != null) {
-      setOrDeleteMatrixKey(
-        params,
-        servicesList,
-        serviceListMatrixPrefix + tagFiltersMatrixParam,
-        getTagFilterToUrlString(tagFilter)
-      );
-    }
-  });
+export function useLinkToServiceList() {
+  return useLinkToList(servicesList, serviceListMatrixPrefix);
 }
 
 export function useLinkToApplicationDashboard() {

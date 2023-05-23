@@ -73,7 +73,7 @@ function handleToggleEnabled(enabled, id, setIsSaving) {
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
-  trackAlertCloneTrigger(config.id);
+  trackAlertCloneTrigger(config);
 }
 
 function handleEdit(config) {

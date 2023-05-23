@@ -21,13 +21,14 @@ import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/tr
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
-export type MetricName = 'httpxxx' | 'specificStatusCodeRate' | 'sessions' | 'views' | 'beaconCount';
+export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
 
 const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   httpxxx: t('in-alerting:smartAlerts.mobileApp.data.statusCodeCount'),
-  specificStatusCodeRate: t('in-alerting:smartAlerts.mobileApp.data.specificStatusCodeRate')
+  beaconRate: t('in-alerting:smartAlerts.mobileApp.data.beaconRate')
 });
 
 const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -44,18 +45,24 @@ interface BluePrintBase {
     operator: TagFilterOperator;
     value?: any;
   };
+  readonly getExtraAnalyzeLinkTagFilterFormModel: (
+    alertConfig: MobileAppAlertConfig,
+    timeConfig: FixedTimeConfig
+  ) => FormModelElement[];
 }
 
 export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
 
 export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
+  readonly defaultMetric: MetricName;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconType;
   readonly getAggregation: (alertRule: MobileAppAlertRule) => AggregationType;
   readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
+  readonly name: string;
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -63,14 +70,17 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getMetricsRequest: () => getMobileAppMetrics,
   getRuleTagFilterFormModel: () => [],
   getEntityTagFilterFormModel: (alertConfig: MobileAppAlertConfig) =>
-    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId)
+    tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
+  getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
+  name: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigName'),
+  defaultMetric: 'httpxxx',
   getBeaconType: () => 'httpRequest',
-  getMetricFormat: () => percentage,
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => [
     tagFilter(
       'mobileBeacon.http.status',
@@ -78,7 +88,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
       (alertRule as StatusCodeMobileAppAlertRule).value
     )
   ],
-  getAggregation: () => 'MEAN',
+  getAggregation: (alertRule: MobileAppAlertRule) =>
+    isCustomRateMetric((alertRule as StatusCodeMobileAppAlertRule).metricName) ? 'MEAN' : 'SUM',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName]
 });
@@ -86,9 +97,11 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
+  name: t('in-alerting:smartAlerts.mobileApp.data.throughputBlueprintConfigName'),
+  defaultMetric: 'views',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricFormat: () => number.forcedCompact,
-  getBeaconType: () => 'viewChange',
+  getBeaconType: (metricName: MetricName) => (metricName === 'views' ? 'viewChange' : 'sessionStart'),
   getAggregation: () => 'SUM',
   impactTimeThresholdDisabled: true,
   getMetricLabel: (metricName: MetricName) => throughputMetricLabelsByName[metricName]
@@ -97,6 +110,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'customEvent',
+  name: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigName'),
+  defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigMetricLabel'),
   getMetricFormat: () => number.forcedCompact,
@@ -142,5 +157,5 @@ export function getBlueprintConfig(alertType: MobileAlertType): BluePrint {
 }
 
 function isCustomRateMetric(metricName: MetricName | string): boolean {
-  return metricName === 'specificStatusCodeRate';
+  return metricName === 'beaconRate';
 }

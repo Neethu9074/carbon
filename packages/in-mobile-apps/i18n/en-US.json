@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE Count",
       "httpRequestHttpDeleteRawDataLabel": "HTTP Method",
       "customBeaconCountLabel": "Occurrences",
-      "customBeaconDurationLabel": "Duration"
+      "customBeaconDurationLabel": "Duration",
+      "crashBeaconCountLabel": "Crashes"
     },
     "quickFilterBar": {
       "mobileAppLabel": "Mobile App",
@@ -350,7 +351,8 @@
         "viewTopListLabelUsers": "Users",
         "viewTopListLinkLabel": "View all views",
         "viewTopListTitle": "Views"
-      }
+      },
+      "smartAlerts": "Smart Alerts"
     },
     "noDataAvailable": {
       "viewsTitle": "No views available",

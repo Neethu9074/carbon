@@ -104,9 +104,9 @@ export function MultiSelect(props) {
         )}
         <div />
         {selectedValues.length > 0 && (
-          <span className={locals.clearFacet}>
-            <Link onClick={() => resetFacets?.(tag)}>{t('in-components:analyze.clearFacet')}</Link>
-          </span>
+          <Link href={resetFacets?.(tag)} className={locals.clearFacet}>
+            {t('in-components:analyze.clearFacet')}
+          </Link>
         )}
       </div>
     </>

@@ -10,6 +10,8 @@ import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { Message, Stack, Spacer } from '@instana/components';
 
 import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+// eslint-disable-next-line import/no-deprecated
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
@@ -19,7 +21,6 @@ import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,6 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   const [{ saving }, doSubmit] = useCreateConfiguration(createSliConfiguration);
 
   useSetFormFooterEffect({
-    form,
     formId: 'createSliForm',
     isDisabled: !filterExpressionValid || !form.hierarchyTouched,
     isSaving: saving,
@@ -60,6 +60,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
 
   const track = useSloWidgetTrackers();
 
+  // eslint-disable-next-line import/no-deprecated
   const sliName = getField(form, [sliSliNameKey])?.value ?? '';
 
   const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {

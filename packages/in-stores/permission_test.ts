@@ -20,7 +20,7 @@ jest.mock('in-services/featureFlags', () => ({
 
 let orgWindow: InstanaGlobals;
 
-// Modify window object with supplied permissions and restrictedAccess
+// Modify window object with supplied permissions
 const setupPermissions = (permissions: Array<string>) => {
   Object.defineProperty(window, 'instana', {
     value: {

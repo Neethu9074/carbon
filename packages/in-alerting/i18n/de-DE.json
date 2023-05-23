@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Nicht unterstützter Operator: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Smart Alert hinzufügen",
     "applicationSmartAlert": "Smart Alert für Anwendung",
     "globalApplicationSmartAlert": "Smart Alert für globale Anwendungen",
     "titleNoSmartAlertsConfigured": "Keine Smart Alerts konfiguriert",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Wählen Sie ein angepasstes Ereignis aus",
         "customEventListInfoLabel": "Angepasste Ereignisse anzeigen, die in den letzten 7 Tagen ausgelöst wurden"
       },
-      "addSmartAlert": "Smart Alert hinzufügen",
       "list": {
         "columns": {
           "name": {
@@ -1030,6 +1030,7 @@
     "enable": "Aktivieren",
     "disable": "Inaktivieren",
     "synthetics": {
+      "addSmartAlert": "Synthetischen Smart Alert hinzufügen",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} weiterer Filter",
@@ -1045,7 +1046,7 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Fehlerschwellenwert",
+        "timeThreshold": "Zeitschwellenwert",
         "filterApplied": "Angewendeter Filter",
         "violationsCount": "{{violationsCount}} Fehler",
         "numberOfFailures": "Fehleralerts"
@@ -1053,22 +1054,38 @@
       "simple": {
         "stepConfigsStep1Title": "Schritt 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
+        "simpleAlertConfigDialogStep1Tooltip": "Für jeden synthetischen Test werden für jede Position einzelne Alerts gesendet",
         "stepConfigsStep4Title": "Schritt 4: Alertkanäle",
         "alertDialogHeadline": "Was soll im Alert angezeigt werden?",
         "stepConfigsStep2Title": "Schritt 2: Bereich",
         "scopeHeadline": "An welcher Stelle soll der Alert ausgelöst werden?",
-        "stepConfigsStep3Title": "Schritt 3: Schwellenwert",
+        "stepConfigsStep3Title": "Schritt 3: Zeitschwellenwert",
         "stepConfigsStep5Title": "Schritt 5: Alerteigenschaften",
-        "thresholdTitle": "Wie viele aufeinanderfolgende Fehler müssen pro Standort auftreten, bevor Alerts ausgegeben werden?"
+        "thresholdTitle": "Wie viele aufeinanderfolgende Fehler müssen pro Standort auftreten, bevor Alerts ausgegeben werden?",
+        "thresholdTitleHelpText": "Im PoP ermittelte Fehler auf Basis des Wiederholungsintervalls, das bei der Erstellung synthetischer Tests konfiguriert wurde",
+        "thresholdSubTitleHelpText": "Wenn die angegebene Anzahl von Fehlern an jeder Position auftritt, erhalten Sie einen Alert für jede Position.",
+        "slider": {
+          "failuresWithCount": "{{count}} Fehler",
+          "failuresWithCount_plural": "{{count}} Fehler",
+          "failuresWithCount_0": "{{count}} Fehler",
+          "failuresWithCount_1": "{{count}} Fehler",
+          "failuresWithCount_2": "{{count}} Fehler"
+        },
+        "alertPropertiesTitlePlaceholder": "Titel hier einfügen",
+        "alertPropertiesDescriptionPlaceholder": "Beschreibung hier einfügen"
       },
       "advanced": {
         "alertChannelsLabel": "Alertkanäle",
+        "alertChannelsTitle": "Wer sollte die Alerts bekommen?",
         "scopeFilterLabel": "Umfang",
         "alertTestsLabel": "Synthetische Tests",
         "alertTestsTitle": "Synthetische Tests: Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
         "propertiesLabel": "Alerteigenschaften",
-        "failureThreshold": "Fehlerschwellenwert",
-        "failureThresholdLabel": "Fehlerschwellenwert",
+        "alertPropertiesPreviewTitlePlaceholder": "[Titel hier einfügen]",
+        "alertPropertiesPreviewDescriptionPlaceholder": "[Beschreibung hier einfügen]",
+        "propertiesTitle": "Was sollte die Alert Notification enthalten?",
+        "failureThreshold": "Zeitschwellenwert",
+        "failureThresholdLabel": "Zeitschwellenwert",
         "failureThresholdTitle": "Wie viele aufeinanderfolgende Fehler müssen pro Standort auftreten, bevor Alerts ausgegeben werden?"
       },
       "selectTests": {
@@ -1080,6 +1097,23 @@
         "alertTestEntityName": "Synthetischer Test {{entityName}}",
         "testAttachedCount": "Angehängte Tests ({{count}})",
         "testAttached": "Angehängte Tests"
+      },
+      "details": {
+        "threshold": "Schwellenwert",
+        "alertConfigurationListTitleAlertConfiguration": "Alertkonfiguration",
+        "scope": {
+          "perLocation": {
+            "shortText": "Pro Standort"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Ausgewählte Tests",
+        "alertConfigurationTitleAlertChannels": "Alertkanäle",
+        "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
+        "failureThreshold": "{{failureCount}} Fehler",
+        "alertConfigurationTitleScope": "Umfang",
+        "noOfFailure": "Anzahl der Fehler",
+        "timeThreshold": "Zeitschwellenwert",
+        "alertingType": "Alerttyp"
       }
     }
   }

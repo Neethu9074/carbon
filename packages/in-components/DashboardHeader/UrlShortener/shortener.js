@@ -3,11 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useCallback } from 'react';
+
 import { getTimeConfig, setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { emptyObject } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import { hours } from 'in-services/time';
@@ -30,17 +33,24 @@ const getShortUrlInternal = memoize(
   hours.toMillis(1)
 );
 
-export function useShortUrl({ fixateTime = true } = emptyObject) {
+export function useShortUrl() {
   const { location, createHref } = useNavigation();
 
-  if (fixateTime) {
-    setTimeConfig(location, fixateTimeConfig(getTimeConfig(location)));
-  }
+  return useCallback(
+    ({ fixateTime = true } = emptyObject) => {
+      const clonedLocation = cloneLocation(location);
 
-  const href = createHref(location);
-  const absoluteUrl = toAbsoluteUrl(href);
+      if (fixateTime) {
+        setTimeConfig(clonedLocation, fixateTimeConfig(getTimeConfig(clonedLocation)));
+      }
 
-  return getShortUrlInternal(absoluteUrl);
+      const href = createHref(clonedLocation);
+      const absoluteUrl = toAbsoluteUrl(href);
+
+      return getShortUrlInternal(absoluteUrl);
+    },
+    [location, createHref]
+  );
 }
 
 function toAbsoluteUrl(partialUrl) {

@@ -111,7 +111,7 @@ export default function Alert({
               })
             );
             if (isCopy) {
-              trackAlertCloneTrigger(alertConfig.id);
+              trackAlertCloneTrigger(alertConfig);
             } else if (!isCopy) {
               trackAlertEdit(alertConfig);
             }

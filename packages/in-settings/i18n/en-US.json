@@ -1,6 +1,7 @@
 {
   "general": {
-    "all": "All"
+    "all": "All",
+    "loadMore": "Load more"
   },
   "termsDialog": {
     "back": "Back",
@@ -85,8 +86,8 @@
     "permissions_SYNTHETICS": "Synthetic monitoring permissions",
     "permissions_AGENTS": "Agent permissions",
     "permissions_ACCESS_CONTROL": "Access control permissions",
-    "permissions_ACCOUNT": "Account & billing permissions",
     "permissions_AUTOMATION": "Automation permissions",
+    "permissions_LOGS": "Log permissions",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power",
     "permissions_ZHMC": "IBM Z",
@@ -158,6 +159,7 @@
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_access_all": "Access all without limitation",
     "role": "Select a role",
+    "roleSelection": "Role",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_custom": "Custom",
@@ -212,7 +214,9 @@
       "events": {
         "addCondition": "Add Condition",
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
-        "placeholder": "Placeholder"
+        "placeholder": "Placeholder",
+        "logicalOperator_AND": "AND",
+        "logicalOperator_OR": "OR"
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
@@ -288,6 +292,8 @@
     "failedToAddUserToGroups": "Failed to add user to groups: {{err}}",
     "failedToAddUsersToGroup": "Failed to add users to group: {{err}}.",
     "failedToAddUsersToGroupWithoutDetails": "Failed to add users to group.",
+    "successfullyAddedUserToGroup": "Successfully added {{name}} to group.",
+    "successfullyAddedUsersToGroup": "Successfully added users to group.",
     "groupNotFound": "group not found",
     "group": "Group",
     "areYouSureYouWantToDeleteThisUserFromTheGroup": "Are you sure you want to delete this user from the <strong>{{groupName}}</strong> group?",
@@ -295,6 +301,7 @@
     "assignedBy": "Assigned by",
     "failedToRemoveUserFromGroup": "Failed to remove user from group: {{err}}",
     "failedToRemoveUserFromGroupWithoutDetails": "Failed to remove user from group.",
+    "successfullyRemovedUserFromGroup": "User {{name}} was removed from this group.",
     "unableToFindUserUserId": "Unable to find user: {{userId}}",
     "userDoesNotExist": "User does not exist",
     "apiCall": "API",
@@ -668,7 +675,7 @@
     "groups": "Groups",
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
-    "addGroup": "Add Group",
+    "addGroup": "New group",
     "pendingInvitations": "Pending Invitations",
     "revoke": "Revoke",
     "sendingInvitation": "Sending invitation…",
@@ -848,7 +855,7 @@
     "startTimeMustBeSmallerThanEndTime": "Start time must be smaller than end time.",
     "eitherBothOrNoneOfStartTimeAndEndTimeHaveToBeSpecified": "Either both or none of start time and end time have to be specified.",
     "1DefineANameForYourMaintenanceWindowThatWillShowUpInTheList": "1. Define a name for your maintenance window that will show up in the list",
-    "mainentanceWindowNamesShouldBeUniqueAndMeaningful": "Mainentance window names should be unique and meaningful.",
+    "maintenanceWindowNamesShouldBeUniqueAndMeaningful": "Maintenance window names should be unique and meaningful.",
     "2SelectTheEntitiesToBeMuted": "2. Select the entities to be muted",
     "applyOn": "Apply on",
     "applicationPerspective": "Application Perspective",
@@ -972,7 +979,6 @@
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
-    "recurrentMaintenanceWindows": "Recurrent Maintenance Windows",
     "scope": "Scope",
     "duration": "Duration",
     "every": "Every",
@@ -1083,8 +1089,5 @@
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
-  "teamSettings": {
-    "newGroup": "New Group"
-  },
   "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
 }

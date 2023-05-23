@@ -338,7 +338,9 @@ function populateEagerSearchIndexAndSetParentIds(
   if (node != null) {
     nodeCopy = { ...node } as TraceActivityTreeNodeWithParentId;
     nodeCopy.children = [];
-    searchIndex.set(nodeCopy.id, nodeCopy);
+    if (nodeCopy.model !== 'LOG') {
+      searchIndex.set(nodeCopy.id, nodeCopy);
+    }
     node.children.forEach(child => {
       const newChild = populateEagerSearchIndexAndSetParentIds(searchIndex, child);
       if (newChild) {

@@ -7,7 +7,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error Module needs to be translated to TS
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';

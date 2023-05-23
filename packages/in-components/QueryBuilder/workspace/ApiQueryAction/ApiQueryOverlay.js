@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
@@ -33,7 +34,7 @@ export default function ApiQueryOverlay({
 
   const model = {
     timeFrame,
-    tagFilterExpression: backendQueryModel,
+    tagFilterExpression: includeFacets ? backendQueryModelWithFacets : backendQueryModel,
     pagination,
     type,
     metrics,
@@ -43,13 +44,10 @@ export default function ApiQueryOverlay({
 
   const jsonString = JSON.stringify(model, 0, 2);
 
-  const curl =
-    'curl -XPOST ' +
-    endpointUrl +
-    " -H 'Content-Type: application/json'" +
-    " -H 'authorization: apiToken xxxxxxxxxxxxx' -d '" +
-    jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
-    "'";
+  const curl = `curl -XPOST ${endpointUrl} -H "Content-Type: application/json" -H "authorization: apiToken $apiToken" -d '${jsonString.replace(
+    /(\r\n|\n|\r|\s)/gm,
+    ''
+  )}'`;
 
   const tabList = [{ text: 'curl' }, { text: 'JSON tree' }];
   const [activeTabIndex, setActiveTabIndex] = useState(0);

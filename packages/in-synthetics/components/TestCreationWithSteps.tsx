@@ -12,6 +12,7 @@ import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter'
 import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import { SlideInHeader } from 'in-synthetics/utils/constants';
 import StepProgressBar from 'in-components/StepProgressBar';
 import { Error as ScriptError } from 'in-types';
 
@@ -37,6 +38,9 @@ export interface Props {
   setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
 }
 
 export default function TestCreationWithSteps({
@@ -56,7 +60,10 @@ export default function TestCreationWithSteps({
   testTypeSelected,
   setTestTypeSelected,
   renderSectionsCounter,
-  setRenderSectionsCounter
+  setRenderSectionsCounter,
+  commonAttributes,
+  setCommonAttributes,
+  setCustomSlideInHeaderConfig
 }: Props) {
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
@@ -88,6 +95,9 @@ export default function TestCreationWithSteps({
           setTestTypeSelected={setTestTypeSelected}
           renderSectionsCounter={renderSectionsCounter}
           setRenderSectionsCounter={setRenderSectionsCounter}
+          commonAttributes={commonAttributes}
+          setCommonAttributes={setCommonAttributes}
+          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
         />
       ) : (
         <>

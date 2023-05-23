@@ -14,8 +14,8 @@ import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortene
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DashboardHeader.mless';
@@ -45,17 +45,17 @@ export interface ContextConfiguration {
 
 export interface DashboardHeaderProps {
   theme?: keyof typeof themes;
-  result?: Result<any>;
+  result?: Result<any> | Nullish;
   icon?: string;
-  renderIcon?: (() => JSX.Element) | typeof getSkeletonIcon;
+  renderIcon?: () => React.ReactNode;
   title: string;
-  renderTimeSelection?: (props: any) => JSX.Element;
-  label: string | JSX.Element;
+  renderTimeSelection?: (props: any) => React.ReactNode;
+  label: string | React.ReactNode;
   labelForTitle?: string;
-  renderMetaInformation?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderButtonLineSecondary?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderTopLevelButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  renderMetaInformation?: (props: any) => React.ReactNode;
+  renderButtonLine?: (props: any) => React.ReactNode;
+  renderButtonLineSecondary?: (props: any) => React.ReactNode;
+  renderTopLevelButtonLine?: (props: any) => React.ReactNode;
   hideUrlShortener?: boolean;
   contextConfigurations?: ContextConfiguration[];
   className?: string;
@@ -94,7 +94,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   const isLoading = result && result.data == null;
 
   if (isLoading) {
-    label = getSkeletonLabel();
+    label = getSkeletonLabel(props);
 
     if (renderButtonLine || renderButtonLineSecondary) {
       renderButtonLine = getSkeletonButton;
@@ -107,7 +107,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       renderTopLevelButtonLine = getSkeletonButton;
     }
     if (!icon || renderIcon) {
-      renderIcon = getSkeletonIcon;
+      renderIcon = () => getSkeletonIcon(props);
     }
   }
 
@@ -124,71 +124,80 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     }
   };
   return (
-    <header
-      className={classNames(locals.dashboardHeader, locals[theme], className, withBorderBottom && locals.borderBottom)}
-    >
-      <MigratedTenantBanner />
-      <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
-      <div className={locals.firstLine}>
-        <div className={locals.leftContent}>
-          {contextConfigurations &&
-            contextConfigurations.map((config, i) => (
-              <Context
-                key={i}
-                {...config}
-                {...props}
-                shouldRenderDelimiter={
-                  // Render the delimiter for all context items except the last one
-                  // Except the last element is followed by an icon or a label
+    <>
+      <header
+        className={classNames(
+          locals.dashboardHeader,
+          locals[theme],
+          className,
+          withBorderBottom && locals.borderBottom
+        )}
+      >
+        <MigratedTenantBanner />
+        <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
+        <div className={locals.firstLine}>
+          <div className={locals.leftContent}>
+            {contextConfigurations &&
+              contextConfigurations.map((config, i) => (
+                <Context
+                  key={i}
+                  {...config}
+                  {...props}
+                  shouldRenderDelimiter={
+                    // Render the delimiter for all context items except the last one
+                    // Except the last element is followed by an icon or a label
 
-                  isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
-                }
-                headerHref$={headerHref$}
-                onHeaderClick={onHeaderClick}
-              />
-            ))}
-          <SyntheticIcon />
-          {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
-          {typeof label === 'string' ? (
-            <Tooltip content={label} delay={500}>
+                    isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
+                  }
+                  headerHref$={headerHref$}
+                  onHeaderClick={onHeaderClick}
+                />
+              ))}
+            <SyntheticIcon />
+            {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
+            {typeof label === 'string' ? (
+              <Tooltip content={label} delay={500}>
+                <span className={locals.label}>{label}</span>
+              </Tooltip>
+            ) : (
               <span className={locals.label}>{label}</span>
-            </Tooltip>
-          ) : (
-            <span className={locals.label}>{label}</span>
-          )}
-          {renderMetaInformation && renderMetaInformation(props)}
+            )}
+            {renderMetaInformation && renderMetaInformation(props)}
+          </div>
+          <div className={locals.rightContent}>
+            {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
+            {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
+            {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+          </div>
         </div>
-        <div className={locals.rightContent}>
-          {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
-          {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
-          {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
-        </div>
-      </div>
-      {(renderButtonLine || renderButtonLineSecondary) && (
-        <div
-          className={classNames({
-            [locals.buttonLine]: true,
-            [locals.withSecondary]: renderButtonLineSecondary
-          })}
-        >
-          <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
-          <div className={locals.secondaryActions}>{renderButtonLineSecondary && renderButtonLineSecondary(props)}</div>
-        </div>
-      )}
-    </header>
+        {(renderButtonLine || renderButtonLineSecondary) && (
+          <div
+            className={classNames({
+              [locals.buttonLine]: true,
+              [locals.withSecondary]: renderButtonLineSecondary
+            })}
+          >
+            <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
+            <div className={locals.secondaryActions}>
+              {renderButtonLineSecondary && renderButtonLineSecondary(props)}
+            </div>
+          </div>
+        )}
+      </header>
+    </>
   );
 }
 
-function getSkeletonButton() {
-  return <LoadingSkeleton className={locals.buttonSkeleton} />;
+function getSkeletonButton({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.buttonSkeleton} darkMode={theme !== 'light'} />;
 }
 
-function getSkeletonLabel() {
-  return <LoadingSkeleton className={locals.labelSkeleton} />;
+function getSkeletonLabel({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.labelSkeleton} darkMode={theme !== 'light'} />;
 }
 
-function getSkeletonIcon() {
-  return <LoadingSkeleton className={locals.iconSkeleton} />;
+function getSkeletonIcon({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.iconSkeleton} darkMode={theme !== 'light'} />;
 }
 
 function Context(props: ContextProps) {

@@ -13,7 +13,8 @@ import {
   vsphereEnabled,
   zhmcEnabled,
   sapEnabled,
-  infraExploreDataEnabled
+  infraExploreDataEnabled,
+  syntheticCredentialEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -82,8 +83,6 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
-  CAN_SEE_USAGE_INFORMATION: 'CAN_SEE_USAGE_INFORMATION',
-  CAN_SEE_ON_PREM_LICENE_INFORMATION: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
@@ -95,7 +94,9 @@ export const Capability = Object.freeze({
   CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
   CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
   CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
-  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS'
+  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
+  CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
+  CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -104,9 +105,6 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
 const permissions = role?.permissions ?? [];
-
-// @deprecated remove when completeley switched to using permissions
-export const hasRestrictedAccess = role?.restrictedAccess ?? false;
 
 /**
  * Verifies if the current user has access with the given scope and access
@@ -471,22 +469,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     isOwnerPermission: false
   },
   /* Account Information */
-  [Capability.CAN_SEE_USAGE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
-    keyForApiTokenApi: 'canSeeUsageInformation',
-    label: t('in-stores:permissionCanSeeUsageInformationLabel'),
-    description: t('in-stores:permissionCanSeeUsageInformationDescription'),
-    category: t('in-stores:permissionCanSeeUsageInformationCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-    keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
-    label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
-    description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
-    category: t('in-stores:permissionCanSeeOnPremLicenseInformationCategory'),
-    isOwnerPermission: false
-  },
   [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION]: {
     keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
     keyForApiTokenApi: 'canViewAccountAndBillingInformation',
@@ -547,6 +529,20 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
   },
+  [Capability.CAN_USE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canUseSyntheticCredentials',
+    label: t('in-stores:permissionCanUseSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanUseSyntheticCredentialsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canConfigureSyntheticCredentials',
+    label: t('in-stores:permissionCanConfigureSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
   /* BizOps */
   [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
     keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
@@ -592,7 +588,19 @@ export function getProductPermissions(): Array<ProductPermission> {
         Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
         Capability.CAN_VIEW_SYNTHETIC_TESTS,
         Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
+        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+      ];
+
+      return !syntheticCapabilities.includes(keyForGroupApi);
+    });
+  } else if (!syntheticCredentialEnabled) {
+    //Synthetic credential is controlled by syntheticCredentialEnabled FF
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const syntheticCapabilities: Array<CapabilityType> = [
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
       ];
 
       return !syntheticCapabilities.includes(keyForGroupApi);
@@ -641,8 +649,4 @@ export const productOwnerPermissions = getProductPermissions().filter(permission
 export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
 export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
-export const fallBackPermissions = [
-  ...LimitedAccessScopes,
-  Capability.CAN_VIEW_LOGS,
-  Capability.CAN_VIEW_TRACE_DETAILS
-];
+export const fallBackPermissions = [...LimitedAccessScopes];

@@ -9,6 +9,7 @@ import { Link } from '@instana/components';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -19,7 +20,6 @@ import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 import Pill from 'in-components/Pill';
@@ -189,6 +189,8 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
   const trackLinkClick = () => {
     clickedAppPerspectiveLink();
   };
@@ -196,7 +198,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
   return (
     <Link
       onClick={trackLinkClick}
-      href$={getLinkToAnalyze({
+      href={getLinkToApplicationAnalyze({
         applicationName,
         serviceName,
         endpointName,

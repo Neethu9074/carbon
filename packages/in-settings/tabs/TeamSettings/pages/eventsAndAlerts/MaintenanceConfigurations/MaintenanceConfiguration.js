@@ -246,9 +246,10 @@ function putQueryFields(form, query) {
 }
 
 function getQueryFromFormField(form) {
-  if (form.containsKey('applicationIds')) {
+  const applyOnSelection = form.get('applyOn').value;
+  if (form.containsKey('applicationIds') && applyOnSelection === 'application') {
     return applicationIdsToDfq(form.get('applicationIds').value);
-  } else if (form.containsKey('query')) {
+  } else if (form.containsKey('query') && applyOnSelection === 'dfq') {
     return form.get('query').value;
   } else {
     return '';

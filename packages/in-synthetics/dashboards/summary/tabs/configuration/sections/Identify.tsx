@@ -1,0 +1,79 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { useState } from 'react';
+
+import { SyntheticTest } from '@instana/types/typeDefinitions';
+import { KeyValue } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
+import SearchInput from 'in-components/SearchInput/SearchInput';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
+
+import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
+
+interface Props {
+  test: SyntheticTest;
+}
+
+const Identify = ({ test }: Props) => {
+  const [searchInput, setSearchInput] = useState('');
+
+  const header = (
+    <SearchInput
+      disabled
+      className={locals.rightHeader}
+      maxWidth="140"
+      query={searchInput}
+      placeholder=""
+      onChange={q => setSearchInput(q)}
+    />
+  );
+
+  return (
+    <ExpandableLightCard
+      className={locals.expandableCard}
+      title={t('in-synthetics:dashboard.configuration.identifyTitle')}
+      darkFrame
+      useMaxAvailableHeight
+      openByDefault
+    >
+      <Row className={locals.configRow}>
+        <Col xs={12}>
+          <KeyValue label={t('in-synthetics:dashboard.configuration.identifySectionName')} value={test.label} />
+        </Col>
+      </Row>
+      <Row className={locals.configRow}>
+        <Col xs={12}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.identifySectionDescription')}
+            value={test.description}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <LightCard
+          className={locals.lastConfigRow}
+          header={header}
+          title={t('in-synthetics:dashboard.configuration.associatedApplication')}
+          darkFrame
+          framed
+        >
+          {test.applicationLabel === '' || test.applicationLabel === undefined ? (
+            t('in-synthetics:dashboard.configuration.noApplicationAssociated')
+          ) : (
+            <CheckboxFancy checked disabled label={test.applicationLabel} />
+          )}
+        </LightCard>
+      </Row>
+    </ExpandableLightCard>
+  );
+};
+
+export default Identify;

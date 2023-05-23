@@ -12,12 +12,11 @@ import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialog
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
-// @ts-expect-error
-import ErrorBoundary from 'in-components/ErrorBoundary';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import TimePresenter from 'in-components/time/TimePresenter';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import { logsPath } from 'in-logging/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';

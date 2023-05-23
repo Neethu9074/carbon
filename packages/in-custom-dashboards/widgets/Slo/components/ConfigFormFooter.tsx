@@ -4,14 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm } from 'formalistic';
 import React from 'react';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { t } from 'in-i18n';
 
 interface ConfigFormFooterProps {
-  form: MapForm<any>;
   formId: string;
   onCancel: VoidFunction;
   cloneOnly?: boolean;
@@ -19,18 +17,11 @@ interface ConfigFormFooterProps {
   isDisabled?: boolean;
 }
 
-export default function ConfigFormFooter({
-  form,
-  formId,
-  cloneOnly,
-  isSaving,
-  isDisabled,
-  onCancel
-}: ConfigFormFooterProps) {
+export default function ConfigFormFooter({ formId, cloneOnly, isSaving, isDisabled, onCancel }: ConfigFormFooterProps) {
   return (
     <FormFooter withRoundedBottomBorder>
       <CancelButton onClick={onCancel} />
-      <SaveButton form={form} isSaving={isSaving} disabled={isDisabled} formId={formId}>
+      <SaveButton isSaving={isSaving} disabled={isDisabled} formId={formId}>
         {cloneOnly
           ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
           : t('in-custom-dashboards:widgets.slo.createSliForm.create')}

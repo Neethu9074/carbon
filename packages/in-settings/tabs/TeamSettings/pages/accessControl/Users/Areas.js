@@ -51,8 +51,7 @@ export default connectTo(
 );
 
 function collectIdsFromPermissionSets(permissionSetsToGroups) {
-  const values = permissionSetsToGroups.values();
-
+  const values = Object.values(permissionSetsToGroups);
   // OWNER always has all available permissions
   // without evaluating limited_*_scopes from all groups owners can not be limited on any area
   // similar to backend evaluations

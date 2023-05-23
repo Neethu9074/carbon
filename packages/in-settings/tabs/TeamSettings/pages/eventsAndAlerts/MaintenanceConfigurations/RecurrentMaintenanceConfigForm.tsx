@@ -32,8 +32,8 @@ import {
 //@ts-ignore-next-line
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { teamSettingsAlertingRecurrentMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import useEntityForm, { OnEntityChange, SetFormFunction } from '../../../../../hooks/useEntityForm';
+import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { MaintenanceStepConfigObject, stepConfigs } from './components/simpleModeConfig';
 import RecurrentMaintenanceConfigContainer from './RecurrentMaintenanceConfigContainer';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
@@ -67,16 +67,16 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
   const onClose = () => {
     close();
     if (props.setSaved) props.setSaved(true);
-    goToPath(teamSettingsAlertingRecurrentMaintenanceConfigurations);
+    goToPath(teamSettingsAlertingMaintenanceConfigurations);
   };
   const [step, setStep] = useState<number>(0);
-  const [simpleMode, setSimpleMode] = useState(true);
+  const [simpleMode, setSimpleMode] = useState(!entityId);
   const entityFormParams = {
     entityId,
     createDefaultEntity: createMaintenanceConfigV2,
     createForm: (config: MaintenanceConfigV2) => createForm(config, !entityId),
     getEntityFromApi: getMaintenanceConfigV2,
-    openEntities: () => goToPath(teamSettingsAlertingRecurrentMaintenanceConfigurations),
+    openEntities: () => goToPath(teamSettingsAlertingMaintenanceConfigurations),
     saveEntity: (config: MaintenanceConfigV2, form: MapForm<any>) => save(config, form, !entityId, simpleMode),
     onClose,
     onSaveSuccess: onClose

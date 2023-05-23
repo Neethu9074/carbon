@@ -10,18 +10,19 @@ import React, { useState } from 'react';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
+import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
+import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
-import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
-import { getWebsiteConfigurations } from 'in-websites/api/websites';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -41,6 +42,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const [form, setForm] = useState(originForm);
   const { subSlideConfig, setSubSlideConfig, showSubSlide, setShowSubSlide } = useSubSlideControl();
   const context = editMode ? 'edit' : 'create';
+  const timeConfig = useTimeConfig();
 
   const groupNameField = getField<string>(form, 'name');
 
@@ -100,7 +102,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
           roleTooltipText={t('in-settings:permissionScope.roleTooltip_websites')}
           entityPermissionKey="websiteIds"
-          observable={getWebsiteConfigurations}
+          observable={() => getAllWebsitesForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.WEBSITE}
           icon="lib_website"
           extractId={({ id }) => id}
@@ -123,7 +125,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
           roleTooltipText={t('in-settings:permissionScope.roleTooltip_mobileApps')}
           entityPermissionKey="mobileAppIds"
-          observable={getMobileAppConfigurations}
+          observable={() => getAllMobileAppsForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.MOBILE_APP}
           icon="lib_mobile_app"
           extractId={({ id }) => id}
@@ -146,11 +148,11 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
           roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
           entityPermissionKey="applicationIds"
-          observable={getApplicationConfigsAsResultObservable}
+          observable={() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.APPLICATION}
           icon="lib_application"
           extractId={({ id }) => id}
-          extractName={({ label }) => label}
+          extractName={({ name }) => name}
           {...formControlProps}
           {...slideControlProps}
         />
@@ -172,7 +174,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
         <PermissionSectionInfrastructure
           title={t('in-settings:productAreas.title_infrastructure')}
           viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
-          icon="lib_application"
+          icon="lib_infrastructure"
           {...formControlProps}
           {...slideControlProps}
         />
@@ -220,12 +222,12 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           title={t('in-settings:productAreas.title_global_functions')}
           productAreas={[
             ProductArea.MIXED,
+            ProductArea.LOGS,
             ProductArea.DASHBOARD,
             ProductArea.SYNTHETICS,
             ProductArea.AUTOMATION,
             ProductArea.AGENTS,
-            ProductArea.ACCESS_CONTROL,
-            ProductArea.ACCOUNT
+            ProductArea.ACCESS_CONTROL
           ]}
           icon="lib_actions_settings"
           {...formControlProps}

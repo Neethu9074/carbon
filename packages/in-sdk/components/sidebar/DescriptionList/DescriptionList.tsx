@@ -59,4 +59,3 @@ function isItemEmpty(children: ReactNode): boolean {
   // empty, e.g. for child components.
   return false;
 }
-

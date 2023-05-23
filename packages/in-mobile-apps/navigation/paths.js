@@ -24,6 +24,7 @@ import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
+import {useNavigation} from 'in-stores/navigation/hooks/useNavigation';
 
 export const mobileAppMonitoringPath = '/mobileAppMonitoring';
 export const isMobileAppsView = getRootPathPredicate(mobileAppMonitoringPath);
@@ -42,10 +43,17 @@ export const isAnalyzeView = navigationParameters$.map(
 
 export const detailsPath = '/details';
 export const summaryTab = '/summary';
+export const alertsTab = '/alerts';
 
 export const sessionViewPath = '/session';
 export const sessionViewPathFullyQualified = `${analyzePathFullyQualified}${sessionViewPath}`;
-export const closeSessionViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
+export function useCloseSessionViewLink() {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = analyzePathFullyQualified;
+
+  return createHref(location);
+}
 
 export const mobileAppPath = '/mobileApp';
 export const mobileAppPathFullyQualified = `${mobileAppMonitoringPath}${mobileAppPath}`;
@@ -65,13 +73,13 @@ export const configurationPrivacyFullyQualified = `${configurationTabFullyQualif
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 
-export const linkToMobileApps$ = getModifiedUrlStream(params => {
-  params.pathname = mobileAppsPathFullyQualified;
-});
+export function useLinkToNewMobileApp() {
+  const { location, createHref } = useNavigation();
 
-export const linkToNewMobileApp$ = getModifiedUrlStream(params => {
-  params.pathname = newMobileAppPathFullyQualified;
-});
+  location.pathname = newMobileAppPathFullyQualified;
+
+  return createHref(location);
+}
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
@@ -95,6 +103,30 @@ export function getLinkToMobileApp(
       setTimeConfig(params, timeConfig);
     }
   });
+}
+
+export function useGetLinkToMobileApp(
+  mobileAppId,
+  { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
+) {
+  const {location, createHref} = useNavigation();
+
+  location.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
+  setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+  if (viewId !== undefined) {
+    setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+  }
+
+  if (tabPath && tabParameters) {
+    Object.keys(tabParameters).forEach(name => setOrDeleteMatrixKey(location, tabPath, name, tabParameters[name]));
+  }
+
+  if (timeConfig) {
+    setTimeConfig(location, timeConfig);
+  }
+
+  return createHref(location);
 }
 
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog

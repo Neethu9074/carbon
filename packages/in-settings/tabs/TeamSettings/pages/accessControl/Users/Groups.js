@@ -103,7 +103,7 @@ const determineMessage = itemsResult => {
   return message;
 };
 
-function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult }) {
+function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult, page, setPage }) {
   const message = determineMessage(itemsResult);
   return (
     <>
@@ -114,7 +114,17 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
             <ColumnizedContent
               columnDefinitions={columnDefinitions}
               group={group}
-              deleteItem={() => removeUserFromGroupInternal(userId, group.groupId, refresh, setErrorMessage)}
+              deleteItem={() =>
+                removeUserFromGroupInternal(
+                  userId,
+                  group.groupId,
+                  refresh,
+                  setErrorMessage,
+                  setPage,
+                  page,
+                  items.length
+                )
+              }
               currentDeletingItemIds={currentDeletingItemIds}
             />
           </Li>
@@ -124,10 +134,13 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
   );
 }
 
-function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage) {
+function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage, setPage, page, itemSize) {
   const result$ = removeUserFromGroup(groupId, userId);
   result$.once(
     () => {
+      if (itemSize - 1 === 0) {
+        setPage(page - 1);
+      }
       refresh();
     },
     error => {

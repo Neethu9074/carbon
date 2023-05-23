@@ -15,6 +15,7 @@ import {
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
 import { isApplicationEntity } from 'in-services/entityUtils';
@@ -35,6 +36,7 @@ export function SmartAlertAffectedEntities({
   setApproxDataForAffectedEntities
 }) {
   const { rule, includeInternal, includeSynthetic } = alertConfig;
+  const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   if (rule.alertType === 'throughput') {
     // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
@@ -56,18 +58,21 @@ export function SmartAlertAffectedEntities({
   const renderLinkToAnalyzeAll = total => (
     <Link
       onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
-      href$={getLinkToUnboundAnalytics({
-        applicationId,
-        applicationName,
-        serviceId,
-        serviceName,
-        endpointId,
-        endpointName,
-        alertConfig,
-        timeConfig: fixedTimeConfig,
-        groupingTagName: needsGroupByEndpoint ? 'endpoint.name' : 'service.name',
-        adaptiveBaselineInfo
-      })}
+      href={getLinkToUnboundAnalytics(
+        {
+          applicationId,
+          applicationName,
+          serviceId,
+          serviceName,
+          endpointId,
+          endpointName,
+          alertConfig,
+          timeConfig: fixedTimeConfig,
+          groupingTagName: needsGroupByEndpoint ? 'endpoint.name' : 'service.name',
+          adaptiveBaselineInfo
+        },
+        getLinkToApplicationAnalyze
+      )}
     >
       {needsGroupByEndpoint
         ? t('in-events:showAllEndpoints', { count: total })
@@ -87,7 +92,7 @@ export function SmartAlertAffectedEntities({
         includeSynthetic={includeSynthetic}
         timeConfig={fixedTimeConfig}
         filterGroup={needsGroupByEndpoint ? groupByEndpointName : groupByServiceName}
-        createItemLink$={createItemLink$}
+        createItemLink={createItemLink}
         renderLinkToAnalyzeAll={renderLinkToAnalyzeAll}
         setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
       />
@@ -123,17 +128,20 @@ export function SmartAlertAffectedEntities({
     );
   }
 
-  function createItemLink$(item) {
-    return getLinkToUnboundAnalytics({
-      applicationId,
-      applicationName,
-      serviceId: needsGroupByEndpoint ? serviceId : item.id,
-      serviceName: needsGroupByEndpoint ? serviceName : item.name,
-      endpointId: needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
-      endpointName: needsGroupByEndpoint ? item.name : null,
-      alertConfig,
-      timeConfig: fixedTimeConfig,
-      adaptiveBaselineInfo
-    });
+  function createItemLink(item) {
+    return getLinkToUnboundAnalytics(
+      {
+        applicationId,
+        applicationName,
+        serviceId: needsGroupByEndpoint ? serviceId : item.id,
+        serviceName: needsGroupByEndpoint ? serviceName : item.name,
+        endpointId: needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
+        endpointName: needsGroupByEndpoint ? item.name : null,
+        alertConfig,
+        timeConfig: fixedTimeConfig,
+        adaptiveBaselineInfo
+      },
+      getLinkToApplicationAnalyze
+    );
   }
 }

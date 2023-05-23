@@ -30,7 +30,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
         }}
       />
-      <ThresholdOperatorDropDown form={form} updateForm={updateForm} />
+      <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
       <ThresholdValueInputWithValidationMessage
         max={maxValue}
         form={form}

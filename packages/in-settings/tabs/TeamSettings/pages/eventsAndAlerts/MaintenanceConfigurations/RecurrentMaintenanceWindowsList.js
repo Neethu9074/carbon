@@ -25,7 +25,7 @@ import {
   getMaintenanceConfigsMutableV2,
   deleteMaintenanceConfigV2
 } from 'in-api/maintenanceConfiguration';
-import { getEntityIdView, teamSettingsAlertingRecurrentMaintenanceConfigurations } from 'in-settings/navigation/paths';
+import { getEntityIdView, teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RecurrentMaintenanceConfigForm from './RecurrentMaintenanceConfigForm';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -86,7 +86,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
       }
     },
     toggleEnabled: {
-      get: entity => entity.paused,
+      get: entity => !entity.paused,
       toggle: entity => {
         const entityEventObject = {
           mwID: entity.id,
@@ -95,14 +95,16 @@ export default function RecurrentMaintenanceWindowsList(props) {
           currentState: entity.state
         };
         if (entity.paused) {
-          resumeMaintenanceConfig(entity.id);
           resumeMaintenanceWindowTracker(entityEventObject);
+          return resumeMaintenanceConfig(entity.id);
         } else {
-          pauseMaintenanceConfig(entity.id);
           pauseMaintenanceWindowTracker(entityEventObject);
+          return pauseMaintenanceConfig(entity.id);
         }
       },
-      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED'
+      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED',
+      disableLabel: t('in-alerting:components.revisionDropdownButton.pause'),
+      enableLabel: t('in-alerting:components.revisionDropdownButton.resume')
     }
   };
 
@@ -127,7 +129,9 @@ export default function RecurrentMaintenanceWindowsList(props) {
         }}
         onRowClick={entity => {
           editMaintenanceWindowTracker();
-          addActiveDialog(<RecurrentMaintenanceConfigForm {...props} onClose={close} existingID={entity.id} />);
+          addActiveDialog(
+            <RecurrentMaintenanceConfigForm {...props} onClose={close} setSaved={setSaved} existingID={entity.id} />
+          );
         }}
         trackEvent={newMaintenanceWindowTracker}
         searchAttributes={['name', 'scope', getStartAsString, getEndAsString, 'status']}
@@ -150,7 +154,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingRecurrentMaintenanceConfigurations)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>

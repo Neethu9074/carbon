@@ -50,10 +50,20 @@ const cols = [
       getValue(row) {
         return row.configMainMetric.get('rating');
       },
-      getContent(args) {
+      getContent(args, row) {
         return (
           <div className={locals.center}>
-            <HealthDot color={statusToColour[args || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />
+            <HealthDot
+              type={'configuration'}
+              yellowToGreen={row.configMainMetric.get('yellowToGreen')}
+              greenToYellow={row.configMainMetric.get('greenToYellow')}
+              redToYellow={row.configMainMetric.get('redToYellow')}
+              yellowToRed={row.configMainMetric.get('yellowToRed')}
+              unit={row.configMainMetric.get('unit')}
+              explanation={theme.lib.colors.success}
+              color={statusToColour[args || statusToColour.Unknown]}
+              iconSize={SvgIconSizes.xxs}
+            />
           </div>
         );
       }
@@ -78,54 +88,6 @@ const cols = [
           return 'Count';
         }
         return row.configMainMetric.get('unit');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.greenToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.configMainMetric.get('greenToYellow'))) {
-          return '-';
-        }
-        return row.configMainMetric.get('greenToYellow').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToGreen'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.configMainMetric.get('yellowToGreen'))) {
-          return '-';
-        }
-        return row.configMainMetric.get('yellowToGreen').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.yellowToRed'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.configMainMetric.get('yellowToRed'))) {
-          return '-';
-        }
-        return row.configMainMetric.get('yellowToRed').toString();
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.redToYellow'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        if (isNaN(row.configMainMetric.get('redToYellow'))) {
-          return '-';
-        }
-        return row.configMainMetric.get('redToYellow').toString();
       }
     }
   }
@@ -162,6 +124,10 @@ export default connectTo(
           configMainMetric
         };
       });
+
+    if (rows.length === 0) {
+      return <DashboardNotification type="info">No data found: {configurationName}</DashboardNotification>;
+    }
 
     const getDetails = row => {
       if (!snapshotMap?.timeConfig) {

@@ -5,8 +5,6 @@
 
 // eslint-disable-next-line no-restricted-imports
 import Tooltip from '@mui/material/Tooltip';
-// eslint-disable-next-line no-restricted-imports
-import { withStyles } from '@mui/styles';
 import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -28,7 +26,6 @@ import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CustomTime.mless';
@@ -39,15 +36,6 @@ const maximumWindow = days.toMillis(31);
 export default function CustomTime({ timeConfig, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
-
-  const StyledTooltip = withStyles({
-    tooltip: {
-      color: 'white',
-      backgroundColor: theme.lib.colors.N500,
-      fontSize: '0.75rem',
-      textAlign: 'center'
-    }
-  })(Tooltip);
 
   const from = getTime(form.get('from'));
   const to = getTime(form.get('to'));
@@ -106,7 +94,7 @@ export default function CustomTime({ timeConfig, onChange }) {
 
   function TimeSliderTooltip({ value, children, open }) {
     return (
-      <StyledTooltip
+      <Tooltip
         open={open}
         placement="top"
         title={
@@ -118,7 +106,7 @@ export default function CustomTime({ timeConfig, onChange }) {
         }
       >
         {children}
-      </StyledTooltip>
+      </Tooltip>
     );
   }
 

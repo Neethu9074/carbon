@@ -47,6 +47,8 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+// eslint-disable-next-line
+import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -57,10 +59,10 @@ import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
+import { viewEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-automation/api';
-import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
@@ -68,7 +70,6 @@ import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
-
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecificationMutable(entityId);
     const actionDetails$ = getCustomEventActions(entityId);
@@ -88,22 +89,15 @@ export default function CustomEvent(props) {
         ? mergeResultData
         : getCustomEventSpecificationMutable,
     saveEntity: (event, form) => save(event, form, actions),
+    // eslint-disable-next-line
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
 
-  const {
-    entity,
-    form,
-    isCreate,
-    saveEnabled,
-    loading,
-    error,
-    message,
-    onSubmit,
-    setForm,
-    onChange,
-    setSaveEnabled
-  } = useEntityForm(entityFormParam);
+  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange, setSaveEnabled } =
+    useEntityForm(entityFormParam);
+  useEffect(() => {
+    if (entityId && entity) viewEventTracker({ entity, type: 'CUSTOM' });
+  }, [entity, entityId]);
 
   const errorLoading = error && !entity;
 
@@ -334,12 +328,14 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const entityType = form.get('entityType')?.value ?? null;
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
+  const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
 
   return createCustomMultiThresholdBasedEventSpecification(
     event?.id ?? null,
     entityType,
     form.get('gracePeriod').value,
     rules ?? [],
+    ruleLogicalOperator,
     form.get('name').value,
     form.get('description').value,
     query,
@@ -348,37 +344,39 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   );
 }
 
-const formToRuleMapper = ({ severity, entityType }) => form => {
-  const formatterType = form.get('formatter')?.value ?? null;
-  let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
-  conditionValue = unmapConditionValue(conditionValue, formatterType);
+const formToRuleMapper =
+  ({ severity, entityType }) =>
+  form => {
+    const formatterType = form.get('formatter')?.value ?? null;
+    let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
+    conditionValue = unmapConditionValue(conditionValue, formatterType);
 
-  let metricName = form.get('metricName')?.value ?? null;
-  let metricPattern = null;
+    let metricName = form.get('metricName')?.value ?? null;
+    let metricPattern = null;
 
-  if (isBuiltInDynamicMetric(entityType, metricName)) {
-    const metricDefinition = getMetricDefinition(entityType, metricName);
-    if (metricDefinition && metricDefinition.metricPattern) {
-      metricPattern = {
-        prefix: metricDefinition.metricPattern.pre,
-        postfix: metricDefinition.metricPattern.post,
-        operator: form.get('metricPatternOperator').value,
-        placeholder: form.get('metricPatternPlaceholder')?.value ?? null
-      };
-      metricName = null;
+    if (isBuiltInDynamicMetric(entityType, metricName)) {
+      const metricDefinition = getMetricDefinition(entityType, metricName);
+      if (metricDefinition && metricDefinition.metricPattern) {
+        metricPattern = {
+          prefix: metricDefinition.metricPattern.pre,
+          postfix: metricDefinition.metricPattern.post,
+          operator: form.get('metricPatternOperator').value,
+          placeholder: form.get('metricPatternPlaceholder')?.value ?? null
+        };
+        metricName = null;
+      }
     }
-  }
-  return createThresholdRule(
-    metricName,
-    metricPattern,
-    form.get('rollup') ? Number(form.get('rollup').value) : 0,
-    form.get('window') ? Number(form.get('window').value) : null,
-    form.get('aggregation')?.value ?? null,
-    form.get('conditionOperator')?.value ?? null,
-    conditionValue,
-    severity
-  );
-};
+    return createThresholdRule(
+      metricName,
+      metricPattern,
+      form.get('rollup') ? Number(form.get('rollup').value) : 0,
+      form.get('window') ? Number(form.get('window').value) : null,
+      form.get('aggregation')?.value ?? null,
+      form.get('conditionOperator')?.value ?? null,
+      conditionValue,
+      severity
+    );
+  };
 
 function TrackingLegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }) {
   useEffect(() => {

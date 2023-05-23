@@ -1,0 +1,84 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { Toggle, Spacer } from '@instana/components';
+
+import AlertSection from 'in-alerting/components/AlertSection';
+import Sections from 'in-components/workspace/Sections';
+import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/components/AlertPropertyInfos.mless';
+
+interface PropertiesBySeverityProps {
+  icon: string;
+  label: string;
+}
+
+interface AlertConfigProps {
+  name: string;
+  description: string;
+  triggering?: boolean;
+  severity: number;
+}
+
+const propertiesBySeverity: Readonly<Record<number, PropertiesBySeverityProps>> = Object.freeze({
+  5: {
+    icon: 'lib_events_warning',
+    label: t('in-alerting:components.alertPropertyInfosWarning')
+  },
+  10: {
+    icon: 'lib_events_critical',
+    label: t('in-alerting:components.alertPropertyInfosCritical')
+  }
+});
+
+interface AlertPropertyInfosProps {
+  alertConfig: AlertConfigProps;
+  renderCustomTitle?: () => string;
+  disableTrigger: boolean;
+}
+
+export default function AlertPropertyInfos({
+  alertConfig: { name, description, triggering = false, severity },
+  renderCustomTitle,
+  disableTrigger
+}: AlertPropertyInfosProps) {
+  const severityProperty = propertiesBySeverity[severity];
+  return (
+    <Sections>
+      <AlertSection title={t('in-alerting:components.alertPropertyInfosLabelTitle')}>
+        <Label className={locals.staticTitle}>{renderCustomTitle?.() ?? name}</Label>
+      </AlertSection>
+      <AlertSection icon={severityProperty.icon} title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}>
+        <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
+      </AlertSection>
+      {!disableTrigger && (
+        <AlertSection
+          icon="lib_events_incident"
+          title={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
+        >
+          <Toggle checked={triggering} disabled />
+          <Spacer horizontal="xxsmall" />
+        </AlertSection>
+      )}
+      <AlertSection
+        icon="lib_help_error_error_outline"
+        title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
+      >
+        <Label className={locals.staticDescription}>{description}</Label>
+      </AlertSection>
+    </Sections>
+  );
+}
+
+AlertPropertyInfos.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  renderCustomTitle: PropTypes.func,
+  disableTrigger: PropTypes.bool
+};

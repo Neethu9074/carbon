@@ -9,6 +9,7 @@ import React from 'react';
 import { Button, Message } from '@instana/components';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { clickTestAlertChannelTracker } from 'in-settings/tracker';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
@@ -31,6 +32,11 @@ export default class extends React.Component {
   test(alertChannel, form) {
     if (!this.props.form.hierarchyValid) {
       this.props.setForm(this.props.form.setTouched(true, { recurse: true }));
+      clickTestAlertChannelTracker({
+        alertChannelLabel: this.props.alertChannel.get('kind'),
+        testError: true,
+        testMessage: 'Invalid form configuration'
+      });
       return;
     }
 
@@ -49,12 +55,22 @@ export default class extends React.Component {
           errorResponse:
             response.get('result') && response.get('result') === t('in-settings:successResponse') ? false : true
         });
+        clickTestAlertChannelTracker({
+          alertChannelLabel: this.props.alertChannel.get('kind'),
+          testError: this.state.errorResponse || this.state.error,
+          testMessage: this.state.message
+        });
       },
       error => {
         this.setState({
           loading: false,
           error: true,
           message: error.message
+        });
+        clickTestAlertChannelTracker({
+          alertChannelLabel: this.props.alertChannel.get('kind'),
+          testError: this.state.errorResponse || this.state.error,
+          testMessage: this.state.message
         });
       }
     );
@@ -68,7 +84,9 @@ export default class extends React.Component {
             kind="info"
             icon={this.state.loading ? 'lib_actions_loading' : null}
             iconSpinning
-            onClick={() => this.test(this.props.alertChannel, this.props.form)}
+            onClick={() => {
+              this.test(this.props.alertChannel, this.props.form);
+            }}
             disabled={!this.props.form.hierarchyValid && this.props.form.touched}
             className="test_channel_dialog_child"
           >

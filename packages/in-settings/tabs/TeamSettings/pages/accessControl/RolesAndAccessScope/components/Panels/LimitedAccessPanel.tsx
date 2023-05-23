@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
 import { PermissionSetWithRoles, ScopeBinding, Result, OrderDirection } from '@instana/types';
-import { Button, Stack, StackItem, SvgIcon, Typography } from '@instana/components';
+import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { useTheme } from '@instana/hooks';
 
 import {
   EntityPermissionKey,
@@ -20,6 +20,7 @@ import {
   AreaRoleType,
   AreaRoleWithCustomType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
   ExtractIdFunction,
@@ -36,7 +37,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 interface LimitedAccessPanelProps<I, FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE>,
@@ -112,8 +112,7 @@ export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
       id: 'name',
       label: t('in-settings:selectEntityDialog.nameColumnHead'),
       getContent(entity) {
-        const name = extractName(entity);
-        return <>{name}</>;
+        return <EntityTableCellWithOverflow content={extractName(entity)} />;
       }
     },
     {
@@ -189,6 +188,7 @@ export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
         onClickItem={noop}
         onChange={({ orderDirection: dir }) => setOrderDirection(dir ?? orderDirection)}
         columnDefinition={columnDefinition}
+        paginated
       />
     </Stack>
   );

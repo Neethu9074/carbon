@@ -43,7 +43,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
 
   const [visibleItems, setVisibleItems] = useState(10);
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (event: React.MouseEvent) => {
+    event.preventDefault();
     setVisibleItems(prevVisibleItems => prevVisibleItems + 10);
   };
 

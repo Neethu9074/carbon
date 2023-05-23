@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { getTotalActiveFacetItems } from 'in-components/AnalyzeView/utils';
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -22,12 +21,9 @@ export function FacetedSearchPresenter(props) {
     getFacetedSearchSuggestions
   } = props;
 
-  const totalActiveCount = getTotalActiveFacetItems(facetedSearchItems, facets);
-
   return facetedSearchItems?.length > 0 ? (
     <FacetedSearch
       {...props}
-      totalActiveCount={totalActiveCount}
       getSuggestions={({ tag, entity }) =>
         getFacetedSearchSuggestions({
           timeConfig,

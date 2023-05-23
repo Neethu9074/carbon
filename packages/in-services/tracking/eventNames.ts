@@ -199,9 +199,20 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
-export const SETTINGS_ALERT_CHANNEL_SUBMIT = 'settings.alertChannel.submit';
+
+// Owned by Team Alert Response
+// Tracking all team owned components
+export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
 export const SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM = 'settings.alertChannel.new';
+export const SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK = 'settings.alertChannel.addMenu.click';
+export const SETTINGS_ALERT_CHANNEL_ADD_CLICK = 'settings.alertChannel.add.click';
+export const SETTINGS_ALERT_CHANNEL_TEST_CLICK = 'settings.alertChannel.test.click';
+export const SETTINGS_ALERT_CHANNEL_CLICK = 'settings.alertChannel.click';
+export const SETTINGS_ALERT_CHANNEL_DELETE = 'settings.alertChannel.delete';
+export const SETTINGS_ALERT_CHANNEL_EDIT = 'settings.alertChannel.edit';
+
 export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
+export const SETTINGS_ALERT_DELETE = 'settings.alert.delete';
 export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayload.submit';
@@ -212,9 +223,16 @@ export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.cli
 export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
 export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
 export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
-export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
-export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
-export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+
+//Events
+export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
+export const SETTINGS_EVENT_SUBMIT = 'settings.event.saved';
+export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.add.clicked';
+export const SETTINGS_EVENT_ENABLE = 'settings.event.enabled';
+export const SETTINGS_EVENT_DISABLE = 'settings.event.disabled';
+export const SETTINGS_EVENT_DELETE_TRIGGER = 'settings.event.delete.clicked';
+export const SETTINGS_EVENT_DELETED = 'settings.event.delete.confirmed';
+
 export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
 export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
 export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';
@@ -225,7 +243,7 @@ export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
 export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
 export const SETTINGS_MAINTENANCE_WINDOW_RESUME = 'settings.maintenance.resume';
 export const SETTINGS_MAINTENANCE_WINDOW_PAUSE = 'settings.maintenance.pause';
-export const SETTINGS_MAINTENANCE_WINDOW_ADANCED = 'settings.maintenance.to.advanced';
+export const SETTINGS_MAINTENANCE_WINDOW_ADVANCED = 'settings.maintenance.to.advanced';
 export const SETTINGS_MAINTENANCE_WINDOW_SIMPLE = 'settings.maintenance.to.simple';
 export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE = 'settings.maintenance.nextStep.one';
 export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO = 'settings.maintenance.nextStep.two';
@@ -336,12 +354,12 @@ export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
 // Smart Alert Tracking
 
-export const ALERTING_CREATE = 'alerting.add';
-export const ALERTING_SAVED = 'alerting.saved';
-export const ALERTING_UPDATED = 'alerting.updated';
-export const ALERTING_EDIT = 'alerting.edit';
-export const ALERTING_DELETE_TRIGGER = 'alerting.delete.trigger';
-export const ALERTING_DELETE_CONFIRM = 'alerting.deleted.confirm';
-export const ALERTING_PAUSED = 'alerting.paused';
-export const ALERTING_RESUMED = 'alerting.resumed';
-export const ALERTING_CLONE_TRIGGER = 'alerting.clone.trigger';
+export const ALERTING_CREATE = 'smartalert.add.clicked';
+export const ALERTING_SAVED = 'smartalert.saved';
+export const ALERTING_UPDATED = 'smartalert.updated';
+export const ALERTING_EDIT = 'smartalert.edit.clicked';
+export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
+export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
+export const ALERTING_PAUSED = 'smartalert.paused';
+export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';

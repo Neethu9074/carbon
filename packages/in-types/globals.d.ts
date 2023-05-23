@@ -29,10 +29,9 @@ export interface Role {
   // pre-evaluated permissions from backend
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
+  canRunAutomationActions: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
-  // @deprecated remove when completeley switched to using permissions
-  restrictedAccess: boolean;
 }
 
 export interface User {

@@ -8,8 +8,8 @@ import { combineLatest } from '@instana/observables';
 import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping';
 import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
+import { hasInfrastructureAccess } from 'in-stores/permission';
 import { view$ } from 'in-infrastructure/perspectives/view';
-import { hasRestrictedAccess } from 'in-stores/permission';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
@@ -69,18 +69,7 @@ export function getViewStructure() {
 }
 
 export function getPermittedIds(searchMatches, scope, query) {
-  let hasSearchMatches = (searchMatches && searchMatches.length > 0) || false;
-  let hasPermittedScope = (scope && scope.length > 0) || false;
-
-  if (hasPermittedScope && hasRestrictedAccess && !hasSearchMatches) {
-    return isBlank(query) ? scope : [];
-  }
-  if (!hasSearchMatches) {
-    if (isBlank(query) && !hasRestrictedAccess) {
-      return null; //  everything matches
-    } else {
-      return []; // nothing matches
-    }
-  }
-  return searchMatches;
+  if (!hasInfrastructureAccess) return []; // if has no access at all
+  if (isBlank(query) || searchMatches === null) return scope; // empty query or searchMatches not yet set then return all accessible (scope)
+  return searchMatches; // filtered with rbac by backend
 }

@@ -69,7 +69,7 @@ export default function MaintenanceConfigurationForm(props) {
             maxLength={256}
           />
           <TouchedMessages field={field} />
-          <DescriptionText>{t('in-settings:tabs.mainentanceWindowNamesShouldBeUniqueAndMeaningful')}</DescriptionText>
+          <DescriptionText>{t('in-settings:tabs.maintenanceWindowNamesShouldBeUniqueAndMeaningful')}</DescriptionText>
         </FormGroup>
       ))}
       {form.get('applyOn').map(field => (

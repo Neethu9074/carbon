@@ -37,9 +37,7 @@ import {
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk,
-  teamSettingsAlertingHub,
-  teamSettingsAlertingRecurrentMaintenanceConfigurations,
-  teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit
+  teamSettingsAlertingHub
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
@@ -213,31 +211,32 @@ function navigationTreeForRole(role) {
     }
 
     if (role.canConfigureCustomAlerts) {
-      eventsAndAlertsPages.push({
-        path: teamSettingsAlertingMaintenanceConfigurations,
-        label: t('in-settings:tabs.maintenanceWindows'),
-        component: MaintenanceWindowsPage,
-        subPages: [
-          {
-            path: teamSettingsAlertingMaintenanceConfigurationNew,
-            component: MaintenanceWindowPage
-          },
-          {
-            path: teamSettingsAlertingMaintenanceConfigurationEdit,
-            component: MaintenanceWindowPage
-          }
-        ]
-      });
       if (recurrentMaintenanceWindowEnabled) {
         eventsAndAlertsPages.push({
-          path: teamSettingsAlertingRecurrentMaintenanceConfigurations,
-          label: t('in-settings:tabs.recurrentMaintenanceWindows'),
+          path: teamSettingsAlertingMaintenanceConfigurations,
+          label: t('in-settings:tabs.maintenanceWindows'),
           component: RecurrentMaintenanceWindowsListPage,
           isBeta: true,
           subPages: [
             {
-              path: teamSettingsAlertingRecurrentMaintenanceConfigurationsEdit,
+              path: teamSettingsAlertingMaintenanceConfigurationEdit,
               component: RecurrentMaintenanceWindowFormPage
+            }
+          ]
+        });
+      } else {
+        eventsAndAlertsPages.push({
+          path: teamSettingsAlertingMaintenanceConfigurations,
+          label: t('in-settings:tabs.maintenanceWindows'),
+          component: MaintenanceWindowsPage,
+          subPages: [
+            {
+              path: teamSettingsAlertingMaintenanceConfigurationNew,
+              component: MaintenanceWindowPage
+            },
+            {
+              path: teamSettingsAlertingMaintenanceConfigurationEdit,
+              component: MaintenanceWindowPage
             }
           ]
         });

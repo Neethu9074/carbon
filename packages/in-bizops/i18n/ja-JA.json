@@ -1,0 +1,14 @@
+{
+  "labelBizOps": "プロセス",
+  "labelSmartAlerts": "スマート・アラート",
+  "labelActivities": "アクティビティー",
+  "lists": {
+    "activityLabel": "アクティビティー・カウント",
+    "idLabel": "プロセス ID",
+    "noData": "表示可能なデータがありません",
+    "toolLabel": "ツール"
+  },
+  "navigation": {
+    "bizOps": "ビジネス・プロセス"
+  }
+}

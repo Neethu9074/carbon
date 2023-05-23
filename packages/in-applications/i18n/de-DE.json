@@ -194,6 +194,7 @@
     "hiddenCalls": "Verborgene Aufrufe",
     "fastQueryMode": "Schneller Abfragemodus",
     "fastQueryModeTooltip": "Der schnelle Abfragemodus ermöglicht die Abfrageausführung für eine Untergruppe von Aufrufen oder Traces, wenn die Ausführung für das vollständige Dataset zu lange dauern würde.",
+    "filteredInThisTrace": "in diesem Trace gefiltert",
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Nur synthetische Aufrufe werden angezeigt und in die Messdaten eingeschlossen"
   },
   "traceDetail": {
+    "beta": "BETA",
+    "foreignRootCall": "Nicht von Instana überwacht",
+    "notYetReceivedRootCall": "Rootaufruf noch nicht empfangen",
     "tabs": {
       "summary": {
         "duplicateCalls": "Doppelte Aufrufe",
@@ -575,16 +579,20 @@
         "largeTrace": "Großer Trace",
         "largeTraceLink": "Dieser Trace ist groß und die Wiedergabe dieses Trace kann zu Leistungsproblemen in Ihrem Browser führen. Sie können entweder den <linkToDocs>Trace herunterladen</linkToDocs>, um ihn manuell zu überprüfen, oder versuchen, den Trace im Browser wiederzugeben. Es wird nur eine Teilmenge der Komponenten wiedergegeben, um die Leistung bei diesem Versuch zu steigern.",
         "calls": "Aufrufe",
-        "erroneousTrace": "Fehlerhafter Trace",
         "attemptToRenderTrace": "Versuch, Trace wiederzugeben",
         "analyzeBeacons": "Beacons analysieren",
         "adjustedTimeConfigForTrace": "Der Zeitbereich wurde angepasst, um alle Aufrufe des ausgewählten Trace einzubeziehen.",
-        "adjustedTimeConfigForBeacon": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen."
+        "adjustedTimeConfigForBeacon": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen.",
+        "timeLineViewNotAvailable": "Dies ist ein Trace mit mehr als {{maximumNumberOfCallsForLargeTraceConsideration}} Aufrufen. Zeitachsenansicht ist nicht verfügbar. Zunächst werden nur der ausgewählte Aufruf und seine unmittelbaren gleichgeordneten Elemente angezeigt."
       }
     },
     "components": {
       "callTreeHeaderParent": "Übergeordneten Aufruf laden",
-      "callTreeHeaderCalls": "Mehr Aufrufe laden"
+      "callTreeHeaderCalls": "Mehr Aufrufe laden",
+      "callTreeLoadingOfParentFailed": "Übergeordneter Aufruf kann derzeit nicht geladen werden",
+      "callTreeLoadingOfCallsFailed": "Aufrufe können derzeit nicht geladen werden",
+      "retry": "Wiederholen Sie die Aktion",
+      "treeHeaderLatency": "Latenzzeit für Rootaufrufe"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>Sind alternative Services in Ordnung?</bold>",
     "alternativeServicesProblem": "<bold>Nein</bold>, wenn der Name des aktuellen Service aus dem HTTP-Header \"Host\" stammt (Servicezuordnungsregel mit der ID call.http.host) und der Name des alternativen Service nicht (weil sein Name aus einer Regel stammt, die auf Infrastrukturtags basiert) oder umgekehrt. Hierbei handelt es sich um doppelte Services.",
     "alternativeServicesPossibleProblem": "<bold>Möglicherweise</bold>, wenn der Name des aktuellen Service und der Name des alternativen Service nicht aus dem HTTP-Header \"Host\" stammen. Es handelt sich dann entweder um Services hinter einem Proxy (gut) oder um doppelte Services (schlecht): Einige der Services sind vollständig mit Infrastruktur verbunden, während andere teilweise mit Infrastruktur verbunden sind."
-  },
-  "widgetNotActive": {
-    "title": "Widget wird im Livemodus nicht unterstützt",
-    "button": "Live-Modus stoppen"
   }
 }

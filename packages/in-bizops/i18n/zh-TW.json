@@ -1,0 +1,14 @@
+{
+  "labelBizOps": "程序",
+  "labelSmartAlerts": "智慧型警示",
+  "labelActivities": "活動",
+  "lists": {
+    "activityLabel": "活動計數",
+    "idLabel": "程序 ID",
+    "noData": "沒有可用的資料",
+    "toolLabel": "工具"
+  },
+  "navigation": {
+    "bizOps": "商業程序"
+  }
+}

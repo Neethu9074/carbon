@@ -1,0 +1,47 @@
+{
+  "general": {
+    "addButtonLabel": "추가",
+    "saveButtonLabel": "저장",
+    "cancelButtonLabel": "취소",
+    "editButtonLabel": "편집",
+    "copyButtonLabel": "복사",
+    "deleteButtonLabel": "삭제",
+    "entityTypes": {
+      "label": "알 수 없는 엔티티",
+      "label_application": "애플리케이션",
+      "label_website": "웹 사이트"
+    }
+  },
+  "createSloDialog": {
+    "title": "SLO(Service Level Objective) 생성",
+    "selectEntityNavItem": "엔티티 선택",
+    "selectEntityTitle": "SLO를 추가할 엔티티 선택:"
+  },
+  "sloList": {
+    "components": {
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "애플리케이션 SLO",
+          "websites": "웹 사이트 SLO"
+        }
+      },
+      "sloBlueprintColumnContent": {
+        "blueprint": "알 수 없는 Blueprint",
+        "blueprint_latency": "대기 시간",
+        "blueprint_availability": "Availability"
+      },
+      "entityTypeFilter": {
+        "placeholder": "엔티티 유형"
+      },
+      "sloTagFilter": {
+        "placeholder": "태그"
+      }
+    },
+    "title": "서비스 레벨 목표",
+    "columnLabels": {
+      "name": "이름",
+      "entity": "엔티티",
+      "blueprint": "블루프린트"
+    }
+  }
+}

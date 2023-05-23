@@ -1,15 +1,29 @@
 
 {
- "labelBizOps": "Processes",
- "labelSmartAlerts": "Smart Alerts",
- "labelActivities": "Activities",
- "lists": {
-  "activityLabel": "Activity Count",
-  "idLabel": "Process ID",
-  "noData": "No data available",
-  "toolLabel": "Tool"
- },
- "navigation": {
-   "bizOps": "Business Processes"
- }
+  "labelBizOps": "Processes",
+  "labelSmartAlerts": "Smart Alerts",
+  "labelActivities": "Activities",
+  "lists": {
+    "pageTitle": "Business Monitoring",
+    "cardTitle": "Business Processes",
+    "activityLabel": "Activities",
+    "nameLabel": "Name",
+    "noData": "No data available",
+    "healthLabel": "Health",
+    "startLabel": "Started"
+  },
+  "navigation": {
+    "businessMonitoring": "Business Monitoring"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "Analyze Instances",
+    "summary": {
+      "pageTitle": "Business Process",
+      "summaryTab": "Summary",
+      "widgets": {
+        "timeline": "Timeline",
+        "businessProcessStartedLabel": "{{businessProcessName}} started"
+      }
+    }
+  }
 }

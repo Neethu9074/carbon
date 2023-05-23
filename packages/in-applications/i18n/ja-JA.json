@@ -194,6 +194,7 @@
     "hiddenCalls": "非表示の呼び出し",
     "fastQueryMode": "高速照会モード",
     "fastQueryModeTooltip": "高速照会モードを使用すると、データ・セット全体に対する実行に時間がかかりすぎる場合に、呼び出しのサブセットまたはトレースのサブセットに対して照会を実行できます。",
+    "filteredInThisTrace": "このトレースでフィルターに掛けられた",
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",
     "traceIdTooltip": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
@@ -559,6 +560,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "シンセティック呼び出しのみが表示され、メトリックに含められます。"
   },
   "traceDetail": {
+    "beta": "ベータ",
+    "foreignRootCall": "Instana によってモニターされていません",
+    "notYetReceivedRootCall": "ルート呼び出しがまだ受信されていません",
     "tabs": {
       "summary": {
         "duplicateCalls": "重複した呼び出し",
@@ -575,16 +579,20 @@
         "largeTrace": "大きなトレース",
         "largeTraceLink": "このトレースはサイズが大きいため、このトレースをレンダリングすると、ブラウザーにパフォーマンス上の問題が生じる可能性があります。 <linkToDocs>トレースをダウンロード</linkToDocs>して手動で検査するか、ブラウザー内でトレース・レンダリングを試行することができます。 この試行では、パフォーマンスを向上させるために、コンポーネントのサブセットのみがレンダリングされます。",
         "calls": "呼び出し",
-        "erroneousTrace": "エラーのあるトレース",
         "attemptToRenderTrace": "トレース・レンダリングの試行",
         "analyzeBeacons": "ビーコンの分析",
         "adjustedTimeConfigForTrace": "時刻範囲は、選択されたトレースのすべての呼び出しを含むように調整されています。",
-        "adjustedTimeConfigForBeacon": "時間範囲は、選択ビーコンを含むように調整されました。"
+        "adjustedTimeConfigForBeacon": "時間範囲は、選択ビーコンを含むように調整されました。",
+        "timeLineViewNotAvailable": "これは、 {{maximumNumberOfCallsForLargeTraceConsideration}} 回を超える呼び出しがあるトレースです。 タイムライン・ビューは使用できません。 最初は、選択したコールとその直接の兄弟のみが表示されます。"
       }
     },
     "components": {
       "callTreeHeaderParent": "親呼び出しのロード",
-      "callTreeHeaderCalls": "さらに呼び出しを読み込みます"
+      "callTreeHeaderCalls": "さらに呼び出しを読み込みます",
+      "callTreeLoadingOfParentFailed": "現時点では親呼び出しをロードできません",
+      "callTreeLoadingOfCallsFailed": "現時点ではコールをロードできません",
+      "retry": "もう一度試してください",
+      "treeHeaderLatency": "ルート呼び出し待ち時間"
     }
   },
   "tabs": {
@@ -645,9 +653,5 @@
     "alternativeServicesOk": "<bold>代替サービスを表示してもよろしいですか?</bold>",
     "alternativeServicesProblem": "<bold>いいえ</bold>。現行のサービスの名前がHTTPの「Host」ヘッダー(IDがcall.http.hostのサービス・マッピング・ルール)に由来し、代替のサービスの名前がそうでない場合(その名前がインフラストラクチャー・タグに基づくルールにのため)、またはその逆の場合。 これらは重複するサービスです。",
     "alternativeServicesPossibleProblem": "<bold>多分</bold>は、現在のサービス名と代替サービス名がHTTPの「Host」ヘッダーからのものでない場合、それらはプロキシーの後ろにあるサービス(良好)か、重複するサービス(不良)のいずれかです。一部のサービスは完全にインフラストラクチャーにリンクされ、その他のサービスは部分的にインフラストラクチャーにリンクされます。"
-  },
-  "widgetNotActive": {
-    "title": "ウィジェットは、ライブ・モードではサポートされません",
-    "button": "ライブ・モードの停止"
   }
 }
