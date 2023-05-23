@@ -387,11 +387,10 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
             };
           } else if (parameter.type === 'dynamic') {
             const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
-
             return {
               ...acc,
               [parameter.name]: createField({
-                value: resolvedValue,
+                value: formatResolvedValue(resolvedValue),
                 validator: parameter.required ? notBlankValidator : undefined
               })
             };
@@ -407,3 +406,15 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
       })
     );
 }
+
+const formatResolvedValue = (value: string) => {
+  try {
+    const parsedValue = JSON.parse(value);
+    if (Array.isArray(parsedValue) && parsedValue.length > 1) {
+      return '[' + parsedValue.join(',') + ']';
+    }
+    return parsedValue;
+  } catch {
+    return '';
+  }
+};
