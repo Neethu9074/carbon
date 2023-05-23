@@ -4915,7 +4915,8 @@
         "labelOpenedDbs1m": "Number of opended dbs for 1min period",
         "labelOpenedDbs5m": "Number of opended dbs for 5min period",
         "labelOpenedDbs1h": "Number of opended dbs for 1h period",
-        "labelEmergencyFlush": "Number of emergency flushes"
+        "labelEmergencyFlush": "Number of emergency flushes",
+        "labelNumOfErrorRequests": "Number of error requests"
       }
     },
     "bizTalk": {
