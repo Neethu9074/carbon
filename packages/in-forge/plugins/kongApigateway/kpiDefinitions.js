@@ -9,13 +9,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.kongApigateway.running'),
+    label: t('in-forge:plugins.kongApigateway.Nginxrunning'),
     metric: 'nginxTimers.running',
     formatter: number.compact
   },
   {
     metric: 'nginxTimers.pending',
-    label: t('in-forge:plugins.kongApigateway.pending'),
+    label: t('in-forge:plugins.kongApigateway.Nginxpending'),
     formatter: number.compact
   }
 ];
