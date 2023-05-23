@@ -181,6 +181,7 @@
     "feedback": {
       "successTitle": "Success!",
       "successMessageCreate": "Successfully created synthetic test",
+      "successMessageUpdate": "Successfully updated synthetic test",
       "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
       "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
@@ -190,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
+    },
+    "updateTest":{
+      "dialogTitle": "Edit API Test",
+      "buttonSave": "Save",
+      "scriptSavedMessage": "Script added",
+      "bundleSavedMessage": "Bundled scripts added"
     }
   },
   "createTest": {

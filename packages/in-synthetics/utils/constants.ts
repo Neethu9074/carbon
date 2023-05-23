@@ -364,6 +364,7 @@ export interface AdvancedModeProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
+  isUpdateConfig: boolean;
 }
 
 export interface ConfigItem {
