@@ -7,6 +7,7 @@
 import React from 'react';
 
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
@@ -25,6 +26,7 @@ const tableActions = {
   }
 };
 export default function ActionCatalogTab() {
+  const { createHrefToPath } = useNavigation();
   return (
     <AutomationTabs>
       <ActionTable
@@ -34,7 +36,7 @@ export default function ActionCatalogTab() {
           t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })
         }
         tableActions={tableActions}
-        rightHeader={rightHeader()}
+        rightHeader={rightHeader(createHrefToPath)}
         loadEntities={getAllActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
@@ -45,9 +47,10 @@ export default function ActionCatalogTab() {
   );
 }
 
-function rightHeader() {
+function rightHeader(createHrefToPath: any) {
   return createNewEntityButton({
     labelNew: t('in-automation:ActionCatalog.newAction'),
-    pathNew: actionDetailsNewPath
+    pathNew: actionDetailsNewPath,
+    createHrefToPath: createHrefToPath
   });
 }

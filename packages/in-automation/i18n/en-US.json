@@ -138,8 +138,9 @@
     "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
     "uniqueName": "Parameter names must be unique.",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
-    "actionCopy": "(Copy of) {{name}}",
-    "actionHistory": {
+    "actionCopy": "(Copy of) {{name}}"
+  },
+     "actionHistory": {
       "actionHistory": "Action History",
       "noActionInstances": "No data available",
       "name": "Name",
@@ -164,6 +165,5 @@
       "noParams":"No parameters available",
       "inputParameters":"Input Parameters",
       "properties":"Properties"
-  }
   }
 }

@@ -76,13 +76,15 @@ export declare function createNewEntityButton({
   pathNew,
   onCreateNew,
   disabledMessage,
-  trackEvent
+  trackEvent,
+  createHrefToPath
 }: {
   labelNew: string;
   pathNew: string;
   onCreateNew?: Function;
   disabledMessage?: string;
   trackEvent?: Function;
+  createHrefToPath?: (s: string) => string;
 }): ReactNode;
 
 export default ListComponent;

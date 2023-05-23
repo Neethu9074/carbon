@@ -327,7 +327,7 @@ export function createNewEntityButton({
   if (!pathNew && !onCreateNew) {
     return null;
   }
-  const href$ = onCreateNew ? null : createHrefToPath(pathNew);
+  const href = onCreateNew ? null : createHrefToPath(pathNew);
   if (disabledMessage) {
     return (
       <Tooltip content={disabledMessage} delay={500} align="bottomMiddle">
@@ -335,12 +335,12 @@ export function createNewEntityButton({
       </Tooltip>
     );
   } else {
-    return <NewEntityButton label={labelNew} href$={href$} onCreateNew={onCreateNew} trackEvent={trackEvent} />;
+    return <NewEntityButton label={labelNew} href={href} onCreateNew={onCreateNew} trackEvent={trackEvent} />;
   }
 }
 
 const NewEntityButton = forwardRef(function NewEntityButton(
-  { label = t('in-settings:components.createNew'), href$, onCreateNew, disabled, trackEvent },
+  { label = t('in-settings:components.createNew'), href, onCreateNew, disabled, trackEvent },
   ref
 ) {
   return (
@@ -348,7 +348,7 @@ const NewEntityButton = forwardRef(function NewEntityButton(
       className={locals.createNewButton}
       kind="action"
       disabled={disabled}
-      href$={href$}
+      href={href}
       onClick={() => handleClickCreateNewEntity(onCreateNew, trackEvent)}
       icon="lib_openclose_add_circle_outline"
       ref={ref}
