@@ -174,10 +174,6 @@ function getRowDetails(row: Row) {
           ],
           type: 'line'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
       />
     </div>
   );

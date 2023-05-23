@@ -178,10 +178,6 @@ function getRowDetails(row: Row) {
               ],
               type: 'line'
             }}
-            margins={{
-              left: 90,
-              right: 90
-            }}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.processLimitUsage')}>
@@ -193,10 +189,6 @@ function getRowDetails(row: Row) {
               metrics: [`stats.processUtilizationStats.${row.key}.processLimit`],
               labels: [t('in-forge:plugins.oracleDB.processLimit')],
               type: 'area'
-            }}
-            margins={{
-              left: 90,
-              right: 90
             }}
           />
         </DashboardSection>

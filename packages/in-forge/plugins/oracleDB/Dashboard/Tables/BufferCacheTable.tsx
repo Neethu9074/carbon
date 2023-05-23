@@ -98,10 +98,6 @@ function getRowDetails(row: Row) {
           labels: [t('in-forge:plugins.oracleDB.bufferCacheHit')],
           type: 'line'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
       />
     </div>
   );

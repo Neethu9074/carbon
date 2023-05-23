@@ -178,10 +178,6 @@ function getRowDetails(row: Row) {
               ],
               type: 'line'
             }}
-            margins={{
-              left: 90,
-              right: 90
-            }}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.dbSlashCpuTime')}>
@@ -193,10 +189,6 @@ function getRowDetails(row: Row) {
               metrics: [`stats.systemTimeModelStats.${row.key}.cpuTimeDbTimeRatio`],
               labels: [t('in-forge:plugins.oracleDB.ratio')],
               type: 'area'
-            }}
-            margins={{
-              left: 90,
-              right: 90
             }}
           />
         </DashboardSection>

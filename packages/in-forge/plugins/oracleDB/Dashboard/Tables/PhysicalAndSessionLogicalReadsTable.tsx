@@ -114,10 +114,6 @@ function getRowDetails(row: Row) {
           labels: [t('in-forge:plugins.oracleDB.physical'), t('in-forge:plugins.oracleDB.logical')],
           type: 'line'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
       />
     </div>
   );

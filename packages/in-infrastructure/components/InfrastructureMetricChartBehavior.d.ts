@@ -6,11 +6,6 @@
 
 import { TimeConfig } from '@instana/types';
 
-interface Margins {
-  left: number;
-  right: number;
-}
-
 interface Axis {
   formatter: (v: number) => string;
   metrics: string[];
@@ -21,7 +16,6 @@ interface Axis {
 interface InfrastructureMetricChartProps {
   snapshotId: string;
   timeConfig: TimeConfig;
-  margins: Margins;
   y1: Axis;
   y2?: Axis;
   minRollup?: number;

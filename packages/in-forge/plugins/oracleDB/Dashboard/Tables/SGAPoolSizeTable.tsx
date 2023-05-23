@@ -108,10 +108,6 @@ function getRowDetails(row: Row) {
           labels: [t('in-forge:plugins.oracleDB.usedMemory')],
           type: 'area'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
       />
     </div>
   );

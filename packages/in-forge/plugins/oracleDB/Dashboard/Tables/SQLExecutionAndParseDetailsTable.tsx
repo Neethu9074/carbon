@@ -190,10 +190,6 @@ function getRowDetails(row: Row) {
               labels: [t('in-forge:plugins.oracleDB.averageTime')],
               type: 'line'
             }}
-            margins={{
-              left: 90,
-              right: 90
-            }}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.sqlParseCount')}>
@@ -205,10 +201,6 @@ function getRowDetails(row: Row) {
               metrics: [`stats.systemStats.${row.key}.hardParseCount`, `stats.systemStats.${row.key}.totalParseCount`],
               labels: [t('in-forge:plugins.oracleDB.hardParse'), t('in-forge:plugins.oracleDB.totalParse')],
               type: 'line'
-            }}
-            margins={{
-              left: 90,
-              right: 90
             }}
           />
         </DashboardSection>
@@ -224,10 +216,6 @@ function getRowDetails(row: Row) {
               ],
               labels: [t('in-forge:plugins.oracleDB.softTotal'), t('in-forge:plugins.oracleDB.withoutParses')],
               type: 'area'
-            }}
-            margins={{
-              left: 90,
-              right: 90
             }}
           />
         </DashboardSection>
