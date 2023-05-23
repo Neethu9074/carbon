@@ -12,11 +12,12 @@ const allowedScriptOrigins = ['*.instana.io'];
 if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
+console.log('serverConfig', serverConfig);
 
 if (serverConfig.mixpanelToken) {
   allowedScriptOrigins.push('https://cdn.mxpnl.com');
-  allowedScriptOrigins.push('https://cdn.walkme.com');
 }
+allowedScriptOrigins.push('https://cdn.walkme.com');
 
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
