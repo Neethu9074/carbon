@@ -36,7 +36,7 @@ export default function CallDetails(props) {
 
   const websiteBeaconResult =
     useObservable(() => {
-      if (rootCall && rootCall.id === callId && callId === 'ROOT') {
+      if (rootCall && (rootCall.id === callId || callId === 'ROOT')) {
         return getCorrelatedWebsiteBeacons({
           traceId,
           correlationId: correlationType === 'web' ? correlationId : null,
@@ -47,7 +47,7 @@ export default function CallDetails(props) {
 
   const mobileAppBeaconResult =
     useObservable(() => {
-      if (rootCall && rootCall.id === callId && callId === 'ROOT') {
+      if (rootCall && (rootCall.id === callId || callId === 'ROOT')) {
         return getMobileAppBeacons({
           tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
           timeConfig: {
