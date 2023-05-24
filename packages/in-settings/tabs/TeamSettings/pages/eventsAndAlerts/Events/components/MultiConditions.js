@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Stack, Button, SvgIcon } from '@instana/components';
 
-import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -71,7 +71,7 @@ export function MultiConditions({
                     form.updateIn(['rules'], field =>
                       field
                         .push(
-                          putAllDataSourceFieldsForOneRule(entityType, {
+                          putMetricDataSourceFieldsForOneRule(entityType, {
                             window: rulesForm.get(0)?.get('window')?.value
                           })
                         )

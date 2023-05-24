@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 
 const minimalCustomEvent = {
@@ -81,7 +81,7 @@ export const Default = {
     customMetricsForPlugin: false,
     customDataSourceSelected: false,
     entityType: minimalCustomEvent.entityType,
-    form: putAllDataSourceFieldsForOneRule(minimalCustomEvent.entityType, minimalCustomEvent.rules[0])
+    form: putMetricDataSourceFieldsForOneRule(minimalCustomEvent.entityType, minimalCustomEvent.rules[0])
   }
 };
 
@@ -94,6 +94,6 @@ export const WithMetricPattern = {
     customMetricsForPlugin: false,
     customDataSourceSelected: false,
     entityType: minimalCustomEvent.entityType,
-    form: putAllDataSourceFieldsForOneRule(minimalCustomEvent.entityType, minimalCustomEvent.rules[1])
+    form: putMetricDataSourceFieldsForOneRule(minimalCustomEvent.entityType, minimalCustomEvent.rules[1])
   }
 };
