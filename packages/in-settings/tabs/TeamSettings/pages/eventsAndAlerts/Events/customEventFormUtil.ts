@@ -206,8 +206,3 @@ export const infraTagTreeNode = {
   ],
   type: 'STRING'
 };
-
-export const logicalOperatorOptions: Options = Object.freeze([
-  { value: 'AND', label: t('in-settings:tabs.team.events.logicalOperator', { context: 'AND' }) },
-  { value: 'OR', label: t('in-settings:tabs.team.events.logicalOperator', { context: 'OR' }) }
-]);

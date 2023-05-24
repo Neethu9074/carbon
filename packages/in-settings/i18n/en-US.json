@@ -216,7 +216,8 @@
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
         "placeholder": "Placeholder",
         "logicalOperator_AND": "AND",
-        "logicalOperator_OR": "OR"
+        "logicalOperator_OR": "OR",
+        "logicalOperatorInfo": "Selected logical operator will be applied to the following conditions."
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"

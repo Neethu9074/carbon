@@ -10,11 +10,10 @@ import React from 'react';
 import { Stack, Button, SvgIcon } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { logicalOperatorOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-components/layout/Grid';
-import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import theme from 'in-themes';
@@ -111,17 +110,30 @@ export function MultiConditions({
         const buttonDisabled = disabled || rulesForm.size === 1;
         return (
           <React.Fragment key={idx}>
-            {idx == 1 && (
+            {idx === 1 && (
               <Row className={locals.logicalOperator}>
-                <Col lg={1}>
-                  <ComboBox
-                    isDisabled={disabled}
-                    name="event-ruleLogicalOperator"
-                    value={ruleLogicalOperator}
-                    options={logicalOperatorOptions}
-                    onChange={e => onChangeRoot('ruleLogicalOperator', e ? e.value : '')}
-                    isClearable={false}
-                  />
+                <Col lg={2}>
+                  <Stack direction="horizontal" align="start">
+                    <CheckboxFancy
+                      asRadioButton
+                      checked={ruleLogicalOperator === 'AND'}
+                      disabled={buttonDisabled}
+                      label={t('in-settings:tabs.team.events.logicalOperator', { context: 'AND' })}
+                      onChange={() => onChangeRoot('ruleLogicalOperator', 'AND')}
+                      size="large"
+                    />
+                    <CheckboxFancy
+                      asRadioButton
+                      checked={ruleLogicalOperator === 'OR'}
+                      disabled={buttonDisabled}
+                      label={t('in-settings:tabs.team.events.logicalOperator', { context: 'OR' })}
+                      onChange={() => onChangeRoot('ruleLogicalOperator', 'OR')}
+                      size="large"
+                    />
+                    <Tooltip align="rightMiddle" content={t('in-settings:tabs.team.events.logicalOperatorInfo')}>
+                      <SvgIcon type="lib_help_error_info_outline" color={theme.lib.colors.N600Light} />
+                    </Tooltip>
+                  </Stack>
                 </Col>
               </Row>
             )}
