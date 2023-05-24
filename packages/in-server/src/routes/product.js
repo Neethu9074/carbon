@@ -179,6 +179,7 @@ router.get('/', async (req, res) => {
         user: userStr,
         permissions: permissions,
         config: JSON.stringify(clientConfig),
+        playwithinstanaEnabled: JSON.stringify(clientConfig).featureFlags.playwithEnabled,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
