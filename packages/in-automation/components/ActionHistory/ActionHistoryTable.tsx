@@ -28,6 +28,7 @@ import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { OrderDirection, TimeConfig } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -59,7 +60,7 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.type'),
     id: 'type',
     getContent(row: actionInstance) {
-      return <div className={locals.fourLines}>{row.actionType}</div>;
+      return getType(row.actionType);
     }
   },
   {

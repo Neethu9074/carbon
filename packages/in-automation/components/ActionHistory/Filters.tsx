@@ -21,9 +21,9 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
         placeholder={t('in-synthetics:dashboard.testList.type')}
         isMulti
         options={[
-          { label: 'HTTP', value: 'HTTP' },
-          { label: 'SCRIPT', value: 'SCRIPT' },
-          { label: 'EXTERNAL', value: 'EXTERNAL' }
+          { label: t('in-automation:ActionCatalog.http'), value: 'HTTP' },
+          { label: t('in-automation:ActionCatalog.script'), value: 'SCRIPT' },
+          { label: t('in-automation:actionHistory.external'), value: 'EXTERNAL' }
         ]}
         className={locals.filter}
       />
@@ -33,9 +33,9 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
         placeholder="Status"
         isMulti
         options={[
-          { label: 'Success', value: 'SUCCESS' },
-          { label: 'Failed', value: 'FAILED' },
-          { label: 'In Progress', value: 'IN_PROGRESS' }
+          { label: t('in-automation:actionHistory.success'), value: 'SUCCESS' },
+          { label: t('in-automation:actionHistory.failed'), value: 'FAILED' },
+          { label: t('in-automation:actionHistory.inProgress'), value: 'IN_PROGRESS' }
         ]}
         className={locals.filter}
       />

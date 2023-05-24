@@ -98,7 +98,7 @@ export default function RunActionDialogContent({
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:titleActionType')}
           >
-            {getType(action)}
+            {getType(action.type)}
           </DescriptionItem>
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
