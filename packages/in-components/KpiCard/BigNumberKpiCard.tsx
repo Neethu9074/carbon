@@ -12,8 +12,8 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithCompanionMetric,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
-import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -65,7 +65,7 @@ export default function BigNumberKpiCard({
     }
   };
 
-  if (config.metricConfiguration.timeShift) {
+  if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
       ...config.metricConfiguration,
       ...metricDefaults,
@@ -97,9 +97,7 @@ export default function BigNumberKpiCard({
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       raw={raw}
     />

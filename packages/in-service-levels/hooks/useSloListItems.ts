@@ -6,8 +6,8 @@
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
+import { applyAdjustedTimeframe, calculateSloGranularity, getSingleNumberMetricValue } from 'in-service-levels/utils';
 import useSloListMetrics, { SloMetricsResult } from 'in-service-levels/hooks/useSloListMetrics';
-import { calculateSloGranularity, getSingleNumberMetricValue } from 'in-service-levels/utils';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
@@ -77,10 +77,7 @@ function buildSloListItem({
   timeConfig: TimeConfig;
 }): SloListItem {
   const remainingBudgetTimeSeries = metrics?.[configuration.id!].remainingBudgetSpark;
-  const timeConfig = {
-    ...tc,
-    ...remainingBudgetTimeSeries?.adjustedTimeframe
-  };
+  const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetTimeSeries?.adjustedTimeframe);
   const granularity = remainingBudgetTimeSeries?.granularity ?? calculateSloGranularity(timeConfig);
   const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status) ?? 0;
   const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget) ?? 0;
