@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, SetStateAction } from 'react';
 import { MapForm, Field } from 'formalistic';
 import { isEmpty } from 'lodash';
 
@@ -12,6 +12,7 @@ import { Button } from '@instana/components';
 
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { SlideInHeader, apiScriptTest, apiSimpleTest } from 'in-synthetics/utils/constants';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
 import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -19,7 +20,6 @@ import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { SyntheticTest, Error as ScriptError } from 'in-types';
-import { SlideInHeader } from 'in-synthetics/utils/constants';
 import { createTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -94,9 +94,9 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       } as SyntheticTest;
     } else {
       if (
-      form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
-      isEmpty(form.get('configuration').get('headers').value)
-    ) {
+        form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+        isEmpty(form.get('configuration').get('headers').value)
+      ) {
         updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
         testConfig = {
           active: true,
@@ -238,6 +238,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                 // TODO: Reset form state
                 // TODO: Track mode switching state
                 // Pass attributes set in the basic mode to advanced mode
+                setTestTypeSelected((prevState: SetStateAction<any>) => {
+                  if (selectedBlueprint.type === apiSimpleTest) return { ...prevState, simple: true, script: false };
+                  if (selectedBlueprint.type === apiScriptTest) return { ...prevState, simple: false, script: true };
+                });
                 populateCommonAttributes(form);
                 setSimpleMode(!simpleMode);
                 setForm(createForm(!simpleMode, selectedBlueprint, commonAttributes));
