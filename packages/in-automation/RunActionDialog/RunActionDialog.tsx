@@ -223,6 +223,7 @@ function onSave({
         {
           name,
           type: 'vault',
+          label,
           value: JSON.stringify({
             secretPath: pathField?.value?.trim() ?? '',
             secretKey: keyField?.value?.trim() ?? ''
@@ -232,7 +233,7 @@ function onSave({
     }
     const value = (parameter as Field<string>).value;
     if (value) {
-      return [...acc, { name, value: value?.trim(), label, type: 'static' }];
+      return [...acc, { name, value: value?.trim(), label, type: parameterDefinition?.type }];
     }
     return acc;
   }, []);
@@ -254,7 +255,7 @@ function onSave({
         ];
       } else if (parameter.type === 'dynamic') {
         const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
-        return [...acc, { name: parameter.name, value: resolvedValue }];
+        return [...acc, { name: parameter.name, value: resolvedValue, type: 'dynamic', label: parameter.label }];
       }
       return [...acc, { name: parameter.name, value: parameter.value ?? '', type: 'static', label: parameter.label }];
     }
