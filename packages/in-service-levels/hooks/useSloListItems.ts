@@ -76,9 +76,9 @@ function buildSloListItem({
   metrics?: Record<string, SloMetricsResult>;
   timeConfig: TimeConfig;
 }): SloListItem {
-  const remainingBudgetTimeSeries = metrics?.[configuration.id!].remainingBudgetSpark;
-  const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetTimeSeries?.adjustedTimeframe);
-  const granularity = remainingBudgetTimeSeries?.granularity ?? calculateSloGranularity(timeConfig);
+  const { remainingBudgetSpark } = metrics?.[configuration.id!] ?? {};
+  const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
+  const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
   const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status) ?? 0;
   const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget) ?? 0;
 
@@ -87,7 +87,7 @@ function buildSloListItem({
     entity: labels?.[configuration.id!] ?? { label: '' },
     status,
     remainingBudget,
-    burnDown: (remainingBudgetTimeSeries?.values ?? []) as MetricDataSeries,
+    burnDown: (remainingBudgetSpark?.values ?? []) as MetricDataSeries,
     metricTimeConfig: timeConfig,
     metricGranularity: granularity
   };
