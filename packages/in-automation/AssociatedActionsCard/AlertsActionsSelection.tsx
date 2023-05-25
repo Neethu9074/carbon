@@ -122,7 +122,6 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
         tableActions={actionSelectionTableActions(form, onChange)}
         pageSize={pageSize ?? 10}
         rightHeader={RightHeader}
-        showActionLink
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />
