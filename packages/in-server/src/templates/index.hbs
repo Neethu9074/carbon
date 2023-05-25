@@ -35,9 +35,8 @@
       starredItems: {{{starredItems}}}
     };
   </script>
-
-  {{#if playwithinstanaEnabled }}
-  <script type="text/javascript" nonce="{{nonce}}" crossorigin="anonymous" >
+ {{#if playwithinstanaEnabled }}
+  <script type="text/javascript" nonce="{{nonce}}">
   (function() {
     var walkme = document.createElement('script');
     walkme.type = 'text/javascript'; walkme.async = true;
@@ -46,8 +45,7 @@
     s.parentNode.insertBefore(walkme, s);
     window._walkmeConfig = {smartLoad:true}; })();
     </script>
-   {{/if}}
-
+{{/if}}
   {{#if eumTrackingApiKey}}
   <script nonce="{{nonce}}">
     (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
