@@ -250,7 +250,9 @@ function createOrSaveAlert({
             );
           });
         } else {
-          if (isEffectivelyEditMode) reload();
+          if (isEffectivelyEditMode && differenceArray.length === 0) {
+            reload();
+          }
         }
 
         trackAlertActionAssociated(actionIds, alertConfigId);
