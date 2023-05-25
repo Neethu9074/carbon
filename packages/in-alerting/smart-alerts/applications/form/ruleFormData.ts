@@ -128,6 +128,16 @@ export const ruleMetricNameOptions = Object.freeze({
       value: 'callRate',
       label: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeRate')
     }
+  ],
+  errors: [
+    {
+      value: 'errors',
+      label: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionErrorRate')
+    },
+    {
+      value: 'erroneousCalls',
+      label: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionErrorCount')
+    }
   ]
 });
 

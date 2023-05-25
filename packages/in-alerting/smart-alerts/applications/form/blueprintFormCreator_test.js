@@ -127,14 +127,14 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     });
   });
 
-  describe('when alertType is errorRate', () => {
+  describe('when alertType is errors', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
         .put('tagFilterExpression', createTagFilterExpressionForm())
-        .put('threshold', createThresholdForm({}, 'errorRate'))
-        .put('rule', createRuleForm({ alertType: 'errorRate' }))
+        .put('threshold', createThresholdForm({}, 'errors'))
+        .put('rule', createRuleForm({ alertType: 'errors' }))
         .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
-      'errorRate'
+      'errors'
     );
 
     it('should contain fields: alertType, metricName, type, operator, lastUpdated, value', () => {
