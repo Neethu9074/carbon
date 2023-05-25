@@ -163,7 +163,6 @@ router.get('/', async (req, res) => {
 
     const nonce = uuidv4();
     res.set('Content-Security-Policy', getCsp(nonce));
-
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     res.send(
       compiledTemplate({
@@ -179,7 +178,7 @@ router.get('/', async (req, res) => {
         user: userStr,
         permissions: permissions,
         config: JSON.stringify(clientConfig),
-        playwithinstanaEnabled: JSON.stringify(clientConfig).featureFlags.playwithEnabled,
+        playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,

@@ -8,6 +8,8 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error Module needs to be translated to TS
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 // @ts-expect-error Module needs to be translated to TS
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -190,6 +192,7 @@ function getRowDetails(row: Row) {
               labels: [t('in-forge:plugins.oracleDB.averageTime')],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.sqlParseCount')}>
@@ -202,6 +205,7 @@ function getRowDetails(row: Row) {
               labels: [t('in-forge:plugins.oracleDB.hardParse'), t('in-forge:plugins.oracleDB.totalParse')],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.sqlParseRatios')}>
@@ -217,6 +221,7 @@ function getRowDetails(row: Row) {
               labels: [t('in-forge:plugins.oracleDB.softTotal'), t('in-forge:plugins.oracleDB.withoutParses')],
               type: 'area'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

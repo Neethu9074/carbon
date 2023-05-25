@@ -159,6 +159,35 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     }
   };
 
+  const isProceedDisabledAdvanced = () => {
+    const configForm = form.get('configuration') as MapForm<any>;
+    const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+    const labelField = form.get('label') as Field<string>;
+    const frequencyField = form.get('testFrequency') as Field<number>;
+    const locationsField = form.get('locations') as Field<string[]>;
+    if (
+      isSubmitting ||
+      // for HTTPAction
+      (syntheticTypeField.value === 'HTTPAction' && configForm.get('url') && !configForm.get('url').valid) ||
+      // for HTTPScript
+      (syntheticTypeField.value === 'HTTPScript' &&
+        // Initially there isn't 'script'/ 'scripts' within configuration
+        ((!configForm.get('script') && !configForm.get('scripts')) ||
+          // validating js file if 'script' is present
+          (configForm.get('script') && !configForm.get('script').valid) ||
+          // validating zip file if 'scripts' is present
+          (configForm.get('scripts') &&
+            (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      !syntheticTypeField.valid ||
+      locationsField.value.length === 0 ||
+      !frequencyField.valid ||
+      !labelField.valid
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   const onGoBack = () => {
     if (simpleModeStep !== 0) {
       setSimpleModeStep(simpleModeStep - 1);
@@ -194,7 +223,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         formId={formId}
         form={form}
         isSaving={isSubmitting}
-        disabled={isSubmitting}
+        disabled={isProceedDisabledAdvanced()}
       >
         {t('in-components:blueprintFormMultistep.buttonCreate')}
       </SaveButton>

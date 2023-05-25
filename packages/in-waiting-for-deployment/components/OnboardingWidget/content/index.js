@@ -7,8 +7,6 @@ import WindowsInstallerUnattendedContent from 'in-waiting-for-deployment/compone
 import ElasticComputingWindowsContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ElasticComputingWindowsContent';
 import ElasticComputingLinuxContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ElasticComputingLinuxContent';
 import GoogleComputeEngineContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/GoogleComputeEngineContent';
-import ManualIBMAceTracingContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ManualIBMAceTracingContent';
-import ManualIBMMqTracingContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ManualIBMMqTracingContent';
 import OpenShiftDaemonSetContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/OpenShiftDaemonSetContent';
 import OpenShiftOperatorContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/OpenShiftOperatorContent';
 import WindowsInstallerContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/WindowsInstallerContent';
@@ -309,25 +307,10 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
     },
     {
       label: t('in-waiting-for-deployment:content.IBM'),
-      icon: 'lib_infra_apmproxy',
       category: t('in-waiting-for-deployment:content.integrations'),
-      subTechnologies: [
-        {
-          label: t('in-waiting-for-deployment:content.ibmapmintegration'),
-          keyWords: 'ibmapm',
-          Content: ManualIBMApmContent
-        },
-        {
-          label: t('in-waiting-for-deployment:content.ibmMqTracing'),
-          keyWords: 'ibmmq',
-          Content: ManualIBMMqTracingContent
-        },
-        {
-          label: t('in-waiting-for-deployment:content.ibmAceTracing'),
-          keyWords: 'ibmace',
-          Content: ManualIBMAceTracingContent
-        }
-      ]
+      keyWords: 'ibmapm',
+      icon: 'lib_infra_apmproxy',
+      Content: ManualIBMApmContent
     }
   ];
 }

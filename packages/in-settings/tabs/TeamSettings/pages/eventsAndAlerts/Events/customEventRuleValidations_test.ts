@@ -6,11 +6,11 @@
 
 import { t } from '@instana/i18n-react';
 
-import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { ThresholdRule } from 'in-types';
 
-describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations.ts', function() {
+describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations.ts', function () {
   const defaultRuleWithMetricName: Partial<ThresholdRule> = {
     ruleType: 'threshold',
     severity: 10,
@@ -45,7 +45,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
 
     const rules = [defaultRuleWithMetricName];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual(null);
   });
@@ -55,7 +55,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
 
     const rules = [defaultRuleWithMetricName, { ...defaultRuleWithMetricName, metricName: 'cpu.load' }];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual(null);
   });
@@ -65,7 +65,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
 
     const rules = [defaultRuleWithMetricName, defaultRuleWithMetricPattern];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual(null);
   });
@@ -87,7 +87,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
       }
     ];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual(null);
   });
@@ -117,7 +117,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
       }
     ];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual([
       {
@@ -139,7 +139,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
       }
     ];
 
-    const mapForms = rules.map(rule => putAllDataSourceFieldsForOneRule(entityType, rule));
+    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
 
     expect(customEventRulesValidator(mapForms)).toEqual([
       {

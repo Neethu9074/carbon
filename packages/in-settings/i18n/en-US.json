@@ -216,7 +216,8 @@
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
         "placeholder": "Placeholder",
         "logicalOperator_AND": "AND",
-        "logicalOperator_OR": "OR"
+        "logicalOperator_OR": "OR",
+        "logicalOperatorInfo": "Selected logical operator will be applied to the following conditions."
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
@@ -307,7 +308,10 @@
     "limitedAccess": "Limited Access",
     "filterInvites": "Filter invites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Are you sure you want to revoke the invitation to join the <strong>{{tenant}}</strong> tenant for <strong>{{email}}</strong>?",
-    "inviteUser": "Invite User",
+    "inviteUser": "Invite user",
+    "sendInvitation":"Send invitation",
+    "inviteDescription": "Users will be invited to join tenant: {{tenant}}. Group assignments are valid on the tenant level as well, they will be the same under all units.",
+    "inviteGroupDescription": "You can control access by configuring roles and access scopes of groups under each unit.",
     "failedToSendInvitation": "Failed to send invitation: {{err}}",
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
     "thisUserAlreadyExists": "This user already exists. You can edit it on the 'Users' menu.",
@@ -375,7 +379,7 @@
     "addNumberOfItemsEvent_0": "Add {{count}} Events",
     "addNumberOfItemsEvent_1": "Add {{count}} Events",
     "addNumberOfItemsEvent_2": "Add {{count}} Events",
-    "4ActionAssociations": "4. Action Associations",
+    "actionAssociationsStep": "{{step}}. Action Associations",
     "ActionAssociations": "Action Associations",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Caution!</strong> All events that match the event types will enter the notification stream.",
     "dfqFormDesc": "A <strong>non-empty</strong> filter query which defines for which entities the configuration will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
@@ -438,6 +442,7 @@
     "offlineEventDetection": "Offline event detection",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Hosts that do not have matching entities running on them",
     "hostAvailabilityDetection": "Host availability detection",
+    "instanaAgentCountDetection": "Count of Instana Agents",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
     "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No more than one threshold can be defined on the same metric.",
