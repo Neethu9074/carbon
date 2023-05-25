@@ -37,7 +37,7 @@ export default function Errors({
   renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
-  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+  const errorsBlueprintConfig = getBlueprintConfig('errors');
   const timeShiftConfig = useTimeShiftConfig();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -86,9 +86,9 @@ export default function Errors({
           alertRules: {
             errorRate: {
               rule: {
-                alertType: errorRateBlueprintConfig.type,
-                aggregation: errorRateBlueprintConfig.getAggregation(),
-                metricName: errorRateBlueprintConfig.getMetricName()
+                alertType: errorsBlueprintConfig.type,
+                aggregation: 'MEAN',
+                metricName: 'errors'
               }
             }
           }

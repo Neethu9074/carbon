@@ -29,19 +29,37 @@ interface ScriptProps {
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
+  isUpdateConfig: boolean;
 }
 
 export default function ScriptsSection({
   form,
   updateForm,
   setSliderState,
-  setCustomSlideInHeaderConfig
+  setCustomSlideInHeaderConfig,
+  isUpdateConfig
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
-  const [script, setScript] = useState({ name: '', text: '', extension: 'js' });
+  const [isUpdated, setIsUpdated] = useState<boolean>(false);
+  const [script, setScript] = useState(
+    isUpdateConfig && !isUpdated
+      ? configForm.get('script')
+        ? {
+            name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
+            text: (configForm.get('script') as Field<string>).value,
+            extension: 'js'
+          }
+        : {
+            name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
+            text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
+            scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
+            extension: 'zip'
+          }
+      : { name: '', text: '', extension: 'js' }
+  );
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
-    t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
+    isUpdateConfig && !isUpdated ? '' : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
   );
 
   function deleteScript() {
@@ -64,6 +82,7 @@ export default function ScriptsSection({
     }
     setScript({ name: '', text: '', extension: '' });
     setColumnLabel(t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'));
+    setIsUpdated(true);
   }
 
   const columnDefinition = [
@@ -75,7 +94,11 @@ export default function ScriptsSection({
         return (
           <HorizontalFlexWrapper className={locals.row}>
             <span>
-              {isBlank(script.extension)
+              {isUpdateConfig && !isUpdated
+                ? configForm.get('script')
+                  ? t('in-synthetics:dialog.updateTest.scriptSavedMessage')
+                  : t('in-synthetics:dialog.updateTest.bundleSavedMessage')
+                : isBlank(script.extension)
                 ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
                 : script.name}
             </span>
@@ -177,23 +200,28 @@ export default function ScriptsSection({
                           ? ''
                           : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
                       );
+                      setIsUpdated(true);
                     }}
                     setSliderState={setSliderState}
                   />
                 ),
                 title:
-                  script.text === ''
-                    ? t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
-                    : t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+                  script.text !== '' || (isUpdateConfig && !isUpdated)
+                    ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+                    : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
               },
               isVisible: true
             });
           }}
-          icon={script.text === '' ? 'lib_openclose_add_circle_outline' : 'lib_actions_edit'}
+          icon={
+            script.text !== '' || (isUpdateConfig && !isUpdated)
+              ? 'lib_actions_edit'
+              : 'lib_openclose_add_circle_outline'
+          }
         >
-          {script.text === ''
-            ? t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
-            : t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')}
+          {script.text !== '' || (isUpdateConfig && !isUpdated)
+            ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+            : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
         </Button>
       }
       isSearchable={false}

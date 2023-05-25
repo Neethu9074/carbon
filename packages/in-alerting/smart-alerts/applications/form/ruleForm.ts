@@ -32,7 +32,7 @@ export default function createRuleForm(rule: ApplicationAlertRule): MapForm<any>
 
   const baseForm = createBaseForm(rule);
 
-  if (alertType === 'errorRate' || alertType === 'throughput') {
+  if (alertType === 'errors' || alertType === 'throughput') {
     return baseForm;
   }
 

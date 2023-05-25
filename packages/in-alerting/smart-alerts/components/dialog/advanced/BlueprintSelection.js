@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
@@ -23,7 +24,7 @@ export default function BlueprintSelection({
   const alertType = form.get('rule').get('alertType').value;
   // NOTE: Website alert configs does not have builtIn param
   const isBuiltIn = form.get('builtIn')?.value;
-  const selectedBlueprintConfig = blueprintConfigs.find(item => item.type === alertType);
+  const selectedBlueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <ExpandableLightCard

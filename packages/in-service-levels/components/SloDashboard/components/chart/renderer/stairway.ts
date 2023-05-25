@@ -6,7 +6,7 @@
 import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
-} from 'in-custom-dashboards/widgets/Slo/renderer/missingDataIndicator';
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
 import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import { ScaleType } from 'in-services/scale';

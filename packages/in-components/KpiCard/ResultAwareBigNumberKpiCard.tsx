@@ -6,8 +6,8 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
+import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
-import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -26,8 +26,8 @@ export interface Config {
   metricConfiguration: UnifiedMetricConfigurationUnion;
   formatter?: string;
   tagFilters?: TagFilter[];
-  comparisonIncreaseColor: string;
-  comparisonDecreaseColor: string;
+  comparisonIncreaseColor?: string;
+  comparisonDecreaseColor?: string;
 }
 
 export interface ConfigWithCompanionMetric extends Config {
@@ -78,9 +78,7 @@ export default function ResultAwareBigNumberKpiCard({
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       renderKpiCard={result =>
         renderKpiCard(
@@ -136,12 +134,10 @@ export function renderKpiCard(
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       companionValue={
-        config.metricConfiguration?.timeShift
+        hasActiveTimeShift(config.metricConfiguration.timeShift)
           ? renderTimeShiftValue(config, result, formatter, value, timeConfig)
           : renderCompanionValue(result, companionFormatter as FormatterFn)
       }
@@ -167,8 +163,7 @@ function renderTimeShiftValue(
   value: number | null,
   timeConfig: TimeConfig
 ) {
-  const timeShift = config.metricConfiguration.timeShift.offset;
-  if (timeShift === 0 || value == null) {
+  if (!hasActiveTimeShift(config.metricConfiguration.timeShift) || value == null) {
     return null;
   }
 
@@ -184,9 +179,9 @@ function renderTimeShiftValue(
 
   let colorId = blue.id;
   if (value > comparisonValue) {
-    colorId = config.comparisonIncreaseColor;
+    colorId = config.comparisonIncreaseColor ?? blue.id;
   } else if (value < comparisonValue) {
-    colorId = config.comparisonDecreaseColor;
+    colorId = config.comparisonDecreaseColor ?? blue.id;
   }
 
   const difference = comparisonValue === 0 ? (value === 0 ? 0 : value / Math.abs(value)) : value / comparisonValue - 1;
@@ -197,7 +192,7 @@ function renderTimeShiftValue(
     formattedDifference = `+${formattedDifference}`;
   }
 
-  const timeShiftConfig = translateOffsetToTimeShiftConfig(timeShift, timeConfig);
+  const timeShiftConfig = translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig);
   const tooltip = t('in-components:kpiCard.tooltipComparedToTimeShift', {
     timeShift: getTimeShiftLabel(timeShiftConfig).toLowerCase(),
     comparisonValue: formatter(comparisonValue)

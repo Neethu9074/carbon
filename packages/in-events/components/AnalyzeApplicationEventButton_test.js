@@ -37,7 +37,7 @@ describe('AnalyzeApplicationEventButton', () => {
         includeInternal: false,
         includeSynthetic: false,
         rule: {
-          alertType: 'errorRate',
+          alertType: 'errors',
           metricName: 'errors',
           aggregation: 'MEAN'
         },

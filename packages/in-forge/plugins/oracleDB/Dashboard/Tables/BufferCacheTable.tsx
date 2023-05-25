@@ -7,6 +7,8 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -98,10 +100,7 @@ function getRowDetails(row: Row) {
           labels: [t('in-forge:plugins.oracleDB.bufferCacheHit')],
           type: 'line'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

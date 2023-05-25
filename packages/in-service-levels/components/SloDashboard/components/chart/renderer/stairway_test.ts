@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import stairway, { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import stairway, {
+  useStairwayRenderer
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import { DataSeries, RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import createScale from 'in-services/scale';
@@ -13,7 +15,7 @@ jest.mock('in-components/Chart/renderer/point', () => ({
 }));
 
 describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
-  const config = ({
+  const config = {
     xScaleBackBuffer: createScale(),
     backBufferCtx: {
       beginPath: jest.fn(),
@@ -30,7 +32,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       lineWidth: 1,
       markerPaneHeight: 1
     }
-  } as unknown) as RenderConfig;
+  } as unknown as RenderConfig;
   let scale = createScale();
   const color = '#15f4ee';
 

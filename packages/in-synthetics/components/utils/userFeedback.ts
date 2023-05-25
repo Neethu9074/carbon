@@ -16,6 +16,9 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
     case 'create':
       message = t('in-synthetics:dialog.feedback.successMessageCreate');
       break;
+    case 'update':
+      message = t('in-synthetics:dialog.feedback.successMessageUpdate');
+      break;
     case 'delete':
       message =
         context === 'locations'
@@ -68,5 +71,7 @@ export const showUpdateErrorMessage = () => showErrorMessage('update');
 export const showDeleteErrorMessage = (context?: string) => showErrorMessage('delete', context);
 
 export const showCreateSuccessMessage = () => showSuccessMessage('create');
+
+export const showUpdateSuccessMessage = () => showSuccessMessage('update');
 
 export const showDeleteSuccessMessage = (context?: string) => showSuccessMessage('delete', context);

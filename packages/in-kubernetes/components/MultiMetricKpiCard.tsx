@@ -98,7 +98,7 @@ export default function MultiMetricKpiCard({
       var val;
       var unit;
       var hasUnitAndVal = splitFormattedValueUnit.length > 1;
-      var percentageNumber = percentage.replace('%', '');
+      var percentageNumber = percentage.replace('%', '').replace(',', '.');
       var percentageOfCapLabel = timeshift !== 0 ? '%)' : '% of cap.)';
       if (hasUnitAndVal) {
         val = splitFormattedValueUnit[0];

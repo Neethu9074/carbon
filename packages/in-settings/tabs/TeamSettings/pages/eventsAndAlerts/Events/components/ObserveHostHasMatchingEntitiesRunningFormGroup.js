@@ -11,8 +11,8 @@ import {
   entityTypesToExcludeInVerificationRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
+import { Row, Col } from 'in-components/layout/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';

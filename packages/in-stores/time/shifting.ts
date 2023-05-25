@@ -109,6 +109,17 @@ export function translateOffsetToTimeShiftConfig(
   return defaultTimeShiftConfig;
 }
 
+export function hasActiveTimeShift(timeShift: TimeShiftOffset | TimeShift | Nullish): boolean {
+  if (timeShift === 'auto') {
+    return true;
+  } else if (typeof timeShift === 'number') {
+    return timeShift !== 0;
+  } else if (timeShift?.offset) {
+    return timeShift.offset !== 0;
+  }
+  return false;
+}
+
 export function getTimeShiftLabel(timeShift: TimeShift): string {
   if (!timeShift) {
     return defaultTimeShift.label;
@@ -124,11 +135,13 @@ export function getTimeShiftLabel(timeShift: TimeShift): string {
   return t('in-stores:time.shiftingCustomDuration', { duration: formatDuration(Math.abs(timeShift.offset)) });
 }
 
-
-export function applyTimeShift(timeConfig: TimeConfig, timeShift: TimeShiftOffset | TimeShift | Nullish): FixedTimeConfig {
+export function applyTimeShift(
+  timeConfig: TimeConfig,
+  timeShift: TimeShiftOffset | TimeShift | Nullish
+): FixedTimeConfig {
   const fixatedTimeConfig = fixateTimeConfig(timeConfig);
   return {
     ...fixatedTimeConfig,
     to: fixatedTimeConfig.to + translateOffsetToTimeShiftConfig(timeShift, timeConfig).offset
-  }
+  };
 }

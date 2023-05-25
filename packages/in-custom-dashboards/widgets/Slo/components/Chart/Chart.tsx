@@ -18,8 +18,8 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics';
 import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/ChartMarkerLanes';
-import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';

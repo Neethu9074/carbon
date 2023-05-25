@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "Enter the script here"
       },
       "basicDetails": {
-        "title": "What is the name of this ping test",
-        "scriptTitle": "What is the name of this HTTP Script test",
+        "title": "What is the name of this API Simple (HTTP Action) test",
+        "scriptTitle": "What is the name of this API Script (HTTP Script) test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "Ping API",
-          "headline": "HTTP Action",
+        "apiSimple": {
+          "name": "API Simple",
+          "headline": "API Simple (HTTP Action)",
           "whenToUse": {
             "title": "When to use?",
-            "line1": "Use an HTTP Action test to test a single Rest API"
+            "line1": "Use an API Simple (HTTP Action) test to test a single Rest API"
           },
           "tipsForUsing": {
             "title": "Tips for using",
@@ -52,11 +52,11 @@
             "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
-        "scriptApi": {
-          "name": "Script API",
-          "headline": "HTTP Script",
+        "apiScript": {
+          "name": "API Script",
+          "headline": "API Script (HTTP Script)",
           "whenToUse": {
-            "line1": "Use an HTTP Script test and Node.js based script to test the sequence of multiple Rest APIs"
+            "line1": "Use an API Script (HTTP Script) test and Node.js based script to test the sequence of multiple Rest APIs"
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Selected Test Type",
           "rightListLabel": "Test Type",
-          "apiTypeLabel": "Simple Test | Script Test",
+          "apiTypeLabel": "API Simple Test | API Script Test",
           "apiTypeHeadline": "What kind of synthetic test would you like to create",
           "apiTypeText": "API tests can be used to monitor the APIs provided by web applications. API tests can be used to measure availability and response time. The Simple test allows you to ping a URL or test a single API. The Script test allows you to provide a script that can check a set of API responses, simulate complex workflows and test specific functionalities.",
           "selectedTestTypeButton": "Select",
-          "httpScriptTitle": "Script Test",
-          "httpActionTitle": "Simple Test",
+          "httpScriptTitle": "API Script Test",
+          "httpActionTitle": "API Simple Test",
           "browserTypeLabel": "Browser",
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
@@ -181,6 +181,7 @@
     "feedback": {
       "successTitle": "Success!",
       "successMessageCreate": "Successfully created synthetic test",
+      "successMessageUpdate": "Successfully updated synthetic test",
       "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
       "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
@@ -190,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
+    },
+    "updateTest":{
+      "dialogTitle": "Edit API Test",
+      "buttonSave": "Save",
+      "scriptSavedMessage": "Script added",
+      "bundleSavedMessage": "Bundled scripts added"
     }
   },
   "createTest": {
