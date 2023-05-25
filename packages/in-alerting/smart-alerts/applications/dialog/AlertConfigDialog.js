@@ -229,8 +229,16 @@ function createOrSaveAlert({
             saveNewAssociation(actionAssociation).once(
               () => {
                 alertCount = alertCount - 1;
-                if (alertCount === 0 && isEffectivelyEditMode) {
-                  reload();
+                if (alertCount === 0) {
+                  if (isEffectivelyEditMode) {
+                    reload();
+                  } else {
+                    onClose(alertConfig);
+                    const href = getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
+                    showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+                    const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+                    trackAlertSaved(newConfig, simpleMode);
+                  }
                 }
               },
 
@@ -288,17 +296,18 @@ function createOrSaveAlert({
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
-        if (role.canConfigureAutomationActions && actionAutomationEnabled) {
-          actionAssociations(actionIds, config.id, alertConfig, isEffectivelyEditMode);
-        }
-        onClose(config);
-        const href = isEffectivelyGlobalSmartAlert
-          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
-          : getLinkToAlertConfig(config.id, null, config.applicationId);
+        if (role.canConfigureAutomationActions && actionAutomationEnabled && !isEffectivelyGlobalSmartAlert) {
+          actionAssociations(actionIds, config.id, config, isEffectivelyEditMode);
+        } else {
+          onClose(config);
+          const href = isEffectivelyGlobalSmartAlert
+            ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
+            : getLinkToAlertConfig(config.id, null, config.applicationId);
 
-        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackAlertSaved(newConfig, simpleMode);
+          showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+          const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+          trackAlertSaved(newConfig, simpleMode);
+        }
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
