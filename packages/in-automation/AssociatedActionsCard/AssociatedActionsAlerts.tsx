@@ -13,10 +13,10 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import ConfigureAssociatedActionsAlertsDialog from 'in-automation/AssociatedActionsCard/ConfigureAssociatedActionsAlertsDialog';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { getNewAssociationApplicationAlert } from 'in-automation/api';
+import { getApplicationAlertActionAssociations } from 'in-automation/api';
+import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
-import { getScoredActionsForEvent } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -34,7 +34,8 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
   const [reload, triggerReload] = useState<number>(0);
 
   const actions =
-    useObservable(() => getNewAssociationApplicationAlert(eventSpecificationId), [eventSpecificationId, reload]) ?? [];
+    useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload]) ??
+    [];
   const selectedActions = actions.map((action: Action) => action.id);
 
   if (!alertConfig) {
@@ -42,7 +43,7 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
   }
 
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
-    getScoredActionsForEvent(selectedActions, alertConfig)
+    getScoredActionsForEventOrAlert(selectedActions, alertConfig)
   );
 
   return (

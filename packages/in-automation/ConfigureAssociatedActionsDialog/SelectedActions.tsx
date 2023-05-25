@@ -17,7 +17,7 @@ import {
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
-import { getScoredActionsForEvent } from 'in-automation/api';
+import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { t } from 'in-i18n';
 
 type SelectActionsProps = Pick<
@@ -35,7 +35,7 @@ export default function SelectedActions({
   const selectedActions = getActionsFromForm(form).value;
 
   const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
-    getScoredActionsForEvent(selectedActions, eventSpecification)
+    getScoredActionsForEventOrAlert(selectedActions, eventSpecification)
   );
 
   return (

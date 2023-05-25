@@ -41,7 +41,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
-import { getNewAssociationApplicationAlert } from 'in-automation/api';
+import { getApplicationAlertActionAssociations } from 'in-automation/api';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -91,7 +91,7 @@ function mergeResultData(id, endpointConfig, created) {
 
   // calling Get Alert and Get action associations call and combining results
   if (hasAutomationActions) {
-    const actionDetails$ = getNewAssociationApplicationAlert(id);
+    const actionDetails$ = getApplicationAlertActionAssociations(id);
     return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) => ({
       ...alertResponse,
       actionIds: actionResponse?.map(action => action.id) ?? []

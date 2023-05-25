@@ -113,7 +113,7 @@ export function deleteAction(actionId: string) {
 }
 
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
-export function getScoredActionsForEvent(
+export function getScoredActionsForEventOrAlert(
   selectedActions: string[],
   eventSpecification: EventSpecification | ApplicationAlertConfigWithMetadata
 ) {
@@ -481,7 +481,7 @@ export function saveNewAssociation(data: postActionAssociation) {
     data: data
   }).map(response => response.body);
 }
-export function getNewAssociationApplicationAlert(id: string) {
+export function getApplicationAlertActionAssociations(id: string) {
   return http<Action[]>({
     method: 'GET',
     maxRetries: 3,
