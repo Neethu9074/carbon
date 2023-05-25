@@ -36,8 +36,8 @@
     };
   </script>
 
-  {{#if playwithinstanaEnabled }}
-  <script type="text/javascript" nonce="{{nonce}}" crossorigin="anonymous" >
+  {{#if config.featureFlags.playwithEnabled }}
+  <script type="text/javascript" nonce="{{nonce}}">
   (function() {
     var walkme = document.createElement('script');
     walkme.type = 'text/javascript'; walkme.async = true;

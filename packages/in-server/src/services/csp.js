@@ -16,7 +16,6 @@ if (isRequiringInstanaRocks()) {
 if (serverConfig.mixpanelToken) {
   allowedScriptOrigins.push('https://cdn.mxpnl.com');
 }
-allowedScriptOrigins.push('https://cdn.walkme.com');
 
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
