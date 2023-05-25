@@ -83,5 +83,6 @@ module.exports = {
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
   kongEnabled: false,
-  mobileAppSmartAlertsEnabled: true
+  mobileAppSmartAlertsEnabled: true,
+  systemRuleEntityCountEnabled: true
 };

@@ -8,6 +8,8 @@ import {
   dataSourceCustom,
   dataSourceSystem
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { entityCountDetection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { systemRuleEntityCountEnabled } from 'in-services/featureFlags';
 import { Option, Options } from 'in-components/ComboBox';
 import { millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -32,7 +34,9 @@ export function systemRuleOptions(systemRules: ReadonlyArray<IdNamePair>): Optio
   if (!systemRules) {
     return [];
   }
-  return systemRules.map(({ id, name }) => ({ value: id, label: name }));
+  return systemRules
+    .filter(({ id }) => systemRuleEntityCountEnabled || id != entityCountDetection.id)
+    .map(({ id, name }) => ({ value: id, label: name }));
 }
 
 /**
@@ -206,8 +210,3 @@ export const infraTagTreeNode = {
   ],
   type: 'STRING'
 };
-
-export const logicalOperatorOptions: Options = Object.freeze([
-  { value: 'AND', label: t('in-settings:tabs.team.events.logicalOperator', { context: 'AND' }) },
-  { value: 'OR', label: t('in-settings:tabs.team.events.logicalOperator', { context: 'OR' }) }
-]);
