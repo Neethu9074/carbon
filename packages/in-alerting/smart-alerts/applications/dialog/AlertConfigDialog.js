@@ -279,7 +279,7 @@ function createOrSaveAlert({
   if (isEffectivelyEditMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        if (role.canConfigureAutomationActions && actionAutomationEnabled) {
+        if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
           actionAssociations(actionIds, form.get('id').value, config, isEffectivelyEditMode);
         } else {
           onClose(config);
@@ -296,7 +296,12 @@ function createOrSaveAlert({
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
-        if (role.canConfigureAutomationActions && actionAutomationEnabled && !isEffectivelyGlobalSmartAlert) {
+        if (
+          role.canConfigureAutomationActions &&
+          actionAutomationEnabled &&
+          !isEffectivelyGlobalSmartAlert &&
+          actionIds.length > 0
+        ) {
           actionAssociations(actionIds, config.id, config, isEffectivelyEditMode);
         } else {
           onClose(config);

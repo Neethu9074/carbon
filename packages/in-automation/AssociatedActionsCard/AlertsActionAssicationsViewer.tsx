@@ -28,11 +28,7 @@ export default function AlertsActionAssociationsViewer({ actionIds }: ActionAsso
     if (selectedActions.length === 0 || allActions === undefined || allActions?.progress?.loading) {
       return alwaysEmptyArray as unknown as Observable<Action[]>;
     }
-    return just(
-      allActions?.data?.filter(
-        (listItems: Action) => selectedActions.filter(ids => ids === listItems?.id).length > 0
-      ) ?? []
-    );
+    return just(allActions?.data?.filter((action: Action) => selectedActions.indexOf(action.id) >= 0) ?? []);
   });
 
   return (
