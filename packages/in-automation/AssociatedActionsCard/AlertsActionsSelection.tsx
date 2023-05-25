@@ -50,7 +50,9 @@ function submitActionSelection(
   selectedIds: string[]
 ) {
   const currentActionIds = form.get('actionIds').value ?? [];
-  onChange(['actionIds'], (field: any) => field.setValue(currentActionIds.concat(selectedIds)).setTouched(true));
+  onChange(['actionIds'], (field: Field<string[]>) =>
+    field.setValue(currentActionIds.concat(selectedIds)).setTouched(true)
+  );
 }
 
 const convertedData = (data: ScoredAction[] | undefined) =>
