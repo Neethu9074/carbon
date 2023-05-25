@@ -13,15 +13,23 @@ import { Spacer } from '@instana/components';
 import { just } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import { getAllActionsWithAISuggestions, getAllActionsObservable, getAllActionsInternal } from 'in-automation/api';
+import {
+  getAllActionsObservable,
+  ScoredAction,
+  getAllActionsInternal,
+  getAllActionsWithAISuggestionsInternal
+} from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { Action } from 'in-types';
+import { Action, Result } from 'in-types';
 import { t } from 'in-i18n';
 
-function actionSelectionTableActions(form: MapForm<any>, onChange: any) {
+function actionSelectionTableActions(
+  form: MapForm<any>,
+  onChange: (path: string[], updater: (item: Field<string[]>) => Field<string[]>) => void
+) {
   return {
     deselect: {
       deselect: (deselectedEntity: Action) => {
@@ -36,22 +44,23 @@ function actionSelectionTableActions(form: MapForm<any>, onChange: any) {
   };
 }
 
-function submitActionSelection(form: MapForm<any>, onChange: any, selectedIds: string[]) {
+function submitActionSelection(
+  form: MapForm<any>,
+  onChange: (path: string[], updater: (item: Field<string[]>) => Field<string[]>) => void,
+  selectedIds: string[]
+) {
   const currentActionIds = form.get('actionIds').value ?? [];
   onChange(['actionIds'], (field: any) => field.setValue(currentActionIds.concat(selectedIds)).setTouched(true));
 }
 
-function getScoredActionTable(eventName: string, eventDescription: string) {
-  return function ScoredActionTable(props: ActionTableProps) {
-    return (
-      <ActionTable {...props} loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)} scored />
-    );
-  };
-}
+const convertedData = (data: ScoredAction[] | undefined) =>
+  data?.map((item: any) => {
+    return { ...item.action, color: item.color, score: item.score };
+  });
 
 interface ActionsSelectionProps {
   form: MapForm<any>;
-  onChange: any;
+  onChange: (path: string[], updater: (item: Field<string[]>) => Field<string[]>) => void;
   name?: string;
   description?: string;
   pageSize?: number;
@@ -62,6 +71,20 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
   const eventDescription = description ?? (form.get('description') as Field<string>).value;
 
   const allActions = useObservable(() => getAllActionsObservable(getAllActionsInternal).startWith(null), []);
+
+  const allActionsWithAI = getAllActionsWithAISuggestionsInternal({ eventName, eventDescription })
+    .map((result: Result<ScoredAction[]>) => {
+      if (result == null || result === undefined || result.data === undefined || result?.progress?.loading) {
+        return [] as ScoredAction[];
+      }
+      return convertedData((result as Result<ScoredAction[]>)?.data);
+    })
+    .map(result => result ?? ([] as ScoredAction[]));
+  function getScoredActionTable() {
+    return function ScoredActionTable(props: ActionTableProps) {
+      return <ActionTable {...props} loadEntities={() => allActionsWithAI} scored />;
+    };
+  }
 
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function (
     selectedActions: string[]
@@ -78,7 +101,7 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
       onSubmit={(selectedIds: string[]) => submitActionSelection(form, onChange, selectedIds)}
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
-      listComponent={getScoredActionTable(eventName, eventDescription)}
+      listComponent={getScoredActionTable()}
       hiddenIds={selectedActions}
       createSubmitLabel={(numberOfItems: number) =>
         numberOfItems > 0

@@ -16,7 +16,8 @@ import {
   CustomEventSpecificationWithMetadata,
   ActionAssociation,
   ActionAssociations,
-  ApplicationAlertConfigWithMetadata
+  ApplicationAlertConfigWithMetadata,
+  Result
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
@@ -122,6 +123,37 @@ export function getScoredActionsForEvent(
   // null is treated as a pending result when converting the HTTP response into a result
   return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
     actions.filter(action => selectedActions.indexOf(action.id) >= 0)
+  );
+}
+
+interface getAllActionsWithAISuggestionsProps {
+  eventName: string;
+  eventDescription: string;
+}
+
+export const getAllActionsWithAISuggestionsInternalObservable: (
+  args: getAllActionsWithAISuggestionsProps
+) => Observable<Result<ScoredAction[]>> = memoize(
+  getAllActionsWithAISuggestionsInternal,
+  ({ eventName, eventDescription }) => eventName + eventDescription,
+  1000
+);
+
+export function getAllActionsWithAISuggestionsInternal({
+  eventName,
+  eventDescription
+}: getAllActionsWithAISuggestionsProps): Observable<Result<ScoredAction[]>> {
+  return createObservable(
+    http<ScoredAction[]>({
+      method: 'POST',
+      maxRetries: 3,
+      url: `${automationAPIBase}/ai/action/match`,
+      data: {
+        name: eventName,
+        description: eventDescription
+      },
+      headers: getCsrfHeader()
+    })
   );
 }
 

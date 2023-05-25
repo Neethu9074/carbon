@@ -44,8 +44,8 @@ export type ConfigureAssociatedActionsDialogState = {
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
   summaryActionIds: string[];
-  triggerReload: any;
-  reload: any;
+  triggerReload: (n: number) => void;
+  reload?: number;
 };
 
 export type OnSubmit = () => void;
