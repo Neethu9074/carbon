@@ -127,7 +127,7 @@ const RenderHttpTests = ({
             description={pingAPIDescription}
             onChange={() => {
               setTestTypeSelected({ simple: true, script: false });
-              setCommonAttributes({ ...commonAttributes, syntheticType: 'HTTPAction' });
+              setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'HTTPAction' });
             }}
             disabled={isUpdateConfig}
             asRadioButton
@@ -142,7 +142,7 @@ const RenderHttpTests = ({
             description={scriptAPIDescription}
             onChange={() => {
               setTestTypeSelected({ simple: false, script: true });
-              setCommonAttributes({ ...commonAttributes, syntheticType: 'HTTPScript' });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'HTTPScript' });
             }}
             disabled={isUpdateConfig}
             asRadioButton
