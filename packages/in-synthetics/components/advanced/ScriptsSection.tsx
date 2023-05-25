@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, createField } from 'formalistic';
+import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
@@ -17,8 +17,10 @@ import AddScriptDialogContent from 'in-synthetics/components/advanced/AddScriptD
 import { createZipScriptConfigurationForm } from 'in-synthetics/form/createSyntheticTestForm';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { SlideInHeader, Zip } from 'in-synthetics/utils/constants';
+import { stringValidator } from 'in-services/validators/jsonType';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -148,7 +150,11 @@ export default function ScriptsSection({
                                 'script',
                                 createField({
                                   value: scriptContent.text,
-                                  validator: notUndefinedValidator
+                                  validator: composeAndShortCircuitOnError(
+                                    notUndefinedValidator,
+                                    stringValidator,
+                                    notBlankValidator
+                                  )
                                 }).setTouched(true)
                               )
                               .remove('scripts')

@@ -167,13 +167,15 @@ export function createZipScriptConfigurationForm(bundle: string, scriptFile: str
     .put(
       'bundle',
       createField({
-        value: bundle
+        value: bundle,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'scriptFile',
       createField({
-        value: scriptFile
+        value: scriptFile,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }
