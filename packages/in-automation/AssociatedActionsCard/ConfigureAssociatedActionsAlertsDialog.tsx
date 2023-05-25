@@ -23,6 +23,8 @@ export type ConfigureAssociatedActionsDialogProps = {
   eventSpecification: ApplicationAlertConfigWithMetadata;
   actions: Action[];
   onClose: typeof close;
+  triggerReload: (n: number) => void;
+  reload?: number;
 };
 
 type resultType = {
@@ -42,6 +44,8 @@ export type ConfigureAssociatedActionsDialogState = {
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
   summaryActionIds: string[];
+  triggerReload: any;
+  reload: any;
 };
 
 export type OnSubmit = () => void;
@@ -49,7 +53,8 @@ export type OnSubmit = () => void;
 export default function ConfigureAssociatedActionsAlertsDialog({
   eventSpecification,
   actions,
-  onClose
+  onClose,
+  triggerReload
 }: ConfigureAssociatedActionsDialogProps) {
   const [form, setForm] = useState<ConfigureAssociatedActionsDialogState['form']>(createForm(actions));
   const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogState['savingError']>(false);
@@ -65,7 +70,8 @@ export default function ConfigureAssociatedActionsAlertsDialog({
       eventSpecification,
       allActions,
       setSavingError,
-      summaryActionIds
+      summaryActionIds,
+      triggerReload
     });
   };
 
@@ -85,7 +91,7 @@ export default function ConfigureAssociatedActionsAlertsDialog({
 type CreateOrSaveActionParams = Pick<ConfigureAssociatedActionsDialogProps, 'eventSpecification' | 'onClose'> &
   Pick<
     ConfigureAssociatedActionsDialogState,
-    'setIsSaving' | 'form' | 'allActions' | 'setSavingError' | 'summaryActionIds'
+    'setIsSaving' | 'form' | 'allActions' | 'setSavingError' | 'summaryActionIds' | 'triggerReload'
   >;
 
 function createOrSaveAction({
@@ -95,7 +101,8 @@ function createOrSaveAction({
   allActions,
   onClose,
   setSavingError,
-  summaryActionIds
+  summaryActionIds,
+  triggerReload
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
   const actionIds = getActionsFromForm(form).value;
@@ -154,6 +161,7 @@ function createOrSaveAction({
     const concatenatedArray = summaryActionIds.concat(actionIds);
     //returns unique array
     const uniqueArray = [...new Set(concatenatedArray)];
+    let alertCount = uniqueArray.length;
     //get all associations and parse the data format. We need this data to get all associations for action.
     getAllAssociations().once(
       res => {
@@ -171,11 +179,16 @@ function createOrSaveAction({
               custom_event_ids: result[id].custom_events
             };
             saveNewAssociation(actionAssociation).once(
-              () => {},
+              () => {
+                alertCount = alertCount - 1;
+                if (alertCount === 0) {
+                  closeAndReload();
+                }
+              },
 
               err => {
-                logger.error(`failed to associate actions:  ${err.message}`, err);
-                setIsSaving(false);
+                logger.error(`failed to delete action associations:  ${err.message}`, err);
+                handleErrors();
               }
             );
           });
@@ -192,28 +205,33 @@ function createOrSaveAction({
               custom_event_ids: result[id]?.custom_events
             };
             saveNewAssociation(actionAssociation).once(
-              () => {},
+              () => {
+                alertCount = alertCount - 1;
+                if (alertCount === 0) {
+                  closeAndReload();
+                }
+              },
 
               err => {
                 logger.error(`failed to associate actions: ${err.message}`, err);
-                setIsSaving(false);
+                handleErrors();
               }
             );
           });
           trackAlertActionAssociated(actionIds, alertConfigId);
         }
-        closeAndReload();
-        handleErrors();
       },
       err => {
-        logger.error(`failed to get associations:  ${err.message}`, err);
+        logger.error(`failed to all get associations:  ${err.message}`, err);
+        handleErrors();
       }
     );
   }
 
   const closeAndReload = () => {
     onClose();
-    window.location.reload();
+    // This helps to reload the actions table
+    triggerReload(Math.random());
   };
   const handleErrors = () => {
     setSavingError(true);

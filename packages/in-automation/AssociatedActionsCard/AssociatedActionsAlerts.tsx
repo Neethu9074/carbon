@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -31,9 +31,10 @@ const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
 
 export default function AssociatedActionsAlerts({ event, volatileId, alertConfig }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
+  const [reload, triggerReload] = useState<number>(0);
 
   const actions =
-    useObservable(() => getNewAssociationApplicationAlert(eventSpecificationId), [eventSpecificationId]) ?? [];
+    useObservable(() => getNewAssociationApplicationAlert(eventSpecificationId), [eventSpecificationId, reload]) ?? [];
   const selectedActions = actions.map((action: Action) => action.id);
 
   if (!alertConfig) {
@@ -50,7 +51,9 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
       showExecuteColumn={role?.canRunAutomationActions}
       showActionLink
       event={event}
-      rightHeader={<RightHeader eventSpecification={alertConfig} actions={actions} />}
+      rightHeader={
+        <RightHeader eventSpecification={alertConfig} actions={actions} reload={reload} triggerReload={triggerReload} />
+      }
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForAlertMemoized(selectedActions)}
       scored
@@ -62,15 +65,19 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
 interface RightHeaderProps {
   eventSpecification: ApplicationAlertConfigWithMetadata;
   actions: Action[];
+  triggerReload: (n: number) => void;
+  reload: number;
 }
 
-function RightHeader({ eventSpecification, actions }: RightHeaderProps) {
+function RightHeader({ eventSpecification, actions, reload, triggerReload }: RightHeaderProps) {
   const onClick = () =>
     addActiveDialog(
       <ConfigureAssociatedActionsAlertsDialog
         eventSpecification={eventSpecification}
         actions={actions}
         onClose={close}
+        reload={reload}
+        triggerReload={triggerReload}
       />
     );
 
