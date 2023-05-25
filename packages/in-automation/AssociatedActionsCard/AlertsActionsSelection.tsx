@@ -72,10 +72,6 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
     return just(allActions?.data?.filter((action: Action) => selectedActions.indexOf(action.id) >= 0) ?? []);
   });
 
-  // return convertedData((result as Result<ScoredAction[]>)?.data).filter(
-  //   (action: ScoredAction) => selectedActions.indexOf(action.id) >= 0
-  // );
-
   const RightHeader = (
     <SelectListDialogButton
       form={form}
