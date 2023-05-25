@@ -20,6 +20,7 @@ import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { SyntheticTest, Error as ScriptError } from 'in-types';
+import { isNotBlank } from 'in-services/util/string';
 import { createTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -238,7 +239,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
     commonAttributes['applicationId'] = form.get('applicationId').value;
-    commonAttributes['script'] = form.get('script')?.value;
+    commonAttributes['script'] = form.get('configuration').get('script')?.value;
     setCommonAttributes(commonAttributes);
   };
 
@@ -275,6 +276,16 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                 setSimpleMode(!simpleMode);
                 setForm(createForm(!simpleMode, selectedBlueprint, commonAttributes));
                 resetScrollShadow();
+                if (
+                  isNotBlank(commonAttributes.url) ||
+                  commonAttributes.locations.length !== 0 ||
+                  isNotBlank(commonAttributes.label) ||
+                  isNotBlank(commonAttributes.description) ||
+                  isNotBlank(commonAttributes.applicationId) ||
+                  isNotBlank(commonAttributes.script)
+                ) {
+                  setRenderSectionsCounter(v => v + 1);
+                }
               }}
             >
               {t('in-synthetics:dialog.createTest.advancedMode.switchModeButton')}
