@@ -8,19 +8,17 @@ import { Field, MapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
+import { just } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import {
-  getAllActionsWithAISuggestions,
-  getAllActionsWithAISuggestionsTestObservable,
-  ScoredAction
-} from 'in-automation/api';
+import { getAllActionsWithAISuggestions, getAllActionsObservable, getAllActionsInternal } from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { Action, Result } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 function actionSelectionTableActions(form: MapForm<any>, onChange: any) {
@@ -53,7 +51,6 @@ function getScoredActionTable(eventName: string, eventDescription: string) {
 
 interface ActionsSelectionProps {
   form: MapForm<any>;
-  // setForm: SetForm;
   onChange: any;
   name?: string;
   description?: string;
@@ -63,27 +60,19 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
   const eventName = name ?? (form.get('name') as Field<string>).value;
   const eventDescription = description ?? (form.get('description') as Field<string>).value;
-  const convertedData = (data: any) =>
-    data?.map((item: any) => {
-      return { ...item.action, color: item.color, score: item.score };
-    });
+
+  const allActions = useObservable(() => getAllActionsObservable(getAllActionsInternal).startWith(null), []);
 
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function (
     selectedActions: string[]
   ) {
-    if (selectedActions.length === 0) {
+    if (selectedActions.length === 0 || allActions === undefined || allActions?.progress?.loading) {
       return alwaysEmptyArray as unknown as Observable<Action[]>;
     }
-    // null is treated as a pending result when converting the HTTP response into a result
-    return getAllActionsWithAISuggestionsTestObservable({ eventName, eventDescription }).map(
-      (result: Result<ScoredAction[]>) => {
-        if (result == null || result === undefined || result.data === undefined || result?.progress?.loading) {
-          return [] as ScoredAction[];
-        }
-        return convertedData((result as Result<ScoredAction[]>)?.data).filter(
-          (action: ScoredAction) => selectedActions.indexOf(action.id) >= 0
-        );
-      }
+    return just(
+      allActions?.data?.filter(
+        (listItems: Action) => selectedActions.filter(ids => ids === listItems?.id).length > 0
+      ) ?? []
     );
   });
 
@@ -113,7 +102,6 @@ export default function AlertsActionsSelection({ form, name, description, pageSi
         pageSize={pageSize ?? 10}
         rightHeader={RightHeader}
         showActionLink
-        scored
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />

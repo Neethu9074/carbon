@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { filter } from 'lodash';
 import React from 'react';
 
 import { Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import { getAllActionsWithAISuggestions } from 'in-automation/api';
+import { getAllActionsObservable, getAllActionsInternal } from 'in-automation/api';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Action } from 'in-types';
@@ -18,25 +19,19 @@ import { t } from 'in-i18n';
 
 interface ActionAssociationsViewerProps {
   actionIds: string[];
-  alertName: string;
-  alertDescription: string;
 }
-export default function AlertsActionAssociationsViewer({
-  actionIds,
-  alertName,
-  alertDescription
-}: ActionAssociationsViewerProps) {
+export default function AlertsActionAssociationsViewer({ actionIds }: ActionAssociationsViewerProps) {
+  const allActions = useObservable(() => getAllActionsObservable(getAllActionsInternal).startWith(null), []);
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function (
     selectedActions: string[]
   ) {
-    if (selectedActions.length === 0) {
+    if (selectedActions.length === 0 || allActions === undefined || allActions?.progress?.loading) {
       return alwaysEmptyArray as unknown as Observable<Action[]>;
     }
-    // null is treated as a pending result when converting the HTTP response into a result
-    return getAllActionsWithAISuggestions(alertName, alertDescription).map(action =>
-      filter(action, function (app) {
-        return selectedActions.indexOf(app.id) >= 0;
-      })
+    return just(
+      allActions?.data?.filter(
+        (listItems: Action) => selectedActions.filter(ids => ids === listItems?.id).length > 0
+      ) ?? []
     );
   });
 
@@ -50,7 +45,6 @@ export default function AlertsActionAssociationsViewer({
         showExecuteColumn={false}
         isBeta={false}
         isSearchable={false}
-        scored
       />
     </>
   );

@@ -59,7 +59,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
     name,
     rule: { operator, alertType, message, level, aggregation, metricName },
     threshold,
-    description,
     evaluationType,
     timeThreshold,
     alertChannelIds,
@@ -206,7 +205,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           darkFrame
         >
           <div className={locals.alertChannelsWrapper}>
-            <AlertsActionAssociationsViewer actionIds={actionIds} alertName={name} alertDescription={description} />
+            <AlertsActionAssociationsViewer actionIds={actionIds} />
           </div>
         </ExpandableLightCard>
       )}

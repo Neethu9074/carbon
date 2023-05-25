@@ -16,8 +16,7 @@ import {
   CustomEventSpecificationWithMetadata,
   ActionAssociation,
   ActionAssociations,
-  ApplicationAlertConfigWithMetadata,
-  Result
+  ApplicationAlertConfigWithMetadata
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
@@ -48,34 +47,14 @@ export interface ScoredAction extends Action {
   color: string;
 }
 
-interface getAllActionsWithAISuggestionsProps {
-  eventName: string;
-  eventDescription: string;
-}
-
-export const getAllActionsWithAISuggestionsTestObservable: (
-  args: getAllActionsWithAISuggestionsProps
-) => Observable<Result<ScoredAction[]>> = memoize(
-  getAllActionsWithAISuggestionsTest,
-  ({ eventName, eventDescription }) => eventName + eventDescription,
-  1000
-);
-
-export function getAllActionsWithAISuggestionsTest({
-  eventName,
-  eventDescription
-}: getAllActionsWithAISuggestionsProps): Observable<Result<ScoredAction[]>> {
+export const getAllActionsObservable = memoize(getAllActionsInternal, () => '', 1000);
+export function getAllActionsInternal() {
   return createObservable(
-    http<ScoredAction[]>({
-      method: 'POST',
+    http<Action[]>({
+      method: 'GET',
       maxRetries: 3,
-      url: `${automationAPIBase}/ai/action/match`,
-      data: {
-        name: eventName,
-        description: eventDescription
-      },
-      headers: getCsrfHeader()
-    })
+      url: actionUrl
+    }).map(response => response)
   );
 }
 
