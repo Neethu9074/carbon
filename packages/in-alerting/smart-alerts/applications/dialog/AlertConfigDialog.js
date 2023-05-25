@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { uniq, pull } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
@@ -25,6 +26,10 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { saveNewAssociation, getAllAssociations } from 'in-automation/api';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { trackAlertActionAssociated } from 'in-automation/tracker';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
@@ -43,6 +48,8 @@ export default function AlertConfigDialog({
   const [form, setForm] = useState(() =>
     createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
   );
+  //Need this to get difference(deleted) for actionids
+  const summaryActionIds = alertConfig?.actionIds ?? [];
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -77,7 +84,8 @@ export default function AlertConfigDialog({
       getLinkToGlobalAlertConfigWithoutAPDashboard,
       getLinkToAlertConfig,
       simpleMode,
-      duplicateFrom
+      duplicateFrom,
+      summaryActionIds
     });
   };
 
@@ -118,7 +126,8 @@ function createOrSaveAlert({
   getLinkToGlobalAlertConfigWithoutAPDashboard,
   getLinkToAlertConfig,
   simpleMode,
-  duplicateFrom
+  duplicateFrom,
+  summaryActionIds
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -128,6 +137,122 @@ function createOrSaveAlert({
     setMessages(prevMessages => [...prevMessages, message]);
   };
 
+  // parse all associations data to get associations of actions ids we have in form
+  function getAlertsByActionIds(data, actionIds) {
+    const result = {};
+
+    actionIds.forEach(actionId => {
+      result[actionId] = {
+        builtin_event_ids: [],
+        custom_events: [],
+        application_alert: []
+      };
+    });
+
+    data.forEach(item => {
+      const action = item.action || {};
+      const actionId = action.id;
+      const builtinEventId = item.builtin_event_id;
+      const customEvent = item.custom_event;
+      const applicationAlert = item.application_alert;
+
+      if (actionIds.includes(actionId)) {
+        if (builtinEventId) {
+          result[actionId].builtin_event_ids.push(builtinEventId);
+        }
+        if (customEvent) {
+          result[actionId].custom_events.push(customEvent.id);
+        }
+        if (applicationAlert) {
+          result[actionId].application_alert.push(applicationAlert.id);
+        }
+      }
+    });
+
+    return result;
+  }
+
+  function actionAssociations(actionIds, alertConfigId, alertConfig, isEffectivelyEditMode) {
+    //concat form.actionids and actual associated action ids from alert details
+
+    function reload() {
+      onClose(alertConfig);
+      showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+      trackAlertUpdated(alertConfig);
+    }
+    const concatenatedArray = summaryActionIds.concat(actionIds);
+    //returns unique array
+    const uniqueArray = [...new Set(concatenatedArray)];
+    let alertCount = uniqueArray.length;
+    //get all associations and parse the data format. We need this data to get all associations for action.
+    getAllAssociations().once(
+      res => {
+        const result = getAlertsByActionIds(res, uniqueArray);
+        //If we delete the actions by deslecting, we will hget the difference Array
+        const differenceArray = summaryActionIds.filter(item => !actionIds.includes(item));
+
+        if (differenceArray.length > 0) {
+          differenceArray.forEach(id => {
+            //When we delete action association, we have to exclude the app alert id and send new array to api
+            const actionAssociation = {
+              action_id: id,
+              application_alert_ids: pull(result[id].application_alert, alertConfigId),
+              builtin_event_ids: result[id].builtin_event_ids,
+              custom_event_ids: result[id].custom_events
+            };
+            saveNewAssociation(actionAssociation).once(
+              () => {
+                alertCount = alertCount - 1;
+                if (alertCount === 0 && isEffectivelyEditMode) {
+                  reload();
+                }
+              },
+
+              err => {
+                logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
+                addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+                setIsSaving(false);
+              }
+            );
+          });
+        }
+
+        //When we add  action association, we have to
+        if (actionIds.length > 0) {
+          uniq(actionIds).forEach(id => {
+            const actionAssociation = {
+              action_id: id,
+              application_alert_ids: [alertConfigId],
+              builtin_event_ids: result[id]?.builtin_event_ids,
+              custom_event_ids: result[id]?.custom_events
+            };
+            saveNewAssociation(actionAssociation).once(
+              () => {
+                alertCount = alertCount - 1;
+                if (alertCount === 0 && isEffectivelyEditMode) {
+                  reload();
+                }
+              },
+
+              err => {
+                logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
+                addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+                setIsSaving(false);
+              }
+            );
+          });
+        } else {
+          if (isEffectivelyEditMode) reload();
+        }
+
+        trackAlertActionAssociated(actionIds, alertConfigId);
+      },
+      err => {
+        logger.error(`failed to get associations:  ${err.message}`, err);
+      }
+    );
+  }
+
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     setIsSaving(false);
@@ -135,6 +260,7 @@ function createOrSaveAlert({
   }
 
   const alertConfig = toAlertConfig(form);
+  const actionIds = form.get('actionIds')?.value ?? [];
 
   const isEffectivelyGlobalSmartAlert = migrationMode
     ? Object.keys(alertConfig.applications).length > 1
@@ -144,10 +270,14 @@ function createOrSaveAlert({
 
   if (isEffectivelyEditMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
-      alertConfig => {
-        onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackAlertUpdated(alertConfig);
+      config => {
+        if (role.canConfigureAutomationActions && actionAutomationEnabled) {
+          actionAssociations(actionIds, form.get('id').value, config, isEffectivelyEditMode);
+        } else {
+          onClose(config);
+          showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+          trackAlertUpdated(alertConfig);
+        }
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -157,14 +287,17 @@ function createOrSaveAlert({
     );
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
-      alertConfig => {
-        onClose(alertConfig);
+      config => {
+        if (role.canConfigureAutomationActions && actionAutomationEnabled) {
+          actionAssociations(actionIds, config.id, alertConfig, isEffectivelyEditMode);
+        }
+        onClose(config);
         const href = isEffectivelyGlobalSmartAlert
-          ? getLinkToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
-          : getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
+          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
+          : getLinkToAlertConfig(config.id, null, config.applicationId);
 
-        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-        const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
         trackAlertSaved(newConfig, simpleMode);
       },
       error => {
@@ -245,6 +378,7 @@ AlertConfigDialog.propTypes = {
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({
     applications: PropTypes.object,
+    actionIds: PropTypes.arrayOf(PropTypes.string),
     threshold: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,

@@ -7,7 +7,9 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { Disposable, on } from '@instana/observables';
+import { Spacer } from '@instana/components';
 
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
@@ -21,6 +23,7 @@ export type NavItem = {
   valid?: boolean;
   hidden?: boolean;
   titleToolTipText?: string;
+  isBeta?: boolean;
 };
 
 interface SideNavProps {
@@ -83,6 +86,8 @@ export default class SideNav extends React.Component<SideNavProps> {
                 <span className={locals.label}>
                   {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
                   {navItem.label}
+                  {navItem.isBeta && <Spacer horizontal="xsmall" />}
+                  {navItem.isBeta && <BetaBadge />}
                   {renderPostIcon && renderPostIcon(navItem)}
                 </span>
               </li>

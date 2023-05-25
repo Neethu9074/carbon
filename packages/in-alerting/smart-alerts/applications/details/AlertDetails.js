@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+
 import {
   deleteGlobalAlertConfig,
   disableGlobalAlertConfig,
@@ -39,9 +41,12 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { getNewAssociationApplicationAlert } from 'in-automation/api';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
 
@@ -78,6 +83,23 @@ function GlobalAlertDetails(props) {
     />
   );
 }
+const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
+function mergeResultData(id, endpointConfig, created) {
+  const alertDetails$ = created
+    ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig)
+    : getLatestAlertConfig(id, endpointConfig);
+
+  // calling Get Alert and Get action associations call and combining results
+  if (hasAutomationActions) {
+    const actionDetails$ = getNewAssociationApplicationAlert(id);
+    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) => ({
+      ...alertResponse,
+      actionIds: actionResponse?.map(action => action.id) ?? []
+    }));
+  }
+
+  return alertDetails$;
+}
 
 function IndividualAlertDetails(props) {
   return (
@@ -89,9 +111,7 @@ function IndividualAlertDetails(props) {
         alertsTabSegment
       }}
       matrix={{ alertIdParam, alertCreatedParam }}
-      getConfig={(id, created) =>
-        created ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig) : getLatestAlertConfig(id, endpointConfig)
-      }
+      getConfig={(id, created) => mergeResultData(id, endpointConfig, created)}
       getConfigVersions={id => getAllVersionsOfAlertConfig(id, endpointConfig)}
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}

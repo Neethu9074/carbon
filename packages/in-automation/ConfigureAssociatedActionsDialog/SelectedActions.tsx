@@ -14,6 +14,7 @@ import {
   ConfigureAssociatedActionsDialogContentProps,
   ConfigureAssociatedActionsDialogContentState
 } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent } from 'in-automation/api';
@@ -33,11 +34,15 @@ export default function SelectedActions({
 }: SelectActionsProps) {
   const selectedActions = getActionsFromForm(form).value;
 
+  const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
+    getScoredActionsForEvent(selectedActions, eventSpecification)
+  );
+
   return (
     <ActionTable
       withBottomPadding
       noDataMessage={t('in-automation:noActionsSelected')}
-      loadEntities={() => getScoredActionsForEvent(selectedActions, eventSpecification)}
+      loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
       pageSize={5}
       scored
       tableActions={getTableActions(setForm)}
