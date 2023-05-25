@@ -222,9 +222,9 @@ function createOrSaveAlert({
           uniq(actionIds).forEach(id => {
             const actionAssociation = {
               action_id: id,
-              application_alert_ids: [alertConfigId],
-              builtin_event_ids: result[id]?.builtin_event_ids,
-              custom_event_ids: result[id]?.custom_events
+              application_alert_ids: [alertConfigId].concat(result[id].application_alert),
+              builtin_event_ids: result[id].builtin_event_ids,
+              custom_event_ids: result[id].custom_events
             };
             saveNewAssociation(actionAssociation).once(
               () => {
