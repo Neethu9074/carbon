@@ -30,6 +30,7 @@ export interface Role {
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
   canRunAutomationActions: boolean;
+  canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
   /* Partially implementing this permission breaks tests so once this is fully implemented on the BE

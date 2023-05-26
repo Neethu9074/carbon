@@ -13,6 +13,7 @@ import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/p
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const dashboardHeaderProps = {
@@ -40,11 +41,13 @@ export default function ViewSwitcher() {
               label={t('in-automation:ActionCatalog.actionCatalog')}
               isActive={isCatalogActive}
             />
-            <SecondLevelNavigationItem
-              href={createHrefToPath(actionHistoryPath)}
-              label={t('in-automation:actionHistory.actionHistory')}
-              isActive={isHistoryActive}
-            />
+            {role?.canViewAutomationActionInstances && (
+              <SecondLevelNavigationItem
+                href={createHrefToPath(actionHistoryPath)}
+                label={t('in-automation:actionHistory.actionHistory')}
+                isActive={isHistoryActive}
+              />
+            )}
           </SecondLevelNavigation>
         </div>
       </DashboardHeaderModule>
