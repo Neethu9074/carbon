@@ -118,8 +118,7 @@ export default function Chart({
             colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
             renderer,
             metrics: [...metrics],
-            formatter: useSliFormatter(sliConfig?.sliEntity),
-            isStaticBudget
+            formatter: useSliFormatter(sliConfig?.sliEntity)
           },
           nonInteractive: nonInteractive,
           renderPostChartContent: props =>
