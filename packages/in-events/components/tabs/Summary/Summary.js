@@ -105,7 +105,7 @@ const EventContent = connectTo(
     }
 
     if (isApplicationSmartAlertEvent(event)) {
-      return <ApplicationEventContent event={event} />;
+      return <ApplicationEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isKubernetesEvent(event)) {

@@ -7,8 +7,8 @@
 import { weeksToDays } from 'date-fns';
 import { isUndefined } from 'lodash';
 
+import { MetricResult, TimeConfig, TimeWindow, AdjustedTimeframe } from '@instana/types';
 import { getIntlNumberFormatter, NumberFormatter } from '@instana/format-numbers';
-import { MetricResult, TimeConfig, TimeWindow } from '@instana/types';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
@@ -36,20 +36,20 @@ interface FormatSloStatusResponse {
 
 export function formatSloStatus({ status, target }: { status?: number; target?: number }): FormatSloStatusResponse {
   if (isUndefined(status) || isUndefined(target)) return {};
-  const format = toPercentageFormatter(target);
+  const format = createSloPercentageFormatter(target);
   return {
     sloStatus: format(status) ?? valueMissingPlaceholder,
     sloTarget: format(target) ?? valueMissingPlaceholder
   };
 }
 
-function toPercentageFormatter(input: number): NumberFormatter {
+export function createSloPercentageFormatter(sloTarget: number): NumberFormatter {
   const minimumFractionDigits = 2;
   const hundredthsDigits = 2;
 
   // Determines the current decimal places and increments the decimals by one, if necessary,
   // to inform the user whether the specified target has been exceeded.
-  const numberStr = input.toFixed(SLO_TARGET_DECIMAL_PRECISION + hundredthsDigits + 2);
+  const numberStr = sloTarget.toFixed(SLO_TARGET_DECIMAL_PRECISION + hundredthsDigits + 2);
   const decimalCount = numberStr.split('.')[1].replace(/0+$/, '').length - hundredthsDigits;
   const displayedFractionDigits = Math.max(decimalCount + 1, minimumFractionDigits);
 
@@ -106,4 +106,11 @@ export function getSingleNumberMetricValue(metric?: MetricResult): number | unde
     return undefined;
   }
   return metric.values[0][1];
+}
+
+export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe?: AdjustedTimeframe): TimeConfig {
+  return {
+    ...timeConfig,
+    ...(adjustedTimeframe ?? {})
+  };
 }

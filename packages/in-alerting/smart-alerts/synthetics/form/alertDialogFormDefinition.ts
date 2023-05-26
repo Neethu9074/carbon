@@ -6,6 +6,7 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SyntheticAlertConfig, TagFilter, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -23,7 +24,8 @@ export const fieldNames = Object.freeze({
   syntheticTestIds: 'syntheticTestIds',
   id: 'id',
   rule: 'rule',
-  timeThreshold: 'timeThreshold'
+  timeThreshold: 'timeThreshold',
+  customPayloadFields: 'customPayloadFields'
 });
 
 export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & VersionedConfig): MapForm<any> {
@@ -112,7 +114,8 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
             value: timeThreshold?.type
           })
         )
-    );
+    )
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return form;
 }

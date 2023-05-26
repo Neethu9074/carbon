@@ -14,12 +14,16 @@ import {
   ActionMatch,
   EventSpecificationInfo,
   CustomEventSpecificationWithMetadata,
+  ActionAssociation,
   ActionAssociations,
-  ActionAssociation
+  ApplicationAlertConfigWithMetadata,
+  Result
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
@@ -28,6 +32,7 @@ import { t } from 'in-i18n';
 const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions`;
 const associationsUrl = `${automationAPIBase}/settings/actions-associations`;
+type postActionAssociation = Omit<ActionAssociations, 'id'>;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -40,6 +45,17 @@ export function getAllActions(): Observable<Action[]> {
 export interface ScoredAction extends Action {
   score: number;
   color: string;
+}
+
+export const getAllActionsObservable = memoize(getAllActionsInternal, () => '', 1000);
+export function getAllActionsInternal() {
+  return createObservable(
+    http<Action[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: actionUrl
+    }).map(response => response)
+  );
 }
 
 export function getAllActionsWithAISuggestions(
@@ -96,13 +112,47 @@ export function deleteAction(actionId: string) {
 }
 
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
-export function getScoredActionsForEvent(selectedActions: string[], eventSpecification: EventSpecification) {
+export function getScoredActionsForEventOrAlert(
+  selectedActions: string[],
+  eventSpecification: EventSpecification | ApplicationAlertConfigWithMetadata
+) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray as unknown as Observable<Action[]>;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
     actions.filter(action => selectedActions.indexOf(action.id) >= 0)
+  );
+}
+
+interface getAllActionsWithAISuggestionsProps {
+  eventName: string;
+  eventDescription: string;
+}
+
+export const getAllActionsWithAISuggestionsInternalObservable: (
+  args: getAllActionsWithAISuggestionsProps
+) => Observable<Result<ScoredAction[]>> = memoize(
+  getAllActionsWithAISuggestionsInternal,
+  ({ eventName, eventDescription }) => eventName + eventDescription,
+  1000
+);
+
+export function getAllActionsWithAISuggestionsInternal({
+  eventName,
+  eventDescription
+}: getAllActionsWithAISuggestionsProps): Observable<Result<ScoredAction[]>> {
+  return createObservable(
+    http<ScoredAction[]>({
+      method: 'POST',
+      maxRetries: 3,
+      url: `${automationAPIBase}/ai/action/match`,
+      data: {
+        name: eventName,
+        description: eventDescription
+      },
+      headers: getCsrfHeader()
+    })
   );
 }
 
@@ -405,15 +455,6 @@ export function addAssociations(data: NewActionAssociation) {
   }).map(response => response.body);
 }
 
-export function getAssociations(actionId: string) {
-  return http<ActionAssociation[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${associationsUrl}?action_id=${actionId}`,
-    headers: getCsrfHeader()
-  }).map(response => response.body);
-}
-
 export type DynamicParamValue = {
   name: string;
   key?: string;
@@ -439,4 +480,40 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
       timestamp
     }
   });
+}
+
+export function saveNewAssociation(data: postActionAssociation) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `${automationAPIBase}/settings/actions-associations`,
+    headers: getCsrfHeader(),
+    data: data
+  }).map(response => response.body);
+}
+export function getApplicationAlertActionAssociations(id: string) {
+  return http<Action[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function getAssociations(actionId: string) {
+  return http<ActionAssociation[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${associationsUrl}?action_id=${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function getAllAssociations() {
+  return http<ActionAssociation[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${associationsUrl}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
 }

@@ -114,7 +114,7 @@
   },
   "groupSection": {
     "title": "Group name",
-    "label": "Enter a name"
+    "label": "Display name for the group"
   },
   "PermissionSection": {
     "addButton_websites": "Select websites",
@@ -214,11 +214,41 @@
       "events": {
         "addCondition": "Add Condition",
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
-        "placeholder": "Placeholder"
+        "placeholder": "Placeholder",
+        "logicalOperator_AND": "AND",
+        "logicalOperator_OR": "OR",
+        "logicalOperatorInfo": "Selected logical operator will be applied to the following conditions."
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
       }
+    },
+    "deleteLogs" : {
+    "deleteLogs": "Delete logs",
+      "info": "If you are experiencing a leak of secure information to Instana Logs, you can proceed to delete all logs for the whole data retention period on demand.\nBest practices after a data leak to logs",
+      "confirmationDescription": "Deleting logs will permanently delete the logs from Instana. This action cannot be undone. ",
+      "deletionReason": "Reasons for deletion",
+      "typeToContinue": "Type {{logs}} to continue",
+      "logs": "LOGS",
+      "deletionInfo": "Deleting logs may take a while.\n Check the status in the \"Log deletion summary\" table.",
+      "deletionError": "Logs couldn't be deleted",
+      "deletionSuccess": "All logs have been deleted",
+      "success": "Success",
+      "failure": "Failed",
+      "timestamp": "Timestamp",
+      "reason": "Reason",
+      "numberOfLogs": "Number of logs",
+      "triggered": "Triggered by",
+      "status": "Status",
+      "noData": "No data to show",
+      "noDataInfo": "To delete logs click Delete Logs",
+      "summary": "Log deletion summary",
+      "wrong": "Something is wrong",
+      "errorInfo": "We are unable to retrieve data from the database",
+      "errorId": "Error ID: {{errorId}}",
+      "success": "Success",
+      "failed": "Failure",
+      "inProgress": "In progress"
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
@@ -278,7 +308,10 @@
     "limitedAccess": "Limited Access",
     "filterInvites": "Filter invites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Are you sure you want to revoke the invitation to join the <strong>{{tenant}}</strong> tenant for <strong>{{email}}</strong>?",
-    "inviteUser": "Invite User",
+    "inviteUser": "Invite user",
+    "sendInvitation":"Send invitation",
+    "inviteDescription": "Users will be invited to join tenant: {{tenant}}. Group assignments are valid on the tenant level as well, they will be the same under all units.",
+    "inviteGroupDescription": "You can control access by configuring roles and access scopes of groups under each unit.",
     "failedToSendInvitation": "Failed to send invitation: {{err}}",
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
     "thisUserAlreadyExists": "This user already exists. You can edit it on the 'Users' menu.",
@@ -346,7 +379,7 @@
     "addNumberOfItemsEvent_0": "Add {{count}} Events",
     "addNumberOfItemsEvent_1": "Add {{count}} Events",
     "addNumberOfItemsEvent_2": "Add {{count}} Events",
-    "4ActionAssociations": "4. Action Associations",
+    "actionAssociationsStep": "{{step}}. Action Associations",
     "ActionAssociations": "Action Associations",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Caution!</strong> All events that match the event types will enter the notification stream.",
     "dfqFormDesc": "A <strong>non-empty</strong> filter query which defines for which entities the configuration will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
@@ -409,6 +442,7 @@
     "offlineEventDetection": "Offline event detection",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Hosts that do not have matching entities running on them",
     "hostAvailabilityDetection": "Host availability detection",
+    "instanaAgentCountDetection": "Count of Instana Agents",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
     "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No more than one threshold can be defined on the same metric.",
@@ -673,7 +707,7 @@
     "groups": "Groups",
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
-    "addGroup": "Add Group",
+    "addGroup": "New group",
     "pendingInvitations": "Pending Invitations",
     "revoke": "Revoke",
     "sendingInvitation": "Sending invitation…",
@@ -1087,8 +1121,5 @@
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
-  "teamSettings": {
-    "newGroup": "New Group"
-  },
   "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
 }

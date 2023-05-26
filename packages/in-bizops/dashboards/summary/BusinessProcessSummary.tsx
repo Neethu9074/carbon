@@ -28,7 +28,8 @@ export default function BusinessProcessDashboard() {
   // the header of the page
   const location: Location = useLocation();
   const businessProcessName: string =
-    getMatrixParameter(location, businessProcessDashboard, 'name') ?? t('in-bizops:dashboards.summary.pageTitle');
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
 
   const timeConfig = useTimeConfig();
 
@@ -53,13 +54,12 @@ export default function BusinessProcessDashboard() {
           pageRootName: 'Business Process Dashboard'
         }}
       />
-      {/* @ts-expect-error -- This is clearly wrong usage of the component, likely from testing */}
-      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} result$={''} withProps={''} />
+      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
     </>
   );
 }
 
-function Header(props: DashboardHeaderProps) {
+function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButtonLine' | 'renderMetaInformation'>) {
   return (
     <DashboardHeader
       {...props}

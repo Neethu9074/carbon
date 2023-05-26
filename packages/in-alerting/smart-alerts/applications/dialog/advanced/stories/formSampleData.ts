@@ -37,6 +37,7 @@ const someFormData = {
     sdFactor: 1.0
   },
   alertChannelIds: [],
+  actionIds: [],
   enabled: true
 } as const;
 

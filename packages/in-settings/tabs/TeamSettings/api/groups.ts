@@ -11,7 +11,6 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
-import { t } from 'in-i18n';
 
 const basePath = '/api/settings/rbac/groups';
 
@@ -205,7 +204,7 @@ function mapAndRefresh<T>(response: Response<T>): T {
 export function createNewGroup(): GroupWithRoles {
   return {
     id: undefined,
-    name: t('in-settings:teamSettings.newGroup'),
+    name: '',
     members: [],
     permissionSet: createPermissionSet()
   };

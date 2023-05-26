@@ -98,6 +98,7 @@ export default function TestCreationWithSteps({
           commonAttributes={commonAttributes}
           setCommonAttributes={setCommonAttributes}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+          isUpdateConfig={false}
         />
       ) : (
         <>

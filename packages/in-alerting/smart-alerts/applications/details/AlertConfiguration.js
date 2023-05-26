@@ -20,6 +20,7 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import AlertsActionAssociationsViewer from 'in-automation/AssociatedActionsCard/AlertsActionAssicationsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
@@ -36,11 +37,14 @@ import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { operators } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import ListTitle from 'in-components/lists/Title';
 import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
@@ -65,6 +69,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
+  const actionIds = alertConfig?.actionIds ?? [];
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
   return (
@@ -186,6 +191,24 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
+
+      {role?.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert && (
+        <ExpandableLightCard
+          title={
+            <div>
+              <span>{t('in-settings:tabs.ActionAssociations')}</span> <BetaBadge />
+            </div>
+          }
+          useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+        >
+          <div className={locals.alertChannelsWrapper}>
+            <AlertsActionAssociationsViewer actionIds={actionIds} />
+          </div>
+        </ExpandableLightCard>
+      )}
     </AlertDetailsCard>
   );
 }

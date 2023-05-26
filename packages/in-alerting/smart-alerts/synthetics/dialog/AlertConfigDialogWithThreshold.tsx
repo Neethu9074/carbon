@@ -15,6 +15,7 @@ import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichS
 //@ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/synthetics/dialog/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/synthetics/dialog/advanced/AdvancedModeContainer';
@@ -98,6 +99,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
 
   return (
     <AlertConfigDialogPresenter
@@ -118,7 +120,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={{}}
-      TagBasedPayloadConfigurator={null}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       isDynamicCustomPayloadValid
       QueryBuilderComponent={AlertQueryBuilder}
       SimpleModeElement={SimpleModeContainer}

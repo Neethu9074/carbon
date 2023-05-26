@@ -63,7 +63,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDi
     expect(screen.queryByText(t('in-settings:tabs.someEmailsHaveFailedToSend'))).not.toBeInTheDocument();
     const emailInput = screen.getByLabelText(t('in-settings:tabs.emailAddress'));
     fireEvent.change(emailInput, { target: { value: 'jimmy.mcgill@example.com' } });
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.inviteUser'));
+    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
     fireEvent.click(emailInputbutton);
     expect(val).toStrictEqual([{ groupId: '-3', email: 'jimmy.mcgill@example.com', userSentState: 'notSentYet' }]);
   });
@@ -134,7 +134,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDi
         previousResult={previousResult}
       />
     );
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.inviteUser'));
+    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
     fireEvent.click(emailInputbutton);
     expect(val).toStrictEqual([
       { groupId: 'groupId1', email: 'jimmy.mcgill@example.com', userSentState: 'sentSuccess' },
@@ -165,7 +165,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDi
         previousResult={previousResult}
       />
     );
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.inviteUser'));
+    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
     fireEvent.click(emailInputbutton);
     expect(val).toBe('not called');
   });

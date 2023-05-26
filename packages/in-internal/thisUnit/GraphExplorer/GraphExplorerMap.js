@@ -9,6 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -33,7 +34,13 @@ export default function GraphExplorer({ connected, onClick }) {
         </Col>
         <Col xs={4}>
           <div className={locals.flexWrapper}>
-            <Entry id={connected.selectedSnapshotId} />
+            <Entry
+              id={connected.selectedSnapshotId}
+              href$={getModifiedUrlStream(params => {
+                params.pathname = '/internal/thisUnit/snapshotVersions';
+                return (params.matrix = { '/snapshotVersions': { snapshotId: connected.selectedSnapshotId } });
+              })}
+            />
           </div>
         </Col>
         <Col xs={4}>
@@ -52,7 +59,7 @@ export default function GraphExplorer({ connected, onClick }) {
 
 const Entry = connectTo(
   props => ({ snapshot: getSnapshot(props.id) }),
-  function Entry({ id, isIn, isOut, relation, snapshot, onClick }) {
+  function Entry({ id, isIn, isOut, relation, snapshot, onClick, href$ }) {
     return (
       <Tooltip themeStyle="light" content={snapshot && getPluginName(snapshot.get('plugin'), 1)} align="bottomMiddle">
         <div
@@ -62,7 +69,7 @@ const Entry = connectTo(
           })}
           onClick={() => onClick(id)}
         >
-          <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} />
+          <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} href$={href$} />
           {relation && <span className={locals.relation}>{relation.substr(0, 2)}</span>}
 
           {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" size="s" />}

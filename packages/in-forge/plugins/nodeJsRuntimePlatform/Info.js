@@ -31,6 +31,9 @@ export default function NodeJsInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.nodeJsRuntimePlatform.runtimeArguments')}>
         {data.get('execArgs', []).join(' ')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.nodeJsRuntimePlatform.inProcessCollectorVersion')}>
+        {data.get('sensorVersion')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

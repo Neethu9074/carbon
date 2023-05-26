@@ -240,7 +240,11 @@
           "payloadsOptional": {
             "label": "Payloads",
             "title": "Custom Payload"
-          }
+          },
+        "actionsOptional": {
+          "label": "Actions",
+          "title": "Action Associations"
+        }
         }
       },
       "chart": {
@@ -265,11 +269,10 @@
           "headline": "Automatic Alerts for Slow Calls",
           "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual."
         },
-        "errorRate": {
+        "errors": {
           "name": "Erroneous Calls",
           "headline": "Automatic Alerts for Erroneous Calls",
-          "text": "Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.",
-          "metricLabel": "Error Rate"
+          "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal."
         },
         "logs": {
           "name": "Logs",
@@ -306,6 +309,7 @@
       "formUtils": {
         "titlePlaceholder": {
           "errorRate": "Erroneous call rate is higher than normal",
+          "errorCount": "Too many erroneous calls",
           "slowness": "Calls are slower than usual",
           "logs": {
             "notEmptyWithANY": "Too many calls with messages",
@@ -322,6 +326,10 @@
           "errorRate_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
           "errorRate_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
           "errorRate_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
+          "errorCount_higherThan": "The number of erroneous calls is higher than {{valueRoundedToDecimals}}.",
+          "errorCount_higherEqual": "The number of erroneous calls is higher or equal to {{valueRoundedToDecimals}}.",
+          "errorCount_lowerThan": "The number of erroneous calls is lower than {{valueRoundedToDecimals}}.",
+          "errorCount_lowerEqual": "The number of erroneous calls is lower or equal to {{valueRoundedToDecimals}}.",
           "slownessStaticThreshold_slowerThan": "Calls are slower than {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_slowEqual": "Calls are slower or equal to {{thresholdValue}} ms based on latency ({{aggregationText}}).",
           "slownessStaticThreshold_below": "Calls are below {{thresholdValue}} ms based on latency ({{aggregationText}}).",
@@ -464,6 +472,8 @@
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
         "ruleMetricNameOptionStatusCodeCount": "Status Code Count",
         "ruleMetricNameOptionStatusCodeRate": "Status Code Rate",
+        "ruleMetricNameOptionErrorCount": "Error Count",
+        "ruleMetricNameOptionErrorRate": "Error Rate",
         "ruleStatusCodeValueOptionCustom": "Custom Range",
         "ruleFormErrorStatusCodeStartGTEnd": "Please select an end HTTP status code that is greater or equal than the start HTTP status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
@@ -1128,8 +1138,30 @@
         "beaconRate": "Beacon Rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
-        "sessions": "Sessions"
+        "sessions": "Sessions",
+        "statusCodeBlueprintConfigName": "HTTP Status Codes",
+        "throughputBlueprintConfigName": "Throughput",
+        "customEventBlueprintConfigName": "Custom Events"
+      },
+      "alertList": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}"
+          }
+        },
+        "filterApplied": "Filter Applied"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Step 1: Select Alert",
+        "stepConfigsStep2Title": "Step 2: Select Scope",
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       }
+    },
+    "inventory": {
+      "labelConfirm": "Please Confirm",
+      "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
+      "labelRemove": "Remove"
     }
   }
 }

@@ -6,7 +6,7 @@
 import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
-} from 'in-custom-dashboards/widgets/Slo/renderer/missingDataIndicator';
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
 import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import { ScaleType } from 'in-services/scale';
@@ -52,7 +52,6 @@ function createStairwayRenderer({
       }
 
       const lineWidth = getLineWidth(config);
-      const isStaticBudget = config.y1?.isStaticBudget ?? false;
       const markerPaneHeight = config.markerPaneHeight;
 
       // we want to shift the metric half a "bucket" to the left, to that the plateau is in the middle
@@ -60,7 +59,7 @@ function createStairwayRenderer({
         config.xScaleBackBuffer.getRange(dataSeries[1][0]) - config.xScaleBackBuffer.getRange(dataSeries[0][0]);
       const shiftX = stepDelta / 2.0;
 
-      const lineVertices: Vertex[] = generateVertices(dataSeries, config, isStaticBudget, scale, stepDelta, shiftX);
+      const lineVertices: Vertex[] = generateVertices(dataSeries, config, scale, shiftX);
 
       config.backBufferCtx.beginPath();
       config.backBufferCtx.strokeStyle = color;
@@ -82,27 +81,11 @@ function createStairwayRenderer({
 function generateVertices(
   dataSeries: [number, number][],
   config: RenderConfig,
-  isStaticBudget: boolean,
   scale: ScaleType,
-  stepDelta: number,
   shiftX: number
 ): Vertex[] {
   const lineVertices: Vertex[] = [];
   let previousPosY: number | undefined = undefined;
-
-  // extend first value by half a bucket
-  const firstDataPoint = dataSeries[0];
-  const firstPosX = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
-  if (isStaticBudget) {
-    // extend first value as is
-    const posY = scale.getRange(firstDataPoint[1]);
-    lineVertices.push([firstPosX - stepDelta, posY]);
-  } else {
-    // extend fist value as new zero-step if the budget is hourly changing
-    const posY = scale.getRange(0);
-    lineVertices.push([firstPosX - stepDelta, posY]);
-    lineVertices.push([firstPosX - shiftX, posY]);
-  }
 
   dataSeries.forEach(dataPoint => {
     if (!dataPoint) {

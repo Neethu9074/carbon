@@ -45,7 +45,7 @@ export function getLatencyAlertRule(aggregation) {
 export const errorRateAlertRule = {
   errorRate: {
     rule: {
-      alertType: 'errorRate',
+      alertType: 'errors',
       aggregation: 'MEAN',
       metricName: 'errors'
     }

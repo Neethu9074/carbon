@@ -10,6 +10,7 @@ import { Button, Link, SvgIcon } from '@instana/components';
 
 import {
   LARGE_TRACE_THRESHOLD,
+  isLazyLoadedCallTreeSupported,
   shouldUseLazyLoadedCallTree
 } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
@@ -203,7 +204,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
     return null;
   }
 
-  const traceDownloadUrl = shouldUseLazyLoadedCallTree(result?.data)
+  const traceDownloadUrl = isLazyLoadedCallTreeSupported(result?.data)
     ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
         traceIdInUrl
       )}?pretty&retrievalSize=200&offset=0&ingestionTime=${Date.now()}`

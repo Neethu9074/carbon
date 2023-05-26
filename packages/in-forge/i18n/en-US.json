@@ -1131,11 +1131,11 @@
   "pluginName_phmcSharedProcessorPool_2": "pHMC Shared Processor Pools",
   "pluginName_phmcSharedProcessorPool_1": "pHMC Shared Processor Pools",
   "pluginName_phmcSharedProcessorPool": "pHMC Shared Processor Pool",
-  "pluginName_phmcVIOS_plural": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_0": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_2": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_1": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS": "pHMC Logical Virtual I/O Server",
+  "pluginName_phmcVIOS_plural": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_0": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_2": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_1": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS": "pHMC Virtual I/O Server",
   "pluginName_phpFpmRuntimePlatform_plural": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_0": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_1": "PHP-FPM Runtimes",
@@ -4915,7 +4915,8 @@
         "labelOpenedDbs1m": "Number of opended dbs for 1min period",
         "labelOpenedDbs5m": "Number of opended dbs for 5min period",
         "labelOpenedDbs1h": "Number of opended dbs for 1h period",
-        "labelEmergencyFlush": "Number of emergency flushes"
+        "labelEmergencyFlush": "Number of emergency flushes",
+        "labelNumOfErrorRequests": "Number of error requests"
       }
     },
     "bizTalk": {
@@ -6570,6 +6571,42 @@
       "errorIn": "Received errors/s",
       "errorOut": "Transmit errors/s"
     },
+    "phmcVIOS":{
+      "utilizedProcUnits": "Utilized Processing Units",
+      "maxProcUnits": "Maximum Processing Units",
+      "entitledProcUnits": " Entitled Processing Units",
+      "entitledProcUnitsPercentage": " Entitled Processing Units (%)",
+      "maxCpuCapacityUtilisation": "Max CPU Capacity Utilisation",
+      "utilizedMem": "Utilized Memory",
+      "assignedMem": "Assigned Memory",
+      "utilizedMemPercentage": "Utilized Memory (%)",
+      "sentPackets": "Sent Packets",
+      "receivedPackets": "Received Packets",
+      "droppedPackets": "Dropped Packets",
+      "sentBytes": "Number of Bytes Sent by Adapter",
+      "receivedBytes": "Number of Bytes Received by Adapter",
+      "transferredBytes": "Number of Bytes Transferred by Adapter",
+      "transferredPhysicalBytes": "Number of Bytes Transferred in Physical ",
+      "numOfReads": "Number of Reads",
+      "numOfWrites": "Number of Writes",
+      "readBytes": "Number of Bytes Read",
+      "writeBytes": "Number of Bytes Write",
+      "transmittedBytes": "Number of Bytes Transmitted",
+      "dashboard":{
+        "packets": "Packets",
+        "bytes": "Bytes",
+        "noOfReadWrite": "Number  of Read/Write",
+        "noOfByte": "Number of Byte",
+        "genericAdapter": "Generic Adapter",
+        "sharedAdapter": "Shared Adapter",
+        "virtualEthernetAdapter": "Virtual Ethernet Adapter",
+        "sriovLogicalPort": "SR IOV Logical Port",
+        "genericPhysicalAdapter": "Generic Physical Adapter",
+        "genericVirtualAdapter": "Generic Virtual Adapter",
+        "fiberChannelAdapter": "Fiber Channel Adapter",
+        "sharedStoragePool": "Shared Storage Pool"
+      }
+    },
     "phmcSharedProcessorPool":{
       "utilizedProcUnits": "Utilized processing units",
       "availableProcUnits": "Available processing units",
@@ -6579,6 +6616,40 @@
       "entitledProcUnitsUsedPercent": "Total entitled processing units (%)",
       "utilizedProcUnitsPercent": "Utilized proc units (%)",
       "availableProcUnitsPercent": "Available processing units (%)"
+    },
+    "phmcLPAR": {
+      "utilizedProcUnits": "Utilized Processing Units",
+      "maxProcUnits": "Maximum Processing Units",
+      "entitledProcUnits": " Entitled Processing Units",
+      "entitledProcUnitsPercentage": " Entitled Processing Units (%)",
+      "maxCpuCapacityUtilisation": "Max CPU Capacity Utilisation",
+      "logicalMem": "Logical Memory",
+      "backedPhysicalMem": "Backed Physical Memory",
+      "totalIOMem": "Total IO Memory",
+      "mappedIOMem": "Mapped IO Memory",
+      "sentPackets": "Sent Packets",
+      "receivedPackets": "Received Packets",
+      "droppedPackets": "Dropped Packets",
+      "sentBytes": "Number of Bytes Sent by Adapter",
+      "receivedBytes": "Number of Bytes Received by Adapter",
+      "transferredBytes": "Number of Bytes Transferred by Adapter",
+      "transferredPhysicalBytes": "Number of Bytes Transferred in Physical ",
+      "numOfReads": "Number of Reads",
+      "numOfWrites": "Number of Writes",
+      "readBytes": "Number of Bytes Read",
+      "writeBytes": "Number of Bytes Write",
+      "transmittedBytes": "Number of Bytes Transmitted",
+      "dashboard":{
+        "packets": "Packets",
+        "bytes": "Bytes",
+        "noOfReadWrite": "Number  of Read/Write",
+        "noOfByte": "Number of Byte",
+        "virtualEthernetAdapter": "Virtual Ethernet Adapter",
+        "sriovLogicalPort": "SR IOV Logical Port",
+        "genericVirtualAdapter": "Generic Virtual Adapter",
+        "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapter"
+
+      }
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -7010,6 +7081,10 @@
       "longTermSupportDocs": "Long-term support docs",
       "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
+    "processingStatistics": {
+      "hostCount": "Host Count",
+      "instanaAgentCount": "Instana Agent Count"
+    },
     "rabbitMq": {
       "dashboard": {
         "messagesReady": "Messages ready",
@@ -7352,7 +7427,8 @@
       "threads": "Threads",
       "ruby": "Ruby",
       "longTermSupportDocs": "Long-term support docs",
-      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems."
+      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems.",
+      "inProcessCollectorVersion": "Instana Gem Version"
     },
     "sapHana": {
       "dashboard": {
@@ -8362,7 +8438,8 @@
       "maxBytesLostToSlop": "Max #Bytes Lost to Slop",
       "maxMbAllocated": "Max MB Allocated",
       "copiedBytesWoMutableLists": "Copied Bytes /wo Mutable Lists",
-      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists"
+      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists",
+      "inProcessCollectorVersion": "instana-haskell-trace-sdk Version"
     },
     "hazelcastCluster": {
       "isClusterSafe": "Is Cluster Safe",
@@ -10296,8 +10373,10 @@
       "errorsInLic": "Errors in License Information Collection",
       "kongNgnixMetricErrors": "Kong Ngnix Metric Errors",
       "totalNumberofDB": "Total Number of Database Entities",
-      "pending": "Pending",
-      "running": "Running",
+      "pending":"Pending",
+      "running":"Running",
+      "nginxPending": "Nginx Timers Pending",
+      "nginxRunning": "Nginx Timers Running",
       "sharedDictionary": "Shared Dictionary",
       "subsystem": "Subsystem",
       "totalCapacity": "Total Capacity",
@@ -12124,7 +12203,8 @@
       "nodeJsModuleAnalysis": "Node.js module analysis",
       "app": "App",
       "gcPauseS": "GC pause/s",
-      "eventLoopLag": "Event Loop Lag"
+      "eventLoopLag": "Event Loop Lag",
+      "inProcessCollectorVersion": "@instana/collector Version"
     },
     "packet": {
       "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity.",

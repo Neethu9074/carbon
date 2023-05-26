@@ -26,6 +26,9 @@ export default function HaskellInfo({ snapshot }) {
         {data.get('pid')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
+      <DescriptionItem title={t('in-forge:plugins.haskellRuntimePlatform.inProcessCollectorVersion')}>
+        {data.get('sensorVersion')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

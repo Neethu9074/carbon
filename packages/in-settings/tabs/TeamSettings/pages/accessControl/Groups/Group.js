@@ -34,6 +34,7 @@ import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
 import { success as successResult } from 'in-services/util/result';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import { getEntityHref } from 'in-settings/navigation/paths';
@@ -122,6 +123,11 @@ function renderGroup(props) {
       } else {
         setForm(form.updateIn(['members'], f => f.setValue(members)));
         setMessage({ text: t('in-settings:tabs.successfullyRemovedUserFromGroup', { name }), type: 'success' });
+      }
+
+      if (rbacImprovementEnabled) {
+        // Trigger refresh group observable (including group members)
+        refresh();
       }
     };
     if (rbacImprovementEnabled) {
@@ -430,9 +436,12 @@ function addUsers(users, form, setForm, setMessage) {
       const name = users[0].fullName;
       text = t('in-settings:tabs.successfullyAddedUserToGroup', { name });
     } else {
-      text = t('in-settings:tabs.successfullyAddedUsersToGroup');;
+      text = t('in-settings:tabs.successfullyAddedUsersToGroup');
     }
-    setMessage({ text, type: 'success'});
+    setMessage({ text, type: 'success' });
+
+    // Trigger refresh group observable (including group members)
+    refresh();
   }
 }
 

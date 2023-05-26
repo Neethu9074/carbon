@@ -43,6 +43,7 @@ export const isAnalyzeView = navigationParameters$.map(
 
 export const detailsPath = '/details';
 export const summaryTab = '/summary';
+export const alertsTab = '/alerts';
 
 export const sessionViewPath = '/session';
 export const sessionViewPathFullyQualified = `${analyzePathFullyQualified}${sessionViewPath}`;

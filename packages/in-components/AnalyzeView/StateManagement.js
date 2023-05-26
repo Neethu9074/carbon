@@ -412,6 +412,7 @@ function AnalyzeStateManagement({
   };
 
   return children({
+    setUrlState: onChange,
     dataSource,
     isLoading,
     isValid,
@@ -506,6 +507,7 @@ function AnalyzeStateManagement({
       });
     },
     setDetailId: detailId => onChange({ detailId }),
+    setSelectedId: selectedId => onChange({ selectedId }),
     groupedPaginationRef
   });
 
