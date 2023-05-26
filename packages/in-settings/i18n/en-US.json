@@ -114,7 +114,7 @@
   },
   "groupSection": {
     "title": "Group name",
-    "label": "Enter a name"
+    "label": "Display name for the group"
   },
   "PermissionSection": {
     "addButton_websites": "Select websites",

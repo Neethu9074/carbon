@@ -26,7 +26,8 @@ import {
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -67,6 +68,7 @@ import { openstack, regionListFullyQualified } from 'in-openstack/navigation/pat
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
@@ -428,7 +430,8 @@ function Analyze(props) {
   );
 
   const analyzeHref = useLinkToAnalyze({
-    beaconType: 'pageLoad'
+    beaconType: 'pageLoad',
+    groupBy: {}
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -459,7 +462,8 @@ function Analyze(props) {
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({
               beaconType: 'sessions'
-            })
+            }),
+          hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
         ].filter(Boolean)[0]
       }
       {...props}
