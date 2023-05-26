@@ -240,7 +240,11 @@
           "payloadsOptional": {
             "label": "Payloads",
             "title": "Custom Payload"
-          }
+          },
+        "actionsOptional": {
+          "label": "Actions",
+          "title": "Action Associations"
+        }
         }
       },
       "chart": {

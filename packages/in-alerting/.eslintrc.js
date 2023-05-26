@@ -26,6 +26,7 @@ module.exports = {
 
       allowedInPackages: [
         'in-alerting',
+        'in-automation',
         'in-analyze',
         'in-api',
         'in-applications',

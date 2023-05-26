@@ -17,7 +17,7 @@ import {
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
-import { getScoredActionsForEvent, EventSpecification } from 'in-automation/api';
+import { getScoredActionsForEventOrAlert, EventSpecification } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
@@ -69,7 +69,7 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   }
 
   const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
-    getScoredActionsForEvent(selectedActions, eventSpecification)
+    getScoredActionsForEventOrAlert(selectedActions, eventSpecification)
   );
 
   return (
