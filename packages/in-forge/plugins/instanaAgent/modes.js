@@ -8,7 +8,8 @@ import { t } from 'in-i18n';
 export const modes = {
   0: t('in-forge:plugins.instanaAgent.disabled'),
   1: t('in-forge:plugins.instanaAgent.infrastructure'),
-  2: t('in-forge:plugins.instanaAgent.apm')
+  2: t('in-forge:plugins.instanaAgent.apm'),
+  3: t('in-forge:plugins.instanaAgent.k8s')
 };
 
 export const logLevels = {
