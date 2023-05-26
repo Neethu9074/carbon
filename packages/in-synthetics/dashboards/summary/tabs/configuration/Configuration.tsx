@@ -18,6 +18,7 @@ import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
 
@@ -33,6 +34,11 @@ interface ActionButtonProps {
 }
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
+  const isBrowserScriptTest: boolean =
+    (test.data.configuration.syntheticType === 'BrowserScript' ||
+      test.data.configuration.syntheticType === 'WebpageScript') &&
+    syntheticBrowserScriptEnabled;
+
   function openEditConfigDialog(test: SyntheticTest) {
     addActiveDialog(
       <EditConfigurationDialogPresenter
@@ -48,11 +54,18 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const ActionButtons = ({ test }: ActionButtonProps) => {
     return (
       <Stack gap="normal" direction="horizontal">
-        <SvgIcon type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+        <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
         {/* <SvgIcon type={'lib_actions_copy'} /> */}
-        <SvgIcon type={'lib_actions_delete'} />
+        {/* <SvgIcon type={'lib_actions_delete'} /> */}
       </Stack>
     );
+  };
+
+  const renderActionButton = (isBrowserEnabled: boolean) => {
+    if (isBrowserEnabled) {
+      return undefined;
+    }
+    return <ActionButtons test={test.data} />;
   };
 
   if (test.progress.loading) {
@@ -68,7 +81,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={<ActionButtons test={test.data} />}
+      rightHeaderContent={renderActionButton(isBrowserScriptTest)}
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />
