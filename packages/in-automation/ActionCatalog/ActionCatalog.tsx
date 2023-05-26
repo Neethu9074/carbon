@@ -47,7 +47,7 @@ export default function ActionCatalogTab() {
   );
 }
 
-function rightHeader(createHrefToPath: any) {
+function rightHeader(createHrefToPath: (s: string) => string) {
   return createNewEntityButton({
     labelNew: t('in-automation:ActionCatalog.newAction'),
     pathNew: actionDetailsNewPath,

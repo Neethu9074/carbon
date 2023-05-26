@@ -170,7 +170,7 @@ export default function ActionHistoryTable() {
       showHeaderCount
       actionTypes={actionTypes}
       actionStatuses={actionStatuses}
-      onRowClick={(row: any) => {
+      onRowClick={(row: actionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
       }}
     />
