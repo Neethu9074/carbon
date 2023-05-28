@@ -26,6 +26,7 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -116,7 +117,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: websitesPath
 });
 
-const rightHeader = role.canConfigureEumApplications && (
+const rightHeader = role.canConfigureEumApplications && !playwithEnabled && (
   <Button
     kind="action"
     onClick={() => websitesOpenAddForm()}
