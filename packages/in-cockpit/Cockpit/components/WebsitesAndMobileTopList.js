@@ -13,8 +13,8 @@ import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/compone
 import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
-import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
@@ -30,6 +30,7 @@ import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -44,7 +45,7 @@ export default function WebsitesAndMobileTopList({ config }) {
 
   const header = (
     <>
-      {role.canConfigureEumApplications && (
+      {role.canConfigureEumApplications && !playwithEnabled && (
         <Button
           kind="action"
           onClick={() => websitesOpenAddForm()}
@@ -54,7 +55,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
         </Button>
       )}
-      {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && (
+      {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && !playwithEnabled && (
         <Button
           kind="action"
           onClick={() => mobileAppsOpenAddForm()}
