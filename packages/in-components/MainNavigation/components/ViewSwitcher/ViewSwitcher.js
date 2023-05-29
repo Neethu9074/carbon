@@ -68,9 +68,9 @@ import { openstack, regionListFullyQualified } from 'in-openstack/navigation/pat
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -336,14 +336,16 @@ function Synthetics(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-synthetics"
-      label={t('in-synthetics:navigation.synthetics')}
-      icon={'lib_synthetic'}
-      isActive={matchLocation(isSyntheticMonitoringView)}
-      href={createHrefToPath(syntheticsPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-synthetics"
+        label={t('in-synthetics:navigation.synthetics')}
+        icon={'lib_synthetic'}
+        isActive={matchLocation(isSyntheticMonitoringView)}
+        href={createHrefToPath(syntheticsPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -354,14 +356,16 @@ function BizOps(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.businessMonitoring')}
-      icon={'lib_bizops'}
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon={'lib_bizops'}
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -391,14 +395,16 @@ function SloDashboard(props) {
   }
 
   return (
-    <View
-      id="main-nav-slo-dashboard"
-      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-      icon="lib_service_level"
-      isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsOverview)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(serviceLevelsOverview)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -410,15 +416,17 @@ function AutomationMenu(props) {
   }
 
   return (
-    <View
-      id="main-nav-automation-dashboard"
-      label={t('in-automation:automation')}
-      icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath)}
-      href={createHrefToPath(actionCatalogPath)}
-      isBeta
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-automation-dashboard"
+        label={t('in-automation:automation')}
+        icon="lib_automation"
+        isActive={matchLocation(actionCatalogPath)}
+        href={createHrefToPath(actionCatalogPath)}
+        isBeta
+        {...props}
+      />
+    )
   );
 }
 
