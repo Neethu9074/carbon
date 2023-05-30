@@ -53,12 +53,13 @@ export default function BigNumberKpiCard({
     timeShift: {
       offset: 0
     },
-    timeConfig,
     resultType: 'SINGLE_NUMBER'
   } as const;
 
   const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...config.metricConfiguration,
       ...config.tagFilters,
       ...metricDefaults
@@ -67,12 +68,16 @@ export default function BigNumberKpiCard({
 
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...config.metricConfiguration,
       ...metricDefaults,
       timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
     };
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...metricDefaults,
       ...config.companionMetricConfiguration
     };
