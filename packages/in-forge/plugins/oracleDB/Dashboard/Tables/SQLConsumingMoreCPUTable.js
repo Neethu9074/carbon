@@ -199,7 +199,8 @@ export default connectTo(
         osUser: sql.osUser,
         machine: sql.machine,
         status: sql.status,
-        cpuUsageInSeconds: sql.cpuUsageInSeconds
+        cpuUsageInSeconds: sql.cpuUsageInSeconds,
+        instId: sql.instId
       };
     });
     return (

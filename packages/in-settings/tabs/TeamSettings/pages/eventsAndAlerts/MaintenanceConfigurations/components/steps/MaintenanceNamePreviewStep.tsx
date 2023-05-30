@@ -86,8 +86,8 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
             type="text"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
-            placeholder="New Maintenance Config"
-            hasError={!field.valid}
+            placeholder={t('in-settings:api.newMaintenanceWindowDefaultName')}
+            hasError={!field.valid && field.touched}
             maxLength={256}
           />
           <TouchedMessages field={field} />

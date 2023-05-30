@@ -184,7 +184,7 @@ export const amountPlatformAccesses = (() => {
 })();
 
 export const hasEventsAccess =
-  hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 

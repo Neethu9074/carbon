@@ -162,7 +162,7 @@ export interface ActionTableProps {
   title?: string;
   pageSize?: number;
   rightHeader?: ReactNode;
-  loadEntities: () => Observable<Action[]>;
+  loadEntities: () => Observable<Action[]> | Observable<ScoredAction[]>;
   tableActions?: TableActions<Action>;
   noDataMessage?: string;
   hiddenIds?: string[];
@@ -176,6 +176,7 @@ export interface ActionTableProps {
   showDuplicateColumn?: boolean | undefined;
   isBeta?: boolean;
   withBottomPadding?: boolean;
+  isSearchable?: boolean;
 }
 
 export default function ActionTable({
@@ -195,6 +196,7 @@ export default function ActionTable({
   showTestColumn = false,
   showDuplicateColumn = false,
   isBeta = false,
+  isSearchable = true,
   withBottomPadding
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
@@ -220,7 +222,7 @@ export default function ActionTable({
       pageSize={pageSize}
       initalOrderDir={scored ? 'DESC' : 'ASC'}
       initialOrderBy={scored ? 'color' : 'name'}
-      isSearchable
+      isSearchable={isSearchable}
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader(title, isBeta)}

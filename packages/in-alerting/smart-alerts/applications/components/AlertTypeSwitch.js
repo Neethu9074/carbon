@@ -15,7 +15,7 @@ export default function AlertTypeSwitch({
   ...props
 }) {
   let render;
-  if (alertType === 'errorRate') {
+  if (alertType === 'errors') {
     render = renderErrorRate;
   } else if (alertType === 'logs') {
     render = renderLogs;

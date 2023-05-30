@@ -26,6 +26,7 @@ interface BluePrintSelectionSectionProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
 }
 
 const BluePrintSelectionSection = ({
@@ -36,7 +37,8 @@ const BluePrintSelectionSection = ({
   setTestTypeSelected,
   setRenderSectionsCounter,
   commonAttributes,
-  setCommonAttributes
+  setCommonAttributes,
+  isUpdateConfig
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -55,6 +57,7 @@ const BluePrintSelectionSection = ({
         setRenderSectionsCounter={setRenderSectionsCounter}
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
+        isUpdateConfig={isUpdateConfig}
       />
     </ExpandableLightCard>
   );
@@ -69,6 +72,7 @@ interface SelectionMenuProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
 }
 
 const SelectionMenu = ({
@@ -79,7 +83,8 @@ const SelectionMenu = ({
   setTestTypeSelected,
   setRenderSectionsCounter,
   commonAttributes,
-  setCommonAttributes
+  setCommonAttributes,
+  isUpdateConfig
 }: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
@@ -100,6 +105,7 @@ const SelectionMenu = ({
           setRenderSectionsCounter={setRenderSectionsCounter}
           commonAttributes={commonAttributes}
           setCommonAttributes={setCommonAttributes}
+          isUpdateConfig={isUpdateConfig}
         />
       </div>
     </div>

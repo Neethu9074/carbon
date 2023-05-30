@@ -17,14 +17,15 @@ import {
   httpRequestId as httpRequestIdMatrixParameter,
   customEventId as customEventIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
-import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+// eslint-disable-next-line import/no-deprecated
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
-import {useNavigation} from 'in-stores/navigation/hooks/useNavigation';
 
 export const mobileAppMonitoringPath = '/mobileAppMonitoring';
 export const isMobileAppsView = getRootPathPredicate(mobileAppMonitoringPath);
@@ -73,6 +74,9 @@ export const configurationPrivacyFullyQualified = `${configurationTabFullyQualif
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 
+export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
+export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
+
 export function useLinkToNewMobileApp() {
   const { location, createHref } = useNavigation();
 
@@ -87,6 +91,7 @@ export function getLinkToMobileApp(
   mobileAppId,
   { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
 ) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
@@ -109,7 +114,7 @@ export function useGetLinkToMobileApp(
   mobileAppId,
   { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
 ) {
-  const {location, createHref} = useNavigation();
+  const { location, createHref } = useNavigation();
 
   location.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
   setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
@@ -140,6 +145,7 @@ export function getLinkToAnalyze({
   detailId,
   timeConfig
 }) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -176,6 +182,7 @@ export function getLinkToAnalyze({
 }
 
 export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${sessionViewPathFullyQualified}${summaryTab}`;
     setOrDeleteMatrixKey(params, sessionViewPath, sessionIdMatrixParameter, sessionId);
@@ -188,6 +195,7 @@ export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
 }
 
 export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = emptyObject) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}/httpRequests/details`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
@@ -201,6 +209,7 @@ export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = em
 }
 
 export function getLinkToCustomEvent(mobileAppId, { customEventId, viewId } = emptyObject) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}/customEvents/details`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);

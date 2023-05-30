@@ -19,6 +19,7 @@ import {
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { parseDate } from 'in-services/formatters/date';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import DateInput from 'in-components/form/DateInput';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -53,13 +54,15 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
           <HorizontalFlexWrapper>
             <Label>{t('in-settings:maintenanceWindow.startFrom')}</Label>
           </HorizontalFlexWrapper>
-          <DateInput
-            // placeholder not an official input prop so we're gonna ignore
-            // @ts-ignore
-            placeholder="YYYY-MM-DD"
-            value={dateField?.value}
-            onChange={v => setValue(form, ['window', 'start', 'date'], v)}
-          />
+          <ErrorBoundary name="dateInput-schedule-RMW">
+            <DateInput
+              // placeholder not an official input prop so we're gonna ignore
+              // @ts-ignore
+              placeholder="YYYY-MM-DD"
+              value={dateField?.value}
+              onChange={v => setValue(form, ['window', 'start', 'date'], v)}
+            />
+          </ErrorBoundary>
         </div>
         <div>
           <Label>{t('in-settings:tabs.repeatUntil')}</Label>
@@ -102,17 +105,19 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
             <HorizontalFlexWrapper>
               <Label htmlFor={`dateUntil`}>{t('in-settings:maintenanceWindow.dateUntil')}</Label>
             </HorizontalFlexWrapper>
-            <DateInput
-              //@ts-ignore
-              placeholder="YYYY-MM-DD"
-              onChange={v => {
-                if (v) {
-                  setFormRRule(form, setRRuleDateUntil(rrule, parseDate(v)));
-                  setEndDateStr(v);
-                }
-              }}
-              value={endDateStr}
-            />
+            <ErrorBoundary name="dateInput-schedule-RMW">
+              <DateInput
+                //@ts-ignore
+                placeholder="YYYY-MM-DD"
+                onChange={v => {
+                  if (v) {
+                    setFormRRule(form, setRRuleDateUntil(rrule, parseDate(v)));
+                    setEndDateStr(v);
+                  }
+                }}
+                value={endDateStr}
+              />
+            </ErrorBoundary>
           </div>
         )}
 

@@ -11,7 +11,13 @@
       "label_application": "Application",
       "label_website": "Website"
     },
-    "serviceLevelObjective": "Service Level Objective"
+    "serviceLevelObjective": "Service Level Objective",
+    "metrics": {
+      "status": "Status",
+      "remainingBudget": "Error Budget Remaining",
+      "totalBudget": "Error Budget",
+      "consumedBudget": "Error Budget Consumed"
+    }
   },
   "createSloDialog": {
     "title": "Create Service Level Objective (SLO)",
@@ -86,5 +92,18 @@
   },
   "analyzeSloEventsButton": {
     "analyze": "Analyze {{entity}}"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "Budget: {{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "Error Budget",
+        "title_fullWindow": "Error Budget over entire Time Window",
+        "optionCompact": "Compact",
+        "optionFull": "Full Consumption"
+      }
+    }
   }
 }

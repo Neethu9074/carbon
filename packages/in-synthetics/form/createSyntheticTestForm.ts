@@ -19,13 +19,13 @@ import { minValidator } from 'in-services/validators/number';
 import urlValidator from 'in-synthetics/utils/urlValidator';
 import { t } from 'in-i18n';
 
-interface HTTPMethodType {
+export interface HTTPMethodType {
   value: 'GET' | 'POST' | 'PUT' | 'DELETE';
   label: string;
   isdisabled?: boolean;
 }
 
-interface ValidationsType {
+export interface ValidationsType {
   value: 'Expect Status' | 'Expect JSON' | 'Expect Match';
   label: string;
 }
@@ -94,7 +94,7 @@ export function createForm(
     .put(
       'customProperties',
       createField({
-        value: savedState?.headers ?? { '': '' }
+        value: savedState?.customProperties ?? { '': '' }
       })
     );
 }
@@ -167,13 +167,15 @@ export function createZipScriptConfigurationForm(bundle: string, scriptFile: str
     .put(
       'bundle',
       createField({
-        value: bundle
+        value: bundle,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'scriptFile',
       createField({
-        value: scriptFile
+        value: scriptFile,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }

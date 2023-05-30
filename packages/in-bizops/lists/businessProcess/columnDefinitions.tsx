@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { BusinessProcess, TimeConfig } from '@instana/types';
+import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
 //// @ts-expect-error Module needs to be translated to TS
 //import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -15,6 +15,8 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+// @ts-expect-error Module needs to be translated to TS
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 //import { getChartGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
@@ -22,10 +24,12 @@ import { businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getChartGranularity } from 'in-stores/metric/metric';
+import { number } from 'in-services/formatters/number';
 
 import locals from './columnDefinitions.mless';
 
-interface bpListProps extends ServerTablePresenterProps<BusinessProcess> {
+interface bpListProps extends ServerTablePresenterProps<BusinessProcessItem> {
   timeConfig: TimeConfig;
 }
 
@@ -56,13 +60,18 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
-function BusinessProcessNameColumnContent(item: BusinessProcess) {
+function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   const { location, createHref } = useNavigation();
 
-  location.pathname = `${businessProcessDashboard}${summaryTab}`;
-  setOrDeleteMatrixKey(location, businessProcessDashboard, 'name', item.name);
+  const businessProcessId: string = item.businessProcess.definitionId;
+  const businessProcessName: string =
+    item.businessProcess.definitionName.length > 0 ? item.businessProcess.definitionName : businessProcessId;
 
-  return <SeverityAwareEntityLink severity={getSeverity()} label={item.name} href={createHref(location)} />;
+  location.pathname = `${businessProcessDashboard}${summaryTab}`;
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', businessProcessName);
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
+
+  return <SeverityAwareEntityLink severity={getSeverity()} label={businessProcessName} href={createHref(location)} />;
 }
 
 function getSeverity() {
@@ -70,7 +79,7 @@ function getSeverity() {
   return 1;
 }
 
-export const processColumnDefinitions: ColumnDefinition<BusinessProcess, bpListProps>[] = [
+export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
   {
     id: 'bpm_process_name',
     sortable: true,
@@ -83,23 +92,18 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcess, bpListP
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
-    //getContent(item: BusinessProcess, { result, timeConfig }) {
-    getContent(item: BusinessProcess) {
+    getContent(item: BusinessProcessItem, { result, timeConfig }) {
       return (
-        /* Need to enable this when backend support is ready
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
           //@ts-ignore
           timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
           aggregation="DISTINCT_COUNT"
-          metrics={''}
-          metric={item.startedProcesses}
-          tooltipFormatter={''}
-        />*/
-        <div>
-          <h4 className={locals.label}>{item.startedProcesses}</h4>
-        </div>
+          metrics={item.metrics.started_processes}
+          metric={item.businessProcess.startedInstancesCount}
+          tooltipFormatter={number.compact}
+        />
       );
     }
   },
@@ -108,10 +112,10 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcess, bpListP
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.activityLabel'),
-    getContent(item: BusinessProcess) {
+    getContent(item: BusinessProcessItem) {
       return (
         <div>
-          <h4 className={locals.label}>{item.activitiesCount}</h4>
+          <h4 className={locals.label}>{item.businessProcess.activitiesCount}</h4>
         </div>
       );
     }
@@ -122,11 +126,11 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcess, bpListP
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.healthLabel'),
     /* When backend is ready, the health icon needs to be driven by item.openIssues */
-    getContent(item, { timeConfig }) {
+    getContent(item: BusinessProcessItem, { timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={'0fce0559eaebe9b65b13c8e9050d5060024f4586'}
-          openIssues={item.activitiesCount}
+          openIssues={item.businessProcess.activitiesCount}
           maxSeverity={1}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getResolvedTimeConfig(timeConfig, 0)}

@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import { ruleStatusCodeValueApplicationOptions as ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/components/utils/ruleStatusCodeValueOptions';
 import StatusCodeRangeSelection from 'in-alerting/smart-alerts/applications/components/StatusCodeRangeSelection';
-import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';

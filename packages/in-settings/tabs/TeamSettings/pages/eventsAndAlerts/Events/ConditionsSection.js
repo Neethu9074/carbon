@@ -16,14 +16,16 @@ import {
   isSystemRuleDataSourceSelected,
   isCustomDataSourceSelected,
   isBuiltInDataSourceSelected,
-  isHostAvailabilitySystemRule
+  isHostAvailabilitySystemRule,
+  isEntityCountSystemRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
+import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   getEntityTypeOptionsOfBuiltInMetrics,
   isDeprecatedAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import EntityCountDetectionFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EntityCountDetectionFormGroup';
 import {
   dataSourceOptions,
   systemRuleOptions
@@ -61,7 +63,7 @@ export function ConditionsSection({
   const entityType = entityTypeField?.value;
 
   const rulesForm = form.get('rules');
-  const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
+  const ruleLogicalOperator = form.get('ruleLogicalOperator')?.value;
 
   const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
   const customDataSourceSelected = isCustomDataSourceSelected(form);
@@ -166,6 +168,10 @@ export function ConditionsSection({
 
           {isHostAvailabilitySystemRule(form) && (
             <HostAvailabilityFormGroup form={form} onChange={onChange} disabled={disabled} />
+          )}
+
+          {isEntityCountSystemRule(form) && (
+            <EntityCountDetectionFormGroup form={form} onChange={onChange} disabled={disabled} />
           )}
         </>
       )}

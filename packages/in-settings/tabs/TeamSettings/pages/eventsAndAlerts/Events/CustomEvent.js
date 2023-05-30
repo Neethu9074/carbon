@@ -13,6 +13,7 @@ import {
   createCustomSystemRuleBasedEventSpecification,
   createCustomSystemRuleBasedEventSpecificationForEntityVerification,
   createCustomSystemRuleBasedHostAvailability,
+  createCustomSystemRuleBasedEventSpecificationForEntityCount,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
@@ -51,6 +52,7 @@ import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { entityCountDetection } from './CustomEventFormDefinition';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { associateActionsTracker } from 'in-automation/tracker';
@@ -208,7 +210,7 @@ function save(event, form, actions) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
-  const scopeType = form.get('applyOn').value;
+  const scopeType = form.get('applyOn')?.value ?? null;
   const actionIds = form.get('actionIds')?.value ?? [];
 
   submitEventTracker({
@@ -285,6 +287,22 @@ function getEntityVerificationEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecificationForEntityVerification(entityVerificationFields);
 }
 
+function getEntityCountEventSpecification(form, event) {
+  const entityCountFields = {
+    id: event?.id ?? null,
+    name: form.get('name').value,
+    triggering: form.get('triggering').value,
+    description: form.get('description').value,
+    expirationTime: form.get('gracePeriod').value,
+    conditionOperator: form.get('conditionOperator').value,
+    conditionValue: Number(form.get('conditionValue').value),
+    enabled: event?.enabled ?? true,
+    severity: Number(form.get('severity')?.value ?? 0)
+  };
+
+  return createCustomSystemRuleBasedEventSpecificationForEntityCount(entityCountFields);
+}
+
 function getCustomSystemRuleBasedEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecification(
     event?.id ?? null,
@@ -316,6 +334,10 @@ function getEventSpecification(event, form) {
 
     if (systemRule === hostAvailabilityDetection.id) {
       return getHostAvailabilityEventSpecification(form, event);
+    }
+
+    if (systemRule === entityCountDetection.id) {
+      return getEntityCountEventSpecification(form, event);
     }
 
     return getCustomSystemRuleBasedEventSpecification(form, query, event);

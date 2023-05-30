@@ -178,7 +178,7 @@ function getChartedMetrics(alertType) {
   if (alertType === 'slowness') {
     return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
-  if (alertType === 'errorRate') {
+  if (alertType === 'errors') {
     // we don't show errors with MEAN aggregation here, because we already include a call.erroneous filter
     return [createChartedMetric('erroneousCalls', 'SUM')];
   }
@@ -190,7 +190,7 @@ function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointI
     return null; // no grouping
   }
 
-  if (alertType === 'errorRate') {
+  if (alertType === 'errors') {
     switch (evaluationType) {
       case 'PER_AP':
         return 'service.name';

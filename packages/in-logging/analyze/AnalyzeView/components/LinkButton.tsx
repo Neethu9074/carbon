@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { maxInitialLogLines } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -22,8 +21,8 @@ export interface LinkButtonProps {
   groupKey?: string;
 }
 
-export function LinkButton({ itemId, time, initialLogLines, groupKey }: LinkButtonProps) {
-  const link = useAbsoluteUrlToItem(itemId, time, initialLogLines, groupKey);
+export function LinkButton({ itemId, time, groupKey }: LinkButtonProps) {
+  const link = useAbsoluteUrlToItem(itemId, time, groupKey);
   return (
     <Tooltip content={t('in-logging:tooltipCopyLinkToClipboard')}>
       <CopyToClipboard getText={() => link.toString()}>
@@ -39,14 +38,8 @@ function toAbsoluteUrl(partialUrl: string) {
   return new URL(partialUrl, window.location.origin);
 }
 
-function useAbsoluteUrlToItem(itemId: string, time: number, initialLogLines: number, groupKey?: string): URL {
+function useAbsoluteUrlToItem(itemId: string, time: number, groupKey?: string): URL {
   const { location, createHref } = useNavigation();
-
-  // Rare case: if log messages are produced with time offset after the link creation
-  // the itemId might be not in the initialLogLines, thats why we load 20 more lines
-  if (initialLogLines <= maxInitialLogLines - 20) {
-    initialLogLines += 20;
-  }
 
   const timeConfig = getTimeConfig(location);
   setTimeConfig(
@@ -59,7 +52,6 @@ function useAbsoluteUrlToItem(itemId: string, time: number, initialLogLines: num
     })
   );
   setOrDeleteMatrixKey(location, logsPath, 'selectedId', buildJsonSerializer()(itemId));
-  setOrDeleteMatrixKey(location, logsPath, 'initialLogLines', buildJsonSerializer()(initialLogLines));
 
   if (groupKey) {
     setOrDeleteMatrixKey(location, logsPath, 'selectedGroup', buildJsonSerializer()(groupKey));

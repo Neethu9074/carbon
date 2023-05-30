@@ -6,7 +6,7 @@
 
 import { Observable } from '@instana/observables';
 
-import { MobileAppAlertConfigWithMetadata, MobileAppAlertConfig, Result } from 'in-types';
+import { MobileAppAlertConfigWithMetadata, MobileAppAlertConfig, Result, ConfigVersion } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
@@ -92,5 +92,53 @@ export function deleteAlertConfig(id: string): Observable<void> {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}`
+  }).map(response => response.body);
+}
+
+export function getAllVersionsOfAlertConfig(id: string): Observable<Result<ConfigVersion[]>> {
+  const request = http<ConfigVersion[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/versions`
+  });
+
+  return createObservable(request);
+}
+
+export function getAlertConfigByIdAndTimestamp(
+  id: string,
+  timestamp: number
+): Observable<Result<MobileAppAlertConfigWithMetadata>> {
+  const request = http<MobileAppAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    queryParams: {
+      validOn: timestamp
+    }
+  });
+
+  return createObservable(request);
+}
+
+export function getLatestAlertConfig(id: string): Observable<Result<MobileAppAlertConfigWithMetadata>> {
+  const request = http<MobileAppAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  });
+
+  return createObservable(request);
+}
+
+export function restoreAlertConfigVersion(id: string, created: number): Observable<MobileAppAlertConfigWithMetadata> {
+  return http<MobileAppAlertConfigWithMetadata>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/restore/${created}`
   }).map(response => response.body);
 }

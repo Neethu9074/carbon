@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import stairway, { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import stairway, {
+  useStairwayRenderer
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import { DataSeries, RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import createScale from 'in-services/scale';
@@ -13,7 +15,7 @@ jest.mock('in-components/Chart/renderer/point', () => ({
 }));
 
 describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
-  const config = ({
+  const config = {
     xScaleBackBuffer: createScale(),
     backBufferCtx: {
       beginPath: jest.fn(),
@@ -30,7 +32,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       lineWidth: 1,
       markerPaneHeight: 1
     }
-  } as unknown) as RenderConfig;
+  } as unknown as RenderConfig;
   let scale = createScale();
   const color = '#15f4ee';
 
@@ -92,42 +94,9 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
 
     // Then
     expect(config.backBufferCtx.beginPath).toHaveBeenCalledTimes(1);
-    expect(config.backBufferCtx.moveTo).toHaveBeenCalledWith(0, 0);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(1, 1, 0);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(2, 1, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(3, 3, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(4, 3, 8);
-    expect(config.backBufferCtx.stroke).toHaveBeenCalledTimes(1);
-  });
-
-  it('draws first value as is if isStaticBudget is true', () => {
-    // Given
-    const dataSeries: DataSeries = [
-      [2, 4],
-      [4, 8]
-    ];
-    const cfg = {
-      ...config,
-      y1: {
-        ...config.y1,
-        isStaticBudget: true
-      }
-    };
-
-    // When
-    stairway.render({
-      config: cfg,
-      dataSeries,
-      color,
-      scale
-    });
-
-    // Then
-    expect(config.backBufferCtx.beginPath).toHaveBeenCalledTimes(1);
-    expect(config.backBufferCtx.moveTo).toHaveBeenCalledWith(0, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(1, 1, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(2, 3, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(3, 3, 8);
+    expect(config.backBufferCtx.moveTo).toHaveBeenCalledWith(1, 4);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(1, 3, 4);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(2, 3, 8);
     expect(config.backBufferCtx.stroke).toHaveBeenCalledTimes(1);
   });
 
@@ -147,8 +116,8 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     });
 
     // Then
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(4, 3, 8);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(5, 5, 8);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(2, 3, 8);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(3, 5, 8);
   });
 
   it('fills the area under the graph if fillTopBackground is enabled for the metricId', () => {
@@ -181,14 +150,12 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     expect(config.backBufferCtx.beginPath).toHaveBeenCalledTimes(2);
     expect(config.backBufferCtx.closePath).toHaveBeenCalledTimes(1);
     expect(config.backBufferCtx.fill).toHaveBeenCalledTimes(1);
-    expect(config.backBufferCtx.moveTo).toHaveBeenCalledWith(0, 0);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(6, 1, 0);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(7, 1, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(8, 3, 4);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(9, 3, 8);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(10, 5, 8);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(11, 5, 0.5);
-    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(12, 0, 0.5);
+    expect(config.backBufferCtx.moveTo).toHaveBeenCalledWith(1, 4);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(4, 3, 4);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(5, 3, 8);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(6, 5, 8);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(7, 5, 0.5);
+    expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(8, 1, 0.5);
   });
 
   it('marks the area before the firstCollectedMetricTimestamp by overlaying it with a rect', () => {

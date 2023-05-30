@@ -96,7 +96,7 @@ export default function AlertConfiguration({ alertConfig }) {
                 svgIconType="lib_help_error_warning"
               />
             )}
-            {alertType === 'specificStatusCode' && (
+            {alertType === 'statusCode' && (
               <SelectedAlertTypeInfo
                 title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleHTTPStatusCode')}
                 description={getStatusCodeLabel(value)}

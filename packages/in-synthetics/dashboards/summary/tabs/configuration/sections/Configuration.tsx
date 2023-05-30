@@ -61,7 +61,7 @@ const showAdditionalOptions = (configuration: HttpActionConfiguration) => {
 
 const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => {
   const content = [
-    <Row className={locals.configRow}>
+    <Row key={'operation'} className={locals.configRow}>
       <Col xs={3}>
         <KeyValue label={t('in-synthetics:dashboard.configuration.operation')} value={configuration.operation} />
       </Col>
@@ -71,14 +71,14 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
     </Row>,
     configuration.headers && renderHeaders(configuration.headers),
     configuration.body && (
-      <Row className={locals.configRow}>
+      <Row key={'body'} className={locals.configRow}>
         <Col xs={3}>
           <KeyValue label={t('in-synthetics:dashboard.configuration.body')} value={configuration.body} />
         </Col>
       </Row>
     ),
     configuration.validationString && (
-      <Row className={locals.configRow}>
+      <Row key={'validationString'} className={locals.configRow}>
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.validationString')}
@@ -88,7 +88,7 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
       </Row>
     ),
     configuration.expectStatus && (
-      <Row className={locals.configRow}>
+      <Row key={'expectStatus'} className={locals.configRow}>
         <Col xs={3}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.expectStatus')}
@@ -98,14 +98,14 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
       </Row>
     ),
     configuration.expectMatch && (
-      <Row className={locals.configRow}>
+      <Row key={'expectMatch'} className={locals.configRow}>
         <Col xs={3}>
           <KeyValue label={t('in-synthetics:dashboard.configuration.expectMatch')} value={configuration.expectMatch} />
         </Col>
       </Row>
     ),
     configuration.expectJson && (
-      <Row className={locals.configRow}>
+      <Row key={'expectJSON'} className={locals.configRow}>
         <Col xs={12}>
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.expectJSON')}
@@ -124,7 +124,7 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
         </Col>
       </Row>
     ),
-    <Row>
+    <Row key={'additionalOptions'}>
       <LightCard
         className={locals.lastConfigRow}
         title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
@@ -140,7 +140,7 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
 
 const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => {
   return (
-    <Row>
+    <Row key={'configScript'}>
       <LightCard
         className={locals.lastConfigRow}
         title={t('in-synthetics:dashboard.configuration.configScriptTitle')}

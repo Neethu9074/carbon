@@ -7,6 +7,7 @@ import { createField, createMapForm, createListForm, Field, Item, ListForm, MapF
 import React, { useState } from 'react';
 
 import { Message, SvgIcon, Button } from '@instana/components';
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -234,6 +235,14 @@ export default function InviteUserDialog({
       onClose={close}
     >
       <>
+        <div className={locals.description}>
+          <Typography variant="body-small" component="div">
+            {t('in-settings:tabs.inviteDescription', { tenant: config.tenant })}
+          </Typography>
+          <Typography variant="body-small" component="div">
+            {t('in-settings:tabs.inviteGroupDescription')}
+          </Typography>
+        </div>
         <form onSubmit={internalOnSubmit(canSelectGroup)}>
           {(form as any).map((entry: MapForm<any>, i: number) => renderRow(entry, i))}
 
@@ -253,7 +262,7 @@ export default function InviteUserDialog({
             type="submit"
             disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}
           >
-            {t('in-settings:tabs.inviteUser')}
+            {t('in-settings:tabs.sendInvitation')}
           </Button>
         </form>
 
