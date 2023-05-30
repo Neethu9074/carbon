@@ -12,7 +12,6 @@ import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
-import { categoryLocal, isCategoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
@@ -52,7 +51,6 @@ export default function SmartAlertsBaseList({
   setExternalState,
   pageSize = defaultPageSize,
   createRowLinkLocation,
-  configsCategory = categoryLocal,
   sortOptions,
   extraSearchAttributes = emptyArray,
   ...remainingProps
@@ -65,8 +63,7 @@ export default function SmartAlertsBaseList({
   const fetchedLocalAlerts = useSmartAlertConfigs(getLocalAlertConfigsFetchFunction);
 
   const { configs, loading, errors } = getConfigByCategory({
-    fetchedLocalAlerts,
-    configsCategory
+    fetchedLocalAlerts
   });
 
   useOnNoData({
@@ -80,9 +77,8 @@ export default function SmartAlertsBaseList({
     extraSearchAttributes
   });
   let searchResultsSelected = configs;
-  if (isCategoryLocal(configsCategory)) {
-    searchResultsSelected = localSearchResults;
-  }
+
+  searchResultsSelected = localSearchResults;
 
   // set the page parameter in Url to 1 once the loading is complete.
   useEffect(() => {
@@ -169,16 +165,12 @@ function getSearchResults({ query, fetchedLocalAlerts, extraSearchAttributes }) 
   return { localSearchResults };
 }
 
-function getConfigByCategory({ configsCategory, fetchedLocalAlerts }) {
-  if (isCategoryLocal(configsCategory)) {
-    return {
-      configs: fetchedLocalAlerts.configs,
-      errors: fetchedLocalAlerts.errors,
-      loading: fetchedLocalAlerts.isLoading
-    };
-  }
-
-  return { configs: [], loading: true, errors: [] };
+function getConfigByCategory({ fetchedLocalAlerts }) {
+  return {
+    configs: fetchedLocalAlerts.configs,
+    errors: fetchedLocalAlerts.errors,
+    loading: fetchedLocalAlerts.isLoading
+  };
 }
 
 function useSmartAlertConfigs(getAlertConfigFetchFunction) {
@@ -286,13 +278,6 @@ SmartAlertsBaseList.propTypes = {
    * a row-click selection
    */
   createRowLinkLocation: PropTypes.func,
-  /**
-   * selecting a category (currently local or global) will be
-   * done separately from "the generic list state".
-   */
-  configsCategory: PropTypes.string,
-
-  setConfigsCategory: PropTypes.func,
 
   /**
    * External state setter, argument has the same type as `externalState`.
