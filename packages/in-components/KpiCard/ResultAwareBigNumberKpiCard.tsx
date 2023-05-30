@@ -34,23 +34,29 @@ export interface ConfigWithCompanionMetric extends Config {
   companionMetricConfiguration: UnifiedMetricConfigurationUnion;
 }
 
+export interface ConfigWithStaticCompanion extends Config {
+  staticCompanionValue: ReactNode;
+}
+
 export interface ResultAwareBigNumberKpiCardProps {
   title: string;
   formatter: FormatterFn;
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config | ConfigWithCompanionMetric;
+  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
   raw?: boolean;
 }
 
-export function isConfigWithCompanionMetric(
-  config: Config | ConfigWithCompanionMetric
-): config is ConfigWithCompanionMetric {
+export function isConfigWithCompanionMetric(config: Config): config is ConfigWithCompanionMetric {
   return (config as ConfigWithCompanionMetric).companionMetricConfiguration != null;
+}
+
+export function isConfigWithStaticCompanion(config: Config): config is ConfigWithStaticCompanion {
+  return (config as ConfigWithStaticCompanion).staticCompanionValue != null;
 }
 
 export default function ResultAwareBigNumberKpiCard({
@@ -101,7 +107,7 @@ export default function ResultAwareBigNumberKpiCard({
 
 export function renderKpiCard(
   result: Result<MetricResult[]>,
-  config: Config | ConfigWithCompanionMetric,
+  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion,
   formatter: FormatterFn,
   title: string,
   timeConfig: TimeConfig,
@@ -122,6 +128,15 @@ export function renderKpiCard(
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
   const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
 
+  let companionValue = undefined;
+  if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
+    companionValue = renderTimeShiftValue(config, result, formatter, value, timeConfig);
+  } else if (isConfigWithCompanionMetric(config)) {
+    companionValue = renderCompanionValue(result, companionFormatter as FormatterFn);
+  } else if (isConfigWithStaticCompanion(config)) {
+    companionValue = config.staticCompanionValue;
+  }
+
   return (
     <KpiCard
       title={title}
@@ -136,11 +151,7 @@ export function renderKpiCard(
           </>
         ) : undefined
       }
-      companionValue={
-        hasActiveTimeShift(config.metricConfiguration.timeShift)
-          ? renderTimeShiftValue(config, result, formatter, value, timeConfig)
-          : renderCompanionValue(result, companionFormatter as FormatterFn)
-      }
+      companionValue={companionValue}
       iconAction={iconAction}
       resultPrecision={resultPrecisions}
       raw={raw}
