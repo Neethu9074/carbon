@@ -116,7 +116,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Then
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
-        numberOfcapabilitiesUserHas: 11,
+        numberOfcapabilitiesUserHas: 12,
         totalNumberOfAreaCapabilities: 26
       });
     });
@@ -152,7 +152,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Then
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
-        numberOfcapabilitiesUserHas: 11,
+        numberOfcapabilitiesUserHas: 12,
         totalNumberOfAreaCapabilities: 26
       });
     });

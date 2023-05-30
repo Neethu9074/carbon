@@ -70,7 +70,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
       label: t('in-automation:actionHistory.type'),
       getContent(item: ActionInstanceParameter) {
         if (item.type === 'vault') {
-          return t('in-automation:ActionCatalog.vault');
+          return t('in-automation:vault');
         } else if (item.type === 'static') {
           return t('in-automation:static');
         }
