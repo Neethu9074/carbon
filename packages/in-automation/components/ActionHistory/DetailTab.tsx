@@ -113,7 +113,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       value: targetsnapshotid,
       isLink: true,
       isObservable: true,
-      ObservableLink: getDashboardLink(hostSnapshotId, { pathname: '/physical/dashboard' })
+      ObservableLink: getDashboardLink(targetsnapshotid, { pathname: '/physical/dashboard' })
     });
   }
 
