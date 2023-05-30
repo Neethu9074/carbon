@@ -14,16 +14,21 @@ import {
 } from '@instana/types';
 
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+//@ts-expect-error Needs TS migration
+import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
+import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { NumberFormatterObject } from 'in-services/formatters/number';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -43,6 +48,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         getAlertConfigs={() => getAllAlertConfigsWithResult(mobileAppId)}
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
+        createRowLinkLocation={createRowLinkLocation}
       />
     </>
   );
@@ -83,4 +89,16 @@ function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUn
     blueprintConfigName: blueprintConfig.name,
     metricLabel: formattedMetricLabel
   });
+}
+
+function createRowLinkLocation(config: MobileAppAlertConfigWithMetadata, location: Location): Location {
+  const rowLinkLocation = {
+    ...location,
+    pathname: alertsTabDetailsFullyQualified
+  };
+
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertId, config.id);
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreated, config.created);
+
+  return rowLinkLocation;
 }

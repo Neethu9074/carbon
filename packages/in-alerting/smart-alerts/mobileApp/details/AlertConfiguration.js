@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
@@ -12,26 +13,22 @@ import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
-import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
-import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
-import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
+import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
+import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
+import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
@@ -41,23 +38,21 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName, aggregation, customEventName },
+    rule: { value, alertType, metricName, aggregation, customEventName },
     threshold,
     timeThreshold,
     granularity,
     alertChannelIds,
     tagFilterExpression,
-    websiteId,
-    customPayloadFields
+    mobileAppId
   } = alertConfig;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const websiteLabel = useWebsiteLabel(websiteId);
+  const mobileAppLabel = useMobileAppLabel(mobileAppId);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -68,7 +63,7 @@ export default function AlertConfiguration({ alertConfig }) {
   return (
     <AlertDetailsCard>
       <ListTitle>
-        {t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationListTitleAlertConfiguration')}
+        {t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationListTitleAlertConfiguration')}
       </ListTitle>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.details.header')}
@@ -83,34 +78,27 @@ export default function AlertConfiguration({ alertConfig }) {
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTrigger')}
+        title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleTrigger')}
         doNotSetDefaultHeight
         framed
       >
         {chartViewConfig => (
           <>
-            {alertType === 'specificJsError' && (
-              <SelectedAlertTypeInfo
-                title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleErrorMessage')}
-                description={getDescription(operator, value)}
-                svgIconType="lib_help_error_warning"
-              />
-            )}
             {alertType === 'statusCode' && (
               <SelectedAlertTypeInfo
-                title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleHTTPStatusCode')}
+                title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleHTTPStatusCode')}
                 description={getStatusCodeLabel(value)}
               />
             )}
             {alertType === 'customEvent' && (
               <SelectedAlertTypeInfo
-                title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleCustomEvent')}
+                title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleCustomEvent')}
                 description={customEventName}
-                svgIconType="lib_website_custom"
+                svgIconType="lib_mobile_app_custom_event"
                 darkSvgIcon
               />
             )}
-            <WebsitesAlertingChartWithErrorMessage
+            <MobileAppAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
                 tagFilterExpression: tagFilterFormModel
@@ -124,7 +112,7 @@ export default function AlertConfiguration({ alertConfig }) {
       </ChartViewConfigurator>
 
       <ExpandableLightCard
-        title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleScope')}
+        title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleScope')}
         useMaxAvailableHeight={false}
         openByDefault
         bodyWithoutPadding
@@ -134,13 +122,13 @@ export default function AlertConfiguration({ alertConfig }) {
           <ScopeConfigPresenter
             tagFilterFormModel={tagFilterFormModel}
             queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-            scopePath={<WebsiteScopePath websiteName={websiteLabel} />}
+            scopePath={<MobileAppScopePath mobileAppName={mobileAppLabel} />}
           />
         </div>
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTimeThreshold')}
+        title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -150,7 +138,7 @@ export default function AlertConfiguration({ alertConfig }) {
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertChannels')}
+        title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleAlertChannels')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -162,7 +150,7 @@ export default function AlertConfiguration({ alertConfig }) {
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertProperties')}
+        title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleAlertProperties')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -170,12 +158,6 @@ export default function AlertConfiguration({ alertConfig }) {
       >
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
-      <GlobalCustomPayloadCard context="WEBSITE" />
-      <CustomPayloadCard
-        customPayloadFields={customPayloadFields}
-        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-        openByDefault
-      />
     </AlertDetailsCard>
   );
 }
@@ -183,11 +165,3 @@ export default function AlertConfiguration({ alertConfig }) {
 AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired
 };
-
-function getDescription(operator, value) {
-  let description = getRuleOperatorLabel(operator);
-  if (operator !== operators.NOT_EMPTY) {
-    description = `${description}: "${value}"`;
-  }
-  return description;
-}

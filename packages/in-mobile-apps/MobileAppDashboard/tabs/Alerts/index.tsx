@@ -7,6 +7,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import AlertDetails from 'in-alerting/smart-alerts/mobileApp/details/AlertDetails';
 import Alerts from 'in-alerting/smart-alerts/mobileApp/Alerts';
 
 export interface AlertsProps {
@@ -17,6 +18,9 @@ export interface AlertsProps {
 export default function AlertsIndex(props: AlertsProps) {
   return (
     <Switch>
+      <Route path="*/details">
+        <AlertDetails {...props} />
+      </Route>
       <Route path="*">
         <Alerts {...props} />
       </Route>
