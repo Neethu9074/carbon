@@ -130,7 +130,7 @@ export function createMaintenanceConfig(
 export function createMaintenanceConfigV2(
   id?: string,
   paused?: boolean,
-  name: string = t('in-settings:api.newMaintenanceWindowDefaultName'),
+  name: string = '',
   query: string = '',
   scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule()
 ): MaintenanceConfigV2 {

@@ -21,6 +21,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { dateFormat, dateTimeFormat } from 'in-services/formatters/date';
 import ComboBox, { Option } from 'in-components/ComboBox';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import { getSetting$ } from 'in-services/settings';
@@ -133,16 +134,18 @@ export default function Timing({
                       {t('in-settings:maintenanceWindow.startDate')}
                     </Label>
                   </HorizontalFlexWrapper>
-                  <DateInput
-                    //Ignoring id & placeholder props
-                    //@ts-ignore
-                    id={`maintenance-start-date`}
-                    placeholder="YYYY-MM-DD"
-                    value={dateField.value}
-                    onChange={v => setValue(form, ['window', 'start', 'date'], v)}
-                    hasError={!dateField.valid && dateField.touched}
-                    className={locals.input}
-                  />
+                  <ErrorBoundary name="dateInput-timing-RMW">
+                    <DateInput
+                      //Ignoring id & placeholder props
+                      //@ts-ignore
+                      id={`maintenance-start-date`}
+                      placeholder="YYYY-MM-DD"
+                      value={dateField.value}
+                      onChange={v => setValue(form, ['window', 'start', 'date'], v)}
+                      hasError={!dateField.valid && dateField.touched}
+                      className={locals.input}
+                    />
+                  </ErrorBoundary>
                 </StackItem>
               )}
             </Stack>

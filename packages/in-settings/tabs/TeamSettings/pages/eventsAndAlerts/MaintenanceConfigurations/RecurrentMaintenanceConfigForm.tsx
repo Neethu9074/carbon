@@ -23,14 +23,14 @@ import {
   simpleModeMaintenanceWindowTracker,
   submitMaintenanceWindowTracker
 } from 'in-settings/tracker';
+//@ts-ignore-next-line
+import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import {
   createMaintenanceConfigV2,
   createMaintenanceWindowV2,
   getMaintenanceConfigV2,
   saveMaintenanceConfigV2
-} from 'in-api/maintenanceConfiguration';
-//@ts-ignore-next-line
-import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
+} from './api';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import useEntityForm, { OnEntityChange, SetFormFunction } from '../../../../../hooks/useEntityForm';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
@@ -43,12 +43,17 @@ import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { notBlankValidator } from 'in-services/validators/string';
+import DescriptionText from 'in-components/form/DescriptionText';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { Nullish } from 'in-types';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
+import theme from 'in-themes';
 
 import locals from './MaintenanceConfiguration.mless';
 
@@ -62,11 +67,13 @@ interface RMConfigProps {
 }
 
 export default function RecurrentMaintenanceConfigForm(props: RouteComponentProps<MatchParams> & RMConfigProps) {
-  const entityId = props.existingID || '';
-  const { goToPath } = useNavigation();
+  const id = props.existingID || props.match.params.id || '';
+  const entityId = id === 'new' ? null : id;
+  const { location, goToPath, createHrefToPath } = useNavigation();
   const onClose = () => {
     close();
     if (props.setSaved) props.setSaved(true);
+
     goToPath(teamSettingsAlertingMaintenanceConfigurations);
   };
   const [step, setStep] = useState<number>(0);
@@ -77,32 +84,71 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
     createForm: (config: MaintenanceConfigV2) => createForm(config, !entityId),
     getEntityFromApi: getMaintenanceConfigV2,
     openEntities: () => goToPath(teamSettingsAlertingMaintenanceConfigurations),
-    saveEntity: (config: MaintenanceConfigV2, form: MapForm<any>) => save(config, form, !entityId, simpleMode),
+    saveEntity: (config: MaintenanceConfigV2, form: MapForm<any>) => {
+      return save(config, form, !entityId, simpleMode);
+    },
     onClose,
-    onSaveSuccess: onClose
+    onSaveSuccess: () => {
+      const entityName = form && form.get('name') && (form.get('name') as Field<string>).value;
+      addMessage({
+        type: 'info',
+        timeout: 3500,
+        title: entityId
+          ? t('in-settings:maintenanceWindow.userInfo.edit.title')
+          : t('in-settings:maintenanceWindow.userInfo.create.title'),
+        content: (
+          <div>
+            <p>
+              {entityId && (
+                <Trans i18nKey="in-settings:maintenanceWindow.userInfo.edit.message" values={{ name: entityName }} />
+              )}
+              {!entityId && (
+                <Trans i18nKey="in-settings:maintenanceWindow.userInfo.create.message" values={{ name: entityName }} />
+              )}
+            </p>
+            <Button kind="action" href={createHrefToPath(location.pathname)}>
+              {t('in-settings:tabs.viewMwConfigMessage')}
+            </Button>
+          </div>
+        )
+      });
+      onClose();
+    }
   };
 
   const { entity, form, isCreate, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<MaintenanceConfigV2>(entityFormParams);
 
-  return (
-    <RecurrentMaintenanceForm
-      entity={entity}
-      form={form}
-      message={message}
-      error={error}
-      loading={loading}
-      isCreate={isCreate}
-      onClose={onClose}
-      onSubmit={onSubmit}
-      setForm={setForm}
-      onChange={onChange}
-      step={step}
-      setStep={setStep}
-      simpleMode={simpleMode}
-      setSimpleMode={setSimpleMode}
-    />
-  );
+  if (!entity) {
+    return (
+      <SettingsDetailPage>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+          {t('in-settings:tabs.unknownMaintenanceWindowConfiguration')}
+        </SubViewHeader>
+        <SectionLine />
+        <DescriptionText>{t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}</DescriptionText>
+      </SettingsDetailPage>
+    );
+  } else {
+    return (
+      <RecurrentMaintenanceForm
+        entity={entity}
+        form={form}
+        message={message}
+        error={error}
+        loading={loading}
+        isCreate={isCreate}
+        onClose={onClose}
+        onSubmit={onSubmit}
+        setForm={setForm}
+        onChange={onChange}
+        step={step}
+        setStep={setStep}
+        simpleMode={simpleMode}
+        setSimpleMode={setSimpleMode}
+      />
+    );
+  }
 }
 interface RecurrentMaintenanceFormProps {
   entity: MaintenanceConfigV2 | null;
@@ -171,7 +217,12 @@ function RecurrentMaintenanceForm({
               </Button>
             )
           : () => (
-              <Button kind="primary" type="submit" key="createSave" disabled={!form.hierarchyValid}>
+              <Button
+                kind="primary"
+                type="submit"
+                key="createSave"
+                disabled={!form.hierarchyValid || validateStep(form, stepConfigs, step)}
+              >
                 {isCreate ? t('in-components:blueprintFormMultistep.buttonCreate') : t('in-settings:tabs.save')}
               </Button>
             )
@@ -182,6 +233,7 @@ function RecurrentMaintenanceForm({
       form={form}
       saving={loading}
       primaryActionText={isCreate ? t('in-components:blueprintFormMultistep.buttonCreate') : t('in-settings:tabs.save')}
+      primaryActionDisabled={!form.hierarchyValid || validateStep(form, stepConfigs, step)}
       onSecondaryActionClick={() => {
         cancelMaintenanceWindowTracker({});
         onClose();
@@ -189,7 +241,6 @@ function RecurrentMaintenanceForm({
       secondaryActionText={t('in-components:blueprintFormMultistep.buttonCancel')}
     />
   );
-
   return (
     <form onSubmit={onSubmit}>
       <DialogWithSlideInView
@@ -199,7 +250,6 @@ function RecurrentMaintenanceForm({
         titleIconType="lib_actions_build_outline"
         slideInViewVisible={slideInViewVisible}
         doNotCloseOnOutsideClick
-        withoutBodyPadding
         onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
         onClose={() => {
           cancelMaintenanceWindowTracker({});
@@ -225,25 +275,24 @@ function RecurrentMaintenanceForm({
         )}
         footer={footer}
       >
-        <SettingsDetailPage>
-          {message ? (
-            <Section>
-              <Notification failure={error} loading={loading}>
-                {message}
-              </Notification>
-            </Section>
-          ) : null}
-          <div className={simpleMode ? locals.simpleDialog : locals.dialog}>
-            <RecurrentMaintenanceConfigContainer
-              form={form}
-              onChange={onChange}
-              onChangeApplyOn={onChangeApplyOn}
-              step={step}
-              simpleMode={simpleMode}
-              setForm={setForm}
-            />
-          </div>
-        </SettingsDetailPage>
+        {message ? (
+          <Section>
+            <Notification failure={error} loading={loading}>
+              {message}
+            </Notification>
+          </Section>
+        ) : null}
+
+        <div className={simpleMode ? locals.simpleDialog : locals.dialog}>
+          <RecurrentMaintenanceConfigContainer
+            form={form}
+            onChange={onChange}
+            onChangeApplyOn={onChangeApplyOn}
+            step={step}
+            simpleMode={simpleMode}
+            setForm={setForm}
+          />
+        </div>
       </DialogWithSlideInView>
     </form>
   );
