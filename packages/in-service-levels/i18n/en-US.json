@@ -98,9 +98,6 @@
       "errorBudgetKpiCard": {
         "totalBudget": "Budget: {{value}}"
       },
-      "sloStatusKpiCard": {
-        "target": "SLO Target: {{value}}"
-      },
       "errorBudgetChart": {
         "title": "Error Budget",
         "title_fullWindow": "Error Budget over entire Time Window",
