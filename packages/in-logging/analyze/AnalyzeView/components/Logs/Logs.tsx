@@ -23,9 +23,9 @@ import {
   logTableTags
 } from 'in-logging/queryBuilder';
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { HeaderActionProps, LogsProps, SortDirection } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import { HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
@@ -37,6 +37,7 @@ import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { trySet } from 'in-services/localStorage';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -179,11 +180,14 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
   }, [orderBy.direction]);
 
   const sortingButtonClickHandle = () => {
-    sortingChanged({ source: `changed sorting order to ${orderBy.direction}` });
-    setOrder({
+    const newDirection = (orderBy.direction === 'ASC' ? 'DESC' : 'ASC') as SortDirection;
+    sortingChanged({ source: `changed sorting order to ${newDirection}` });
+    const order = {
       by: orderBy.by,
-      direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
-    });
+      direction: newDirection
+    };
+    trySet('logSortingOrder', JSON.stringify(order));
+    setOrder(order);
   };
   const sortingIcon = orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending';
   const sortingButtonLabel =
