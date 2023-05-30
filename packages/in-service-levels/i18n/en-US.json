@@ -103,7 +103,9 @@
       },
       "errorBudgetChart": {
         "title": "Error Budget",
-        "title_fullWindow": "Error Budget over entire Time Window"
+        "title_fullWindow": "Error Budget over entire Time Window",
+        "optionCompact": "Compact",
+        "optionFull": "Full Consumption"
       }
     }
   }
