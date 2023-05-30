@@ -97,7 +97,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     {
       label: t('in-automation:actionHistory.log'),
-      value: 'in-automation:actionHistory.viewLog',
+      value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       ObservableLink: link
     }

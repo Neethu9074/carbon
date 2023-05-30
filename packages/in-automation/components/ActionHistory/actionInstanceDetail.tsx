@@ -35,26 +35,24 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     });
   }
 
-  if (actionInstanceDetail.progress && actionInstanceDetail.progress.loading) {
+  if (actionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" style={{ height: '16px' }} />;
   }
   return (
     <div className={locals.detailDialog}>
       <Dialog title={title} onClose={close} withoutBodyPadding>
         <>
-          <div>
-            <Tabs>
-              <TabPane title={t('in-automation:actionHistory.properties')}>
-                <DashboardHeaderShadowModule />
+          <Tabs>
+            <TabPane title={t('in-automation:actionHistory.properties')}>
+              <DashboardHeaderShadowModule />
 
-                <DetailTab id={id} properties={actionInstanceDetail.data} />
-              </TabPane>
-              <TabPane title={t('in-automation:actionHistory.inputParameters')}>
-                <DashboardHeaderShadowModule />
-                <DetailParamsTab inputParameters={actionInstanceDetail?.data?.inputParameters} />
-              </TabPane>
-            </Tabs>
-          </div>
+              <DetailTab id={id} properties={actionInstanceDetail.data} />
+            </TabPane>
+            <TabPane title={t('in-automation:actionHistory.inputParameters')}>
+              <DashboardHeaderShadowModule />
+              <DetailParamsTab inputParameters={actionInstanceDetail?.data?.inputParameters} />
+            </TabPane>
+          </Tabs>
         </>
       </Dialog>
     </div>

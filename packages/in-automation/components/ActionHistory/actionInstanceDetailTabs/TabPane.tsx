@@ -6,6 +6,8 @@
 
 import React, { ReactElement } from 'react';
 
+import { Stack } from '@instana/components';
+
 import Title from 'in-components/Title';
 
 type Props = {
@@ -15,10 +17,10 @@ type Props = {
 
 const TabPane = ({ title, children }: Props): JSX.Element => {
   return (
-    <div>
+    <Stack gap="small">
       <Title title={title} />
       <div>{children}</div>
-    </div>
+    </Stack>
   );
 };
 
