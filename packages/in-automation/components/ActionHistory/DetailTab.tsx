@@ -125,7 +125,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       </tr>
       {tableData.map(({ label, value, isLink, ObservableLink, stringLink }) => (
         <tr>
-          <td>{t(label)}</td>
+          <td>{label}</td>
           <td>
             {isLink ? (
               <Link target="_blank" href={stringLink ?? undefined} href$={ObservableLink ?? undefined}>
