@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack } from '@instana/components';
 
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import SmartAlertSelectionList from 'in-alerting/smart-alerts/applications/list/SmartAlertSelectionList';
+import SmartAlertSelectionList from 'in-automation/ActionCatalog/SmartAlertDialog/SmartAlertSelectionList';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
@@ -46,6 +46,7 @@ export default function SelectSmartAlertDialog({ onSubmit, selection: initialSel
           selection={selection}
           onChange={setSelection}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications([], { asObservable: true })}
+          // getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs([], { asObservable: true })}
           pageSize={20}
         />
       </div>

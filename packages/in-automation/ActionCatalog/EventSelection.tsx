@@ -101,6 +101,7 @@ function EventsSelection({ form, setForm }: ActionFormProps) {
               <Events {...props} withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled} />
             )}
             hiddenIds={selectedEvents}
+            // limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>
               numberOfItems > 0
                 ? t('in-settings:tabs.addNumberOfItemsEvent', { count: numberOfItems })
