@@ -71,8 +71,8 @@ export default function createServerTableWithUrlState({
       [columnDefinitions]
     );
     const totalHits = result?.data?.totalHits;
-    const leftHeader = (title, totalHits) => {
-      if (totalHits === 0) {
+    const leftHeader = (title, totalHits, result) => {
+      if (totalHits === 0 || result?.progress?.loading) {
         return <h1 className={locals.title}>{title} </h1>;
       }
       return (
@@ -90,9 +90,10 @@ export default function createServerTableWithUrlState({
       onChange: setUrlState,
       resultPrecision
     };
+
     return (
       <Renderer
-        leftHeader={props.showHeaderCount ? leftHeader(props.title, totalHits) : undefined}
+        leftHeader={props.showHeaderCount ? leftHeader(props.title, totalHits, result) : undefined}
         {...rendererProps}
       />
     );
