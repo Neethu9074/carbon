@@ -24,8 +24,8 @@ import ActionInstanceDetail from 'in-automation/components/ActionHistory/actionI
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import Filters from 'in-automation/components/ActionHistory/Filters';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
+import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -145,7 +145,7 @@ export default function ActionHistoryTable() {
   const [{ actionTypes, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
-  function useFilterHeader() {
+  function FilterHeader() {
     return <Filters setFilter={setFilter} actionTypes={actionTypes} actionStatuses={actionStatuses} />;
   }
 
@@ -153,7 +153,7 @@ export default function ActionHistoryTable() {
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
-      rightHeader={useFilterHeader}
+      rightHeader={FilterHeader}
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
       actionTypes={actionTypes}
