@@ -22,16 +22,17 @@ import {
   hasPCFAccess,
   hasOpenStackAccess,
   hasEventsAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasSloAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { internalMonitoringUnit, sloV2Enabled } from 'in-services/featureFlags';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
@@ -66,7 +67,7 @@ export default (
     )}
 
     {hasEventsAccess && eventRoutes}
-    {sloV2Enabled && sloRoutes}
+    {hasSloAccess && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
     {role.canConfigureAutomationActions && actionAutomationEnabled && automationRoutes}

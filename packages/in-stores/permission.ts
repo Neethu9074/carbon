@@ -14,7 +14,8 @@ import {
   syntheticCredentialEnabled,
   syntheticsEnabled,
   vsphereEnabled,
-  zhmcEnabled
+  zhmcEnabled,
+  sloV2Enabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -182,6 +183,7 @@ export const amountPlatformAccesses = (() => {
   return count;
 })();
 
+export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
   hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess =
