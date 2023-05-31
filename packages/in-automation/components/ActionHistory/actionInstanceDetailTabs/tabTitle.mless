@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
 @import '~in-themes/active.less';
@@ -11,12 +11,12 @@
     font-size: 16px;
     border: none;
     text-decoration: none;
-    color: #6a7c8f;
+    color: @lib__colors__chart__self100;
     &:hover {
       text-decoration: none;
-      color: #6a7c8f;
+      color: @lib__colors__chart__self100;
       background: none;
-      border-bottom: 3px solid #637282;
+      border-bottom: 3px solid @lib__colors__N600Light;
     }
     &:focus {
       outline: none;
@@ -24,7 +24,7 @@
   }
 
   .title[class~='active'] button {
-    border-bottom: 3px solid #00cccc;
+    border-bottom: 3px solid @lib__colors__cyan800;
     cursor: default;
     color: #3c444d;
   }
