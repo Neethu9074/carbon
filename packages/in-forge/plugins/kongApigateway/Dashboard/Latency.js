@@ -117,7 +117,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: bytes.compact,
-              metrics: ['kong_kong_latency_ms_bucket_route' + row.key + '.service'],
+              metrics: ['kongLatencymsBucketRoute' + row.key + '.service'],
               labels: [
                 t('in-forge:plugins.kongApigateway.latencyPerService'),
                 t('in-forge:plugins.kongApigateway.50th'),
@@ -135,7 +135,7 @@ export default connectTo(
             y1={{
               min: 0,
               formatter: bytes.compact,
-              metrics: ['kong_kong_latency_ms_bucket_route' + row.key + '.route'],
+              metrics: ['kongLatencymsBucketRoute' + row.key + '.route'],
               labels: [t('in-forge:plugins.kongApigateway.latencyPerRoute')],
               type: 'line'
             }}
