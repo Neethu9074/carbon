@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 
 import locals from './actionInstanceDetail.mless';
 
-interface property {
+interface ActionInstanceProperty {
   actionInstanceId: string;
   actionName: string;
   eventId: string;
@@ -39,7 +39,7 @@ interface property {
   endDate: DateFormatterInput;
   targetsnapshotid?: string;
 }
-export default function DetailTab({ id, properties }: { id: string; properties: property }) {
+export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
   const { createHref, location } = useNavigation();
   function getLinkToEventDetails(id: string) {
     const path = location;
@@ -119,24 +119,26 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
 
   return (
     <table className={locals.ActionInstanceDetailsTable}>
-      <tr className={locals.headerRow}>
+      <thead className={locals.headerRow}>
         <th>{t('in-automation:actionHistory.property')}</th>
         <th>{t('in-automation:actionHistory.value')}</th>
-      </tr>
-      {tableData.map(({ label, value, isLink, ObservableLink, stringLink }) => (
-        <tr>
-          <td>{label}</td>
-          <td>
-            {isLink ? (
-              <Link target="_blank" href={stringLink ?? undefined} href$={ObservableLink ?? undefined}>
-                {value}
-              </Link>
-            ) : (
-              value
-            )}
-          </td>
-        </tr>
-      ))}
+      </thead>
+      <tbody>
+        {tableData.map(({ label, value, isLink, ObservableLink, stringLink }) => (
+          <tr key={label}>
+            <td>{label}</td>
+            <td>
+              {isLink ? (
+                <Link target="_blank" href={stringLink ?? undefined} href$={ObservableLink ?? undefined}>
+                  {value}
+                </Link>
+              ) : (
+                value
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }

@@ -9,7 +9,7 @@
 :local {
   .ActionInstanceDetailsTable {
     border: 1px solid var(--colors-gray-400);
-    margin: 50px 50px 50px 50px;
+    margin: 0px 50px 50px 50px;
     width: 700px;
 
     tr {
@@ -51,7 +51,7 @@
   }
 
   .paramsTab {
-    margin: 3rem;
+    margin: 0rem 3rem 3rem 3rem;
   }
 
   .detailDialog {

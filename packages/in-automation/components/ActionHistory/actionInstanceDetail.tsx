@@ -19,24 +19,23 @@ import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './actionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
-  const timeConfig: TimeConfig = useTimeConfig();
+  const timeConfig = useTimeConfig();
   const actionInstanceDetail =
-    useObservable(getActionInstanceObservable(id, timeConfig), [id, timeConfig]) ?? pendingResult;
-  function getActionInstanceObservable(id: string, timeConfig: TimeConfig) {
-    return getActionInstance({
-      actionInstanceId: id,
-      timeConfig
-    });
-  }
+    useObservable(
+      getActionInstance({
+        actionInstanceId: id,
+        timeConfig
+      }),
+      [id, timeConfig]
+    ) ?? pendingResult;
 
   if (actionInstanceDetail.progress?.loading) {
-    return <LoadingIndicator size="l" style={{ height: '16px' }} />;
+    return <LoadingIndicator size="l" />;
   }
   return (
     <div className={locals.detailDialog}>

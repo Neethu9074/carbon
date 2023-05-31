@@ -5,6 +5,7 @@
  */
 
 import React, { useCallback } from 'react';
+import classNames from 'classnames';
 
 import { Button } from '@instana/components';
 
@@ -25,7 +26,12 @@ const TabTitle = (props: TabTitleProps): JSX.Element => {
   }, [setSelectedTab, index]);
 
   return (
-    <li className={`${locals.title} ${isActive ? 'active' : ''}`}>
+    <li
+      className={classNames({
+        [locals.title]: true,
+        [locals.active]: isActive
+      })}
+    >
       <Button kind="action" onClick={handleOnClick}>
         {title}
       </Button>

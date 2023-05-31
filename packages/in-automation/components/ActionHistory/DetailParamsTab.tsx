@@ -15,6 +15,13 @@ import { t } from 'in-i18n';
 
 import locals from './actionInstanceDetail.mless';
 
+function getRowProps() {
+  return {
+    className: locals.row,
+    size: 'compact' as const
+  };
+}
+
 export default function DetailParamsTab({ inputParameters }: { inputParameters: ActionInstanceParameter[] }) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -30,7 +37,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
     }
   };
 
-  const ColumnDefinitions = [
+  const columnDefinitions = [
     {
       id: 'displayName',
       sortable: true,
@@ -79,17 +86,10 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
     }
   ];
 
-  function getRowProps() {
-    return {
-      className: locals.row,
-      size: 'compact' as const
-    };
-  }
-
   return (
     <div className={locals.paramsTab}>
       <ServerTablePresenter
-        columnDefinitions={ColumnDefinitions}
+        columnDefinitions={columnDefinitions}
         noDataMessage={t('in-automation:actionHistory.noParams')}
         getRowProps={getRowProps}
         result={result}

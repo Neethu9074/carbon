@@ -7,8 +7,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { DateFormatterInput } from '@instana/format-date';
-
 import {
   CurrentState,
   FilterState,
@@ -27,10 +25,10 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Filters from 'in-automation/components/ActionHistory/Filters';
+import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
-import { OrderDirection, TimeConfig } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -38,56 +36,46 @@ import { t } from 'in-i18n';
 
 import locals from './ActionHistoryTable.mless';
 
-interface actionInstance {
-  actionInstanceId: string;
-  actionName: string;
-  actionType: string;
-  startDate: DateFormatterInput;
-  endDate: DateFormatterInput;
-  problemText: string;
-  status: string;
-}
-
 const columnDefinitions = [
   {
     label: t('in-automation:actionHistory.name'),
     id: 'actionName',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return <div className={locals.fourLines}>{row.actionName}</div>;
     }
   },
   {
     label: t('in-automation:actionHistory.type'),
     id: 'type',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return getType(row.actionType);
     }
   },
   {
     label: t('in-automation:actionHistory.startTime'),
     id: 'startDate',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return formatDateTime(row.startDate);
     }
   },
   {
     label: t('in-automation:actionHistory.endTime'),
     id: 'endDate',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return row.endDate ? formatDateTime(row.endDate) : formatDateTime(null);
     }
   },
   {
     label: t('in-automation:actionHistory.eventName'),
     id: 'problemText',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return <div className={locals.fourLines}>{row.problemText}</div>;
     }
   },
   {
     label: t('in-automation:actionHistory.status'),
     id: 'status',
-    getContent(row: actionInstance) {
+    getContent(row: ActionInstance) {
       return getStatus(row.status);
     }
   }
@@ -170,7 +158,7 @@ export default function ActionHistoryTable() {
       showHeaderCount
       actionTypes={actionTypes}
       actionStatuses={actionStatuses}
-      onRowClick={(row: actionInstance) => {
+      onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
       }}
     />
@@ -188,7 +176,7 @@ export function getStatus(status: string) {
             [locals.statusIndicator__fail]: status === 'FAILED'
           })}
         >
-          {status}
+          {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
         </div>
       </Tooltip>
     );
@@ -197,7 +185,7 @@ export function getStatus(status: string) {
       <Tooltip themeStyle="light" content={status}>
         <div className={locals.wrapper}>
           <LoadingIndicator className={locals.inProgressLoading} size={'s'} />
-          <div>In Progress</div>
+          <div> {t('in-automation:actionHistory.inProgress')}</div>
         </div>
       </Tooltip>
     );
