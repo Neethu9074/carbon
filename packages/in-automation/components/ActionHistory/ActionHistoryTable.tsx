@@ -168,7 +168,7 @@ export default function ActionHistoryTable() {
 export function getStatus(status: string) {
   if (status === 'SUCCESS' || status === 'FAILED') {
     return (
-      <Tooltip content={status} themeStyle="light" align={'rightMiddle'}>
+      <Tooltip content={status} themeStyle="light">
         <div
           className={classNames({
             [locals.statusIndicator]: true,
