@@ -4,17 +4,17 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
+
+import { Spacer } from '@instana/components';
 
 import { FilterSectionProps } from 'in-automation/components/ActionHistory/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-import locals from './Filters.mless';
-
 export default function Filters({ setFilter, actionTypes, actionStatuses }: FilterSectionProps) {
   return (
-    <Fragment>
+    <>
       <ComboBox
         value={actionTypes}
         onChange={t => Array.isArray(t) && setFilter({ actionTypes: t.map(a => a.value) })}
@@ -25,8 +25,8 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
           { label: t('in-automation:ActionCatalog.script'), value: 'SCRIPT' },
           { label: t('in-automation:actionHistory.external'), value: 'EXTERNAL' }
         ]}
-        className={locals.filter}
       />
+      <Spacer horizontal="small" />
       <ComboBox
         value={actionStatuses}
         onChange={t => Array.isArray(t) && setFilter({ actionStatuses: t.map(a => a.value) })}
@@ -37,8 +37,8 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
           { label: t('in-automation:actionHistory.failed'), value: 'FAILED' },
           { label: t('in-automation:actionHistory.inProgress'), value: 'IN_PROGRESS' }
         ]}
-        className={locals.filter}
       />
-    </Fragment>
+      <Spacer horizontal="small" />
+    </>
   );
 }
