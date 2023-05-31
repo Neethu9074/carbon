@@ -145,15 +145,11 @@ export default function ActionHistoryTable() {
   const [{ actionTypes, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
-  function FilterHeader() {
-    return <Filters setFilter={setFilter} actionTypes={actionTypes} actionStatuses={actionStatuses} />;
-  }
-
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
-      rightHeader={FilterHeader}
+      rightHeader={<Filters setFilter={setFilter} actionTypes={actionTypes} actionStatuses={actionStatuses} />}
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
       actionTypes={actionTypes}

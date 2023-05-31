@@ -34,22 +34,20 @@ export default function ViewSwitcher() {
     <>
       <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
-        <div>
-          <SecondLevelNavigation>
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem
+            href={createHrefToPath(actionCatalogPath)}
+            label={t('in-automation:ActionCatalog.actionCatalog')}
+            isActive={isCatalogActive}
+          />
+          {role?.canViewAutomationActionInstances && (
             <SecondLevelNavigationItem
-              href={createHrefToPath(actionCatalogPath)}
-              label={t('in-automation:ActionCatalog.actionCatalog')}
-              isActive={isCatalogActive}
+              href={createHrefToPath(actionHistoryPath)}
+              label={t('in-automation:actionHistory.actionHistory')}
+              isActive={isHistoryActive}
             />
-            {role?.canViewAutomationActionInstances && (
-              <SecondLevelNavigationItem
-                href={createHrefToPath(actionHistoryPath)}
-                label={t('in-automation:actionHistory.actionHistory')}
-                isActive={isHistoryActive}
-              />
-            )}
-          </SecondLevelNavigation>
-        </div>
+          )}
+        </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
     </>
