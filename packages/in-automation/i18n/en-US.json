@@ -139,8 +139,7 @@
     "uniqueName": "Parameter names must be unique.",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
     "actionCopy": "(Copy of) {{name}}",
-    "ActionAssociationsForEvent": "Associate Events",
-    "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
-    "searchSmartAlerts": "Search Smart Alerts"
+    "ActionAssociationsForEvent": "3. Associate Events",
+    "ActionAssociationsForSmartAlert": "4. Associate Smart Alerts",
   }
 }
