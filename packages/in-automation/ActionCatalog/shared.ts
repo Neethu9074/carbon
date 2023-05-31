@@ -91,18 +91,6 @@ export const AUTH_TYPES = Object.freeze([
 
 export type selectedEventsTypes = { builtin_event_ids: string[]; custom_event_ids: string[] };
 
-export type NewActionWithAssociations = Action & {
-  selectedEvents?: string[];
-  applicationAlertConfigIds?: string[];
-  selectedEventsTypes?: selectedEventsTypes;
-};
-
-export type NewActionWithAssociationsWithUndefined = Action & {
-  selectedEvents?: (string | undefined)[];
-  applicationAlertConfigIds?: (string | undefined)[];
-  selectedEventsTypes?: selectedEventsTypes;
-};
-
 function safeParseJSON<T>(str: string = '{}') {
   try {
     return JSON.parse(str) as T;
