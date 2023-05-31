@@ -17,9 +17,8 @@ import {
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import { toggleAlertTracker, openAlertSubmitFormTracker, deleteAlertTracker } from 'in-settings/tracker';
-import List, { createNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
+import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -38,7 +37,6 @@ const enabledOptions = Object.freeze([
 
 export default function Alerts() {
   const [enabled, setEnabled] = useState(null);
-  const { createHrefToPath } = useNavigation();
   return (
     <List
       title={t('in-settings:tabs.alerts')}
@@ -55,7 +53,7 @@ export default function Alerts() {
             })
           : null
       }
-      rightHeader={defaultRightHeader(enabled, setEnabled, createHrefToPath)}
+      rightHeader={defaultRightHeader(enabled, setEnabled)}
       searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
       extraFilters={createFilters(enabled)}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
@@ -129,15 +127,16 @@ const tableActions = {
   }
 };
 
-function defaultRightHeader(enabled, setEnabled, createHrefToPath) {
+function defaultRightHeader(enabled, setEnabled) {
   return (
     <Fragment>
-      {createNewEntityButton({
-        labelNew: t('in-settings:tabs.newAlert'),
-        pathNew: teamSettingsAlertingAlertNew,
-        trackEvent: openAlertSubmitFormTracker,
-        createHrefToPath: createHrefToPath
-      })}
+      {
+        <CreateNewEntityButton
+          labelNew={t('in-settings:tabs.newAlert')}
+          trackEvent={openAlertSubmitFormTracker}
+          pathNew={teamSettingsAlertingAlertNew}
+        />
+      }
       <ComboBox
         name="filter-state"
         value={enabled}

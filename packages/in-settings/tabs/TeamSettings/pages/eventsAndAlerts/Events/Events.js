@@ -48,8 +48,7 @@ import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/T
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
-import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -130,7 +129,6 @@ export default function Events({
 
   const loadEvents = useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities);
   adjustTypeOptions(withoutAppDataLegacyEvents);
-  const { createHrefToPath } = useNavigation();
 
   return (
     <>
@@ -145,7 +143,7 @@ export default function Events({
         noDataMessage={noDataMessage}
         pageSize={pageSize}
         initialOrderBy="name"
-        rightHeader={getRightHeader(createHrefToPath)}
+        rightHeader={getRightHeader()}
         isSearchable={isSearchable}
         searchAttributes={['name', 'description', getEntityType]}
         extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
@@ -164,15 +162,16 @@ export default function Events({
     return !inSelectListDialog ? rightHeader ?? defaultRightHeader() : inSelectListDialogRightHeader();
   }
 
-  function defaultRightHeader(createHrefToPath) {
+  function defaultRightHeader() {
     return (
       <Fragment>
-        {createNewEntityButton({
-          labelNew: t('in-settings:tabs.newEvent'),
-          pathNew: teamSettingsAlertingEventCustomNew,
-          trackEvent: openEventSubmitFormTracker,
-          createHrefToPath: createHrefToPath
-        })}
+        {
+          <CreateNewEntityButton
+            labelNew={t('in-settings:tabs.newEvent')}
+            trackEvent={openEventSubmitFormTracker}
+            pathNew={teamSettingsAlertingEventCustomNew}
+          />
+        }
         {inSelectListDialogRightHeader()}
       </Fragment>
     );

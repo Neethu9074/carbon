@@ -71,21 +71,19 @@ export declare function leftHeaderWithSelectAll(
   isBeta?: boolean
 ): (totalHitsBeforeFilter: number, totalHitsAfterFilter: number, entitiesBeforePagination: number) => ReactNode;
 
-export declare function createNewEntityButton({
+export declare function CreateNewEntityButton({
   labelNew,
   pathNew,
   onCreateNew,
   disabledMessage,
-  trackEvent,
-  createHrefToPath
+  trackEvent
 }: {
   labelNew: string;
   pathNew: string;
   onCreateNew?: Function;
   disabledMessage?: string;
   trackEvent?: Function;
-  createHrefToPath?: (s: string) => string;
-}): ReactNode;
+}): JSX.Element;
 
 export default ListComponent;
 

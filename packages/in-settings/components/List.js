@@ -136,7 +136,7 @@ function List({
   customSortEntities,
   onPageChange
 }) {
-  const { goToPath, createHrefToPath } = useNavigation();
+  const { goToPath } = useNavigation();
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
   }
@@ -220,16 +220,17 @@ function List({
         tableInCard={tableInCard}
         fixedLayout
         rightHeader={
-          rightHeader
-            ? rightHeader
-            : createNewEntityButton({
-                labelNew,
-                pathNew,
-                onCreateNew,
-                disabledMessage: newDisabledMessage,
-                trackEvent,
-                createHrefToPath
-              })
+          rightHeader ? (
+            rightHeader
+          ) : (
+            <CreateNewEntityButton
+              labelNew={labelNew}
+              trackEvent={trackEvent}
+              pathNew={pathNew}
+              onCreateNew={onCreateNew}
+              disabledMessage={newDisabledMessage}
+            />
+          )
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
@@ -316,14 +317,8 @@ function handleClickCreateNewEntity(onCreateNew, trackEvent) {
   }
 }
 
-export function createNewEntityButton({
-  labelNew,
-  pathNew,
-  onCreateNew,
-  disabledMessage,
-  trackEvent,
-  createHrefToPath
-}) {
+export function CreateNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage, trackEvent }) {
+  const { createHrefToPath } = useNavigation();
   if (!pathNew && !onCreateNew) {
     return null;
   }
