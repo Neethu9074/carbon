@@ -120,8 +120,10 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
   return (
     <table className={locals.ActionInstanceDetailsTable}>
       <thead className={locals.headerRow}>
-        <th>{t('in-automation:actionHistory.property')}</th>
-        <th>{t('in-automation:actionHistory.value')}</th>
+        <tr>
+          <th>{t('in-automation:actionHistory.property')}</th>
+          <th>{t('in-automation:actionHistory.value')}</th>
+        </tr>
       </thead>
       <tbody>
         {tableData.map(({ label, value, isLink, ObservableLink, stringLink }) => (

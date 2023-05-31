@@ -18,7 +18,7 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
       <ComboBox
         value={actionTypes}
         onChange={t => Array.isArray(t) && setFilter({ actionTypes: t.map(a => a.value) })}
-        placeholder={t('in-synthetics:dashboard.testList.type')}
+        placeholder={t('in-automation:actionHistory.type')}
         isMulti
         options={[
           { label: t('in-automation:ActionCatalog.http'), value: 'HTTP' },
@@ -30,7 +30,7 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
       <ComboBox
         value={actionStatuses}
         onChange={t => Array.isArray(t) && setFilter({ actionStatuses: t.map(a => a.value) })}
-        placeholder="Status"
+        placeholder={t('in-automation:actionHistory.status')}
         isMulti
         options={[
           { label: t('in-automation:actionHistory.success'), value: 'SUCCESS' },

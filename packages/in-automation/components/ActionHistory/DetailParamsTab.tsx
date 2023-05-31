@@ -96,7 +96,6 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
         getRowProps={getRowProps}
         result={result}
         page={0}
-        fixedLayout
         orderBy="id"
         orderDirection="ASC"
         pageSize={result.data.pageSize}

@@ -23,9 +23,11 @@
     }
   }
 
-  .title[class~='active'] button {
-    border-bottom: 3px solid @lib__colors__cyan800;
-    cursor: default;
-    color: #3c444d;
+  .active {
+    button {
+      border-bottom: 3px solid @lib__colors__cyan800;
+      cursor: default;
+      color: #3c444d;
+    }
   }
 }
