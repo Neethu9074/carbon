@@ -607,6 +607,11 @@
   "pluginName_host_1": "Hosts",
   "pluginName_host_2": "Hosts",
   "pluginName_host": "Host",
+  "pluginName_remoteHost_plural": "Remote Hosts",
+  "pluginName_remoteHost_0": "Remote Hosts",
+  "pluginName_remoteHost_1": "Remote Hosts",
+  "pluginName_remoteHost_2": "Remote Hosts",
+  "pluginName_remoteHost": "Remote Host",
   "pluginName_httpd_plural": "Apache HTTPds",
   "pluginName_httpd_0": "Apache HTTPds",
   "pluginName_httpd_1": "Apache HTTPds",
@@ -1167,6 +1172,11 @@
   "pluginName_process_1": "Processes",
   "pluginName_process_2": "Processes",
   "pluginName_process": "Process",
+  "pluginName_processGroup_plural": "Process Groups",
+  "pluginName_processGroup_0": "Process Groups",
+  "pluginName_processGroup_1": "Process Groups",
+  "pluginName_processGroup_2": "Process Groups",
+  "pluginName_processGroup": "Process Group",
   "pluginName_processingStatistics_plural": "Processing Statistics",
   "pluginName_processingStatistics_0": "Processing Statistics",
   "pluginName_processingStatistics_1": "Processing Statistics",
@@ -13135,6 +13145,24 @@
         "javascriptWorkloadDes": "The workload for HTTPScript tests running in javascript playback engine",
         "browserWorkloadDes": "The workload for BrowserScript tests running in browserscript playback engine",
         "status": "Status"
+      }
+    },
+    "processGroup": {
+      "label": "Process Group",
+      "title": "Processes",
+      "displayName": "Display Name",
+      "pid": "PID",
+      "executable": "Executable",
+      "parentid": "Parent ID",
+      "cpuUsage": "CPU Usage",
+      "system": "System CPU",
+      "memory": "Memory",
+      "resident": "Resident Memory"
+    },
+    "remoteHost": {
+      "source": "Source",
+      "dashboard": {
+        "fsid": "Identifier"
       }
     }
   },
