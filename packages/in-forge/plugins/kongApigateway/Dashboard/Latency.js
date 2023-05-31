@@ -37,11 +37,12 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.50thPercentile'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyFiftyPercentile');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
@@ -73,8 +74,7 @@ const cols = [
       },
       getContent: bytes.compact
     }
-  },
-
+  }
 ];
 
 export default connectTo(
@@ -118,12 +118,18 @@ export default connectTo(
               min: 0,
               formatter: bytes.compact,
               metrics: ['kong_kong_latency_ms_bucket_route' + row.key + '.service'],
-              labels: [t('in-forge:plugins.kongApigateway.latencyPerService')],
+              labels: [
+                t('in-forge:plugins.kongApigateway.latencyPerService'),
+                t('in-forge:plugins.kongApigateway.50th'),
+                t('in-forge:plugins.kongApigateway.90th'),
+                t('in-forge:plugins.kongApigateway.95th'),
+                t('in-forge:plugins.kongApigateway.99th')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
-           <Chart
+          <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
