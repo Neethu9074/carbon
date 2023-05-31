@@ -80,6 +80,8 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
           return t('in-automation:vault');
         } else if (item.type === 'static') {
           return t('in-automation:static');
+        } else if (item.type === 'dynamic') {
+          return t('in-automation:dynamic');
         }
         return null;
       }
