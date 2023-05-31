@@ -8,7 +8,7 @@
 
 :local {
   .title button {
-    font-size: 16px;
+    font-size: 0.875rem;
     border: none;
     text-decoration: none;
     color: @lib__colors__chart__self100;
