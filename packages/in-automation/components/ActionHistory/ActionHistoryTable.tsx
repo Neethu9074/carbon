@@ -7,6 +7,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   CurrentState,
   FilterState,
@@ -23,6 +25,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import ActionInstanceDetail from 'in-automation/components/ActionHistory/actionInstanceDetail';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
@@ -179,10 +182,11 @@ export function getStatus(status: string) {
   } else {
     return (
       <Tooltip themeStyle="light" content={status}>
-        <div className={locals.wrapper}>
-          <LoadingIndicator className={locals.inProgressLoading} size={'s'} />
-          <div> {t('in-automation:actionHistory.inProgress')}</div>
-        </div>
+        <HorizontalFlexWrapper>
+          <LoadingIndicator width={0} size={'s'} />
+          <Spacer horizontal="small" />
+          {t('in-automation:actionHistory.inProgress')}
+        </HorizontalFlexWrapper>
       </Tooltip>
     );
   }

@@ -54,9 +54,5 @@
   }
   .wrapper {
     display: inline-flex;
-    .inProgressLoading {
-      height: unset;
-      width: unset;
-    }
   }
 }
