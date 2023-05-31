@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import ResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric,
+  ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -30,7 +31,7 @@ export interface BigNumberKpiCardProps {
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config | ConfigWithCompanionMetric;
+  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
