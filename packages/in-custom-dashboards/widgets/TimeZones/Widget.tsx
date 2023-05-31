@@ -8,19 +8,36 @@ import rpt from 'prop-types';
 
 import { getIntlDateFormatter } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
+import { Card, CardProps } from '@instana/components';
 
 import { serverTime$ } from 'in-stores/serverTime';
 
 import locals from './Widget.mless';
 
-export default function TimeZonesWidget({ title, config: timeZones, actions, isPreview, dragHandle }) {
+interface TimeZone {
+  label: string;
+  timeZone: string;
+}
+
+interface TimeZonesWidgetProps extends Pick<CardProps, 'title'> {
+  actions: React.ReactNode;
+  config?: Array<TimeZone>;
+  isPreview?: boolean;
+  dragHandle: React.ReactNode;
+}
+
+export default function TimeZonesWidget({
+  title,
+  config: timeZones,
+  actions,
+  isPreview,
+  dragHandle
+}: TimeZonesWidgetProps) {
   const serverTime = useObservable(getServerTime, []) ?? Date.now();
 
   return (
     <Card
       title={title}
-      withoutPadding
       useMaxAvailableHeight={!isPreview}
       header={
         <>
@@ -28,9 +45,10 @@ export default function TimeZonesWidget({ title, config: timeZones, actions, isP
           {actions}
         </>
       }
+      isScrollable
     >
       <dl className={locals.zones}>
-        {timeZones.map(({ timeZone, label }, i) => (
+        {timeZones?.map(({ timeZone, label }, i) => (
           <TimeZone key={i} serverTime={serverTime} timeZone={timeZone} label={label || timeZone} />
         ))}
       </dl>
@@ -48,7 +66,11 @@ TimeZonesWidget.protpTypes = {
   ).isRequired
 };
 
-function TimeZone({ serverTime, label, timeZone }) {
+interface TimeZoneProps extends TimeZone {
+  serverTime: number;
+}
+
+function TimeZone({ serverTime, label, timeZone }: TimeZoneProps) {
   const formatter = useMemo(
     () =>
       getIntlDateFormatter({

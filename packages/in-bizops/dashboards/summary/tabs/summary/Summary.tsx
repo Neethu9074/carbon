@@ -9,20 +9,32 @@ import React, { Fragment } from 'react';
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import Timeline from 'in-bizops/dashboards/summary/tabs/summary/components/Timeline';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { TimeShift } from 'in-components/Chart/types';
+import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
+import { t } from 'in-i18n';
 
 export default function Summary() {
-  const timeShiftConfig = useTimeShiftConfig();
+  const timeShiftConfig: TimeShift = useTimeShiftConfig();
+
+  // Get the business process name from the URL
+  const location: Location = useLocation();
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
 
   return (
     <Fragment>
       <Row>
         <Col xs>
-          <Timeline timeShiftConfig={timeShiftConfig} />
+          <Timeline timeShiftConfig={timeShiftConfig} businessProcessName={businessProcessName} />
         </Col>
         <Col xs>
-          <TopActivities />
+          <TopActivities businessProcessName={businessProcessName} />
         </Col>
         <Col xs>
           <InfrastructureIssuesAndChanges />

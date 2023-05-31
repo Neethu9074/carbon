@@ -13,8 +13,8 @@ import { offset, toServerTime } from 'in-stores/timeOffset';
 // based solution will only be called at once every second. This is
 // large difference when the browser has problems rendering / scripting.
 // Especially in our case, since this will trigger timeline repaints.
-let timeoutHandle;
-const localTime$ = create({
+let timeoutHandle: NodeJS.Timeout;
+const localTime$ = create<number>({
   start(observable) {
     loop();
     function loop() {
