@@ -40,7 +40,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
   const columnDefinitions = [
     {
       id: 'displayName',
-      sortable: true,
+      sortable: false,
       label: t('in-automation:actionHistory.displayName'),
       getContent(item: ActionInstanceParameter) {
         return (
@@ -52,7 +52,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
     },
     {
       id: 'name',
-      sortable: true,
+      sortable: false,
       label: t('in-automation:actionHistory.name'),
       getContent(item: ActionInstanceParameter) {
         return (
@@ -72,7 +72,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
     },
     {
       id: 'type',
-      sortable: true,
+      sortable: false,
       width: '8',
       label: t('in-automation:actionHistory.type'),
       getContent(item: ActionInstanceParameter) {
