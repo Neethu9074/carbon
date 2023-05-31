@@ -32,7 +32,6 @@ import { t } from 'in-i18n';
 const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions`;
 const associationsUrl = `${automationAPIBase}/settings/actions-associations`;
-type postActionAssociation = Omit<ActionAssociations, 'id'>;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -482,7 +481,7 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
   });
 }
 
-export function saveNewAssociation(data: postActionAssociation) {
+export function saveNewAssociation(data: NewActionAssociation) {
   return http({
     method: 'POST',
     maxRetries: 3,

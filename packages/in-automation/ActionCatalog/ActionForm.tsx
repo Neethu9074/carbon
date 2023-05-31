@@ -39,12 +39,12 @@ import {
   WEBHOOK_TYPE,
   getType
 } from 'in-automation/ActionCatalog/shared';
-import SelectedSmartAlertsList from 'in-automation/ActionCatalog/SmartAlertDialog/SelectedSmartAlertsList';
+import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
+import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
-import EventSelection from 'in-automation/ActionCatalog/EventSelection';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -94,9 +94,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </>
             )}
           </>
-          <EventSelection form={form} setForm={setForm} />
+          <EventsSelection form={form} setForm={setForm} />
 
-          <SmartAlertsSelection form={form} setForm={setForm} />
+          <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
         </Col>
       </Row>
     </fieldset>
@@ -205,16 +205,6 @@ const TypeSection = ({
     </FormGroup>
   ));
 };
-
-function SmartAlertsSelection({ form, setForm }: Pick<ActionFormProps, 'form' | 'setForm'>) {
-  return (
-    <>
-      <SelectedSmartAlertsList form={form} setForm={setForm} />
-      <TouchedMessages field={form.get('applicationAlertConfigIds')} />
-      <Spacer vertical="large" />
-    </>
-  );
-}
 
 const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const docLink = form.get('docLink') as Field<string>;

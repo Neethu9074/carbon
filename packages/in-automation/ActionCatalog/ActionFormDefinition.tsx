@@ -5,6 +5,7 @@
  */
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
+import { List } from 'immutable';
 import mimeDb from 'mime-db';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -21,7 +22,6 @@ import {
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
-import { NewActionWithAssociations } from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
@@ -58,10 +58,8 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
   return null;
 }
 
-export function createActionFormDefinition(action: NewActionWithAssociations, _isCreate: boolean) {
+export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
   const tags = action.tags ?? [];
-  const selectedEvents = action?.selectedEvents ?? [];
-  const applicationAlertConfigIds = action?.applicationAlertConfigIds ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
@@ -88,20 +86,6 @@ export function createActionFormDefinition(action: NewActionWithAssociations, _i
       })
     )
     .put(
-      'selectedEvents',
-      createField({
-        value: selectedEvents,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'applicationAlertConfigIds',
-      createField({
-        value: applicationAlertConfigIds,
-        validator: notBlankValidator
-      })
-    )
-    .put(
       'tags',
       createField({
         value: mappedTags,
@@ -123,6 +107,18 @@ export function createActionFormDefinition(action: NewActionWithAssociations, _i
       'parameters',
       createField({
         value: mappedParams
+      })
+    )
+    .put(
+      'selectedEvents',
+      createField({
+        value: List(action.selectedEvents)
+      })
+    )
+    .put(
+      'applicationAlertConfigIds',
+      createField({
+        value: List(action.applicationAlertConfigIds)
       })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);

@@ -26,3 +26,4 @@ export function updateActionsAssignedToBuiltInEvent(
 export function getBuiltInEventSpecificationMutable(eventSpecificationId: string): Observable<EventSpecificationInfo>;
 export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;
 export function getEventSpecificationByIds(eventSpecificationIds: string[]): Observable<EventSpecificationInfo[]>;
+export function getEventSpecifications(eventSpecificationIds?: string[]): Observable<EventSpecificationInfo[]>;
