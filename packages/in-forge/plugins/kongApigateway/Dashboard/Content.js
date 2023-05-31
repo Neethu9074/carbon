@@ -16,6 +16,7 @@ import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
+import Latency from 'in-forge/plugins/kongApigateway/Dashboard/Latency';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -38,7 +39,6 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           {data.get('kongDbEntitiesTotal')}
         </KpiKeyValue>
       </KpiSection>
-
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
           {data.get('kongNgnixMetricErrors')}
@@ -51,27 +51,29 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           {data.get('workerConsistency')}
         </KpiKeyValue>
       </KpiSection>
-
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
           {data.get('workerStateUpdateFrequency')}
         </KpiKeyValue>
       </KpiSection>
-
-      <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongNginxTimers')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: number.compact,
-            metrics: ['nginxTimers.running', 'nginxTimers.pending'],
-            labels: [t('in-forge:plugins.kongApigateway.running'), t('in-forge:plugins.kongApigateway.pending')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-
+      if ({data.get('statusCheck' == true)})
+      {
+        <DashboardSection title={t('in-forge:plugins.kongApigateway.dashboard.kongNginxTimers')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: ['nginxTimers.running', 'nginxTimers.pending'],
+              labels: [t('in-forge:plugins.kongApigateway.running'), t('in-forge:plugins.kongApigateway.pending')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      }
+      return
+      {null}
       <DashboardSection title={t('in-forge:plugins.kongApigateway.totalTraffic')}>
         <Chart
           snapshotId={snapshot.get('id')}
@@ -95,13 +97,13 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
       <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
       <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Latency snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }
