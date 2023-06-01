@@ -57,6 +57,12 @@ export const setRRuleCount = (rrule: RRule, count: number): RRule => {
   return rrule;
 };
 
+export const setInfiniteRRule = (rrule: RRule): RRule => {
+  rrule.options.count = null;
+  rrule.options.until = null;
+  return rrule;
+};
+
 export const addOrDeleteRRuleByWeekDay = (rrule: RRule, weekdayValue: number): RRule => {
   let weeklyValues = rrule.options.byweekday;
   if (weeklyValues && Array.isArray(weeklyValues)) {
