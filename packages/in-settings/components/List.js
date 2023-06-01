@@ -16,6 +16,8 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+// eslint-disable-next-line
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { Spacer } from '@instana/components';
 
 import {
   simpleListNameColumnDefinition,
@@ -19,6 +20,7 @@ import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/a
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { isLoading, hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -31,7 +33,16 @@ const loadGlobalAlertConfigs = memoize(
   selection => `getAllGlobalAlertConfigs-${selection.join('-')}`
 );
 
-export default function SelectedSmartAlertsList({ form, setForm }) {
+export default function SmartAlertsSelection({ form, setForm, isAutomation = false }) {
+  return (
+    <>
+      <SelectedSmartAlertsList form={form} setForm={setForm} isAutomation={isAutomation} />
+      <TouchedMessages field={form.get('applicationAlertConfigIds')} />
+      <Spacer vertical="large" />
+    </>
+  );
+}
+function SelectedSmartAlertsList({ form, setForm, isAutomation }) {
   const title = t('in-settings:tabs.smartAlerts');
   const selection = form.get('applicationAlertConfigIds')?.value.toJS();
 
@@ -42,7 +53,7 @@ export default function SelectedSmartAlertsList({ form, setForm }) {
       loadEntities={() => loadEntities(selection)}
       searchAttributes={[getEntityName, getEntityType]}
       getHeader={defaultHeaderWithCount(title)}
-      rightHeader={<RightHeader form={form} setForm={setForm} />}
+      rightHeader={<RightHeader form={form} setForm={setForm} isAutomation={isAutomation} />}
       noDataMessage={t('in-settings:tabs.noSmartAlertsSelected')}
       searchPlaceholder={t('in-settings:tabs.filter')}
       isSearchable
@@ -50,8 +61,8 @@ export default function SelectedSmartAlertsList({ form, setForm }) {
   );
 }
 
-function RightHeader({ form, setForm }) {
-  return <SelectSmartAlertsDialogButton form={form} updateForm={setForm} />;
+function RightHeader({ form, setForm, isAutomation }) {
+  return <SelectSmartAlertsDialogButton form={form} updateForm={setForm} isAutomation={isAutomation} />;
 }
 
 function loadEntities(entities) {
@@ -113,5 +124,6 @@ function getEntityType({ config, isGlobalSmartAlertConfig }) {
 
 SelectedSmartAlertsList.propTypes = {
   form: PropTypes.object.isRequired,
-  setForm: PropTypes.func.isRequired
+  setForm: PropTypes.func.isRequired,
+  isAutomation: PropTypes.bool
 };
