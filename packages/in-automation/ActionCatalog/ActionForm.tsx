@@ -201,7 +201,7 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
         </>
       ) : (
-        <Typography variant="body-small">{getType(action)}</Typography>
+        <Typography variant="body-small">{getType(action.type)}</Typography>
       )}
     </FormGroup>
   ));

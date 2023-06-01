@@ -8,7 +8,7 @@ import React from 'react';
 
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { actionDetailsNewPath } from 'in-automation/navigation/paths';
-import { createNewEntityButton } from 'in-settings/components/List';
+import { CreateNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { deleteAction, getAllActions } from 'in-automation/api';
 import { deleteActionTracker } from 'in-automation/tracker';
@@ -34,7 +34,9 @@ export default function ActionCatalogTab() {
           t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })
         }
         tableActions={tableActions}
-        rightHeader={rightHeader()}
+        rightHeader={
+          <CreateNewEntityButton labelNew={t('in-automation:ActionCatalog.newAction')} pathNew={actionDetailsNewPath} />
+        }
         loadEntities={getAllActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
@@ -43,11 +45,4 @@ export default function ActionCatalogTab() {
       />
     </AutomationTabs>
   );
-}
-
-function rightHeader() {
-  return createNewEntityButton({
-    labelNew: t('in-automation:ActionCatalog.newAction'),
-    pathNew: actionDetailsNewPath
-  });
 }

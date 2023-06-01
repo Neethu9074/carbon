@@ -7,18 +7,20 @@
 import { keyBy } from 'lodash';
 
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
-import { Field, Nullish, Action } from 'in-types';
+import { Field, Action } from 'in-types';
 import { t } from 'in-i18n';
 
-export const getType = (action: Action | NewAction | Nullish) => {
-  if (isDocLink(action?.type)) {
+export const getType = (type: string) => {
+  if (isDocLink(type)) {
     return t('in-automation:ActionCatalog.docLink');
-  } else if (isScript(action?.type)) {
+  } else if (isScript(type)) {
     return t('in-automation:ActionCatalog.script');
-  } else if (isWebhook(action?.type)) {
+  } else if (isWebhook(type)) {
     return t('in-automation:ActionCatalog.http');
+  } else if (isExternal(type)) {
+    return t('in-automation:actionHistory.external');
   } else {
-    return action?.type;
+    return type;
   }
 };
 
@@ -69,10 +71,12 @@ export function getWebhookFields(action: Action | NewAction): WebhookFields {
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
+export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
+export const EXTERNAL_TYPE = 'EXTERNAL';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);

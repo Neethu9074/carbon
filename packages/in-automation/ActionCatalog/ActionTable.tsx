@@ -41,7 +41,9 @@ const columnDefinitions = [
   {
     label: t('in-automation:ActionCatalog.type'),
     id: 'type',
-    getContent: getType
+    getContent(row: Action) {
+      return getType(row.type);
+    }
   },
   {
     label: t('in-automation:ActionCatalog.lastModified'),

@@ -48,7 +48,7 @@ import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/T
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
-import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
+import List, { CreateNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -165,11 +165,13 @@ export default function Events({
   function defaultRightHeader() {
     return (
       <Fragment>
-        {createNewEntityButton({
-          labelNew: t('in-settings:tabs.newEvent'),
-          pathNew: teamSettingsAlertingEventCustomNew,
-          trackEvent: openEventSubmitFormTracker
-        })}
+        {
+          <CreateNewEntityButton
+            labelNew={t('in-settings:tabs.newEvent')}
+            trackEvent={openEventSubmitFormTracker}
+            pathNew={teamSettingsAlertingEventCustomNew}
+          />
+        }
         {inSelectListDialogRightHeader()}
       </Fragment>
     );
