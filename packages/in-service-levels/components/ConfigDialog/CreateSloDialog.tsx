@@ -20,6 +20,7 @@ export default function CreateSloDialog() {
   const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
 
   const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
+
   const navItems: Array<NavItem> = [
     {
       scrollId: '1-select-entity',
