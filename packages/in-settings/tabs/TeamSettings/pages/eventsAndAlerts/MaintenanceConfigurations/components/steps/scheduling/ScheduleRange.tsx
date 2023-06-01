@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm } from 'formalistic';
+import { Field, Item, MapForm } from 'formalistic';
 import { useState } from 'react';
 import { RRule } from 'rrule';
 import React from 'react';
@@ -14,7 +14,8 @@ import { Stack } from '@instana/components';
 
 import {
   setRRuleDateUntil,
-  setRRuleCount
+  setRRuleCount,
+  setInfiniteRRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -93,7 +94,12 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
               asRadioButton
               checked={repeatType === 'forever'}
               onChange={() => {
-                setValue(form, ['window', 'recurrence', 'repeatType'], 'forever');
+                const updatedForm = form.updateIn(
+                  //@ts-ignore-next-line
+                  ['window', 'recurrence', 'repeatType'],
+                  (fieldItem: Item) => (fieldItem as Field<string>).setValue('forever').setTouched(true) // In the case of a yearly recurrence we need to set the interval to one so the MW recurs every year
+                );
+                setFormRRule(updatedForm, setInfiniteRRule(rrule));
                 setRepeatType('forever');
               }}
             />
