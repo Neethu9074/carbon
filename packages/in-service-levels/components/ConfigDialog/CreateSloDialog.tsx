@@ -5,18 +5,16 @@
  */
 
 import React, { useState } from 'react';
+import { Item } from 'formalistic';
 
-// import SelectEntity from 'in-service-levels/components/SloList/components/SelectEntity';
+import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloEntitySection';
+import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
+import { createSloForm } from 'in-service-levels/components/ConfigDialog/form';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
-import { Item } from 'formalistic';
-
-import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloEntitySection';
-import { createSloForm } from 'in-service-levels/components/ConfigDialog/form';
-import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
 
 export default function CreateSloDialog() {
   const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
@@ -30,8 +28,12 @@ export default function CreateSloDialog() {
       valid: true,
       content: (
         <>
-          {/* <SelectEntity /> */}
-          <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />
+          <SloEntitySection
+            form={form}
+            onChange={(path, fn) => {
+              updateForm(form.updateIn(path as any, fn));
+            }}
+          />
         </>
       )
     }

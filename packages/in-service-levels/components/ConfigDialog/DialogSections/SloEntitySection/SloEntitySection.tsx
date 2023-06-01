@@ -5,40 +5,59 @@
  */
 
 import { Item, Field } from 'formalistic';
+import { get } from 'lodash';
 import React from 'react';
 
-import { SloEntityType } from '@instana/types';
-
-import { CommonSloForm, SloForm, sloEntityTypeKey } from 'in-service-levels/components/ConfigDialog/form';
-import SloEntityTypeSelector from 'in-service-levels/components/SloList/components/SloEntityTypeSelector';
-import { t } from 'in-i18n';
+import { Result, SloEntityType } from '@instana/types';
 import { Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
+import {
+  CommonSloForm,
+  SloForm,
+  sloEntityTypeKey,
+  sloEntityKey,
+  sloWebsiteIdKey,
+  WebsiteSloForm,
+  ApplicationSloForm,
+  sloApplicationIdKey
+} from 'in-service-levels/components/ConfigDialog/form';
 import { SloSelectionSection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloSelectionSection';
+import SloEntityTypeSelector from 'in-service-levels/components/SloList/components/SloEntityTypeSelector';
+import getApplication from 'in-applications/subscriptions/getApplication';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { t } from 'in-i18n';
 
 interface SloScopeSectionProps {
-  form: SloForm<SloEntityType>;
+  form: SloForm<SloEntityType> | WebsiteSloForm | ApplicationSloForm;
   onChange: (path: string[], updater: (i: Item) => Item) => void;
 }
 
 export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
-  // const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
-  const sloSloEntityTypeField = (form as unknown as CommonSloForm).get(sloEntityTypeKey);
-  console.log('sloSloEntityTypeField', sloSloEntityTypeField);
-  console.log('sloSloEntityTypeField.value', sloSloEntityTypeField.value);
-  const selectedLabel = sloSloEntityTypeField ? sloSloEntityTypeField : t('in-service-levels:general.noSelection');
+  const sloSloEntityTypeField = (form as unknown as CommonSloForm).get(sloEntityTypeKey).value;
+
+  var id = '';
+  if (sloSloEntityTypeField === 'website') {
+    id = (form as WebsiteSloForm).getIn([sloEntityKey, sloWebsiteIdKey]).value;
+  } else {
+    id = (form as ApplicationSloForm).getIn([sloEntityKey, sloApplicationIdKey]).value;
+  }
+  const entityLabel =
+    useObservable(() => {
+      if (!id) return undefined;
+      if (sloSloEntityTypeField === 'website') return getWebsite({ id: id }).map(getLabel);
+      if (sloSloEntityTypeField === 'application') return getApplication({ id: id }).map(getLabel);
+      return;
+    }, [id]) ?? undefined;
+
+  const selectedLabel = entityLabel ? entityLabel : t('in-service-levels:general.noSelection');
   return (
     <>
       <Typography variant="heading-200" component="h2">
         {t('in-service-levels:createSloDialog.selectEntityTitle')}
       </Typography>
-      {/* <EntityTypeSelector
-        value={sloSloEntityTypeField.value}
-        onChange={type =>
-          onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true))
-        }
-      /> */}
       <SloEntityTypeSelector
-        value={sloSloEntityTypeField.value}
+        value={sloSloEntityTypeField}
         onChange={type =>
           onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true))
         }
@@ -47,10 +66,11 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
         {t('in-service-levels:general.selectLabel', { selectedLabel })}
       </Typography>
 
-      <SloSelectionSection form={form} onChange={(_path, _fn) => updateForm(() => {})} />
+      <SloSelectionSection form={form} onChange={onChange} />
     </>
   );
 };
-function updateForm(arg0: any): void {
-  throw new Error('Function not implemented.');
+
+export function getLabel(result: Result<{ label?: string }>): string | undefined {
+  return get(result, ['data', 'label'], null);
 }

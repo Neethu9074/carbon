@@ -7,36 +7,41 @@
 import React, { useState } from 'react';
 
 import { Card, Li, Stack, Ul } from '@instana/components';
-import { Application, Website, SloEntityType } from '@instana/types';
+import { Application, Website } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import {
+  ApplicationSloForm,
+  sloApplicationIdKey,
+  sloEntityKey,
+  sloEntityTypeKey,
+  sloWebsiteIdKey,
+  WebsiteSloForm
+} from 'in-service-levels/components/ConfigDialog/form';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-import { getWebsiteConfigurations } from 'in-websites/api/websites';
-import { getApplicationConfigsAsResult } from 'in-api/applicationConfigs';
-// import { pendingResult } from 'in-services/fixedObjects';
-import { useObservable } from '@instana/hooks';
-// import { just } from '@instana/observables';
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { FetchedState } from 'in-hooks/utils/types';
-import { deepCopy } from 'in-services/util/object';
-import { compareIgnoreCase } from 'in-services/util/string';
 
 interface SloEntityTableProps {
-  // entityList?: Application[] | Website[];
-  value?: SloEntityType | undefined;
-  onChange: React.Dispatch<React.SetStateAction<Application | Website | undefined>>;
+  entityList?: Application[] | Website[];
+  // form: SloForm<SloEntityType>;
+  form: ApplicationSloForm | WebsiteSloForm;
+  // onChange: React.Dispatch<React.SetStateAction<Application | Website | undefined>>;
+  onChange: (val: string) => void;
 }
 
-export default function SloEntityTable({ value, onChange }: SloEntityTableProps) {
+export default function SloEntityTable({ form, entityList, onChange }: SloEntityTableProps) {
   const [query, setQuery] = useState('');
-  console.log('value', value);
-  const [entityList] = useEntityConfigurations(value);
-  // console.log('entityList', entityList);
+  const entity = form.get(sloEntityTypeKey).value;
+  const reslt =
+    entity === 'application'
+      ? (form as ApplicationSloForm).getIn([sloEntityKey, sloApplicationIdKey]).value
+      : (form as WebsiteSloForm).getIn([sloEntityKey, sloWebsiteIdKey]).value;
   return (
     <>
       <Card
-        title={'Select ' + t('in-service-levels:general.entityTypes.label', { context: value })}
+        title={
+          t('in-service-levels:general.select') + t('in-service-levels:general.entityTypes.label', { context: entity })
+        }
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
         {entityList && (
@@ -49,11 +54,11 @@ export default function SloEntityTable({ value, onChange }: SloEntityTableProps)
                     <Stack direction="horizontal">
                       <CheckboxFancy
                         asRadioButton
-                        value={label}
-                        onChange={() => {
-                          onChange({ id, label });
+                        value={id}
+                        onChange={e => {
+                          onChange(e.target.value);
                         }}
-                        checked={id === value}
+                        checked={id === reslt}
                       />
                       {label}
                     </Stack>
@@ -66,37 +71,3 @@ export default function SloEntityTable({ value, onChange }: SloEntityTableProps)
     </>
   );
 }
-
-export const useEntityConfigurations = (monitoringSource?: SloEntityType): FetchedState<Website[] | Application[]> => {
-  const result = useObservable(() => {
-    // if (!monitoringSource) return just(pendingResult);
-    console.log('monitoringSource', monitoringSource);
-    let getEntityConfiguration;
-    if (monitoringSource == 'website') {
-      console.log(1);
-      getEntityConfiguration = getApplicationConfigsAsResult;
-    } else {
-      console.log(2);
-      getEntityConfiguration = getWebsiteConfigurations;
-    }
-    // const getEntityConfiguration =
-    //   monitoringSource == 'application' ? getApplicationConfigsAsResult : getWebsiteConfigurations;
-    return getEntityConfiguration().map(({ data, ...rest }: any) => {
-      const newData = data ? deepCopy(data) : [];
-      console.log('newData', newData);
-      const normalizedData = newData.map(({ id, ...config }: any) => {
-        const label = 'label' in config ? config.label : config.name;
-        return { id, label };
-      });
-      const sortedData = normalizedData.sort((a: { label: string }, b: { label: string }) =>
-        compareIgnoreCase(a.label, b.label)
-      );
-      return {
-        data: sortedData,
-        ...rest
-      };
-    });
-  }, []);
-  console.log('resultToFetchedStateResponse(result)', resultToFetchedStateResponse(result));
-  return resultToFetchedStateResponse(result);
-};
