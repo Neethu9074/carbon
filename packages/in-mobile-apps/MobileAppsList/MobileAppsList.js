@@ -94,19 +94,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 function RightHeader() {
   const linkToNewMobileApp = useLinkToNewMobileApp();
-
+  if (playwithEnabled) return null;
   return (
-    !playwithEnabled && (
-      <Button
-        kind="action"
-        onClick={() => mobileAppsOpenAddForm()}
-        className={locals.button}
-        icon="lib_openclose_add_circle_outline"
-        href={linkToNewMobileApp}
-      >
-        {t('in-mobile-apps:appsList.addMobileAppBtn')}
-      </Button>
-    )
+    <Button
+      kind="action"
+      onClick={() => mobileAppsOpenAddForm()}
+      className={locals.button}
+      icon="lib_openclose_add_circle_outline"
+      href={linkToNewMobileApp}
+    >
+      {t('in-mobile-apps:appsList.addMobileAppBtn')}
+    </Button>
   );
 }
 
