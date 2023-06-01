@@ -39,6 +39,8 @@ import {
   WEBHOOK_TYPE,
   getType
 } from 'in-automation/ActionCatalog/shared';
+import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
+import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -92,6 +94,10 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </>
             )}
           </>
+          <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForEvent')}</SectionHeading>
+          <EventsSelection form={form} setForm={setForm} />
+          <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}</SectionHeading>
+          <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
         </Col>
       </Row>
     </fieldset>
