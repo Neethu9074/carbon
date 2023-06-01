@@ -9811,6 +9811,9 @@
         "totalCurrentTransfers": "Total Current Transfers",
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
+        "totalTimedOutTransfers": "Total Timed Out Transfers",
+        "totalRetryingTransfers": "Total Retrying Transfers",
+        "totalWaitForCapacityTransfers": "Total Transfers Waiting for Capacity",
         "transferState": "State",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
