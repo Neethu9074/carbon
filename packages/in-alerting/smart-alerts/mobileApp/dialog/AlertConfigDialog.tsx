@@ -9,18 +9,30 @@ import React, { useState } from 'react';
 
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
-import { MobileAppAlertConfig } from 'in-types';
+import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from 'in-types';
+import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
-export interface DuplicateFrom {
-  duplicateFrom?: string;
-}
 interface AlertConfigDialogType {
   onClose: (config?: MobileAppAlertConfig) => void;
   startWithSimpleMode: boolean;
+  alertConfig: MobileAppAlertConfigWithMetadata;
+  editMode: boolean;
 }
 
-export default function AlertConfigDialog({ onClose, startWithSimpleMode }: AlertConfigDialogType) {
-  const [form, setForm] = useState(() => alertFormDefinition(false));
+const initialChartConfigIndex = 0;
+
+export default function AlertConfigDialog({
+  onClose,
+  alertConfig,
+  editMode,
+  startWithSimpleMode
+}: AlertConfigDialogType) {
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+
+  const [isSaving] = useState(false);
+  const [messages] = useState([]);
+
   return (
     <AlertConfigDialogWithThreshold
       updateForm={(updateForm: MapForm<any>) => {
@@ -28,15 +40,19 @@ export default function AlertConfigDialog({ onClose, startWithSimpleMode }: Aler
       }}
       form={form}
       onChange={createOnChange(setForm, form)}
+      onChartViewConfigChange={setSelectedChartViewConfigIndex}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+      timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       onCreate={() => ''}
       onClose={() => {
         // canceled and dialog closed
         onClose();
       }}
-      editMode={false}
+      editMode={editMode}
       startWithSimpleMode={startWithSimpleMode}
-      isSaving={false}
-      messages={[]}
+      granularity={form.get('granularity').value}
+      isSaving={isSaving}
+      messages={messages}
     />
   );
 }

@@ -241,10 +241,10 @@
             "label": "Payloads",
             "title": "Custom Payload"
           },
-        "actionsOptional": {
-          "label": "Actions",
-          "title": "Action Associations"
-        }
+          "actionsOptional": {
+            "label": "Actions",
+            "title": "Action Associations"
+          }
         }
       },
       "chart": {
@@ -823,7 +823,6 @@
         }
       },
       "components": {
-        "provideStatusCodeStatusCode": "Status Code",
         "errorMessage": "Error Message",
         "noDataMessage": "No alert configured.",
         "selectJSErrorHelpText": "Select JS error message as template (optional)",
@@ -928,13 +927,10 @@
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
         "searchCustomEvents": "Filter Events",
-        "customEventSelectionSliderTitle": "Choose Custom Event",
         "customEventNameColumnLabel": "Event Name",
         "customEventOccurrencesColumnLabel": "Occurrences",
         "customEventUsersColumnLabel": "Users",
         "customEventLabel": "Custom Event",
-        "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
-        "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
       "list": {
@@ -1071,7 +1067,15 @@
         "sessions": "Sessions",
         "statusCodeBlueprintConfigName": "HTTP Status Codes",
         "throughputBlueprintConfigName": "Throughput",
-        "customEventBlueprintConfigName": "Custom Events"
+        "customEventBlueprintConfigName": "Custom Events",
+        "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
+        "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
+        "throughputBlueprintConfigHeadline": "Automatic Alerts for Page Views",
+        "throughputBlueprintConfigText": "Automatic alerts on anomalously low or high number of views for selected pages of this Mobile apps.",
+        "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
+        "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
+        "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
       },
       "alertList": {
         "columns": {
@@ -1085,7 +1089,8 @@
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep2Title": "Step 2: Select Scope",
-        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels",
+        "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?"
       },
       "alertDetails": {
         "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
@@ -1106,13 +1111,38 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
         "ruleMetricNameOptionBeaconRate": "Beacon Rate",
         "ruleMetricNameOptionThroughputSessions": "Sessions",
-        "ruleMetricNameOptionThroughputViews": "Views"
+        "ruleMetricNameOptionThroughputViews": "Views",
+        "errorPleaseProvideCustomEventName": "Please provide a custom event name",
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+      },
+      "customEvent": {
+        "noCustomEventsFound": "No custom events found",
+        "searchCustomEvents": "Filter Events",
+        "customEventNameColumnLabel": "Event Name",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Users",
+        "customEventLabel": "Custom Event",
+        "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
+      },
+      "advanced": {
+        "triggerLabel": "Trigger",
+        "triggerTitle": "Trigger: What do you want to be alerted on?",
+        "HTTPStatusCode": "HTTP Status Code"
       }
     },
     "inventory": {
       "labelConfirm": "Please Confirm",
       "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
       "labelRemove": "Remove"
+    },
+    "eum": {
+      "customEvent": {
+        "customEventSelectionSliderTitle": "Choose Custom Event",
+        "customEventLabel": "Custom Event",
+        "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
+        "searchCustomEventButtonLabel": "Select Custom Event"
+      },
+      "components": { "provideStatusCodeStatusCode": "Status Code" }
     }
   }
 }

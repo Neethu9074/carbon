@@ -7,14 +7,17 @@
 import { Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/simpleModeSteps';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/AdvancedModeContainer';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
-import { stepConfigs } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/simpleModeSteps';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { days } from 'in-services/time';
 
@@ -29,9 +32,13 @@ interface AlertConfigDialogWithThresholdProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  onChartViewConfigChange: (arg: number) => void;
+  selectedChartViewConfigIndex: number;
   onClose: () => void;
   editMode: boolean;
   startWithSimpleMode: boolean;
+  granularity: number;
+  timeConfig: TimeConfig;
   onCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
@@ -39,7 +46,22 @@ interface AlertConfigDialogWithThresholdProps {
 
 const FORM_ID = 'smart-alert-editor';
 export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogWithThresholdProps) {
-  const { form, updateForm, startWithSimpleMode, editMode, isSaving, onCreate, onClose, messages, onChange } = props;
+  const {
+    form,
+    updateForm,
+    startWithSimpleMode,
+    editMode,
+    isSaving,
+    onCreate,
+    onClose,
+    messages,
+    onChange,
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex,
+    granularity,
+    timeConfig
+  } = props;
+  useCalculateThresholdOnBackendSignalEmitter(form);
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
@@ -86,7 +108,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       onChange={onChange}
       stepConfigs={stepConfigs}
       //@ts-expect-error
-      stepRenderers={[() => {}]}
+      stepRenderers={stepRenderers}
       step={step}
       formId={FORM_ID}
       handleSubmit={handleSubmit}
@@ -99,6 +121,10 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       isDynamicCustomPayloadValid
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}
+      onChartViewConfigChange={onChartViewConfigChange}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+      granularity={granularity}
+      timeConfig={timeConfig}
     />
   );
 }

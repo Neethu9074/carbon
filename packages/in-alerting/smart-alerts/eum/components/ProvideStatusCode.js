@@ -14,7 +14,7 @@ import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/websites/components/ProvideJsError.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode.mless';
 
 export default function ProvideStatusCode({ form, updateForm }) {
   return (
@@ -25,7 +25,7 @@ export default function ProvideStatusCode({ form, updateForm }) {
         .map(field => (
           <FormGroup>
             <Label htmlFor="ruleValue" hasError={!field.valid && field.touched}>
-              {t('in-alerting:smartAlerts.websites.components.provideStatusCodeStatusCode')}
+              {t('in-alerting:smartAlerts.eum.components.provideStatusCodeStatusCode')}
             </Label>
             <ComboBox
               id="ruleValue"

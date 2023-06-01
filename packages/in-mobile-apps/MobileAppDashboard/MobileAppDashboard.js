@@ -63,7 +63,8 @@ export default function MobileAppDashboard() {
     viewId: getMatrixParameter(location, mobileAppPath, matrixViewId),
     viewPath: mobileAppPathFullyQualified,
     timeConfig: getTimeConfig(location),
-    ...tagFilterManipulators
+    ...tagFilterManipulators,
+    location
   };
 
   const implicitTagFilters = (props.implicitTagFilters = [
@@ -112,7 +113,7 @@ export default function MobileAppDashboard() {
       />
       {showAlertButton && (
         <FloatingActionButtons>
-          <CreateSmartAlert />
+          <CreateSmartAlert {...props} />
         </FloatingActionButtons>
       )}
       <Footer />
