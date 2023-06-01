@@ -6,6 +6,8 @@
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "select": "Select ",
+    "noSelection": "None selected",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
