@@ -86,7 +86,7 @@ export default function Summary({
     lazyLoading
   });
 
-  const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
+  const effectiveCallId = callId === 'ROOT' ? callTreeResult.data?.id : callId;
 
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);

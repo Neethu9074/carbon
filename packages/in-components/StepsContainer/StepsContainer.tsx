@@ -33,32 +33,35 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
           <Stack gap="large">
-            {navItems.map(({ scrollId, title, content, titleToolTipText }, i) => (
-              <Fragment key={scrollId}>
-                <ScrollStep id={scrollId}>
-                  <Stack gap="normal">
-                    {!noHeader && (
-                      <Header>
-                        <Stack gap="xxsmall" direction="horizontal">
-                          {title}
-                          {titleToolTipText && (
-                            <Tooltip align="bottomMiddle" content={titleToolTipText}>
-                              <SvgIcon
-                                className={locals.helpicon}
-                                type="lib_help_error_error_outline"
-                                color={theme.lib.colors.N600Light}
-                              />
-                            </Tooltip>
-                          )}
-                        </Stack>
-                      </Header>
-                    )}
-                    {content}
-                  </Stack>
-                </ScrollStep>
-                {!noDivider && i + 1 < navItems.length && <Divider />}
-              </Fragment>
-            ))}
+            {navItems.map(({ scrollId, title, content, titleToolTipText, hidden }, i) => {
+              if (hidden) return;
+              return (
+                <Fragment key={scrollId}>
+                  <ScrollStep id={scrollId}>
+                    <Stack gap="normal">
+                      {!noHeader && (
+                        <Header>
+                          <Stack gap="xxsmall" direction="horizontal">
+                            {title}
+                            {titleToolTipText && (
+                              <Tooltip align="bottomMiddle" content={titleToolTipText}>
+                                <SvgIcon
+                                  className={locals.helpicon}
+                                  type="lib_help_error_error_outline"
+                                  color={theme.lib.colors.N600Light}
+                                />
+                              </Tooltip>
+                            )}
+                          </Stack>
+                        </Header>
+                      )}
+                      {content}
+                    </Stack>
+                  </ScrollStep>
+                  {!noDivider && i + 1 < navItems.length && <Divider />}
+                </Fragment>
+              );
+            })}
           </Stack>
         </div>
       </div>

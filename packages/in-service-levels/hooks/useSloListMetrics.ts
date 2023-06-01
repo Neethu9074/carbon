@@ -13,6 +13,7 @@ import {
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { calculateTimeConfigForSloTimeWindow } from 'in-service-levels/hooks/useSloWindowTimeConfig';
@@ -20,22 +21,29 @@ import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStat
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import { FetchedState } from 'in-hooks/utils/types';
+import metrics from 'in-service-levels/metrics';
 
 export interface SloMetricsResult {
   status: MetricResult;
+  remainingBudget: MetricResult;
+  remainingBudgetSpark: MetricResult;
 }
 
-// This is including "budget" as an example for other metric types
-const MetricResultIdMatcher = /(?<sloId>.*)-(?<metricType>(status)|(budget))$/;
+const MetricResultIdMatcher = /(?<sloId>.*)-(?<metricType>(status)|(remainingBudget)|(remainingBudgetSpark))$/;
 
 export default function useSloListMetrics(
   configurations: ServiceLevelObjectiveConfiguration[],
   timeConfig: TimeConfig
 ): FetchedState<Record<string, SloMetricsResult>> {
-  const metricConfig = useMemo(() => getMetricConfig(configurations, timeConfig), [configurations, timeConfig]);
+  const configsHash = generateStableHash(configurations.map(c => c.id));
+  const metricConfig = useMemo(
+    () => getMetricConfig(configurations, timeConfig),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- configurations is included via the previously generated hash
+    [configsHash, timeConfig]
+  );
   const result = useObservable(
     () => getUnifiedMetrics({ metrics: metricConfig }).map(structureMetricsResults),
-    [configurations, timeConfig]
+    [configsHash, timeConfig]
   );
   return resultToFetchedStateResponse(result);
 }
@@ -44,20 +52,22 @@ function getMetricConfig(
   configurations: ServiceLevelObjectiveConfiguration[],
   timeConfig: TimeConfig
 ): Record<string, UnifiedMetricConfigurationUnion> {
-  const baseConfig = {
-    timeShift: { offset: 0 },
-    aggregation: 'MEAN',
-    source: 'SLO'
-  };
   return configurations.reduce<Record<string, UnifiedMetricConfigurationUnion>>((metricConfig, sloConfig) => {
-    // @ts-expect-error
-    metricConfig[`${sloConfig.id}-status`] = {
-      ...baseConfig,
+    const sloTimeConfig = calculateTimeConfigForSloTimeWindow(timeConfig, sloConfig.timeWindow);
+
+    metricConfig[`${sloConfig.id}-status`] = metrics.status.singleNumber({
       configId: sloConfig.id!,
-      resultType: 'SINGLE_NUMBER',
-      metric: 'SLI',
-      timeConfig: calculateTimeConfigForSloTimeWindow(timeConfig, sloConfig.timeWindow)
-    };
+      timeConfig: sloTimeConfig
+    });
+    metricConfig[`${sloConfig.id}-remainingBudget`] = metrics.remainingBudget.singleNumber({
+      configId: sloConfig.id!,
+      timeConfig: sloTimeConfig
+    });
+    metricConfig[`${sloConfig.id}-remainingBudgetSpark`] = metrics.remainingBudget.timeSeriesCompact({
+      configId: sloConfig.id!,
+      timeConfig: sloTimeConfig
+    });
+
     return metricConfig;
   }, {});
 }

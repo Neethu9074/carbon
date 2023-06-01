@@ -50,10 +50,9 @@ const colors = [null, null, theme.lib.colors.failure];
 
 interface ResultsTopListProps {
   testId: string;
-  locationsMap: Map<string, string>;
 }
 
-export default function ResultsTopList({ testId, locationsMap }: ResultsTopListProps) {
+export default function ResultsTopList({ testId }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
 
   const urlMatrixParamConfig = {
@@ -73,7 +72,6 @@ export default function ResultsTopList({ testId, locationsMap }: ResultsTopListP
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       testId={testId}
-      locationsMap={locationsMap}
       renderHistoricDataIndicator
       getList={getList}
       Renderer={TopListCardPresenter}
@@ -153,15 +151,13 @@ function ViewAll({ testId }: ViewAllProps) {
 type LabelProps = {
   item: TestResultListItem;
   selectedMetric: string;
-  locationsMap: Map<string, string>;
 };
 
-function Label({ item, selectedMetric, locationsMap }: LabelProps) {
+function Label({ item, selectedMetric }: LabelProps) {
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
   const resultId = item.testResultCommonProperties.id;
-  const testLocation =
-    (item.testResultCommonProperties.locationId && locationsMap.get(item.testResultCommonProperties.locationId)) || '';
+  const testLocation = item.testResultCommonProperties.locationDisplayLabel ?? '';
 
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);

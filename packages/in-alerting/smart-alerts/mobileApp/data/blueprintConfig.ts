@@ -17,14 +17,19 @@ import {
 
 //@ts-expect-error needs TS migration
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { FixedTimeConfig } from 'in-stores/time/config';
+import { deepFreeze } from 'in-services/util/object';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
+
+type ThresholdTypeOptions = readonly Option[];
 
 const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   httpxxx: t('in-alerting:smartAlerts.mobileApp.data.statusCodeCount'),
@@ -49,18 +54,23 @@ interface BluePrintBase {
     alertConfig: MobileAppAlertConfig,
     timeConfig: FixedTimeConfig
   ) => FormModelElement[];
+  readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 }
 
 export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
 
+const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([...thresholdTypeOptions]);
+
 export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
+  readonly defaultMetric: MetricName;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconType;
   readonly getAggregation: (alertRule: MobileAppAlertRule) => AggregationType;
   readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
+  readonly name: string;
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -69,12 +79,18 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getRuleTagFilterFormModel: () => [],
   getEntityTagFilterFormModel: (alertConfig: MobileAppAlertConfig) =>
     tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
-  getExtraAnalyzeLinkTagFilterFormModel: () => []
+  getExtraAnalyzeLinkTagFilterFormModel: () => [],
+  getThresholdTypeOptions: () => mobileAppThresholdTypeOptions,
+  thresholdDefaults: {
+    operator: '>='
+  }
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
+  name: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigName'),
+  defaultMetric: 'httpxxx',
   getBeaconType: () => 'httpRequest',
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => [
@@ -93,6 +109,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
+  name: t('in-alerting:smartAlerts.mobileApp.data.throughputBlueprintConfigName'),
+  defaultMetric: 'views',
   getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
   getMetricFormat: () => number.forcedCompact,
   getBeaconType: (metricName: MetricName) => (metricName === 'views' ? 'viewChange' : 'sessionStart'),
@@ -104,6 +122,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'customEvent',
+  name: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigName'),
+  defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigMetricLabel'),
   getMetricFormat: () => number.forcedCompact,

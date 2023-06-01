@@ -47,7 +47,7 @@ export default function HttpSections({
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
-  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+  const errorsBlueprintConfig = getBlueprintConfig('errors');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -221,9 +221,9 @@ export default function HttpSections({
             },
             errorRate: {
               rule: {
-                alertType: errorRateBlueprintConfig.type,
-                aggregation: errorRateBlueprintConfig.getAggregation(),
-                metricName: errorRateBlueprintConfig.getMetricName()
+                alertType: errorsBlueprintConfig.type,
+                aggregation: 'MEAN',
+                metricName: 'errors'
               }
             }
           }

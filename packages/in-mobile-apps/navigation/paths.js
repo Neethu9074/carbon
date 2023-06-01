@@ -17,9 +17,11 @@ import {
   httpRequestId as httpRequestIdMatrixParameter,
   customEventId as customEventIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
-import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+// eslint-disable-next-line import/no-deprecated
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -42,10 +44,17 @@ export const isAnalyzeView = navigationParameters$.map(
 
 export const detailsPath = '/details';
 export const summaryTab = '/summary';
+export const alertsTab = '/alerts';
 
 export const sessionViewPath = '/session';
 export const sessionViewPathFullyQualified = `${analyzePathFullyQualified}${sessionViewPath}`;
-export const closeSessionViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
+export function useCloseSessionViewLink() {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = analyzePathFullyQualified;
+
+  return createHref(location);
+}
 
 export const mobileAppPath = '/mobileApp';
 export const mobileAppPathFullyQualified = `${mobileAppMonitoringPath}${mobileAppPath}`;
@@ -65,13 +74,16 @@ export const configurationPrivacyFullyQualified = `${configurationTabFullyQualif
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 
-export const linkToMobileApps$ = getModifiedUrlStream(params => {
-  params.pathname = mobileAppsPathFullyQualified;
-});
+export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
+export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
-export const linkToNewMobileApp$ = getModifiedUrlStream(params => {
-  params.pathname = newMobileAppPathFullyQualified;
-});
+export function useLinkToNewMobileApp() {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = newMobileAppPathFullyQualified;
+
+  return createHref(location);
+}
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
@@ -79,6 +91,7 @@ export function getLinkToMobileApp(
   mobileAppId,
   { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
 ) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
@@ -97,6 +110,30 @@ export function getLinkToMobileApp(
   });
 }
 
+export function useGetLinkToMobileApp(
+  mobileAppId,
+  { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
+) {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
+  setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+  if (viewId !== undefined) {
+    setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+  }
+
+  if (tabPath && tabParameters) {
+    Object.keys(tabParameters).forEach(name => setOrDeleteMatrixKey(location, tabPath, name, tabParameters[name]));
+  }
+
+  if (timeConfig) {
+    setTimeConfig(location, timeConfig);
+  }
+
+  return createHref(location);
+}
+
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
 export function getLinkToAnalyze({
   beaconType,
@@ -108,6 +145,7 @@ export function getLinkToAnalyze({
   detailId,
   timeConfig
 }) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -144,6 +182,7 @@ export function getLinkToAnalyze({
 }
 
 export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${sessionViewPathFullyQualified}${summaryTab}`;
     setOrDeleteMatrixKey(params, sessionViewPath, sessionIdMatrixParameter, sessionId);
@@ -156,6 +195,7 @@ export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
 }
 
 export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = emptyObject) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}/httpRequests/details`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
@@ -169,6 +209,7 @@ export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = em
 }
 
 export function getLinkToCustomEvent(mobileAppId, { customEventId, viewId } = emptyObject) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}/customEvents/details`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);

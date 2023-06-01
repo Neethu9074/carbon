@@ -35,7 +35,6 @@ export default function SlownessThresholdCondition({
   isGlobalSmartAlert
 }) {
   const isBuiltIn = form.get('builtIn').value;
-  const blueprintType = blueprintConfig.type;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -69,7 +68,6 @@ export default function SlownessThresholdCondition({
               editMode={editMode}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
-              blueprintType={blueprintType}
               showThresholdsHint
             />
           </>

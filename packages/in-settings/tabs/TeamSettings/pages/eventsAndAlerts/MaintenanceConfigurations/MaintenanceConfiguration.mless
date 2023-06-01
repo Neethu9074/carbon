@@ -13,7 +13,8 @@
   }
   .dialog {
     width: 75vw;
-    height: fit-content;
+    max-height: 90vh;
+    height: calc(100vh - 14rem);
     padding-bottom: 6rem;
   }
   .simpleDialog {

@@ -75,11 +75,15 @@ export default connectTo(
 
 const ChartWrapper = connectTo(
   props => {
-    const { event, entityId, entityType } = props;
+    const { event, entityId, entityType, plugin: metricPlugin, metricAccessId } = props;
     let observables = {};
     if (isInfraEntityType(entityType)) {
+      // In case of the global/internal ProcessingStatistics entity, the metric needs to be accessed via the snapshot
+      // of the metricAccessId, not the entityId which we pretend the event is about.
+      const metricEntityId = metricPlugin === 'processingStatistics' ? metricAccessId : entityId;
+
       const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
-      observables.entity = getSnapshot(entityId, timeConfig).startWith(null);
+      observables.entity = getSnapshot(metricEntityId, timeConfig).startWith(null);
       return observables;
     }
     observables = {
@@ -132,9 +136,11 @@ const ChartWrapper = connectTo(
 function getChartConfig(metric, entityType, entity) {
   if (isApplicationEntity(entityType)) {
     return getMetricDefinition('application', metric);
-  } else if (isServiceEntity(entityType)) {
+  }
+  if (isServiceEntity(entityType)) {
     return getMetricDefinition('service', metric);
-  } else if (isEndpointEntity(entityType)) {
+  }
+  if (isEndpointEntity(entityType)) {
     return getMetricDefinition('endpoint', metric);
   }
   // else assume 'Entity10'

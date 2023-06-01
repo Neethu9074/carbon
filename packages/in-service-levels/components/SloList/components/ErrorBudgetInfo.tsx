@@ -7,12 +7,14 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isEventBasedSli } from '@instana/types/typeDefinitions';
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { calculateAvailableErrorBudget, calculateTimeRemaining } from 'in-service-levels/utils';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
+import { minutes, number } from 'in-services/formatters/number';
 
 interface ErrorBudgetInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -42,7 +44,10 @@ export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }:
         context: indicatorType,
         entityType,
         remaining: remainingErrorBudget,
-        budget: minutesInTimeWindow
+        remainingFormatted: isEventBasedSli(indicator)
+          ? number.compact(remainingErrorBudget)
+          : minutes.fixedCompact(remainingErrorBudget),
+        budget: minutes.fixedCompact(minutesInTimeWindow)
       })}
       inverted
     />

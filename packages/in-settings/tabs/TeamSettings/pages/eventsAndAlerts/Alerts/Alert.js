@@ -25,6 +25,7 @@ import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alert
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -33,7 +34,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
-import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -43,7 +43,7 @@ export const limitForConnectedAlertChannels = 100;
 
 export default function Alert(props) {
   const entityId = props.match.params.id;
-
+  const { goToPath } = useNavigation();
   return (
     <Form
       title={t('in-settings:tabs.alert')}
@@ -52,7 +52,7 @@ export default function Alert(props) {
       createForm={alertEntity => createForm(alertEntity, !entityId)}
       getEntityFromApi={getAlertingConfig}
       openEntities={() => goToPath(teamSettingsAlertingAlerts)}
-      saveEntity={save}
+      saveEntity={(alertEntity, form) => save(alertEntity, form, !entityId)}
     />
   );
 }
@@ -283,10 +283,7 @@ export function putQueryFields(form, query) {
 }
 
 export function removeQueryFields(form) {
-  return form
-    .remove('query')
-    .remove('validationResult')
-    .remove('queryValidationInProgress');
+  return form.remove('query').remove('validationResult').remove('queryValidationInProgress');
 }
 
 export function putApplicationField(form, applicationName) {
@@ -313,10 +310,7 @@ function onChangeEventSelectionModeFunc(form, eventSelectionMode) {
   }
   let updatedForm = form.updateIn(['eventSelectionMode'], field => field.setValue(eventSelectionMode).setTouched(true));
 
-  updatedForm = updatedForm
-    .remove('selectedEvents')
-    .remove('eventTypes')
-    .remove('applicationAlertConfigIds');
+  updatedForm = updatedForm.remove('selectedEvents').remove('eventTypes').remove('applicationAlertConfigIds');
   if (eventSelectionMode === modeEventTypes) {
     updatedForm = putEventTypesField(updatedForm);
   } else if (eventSelectionMode === modeSelectedEvents) {
@@ -428,7 +422,7 @@ function selectedAlertChannelsValidator(selectedAlertChannels) {
   }
 }
 
-function save(alertEntity, form) {
+function save(alertEntity, form, isCreate) {
   const query = serializeQuery(form);
   const eventSelectionMode = form.get('eventSelectionMode').value;
 
@@ -440,12 +434,15 @@ function save(alertEntity, form) {
 
   submitAlertTracker({
     numOfAlertChannels: selectedAlertChannels.length,
+    alertChannelIDs: selectedAlertChannels.value ? selectedAlertChannels.value.toJS() : [],
     numOfEvents: selectedEvents ? selectedEvents.length : 0,
     selectionMode:
       eventSelectionMode === 'selected-events'
         ? t('in-settings:tabs.specificEvents')
         : t('in-settings:tabs.eventTypes'),
-    scopeType
+    scopeType,
+    isNew: isCreate,
+    alertID: alertEntity.get('id') ? alertEntity.get('id') : ''
   });
 
   return saveAlertingConfig(

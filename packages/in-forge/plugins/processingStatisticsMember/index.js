@@ -6,6 +6,9 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
+/**
+ * Please note that this is an internal entity for internal processing statistics, which should not be exposed to users.
+ */
 registerSnapshotDefinition({
-  plugin: plugins.processingStatisticsMember,
+  plugin: plugins.processingStatisticsMember
 });

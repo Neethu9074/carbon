@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
+import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/components/utils/ruleStatusCodeValueOptions';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';

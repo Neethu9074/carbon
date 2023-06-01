@@ -24,17 +24,18 @@ import {
   resumeMaintenanceConfig,
   getMaintenanceConfigsMutableV2,
   deleteMaintenanceConfigV2
-} from 'in-api/maintenanceConfiguration';
+} from './api';
 import { getEntityIdView, teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
+import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RecurrentMaintenanceConfigForm from './RecurrentMaintenanceConfigForm';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { indeterminateProgress } from 'in-services/fixedObjects';
 import { getEndAndTimeDurationOfWindow } from './rruleHelpers';
 import { formatDateTime } from 'in-services/formatters/date';
-import { pendingResult } from 'in-services/fixedObjects';
-import { toTitleCase } from 'in-services/util/string';
+import { getEntityHref } from 'in-settings/navigation/paths';
 import ButtonGroup from 'in-components/ButtonGroup';
-import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -45,27 +46,24 @@ export default function RecurrentMaintenanceWindowsList(props) {
   const getStartAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'start');
   const getEndAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'end');
   const [saved, setSaved] = useState(false);
-  const getter = useObservable(getMaintenanceConfigsMutableV2, [saved]) ?? pendingResult;
+  const allMaintenanceConfigs = useObservable(getMaintenanceConfigsMutableV2, [saved]) ?? indeterminateProgress;
 
   const [mwTypeView, setMwTypeView] = useState('ACTIVE');
-  const [mwData, setMWData] = useState([]);
-  const defaultNumState = { active: 0, scheduled: 0, expired: 0 };
-  const [numbers, setNumbers] = useState(defaultNumState);
+  const [numbers, setNumbers] = useState({ active: 0, scheduled: 0, expired: 0 });
 
   useEffect(() => {
-    if (Array.isArray(getter) && getter.length !== mwData.length) setMWData(getter);
-  }, [getter, mwData]);
-
-  useEffect(() => {
-    let initialNumState = { active: 0, paused: 0, scheduled: 0, expired: 0 };
-    mwData.forEach(mw => {
-      if (mw.state === 'ACTIVE') initialNumState = { ...initialNumState, active: initialNumState.active + 1 };
-      if (mw.state === 'SCHEDULED') initialNumState = { ...initialNumState, scheduled: initialNumState.scheduled + 1 };
-      if (mw.state === 'FINISHED' || mw.state === 'UNSCHEDULED')
-        initialNumState = { ...initialNumState, expired: initialNumState.expired + 1 };
-    });
-    setNumbers(initialNumState);
-  }, [mwData, saved]);
+    let initialNumState = { active: 0, scheduled: 0, expired: 0 };
+    if (!allMaintenanceConfigs.loading) {
+      allMaintenanceConfigs.forEach(mw => {
+        if (mw.state === 'ACTIVE') initialNumState = { ...initialNumState, active: initialNumState.active + 1 };
+        if (mw.state === 'SCHEDULED')
+          initialNumState = { ...initialNumState, scheduled: initialNumState.scheduled + 1 };
+        if (mw.state === 'FINISHED' || mw.state === 'UNSCHEDULED')
+          initialNumState = { ...initialNumState, expired: initialNumState.expired + 1 };
+      });
+      setNumbers(initialNumState);
+    }
+  }, [allMaintenanceConfigs, saved]);
 
   // For when creating new MW config to refresh table
   useEffect(() => {
@@ -102,20 +100,27 @@ export default function RecurrentMaintenanceWindowsList(props) {
           return pauseMaintenanceConfig(entity.id);
         }
       },
-      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED'
+      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED',
+      disableLabel: t('in-alerting:components.revisionDropdownButton.pause'),
+      enableLabel: t('in-alerting:components.revisionDropdownButton.resume')
     }
   };
 
   return (
     <div>
-      <Typography variant="heading-300" component="span">
-        {t('in-settings:tabs.maintenanceWindowConfigurations')}
-      </Typography>
+      {recurrentMaintenanceWindowsTabsEnabled && (
+        <Typography variant="heading-300" component="span">
+          {t('in-settings:tabs.maintenanceWindowConfigurations')}
+        </Typography>
+      )}
+
       <List
         title={t('in-settings:tabs.maintenanceWindowConfigurations')}
-        getHeader={() => {
-          return <DisplayMWTypes mwTypeView={mwTypeView} setMwTypeView={setMwTypeView} numbers={numbers} />;
-        }}
+        getHeader={
+          recurrentMaintenanceWindowsTabsEnabled
+            ? () => <DisplayMWTypes mwTypeView={mwTypeView} setMwTypeView={setMwTypeView} numbers={numbers} />
+            : defaultHeaderWithCount(t('in-settings:tabs.maintenanceWindowConfigurations'))
+        }
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
@@ -125,15 +130,13 @@ export default function RecurrentMaintenanceWindowsList(props) {
         onCreateNew={() => {
           addActiveDialog(<RecurrentMaintenanceConfigForm {...props} onClose={close} setSaved={setSaved} />);
         }}
-        onRowClick={entity => {
+        getDetailsHref={entity => {
           editMaintenanceWindowTracker();
-          addActiveDialog(
-            <RecurrentMaintenanceConfigForm {...props} onClose={close} setSaved={setSaved} existingID={entity.id} />
-          );
+          return getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id);
         }}
         trackEvent={newMaintenanceWindowTracker}
         searchAttributes={['name', 'scope', getStartAsString, getEndAsString, 'status']}
-        extraFilters={[element => filteringMWList(element, mwTypeView)]}
+        extraFilters={recurrentMaintenanceWindowsTabsEnabled ? [element => filteringMWList(element, mwTypeView)] : []}
       />
     </div>
   );
@@ -152,7 +155,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>
@@ -206,6 +209,9 @@ const columnDefinitions = [
       return getDateTimeFromFirstWindow('start', entity);
     },
     getContent(entity) {
+      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+        return '';
+      }
       return getFormattedDateTimeFromFirstWindow('start', entity);
     }
   },
@@ -217,6 +223,9 @@ const columnDefinitions = [
       return getEndTime(entity);
     },
     getContent(entity) {
+      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+        return '';
+      }
       return formatDateTime(getEndTime(entity));
     }
   },
@@ -225,24 +234,30 @@ const columnDefinitions = [
     label: t('in-settings:tabs.status'),
     ellipsis: true,
     getContent(entity) {
-      const mwStatusLabel = entity.state;
+      if (!entity.state) return;
+      let mwStatusLabel = entity.state;
+      if ((mwStatusLabel === 'ACTIVE' || mwStatusLabel === 'SCHEDULED') && entity.paused) {
+        mwStatusLabel = 'PAUSED';
+      }
+
       const mwColor = () => {
-        if (mwStatusLabel === 'ACTIVE') return '#288657';
-        if (mwStatusLabel === 'FINISHED') return theme.lib.colors.N800Dark;
+        if (mwStatusLabel === 'ACTIVE') return theme.lib.colors.green800;
+        if (mwStatusLabel === 'FINISHED' || mwStatusLabel === 'EXPIRED') return theme.lib.colors.N500;
         if (mwStatusLabel === 'PAUSED') return theme.lib.colors.yellow800;
         if (mwStatusLabel === 'SCHEDULED') return theme.lib.colors.blue800;
+        if (mwStatusLabel === 'UNSCHEDULED') return theme.lib.colors.deepPurple800;
         return theme.lib.colors.N800Dark;
       };
-
-      return entity.state ? (
+      const mwStatusLabelText = t('in-settings:maintenanceWindow.status', { context: mwStatusLabel.toLowerCase() });
+      return (
         <Pill color={mwColor()}>
           {
             <Typography variant="body-small" onDark={mwStatusLabel !== 'PAUSED'}>
-              {toTitleCase(mwStatusLabel)}
+              {mwStatusLabelText}
             </Typography>
           }
         </Pill>
-      ) : null;
+      );
     }
   }
 ];
@@ -254,7 +269,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
         <ButtonGroup
           buttonPropsList={[
             {
-              text: `${t('in-settings:tabs.active')} (${numbers.active})`,
+              text: `${t('in-settings:maintenanceWindow.status', { context: 'active' })} (${numbers.active})`,
               key: 'ACTIVE',
               onClick: () => {
                 switchToActiveMaintenanceWindowsTabTracker({});
@@ -262,7 +277,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
               }
             },
             {
-              text: `${t('in-settings:tabs.scheduled')} (${numbers.scheduled})`,
+              text: `${t('in-settings:maintenanceWindow.status', { context: 'scheduled' })} (${numbers.scheduled})`,
               key: 'SCHEDULED',
               onClick: () => {
                 switchToScheduledMaintenanceWindowsTabTracker({});
@@ -270,7 +285,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
               }
             },
             {
-              text: `${t('in-settings:tabs.expired')} (${numbers.expired})`,
+              text: `${t('in-settings:maintenanceWindow.status', { context: 'expired' })} (${numbers.expired})`,
               key: 'EXPIRED',
               onClick: () => {
                 switchToExpiredMaintenanceWindowsTabTracker({});

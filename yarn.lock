@@ -1181,6 +1181,13 @@
   dependencies:
     regenerator-runtime "^0.13.10"
 
+"@babel/runtime@^7.9.1":
+  version "7.21.5"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
+  integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
+  dependencies:
+    regenerator-runtime "^0.13.11"
+
 "@babel/template@^7.16.0", "@babel/template@^7.3.3":
   version "7.16.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@babel/template/-/template-7.16.0.tgz#d16a35ebf4cd74e202083356fab21dd89363ddd6"
@@ -1259,6 +1266,111 @@
   version "0.2.3"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha1-daLotRy3WKdVPWgEpZMteqznXDk=
+
+"@carbon/colors@^11.14.0":
+  version "11.14.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/colors/-/colors-11.14.0.tgz#cdf73558dca2f63b6167a962cb26a8cae843b0e1"
+  integrity sha512-SkjAmmUwdLEvu/JKPOcslbx+mrvqp+ZSvBvFP/7tjv0HYC0Khs3ltjYeSiusg/KpCoSyFM+fzEJm2qdURxC1+w==
+
+"@carbon/feature-flags@^0.13.0":
+  version "0.13.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/feature-flags/-/feature-flags-0.13.0.tgz#f0903233e9e38b9170bfaf2ff38fea292bb2efc3"
+  integrity sha512-nca4aTE8Ss5NzjjK6fxR+mM63e0hDmH3nT3zDZ2pRQ23QoJzcmhZmaWQoLGd6ONa52vAuPWcVPPg/bynN07Q9w==
+
+"@carbon/grid@^11.13.0":
+  version "11.13.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/grid/-/grid-11.13.0.tgz#563164b4e596a789e80b5b6f7f69e117dbe6dd07"
+  integrity sha512-Jb2QaG22BXd1zvnXwkQMYxyF3Us1cY46pWzRYAy0dKQCJYaW3ii2kD1Z2aE8Ea3UYmg5CR13D7+shB/idtZG5g==
+  dependencies:
+    "@carbon/layout" "^11.13.0"
+
+"@carbon/icon-helpers@^10.39.0":
+  version "10.39.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/icon-helpers/-/icon-helpers-10.39.0.tgz#a1dfd75397a399892af488963ea1187c218861d5"
+  integrity sha512-iFWIfjKABjusb+gUz6s0FdEBHe8Ms63CKDxozhtiSZ9LfF9X5QQztO8df3szqcNsmw30pYhSnm+zJwifO9tdRw==
+
+"@carbon/icons-react@^11.19.0":
+  version "11.19.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/icons-react/-/icons-react-11.19.0.tgz#9aa1895f6e961aee63e7e828bbedf05126d2e997"
+  integrity sha512-OBDSrGQe0lkER4PmoN25KrnOW88kI5pcmCjktKSh772fB3rUURnneH1Pci6LCz/jM/wTxTZpJ804zi5Y4ByXRQ==
+  dependencies:
+    "@carbon/icon-helpers" "^10.39.0"
+    "@carbon/telemetry" "0.1.0"
+    prop-types "^15.7.2"
+
+"@carbon/layout@^11.13.0":
+  version "11.13.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/layout/-/layout-11.13.0.tgz#ba16018727e0846c1289a79b3d7af3e3f0ea880f"
+  integrity sha512-MWVyk9NdWEpvfMSqEy1aBS9QA0Km3ADyEWW7D5c8r8+ZMrhPpJnmuCRMbBOkJYtZDfs4+7EuuKcacJ/kY51x7w==
+
+"@carbon/motion@^11.10.0":
+  version "11.10.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/motion/-/motion-11.10.0.tgz#7674652557dc1fe650eb506c38e8bf722c9d0018"
+  integrity sha512-eKQTBvfgTI+txk4BjRTjObOnQ9/uWSRurzIQK4qXsRJZuxvyJTChw+0pKMjohfpzOOnv5E1XxyfM3MWURaGe6Q==
+
+"@carbon/react@^1.27.0":
+  version "1.28.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/react/-/react-1.28.0.tgz#b88a18fcc49e6f9259f66fe624b722215adcbc95"
+  integrity sha512-idgdWGMiK8DhH8X4djVN6JZrltPkIUdTziLC1KxTRNQyHS6V29qHqlq9uElXlYwvyGrjBEriXC+9uOsi/O4ONg==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@carbon/feature-flags" "^0.13.0"
+    "@carbon/icons-react" "^11.19.0"
+    "@carbon/layout" "^11.13.0"
+    "@carbon/styles" "^1.28.0"
+    "@carbon/telemetry" "0.1.0"
+    classnames "2.3.2"
+    copy-to-clipboard "^3.3.1"
+    downshift "5.2.1"
+    flatpickr "4.6.9"
+    invariant "^2.2.3"
+    lodash.debounce "^4.0.8"
+    lodash.findlast "^4.5.0"
+    lodash.isequal "^4.5.0"
+    lodash.omit "^4.5.0"
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
+    react-is "^18.2.0"
+    use-resize-observer "^6.0.0"
+    wicg-inert "^3.1.1"
+    window-or-global "^1.0.1"
+
+"@carbon/styles@^1.28.0":
+  version "1.28.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/styles/-/styles-1.28.0.tgz#6305b601a9f680efa96bafba16943a2423f33b6e"
+  integrity sha512-QID/cHlKEUsFiEjc40/QbJ48wC0o4xs3JEcGMC2Do+TXaMmqGdzQ8u07lQuRY9FHLaUPEo/Mh2xQ59Ublnbz0g==
+  dependencies:
+    "@carbon/colors" "^11.14.0"
+    "@carbon/feature-flags" "^0.13.0"
+    "@carbon/grid" "^11.13.0"
+    "@carbon/layout" "^11.13.0"
+    "@carbon/motion" "^11.10.0"
+    "@carbon/themes" "^11.18.0"
+    "@carbon/type" "^11.17.0"
+    "@ibm/plex" "6.0.0-next.6"
+
+"@carbon/telemetry@0.1.0":
+  version "0.1.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/telemetry/-/telemetry-0.1.0.tgz#57b331cd5a855b4abbf55457456da8211624d879"
+  integrity sha512-kNWt0bkgPwGW0i5h7HFuljbKRXPvIhsKbB+1tEURAYLXoJg9iJLF1eGvWN5iVoFCS2zje4GR3OGOsvvKVe7Hlg==
+
+"@carbon/themes@^11.18.0":
+  version "11.18.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/themes/-/themes-11.18.0.tgz#0bfffb0d6100432b7e3fb48a9420fde06fa662e6"
+  integrity sha512-PuMb7F9fooLYCS+8zALN656x8rv2NgjMw53Q4W8PoEh9RwDKpEihh9AwaKzNV432Ie8mOqwTZTvpAg6ZaWc4+w==
+  dependencies:
+    "@carbon/colors" "^11.14.0"
+    "@carbon/layout" "^11.13.0"
+    "@carbon/type" "^11.17.0"
+    color "^4.0.0"
+
+"@carbon/type@^11.17.0":
+  version "11.17.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/type/-/type-11.17.0.tgz#e0820164547d02fcaf613a2bb000fc38aec25c06"
+  integrity sha512-zQMaR1PHUY8HBlo0zRPcwEli+rD0ndejKKXGXSVVkCBX9qOr6Rp55J723Z3Fl+QNFxamhy/d0jVqRoKTUttnRQ==
+  dependencies:
+    "@carbon/grid" "^11.13.0"
+    "@carbon/layout" "^11.13.0"
 
 "@codemirror/autocomplete@^6.0.0":
   version "6.3.4"
@@ -1785,14 +1897,20 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@1.70.0":
-  version "1.70.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.70.0.tgz#84f4a062b0d997be5e22fc106578ccb4ddcefd81"
-  integrity sha512-z9TuaFkLO5jAoepouGNXxa+p0zIUQDFyoRkEjox6S5jaugez9OpF+WQOipm51dPPiOnDDJIhbJbKLcC56mWZtA==
+"@ibm/plex@6.0.0-next.6":
+  version "6.0.0-next.6"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
+  integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
+
+"@instana/components@^2.5.0":
+  version "2.5.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.5.0.tgz#b5a86bf7ff82644cd5e22d2d130ca26cdf8ee481"
+  integrity sha512-8B9Zq7EhVcjm1ZVDY8lS17Y6miGQf0f2ZVVKPfuXWwS9t5p0P6LvQZwUth/Cqw2JNOuoGfU/8wjIxPrjo8UAcw==
   dependencies:
+    "@carbon/react" "^1.27.0"
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
-    "@instana/design-tokens" "^1.16.0"
+    "@instana/design-tokens" "^1.17.1"
     "@instana/format-date" "^1.5.0"
     "@instana/format-numbers" "^1.4.0"
     "@instana/hooks" "^1.10.0"
@@ -1805,10 +1923,19 @@
     prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
-"@instana/design-tokens@1.16.0", "@instana/design-tokens@^1.16.0":
+"@instana/design-tokens@1.16.0":
   version "1.16.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.16.0.tgz#5d256187ecd3c64bde6fa1d03112f1d59d1b30ef"
   integrity sha512-9UsxeuNtETwwvMDDYO8ogI+FIUdeAe0BHa3OCw89bwP7H/ZwAflBA/yNfiJlzdszsl1IROJUcUdvd0ZI68UvXg==
+  dependencies:
+    ts-node "^10.9.1"
+    tslib "^2.4.1"
+    typescript "^4.8.4"
+
+"@instana/design-tokens@^1.17.1":
+  version "1.17.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.17.1.tgz#32e38bafe6b20e8aae0f401a4eb34fb0687f78f2"
+  integrity sha512-gnm0gYnuwSlK4vHRhO/9CQG/HThyj9ENEMCjJdBD+NKqH6r/oc2JJLZiCZIN1Ek97ZHiRBDPj8AKHnNMkINzJw==
   dependencies:
     ts-node "^10.9.1"
     tslib "^2.4.1"
@@ -1908,10 +2035,10 @@
     "@instana/logger" "^1.3.0"
     "@instana/observables" "^1.6.0"
 
-"@instana/types@1.250.279":
-  version "1.250.279"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.250.279.tgz#6089f2b882cfe11c8206a6dac74748c29d2b2e1e"
-  integrity sha512-BXtmMuAgMHWSvMZpKKweReLXs3gEU+4Jsvo5ypzXtYZg4/ntXFEkKi5MQKV2hJfgTEhZjvvP1dDMuVdPLSsd+Q==
+"@instana/types@1.251.405":
+  version "1.251.405"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.251.405.tgz#8b72a6abd78eb211bf8218b6161b2cfd4e46d707"
+  integrity sha512-RyfTP1sFpeaMi0f0FAGMb25HDkuwbBZ4CZYFUg4U0QCu+belqeSg49JFaXEmKYNReTN5wn4Hs/tyJHDjDtxsBA==
 
 "@instana/utils@^1.3.0":
   version "1.3.0"
@@ -2666,6 +2793,13 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/deep-freeze-strict/-/deep-freeze-strict-1.1.0.tgz#447a6a2576191344aa42310131dd3df5c41492c4"
   integrity sha1-RHpqJXYZE0SqQjEBMd099cQUksQ=
 
+"@types/dompurify@^3.0.2":
+  version "3.0.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/dompurify/-/dompurify-3.0.2.tgz#c1cd33a475bc49c43c2a7900e41028e2136a4553"
+  integrity sha512-YBL4ziFebbbfQfH5mlC+QTJsvh0oJUrWbmxKMyEdL7emlHJqGR2Qb34TEFKj+VCayBvjKy3xczMFNhugThUsfQ==
+  dependencies:
+    "@types/trusted-types" "*"
+
 "@types/enzyme@^3.10.12":
   version "3.10.12"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/enzyme/-/enzyme-3.10.12.tgz#ac4494801b38188935580642f772ad18f72c132f"
@@ -2878,7 +3012,16 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-router@^5.1.20":
+"@types/react-router-dom@^5.3.3":
+  version "5.3.3"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/react-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
+  integrity sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==
+  dependencies:
+    "@types/history" "^4.7.11"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*", "@types/react-router@^5.1.20":
   version "5.1.20"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/react-router/-/react-router-5.1.20.tgz#88eccaa122a82405ef3efbcaaa5dcdd9f021387c"
   integrity sha512-jGjmu/ZqS7FjSH6owMcD5qpq19+1RS9DeVRqfl1FeBMxTDQAGwlMWOcs52NDoXaNKyG3d1cYQFMs9rCrb88o9Q==
@@ -2973,6 +3116,11 @@
   integrity "sha1-AUFipc7mVxgZ1I6ZmYBpTi9lfDw= sha512-Gk9vaXfbzc5zCXI9eYE9BI5BNHEp4D3FWjgqBE/ePGYElLAP+KvxBcsdkwfIVvezs605oiyd/VrpiHe3Oeg+Aw=="
   dependencies:
     "@types/jest" "*"
+
+"@types/trusted-types@*":
+  version "2.0.3"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@types/trusted-types/-/trusted-types-2.0.3.tgz#a136f83b0758698df454e328759dbd3d44555311"
+  integrity sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==
 
 "@types/yargs-parser@*":
   version "20.2.1"
@@ -4596,9 +4744,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   integrity "sha1-k/qteyAWR1TMEwLaxdw236ROJ1g= sha512-5lzq/7B9e3Fj4puD8CnFpS/YleAmLsSvreMF/1KLvi4r71x3fPi4BtbPfDC3yE45sR2jYpTXUCIbphk2SKWrlg=="
 
 caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001400:
-  version "1.0.30001482"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001482.tgz"
-  integrity sha512-F1ZInsg53cegyjroxLNW9DmrEQ1SuGRTO1QlpA0o2/6OpQ0gFeDRoq1yFmnr8Sakn9qwwt9DmbxHB6w167OSuQ==
+  version "1.0.30001489"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001489.tgz"
+  integrity sha512-x1mgZEXK8jHIfAxm+xgdpHpk50IN3z3q3zP261/WS+uvePxW8izXuCu6AHz0lkuYTlATDehiZ/tNyYBdSQsOUQ==
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
@@ -4797,15 +4945,15 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@2.3.2, classnames@^2.2.5, classnames@^2.2.6:
+  version "2.3.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
+  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
+
 classnames@2.x, classnames@^2.3.1:
   version "2.3.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity "sha1-38+jiR4wbsHa0QXQ6I9EF7hTXo4= sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA=="
-
-classnames@^2.2.5, classnames@^2.2.6:
-  version "2.3.2"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
-  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
 clean-css@^5.2.2:
   version "5.2.2"
@@ -5026,6 +5174,14 @@ color-string@^0.3.0:
   dependencies:
     color-name "^1.0.0"
 
+color-string@^1.9.0:
+  version "1.9.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/color-string/-/color-string-1.9.1.tgz#4467f9146f036f855b764dfb5bf8582bf342c7a4"
+  integrity sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
+
 color-support@^1.1.3:
   version "1.1.3"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
@@ -5039,6 +5195,14 @@ color@^0.11.0:
     clone "^1.0.2"
     color-convert "^1.3.0"
     color-string "^0.3.0"
+
+color@^4.0.0:
+  version "4.2.3"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/color/-/color-4.2.3.tgz#d781ecb5e57224ee43ea9627560107c0e0c6463a"
+  integrity sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==
+  dependencies:
+    color-convert "^2.0.1"
+    color-string "^1.9.0"
 
 colorette@^2.0.10, colorette@^2.0.16:
   version "2.0.16"
@@ -5125,6 +5289,11 @@ compression@^1.7.4:
     on-headers "~1.0.2"
     safe-buffer "5.1.2"
     vary "~1.1.2"
+
+compute-scroll-into-view@^1.0.13:
+  version "1.0.20"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/compute-scroll-into-view/-/compute-scroll-into-view-1.0.20.tgz#1768b5522d1172754f5d0c9b02de3af6be506a43"
+  integrity sha512-UCB0ioiyj8CRjtrvaceBLqqhZCVP+1B8+NWQhmdsm0VXOJtobBCf1dBQmebCCo34qZmUwZfIH2MZLqNHazrfjg==
 
 compute-scroll-into-view@^1.0.9:
   version "1.0.17"
@@ -5217,6 +5386,13 @@ copy-props@^2.0.1:
   dependencies:
     each-props "^1.3.2"
     is-plain-object "^5.0.0"
+
+copy-to-clipboard@^3.3.1:
+  version "3.3.3"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/copy-to-clipboard/-/copy-to-clipboard-3.3.3.tgz#55ac43a1db8ae639a4bd99511c148cdd1b83a1b0"
+  integrity sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==
+  dependencies:
+    toggle-selection "^1.0.6"
 
 core-js-compat@^3.18.0, core-js-compat@^3.19.0:
   version "3.19.1"
@@ -6011,6 +6187,16 @@ download@^7.1.0:
     make-dir "^1.2.0"
     p-event "^2.1.0"
     pify "^3.0.0"
+
+downshift@5.2.1:
+  version "5.2.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/downshift/-/downshift-5.2.1.tgz#38ab0b274643717de7b63fbb1a76b159dcc3f49e"
+  integrity sha512-uHX2OLbWthLR8QbR8NCI8OmjvvJxq8+PrA95KblFd9JyB1zVZh1HnszzsWMMCnMuH6IvsUtVfF5HY7XfijJ2dw==
+  dependencies:
+    "@babel/runtime" "^7.9.1"
+    compute-scroll-into-view "^1.0.13"
+    prop-types "^15.7.2"
+    react-is "^16.13.1"
 
 downshift@^3.2.12:
   version "3.4.8"
@@ -7373,6 +7559,11 @@ flat-cache@^3.0.4:
     flatted "^3.1.0"
     rimraf "^3.0.2"
 
+flatpickr@4.6.9:
+  version "4.6.9"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/flatpickr/-/flatpickr-4.6.9.tgz#9a13383e8a6814bda5d232eae3fcdccb97dc1499"
+  integrity sha512-F0azNNi8foVWKSF+8X+ZJzz8r9sE1G4hl06RyceIaLvyltKvDl6vqk9Lm/6AUUCi5HWaIjiUbk7UpeE/fOXOpw==
+
 flatted@^3.1.0:
   version "3.2.2"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/flatted/-/flatted-3.2.2.tgz#64bfed5cb68fe3ca78b3eb214ad97b63bedce561"
@@ -8670,7 +8861,7 @@ into-stream@^3.1.0:
     from2 "^2.1.1"
     p-is-promise "^1.1.0"
 
-invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.3, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -8736,6 +8927,11 @@ is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
   integrity sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==
+
+is-arrayish@^0.3.1:
+  version "0.3.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
+  integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
 is-bigint@^1.0.1:
   version "1.0.4"
@@ -10154,6 +10350,11 @@ lodash.escape@^4.0.1:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.escape/-/lodash.escape-4.0.1.tgz#c9044690c21e04294beaa517712fded1fa88de98"
   integrity sha1-yQRGkMIeBClL6qUXcS/e0fqI3pg=
 
+lodash.findlast@^4.5.0:
+  version "4.6.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.findlast/-/lodash.findlast-4.6.0.tgz#ea8bb78cf2e7e7804fc8aeb7d1953e07fe31fbc8"
+  integrity sha512-+OGwb1FVKjhc2aIEQ9vKqNDW1a0/HaCLr0iCIK10jfVif3dBE0nhQD0jOZNZLh7zOlmFUTrk+vt85eXoH4vKuA==
+
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
@@ -10178,6 +10379,16 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=
+
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  integrity sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==
+
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
 lodash.truncate@^4.4.2:
   version "4.4.2"
@@ -13365,6 +13576,13 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/signal-exit/-/signal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
   integrity "sha1-nj6MwMdamUcrRDIQM6dwLnc4JS8= sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ=="
 
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
+  dependencies:
+    is-arrayish "^0.3.1"
+
 sinon-chai@^3.3.0:
   version "3.7.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/sinon-chai/-/sinon-chai-3.7.0.tgz#cfb7dec1c50990ed18c153f1840721cf13139783"
@@ -14277,6 +14495,11 @@ to-through@^2.0.0:
   dependencies:
     through2 "^2.0.3"
 
+toggle-selection@^1.0.6:
+  version "1.0.6"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/toggle-selection/-/toggle-selection-1.0.6.tgz#6e45b1263f2017fa0acc7d89d78b15b8bf77da32"
+  integrity sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==
+
 toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
@@ -14681,7 +14904,7 @@ use-memo-one@^1.1.1:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/use-memo-one/-/use-memo-one-1.1.2.tgz#0c8203a329f76e040047a35a1197defe342fab20"
   integrity "sha1-DIIDoyn3bgQAR6NaEZfe/jQvqyA= sha512-u2qFKtxLsia/r8qG0ZKkbytbztzRb317XCkT7yP8wxL0tZ/CzK2G+WWie5vWvpyeP7+YoPIwbJoIHJ4Ba4k0oQ=="
 
-use-resize-observer@^6.1.0:
+use-resize-observer@^6.0.0, use-resize-observer@^6.1.0:
   version "6.1.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/use-resize-observer/-/use-resize-observer-6.1.0.tgz#d4d267a940dbf9c326da6042f8a4bb8c89d29729"
   integrity sha1-1NJnqUDb+cMm2mBC+KS7jInSlyk=
@@ -15077,6 +15300,16 @@ which@^2.0.1:
   integrity sha1-fGqN0KY2oDJ+ELWckobu6T8/UbE=
   dependencies:
     isexe "^2.0.0"
+
+wicg-inert@^3.1.1:
+  version "3.1.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/wicg-inert/-/wicg-inert-3.1.2.tgz#df10cf756b773a96fce107c3ddcd43be5d1e3944"
+  integrity sha512-Ba9tGNYxXwaqKEi9sJJvPMKuo063umUPsHN0JJsjrs2j8KDSzkWLMZGZ+MH1Jf1Fq4OWZ5HsESJID6nRza2ang==
+
+window-or-global@^1.0.1:
+  version "1.0.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/window-or-global/-/window-or-global-1.0.1.tgz#dbe45ba2a291aabc56d62cf66c45b7fa322946de"
+  integrity sha512-tE12J/NenOv4xdVobD+AD3fT06T4KNqnzRhkv5nBIu7K+pvOH2oLCEgYP+i+5mF2jtI6FEADheOdZkA8YWET9w==
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"

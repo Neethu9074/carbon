@@ -24,7 +24,9 @@ const ignoredPlugins = [
   'defaultEntity20', // is a pseudo-entity only used for inheritance in the UI for AP/S/E entities
   'application', // because the export is only used in infra metrics API
   'service', // because the export is only used in infra metrics API
-  'endpoint' // because the export is only used in infra metrics API
+  'endpoint', // because the export is only used in infra metrics API
+  'processingStatistics', // because it is an internal technical entity
+  'processingStatisticsMember' // because it is an internal technical entity
 ];
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {

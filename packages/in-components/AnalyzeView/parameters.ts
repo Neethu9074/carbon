@@ -5,6 +5,7 @@
 
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
+import { tryGet } from 'in-services/localStorage';
 
 export function createParameters(path: string) {
   return {
@@ -36,7 +37,11 @@ export function createParameters(path: string) {
       path,
       name: 'orderBy',
       serializer: buildJsonSerializer(),
-      parser: buildJsonParser(emptyObject)
+      parser: buildJsonParser(emptyObject),
+      initialState: (() => {
+        const preferredSortOrder = tryGet('logSortingOrder');
+        return preferredSortOrder ? JSON.parse(preferredSortOrder) : null;
+      })()
     },
 
     orderByGroups: {

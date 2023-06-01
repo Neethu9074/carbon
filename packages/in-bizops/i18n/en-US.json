@@ -4,7 +4,8 @@
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Activities",
   "lists": {
-    "pageTitle": "Business Processes",
+    "pageTitle": "Business Monitoring",
+    "cardTitle": "Business Processes",
     "activityLabel": "Activities",
     "nameLabel": "Name",
     "noData": "No data available",
@@ -12,7 +13,7 @@
     "startLabel": "Started"
   },
   "navigation": {
-    "bizOps": "Business Processes"
+    "businessMonitoring": "Business Monitoring"
   },
   "dashboards": {
     "analyzeInstancesButton": "Analyze Instances",
@@ -21,6 +22,9 @@
       "summaryTab": "Summary",
       "widgets": {
         "timeline": "Timeline",
+        "topActivities": "Top Activities (Count)",
+        "viewAll": "View all activities",
+        "count": "Count",
         "businessProcessStartedLabel": "{{businessProcessName}} started"
       }
     }

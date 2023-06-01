@@ -40,9 +40,6 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
       </KpiSection>
 
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongEnterpriseLicenseErrors')}>
-          {data.get('kongEnterpriseLicenseErrors')}
-        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
           {data.get('kongNgnixMetricErrors')}
         </KpiKeyValue>
@@ -50,12 +47,12 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
           {yesOrNo(data.get('prometheusEnabled'))}
         </KpiKeyValue>
-      </KpiSection>
-
-      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
           {data.get('workerConsistency')}
         </KpiKeyValue>
+      </KpiSection>
+
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
           {data.get('workerStateUpdateFrequency')}
         </KpiKeyValue>

@@ -9,13 +9,8 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import {
-  createMaintenanceConfig,
-  createMaintenanceWindow,
-  getMaintenanceConfig,
-  saveMaintenanceConfig
-} from 'in-api/maintenanceConfiguration';
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
+import { createMaintenanceConfig, createMaintenanceWindow, getMaintenanceConfig, saveMaintenanceConfig } from './api';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker';

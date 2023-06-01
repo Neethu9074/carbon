@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "This dashboard is only visible to you.",
         "publicDashboard": "Public Dashboard",
         "publicDashboardExplain": "This dashboard is visible to everyone in your organization. Only you are able to make changes, but you may add editors.",
-        "done": "Done"
+        "save": "Save",
+        "cancel": "Cancel",
+        "tooltipCloseAndCancel": "Close and cancel"
       }
     },
     "widgetEditorDialog": {

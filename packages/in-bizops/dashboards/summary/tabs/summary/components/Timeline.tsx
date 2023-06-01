@@ -10,10 +10,7 @@ import { TagFilterExpression, TimeShift } from '@instana/types/typeDefinitions';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
 import theme from 'in-themes';
@@ -21,6 +18,7 @@ import { t } from 'in-i18n';
 
 interface TimelineProps {
   timeShiftConfig: TimeShift;
+  businessProcessName: string;
 }
 
 interface RenderChartProps {
@@ -28,11 +26,7 @@ interface RenderChartProps {
   businessProcessName: string;
 }
 
-export default function Timeline({ timeShiftConfig }: TimelineProps) {
-  const location = useLocation();
-  const businessProcessName: string =
-    getMatrixParameter(location, businessProcessDashboard, 'name') ?? t('in-bizops:dashboards.summary.pageTitle');
-
+export default function Timeline({ timeShiftConfig, businessProcessName }: TimelineProps) {
   return <RenderChart timeShiftConfig={timeShiftConfig} businessProcessName={businessProcessName} />;
 }
 

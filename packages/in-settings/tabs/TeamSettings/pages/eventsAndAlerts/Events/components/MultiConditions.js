@@ -9,9 +9,10 @@ import React from 'react';
 
 import { Stack, Button, SvgIcon } from '@instana/components';
 
-import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -40,6 +41,7 @@ function getOnChangeUpdateRuleByIdx(onChangeRoot, idx) {
 
 export function MultiConditions({
   rulesForm,
+  ruleLogicalOperator,
   onChange: onChangeRoot,
   disabled,
   customMetricsForPlugin,
@@ -69,7 +71,7 @@ export function MultiConditions({
                     form.updateIn(['rules'], field =>
                       field
                         .push(
-                          putAllDataSourceFieldsForOneRule(entityType, {
+                          putMetricDataSourceFieldsForOneRule(entityType, {
                             window: rulesForm.get(0)?.get('window')?.value
                           })
                         )
@@ -108,10 +110,39 @@ export function MultiConditions({
         const buttonDisabled = disabled || rulesForm.size === 1;
         return (
           <React.Fragment key={idx}>
-            {idx > 0 && (
-              <Row className={locals.andPill}>
-                <Col lg={12}>
-                  <Pill color={theme.lib.colors.primary1}>AND</Pill>
+            {idx === 1 && (
+              <Row className={locals.logicalOperator}>
+                <Col lg={2}>
+                  <Stack direction="horizontal" align="start">
+                    <CheckboxFancy
+                      asRadioButton
+                      checked={ruleLogicalOperator === 'AND'}
+                      disabled={buttonDisabled}
+                      label={t('in-settings:tabs.team.events.logicalOperator', { context: 'AND' })}
+                      onChange={() => onChangeRoot('ruleLogicalOperator', 'AND')}
+                      size="large"
+                    />
+                    <CheckboxFancy
+                      asRadioButton
+                      checked={ruleLogicalOperator === 'OR'}
+                      disabled={buttonDisabled}
+                      label={t('in-settings:tabs.team.events.logicalOperator', { context: 'OR' })}
+                      onChange={() => onChangeRoot('ruleLogicalOperator', 'OR')}
+                      size="large"
+                    />
+                    <Tooltip align="rightMiddle" content={t('in-settings:tabs.team.events.logicalOperatorInfo')}>
+                      <SvgIcon type="lib_help_error_info_outline" color={theme.lib.colors.N600Light} />
+                    </Tooltip>
+                  </Stack>
+                </Col>
+              </Row>
+            )}
+            {idx > 1 && (
+              <Row className={locals.logicalOperator}>
+                <Col lg={1}>
+                  <Pill color={theme.lib.colors.primary1}>
+                    {t('in-settings:tabs.team.events.logicalOperator', { context: ruleLogicalOperator })}
+                  </Pill>
                 </Col>
               </Row>
             )}

@@ -9,7 +9,8 @@ import { generateUniqueShortId } from '@instana/utils';
 
 import {
   ruleTypeEntityVerification,
-  ruleTypeHostAvailability
+  ruleTypeHostAvailability,
+  ruleTypeEntityCount
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -128,6 +129,38 @@ export function createCustomSystemRuleBasedHostAvailability({
         offlineDuration,
         closeAfter,
         tagFilter
+      }
+    ]
+  };
+}
+
+export function createCustomSystemRuleBasedEventSpecificationForEntityCount({
+  id = generateUniqueShortId(),
+  name = t('in-settings:tabs.newEvent'),
+  entityType = 'instanaAgent',
+  triggering = false,
+  description = '',
+  expirationTime = null,
+  enabled = true,
+  severity = 5,
+  conditionOperator,
+  conditionValue
+}) {
+  return {
+    id,
+    name,
+    entityType,
+    query: '',
+    triggering,
+    description,
+    expirationTime,
+    enabled,
+    rules: [
+      {
+        ruleType: ruleTypeEntityCount,
+        severity,
+        conditionOperator,
+        conditionValue
       }
     ]
   };

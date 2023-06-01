@@ -5,7 +5,6 @@
 
 //@ts-expect-error needs TS migration
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
-//@ts-expect-error needs TS migration
 import { Route } from 'react-router-dom';
 import React from 'react';
 

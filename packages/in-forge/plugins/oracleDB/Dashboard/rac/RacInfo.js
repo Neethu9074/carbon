@@ -19,6 +19,12 @@ export default function OracleDBInfo({ snapshot }) {
         {data.get('databaseServiceName')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oracleDB.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.cpuCount')}>{data.get('cpuCount')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.maxSessions')}>{data.get('maxSessions')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.dbBlockSize')}>{data.get('dbBlockSize')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.instanceCount')}>
+        {data.get('instanceCount')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

@@ -8,13 +8,16 @@ import React, { useMemo } from 'react';
 
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 //@ts-expect-error needs migration
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 //@ts-expect-error needs migration
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/synthetics/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import AlertTestsViewer from 'in-alerting/smart-alerts/synthetics/details/AlertTestsViewer';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 //@ts-expect-error needs migration
@@ -41,7 +44,7 @@ export const tagSuggestionTimeConfig = {
 };
 
 export default function AlertConfiguration({ alertConfig }: { alertConfig: SyntheticAlertConfigWithMetadata }) {
-  const { syntheticTestIds, alertChannelIds, timeThreshold, tagFilterExpression } = alertConfig;
+  const { syntheticTestIds, alertChannelIds, timeThreshold, tagFilterExpression, customPayloadFields } = alertConfig;
   const { QueryBuilder: AlertQueryBuilder } = useMemo(
     () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
     []
@@ -55,6 +58,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
     }),
     aggregation: t('in-alerting:smartAlerts.synthetics.details.scope.perLocation.shortText')
   };
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
   return (
     <AlertDetailsCard>
       <ListTitle>
@@ -116,6 +120,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
       >
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
+      <GlobalCustomPayloadCard context="SYNTHETIC" />
+      <CustomPayloadCard
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        openByDefault
+      />
     </AlertDetailsCard>
   );
 }

@@ -14,7 +14,7 @@ export function getTitle({ rule, threshold }) {
   const { alertType, aggregation } = rule;
 
   switch (alertType) {
-    case 'errorRate':
+    case 'errors':
       return t('in-alerting:potentialProblems.titleErrorRate');
     case 'slowness':
       return t('in-alerting:potentialProblems.titleSlowness', { aggregation: aggregation });
@@ -32,7 +32,7 @@ export function getDescription({ rule, threshold, alertType }) {
   const { operator, type, value } = threshold;
 
   switch (alertType) {
-    case 'errorRate': {
+    case 'errors': {
       return getErrorRateHigherOrLowerOperatorText(operator, getValueRoundedToDecimals(value, true));
     }
     case 'slowness': {

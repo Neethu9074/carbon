@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -184,7 +185,7 @@ const columnDefinitions = [
   {
     id: 'host',
     label: t('in-kubernetes:dashboards.monitoredByInstana'),
-    sortable: true,
+    sortable: false,
     getContent({ snapshotIdForMetric }, { timeConfig }) {
       return <EntityHost nodeId={snapshotIdForMetric} timeConfig={timeConfig} />;
     }
