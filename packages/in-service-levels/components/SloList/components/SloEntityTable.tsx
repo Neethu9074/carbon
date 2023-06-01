@@ -6,36 +6,41 @@
 
 import React, { useState } from 'react';
 
+import { Application, SloEntityType, Website } from '@instana/types';
 import { Card, Li, Stack, Ul } from '@instana/components';
-import { Application, Website } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import {
-  ApplicationSloForm,
   sloApplicationIdKey,
   sloEntityKey,
   sloEntityTypeKey,
+  SloForm,
   sloWebsiteIdKey,
-  WebsiteSloForm
+  isApplicationSloForm
 } from 'in-service-levels/components/ConfigDialog/form';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 
+export interface EntityData {
+  id: string;
+  label: string;
+}
+
 interface SloEntityTableProps {
   entityList?: Application[] | Website[];
-  // form: SloForm<SloEntityType>;
-  form: ApplicationSloForm | WebsiteSloForm;
-  // onChange: React.Dispatch<React.SetStateAction<Application | Website | undefined>>;
-  onChange: (val: string) => void;
+  form: SloForm<SloEntityType>;
+  onChange: (entityData: EntityData) => void;
 }
 
 export default function SloEntityTable({ form, entityList, onChange }: SloEntityTableProps) {
   const [query, setQuery] = useState('');
+
   const entity = form.get(sloEntityTypeKey).value;
-  const reslt =
-    entity === 'application'
-      ? (form as ApplicationSloForm).getIn([sloEntityKey, sloApplicationIdKey]).value
-      : (form as WebsiteSloForm).getIn([sloEntityKey, sloWebsiteIdKey]).value;
+
+  const result = isApplicationSloForm(form)
+    ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
+    : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
+
   return (
     <>
       <Card
@@ -48,21 +53,16 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
-              .map(({ label, id }) => {
+              .map(entityData => {
                 return (
-                  <Li key={id}>
-                    <Stack direction="horizontal">
-                      <CheckboxFancy
-                        asRadioButton
-                        value={id}
-                        onChange={e => {
-                          onChange(e.target.value);
-                        }}
-                        checked={id === reslt}
-                      />
-                      {label}
-                    </Stack>
-                  </Li>
+                  <div onClick={() => onChange(entityData)} key={entityData.id}>
+                    <Li>
+                      <Stack direction="horizontal">
+                        <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={() => {}} />
+                        {entityData.label}
+                      </Stack>
+                    </Li>
+                  </div>
                 );
               })}
           </Ul>
