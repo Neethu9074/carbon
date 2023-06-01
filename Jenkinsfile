@@ -153,9 +153,8 @@ pipeline {
 
     stage ('Retag backend images') {
       steps {
-        // Only allow 1 concurrent build is allowed to run at a time and newer
-        // builds are pulled off the queue first
-        lock(resource: "retag-backend-images-${branchName}", inversePrecedence: true) {
+        // Only allow 1 concurrent build is allowed to run at a time
+        lock(resource: "retag-backend-images") {
           timeout(time: 30, unit: 'MINUTES') {
             timestamps {
               script {
