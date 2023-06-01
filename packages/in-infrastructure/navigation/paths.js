@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { buildJsonSerializer, buildJsonParser, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -106,6 +107,16 @@ export function getLinkToExplore({
     params.pathname = infraExplorePath;
 
     if (tagFilterExpression) {
+      // In order for numeric values (such as process id) to
+      // be used as a value filter, the value must be converted
+      // to a string. This ensures that the URL conversion
+      // will properly escape the value (i.e. prefix it with
+      // '*').
+      tagFilterExpression.forEach((expression) => {
+        if ((typeof expression.value) === 'number') {
+          expression.value = String(expression.value);
+        }
+      });
       setMatrixKey(params, tagFilterExpressionMatrixParameter, tagFilterExpression);
     }
 
