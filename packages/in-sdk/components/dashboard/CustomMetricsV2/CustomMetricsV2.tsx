@@ -274,10 +274,6 @@ function getDetails(row: Row) {
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       minRollup={adjustMetricRollup(row.type, row.name, getInfraGranularity(row.timeConfig))}
-      margins={{
-        left: 90,
-        right: 90
-      }}
       y1={y1}
       y2={y2}
     />

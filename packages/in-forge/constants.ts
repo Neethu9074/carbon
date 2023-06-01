@@ -298,7 +298,9 @@ export const nonServicePlugins = {
   sapJavaInstance: 'sapJavaInstance',
   sapJavaSystem: 'sapJavaSystem',
   sapHanaSystem: 'sapHanaSystem',
-  sapWebDispatcher: 'sapWebDispatcher'
+  sapWebDispatcher: 'sapWebDispatcher',
+  remoteHost: 'remoteHost',
+  processGroup: 'processGroup'
 };
 
 export const applicationPlugins = {
@@ -644,7 +646,9 @@ export const fullyQualifiedPlugins = {
   sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
   sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
   sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem',
-  sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher'
+  sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
+  remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
+  processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

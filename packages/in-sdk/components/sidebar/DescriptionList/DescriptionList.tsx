@@ -3,12 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { PropsWithChildren, ReactNode } from 'react';
+/* eslint-disable react/no-multi-comp */
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import locals from './DescriptionList.mless';
 
-export function DescriptionList({ children, className }: PropsWithChildren<{ className?: string }>) {
+interface DescriptionListProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function DescriptionList({ children, className }: DescriptionListProps) {
   return (
     <>
       <dl className={classNames(locals.descriptionList, className)}>{children}</dl>
@@ -17,11 +23,13 @@ export function DescriptionList({ children, className }: PropsWithChildren<{ cla
   );
 }
 
-export function DescriptionItem({
-  title,
-  children,
-  onClick
-}: PropsWithChildren<{ title: string; onClick?: () => void }>) {
+interface DescriptionItemProps {
+  title: string;
+  children: ReactNode;
+  onClick?: () => void;
+}
+
+export function DescriptionItem({ title, children, onClick }: DescriptionItemProps) {
   if (isItemEmpty(children)) {
     return null;
   }
@@ -36,18 +44,18 @@ export function DescriptionItem({
   );
 }
 
-function isItemEmpty(children?: ReactNode): boolean {
+function isItemEmpty(children: ReactNode): boolean {
   if (children === null || children === undefined) {
     return true;
   }
 
   // React avoids using an array of children when there is only one child
-  // node. In these cases we are going to have a string
+  // node. In these cases, we are going to have a string
   if (typeof children === 'string') {
     return children.length === 0;
   }
 
-  // For any other cases we are currently not able to tell whether it is
+  // For any other cases, we are currently not able to tell whether it is
   // empty, e.g. for child components.
   return false;
 }

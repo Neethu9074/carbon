@@ -25,11 +25,15 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
     <>
       <HorizontalControlsPresenter position="topLeft">
         <ButtonGroup>
-          <NodeSizeButton
-            eventBusServiceLocator={eventBusServiceLocator}
-            onChangeUrlProperties={onChangeUrlProperties}
-            appendLeft
-          />
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipNodeSize')}>
+            <div>
+              <NodeSizeButton
+                eventBusServiceLocator={eventBusServiceLocator}
+                onChangeUrlProperties={onChangeUrlProperties}
+                appendLeft
+              />
+            </div>
+          </Tooltip>
           {hasApproximateData && (
             <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
           )}
@@ -43,6 +47,7 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
             eventBusServiceLocator={eventBusServiceLocator}
             layouter="flow"
             onChangeUrlProperties={onChangeUrlProperties}
+            tooltipLabel={t('in-applications:applicationMap.tooltipLayoutFlow')}
           />
           <LayoutButton
             appendLeft
@@ -50,6 +55,7 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
             eventBusServiceLocator={eventBusServiceLocator}
             layouter="force"
             onChangeUrlProperties={onChangeUrlProperties}
+            tooltipLabel={t('in-applications:applicationMap.tooltipLayoutForce')}
           />
 
           <ParticlesButton
@@ -65,23 +71,23 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
           />
         </ButtonGroup>
         <ButtonGroup vertical>
-          <Button appendLeft icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
-          <Button appendLeft icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')}>
+            <Button appendLeft icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          </Tooltip>
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomOut')}>
+            <Button appendLeft icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+          </Tooltip>
         </ButtonGroup>
       </VerticalControlsPresenter>
     </>
   );
 
   function zoomIn(serviceLocatorUid) {
-    getServiceLocators(serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .cameraController.zoomInOneStep();
+    getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene().cameraController.zoomInOneStep();
   }
 
   function zoomOut(serviceLocatorUid) {
-    getServiceLocators(serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .cameraController.zoomOutOneStep();
+    getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene().cameraController.zoomOutOneStep();
   }
 }
 
@@ -91,12 +97,14 @@ const ParticlesButton = connectTo(
   }),
   function ParticlesButton({ onChangeUrlProperties, isActive }) {
     return (
-      <Button
-        icon="lib_actions_particles"
-        onClick={() => onChangeUrlProperties({ particles: !isActive })}
-        isActive={isActive}
-        appendLeft
-      />
+      <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+        <Button
+          icon="lib_actions_particles"
+          onClick={() => onChangeUrlProperties({ particles: !isActive })}
+          isActive={isActive}
+          appendLeft
+        />
+      </Tooltip>
     );
   }
 );
@@ -124,7 +132,11 @@ const LayoutButton = connectTo(
     isActive: eventBusServiceLocator.on(SIGNALS.LAYOUTER).map(_layouter => _layouter === layouter)
   }),
   function ParticlesButton(props) {
-    const { onChangeUrlProperties, layouter } = props;
-    return <Button {...props} onClick={() => onChangeUrlProperties({ layouter })} />;
+    const { onChangeUrlProperties, layouter, tooltipLabel } = props;
+    return (
+      <Tooltip themeStyle="light" content={tooltipLabel}>
+        <Button {...props} onClick={() => onChangeUrlProperties({ layouter })} />
+      </Tooltip>
+    );
   }
 );

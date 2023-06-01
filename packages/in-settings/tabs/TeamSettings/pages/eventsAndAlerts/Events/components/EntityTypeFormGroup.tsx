@@ -7,7 +7,7 @@
 import { createListForm, Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customEventRulesValidator } from '../customEventRuleValidations';
@@ -58,7 +58,7 @@ export function EntityTypeFormGroup({
               'rules',
               createListForm({
                 validator: customEventRulesValidator,
-                items: [putAllDataSourceFieldsForOneRule(newEntityType, {})]
+                items: [putMetricDataSourceFieldsForOneRule(newEntityType, {})]
               })
             );
           });

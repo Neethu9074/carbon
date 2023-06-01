@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
+import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { create } from '@instana/observables';
 
 import {
   categoryGlobal,
@@ -234,7 +234,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
   return { configs: [], loading: true, errors: [] };
 }
 
-function useSmartAlertConfigs(getAlertConfigFetchFunction) {
+function useSmartAlertConfigs(getAlertConfigFetchFunction = () => just([])) {
   const result =
     useObservable(() => {
       return refreshSignal.flatMap(getAlertConfigFetchFunction);

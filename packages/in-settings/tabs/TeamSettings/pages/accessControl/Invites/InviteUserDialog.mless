@@ -44,4 +44,8 @@
     flex-shrink: 0;
     margin: 1.5rem 0 0 -0.5rem;
   }
+
+  .description {
+    margin-bottom: 1rem;
+  }
 }

@@ -37,8 +37,10 @@ import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
+export const ruleTypeOfflineEventDetection = 'system';
 export const ruleTypeEntityVerification = 'entity_verification';
 export const ruleTypeHostAvailability = 'host_availability';
+export const ruleTypeEntityCount = 'entity_count';
 export const dataSourceCustom = 'custom';
 export const dataSourceBuiltIn = 'built-in';
 export const dataSourceSystem = 'system';
@@ -58,20 +60,40 @@ export const hostAvailabilityDetection = Object.freeze({
   name: t('in-settings:tabs.hostAvailabilityDetection')
 });
 
-export const systemRules = Object.freeze([offlineEventDetection, entityVerification, hostAvailabilityDetection]);
+/**
+ * System rule for entity count.
+ * <p>
+ * For users, we call it "Instana Agent Count" for now, as long as we implicitly fixate the {@code entityType} field
+ * to {@code instanaAgent}.
+ */
+export const entityCountDetection = Object.freeze({
+  id: 'entity.count.detection', // this id is UI internal only, because we need to group it under systemRules
+  name: t('in-settings:tabs.instanaAgentCountDetection')
+});
+
+export const systemRules = Object.freeze([
+  offlineEventDetection,
+  entityVerification,
+  hostAvailabilityDetection,
+  entityCountDetection
+]);
+
+const defaultScopeFields = Object.freeze({
+  applyOn: null,
+  applicationName: null,
+  applicationIds: [],
+  tagValueForHostAvailability: null,
+  tagOperatorForHostAvailability: null
+});
 
 function getScopeFields(isCreate, query, ruleType, tagFilter) {
-  const defaultScopeFields = {
-    applyOn: null,
-    applicationName: null,
-    applicationIds: [],
-    tagValueForHostAvailability: null,
-    tagOperatorForHostAvailability: null
-  };
-
   if (isCreate) {
     return defaultScopeFields;
   } else {
+    if (ruleType === ruleTypeEntityCount) {
+      return defaultScopeFields;
+    }
+
     if (ruleType === ruleTypeHostAvailability && tagFilter !== null) {
       return {
         ...defaultScopeFields,
@@ -79,9 +101,8 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
         tagValueForHostAvailability: tagFilter?.stringValue,
         tagOperatorForHostAvailability: tagFilter?.operator
       };
-    } else {
-      return { ...defaultScopeFields, ...parseQuery(query) };
     }
+    return { ...defaultScopeFields, ...parseQuery(query) };
   }
 }
 
@@ -178,26 +199,25 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
         value: dataSource,
         validator: notBlankValidator
       })
-    )
-    .put(
-      'applyOn',
-      createField({
-        value: applyOn,
-        validator: notBlankValidator
-      })
     );
 
   form = putActionField(form, mutableEvent.actionIds);
 
   if (dataSource !== dataSourceSystem) {
-    form = putAllDataSourceFields(form, eventSpec);
+    form = putMetricDataSourceFields(form, eventSpec, applyOn);
   } else {
     form = putSystemRuleSelection(form, ruleAttributes);
+    if (ruleType === ruleTypeOfflineEventDetection) {
+      form = putOfflineEventDetectionFields(form, applyOn);
+    }
     if (ruleType === ruleTypeEntityVerification) {
-      form = putAllEntityVerificationFields(form, eventSpec);
+      form = putEntityVerificationFields(form, eventSpec, applyOn);
     }
     if (ruleType === ruleTypeHostAvailability) {
-      form = putHostAvailabilityDetectionFields(form, eventSpec);
+      form = putHostAvailabilityDetectionFields(form, eventSpec, applyOn);
+    }
+    if (ruleType === ruleTypeEntityCount) {
+      form = putEntityCountDetectionFields(form, eventSpec);
     }
   }
 
@@ -213,10 +233,20 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
   return form;
 }
 
-function putAllDataSourceFields(form, eventSpec) {
+function putApplyOnField(form, applyOn = null) {
+  return form.put(
+    'applyOn',
+    createField({
+      value: applyOn,
+      validator: notBlankValidator
+    })
+  );
+}
+
+function putMetricDataSourceFields(form, eventSpec, applyOn = null) {
   const { entityType, ruleLogicalOperator } = eventSpec;
 
-  form = form.put(
+  form = putApplyOnField(form, applyOn).put(
     'entityType',
     createField({
       value: entityType,
@@ -225,7 +255,7 @@ function putAllDataSourceFields(form, eventSpec) {
   );
 
   const rulesFormList = createListForm({
-    items: (eventSpec.rules ?? []).map(rule => putAllDataSourceFieldsForOneRule(entityType, rule)),
+    items: (eventSpec.rules ?? []).map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule)),
     validator: customEventRulesValidator
   });
 
@@ -238,7 +268,7 @@ function putAllDataSourceFields(form, eventSpec) {
   );
 }
 
-export function putAllDataSourceFieldsForOneRule(entityType, rule) {
+export function putMetricDataSourceFieldsForOneRule(entityType, rule) {
   const {
     metricName,
     metricPlaceholderValue,
@@ -341,10 +371,14 @@ export function putMetricPatternPlaceholder(form, metricPlaceholderValue) {
   );
 }
 
-function putAllEntityVerificationFields(form, event) {
+function putOfflineEventDetectionFields(form, applyOn = null) {
+  return putApplyOnField(form, applyOn);
+}
+
+function putEntityVerificationFields(form, event, applyOn = null) {
   const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(event);
 
-  return form
+  return putApplyOnField(form, applyOn)
     .put(
       'matchingEntityType',
       createField({
@@ -375,10 +409,10 @@ function putAllEntityVerificationFields(form, event) {
     );
 }
 
-function putHostAvailabilityDetectionFields(form, event) {
+function putHostAvailabilityDetectionFields(form, event, applyOn = null) {
   const { offlineDuration, closeAfter } = getRuleAttributes(event);
 
-  return form
+  return putApplyOnField(form, applyOn)
     .put(
       'offlineDuration',
       createField({
@@ -391,6 +425,26 @@ function putHostAvailabilityDetectionFields(form, event) {
       createField({
         value: closeAfter ? String(closeAfter) : undefined,
         validator: notBlankValidator
+      })
+    );
+}
+
+function putEntityCountDetectionFields(form, event) {
+  const { conditionOperator, conditionValue } = getRuleAttributes(event);
+
+  return form
+    .put(
+      'conditionOperator',
+      createField({
+        value: conditionOperator,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionValue',
+      createField({
+        value: conditionValue != null ? String(conditionValue) : '',
+        validator: conditionValueValidator
       })
     );
 }
@@ -425,26 +479,29 @@ export function putAggregationField(form, eventSpec) {
   );
 }
 
-function removeAllDataSourceFields(form) {
-  form = removeAllEntityVerificationFields(form);
-  form = removeHostAvailabilityDetectionFields(form);
-  form = removeAllMetricPatternFields(form);
-  return form.remove('rules').remove('entityType');
+function removeMetricDataSourceFields(form) {
+  form = removeMetricPatternFields(form);
+  return form.remove('rules').remove('entityType').remove('applyOn');
 }
 
-function removeAllEntityVerificationFields(form) {
+function removeEntityVerificationFields(form) {
   return form
     .remove('matchingEntityType')
     .remove('matchingOperator')
     .remove('matchingEntityLabel')
-    .remove('offlineDuration');
+    .remove('offlineDuration')
+    .remove('applyOn');
 }
 
 function removeHostAvailabilityDetectionFields(form) {
-  return form.remove('offlineDuration').remove('closeAfter');
+  return form.remove('offlineDuration').remove('closeAfter').remove('applyOn');
 }
 
-function removeAllMetricPatternFields(form) {
+function removeEntityCountDetectionFields(form) {
+  return form.remove('conditionOperator').remove('conditionValue');
+}
+
+function removeMetricPatternFields(form) {
   return form.remove('metricPatternOperator').remove('metricPatternPlaceholder');
 }
 
@@ -462,6 +519,14 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
     systemRule = hostAvailabilityDetection.id;
   }
 
+  if (!systemRule && ruleAttributes.ruleType === ruleTypeEntityCount) {
+    systemRule = entityCountDetection.id;
+  }
+
+  if (systemRule !== entityCountDetection.id) {
+    form = putApplyOnField(form);
+  }
+
   return form.put(
     'systemRule',
     createField({
@@ -471,26 +536,38 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
   );
 }
 
-export function updateFormDefinitionForSystemRule(form, previousDataSource, event) {
-  const nextDataSource = form.get('systemRule') ? form.get('systemRule').value : null;
+export function updateFormDefinitionForSystemRule(form, previousSystemRule, event) {
+  const nextSystemRule = form.get('systemRule') ? form.get('systemRule').value : null;
 
-  if (nextDataSource === entityVerification.id) {
+  if (nextSystemRule === entityVerification.id) {
     form = removeHostAvailabilityDetectionFields(form);
-    form = putAllEntityVerificationFields(form, event);
+    form = removeEntityCountDetectionFields(form);
+    form = putEntityVerificationFields(form, event);
   }
 
-  if (nextDataSource === hostAvailabilityDetection.id) {
-    form = removeAllEntityVerificationFields(form);
+  if (nextSystemRule === hostAvailabilityDetection.id) {
+    form = removeEntityVerificationFields(form);
+    form = removeEntityCountDetectionFields(form);
     form = putHostAvailabilityDetectionFields(form, event);
   }
 
-  if (nextDataSource === offlineEventDetection.id) {
-    form = removeAllEntityVerificationFields(form);
+  if (nextSystemRule === entityCountDetection.id) {
+    form = removeEntityVerificationFields(form);
     form = removeHostAvailabilityDetectionFields(form);
+    form = putEntityCountDetectionFields(form, event);
   }
 
-  if (previousDataSource !== nextDataSource) {
-    form = form.updateIn(['applyOn'], field => field.setValue(null).setTouched(false));
+  if (nextSystemRule === offlineEventDetection.id) {
+    form = removeEntityVerificationFields(form);
+    form = removeHostAvailabilityDetectionFields(form);
+    form = removeEntityCountDetectionFields(form);
+    form = putOfflineEventDetectionFields(form, event);
+  }
+
+  if (previousSystemRule !== nextSystemRule) {
+    if (form.containsKey('applyOn')) {
+      form = form.updateIn(['applyOn'], field => field.setValue(null).setTouched(false));
+    }
     form = form.setTouched(false, { recurse: true });
   }
 
@@ -502,28 +579,19 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
     // switching to system rule
-    const { ruleType } = getRuleAttributes(eventSpec);
-    form = removeAllDataSourceFields(form);
-
-    if (ruleType === ruleTypeEntityVerification) {
-      form = putAllEntityVerificationFields(form, eventSpec);
-    }
-
-    if (ruleType === ruleTypeHostAvailability) {
-      form = putHostAvailabilityDetectionFields(form, eventSpec);
-    }
-
+    form = removeMetricDataSourceFields(form);
     form = putSystemRuleSelection(form, eventSpec, systemRules);
   } else if (previousDataSource === dataSourceSystem && nextDataSource !== dataSourceSystem) {
     // switching from system rule to built-in- or custom-rules
-    form = putAllDataSourceFields(form, {});
+    form = putMetricDataSourceFields(form, {});
     form = form.remove('systemRule');
-    form = removeAllEntityVerificationFields(form);
+    form = removeEntityVerificationFields(form);
     form = removeHostAvailabilityDetectionFields(form);
+    form = removeEntityCountDetectionFields(form);
+    form = putApplyOnField(form);
   } else if (previousDataSource) {
     // switching between built-in- and custom-rules
-
-    form = removeAllMetricPatternFields(form);
+    form = removeMetricPatternFields(form);
     // clear multi-conditions, when switching between non-system configs
     form = form.put(
       'rules',
@@ -672,11 +740,20 @@ export function getDataSourceFromEventSpecification(entityType, ruleAttributes) 
 }
 
 function isSystemDataSource(ruleType) {
-  return ruleType === 'system' || ruleType === ruleTypeEntityVerification || ruleType === ruleTypeHostAvailability;
+  return (
+    ruleType === ruleTypeOfflineEventDetection ||
+    ruleType === ruleTypeEntityVerification ||
+    ruleType === ruleTypeHostAvailability ||
+    ruleType === ruleTypeEntityCount
+  );
 }
 
 export function isHostAvailabilitySystemRule(form) {
   return form.get('systemRule')?.value === hostAvailabilityDetection.id;
+}
+
+export function isEntityCountSystemRule(form) {
+  return form.get('systemRule')?.value === entityCountDetection.id;
 }
 
 export function isDeprecatedEntityType(entityType) {
@@ -690,8 +767,8 @@ function getRuleAttributes(eventSpec) {
    * ignore other rules here */
   if (rules && rules.length >= 1) {
     const { entityType } = eventSpec;
-    const firstRule1 = rules[0];
-    return getRuleAttributesForEntityType(entityType, firstRule1);
+    const firstRule = rules[0];
+    return getRuleAttributesForEntityType(entityType, firstRule);
   } else if (rule) {
     // TODO: this case should not exist in the future - need more rework
 

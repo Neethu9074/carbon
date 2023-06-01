@@ -16,6 +16,7 @@ export interface Props {
   title: string | ReactElement;
   titleIconType?: string;
   onClose: (e?: MouseEvent) => void;
+  closeTooltip?: string;
   onTitleIconClick?: () => void;
   renderCustomCloseBehaviour?: () => ReactElement;
   withoutBodyPadding?: boolean;
@@ -29,6 +30,7 @@ export default function Dialog({
   title,
   titleIconType,
   onClose,
+  closeTooltip,
   onTitleIconClick,
   children,
   renderCustomCloseBehaviour,
@@ -55,6 +57,7 @@ export default function Dialog({
             title={title}
             renderCustomCloseBehaviour={renderCustomCloseBehaviour}
             onClose={onClose}
+            closeTooltip={closeTooltip}
             addScrollShadow={scrollshadow}
           />
         )}

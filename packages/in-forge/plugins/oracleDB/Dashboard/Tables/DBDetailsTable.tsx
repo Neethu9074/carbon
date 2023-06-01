@@ -8,6 +8,8 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error Module needs to be translated to TS
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 // @ts-expect-error Module needs to be translated to TS
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -178,10 +180,7 @@ function getRowDetails(row: Row) {
               ],
               type: 'line'
             }}
-            margins={{
-              left: 90,
-              right: 90
-            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title={t('in-forge:plugins.oracleDB.dbSlashCpuTime')}>
@@ -194,10 +193,7 @@ function getRowDetails(row: Row) {
               labels: [t('in-forge:plugins.oracleDB.ratio')],
               type: 'area'
             }}
-            margins={{
-              left: 90,
-              right: 90
-            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

@@ -26,6 +26,9 @@ export default function SharingDialogPresenter(props) {
       titleIconType="lib_actions_share"
       onClose={close}
       className={locals.dialog}
+      closeTooltip={t(
+        'in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.tooltipCloseAndCancel'
+      )}
     >
       <form onSubmit={onSubmit}>
         {isUsingAdvancedAccessRules && (
@@ -57,8 +60,11 @@ export default function SharingDialogPresenter(props) {
         <IndividualEditRightSelection {...props} />
 
         <Actions>
+          <Button onClick={close} kind="secondary" className={locals.button}>
+            {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.cancel')}
+          </Button>
           <Button kind="primary" type="submit" className={locals.button}>
-            {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.done')}
+            {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.save')}
           </Button>
         </Actions>
       </form>

@@ -10,11 +10,13 @@ import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
-import { deleteAction, getAllActions } from 'in-automation/api';
+// @ts-expect-error
+import { deleteAction, getAllActions, createBuiltInActions } from 'in-automation/api';
 import { deleteActionTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
+import { just } from '@instana/observables';
 
 const tableActions = {
   delete: {
@@ -24,6 +26,16 @@ const tableActions = {
     }
   }
 };
+
+const checkForBuiltInActions = () => {
+  return getAllActions().flatMap(actions => {
+    // if (actions.filter(action => action.metadata.isBuiltin).length === 0) {
+    //   return createBuiltInActions().flatMap(() => getAllActions());
+    // }
+    return just(actions);
+  });
+};
+
 export default function ActionCatalogTab() {
   return (
     <AutomationTabs>
@@ -35,7 +47,7 @@ export default function ActionCatalogTab() {
         }
         tableActions={tableActions}
         rightHeader={rightHeader()}
-        loadEntities={getAllActions}
+        loadEntities={checkForBuiltInActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
         showDuplicateColumn

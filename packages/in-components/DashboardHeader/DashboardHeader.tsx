@@ -13,8 +13,6 @@ import { Observable } from '@instana/observables';
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
-import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
@@ -125,15 +123,11 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       return null;
     }
   };
-  const playwithTopClass = playwithEnabled ? locals.playwithEnabled : locals.playwithDisable;
   return (
     <>
-      {playwithEnabled && <PlayWithHeader />}
-
       <header
         className={classNames(
           locals.dashboardHeader,
-          playwithTopClass,
           locals[theme],
           className,
           withBorderBottom && locals.borderBottom

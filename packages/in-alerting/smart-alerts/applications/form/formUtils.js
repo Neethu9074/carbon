@@ -44,8 +44,13 @@ export function getTitlePlaceholder(form) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   switch (alertType) {
-    case 'errorRate':
-      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorRate');
+    case 'errors': {
+      const metricName = ruleForm.get('metricName').value;
+      const percentageMetric = isPercentageMetric(metricName);
+      return percentageMetric
+        ? t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorRate')
+        : t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorCount');
+    }
     case 'slowness':
       return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.slowness');
     case 'logs': {
@@ -99,12 +104,19 @@ export function getDescriptionPlaceholder(form) {
   const thresholdType = thresholdForm.get('type').value;
 
   switch (alertType) {
-    case 'errorRate': {
+    case 'errors': {
       const thresholdValue = thresholdForm.get('value').value;
-      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate', {
-        context: getHigherOrLowerOperatorContext(thresholdOperator),
-        valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
-      });
+      const metricName = ruleForm.get('metricName').value;
+      const percentageMetric = isPercentageMetric(metricName);
+      return t(
+        percentageMetric
+          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate'
+          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorCount',
+        {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
+          valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+        }
+      );
     }
     case 'slowness': {
       const aggregation = ruleForm.get('aggregation').value;
@@ -313,5 +325,5 @@ export function isValidChartViewEntitySelection(evaluationType, chartViewEntityS
 }
 
 export function isPercentageMetric(metricName) {
-  return metricName === 'callRate';
+  return metricName === 'callRate' || metricName === 'errors';
 }

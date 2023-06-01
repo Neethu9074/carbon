@@ -8,6 +8,9 @@ import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+
 import {
   AdditionalHeaders,
   Authen,
@@ -18,7 +21,9 @@ import {
   saveAction,
   saveNewAction,
   getAction,
-  createAction
+  createAction,
+  getAssociations,
+  addAssociations
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -39,9 +44,11 @@ import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getEventSpecifications } from 'in-api/eventSpecifications';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { Action, EventSpecificationInfo, Field } from 'in-types';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import SectionLine from 'in-settings/components/SectionLine';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
@@ -50,7 +57,6 @@ import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
-import { Action, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -61,23 +67,51 @@ interface MatchParams {
   id: string;
 }
 
-export type ActionFormEntity = (NewAction | Action) & { builtIn?: boolean };
-const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
+function getActionAndAssocations(id: string) {
+  const actionDetails$ = getAction(id);
+  const associationsDetails$ = getAssociations(id);
+  // calling Get Action and Get action associations call and combining results
+  return combineLatest([actionDetails$, associationsDetails$]).map(([actionDetails, associationsDetails]) => ({
+    ...actionDetails,
+    applicationAlertConfigIds: associationsDetails
+      .map(action => action?.application_alert?.id)
+      .filter(id => id !== undefined) as string[],
+    selectedEvents: associationsDetails
+      ?.map(action => action.custom_event?.id)
+      .concat(associationsDetails?.map(action => action.builtin_event_id))
+      .filter(id => id !== undefined) as string[]
+  }));
+}
+type AssociatedResources = {
+  applicationAlertConfigIds: string[];
+  selectedEvents: string[];
+};
+const createEmptyAssociatedResources = (): AssociatedResources => ({
+  applicationAlertConfigIds: [],
+  selectedEvents: []
+});
+
+export type ActionFormEntity = (NewAction | Action) & AssociatedResources & { builtIn?: boolean };
+const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
 
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
   const isCopy = props.match.path.split('/').at(-2) === 'copy';
+  const eventSpecifications = useObservable(() => getEventSpecifications(), []) ?? [];
   const entityFormParam = {
     entityId,
-    createDefaultEntity: createAction,
+    createDefaultEntity: () => ({
+      ...createAction(),
+      ...createEmptyAssociatedResources()
+    }),
     createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: (actionId: string) =>
-      getAction(actionId).map(action =>
+      getActionAndAssocations(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
-    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy),
+    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, eventSpecifications),
     openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -169,21 +203,23 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
   );
 };
 
-function save(form: MapForm<any>, id: string | null, isCopy: boolean) {
+function save(form: MapForm<any>, id: string | null, isCopy: boolean, eventSpecifications: EventSpecificationInfo[]) {
   const actionSpecification = getActionSpecification(form);
+  const associateResources = (action: Action) =>
+    addAssociations({ action_id: action.id, ...getActionAssociations(form, eventSpecifications) });
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    return saveNewAction(actionSpecification);
+    return saveNewAction(actionSpecification).flatMap(associateResources);
   } else {
     editActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    return saveAction(actionSpecification, id);
+    return saveAction(actionSpecification, id).flatMap(associateResources);
   }
 }
 
@@ -268,5 +304,27 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
     type,
     tags: tags.map((tag: Tag) => tag.value),
     inputParameters
+  };
+}
+
+export function getActionAssociations(form: MapForm<any>, eventSpecifications: EventSpecificationInfo[]) {
+  const selectedEvents = (form.get('selectedEvents') as FormField<string[]>).value;
+  const applicationAlertConfigIds = (form.get('applicationAlertConfigIds') as FormField<string[]>).value;
+  const eventIds = selectedEvents.reduce<{ builtin_event_ids: string[]; custom_event_ids: string[] }>(
+    (ids, id) => {
+      const event = eventSpecifications.find(eventSpecification => eventSpecification.id === id);
+      if (event?.type === 'BUILT_IN') {
+        ids.builtin_event_ids.push(id);
+      }
+      if (event?.type === 'CUSTOM') {
+        ids.custom_event_ids.push(id);
+      }
+      return ids;
+    },
+    { builtin_event_ids: [], custom_event_ids: [] }
+  );
+  return {
+    application_alert_ids: applicationAlertConfigIds,
+    ...eventIds
   };
 }

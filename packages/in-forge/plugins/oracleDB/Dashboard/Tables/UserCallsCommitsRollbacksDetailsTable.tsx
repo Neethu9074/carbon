@@ -7,6 +7,8 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
@@ -174,10 +176,7 @@ function getRowDetails(row: Row) {
           ],
           type: 'line'
         }}
-        margins={{
-          left: 90,
-          right: 90
-        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

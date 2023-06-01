@@ -6,46 +6,82 @@
 
 import React from 'react';
 
-import { LocationListItem, PaginatedResult, Result } from '@instana/types';
+import { LocationListItem, TimeConfig } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { Link, SvgIcon } from '@instana/components';
 
-// @ts-expect-error Module needs to be translated to TS
+// @ts-expect-error Could not find declaration type
 // eslint-disable-next-line no-restricted-imports
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+// @ts-expect-error Could not find declaration type
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+// @ts-expect-error Could not find declaration type
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
 
-export const columnDefinitions = [
+interface locationListProps extends ServerTablePresenterProps<LocationListItem> {
+  timeConfig: TimeConfig;
+}
+
+function LocationLabelContent({ item }: { item: LocationListItem }) {
+  //const snapshotId = item.popSnapshotId == undefined ? '' : item.popSnapshotId;
+  const entityHealthInfo = item.entityHealthInfo;
+  const locationDescription = item.description ?? '';
+
+  return locationDescription === '' ? (
+    //If no PoP Sensor installed, Location Name is not clickable
+    entityHealthInfo === undefined ? (
+      <SeverityAwareEntityLink
+        severity={item.entityHealthInfo?.maxSeverity}
+        icon={'lib_synthetic_location'}
+        label={item.label}
+      />
+    ) : (
+      <SeverityAwareEntityLink
+        severity={item.entityHealthInfo?.maxSeverity}
+        icon={'lib_synthetic_location'}
+        label={item.label}
+        href$={getDashboardLink(item.popSnapshotId ?? '', {
+          pathname: physicalDashboardPath
+        })}
+      />
+    )
+  ) : entityHealthInfo === undefined ? (
+    <SeverityAwareEntityLink
+      severity={item.entityHealthInfo?.maxSeverity}
+      icon={'lib_synthetic_location'}
+      label={item.label}
+      tooltip={locationDescription}
+    />
+  ) : (
+    <SeverityAwareEntityLink
+      severity={item.entityHealthInfo?.maxSeverity}
+      icon={'lib_synthetic_location'}
+      label={item.label}
+      tooltip={locationDescription}
+      href$={getDashboardLink(item.popSnapshotId ?? '', {
+        pathname: physicalDashboardPath
+      })}
+    />
+  );
+}
+
+export const columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] = [
   {
     id: 'location_name',
     sortable: true,
     defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.locationList.locationLabel'),
-    getContent(item: LocationListItem) {
-      const locationDescription: string = item.description ?? '';
-      return locationDescription === '' ? (
-        <HorizontalFlexWrapper>
-          <SvgIcon type={'lib_synthetic_location'} />
-          <div>
-            <h4 className={locals.label}>{item.label}</h4>
-          </div>
-        </HorizontalFlexWrapper>
-      ) : (
-        <HorizontalFlexWrapper>
-          <SvgIcon type={'lib_synthetic_location'} />
-          <Tooltip content={locationDescription}>
-            <div>
-              <h4 className={locals.label}>{item.label}</h4>
-            </div>
-          </Tooltip>
-        </HorizontalFlexWrapper>
-      );
-    }
+    getContent: item => <LocationLabelContent item={item} />
   },
   {
     id: 'location_label',
@@ -128,6 +164,7 @@ export const columnDefinitions = [
     getContent(item: LocationListItem) {
       const namespaceId: string = item.namespaceId ?? '';
       const namespace: string = item.namespace ?? '';
+      const popSnapshotId: string = item.popSnapshotId ?? '';
       if (namespace === '') {
         return (
           <HorizontalFlexWrapper>
@@ -137,7 +174,7 @@ export const columnDefinitions = [
           </HorizontalFlexWrapper>
         );
       } else {
-        return namespaceId === '' ? (
+        return namespaceId === '' || popSnapshotId.length > 0 ? (
           <HorizontalFlexWrapper>
             <SvgIcon type={'lib_kubernetes_namespace'} />
             <div>
@@ -158,14 +195,40 @@ export const columnDefinitions = [
     }
   },
   {
+    id: 'health',
+    label: t('in-synthetics:dashboard.locationList.health'),
+    sortable: true,
+    defaultOrderDirection: 'ASC',
+    getContent(item: LocationListItem, { timeConfig }) {
+      if (item.entityHealthInfo != undefined) {
+        return (
+          <EntityHealthIndicator
+            openIssues={item.entityHealthInfo?.openIssues?.length ?? -1}
+            maxSeverity={item.entityHealthInfo?.maxSeverity ?? -1}
+            IndicatorPresenter={HealthIndicatorPresenter}
+            timeConfig={timeConfig}
+            snapshotId={item.popSnapshotId}
+            inContentArea
+          />
+        );
+      } else {
+        return (
+          <div>
+            <span className={locals.label}>{t('in-synthetics:dashboard.locationList.noHealthInfo')}</span>
+          </div>
+        );
+      }
+    }
+  },
+  {
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
-    getContent(item: LocationListItem, { progress }: Result<PaginatedResult<LocationListItem>>) {
+    getContent(item: LocationListItem, { result }) {
       return (
         <HorizontalFlexWrapper>
           <div>
-            <LocationListActionsColumn item={item} isLoading={progress?.loading ?? false} />
+            <LocationListActionsColumn item={item} isLoading={result?.progress?.loading ?? false} />
           </div>
         </HorizontalFlexWrapper>
       );

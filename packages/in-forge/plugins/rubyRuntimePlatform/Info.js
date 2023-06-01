@@ -29,6 +29,9 @@ export default function RubyInfo({ snapshot }) {
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title={t('in-forge:plugins.rubyRuntimePlatform.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.rubyRuntimePlatform.inProcessCollectorVersion')}>
+        {data.get('sensorVersion')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

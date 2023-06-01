@@ -39,9 +39,10 @@ import locals from './ConfigurationSection.mless';
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  isUpdateConfig: boolean;
 }
 
-export default function ConfigurationSection({ form, updateForm }: Props) {
+export default function ConfigurationSection({ form, updateForm, isUpdateConfig }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
@@ -66,7 +67,7 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
       expectedObject.push({
         id: generateUniqueShortId(),
         key: 'Expect JSON',
-        value: expectJson.value,
+        value: isUpdateConfig ? JSON.stringify(expectJson.value) : expectJson.value,
         fieldName: 'expectJson'
       });
     }
@@ -95,7 +96,23 @@ export default function ConfigurationSection({ form, updateForm }: Props) {
       }
     ];
   };
-  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const getHeadersEditMode = (): ConfigItem[] => {
+    const headers = (configForm.get('headers') as Field<Record<string, string>>).value;
+    const headersObject: ConfigItem[] = [];
+    Object.keys(headers).map(key =>
+      headersObject.push({
+        id: generateUniqueShortId(),
+        key: key,
+        value: headers[key],
+        error: {
+          name: { invalid: false, message: '' },
+          value: { invalid: false, message: '' }
+        }
+      })
+    );
+    return headersObject;
+  };
+  const [headers, setHeaders] = useState(isUpdateConfig ? getHeadersEditMode() : getDefaultHeaders());
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
 
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());

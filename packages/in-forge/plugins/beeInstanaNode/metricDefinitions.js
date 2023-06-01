@@ -71,7 +71,8 @@ export default [
       'Aggregator.AggregatorPrune.period60.NumOpenedMetricDbs.max',
       'Aggregator.AggregatorPrune.period300.NumOpenedMetricDbs.max',
       'Aggregator.AggregatorPrune.period3600.NumOpenedMetricDbs.max',
-      'Aggregator.AggregatorHouseKeeping.EmergencyFlush.sum'
+      'Aggregator.AggregatorHouseKeeping.EmergencyFlush.sum',
+      'Aggregator.QueryConnectionPool.NumRequestErrors.sum'
     ],
     labels: [
       t('in-forge:plugins.beeInstana.dashboard.labelAggregateDatasize'),
@@ -96,7 +97,8 @@ export default [
       t('in-forge:plugins.beeInstana.dashboard.labelOpenedDbs1m'),
       t('in-forge:plugins.beeInstana.dashboard.labelOpenedDbs5m'),
       t('in-forge:plugins.beeInstana.dashboard.labelOpenedDbs1h'),
-      t('in-forge:plugins.beeInstana.dashboard.labelEmergencyFlush')
+      t('in-forge:plugins.beeInstana.dashboard.labelEmergencyFlush'),
+      t('in-forge:plugins.beeInstana.dashboard.labelNumOfErrorRequests')
     ],
     min: 0,
     formatter: number

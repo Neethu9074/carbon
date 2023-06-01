@@ -35,5 +35,26 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmMqMftAgent.agent')],
     formatter: number
+  },
+  {
+    metrics: ['totalTimedOutTransfers'],
+    labels: [t('in-forge:plugins.ibmMqMftAgent.dashboard.totalTimedOutTransfers')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqMftAgent.agent')],
+    formatter: number
+  },
+  {
+    metrics: ['totalRetryingTransfers'],
+    labels: [t('in-forge:plugins.ibmMqMftAgent.dashboard.totalRetryingTransfers')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqMftAgent.agent')],
+    formatter: number
+  },
+  {
+    metrics: ['totalWaitForCapacityTransfers'],
+    labels: [t('in-forge:plugins.ibmMqMftAgent.dashboard.totalWaitForCapacityTransfers')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqMftAgent.agent')],
+    formatter: number
   }
 ];

@@ -377,7 +377,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <TablespaceUsagesTable snapshot={snapshot} />
+      <TablespaceUsagesTable snapshot={snapshot} timeConfig={timeConfig} />
       <BlockingSessionsTable snapshot={snapshot} />
       <TopCPUQueriesLast24hrTable snapshot={snapshot} />
       <ListOfQueriesNotUsingBindVeriableInCodeTable snapshot={snapshot} />

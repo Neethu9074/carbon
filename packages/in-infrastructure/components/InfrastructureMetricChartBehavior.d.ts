@@ -6,25 +6,28 @@
 
 import { TimeConfig } from '@instana/types';
 
-interface Margins {
-  left: number;
-  right: number;
-}
+import { AdditionChartContentProps, ContextMenuButton } from 'in-components/Chart/types';
 
 interface Axis {
   formatter: (v: number) => string;
   metrics: string[];
   labels: string[];
   type: string;
+  min?: number;
 }
 
 interface InfrastructureMetricChartProps {
   snapshotId: string;
   timeConfig: TimeConfig;
-  margins: Margins;
   y1: Axis;
   y2?: Axis;
+  customHeight?: number;
   minRollup?: number;
+  renderLegend?: boolean;
+  primaryContextMenuAction?: string;
+  additionalContextMenuButtons?: ContextMenuButton[];
+  renderPostChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
+  originalTimeConfig?: TimeConfig;
 }
 
 declare function InfrastructureMetricChartBehavior(props: InfrastructureMetricChartProps): JSX.Element;

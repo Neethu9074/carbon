@@ -212,6 +212,7 @@ export const SETTINGS_ALERT_CHANNEL_DELETE = 'settings.alertChannel.delete';
 export const SETTINGS_ALERT_CHANNEL_EDIT = 'settings.alertChannel.edit';
 
 export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
+export const SETTINGS_ALERT_DELETE = 'settings.alert.delete';
 export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayload.submit';
@@ -362,3 +363,4 @@ export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
+export const ACTION_SMART_ALERT_ASSOCIATED = 'smartalert.action.associated';

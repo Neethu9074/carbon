@@ -282,10 +282,6 @@ function getRowDetails(row) {
         <Chart
           snapshotId={row.dropwizard.get('id')}
           timeConfig={row.timeConfig}
-          margins={{
-            left: 90,
-            right: 90
-          }}
           y1={{
             formatter: number.perSecond.compact,
             metrics: ['metrics.timers.clickHouse.clustered.timer.rate'],

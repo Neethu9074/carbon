@@ -71,9 +71,6 @@ function getDetails(row) {
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
-      margins={{
-        left: 90
-      }}
       y1={{
         metrics: [row.name],
         labels: [row.name],

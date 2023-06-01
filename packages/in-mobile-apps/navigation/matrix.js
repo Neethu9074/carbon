@@ -28,3 +28,7 @@ export const deserializeMetrics = buildJsonParser(null);
 export const sessionId = 'sessionId';
 export const beaconId = 'beaconId';
 export const beaconTimestamp = 'beaconTimestamp';
+
+// alert view
+export const alertId = 'alertId';
+export const alertCreated = 'alertCreated';

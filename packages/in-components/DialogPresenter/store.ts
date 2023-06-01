@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, Subject } from '@instana/observables';
 import React from 'react';
+
+import { create, Subject } from '@instana/observables';
 
 export const activeDialogs$: Subject<any> = create().emit([]);
 
