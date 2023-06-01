@@ -266,7 +266,7 @@
       "health": "Health",
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
-      "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
+      "activeTestLinked": "There are {{linkedTests}} active tests associated with location <strong>{{label}}</strong> ({{status}}). Deleting this location will cause data loss in test summary charts. Are you sure you want to delete this location?<br/>To upgrade the location without deleting, see <documentLink>documentation</documentLink>.",
       "deleteLocation": "Delete location",
       "noDataAvailable": {
         "message": "{{component}} not available"
