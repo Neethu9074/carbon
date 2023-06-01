@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
@@ -66,10 +67,12 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   const businessProcessId: string = item.businessProcess.definitionId;
   const businessProcessName: string =
     item.businessProcess.definitionName.length > 0 ? item.businessProcess.definitionName : businessProcessId;
+  const serviceId: string = item.service?.id ?? '';
 
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', businessProcessName);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', serviceId);
 
   return <SeverityAwareEntityLink severity={getSeverity()} label={businessProcessName} href={createHref(location)} />;
 }
@@ -129,9 +132,9 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     getContent(item: BusinessProcessItem, { timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
-          serviceId={'0fce0559eaebe9b65b13c8e9050d5060024f4586'}
-          openIssues={item.businessProcess.activitiesCount}
-          maxSeverity={1}
+          serviceId={item.service?.id}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getResolvedTimeConfig(timeConfig, 0)}
           inContentArea

@@ -4,6 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import React from 'react';
+
+//@ts-expect-error need ts migration
+import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep1';
+import {
+  AlertConfigDialogPresenterProps,
+  MainDialogControl
+} from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
@@ -18,4 +26,8 @@ export const stepConfigs = [
   }
 ];
 
-export const stepRenderers = [];
+export const stepRenderers = [
+  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => {
+    return <SimpleAlertConfigDialogStep1 {...parentProps} />;
+  }
+];

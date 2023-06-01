@@ -337,14 +337,16 @@ function Synthetics(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-synthetics"
-      label={t('in-synthetics:navigation.synthetics')}
-      icon={'lib_synthetic'}
-      isActive={matchLocation(isSyntheticMonitoringView)}
-      href={createHrefToPath(syntheticsPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-synthetics"
+        label={t('in-synthetics:navigation.synthetics')}
+        icon={'lib_synthetic'}
+        isActive={matchLocation(isSyntheticMonitoringView)}
+        href={createHrefToPath(syntheticsPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -355,14 +357,16 @@ function BizOps(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.businessMonitoring')}
-      icon={'lib_bizops'}
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon={'lib_bizops'}
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -392,14 +396,16 @@ function SloDashboard(props) {
   }
 
   return (
-    <View
-      id="main-nav-slo-dashboard"
-      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-      icon="lib_service_level"
-      isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsOverview)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(serviceLevelsOverview)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -411,6 +417,7 @@ function AutomationMenu(props) {
   }
 
   return (
+    !playwithEnabled && (
     <View
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
@@ -420,6 +427,7 @@ function AutomationMenu(props) {
       isBeta
       {...props}
     />
+    )
   );
 }
 
