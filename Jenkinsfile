@@ -153,9 +153,8 @@ pipeline {
 
     stage ('Retag backend images') {
       steps {
-        // Only allow 1 concurrent build is allowed to run at a time and newer
-        // builds are pulled off the queue first
-        lock(resource: "retag-backend-images-${branchName}", inversePrecedence: true) {
+        // Only allow 1 concurrent build is allowed to run at a time
+        lock(resource: "retag-backend-images") {
           timeout(time: 30, unit: 'MINUTES') {
             timestamps {
               script {
@@ -294,16 +293,14 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
         def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
         def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
         rebuildBackendComponents[it] = {
-          lock(resource: "build-ui-client-rebuild-backend-${branchName}", quantity: 10) {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-              sh """
-              INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
-              ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-              ${currentBackendTag} \
-              ${newBackendTag} \
-              "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
-              """
-            }
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            sh """
+            INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
+            ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+            ${currentBackendTag} \
+            ${newBackendTag} \
+            "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+            """
           }
       }
     }
