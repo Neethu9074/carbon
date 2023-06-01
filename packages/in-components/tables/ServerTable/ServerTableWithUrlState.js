@@ -77,7 +77,7 @@ export default function createServerTableWithUrlState({
       }
       return (
         <h1 className={locals.title}>
-          {title} ({totalHits}){' '}
+          {title} ({totalHits})
         </h1>
       );
     };

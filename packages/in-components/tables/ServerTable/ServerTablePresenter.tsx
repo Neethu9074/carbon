@@ -159,9 +159,9 @@ export default function ServerTablePresenter<
         {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
         {isSearchable && (
           <SearchInput
-            maxWidth={searchMaxWidth ? searchMaxWidth : 140}
+            maxWidth={searchMaxWidth ?? 140}
             query={query}
-            width={searchWidth ?? searchWidth}
+            width={searchWidth}
             placeholder={searchPlaceholder}
             withoutIcon={withoutSearchIcon}
             onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
