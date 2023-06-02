@@ -17,7 +17,7 @@ export default forwardRef(function DashboardHeaderButton(
   ref
 ) {
   const Component = expanded != null ? DropdownButton : Button;
-
+  const walkmeId = expanded != null ? 'wm-time-picker' : 'normal-button';
   return (
     <Component
       {...buttonProps}
@@ -28,6 +28,7 @@ export default forwardRef(function DashboardHeaderButton(
         [locals.dark]: darkTheme
       })}
       ref={ref}
+      dataWalkmeId={walkmeId}
     />
   );
 });
