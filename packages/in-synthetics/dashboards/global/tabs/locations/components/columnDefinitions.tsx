@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -11,13 +11,12 @@ import { formatDateTime } from '@instana/format-date';
 import { Link, SvgIcon } from '@instana/components';
 
 // @ts-expect-error Could not find declaration type
-// eslint-disable-next-line no-restricted-imports
-import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 // @ts-expect-error Could not find declaration type
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
+// eslint-disable-next-line no-restricted-imports
+import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -33,7 +32,6 @@ interface locationListProps extends ServerTablePresenterProps<LocationListItem> 
 }
 
 function LocationLabelContent({ item }: { item: LocationListItem }) {
-  //const snapshotId = item.popSnapshotId == undefined ? '' : item.popSnapshotId;
   const entityHealthInfo = item.entityHealthInfo;
   const locationDescription = item.description ?? '';
 
@@ -184,11 +182,7 @@ export const columnDefinitions: ColumnDefinition<LocationListItem, locationListP
         ) : (
           <HorizontalFlexWrapper>
             <SvgIcon type={'lib_kubernetes_namespace'} />
-            <div>
-              <Link href$={getNamespaceDashboard(namespaceId)}>
-                <span className={locals.label}>{namespace}</span>
-              </Link>
-            </div>
+            <NamespaceLink namespaceId={namespaceId} namespace={namespace} />
           </HorizontalFlexWrapper>
         );
       }
@@ -235,3 +229,12 @@ export const columnDefinitions: ColumnDefinition<LocationListItem, locationListP
     }
   }
 ];
+
+function NamespaceLink({ namespace, namespaceId }: { namespace: string; namespaceId: string }) {
+  const href = useNamespaceDashboard(namespaceId);
+  return (
+    <Link href={href}>
+      <span className={locals.label}>{namespace}</span>
+    </Link>
+  );
+}

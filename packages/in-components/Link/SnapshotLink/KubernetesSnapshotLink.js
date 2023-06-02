@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -9,9 +10,9 @@ import { Link } from '@instana/components';
 
 import locals from './SnapshotLink.mless';
 
-export default function KubernetesSnapshotLink({ getKubernetesViewEntityDashboard, snapshotId, children }) {
+export default function KubernetesSnapshotLink({ viewEntityDashboardHref, children }) {
   return (
-    <Link href$={getKubernetesViewEntityDashboard(snapshotId)} className={locals.inSnapshotLink}>
+    <Link href={viewEntityDashboardHref} className={locals.inSnapshotLink}>
       {children}
     </Link>
   );

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2023
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -10,8 +11,7 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
-// @ts-expect-error
-import { clusterDashboardFullyQualified } from '../../../navigation/paths';
+import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -10,18 +11,18 @@ import { just, combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getNamespaceDashboard,
-  getDeploymentDashboard,
-  getServiceDashboard,
-  getNodeDashboard
+  useNamespaceDashboard,
+  useServiceDashboard,
+  useNodeDashboard,
+  useDeploymentDashboard
 } from 'in-kubernetes/navigation/paths';
 import DeplayedGroupTooltip from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/GroupTooltip';
 import DeplayedPodTooltip from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTooltip';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEntitiesHealthInfo from 'in-kubernetes/subscriptions/getEntitiesHealthInfo';
+import { usePodDashboard as getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { createColorPool } from 'in-services/util/ColorGenerator';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { settings$ } from 'in-services/settings/settings';
 import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
@@ -64,12 +65,12 @@ export default function PodTreeMap(props) {
           customHeight={height}
           groupProps={{
             renderTooltip: renderGroupTooltip.bind(null, timeConfig, grouping),
-            getHref$: group => (group.data.id === 'unknown' ? null : getHref$ByGrouping(grouping, group.data.id))
+            getHref: group => <TreeMapHref group={group} grouping={grouping} />
           }}
           nodeProps={{
             getColor: n => getColorForTreeNode(n, showHealth, colorPool),
             renderTooltip: renderNodeTooltip.bind(null, grouping, timeConfig),
-            getHref$: node => getPodDashboard(node.data.id)
+            getHref: node => getPodDashboard(node.data.id)
           }}
         />
       )}
@@ -250,17 +251,33 @@ function getColorForTreeNode(node, showHealth, colorPool) {
   return lighten(colorPool.getColorHex(node.data.groupId), 0.2 + relativePowerInGroup * 0.3); // set the interval to [0.2, 0.5]
 }
 
-function getHref$ByGrouping(_grouping, _groupId) {
+function useHrefByGrouping(_grouping, _groupId) {
+  const deploymentDashboardHref = useDeploymentDashboard(_groupId);
+  const serviceDashboardHref = useServiceDashboard(_groupId);
+  const nodeDashboardHref = useNodeDashboard(_groupId);
+  const namespaceDashboardHref = useNamespaceDashboard(_groupId);
+
   if (_grouping.value === 'DEPLOYMENT') {
-    return getDeploymentDashboard(_groupId);
+    return deploymentDashboardHref;
   }
   if (_grouping.value === 'SERVICE') {
-    return getServiceDashboard(_groupId);
+    return serviceDashboardHref;
   }
   if (_grouping.value === 'NODE') {
-    return getNodeDashboard(_groupId);
+    return nodeDashboardHref;
   }
+
   if (_grouping.value === 'NAMESPACE') {
-    return getNamespaceDashboard(_groupId);
+    return namespaceDashboardHref;
   }
+}
+
+function TreeMapHref({ group, grouping }) {
+  const href = useHrefByGrouping(grouping, group.data.id);
+
+  if (group.data.id === 'unknown') {
+    return null;
+  }
+
+  return href;
 }

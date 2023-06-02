@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get, filter } from 'lodash';
@@ -35,7 +36,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
@@ -61,14 +62,16 @@ const allColumnDefinitions = [
         statusSummary
       });
 
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_pod"
-          label={podLabel}
-          href$={getPodDashboard(podId, { deploymentId, serviceId, nodeId })}
-          severity={maxSeverity}
-        />
-      );
+      const props = {
+        deploymentId,
+        serviceId,
+        nodeId,
+        maxSeverity,
+        podLabel,
+        podId
+      };
+
+      return <PodLink {...props} />;
     }
   },
   {
@@ -330,4 +333,9 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function PodLink({ podId, deploymentId, serviceId, nodeId, podLabel, maxSeverity }) {
+  const href = usePodDashboard(podId, { deploymentId, serviceId, nodeId });
+  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
 }

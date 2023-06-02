@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get, find } from 'lodash';
@@ -19,7 +20,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -33,14 +34,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_namespace"
-          label={get(item, ['namespace', 'label'])}
-          href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
+      return <NamespaceLink {...item} />;
     }
   },
   {
@@ -243,4 +237,17 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function NamespaceLink(item) {
+  const href = useNamespaceDashboard(get(item, ['namespace', 'id']));
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_kubernetes_namespace"
+      label={get(item, ['namespace', 'label'])}
+      href={href}
+      severity={item.entityHealthInfo.maxSeverity}
+    />
+  );
 }

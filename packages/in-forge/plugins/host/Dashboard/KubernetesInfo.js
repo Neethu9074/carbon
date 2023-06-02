@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -11,7 +12,7 @@ import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernete
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
-import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { useClusterDashboard, useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -53,16 +54,12 @@ export default connectTo(
           <DescriptionList>
             {node && (
               <DescriptionItem title={t('in-forge:plugins.host.dashboard.node')}>
-                <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getNodeDashboard} snapshotId={node.id}>
-                  {node.name}
-                </KubernetesSnapshotLink>
+                <NodeSnapshotLink label={node.name} id={node.id} />
               </DescriptionItem>
             )}
             {cluster && (
               <DescriptionItem title={t('in-forge:plugins.host.dashboard.cluster')}>
-                <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getClusterDashboard} snapshotId={cluster.id}>
-                  {cluster.label}
-                </KubernetesSnapshotLink>
+                <ClusterSnapshotLink label={cluster.label} id={cluster.id} />
               </DescriptionItem>
             )}
           </DescriptionList>
@@ -71,3 +68,15 @@ export default connectTo(
     );
   }
 );
+
+function NodeSnapshotLink({ label, id }) {
+  const nodeDashboardHref = useNodeDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={nodeDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function ClusterSnapshotLink({ label, id }) {
+  const clusterDashboardHref = useClusterDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={clusterDashboardHref}>{label}</KubernetesSnapshotLink>;
+}

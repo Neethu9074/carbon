@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -12,7 +13,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { serviceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-components/EntityLink';
 import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
@@ -60,14 +61,15 @@ const columnDefinitions = [
     id: 'podName',
     label: t('in-kubernetes:dashboards.target'),
     getContent(item) {
-      return item.podName && item.podSnapshotId ? (
-        <EntityLink icon="lib_kubernetes_pod" label={item.podName} href$={getPodDashboard(item.podSnapshotId)} />
-      ) : (
-        valueMissingPlaceholder
-      );
+      return item.podName && item.podSnapshotId ? <PodLink {...item} /> : valueMissingPlaceholder;
     }
   }
 ];
+
+function PodLink(item) {
+  const href = usePodDashboard(item.podSnapshotId);
+  return <EntityLink icon="lib_kubernetes_pod" label={item.podName} href={href} />;
+}
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
