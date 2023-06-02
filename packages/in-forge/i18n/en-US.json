@@ -10416,12 +10416,6 @@
       "kongLatencyNinetyPercentile":"90th Percentile",
       "kongLatencyNinetyfivePercentile":"95th Percentile",
       "kongLatencyNinetyninePercentile":"99th Percentile",
-      "latencyPerService":"Latency per Service",
-      "latencyPerRoute": "Latency per Route",
-      "50th":"50th",
-      "90th":"90th",
-      "95th":"95th",
-      "99th":"99th",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
