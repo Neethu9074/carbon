@@ -6,7 +6,7 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function saveUserSettings(data) {
+export function saveUserSettings(data?: any) {
   return http({
     method: 'PUT',
     maxRetries: 3,
