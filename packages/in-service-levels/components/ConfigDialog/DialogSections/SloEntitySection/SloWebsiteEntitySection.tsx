@@ -36,7 +36,6 @@ export const SloWebsiteEntitySection = ({ form, onChange }: SloWebsiteEntitySect
 
   const onEntityChange = ({ id, label }: EntityData) => {
     setLabel(label);
-
     onChange([sloEntityKey, sloWebsiteIdKey], field => (field as Field<any>).setValue(id).setTouched(true));
   };
 

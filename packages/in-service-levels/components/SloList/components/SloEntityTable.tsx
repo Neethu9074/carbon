@@ -18,6 +18,7 @@ import {
   sloWebsiteIdKey,
   isApplicationSloForm
 } from 'in-service-levels/components/ConfigDialog/form';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 
@@ -49,7 +50,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
         }
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
-        {entityList && (
+        {entityList != undefined && entityList != null ? (
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
@@ -64,6 +65,8 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
                 );
               })}
           </Ul>
+        ) : (
+          <NoDataAvailable type="lib_actions_loading" height={160} text={t('in-service-levels:general.loadingData')} />
         )}
       </Card>
     </>

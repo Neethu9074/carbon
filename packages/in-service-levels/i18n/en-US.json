@@ -8,6 +8,7 @@
     "deleteButtonLabel": "Delete",
     "select": "Select ",
     "noSelection": "None selected",
+    "loadingData": "Loading Data",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
