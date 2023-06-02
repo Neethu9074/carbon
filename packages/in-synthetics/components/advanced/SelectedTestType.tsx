@@ -15,6 +15,7 @@ import PingOrScriptOption from 'in-synthetics/components/advanced/PingOrScriptOp
 import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { Col, Row } from 'in-components/layout/Grid';
+import { Code } from 'in-synthetics/utils/constants';
 
 import locals from './SelectedTestType.mless';
 
@@ -27,6 +28,7 @@ interface SelectedTestTypeProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const pingAPIDescription = (
@@ -51,7 +53,8 @@ const SelectedTestType = ({
   setRenderSectionsCounter,
   commonAttributes,
   setCommonAttributes,
-  isUpdateConfig
+  isUpdateConfig,
+  setScriptDetails
 }: SelectedTestTypeProps) => {
   return (
     <div className={locals.container}>
@@ -70,6 +73,7 @@ const SelectedTestType = ({
               commonAttributes={commonAttributes}
               setCommonAttributes={setCommonAttributes}
               isUpdateConfig={isUpdateConfig}
+              setScriptDetails={setScriptDetails}
             />
           )
         }
@@ -99,6 +103,7 @@ interface RenderHttpTestsProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const RenderHttpTests = ({
@@ -107,7 +112,8 @@ const RenderHttpTests = ({
   setTestTypeSelected,
   commonAttributes,
   setCommonAttributes,
-  isUpdateConfig
+  isUpdateConfig,
+  setScriptDetails
 }: RenderHttpTestsProps) => {
   const simple: boolean = commonAttributes.syntheticType === 'HTTPAction' ? true : false;
   const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
@@ -128,6 +134,7 @@ const RenderHttpTests = ({
             onChange={() => {
               setTestTypeSelected({ simple: true, script: false });
               setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'HTTPAction' });
+              setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}
             asRadioButton
@@ -143,6 +150,7 @@ const RenderHttpTests = ({
             onChange={() => {
               setTestTypeSelected({ simple: false, script: true });
               setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'HTTPScript' });
+              setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}
             asRadioButton

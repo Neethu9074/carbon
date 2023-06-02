@@ -42,7 +42,7 @@ export function createForm(
       'configuration',
       // @ts-expect-error testType does not exist in BluePrint type
       selectedBlueprint?.type === apiScriptTest || selectedBlueprint?.testType === 'HTTPScript'
-        ? !simpleMode
+        ? !simpleMode && !savedState?.script
           ? createAdvancedScriptConfigurationForm(savedState ?? {})
           : createScriptConfigurationForm(savedState ?? {})
         : !simpleMode
@@ -146,7 +146,7 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'script',
       createField({
-        value: savedState?.scriptValue,
+        value: savedState?.script,
         validator: notUndefinedValidator
       })
     );
