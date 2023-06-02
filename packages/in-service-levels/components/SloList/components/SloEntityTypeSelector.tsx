@@ -9,7 +9,6 @@ import React from 'react';
 import { SloEntityType } from '@instana/types';
 import { Stack } from '@instana/components';
 
-// import { entityTypes } from 'in-service-levels/constants';
 import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import { AvailableEntityTypes } from 'in-service-levels/types';
 import { t } from 'in-i18n';
