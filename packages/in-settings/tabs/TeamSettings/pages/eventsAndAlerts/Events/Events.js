@@ -6,8 +6,9 @@
 import React, { Fragment, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { Link, Spacer, Message } from '@instana/components';
+import { Spacer, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import {
   builtInEnumValue,

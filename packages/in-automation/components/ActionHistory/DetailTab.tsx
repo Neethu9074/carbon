@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { DateFormatterInput } from '@instana/format-date';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';

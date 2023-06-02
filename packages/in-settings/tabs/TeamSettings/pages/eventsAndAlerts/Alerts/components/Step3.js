@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Applications, {
   getSelectedApplicationConfigsByName,

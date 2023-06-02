@@ -8,7 +8,8 @@ import { Field, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Typography, Spacer } from '@instana/components';
+import { Typography, Spacer } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {

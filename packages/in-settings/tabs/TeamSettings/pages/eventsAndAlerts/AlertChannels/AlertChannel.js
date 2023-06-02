@@ -7,7 +7,8 @@ import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Card, Link, SvgIcon } from '@instana/components';
+import { Card, SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getEntityIdView,

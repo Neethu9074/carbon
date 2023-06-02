@@ -8,8 +8,9 @@ import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Button } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getType, isDocLink, isScript, isWebhook, getDocLinkFromFields } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';

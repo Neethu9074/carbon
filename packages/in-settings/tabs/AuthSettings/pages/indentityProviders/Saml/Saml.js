@@ -6,7 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
-import { Button, Link } from '@instana/components';
+import { Button } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -58,7 +59,7 @@ export default function Saml() {
         }
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
-        reader.onload = function(evt) {
+        reader.onload = function (evt) {
           if (evt.target.result.length > 2000000) {
             setMessage({
               text: t('in-settings:tabs.failedToSaveConfig', {

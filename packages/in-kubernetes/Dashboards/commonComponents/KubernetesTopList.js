@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';

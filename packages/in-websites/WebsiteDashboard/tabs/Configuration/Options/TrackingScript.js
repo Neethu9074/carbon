@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { Card, Link } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';

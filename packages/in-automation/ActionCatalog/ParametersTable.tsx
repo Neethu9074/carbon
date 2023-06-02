@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Parameter } from '@instana/types';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';

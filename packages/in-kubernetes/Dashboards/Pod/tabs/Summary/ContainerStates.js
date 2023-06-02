@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   bytesTwoDecimalPlaces,

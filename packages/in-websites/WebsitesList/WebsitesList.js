@@ -6,7 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { Button, Card, SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getTimeConfigAlignedToResultTime,

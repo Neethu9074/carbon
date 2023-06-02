@@ -6,7 +6,8 @@
 
 import React, { FunctionComponent } from 'react';
 
-import { Link, Message } from '@instana/components';
+import { Message } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { applicationsAlertingMigrationBannerDocs } from 'in-alerting/smart-alerts/applications/tracker';
 import { Trans } from 'in-i18n';

@@ -6,7 +6,7 @@
 import React, { Fragment, useState } from 'react';
 import { get } from 'lodash';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getEntityHref,

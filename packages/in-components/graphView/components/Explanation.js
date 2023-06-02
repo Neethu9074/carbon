@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
 import { goToPath } from 'in-stores/navigation';

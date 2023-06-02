@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';

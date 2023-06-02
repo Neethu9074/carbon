@@ -9,9 +9,10 @@ import { isValid, parse } from 'date-fns';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Message, Stack, StackItem, SvgIcon, Toggle } from '@instana/components';
+import { Message, Stack, StackItem, SvgIcon, Toggle } from '@instana/components';
 import { Duration, TimeUnitType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 //import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';

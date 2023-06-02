@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
 import theme from 'in-themes';

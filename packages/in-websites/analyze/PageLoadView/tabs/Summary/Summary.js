@@ -6,7 +6,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { debounce, find } from 'lodash';
 
-import { Link, Message } from '@instana/components';
+import { Message } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';

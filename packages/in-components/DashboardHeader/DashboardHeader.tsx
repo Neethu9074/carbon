@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, LoadingSkeleton, SvgIcon } from '@instana/components';
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';

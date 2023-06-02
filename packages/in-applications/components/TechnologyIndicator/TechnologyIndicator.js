@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { getLabel } from 'in-applications/technologyRegistry';

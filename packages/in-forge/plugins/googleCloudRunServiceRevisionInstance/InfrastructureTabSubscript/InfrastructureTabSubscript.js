@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import getRevisionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRevisionForGoogleCloudRunServiceRevisionInstance';
 import getRegionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRegionForGoogleCloudRunServiceRevisionInstance';

@@ -9,7 +9,7 @@ import React from 'react';
 import { fromPromise } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   useClusterDashboard,

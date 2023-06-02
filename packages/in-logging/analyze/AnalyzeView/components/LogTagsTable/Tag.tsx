@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TagFilter } from '@instana/types';
+import { Link } from '@instana/legacy';
 
 import {
   ApplicationProps,

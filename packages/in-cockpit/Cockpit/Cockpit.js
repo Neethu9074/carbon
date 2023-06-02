@@ -7,8 +7,9 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React, { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { Button, Link, Message, SvgIcon } from '@instana/components';
+import { Button, Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import {
   hasAPlatformAccess,
