@@ -55,14 +55,12 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
               .filter(({ label }) => label.includes(query))
               .map(entityData => {
                 return (
-                  <div onClick={() => onChange(entityData)} key={entityData.id}>
-                    <Li>
-                      <Stack direction="horizontal">
-                        <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={() => {}} />
-                        {entityData.label}
-                      </Stack>
-                    </Li>
-                  </div>
+                  <Li onClick={() => onChange(entityData)} key={entityData.id}>
+                    <Stack direction="horizontal">
+                      <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={() => {}} />
+                      <div style={{ marginTop: '3px' }}>{entityData.label}</div>
+                    </Stack>
+                  </Li>
                 );
               })}
           </Ul>
