@@ -12,13 +12,21 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './HorizontalFormGroup.mless';
 
+interface HorizontalFormGroupWithBackgroundProps {
+  children: React.ReactNode;
+  helpText?: React.ReactNode;
+  isWarning?: boolean;
+  noHelpTextSpacer?: boolean;
+  withoutBottomBorder?: boolean;
+}
+
 export default function HorizontalFormGroupWithBackground({
   children,
   helpText,
   isWarning,
   noHelpTextSpacer,
   withoutBottomBorder
-}) {
+}: HorizontalFormGroupWithBackgroundProps) {
   const helpTextSpacer = !helpText && !noHelpTextSpacer ? <div className={locals.helpIconSpacer} /> : null;
   return (
     <div
