@@ -42,6 +42,12 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
     ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
     : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
 
+  const dataPerRow = 6;
+  const [next, setNext] = useState(dataPerRow);
+  const loadMoreData = () => {
+    setNext(next + dataPerRow);
+  };
+
   return (
     <>
       <Card
@@ -54,6 +60,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
+              ?.slice(0, next)
               .map(entityData => {
                 return (
                   <Li onClick={() => onChange(entityData)} key={entityData.id}>
@@ -64,6 +71,10 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
                   </Li>
                 );
               })}
+
+            <Li onClick={loadMoreData}>
+              <div style={{ marginLeft: '361px', color: '#00cccc' }}>{t('in-service-levels:general.loadMore')}</div>
+            </Li>
           </Ul>
         ) : (
           <NoDataAvailable type="lib_actions_loading" height={160} text={t('in-service-levels:general.loadingData')} />
