@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 
 import locals from './KpiCard.mless';
 
-const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
+const valueSplitRegExp = new RegExp(`^(-?[0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
 export interface IconAction {
   text: string;
