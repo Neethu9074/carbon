@@ -14,7 +14,7 @@ import locals from './HorizontalFormGroup.mless';
 
 interface HorizontalFormGroupWithBackgroundProps {
   children: React.ReactNode;
-  helpText: React.ReactNode;
+  helpText?: React.ReactNode;
   isWarning?: boolean;
   noHelpTextSpacer?: boolean;
   withoutBottomBorder?: boolean;

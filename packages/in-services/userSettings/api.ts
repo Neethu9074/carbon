@@ -6,11 +6,11 @@
 import { createLogger } from '@instana/logger';
 
 import { saveUserSettings as saveUserSettingsInternal } from 'in-settings/api/userSettings';
-import { userSettings } from 'in-services/userSettings/globals';
+import { UserSettings, userSettings } from 'in-services/userSettings/globals';
 
 const logger = createLogger('in-settings/tabs/UserSettings/pages/General.js');
 
-export function saveUserSettings(changedSettings, successCallback) {
+export function saveUserSettings(changedSettings: UserSettings, successCallback: (data: unknown) => void) {
   const settings = { ...userSettings, ...changedSettings };
   saveUserSettingsInternal(settings).once(successCallback, error => {
     logger.error(`failed to save settings: ${settings} ${error.message}`, error);
