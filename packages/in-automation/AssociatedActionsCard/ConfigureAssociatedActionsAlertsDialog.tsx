@@ -5,8 +5,8 @@
  */
 
 import { MapForm, Field, createMapForm, createField } from 'formalistic';
+import { uniq, pull, union } from 'lodash';
 import React, { useState } from 'react';
-import { uniq, pull } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
@@ -200,7 +200,7 @@ function createOrSaveAction({
           uniq(actionIds).forEach(id => {
             const actionAssociation = {
               action_id: id,
-              application_alert_ids: [alertConfigId],
+              application_alert_ids: union([alertConfigId], result[id].application_alert),
               builtin_event_ids: result[id]?.builtin_event_ids,
               custom_event_ids: result[id]?.custom_events
             };
