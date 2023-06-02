@@ -82,7 +82,7 @@ export default connectTo(
     physicalHierarchy = physicalHierarchy.toArray();
 
     return (
-      <ul className={locals.sidebarBreadcrumb} dataWalkmeId="wm-stack">
+      <ul className={locals.sidebarBreadcrumb} data-walkme-id="wm-stack">
         {physicalHierarchy.map(id => (
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
         ))}

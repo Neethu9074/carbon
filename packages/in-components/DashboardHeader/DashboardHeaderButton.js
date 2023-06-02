@@ -28,7 +28,7 @@ export default forwardRef(function DashboardHeaderButton(
         [locals.dark]: darkTheme
       })}
       ref={ref}
-      dataWalkmeId={walkmeId}
+      data-walkme-id={walkmeId}
     />
   );
 });
