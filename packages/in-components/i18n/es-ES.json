@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "El valor del filtro de código se ha reducido a la longitud máxima permitida.",
     "sanitizedTagFilterValueAndOperator": "El valor de filtro de código se ha reducido a la longitud máxima permitida y el operador se ha ajustado en consecuencia.",
     "source": "Origen",
+    "sourceAbbreviated": "Src",
     "destination": "Destino",
+    "destinationAbbreviated": "Dest",
     "documentation": "Documentation",
     "string": {
       "contains": "contiene",

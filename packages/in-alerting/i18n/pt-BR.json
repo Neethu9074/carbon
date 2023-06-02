@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} falhas",
         "numberOfFailures": "Alerta de falha"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "Etapa 1: testes",
         "simpleAlertConfigDialogStep1Headline": "Quais testes sintéticos devem ser alertados?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} falhas",
           "failuresWithCount_2": "{{count}} falhas"
         },
-        "alertPropertiesTitlePlaceholder": "Inserir o título aqui",
-        "alertPropertiesDescriptionPlaceholder": "Inserir a descrição aqui"
+        "alertPropertiesTitlePlaceholder": "Falha no teste sintético",
+        "alertPropertiesDescriptionPlaceholder": "O teste sintético falhou por {{count}} vez consecutiva",
+        "alertPropertiesDescriptionPlaceholder_plural": "O reste sintético falhou por {{count}} vezes consecutivas",
+        "alertPropertiesDescriptionPlaceholder_0": "O reste sintético falhou por {{count}} vezes consecutivas",
+        "alertPropertiesDescriptionPlaceholder_1": "O reste sintético falhou por {{count}} vezes consecutivas",
+        "alertPropertiesDescriptionPlaceholder_2": "O reste sintético falhou por {{count}} vezes consecutivas"
       },
       "advanced": {
         "alertChannelsLabel": "Canais de alerta",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "Testes sintéticos",
         "alertTestsTitle": "Testes sintéticos: quais testes sintéticos devem ser alertados?",
         "propertiesLabel": "Propriedades de alerta",
-        "alertPropertiesPreviewTitlePlaceholder": "[Inserir o título aqui]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserir a descrição aqui]",
         "propertiesTitle": "O que a notificação de alerta deve incluir?",
         "failureThreshold": "Limite de tempo",
         "failureThresholdLabel": "Limite de tempo",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "Número de falhas",
         "timeThreshold": "Limite de tempo",
         "alertingType": "Tipo de alerta"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Contagem de códigos de status",
+        "beaconRate": "Taxa do indicador",
+        "views": "Visualizações",
+        "customEventBlueprintConfigMetricLabel": "Ocorrências",
+        "sessions": "Sessões"
       }
     }
   }

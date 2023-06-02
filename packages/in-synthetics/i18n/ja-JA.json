@@ -108,6 +108,7 @@
         "scheduleTitle": "スケジュール: このテストはいつ実行されますか?",
         "identifyLabel": "識別",
         "identifyTitle": "識別: テストは何を行いますか?",
+        "customPropertiesTitle": "カスタム・プロパティー",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
         "simultaneous": "同時",
         "simultaneousDescription": "このテストは、選択した各ロケーションで同時に実行されます。",
@@ -123,7 +124,22 @@
           "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
           "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。",
           "mustBeValidHttpReturnCode": "状況は有効な HTTP 戻りコードでなければなりません。",
-          "shouldBeValidRegExp": "入力するストリングは有効な正規表現でなければなりません。"
+          "shouldBeValidRegExp": "入力するストリングは有効な正規表現でなければなりません。",
+          "followRedirect": "リダイレクトに従う",
+          "header": "ヘッダー",
+          "headerValue": "値",
+          "body": "Body",
+          "validationString": "検証ストリング",
+          "addHeader": "ヘッダーの追加",
+          "operation": "操作",
+          "headerNameMustBeUnique": "ヘッダー名は固有でなければなりません。",
+          "shouldBeValidHeaderName": "入力するストリングは、有効な HTTP 要求ヘッダー名でなければなりません。",
+          "shouldBeValidHeaderValue": "入力するストリングは、有効な HTTP 要求ヘッダー値でなければなりません。",
+          "scriptLabel": "スクリプト",
+          "addscriptAction": "スクリプトの追加",
+          "editscriptAction": "スクリプトの編集",
+          "scriptFileName": "ファイル名",
+          "scriptNotAdded": "スクリプトは追加されません"
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -136,6 +152,12 @@
           "apiName": "API",
           "browserName": "ブラウザー",
           "internetServicesName": "インターネット・サービス"
+        },
+        "customProperties": {
+          "property": "プロパティー",
+          "propertyValue": "値",
+          "addProperty": "プロパティーの追加",
+          "propertyNameMustBeUnique": "プロパティー名は固有でなければなりません。"
         }
       }
     },
@@ -269,7 +291,8 @@
       },
       "totalRuns": "{{totalRuns}}の合計実行数",
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
-      "smartAlertsTab": "スマート・アラート"
+      "smartAlertsTab": "スマート・アラート",
+      "configurationTab": "構成"
     },
     "resultsListPage": {
       "startedColumn": "開始済み",
@@ -413,6 +436,29 @@
       "violationsCount": "{{violationsCount}}件の障害",
       "testsCount": "{{testsCount}}個のテスト",
       "numberOfFailures": "障害アラート"
+    },
+    "configuration": {
+      "configurationTitle": "API {{testType}} テスト構成",
+      "testTypeTitle": "テスト・タイプ",
+      "testType": "タイプ",
+      "subType": "サブタイプ",
+      "configSectionTitle": "構成",
+      "operation": "操作",
+      "url": "URL",
+      "header": "ヘッダー",
+      "value": "値",
+      "body": "Body",
+      "validationString": "検証ストリング",
+      "expectStatus": "予期される状況",
+      "expectMatch": "一致を予期",
+      "expectJSON": "JSON を予期",
+      "additionalOptionsTitle": "追加オプション",
+      "followRedirect": "リダイレクトに従う",
+      "allowInsecure": "非セキュアを許可",
+      "locationsTitle": "ロケーション",
+      "scheduleTitle": "スケジュール",
+      "identifyTitle": "識別",
+      "customProperties": "カスタム・プロパティー"
     }
   }
 }
