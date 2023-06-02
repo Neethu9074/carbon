@@ -8,8 +8,8 @@ import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -17,15 +17,6 @@ import { t } from 'in-i18n';
 let snapshotMap = {};
 
 const cols = [
-  {
-    title: t('in-forge:plugins.kongApigateway.service'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.latency.get('service');
-      }
-    }
-  },
   {
     title: t('in-forge:plugins.kongApigateway.route'),
     type: 'string',
@@ -36,43 +27,39 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.50thPercentile'),
-    type: 'number',
+    title: t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyFiftyPercentile');
-      },
-      getContent: bytes.compact
+      }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.90thPercentile'),
-    type: 'number',
+    title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyPercentile');
-      },
-      getContent: bytes.compact
+      }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.95thPercentile'),
-    type: 'number',
+    title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.latency.get('kongLatencyNinetyFivePercentile');
-      },
-      getContent: bytes.compact
+        return row.latency.get('kongLatencyNinetyfivePercentile');
+      }
     }
   },
   {
-    title: t('in-forge:plugins.kongApigateway.99thPercentile'),
-    type: 'number',
+    title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyninePercentile');
-      },
-      getContent: bytes.compact
+      }
     }
   }
 ];
@@ -81,20 +68,20 @@ export default connectTo(
   props => {
     snapshotMap = props;
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongLatencymsBucketRoute')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongUpstreamLatencyMsBucketRoute')
     };
   },
-  function Latency({ data }) {
+  function KongRequestLatency({ data }) {
     if (!data) {
       return null;
     }
     const { snapshotId, timeConfig } = snapshotMap;
-    const kongLatencymsBucketRoute = data.get('raw_payload');
-    const rows = kongLatencymsBucketRoute
+    const kongUpstreamLatencyMsBucketRoute = data.get('raw_payload');
+    const rows = kongUpstreamLatencyMsBucketRoute
       .keySeq()
       .toArray()
       .map(key => {
-        const latency = kongLatencymsBucketRoute.get(key);
+        const latency = kongUpstreamLatencyMsBucketRoute.get(key);
         return {
           key: String(key),
           snapshotId,
@@ -116,27 +103,19 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytes.compact,
-              metrics: ['kongLatencymsBucketRoute' + row.key + '.service'],
-              labels: [
-                t('in-forge:plugins.kongApigateway.latencyPerService'),
-                t('in-forge:plugins.kongApigateway.50th'),
-                t('in-forge:plugins.kongApigateway.90th'),
-                t('in-forge:plugins.kongApigateway.95th'),
-                t('in-forge:plugins.kongApigateway.99th')
+              formatter: timeByMicroTwoDecimalPlaces,
+              metrics: [
+                'kongUpstreamLatencyMsBucketRoute.' + row.key + '.kongLatencyFiftyPercentile',
+                'kongUpstreamLatencyMsBucketRoute.' + row.key + '.kongLatencyNinetyPercentile',
+                'kongUpstreamLatencyMsBucketRoute.' + row.key + '.kongLatencyNinetyfivePercentile',
+                'kongUpstreamLatencyMsBucketRoute.' + row.key + '.kongLatencyNinetyninePercentile'
               ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: ['kongLatencymsBucketRoute' + row.key + '.route'],
-              labels: [t('in-forge:plugins.kongApigateway.latencyPerRoute')],
+              labels: [
+                t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -147,7 +126,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.latency')}
+        cardTitle={t('in-forge:plugins.kongApigateway.upstreamLatencyRoute')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
