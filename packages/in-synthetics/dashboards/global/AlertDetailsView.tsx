@@ -54,7 +54,8 @@ export default function AlertDetailsView() {
           <ViewTrackingMeta
             data={{
               productArea: 'Synthetic Monitoring',
-              pageRootName: 'Global Alert Details'
+              pageRootName: 'Global Alert Details',
+              pagePath: location?.pathname
             }}
           />
           <AlertDetails {...props} />
@@ -88,7 +89,8 @@ export default function AlertDetailsView() {
             <ViewTrackingMeta
               data={{
                 productArea: 'Synthetic Monitoring',
-                pageRootName: 'Local Alert Details'
+                pageRootName: 'Local Alert Details',
+                pagePath: location?.pathname
               }}
             />
             <AlertDetails {...props} />
