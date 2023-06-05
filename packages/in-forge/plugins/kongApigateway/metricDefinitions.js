@@ -57,5 +57,113 @@ export default [
     category: [t('in-forge:plugins.kongApigateway.dashboard.workerLua')],
     min: 0,
     formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongKongLatencyMsBucketService',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.latency')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.latency')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongKongLatencyMsBucketRoute',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.kongKonglatencyRoute')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.kongKonglatencyRoute')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongRequestLatencyMsBucketService',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.requestLatency')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.requestLatency')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongRequestLatencyMsBucketService',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.requestLatencyRoute')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.requestLatencyRoute')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongUpstreamLatencyMsBucketRoute',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.upstreamLatency')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.upstreamLatency')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'kongUpstreamLatencyMsBucketRoute',
+        'number',
+        t('in-forge:plugins.kongApigateway.dashboard.upstreamLatencyRoute')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+      t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+    ],
+    category: [t('in-forge:plugins.kongApigateway.dashboard.upstreamLatencyRoute')],
+    min: 0,
+    formatter: number
   }
 ];
