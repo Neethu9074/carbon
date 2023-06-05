@@ -22,6 +22,8 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 
+import locals from 'in-service-levels/components/SloList/components/SloEntityTable.mless';
+
 export interface EntityData {
   id: string;
   label: string;
@@ -33,17 +35,16 @@ interface SloEntityTableProps {
   onChange: (entityData: EntityData) => void;
 }
 
+const dataPerRow = 6;
 export default function SloEntityTable({ form, entityList, onChange }: SloEntityTableProps) {
   const [query, setQuery] = useState('');
-
+  const [next, setNext] = useState(dataPerRow);
   const entity = form.get(sloEntityTypeKey).value;
 
   const result = isApplicationSloForm(form)
     ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
     : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
 
-  const dataPerRow = 6;
-  const [next, setNext] = useState(dataPerRow);
   const loadMoreData = () => {
     setNext(next + dataPerRow);
   };
@@ -60,7 +61,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
-              ?.slice(0, next)
+              .slice(0, next)
               .map(entityData => {
                 return (
                   <Li onClick={() => onChange(entityData)} key={entityData.id}>
@@ -73,7 +74,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
               })}
 
             <Li onClick={loadMoreData}>
-              <div style={{ marginLeft: '361px', color: '#00cccc' }}>{t('in-service-levels:general.loadMore')}</div>
+              <div className={locals.loadMore}>{t('in-service-levels:general.loadMore')}</div>
             </Li>
           </Ul>
         ) : (

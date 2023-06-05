@@ -9,15 +9,10 @@ import React, { useState } from 'react';
 
 import { Typography } from '@instana/components';
 
-import {
-  sloWebsiteIdKey,
-  sloEntityKey,
-  sloEntityTypeKey,
-  WebsiteSloForm
-} from 'in-service-levels/components/ConfigDialog/form';
 import SloEntityTable from 'in-service-levels/components/SloList/components/SloEntityTable';
 import { EntityData } from 'in-service-levels/components/SloList/components/SloEntityTable';
 import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
+import { WebsiteSloForm } from 'in-service-levels/components/ConfigDialog/form';
 import { t } from 'in-i18n';
 
 interface SloWebsiteEntitySectionProps {
@@ -28,7 +23,7 @@ interface SloWebsiteEntitySectionProps {
 export const SloWebsiteEntitySection = ({ form, onChange }: SloWebsiteEntitySectionProps) => {
   const [label, setLabel] = useState<string>();
 
-  const sloEntityTypeField = form.get(sloEntityTypeKey);
+  const sloEntityTypeField = form.get('entityType');
 
   const selectedLabel = label ?? t('in-service-levels:general.noSelection');
 
@@ -36,7 +31,7 @@ export const SloWebsiteEntitySection = ({ form, onChange }: SloWebsiteEntitySect
 
   const onEntityChange = ({ id, label }: EntityData) => {
     setLabel(label);
-    onChange([sloEntityKey, sloWebsiteIdKey], field => (field as Field<any>).setValue(id).setTouched(true));
+    onChange(['entity', 'websiteId'], field => (field as Field<string>).setValue(id).setTouched(true));
   };
 
   return (

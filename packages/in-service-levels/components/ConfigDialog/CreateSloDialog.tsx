@@ -28,14 +28,12 @@ export default function CreateSloDialog() {
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       valid: true,
       content: (
-        <>
-          <SloEntitySection
-            form={form}
-            onChange={(path, fn) => {
-              updateForm(form.updateIn(path as any, fn));
-            }}
-          />
-        </>
+        <SloEntitySection
+          form={form}
+          onChange={(path, fn) => {
+            updateForm(form.updateIn(path as any, fn));
+          }}
+        />
       )
     }
   ];

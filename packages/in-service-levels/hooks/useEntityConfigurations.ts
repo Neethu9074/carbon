@@ -22,9 +22,9 @@ export const useEntityConfigurations = (monitoringSource?: SloEntityType): Fetch
 
   const result = useObservable(() => {
     if (!monitoringSource) return just(pendingResult);
-    return getEntityConfiguration().map(({ data, ...rest }: any) => {
+    return getEntityConfiguration().map(({ data, ...rest }) => {
       const newData = data ? deepCopy(data) : [];
-      const normalizedData = newData.map(({ id, ...config }: any) => {
+      const normalizedData = newData.map(({ id, ...config }) => {
         const label = 'label' in config ? config.label : config.name;
         return { id, label };
       });

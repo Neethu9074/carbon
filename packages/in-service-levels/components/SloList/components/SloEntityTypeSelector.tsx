@@ -10,7 +10,7 @@ import { SloEntityType } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
-import { AvailableEntityTypes } from 'in-service-levels/types';
+import { sloEntityTypes } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 export interface SloEntityTypeSelectorProps {
@@ -22,7 +22,7 @@ export default function SloEntityTypeSelector({ value, onChange }: SloEntityType
   return (
     <Stack gap="xxsmall">
       <ButtonGroup
-        buttonPropsList={AvailableEntityTypes.map(value => ({
+        buttonPropsList={sloEntityTypes.map(value => ({
           key: value,
           text: t('in-service-levels:general.entityTypes.label', { context: value }),
           onClick: () => onChange(value)
