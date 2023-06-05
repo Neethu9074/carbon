@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Button, Toggle } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -13,6 +14,7 @@ import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEd
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { userSettingsThemeEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -170,6 +172,25 @@ export default function UiConfigGeneralPage() {
           {t('in-settings:tabs.configureConnectionStrategy')}
         </Button>
       </HorizontalFormGroup>
+      {userSettingsThemeEnabled && (
+        <HorizontalFormGroup noHelpTextSpacer>
+          <Heading text={t('in-settings:tabs.themeSettings')} htmlFor="theme" />
+          <Select
+            id="theme"
+            name="theme"
+            value={'default'}
+            onChange={() => {
+              /* TODO: set theme */
+            }}
+          >
+            {Object.keys(themes).map(theme => (
+              <option key={theme} value={theme}>
+                {t('in-settings:tabs.theme', { context: theme })}
+              </option>
+            ))}
+          </Select>
+        </HorizontalFormGroup>
+      )}
     </SettingsDetailPage>
   );
 }
