@@ -14,6 +14,8 @@ import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { ThresholdType } from 'in-types';
 
 const severityWarning = 5;
@@ -62,7 +64,8 @@ export default function alertFormDefinition(
     .put(
       fieldNames.alertChannelIds,
       createField({
-        value: alertChannelIds
+        value: alertChannelIds,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(

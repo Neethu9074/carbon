@@ -13,10 +13,11 @@ import {
 //@ts-expect-error
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import StepsContainer from 'in-components/StepsContainer';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, setSliderState, updateForm } = props;
+  const { form, onChange, setSliderState, updateForm, setCustomSlideInHeaderConfig } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
 
@@ -38,6 +39,21 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 setSliderState={setSliderState}
               />
             </>
+          )
+        },
+        {
+          scrollId: '5',
+          label: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsLabel'),
+          title: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsTitle'),
+          valid: true,
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
           )
         }
       ]}
