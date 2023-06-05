@@ -181,7 +181,7 @@ function getPropertyValue(entity, key) {
     return getConfig(entity).label;
   }
 
-  if (key === 'password') {
+  if (key === 'password' || key === 'bearerAuthToken') {
     return Array(entity.get(key)?.length ?? 0).join('*');
   }
 
