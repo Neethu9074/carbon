@@ -28,7 +28,7 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyFiftyPercentile');
@@ -37,7 +37,7 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyPercentile');
@@ -46,7 +46,7 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyfivePercentile');
@@ -55,7 +55,7 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyninePercentile');
