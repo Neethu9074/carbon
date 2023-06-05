@@ -43,16 +43,16 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/customEvents`,
     component: CustomEvents
   },
+  mobileAppSmartAlertsEnabled && {
+    label: t('in-mobile-apps:dashboard.tabs.smartAlerts'),
+    path: `${mobileAppPathFullyQualified}/alerts`,
+    component: Alerts
+  },
   role.canConfigureMobileAppMonitoring && {
     label: t('in-mobile-apps:dashboard.tabs.configurationLabel'),
     path: `${mobileAppPathFullyQualified}/configuration`,
     component: Configuration,
     mobileAppOnly: true
-  },
-  mobileAppSmartAlertsEnabled && {
-    label: t('in-mobile-apps:dashboard.tabs.smartAlerts'),
-    path: `${mobileAppPathFullyQualified}/alerts`,
-    component: Alerts
   }
 ].filter(Boolean);
 

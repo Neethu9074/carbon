@@ -13,13 +13,12 @@ import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileAp
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-//@ts-expect-error
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { Location } from 'in-stores/navigation/types';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -70,14 +69,16 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
 function generateAlertConfig(
   mobileAppId: string,
   tagFilters: TagFilter[],
-  tagCatalog: TagCatalog,
+  tagCatalog: TagCatalog | undefined,
   blueprintConfig: BluePrint,
   customEventName: string | null | undefined
 ) {
   const tagFiltersWithoutImplicitFilters = tagFilters.filter(
     ({ name }: { name: string }) => !implicitTagFilters.includes(name)
   );
-  const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog);
+  const tagFilterFormModel = tagCatalog
+    ? fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog as TagCatalog)
+    : [];
   const alertType = blueprintConfig.type;
   const metricName = blueprintConfig.defaultMetric;
 
