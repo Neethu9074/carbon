@@ -1128,7 +1128,9 @@
         "triggerTitle": "Trigger: What do you want to be alerted on?",
         "HTTPStatusCode": "HTTP Status Code",
         "alertChannelsLabel": "Alert Channels",
-        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?"
+        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
+        "timeThresholdLabel": "Time Threshold",
+        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?"
       }
     },
     "inventory": {
