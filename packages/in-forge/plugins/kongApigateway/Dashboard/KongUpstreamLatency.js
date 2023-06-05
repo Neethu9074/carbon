@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { timeByMillisZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -32,7 +32,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyFiftyPercentile');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -41,7 +42,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyPercentile');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -50,7 +52,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyfivePercentile');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -59,7 +62,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.latency.get('kongLatencyNinetyninePercentile');
-      }
+      },
+      getContent: number.compact
     }
   }
 ];
@@ -103,7 +107,7 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: timeByMicroTwoDecimalPlaces,
+              formatter: timeByMillisZeroDecimalPlaces,
               metrics: [
                 'kongUpstreamLatencyMsBucketService.' + row.key + '.kongLatencyFiftyPercentile',
                 'kongUpstreamLatencyMsBucketService.' + row.key + '.kongLatencyNinetyPercentile',
