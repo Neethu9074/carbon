@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -24,7 +25,7 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
+import { useDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
@@ -48,8 +49,10 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
   const nsTag = kubernetesNamespaceTagEquals(deploymentConfig.namespace);
   const workloadTag = tagEquals('openshift.deploymentconfig.name', deploymentConfig.name);
 
+  const viewAllHref = useDeploymentConfigDashboard(snapshotId, { tab: '/conditions' });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={deploymentConfig.id} timeConfig={timeConfig} />
 
       <Row>
@@ -212,12 +215,9 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsTableCard
-            conditions={deploymentConfig.conditions}
-            viewAllHref$={getDeploymentConfigDashboard(snapshotId, { tab: '/conditions' })}
-          />
+          <ConditionsTableCard conditions={deploymentConfig.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

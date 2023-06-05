@@ -36,7 +36,9 @@ const AdvancedMode = ({
   commonAttributes,
   setCommonAttributes,
   setCustomSlideInHeaderConfig,
-  isUpdateConfig
+  isUpdateConfig,
+  scriptDetails,
+  setScriptDetails
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
@@ -54,6 +56,8 @@ const AdvancedMode = ({
           setSliderState={setSliderState}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           isUpdateConfig={isUpdateConfig}
+          scriptDetails={scriptDetails!}
+          setScriptDetails={setScriptDetails!}
         />
       );
     }
@@ -76,6 +80,7 @@ const AdvancedMode = ({
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
         isUpdateConfig={isUpdateConfig}
+        setScriptDetails={setScriptDetails!}
       />
     )
   };

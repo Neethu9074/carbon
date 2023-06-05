@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "태그 필터 값이 허용된 최대 길이로 단축되었습니다.",
     "sanitizedTagFilterValueAndOperator": "태그 필터 값이 허용된 최대 길이로 단축되었으며 연산자가 그에 따라 조정되었습니다.",
     "source": "소스",
+    "sourceAbbreviated": "소스",
     "destination": "대상",
+    "destinationAbbreviated": "대상",
     "documentation": "Documentation",
     "string": {
       "contains": "포함",

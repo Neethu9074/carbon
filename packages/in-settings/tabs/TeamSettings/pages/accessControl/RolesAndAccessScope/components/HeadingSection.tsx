@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { t } from 'in-i18n';
 

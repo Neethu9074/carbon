@@ -16,7 +16,7 @@
     "businessMonitoring": "Business Monitoring"
   },
   "dashboards": {
-    "analyzeInstancesButton": "Analyze Instances",
+    "analyzeInstances": "Analyze Instances",
     "summary": {
       "pageTitle": "Business Process",
       "summaryTab": "Summary",

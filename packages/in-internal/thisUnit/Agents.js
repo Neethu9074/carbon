@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';

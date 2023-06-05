@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';

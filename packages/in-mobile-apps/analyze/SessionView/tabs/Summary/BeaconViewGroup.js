@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
+import { SvgIcon, toInteractiveElement } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';

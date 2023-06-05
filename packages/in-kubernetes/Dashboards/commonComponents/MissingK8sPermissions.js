@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Message } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getKubernetesClusterByRelation$ from 'in-kubernetes/subscriptions/getKubernetesClusterByRelation';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';

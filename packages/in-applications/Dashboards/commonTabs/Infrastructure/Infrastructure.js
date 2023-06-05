@@ -1,21 +1,22 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { fromPromise } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
-  getClusterDashboard,
-  getNamespaceDashboard,
-  getNodeDashboard,
-  getPodDashboard,
-  getServiceDashboard
+  useClusterDashboard,
+  useNamespaceDashboard,
+  usePodDashboard,
+  useNodeDashboard,
+  useServiceDashboard
 } from 'in-kubernetes/navigation/paths';
 import {
   pcfEnabled,
@@ -118,8 +119,8 @@ function WithKubernetesPhysicalContext({
   onIcon,
   inEntity,
   ofEntity,
-  getInEntityDashboard,
-  getOfEntityDashboard
+  hrefInEntityDashboard,
+  hrefOfEntityDashboard
 }) {
   if (inEntity || ofEntity) {
     return (
@@ -127,38 +128,24 @@ function WithKubernetesPhysicalContext({
         {children}
         <div className={locals.metaRow}>
           {inEntity && (
-            <Fragment>
-              <Trans
-                i18nKey="in-applications:dashboards.infrastructure.inEntity"
-                values={{ entityLabel: inEntity.label }}
-                components={{
-                  icon: <SvgIcon className={locals.entitiyIcon} type={inIcon} />,
-                  entityLink: (
-                    <Link
-                      className={locals.entityLink}
-                      href$={getInEntityDashboard ? getInEntityDashboard(inEntity.id) : null}
-                    />
-                  )
-                }}
-              />
-            </Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.inEntity"
+              values={{ entityLabel: inEntity.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type={inIcon} />,
+                entityLink: <Link className={locals.entityLink} href={hrefInEntityDashboard} />
+              }}
+            />
           )}
           {ofEntity && (
-            <Fragment>
-              <Trans
-                i18nKey="in-applications:dashboards.infrastructure.ofEntity"
-                values={{ entityLabel: ofEntity.label }}
-                components={{
-                  icon: <SvgIcon className={locals.entitiyIcon} type={onIcon} />,
-                  entityLink: (
-                    <Link
-                      className={locals.entityLink}
-                      href$={getOfEntityDashboard ? getOfEntityDashboard(ofEntity.id) : null}
-                    />
-                  )
-                }}
-              />
-            </Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.ofEntity"
+              values={{ entityLabel: ofEntity.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type={onIcon} />,
+                entityLink: <Link className={locals.entityLink} href={hrefOfEntityDashboard} />
+              }}
+            />
           )}
         </div>
       </div>
@@ -175,45 +162,39 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
       {children}
       <div className={locals.metaRow}>
         {application && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceIndexOfEntity"
-              values={{ cfInstanceIndex: cfInstanceIndex, entityLabel: application.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_application" />,
-                entityLink: (
-                  <Link
-                    className={locals.entityLink}
-                    href$={pcfEnabled ? getApplicationDashboardLink(application.id) : null}
-                  />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceIndexOfEntity"
+            values={{ cfInstanceIndex: cfInstanceIndex, entityLabel: application.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_application" />,
+              entityLink: (
+                <Link
+                  className={locals.entityLink}
+                  href$={pcfEnabled ? getApplicationDashboardLink(application.id) : null}
+                />
+              )
+            }}
+          />
         )}
         {space && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.inEntity"
-              values={{ entityLabel: space.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_space" />,
-                entityLink: <Link className={locals.entityLink} href$={null} />
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.inEntity"
+            values={{ entityLabel: space.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_space" />,
+              entityLink: <Link className={locals.entityLink} href$={null} />
+            }}
+          />
         )}
         {organization && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.ofEntity"
-              values={{ entityLabel: organization.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_organization" />,
-                entityLink: <Link className={locals.entityLink} href$={null} />
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.ofEntity"
+            values={{ entityLabel: organization.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_organization" />,
+              entityLink: <Link className={locals.entityLink} href$={null} />
+            }}
+          />
         )}
       </div>
     </div>
@@ -228,47 +209,44 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
       {children}
       <div className={locals.metaRow}>
         {datacenter && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
-              values={{ entityLabel: datacenter.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_vsphere" />,
-                entityLink: (
-                  <Link
-                    className={locals.entityLink}
-                    href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
-                  />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: datacenter.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_vsphere" />,
+              entityLink: (
+                <Link
+                  className={locals.entityLink}
+                  href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
+                />
+              )
+            }}
+          />
         )}
       </div>
     </div>
   );
 }
+
 function WithOpenstackPhysicalContext({ children, region }) {
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}
       <div className={locals.metaRow}>
         {region && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
-              values={{ entityLabel: region.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_openstack" />,
-                entityLink: (
-                  <Link
-                    className={locals.entityLink}
-                    href$={openstackEnabled ? getOpenstackRegionDashboard(region.id) : null}
-                  />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: region.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_openstack" />,
+              entityLink: (
+                <Link
+                  className={locals.entityLink}
+                  href$={openstackEnabled ? getOpenstackRegionDashboard(region.id) : null}
+                />
+              )
+            }}
+          />
         )}
       </div>
     </div>
@@ -281,18 +259,16 @@ function WithPhmcPhysicalContext({ children, phmc }) {
       {children}
       <div className={locals.metaRow}>
         {phmc && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
-              values={{ entityLabel: phmc.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmc_console" />,
-                entityLink: (
-                  <Link className={locals.entityLink} href$={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: phmc.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmc_console" />,
+              entityLink: (
+                <Link className={locals.entityLink} href$={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
+              )
+            }}
+          />
         )}
       </div>
     </div>
@@ -305,18 +281,16 @@ function WithSapPhysicalContext({ children, sap }) {
       {children}
       <div className={locals.metaRow}>
         {sap && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
-              values={{ entityLabel: sap.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_sap" />,
-                entityLink: (
-                  <Link className={locals.entityLink} href$={sapEnabled ? getAbapSystemDashboard(sap.id) : null} />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: sap.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_sap" />,
+              entityLink: (
+                <Link className={locals.entityLink} href$={sapEnabled ? getAbapSystemDashboard(sap.id) : null} />
+              )
+            }}
+          />
         )}
       </div>
     </div>
@@ -331,18 +305,16 @@ function WithZhmcPhysicalContext({ children, zhmc }) {
       {children}
       <div className={locals.metaRow}>
         {zhmc && (
-          <Fragment>
-            <Trans
-              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
-              values={{ entityLabel: zhmc.label }}
-              components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_zhmcConsole" />,
-                entityLink: (
-                  <Link className={locals.entityLink} href$={zhmcEnabled ? getIbmzZhmcDashboard(zhmc.id) : null} />
-                )
-              }}
-            />
-          </Fragment>
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: zhmc.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_zhmcConsole" />,
+              entityLink: (
+                <Link className={locals.entityLink} href$={zhmcEnabled ? getIbmzZhmcDashboard(zhmc.id) : null} />
+              )
+            }}
+          />
         )}
       </div>
     </div>
@@ -454,7 +426,7 @@ export default function Infrastructure({
   const Table = tablesByType[selectedType];
 
   return (
-    <Fragment>
+    <>
       <Table
         get={getTableData}
         type={selectedType}
@@ -469,7 +441,7 @@ export default function Infrastructure({
         cardTitle={t('in-applications:labelInfrastructure')}
       />
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
@@ -620,16 +592,11 @@ function getColumnDefinitions(type) {
           (item.physicalContext.kubernetes.pod || item.physicalContext.kubernetes.namespace)
         ) {
           return (
-            <WithKubernetesPhysicalContext
+            <KubernetesPhysicalContextContainer
               inEntity={item.physicalContext.kubernetes.pod}
               ofEntity={item.physicalContext.kubernetes.namespace}
-              inIcon="lib_kubernetes_pod"
-              onIcon="lib_kubernetes_namespace"
-              getInEntityDashboard={getPodDashboard}
-              getOfEntityDashboard={getNamespaceDashboard}
-            >
-              {link}
-            </WithKubernetesPhysicalContext>
+              link={link}
+            />
           );
         }
 
@@ -676,16 +643,11 @@ function getColumnDefinitions(type) {
 
         if (item.physicalContext.kubernetes) {
           return (
-            <WithKubernetesPhysicalContext
+            <KubernetesPhysicalContextNode
               inEntity={item.physicalContext.kubernetes.node}
               ofEntity={item.physicalContext.kubernetes.cluster}
-              inIcon="lib_kubernetes_node"
-              onIcon="lib_kubernetes_cluster"
-              getInEntityDashboard={getNodeDashboard}
-              getOfEntityDashboard={getClusterDashboard}
-            >
-              {link}
-            </WithKubernetesPhysicalContext>
+              link={link}
+            />
           );
         }
 
@@ -703,11 +665,7 @@ function getColumnDefinitions(type) {
         }
 
         return 'kubernetesService' == item.physicalContext.cluster.plugin ? (
-          <EntityLink
-            icon="lib_kubernetes_service"
-            label={item.physicalContext.cluster.label}
-            href$={getServiceDashboard(item.physicalContext.cluster.id)}
-          />
+          <KubernetesServiceLink {...item} />
         ) : (
           <InfrastructureEntityLink
             entity={item.physicalContext.cluster}
@@ -794,5 +752,46 @@ function getTabSubscript([plugin]) {
   return (
     snapshotDefinition?.supportsInfrastructureTabSubscript &&
     fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`))
+  );
+}
+
+function KubernetesServiceLink(item) {
+  const href = useServiceDashboard(item.physicalContext.cluster.id);
+  return <EntityLink icon="lib_kubernetes_service" label={item.physicalContext.cluster.label} href={href} />;
+}
+
+function KubernetesPhysicalContextNode({ inEntity, ofEntity, link }) {
+  const hrefInEntityDashboard = useNodeDashboard(inEntity?.id) ?? null;
+  const hrefOfEntityDashboard = useClusterDashboard(ofEntity?.id) ?? null;
+
+  return (
+    <WithKubernetesPhysicalContext
+      inEntity={inEntity}
+      ofEntity={ofEntity}
+      inIcon="lib_kubernetes_node"
+      onIcon="lib_kubernetes_cluster"
+      hrefInEntityDashboard={hrefInEntityDashboard}
+      hrefOfEntityDashboard={hrefOfEntityDashboard}
+    >
+      {link}
+    </WithKubernetesPhysicalContext>
+  );
+}
+
+function KubernetesPhysicalContextContainer({ inEntity, ofEntity, link }) {
+  const hrefInEntityDashboard = usePodDashboard(inEntity?.id) ?? null;
+  const hrefOfEntityDashboard = useNamespaceDashboard(ofEntity?.id) ?? null;
+
+  return (
+    <WithKubernetesPhysicalContext
+      inEntity={inEntity}
+      ofEntity={ofEntity}
+      inIcon="lib_kubernetes_pod"
+      onIcon="lib_kubernetes_namespace"
+      hrefInEntityDashboard={hrefInEntityDashboard}
+      hrefOfEntityDashboard={hrefOfEntityDashboard}
+    >
+      {link}
+    </WithKubernetesPhysicalContext>
   );
 }

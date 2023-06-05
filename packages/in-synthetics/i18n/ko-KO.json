@@ -108,6 +108,7 @@
         "scheduleTitle": "일정: 테스트 실행 시점은 언제인가요?",
         "identifyLabel": "식별",
         "identifyTitle": "식별: 테스트는 무엇을 하나요?",
+        "customPropertiesTitle": "사용자 정의 특성",
         "frequency": "이 테스트는 {{frequencyValue}}분마다 실행됩니다.",
         "simultaneous": "동시",
         "simultaneousDescription": "이 테스트는 선택한 각 위치에서 동시에 실행됩니다.",
@@ -123,7 +124,22 @@
           "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
           "jsonRootMustBeAnObject": "JSON 루트는 오브젝트여야 합니다.",
           "mustBeValidHttpReturnCode": "상태는 유효한 HTTP 리턴 코드여야 합니다.",
-          "shouldBeValidRegExp": "입력된 문자열은 유효한 정규식이어야 합니다."
+          "shouldBeValidRegExp": "입력된 문자열은 유효한 정규식이어야 합니다.",
+          "followRedirect": "경로 재지정 따르기",
+          "header": "헤더",
+          "headerValue": "값",
+          "body": "본문",
+          "validationString": "유효성 검증 문자열",
+          "addHeader": "헤더 추가",
+          "operation": "운영",
+          "headerNameMustBeUnique": "헤더 이름은 고유해야 합니다.",
+          "shouldBeValidHeaderName": "입력된 문자열은 유효한 HTTP 요청 헤더 이름이어야 합니다.",
+          "shouldBeValidHeaderValue": "입력된 문자열은 유효한 HTTP 요청 헤더 값이어야 합니다.",
+          "scriptLabel": "스크립트",
+          "addscriptAction": "스크립트 추가",
+          "editscriptAction": "스크립트 편집",
+          "scriptFileName": "파일 이름",
+          "scriptNotAdded": "추가된 스크립트 없음"
         },
         "loadMore": "추가 로드",
         "selectTests": {
@@ -136,6 +152,12 @@
           "apiName": "API",
           "browserName": "브라우저",
           "internetServicesName": "인터넷 서비스"
+        },
+        "customProperties": {
+          "property": "특성",
+          "propertyValue": "값",
+          "addProperty": "특성 추가",
+          "propertyNameMustBeUnique": "특성 이름은 고유해야 합니다."
         }
       }
     },
@@ -269,7 +291,8 @@
       },
       "totalRuns": "{{totalRuns}}개의 총 실행",
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
-      "smartAlertsTab": "스마트 경보"
+      "smartAlertsTab": "스마트 경보",
+      "configurationTab": "구성"
     },
     "resultsListPage": {
       "startedColumn": "시작됨",
@@ -413,6 +436,29 @@
       "violationsCount": "{{violationsCount}} 실패",
       "testsCount": "{{testsCount}} 테스트",
       "numberOfFailures": "실패 경보"
+    },
+    "configuration": {
+      "configurationTitle": "API {{testType}} 테스트 구성",
+      "testTypeTitle": "테스트 유형",
+      "testType": "유형",
+      "subType": "하위 유형",
+      "configSectionTitle": "구성",
+      "operation": "운영",
+      "url": "URL",
+      "header": "헤더",
+      "value": "값",
+      "body": "본문",
+      "validationString": "유효성 검증 문자열",
+      "expectStatus": "예상 상태",
+      "expectMatch": "예상 일치",
+      "expectJSON": "예상 JSON",
+      "additionalOptionsTitle": "추가 옵션",
+      "followRedirect": "경로 재지정 따르기",
+      "allowInsecure": "비보안 허용",
+      "locationsTitle": "위치",
+      "scheduleTitle": "스케줄",
+      "identifyTitle": "식별",
+      "customProperties": "사용자 정의 특성"
     }
   }
 }

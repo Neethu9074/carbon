@@ -12,13 +12,18 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 //@ts-expect-error
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
+import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, setSliderState, updateForm } = props;
+  const { form, onChange, setSliderState, updateForm, setCustomSlideInHeaderConfig } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <StepsContainer
@@ -38,6 +43,38 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 setSliderState={setSliderState}
               />
             </>
+          )
+        },
+        {
+          scrollId: '4',
+          label: t('in-alerting:smartAlerts.mobileApp.advanced.timeThresholdLabel'),
+          title: t('in-alerting:smartAlerts.mobileApp.advanced.timeThresholdTitle'),
+          valid:
+            !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('users')) &&
+            !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('userPercentage')),
+          content: (
+            <TimeThresholdConfig
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
+              hasUserImpactOption
+            />
+          )
+        },
+        {
+          scrollId: '5',
+          label: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsLabel'),
+          title: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsTitle'),
+          valid: true,
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
           )
         }
       ]}

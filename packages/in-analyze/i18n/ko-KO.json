@@ -142,12 +142,13 @@
         "logParameters": "로그 매개변수",
         "logStackTrace": "로그 스택 추적",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "이 호출이 일괄처리되며 {{batchSize}}의 개별 호출을 나타냅니다.",
+        "downloadRawSpanData": "원시 스팬 데이터 다운로드",
         "correlationMissing": "상관 누락",
         "noOtherRelationsFound": "다른 관계를 찾을 수 없습니다.",
         "synthetic": "합성",
         "thisCallDoesNotContributeToServiceOrApplicationKpIs": "이 호출은 서비스 또는 애플리케이션 API에 기여하지 않습니다.",
         "configureSyntheticEndpoints": "합성 엔드포인트 구성",
-        "of": " -",
+        "of": "-",
         "on": "다음 관련",
         "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana는 생성한 인프라와 이 범위를 상관시킬 수 없습니다.",
         "httpCallUri": "HTTP 호출 URI",
@@ -179,7 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",
-        "of": " -",
+        "of": "-",
         "inheritedFrom": "다음에서 상속됨"
       },
       "colorCodingToggleButtons": {

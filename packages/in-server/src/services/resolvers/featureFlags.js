@@ -379,5 +379,10 @@ module.exports = exports = [
     uiClientKey: 'systemRuleEntityCountEnabled',
     instanaCtlKey: 'feature.system.rule.entity.count.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'userSettingsThemeEnabled',
+    instanaCtlKey: 'feature.user.settings.theme.enabled',
+    defaultValue: false
   }
 ];

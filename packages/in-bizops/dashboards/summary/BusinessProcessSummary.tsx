@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
@@ -18,6 +17,7 @@ import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
 import tabs from 'in-bizops/dashboards/summary/tabs/index';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -70,7 +70,10 @@ function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButt
   );
 }
 
-function RenderButtonLine() {
+interface RenderProps {
+  label: string;
+}
+function RenderButtonLine({ label }: RenderProps) {
   const timeConfig: TimeConfig = useTimeConfig();
   return (
     <>
@@ -79,10 +82,7 @@ function RenderButtonLine() {
         applicationId={'0fce0559eaebe9b65b13c8e9050d5060024f4586'}
         timeConfig={timeConfig}
       />
-      {/* TODO: Implement button functionality */}
-      <Button kind="primary" icon="lib_application_call" href={''}>
-        {t('in-bizops:dashboards.analyzeInstancesButton')}
-      </Button>
+      <AnalyzeButton businessProcessName={label} />
     </>
   );
 }

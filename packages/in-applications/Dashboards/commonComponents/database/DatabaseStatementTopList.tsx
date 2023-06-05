@@ -17,7 +17,7 @@ import {
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';

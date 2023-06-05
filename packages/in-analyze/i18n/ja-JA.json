@@ -142,6 +142,7 @@
         "logParameters": "ログ・パラメーター",
         "logStackTrace": "ログ・スタック・トレース",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "この呼び出しはバッチ処理され、{{batchSize}} 個の個別の呼び出しを表します。",
+        "downloadRawSpanData": "生スパン・データのダウンロード",
         "correlationMissing": "相関がありません",
         "noOtherRelationsFound": "他の関係が見つかりません。",
         "synthetic": "シンセティック",

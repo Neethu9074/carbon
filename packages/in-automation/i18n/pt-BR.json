@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "Incluir {{count}} ações",
   "noActionsSelected": "Nenhuma ação selecionada",
   "actionSensorTimeout": "Não foi possível manipular a solicitação de back-end. Verifique a sua configuração do agente para ter certeza de que o sensor de ação está instalado.",
+  "validVaultParameter": "Os parâmetros da área segura marcados como opcionais devem estar ambos em branco ou ambos não em branco.",
   "newAction": "Nova ação",
   "ok": "OK",
   "runAction": "Executar a ação",

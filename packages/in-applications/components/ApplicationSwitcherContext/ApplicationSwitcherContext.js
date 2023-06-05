@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';

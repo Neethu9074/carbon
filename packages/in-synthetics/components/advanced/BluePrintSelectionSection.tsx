@@ -13,6 +13,7 @@ import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/dat
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/components/advanced/SelectedTestType';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { Code } from 'in-synthetics/utils/constants';
 import Menu from 'in-components/Menu';
 
 import locals from './BluePrintSelectionSection.mless';
@@ -27,6 +28,7 @@ interface BluePrintSelectionSectionProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const BluePrintSelectionSection = ({
@@ -38,7 +40,8 @@ const BluePrintSelectionSection = ({
   setRenderSectionsCounter,
   commonAttributes,
   setCommonAttributes,
-  isUpdateConfig
+  isUpdateConfig,
+  setScriptDetails
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -58,6 +61,7 @@ const BluePrintSelectionSection = ({
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
         isUpdateConfig={isUpdateConfig}
+        setScriptDetails={setScriptDetails}
       />
     </ExpandableLightCard>
   );
@@ -73,6 +77,7 @@ interface SelectionMenuProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const SelectionMenu = ({
@@ -84,7 +89,8 @@ const SelectionMenu = ({
   setRenderSectionsCounter,
   commonAttributes,
   setCommonAttributes,
-  isUpdateConfig
+  isUpdateConfig,
+  setScriptDetails
 }: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
@@ -106,6 +112,7 @@ const SelectionMenu = ({
           commonAttributes={commonAttributes}
           setCommonAttributes={setCommonAttributes}
           isUpdateConfig={isUpdateConfig}
+          setScriptDetails={setScriptDetails}
         />
       </div>
     </div>

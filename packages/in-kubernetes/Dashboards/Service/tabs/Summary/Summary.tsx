@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { AggregationType, KubernetesService, ResultType, TimeConfig } from '@instana/types';
 
@@ -24,13 +25,12 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-// @ts-expect-error
-import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -44,7 +44,6 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: service }: SummaryProps) {
-  // const snapshotId = service.id;
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
   const comparisonColors = {
@@ -93,7 +92,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
   };
 
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
@@ -286,6 +285,6 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
           <Endpoints timeConfig={timeConfig} service={service} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

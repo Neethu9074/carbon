@@ -6,7 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';

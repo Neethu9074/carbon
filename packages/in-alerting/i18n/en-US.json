@@ -1088,7 +1088,6 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select Alert",
-        "stepConfigsStep2Title": "Step 2: Select Scope",
         "stepConfigsStep3Title": "Step 3: Select Alert Channels",
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?"
       },
@@ -1127,7 +1126,11 @@
       "advanced": {
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
-        "HTTPStatusCode": "HTTP Status Code"
+        "HTTPStatusCode": "HTTP Status Code",
+        "alertChannelsLabel": "Alert Channels",
+        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
+        "timeThresholdLabel": "Time Threshold",
+        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?"
       }
     },
     "inventory": {

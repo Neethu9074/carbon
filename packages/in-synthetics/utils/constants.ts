@@ -365,6 +365,8 @@ export interface AdvancedModeProps {
   setCommonAttributes: (type: Record<string, any>) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
   isUpdateConfig: boolean;
+  scriptDetails?: Code;
+  setScriptDetails?: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 export interface ConfigItem {
@@ -422,4 +424,9 @@ export interface Script {
 export interface Zip {
   name: string;
   files: string[];
+}
+
+export interface Code {
+  modified: boolean;
+  name: string;
 }

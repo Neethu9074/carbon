@@ -8,7 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';

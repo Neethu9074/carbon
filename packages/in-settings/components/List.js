@@ -112,6 +112,7 @@ function List({
   tableInCard,
   rightHeader,
   isSearchable = true,
+  searchWidth,
   withBottomPadding = false,
   searchAttributes = [],
   extraFilters,
@@ -213,6 +214,7 @@ function List({
         isSearchable={isSearchable}
         searchPlaceholder={searchPlaceholder}
         searchMaxWidth={searchMaxWidth}
+        searchWidth={searchWidth}
         result={result}
         noDataMessage={noDataMessage}
         renderNoDataAvailable={renderNoDataAvailable}
@@ -220,9 +222,17 @@ function List({
         tableInCard={tableInCard}
         fixedLayout
         rightHeader={
-          rightHeader
-            ? rightHeader
-            : createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage: newDisabledMessage, trackEvent })
+          rightHeader ? (
+            rightHeader
+          ) : (
+            <CreateNewEntityButton
+              labelNew={labelNew}
+              trackEvent={trackEvent}
+              pathNew={pathNew}
+              onCreateNew={onCreateNew}
+              disabledMessage={newDisabledMessage}
+            />
+          )
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
@@ -309,12 +319,12 @@ function handleClickCreateNewEntity(onCreateNew, trackEvent) {
   }
 }
 
-export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage, trackEvent }) {
+export function CreateNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage, trackEvent }) {
+  const { createHrefToPath } = useNavigation();
   if (!pathNew && !onCreateNew) {
     return null;
   }
-  // eslint-disable-next-line
-  const href$ = onCreateNew ? null : getModifiedUrlStream(p => (p.pathname = pathNew));
+  const href = onCreateNew ? null : createHrefToPath(pathNew);
   if (disabledMessage) {
     return (
       <Tooltip content={disabledMessage} delay={500} align="bottomMiddle">
@@ -322,12 +332,12 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
       </Tooltip>
     );
   } else {
-    return <NewEntityButton label={labelNew} href$={href$} onCreateNew={onCreateNew} trackEvent={trackEvent} />;
+    return <NewEntityButton label={labelNew} href={href} onCreateNew={onCreateNew} trackEvent={trackEvent} />;
   }
 }
 
 const NewEntityButton = forwardRef(function NewEntityButton(
-  { label = t('in-settings:components.createNew'), href$, onCreateNew, disabled, trackEvent },
+  { label = t('in-settings:components.createNew'), href, onCreateNew, disabled, trackEvent },
   ref
 ) {
   return (
@@ -335,7 +345,7 @@ const NewEntityButton = forwardRef(function NewEntityButton(
       className={locals.createNewButton}
       kind="action"
       disabled={disabled}
-      href$={href$}
+      href={href}
       onClick={() => handleClickCreateNewEntity(onCreateNew, trackEvent)}
       icon="lib_openclose_add_circle_outline"
       ref={ref}
@@ -684,7 +694,8 @@ List.propTypes = {
   onPageChange: PropTypes.func,
   // Disabled this line because
   // eslint-disable-next-line react/no-unused-prop-types
-  initialPageNumber: PropTypes.number
+  initialPageNumber: PropTypes.number,
+  searchWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export function reload() {

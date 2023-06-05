@@ -8,7 +8,7 @@ import React from 'react';
 
 import { interval } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';

@@ -3,12 +3,25 @@
   "labelSmartAlerts": "Avvisi smart",
   "labelActivities": "Attività",
   "lists": {
-    "activityLabel": "Conteggio attività",
-    "idLabel": "ID processo",
+    "pageTitle": "Processi di business",
+    "activityLabel": "Attività",
+    "nameLabel": "Nome",
     "noData": "Nessun dato disponibile",
-    "toolLabel": "Strumento"
+    "healthLabel": "Integrità",
+    "startLabel": "Avviato"
   },
   "navigation": {
     "bizOps": "Processi di business"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "Analizza istanze",
+    "summary": {
+      "pageTitle": "Processo di business",
+      "summaryTab": "Riepilogo",
+      "widgets": {
+        "timeline": "Scala temporale",
+        "businessProcessStartedLabel": "{{businessProcessName}} avviato"
+      }
+    }
   }
 }

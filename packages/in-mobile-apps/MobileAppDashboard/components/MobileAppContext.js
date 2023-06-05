@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 

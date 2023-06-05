@@ -84,5 +84,6 @@ module.exports = {
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
-  systemRuleEntityCountEnabled: true
+  systemRuleEntityCountEnabled: true,
+  userSettingsThemeEnabled: true
 };

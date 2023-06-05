@@ -7,7 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
@@ -71,9 +71,7 @@ export default function InfraPageHeaderWithTabs({
                 label={
                   isInfraExploreActive && renderTypeSelector ? (
                     <TypeSelector onTypeSelected={onTypeSelected} />
-                  ) : (
-                    undefined
-                  )
+                  ) : undefined
                 }
                 headerHref$={headerHref$}
                 onHeaderClick={onHeaderClick}

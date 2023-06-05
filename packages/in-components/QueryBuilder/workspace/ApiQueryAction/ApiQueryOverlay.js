@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Toggle, Link } from '@instana/components';
+import { KeyValue, Toggle } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';

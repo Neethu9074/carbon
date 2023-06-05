@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "標籤過濾器值已縮短成容許的長度上限。",
     "sanitizedTagFilterValueAndOperator": "標籤過濾器值已縮短成容許的長度上限，並已據此調整運算子。",
     "source": "來源",
+    "sourceAbbreviated": "Src",
     "destination": "目的地",
+    "destinationAbbreviated": "Dest",
     "documentation": "Documentation",
     "string": {
       "contains": "包含",

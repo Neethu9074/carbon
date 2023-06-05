@@ -3,12 +3,25 @@
   "labelSmartAlerts": "智能警报",
   "labelActivities": "活动",
   "lists": {
-    "activityLabel": "活动计数",
-    "idLabel": "进程标识",
+    "pageTitle": "业务流程",
+    "activityLabel": "活动",
+    "nameLabel": "名称",
     "noData": "无可用数据",
-    "toolLabel": "工具"
+    "healthLabel": "运行状况",
+    "startLabel": "开始"
   },
   "navigation": {
     "bizOps": "业务流程"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "分析实例",
+    "summary": {
+      "pageTitle": "业务流程",
+      "summaryTab": "摘要",
+      "widgets": {
+        "timeline": "时间线",
+        "businessProcessStartedLabel": "{{businessProcessName}} 已启动"
+      }
+    }
   }
 }

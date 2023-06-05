@@ -108,6 +108,7 @@
         "scheduleTitle": "Planificación: ¿Cuándo se ejecutará esta prueba?",
         "identifyLabel": "Identificar",
         "identifyTitle": "Identificar: ¿Qué va a hacer la prueba?",
+        "customPropertiesTitle": "Propiedades personalizadas",
         "frequency": "Esta prueba se ejecutará cada {{frequencyValue}} minutos.",
         "simultaneous": "Simultáneo",
         "simultaneousDescription": "Esta prueba se ejecutará simultáneamente en casa una de las ubicaciones seleccionadas.",
@@ -123,7 +124,22 @@
           "failedToParseInputAsJson": "No se ha podido analizar la entrada como JSON.",
           "jsonRootMustBeAnObject": "La raíz JSON debe ser un objeto.",
           "mustBeValidHttpReturnCode": "El estado debe ser un código de retorno HTTP válido.",
-          "shouldBeValidRegExp": "La serie especificada debe ser una expresión regular válida."
+          "shouldBeValidRegExp": "La serie especificada debe ser una expresión regular válida.",
+          "followRedirect": "Seguir redirección",
+          "header": "Cabecera",
+          "headerValue": "Valor",
+          "body": "Cuerpo",
+          "validationString": "Serie de validación",
+          "addHeader": "Añadir cabecera",
+          "operation": "Operación",
+          "headerNameMustBeUnique": "El nombre de cabecera debe ser exclusivo.",
+          "shouldBeValidHeaderName": "La serie especificada debe ser un nombre de cabecera de solicitud HTTP válida.",
+          "shouldBeValidHeaderValue": "La serie especificada debe ser un valor de cabecera de solicitud HTTP válida.",
+          "scriptLabel": "Script",
+          "addscriptAction": "Añadir script",
+          "editscriptAction": "Editar script",
+          "scriptFileName": "Nombre de archivo",
+          "scriptNotAdded": "No se ha añadido ningún script"
         },
         "loadMore": "Cargar más",
         "selectTests": {
@@ -136,6 +152,12 @@
           "apiName": "API",
           "browserName": "Navegador",
           "internetServicesName": "Servicios de Internet"
+        },
+        "customProperties": {
+          "property": "Propiedad",
+          "propertyValue": "Valor",
+          "addProperty": "Añadir propiedad",
+          "propertyNameMustBeUnique": "El nombre de propiedad debe ser exclusivo."
         }
       }
     },
@@ -269,7 +291,8 @@
       },
       "totalRuns": "{{totalRuns}} ejecuciones en total",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
-      "smartAlertsTab": "Alertas inteligentes"
+      "smartAlertsTab": "Alertas inteligentes",
+      "configurationTab": "Configuración"
     },
     "resultsListPage": {
       "startedColumn": "Iniciado",
@@ -413,6 +436,29 @@
       "violationsCount": "{{violationsCount}} anomalías",
       "testsCount": "{{testsCount}} pruebas",
       "numberOfFailures": "Alerta de anomalía"
+    },
+    "configuration": {
+      "configurationTitle": "Configuración de prueba de API {{testType}}",
+      "testTypeTitle": "Tipo de prueba",
+      "testType": "Tipo",
+      "subType": "Subtipo",
+      "configSectionTitle": "Configuración",
+      "operation": "Operación",
+      "url": "URL",
+      "header": "Cabecera",
+      "value": "Valor",
+      "body": "Cuerpo",
+      "validationString": "Serie de validación",
+      "expectStatus": "Estado esperado",
+      "expectMatch": "Coincidencia esperada",
+      "expectJSON": "JSON esperado",
+      "additionalOptionsTitle": "Opciones adicionales",
+      "followRedirect": "Seguir redirección",
+      "allowInsecure": "Permitir los no seguros",
+      "locationsTitle": "Ubicaciones",
+      "scheduleTitle": "Planificación",
+      "identifyTitle": "Identificar",
+      "customProperties": "Propiedades personalizadas"
     }
   }
 }

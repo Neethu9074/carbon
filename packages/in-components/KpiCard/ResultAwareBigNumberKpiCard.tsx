@@ -7,7 +7,7 @@ import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
+import { MetricResult, Nullish, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -26,6 +26,7 @@ export interface Config {
   metricConfiguration: UnifiedMetricConfigurationUnion;
   formatter?: string;
   tagFilters?: TagFilter[];
+  getColor?: (metricValue: number | Nullish) => string | undefined;
   comparisonIncreaseColor?: string;
   comparisonDecreaseColor?: string;
 }
@@ -56,7 +57,7 @@ export function isConfigWithCompanionMetric(config: Config): config is ConfigWit
 }
 
 export function isConfigWithStaticCompanion(config: Config): config is ConfigWithStaticCompanion {
-return 'staticCompanionValue' in config
+  return 'staticCompanionValue' in config;
 }
 
 export default function ResultAwareBigNumberKpiCard({
@@ -142,6 +143,7 @@ export function renderKpiCard(
       title={title}
       value={value}
       renderValue={formatter}
+      color={config.getColor?.(value)}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (

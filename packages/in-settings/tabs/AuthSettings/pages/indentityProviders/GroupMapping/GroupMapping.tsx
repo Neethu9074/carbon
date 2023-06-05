@@ -17,8 +17,7 @@ import {
 } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, Link, SvgIcon, Message } from '@instana/components';
 
 import {
   firstMappingAdded,
@@ -56,7 +55,7 @@ import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import Title from 'in-components/Title';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './GroupMapping.mless';
 
@@ -104,7 +103,20 @@ function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapF
       <>
         <Title title={t('in-settings:tabs.configureGroupMapping')} />
         <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
-        {t('in-settings:tabs.failIfNoIdp')}
+        <div className={locals.margin}>{t('in-settings:tabs.failIfNoIdp')}</div>
+        <Trans
+          i18nKey="in-settings:tabs.failIfNoIdpDocs"
+          components={{
+            gmLink: (
+              // @ts-expect-error
+              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=authentication-idp-group-mapping" />
+            ),
+            authLink: (
+              // @ts-expect-error
+              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=instana-configuring-authentication" />
+            )
+          }}
+        />
       </>
     );
   }
@@ -147,6 +159,18 @@ function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapF
           );
         }}
       />
+      <Message className={locals.description} type="neutral" withIcon small>
+        <Trans
+          i18nKey="in-settings:tabs.denyUserWithNoGroupDocs"
+          components={{
+            authLink: (
+              // @ts-expect-error
+              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=instana-configuring-authentication" />
+            )
+          }}
+        />
+      </Message>
+      <div className={locals.description}>{t('in-settings:tabs.groupMappingInfoText')}</div>
       {shouldShowDenyIssue && shouldShowDenyIssue.length > 0 && (
         <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
       )}

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -22,7 +23,8 @@ export default connectTo(
 );
 
 function CronJobBreadcrumb(props) {
-  const { cronJobId, cronJob, href$ } = props;
+  const { cronJobId, cronJob, href } = props;
+
   return (
     <WithInfrastructureHealthIndicationBehaviour
       snapshotId={cronJobId}
@@ -31,7 +33,7 @@ function CronJobBreadcrumb(props) {
           label={t('in-kubernetes:breadcrumbs.cronJob')}
           icon="lib_kubernetes_workload"
           snapshotId={cronJobId}
-          href$={href$}
+          href={href}
           healthInfo={healthInfo}
         >
           {cronJob && cronJob.name}

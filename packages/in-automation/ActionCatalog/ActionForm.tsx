@@ -38,7 +38,7 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE,
   getType,
-  isAnsible
+  isNotEditable
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -86,7 +86,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
             {isDocLink(type) && <DocLinkSection form={form} entity={action} onChange={onChange} />}
             {isScript(type) && <ScriptSection form={form} entity={action} onChange={onChange} />}
             {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
-            {isAnsible(type) && <AnsibleSection entity={action} />}
             {!isDocLink(type) && (
               <>
                 <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
@@ -105,11 +104,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
     </fieldset>
   );
 }
-
-// @ts-expect-error
-const AnsibleSection = ({ entity: action }: Pick<ActionFormProps, 'entity'>) => {
-  return null;
-};
 
 const MetaDataSection = ({
   form,
@@ -215,7 +209,7 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
         </>
       ) : (
-        <Typography variant="body-small">{getType(action)}</Typography>
+        <Typography variant="body-small">{getType(action.type)}</Typography>
       )}
     </FormGroup>
   ));
@@ -645,5 +639,3 @@ const SecuredInput = ({
     </HorizontalFlexWrapper>
   );
 };
-
-const isNotEditable = (action: ActionFormEntity) => Boolean(isAnsible(action.type) || action.builtIn);

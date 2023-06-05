@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
