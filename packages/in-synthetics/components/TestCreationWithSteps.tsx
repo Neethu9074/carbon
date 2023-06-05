@@ -9,7 +9,6 @@ import classNames from 'classnames';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
 import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
-import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { Code, SlideInHeader } from 'in-synthetics/utils/constants';
@@ -87,7 +86,7 @@ export default function TestCreationWithSteps({
         [locals.advancedMode]: !simpleMode
       })}
     >
-      {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
+      {!simpleMode ? (
         <AdvancedMode
           form={form}
           updateForm={updateForm}
