@@ -9511,7 +9511,7 @@
             "messageSecondLevelText": "Second Level Text"
           },
           "spinningDiskType": {
-            "name": "Spinning Disk Info",
+            "name": "Hardware Disk Drives (HDD) Info",
             "resourceName": "Resource Name",
             "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
