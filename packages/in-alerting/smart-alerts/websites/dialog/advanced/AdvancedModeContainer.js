@@ -17,7 +17,7 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/dialog/advanced/BluePrintSelectionSection';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
@@ -120,7 +120,8 @@ export default function AdvancedModeContainer(props) {
               form={form}
               updateForm={updateForm}
               QueryBuilderComponent={QueryBuilderComponent}
-              websiteLabel={websiteLabel}
+              label={websiteLabel}
+              iconType="lib_website"
             />
           )
         },

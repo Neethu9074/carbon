@@ -868,38 +868,6 @@
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website."
       },
       "form": {
-        "anyJSErrors": "Any JS Errors",
-        "JSErrors": "JS Error(s): {{errorMessage}}",
-        "customEvents": "Custom Event: {{customEventName}}",
-        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
-        "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
-        "unsupportedOperator": "Unsupported operator: {{operator}}",
-        "JSErrorTextEquals": "JS Errors which equal \"{{ruleValue}}\" have been detected.",
-        "JSErrorTextContains": "JS Errors which contain \"{{ruleValue}}\" have been detected.",
-        "JSErrorTextStartsWith": "JS Errors which start with \"{{ruleValue}}\" have been detected.",
-        "JSErrorTextEndsWith": "JS Errors which end with \"{{ruleValue}}\" have been detected.",
-        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
-        "slownessSimpleHighOperatorText": "onLoad Time ({{aggregationText}}) is too high",
-        "slownessSimpleLowOperatorText": "onLoad Time ({{aggregationText}}) is too low",
-        "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
-        "throughputSimpleLowOperatorText": "Number of {{metricLabel}} is anomalously low",
-        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is above the expectation.",
-        "statusCodeSimpleBelowOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is below the expectation.",
-        "slownessSimpleAboveOperatorText": "The onLoad Time ({{aggregationText}}) is above the expectation.",
-        "slownessSimpleBelowOperatorText": "The onLoad Time ({{aggregationText}}) is below the expectation.",
-        "slownessGreaterOperatorText": "The onLoad Time ({{aggregationText}}) is greater than {{thresholdValue}} ms.",
-        "slownessGreaterEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is greater or equal to {{thresholdValue}} ms.",
-        "slownessLessOperatorText": "The onLoad Time ({{aggregationText}}) is less than {{thresholdValue}} ms.",
-        "slownessLessEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is less or equal to {{thresholdValue}} ms.",
-        "staticThresholdHigherOperatorText": "The number of {{metricLabel}} is higher than {{thresholdValue}}.",
-        "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "The number of {{metricLabel}}is higher than expected.",
-        "thresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to expected.",
-        "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
-        "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected.",
         "errorPleaseProvideAnErrorMessage": "Please provide an error message",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
@@ -1089,7 +1057,9 @@
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep3Title": "Step 3: Select Alert Channels",
-        "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?"
+        "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",
+        "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
+        "stepConfigsStep2Title": "Step 2: Select Scope"
       },
       "alertDetails": {
         "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
@@ -1140,6 +1110,14 @@
         "customEventLabel": "Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
+      "form": {
+        "errorPleaseProvideCustomEventName": "Please provide a custom event name",
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
+        "ruleMetricNameOptionBeaconRate": "Beacon Rate",
+        "ruleMetricNameOptionThroughputSessions": "Sessions",
+        "ruleMetricNameOptionThroughputViews": "Views"
+      },
       "advanced": {
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
@@ -1149,7 +1127,11 @@
         "timeThresholdLabel": "Time Threshold",
         "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
         "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert Properties"
+        "propertiesTitle": "Additional Alert Properties",
+        "scopeLabel": "Scope",
+        "scopeTitle": "Scope: Where is the condition happening?",
+        "thresholdLabel": "Threshold",
+        "thresholdTitle": "Threshold: When is the condition violated?"
       }
     },
     "inventory": {
@@ -1164,7 +1146,42 @@
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event"
       },
-      "components": { "provideStatusCodeStatusCode": "Status Code" }
+      "advanced": { "thresholdValue": "Threshold Value" },
+      "components": { "provideStatusCodeStatusCode": "Status Code" },
+      "form": {
+        "anyJSErrors": "Any JS Errors",
+        "JSErrors": "JS Error(s): {{errorMessage}}",
+        "customEvents": "Custom Event: {{customEventName}}",
+        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
+        "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
+        "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
+        "unsupportedOperator": "Unsupported operator: {{operator}}",
+        "JSErrorTextEquals": "JS Errors which equal \"{{ruleValue}}\" have been detected.",
+        "JSErrorTextContains": "JS Errors which contain \"{{ruleValue}}\" have been detected.",
+        "JSErrorTextStartsWith": "JS Errors which start with \"{{ruleValue}}\" have been detected.",
+        "JSErrorTextEndsWith": "JS Errors which end with \"{{ruleValue}}\" have been detected.",
+        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
+        "slownessSimpleHighOperatorText": "onLoad Time ({{aggregationText}}) is too high",
+        "slownessSimpleLowOperatorText": "onLoad Time ({{aggregationText}}) is too low",
+        "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
+        "throughputSimpleLowOperatorText": "Number of {{metricLabel}} is anomalously low",
+        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is above the expectation.",
+        "statusCodeSimpleBelowOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is below the expectation.",
+        "slownessSimpleAboveOperatorText": "The onLoad Time ({{aggregationText}}) is above the expectation.",
+        "slownessSimpleBelowOperatorText": "The onLoad Time ({{aggregationText}}) is below the expectation.",
+        "slownessGreaterOperatorText": "The onLoad Time ({{aggregationText}}) is greater than {{thresholdValue}} ms.",
+        "slownessGreaterEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is greater or equal to {{thresholdValue}} ms.",
+        "slownessLessOperatorText": "The onLoad Time ({{aggregationText}}) is less than {{thresholdValue}} ms.",
+        "slownessLessEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is less or equal to {{thresholdValue}} ms.",
+        "staticThresholdHigherOperatorText": "The number of {{metricLabel}} is higher than {{thresholdValue}}.",
+        "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
+        "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
+        "staticThresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to {{thresholdValue}}.",
+        "thresholdHigherOperatorText": "The number of {{metricLabel}}is higher than expected.",
+        "thresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to expected.",
+        "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
+        "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected."
+      }
     }
   }
 }

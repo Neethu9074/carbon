@@ -28,7 +28,7 @@ export function getTitlePlaceholder(form: MapForm<any>) {
   switch (alertType) {
     case 'statusCode': {
       const statusCodeString = (rule as StatusCodeMobileAppAlertRule).value;
-      return t('in-alerting:smartAlerts.mobileApp.form.HTTPStatusCodes', {
+      return t('in-alerting:smartAlerts.eum.form.HTTPStatusCodes', {
         statusCode: fillStatusCodeValue(statusCodeString)
       });
     }
@@ -44,10 +44,10 @@ export function getTitlePlaceholder(form: MapForm<any>) {
     }
     case 'customEvent': {
       const customEventName = (rule as CustomEventMobileAppAlertRule).customEventName;
-      return t('in-alerting:smartAlerts.mobileApp.form.customEvents', { customEventName });
+      return t('in-alerting:smartAlerts.eum.form.customEvents', { customEventName });
     }
     default:
-      throw Error(t('in-alerting:smartAlerts.mobileApp.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -79,10 +79,10 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
     case 'customEvent': {
       const customEventName = (rule as CustomEventMobileAppAlertRule).customEventName;
 
-      return t('in-alerting:smartAlerts.mobileApp.form.customEventsText', { customEventName });
+      return t('in-alerting:smartAlerts.eum.form.customEventsText', { customEventName });
     }
     default:
-      throw Error(t('in-alerting:smartAlerts.mobileApp.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -112,14 +112,14 @@ function fillStatusCodeValue(statusCode: string) {
 
 function getThroughputSimpleHighOrLowOperatorText(metricLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.mobileApp.form.throughputSimpleHighOperatorText', { metricLabel })
-    : t('in-alerting:smartAlerts.mobileApp.form.throughputSimpleLowOperatorText', { metricLabel });
+    ? t('in-alerting:smartAlerts.eum.form.throughputSimpleHighOperatorText', { metricLabel })
+    : t('in-alerting:smartAlerts.eum.form.throughputSimpleLowOperatorText', { metricLabel });
 }
 
 function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.mobileApp.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
-    : t('in-alerting:smartAlerts.mobileApp.form.statusCodeSimpleBelowOperatorText', {
+    ? t('in-alerting:smartAlerts.eum.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
+    : t('in-alerting:smartAlerts.eum.form.statusCodeSimpleBelowOperatorText', {
         statusCodeLabel
       });
 }
@@ -131,41 +131,41 @@ function getStaticThresholdHigherOrLowerOperatorText(
 ) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.mobileApp.form.staticThresholdHigherOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '>=':
-      return t('in-alerting:smartAlerts.mobileApp.form.staticThresholdHigherEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherEqualsOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '<':
-      return t('in-alerting:smartAlerts.mobileApp.form.staticThresholdLowerOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '<=':
-      return t('in-alerting:smartAlerts.mobileApp.form.staticThresholdLowerEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerEqualsOperatorText', {
         metricLabel,
         thresholdValue
       });
     default:
-      throw Error(t('in-alerting:smartAlerts.mobileApp.form.unsupportedOperator', { operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }
 
 function getThresholdHigherOrLowerOperatorText(metricLabel: string, operator: ThresholdOperator) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.mobileApp.form.thresholdHigherOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdHigherOperatorText', { metricLabel });
     case '>=':
-      return t('in-alerting:smartAlerts.mobileApp.form.thresholdHigherEqualsOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdHigherEqualsOperatorText', { metricLabel });
     case '<':
-      return t('in-alerting:smartAlerts.mobileApp.form.thresholdLowerOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdLowerOperatorText', { metricLabel });
     case '<=':
-      return t('in-alerting:smartAlerts.mobileApp.form.thresholdLowerEqualsOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdLowerEqualsOperatorText', { metricLabel });
     default:
-      throw Error(t('in-alerting:smartAlerts.mobileApp.form.unsupportedOperator', { operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }
