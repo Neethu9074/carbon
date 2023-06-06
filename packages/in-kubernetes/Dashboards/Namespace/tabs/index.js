@@ -12,8 +12,12 @@ import {
   useDeploymentConfigDashboard,
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
+import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  playwithEnabled
+} from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
@@ -121,13 +125,14 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true
   },
-  persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumes'),
-    path: `${namespaceDashboardFullyQualified}/persistentvolumes`,
-    component: PersistentVolumes,
-    header: props => getCounterComponent(props, v => v.volumes),
-    stickToBottom: true
-  }
+  persistentVolumeSupportEnabled &&
+    !playwithEnabled && {
+      label: t('in-kubernetes:dashboards.persistentVolumes'),
+      path: `${namespaceDashboardFullyQualified}/persistentvolumes`,
+      component: PersistentVolumes,
+      header: props => getCounterComponent(props, v => v.volumes),
+      stickToBottom: true
+    }
 ].filter(Boolean);
 
 function getCounterComponent({ namespaceId, tab, timeConfig }, valueExtractor) {
