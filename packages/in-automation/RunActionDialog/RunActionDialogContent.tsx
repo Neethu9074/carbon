@@ -84,22 +84,23 @@ export default function RunActionDialogContent({
     const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
-        <Trans
-          i18nKey={
-            role?.canViewAutomationActionInstances
-              ? 'in-automation:linkToActionHistory'
-              : 'in-automation:linkToActionLogs'
-          }
-          components={{
-            logsLink: role?.canViewAutomationActionInstances ? (
+        {role?.canViewAutomationActionInstances ? (
+          <Trans
+            i18nKey={'in-automation:linkToActionHistory'}
+            components={{
               // @ts-expect-error
-              <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
-            ) : (
+              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
+            }}
+          />
+        ) : (
+          <Trans
+            i18nKey={'in-automation:linkToActionLogs'}
+            components={{
               // @ts-expect-error
-              <Link target="_blank" onClick={close} href$={logLink} />
-            )
-          }}
-        />
+              logsLink: <Link target="_blank" onClick={close} href$={logLink} />
+            }}
+          />
+        )}
       </Typography>
     );
   }
