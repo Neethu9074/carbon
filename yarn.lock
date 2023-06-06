@@ -2010,10 +2010,10 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/legacy@2.0.1":
-  version "2.0.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-2.0.1.tgz#3e8a98a35942b1de5755d8660556ac44e19635d8"
-  integrity sha512-yWHhhuez+m+zSp04cJKH7DgjSc9pYQEqXw5jeB53SMA4LEmakwKJUzzWQ7U3KT2uhI3KJtCn5FcFn3fVw3eWMw==
+"@instana/legacy@2.1.0":
+  version "2.1.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-2.1.0.tgz#26e405e94c5e40b28d5ef726f787cf325016d803"
+  integrity sha512-VKjPZbkMB2mAxURHpaZXdVmewfC4EW8b9dj/IYbdhprjfopY4Ul+6trQI6NUHzrdgb1lALbC9Utf+afFR0Wtlg==
   dependencies:
     "@instana/design-tokens" "^1.17.1"
     "@instana/format-date" "^1.5.0"
