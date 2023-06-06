@@ -43,33 +43,30 @@ export default function WebsitesAndMobileTopList({ config }) {
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const linkToNewMobileAppHref = useLinkToNewMobileApp();
 
-  function Header() {
-    if (playwithEnabled) return null;
-    return (
-      <>
-        {role.canConfigureEumApplications && (
-          <Button
-            kind="action"
-            onClick={() => websitesOpenAddForm()}
-            icon="lib_openclose_add_circle_outline"
-            href$={linkToNewWebsite$}
-          >
-            {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
-          </Button>
-        )}
-        {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && (
-          <Button
-            kind="action"
-            onClick={() => mobileAppsOpenAddForm()}
-            icon="lib_openclose_add_circle_outline"
-            href={linkToNewMobileAppHref}
-          >
-            {t('in-cockpit:component.websiteMobileTopList.addMobileApp')}
-          </Button>
-        )}
-      </>
-    );
-  }
+  const header = (
+    <>
+      {role.canConfigureEumApplications && (
+        <Button
+          kind="action"
+          onClick={() => websitesOpenAddForm()}
+          icon="lib_openclose_add_circle_outline"
+          href$={linkToNewWebsite$}
+        >
+          {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
+        </Button>
+      )}
+      {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && (
+        <Button
+          kind="action"
+          onClick={() => mobileAppsOpenAddForm()}
+          icon="lib_openclose_add_circle_outline"
+          href={linkToNewMobileAppHref}
+        >
+          {t('in-cockpit:component.websiteMobileTopList.addMobileApp')}
+        </Button>
+      )}
+    </>
+  );
 
   const generalProps = {
     ...config,
@@ -84,7 +81,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       }),
     unpinItem: (id, type) => remove({ id, type }),
     getItem,
-    Header,
+    header: playwithEnabled ? null : header,
     EmptyStateComponent: EmptyStateContent
   };
 
