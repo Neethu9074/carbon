@@ -57,7 +57,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
         }
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
-        {entityList != undefined && entityList != null ? (
+        {entityList ? (
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
