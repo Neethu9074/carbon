@@ -45,7 +45,8 @@
   "parameters": "Parameters",
   "noParametersTitle": "No parameters",
   "noParametersText": "This action does not have any parameters.",
-  "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
+  "linkToActionLogs":  "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
+  "linkToActionHistory": "The output of this action instance can be viewed in <logsLink>Action History page.</logsLink>",
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
@@ -169,6 +170,7 @@
     "displayName":"Display Name",
     "noParams":"No parameters available",
     "inputParameters":"Input Parameters",
-    "properties":"Properties"
+    "properties":"Properties",
+    "filterNameOrActionInstanceId":"Filter by  Name, Event Name or Action Instance ID"
   }
 }
