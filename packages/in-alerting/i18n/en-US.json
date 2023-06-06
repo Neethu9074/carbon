@@ -1112,7 +1112,24 @@
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
+        "customEvents": "Custom Event: {{customEventName}}",
+        "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
+        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
+        "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
+        "throughputSimpleLowOperatorText": "Number of {{metricLabel}} is anomalously low",
+        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is above the expectation.",
+        "statusCodeSimpleBelowOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is below the expectation.",
+        "staticThresholdHigherOperatorText": "The number of {{metricLabel}} is higher than {{thresholdValue}}.",
+        "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
+        "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
+        "staticThresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to {{thresholdValue}}.",
+        "unsupportedOperator": "Unsupported operator: {{operator}}",
+        "thresholdHigherOperatorText": "The number of {{metricLabel}}is higher than expected.",
+        "thresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to expected.",
+        "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
+        "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected."
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
@@ -1130,7 +1147,9 @@
         "alertChannelsLabel": "Alert Channels",
         "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
         "timeThresholdLabel": "Time Threshold",
-        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?"
+        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
+        "propertiesLabel": "Properties",
+        "propertiesTitle": "Additional Alert Properties"
       }
     },
     "inventory": {
