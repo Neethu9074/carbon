@@ -10,6 +10,8 @@ import React from 'react';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 //@ts-expect-error needs TS migration
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+//@ts-expect-error
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -22,13 +24,17 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 //@ts-expect-error
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
-import { ThresholdSection } from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
+import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
+import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -96,7 +102,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           valid: isThresholdSectionValid(),
           content: (
             <>
-              <ThresholdSection
+              <ThresholdSelectionInteractiveChart
                 alertType={alertType}
                 blueprintConfig={blueprintConfig}
                 editMode={editMode}
@@ -104,6 +110,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 onChartViewConfigChange={onChartViewConfigChange}
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                 updateForm={updateForm}
+                AlertingChartWithErrorMessage={MobileAppAlertingChartWithErrorMessage}
+                eumType={mobileAppEum}
+                isPercentageMetric={isPercentageMetric}
+                getMetricUnitPostfix={getMetricUnitPostfix}
+                ruleMetricNameOptions={ruleMetricNameOptions}
+                AlertTypeSwitch={AlertTypeSwitch}
               />
             </>
           )

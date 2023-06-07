@@ -1,10 +1,9 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2022
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
@@ -13,17 +12,15 @@ import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
-import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/JsErrorsThresholdCondition';
+import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/SlownessThresholdCondition';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/components/CustomEventsThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/StatusCodeThresholdCondition';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/ThroughputThresholdCondition';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
-import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
-import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
-import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 
 export default function ThresholdSelectionInteractiveChart({
@@ -33,7 +30,13 @@ export default function ThresholdSelectionInteractiveChart({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
-  editMode
+  editMode,
+  AlertingChartWithErrorMessage,
+  eumType,
+  getMetricUnitPostfix,
+  isPercentageMetric,
+  ruleMetricNameOptions,
+  AlertTypeSwitch
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
 
@@ -52,23 +55,38 @@ export default function ThresholdSelectionInteractiveChart({
     <BorderedContainer>
       <AlertTypeSwitch
         alertType={alertType}
+        renderJsErrors={() =>
+          eumType === websiteEum && (
+            <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+          )
+        }
         renderCustomEvent={() => (
           <CustomEventsThresholdCondition
             form={form}
             blueprintConfig={blueprintConfig}
             updateForm={updateForm}
             editMode={editMode}
-            eumType={mobileAppEum}
+            eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
           />
         )}
+        renderSlowness={() =>
+          eumType === websiteEum && (
+            <SlownessThresholdCondition
+              form={form}
+              blueprintConfig={blueprintConfig}
+              updateForm={updateForm}
+              editMode={editMode}
+            />
+          )
+        }
         renderStatusCode={() => (
           <StatusCodeThresholdCondition
             form={form}
             blueprintConfig={blueprintConfig}
             updateForm={updateForm}
-            eumType={mobileAppEum}
+            eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
             ruleMetricNameOptions={ruleMetricNameOptions}
@@ -80,7 +98,7 @@ export default function ThresholdSelectionInteractiveChart({
             updateForm={updateForm}
             blueprintConfig={blueprintConfig}
             editMode={editMode}
-            eumType={mobileAppEum}
+            eumType={eumType}
             ruleMetricNameOptions={ruleMetricNameOptions}
             getMetricUnitPostfix={getMetricUnitPostfix}
           />
@@ -94,7 +112,7 @@ export default function ThresholdSelectionInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <MobileAppAlertingChartWithErrorMessage
+          <AlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
@@ -106,13 +124,3 @@ export default function ThresholdSelectionInteractiveChart({
     </BorderedContainer>
   );
 }
-
-ThresholdSelectionInteractiveChart.propTypes = {
-  alertType: PropTypes.string.isRequired,
-  blueprintConfig: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired,
-  editMode: PropTypes.bool
-};
