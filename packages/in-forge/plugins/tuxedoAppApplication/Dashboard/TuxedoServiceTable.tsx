@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-//import { List } from 'immutable';
 import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
