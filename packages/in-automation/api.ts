@@ -33,6 +33,15 @@ const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions`;
 const associationsUrl = `${automationAPIBase}/settings/actions-associations`;
 
+export function createBuiltInActions() {
+  return http<Action[]>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${actionUrl}/built-in-actions`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
     method: 'GET',

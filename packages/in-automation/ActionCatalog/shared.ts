@@ -126,3 +126,6 @@ export const parseDynamicParameter = (str?: string) => {
   }
   return dynamicParameter;
 };
+
+export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
+  (action?.metadata?.builtIn ?? false) && !isCopy;
