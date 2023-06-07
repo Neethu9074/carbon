@@ -9,6 +9,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import CertificatesTable from './CertificatesTable';
 import DatasourcesTable from './DatasourcesTable';
 import ObjectPoolsTable from './ObjectPoolsTable';
 import ThreadPoolsTable from './ThreadPoolsTable';
@@ -55,6 +56,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <CertificatesTable snapshot={snapshot}/>
     </div>
   );
 }
