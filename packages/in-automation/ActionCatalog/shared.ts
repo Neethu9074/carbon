@@ -76,7 +76,6 @@ export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
-export const ANSIBLE_TYPE = 'ANSIBLE';
 export const EXTERNAL_TYPE = 'EXTERNAL';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
