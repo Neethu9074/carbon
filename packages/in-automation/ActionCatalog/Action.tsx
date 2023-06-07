@@ -94,7 +94,7 @@ const createEmptyAssociatedResources = (): AssociatedResources => ({
 
 export const isNotEditableContext = createContext(false);
 
-export type ActionFormEntity = (NewAction | Action) & AssociatedResources & { builtIn?: boolean };
+export type ActionFormEntity = (NewAction | Action) & AssociatedResources;
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const { goToPath } = useNavigation();
