@@ -165,6 +165,7 @@
     "log":"Log",
     "success":"Success",
     "failed":"Failed",
+    "unknown":"Unknown",
     "inProgress":"In Progress",
     "viewLog":"View Log",
     "displayName":"Display Name",
