@@ -31,7 +31,7 @@ import {
   hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
-  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
@@ -443,6 +443,7 @@ function Analyze(props) {
     groupBy: {}
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -469,9 +470,12 @@ function Analyze(props) {
             ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
-            getLinkToMobileAppAnalyze({
-              beaconType: 'sessions'
-            }),
+            just(
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessions',
+                groupBy: {}
+              })
+            ),
           hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
         ].filter(Boolean)[0]
       }

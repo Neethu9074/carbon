@@ -5,12 +5,14 @@
 
 import React from 'react';
 
+import { just } from '@instana/observables';
+
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { extendMetricConfigurationOnLiveMode } from 'in-mobile-apps/metrics';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -21,6 +23,8 @@ export default connectTo(
     result: getMobileAppMetrics(extendMetricConfigurationOnLiveMode(props.metricsConfiguration))
   }),
   function MobileAppChartWrapper(props) {
+    const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
     const tagCatalogs = {
       sessionStart: useTagCatalog('sessionStart'),
       viewChange: useTagCatalog('viewChange'),
@@ -34,7 +38,7 @@ export default connectTo(
     return (
       <ChartWrapper
         {...props}
-        {...getAdditionalChartActions({ ...props, tagCatalogs })}
+        {...getAdditionalChartActions({ ...props, tagCatalogs }, getLinkToMobileAppAnalyze)}
         renderHistoricDataIndicator
         hasApproximateData={hasApproximateData}
       />
@@ -42,7 +46,7 @@ export default connectTo(
   }
 );
 
-function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs }) {
+function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs }, getLinkToMobileAppAnalyze) {
   if (!viewInAnalytics || !viewInAnalytics.mobileAppLabel) {
     if (__DEV__) {
       throw new Error(
@@ -67,27 +71,29 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagC
           const metrics = getMetrics(renderedMetrics, beaconType, metricsConfiguration);
           return (
             tagCatalogs[beaconType] &&
-            getLinkToAnalyze({
-              formModel: translateDemocratisationTagFiltersToFormModel({
-                mobileAppLabel: viewInAnalytics.mobileAppLabel,
-                // The type tag filter is implicitly handled via the separate beaconType prop
-                tagFilters: metricsConfiguration.tagFilters?.filter(({ name }) => name !== 'mobileBeacon.type'),
-                tagCatalog: tagCatalogs[beaconType]
-              }),
-              timeConfig,
-              groupBy: viewInAnalytics.group || defaultGroupings[beaconType],
-              beaconType,
-              fields: metrics,
-              chartedMetrics:
-                metrics?.length > 0
-                  ? [
-                      {
-                        metricId: metrics[0].metricId,
-                        aggregationId: metrics[0].aggregationId
-                      }
-                    ]
-                  : []
-            })
+            just(
+              getLinkToMobileAppAnalyze({
+                formModel: translateDemocratisationTagFiltersToFormModel({
+                  mobileAppLabel: viewInAnalytics.mobileAppLabel,
+                  // The type tag filter is implicitly handled via the separate beaconType prop
+                  tagFilters: metricsConfiguration.tagFilters?.filter(({ name }) => name !== 'mobileBeacon.type'),
+                  tagCatalog: tagCatalogs[beaconType]
+                }),
+                timeConfig,
+                groupBy: viewInAnalytics.group || defaultGroupings[beaconType],
+                beaconType,
+                fields: metrics,
+                chartedMetrics:
+                  metrics?.length > 0
+                    ? [
+                        {
+                          metricId: metrics[0].metricId,
+                          aggregationId: metrics[0].aggregationId
+                        }
+                      ]
+                    : []
+              })
+            )
           );
         }
       })

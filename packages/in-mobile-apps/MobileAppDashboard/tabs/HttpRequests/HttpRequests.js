@@ -17,7 +17,7 @@ import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import { getLinkToHttpRequest, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze, useLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -27,28 +27,33 @@ import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+function OriginLabel({ item, mobileAppId, viewId }) {
+  const getLinkToMobileAppHttpRequest = useLinkToHttpRequest();
+  let label = item.name;
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    // ignore
+  }
+
+  return (
+    <Link
+      href={getLinkToMobileAppHttpRequest(mobileAppId, {
+        httpRequestId: label,
+        viewId
+      })}
+    >
+      {label}
+    </Link>
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.originLabel'),
     getContent(item, { mobileAppId, viewId }) {
-      let label = item.name;
-      try {
-        label = String(JSON.parse(label));
-      } catch (e) {
-        // ignore
-      }
-
-      return (
-        <Link
-          href$={getLinkToHttpRequest(mobileAppId, {
-            httpRequestId: label,
-            viewId
-          })}
-        >
-          {label}
-        </Link>
-      );
+      return <OriginLabel item={item} mobileAppId={mobileAppId} viewId={viewId} />;
     }
   },
   {
@@ -128,12 +133,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={
+      href={
         tagCatalogHttpRequest &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           beaconType: 'httpRequest',
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,

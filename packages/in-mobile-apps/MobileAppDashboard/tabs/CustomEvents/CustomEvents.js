@@ -17,7 +17,7 @@ import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { getLinkToCustomEvent, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze, useLinkToCustomEvent } from 'in-mobile-apps/navigation/paths';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -27,28 +27,33 @@ import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+function CustomEventLabel({ item, mobileAppId, viewId }) {
+  const getLinkToMobileAppCustomEvent = useLinkToCustomEvent();
+  let label = item.name;
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    // ignore
+  }
+
+  return (
+    <Link
+      href={getLinkToMobileAppCustomEvent(mobileAppId, {
+        viewId,
+        customEventId: label
+      })}
+    >
+      {label}
+    </Link>
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.customEvents.customEventsLabelEventName'),
     getContent(item, { mobileAppId, viewId }) {
-      let label = item.name;
-      try {
-        label = String(JSON.parse(label));
-      } catch (e) {
-        // ignore
-      }
-
-      return (
-        <Link
-          href$={getLinkToCustomEvent(mobileAppId, {
-            viewId,
-            customEventId: label
-          })}
-        >
-          {label}
-        </Link>
-      );
+      return <CustomEventLabel item={item} mobileAppId={mobileAppId} viewId={viewId} />;
     }
   },
   {
@@ -110,12 +115,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }) {
   const tagCatalogCustom = useTagCatalog('custom');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={
+      href={
         tagCatalogCustom &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           beaconType: 'custom',
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,

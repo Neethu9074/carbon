@@ -15,7 +15,7 @@ import {
   hideMobileAppDetailsInTraceView,
   navigateToSessionFromBackendTrace
 } from 'in-mobile-apps/tracker';
-import { getLinkToAnalyze, getLinkToSession, useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp, useLinkToAnalyze, useLinkToSession } from 'in-mobile-apps/navigation/paths';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -35,6 +35,9 @@ const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
 export default function MobileAppMonitoringData({ traceId, startTime }) {
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const getLinkToMobileAppSession = useLinkToSession();
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   const result = useObservable(() => {
     return getMobileAppBeacons({
       tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
@@ -100,7 +103,7 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
               </Button>
               <Button
                 onClick={() => navigateToSessionFromBackendTrace()}
-                href$={getLinkToSession({
+                href={getLinkToMobileAppSession({
                   sessionId: beacon.sessionId,
                   beaconTimestamp: beacon.timestamp
                 })}
@@ -122,7 +125,7 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
                     );
                   }
                 }}
-                href$={getLinkToAnalyze({
+                href={getLinkToMobileAppAnalyze({
                   groupBy: {},
                   // Intentionally using "traceId" passed from the trace detail page instead of "mobileBeacon.backendTraceId". Note that the latter
                   // can hold a different "traceId" in some cases. For example in case of cache revalidation, the backend request can be served

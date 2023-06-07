@@ -11,7 +11,7 @@ import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -75,12 +75,14 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 
 function ViewAll({ tagFilters, mobileAppLabel, className }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   return (
     <Link
       className={className}
-      href$={
+      href={
         tagCatalogHttpRequest &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
             tagFilters,
@@ -100,6 +102,8 @@ function ViewAll({ tagFilters, mobileAppLabel, className }) {
 
 function Label({ item, mobileAppLabel, tagFilters }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -109,9 +113,9 @@ function Label({ item, mobileAppLabel, tagFilters }) {
 
   return (
     <Link
-      href$={
+      href={
         tagCatalogHttpRequest &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
             tagFilters: tagFilters.concat({ name: 'mobileBeacon.error.type', stringValue: label, operator: 'EQUALS' }),

@@ -14,7 +14,7 @@ import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
-import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
+import { summaryTab, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -23,6 +23,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const granularity = getChartGranularity(timeConfig);
   const tagCatalogSessionStart = useTagCatalog('sessionStart');
   const tagCatalogViewChange = useTagCatalog('viewChange');
@@ -49,9 +50,9 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
+              href:
                 tagCatalogSessionStart &&
-                getLinkToAnalyze({
+                getLinkToMobileAppAnalyze({
                   beaconType: 'sessionStart',
                   formModel: translateDemocratisationTagFiltersToFormModel({
                     mobileAppLabel,
@@ -83,9 +84,9 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
+              href:
                 tagCatalogViewChange &&
-                getLinkToAnalyze({
+                getLinkToMobileAppAnalyze({
                   beaconType: 'viewChange',
                   formModel: translateDemocratisationTagFiltersToFormModel({
                     mobileAppLabel,
