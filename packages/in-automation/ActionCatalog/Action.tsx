@@ -171,8 +171,9 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       </div>
     );
   }
+
   return (
-    <isNotEditableContext.Provider value={Boolean(entity && isNotEditable(entity, isCopy))}>
+    <isNotEditableContext.Provider value={!entity ? true : isNotEditable(entity, isCopy)}>
       <Title title={t('in-automation:ActionCatalog.action')} />
       <form onSubmit={onSubmit}>{content}</form>
     </isNotEditableContext.Provider>
