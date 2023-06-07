@@ -26,7 +26,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
 import EntityLink from 'in-components/EntityLink';
@@ -73,14 +73,9 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_node"
-          label={item.name}
-          href$={getNodeDashboard(item.node.id)}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
+      const { node, name, entityHealthInfo } = item;
+
+      return <NodeLink id={node.id} name={name} entityHealthInfo={entityHealthInfo} />;
     }
   },
   {
@@ -244,4 +239,17 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function NodeLink({ id, name, entityHealthInfo }) {
+  const href = useNodeDashboard(id);
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_kubernetes_node"
+      label={name}
+      href={href}
+      severity={entityHealthInfo.maxSeverity}
+    />
+  );
 }

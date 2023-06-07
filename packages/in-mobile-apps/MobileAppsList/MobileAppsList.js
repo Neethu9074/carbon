@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -21,6 +21,7 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
@@ -93,7 +94,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 function RightHeader() {
   const linkToNewMobileApp = useLinkToNewMobileApp();
-
+  if (playwithEnabled) return null;
   return (
     <Button
       kind="action"

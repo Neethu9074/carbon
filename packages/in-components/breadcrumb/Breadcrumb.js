@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';

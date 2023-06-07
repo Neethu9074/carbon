@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/legacy';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
@@ -81,7 +82,7 @@ export default connectTo(
     physicalHierarchy = physicalHierarchy.toArray();
 
     return (
-      <ul className={locals.sidebarBreadcrumb}>
+      <ul className={locals.sidebarBreadcrumb} data-walkme-id="wm-stack">
         {physicalHierarchy.map(id => (
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
         ))}

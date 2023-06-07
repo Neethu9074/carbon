@@ -1,14 +1,18 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { trackTopListNavigation } from 'in-components/TopListWithUrlState';
+import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function TopPodsList(props) {
@@ -21,13 +25,8 @@ export default function TopPodsList(props) {
       metricOrderDirection="ASC"
       labels={[t('in-kubernetes:dashboards.status')]}
       getItems={getKubernetesPods}
-      getItemHref$={item =>
-        getPodDashboard(item.pod.id, {
-          clusterId: props.clusterId,
-          namespaceId: props.namespaceId
-        })
-      }
-      allItemsHref$={props.allItemsHref$}
+      Label={item => <Label {...item} {...props} />}
+      allItemsHref={props.allItemsHref}
       getItemLabel={item => item.pod.label}
       Metric={Phase}
     />
@@ -36,4 +35,17 @@ export default function TopPodsList(props) {
 
 function Phase(props) {
   return get(props, ['item', 'pod', 'status', 'phase']);
+}
+
+function Label({ item, getItemLabel, className, namespaceId, clusterId }) {
+  const href = usePodDashboard(item.pod.id, {
+    clusterId,
+    namespaceId
+  });
+
+  return (
+    <Link className={className} href={href} onClick={() => trackTopListNavigation()}>
+      {getItemLabel(item)}
+    </Link>
+  );
 }

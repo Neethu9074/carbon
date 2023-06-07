@@ -1,15 +1,16 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
-import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -20,6 +21,7 @@ const formatters = [number.compact];
 
 export default function KubernetesTopList(props) {
   const { title } = props;
+
   return (
     <TopListWithUrlState
       title={title}
@@ -30,7 +32,6 @@ export default function KubernetesTopList(props) {
       getList={getList}
       Renderer={Renderer}
       ViewAll={ViewAll}
-      Label={Label}
       Metric={props.Metric ? props.Metric : Metric}
       {...props}
     />
@@ -70,10 +71,10 @@ function getList({
   });
 }
 
-function ViewAll({ entityNameKey, allItemsHref$, items, className }) {
+function ViewAll({ entityNameKey, allItemsHref, items, className }) {
   const key = entityNameKey || 'unknownEntity';
   return (
-    <Link className={className} href$={allItemsHref$}>
+    <Link className={className} href={allItemsHref}>
       {items.length > 1 &&
         t('in-kubernetes:dashboards.viewEntity', {
           entityName: t('in-kubernetes:viewAllEntityName', { context: key, count: items.length })
@@ -86,14 +87,6 @@ function ViewAll({ entityNameKey, allItemsHref$, items, className }) {
   );
 }
 
-function Label({ item, getItemHref$, getItemLabel, className }) {
-  return (
-    <Link className={className} href$={getItemHref$(item)} onClick={() => trackTopListNavigation()}>
-      {getItemLabel(item)}
-    </Link>
-  );
-}
-
 function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
 }
@@ -101,6 +94,7 @@ function Metric({ formattedMetricValue }) {
 function Renderer(props) {
   return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} useMaxAvailableHeight />;
 }
+
 function getMetricValueFromItem(metricId, item) {
   return get(item, metricId);
 }

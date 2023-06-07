@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "{{count}}개의 조치 추가",
   "noActionsSelected": "조치가 선택되지 않음",
   "actionSensorTimeout": "백엔드 요청을 처리할 수 없습니다. 에이전트 구성을 확인하여 조치 센서가 설치되어 있는지 확인하십시오.",
+  "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
   "newAction": "새 조치",
   "ok": "확인",
   "runAction": "조치 실행",

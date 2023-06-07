@@ -92,7 +92,7 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
       const entityName = form && form.get('name') && (form.get('name') as Field<string>).value;
       addMessage({
         type: 'info',
-        timeout: 3500,
+        timeout: 5000,
         title: entityId
           ? t('in-settings:maintenanceWindow.userInfo.edit.title')
           : t('in-settings:maintenanceWindow.userInfo.create.title'),
@@ -720,6 +720,15 @@ function windowValidator(w: MapFormItems): ValidationResult {
 
   if (rrule && rrule.options.until) {
     windowEnd = rrule.options.until.getTime();
+  } else if (rrule && rrule.options.count) {
+    if (!rrule.after(new Date())) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-settings:tabs.finishedInTheNextFiveSeconds')
+        }
+      ];
+    }
   } else if (!rrule) {
     windowEnd = add(windowStart, { [duration.unit.toLocaleLowerCase()]: duration.amount }).getTime();
   } else {

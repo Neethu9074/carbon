@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -40,6 +41,7 @@ import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/pa
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
@@ -47,7 +49,6 @@ import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
-import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -80,6 +81,8 @@ export default function PlatformsTopList({ config }) {
 
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
 
+  const getClusterDashboardLink = useNavigateToClusterDashboard();
+
   return (
     <TopListWidget
       {...config}
@@ -99,7 +102,7 @@ export default function PlatformsTopList({ config }) {
       getItemLink={item => {
         return (
           item.isKubernetes
-            ? getClusterDashboard
+            ? getClusterDashboardLink
             : item.isPcf
             ? getApplicationDashboardLink
             : item.isZhmc
@@ -204,18 +207,23 @@ function getKubernetesClusterById(id, timeConfig) {
 function mapVsphereResult(result) {
   return result.data ? success({ ...result.data, isVsphere: true }) : result;
 }
+
 function mapOpenstackResult(result) {
   return result.data ? success({ ...result.data, isOpenstack: true }) : result;
 }
+
 function mapPcfResult(result) {
   return result.data ? success({ ...result.data, isPcf: true }) : result;
 }
+
 function mapPhmcResult(result) {
   return result.data ? success({ ...result.data, isPhmc: true }) : result;
 }
+
 function mapZhmcResult(result) {
   return result.data ? success({ ...result.data, isZhmc: true }) : result;
 }
+
 function mapSapResult(result) {
   return result.data ? success({ ...result.data, isSap: true }) : result;
 }

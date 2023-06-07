@@ -18,11 +18,11 @@ export default function AlertProperties({
   trackAlertLevelChanged,
   trackDescriptionChanged,
   trackTriggerChanged,
-  renderAlertPopertiesTitleRow
+  renderAlertPropertiesTitleRow
 }) {
   return (
     <Sections>
-      {renderAlertPopertiesTitleRow()}
+      {renderAlertPropertiesTitleRow()}
       <AlertLevelRow onChange={onChange} trackAlertLevelChanged={trackAlertLevelChanged} form={form} />
       <TriggersIncidentRow form={form} onChange={onChange} trackTriggerChanged={trackTriggerChanged} />
       <AlertDescriptionRow
@@ -45,5 +45,5 @@ AlertProperties.propTypes = {
   /**
    * The title row has different capabilities in teh different areas
    */
-  renderAlertPopertiesTitleRow: PropTypes.func.isRequired
+  renderAlertPropertiesTitleRow: PropTypes.func.isRequired
 };

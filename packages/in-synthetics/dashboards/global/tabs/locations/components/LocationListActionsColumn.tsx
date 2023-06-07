@@ -7,6 +7,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { LocationListItem } from '@instana/types';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -32,6 +33,7 @@ type LocationListActionsColumnProps = {
 export default function LocationListActionsColumn({ item, isLoading }: LocationListActionsColumnProps) {
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const { id, label, linkedTests, status }: LocationListItem = item;
+  const documentUrl = 'https://www.ibm.com/docs/en/instana-observability/current?topic=beta-pop-deployment#upgrade';
 
   useEffect(() => {
     if (!isLoading && isMoreMenuSaving) {
@@ -49,7 +51,14 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
         description={
           <span>
             {linkedTests > 0 ? (
-              <Trans i18nKey={'in-synthetics:dashboard.locationList.activeTestLinked'} values={{ label, status }} />
+              <Trans
+                i18nKey={'in-synthetics:dashboard.locationList.activeTestLinked'}
+                values={{ label, status, linkedTests }}
+                components={{
+                  // @ts-expect-error required prop children will be filled via i18n translation
+                  documentLink: <Link href={documentUrl} external />
+                }}
+              />
             ) : (
               <Trans
                 i18nKey={'in-synthetics:dashboard.locationList.labelConfirmRemoveLocation'}

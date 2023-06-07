@@ -67,6 +67,7 @@ global.window.instana.user = {
         canConfigureCustomAlerts: true,
         canConfigureAutomationActions: true,
         canRunAutomationActions: true,
+        canViewAutomationActionInstances: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,
         canConfigureAgentRunMode: true,

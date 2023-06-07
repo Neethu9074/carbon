@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "Ajouter {{count}} actions",
   "noActionsSelected": "Aucune action sélectionnée",
   "actionSensorTimeout": "Impossible de traiter la demande de back end. Vérifiez la configuration de votre agent pour vous assurer que le détecteur d'action est installé.",
+  "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "newAction": "Nouvelle action",
   "ok": "OK",
   "runAction": "Exécuter l'action",

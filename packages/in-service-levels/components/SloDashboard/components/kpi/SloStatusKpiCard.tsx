@@ -7,6 +7,7 @@
 import React, { useMemo } from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { useTheme } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { createSloPercentageFormatter } from 'in-service-levels/utils';
@@ -21,6 +22,7 @@ interface SloStatusKpiCardProps {
 export default function SloStatusKpiCard({ configuration, timeConfig }: SloStatusKpiCardProps) {
   const { id, target } = configuration;
   const formatter = useMemo(() => createSloPercentageFormatter(target), [target]);
+  const theme = useTheme();
 
   return (
     <BigNumberKpiCard
@@ -30,7 +32,8 @@ export default function SloStatusKpiCard({ configuration, timeConfig }: SloStatu
         metricConfiguration: metrics.status.singleNumber({ timeConfig, configId: id! }),
         staticCompanionValue: t('in-service-levels:sloDashboard.components.sloStatusKpiCard.target', {
           value: formatter(target)
-        })
+        }),
+        getColor: value => (value != null && value < target ? theme.ids.color.option.red['500'] : undefined)
       }}
     />
   );

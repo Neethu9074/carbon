@@ -218,7 +218,7 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  renderAlertPopertiesTitleRow={() => (
+                  renderAlertPropertiesTitleRow={() => (
                     <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
                   )}
                 />

@@ -17,8 +17,7 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/dialog/advanced/WebsiteAlertPropertiesTitleRow';
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/dialog/advanced/BluePrintSelectionSection';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
@@ -26,6 +25,7 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdSection';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -120,7 +120,8 @@ export default function AdvancedModeContainer(props) {
               form={form}
               updateForm={updateForm}
               QueryBuilderComponent={QueryBuilderComponent}
-              websiteLabel={websiteLabel}
+              label={websiteLabel}
+              iconType="lib_website"
             />
           )
         },
@@ -198,8 +199,12 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  renderAlertPopertiesTitleRow={() => (
-                    <WebsiteAlertPropertiesTitleRow form={form} onChange={onChange} />
+                  renderAlertPropertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={getTitlePlaceholder}
+                    />
                   )}
                 />
               )}

@@ -8,8 +8,9 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import ReadOnlyBuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/ReadOnlyBuiltInSmartAlertsSelectionBaseList';
 import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/BuiltInSmartAlertsSelectionBaseList';

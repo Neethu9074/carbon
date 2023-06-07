@@ -129,6 +129,10 @@ export function createTagBasedWebsitePayloadConfigurator({ getTagCatalog, getSug
   return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
 }
 
+export function createTagBasedMobileAppPayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
 export function createTagBasedPayloadConfigurator({
   getTagCatalog: originalGetTagCatalog,
   getSuggestions: optionalOriginalGetSuggestions

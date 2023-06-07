@@ -8,6 +8,7 @@ import React, { useState, Children, cloneElement, useRef, isValidElement } from 
 import { SvgIconSizes } from '@instana/components';
 
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
+import { ChartContentPostition } from 'in-components/Chart/types';
 import { TimeConfig } from 'in-types';
 
 import locals from './MarkerLanesPresenter.mless';
@@ -48,6 +49,7 @@ type MarkerLanesPresenterProps = {
   chartHeight?: number;
   timeAxisHeight?: number;
   markerPaneHeight?: number;
+  chartContentPosition: ChartContentPostition;
 };
 
 type MarkerLanesWrapperProps = Omit<MarkerLanesPresenterProps, 'children'> & {
@@ -71,6 +73,7 @@ function MarkerLanesPresenter({
   granularity,
   chartWidth,
   chartBucketWidth,
+  chartContentPosition,
   ...remainingProps
 }: MarkerLanesPresenterProps) {
   const [labelAlignment, setLabelAligment] = useState<LabelAlignment>('left');
@@ -95,6 +98,7 @@ function MarkerLanesPresenter({
         laneLabelsVisible={(hasMarkersToRender && laneLabelsVisible) || (!hasMarkersToRender && !laneLabelsVisible)}
         onLaneHasMarkersToRender={() => setHasMarkersToRender(true)}
         hasMarkersToRender={hasMarkersToRender}
+        chartContentPosition={chartContentPosition}
       />
       <div
         className={locals[labelAlignment]}

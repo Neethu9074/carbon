@@ -36,12 +36,12 @@ export default function ChartMarkerLanes({
       granularity={granularity}
       timeAxisHeight={timeAxisHeight}
       markerPaneHeight={markerPaneHeight}
+      chartContentPosition={chartContentPosition}
     >
       <SliCreationMarkerLane
         chartBucketWidth={chartBucketWidth}
         tooltipContent={tooltipContent}
         initialEvaluationTimestamp={initialEvaluationTimestamp}
-        chartContentPosition={chartContentPosition}
         {...props}
       />
     </MarkerLanesPresenter>

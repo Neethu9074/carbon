@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -24,7 +25,7 @@ import getKubernetesServices from 'in-kubernetes/subscriptions/getKubernetesServ
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
+import { useServiceDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 
@@ -36,7 +37,9 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return <EntityLink icon="lib_kubernetes_service" label={item.name} href$={getServiceDashboard(item.id)} />;
+      const { id, name } = item;
+
+      return <ServiceLink id={id} name={name} />;
     }
   },
   {
@@ -168,4 +171,9 @@ function getTableData({
       timeConfig
     }
   }).map(resultTransformer);
+}
+
+function ServiceLink({ id, name }) {
+  const href = useServiceDashboard(id);
+  return <EntityLink icon="lib_kubernetes_service" label={name} href={href} />;
 }

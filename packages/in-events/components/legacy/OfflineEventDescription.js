@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
 import { getSnapshotId, isEntityVerificationEvent } from 'in-events/components/eventUtil';

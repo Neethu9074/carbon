@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 
 import locals from './SelectSmartAlertsDialog.mless';
 
-export default function SelectSmartAlertDialog({ onSubmit, selection: initialSelection }) {
+export default function SelectSmartAlertDialog({ onSubmit, selection: initialSelection, isAutomation }) {
   const [selection, setSelection] = useState(initialSelection ?? []);
   return (
     <DialogWithSlideInView
@@ -46,7 +46,9 @@ export default function SelectSmartAlertDialog({ onSubmit, selection: initialSel
           selection={selection}
           onChange={setSelection}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications([], { asObservable: true })}
-          getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs([], { asObservable: true })}
+          getGlobalAlertConfigFetchFunction={
+            isAutomation ? undefined : () => getAllGlobalAlertConfigs([], { asObservable: true })
+          }
           pageSize={20}
         />
       </div>
@@ -55,6 +57,7 @@ export default function SelectSmartAlertDialog({ onSubmit, selection: initialSel
 }
 
 SelectSmartAlertDialog.propTypes = {
+  isAutomation: PropTypes.bool,
   onSubmit: PropTypes.func,
   selection: PropTypes.arrayOf(PropTypes.string)
 };

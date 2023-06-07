@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, ReactElement } from 'react';
 
 import { Observable } from '@instana/observables';
 
@@ -32,11 +32,13 @@ interface ListProps<ItemType extends Object> {
   isSearchable?: boolean;
   loadEntities: () => Observable<ItemType[]>;
   columnDefinitions: ColumnDefinition<ItemType>[];
+  searchWidth?: number;
   getHeader?: (
     totalHitsBeforeFilter: number,
     totalHitsAfterFilter: number,
     entitiesBeforePagination: number
   ) => ReactNode;
+  getCustomHeader?: () => ReactElement;
   searchAttributes?: string | ((entity: ItemType) => string) | (string | ((entity: ItemType) => string))[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
@@ -69,7 +71,7 @@ export declare function leftHeaderWithSelectAll(
   isBeta?: boolean
 ): (totalHitsBeforeFilter: number, totalHitsAfterFilter: number, entitiesBeforePagination: number) => ReactNode;
 
-export declare function createNewEntityButton({
+export declare function CreateNewEntityButton({
   labelNew,
   pathNew,
   onCreateNew,
@@ -81,7 +83,7 @@ export declare function createNewEntityButton({
   onCreateNew?: Function;
   disabledMessage?: string;
   trackEvent?: Function;
-}): ReactNode;
+}): JSX.Element;
 
 export default ListComponent;
 

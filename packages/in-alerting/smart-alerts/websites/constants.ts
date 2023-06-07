@@ -12,3 +12,5 @@ export const onLoadTime = 'onLoadTime';
 // Tracking
 export const modeSimple = 'Simple';
 export const modeAdvanced = 'Advanced';
+
+export const eumType = 'website';

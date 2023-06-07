@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -16,7 +17,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import getKubernetesCronJobs from 'in-kubernetes/subscriptions/getKubernetesCronJobs';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getCronJobDashboard } from 'in-kubernetes/navigation/paths';
+import { useCronJobDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
@@ -28,13 +29,9 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          label={item.cronJob.name}
-          href$={getCronJobDashboard(item.cronJob.id)}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
+      const { cronJob, entityHealthInfo } = item;
+
+      return <CronJobLink cronJob={cronJob} entityHealthInfo={entityHealthInfo} />;
     }
   },
   {
@@ -130,4 +127,10 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function CronJobLink({ cronJob, entityHealthInfo }) {
+  const cronJobHref = useCronJobDashboard(cronJob.id);
+
+  return <SeverityAwareEntityLink label={cronJob.name} href={cronJobHref} severity={entityHealthInfo.maxSeverity} />;
 }

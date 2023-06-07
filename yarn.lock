@@ -2010,6 +2010,19 @@
   dependencies:
     import-sort "^6.0.0"
 
+"@instana/legacy@2.1.0":
+  version "2.1.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-2.1.0.tgz#26e405e94c5e40b28d5ef726f787cf325016d803"
+  integrity sha512-VKjPZbkMB2mAxURHpaZXdVmewfC4EW8b9dj/IYbdhprjfopY4Ul+6trQI6NUHzrdgb1lALbC9Utf+afFR0Wtlg==
+  dependencies:
+    "@instana/design-tokens" "^1.17.1"
+    "@instana/format-date" "^1.5.0"
+    "@instana/format-numbers" "^1.4.0"
+    "@instana/hooks" "^1.10.0"
+    "@instana/i18n-react" "^1.4.0"
+    "@instana/observables" "^1.6.0"
+    classnames "^2.2.6"
+
 "@instana/logger@^1.3.0":
   version "1.3.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/logger/-/@instana/logger-1.3.0.tgz#4ed24a3420200ee794571288ace021e37ecc1d06"

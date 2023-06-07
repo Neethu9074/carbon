@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LinkProps, SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { LinkProps } from '@instana/legacy';
+import { Link } from '@instana/legacy';
 
 import locals from './SecondLevelNavigation.mless';
 

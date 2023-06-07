@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Link } from '@instana/components';
 import { Ul } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import UpstreamDownstreamItem from 'in-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
 import UpstreamDownstreamMetric from 'in-components/UpstreamDownstream/components/UpstreamDownstreamMetric';

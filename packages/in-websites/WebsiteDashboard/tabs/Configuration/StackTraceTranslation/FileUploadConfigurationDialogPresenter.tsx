@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';

@@ -6,7 +6,8 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button, Link } from '@instana/components';
+import { Button } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getConfigAsResultObservable,

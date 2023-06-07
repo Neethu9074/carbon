@@ -153,7 +153,8 @@ export const accessControlCapabilities: Array<CapabilityType> = [
 
 export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-  Capability.CAN_RUN_AUTOMATION_ACTIONS
+  Capability.CAN_RUN_AUTOMATION_ACTIONS,
+  Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [

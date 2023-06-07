@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/legacy';
 
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 

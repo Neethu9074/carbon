@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -15,8 +16,8 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import getKubernetesEvents from 'in-kubernetes/subscriptions/getKubernetesEvents';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { useDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
-import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -77,13 +78,7 @@ const allColumns = [
         plugin !== plugins.kubernetesReplicaSet;
 
       if (isLinkableEntity) {
-        return (
-          <EntityLink
-            icon={getIconType(plugin)}
-            label={item.name}
-            href$={getDashboardForEntity(item.sourceId, plugin)}
-          />
-        );
+        return <IconLink sourceId={item.sourceId} name={item.name} plugin={plugin} />;
       }
 
       return item.name;
@@ -104,6 +99,11 @@ const allColumns = [
     }
   }
 ];
+
+function IconLink({ sourceId, name, plugin }) {
+  const href = useDashboardForEntity(sourceId, plugin);
+  return <EntityLink icon={getIconType(plugin)} label={name} href={href} />;
+}
 
 const columnsWithoutNamespace = allColumns.filter(c => c.id !== 'namespace');
 

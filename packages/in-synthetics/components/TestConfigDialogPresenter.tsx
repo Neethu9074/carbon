@@ -14,7 +14,6 @@ import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { SlideInHeader, apiScriptTest, apiSimpleTest } from 'in-synthetics/utils/constants';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
-import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
@@ -261,7 +260,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       removeBottomPaddingWhenFooterIsShown
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
-          {simpleMode && syntheticCreateTestAdvanceModeEnabled && (
+          {simpleMode && (
             <Button
               kind="action"
               onClick={() => {

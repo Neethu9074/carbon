@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import invariant from 'invariant';
 import React from 'react';
+
+import { Link } from '@instana/legacy';
 
 import { cellLoadingIndicatorInstance } from 'in-infrastructure/tableView/components/Table/components/CellLoadingIndicator';
 import { noop } from 'in-services/fixedObjects';

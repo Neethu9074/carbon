@@ -10,3 +10,4 @@ export const actionDetailsPath = `${automationPath}/actionCatalog/:id`;
 export const actionDetailsNewPath = `${automationPath}/actionCatalog/new`;
 export const actionDetailsCopyPath = `${automationPath}/actionCatalog/copy`;
 export const actionDetailsCopyFormPath = `${automationPath}/actionCatalog/copy/:id`;
+export const actionHistoryPath = '/actionHistory';

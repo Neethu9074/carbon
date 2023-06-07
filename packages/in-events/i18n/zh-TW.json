@@ -24,6 +24,8 @@
   "titleAnalyzeJsErrors": "分析 JS 錯誤",
   "titleAnalyzePageLoads": "分析頁面載入",
   "titleAnalyzePageTransitions": "分析頁面轉移",
+  "titleAnalyzeViewTransitions": "分析視圖轉移",
+  "titleAnalyzeSessionStarts": "分析階段作業開始",
   "titleAnalyzeLoadTime": "分析載入時間",
   "titleViewRelatedTestResults": "檢視相關的測試結果",
   "titleTime": "時間",

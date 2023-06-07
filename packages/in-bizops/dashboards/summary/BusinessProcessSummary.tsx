@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
@@ -17,6 +16,7 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-bizops/dashboards/summary/tabs/index';
 import { Location } from 'in-stores/navigation/types';
@@ -30,12 +30,14 @@ export default function BusinessProcessDashboard() {
   const businessProcessName: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
+  const serviceId: string = getMatrixParameter(location, businessProcessDashboard, 'serviceId') ?? '';
 
   const timeConfig = useTimeConfig();
 
   const props = {
     label: businessProcessName,
     viewPath: businessProcessDashboard,
+    serviceId: serviceId,
     timeConfig,
     boundaryScope: '',
     onChange: {},
@@ -70,19 +72,20 @@ function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButt
   );
 }
 
-function RenderButtonLine() {
+interface RenderProps {
+  label: string;
+  serviceId: string;
+}
+function RenderButtonLine({ label, serviceId }: RenderProps) {
   const timeConfig: TimeConfig = useTimeConfig();
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
         IndicatorPresenter={HealthIndicatorButtonPresenter}
-        applicationId={'0fce0559eaebe9b65b13c8e9050d5060024f4586'}
+        serviceId={serviceId}
         timeConfig={timeConfig}
       />
-      {/* TODO: Implement button functionality */}
-      <Button kind="primary" icon="lib_application_call" href={''}>
-        {t('in-bizops:dashboards.analyzeInstancesButton')}
-      </Button>
+      <AnalyzeButton businessProcessName={label} />
     </>
   );
 }

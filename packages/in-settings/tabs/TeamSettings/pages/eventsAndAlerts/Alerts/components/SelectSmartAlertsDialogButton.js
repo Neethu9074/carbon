@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 import locals from './SelectSmartAlertsDialogButton.mless';
 
-export default function SelectSmartAlertsDialogButton({ form, updateForm }) {
+export default function SelectSmartAlertsDialogButton({ form, updateForm, isAutomation }) {
   const label = t('in-settings:tabs.addSmartAlerts');
   const selection = form.get('applicationAlertConfigIds')?.value.toJS();
   return (
@@ -26,6 +26,7 @@ export default function SelectSmartAlertsDialogButton({ form, updateForm }) {
       onClick={() =>
         addActiveDialog(
           <SelectSmartAlertDialog
+            isAutomation={isAutomation}
             selection={selection}
             onSubmit={(s, close) => {
               updateForm(form.updateIn(['applicationAlertConfigIds'], f => f.setValue(List(s)).setTouched(true)));
@@ -42,6 +43,7 @@ export default function SelectSmartAlertsDialogButton({ form, updateForm }) {
 }
 
 SelectSmartAlertsDialogButton.propTypes = {
+  isAutomation: PropTypes.bool,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired
 };

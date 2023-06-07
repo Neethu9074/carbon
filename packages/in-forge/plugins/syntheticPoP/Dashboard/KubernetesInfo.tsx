@@ -14,12 +14,11 @@ import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernete
 // @ts-expect-error
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 // @ts-expect-error
-import { getClusterDashboard, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 // @ts-expect-error
 import getKubernetesNamespacesByCluster from 'in-subscription/namespacesForCluster';
+import { useClusterDashboard, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 // @ts-expect-error
@@ -52,12 +51,14 @@ export default connectTo(
   function KubernetesInformation({ cluster, namespaceSnapshots, snapshot }: KubernetesInformationProps) {
     const namespaceName = snapshot.getIn(['data', 'properties.namespace']);
     const clusterName = snapshot.getIn(['data', 'properties.clusterName']);
+
     let namespaceSnapshot;
     if (Array.isArray(namespaceSnapshots) && namespaceSnapshots.length && namespaceName) {
       namespaceSnapshot = namespaceSnapshots.find(
         namespaceSnapshot => namespaceSnapshot.getIn(['data', 'name']) === namespaceName
       );
     }
+
     if (!namespaceName && !namespaceSnapshot && !clusterName && !cluster) {
       return null;
     }
@@ -70,12 +71,7 @@ export default connectTo(
             {namespaceSnapshot || namespaceName ? (
               <DescriptionItem title={t('in-forge:plugins.syntheticPoP.dashboard.namespace')}>
                 {namespaceSnapshot ? (
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getNamespaceDashboard}
-                    snapshotId={namespaceSnapshot.get('id')}
-                  >
-                    {namespaceSnapshot.get('label')}
-                  </KubernetesSnapshotLink>
+                  <NamespaceSnapshotLink label={namespaceSnapshot.get('label')} id={namespaceSnapshot.get('id')} />
                 ) : (
                   namespaceName
                 )}
@@ -83,16 +79,7 @@ export default connectTo(
             ) : null}
             {cluster || clusterName ? (
               <DescriptionItem title={t('in-forge:plugins.syntheticPoP.dashboard.cluster')}>
-                {cluster ? (
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getClusterDashboard}
-                    snapshotId={cluster.id}
-                  >
-                    {cluster.label}
-                  </KubernetesSnapshotLink>
-                ) : (
-                  clusterName
-                )}
+                {cluster ? <ClusterSnapshotLink label={cluster.label} id={cluster.id} /> : clusterName}
               </DescriptionItem>
             ) : null}
           </DescriptionList>
@@ -101,6 +88,18 @@ export default connectTo(
     );
   }
 );
+
+function NamespaceSnapshotLink({ label, id }: { label: string; id: string }) {
+  const namespaceDashboardHref = useNamespaceDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={namespaceDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function ClusterSnapshotLink({ label, id }: { label: string; id: string }) {
+  const clusterDashboardHref = useClusterDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={clusterDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
 
 function getNodeByHost(hostSnapshotId: string): Observable<KubernetesNode> {
   return timeConfig$.flatMap(timeConfig =>
@@ -114,6 +113,7 @@ function getNodeByHost(hostSnapshotId: string): Observable<KubernetesNode> {
       .filter(Boolean)
   );
 }
+
 function getClusterByNode(nodeSnapshotId: string): Observable<KubernetesCluster> {
   return timeConfig$.flatMap(timeConfig =>
     getKubernetesClusterByNode({
@@ -126,6 +126,7 @@ function getClusterByNode(nodeSnapshotId: string): Observable<KubernetesCluster>
       .filter(Boolean)
   );
 }
+
 function getNamespacesByCluster(clusterSnapshotId: string): Observable<SnapshotData[]> {
   return timeConfig$.flatMap(timeConfig =>
     getKubernetesNamespacesByCluster({

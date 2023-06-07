@@ -11,6 +11,7 @@ import { useTheme } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -82,10 +83,13 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
             activeKey={showFullConsumption ? 'full' : 'compact'}
           />
         ),
+        renderPostChartContent: props =>
+          isFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes configuration={configuration} {...props} />,
 
-        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size
+        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
+        // The current values are just measures taken from the default rendering of the chart to make the sizing work
         customHeight: isFullSloTimeWindow ? 300 : undefined,
-        customChartSkeletonHeight: isFullSloTimeWindow ? 300 : 182
+        customChartSkeletonHeight: isFullSloTimeWindow ? 300 : 238
       }}
       result={{ progress, errors }}
     />

@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}}件の障害",
         "numberOfFailures": "障害アラート"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "ステップ1: テスト",
         "simpleAlertConfigDialogStep1Headline": "アラートを出す必要があるのはどのシンセティック・テストですか?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} 件の失敗",
           "failuresWithCount_2": "{{count}} 件の失敗"
         },
-        "alertPropertiesTitlePlaceholder": "ここにタイトルを挿入",
-        "alertPropertiesDescriptionPlaceholder": "ここに説明を挿入"
+        "alertPropertiesTitlePlaceholder": "シンセティック・テストの失敗",
+        "alertPropertiesDescriptionPlaceholder": "シンセティック・テストが {{count}} 回連続で失敗しました",
+        "alertPropertiesDescriptionPlaceholder_plural": "シンセティック・テストが {{count}} 回連続で失敗しました",
+        "alertPropertiesDescriptionPlaceholder_0": "シンセティック・テストが {{count}} 回連続で失敗しました",
+        "alertPropertiesDescriptionPlaceholder_1": "シンセティック・テストが {{count}} 回連続で失敗しました",
+        "alertPropertiesDescriptionPlaceholder_2": "シンセティック・テストが {{count}} 回連続で失敗しました"
       },
       "advanced": {
         "alertChannelsLabel": "アラート・チャネル",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "シンセティック・テスト",
         "alertTestsTitle": "シンセティック・テスト: アラートを出す必要があるのはどのシンセティック・テストですか?",
         "propertiesLabel": "アラートのプロパティー",
-        "alertPropertiesPreviewTitlePlaceholder": "[ここにタイトルを挿入]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[ここに説明を挿入]",
         "propertiesTitle": "アラート通知には何を含める必要がありますか?",
         "failureThreshold": "時間しきい値",
         "failureThresholdLabel": "時間しきい値",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "失敗の数",
         "timeThreshold": "時間しきい値",
         "alertingType": "アラート・タイプ"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "状況コードのカウント",
+        "beaconRate": "ビーコン率",
+        "views": "ビュー",
+        "customEventBlueprintConfigMetricLabel": "発生件数",
+        "sessions": "セッション数"
       }
     }
   }

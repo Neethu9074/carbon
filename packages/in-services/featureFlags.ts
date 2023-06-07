@@ -107,9 +107,6 @@ export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('synthetic
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
-// Create Synthetic Test in Advance Mode
-export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
-
 // Synthetic credential feature flag
 export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
 
@@ -172,3 +169,5 @@ export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
 );
 
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
+
+export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeEnabled', false);

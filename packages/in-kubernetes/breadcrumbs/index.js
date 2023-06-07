@@ -1,18 +1,19 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
 import {
-  getClusterDashboard,
-  getCronJobDashboard,
-  getDaemonSetDashboard,
-  getDeploymentDashboard,
-  getDeploymentConfigDashboard,
-  getNamespaceDashboard,
-  getStatefulSetDashboard
+  useClusterDashboard,
+  useCronJobDashboard,
+  useNamespaceDashboard,
+  useDaemonSetDashboard,
+  useDeploymentDashboard,
+  useDeploymentConfigDashboard,
+  useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
@@ -33,39 +34,54 @@ export function ClusterBreadcrumbs(props) {
 
 export function NamespaceBreadcrumbs(props) {
   const { namespaceId, clusterId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
     namespaceId && <NamespaceBreadcrumb {...props} />
   ];
 }
 
 export function ServiceBreadcrumbs(props) {
   const { serviceId, namespaceId, clusterId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     serviceId && <ServiceBreadcrumb {...props} />
   ];
 }
 
 export function NodeBreadcrumbs(props) {
   const { nodeId, clusterId, namespaceId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     nodeId && <NodeBreadcrumb {...props} />
   ];
 }
 
 export function CronJobBreadcrumbs(props) {
   const { cronJobId, clusterId, namespaceId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     cronJobId && <CronJobBreadcrumb {...props} />
   ];
 }
@@ -73,15 +89,23 @@ export function CronJobBreadcrumbs(props) {
 export function PodBreadcrumbs(props) {
   const { podId, cronJobId, clusterId, namespaceId, workloadControllerId, workloadControllerType } = props;
 
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+  const daemonSetHref = useDaemonSetDashboard(workloadControllerId);
+  const statefulSetHref = useStatefulSetDashboard(workloadControllerId);
+  const deploymentHref = useDeploymentDashboard(workloadControllerId);
+  const deploymentConfigHref = useDeploymentConfigDashboard(workloadControllerId);
+  const cronJobHref = useCronJobDashboard(cronJobId, { podId });
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesDaemonSet && (
       <WorkloadControllerBreadcrumb
         {...props}
         headerTitle={t('in-kubernetes:breadcrumbs.daemonSet')}
-        href$={getDaemonSetDashboard(workloadControllerId)}
+        href={daemonSetHref}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
       />
@@ -90,7 +114,7 @@ export function PodBreadcrumbs(props) {
       <WorkloadControllerBreadcrumb
         {...props}
         headerTitle={t('in-kubernetes:breadcrumbs.statefulSet')}
-        href$={getStatefulSetDashboard(workloadControllerId)}
+        href={statefulSetHref}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
       />
@@ -99,7 +123,7 @@ export function PodBreadcrumbs(props) {
       <WorkloadControllerBreadcrumb
         {...props}
         headerTitle={t('in-kubernetes:breadcrumbs.deployment')}
-        href$={getDeploymentDashboard(workloadControllerId)}
+        href={deploymentHref}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
       />
@@ -108,22 +132,26 @@ export function PodBreadcrumbs(props) {
       <WorkloadControllerBreadcrumb
         {...props}
         headerTitle={t('in-kubernetes:breadcrumbs.deploymentConfig')}
-        href$={getDeploymentConfigDashboard(workloadControllerId)}
+        href={deploymentConfigHref}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
       />
     ),
-    cronJobId && <CronJobBreadcrumb {...props} href$={getCronJobDashboard(cronJobId, { podId })} />,
+    clusterId && cronJobId && <CronJobBreadcrumb {...props} href={cronJobHref} />,
     podId && <PodBreadcrumb {...props} />
   ];
 }
 
 export function WorkloadControllerBreadcrumbs(props) {
   const { workloadControllerId, clusterId, namespaceId } = props;
+
+  const clusterHref = useClusterDashboard(clusterId);
+  const namespaceHref = useNamespaceDashboard(namespaceId);
+
   return [
     <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    clusterId && <ClusterBreadcrumb {...props} href={clusterHref} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href={namespaceHref} />,
     workloadControllerId && <WorkloadControllerBreadcrumb {...props} />
   ];
 }

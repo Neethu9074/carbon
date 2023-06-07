@@ -14,15 +14,18 @@ import {
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/CustomEventsThresholdCondition';
-import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/StatusCodeThresholdCondition';
-import ThroughputThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/ThroughputThresholdCondition';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/JsErrorsThresholdCondition';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/SlownessThresholdCondition';
+import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/components/CustomEventsThresholdCondition';
+import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/StatusCodeThresholdCondition';
+import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/ThroughputThresholdCondition';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 
@@ -61,6 +64,9 @@ export default function ThresholdSelectionInteractiveChart({
             blueprintConfig={blueprintConfig}
             updateForm={updateForm}
             editMode={editMode}
+            eumType={websiteEum}
+            isPercentageMetric={isPercentageMetric}
+            getMetricUnitPostfix={getMetricUnitPostfix}
           />
         )}
         renderSlowness={() => (
@@ -72,7 +78,15 @@ export default function ThresholdSelectionInteractiveChart({
           />
         )}
         renderStatusCode={() => (
-          <StatusCodeThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+          <StatusCodeThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            eumType={websiteEum}
+            isPercentageMetric={isPercentageMetric}
+            getMetricUnitPostfix={getMetricUnitPostfix}
+            ruleMetricNameOptions={ruleMetricNameOptions}
+          />
         )}
         renderThroughput={() => (
           <ThroughputThresholdCondition
@@ -80,6 +94,9 @@ export default function ThresholdSelectionInteractiveChart({
             updateForm={updateForm}
             blueprintConfig={blueprintConfig}
             editMode={editMode}
+            eumType={websiteEum}
+            ruleMetricNameOptions={ruleMetricNameOptions}
+            getMetricUnitPostfix={getMetricUnitPostfix}
           />
         )}
       />

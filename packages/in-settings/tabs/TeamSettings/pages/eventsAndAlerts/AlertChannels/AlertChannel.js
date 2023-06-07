@@ -7,7 +7,8 @@ import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Card, Link, SvgIcon } from '@instana/components';
+import { Card, SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getEntityIdView,
@@ -181,7 +182,7 @@ function getPropertyValue(entity, key) {
     return getConfig(entity).label;
   }
 
-  if (key === 'password') {
+  if (key === 'password' || key === 'bearerAuthToken') {
     return Array(entity.get(key)?.length ?? 0).join('*');
   }
 

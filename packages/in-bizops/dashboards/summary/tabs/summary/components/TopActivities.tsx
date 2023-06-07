@@ -25,10 +25,10 @@ time window.
 */
 
 interface TopActivitiesProps {
-  businessProcessName: string;
+  businessProcessId: string;
 }
 
-export default function TopActivities({ businessProcessName }: TopActivitiesProps) {
+export default function TopActivities({ businessProcessId }: TopActivitiesProps) {
   const timeConfig = useTimeConfig();
   /* TODO: When/if more metrics are added, use the labels prop to supply the 
   header tab button labels. Since we're starting with just one metric (count),
@@ -41,7 +41,7 @@ export default function TopActivities({ businessProcessName }: TopActivitiesProp
       formatters={[number.compact]}
       ViewAll={ViewAll}
       timeConfig={timeConfig}
-      businessProcessName={businessProcessName}
+      businessProcessId={businessProcessId}
       getList={getList}
       Renderer={TopListCardPresenter}
       Label={Label}
@@ -55,12 +55,12 @@ function ViewAll() {
 }
 
 type GetListProps = {
-  businessProcessName: string;
+  businessProcessId: string;
   timeConfig: TimeConfig;
 };
 
 // Invoke the websocket to fetch business activity list data from backend
-function getList({ businessProcessName, timeConfig }: GetListProps) {
+function getList({ businessProcessId, timeConfig }: GetListProps) {
   const tagFilterExpression: TagFilterExpression = {
     logicalOperator: 'AND',
     type: 'EXPRESSION',
@@ -69,7 +69,7 @@ function getList({ businessProcessName, timeConfig }: GetListProps) {
         entity: 'SOURCE',
         name: 'process_id',
         operator: 'EQUALS',
-        value: businessProcessName,
+        value: businessProcessId,
         type: 'TAG_FILTER'
       }
     ]

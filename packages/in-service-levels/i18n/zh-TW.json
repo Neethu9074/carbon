@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "標籤"
+      },
+      "sloStatusColumnContent": {
+        "target": "目標 {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} 分鐘",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} 個引標",
+        "remainingEvent_website_plural": "{{count}} 個引標",
+        "remainingEvent_website_0": "{{count}} 個引標",
+        "remainingEvent_website_1": "{{count}} 個引標",
+        "remainingEvent_website_2": "{{count}} 個引標",
+        "remainingEvent_application": "{{count}} 個呼叫",
+        "remainingEvent_application_plural": "{{count}} 個呼叫",
+        "remainingEvent_application_0": "{{count}} 個呼叫",
+        "remainingEvent_application_1": "{{count}} 個呼叫",
+        "remainingEvent_application_2": "{{count}} 個呼叫",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，固定 / 剩餘 {{remaining}}",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，漸進式",
+        "timeWindowSize_month": "{{count}} 個月",
+        "timeWindowSize_month_plural": "{{count}} 個月",
+        "timeWindowSize_month_0": "{{count}} 個月",
+        "timeWindowSize_month_1": "{{count}} 個月",
+        "timeWindowSize_month_2": "{{count}} 個月",
+        "timeWindowSize_week": "{{count}} 週",
+        "timeWindowSize_week_plural": "{{count}} 週",
+        "timeWindowSize_week_0": "{{count}} 週",
+        "timeWindowSize_week_1": "{{count}} 週",
+        "timeWindowSize_week_2": "{{count}} 週",
+        "timeWindowSize_day": "{{count}} 天",
+        "timeWindowSize_day_plural": "{{count}} 天",
+        "timeWindowSize_day_0": "{{count}} 天",
+        "timeWindowSize_day_1": "{{count}} 天",
+        "timeWindowSize_day_2": "{{count}} 天"
       }
     },
     "title": "服務水準目標",
     "columnLabels": {
       "name": "名稱",
       "entity": "實體",
-      "blueprint": "藍圖"
+      "blueprint": "藍圖",
+      "errorBudget": "剩餘的錯誤預算",
+      "status": "狀態/目標",
+      "tags": "標籤"
     }
   }
 }

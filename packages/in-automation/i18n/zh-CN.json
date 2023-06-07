@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "添加 {{count}} 项操作",
   "noActionsSelected": "未选择任何操作",
   "actionSensorTimeout": "无法处理后端请求。 请检查代理程序配置以确保已安装操作传感器。",
+  "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
   "ok": "确定",
   "runAction": "运行操作",

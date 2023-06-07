@@ -82,6 +82,7 @@
     "@instana/hooks": "1.10.0",
     "@instana/i18n": "^1.4.0",
     "@instana/i18n-react": "1.4.0",
+    "@instana/legacy": "2.1.0",
     "@instana/logger": "^1.3.0",
     "@instana/observables": "^1.6.0",
     "@instana/roemitter": "^1.3.0",

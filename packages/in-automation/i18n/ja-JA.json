@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "{{count}} 個のアクションの追加",
   "noActionsSelected": "アクションが選択されていません",
   "actionSensorTimeout": "バックエンド要求を処理できませんでした。 エージェント構成を調べて、アクション・センサーがインストールされていることを確認してください。",
+  "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
   "ok": "OK",
   "runAction": "アクションの実行",

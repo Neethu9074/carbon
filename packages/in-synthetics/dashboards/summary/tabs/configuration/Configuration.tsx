@@ -35,8 +35,8 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const isBrowserScriptTest: boolean =
-    (test.data.configuration.syntheticType === 'BrowserScript' ||
-      test.data.configuration.syntheticType === 'WebpageScript') &&
+    (test.data?.configuration?.syntheticType === 'BrowserScript' ||
+      test.data?.configuration?.syntheticType === 'WebpageScript') &&
     syntheticBrowserScriptEnabled;
 
   function openEditConfigDialog(test: SyntheticTest) {

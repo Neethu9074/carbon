@@ -3,16 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
-import React from 'react';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
 import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
-import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
-import { SlideInHeader } from 'in-synthetics/utils/constants';
+import { Code, SlideInHeader } from 'in-synthetics/utils/constants';
 import StepProgressBar from 'in-components/StepProgressBar';
 import { Error as ScriptError } from 'in-types';
 
@@ -65,6 +64,7 @@ export default function TestCreationWithSteps({
   setCommonAttributes,
   setCustomSlideInHeaderConfig
 }: Props) {
+  const [scriptDetails, setScriptDetails] = useState<Code>({ modified: false, name: '' });
   const onProceed = () => {
     if (simpleMode && step !== stepConfigs.length - 1) {
       updateStep(step + 1);
@@ -86,7 +86,7 @@ export default function TestCreationWithSteps({
         [locals.advancedMode]: !simpleMode
       })}
     >
-      {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
+      {!simpleMode ? (
         <AdvancedMode
           form={form}
           updateForm={updateForm}
@@ -99,6 +99,8 @@ export default function TestCreationWithSteps({
           setCommonAttributes={setCommonAttributes}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           isUpdateConfig={false}
+          scriptDetails={scriptDetails}
+          setScriptDetails={setScriptDetails}
         />
       ) : (
         <>
@@ -112,6 +114,8 @@ export default function TestCreationWithSteps({
             scriptErrors={scriptErrors}
             setScriptErrors={setScriptErrors}
             simpleMode={simpleMode}
+            scriptDetails={scriptDetails}
+            setScriptDetails={setScriptDetails}
           />
         </>
       )}

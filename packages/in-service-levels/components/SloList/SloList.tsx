@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
@@ -28,6 +29,66 @@ import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
 import { all } from 'in-hooks/utils/progress';
 
+interface GetColumnDefinitionsProps {
+  isMediumWidth?: boolean;
+  isSmallWidth?: boolean;
+}
+
+function getColumnDefinitions({
+  isMediumWidth,
+  isSmallWidth
+}: GetColumnDefinitionsProps): ColumnDefinition<SloListItem>[] {
+  const columnDefinitions: ColumnDefinition<SloListItem>[] = [
+    {
+      id: 'name',
+      label: t('in-service-levels:sloList.columnLabels.name'),
+      getContent: item => <SloNameColumnContent item={item} />,
+      width: 23
+    },
+    {
+      id: 'entity',
+      label: t('in-service-levels:sloList.columnLabels.entity'),
+      getContent: item => <SloEntityColumnContent item={item} />,
+      width: 18.5
+    },
+    {
+      id: 'blueprint',
+      label: t('in-service-levels:sloList.columnLabels.blueprint'),
+      getContent: item => <SloBlueprintColumnContent item={item} />,
+      width: 8
+    },
+    {
+      id: 'errorBudget',
+      label: t('in-service-levels:sloList.columnLabels.errorBudget'),
+      getContent: item => <SloErrorBudgetColumnContent item={item} showSparkChart={isMediumWidth} />,
+      width: 18.5
+    },
+    {
+      id: 'status',
+      label: t('in-service-levels:sloList.columnLabels.status'),
+      getContent: item => <SloStatusColumnContent item={item} />,
+      width: 12
+    },
+    {
+      id: 'tags',
+      label: t('in-service-levels:sloList.columnLabels.tags'),
+      getContent: item => <SloTagsColumnContent item={item} />,
+      width: 15
+    },
+    {
+      id: 'actions',
+      label: '',
+      getContent: () => <SloActions />,
+      width: 5
+    }
+  ];
+
+  return columnDefinitions.filter(({ id }) => {
+    // Hide blueprint column if showBluerprintCol is false
+    return id !== 'blueprint' || isSmallWidth;
+  });
+}
+
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
   entity: LabeledEntity;
@@ -43,52 +104,10 @@ interface Props {
   matrixPrefix?: string;
 }
 
-const columnDefinitions: ColumnDefinition<SloListItem>[] = [
-  {
-    id: 'name',
-    label: t('in-service-levels:sloList.columnLabels.name'),
-    getContent: item => <SloNameColumnContent item={item} />,
-    width: 25
-  },
-  {
-    id: 'entity',
-    label: t('in-service-levels:sloList.columnLabels.entity'),
-    getContent: item => <SloEntityColumnContent item={item} />,
-    width: 20
-  },
-  {
-    id: 'blueprint',
-    label: t('in-service-levels:sloList.columnLabels.blueprint'),
-    getContent: item => <SloBlueprintColumnContent item={item} />,
-    width: 5
-  },
-  {
-    id: 'errorBudget',
-    label: t('in-service-levels:sloList.columnLabels.errorBudget'),
-    getContent: item => <SloErrorBudgetColumnContent item={item} />,
-    width: 22.5
-  },
-  {
-    id: 'status',
-    label: t('in-service-levels:sloList.columnLabels.status'),
-    getContent: item => <SloStatusColumnContent item={item} />,
-    width: 10
-  },
-  {
-    id: 'tags',
-    label: t('in-service-levels:sloList.columnLabels.tags'),
-    getContent: item => <SloTagsColumnContent item={item} />,
-    width: 15
-  },
-  {
-    id: 'actions',
-    label: '',
-    getContent: () => <SloActions />,
-    width: 2.5
-  }
-];
-
 export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
+  const isMediumWidth = useMediaQuery('(min-width: 1560px)');
+  const isSmallWidth = useMediaQuery('(min-width: 1200px)');
+
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -122,7 +141,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       orderBy={orderBy}
       orderDirection={orderDirection}
       query={query}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
       result={{
         progress,
         errors,

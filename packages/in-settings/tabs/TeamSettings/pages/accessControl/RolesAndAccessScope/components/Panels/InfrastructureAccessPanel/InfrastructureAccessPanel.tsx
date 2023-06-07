@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { Link, SvgIcon, Stack, StackItem, Typography } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
+import { Link } from '@instana/legacy';
 
 import {
   AreaRole,
@@ -29,7 +31,6 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 import locales from './InfrastructureAccessPanel.mless';
 

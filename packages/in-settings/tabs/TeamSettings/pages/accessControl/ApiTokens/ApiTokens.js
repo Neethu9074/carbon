@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getApiTokens,

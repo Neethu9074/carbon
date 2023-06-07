@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "标记"
+      },
+      "sloStatusColumnContent": {
+        "target": "目标 {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} 分钟",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} 个信标",
+        "remainingEvent_website_plural": "{{count}} 个信标",
+        "remainingEvent_website_0": "{{count}} 个信标",
+        "remainingEvent_website_1": "{{count}} 个信标",
+        "remainingEvent_website_2": "{{count}} 个信标",
+        "remainingEvent_application": "{{count}} 个调用",
+        "remainingEvent_application_plural": "{{count}} 个调用",
+        "remainingEvent_application_0": "{{count}} 个调用",
+        "remainingEvent_application_1": "{{count}} 个调用",
+        "remainingEvent_application_2": "{{count}} 个调用",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，已修复/剩余 {{remaining}} 个",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，滚动",
+        "timeWindowSize_month": "{{count}} 个月",
+        "timeWindowSize_month_plural": "{{count}} 个月",
+        "timeWindowSize_month_0": "{{count}} 个月",
+        "timeWindowSize_month_1": "{{count}} 个月",
+        "timeWindowSize_month_2": "{{count}} 个月",
+        "timeWindowSize_week": "{{count}} 周",
+        "timeWindowSize_week_plural": "{{count}} 周",
+        "timeWindowSize_week_0": "{{count}} 周",
+        "timeWindowSize_week_1": "{{count}} 周",
+        "timeWindowSize_week_2": "{{count}} 周",
+        "timeWindowSize_day": "{{count}} 天",
+        "timeWindowSize_day_plural": "{{count}} 天",
+        "timeWindowSize_day_0": "{{count}} 天",
+        "timeWindowSize_day_1": "{{count}} 天",
+        "timeWindowSize_day_2": "{{count}} 天"
       }
     },
     "title": "服务级别目标",
     "columnLabels": {
       "name": "名称",
       "entity": "实体",
-      "blueprint": "蓝图"
+      "blueprint": "蓝图",
+      "errorBudget": "错误预算剩余",
+      "status": "状态/目标",
+      "tags": "标记"
     }
   }
 }

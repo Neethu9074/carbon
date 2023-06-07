@@ -16,20 +16,23 @@ import SparkChart from 'in-components/SparkChart';
 
 interface SloErrorBudgetColumnContentProps {
   item: SloListItem;
+  showSparkChart?: boolean;
 }
 
-export default function SloErrorBudgetColumnContent({ item }: SloErrorBudgetColumnContentProps) {
+export default function SloErrorBudgetColumnContent({ item, showSparkChart }: SloErrorBudgetColumnContentProps) {
   const { configuration, remainingBudget, burnDown, metricGranularity, metricTimeConfig } = item;
 
   return (
     <Stack direction="horizontal" align="center">
-      <SparkChart
-        timeConfig={metricTimeConfig}
-        metrics={burnDown}
-        rollup={metricGranularity}
-        // @ts-expect-error our number formatters are quite badly typed :/
-        tooltipFormatter={isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : number.compact}
-      />
+      {showSparkChart && (
+        <SparkChart
+          timeConfig={metricTimeConfig}
+          metrics={burnDown}
+          rollup={metricGranularity}
+          // @ts-expect-error our number formatters are quite badly typed :/
+          tooltipFormatter={isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : number.compact}
+        />
+      )}
       <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
     </Stack>
   );
