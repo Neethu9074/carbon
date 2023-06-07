@@ -128,5 +128,4 @@ export const parseDynamicParameter = (str?: string) => {
   return dynamicParameter;
 };
 
-// @ts-expect-error
-export const isNotEditable = (action: Action | NewAction) => action.metadata.readOnly;
+export const isNotEditable = (action: Action | NewAction, isCopy: boolean) => action?.metadata?.readOnly || !isCopy;

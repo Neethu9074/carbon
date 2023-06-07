@@ -6,7 +6,7 @@
 
 import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
-import React from 'react';
+import React, { createContext } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -30,6 +30,7 @@ import {
   BASIC_AUTH,
   BEARER_TOKEN,
   isDocLink,
+  isNotEditable,
   isScript,
   isWebhook,
   NO_AUTH
@@ -90,6 +91,8 @@ const createEmptyAssociatedResources = (): AssociatedResources => ({
   applicationAlertConfigIds: [],
   selectedEvents: []
 });
+
+export const isNotEditableContext = createContext(false);
 
 export type ActionFormEntity = (NewAction | Action) & AssociatedResources & { builtIn?: boolean };
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
@@ -154,13 +157,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
             </Section>
           ) : null}
 
-          <ActionForm
-            isCreate={isCreate || isCopy}
-            form={form!}
-            onChange={onChange}
-            entity={entity!}
-            setForm={setForm}
-          />
+          <ActionForm isCreate={isCreate} form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
 
           <SaveCancel
             form={form!}
@@ -175,10 +172,10 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     );
   }
   return (
-    <>
+    <isNotEditableContext.Provider value={Boolean(entity && isNotEditable(entity, isCopy))}>
       <Title title={t('in-automation:ActionCatalog.action')} />
       <form onSubmit={onSubmit}>{content}</form>
-    </>
+    </isNotEditableContext.Provider>
   );
 }
 
