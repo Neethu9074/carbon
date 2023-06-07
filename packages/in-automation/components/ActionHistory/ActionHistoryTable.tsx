@@ -160,6 +160,9 @@ export default function ActionHistoryTable() {
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
       }}
+      searchWidth={350}
+      searchMaxWidth={450}
+      searchPlaceholder={t('in-automation:actionHistory.filterNameOrActionInstanceId')}
     />
   );
 }

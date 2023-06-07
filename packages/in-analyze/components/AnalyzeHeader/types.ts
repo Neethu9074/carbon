@@ -33,6 +33,8 @@ export interface AnalyzeHeaderProps {
   headerHref$?: Observable<string>;
   onHeaderClick?: (params: any) => any;
   contextConfigurations?: ContextConfiguration[];
+  liveModeDisabled?: boolean;
+  liveModeDisabledTooltip?: string;
 }
 
 export interface LabelProps {

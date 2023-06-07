@@ -4,13 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Result, TimeConfig } from '@instana/types';
+import { Result, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 //@ts-expect-error Needs TS migration
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
+//@ts-expect-error Needs TS migration
+import { getSuggestions } from 'in-mobile-apps/queryBuilder';
+import { CreateQueryBuilderResponse, GetSuggestionsProps } from 'in-components/QueryBuilder';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Nullish, MobileAppMonitoringBeaconType } from 'in-types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 
@@ -24,18 +29,47 @@ import { createQueryBuilder } from 'in-components/QueryBuilder';
  * @param mobileAppId            The mobileApp ID this alert is bound to.
  * @param MobileAppMonitoringBeaconType   One of the different beacon-types, see #queryBuildersByBeaconType
  * @param suggestionTimeConfig optional, the timeframe used for resolving tag-suggestions.
- * @param thresholdType        The selected threshold type, used for selecting the use-case
  *
  * @returns A QueryBuilder where the scope is bound to a single mobileApp and beacon type.
  */
 
+export interface Suggestions {
+  suggestions: string[];
+  totalHits: number;
+}
+
 export function createBoundedAlertQueryBuilder(
-  _mobileAppId: string | undefined,
-  beaconType: MobileAppMonitoringBeaconType = 'sessionStart'
+  mobileAppId: string | undefined,
+  beaconType: MobileAppMonitoringBeaconType = 'sessionStart',
+  suggestionTimeConfig?: TimeConfig
 ): CreateQueryBuilderResponse {
   return createQueryBuilder({
-    getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' })
+    getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
+    getSuggestions: (args: any) => {
+      return getMobileAppTagSuggestions(args, mobileAppId, beaconType, suggestionTimeConfig);
+    }
   });
+}
+
+export function getMobileAppTagSuggestions(
+  args: GetSuggestionsProps,
+  mobileAppId: string | Nullish,
+  beaconType: MobileAppMonitoringBeaconType,
+  suggestionTimeConfig?: TimeConfig
+): Observable<Result<Suggestions>> {
+  return getSuggestions({
+    ...tagSuggestionArgs(withMobileAppIdFilter(args, mobileAppId), suggestionTimeConfig),
+    beaconType
+  });
+}
+
+function tagSuggestionArgs(args: GetSuggestionsProps, suggestionTimeConfig?: TimeConfig) {
+  return {
+    ...args,
+    tagName: args.name,
+    timeConfig: suggestionTimeConfig ?? args.timeConfig,
+    secondLevelKeyTagName: args.key
+  };
 }
 
 function create(beaconType: MobileAppMonitoringBeaconType) {
@@ -64,4 +98,17 @@ export function getQueryBuilderForBeaconType(
   beaconType: MobileAppMonitoringBeaconType | Nullish
 ): CreateQueryBuilderResponse {
   return queryBuildersByBeaconTypeStatic[beaconType ?? 'sessionStart'];
+}
+
+function withMobileAppIdFilter(args: GetSuggestionsProps, mobileAppId: string | Nullish) {
+  const { tagFilterExpression } = args;
+  if (mobileAppId)
+    return {
+      ...args,
+      tagFilterExpression: addTagFilters(tagFilterExpression as TagFilterExpressionElementUnion | Nullish, [
+        tagFilter('mobileBeacon.mobileApp.id', EQUALS, mobileAppId)
+      ])
+    };
+
+  return args;
 }

@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import { getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
 
-export default function WebsiteAlertPropertiesTitleRow({ form, onChange }) {
+export default function AlertPropertiesTitleRow({ form, onChange, getTitlePlaceholder }) {
   return (
     <AlertSection
       titleHtmlFor="name"
@@ -30,7 +29,8 @@ export default function WebsiteAlertPropertiesTitleRow({ form, onChange }) {
   );
 }
 
-WebsiteAlertPropertiesTitleRow.propTypes = {
+AlertPropertiesTitleRow.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.any
+  onChange: PropTypes.any,
+  getTitlePlaceholder: PropTypes.func.isRequired
 };

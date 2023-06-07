@@ -1,30 +1,45 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
+//@ts-expect-error Need TS migartion
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
+//@ts-expect-error Need TS migartion
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import IconLabel from 'in-alerting/components/IconLabel';
 
-import locals from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig.mless';
+
+export interface AlertTagFilterExpressionConfigProps {
+  form: MapForm<any>;
+  updateForm?: (form: MapForm<any>) => void;
+  QueryBuilderComponent?: QueryBuilderComponent;
+  headerTransparent?: boolean;
+  label?: string;
+  iconType: string;
+  removeBorderBottom?: string;
+}
 
 export default function AlertTagFilterExpressionConfig({
-  websiteLabel,
   form,
   updateForm,
   QueryBuilderComponent,
   headerTransparent,
+  label,
+  iconType,
   removeBorderBottom
-}) {
+}: AlertTagFilterExpressionConfigProps) {
   return (
     <LightCard
-      title={<IconLabel text={websiteLabel} type="lib_website" noBottomMargin />}
+      title={<IconLabel text={label} type={iconType} noBottomMargin />}
       headerClassName={classNames({
         [locals.header]: true,
         [locals.headerTransparent]: headerTransparent
@@ -41,12 +56,3 @@ export default function AlertTagFilterExpressionConfig({
     </LightCard>
   );
 }
-
-AlertTagFilterExpressionConfig.propTypes = {
-  QueryBuilderComponent: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string,
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  headerTransparent: PropTypes.bool,
-  removeBorderBottom: PropTypes.bool
-};

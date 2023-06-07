@@ -138,7 +138,14 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
-          <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
+          <ActionFormHeader
+            isCreate={isCreate}
+            isCopy={isCopy}
+            form={form}
+            setForm={setForm}
+            entity={entity}
+            id={entityId}
+          />
           <SectionLine />
 
           {message ? (
@@ -181,8 +188,9 @@ interface ActionFormHeaderProps {
   form: MapForm<any> | null;
   entity: ActionFormEntity | null;
   setForm: SetFormFunction;
+  id: string | null;
 }
-const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFormHeaderProps) => {
+const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: ActionFormHeaderProps) => {
   const isNewAction = isCreate || isCopy;
   return (
     <HorizontalFlexWrapper className={locals.spaceBetween}>
@@ -193,8 +201,15 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
       </SubViewHeader>
       {!isNewAction && (
         <HorizontalFlexWrapper>
-          {form && role?.canRunAutomationActions && (
-            <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />
+          {form && id !== null && role?.canRunAutomationActions && (
+            <TestActionButton
+              form={form}
+              setForm={setForm}
+              action={{
+                ...getActionSpecification(form),
+                id: id // add id to send Action id to run action
+              }}
+            />
           )}
           {entity && isAction(entity) && <CopyActionLink action={entity} />}
         </HorizontalFlexWrapper>

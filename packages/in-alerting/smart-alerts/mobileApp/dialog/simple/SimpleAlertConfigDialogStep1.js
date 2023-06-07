@@ -14,7 +14,7 @@ import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/mobileApp/dia
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { BlueprintDescription } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
-import createBlueprintForm from 'in-alerting/smart-alerts/mobileApp/form/blueprintFormCreator.ts';
+import createBlueprintForm from 'in-alerting/smart-alerts/mobileApp/form/blueprintFormCreator';
 import ProvideCustomEvent from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';

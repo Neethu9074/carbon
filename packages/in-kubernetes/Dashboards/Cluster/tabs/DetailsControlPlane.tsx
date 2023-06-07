@@ -13,6 +13,7 @@ import { useObservable } from '@instana/hooks';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
@@ -51,7 +52,9 @@ function DebugList({ items, clusterId }: any) {
   const leaderObj = items.find((item: any) => item.key == 'Leader');
   const hostCoverageObj = items.find((item: any) => item.key == 'Host Coverage');
   const uuidObj = items.find((item: any) => item.key == 'UUID');
-  const leaderValue = (
+  const leaderValue = playwithEnabled ? (
+    leaderObj.value
+  ) : (
     <a href={`#${clusterDashboardFullyQualified};clusterId=` + clusterId + '/pods;pod.query=' + leaderObj.value}>
       {leaderObj.value}
     </a>

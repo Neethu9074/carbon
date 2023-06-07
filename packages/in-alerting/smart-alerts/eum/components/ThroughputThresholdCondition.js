@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import PropTypes from 'prop-types';
@@ -11,16 +12,22 @@ import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/component
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
-import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdTypeSelection';
+import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
-export default function ThroughputThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
+export default function ThroughputThresholdCondition({
+  form,
+  updateForm,
+  blueprintConfig,
+  editMode,
+  eumType,
+  ruleMetricNameOptions,
+  getMetricUnitPostfix
+}) {
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -50,13 +57,14 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
           updateForm={updateForm}
           editMode={editMode}
           thresholdTypeOptions={thresholdTypeOptions}
+          eumType={eumType}
         />
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup
           iconType="lib_threshold"
-          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+          label={t('in-alerting:smartAlerts.eum.advanced.thresholdValue')}
         >
           <ThresholdValueInputWithValidationMessage
             max={maxValue}
@@ -64,11 +72,14 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
             updateForm={updateForm}
             metricUnitPostfix={metricUnitPostfix}
           />
-          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
+          {/* eumType === websiteEum , this condition need to be removed once UseSuggestion is implemented for mobileapp  */}
+          {eumType === websiteEum && (
+            <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
+          )}
         </ThresholdConditionFormGroup>
       )}
-
-      {thresholdType !== STATIC_THRESHOLD && (
+      {/* eumType === websiteEum , this condition need to be removed once HISTORIC_BASELINE adn ADAPTIVE_BASELINE is implemented for mobileapp  */}
+      {thresholdType !== STATIC_THRESHOLD && eumType === websiteEum && (
         <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
@@ -76,8 +87,11 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
 }
 
 ThroughputThresholdCondition.propTypes = {
-  blueprintConfig: blueprintConfigPropType,
+  blueprintConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  eumType: PropTypes.string.isRequired,
+  ruleMetricNameOptions: PropTypes.object.isRequired,
+  getMetricUnitPostfix: PropTypes.func.isRequired
 };

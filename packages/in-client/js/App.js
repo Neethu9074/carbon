@@ -7,6 +7,7 @@ import React from 'react';
 
 import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
+import '@instana/legacy/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';

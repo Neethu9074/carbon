@@ -26,6 +26,9 @@ export default function Summary() {
   const businessProcessName: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
 
   return (
     <Fragment>
@@ -34,7 +37,7 @@ export default function Summary() {
           <Timeline timeShiftConfig={timeShiftConfig} businessProcessName={businessProcessName} />
         </Col>
         <Col xs>
-          <TopActivities businessProcessName={businessProcessName} />
+          <TopActivities businessProcessId={businessProcessId} />
         </Col>
         <Col xs>
           <InfrastructureIssuesAndChanges />

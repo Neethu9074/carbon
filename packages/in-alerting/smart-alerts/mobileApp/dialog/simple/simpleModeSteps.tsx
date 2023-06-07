@@ -13,11 +13,16 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
+import { SimpleAlertConfigDialogStep2Props } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
+import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep1Title')
+  },
+  {
+    title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep2Title')
   },
   {
     title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep3Title')
@@ -28,6 +33,9 @@ export const stepRenderers = [
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => {
     return <SimpleAlertConfigDialogStep1 {...parentProps} />;
   },
+  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl & SimpleAlertConfigDialogStep2Props) => (
+    <SimpleAlertConfigDialogStep2 {...parentProps} />
+  ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
     <SimpleAlertConfigDialogStep3 {...parentProps} />
   )

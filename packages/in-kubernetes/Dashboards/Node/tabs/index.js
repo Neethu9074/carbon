@@ -3,8 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  playwithEnabled
+} from 'in-services/featureFlags';
 import { NodeVolumesTab, NodeConditionsTab, NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Node/tabs/SummaryWithoutTimeShift';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
@@ -43,11 +47,12 @@ export default [
     path: `${nodeDashboardFullyQualified}/infrastructure`,
     component: Infrastructure
   },
-  persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumes'),
-    path: `${nodeDashboardFullyQualified}/persistentvolumes`,
-    component: PersistentVolumes,
-    header: NodeVolumesTab,
-    stickToBottom: true
-  }
+  persistentVolumeSupportEnabled &&
+    !playwithEnabled && {
+      label: t('in-kubernetes:dashboards.persistentVolumes'),
+      path: `${nodeDashboardFullyQualified}/persistentvolumes`,
+      component: PersistentVolumes,
+      header: NodeVolumesTab,
+      stickToBottom: true
+    }
 ].filter(Boolean);
