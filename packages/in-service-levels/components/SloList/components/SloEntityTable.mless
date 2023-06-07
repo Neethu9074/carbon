@@ -11,4 +11,9 @@
     margin-left: 361px;
     color: #00cccc;
   }
+  .loadSkeleton {
+    display: inline-block;
+    height: 1rem;
+    width: 100%;
+  }
 }

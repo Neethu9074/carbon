@@ -6,8 +6,8 @@
 
 import React, { useState } from 'react';
 
+import { Card, Li, LoadingSkeleton, Stack, Ul } from '@instana/components';
 import { Application, SloEntityType, Website } from '@instana/types';
-import { Card, Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -18,7 +18,6 @@ import {
   sloWebsiteIdKey,
   isApplicationSloForm
 } from 'in-service-levels/components/ConfigDialog/form';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 
@@ -78,7 +77,15 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
             </Li>
           </Ul>
         ) : (
-          <NoDataAvailable type="lib_actions_loading" height={160} text={t('in-service-levels:general.loadingData')} />
+          <Ul>
+            {[...Array(5)].map(i => {
+              return (
+                <Li key={i}>
+                  <LoadingSkeleton className={locals.loadSkeleton} />
+                </Li>
+              );
+            })}
+          </Ul>
         )}
       </Card>
     </>
