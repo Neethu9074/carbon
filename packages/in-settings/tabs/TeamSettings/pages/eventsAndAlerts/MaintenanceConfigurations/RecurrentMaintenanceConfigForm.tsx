@@ -90,10 +90,14 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
     onClose,
     onSaveSuccess: () => {
       const entityName = form && form.get('name') && (form.get('name') as Field<string>).value;
+      let entityIDForLink = entityId;
+      if (!entityIDForLink) entityIDForLink = form && form.get('id') && (form.get('id') as Field<string>).value;
+      let hrefForLinking = createHrefToPath(location.pathname);
+      if (!entityId) hrefForLinking = createHrefToPath(location.pathname + `/${entityIDForLink}`);
       addMessage({
         type: 'info',
         timeout: 5000,
-        title: entityId
+        title: entityIDForLink
           ? t('in-settings:maintenanceWindow.userInfo.edit.title')
           : t('in-settings:maintenanceWindow.userInfo.create.title'),
         content: (
@@ -106,7 +110,7 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
                 <Trans i18nKey="in-settings:maintenanceWindow.userInfo.create.message" values={{ name: entityName }} />
               )}
             </p>
-            <Button kind="action" href={createHrefToPath(location.pathname)}>
+            <Button kind="action" href={hrefForLinking}>
               {t('in-settings:tabs.viewMwConfigMessage')}
             </Button>
           </div>
@@ -119,7 +123,9 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
   const { entity, form, isCreate, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<MaintenanceConfigV2>(entityFormParams);
 
-  if (!entity) {
+  if (loading) return <LoadingIndicator size={'xl'} />;
+
+  if (!entity && error) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
@@ -464,6 +470,12 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
   const { applyOn, applicationIds } = isCreate ? { applyOn: '', applicationIds: [] } : parseQuery(query);
 
   let form = createMapForm()
+    .put(
+      'id',
+      createField({
+        value: config.id
+      })
+    )
     .put(
       'name',
       createField({
