@@ -30,7 +30,7 @@ import { getTests } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
+import locals from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList.mless';
 
 export interface StateProps {
   query: string;
@@ -139,7 +139,7 @@ export function SummaryList({
   }
 
   return (
-    <>
+    <div className={locals.noBorder}>
       <ServerTablePresenter<TestResultListItem, TestListProps>
         timeConfig={timeConfig}
         onChange={({ page, query, orderBy, orderDirection }) => {
@@ -172,7 +172,7 @@ export function SummaryList({
         allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
         setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
       />
-    </>
+    </div>
   );
 }
 
