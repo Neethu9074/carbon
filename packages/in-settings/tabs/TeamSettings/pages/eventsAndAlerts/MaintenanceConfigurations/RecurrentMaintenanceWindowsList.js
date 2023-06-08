@@ -6,9 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
-import { Typography } from '@instana/components';
+import { Link, Stack, SvgIcon, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
 
 import {
   editMaintenanceWindowTracker,
@@ -31,12 +30,12 @@ import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RecurrentMaintenanceConfigForm from './RecurrentMaintenanceConfigForm';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { getEndAndTimeDurationOfWindow } from './rruleHelpers';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEntityHref } from 'in-settings/navigation/paths';
 import ButtonGroup from 'in-components/ButtonGroup';
+import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -117,11 +116,37 @@ export default function RecurrentMaintenanceWindowsList(props) {
 
       <List
         title={t('in-settings:tabs.maintenanceWindowConfigurations')}
-        getHeader={
-          recurrentMaintenanceWindowsTabsEnabled
-            ? () => <DisplayMWTypes mwTypeView={mwTypeView} setMwTypeView={setMwTypeView} numbers={numbers} />
-            : defaultHeaderWithCount(t('in-settings:tabs.maintenanceWindowConfigurations'))
-        }
+        getCustomHeader={(totalHitsBeforeFilter, totalHitsAfterFilter) => {
+          if (recurrentMaintenanceWindowsTabsEnabled) {
+            return <DisplayMWTypes mwTypeView={mwTypeView} setMwTypeView={setMwTypeView} numbers={numbers} />;
+          }
+
+          const title = t('in-settings:tabs.maintenanceWindowConfigurations');
+          let titleWithHits = title;
+
+          if (totalHitsBeforeFilter !== 0) {
+            if (totalHitsBeforeFilter === totalHitsAfterFilter) {
+              titleWithHits = title + `(${totalHitsAfterFilter})`;
+            } else {
+              titleWithHits = title + `(${totalHitsAfterFilter}/${totalHitsBeforeFilter})`;
+            }
+          }
+
+          return (
+            <Stack gap="xxsmall">
+              <Typography variant="heading-300">{titleWithHits}</Typography>
+              <Link href="https://forms.gle/qNy4ptqHKhJXLbSM7" external>
+                <Stack direction="horizontal" gap="xsmall">
+                  <SvgIcon type="lib_views_external_link" size="s" color={theme.lib.colors.blue800} />
+                  <Typography variant="body-regular" component={'a'}>
+                    {t('in-settings:tabs.shareFeedback')}
+                  </Typography>
+                </Stack>
+              </Link>
+            </Stack>
+          );
+        }}
+        isBeta
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
@@ -136,7 +161,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
           return getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id);
         }}
         trackEvent={newMaintenanceWindowTracker}
-        searchAttributes={['name', 'scope', getStartAsString, getEndAsString, 'status']}
+        searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'state']}
         extraFilters={recurrentMaintenanceWindowsTabsEnabled ? [element => filteringMWList(element, mwTypeView)] : []}
       />
     </div>
@@ -169,6 +194,18 @@ const columnDefinitions = [
     id: 'scope',
     label: t('in-settings:tabs.scope'),
     ellipsis: true,
+    getValue(entity) {
+      let txt = '';
+      const entityAppNames = entity?.applicationNames || [];
+      if (entityAppNames.length > 0) {
+        txt = 'Applications ' + entityAppNames.length + entity?.query;
+      } else if (entity?.query) {
+        txt = 'DFQ ' + entity?.query;
+      } else if (!entityAppNames.length === 0 && !entity.query) {
+        txt = 'All Entities';
+      }
+      return txt;
+    },
     getContent(entity) {
       let text = '',
         tooltipContent = '';
@@ -197,6 +234,10 @@ const columnDefinitions = [
     id: 'type',
     label: t('in-settings:tabs.type'),
     ellipsis: true,
+    getValue(entity) {
+      const mwType = entity.scheduling ? entity.scheduling.type : null;
+      return mwType ? startCase(mwType.toLowerCase()) : mwType;
+    },
     getContent(entity) {
       const mwType = entity.scheduling ? entity.scheduling.type : null;
       return mwType ? startCase(mwType.toLowerCase()) : mwType;
@@ -207,6 +248,9 @@ const columnDefinitions = [
     label: t('in-settings:tabs.startTime'),
     ellipsis: true,
     getValue(entity) {
+      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+        return '';
+      }
       return getDateTimeFromFirstWindow('start', entity);
     },
     getContent(entity) {
@@ -234,6 +278,7 @@ const columnDefinitions = [
     id: 'status',
     label: t('in-settings:tabs.status'),
     ellipsis: true,
+    getValue: entity => (entity.paused ? 'PAUSED' : entity.state),
     getContent(entity) {
       if (!entity.state) return;
       let mwStatusLabel = entity.state;
