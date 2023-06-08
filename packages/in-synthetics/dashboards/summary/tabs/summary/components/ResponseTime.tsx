@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import { t } from '@instana/i18n-react';
@@ -11,59 +10,55 @@ import { t } from '@instana/i18n-react';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { latencyFixed } from 'in-services/formatters/number';
-import { TestResponse } from 'in-synthetics/utils/constants';
 import { integral } from 'in-stores/metric/renderer';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeShift } from 'in-types';
 import theme from 'in-themes';
 
 type Props = {
   timeShiftConfig: TimeShift;
-  test: TestResponse;
+  testId: string;
   renderPostChartContent: (a: any) => JSX.Element;
+  locationIds: string;
+  locationDisplayLabels: string;
 };
 
-export default function ResponseTime({ test, timeShiftConfig, renderPostChartContent }: Props) {
-  const timeConfig = useTimeConfig();
-  if (!test.progress.loading) {
-    return (
-      <RenderChart test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={renderPostChartContent} />
-    );
-  } else {
-    return (
-      <ResultAwareChart
-        config={{
-          timeConfig,
-          y1: {
-            metrics: [],
-            colors: [],
-            renderer: integral.renderer,
-            metricIds: [],
-            labels: []
-          },
-          title: `${t('in-synthetics:dashboard.summary.widgets.responseTimes')}`
-        }}
-        result={{ errors: [], progress: { loading: test.progress.loading } }}
-      />
-    );
-  }
+export default function ResponseTime({
+  testId,
+  locationIds,
+  locationDisplayLabels,
+  timeShiftConfig,
+  renderPostChartContent
+}: Props) {
+  return (
+    <RenderChart
+      testId={testId}
+      locationIds={locationIds}
+      locationDisplayLabels={locationDisplayLabels}
+      timeShiftConfig={timeShiftConfig}
+      renderPostChartContent={renderPostChartContent}
+    />
+  );
 }
 
-const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) => {
-  const locations: string[] = get(test, ['data', 'locations']) || [];
-  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
-  const id = get(test, ['data', 'id']);
+const RenderChart = ({
+  testId,
+  locationIds,
+  locationDisplayLabels,
+  timeShiftConfig,
+  renderPostChartContent
+}: Props) => {
+  const locations: string[] = locationIds.split(',');
+  const locationDisplayLabelArray: string[] = locationDisplayLabels.split(',');
   let tagFilters = [];
   let testMetricConfigs: Metric[] = [];
   var locationDisplayLabel: string;
   for (let i = 0; i < locations.length; i++) {
-    locationDisplayLabel = `${locationDisplayLabels[i]}`;
+    locationDisplayLabel = `${locationDisplayLabelArray[i]}`;
     tagFilters = [
       {
-        stringValue: id,
+        stringValue: testId,
         name: testIdTagName,
         operator: EQUALS
       },

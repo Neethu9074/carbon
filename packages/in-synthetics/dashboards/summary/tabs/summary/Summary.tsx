@@ -36,6 +36,9 @@ export default function Summary({ test }: SummaryProps) {
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
+  const locationDisplayLabels: string =
+    getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
+  const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
 
   const tagFilters = [
     {
@@ -162,14 +165,32 @@ export default function Summary({ test }: SummaryProps) {
       </Row>
       <Row>
         <Col xs>
-          <Failures test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+          <Failures
+            testId={testId}
+            locationIds={locationIds}
+            locationDisplayLabels={locationDisplayLabels}
+            timeShiftConfig={timeShiftConfig}
+            renderPostChartContent={MarkerLanes}
+          />
         </Col>
         <Col xs>
-          <ResponseTime test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+          <ResponseTime
+            testId={testId}
+            locationIds={locationIds}
+            locationDisplayLabels={locationDisplayLabels}
+            timeShiftConfig={timeShiftConfig}
+            renderPostChartContent={MarkerLanes}
+          />
         </Col>
         {testType && !test.progress.loading && (
           <Col xs>
-            <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+            <NetworkTimings
+              testId={testId}
+              locationIds={locationIds}
+              locationDisplayLabels={locationDisplayLabels}
+              timeShiftConfig={timeShiftConfig}
+              renderPostChartContent={MarkerLanes}
+            />
           </Col>
         )}
       </Row>
@@ -177,7 +198,13 @@ export default function Summary({ test }: SummaryProps) {
         {!test.progress.loading && (
           <>
             <Col lg={testType ? 4 : 6}>
-              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+              <ResponseSize
+                testId={testId}
+                locationIds={locationIds}
+                locationDisplayLabels={locationDisplayLabels}
+                timeShiftConfig={timeShiftConfig}
+                renderPostChartContent={MarkerLanes}
+              />
             </Col>
             <Col lg={testType ? 4 : 6}>
               <ResultsTopList testId={testId} />
