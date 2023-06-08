@@ -6,7 +6,8 @@
 import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
-import { Button, Link, SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   LARGE_TRACE_THRESHOLD,

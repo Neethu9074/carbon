@@ -14,7 +14,8 @@ import {
   syntheticCredentialEnabled,
   syntheticsEnabled,
   vsphereEnabled,
-  zhmcEnabled
+  zhmcEnabled,
+  sloV2Enabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -89,6 +90,7 @@ export const Capability = Object.freeze({
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
+  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -182,8 +184,9 @@ export const amountPlatformAccesses = (() => {
   return count;
 })();
 
+export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
-  hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
@@ -504,6 +507,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
   },
+  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
+    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+    keyForApiTokenApi: 'canViewAutomationActionInstances',
+    label: t('in-stores:permissionCanViewActionHistory'),
+    description: t('in-stores:permissionCanViewActionHistoryDescription'),
+    category: t('in-stores:permissionCanViewActionHistoryCategory')
+  },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
@@ -624,7 +634,8 @@ export function getProductPermissions(): Array<ProductPermission> {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       const automationCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-        Capability.CAN_RUN_AUTOMATION_ACTIONS
+        Capability.CAN_RUN_AUTOMATION_ACTIONS,
+        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
       ];
 
       return !automationCapabilities.includes(keyForGroupApi);

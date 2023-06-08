@@ -21,6 +21,7 @@
 - [ ] New user facing components were discussed with our design community
 - [ ] Add before/after screenshots
 - [ ] Affected areas were tested manually and everything works as expected
+- [ ] [Pull Request Guidelines](https://www.notion.so/instana/Pull-Request-reviews-8fd1ae2f48b84e53b1ef00accb0e52db?pvs=4) applied
 
 # References
 

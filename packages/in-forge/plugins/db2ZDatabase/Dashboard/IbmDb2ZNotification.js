@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Message, Link, Typography } from '@instana/components';
+import { Message, Typography } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { Trans, t } from 'in-i18n';

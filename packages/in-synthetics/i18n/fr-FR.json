@@ -108,6 +108,7 @@
         "scheduleTitle": "Planification : Quand ce test s'exécutera-t-il ?",
         "identifyLabel": "S'identifier",
         "identifyTitle": "Identification : Que va faire le test ?",
+        "customPropertiesTitle": "Propriétés personnalisées",
         "frequency": "Ce test s'exécutera toutes les {{frequencyValue}} minutes.",
         "simultaneous": "Simultanée",
         "simultaneousDescription": "Ce test s'exécutera simultanément à chaque emplacement sélectionné.",
@@ -123,7 +124,22 @@
           "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
           "jsonRootMustBeAnObject": "La racine JSON doit être un objet.",
           "mustBeValidHttpReturnCode": "Le statut doit être un code retour HTTP valide.",
-          "shouldBeValidRegExp": "La chaîne entrée doit être une expression régulière valide."
+          "shouldBeValidRegExp": "La chaîne entrée doit être une expression régulière valide.",
+          "followRedirect": "Suivre la redirection",
+          "header": "En-tête",
+          "headerValue": "Valeur",
+          "body": "Corps",
+          "validationString": "Chaîne de validation",
+          "addHeader": "Ajouter un en-tête",
+          "operation": "Opération",
+          "headerNameMustBeUnique": "Le nom d'en-tête doit être unique.",
+          "shouldBeValidHeaderName": "La chaîne entrée doit être un nom d'en-tête de requête HTTP valide.",
+          "shouldBeValidHeaderValue": "La chaîne entrée doit être une valeur d'en-tête de requête HTTP valide.",
+          "scriptLabel": "Script",
+          "addscriptAction": "Ajouter un script",
+          "editscriptAction": "Modifier le script",
+          "scriptFileName": "Nom du fichier",
+          "scriptNotAdded": "Aucun script ajouté"
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -136,6 +152,12 @@
           "apiName": "API",
           "browserName": "Navigateur",
           "internetServicesName": "Services Internet"
+        },
+        "customProperties": {
+          "property": "Propriété",
+          "propertyValue": "Valeur",
+          "addProperty": "Ajouter une propriété",
+          "propertyNameMustBeUnique": "Le nom de la propriété doit être unique."
         }
       }
     },
@@ -269,7 +291,8 @@
       },
       "totalRuns": "Nombre total d'exécutions {{totalRuns}}",
       "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",
-      "smartAlertsTab": "Alertes intelligentes"
+      "smartAlertsTab": "Alertes intelligentes",
+      "configurationTab": "Configuration"
     },
     "resultsListPage": {
       "startedColumn": "Démarré",
@@ -413,6 +436,29 @@
       "violationsCount": "{{violationsCount}} échec(s)",
       "testsCount": "{{testsCount}} test(s)",
       "numberOfFailures": "Alerte d'échec"
+    },
+    "configuration": {
+      "configurationTitle": "Configuration du test {{testType}} de l 'API",
+      "testTypeTitle": "Type de test",
+      "testType": "Type",
+      "subType": "Sous-type",
+      "configSectionTitle": "Configuration",
+      "operation": "Opération",
+      "url": "URL",
+      "header": "En-tête",
+      "value": "Valeur",
+      "body": "Corps",
+      "validationString": "Chaîne de validation",
+      "expectStatus": "Statut attendu",
+      "expectMatch": "Correspondance attendue",
+      "expectJSON": "JSON attendu",
+      "additionalOptionsTitle": "Options supplémentaires",
+      "followRedirect": "Suivre la redirection",
+      "allowInsecure": "Autoriser un accès non sécurisé",
+      "locationsTitle": "Emplacement(s)",
+      "scheduleTitle": "Planifier",
+      "identifyTitle": "S'identifier",
+      "customProperties": "Propriétés personnalisées"
     }
   }
 }

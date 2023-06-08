@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Card, Link } from '@instana/components';
 import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { t } from 'in-i18n';
 

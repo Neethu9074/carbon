@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { SimpleModeContainerProps } from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
@@ -56,6 +57,9 @@ export interface AlertConfigDialogPresenterProps {
   QueryBuilderComponent: QueryBuilderComponent;
   isTagFilterFormModelValid: boolean;
   TagBasedPayloadConfigurator: React.FunctionComponent<any>;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
+  timeConfig?: TimeConfig;
 }
 
 export interface SlideInConfig {

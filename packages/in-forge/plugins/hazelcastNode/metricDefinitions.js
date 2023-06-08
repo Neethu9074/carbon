@@ -24,12 +24,6 @@ export default [
     formatter: number
   },
   {
-    metrics: ['isLiteMember', 'isLocalMemberSafe'],
-    labels: [t('in-forge:plugins.hazelcastNode.isLiteMember'), t('in-forge:plugins.hazelcastNode.isLocalMemberSafe')],
-    min: 0,
-    formatter: number
-  },
-  {
     metrics: [
       'distributedObjects.cacheCount',
       'distributedObjects.mapCount',

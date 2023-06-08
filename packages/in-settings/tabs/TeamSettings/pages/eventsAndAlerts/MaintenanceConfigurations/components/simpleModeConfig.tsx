@@ -36,7 +36,7 @@ export const stepConfigs = [
   },
   {
     title: t('in-settings:tabs.step3RMWTitle'),
-    mustBeTouched: [['name']],
+    mustBeTouched: [],
     mustBeValid: []
   }
 ];

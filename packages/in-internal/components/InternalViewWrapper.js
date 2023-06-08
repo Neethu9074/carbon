@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation';

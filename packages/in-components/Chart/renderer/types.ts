@@ -25,11 +25,6 @@ export interface RenderConfig extends Config {
 }
 
 export interface RenderAxis extends AxisConfiguration {
-  /*
-   * Property only used by a specific dashboard widget.
-   * TODO move this field out of this general type, as it is not be part of the shared interface.
-   */
-  isStaticBudget?: boolean;
   lineWidth?: number;
 }
 

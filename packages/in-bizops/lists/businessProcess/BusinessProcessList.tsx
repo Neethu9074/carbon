@@ -116,7 +116,7 @@ function getBusinessProcessListData({
     },
     order: { by: orderBy, direction: orderDirection },
     metrics: {
-      startedProcessesCount: businessProcessMetric
+      started_processes: businessProcessMetric
     },
     filter: {
       timeConfig

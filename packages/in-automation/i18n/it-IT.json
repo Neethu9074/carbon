@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "Aggiungi {{count}} azioni",
   "noActionsSelected": "Nessuna azione selezionata",
   "actionSensorTimeout": "Impossibile gestire la richiesta di backend. Controllare la configurazione dell'agent per assicurarsi che il sensore di azione sia installato.",
+  "validVaultParameter": "I parametri del vault contrassegnati come facoltativi devono essere entrambi vuoti o non vuoti.",
   "newAction": "Nuova azione",
   "ok": "OK",
   "runAction": "Esegui azione",

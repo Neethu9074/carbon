@@ -7,8 +7,10 @@ import React, { ReactElement } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
+import { light } from '@instana/components';
 
 import IconButton from 'in-components/IconButton/IconButton';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Dialog.mless';
 
@@ -16,6 +18,7 @@ export interface Props {
   icon?: string;
   onIconClick?: () => void;
   onClose?: () => void;
+  closeTooltip?: string;
   title: string | ReactElement;
   renderCustomCloseBehaviour?: () => ReactElement | undefined;
   addScrollShadow?: boolean;
@@ -27,6 +30,7 @@ export default function Header({
   title,
   renderCustomCloseBehaviour,
   onClose,
+  closeTooltip,
   addScrollShadow
 }: Props) {
   return (
@@ -38,11 +42,7 @@ export default function Header({
     >
       {icon ? (
         <div className={locals.customTitle}>
-          {onIconClick ? (
-            <IconButton type={icon} iconSize="l" onClick={onIconClick} kind="info" alignment="left" />
-          ) : (
-            <SvgIcon size="l" type={icon} />
-          )}
+          <HeaderIcon icon={icon} onIconClick={onIconClick} />
           <Title title={title} />
         </div>
       ) : (
@@ -51,11 +51,30 @@ export default function Header({
       {renderCustomCloseBehaviour && (
         <span className={locals.customCloseBehaviour}>{renderCustomCloseBehaviour()}</span>
       )}
-      {onClose && (
-        <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" alignment="right" />
-      )}
+      {onClose && <Close onClose={onClose} tooltip={closeTooltip} />}
     </div>
   );
+}
+
+function HeaderIcon({ icon, onIconClick }: { icon: string; onIconClick?: () => void }) {
+  if (onIconClick) {
+    return <IconButton type={icon} iconSize="l" onClick={onIconClick} kind="info" alignment="left" />;
+  }
+  return <SvgIcon size="l" type={icon} />;
+}
+
+function Close({ onClose, tooltip }: { onClose?: () => void; tooltip?: string }) {
+  const button = (
+    <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" alignment="right" />
+  );
+  if (tooltip) {
+    return (
+      <Tooltip content={tooltip} themeStyle={light}>
+        {button}
+      </Tooltip>
+    );
+  }
+  return button;
 }
 
 export function Title({ title }: { title: string | ReactElement }): ReactElement {

@@ -274,11 +274,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Uscita Camunda",
-  "pluginName_camundaexit_0": "Uscita Camunda",
-  "pluginName_camundaexit_1": "Uscita Camunda",
-  "pluginName_camundaexit_2": "Uscita Camunda",
-  "pluginName_camundaexit": "Uscita Camunda",
   "pluginName_cassandraCluster_plural": "Cluster Cassandra",
   "pluginName_cassandraCluster_0": "Cluster Cassandra",
   "pluginName_cassandraCluster_1": "Cluster Cassandra",
@@ -404,6 +399,16 @@
   "pluginName_sapJavaInstance_1": "Istanza SAP Java",
   "pluginName_sapJavaInstance_2": "Istanza SAP Java",
   "pluginName_sapJavaInstance": "Istanza SAP Java",
+  "pluginName_sapHanaSystem_plural": "Sistemi SAP HANA",
+  "pluginName_sapHanaSystem_0": "Sistemi SAP HANA",
+  "pluginName_sapHanaSystem_1": "Sistemi SAP HANA",
+  "pluginName_sapHanaSystem_2": "Sistemi SAP HANA",
+  "pluginName_sapHanaSystem": "Sistema SAP HANA",
+  "pluginName_sapWebDispatcher_plural": "SAP Web Dispatcher",
+  "pluginName_sapWebDispatcher_0": "SAP Web Dispatcher",
+  "pluginName_sapWebDispatcher_1": "SAP Web Dispatcher",
+  "pluginName_sapWebDispatcher_2": "SAP Web Dispatcher",
+  "pluginName_sapWebDispatcher": "SAP Web Dispatcher",
   "pluginName_sapHost_plural": "Host SAP",
   "pluginName_sapHost_0": "Host SAP",
   "pluginName_sapHost_1": "Host SAP",
@@ -1003,6 +1008,7 @@
   "pluginName_msiis_1": "Internet Information Server",
   "pluginName_msiis_2": "Internet Information Server",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "Messaggio MSMQ",
   "pluginName_msSqlDatabase_plural": "Istanze MS MS",
   "pluginName_msSqlDatabase_0": "Istanze MS MS",
   "pluginName_msSqlDatabase_1": "Istanze MS MS",
@@ -1286,6 +1292,16 @@
   "pluginName_tibcoEMS_1": "Tibco EMS",
   "pluginName_tibcoEMS_2": "Tibco EMS",
   "pluginName_tibcoEMS": "Tibco EMS",
+  "pluginName_tibcoEMSQueue_plural": "Code Tibco EMS",
+  "pluginName_tibcoEMSQueue_0": "Coda Tibco EMS",
+  "pluginName_tibcoEMSQueue_1": "Coda Tibco EMS",
+  "pluginName_tibcoEMSQueue_2": "Code Tibco EMS",
+  "pluginName_tibcoEMSQueue": "Coda Tibco EMS",
+  "pluginName_tibcoEMSTopic_plural": "Argomenti Tibco EMS",
+  "pluginName_tibcoEMSTopic_0": "Argomento Tibco EMS",
+  "pluginName_tibcoEMSTopic_1": "Argomento Tibco EMS",
+  "pluginName_tibcoEMSTopic_2": "Argomenti Tibco EMS",
+  "pluginName_tibcoEMSTopic": "Argomento Tibco EMS",
   "pluginName_tomcatApplicationContainer_plural": "Tomcat",
   "pluginName_tomcatApplicationContainer_0": "Tomcat",
   "pluginName_tomcatApplicationContainer_1": "Tomcat",
@@ -1532,11 +1548,6 @@
   "tracingTypeName_camunda_0": "Chiamate Camunda",
   "tracingTypeName_camunda_1": "Chiamata Camunda",
   "tracingTypeName_camunda_2": "Chiamate Camunda",
-  "tracingTypeName_camundaexit": "Messaggio di attività esterna Camunda",
-  "tracingTypeName_camundaexit_plural": "Messaggi di attività esterna Camunda",
-  "tracingTypeName_camundaexit_0": "Messaggi di attività esterna Camunda",
-  "tracingTypeName_camundaexit_1": "Messaggio di attività esterna Camunda",
-  "tracingTypeName_camundaexit_2": "Messaggi di attività esterna Camunda",
   "tracingTypeName_cassandra": "Query Cassandra",
   "tracingTypeName_cassandra_plural": "Query Cassandra",
   "tracingTypeName_cassandra_0": "Query Cassandra",
@@ -1592,6 +1603,22 @@
   "tracingTypeName_cxfserver_0": "Chiamata HTTP",
   "tracingTypeName_cxfserver_1": "Chiamate HTTP",
   "tracingTypeName_cxfserver_2": "Chiamate HTTP",
+  "tracingTypeName_datapower": "IBM DataPower",
+  "tracingTypeName_datapowerhttpserver": "Chiamata HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpserver_plural": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpserver_0": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpserver_1": "Chiamata HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpserver_2": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpclient": "Chiamata HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpclient_plural": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpclient_0": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpclient_1": "Chiamata HTTP IBM DataPower",
+  "tracingTypeName_datapowerhttpclient_2": "Chiamate HTTP IBM DataPower",
+  "tracingTypeName_datapowerinternal": "Chiamata interna IBM DataPower",
+  "tracingTypeName_datapowerinternal_plural": "Chiamate interne IBM DataPower",
+  "tracingTypeName_datapowerinternal_0": "Chiamate interne IBM DataPower",
+  "tracingTypeName_datapowerinternal_1": "Chiamata interna IBM DataPower",
+  "tracingTypeName_datapowerinternal_2": "Chiamate interne IBM DataPower",
   "tracingTypeName_distributeme": "Chiamata DistributeMe",
   "tracingTypeName_distributeme_plural": "Chiamate DistributeMe",
   "tracingTypeName_distributeme_0": "Chiamate DistributeMe",
@@ -2451,7 +2478,8 @@
     "graphql": "graphql",
     "logger": "programma di registrazione",
     "missing": "mancante",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2526,8 +2554,6 @@
       "databases": "Database",
       "processId": "ID processo",
       "startTime": "Data/ora di inizio",
-      "topics": "Argomenti",
-      "queues": "Code",
       "sealed": "Sigillato",
       "standby": "Standby",
       "initialized": "Inizializzato",
@@ -4915,7 +4941,7 @@
       "threads": "Thread",
       "throttlingDelay": "Limitazioni e ritardo"
     },
-    "camunda": {
+    "bpm": {
       "camunda": "Camunda"
     },
     "cassandraCluster": {
@@ -5827,7 +5853,8 @@
         "hadr": "hadr",
         "vmonlockStatsValue": "Statistiche di blocco (memoria)",
         "vmonlockStats": "Statistiche di blocco",
-        "databaseVmondeltaStats": "Prestazioni della transazione (valore incrementale)"
+        "databaseVmondeltaStats": "Prestazioni della transazione (valore incrementale)",
+        "standbyId": "ID standby"
       },
       "db2": "DB2",
       "processId": "ID processo",
@@ -6020,7 +6047,7 @@
       "secLogPage": "Pagina log secondario",
       "secLogPos": "Posizione log secondario",
       "secLogTime": "Ora log secondario",
-      "HADR_CONNECT_STATUS": "Stato connessione HADR",
+      "hadrConnectStatus": "Stato connessione HADR",
       "hadrWaitsTotal": "Attese HADR totali",
       "sockSendBufReq": "Buffer di invio richiesto",
       "sockSendBufActual": "Buffer di invio effettivo",
@@ -6503,17 +6530,44 @@
       },
       "version": "Versione"
     },
-    "phmcConsole": {
-      "logicalPartition": "Partizione logica",
-      "total": "Totale",
-      "utilized": "Utilizzato",
-      "available": "Disponibile",
-      "configurable": "Configurabile",
-      "assignedMem": "Memoria assegnata a LPAR",
-      "backedPhysicalMem": "Memoria fisica supportata",
-      "entitledProcUnits": "Unità autorizzate",
-      "maxVirtualProcessors": "Numero massimo processori virtuali",
-      "currentVirtualProcessors": "Processori virtuali correnti"
+    "phmcSystem": {
+      "totalProcUnits": "Unità di elaborazione totali",
+      "configurableProcUnits": "Unità di elaborazione configurabili",
+      "utilizedProcUnits": "Unità di elaborazione utilizzate",
+      "availableProcUnits": "Unità di elaborazione disponibili",
+      "totalMem": "Memoria totale",
+      "configurableMem": "Memoria configurabile",
+      "availableMem": "Memoria disponibile",
+      "assignedMemToLpars": "Memoria assegnata a LPAR",
+      "assignedMemHypervisor": "Hypervisor memoria assegnato",
+      "powerReading": "Lettura alimentazione",
+      "totalProcUnitsPercent": "Unità di elaborazione totali in percentuale",
+      "configurableProcUnitsPercent": "Unità di elaborazione configurabili in percentuale",
+      "utilizedProcUnitsPercent": "Unità di elaborazione utilizzate in percentuale",
+      "availableProcUnitsPercent": "Unità di elaborazione disponibili in percentuale",
+      "totalMemPercentage": "Memoria totale (%)",
+      "configurableMemPercentage": "Memoria configurabile (%)",
+      "availableMemPercentage": "Memoria disponibile (%)",
+      "assignedMemToLparsPercentage": "Memoria assegnata a LPAR (%)",
+      "adapter": "Adattatore",
+      "receivedPackets": "Numero di pacchetti ricevuti dall'adattatore SR-IOV",
+      "sentPackets": "Numero di pacchetti ricevuti dall'adattatore SR-IOV",
+      "droppedPackets": "Numero di pacchetti rilasciati dall'adattatore SR-IOV",
+      "sentBytes": "Numero di byte inviati dall'adattatore SR-IOV",
+      "receivedBytes": "Numero di byte ricevuti dall'adattatore SR-IOV",
+      "transferredBytes": "Numero di byte trasferiti dall'adattatore SR-IOV",
+      "errorIn": "Errori ricevuti/s",
+      "errorOut": "Errori di trasmissione/s"
+    },
+    "phmcSharedProcessorPool": {
+      "utilizedProcUnits": "Unità di elaborazione utilizzate",
+      "availableProcUnits": "Unità di elaborazione disponibili",
+      "currentReservedProcUnits": "Unità di elaborazione riservate correnti",
+      "assignedProcUnits": "Unità di elaborazione assegnate",
+      "totalEntitledProcUnits": "Unità di elaborazione autorizzate totali",
+      "entitledProcUnitsUsedPercent": "Unità di elaborazione autorizzate totali (%)",
+      "utilizedProcUnitsPercent": "Unità di elaborazione utilizzate (%)",
+      "availableProcUnitsPercent": "Unità di elaborazione disponibili (%)"
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -6941,7 +6995,9 @@
       "aliveThreads": "Thread Attivi",
       "dummyThreads": "Thread Dummy",
       "daemonThreads": "Thread daemon",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "Documentazione sul supporto a lungo termine",
+      "eolPythonRuntime": "È stata rilevata una versione EOL del runtime Python. Questa versione non riceve aggiornamenti o correzioni di sicurezza e potrebbe contenere vulnerabilità non risolte, inoltre è al di fuori dell'ambito del normale supporto Instana. Aggiornare la versione Python per evitare problemi."
     },
     "rabbitMq": {
       "dashboard": {
@@ -7283,7 +7339,9 @@
       "gcRunDuration": "#Durata esecuzione GC",
       "threadCount": "#Numero di thread",
       "threads": "Thread",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "Documentazione sul supporto a lungo termine",
+      "eolRubyRuntime": "È stata rilevata una versione EOL del runtime Ruby. Questa versione non riceve aggiornamenti o correzioni di sicurezza e potrebbe contenere vulnerabilità non risolte. Inoltre, è al di fuori dell'ambito del normale supporto Instana. Aggiornare la versione Ruby per evitare problemi."
     },
     "sapHana": {
       "dashboard": {
@@ -9373,24 +9431,47 @@
             "resourceName": "Nome risorsa",
             "unitStorageCapacity": "Capacità di archiviazione",
             "percentUsed": "Percentuale utilizzata",
+            "unitNumber": "Numero unità",
+            "serialNumber": "Numero di serie",
+            "aspNumber": "Numero ASP",
+            "ssdLifeRemaining": "Durata rimanente SSD",
+            "ssdPowerOnDays": "Giorni di accensione SSD",
+            "ssdSupportedBytesWritten": "Byte supportati SSD scritti",
+            "ssdBytesWritten": "Byte SSD scritti",
+            "ssdReadWriteProtected": "Lettura scrittura SSD protetta",
+            "ssdPFAWarning": "Avvertenza PFA SSD"
+          },
+          "systemDiskStatus": {
+            "name": "Informazioni sul disco globale del sistema",
+            "resourceName": "Nome risorsa",
+            "unitStorageCapacity": "Capacità di archiviazione",
+            "percentUsed": "Percentuale utilizzata",
             "diskType": "Tipo di disco",
             "unitNumber": "Numero unità",
             "serialNumber": "Numero di serie",
             "aspNumber": "Numero ASP",
             "raidType": "Tipo Raid",
             "protectionStatus": "Stato di protezione",
-            "ssdLifeRemaining": "Durata rimanente SSD",
-            "ssdPowerOnDays": "Giorni di accensione SSD",
-            "unitMediaCapacityGb": "Capacità media (GB)",
+            "multiplePathUnit": "Unità di percorso multiplo",
             "charts": {
               "elapsedIORequests": "Richieste di I/O elaborate",
               "elapsedRequestSize": "Dimensione della richiesta elaborata",
-              "elapsedPercentBusy": "Percentuale occupata elaborata",
-              "totalReadRequests": "Totale richieste di lettura",
-              "totalWriteRequests": "Totale richieste di scrittura",
-              "elapsedDataRead": "Dati trascorsi letti",
-              "elapsedDataWritten": "Dati trascorsi scritti"
+              "elapsedPercentBusy": "Percentuale occupata elaborata"
             }
+          },
+          "nonVolatileMemory": {
+            "name": "Informazioni NVMe (Non Volatile Memory Express)",
+            "resourceName": "Nome risorsa",
+            "hardwareModelNumber": "Numero modello",
+            "lifeRemaining": "Durata rimanente",
+            "spareCapacity": "Capacità di riserva",
+            "spareCapacityThreshold": "Soglia capacità di riserva",
+            "namespaceUsed": "Spazio dei nomi utilizzato",
+            "powerCycles": "Cicli di alimentazione",
+            "powerOnHours": "Ore di accensione",
+            "mediaErrors": "Errori dei supporti",
+            "unSafeShutDowns": "Arresti non sicuri",
+            "firmwareLevel": "Livello firmware"
           }
         }
       },
@@ -9489,8 +9570,8 @@
         "queueManagersWithCount": "Gestori code ({{len}})",
         "ibmMqCluster": "Cluster IBM MQ",
         "type": "Tipo",
-        "messages": "Messaggi",
-        "publications": "Pubblicazioni",
+        "pubMessagesCount": "Conteggio pubblicazioni correnti",
+        "publications": "Pubblicazioni correnti",
         "subscriptions": "Sottoscrizioni",
         "topicString": "Stringa argomento",
         "topicsWithCount": "Argomenti ({{len}})"
@@ -9762,8 +9843,8 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "Messaggi",
-        "publications": "Pubblicazioni",
+        "pubMessagesCount": "Conteggio pubblicazioni correnti",
+        "publications": "Pubblicazioni correnti",
         "count": "Numero",
         "subscriptions": "Sottoscrizioni",
         "ibmMqTopic": "Argomento IBM MQ"
@@ -9774,7 +9855,7 @@
       "topicType": "Tipo argomento",
       "topicAlternatedAt": "Argomento alternativo alle",
       "messages": "Messaggi",
-      "publications": "Pubblicazioni",
+      "publications": "Pubblicazioni correnti",
       "count": "Numero",
       "lastResetTime": "Ora ultimo ripristino",
       "reset": "Ripristina",
@@ -10211,6 +10292,28 @@
       "pid": "PID",
       "state": "Stato",
       "totalConnections": "Connessioni totali",
+      "totalHttpRequests": "Richieste Http Totali",
+      "nginxTotalRequests": "Richieste totali Kong NGINX",
+      "totalNumberofRequests": "Numero di richieste totali",
+      "direction": "Direzione",
+      "service": "Servizio",
+      "route": "Itinerario",
+      "code": "Codice",
+      "source": "Origine",
+      "consumer": "Consumatore",
+      "kongBandwidth": "Larghezza di banda",
+      "bytes": "Byte",
+      "kongEnterpriseLicenseErrors": "Errori di licenza Kong Enterprise",
+      "database": "Database Kong",
+      "kongDbEntitiesTotal": "Errori di conteggio entità database Kong",
+      "workerStateUpdateFrequency": "Frequenza di aggiornamento stato worker",
+      "workerConsistency": "Congruenza worker",
+      "prometheusEnabled": "Plugin Prometheus abilitato",
+      "totalTraffic": "Traffico totale",
+      "status2xx": "Stato 2XX",
+      "status3xx": "Stato 3XX",
+      "status4xx": "Stato 4XX",
+      "status5xx": "Stato 5XX",
       "dashboard": {
         "kongNginxTimers": "Timer Kong-Nginx",
         "sharedDictionaryAllocated": "Tavole assegnate del dizionario condiviso",
@@ -10834,19 +10937,13 @@
       "labelUpTime": "Tempo attività",
       "labelCount": "Numero",
       "labelSize": "Dimensione",
-      "labelTopic": "Argomento",
-      "categoryTopics": "Argomenti",
-      "labelQueue": "Coda",
-      "categoryQueues": "Code",
       "labelReadOperationsRate": "Velocità operazioni di lettura",
       "labelWriteOperationsRate": "Velocità operazioni di scrittura",
       "labelUsedMemory": "Memoria utilizzata",
       "labelInMessagesCount": "Numero messaggi ricevuti",
       "labelInMessagesRate": "Tasso messaggi ricevuti",
-      "labelInMessagesSize": "Dimensione messaggi ricevuti",
       "labelOutMessagesCount": "Numero messaggi inviati",
       "labelOutMessagesRate": "Tasso messaggi inviati",
-      "labelOutMessagesSize": "Dimensione messaggi inviati",
       "labelConnectionsCount": "Numero connessioni",
       "labelSessionsCount": "Numero sessioni",
       "labelDurablesCount": "Numero durevoli",
@@ -10857,6 +10954,12 @@
       "labelReceiversCount": "Numero destinatari",
       "infoStatisticsDisabled": "Abilitare le statistiche di Tibco EMS per abilitare la raccolta della metrica. Aggiungi <codeTag>statistics = enabled</codeTag> a <bold>tibemsd.conf</bold> file e riavvia il server o eseguire <codeTag>set server statistics=enabled</codeTag> utilizzando <bold>tibemsadmin</bold>.",
       "infoEnableMetricCollection": "Per abilitare la raccolta delle metriche, aggiungere <bold>tibjms-8.5.1.jar</bold> e <bold>tibjmsadmin-8.5.1.jar</bold> a <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 e <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1 rispettivamente."
+    },
+    "tibcoEMSTopic": {
+      "headerTibcoEMSTopic": "Argomento Tibco EMS"
+    },
+    "tibcoEMSQueue": {
+      "headerTibcoEMSQueue": "Coda Tibco EMS"
     },
     "tomcatAppContainer": {
       "titleName": "Nome",
@@ -11362,7 +11465,7 @@
     "webSphereMember": {
       "weight": "Peso"
     },
-    "zhmcConsole": {
+    "zhmcCpc": {
       "logicalPartition": "Partizione logica",
       "channelUsage": "Utilizzo canale",
       "cpcProcessorUsage": "Utilizzo processore CPC",
@@ -12616,9 +12719,9 @@
       "resourceType": "Tipo di risorsa",
       "serviceName": "Nome del servizio",
       "cPUUsage": "Utilizzo CPU",
-      "typeId": "ID tipo",
       "memoryUsage": "Utilizzo della memoria",
       "CPU_IO_WAIT": "Attesa IO",
+      "unit": "Unità",
       "cPU_SYSTEM_UTILIZATION": "Utilizzo del sistema",
       "cPU_USER_UTILIZATION": "Utilizzo utente",
       "mEMORY_Free_KB": "Libero",
@@ -12629,9 +12732,15 @@
       "mEMORY_SWAP_TOTAL_KB": "Swap totale",
       "mEMORY_SWAP_FREE_KB": "Swap libera",
       "mEMORY_SWAP_FREE": "% swap libero",
-      "fileSystem": "File System Utilizzato",
+      "fileSystem": "File system",
       "availabilityZone": "Zona di disponibilità",
-      "rating": "Classificazione"
+      "rating": "Classificazione",
+      "webServiceAvailability": "Disponibilità servizio web",
+      "agentAvailability": "Disponibilità del servizio web SAP Agent",
+      "oSCOLAvailability": "Disponibilità del servizio web SAP OsCol",
+      "cPUSystemUsage": "Utilizzo di sistema CPU",
+      "totalMemoryUsage": "Utilizzo memoria totale",
+      "fileSystemUsed": "Statistiche del file system"
     },
     "abapInstance": {
       "label": "Istanza ABAP",
@@ -12639,8 +12748,7 @@
       "maxValue": "Valore massimo",
       "status": "Stato",
       "hostName": "Nome Host",
-      "eventName": "Nome evento",
-      "category": "Categoria",
+      "objectType": "Tipo oggetto",
       "centralService": "Servizio centrale",
       "instanceAvail": "Istanza disponibile",
       "javaToAbap": "Da Java ad Abap",
@@ -12714,7 +12822,7 @@
       "minValue": "Valore minimo",
       "maxValue": "Valore massimo",
       "hostName": "Nome Host",
-      "resourceType": "Tipo di risorsa",
+      "objectType": "Tipo oggetto",
       "host_id": "Id host:",
       "value": "Valore",
       "abapSystemAvailability": "Disponibilità sistema Abap",
@@ -12798,7 +12906,7 @@
     "sapDbTenant": {
       "label": "Tenant DB SAP",
       "hostName": "Nome Host",
-      "resourceType": "Tipo di risorsa",
+      "objectType": "Tipo oggetto",
       "serviceAvailability": "Disponibilità dei servizi"
     },
     "sapDbInstance": {
@@ -12818,8 +12926,7 @@
       "maxValue": "Valore massimo",
       "status": "Stato",
       "hostName": "Nome Host",
-      "eventName": "Nome evento",
-      "category": "Categoria",
+      "objectType": "Tipo oggetto",
       "mergeDBKeyeq_1012": "Unisci chiave DB eq_1012",
       "reclaimDBKeyeq_1012": "Recupera chiave DB eq_1012",
       "sparseDBKeyeq_1012": "Chiave DB sparsa eq_1012",
@@ -12832,9 +12939,9 @@
       "minValue": "Valore minimo",
       "maxValue": "Valore massimo",
       "status": "Stato",
+      "messageDeliveredStatus": "Stato messaggio consegnato",
       "hostName": "Nome Host",
-      "eventName": "Nome evento",
-      "category": "Categoria",
+      "objectType": "Tipo oggetto",
       "systemHttpAvailability": "Disponibilità http di sistema",
       "j2EEMessagesError": "Errore messaggi J2EE",
       "j2EEMessagesCancelled": "Messaggi J2EE annullati",
@@ -12846,8 +12953,7 @@
       "maxValue": "Valore massimo",
       "status": "Stato",
       "hostName": "Nome Host",
-      "eventName": "Nome evento",
-      "category": "Categoria",
+      "objectType": "Tipo oggetto",
       "httpAvailability": "Disponibilità Http",
       "iCMStatus": "Stato ICM",
       "gRMGServiceStatus": "Stato servizio GRMG",
@@ -12858,6 +12964,18 @@
       "webServicesStatus": "Stato servizi Web",
       "sCSEnqueueStatus": "Stato accodamento SCS",
       "sCSMessageServerStatus": "Stato server messaggi SCS"
+    },
+    "sapHanaSystem": {
+      "label": "Sistema SAP HANA",
+      "hostName": "Nome Host",
+      "objectType": "Tipo oggetto",
+      "systemAvailability": "Disponibilità del sistema"
+    },
+    "sapWebDispatcher": {
+      "label": "SAP Web Dispatcher",
+      "hostName": "Nome Host",
+      "objectType": "Tipo oggetto",
+      "systemAvailability": "Disponibilità del sistema"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS non è abilitato, si consiglia di abilitare Redis TLS nell'ambiente di produzione",
@@ -13054,7 +13172,7 @@
       "titleSort": "Ordinamento",
       "titleSize": "Dimensione"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "Chiave business",
       "titleCaseIntanceId": "ID istanza del caso",
       "titleRootProcessUUID": "UUID processo root",
@@ -13063,14 +13181,12 @@
       "titleActivityId": "ID attività",
       "titleActivityName": "Nome dell'attività",
       "titleActivityDesc": "Descrizione attività",
+      "titleActivityType": "Tipo attività",
       "titleExternalTaskWorkerId": "ID worker attività esterna",
       "titleExternalTaskTopic": "Argomento attività esterna",
       "titleExternalTaskId": "ID attività esterna",
       "titleExternalTaskRetries": "Tentativi",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "Argomento attività esterna"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -13349,6 +13465,11 @@
     "ibmdb2": {
       "titleQuery": "Query"
     },
+    "ibmdatapower": {
+      "titleOperationName": "Nome operazione",
+      "titleObjectName": "Nome oggetto",
+      "titleObjectType": "Tipo oggetto"
+    },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} a {{returnDestination}}",
       "titleDestination": "Destinazione",
@@ -13482,7 +13603,9 @@
       "titleMachine": "Macchina",
       "titleQueue": "Coda",
       "titleOperation": "Operazione",
-      "titleTransactionType": "Tipo di transazione"
+      "titleTransactionType": "Tipo di transazione",
+      "titleExceptionType": "Tipo di eccezione",
+      "titleError": "Errore"
     },
     "muleClient": {
       "titleProtocol": "Protocollo",

@@ -4,26 +4,14 @@
  */
 
 import React, { Fragment } from 'react';
-import { fromJS } from 'immutable';
 
-import { Spacer, Message, MessageTypes } from '@instana/components';
-
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import {
-  applicationSmartAlertsEnabled,
-  disallowAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled
-} from 'in-services/featureFlags';
-import SelectedSmartAlertsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectedSmartAlertsList';
+import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
-import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
+import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import ComboBox from 'in-components/ComboBox';
@@ -83,96 +71,10 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
   );
 }
 
-const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function(selectedEvents) {
-  if (selectedEvents.length === 0) {
-    return alwaysEmptyArray;
-  }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getEventSpecificationByIds(selectedEvents).startWith(null);
-});
-
-function eventSelectionTableActions(form, setForm) {
-  return {
-    deselect: {
-      deselect: deselectedEntity => {
-        if (deselectedEntity) {
-          form = form.updateIn(['selectedEvents'], field => {
-            return field.setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id));
-          });
-          setForm(form);
-        }
-      }
-    }
-  };
-}
-
-function submitEventSelection(form, setForm, selectedIds) {
-  setForm(
-    form.updateIn(['selectedEvents'], field => {
-      return field.setValue(field.value.concat(fromJS(selectedIds)));
-    })
-  );
-}
-
 function EventTypeSelection({ form, onChange, types }) {
   return (
     <div className={locals.eventTypeSwitcher}>
       <EventTypesSwitcher form={form} onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
     </div>
-  );
-}
-
-function EventsSelection({ form, setForm }) {
-  const selectedEvents = form.get('selectedEvents')?.value.toJS() ?? [];
-
-  return (
-    <Fragment>
-      <Events
-        setTitle={false}
-        loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
-        hasRowNavigation={false}
-        noDataMessage={t('in-settings:tabs.noEventsSelected')}
-        tableActions={eventSelectionTableActions(form, setForm)}
-        pageSize={10}
-        rightHeader={
-          <SelectListDialogButton
-            form={form}
-            onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-            title={t('in-settings:tabs.addEvents')}
-            label={t('in-settings:tabs.addEvents')}
-            renderCustomCloseBehaviour={() =>
-              disallowAppDataLegacyEventsEnabled && !hideAppDataLegacyEventsEnabled ? (
-                <Message type={MessageTypes.neutral} small withIcon>
-                  {t('in-settings:tabs.depreactedEventHiddenInfo')}
-                </Message>
-              ) : null
-            }
-            listComponent={props => (
-              <Events {...props} withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled} />
-            )}
-            hiddenIds={selectedEvents}
-            limit={limitForConnectedEvents}
-            createSubmitLabel={numberOfItems =>
-              numberOfItems > 0
-                ? t('in-settings:tabs.addNumberOfItemsEvent', { count: numberOfItems })
-                : t('in-settings:tabs.addEvents')
-            }
-            requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneEvent')}
-          />
-        }
-      />
-      <TouchedMessages field={form.get('selectedEvents')} />
-      <Spacer vertical="large" />
-    </Fragment>
-  );
-}
-
-function SmartAlertsSelection({ form, setForm }) {
-  return (
-    <>
-      <SelectedSmartAlertsList form={form} setForm={setForm} />
-      <TouchedMessages field={form.get('applicationAlertConfigIds')} />
-      <Spacer vertical="large" />
-    </>
   );
 }

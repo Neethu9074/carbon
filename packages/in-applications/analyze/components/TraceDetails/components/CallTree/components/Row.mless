@@ -101,7 +101,6 @@
     min-width: 100px;
     position: relative;
     z-index: 1;
-    background: @lib__colors__white;
 
     &:hover {
       text-decoration: underline;

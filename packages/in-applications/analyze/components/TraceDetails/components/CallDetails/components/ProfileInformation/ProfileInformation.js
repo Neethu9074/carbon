@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import { getTopSelfTimeList, createProfileSignature } from 'in-components/Profiling/utils';

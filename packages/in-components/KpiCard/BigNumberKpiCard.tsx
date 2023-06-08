@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import ResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric,
+  ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -30,7 +31,7 @@ export interface BigNumberKpiCardProps {
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config | ConfigWithCompanionMetric;
+  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
@@ -53,12 +54,13 @@ export default function BigNumberKpiCard({
     timeShift: {
       offset: 0
     },
-    timeConfig,
     resultType: 'SINGLE_NUMBER'
   } as const;
 
   const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...config.metricConfiguration,
       ...config.tagFilters,
       ...metricDefaults
@@ -67,12 +69,16 @@ export default function BigNumberKpiCard({
 
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...config.metricConfiguration,
       ...metricDefaults,
       timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
     };
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
+      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
+      timeConfig,
       ...metricDefaults,
       ...config.companionMetricConfiguration
     };

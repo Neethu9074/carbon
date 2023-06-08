@@ -8,10 +8,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import {
-  getLinkToAnalyze,
   customEventsTabFullyQualified,
   detailsPath,
-  useGetLinkToMobileApp
+  useGetLinkToMobileApp,
+  useLinkToAnalyze
 } from 'in-mobile-apps/navigation/paths';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
@@ -40,6 +40,7 @@ import locals from './CustomEvent.mless';
 
 export default function CustomEvent({ location, tagFilters, timeConfig, mobileAppId, viewId, mobileAppLabel }) {
   const tagCatalogCustom = useTagCatalog('custom');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const customEventId = getMatrixParameter(location, '/details', customEventIdMatrixParameter);
   const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, { tabPath: '/customEvents', viewId });
 
@@ -76,9 +77,9 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
 
         <Button
           kind="secondary"
-          href$={
+          href={
             tagCatalogCustom &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'custom',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
@@ -114,9 +115,9 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
               text: t('in-mobile-apps:dashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
+              href:
                 tagCatalogCustom &&
-                getLinkToAnalyze({
+                getLinkToMobileAppAnalyze({
                   beaconType: 'custom',
                   formModel: translateDemocratisationTagFiltersToFormModel({
                     mobileAppLabel,
@@ -148,9 +149,9 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
               text: t('in-mobile-apps:dashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
+              href:
                 tagCatalogCustom &&
-                getLinkToAnalyze({
+                getLinkToMobileAppAnalyze({
                   beaconType: 'custom',
                   formModel: translateDemocratisationTagFiltersToFormModel({
                     mobileAppLabel,

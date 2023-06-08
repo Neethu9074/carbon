@@ -162,6 +162,9 @@ export default connectTo(
       this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
       this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(e => e.preventDefault());
+      this.props.isHighlightedOnDisabledChart$.emit(
+        this.props.disableChartInLive ? this.props.disableChartInLive : false
+      );
     };
 
     onMouseDown(e) {

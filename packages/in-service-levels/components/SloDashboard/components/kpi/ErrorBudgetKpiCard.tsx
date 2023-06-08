@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { isTimeBasedSli, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { useTheme } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -21,6 +22,7 @@ interface ErrorBudgetKpiCardProps {
 export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorBudgetKpiCardProps) {
   const { id } = configuration;
   const formatter = isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : number.compact;
+  const theme = useTheme();
 
   return (
     <BigNumberKpiCard
@@ -33,7 +35,8 @@ export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorB
       }}
       config={{
         metricConfiguration: metrics.remainingBudget.singleNumber({ timeConfig, configId: id! }),
-        companionMetricConfiguration: metrics.totalBudget.singleNumber({ timeConfig, configId: id! })
+        companionMetricConfiguration: metrics.totalBudget.singleNumber({ timeConfig, configId: id! }),
+        getColor: value => (value != null && value < 0 ? theme.ids.color.option.red['500'] : undefined)
       }}
     />
   );

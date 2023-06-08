@@ -24,6 +24,8 @@
   "titleAnalyzeJsErrors": "JS-Fehler analysieren",
   "titleAnalyzePageLoads": "Seitenladevorgänge analysieren",
   "titleAnalyzePageTransitions": "Seitenwechsel analysieren",
+  "titleAnalyzeViewTransitions": "Anzeigewechsel analysieren",
+  "titleAnalyzeSessionStarts": "Analyse der Sitzung gestartet",
   "titleAnalyzeLoadTime": "Ladezeit analysieren",
   "titleViewRelatedTestResults": "Zugehörige Testergebnisse anzeigen",
   "titleTime": "Zeit",

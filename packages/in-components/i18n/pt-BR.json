@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "O valor do filtro de tag foi encurtado para o comprimento máximo permitido.",
     "sanitizedTagFilterValueAndOperator": "O valor do filtro de tag foi encurtado para o comprimento máximo permitido e o operador foi ajustado de acordo.",
     "source": "Origem",
+    "sourceAbbreviated": "Origem",
     "destination": "Destino",
+    "destinationAbbreviated": "Destino",
     "documentation": "Documentation",
     "string": {
       "contains": "contém",

@@ -17,9 +17,10 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { t } from 'in-i18n';
 
-export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | ApplicationAlertType>(
+export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | ApplicationAlertType | MobileAlertType>(
   createThresholdForm: (
     threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
     alertType: ALERT_TYPE

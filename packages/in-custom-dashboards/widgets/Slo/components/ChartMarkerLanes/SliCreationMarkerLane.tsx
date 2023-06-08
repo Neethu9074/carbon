@@ -15,7 +15,7 @@ import { ChartContentPostition } from 'in-components/Chart/types';
 import theme from 'in-themes';
 
 interface SliCreationMarkerLaneProps extends Partial<PresentedLaneProps> {
-  chartContentPosition: ChartContentPostition;
+  chartContentPosition?: ChartContentPostition;
   initialEvaluationTimestamp: number;
   tooltipContent: React.ReactNode;
 }
@@ -29,7 +29,7 @@ export default function SliCreationMarkerLane({
   return (
     <MarkersLane
       {...restProps}
-      chartContentPosition={chartContentPosition}
+      chartContentPosition={chartContentPosition!}
       isClustered={false} // Force clustering off, because we ever only have a single event in this marker lane
       events={[{ timestamp: initialEvaluationTimestamp }]}
       label={''}

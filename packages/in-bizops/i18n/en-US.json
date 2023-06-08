@@ -16,12 +16,15 @@
     "businessMonitoring": "Business Monitoring"
   },
   "dashboards": {
-    "analyzeInstancesButton": "Analyze Instances",
+    "analyzeInstances": "Analyze Instances",
     "summary": {
       "pageTitle": "Business Process",
       "summaryTab": "Summary",
       "widgets": {
         "timeline": "Timeline",
+        "topActivities": "Top Activities (Count)",
+        "viewAll": "View all activities",
+        "count": "Count",
         "businessProcessStartedLabel": "{{businessProcessName}} started"
       }
     }

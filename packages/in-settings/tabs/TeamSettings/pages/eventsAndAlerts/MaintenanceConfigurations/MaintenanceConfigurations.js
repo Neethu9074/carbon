@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getEntityHref,
@@ -18,7 +18,7 @@ import {
   newMaintenanceWindowTracker,
   removeMaintenanceWindowTracker
 } from 'in-settings/tracker';
-import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
+import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from './api';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';

@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "Étiquette"
+      },
+      "sloStatusColumnContent": {
+        "target": "Cible {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} min",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} balise",
+        "remainingEvent_website_plural": "{{count}} balises",
+        "remainingEvent_website_0": "{{count}} balises",
+        "remainingEvent_website_1": "{{count}} balise",
+        "remainingEvent_website_2": "{{count}} balises",
+        "remainingEvent_application": "{{count}} appel",
+        "remainingEvent_application_plural": "{{count}} appels",
+        "remainingEvent_application_0": "{{count}} appels",
+        "remainingEvent_application_1": "{{count}} appel",
+        "remainingEvent_application_2": "{{count}} appels",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixe / {{remaining}} restant",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), en continu",
+        "timeWindowSize_month": "{{count}} mois",
+        "timeWindowSize_month_plural": "{{count}} mois",
+        "timeWindowSize_month_0": "{{count}} mois",
+        "timeWindowSize_month_1": "{{count}} mois",
+        "timeWindowSize_month_2": "{{count}} mois",
+        "timeWindowSize_week": "{{count}} semaine",
+        "timeWindowSize_week_plural": "{{count}} semaines",
+        "timeWindowSize_week_0": "{{count}} semaines",
+        "timeWindowSize_week_1": "{{count}} semaine",
+        "timeWindowSize_week_2": "{{count}} semaines",
+        "timeWindowSize_day": "{{count}} jour",
+        "timeWindowSize_day_plural": "{{count}} jours",
+        "timeWindowSize_day_0": "{{count}} jours",
+        "timeWindowSize_day_1": "{{count}} jour",
+        "timeWindowSize_day_2": "{{count}} jours"
       }
     },
     "title": "Objectifs de niveau de service",
     "columnLabels": {
       "name": "Nom",
       "entity": "Entité",
-      "blueprint": "Plan directeur"
+      "blueprint": "Plan directeur",
+      "errorBudget": "Erreur budget restant",
+      "status": "Statut / Cible",
+      "tags": "Étiquettes"
     }
   }
 }

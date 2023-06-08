@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -20,7 +21,7 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
@@ -36,8 +37,10 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);
 
+  const viewAllHref = useNodeDashboard(snapshotId, { tab: '/conditions' });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={node.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
@@ -180,12 +183,9 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsTableCard
-            conditions={node.conditions}
-            viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
-          />
+          <ConditionsTableCard conditions={node.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

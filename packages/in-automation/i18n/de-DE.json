@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "{{count}} Aktionen hinzufügen",
   "noActionsSelected": "Keine Aktionen ausgewählt",
   "actionSensorTimeout": "Die Back-End-Anforderung konnte nicht verarbeitet werden. Überprüfen Sie Ihre Agentenkonfiguration, um sicherzustellen, dass der Aktionssensor installiert ist.",
+  "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
   "ok": "Ok",
   "runAction": "Aktion ausführen",

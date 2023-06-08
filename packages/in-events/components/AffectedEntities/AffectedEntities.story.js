@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { create } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
 import { indeterminateProgress, finishedProgress } from 'in-services/fixedObjects';

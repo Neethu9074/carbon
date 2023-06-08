@@ -4,11 +4,11 @@
  */
 
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
+import { playwithEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
-import { websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Resources from 'in-websites/WebsiteDashboard/tabs/Resources';
 import User from 'in-websites/WebsiteDashboard/tabs/User/User';
 import Errors from 'in-websites/WebsiteDashboard/tabs/Errors';
@@ -75,12 +75,13 @@ export const websiteTabs = [
     path: `${websitePathFullyQualified}/alerts`,
     component: Alerts
   },
-  role.canConfigureEumApplications && {
-    label: t('in-websites:websiteDashboard.tabs.indexLabelConfiguration'),
-    path: `${websitePathFullyQualified}/configuration`,
-    component: Configuration,
-    websiteOnly: true
-  }
+  role.canConfigureEumApplications &&
+    !playwithEnabled && {
+      label: t('in-websites:websiteDashboard.tabs.indexLabelConfiguration'),
+      path: `${websitePathFullyQualified}/configuration`,
+      component: Configuration,
+      websiteOnly: true
+    }
 ].filter(Boolean);
 
 export const pageTabs = websiteTabs.filter(tab => !tab.websiteOnly);

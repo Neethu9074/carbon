@@ -9,8 +9,6 @@ import React from 'react';
 import { MobileAppAlertConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
-//@ts-expect-error - needs TS migration
-import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error Missing exact typings
@@ -18,6 +16,7 @@ import { defaultGroupings } from 'in-mobile-apps/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -32,28 +31,32 @@ export default function AnalyzeMobileAppEventButton({
   mobileAppName,
   timeConfig
 }: AnalyzeMobileAppEventButtonProps) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const { rule, tagFilterExpression } = alertConfig;
   const { alertType, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const linkToUA$ = getLinkToAnalyze({
-    beaconType,
-    timeConfig,
-    groupBy: getGrouping(alertType, metricName),
-    chartedMetrics: getChartedMetrics(alertType),
-    formModel: joinExpressions({
-      expressions: [
-        [tagFilter('mobileBeacon.mobileApp.name', EQUALS, mobileAppName)],
-        tagFilterFormModel,
-        blueprintConfig.getRuleTagFilterFormModel(rule),
-        blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
-      ]
+  const linkToUA = urlWithoutQueryParameter(
+    getLinkToMobileAppAnalyze({
+      beaconType,
+      timeConfig,
+      groupBy: getGrouping(alertType, metricName),
+      chartedMetrics: getChartedMetrics(alertType),
+      formModel: joinExpressions({
+        expressions: [
+          [tagFilter('mobileBeacon.mobileApp.name', EQUALS, mobileAppName)],
+          tagFilterFormModel,
+          blueprintConfig.getRuleTagFilterFormModel(rule),
+          blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
+        ]
+      })
     })
-  }).map(urlWithoutQueryParameter);
+  );
+
   return (
-    <Button kind="primary" icon={getIcon(alertType)} href$={linkToUA$} style={{ outline: '10px red' }}>
+    <Button kind="primary" icon={getIcon(alertType)} href={linkToUA} style={{ outline: '10px red' }}>
       {getLinkTitle(alertType, metricName)}
     </Button>
   );

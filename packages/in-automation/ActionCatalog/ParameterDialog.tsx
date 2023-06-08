@@ -50,9 +50,10 @@ export interface ParameterDialogProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   idToEdit?: string;
+  isNotEditable: boolean;
 }
 
-export default function ParameterDialog({ form, onChange, idToEdit }: ParameterDialogProps) {
+export default function ParameterDialog({ form, onChange, idToEdit, isNotEditable }: ParameterDialogProps) {
   const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
     parameter => parameter.id === idToEdit
   );
@@ -65,8 +66,10 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
     parameterForm,
     setParameterForm,
     parameter,
-    form
+    form,
+    isNotEditable
   };
+
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -88,7 +91,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
           <HiddenSection {...sectionProps} />
-          <SaveCancel form={parameterForm} onClickCancelButton={close} />
+          <SaveCancel hasSaveButton={!isNotEditable} form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
     </Dialog>
@@ -99,9 +102,10 @@ interface SectionProps {
   parameter: MappedParameter | undefined;
   parameterForm: MapForm<any>;
   setParameterForm: React.Dispatch<React.SetStateAction<MapForm<any>>>;
+  isNotEditable: boolean;
 }
 
-const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const MetaDataSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const name = parameterForm.get('name') as Field<string>;
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
@@ -118,6 +122,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
         <Input
           id="parameter-label"
           type="text"
+          disabled={isNotEditable}
           value={label.value}
           onChange={e => onParameterChange({ fieldName: 'label', value: e.target.value, setParameterForm, parameter })}
           hasError={!label.valid && label.touched}
@@ -132,6 +137,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
         <Input
           id="parameter-name"
           type="text"
+          disabled={isNotEditable}
           value={name.value}
           onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
           hasError={!name.valid && name.touched}
@@ -147,6 +153,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
         <Input
           id="parameter-description"
           type="text"
+          disabled={isNotEditable}
           value={description.value}
           onChange={e =>
             onParameterChange({ fieldName: 'description', value: e.target.value, setParameterForm, parameter })
@@ -163,6 +170,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'static'}
+              disabled={isNotEditable}
               label={t('in-automation:static')}
               onChange={() =>
                 onParameterChange({
@@ -179,6 +187,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'vault'}
+              disabled={isNotEditable}
               label={t('in-automation:vault')}
               onChange={() =>
                 onParameterChange({
@@ -195,6 +204,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'dynamic'}
+              disabled={isNotEditable}
               label={t('in-automation:dynamic')}
               onChange={() =>
                 onParameterChange({
@@ -211,7 +221,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
       </FormGroup>
       <FormGroup>
         <CheckboxFancy
-          disabled={hidden.value}
+          disabled={hidden.value || isNotEditable}
           checked={required.value}
           label={t('in-automation:ActionCatalog.required')}
           onChange={e =>
@@ -223,7 +233,7 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
   );
 };
 
-const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
 
@@ -231,6 +241,7 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
     <FormGroup>
       <CheckboxFancy
         checked={hidden.value}
+        disabled={isNotEditable}
         label={t('in-automation:ActionCatalog.hiddenParam')}
         onChange={e =>
           onParameterChange({
@@ -264,7 +275,7 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
   );
 };
 
-const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const StaticSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
 
@@ -278,6 +289,7 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
         </Label>
         <Input
           id="parameter-value"
+          disabled={isNotEditable}
           value={value.value}
           onChange={e => onParameterChange({ fieldName: 'value', value: e.target.value, setParameterForm, parameter })}
           hasError={!value.valid && value.touched}
@@ -289,7 +301,7 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionPr
   );
 };
 
-const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const secretPath = parameterForm.get('secretPath') as Field<string>;
   const secretKey = parameterForm.get('secretKey') as Field<string>;
@@ -304,6 +316,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
         </Label>
         <Input
           id="parameter-secretPath"
+          disabled={isNotEditable}
           value={secretPath.value}
           onChange={e =>
             onParameterChange({ fieldName: 'secretPath', value: e.target.value, setParameterForm, parameter })
@@ -321,6 +334,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
         </Label>
         <Input
           id="parameter-secretKey"
+          disabled={isNotEditable}
           value={secretKey.value}
           onChange={e =>
             onParameterChange({ fieldName: 'secretKey', value: e.target.value, setParameterForm, parameter })
@@ -351,7 +365,7 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
     })
 });
 
-const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const value = parameterForm.get('value') as Field<DynamicFieldValue>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   return (
@@ -362,6 +376,7 @@ const DynamicSection = ({ parameter, parameterForm, setParameterForm }: SectionP
       <div>
         <TagBasedPayloadConfigurator
           value={toViewModel(value.value)}
+          disabled={isNotEditable}
           onChange={(viewModel: ViewModel) =>
             onParameterChange({ fieldName: 'value', value: toFormModel(viewModel), setParameterForm, parameter })
           }
@@ -403,7 +418,7 @@ function onParameterChange<T>({
   });
 }
 
-interface OnSubmitParams extends ParameterDialogProps {
+interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable'> {
   parameterForm: MapForm<any>;
   parameter: MappedParameter | undefined;
 }

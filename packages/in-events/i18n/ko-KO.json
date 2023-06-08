@@ -24,6 +24,8 @@
   "titleAnalyzeJsErrors": "JS 오류 분석",
   "titleAnalyzePageLoads": "페이지 로드 분석",
   "titleAnalyzePageTransitions": "페이지 전환 분석",
+  "titleAnalyzeViewTransitions": "보기 전환 분석",
+  "titleAnalyzeSessionStarts": "세션 시작 분석",
   "titleAnalyzeLoadTime": "로드 시간 분석",
   "titleViewRelatedTestResults": "관련 테스트 결과 보기",
   "titleTime": "시간",

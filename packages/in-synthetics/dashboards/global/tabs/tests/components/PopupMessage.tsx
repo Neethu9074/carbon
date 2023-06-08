@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Trans } from '@instana/i18n-react';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import locals from './PopupMessage.mless';
 

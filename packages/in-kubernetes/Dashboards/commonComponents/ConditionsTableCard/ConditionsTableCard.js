@@ -1,12 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
 import ConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ConditionsPresenter';
@@ -17,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from './ConditionsTableCard.mless';
 
-export default function ConditionsTableCard({ viewAllHref$, conditions }) {
+export default function ConditionsTableCard({ viewAllHref, conditions }) {
   const [selectedStatus, setSelectedStatus] = useState(null);
   if (!conditions || conditions.length === 0) {
     return <NoDataAvailable text={t('in-kubernetes:dashboards.noConditionsFound')} />;
@@ -36,15 +37,15 @@ export default function ConditionsTableCard({ viewAllHref$, conditions }) {
       <ConditionsPresenter conditions={presentedConditions} />
 
       <div className={locals.viewAllWrapper}>
-        <ViewAllWrapper ViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />
+        <ViewAllWrapper ViewAll={ViewAll} viewAllHref={viewAllHref} className={locals.viewAllLink} />
       </div>
     </Card>
   );
 }
 
-function ViewAll({ viewAllHref$, className }) {
+function ViewAll({ viewAllHref, className }) {
   return (
-    <Link className={className} href$={viewAllHref$}>
+    <Link className={className} href={viewAllHref}>
       {t('in-kubernetes:dashboards.viewAllConditions')}
     </Link>
   );

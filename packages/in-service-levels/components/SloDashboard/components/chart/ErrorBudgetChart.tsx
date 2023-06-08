@@ -4,14 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { isTimeBasedSli, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { useTheme } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
+import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -20,6 +22,7 @@ import { applyAdjustedTimeframe } from 'in-service-levels/utils';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchedState } from 'in-hooks/utils/types';
+import ButtonGroup from 'in-components/ButtonGroup';
 import metrics from 'in-service-levels/metrics';
 
 interface ErrorBudgetChartProps {
@@ -34,6 +37,8 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
   const { id, indicator, lastUpdated } = configuration;
 
   const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(id!, timeConfig);
+
+  const [showFullConsumption, setShowFullConsumption] = useState(false);
 
   const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
   const renderer = useStairwayRenderer({
@@ -52,6 +57,8 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
         y1: {
           metricIds: ['consumed', 'remaining'],
           metrics: [metricResult?.metrics.consumed ?? [], metricResult?.metrics.remaining ?? []],
+          min: showFullConsumption ? findMinMetricValue(metricResult?.metrics.remaining ?? []) : 0,
+          renderAllTickLabels: showFullConsumption,
           labels: [metrics.consumedBudget.label, metrics.remainingBudget.label],
           colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
           renderer,
@@ -59,10 +66,30 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
         },
         granularity: metricResult?.granularity,
         timeConfig: metricResult?.adjustedTimeConfig ?? timeConfig,
+        rightHeaderContent: (
+          <ButtonGroup
+            buttonPropsList={[
+              {
+                key: 'compact',
+                text: t('in-service-levels:sloDashboard.components.errorBudgetChart.optionCompact'),
+                onClick: () => setShowFullConsumption(false)
+              },
+              {
+                key: 'full',
+                text: t('in-service-levels:sloDashboard.components.errorBudgetChart.optionFull'),
+                onClick: () => setShowFullConsumption(true)
+              }
+            ]}
+            activeKey={showFullConsumption ? 'full' : 'compact'}
+          />
+        ),
+        renderPostChartContent: props =>
+          isFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes configuration={configuration} {...props} />,
 
-        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size
+        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
+        // The current values are just measures taken from the default rendering of the chart to make the sizing work
         customHeight: isFullSloTimeWindow ? 300 : undefined,
-        customChartSkeletonHeight: isFullSloTimeWindow ? 300 : 182
+        customChartSkeletonHeight: isFullSloTimeWindow ? 300 : 238
       }}
       result={{ progress, errors }}
     />

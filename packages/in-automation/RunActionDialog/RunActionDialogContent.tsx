@@ -8,7 +8,8 @@ import { Field, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Typography, Spacer } from '@instana/components';
+import { Typography, Spacer } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -26,8 +27,11 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { actionHistoryPath } from 'in-automation/navigation/paths';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
@@ -39,6 +43,7 @@ import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
+import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -66,21 +71,37 @@ export default function RunActionDialogContent({
   errorResolvingDynamicParameters
 }: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
-
+  const { createHref, location } = useNavigation();
+  function getLinkToActionHistory(id: string) {
+    const path = location;
+    path.pathname = actionHistoryPath;
+    setOrDeleteMatrixKey(path, actionHistoryPath, 'query', id);
+    return createHref(path);
+  }
   if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
   if (actionInstanceId) {
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-    const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+    const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
-        <Trans
-          i18nKey="in-automation:linkToActionLogs"
-          components={{
-            // @ts-expect-error
-            logsLink: <Link target="_blank" onClick={close} href$={link} />
-          }}
-        />
+        {role?.canViewAutomationActionInstances ? (
+          <Trans
+            i18nKey={'in-automation:linkToActionHistory'}
+            components={{
+              // @ts-expect-error
+              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
+            }}
+          />
+        ) : (
+          <Trans
+            i18nKey={'in-automation:linkToActionLogs'}
+            components={{
+              // @ts-expect-error
+              logsLink: <Link target="_blank" onClick={close} href$={logLink} />
+            }}
+          />
+        )}
       </Typography>
     );
   }
@@ -98,7 +119,7 @@ export default function RunActionDialogContent({
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:titleActionType')}
           >
-            {getType(action)}
+            {getType(action.type)}
           </DescriptionItem>
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}

@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -50,17 +51,30 @@ function MetricValue({ value }) {
   return <span>{value}</span>;
 }
 
+function WorkloadLink({ item, getWorkloadControllerDashboard, clusterId }) {
+  const href = getWorkloadControllerDashboard(get(item, ['workloadController', 'id']), { clusterId });
+  const label = get(item, ['workloadController', 'name']);
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_kubernetes_workload"
+      label={label}
+      href={href}
+      severity={item.entityHealthInfo.maxSeverity}
+    />
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item, { clusterId, getWorkloadControllerDashboard }) {
       return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_workload"
-          label={get(item, ['workloadController', 'name'])}
-          href$={getWorkloadControllerDashboard(get(item, ['workloadController', 'id']), { clusterId })}
-          severity={item.entityHealthInfo.maxSeverity}
+        <WorkloadLink
+          getWorkloadControllerDashboard={getWorkloadControllerDashboard}
+          clusterId={clusterId}
+          item={item}
         />
       );
     }

@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-components/Profiling/navigation/paths';
@@ -86,9 +86,10 @@ function ProfilesView(props) {
   const hierachySnapshots$ = hierachy$.flatMap(hierachy =>
     getSnapshots(hierachy.toJS(), { timeConfig: timeConfigForSnapshots })
   );
-  const deepestTechSnapshot = useObservable(() => getDeepestTechSnapshot([hierachy$, timeConfigForSnapshots]), [
-    ...timeConfigFields
-  ]);
+  const deepestTechSnapshot = useObservable(
+    () => getDeepestTechSnapshot([hierachy$, timeConfigForSnapshots]),
+    [...timeConfigFields]
+  );
   const historicalProcessSnapshot = useObservable(
     () => getHistoricalProcessSnapshot([processId, timeConfigForSnapshots]),
     [processId, ...timeConfigFields]

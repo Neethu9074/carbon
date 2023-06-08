@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { AggregationType, ResultType } from '@instana/types';
 
@@ -21,13 +22,12 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
-// @ts-expect-error
-import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
@@ -99,7 +99,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
   };
 
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={daemonSet.id} timeConfig={timeConfig} />
 
       <Row>
@@ -336,6 +336,6 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

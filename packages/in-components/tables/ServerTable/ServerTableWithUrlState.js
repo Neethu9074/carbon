@@ -12,6 +12,8 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 
+import locals from './ServerTablePresenter.mless';
+
 export default function createServerTableWithUrlState({
   paginationResettingUrlParameters = emptyArray,
   columnDefinitions: staticColumnDefinitions,
@@ -68,7 +70,17 @@ export default function createServerTableWithUrlState({
       () => columnDefinitions.filter(columnDefinition => columnDefinition.optional),
       [columnDefinitions]
     );
-
+    const totalHits = result?.data?.totalHits;
+    const leftHeader = (title, totalHits, result) => {
+      if (totalHits === 0 || result?.progress?.loading) {
+        return <h1 className={locals.title}>{title} </h1>;
+      }
+      return (
+        <h1 className={locals.title}>
+          {title} ({totalHits})
+        </h1>
+      );
+    };
     const rendererProps = {
       ...propsForObservable,
       result,
@@ -78,6 +90,12 @@ export default function createServerTableWithUrlState({
       onChange: setUrlState,
       resultPrecision
     };
-    return <Renderer {...rendererProps} />;
+
+    return (
+      <Renderer
+        leftHeader={props.showHeaderCount ? leftHeader(props.title, totalHits, result) : undefined}
+        {...rendererProps}
+      />
+    );
   };
 }

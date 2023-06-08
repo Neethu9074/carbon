@@ -7,8 +7,8 @@ import React, { ForwardedRef, forwardRef } from 'react';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
 import { Snapshot } from '@instana/types';
+import { Link } from '@instana/legacy';
 
 import { noop } from 'in-services/util/function';
 import WithIcon from 'in-components/WithIcon';

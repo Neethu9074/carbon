@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { ChangeEvent, useContext } from 'react';
 import { MapForm, Field } from 'formalistic';
-import React, { ChangeEvent } from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
+import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
@@ -28,7 +28,11 @@ export interface Tag {
   value: string;
 }
 
-const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'>) => [
+const getColumnDefinitions = ({
+  form,
+  onChange,
+  isNotEditable
+}: Omit<TagsTableProps, 'setForm'> & { isNotEditable: boolean }) => [
   {
     id: 'id',
     sortable: false,
@@ -41,6 +45,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
             <Input
               className={locals.key}
               value={item.value}
+              disabled={isNotEditable}
               hasError={!tagsField?.valid && tagsField?.touched && item.value === ''}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const tags = (tagsField as Field<Tag[]>)?.value;
@@ -67,7 +72,8 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
 ];
 
 export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
-  const columnDefinitions = getColumnDefinitions({ form, onChange });
+  const isNotEditable = useContext(isNotEditableContext);
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
   const tags = (form.get('tags') as Field<Tag[]>).value;
 
   return (

@@ -111,6 +111,7 @@ export function getSingleNumberMetricValue(metric?: MetricResult): number | unde
 export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe?: AdjustedTimeframe): TimeConfig {
   return {
     ...timeConfig,
-    ...(adjustedTimeframe ?? {})
+    ...(adjustedTimeframe ?? {}),
+    focusedMoment: timeConfig.focusedMoment ?? adjustedTimeframe?.to
   };
 }

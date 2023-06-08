@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Applications, {
   applicationSelectionTableActions,
@@ -34,7 +34,6 @@ export default function MaintenanceScopeStep(props) {
   return (
     <FormGroup className={locals.mwWrapper}>
       <div className={locals.inputContainer}>
-        <h2 className={locals.stepTitle}>{t('in-settings:tabs.scope')}</h2>
         {form.get('applyOn').map(field => (
           <FormGroup>
             <Label htmlFor="maintenance-applyOn" hasError={!field.valid && field.touched}>

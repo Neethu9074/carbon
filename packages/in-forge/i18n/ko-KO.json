@@ -274,11 +274,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Camunda 종료",
-  "pluginName_camundaexit_0": "Camunda 종료",
-  "pluginName_camundaexit_1": "Camunda 종료",
-  "pluginName_camundaexit_2": "Camunda 종료",
-  "pluginName_camundaexit": "Camunda 종료",
   "pluginName_cassandraCluster_plural": "Cassandra 클러스터",
   "pluginName_cassandraCluster_0": "Cassandra 클러스터",
   "pluginName_cassandraCluster_1": "Cassandra 클러스터",
@@ -404,6 +399,16 @@
   "pluginName_sapJavaInstance_1": "SAP Java 인스턴스",
   "pluginName_sapJavaInstance_2": "SAP Java 인스턴스",
   "pluginName_sapJavaInstance": "SAP Java 인스턴스",
+  "pluginName_sapHanaSystem_plural": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_0": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_1": "SAP Hana Systems",
+  "pluginName_sapHanaSystem_2": "SAP Hana Systems",
+  "pluginName_sapHanaSystem": "SAP Hana System",
+  "pluginName_sapWebDispatcher_plural": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_0": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_1": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher_2": "SAP Web Dispatchers",
+  "pluginName_sapWebDispatcher": "SAP Web Dispatcher",
   "pluginName_sapHost_plural": "SAP 호스트",
   "pluginName_sapHost_0": "SAP 호스트",
   "pluginName_sapHost_1": "SAP 호스트",
@@ -1003,6 +1008,7 @@
   "pluginName_msiis_1": "IIS(Internet Information Server)",
   "pluginName_msiis_2": "IIS(Internet Information Server)",
   "pluginName_msiis": "IIS(Internet Information Server)",
+  "pluginName_msmq": "MSMQ 메시지",
   "pluginName_msSqlDatabase_plural": "MS SQL 인스턴스",
   "pluginName_msSqlDatabase_0": "MS SQL 인스턴스",
   "pluginName_msSqlDatabase_1": "MS SQL 인스턴스",
@@ -1286,6 +1292,16 @@
   "pluginName_tibcoEMS_1": "Tibco EMS",
   "pluginName_tibcoEMS_2": "Tibco EMS",
   "pluginName_tibcoEMS": "Tibco EMS",
+  "pluginName_tibcoEMSQueue_plural": "Tibco EMS 큐",
+  "pluginName_tibcoEMSQueue_0": "Tibco EMS 큐",
+  "pluginName_tibcoEMSQueue_1": "Tibco EMS 큐",
+  "pluginName_tibcoEMSQueue_2": "Tibco EMS 큐",
+  "pluginName_tibcoEMSQueue": "Tibco EMS 큐",
+  "pluginName_tibcoEMSTopic_plural": "Tibco EMS 토픽",
+  "pluginName_tibcoEMSTopic_0": "Tibco EMS 토픽",
+  "pluginName_tibcoEMSTopic_1": "Tibco EMS 토픽",
+  "pluginName_tibcoEMSTopic_2": "Tibco EMS 토픽",
+  "pluginName_tibcoEMSTopic": "Tibco EMS 토픽",
   "pluginName_tomcatApplicationContainer_plural": "Tomcat",
   "pluginName_tomcatApplicationContainer_0": "Tomcat",
   "pluginName_tomcatApplicationContainer_1": "Tomcat",
@@ -1532,11 +1548,6 @@
   "tracingTypeName_camunda_0": "Camunda 호출",
   "tracingTypeName_camunda_1": "Camunda 호출",
   "tracingTypeName_camunda_2": "Camunda 호출",
-  "tracingTypeName_camundaexit": "Camunda 외부 태스크 메시지",
-  "tracingTypeName_camundaexit_plural": "Camunda 외부 태스크 메시지",
-  "tracingTypeName_camundaexit_0": "Camunda 외부 태스크 메시지",
-  "tracingTypeName_camundaexit_1": "Camunda 외부 태스크 메시지",
-  "tracingTypeName_camundaexit_2": "Camunda 외부 태스크 메시지",
   "tracingTypeName_cassandra": "Cassandra 조회",
   "tracingTypeName_cassandra_plural": "Cassandra 조회",
   "tracingTypeName_cassandra_0": "Cassandra 조회",
@@ -1592,6 +1603,22 @@
   "tracingTypeName_cxfserver_0": "HTTP 호출",
   "tracingTypeName_cxfserver_1": "HTTP 호출",
   "tracingTypeName_cxfserver_2": "HTTP 호출",
+  "tracingTypeName_datapower": "IBM DataPower",
+  "tracingTypeName_datapowerhttpserver": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpserver_plural": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpserver_0": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpserver_1": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpserver_2": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpclient": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpclient_plural": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpclient_0": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpclient_1": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerhttpclient_2": "IBM DataPower HTTP 호출",
+  "tracingTypeName_datapowerinternal": "IBM DataPower 내부 호출",
+  "tracingTypeName_datapowerinternal_plural": "IBM DataPower 내부 호출",
+  "tracingTypeName_datapowerinternal_0": "IBM DataPower 내부 호출",
+  "tracingTypeName_datapowerinternal_1": "IBM DataPower 내부 호출",
+  "tracingTypeName_datapowerinternal_2": "IBM DataPower 내부 호출",
   "tracingTypeName_distributeme": "DistributeMe 호출",
   "tracingTypeName_distributeme_plural": "DistributeMe 호출",
   "tracingTypeName_distributeme_0": "DistributeMe 호출",
@@ -2451,7 +2478,8 @@
     "graphql": "graphql",
     "logger": "로거",
     "missing": "누락",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2526,8 +2554,6 @@
       "databases": "데이터베이스",
       "processId": "프로세스 ID",
       "startTime": "시작 시간",
-      "topics": "토픽",
-      "queues": "큐",
       "sealed": "봉인됨",
       "standby": "대기",
       "initialized": "초기화됨",
@@ -4915,7 +4941,7 @@
       "threads": "스레드",
       "throttlingDelay": "스로틀링 및 지연"
     },
-    "camunda": {
+    "bpm": {
       "camunda": "Camunda"
     },
     "cassandraCluster": {
@@ -5827,7 +5853,8 @@
         "hadr": "hadr",
         "vmonlockStatsValue": "잠금 통계(메모리)",
         "vmonlockStats": "잠금 통계",
-        "databaseVmondeltaStats": "트랜잭션 성능(증분 값)"
+        "databaseVmondeltaStats": "트랜잭션 성능(증분 값)",
+        "standbyId": "대기 ID"
       },
       "db2": "DB2",
       "processId": "프로세스 ID",
@@ -6020,7 +6047,7 @@
       "secLogPage": "2차 로그 페이지",
       "secLogPos": "2차 로그 위치",
       "secLogTime": "2차 로그 시간",
-      "HADR_CONNECT_STATUS": "HADR 연결 상태",
+      "hadrConnectStatus": "HADR 연결 상태",
       "hadrWaitsTotal": "HADR 대기 총계",
       "sockSendBufReq": "요청된 송신 버퍼",
       "sockSendBufActual": "실제 송신 버퍼",
@@ -6503,17 +6530,44 @@
       },
       "version": "버전"
     },
-    "phmcConsole": {
-      "logicalPartition": "논리 파티션",
-      "total": "총계",
-      "utilized": "활용",
-      "available": "사용 가능",
-      "configurable": "구성 가능",
-      "assignedMem": "LPAR에 지정된 메모리",
-      "backedPhysicalMem": "백업된 실제 메모리",
-      "entitledProcUnits": "제목이 지정된 단위",
-      "maxVirtualProcessors": "최대 가상 프로세서",
-      "currentVirtualProcessors": "현재 가상 프로세서"
+    "phmcSystem": {
+      "totalProcUnits": "총 처리 장치",
+      "configurableProcUnits": "구성 가능한 처리 장치",
+      "utilizedProcUnits": "사용한 처리 장치",
+      "availableProcUnits": "사용 가능 처리 장치",
+      "totalMem": "총 메모리",
+      "configurableMem": "구성 가능한 메모리",
+      "availableMem": "사용 가능한 메모리",
+      "assignedMemToLpars": "LPAR에 지정된 메모리",
+      "assignedMemHypervisor": "지정된 메모리 하이퍼바이저",
+      "powerReading": "전력 값",
+      "totalProcUnitsPercent": "총 처리 장치(%)",
+      "configurableProcUnitsPercent": "구성 가능한 처리 장치(%)",
+      "utilizedProcUnitsPercent": "사용된 처리 장치(%)",
+      "availableProcUnitsPercent": "사용 가능한 처리 장치(%)",
+      "totalMemPercentage": "총 메모리(%)",
+      "configurableMemPercentage": "구성 가능한 메모리(%)",
+      "availableMemPercentage": "사용 가능한 메모리(%)",
+      "assignedMemToLparsPercentage": "LPAR에 지정된 메모리(%)",
+      "adapter": "어댑터",
+      "receivedPackets": "SR IOV 어댑터가 받은 패킷 수",
+      "sentPackets": "SR-IOV 어댑터가 받은 패킷 수",
+      "droppedPackets": "SR-IOV 어댑터가 삭제한 패킷 수",
+      "sentBytes": "SR-IOV 어댑터가 보낸 바이트 수",
+      "receivedBytes": "SR-IOV 어댑터가 받은 바이트 수",
+      "transferredBytes": "SR-IOV 어댑터가 전송한 바이트 수",
+      "errorIn": "수신 오류/초",
+      "errorOut": "전송 오류/초"
+    },
+    "phmcSharedProcessorPool": {
+      "utilizedProcUnits": "사용한 처리 장치",
+      "availableProcUnits": "사용 가능 처리 장치",
+      "currentReservedProcUnits": "현재 예약된 처리 장치",
+      "assignedProcUnits": "지정된 처리 장치",
+      "totalEntitledProcUnits": "권한이 부여된 총 처리 장치",
+      "entitledProcUnitsUsedPercent": "권한이 부여된 총 처리 장치(%)",
+      "utilizedProcUnitsPercent": "사용된 처리 장치(%)",
+      "availableProcUnitsPercent": "사용 가능한 처리 장치(%)"
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -6941,7 +6995,9 @@
       "aliveThreads": "활성 스레드",
       "dummyThreads": "더미 스레드",
       "daemonThreads": "디먼 스레드",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "장기 지원 문서",
+      "eolPythonRuntime": "Python 런타임의 EOL 버전이 발견되었습니다. 이 버전은 업데이트나 보안 수정사항을 받지 않으며 수정되지 않은 취약점을 포함할 수 있으며 일반적인 instana 지원 범위에서 벗어납니다. 문제를 방지하려면 Python 버전을 업데이트하십시오."
     },
     "rabbitMq": {
       "dashboard": {
@@ -7283,7 +7339,9 @@
       "gcRunDuration": "#GC 실행 기간",
       "threadCount": "#스레드 수",
       "threads": "스레드",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "장기 지원 문서",
+      "eolRubyRuntime": "Ruby 런타임의 EOL 버전이 발견되었습니다. 이 버전은 업데이트 또는 보안 수정사항을 받지 않으며 수정되지 않은 취약점을 포함할 수 있습니다. 또한 일반적인 Instana 지원 범위에서 벗어납니다. 문제를 방지하려면 Ruby 버전을 업데이트하십시오."
     },
     "sapHana": {
       "dashboard": {
@@ -9373,24 +9431,47 @@
             "resourceName": "리소스 이름",
             "unitStorageCapacity": "스토리지 용량",
             "percentUsed": "사용률",
+            "unitNumber": "장치 번호",
+            "serialNumber": "일련 번호",
+            "aspNumber": "ASP 번호",
+            "ssdLifeRemaining": "SSD 잔여 수명",
+            "ssdPowerOnDays": "SSD 전원 공급 날짜",
+            "ssdSupportedBytesWritten": "작성된 SSD 지원 바이트",
+            "ssdBytesWritten": "작성된 SSD 바이트",
+            "ssdReadWriteProtected": "SSD 읽기 쓰기 보호",
+            "ssdPFAWarning": "SSD PFA 경고"
+          },
+          "systemDiskStatus": {
+            "name": "시스템 전체 디스크 정보",
+            "resourceName": "리소스 이름",
+            "unitStorageCapacity": "스토리지 용량",
+            "percentUsed": "사용률",
             "diskType": "디스크 유형",
             "unitNumber": "장치 번호",
             "serialNumber": "일련 번호",
             "aspNumber": "ASP 번호",
             "raidType": "RAID 유형",
             "protectionStatus": "보호 상태",
-            "ssdLifeRemaining": "SSD 잔여 수명",
-            "ssdPowerOnDays": "SSD 전원 공급 날짜",
-            "unitMediaCapacityGb": "매체 용량(GB)",
+            "multiplePathUnit": "다중 경로 장치",
             "charts": {
               "elapsedIORequests": "경과된 IO 요청",
               "elapsedRequestSize": "경과된 요청 크기",
-              "elapsedPercentBusy": "경과된 사용률",
-              "totalReadRequests": "총 읽기 요청 수",
-              "totalWriteRequests": "총 쓰기 요청 수",
-              "elapsedDataRead": "경과된 데이터 읽기",
-              "elapsedDataWritten": "경과된 데이터 쓰기"
+              "elapsedPercentBusy": "경과된 사용률"
             }
+          },
+          "nonVolatileMemory": {
+            "name": "NVMe(Non Volatile Memory Express) 정보",
+            "resourceName": "리소스 이름",
+            "hardwareModelNumber": "모델 번호",
+            "lifeRemaining": "남은 수명",
+            "spareCapacity": "예비 용량",
+            "spareCapacityThreshold": "예비 용량 임계값",
+            "namespaceUsed": "사용된 네임스페이스",
+            "powerCycles": "전원 주기",
+            "powerOnHours": "전원 공급 시간",
+            "mediaErrors": "매체 오류",
+            "unSafeShutDowns": "안전하지 않은 종료",
+            "firmwareLevel": "펌웨어 레벨"
           }
         }
       },
@@ -9489,8 +9570,8 @@
         "queueManagersWithCount": "큐 관리자({{len}})",
         "ibmMqCluster": "IBM MQ 클러스터",
         "type": "유형",
-        "messages": "메시지",
-        "publications": "서적",
+        "pubMessagesCount": "현재 게시 수",
+        "publications": "현재 게시물",
         "subscriptions": "구독",
         "topicString": "토픽 문자열",
         "topicsWithCount": "토픽({{len}})"
@@ -9762,8 +9843,8 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "메시지",
-        "publications": "서적",
+        "pubMessagesCount": "현재 게시 수",
+        "publications": "현재 게시물",
         "count": "개수",
         "subscriptions": "구독",
         "ibmMqTopic": "IBM MQ 토픽"
@@ -9774,7 +9855,7 @@
       "topicType": "토픽 유형",
       "topicAlternatedAt": "토픽 대체 시간",
       "messages": "메시지",
-      "publications": "서적",
+      "publications": "현재 게시물",
       "count": "개수",
       "lastResetTime": "마지막 재설정 시간",
       "reset": "재설정",
@@ -10211,6 +10292,28 @@
       "pid": "PID",
       "state": "상태",
       "totalConnections": "총 연결 수",
+      "totalHttpRequests": "총 HTTP 요청",
+      "nginxTotalRequests": "Kong NGINX 총 요청 수",
+      "totalNumberofRequests": "총 요청 수",
+      "direction": "방향",
+      "service": "서비스",
+      "route": "라우트",
+      "code": "코드",
+      "source": "소스",
+      "consumer": "이용자",
+      "kongBandwidth": "대역폭",
+      "bytes": "바이트",
+      "kongEnterpriseLicenseErrors": "Kong Enterprise 라이센스 오류",
+      "database": "Kong 데이터베이스",
+      "kongDbEntitiesTotal": "Kong Db 항목 수 오류",
+      "workerStateUpdateFrequency": "작업자 상태 업데이트 빈도",
+      "workerConsistency": "작업자 일관성",
+      "prometheusEnabled": "Prometheus 플러그인 사용",
+      "totalTraffic": "전체 트래픽",
+      "status2xx": "상태 2XX",
+      "status3xx": "상태 3XX",
+      "status4xx": "상태 4XX",
+      "status5xx": "상태 5XX",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx 타이머",
         "sharedDictionaryAllocated": "공유 사전 할당 슬래브",
@@ -10834,19 +10937,13 @@
       "labelUpTime": "가동 시간",
       "labelCount": "개수",
       "labelSize": "크기",
-      "labelTopic": "토픽",
-      "categoryTopics": "토픽",
-      "labelQueue": "큐",
-      "categoryQueues": "큐",
       "labelReadOperationsRate": "읽기 오퍼레이션 비율",
       "labelWriteOperationsRate": "쓰기 오퍼레이션 비율",
       "labelUsedMemory": "사용된 메모리",
       "labelInMessagesCount": "수신 메시지 개수",
       "labelInMessagesRate": "수신 메시지 비율",
-      "labelInMessagesSize": "수신 메시지 크기",
       "labelOutMessagesCount": "발신 메시지 개수",
       "labelOutMessagesRate": "발신 메시지 비율",
-      "labelOutMessagesSize": "발신 메시지 크기",
       "labelConnectionsCount": "연결 수",
       "labelSessionsCount": "세션 수",
       "labelDurablesCount": "내구재 수",
@@ -10857,6 +10954,12 @@
       "labelReceiversCount": "수신자 수",
       "infoStatisticsDisabled": "메트릭 콜렉션을 사용하려면 Tibco EMS에 대해 통계를 사용으로 설정하십시오.  <codeTag>statistics = enabled</codeTag> 을 <bold>tibemsd.conf</bold> 파일에 추가하고 서버를 다시 시작하거나 실행하십시오. <codeTag>set server statistics=enabled</codeTag> 사용 <bold>tibemsadmin</bold>.",
       "infoEnableMetricCollection": "메트릭 콜렉션을 사용으로 설정하려면 <bold>tibjms-8.5.1.jar</bold> 및 <bold>tibjmsadmin-8.5.1.jar</bold> 을 <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 및 <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1에 각각 추가하십시오."
+    },
+    "tibcoEMSTopic": {
+      "headerTibcoEMSTopic": "Tibco EMS 토픽"
+    },
+    "tibcoEMSQueue": {
+      "headerTibcoEMSQueue": "Tibco EMS 큐"
     },
     "tomcatAppContainer": {
       "titleName": "이름",
@@ -11362,7 +11465,7 @@
     "webSphereMember": {
       "weight": "가중치"
     },
-    "zhmcConsole": {
+    "zhmcCpc": {
       "logicalPartition": "논리 파티션",
       "channelUsage": "채널 사용",
       "cpcProcessorUsage": "CPC 프로세서 사용량",
@@ -12616,9 +12719,9 @@
       "resourceType": "리소스 유형",
       "serviceName": "서비스 이름",
       "cPUUsage": "CPU 사용량",
-      "typeId": "유형 ID",
       "memoryUsage": "메모리 사용량",
       "CPU_IO_WAIT": "IO 대기",
+      "unit": "단위",
       "cPU_SYSTEM_UTILIZATION": "시스템 이용률",
       "cPU_USER_UTILIZATION": "사용자 활용률",
       "mEMORY_Free_KB": "무료",
@@ -12629,9 +12732,15 @@
       "mEMORY_SWAP_TOTAL_KB": "스왑 총계",
       "mEMORY_SWAP_FREE_KB": "스왑 사용 가능",
       "mEMORY_SWAP_FREE": "스왑 해제 %",
-      "fileSystem": "사용된 파일 시스템",
+      "fileSystem": "파일 시스템",
       "availabilityZone": "가용성 구역",
-      "rating": "등급"
+      "rating": "등급",
+      "webServiceAvailability": "웹 서비스 가용성",
+      "agentAvailability": "SAP 에이전트 웹 서비스 가용성",
+      "oSCOLAvailability": "SAP OsCol 웹 서비스 가용성",
+      "cPUSystemUsage": "CPU 시스템 활용도",
+      "totalMemoryUsage": "총 메모리 사용량",
+      "fileSystemUsed": "파일 시스템 통계"
     },
     "abapInstance": {
       "label": "ABAP 인스턴스",
@@ -12639,8 +12748,7 @@
       "maxValue": "최대값",
       "status": "상태",
       "hostName": "호스트 이름",
-      "eventName": "이벤트 이름",
-      "category": "카테고리",
+      "objectType": "오브젝트 유형",
       "centralService": "중앙 서비스",
       "instanceAvail": "인스턴스 Avail",
       "javaToAbap": "Java To Abap",
@@ -12714,7 +12822,7 @@
       "minValue": "최소값",
       "maxValue": "최대값",
       "hostName": "호스트 이름",
-      "resourceType": "리소스 유형",
+      "objectType": "오브젝트 유형",
       "host_id": "호스트 ID",
       "value": "값",
       "abapSystemAvailability": "Abap 시스템 가용성",
@@ -12798,7 +12906,7 @@
     "sapDbTenant": {
       "label": "SAP DB 테넌트",
       "hostName": "호스트 이름",
-      "resourceType": "리소스 유형",
+      "objectType": "오브젝트 유형",
       "serviceAvailability": "서비스 가용성"
     },
     "sapDbInstance": {
@@ -12818,8 +12926,7 @@
       "maxValue": "최대값",
       "status": "상태",
       "hostName": "호스트 이름",
-      "eventName": "이벤트 이름",
-      "category": "카테고리",
+      "objectType": "오브젝트 유형",
       "mergeDBKeyeq_1012": "병합 DB 키 eq_1012",
       "reclaimDBKeyeq_1012": "DB 키 eq_1012 재확보",
       "sparseDBKeyeq_1012": "희소 DB키 eq_1012",
@@ -12832,9 +12939,9 @@
       "minValue": "최소값",
       "maxValue": "최대값",
       "status": "상태",
+      "messageDeliveredStatus": "메시지 전달 상태",
       "hostName": "호스트 이름",
-      "eventName": "이벤트 이름",
-      "category": "카테고리",
+      "objectType": "오브젝트 유형",
       "systemHttpAvailability": "시스템 HTTP 가용성",
       "j2EEMessagesError": "J2EE 메시지 오류",
       "j2EEMessagesCancelled": "J2EE 메시지 취소됨",
@@ -12846,8 +12953,7 @@
       "maxValue": "최대값",
       "status": "상태",
       "hostName": "호스트 이름",
-      "eventName": "이벤트 이름",
-      "category": "카테고리",
+      "objectType": "오브젝트 유형",
       "httpAvailability": "HTTP 가용성",
       "iCMStatus": "ICM 상태",
       "gRMGServiceStatus": "GRMG 서비스 상태",
@@ -12858,6 +12964,18 @@
       "webServicesStatus": "웹 서비스 상태",
       "sCSEnqueueStatus": "SCS 인큐 상태",
       "sCSMessageServerStatus": "SCS 메시지 서버 상태"
+    },
+    "sapHanaSystem": {
+      "label": "SAP Hana System",
+      "hostName": "호스트 이름",
+      "objectType": "오브젝트 유형",
+      "systemAvailability": "시스템 가용성"
+    },
+    "sapWebDispatcher": {
+      "label": "SAP Web Dispatcher",
+      "hostName": "호스트 이름",
+      "objectType": "오브젝트 유형",
+      "systemAvailability": "시스템 가용성"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS를 사용할 수 없습니다. 프로덕션 환경에서는 Redis TLS를 사용 가능으로 설정하실 것을 권장합니다",
@@ -13054,7 +13172,7 @@
       "titleSort": "정렬",
       "titleSize": "크기"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "비즈니스 키",
       "titleCaseIntanceId": "케이스 인스턴스 ID",
       "titleRootProcessUUID": "루트 프로세스 UUID",
@@ -13063,14 +13181,12 @@
       "titleActivityId": "활동 ID",
       "titleActivityName": "활동 이름",
       "titleActivityDesc": "활동 설명",
+      "titleActivityType": "활동 유형",
       "titleExternalTaskWorkerId": "외부 태스크 작업자 ID",
       "titleExternalTaskTopic": "외부 태스크 주제",
       "titleExternalTaskId": "외부 태스크 ID",
       "titleExternalTaskRetries": "재시도",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "외부 태스크 주제"
     },
     "cassandra": {
       "titleKeyspace": "키 공간",
@@ -13349,6 +13465,11 @@
     "ibmdb2": {
       "titleQuery": "조회"
     },
+    "ibmdatapower": {
+      "titleOperationName": "오퍼레이션 이름",
+      "titleObjectName": "오브젝트 이름",
+      "titleObjectType": "오브젝트 유형"
+    },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} - {{returnDestination}}",
       "titleDestination": "대상",
@@ -13482,7 +13603,9 @@
       "titleMachine": "머신",
       "titleQueue": "큐",
       "titleOperation": "오퍼레이션",
-      "titleTransactionType": "트랜잭션 유형"
+      "titleTransactionType": "트랜잭션 유형",
+      "titleExceptionType": "예외-유형",
+      "titleError": "오류"
     },
     "muleClient": {
       "titleProtocol": "프로토콜",

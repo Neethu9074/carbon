@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, createField } from 'formalistic';
+import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
@@ -17,8 +17,10 @@ import AddScriptDialogContent from 'in-synthetics/components/advanced/AddScriptD
 import { createZipScriptConfigurationForm } from 'in-synthetics/form/createSyntheticTestForm';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { SlideInHeader, Zip } from 'in-synthetics/utils/constants';
+import { Code, SlideInHeader, Zip } from 'in-synthetics/utils/constants';
+import { stringValidator } from 'in-services/validators/jsonType';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -30,6 +32,8 @@ interface ScriptProps {
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
   isUpdateConfig: boolean;
+  scriptDetails: Code;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 export default function ScriptsSection({
@@ -37,7 +41,9 @@ export default function ScriptsSection({
   updateForm,
   setSliderState,
   setCustomSlideInHeaderConfig,
-  isUpdateConfig
+  isUpdateConfig,
+  scriptDetails,
+  setScriptDetails
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
@@ -55,11 +61,19 @@ export default function ScriptsSection({
             scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
             extension: 'zip'
           }
+      : scriptDetails?.modified
+      ? {
+          name: scriptDetails.name,
+          text: (configForm.get('script') as Field<string>).value,
+          extension: isNotBlank(scriptDetails.name) ? 'js' : ''
+        }
       : { name: '', text: '', extension: 'js' }
   );
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
-    isUpdateConfig && !isUpdated ? '' : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
+    (isUpdateConfig && !isUpdated) || (scriptDetails.modified && isBlank(scriptDetails.name))
+      ? ''
+      : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
   );
 
   function deleteScript() {
@@ -83,6 +97,7 @@ export default function ScriptsSection({
     setScript({ name: '', text: '', extension: '' });
     setColumnLabel(t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'));
     setIsUpdated(true);
+    setScriptDetails({ modified: true, name: '' });
   }
 
   const columnDefinition = [
@@ -148,7 +163,11 @@ export default function ScriptsSection({
                                 'script',
                                 createField({
                                   value: scriptContent.text,
-                                  validator: notUndefinedValidator
+                                  validator: composeAndShortCircuitOnError(
+                                    notUndefinedValidator,
+                                    stringValidator,
+                                    notBlankValidator
+                                  )
                                 }).setTouched(true)
                               )
                               .remove('scripts')
