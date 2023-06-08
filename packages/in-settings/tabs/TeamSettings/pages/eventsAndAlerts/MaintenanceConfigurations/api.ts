@@ -35,8 +35,7 @@ export function getMaintenanceConfigV2(id: string): Observable<MaintenanceConfig
   return http<MaintenanceConfigV2>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/settings/v2/maintenance/${encodeURIComponent(id)}`,
-    treat400AsError: false
+    url: `/api/settings/v2/maintenance/${encodeURIComponent(id)}`
   }).map(response => response.body);
 }
 
