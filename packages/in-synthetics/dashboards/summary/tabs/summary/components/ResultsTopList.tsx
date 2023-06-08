@@ -30,7 +30,7 @@ import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
 
-const metrics = ['response_time', 'start_time', 'status', 'response_size'];
+const metrics = ['response_time', 'start_time', 'status'];
 
 const orders = [
   { by: 'response_time', direction: 'DESC' },
@@ -176,12 +176,6 @@ function Label({ item, selectedMetric }: LabelProps) {
     syntheticDetailsPath,
     'responseTime',
     get(item, ['metrics', 'response_time', 0, 1], 0)
-  );
-  setOrDeleteMatrixKey(
-    location,
-    syntheticDetailsPath,
-    'responseSize',
-    get(item, ['metrics', 'response_size', 0, 1], 0)
   );
 
   return <Link href={createHref(location)}>{testLocation + AdditionalLabel({ item, selectedMetric })}</Link>;
