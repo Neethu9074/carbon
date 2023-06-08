@@ -182,7 +182,8 @@ export function getStatus(status: string) {
         </div>
       </Tooltip>
     );
-  } else {
+  }
+  if (status === 'IN_PROGRESS') {
     return (
       <Tooltip themeStyle="light" content={status}>
         <HorizontalFlexWrapper>
@@ -193,4 +194,5 @@ export function getStatus(status: string) {
       </Tooltip>
     );
   }
+  return <span>{t('in-automation:actionHistory.unknown')}</span>;
 }
