@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
@@ -108,6 +108,8 @@ function Label({ item, config, result, tagCatalog }) {
     tagCatalog
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
+  const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
 
   let filters = config.metricConfiguration.tagFilters;
   if (filters) {
@@ -195,8 +197,6 @@ function Label({ item, config, result, tagCatalog }) {
       expressions: filteredTags
     });
   }
-
-  const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
 
   let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToApplicationAnalyze({

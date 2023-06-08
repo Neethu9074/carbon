@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
+import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { create } from '@instana/observables';
 
 import {
   categoryGlobal,
@@ -25,6 +25,7 @@ import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
@@ -110,98 +111,104 @@ export default function SmartAlertsBaseList({
   const until = offset + pageSize;
 
   const { location, createHref } = useNavigation();
-
   const hasSingleCategory = !getGlobalAlertConfigFetchFunction;
   return (
-    <Stack>
-      <HorizontalFlexWrapper className={locals.listHeader}>
-        {hasSingleCategory && (
-          <ListTitle>
-            {t('in-alerting:smartAlerts.list.header.configuredAlerts', {
-              numberOfAlerts: localSearchResults.length || 0
-            })}
-          </ListTitle>
-        )}
-
-        {!hasSingleCategory && (
-          <ButtonGroup
-            segmented
-            buttonPropsList={[
-              {
-                text: t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
-                  numberOfAlerts: globalSearchResults.length || 0
-                }),
-                key: categoryGlobal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryGlobal);
-                }
-              },
-              {
-                text: t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
-                  numberOfAlerts: localSearchResults.length || 0
-                }),
-                key: categoryLocal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryLocal);
-                }
-              }
-            ]}
-            activeKey={configsCategory}
-          />
-        )}
-        <HorizontalFlexWrapper>
-          <div className={locals.sortingConfiguratorWrapper}>
-            <SortingConfigurator
-              options={sortOptions}
-              orderBy={{
-                by: orderBy,
-                direction: orderDirection
-              }}
-              onChange={({ by, direction }) =>
-                setState({
-                  orderBy: by,
-                  orderDirection: direction
-                })
-              }
-            />
-          </div>
-          <SearchInput query={query} onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })} />
-        </HorizontalFlexWrapper>
-      </HorizontalFlexWrapper>
-      <Ul framed>
-        {/* copy this list because the result coming from createObservable() is strictly deep freezed */}
-        {[...searchResultsSelected]
-          .sort(sortBy(orderBy, orderDirection))
-          .slice(offset, until)
-          .map(config => {
-            return (
-              <Li key={config.id} href={createRowLinkLocation && createHref(createRowLinkLocation(config, location))}>
-                <ColumnizedContent
-                  {...remainingProps}
-                  columnDefinitions={columnDefinitions}
-                  config={config}
-                  loading={loading}
-                />
-              </Li>
-            );
-          })}
-        {searchResultsSelected.length === 0 ? (
-          loading ? (
-            <LoadingList numSkeletonRows="3" />
-          ) : (
-            <SmartAlertsNoDataAvailable text={getNoAlertConfiguredLabel(query)} />
-          )
-        ) : null}
-        {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
-      </Ul>
-      <Pagination
-        currentPage={page}
-        numPages={Math.ceil(searchResultsSelected.length / pageSize)}
-        onChange={newPage => setState({ page: newPage })}
+    <>
+      <ViewTrackingMeta
+        data={{
+          pagePath: location?.pathname
+        }}
       />
-    </Stack>
+      <Stack>
+        <HorizontalFlexWrapper className={locals.listHeader}>
+          {hasSingleCategory && (
+            <ListTitle>
+              {t('in-alerting:smartAlerts.list.header.configuredAlerts', {
+                numberOfAlerts: localSearchResults.length || 0
+              })}
+            </ListTitle>
+          )}
+
+          {!hasSingleCategory && (
+            <ButtonGroup
+              segmented
+              buttonPropsList={[
+                {
+                  text: t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
+                    numberOfAlerts: globalSearchResults.length || 0
+                  }),
+                  key: categoryGlobal,
+                  onClick() {
+                    setState({ page: 1 });
+                    setConfigsCategory(categoryGlobal);
+                  }
+                },
+                {
+                  text: t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
+                    numberOfAlerts: localSearchResults.length || 0
+                  }),
+                  key: categoryLocal,
+                  onClick() {
+                    setState({ page: 1 });
+                    setConfigsCategory(categoryLocal);
+                  }
+                }
+              ]}
+              activeKey={configsCategory}
+            />
+          )}
+          <HorizontalFlexWrapper>
+            <div className={locals.sortingConfiguratorWrapper}>
+              <SortingConfigurator
+                options={sortOptions}
+                orderBy={{
+                  by: orderBy,
+                  direction: orderDirection
+                }}
+                onChange={({ by, direction }) =>
+                  setState({
+                    orderBy: by,
+                    orderDirection: direction
+                  })
+                }
+              />
+            </div>
+            <SearchInput query={query} onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })} />
+          </HorizontalFlexWrapper>
+        </HorizontalFlexWrapper>
+        <Ul framed>
+          {/* copy this list because the result coming from createObservable() is strictly deep freezed */}
+          {[...searchResultsSelected]
+            .sort(sortBy(orderBy, orderDirection))
+            .slice(offset, until)
+            .map(config => {
+              return (
+                <Li key={config.id} href={createRowLinkLocation && createHref(createRowLinkLocation(config, location))}>
+                  <ColumnizedContent
+                    {...remainingProps}
+                    columnDefinitions={columnDefinitions}
+                    config={config}
+                    loading={loading}
+                  />
+                </Li>
+              );
+            })}
+          {searchResultsSelected.length === 0 ? (
+            loading ? (
+              <LoadingList numSkeletonRows="3" />
+            ) : (
+              <SmartAlertsNoDataAvailable text={getNoAlertConfiguredLabel(query)} />
+            )
+          ) : null}
+          {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
+        </Ul>
+        <Pagination
+          currentPage={page}
+          numPages={Math.ceil(searchResultsSelected.length / pageSize)}
+          onChange={newPage => setState({ page: newPage })}
+        />
+      </Stack>
+    </>
   );
 }
 
@@ -234,7 +241,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
   return { configs: [], loading: true, errors: [] };
 }
 
-function useSmartAlertConfigs(getAlertConfigFetchFunction) {
+function useSmartAlertConfigs(getAlertConfigFetchFunction = () => just([])) {
   const result =
     useObservable(() => {
       return refreshSignal.flatMap(getAlertConfigFetchFunction);

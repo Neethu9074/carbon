@@ -5,9 +5,10 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Button, Card, Link, Message } from '@instana/components';
+import { Button, Card, Message } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
@@ -86,7 +87,7 @@ export default function Summary({
     lazyLoading
   });
 
-  const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
+  const effectiveCallId = callId === 'ROOT' ? callTreeResult.data?.id : callId;
 
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);

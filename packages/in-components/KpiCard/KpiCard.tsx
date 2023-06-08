@@ -6,8 +6,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonKinds, Link, SvgIcon } from '@instana/components';
+import { Button, ButtonKinds, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/legacy';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
@@ -19,7 +20,7 @@ import { t } from 'in-i18n';
 
 import locals from './KpiCard.mless';
 
-const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
+const valueSplitRegExp = new RegExp(`^(-?[0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
 export interface IconAction {
   text: string;

@@ -8,7 +8,7 @@ import React, { useMemo, useState } from 'react';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';

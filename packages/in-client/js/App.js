@@ -7,6 +7,7 @@ import React from 'react';
 
 import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
+import '@instana/legacy/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
@@ -16,8 +17,10 @@ import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
+import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
+import { playwithEnabled } from 'in-services/featureFlags';
 import MainNavigation from 'in-components/MainNavigation';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -36,6 +39,7 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <NotificationBarSticky />
+                <PlayWithHeader />
                 <ErrorBoundary name="main-navigation">
                   <MainNavigation />
                 </ErrorBoundary>
@@ -59,7 +63,7 @@ export default function App() {
 
                 <ErrorBoundary name="floatinButtons">
                   {/* floating action buttons at the bottom of the screen */}
-                  <FloatingActionButtonPresenter />
+                  {!playwithEnabled && <FloatingActionButtonPresenter />}
                 </ErrorBoundary>
               </GlobalTimeConfig>
             </ScrollTrackingWrapper>

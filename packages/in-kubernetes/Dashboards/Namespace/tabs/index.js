@@ -1,18 +1,23 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
 import {
-  getDaemonSetDashboard,
-  getDeploymentDashboard,
-  getDeploymentConfigDashboard,
-  getStatefulSetDashboard
+  useDaemonSetDashboard,
+  useDeploymentDashboard,
+  useDeploymentConfigDashboard,
+  useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
+import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  playwithEnabled
+} from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
@@ -53,7 +58,7 @@ export default [
         ...props,
         workloadControllerType: 'deployment',
         getWorkloadControllers$: getKubernetesDeployments$,
-        getWorkloadControllerDashboard: getDeploymentDashboard,
+        getWorkloadControllerDashboard: useDeploymentDashboard,
         pathSegment: '/deployments',
         entityName: 'deployments'
       }),
@@ -67,7 +72,7 @@ export default [
         ...props,
         workloadControllerType: 'deploymentConfig',
         getWorkloadControllers$: getOpenShiftDeploymentConfigs$,
-        getWorkloadControllerDashboard: getDeploymentConfigDashboard,
+        getWorkloadControllerDashboard: useDeploymentConfigDashboard,
         pathSegment: '/deploymentconfigs',
         entityName: 'deploymentConfigs'
       }),
@@ -81,7 +86,7 @@ export default [
         ...props,
         workloadControllerType: 'daemonset',
         getWorkloadControllers$: getKubernetesDaemonSets,
-        getWorkloadControllerDashboard: getDaemonSetDashboard,
+        getWorkloadControllerDashboard: useDaemonSetDashboard,
         pathSegment: '/daemonsets',
         entityName: 'daemonsets'
       }),
@@ -95,7 +100,7 @@ export default [
         ...props,
         workloadControllerType: 'statefulset',
         getWorkloadControllers$: getKubernetesStatefulSets,
-        getWorkloadControllerDashboard: getStatefulSetDashboard,
+        getWorkloadControllerDashboard: useStatefulSetDashboard,
         pathSegment: '/statefulsets',
         entityName: 'statefulsets'
       }),
@@ -120,13 +125,14 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true
   },
-  persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumes'),
-    path: `${namespaceDashboardFullyQualified}/persistentvolumes`,
-    component: PersistentVolumes,
-    header: props => getCounterComponent(props, v => v.volumes),
-    stickToBottom: true
-  }
+  persistentVolumeSupportEnabled &&
+    !playwithEnabled && {
+      label: t('in-kubernetes:dashboards.persistentVolumes'),
+      path: `${namespaceDashboardFullyQualified}/persistentvolumes`,
+      component: PersistentVolumes,
+      header: props => getCounterComponent(props, v => v.volumes),
+      stickToBottom: true
+    }
 ].filter(Boolean);
 
 function getCounterComponent({ namespaceId, tab, timeConfig }, valueExtractor) {

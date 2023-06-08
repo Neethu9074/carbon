@@ -6,15 +6,16 @@
 import {
   actionAutomationEnabled,
   businessObservabilityEnabled,
+  infraExploreDataEnabled,
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
+  sapEnabled,
+  syntheticCredentialEnabled,
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sapEnabled,
-  infraExploreDataEnabled,
-  syntheticCredentialEnabled
+  sloV2Enabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -82,10 +83,14 @@ export const Capability = Object.freeze({
   CAN_VIEW_AUDIT_LOG: 'CAN_VIEW_AUDIT_LOG',
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  //CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
+  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -179,8 +184,9 @@ export const amountPlatformAccesses = (() => {
   return count;
 })();
 
+export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
-  hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
@@ -460,6 +466,16 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanViewLogsCategory'),
     isOwnerPermission: false
   },
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  /*  [Capability.CAN_DELETE_LOGS]: {
+    keyForGroupApi: Capability.CAN_DELETE_LOGS,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanDeleteLogsLabel'),
+    description: t('in-stores:permissionCanDeleteLogsDescription'),
+    category: t('in-stores:permissionCanDeleteLogsCategory'),
+    isOwnerPermission: true
+  },*/
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
     keyForApiTokenApi: '', // indicates that this is not a permission for a token
@@ -490,6 +506,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanRunAutomationActionsLabel'),
     description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
+  },
+  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
+    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+    keyForApiTokenApi: 'canViewAutomationActionInstances',
+    label: t('in-stores:permissionCanViewActionHistory'),
+    description: t('in-stores:permissionCanViewActionHistoryDescription'),
+    category: t('in-stores:permissionCanViewActionHistoryCategory')
   },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
@@ -611,7 +634,8 @@ export function getProductPermissions(): Array<ProductPermission> {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       const automationCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-        Capability.CAN_RUN_AUTOMATION_ACTIONS
+        Capability.CAN_RUN_AUTOMATION_ACTIONS,
+        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
       ];
 
       return !automationCapabilities.includes(keyForGroupApi);

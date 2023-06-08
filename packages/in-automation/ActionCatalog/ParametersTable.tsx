@@ -5,16 +5,16 @@
  */
 
 import { MapForm, Field } from 'formalistic';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { Parameter } from '@instana/types';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
+import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
@@ -33,7 +33,11 @@ export interface MappedParameter {
   value: Parameter;
 }
 
-const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'setForm'>) => [
+const getColumnDefinitions = ({
+  form,
+  onChange,
+  isNotEditable
+}: Omit<ParametersTableProps, 'setForm'> & { isNotEditable: boolean }) => [
   {
     id: 'displayName',
     sortable: true,
@@ -47,7 +51,9 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
             ellipsis
             onClick={e => {
               e.preventDefault();
-              addActiveDialog(<ParameterDialog idToEdit={item.id} form={form} onChange={onChange} />);
+              addActiveDialog(
+                <ParameterDialog idToEdit={item.id} form={form} onChange={onChange} isNotEditable={isNotEditable} />
+              );
             }}
           >
             {item.value.label}
@@ -83,9 +89,11 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     label: t('in-automation:ActionCatalog.type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
-        return t('in-automation:ActionCatalog.vault');
+        return t('in-automation:vault');
       } else if (item.value.type === 'static') {
-        return t('in-automation:ActionCatalog.static');
+        return t('in-automation:static');
+      } else if (item.value.type === 'dynamic') {
+        return t('in-automation:dynamic');
       }
       return null;
     }
@@ -93,7 +101,8 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
 ];
 
 export default function ParametersTable({ form, setForm, onChange }: ParametersTableProps) {
-  const columnDefinitions = getColumnDefinitions({ form, onChange });
+  const isNotEditable = useContext(isNotEditableContext);
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
   return (
@@ -106,7 +115,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
       customAddRow={() => {
-        addActiveDialog(<ParameterDialog form={form} onChange={onChange} />);
+        addActiveDialog(<ParameterDialog form={form} onChange={onChange} isNotEditable={isNotEditable} />);
       }}
       noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
     />

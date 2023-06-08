@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 

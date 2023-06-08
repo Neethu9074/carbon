@@ -374,6 +374,7 @@
         "instances": "log-processors ({{length}})",
         "incoming": {
           "docker": "Ingested Docker logs",
+          "containerd": "Ingested Containerd logs",
           "opentelemetry": "Ingested OpenTelemetry logs",
           "action": "Ingested Action logs"
         },

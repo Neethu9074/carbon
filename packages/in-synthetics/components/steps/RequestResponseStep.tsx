@@ -9,6 +9,7 @@ import { Field, MapForm, Item } from 'formalistic';
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
+import { Code as CodeType, apiScriptTest, apiSimpleTest, dummyLocations } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -18,7 +19,6 @@ import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { dummyLocations } from 'in-synthetics/utils/constants';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { Progress, Error as ScriptError } from 'in-types';
@@ -38,6 +38,8 @@ export interface Props {
   selectedBlueprint: BluePrint;
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
+  scriptDetails: CodeType;
+  setScriptDetails: React.Dispatch<React.SetStateAction<CodeType>>;
 }
 
 export interface LocationsResponse {
@@ -58,7 +60,9 @@ export default function RequestResponseStep({
   updateForm,
   selectedBlueprint,
   scriptErrors,
-  setScriptErrors
+  setScriptErrors,
+  scriptDetails,
+  setScriptDetails
 }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
@@ -125,6 +129,7 @@ export default function RequestResponseStep({
     }
     try {
       const text = await e.target.files[0].text();
+      setScriptDetails({ modified: false, name: e.target.files[0].name });
       updateCode(text);
     } catch (e) {
       setState({
@@ -133,6 +138,7 @@ export default function RequestResponseStep({
           error: (e as { message: string }).message ?? 'Unknown error'
         })
       });
+      setScriptDetails({ modified: false, name: '' });
     }
   }
 
@@ -147,11 +153,12 @@ export default function RequestResponseStep({
         (field as Field<string>).setValue(text).setTouched(true)
       )
     );
+    setScriptDetails({ modified: true, name: scriptDetails.modified ? '' : scriptDetails.name });
   }
 
   return (
     <Section headingText={t('in-synthetics:dialog.createTest.requestStep.title')}>
-      {selectedBlueprint.type === 'Ping API' && (
+      {selectedBlueprint.type === apiSimpleTest && (
         <div className={locals.requestContainer}>
           <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.subTitle')}</SubTitle>
           <Stack direction="horizontal">
@@ -207,7 +214,7 @@ export default function RequestResponseStep({
       <div className={locals.requestContainer}>
         <Stack direction="horizontal" gap="normal">
           <div>
-            {selectedBlueprint.type === 'Script API' && (
+            {selectedBlueprint.type === apiScriptTest && (
               <>
                 <SubTitle isUploadScriptSubTitle>
                   {t('in-synthetics:dialog.createTest.requestStep.uploadScriptTitle')}
@@ -220,7 +227,7 @@ export default function RequestResponseStep({
             {renderLocations()}
           </div>
 
-          {selectedBlueprint.type === 'Script API' && (
+          {selectedBlueprint.type === apiScriptTest && (
             <div className={locals.scriptUpload}>
               {script.map(field => (
                 <>

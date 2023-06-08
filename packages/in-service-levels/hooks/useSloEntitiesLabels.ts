@@ -51,7 +51,7 @@ export default function useSloEntitiesLabels(
   return resultToFetchedStateResponse(result);
 }
 
-function loadEntity(entity: SloEntity): Observable<Result<MonitoredEntity>> {
+export function loadEntity(entity: SloEntity): Observable<Result<MonitoredEntity>> {
   let id = '';
   if (isApplicationSloEntity(entity)) {
     id = entity.applicationId;

@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
 import { Action } from '@instana/types';
+import { Link } from '@instana/legacy';
 
 import { actionDetailsCopyPath } from 'in-automation/navigation/paths';
 import { getEntityIdView } from 'in-settings/navigation/paths';

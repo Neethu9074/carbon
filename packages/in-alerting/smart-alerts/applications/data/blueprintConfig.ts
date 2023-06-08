@@ -49,7 +49,12 @@ const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   callRate: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeRate')
 });
 
-export type MetricName = 'latency' | 'errors' | 'calls' | 'callRate';
+const errorMetricLabelsByName: Record<string, string> = Object.freeze({
+  errors: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionErrorRate'),
+  erroneousCalls: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionErrorCount')
+});
+
+export type MetricName = 'latency' | 'errors' | 'erroneousCalls' | 'calls' | 'callRate';
 
 interface BluePrintBase {
   readonly isCustomRateMetric: typeof isCustomRateMetric;
@@ -76,7 +81,7 @@ interface BluePrintBase {
   readonly isBeta: boolean;
 }
 
-export type ApplicationAlertType = 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
+export type ApplicationAlertType = 'slowness' | 'errors' | 'logs' | 'statusCode' | 'throughput';
 
 type ThresholdTypeOptions = readonly Option[];
 
@@ -158,20 +163,20 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze<BluePrint>({
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-const errorRateBlueprintConfig: Readonly<BluePrint> = Object.freeze({
+const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
-  type: 'errorRate',
-  name: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.name'),
-  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.headline'),
-  text: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.text'),
+  type: 'errors',
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.text'),
   baselineEnabled: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   defaultMetric: 'errors',
-  getMetricName: () => 'errors',
-  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.metricLabel'),
-  getMetricFormat: () => percentage,
-  getMaxMetricValue: () => 100,
-  getAggregation: () => 'MEAN',
+  getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName) => errorMetricLabelsByName[metricName],
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
+  getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   getThresholdTypeOptions: () =>
     withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
   isRuleComplete: () => true,
@@ -218,7 +223,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: (alertRule: ApplicationAlertRule) => {
     // TODO replace by introducing a new type reflecting the client-side view model
-    const rule = (alertRule as unknown) as {
+    const rule = alertRule as unknown as {
       statusCode: {
         statusCodeStart: string;
         statusCodeEnd: string;
@@ -253,7 +258,7 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
-  errorRateBlueprintConfig,
+  errorsBlueprintConfig,
   logsBlueprintConfig,
   statusCodeBlueprintConfig,
   throughputBlueprintConfig
@@ -261,7 +266,7 @@ export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
 
 export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
-  errorRateBlueprintConfig,
+  errorsBlueprintConfig,
   logsBlueprintConfig,
   statusCodeBlueprintConfig,
   {
@@ -303,7 +308,7 @@ export function getSimpleModeBlueprintConfig(
 }
 
 function isCustomRateMetric(metricName: MetricName | string): boolean {
-  return metricName === 'callRate';
+  return metricName === 'callRate' || metricName === 'errors';
 }
 
 function getLogLevelFormModel(alertRule: LogsApplicationAlertRule): FormModelElement[] {
@@ -325,7 +330,7 @@ function getStatusCodeFormModel(alertRule: StatusCodeApplicationAlertRule): Form
   // for alert configurations. To fix this, we need a bigger refactoring which will be tackled separately
 
   // TODO replace by introducing a new type reflecting the client-side view model
-  const rule = (alertRule as unknown) as {
+  const rule = alertRule as unknown as {
     statusCode: {
       statusCodeStart: string;
       statusCodeEnd: string;

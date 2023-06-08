@@ -115,10 +115,6 @@ function getRowDetails(row: any) {
   return (
     <div>
       <Chart
-        margins={{
-          left: 90,
-          right: 90
-        }}
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{

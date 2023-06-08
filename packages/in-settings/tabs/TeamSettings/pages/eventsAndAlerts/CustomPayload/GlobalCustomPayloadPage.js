@@ -6,9 +6,10 @@
 import React, { useState } from 'react';
 import { uniqBy } from 'lodash';
 
-import { Message, Link } from '@instana/components';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   deleteItemColumnDefinition,

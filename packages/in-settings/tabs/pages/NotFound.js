@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Link } from '@instana/legacy';
 
 import { userSettings, teamSettings } from 'in-settings/navigation/paths';
 import { getView } from 'in-stores/navigation';

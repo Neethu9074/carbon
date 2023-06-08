@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "タグ・フィルター値が、最大許容長に短縮されました。",
     "sanitizedTagFilterValueAndOperator": "タグ・フィルター値が最大許容長に短縮され、それに応じて演算子が調整されました。",
     "source": "ソース",
+    "sourceAbbreviated": "Src",
     "destination": "宛先",
+    "destinationAbbreviated": "移動先",
     "documentation": "Documentation",
     "string": {
       "contains": "次を含む",

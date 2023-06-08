@@ -96,7 +96,7 @@ const testCustomEventMultiRuleEntity = {
 };
 
 describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition:createEventFormDefinition', () => {
-  describe('creating form model', function() {
+  describe('creating form model', function () {
     it('for single-rule builtin metric', () => {
       const eventFormDefinition = createEventFormDefinition(testCustomEventSingleRuleEntity, false);
 
@@ -109,6 +109,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent
           "entityType": "awsRds",
           "gracePeriod": "5000",
           "name": "Test-event",
+          "ruleLogicalOperator": "AND",
           "rules": Array [
             Object {
               "aggregation": "avg",
@@ -137,6 +138,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent
           "entityType": "awsRds",
           "gracePeriod": "5000",
           "name": "Test-event",
+          "ruleLogicalOperator": "AND",
           "rules": Array [
             Object {
               "aggregation": "avg",

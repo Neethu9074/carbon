@@ -25,6 +25,7 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
   };
 
   beforeEach(() => {
+    jest.clearAllMocks();
     getUnifiedMetrics.mockReturnValue(just(pendingResult));
   });
 
@@ -55,8 +56,90 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     // Then
     expect(getUnifiedMetrics).toHaveBeenCalledWith({
       metrics: expect.objectContaining({
-        'slo1-status': expect.objectContaining({ configId: 'slo1', source: 'SLO', metric: 'SLI' }),
-        'slo2-status': expect.objectContaining({ configId: 'slo2', source: 'SLO', metric: 'SLI' })
+        'slo1-status': expect.objectContaining({ configId: 'slo1', source: 'SLO', metric: 'STATUS' }),
+        'slo2-status': expect.objectContaining({ configId: 'slo2', source: 'SLO', metric: 'STATUS' })
+      })
+    });
+  });
+
+  it('subscribes to remaining error budget metrics for each slo configuration', () => {
+    // Given
+    const configurations: ServiceLevelObjectiveConfiguration[] = [
+      {
+        id: 'slo1',
+        timeWindow: {
+          type: 'rolling',
+          duration: 1,
+          durationUnit: 'week'
+        }
+      } as ServiceLevelObjectiveConfiguration,
+      {
+        id: 'slo2',
+        timeWindow: {
+          type: 'rolling',
+          duration: 1,
+          durationUnit: 'week'
+        }
+      } as ServiceLevelObjectiveConfiguration
+    ];
+
+    // When
+    renderHook(() => useSloListMetrics(configurations, timeConfig));
+
+    // Then
+    expect(getUnifiedMetrics).toHaveBeenCalledWith({
+      metrics: expect.objectContaining({
+        'slo1-remainingBudget': expect.objectContaining({
+          configId: 'slo1',
+          source: 'SLO',
+          metric: 'ERROR_BUDGET_REMAINING'
+        }),
+        'slo2-remainingBudget': expect.objectContaining({
+          configId: 'slo2',
+          source: 'SLO',
+          metric: 'ERROR_BUDGET_REMAINING'
+        })
+      })
+    });
+  });
+
+  it('subscribes to remaining error budget spark chart metrics for each slo configuration', () => {
+    // Given
+    const configurations: ServiceLevelObjectiveConfiguration[] = [
+      {
+        id: 'slo1',
+        timeWindow: {
+          type: 'rolling',
+          duration: 1,
+          durationUnit: 'week'
+        }
+      } as ServiceLevelObjectiveConfiguration,
+      {
+        id: 'slo2',
+        timeWindow: {
+          type: 'rolling',
+          duration: 1,
+          durationUnit: 'week'
+        }
+      } as ServiceLevelObjectiveConfiguration
+    ];
+
+    // When
+    renderHook(() => useSloListMetrics(configurations, timeConfig));
+
+    // Then
+    expect(getUnifiedMetrics).toHaveBeenCalledWith({
+      metrics: expect.objectContaining({
+        'slo1-remainingBudgetSpark': expect.objectContaining({
+          configId: 'slo1',
+          source: 'SLO',
+          metric: 'ERROR_BUDGET_REMAINING_SPARK_CHART'
+        }),
+        'slo2-remainingBudgetSpark': expect.objectContaining({
+          configId: 'slo2',
+          source: 'SLO',
+          metric: 'ERROR_BUDGET_REMAINING_SPARK_CHART'
+        })
       })
     });
   });

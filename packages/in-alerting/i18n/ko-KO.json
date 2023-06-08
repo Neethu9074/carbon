@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} 실패",
         "numberOfFailures": "실패 경보"
       },
+      "alertProperties": {
+        "testName": "테스트 이름",
+        "locationName": "로케이션 이름"
+      },
       "simple": {
         "stepConfigsStep1Title": "1단계: 테스트",
         "simpleAlertConfigDialogStep1Headline": "어떤 합성 테스트에 대해 경보해야 합니까?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}}개 실패",
           "failuresWithCount_2": "{{count}}개 실패"
         },
-        "alertPropertiesTitlePlaceholder": "여기에 제목 입력",
-        "alertPropertiesDescriptionPlaceholder": "여기에 설명 입력"
+        "alertPropertiesTitlePlaceholder": "합성 테스트 실패",
+        "alertPropertiesDescriptionPlaceholder": "합성 테스트 {{count}}회 연속 실패",
+        "alertPropertiesDescriptionPlaceholder_plural": "합성 테스트 {{count}}회 연속 실패",
+        "alertPropertiesDescriptionPlaceholder_0": "합성 테스트 {{count}}회 연속 실패",
+        "alertPropertiesDescriptionPlaceholder_1": "합성 테스트 {{count}}회 연속 실패",
+        "alertPropertiesDescriptionPlaceholder_2": "합성 테스트 {{count}}회 연속 실패"
       },
       "advanced": {
         "alertChannelsLabel": "경보 채널",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "합성 테스트",
         "alertTestsTitle": "합성 테스트: 어떤 합성 테스트에 대해 경보해야 합니까?",
         "propertiesLabel": "경보 특성",
-        "alertPropertiesPreviewTitlePlaceholder": "[여기에 제목 삽입]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[여기에 설명 입력]",
         "propertiesTitle": "경보에는 어떤 항목이 포함되어야 하나요?",
         "failureThreshold": "시간 임계값",
         "failureThresholdLabel": "시간 임계값",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "실패 횟수",
         "timeThreshold": "시간 임계값",
         "alertingType": "경보 유형"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "상태 코드 수",
+        "beaconRate": "비콘 속도",
+        "views": "보기",
+        "customEventBlueprintConfigMetricLabel": "발생 횟수",
+        "sessions": "세션"
       }
     }
   }

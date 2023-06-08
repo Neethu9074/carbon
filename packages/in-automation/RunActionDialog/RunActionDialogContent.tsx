@@ -8,8 +8,10 @@ import { Field, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Typography, Spacer } from '@instana/components';
+import { Typography, Spacer } from '@instana/components';
+import { Link } from '@instana/legacy';
 
+import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   AUTH_TYPES,
   getScriptFromFields,
@@ -20,21 +22,28 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { actionHistoryPath } from 'in-automation/navigation/paths';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import { Action, Parameter, VolatileId } from 'in-types';
+import Notification from 'in-components/form/Notification';
 import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
+import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -48,6 +57,7 @@ interface RunActionDialogContentProps {
   setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
+  errorResolvingDynamicParameters: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -57,23 +67,41 @@ export default function RunActionDialogContent({
   form,
   setForm,
   volatileId,
-  agentSnapShots
+  agentSnapShots,
+  errorResolvingDynamicParameters
 }: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
-
+  const { createHref, location } = useNavigation();
+  function getLinkToActionHistory(id: string) {
+    const path = location;
+    path.pathname = actionHistoryPath;
+    setOrDeleteMatrixKey(path, actionHistoryPath, 'query', id);
+    return createHref(path);
+  }
   if (error) return <Typography variant="body-small">{error}</Typography>;
+  if (!form) return <LoadingIndicator size="xxl" />;
   if (actionInstanceId) {
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-    const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+    const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
-        <Trans
-          i18nKey="in-automation:linkToActionLogs"
-          components={{
-            // @ts-expect-error
-            logsLink: <Link target="_blank" onClick={close} href$={link} />
-          }}
-        />
+        {role?.canViewAutomationActionInstances ? (
+          <Trans
+            i18nKey={'in-automation:linkToActionHistory'}
+            components={{
+              // @ts-expect-error
+              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
+            }}
+          />
+        ) : (
+          <Trans
+            i18nKey={'in-automation:linkToActionLogs'}
+            components={{
+              // @ts-expect-error
+              logsLink: <Link target="_blank" onClick={close} href$={logLink} />
+            }}
+          />
+        )}
       </Typography>
     );
   }
@@ -91,7 +119,7 @@ export default function RunActionDialogContent({
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:titleActionType')}
           >
-            {getType(action)}
+            {getType(action.type)}
           </DescriptionItem>
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
@@ -106,7 +134,12 @@ export default function RunActionDialogContent({
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:parameters')}
           >
-            <ParameterInput action={action} form={form} setForm={setForm} />
+            <ParameterInput
+              errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+              action={action}
+              form={form}
+              setForm={setForm}
+            />
           </DescriptionItem>
         </DescriptionList>
       </Col>
@@ -226,9 +259,13 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
   );
 }
 
-function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm'>) {
+function ParameterInput({
+  action,
+  form,
+  setForm,
+  errorResolvingDynamicParameters
+}: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters'>) {
   const { inputParameters } = action;
-
   if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
     return (
       <NoDataAvailable
@@ -240,11 +277,16 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentPr
   }
   return (
     <Col>
+      {errorResolvingDynamicParameters && (
+        <Notification failure>{t('in-automation:failedToResolveDynamicParameters')}</Notification>
+      )}
       <Spacer vertical="normal" />
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
           return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
+        } else if (parameter.type === 'dynamic') {
+          return <DynamicParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
         }
         // Will need to handle rendering dynamic parameters here
         return <StaticParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
@@ -325,6 +367,53 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
             </Label>
             <Label>{t('in-automation:static')}</Label>
           </Row>
+          <Input
+            id={`${parameter.name}-input`}
+            value={parameterField.value}
+            placeholder={t('in-automation:enterParameterValue')}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!parameterField.valid && parameterField.touched}
+          />
+          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+      <Spacer vertical="medium" />
+    </>
+  );
+}
+
+function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
+  const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
+
+  const parsedDynamicValue: DynamicFieldValue = (raw => {
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return {};
+    }
+  })(parameter.value ?? '{}');
+  return (
+    <>
+      {parameterField && (
+        <FormGroup key={`${parameter.name}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label
+              className={classNames({ [locals.parameterLabel]: !(!parameterField.valid && parameterField.touched) })}
+              htmlFor={parameter.name}
+              hasError={!parameterField.valid && parameterField.touched}
+            >
+              {parameter.required ? parameter.label : t('in-automation:optional', { name: parameter.label })}
+            </Label>
+            <Label>{t('in-automation:dynamic')}</Label>
+          </Row>
+          <TagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
+          <Spacer vertical="small" />
           <Input
             id={`${parameter.name}-input`}
             value={parameterField.value}

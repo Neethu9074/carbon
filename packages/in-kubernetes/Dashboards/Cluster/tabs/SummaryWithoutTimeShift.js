@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -20,7 +21,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
+import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -45,8 +46,24 @@ export default function Summary({ timeConfig, data: cluster }) {
   const clusterName = cluster.label.substr(0, cluster.label.length - label.length);
   const clusterTag = kubernetesClusterTagEquals(clusterName);
 
+  const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
+    tab: '/nodes'
+  });
+
+  const allItemsNamespacesHrefs = useClusterDashboard(cluster.id, {
+    tab: '/namespaces'
+  });
+
+  const allItemsDeploymentsHrefs = useClusterDashboard(cluster.id, {
+    tab: '/deployments'
+  });
+
+  const allItemsDeploymentsConfigsHrefs = useClusterDashboard(cluster.id, {
+    tab: '/deploymentconfigs'
+  });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions cluster={cluster} />
 
       <Row>
@@ -172,39 +189,23 @@ export default function Summary({ timeConfig, data: cluster }) {
 
       <Row verticallyStretchColumns>
         <Col lg={4}>
-          <TopNodesList
-            clusterId={cluster.id}
-            timeConfig={timeConfig}
-            allItemsHref$={getClusterDashboard(cluster.id, {
-              tab: '/nodes'
-            })}
-          />
+          <TopNodesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />
         </Col>
         <Col lg={4}>
-          <TopNamespacesList
-            clusterId={cluster.id}
-            timeConfig={timeConfig}
-            allItemsHref$={getClusterDashboard(cluster.id, {
-              tab: '/namespaces'
-            })}
-          />
+          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNamespacesHrefs} />
         </Col>
         <Col lg={4}>
           <TopDeploymentsList
             clusterId={cluster.id}
             timeConfig={timeConfig}
-            allItemsHrefs$={{
-              deployments: getClusterDashboard(cluster.id, {
-                tab: '/deployments'
-              }),
-              deploymentConfigs: getClusterDashboard(cluster.id, {
-                tab: '/deploymentconfigs'
-              })
+            allItemsHrefs={{
+              deployments: allItemsDeploymentsHrefs,
+              deploymentConfigs: allItemsDeploymentsConfigsHrefs
             }}
             showDeploymentConfigs={isOpenshift(get(cluster, ['clusterDistribution'], 'kubernetes'))}
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

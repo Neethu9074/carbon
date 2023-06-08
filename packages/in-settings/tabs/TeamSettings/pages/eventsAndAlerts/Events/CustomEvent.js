@@ -13,6 +13,7 @@ import {
   createCustomSystemRuleBasedEventSpecification,
   createCustomSystemRuleBasedEventSpecificationForEntityVerification,
   createCustomSystemRuleBasedHostAvailability,
+  createCustomSystemRuleBasedEventSpecificationForEntityCount,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
@@ -47,8 +48,11 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+// eslint-disable-next-line
+import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { entityCountDetection } from './CustomEventFormDefinition';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { associateActionsTracker } from 'in-automation/tracker';
@@ -61,7 +65,6 @@ import { viewEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-automation/api';
-import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
@@ -88,6 +91,7 @@ export default function CustomEvent(props) {
         ? mergeResultData
         : getCustomEventSpecificationMutable,
     saveEntity: (event, form) => save(event, form, actions),
+    // eslint-disable-next-line
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
 
@@ -206,7 +210,7 @@ function save(event, form, actions) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
-  const scopeType = form.get('applyOn').value;
+  const scopeType = form.get('applyOn')?.value ?? null;
   const actionIds = form.get('actionIds')?.value ?? [];
 
   submitEventTracker({
@@ -283,6 +287,22 @@ function getEntityVerificationEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecificationForEntityVerification(entityVerificationFields);
 }
 
+function getEntityCountEventSpecification(form, event) {
+  const entityCountFields = {
+    id: event?.id ?? null,
+    name: form.get('name').value,
+    triggering: form.get('triggering').value,
+    description: form.get('description').value,
+    expirationTime: form.get('gracePeriod').value,
+    conditionOperator: form.get('conditionOperator').value,
+    conditionValue: Number(form.get('conditionValue').value),
+    enabled: event?.enabled ?? true,
+    severity: Number(form.get('severity')?.value ?? 0)
+  };
+
+  return createCustomSystemRuleBasedEventSpecificationForEntityCount(entityCountFields);
+}
+
 function getCustomSystemRuleBasedEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecification(
     event?.id ?? null,
@@ -316,6 +336,10 @@ function getEventSpecification(event, form) {
       return getHostAvailabilityEventSpecification(form, event);
     }
 
+    if (systemRule === entityCountDetection.id) {
+      return getEntityCountEventSpecification(form, event);
+    }
+
     return getCustomSystemRuleBasedEventSpecification(form, query, event);
   }
   return getCustomEventMultiRuleBasedEventSpecification(form, query, event);
@@ -326,12 +350,14 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
   const entityType = form.get('entityType')?.value ?? null;
   const rulesForm = form.get('rules');
   const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
+  const ruleLogicalOperator = form.get('ruleLogicalOperator').value;
 
   return createCustomMultiThresholdBasedEventSpecification(
     event?.id ?? null,
     entityType,
     form.get('gracePeriod').value,
     rules ?? [],
+    ruleLogicalOperator,
     form.get('name').value,
     form.get('description').value,
     query,

@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { ChangeEvent, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
-import React, { ChangeEvent } from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
+import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -29,7 +29,11 @@ export interface Header {
   value: string[];
 }
 
-const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, 'setForm'>) => [
+const getColumnDefinitions = ({
+  form,
+  onChange,
+  isNotEditable
+}: Omit<AdditionalHeadersProps, 'setForm'> & { isNotEditable: boolean }) => [
   {
     id: 'key',
     sortable: false,
@@ -43,6 +47,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
             <Input
               className={locals.key}
               value={item.value[0]}
+              disabled={isNotEditable}
               hasError={!field?.valid && field?.touched && item.value[0] === ''}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const additionalHeaders = [...(field as Field<Header[]>)?.value];
@@ -71,6 +76,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
             <Input
               className={locals.key}
               value={item.value[1]}
+              disabled={isNotEditable}
               hasError={!field?.valid && field?.touched && item.value[1] === ''}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const additionalHeaders = [...(field as Field<Header[]>).value];
@@ -88,7 +94,8 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
   }
 ];
 export default function AdditionalHeadersTable({ form, setForm, onChange }: AdditionalHeadersProps) {
-  const columnDefinitions = getColumnDefinitions({ form, onChange });
+  const isNotEditable = useContext(isNotEditableContext);
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
   const field = form.get('additionalHeaders') as Field<Header[]>;
   const additionalHeaders = field.value;
 

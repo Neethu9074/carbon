@@ -5,7 +5,7 @@
 
 import React, { CSSProperties } from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Pill from 'in-components/Pill/Pill';
 import { t } from 'in-i18n';

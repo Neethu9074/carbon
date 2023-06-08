@@ -40,7 +40,7 @@ export default function AdvancedModeMaintenanceContainer({
           title: '',
           content: (
             <>
-              <ExpandableLightCard title="Schedule" darkFrame openByDefault>
+              <ExpandableLightCard title={t('in-settings:tabs.scheduleStep')} darkFrame openByDefault>
                 <MaintenanceScheduleStep form={form} setForm={setForm} />
               </ExpandableLightCard>
             </>

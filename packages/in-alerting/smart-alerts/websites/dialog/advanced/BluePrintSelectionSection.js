@@ -6,13 +6,14 @@
 import React from 'react';
 
 import BlueprintSelection from 'in-alerting/smart-alerts/components/dialog/advanced/BlueprintSelection';
-import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
-import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
+import ProvideCustomEvent from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';
 import { blueprintConfigs } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
@@ -61,6 +62,7 @@ export default function BluePrintSelectionSection(props) {
               updateForm={updateForm}
               onSelectCustomEvent={setSliderState}
               mode="Advanced"
+              eumType={eumType}
             />
           </LightCard>
         )}

@@ -22,6 +22,7 @@ import {
   isCustomDataSourceSelected
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getSelectedApplicationConfigsByName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
+import { isEntityCountSystemRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { EventDetailsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
 import { ConditionsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ConditionsSection';
@@ -124,6 +125,8 @@ export default function CustomEventForm({
     });
   }
 
+  const showScopingSection = !isEntityCountSystemRule(form);
+  const actionAssociationStepNumber = showScopingSection ? 4 : 3;
   return (
     <fieldset>
       <SectionHeading>{t('in-settings:tabs.1EventDetails')}</SectionHeading>
@@ -141,23 +144,32 @@ export default function CustomEventForm({
         hideLegacyAppDataEventDeprecationInfo={hideLegacyAppDataEventDeprecationInfo}
       />
 
-      <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
-      <ScopeSelection
-        form={form}
-        selectedApplicationIds={selectedApplicationIds}
-        disabled={disabled}
-        setForm={setForm}
-        onChange={onChange}
-        setSaveEnabled={setSaveEnabled}
-        queryValidationInProgress={queryValidationInProgress}
-        setQueryValidationInProgress={setQueryValidationInProgress}
-        startQueryValidation={startQueryValidation}
-      />
+      {showScopingSection && (
+        <>
+          <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
+          <ScopeSelection
+            form={form}
+            selectedApplicationIds={selectedApplicationIds}
+            disabled={disabled}
+            setForm={setForm}
+            onChange={onChange}
+            setSaveEnabled={setSaveEnabled}
+            queryValidationInProgress={queryValidationInProgress}
+            setQueryValidationInProgress={setQueryValidationInProgress}
+            startQueryValidation={startQueryValidation}
+          />
+        </>
+      )}
 
       {role.canConfigureAutomationActions && actionAutomationEnabled && (
         <>
           <div className={locals.titleWithBetatag}>
-            <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading> <BetaBadge />
+            <SectionHeading>
+              {t('in-settings:tabs.actionAssociationsStep', {
+                step: actionAssociationStepNumber
+              })}
+            </SectionHeading>
+            <BetaBadge />
           </div>
           <ActionsSelection form={form} setForm={setForm} />
         </>

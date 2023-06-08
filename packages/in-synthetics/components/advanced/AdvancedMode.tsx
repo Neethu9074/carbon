@@ -35,7 +35,10 @@ const AdvancedMode = ({
   setRenderSectionsCounter,
   commonAttributes,
   setCommonAttributes,
-  setCustomSlideInHeaderConfig
+  setCustomSlideInHeaderConfig,
+  isUpdateConfig,
+  scriptDetails,
+  setScriptDetails
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
@@ -52,10 +55,13 @@ const AdvancedMode = ({
           updateForm={updateForm}
           setSliderState={setSliderState}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+          isUpdateConfig={isUpdateConfig}
+          scriptDetails={scriptDetails!}
+          setScriptDetails={setScriptDetails!}
         />
       );
     }
-    return <ConfigurationSection form={form} updateForm={updateForm} />;
+    return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
   };
 
   const mainSection = {
@@ -73,6 +79,8 @@ const AdvancedMode = ({
         setRenderSectionsCounter={setRenderSectionsCounter}
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
+        isUpdateConfig={isUpdateConfig}
+        setScriptDetails={setScriptDetails!}
       />
     )
   };

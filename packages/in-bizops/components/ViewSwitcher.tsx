@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-// @ts-expect-error Module needs to be translated to TS
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -29,8 +28,8 @@ export default function ViewSwitcher() {
 
   const dashboardHeaderProps = {
     icon: 'lib_bizops',
-    label: t('in-bizops:navigation.bizOps'),
-    title: t('in-bizops:navigation.bizOps'),
+    label: t('in-bizops:navigation.businessMonitoring'),
+    title: t('in-bizops:navigation.businessMonitoring'),
     showHistoricDataWarning: false,
     renderMetaInformation
   };

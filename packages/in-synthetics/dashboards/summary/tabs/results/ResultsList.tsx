@@ -35,7 +35,6 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -44,7 +43,6 @@ import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.ml
 
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 let testId = '';
-let locationsMap = new Map<string, string>();
 let testType: string;
 
 function StartTimeColumnContent(item: TestResultListItem) {
@@ -87,13 +85,7 @@ const columnDefinitions = [
     id: 'location_label',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
-      return (
-        item.testResultCommonProperties.locationId && (
-          <span className={locals.metricLabel}>
-            {locationsMap.get(item.testResultCommonProperties.locationId) || ''}
-          </span>
-        )
-      );
+      return <span className={locals.metricLabel}>{item?.testResultCommonProperties?.locationDisplayLabel ?? ''}</span>;
     }
   },
   {
@@ -154,12 +146,6 @@ interface ResultListProps {
 export default function ResultsList({ test }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
-  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
-  const locations = test.data?.locations || [];
-  locationsMap =
-    locationDisplayLabels.length === locations.length
-      ? buildLocationsMap(locations, locationDisplayLabels)
-      : new Map<string, string>();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
 

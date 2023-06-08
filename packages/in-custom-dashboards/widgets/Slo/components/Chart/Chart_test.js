@@ -9,8 +9,8 @@ import React from 'react';
 import { Message } from '@instana/components';
 
 import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/ChartMarkerLanes';
-import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
@@ -28,7 +28,7 @@ jest.mock('in-websites/api/tagCatalog', () => ({
 jest.mock('in-services/featureFlags', () => ({
   sliCHClusterAccessEnabled: true
 }));
-jest.mock('in-custom-dashboards/widgets/Slo/renderer/stairway');
+jest.mock('in-service-levels/components/SloDashboard/components/chart/renderer/stairway');
 jest.mock('in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator');
 jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics');
 
@@ -372,7 +372,9 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     }));
 
     const { default: Chart } = await import('in-custom-dashboards/widgets/Slo/components/Chart/Chart');
-    const { useStairwayRenderer } = await import('in-custom-dashboards/widgets/Slo/renderer/stairway');
+    const { useStairwayRenderer } = await import(
+      'in-service-levels/components/SloDashboard/components/chart/renderer/stairway'
+    );
 
     const isPreview = true;
     const initialEvaluationTimestamp = 4;

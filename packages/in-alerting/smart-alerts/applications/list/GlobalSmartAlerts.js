@@ -37,7 +37,8 @@ export default function GlobalSmartAlerts({ location }) {
           data={{
             // i18n: no need for translation, it is only used within tracking
             productArea: 'Applications',
-            pageRootName: 'Smart Alerts'
+            pageRootName: 'Smart Alerts',
+            pagePath: location?.pathname
           }}
         />
         <WithEmptyStateFallback

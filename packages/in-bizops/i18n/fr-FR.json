@@ -3,12 +3,25 @@
   "labelSmartAlerts": "Alertes intelligentes",
   "labelActivities": "Activités",
   "lists": {
-    "activityLabel": "Nombre d'activités",
-    "idLabel": "ID du processus",
+    "pageTitle": "Processus métier",
+    "activityLabel": "Activités",
+    "nameLabel": "Nom",
     "noData": "Aucune donnée disponible",
-    "toolLabel": "Outil"
+    "healthLabel": "Intégrité",
+    "startLabel": "Démarré"
   },
   "navigation": {
     "bizOps": "Processus métier"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "Analyser les instances",
+    "summary": {
+      "pageTitle": "Processus métier",
+      "summaryTab": "Récapitulatif",
+      "widgets": {
+        "timeline": "Chronologie",
+        "businessProcessStartedLabel": "{{businessProcessName}} démarré"
+      }
+    }
   }
 }

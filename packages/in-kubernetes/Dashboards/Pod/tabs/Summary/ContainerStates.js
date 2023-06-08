@@ -1,13 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   bytesTwoDecimalPlaces,
@@ -25,7 +26,7 @@ import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import Capitalize from 'in-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';
@@ -38,6 +39,8 @@ export default connectTo(
   function ContainerStates({ pod, snapshotEnrichedContainerStates = {}, timeConfig }) {
     const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
     const allContainerStates = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
+    const viewAllHref = usePodDashboard(pod.id, { tab: '/containers' });
+
     if (!allContainerStates || allContainerStates.length === 0) {
       return <NoDataAvailable height={160} />;
     }
@@ -46,7 +49,7 @@ export default connectTo(
     const presentedStates = allContainerStates.slice(0, maxPresentedStates);
 
     return (
-      <Fragment>
+      <>
         <Table>
           <Thead>
             <Tr size="compact">
@@ -164,19 +167,19 @@ export default connectTo(
         <div className={locals.viewAllWrapper}>
           <ViewAllWrapper
             ViewAll={ViewAll}
-            viewAllHref$={getPodDashboard(pod.id, { tab: '/containers' })}
+            viewAllHref={viewAllHref}
             presentedStates={presentedStates}
             className={locals.viewAllLink}
           />
         </div>
-      </Fragment>
+      </>
     );
   }
 );
 
-function ViewAll({ viewAllHref$, presentedStates, className }) {
+function ViewAll({ viewAllHref, presentedStates, className }) {
   return (
-    <Link className={className} href$={viewAllHref$}>
+    <Link className={className} href={viewAllHref}>
       {presentedStates.length > 1
         ? t('in-kubernetes:dashboards.viewAllContainers', { count: presentedStates.length })
         : t('in-kubernetes:dashboards.viewAllContainers')}

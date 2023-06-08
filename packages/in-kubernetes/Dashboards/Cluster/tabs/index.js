@@ -1,21 +1,23 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
 import {
-  getDaemonSetDashboard,
-  getDeploymentDashboard,
-  getDeploymentConfigDashboard,
-  getStatefulSetDashboard
+  useDaemonSetDashboard,
+  useDeploymentDashboard,
+  useDeploymentConfigDashboard,
+  useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
+import { persistentVolumeSupportEnabled, playwithEnabled } from 'in-services/featureFlags';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
@@ -27,7 +29,6 @@ import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import ControlPlane from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import { controlPlaneEnabled } from 'in-services/featureFlags';
@@ -76,7 +77,7 @@ export default [
         ...props,
         workloadControllerType: 'deployment',
         getWorkloadControllers$: getKubernetesDeployments,
-        getWorkloadControllerDashboard: getDeploymentDashboard,
+        getWorkloadControllerDashboard: useDeploymentDashboard,
         pathSegment: '/deployments',
         entityName: 'deployments'
       }),
@@ -90,7 +91,7 @@ export default [
         ...props,
         workloadControllerType: 'deploymentConfig',
         getWorkloadControllers$: getOpenShiftDeploymentConfigs,
-        getWorkloadControllerDashboard: getDeploymentConfigDashboard,
+        getWorkloadControllerDashboard: useDeploymentConfigDashboard,
         pathSegment: '/deploymentconfigs',
         entityName: 'deploymentConfigs'
       }),
@@ -104,7 +105,7 @@ export default [
         ...props,
         workloadControllerType: 'daemonset',
         getWorkloadControllers$: getKubernetesDaemonSets,
-        getWorkloadControllerDashboard: getDaemonSetDashboard,
+        getWorkloadControllerDashboard: useDaemonSetDashboard,
         pathSegment: '/daemonsets',
         entityName: 'daemonsets'
       }),
@@ -118,7 +119,7 @@ export default [
         ...props,
         workloadControllerType: 'statefulset',
         getWorkloadControllers$: getKubernetesStatefulSets,
-        getWorkloadControllerDashboard: getStatefulSetDashboard,
+        getWorkloadControllerDashboard: useStatefulSetDashboard,
         pathSegment: '/statefulsets',
         entityName: 'statefulsets'
       }),
@@ -143,13 +144,14 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true
   },
-  persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumes'),
-    path: `${clusterDashboardFullyQualified}/persistentvolumes`,
-    component: PersistentVolumes,
-    header: props => getCounterComponent(props, v => v.persistentVolumes),
-    stickToBottom: true
-  },
+  persistentVolumeSupportEnabled &&
+    !playwithEnabled && {
+      label: t('in-kubernetes:dashboards.persistentVolumes'),
+      path: `${clusterDashboardFullyQualified}/persistentvolumes`,
+      component: PersistentVolumes,
+      header: props => getCounterComponent(props, v => v.persistentVolumes),
+      stickToBottom: true
+    },
   {
     label: t('in-kubernetes:dashboards.infrastructure'),
     path: `${clusterDashboardFullyQualified}/hosts`,

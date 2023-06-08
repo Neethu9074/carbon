@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -14,7 +15,7 @@ import {
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { getDashboardForEntity as getDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
+import { useDashboardForEntity as useDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -45,6 +46,8 @@ export default function StackItem({
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const linkForK8sEntity = useDashboardForK8sEntity(id, type);
+
   const { link, link$ } = dashboardLink(
     id,
     applicationId,
@@ -54,8 +57,10 @@ export default function StackItem({
     syntheticCalls,
     getLinkToApplicationDashboard,
     getLinkToServiceDashboard,
-    getLinkToEndpointDashboard
+    getLinkToEndpointDashboard,
+    linkForK8sEntity
   );
+
   return (
     <Li href$={link$} href={link} noAlternatingBg>
       <div className={locals.itemWrapper}>
@@ -96,7 +101,8 @@ const dashboardLink = (
   syntheticCalls,
   getLinkToApplicationDashboard,
   getLinkToServiceDashboard,
-  getLinkToEndpointDashboard
+  getLinkToEndpointDashboard,
+  linkForK8sEntity
 ) => {
   if (type === 'application') {
     return {
@@ -123,16 +129,9 @@ const dashboardLink = (
     };
   }
 
-  const link$ = getDashboardForK8sEntity(id, type);
-  if (link$) {
-    return {
-      link$
-    };
-  }
-
-  return {
-    link$: getDashboardLink(id, { pathname: physicalDashboardPath })
-  };
+  return linkForK8sEntity
+    ? { link: linkForK8sEntity }
+    : { link$: getDashboardLink(id, { pathname: physicalDashboardPath }) };
 };
 
 const ProfileIndicator = connectTo(

@@ -12,13 +12,11 @@ import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialog
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
-// @ts-expect-error
-import ErrorBoundary from 'in-components/ErrorBoundary';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import TimePresenter from 'in-components/time/TimePresenter';
-import { logsPath } from 'in-logging/navigation/paths';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
@@ -30,9 +28,16 @@ import locals from './TimeSelection.mless';
 export interface TimeSelectionProps {
   isHidden?: boolean;
   darkTheme: boolean;
+  liveModeDisabled?: boolean;
+  liveModeDisabledTooltip?: string;
 }
 
-export default function TimeSelection({ isHidden, darkTheme }: TimeSelectionProps) {
+export default function TimeSelection({
+  isHidden,
+  darkTheme,
+  liveModeDisabled,
+  liveModeDisabledTooltip
+}: TimeSelectionProps) {
   // NOTE: this specifically needs to grab the user selected timeConfig from in-stores/time/config
   // instead of the default useTimeConfig, because the analyze view employs a fixed timeConfig context,
   // but needs to still show the original user selection
@@ -58,6 +63,8 @@ export default function TimeSelection({ isHidden, darkTheme }: TimeSelectionProp
             timeConfig={timeConfig}
             darkTheme={darkTheme}
             refSetter={refSetter}
+            liveModeDisabled={liveModeDisabled}
+            liveModeDisabledTooltip={liveModeDisabledTooltip}
           />
         )}
       </Overlay>
@@ -71,9 +78,19 @@ interface TimePresenterWrapperProps {
   timeConfig: TimeConfig;
   darkTheme: boolean;
   refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
+  liveModeDisabled?: boolean;
+  liveModeDisabledTooltip?: string;
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter }: TimePresenterWrapperProps) {
+function TimePresenterWrapper({
+  isOpen,
+  toggle,
+  timeConfig,
+  darkTheme,
+  refSetter,
+  liveModeDisabled,
+  liveModeDisabledTooltip
+}: TimePresenterWrapperProps) {
   return (
     <>
       <TimePresenter
@@ -83,7 +100,12 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter
         refSetter={refSetter}
         darkTheme={darkTheme}
       />
-      <LiveModeToggle isLive={timeConfig.autoRefresh} darkTheme={darkTheme} />
+      <LiveModeToggle
+        isLive={timeConfig.autoRefresh}
+        darkTheme={darkTheme}
+        liveModeDisabled={liveModeDisabled}
+        liveModeDisabledTooltip={liveModeDisabledTooltip}
+      />
     </>
   );
 }
@@ -91,35 +113,27 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter
 interface LiveModeToggleProps {
   isLive: boolean;
   darkTheme: boolean;
+  liveModeDisabled?: boolean;
+  liveModeDisabledTooltip?: string;
 }
 
-const liveModeDisabledAreas: Record<string, string> = {
-  [logsPath]: t('in-logging:liveModeDisabled')
-};
-
-const checkIsLiveModeDisabled = (location: Location): { disabled: boolean; tooltipMessage?: string } => {
-  let disabledArea = Object.keys(location.matrix ?? {}).find(path => Object.keys(liveModeDisabledAreas).includes(path));
-
-  if (disabledArea === undefined) {
-    return { disabled: false };
-  }
-
-  return { disabled: true, tooltipMessage: liveModeDisabledAreas[disabledArea] };
-};
-
-function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) {
+function LiveModeToggle({
+  isLive: isLiveProp,
+  darkTheme,
+  liveModeDisabled,
+  liveModeDisabledTooltip
+}: LiveModeToggleProps) {
   const { location, createHref } = useNavigation();
-  const { disabled, tooltipMessage } = checkIsLiveModeDisabled(location);
 
-  const isLive = disabled ? false : isLiveProp;
+  const isLive = liveModeDisabled ? false : isLiveProp;
   const href = createHref(isLive ? getTimeframeNonLiveLocation(location) : getTimeframeLiveLocation(location));
 
   const icon = isLive ? 'lib_actions_stop' : 'lib_actions_play';
 
   return (
-    <Tooltip content={tooltipMessage}>
+    <Tooltip content={liveModeDisabledTooltip}>
       <DashboardHeaderButton
-        disabled={disabled}
+        disabled={liveModeDisabled}
         id="live-mode-button"
         href={href}
         icon={icon}

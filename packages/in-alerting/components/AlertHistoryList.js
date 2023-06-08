@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Li, LiLoadMore, Link, Ul } from '@instana/components';
+import { Li, LiLoadMore, Ul } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';

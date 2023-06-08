@@ -20,9 +20,12 @@ function ServerFlowMap(props) {
     collapseLeft,
     collapseRight,
     flowMapStateVersion,
-    flowMapState
+    flowMapState,
+    expandChildLeft,
+    expandChildRight,
+    expandNodeLeft,
+    expandNodeRight
   } = props;
-
   return (
     <FlowMap3DPresentation
       customHeight={height}
@@ -36,6 +39,10 @@ function ServerFlowMap(props) {
       getFlowNodes={getFlowNodes}
       collapseLeft={collapseLeft}
       collapseRight={collapseRight}
+      expandChildLeft={expandChildLeft}
+      expandChildRight={expandChildRight}
+      expandNodeLeft={expandNodeLeft}
+      expandNodeRight={expandNodeRight}
     />
   );
 }

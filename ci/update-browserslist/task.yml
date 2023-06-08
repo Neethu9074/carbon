@@ -3,8 +3,10 @@ platform: linux
 image_resource:
   type: registry-image
   source:
-    repository: node
+    repository: delivery.instana.io/int-docker-private-virtual/library/node
     tag: 16.18.1
+    username: ((delivery-instana-io-internal-project-artifact-read-writer-creds.username))
+    password: ((delivery-instana-io-internal-project-artifact-read-writer-creds.password))
 inputs:
   - name: ui-client-repo
     path: .

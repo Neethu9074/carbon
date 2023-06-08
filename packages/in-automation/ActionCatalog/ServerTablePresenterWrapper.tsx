@@ -5,15 +5,17 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { Button, SvgIcon } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { deepCopy } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapper.mless';
@@ -83,9 +85,15 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     }
   };
 
+  const isNotEditable = useContext(isNotEditableContext);
+  const columnDefinitionsToShow = deepCopy(columnDefinitions);
+  if (!isNotEditable) {
+    columnDefinitionsToShow.push(deleteRowColumn);
+  }
+
   return (
     <ServerTablePresenter<ListItem<VALUETYPE>, ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>>
-      columnDefinitions={[...columnDefinitions, deleteRowColumn]}
+      columnDefinitions={columnDefinitionsToShow}
       getRowProps={getRowProps}
       result={result}
       page={0}
@@ -95,9 +103,11 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       pageSize={result?.data?.pageSize ?? 0}
       isSearchable={false}
       rightHeader={
-        <Button kind="action" onClick={customAddRow ?? addRow} icon="lib_openclose_add_circle_outline">
-          {customAddRowLabel ?? t('in-automation:ActionCatalog.addRow')}
-        </Button>
+        !isNotEditable && (
+          <Button kind="action" onClick={customAddRow ?? addRow} icon="lib_openclose_add_circle_outline">
+            {customAddRowLabel ?? t('in-automation:ActionCatalog.addRow')}
+          </Button>
+        )
       }
       noDataMessage={noDataMessage}
       leftHeader={leftHeader}

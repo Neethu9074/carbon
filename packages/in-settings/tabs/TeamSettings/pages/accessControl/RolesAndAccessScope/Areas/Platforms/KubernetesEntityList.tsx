@@ -64,7 +64,7 @@ export const KubernetesEntityList = ({ availableEntities, headerText, accessable
               {entity.name}
             </Typography>
             {entity.obsolete && (
-              <Tooltip content={t('in-settings:productAreas.obsoleteEntityDescription')} align="rightMiddle">
+              <Tooltip content={t('in-settings:productAreas.obsoleteEntityDescription')} align="leftMiddle" delay={500}>
                 <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
               </Tooltip>
             )}

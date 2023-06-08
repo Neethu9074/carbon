@@ -13,6 +13,7 @@ import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/dat
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/components/advanced/SelectedTestType';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { Code } from 'in-synthetics/utils/constants';
 import Menu from 'in-components/Menu';
 
 import locals from './BluePrintSelectionSection.mless';
@@ -26,6 +27,8 @@ interface BluePrintSelectionSectionProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const BluePrintSelectionSection = ({
@@ -36,7 +39,9 @@ const BluePrintSelectionSection = ({
   setTestTypeSelected,
   setRenderSectionsCounter,
   commonAttributes,
-  setCommonAttributes
+  setCommonAttributes,
+  isUpdateConfig,
+  setScriptDetails
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -55,6 +60,8 @@ const BluePrintSelectionSection = ({
         setRenderSectionsCounter={setRenderSectionsCounter}
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
+        isUpdateConfig={isUpdateConfig}
+        setScriptDetails={setScriptDetails}
       />
     </ExpandableLightCard>
   );
@@ -69,6 +76,8 @@ interface SelectionMenuProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 const SelectionMenu = ({
@@ -79,7 +88,9 @@ const SelectionMenu = ({
   setTestTypeSelected,
   setRenderSectionsCounter,
   commonAttributes,
-  setCommonAttributes
+  setCommonAttributes,
+  isUpdateConfig,
+  setScriptDetails
 }: SelectionMenuProps) => {
   return (
     <div className={locals.container}>
@@ -100,6 +111,8 @@ const SelectionMenu = ({
           setRenderSectionsCounter={setRenderSectionsCounter}
           commonAttributes={commonAttributes}
           setCommonAttributes={setCommonAttributes}
+          isUpdateConfig={isUpdateConfig}
+          setScriptDetails={setScriptDetails}
         />
       </div>
     </div>

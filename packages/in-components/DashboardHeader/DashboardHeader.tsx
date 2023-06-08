@@ -6,18 +6,18 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, LoadingSkeleton, SvgIcon } from '@instana/components';
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import PlayWithHeader from 'in-new-components/Demo/PlayWithHeader';
-import { playwithEnabled } from 'in-services/featureFlags';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DashboardHeader.mless';
@@ -47,17 +47,18 @@ export interface ContextConfiguration {
 
 export interface DashboardHeaderProps {
   theme?: keyof typeof themes;
-  result?: Result<any>;
+  result?: Result<any> | Nullish;
   icon?: string;
-  renderIcon?: (() => JSX.Element) | typeof getSkeletonIcon;
+  isBeta?: boolean;
+  renderIcon?: () => React.ReactNode;
   title: string;
-  renderTimeSelection?: (props: any) => JSX.Element;
-  label: string | JSX.Element;
+  renderTimeSelection?: (props: any) => React.ReactNode;
+  label: string | React.ReactNode;
   labelForTitle?: string;
-  renderMetaInformation?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderButtonLineSecondary?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
-  renderTopLevelButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  renderMetaInformation?: (props: any) => React.ReactNode;
+  renderButtonLine?: (props: any) => React.ReactNode;
+  renderButtonLineSecondary?: (props: any) => React.ReactNode;
+  renderTopLevelButtonLine?: (props: any) => React.ReactNode;
   hideUrlShortener?: boolean;
   contextConfigurations?: ContextConfiguration[];
   className?: string;
@@ -83,6 +84,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     hideUrlShortener,
     withBorderBottom,
     headerHref$,
+    isBeta = false,
     onHeaderClick = () => {}
   } = props;
   let {
@@ -96,7 +98,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   const isLoading = result && result.data == null;
 
   if (isLoading) {
-    label = getSkeletonLabel();
+    label = getSkeletonLabel(props);
 
     if (renderButtonLine || renderButtonLineSecondary) {
       renderButtonLine = getSkeletonButton;
@@ -109,7 +111,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       renderTopLevelButtonLine = getSkeletonButton;
     }
     if (!icon || renderIcon) {
-      renderIcon = getSkeletonIcon;
+      renderIcon = () => getSkeletonIcon(props);
     }
   }
 
@@ -125,15 +127,11 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       return null;
     }
   };
-  const playwithTopClass = playwithEnabled ? locals.playwithEnabled : locals.playwithDisable;
   return (
     <>
-      {playwithEnabled && <PlayWithHeader />}
-
       <header
         className={classNames(
           locals.dashboardHeader,
-          playwithTopClass,
           locals[theme],
           className,
           withBorderBottom && locals.borderBottom
@@ -169,6 +167,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               <span className={locals.label}>{label}</span>
             )}
             {renderMetaInformation && renderMetaInformation(props)}
+            {isBeta && <BetaBadge />}
           </div>
           <div className={locals.rightContent}>
             {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
@@ -194,16 +193,16 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   );
 }
 
-function getSkeletonButton() {
-  return <LoadingSkeleton className={locals.buttonSkeleton} />;
+function getSkeletonButton({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.buttonSkeleton} darkMode={theme !== 'light'} />;
 }
 
-function getSkeletonLabel() {
-  return <LoadingSkeleton className={locals.labelSkeleton} />;
+function getSkeletonLabel({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.labelSkeleton} darkMode={theme !== 'light'} />;
 }
 
-function getSkeletonIcon() {
-  return <LoadingSkeleton className={locals.iconSkeleton} />;
+function getSkeletonIcon({ theme }: DashboardHeaderProps) {
+  return <LoadingSkeleton className={locals.iconSkeleton} darkMode={theme !== 'light'} />;
 }
 
 function Context(props: ContextProps) {

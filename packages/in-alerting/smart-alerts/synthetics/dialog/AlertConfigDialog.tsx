@@ -165,6 +165,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
     description: (form.get(fieldNames.description) as Field<string>).value || getDescriptionPlaceholder(form),
     name: (form.get(fieldNames.name) as Field<string>).value || getTitlePlaceholder(),
     syntheticTestIds: (form.get(fieldNames.syntheticTestIds) as Field<string[]>).value,
-    timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS()
+    timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS(),
+    customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }

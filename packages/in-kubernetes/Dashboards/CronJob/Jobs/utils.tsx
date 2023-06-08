@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error
 import { cronJobDashboard as pathSegment } from 'in-kubernetes/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 

@@ -164,7 +164,6 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <BasicSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <AdvanceSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <BasicSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
       <NonVolatileMemoryTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemDiskStatusTable snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -188,6 +187,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       </Columize>
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <SubsystemTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatInterfaceTable snapshot={snapshot} timeConfig={timeConfig} />
       <NetstatBytesInTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatBytesOutTable snapshotId={snapshotId} timeConfig={timeConfig} />

@@ -1,0 +1,56 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import classNames from 'classnames';
+import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+
+import Tooltip from 'in-components/Tooltip';
+
+import locals from './HorizontalFormGroup.mless';
+
+interface HorizontalFormGroupWithBackgroundProps {
+  children: React.ReactNode;
+  helpText?: React.ReactNode;
+  isWarning?: boolean;
+  noHelpTextSpacer?: boolean;
+  withoutBottomBorder?: boolean;
+}
+
+export default function HorizontalFormGroupWithBackground({
+  children,
+  helpText,
+  isWarning,
+  noHelpTextSpacer,
+  withoutBottomBorder
+}: HorizontalFormGroupWithBackgroundProps) {
+  const helpTextSpacer = !helpText && !noHelpTextSpacer ? <div className={locals.helpIconSpacer} /> : null;
+  return (
+    <div
+      className={classNames({
+        [locals.helpTextWrapper]: true,
+        [locals.withoutBottomBorder]: withoutBottomBorder
+      })}
+    >
+      {helpText ? (
+        <Tooltip content={helpText} align="rightMiddle">
+          <SvgIcon type="lib_help_error_info_outline" size="s" color={isWarning ? '#64aade' : '#172429'} />
+        </Tooltip>
+      ) : (
+        helpTextSpacer
+      )}
+      <div
+        className={classNames({
+          className: true,
+          [locals.group]: true,
+          [locals.groupWithoutHelp]: noHelpTextSpacer
+        })}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}

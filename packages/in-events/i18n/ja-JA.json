@@ -24,6 +24,8 @@
   "titleAnalyzeJsErrors": "JS エラーの分析",
   "titleAnalyzePageLoads": "ページ・ロードの分析",
   "titleAnalyzePageTransitions": "ページ遷移の分析",
+  "titleAnalyzeViewTransitions": "ビュー遷移の分析",
+  "titleAnalyzeSessionStarts": "セッション開始の分析",
   "titleAnalyzeLoadTime": "ロード時間の分析",
   "titleViewRelatedTestResults": "関連テスト結果の表示",
   "titleTime": "時刻",

@@ -1,10 +1,10 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { AggregationType, KubernetesWorkloadController, ResultType, TimeConfig } from '@instana/types';
 
@@ -24,11 +24,8 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// @ts-expect-error
-import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
+import { useDeploymentDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
-// @ts-expect-error
-import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -80,6 +77,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
     timeConfig,
     timeShift
   };
+
   const defaultBigNumberMetricConfig = {
     ...defaultConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
@@ -97,8 +95,10 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
+  const viewAllHref = useDeploymentDashboard(snapshotId, { tab: '/conditions' });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={deployment.id} timeConfig={timeConfig} />
 
       <Row>
@@ -336,12 +336,9 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
 
       <Row>
         <Col lg={12}>
-          <ConditionsTableCard
-            conditions={deployment.conditions}
-            viewAllHref$={getDeploymentDashboard(snapshotId, { tab: '/conditions' })}
-          />
+          <ConditionsTableCard conditions={deployment.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

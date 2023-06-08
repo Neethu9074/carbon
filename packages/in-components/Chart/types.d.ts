@@ -149,7 +149,6 @@ export interface AxisConfiguration {
   icons?: AxisIcons;
   formatter?: Formatter | FormatterObject[];
   companionMetricFormatter?: Formatter | Formatter[];
-  isStaticBudget?: boolean;
   lineWidth?: number;
   min?: number;
   max?: number;

@@ -107,11 +107,11 @@ export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('synthetic
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
-// Create Synthetic Test in Advance Mode
-export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
-
 // Synthetic credential feature flag
 export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
+
+// MobileApp Smart Alerts
+export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -159,9 +159,15 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
   false
 );
 
-export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
-
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', false);
+export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
+  'recurrentMaintenanceWindowsTabsEnabled',
+  false
+);
+
+export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
+
+export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeEnabled', false);

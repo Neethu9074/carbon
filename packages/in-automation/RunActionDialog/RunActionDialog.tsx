@@ -7,6 +7,7 @@
 import { createField, createListForm, createMapForm, Field, ListForm, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
+import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
@@ -15,17 +16,27 @@ import {
   getScriptFromFields,
   getWebhookFields,
   isScript,
-  isWebhook
+  isWebhook,
+  parseDynamicParameter,
+  parseVaultParameter
 } from 'in-automation/ActionCatalog/shared';
+import {
+  ActionExecutionParameter,
+  ResolvedDynamicParamValue,
+  resolveDynamicParameters,
+  runScriptAction,
+  runWebhookAction
+} from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
+import { hasError, isLoading } from 'in-services/util/result';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -44,8 +55,12 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [form, setForm] = useState<MapForm<any>>();
-  const agentSnapShots = useAgentSnapShots({ action, form, volatileId, setForm });
+  const agentSnapShots = useAgentSnapShots({ action });
+  const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
+    action,
+    event
+  });
+  const [form, setForm] = useRunActionForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters });
   return (
     <Dialog
       className={locals.dialog}
@@ -64,6 +79,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
             setForm={setForm}
             agentSnapShots={agentSnapShots}
             volatileId={volatileId}
+            errorResolvingDynamicParameters={errorResolvingDynamicParameters}
           />
         </div>
         <FormFooter>
@@ -82,7 +98,8 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
                 agentSnapShots,
                 setError,
                 setActionInstanceId,
-                event
+                event,
+                resolvedDynamicParameters
               })
             }
           />
@@ -104,22 +121,59 @@ const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => 
   return t('in-automation:chosenToRun', { actionName });
 };
 
-interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
-  form: MapForm<any> | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
-}
-
-function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapShotsParams) {
+function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   const query = isScript(action.type) ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
-  useEffect(() => {
-    if (agentSnapShots && !form) {
-      setForm(createForm({ volatileId, agentSnapShots, action }));
-    }
-  }, [agentSnapShots, form, volatileId, action, setForm]);
   return agentSnapShots;
 }
+
+const emptyParametersArray = alwaysEmptyArray as unknown as Observable<ResolvedDynamicParamValue[]>;
+
+const useResolvedDynamicParameters = ({ action, event }: { action: Action; event?: Event }) => {
+  const [errorResolvingDynamicParameters, setErrorResolvingDynamicParameters] = useState(false);
+  const resolvedDynamicParameters = useObservable(() => {
+    if (!event) return emptyParametersArray;
+    const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
+    if (dynamicParameters.length === 0) return emptyParametersArray;
+    const parsedParameters = dynamicParameters.map(({ value, name }) => ({
+      name,
+      ...parseDynamicParameter(value)
+    }));
+    const timestamp: number =
+      event.metadata?.triggerTime != null ? Math.min(event.start, event.metadata.triggerTime) : event.start;
+    return resolveDynamicParameters(event.id, parsedParameters, timestamp).map(result => {
+      if (hasError(result)) {
+        setErrorResolvingDynamicParameters(true);
+      }
+      if (!isLoading(result)) {
+        return result.data?.parameters ?? [];
+      }
+      return null;
+    });
+  }, [event, action]);
+  return { resolvedDynamicParameters, errorResolvingDynamicParameters };
+};
+
+const useRunActionForm = ({
+  volatileId,
+  agentSnapShots,
+  action,
+  resolvedDynamicParameters
+}: {
+  volatileId: VolatileId;
+  agentSnapShots: OUT | null | undefined;
+  action: Action;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
+}) => {
+  const [form, setForm] = useState<MapForm<any>>();
+  useEffect(() => {
+    if (agentSnapShots && resolvedDynamicParameters && !form) {
+      setForm(createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters }));
+    }
+  }, [agentSnapShots, form, volatileId, action, resolvedDynamicParameters]);
+  return [form, setForm] as const;
+};
 
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm<any> | undefined;
@@ -128,6 +182,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
 }
 
 function onSave({
@@ -138,7 +193,8 @@ function onSave({
   agentSnapShots,
   setError,
   setActionInstanceId,
-  event
+  event,
+  resolvedDynamicParameters
 }: OnSaveParams) {
   if (!form?.hierarchyValid) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -155,6 +211,7 @@ function onSave({
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.name);
     const name = parameterDefinition?.name ?? '';
+    const label = parameterDefinition?.label ?? '';
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm<any>).get(0) as Field<string>;
       const keyField = (parameter as ListForm<any>).get(1) as Field<string>;
@@ -166,6 +223,7 @@ function onSave({
         {
           name,
           type: 'vault',
+          label,
           value: JSON.stringify({
             secretPath: pathField?.value?.trim() ?? '',
             secretKey: keyField?.value?.trim() ?? ''
@@ -173,37 +231,33 @@ function onSave({
         }
       ];
     }
-    // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
     const value = (parameter as Field<string>).value;
     if (value) {
-      return [...acc, { name, value: value?.trim() }];
+      return [...acc, { name, value: value?.trim(), label, type: parameterDefinition?.type }];
     }
     return acc;
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
     if (parameter.hidden) {
       if (parameter.type === 'vault') {
-        const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
-          try {
-            return JSON.parse(raw);
-          } catch (e) {
-            return {};
-          }
-        })(parameter.value ?? '{}');
-        const { secretKey, secretPath } = parsedVaultValue;
+        const { secretKey, secretPath } = parseVaultParameter(parameter.value);
         return [
           ...acc,
           {
             name: parameter.name,
             type: 'vault',
+            label: parameter.label,
             value: JSON.stringify({
-              secretPath: secretPath ?? '',
-              secretKey: secretKey ?? ''
+              secretPath: secretPath,
+              secretKey: secretKey
             })
           }
         ];
+      } else if (parameter.type === 'dynamic') {
+        const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+        return [...acc, { name: parameter.name, value: resolvedValue, type: 'dynamic', label: parameter.label }];
       }
-      return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
+      return [...acc, { name: parameter.name, value: parameter.value ?? '', type: 'static', label: parameter.label }];
     }
     return acc;
   }, []);
@@ -283,8 +337,9 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
 
 interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action'> {
   agentSnapShots: OUT;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
-function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
+function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters }: CreateFormParams) {
   const defaultValue =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
       ?.host_id ?? '';
@@ -304,23 +359,17 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
             return acc;
           }
           if (parameter.type === 'vault') {
-            const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
-              try {
-                return JSON.parse(raw);
-              } catch (e) {
-                return {};
-              }
-            })(parameter?.value ?? '{}');
+            const { secretKey, secretPath } = parseVaultParameter(parameter.value);
             return {
               ...acc,
               [parameter.name]: createListForm({
                 items: [
                   createField({
-                    value: parsedVaultValue?.secretPath ?? '',
+                    value: secretPath,
                     validator: parameter.required ? notBlankValidator : undefined
                   }),
                   createField({
-                    value: parsedVaultValue?.secretKey ?? '',
+                    value: secretKey,
                     validator: parameter.required ? notBlankValidator : undefined
                   })
                 ],
@@ -339,6 +388,15 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
                 }
               })
             };
+          } else if (parameter.type === 'dynamic') {
+            const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+            return {
+              ...acc,
+              [parameter.name]: createField({
+                value: formatResolvedValue(resolvedValue),
+                validator: parameter.required ? notBlankValidator : undefined
+              })
+            };
           }
           return {
             ...acc,
@@ -351,3 +409,15 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
       })
     );
 }
+
+const formatResolvedValue = (value: string) => {
+  try {
+    const parsedValue: string[] = JSON.parse(value);
+    if (parsedValue.length > 1) {
+      return '[' + parsedValue.join(',') + ']';
+    }
+    return parsedValue[0] ?? '';
+  } catch {
+    return value;
+  }
+};

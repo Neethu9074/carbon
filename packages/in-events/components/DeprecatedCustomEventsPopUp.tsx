@@ -7,7 +7,7 @@
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   applicationsAlertingMigrationNotificationDocs,

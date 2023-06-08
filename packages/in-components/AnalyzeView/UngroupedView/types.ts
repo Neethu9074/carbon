@@ -43,6 +43,7 @@ export interface GetDataParams {
   afterKey?: string;
   initialLogLines?: number;
   retrievalSize?: number;
+  contextSubjectLogId?: string;
 }
 
 interface DetailViewProps extends UngroupedViewProps, CursorPaginationReturn {

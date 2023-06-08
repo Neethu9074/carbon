@@ -8,18 +8,21 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { mobileAppPath, mobileAppPathFullyQualified, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
+import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
+import { mobileAppSmartAlertsEnabled } from 'in-services/featureFlags';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -30,6 +33,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const urlStateDefinition = {
@@ -59,7 +63,8 @@ export default function MobileAppDashboard() {
     viewId: getMatrixParameter(location, mobileAppPath, matrixViewId),
     viewPath: mobileAppPathFullyQualified,
     timeConfig: getTimeConfig(location),
-    ...tagFilterManipulators
+    ...tagFilterManipulators,
+    location
   };
 
   const implicitTagFilters = (props.implicitTagFilters = [
@@ -78,6 +83,10 @@ export default function MobileAppDashboard() {
   }
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
+  const showAlertButton =
+    role.canConfigureCustomAlerts &&
+    mobileAppSmartAlertsEnabled &&
+    !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration');
 
   return (
     <>
@@ -102,6 +111,11 @@ export default function MobileAppDashboard() {
           mobileAppLabel: get(result, ['data', 'label'])
         })}
       />
+      {showAlertButton && (
+        <FloatingActionButtons>
+          <CreateSmartAlert {...props} />
+        </FloatingActionButtons>
+      )}
       <Footer />
     </>
   );
@@ -147,16 +161,18 @@ function renderMobileAppContext(props) {
   return <MobileAppContext {...props} />;
 }
 
-function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
+function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters }) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   return (
     <>
       {viewId && (
         <Button
           kind="primary"
           icon="lib_mobile_app"
-          href$={
+          href={
             tagCatalogSessionStart &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'viewChange',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
@@ -175,9 +191,9 @@ function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessio
         <Button
           kind="primary"
           icon="lib_mobile_app_session"
-          href$={
+          href={
             tagCatalogSessionStart &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'sessionStart',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
@@ -192,5 +208,16 @@ function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessio
         </Button>
       )}
     </>
+  );
+}
+
+function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
+  return (
+    <ButtonLine
+      viewId={viewId}
+      tagCatalogSessionStart={tagCatalogSessionStart}
+      mobileAppLabel={mobileAppLabel}
+      tagFilters={tagFilters}
+    />
   );
 }

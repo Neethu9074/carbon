@@ -69,7 +69,7 @@ export default function LocationsSection({
   );
 }
 
-function columnDefinitions() {
+export function columnDefinitions() {
   return [
     {
       id: 'location_name',

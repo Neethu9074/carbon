@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';

@@ -29,10 +29,13 @@ import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/Co
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import AlertsActionsSelection from 'in-automation/AssociatedActionsCard/AlertsActionsSelection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -215,7 +218,7 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  renderAlertPopertiesTitleRow={() => (
+                  renderAlertPropertiesTitleRow={() => (
                     <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
                   )}
                 />
@@ -248,6 +251,19 @@ export default function AdvancedModeContainer(props) {
                 TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
                 supportDynamicTypes
               />
+            </>
+          )
+        },
+        {
+          scrollId: '8',
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.title'),
+          valid: true,
+          hidden: isGlobalSmartAlert || !role.canConfigureAutomationActions || !actionAutomationEnabled,
+          isBeta: true,
+          content: (
+            <>
+              <AlertsActionsSelection form={form} onChange={onChange} pageSize={5} />
             </>
           )
         }

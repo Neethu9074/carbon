@@ -90,7 +90,8 @@ export default function WebsiteDashboard() {
       <ViewTrackingMeta
         data={{
           productArea: 'EUM: Websites',
-          pageRootName: props.pageId ? 'Website Page' : 'Website'
+          pageRootName: props.pageId ? 'Website Page' : 'Website',
+          pagePath: location?.pathname
         }}
       />
 

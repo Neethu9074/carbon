@@ -37,6 +37,10 @@
   }
   .lastConfigRow {
     width: 100%;
+    margin: 0 1rem 0 1rem;
+  }
+  .additionalOptionsRow {
+    padding-left: 1rem;
   }
   .skeleton {
     display: block;
@@ -45,5 +49,36 @@
     height: 1rem;
 
     margin: 0.1rem 0;
+  }
+  .code {
+    max-width: 100%;
+  }
+  .dialog {
+    max-width: 60vw;
+  }
+  .confirmationDialogContent {
+    margin-bottom: 2rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 1rem;
+    }
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: -1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--ids-color-option-neutral-400);
+  }
+}
+
+:global {
+  :local(.content) .language-json .token.property {
+    color: @lib__colors__pink800;
   }
 }

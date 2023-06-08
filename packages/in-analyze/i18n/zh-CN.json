@@ -71,7 +71,7 @@
       "applications": "应用程序",
       "websites": "Web 站点",
       "mobileApps": "移动应用程序",
-      "infrastructure": "基础结构",
+      "infrastructure": "基础架构",
       "profiles": "概要文件",
       "logs": "日志",
       "eumWebsites": "EUM：Web 站点",
@@ -142,6 +142,7 @@
         "logParameters": "日志参数",
         "logStackTrace": "日志堆栈跟踪",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "此调用已批处理，并表示 {{batchSize}} 个个别调用。",
+        "downloadRawSpanData": "下载原始范围数据",
         "correlationMissing": "缺少关联",
         "noOtherRelationsFound": "找不到其他关系。",
         "synthetic": "合成",
@@ -277,7 +278,7 @@
     }
   },
   "logDetails": {
-    "title": "日志 ",
+    "title": "日志",
     "titleTags": "标记",
     "titleParameters": "参数",
     "tooltipCloseLogDetails": "关闭日志详细信息",

@@ -7,12 +7,12 @@
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
-  CapabilityType,
-  AreaPermissionType,
   AreaPermission,
+  AreaPermissionType,
   Capability,
-  LimitedAccessScopeType,
-  LimitedAccessScope
+  CapabilityType,
+  LimitedAccessScope,
+  LimitedAccessScopeType
 } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -111,10 +111,13 @@ export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_RELEASES,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING,
   Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  //Capability.CAN_DELETE_LOGS,
 ];
 
 export const logCapabilities: Array<CapabilityType> = [
-  // Capability.CAN_DELETE_LOGS,
+  //Capability.CAN_DELETE_LOGS,
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT
 ];
@@ -150,7 +153,8 @@ export const accessControlCapabilities: Array<CapabilityType> = [
 
 export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-  Capability.CAN_RUN_AUTOMATION_ACTIONS
+  Capability.CAN_RUN_AUTOMATION_ACTIONS,
+  Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [

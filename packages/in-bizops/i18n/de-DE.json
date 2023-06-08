@@ -3,12 +3,25 @@
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Aktivitäten",
   "lists": {
-    "activityLabel": "Anzahl Aktivitäten",
-    "idLabel": "Prozess-ID",
+    "pageTitle": "Geschäftsprozesse",
+    "activityLabel": "Aktivitäten",
+    "nameLabel": "Name",
     "noData": "Keine Daten verfügbar",
-    "toolLabel": "Tool"
+    "healthLabel": "Status",
+    "startLabel": "Gestartet"
   },
   "navigation": {
     "bizOps": "Geschäftsprozesse"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "Instanzen analysieren",
+    "summary": {
+      "pageTitle": "Geschäftsprozess",
+      "summaryTab": "Zusammenfassung",
+      "widgets": {
+        "timeline": "Zeitachse",
+        "businessProcessStartedLabel": "{{businessProcessName}} gestartet"
+      }
+    }
   }
 }

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/dialog/simple/SimpleAlertConfigDialogChart';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { t } from 'in-i18n';
 
@@ -28,8 +28,9 @@ export default function SimpleAlertConfigDialogStep2({
         <AlertTagFilterExpressionConfig
           form={form}
           updateForm={updateForm}
-          websiteLabel={websiteLabel}
+          label={websiteLabel}
           QueryBuilderComponent={QueryBuilderComponent}
+          iconType="lib_website"
         />
       </div>
 

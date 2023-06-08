@@ -26,10 +26,12 @@ import {
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasSloAccess,
+  hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
-  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
@@ -57,18 +59,20 @@ import {
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
-import { isSloView, serviceLevelsDashboard } from 'in-service-levels/navigation/path';
+import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -78,7 +82,6 @@ import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -334,14 +337,16 @@ function Synthetics(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-synthetics"
-      label={t('in-synthetics:navigation.synthetics')}
-      icon={'lib_synthetic'}
-      isActive={matchLocation(isSyntheticMonitoringView)}
-      href={createHrefToPath(syntheticsPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-synthetics"
+        label={t('in-synthetics:navigation.synthetics')}
+        icon={'lib_synthetic'}
+        isActive={matchLocation(isSyntheticMonitoringView)}
+        href={createHrefToPath(syntheticsPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -352,14 +357,16 @@ function BizOps(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.bizOps')}
-      icon={'lib_bizops'}
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon={'lib_bizops'}
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -384,19 +391,21 @@ function Applications(props) {
 function SloDashboard(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!sloV2Enabled) {
+  if (!hasSloAccess) {
     return null;
   }
 
   return (
-    <View
-      id="main-nav-slo-dashboard"
-      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-      icon="lib_service_level"
-      isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsDashboard)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(serviceLevelsOverview)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -408,15 +417,17 @@ function AutomationMenu(props) {
   }
 
   return (
+    !playwithEnabled && (
     <View
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath)}
+      isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
       href={createHrefToPath(actionCatalogPath)}
       isBeta
       {...props}
     />
+    )
   );
 }
 
@@ -428,9 +439,11 @@ function Analyze(props) {
   );
 
   const analyzeHref = useLinkToAnalyze({
-    beaconType: 'pageLoad'
+    beaconType: 'pageLoad',
+    groupBy: {}
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -457,9 +470,13 @@ function Analyze(props) {
             ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
-            getLinkToMobileAppAnalyze({
-              beaconType: 'sessions'
-            })
+            just(
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessions',
+                groupBy: {}
+              })
+            ),
+          hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
         ].filter(Boolean)[0]
       }
       {...props}
@@ -556,7 +573,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasOpenStackAccess && (
+      {hasOpenStackAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
@@ -566,7 +583,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasPHMCAccess && (
+      {hasPHMCAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -576,7 +593,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasZHMCAccess && (
+      {hasZHMCAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -596,7 +613,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasSAPAccess && (
+      {hasSAPAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-sap"
           label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
@@ -606,7 +623,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasVSphereAccess && (
+      {hasVSphereAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}

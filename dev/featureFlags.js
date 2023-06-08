@@ -73,15 +73,16 @@ module.exports = {
   rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  syntheticCreateTestAdvanceModeEnabled: true,
   syntheticCredentialEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
-  oracleRacMonitoringEnabled: false,
-  recurrentMaintenanceWindows: true,
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
-  kongEnabled: false
+  recurrentMaintenanceWindowsTabsEnabled: false,
+  kongEnabled: false,
+  mobileAppSmartAlertsEnabled: true,
+  systemRuleEntityCountEnabled: true,
+  userSettingsThemeEnabled: true
 };

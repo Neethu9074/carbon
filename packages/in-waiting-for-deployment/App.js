@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import '@instana/components/esm/index.css';
 import { compose } from 'recompose';
 import React from 'react';
+
+import '@instana/components/esm/index.css';
+import '@instana/legacy/esm/index.css';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';

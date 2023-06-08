@@ -6,8 +6,8 @@
 import React, { Fragment, useEffect } from 'react';
 
 import { ResultPrecisionDetails } from '@instana/types';
-import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { LinkProps } from '@instana/legacy';
 
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
@@ -16,6 +16,7 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export const SIGNALS = {
@@ -56,8 +57,12 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
       <VerticalControlsPresenter position="leftTop">
         <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         <MapButtonGroup vertical>
-          <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
-          <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')}>
+            <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          </Tooltip>
+          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomOut')}>
+            <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+          </Tooltip>
         </MapButtonGroup>
       </VerticalControlsPresenter>
     </Fragment>
@@ -88,7 +93,11 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
     getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.PARTICLES),
     []
   ) as boolean;
-  return <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />;
+  return (
+    <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+      <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />
+    </Tooltip>
+  );
 }
 
 interface HeatmapButtonsProps {

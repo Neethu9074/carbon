@@ -13,8 +13,8 @@ import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/compone
 import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
+import { getLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import { getLinkToMobileApp, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
@@ -30,6 +30,7 @@ import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -40,6 +41,7 @@ import { t } from 'in-i18n';
 export default function WebsitesAndMobileTopList({ config }) {
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
+  const linkToNewMobileAppHref = useLinkToNewMobileApp();
 
   const header = (
     <>
@@ -58,7 +60,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           kind="action"
           onClick={() => mobileAppsOpenAddForm()}
           icon="lib_openclose_add_circle_outline"
-          href$={linkToNewMobileApp$}
+          href={linkToNewMobileAppHref}
         >
           {t('in-cockpit:component.websiteMobileTopList.addMobileApp')}
         </Button>
@@ -79,7 +81,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       }),
     unpinItem: (id, type) => remove({ id, type }),
     getItem,
-    header,
+    header: playwithEnabled ? null : header,
     EmptyStateComponent: EmptyStateContent
   };
 

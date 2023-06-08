@@ -9,6 +9,7 @@ import { Button } from '@instana/components';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { playwithEnabled } from 'in-services/featureFlags';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
@@ -43,7 +44,7 @@ export default function InputStep({ onSubmit, saveError, field, onChange, loadin
             <Button
               type="submit"
               kind="create"
-              disabled={loading || (field.touched && !field.valid)}
+              disabled={playwithEnabled || loading || (field.touched && !field.valid)}
               className={locals.button}
             >
               {t('in-mobile-apps:newAppFlow.addMobileAppBtn')}

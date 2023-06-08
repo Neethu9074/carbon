@@ -39,6 +39,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   renderPagination?: (p: TableState) => React.ReactNode;
   fixedLayout?: boolean;
   isScrollableTable?: boolean;
+  searchWidth?: string | number;
   rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => React.ReactNode) | React.ReactNode;
   leftHeader?: React.ReactNode;
   isSearchable?: boolean;
@@ -67,6 +68,7 @@ export default function ServerTablePresenter<
     getRowProps,
     onRowClick,
     renderPagination,
+    searchWidth,
     fixedLayout,
     isScrollableTable = true,
     rightHeader,
@@ -157,8 +159,9 @@ export default function ServerTablePresenter<
         {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
         {isSearchable && (
           <SearchInput
-            maxWidth={searchMaxWidth ? searchMaxWidth : 140}
+            maxWidth={searchMaxWidth ?? 140}
             query={query}
+            width={searchWidth}
             placeholder={searchPlaceholder}
             withoutIcon={withoutSearchIcon}
             onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
@@ -195,9 +198,7 @@ export default function ServerTablePresenter<
   const leftHeaderContent =
     resultPrecision === 'PRECISION_APPROXIMATE' ? (
       <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-    ) : (
-      undefined
-    );
+    ) : undefined;
 
   if (cardTitle != null) {
     if (__DEV__) {

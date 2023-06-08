@@ -16,6 +16,7 @@ import SelectTestStep from 'in-synthetics/components/steps/SelectTestStep';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
+import { Code } from 'in-synthetics/utils/constants';
 
 import locals from './StepwiseTestCreationContainer.mless';
 
@@ -28,6 +29,8 @@ export interface Props {
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
+  scriptDetails: Code;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 export default function StepwiseTestCreationContainer({
@@ -38,7 +41,9 @@ export default function StepwiseTestCreationContainer({
   setSelectedBlueprint,
   scriptErrors,
   setScriptErrors,
-  simpleMode
+  simpleMode,
+  scriptDetails,
+  setScriptDetails
 }: Props) {
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
 
@@ -62,6 +67,8 @@ export default function StepwiseTestCreationContainer({
             updateForm={updateForm}
             scriptErrors={scriptErrors}
             setScriptErrors={setScriptErrors}
+            scriptDetails={scriptDetails}
+            setScriptDetails={setScriptDetails}
           />
         );
       case 2:

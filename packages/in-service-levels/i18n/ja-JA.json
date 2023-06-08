@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "タグ"
+      },
+      "sloStatusColumnContent": {
+        "target": "ターゲット {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} 分",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} ビーコン",
+        "remainingEvent_website_plural": "{{count}} 個のビーコン",
+        "remainingEvent_website_0": "{{count}} 個のビーコン",
+        "remainingEvent_website_1": "{{count}} ビーコン",
+        "remainingEvent_website_2": "{{count}} 個のビーコン",
+        "remainingEvent_application": "{{count}} 件の呼び出し",
+        "remainingEvent_application_plural": "{{count}} 件の呼び出し",
+        "remainingEvent_application_0": "{{count}} 件の呼び出し",
+        "remainingEvent_application_1": "{{count}} 件の呼び出し",
+        "remainingEvent_application_2": "{{count}} 件の呼び出し",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
+        "timeWindowSize_month": "{{count}} 月",
+        "timeWindowSize_month_plural": "{{count}} 月",
+        "timeWindowSize_month_0": "{{count}} 月",
+        "timeWindowSize_month_1": "{{count}} 月",
+        "timeWindowSize_month_2": "{{count}} 月",
+        "timeWindowSize_week": "{{count}} 週",
+        "timeWindowSize_week_plural": "{{count}} 週",
+        "timeWindowSize_week_0": "{{count}} 週",
+        "timeWindowSize_week_1": "{{count}} 週",
+        "timeWindowSize_week_2": "{{count}} 週",
+        "timeWindowSize_day": "{{count}} 日",
+        "timeWindowSize_day_plural": "{{count}} 日",
+        "timeWindowSize_day_0": "{{count}} 日",
+        "timeWindowSize_day_1": "{{count}} 日",
+        "timeWindowSize_day_2": "{{count}} 日"
       }
     },
     "title": "サービス・レベル目標",
     "columnLabels": {
       "name": "名前",
       "entity": "エンティティー",
-      "blueprint": "ブループリント"
+      "blueprint": "ブループリント",
+      "errorBudget": "残りのエラー予算",
+      "status": "状況/ターゲット",
+      "tags": "タグ"
     }
   }
 }

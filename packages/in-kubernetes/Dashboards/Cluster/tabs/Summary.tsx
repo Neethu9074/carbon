@@ -1,11 +1,11 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { AggregationType, KubernetesCluster, ResultType, TimeConfig } from '@instana/types';
 
@@ -28,11 +28,8 @@ import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopName
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
-import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-// @ts-expect-error
-import { summaryTab } from 'in-kubernetes/navigation/paths';
+import { useClusterDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
@@ -99,6 +96,22 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
+  const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
+    tab: '/nodes'
+  });
+
+  const allItemsNamespacesHrefs = useClusterDashboard(cluster.id, {
+    tab: '/namespaces'
+  });
+
+  const allItemsDeploymentsHrefs = useClusterDashboard(cluster.id, {
+    tab: '/deployments'
+  });
+
+  const allItemsDeploymentsConfigsHrefs = useClusterDashboard(cluster.id, {
+    tab: '/deploymentconfigs'
+  });
+
   function addUsageToMetrics(metricsArr: Metric[], metric: Metric) {
     if (showUsage) {
       metricsArr.push(metric);
@@ -107,8 +120,9 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
       return metricsArr;
     }
   }
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions cluster={cluster} />
       <Row>
         <Col lg={2}>
@@ -311,39 +325,23 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
 
       <Row verticallyStretchColumns>
         <Col lg={4}>
-          <TopNodesList
-            clusterId={cluster.id}
-            timeConfig={timeConfig}
-            allItemsHref$={getClusterDashboard(cluster.id, {
-              tab: '/nodes'
-            })}
-          />
+          <TopNodesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />
         </Col>
         <Col lg={4}>
-          <TopNamespacesList
-            clusterId={cluster.id}
-            timeConfig={timeConfig}
-            allItemsHref$={getClusterDashboard(cluster.id, {
-              tab: '/namespaces'
-            })}
-          />
+          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNamespacesHrefs} />
         </Col>
         <Col lg={4}>
           <TopDeploymentsList
             clusterId={cluster.id}
             timeConfig={timeConfig}
-            allItemsHrefs$={{
-              deployments: getClusterDashboard(cluster.id, {
-                tab: '/deployments'
-              }),
-              deploymentConfigs: getClusterDashboard(cluster.id, {
-                tab: '/deploymentconfigs'
-              })
+            allItemsHrefs={{
+              deployments: allItemsDeploymentsHrefs,
+              deploymentConfigs: allItemsDeploymentsConfigsHrefs
             }}
             showDeploymentConfigs={isOpenshift(get(cluster, ['clusterDistribution'], 'kubernetes'))}
           />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

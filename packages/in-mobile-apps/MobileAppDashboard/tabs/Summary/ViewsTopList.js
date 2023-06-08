@@ -5,12 +5,12 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -65,16 +65,15 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ mobileAppId, selectedMetric, className }) {
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    tabPath: '/views',
+    tabParameters: {
+      orderBy: `${selectedMetric}Agg`
+    }
+  });
+
   return (
-    <Link
-      className={className}
-      href$={getLinkToMobileApp(mobileAppId, {
-        tabPath: '/views',
-        tabParameters: {
-          orderBy: `${selectedMetric}Agg`
-        }
-      })}
-    >
+    <Link className={className} href={linkToMobileAppHref}>
       {t('in-mobile-apps:dashboard.tabs.viewAllViewsLink')}
     </Link>
   );
@@ -88,14 +87,13 @@ function Label({ item, mobileAppId }) {
     // ignore
   }
 
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    viewId: label,
+    tabPath: '/summary'
+  });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToMobileApp(mobileAppId, {
-        viewId: label,
-        tabPath: '/summary'
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={linkToMobileAppHref}>
       {label}
     </Link>
   );

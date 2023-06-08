@@ -6,8 +6,8 @@
 
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
+import { applyAdjustedTimeframe, calculateSloGranularity, getSingleNumberMetricValue } from 'in-service-levels/utils';
 import useSloListMetrics, { SloMetricsResult } from 'in-service-levels/hooks/useSloListMetrics';
-import { calculateSloGranularity, getSingleNumberMetricValue } from 'in-service-levels/utils';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
@@ -50,6 +50,7 @@ export default function useSloListItems({
   if (status != 'resolved') {
     return [undefined, status, errors, progress];
   }
+
   return [
     {
       ...configurationPage!,
@@ -68,46 +69,26 @@ function buildSloListItem({
   configuration,
   labels,
   metrics,
-  timeConfig
+  timeConfig: tc
 }: {
   configuration: ServiceLevelObjectiveConfiguration;
   labels?: Record<string, LabeledEntity>;
   metrics?: Record<string, SloMetricsResult>;
   timeConfig: TimeConfig;
 }): SloListItem {
-  // TODO: to be replaced by the actual timeConfig returned from the remaining error budget metric
-  const metricTimeConfig = {
-    ...timeConfig,
-    to: timeConfig.to ?? Date.now()
-  };
-  const granularity = calculateSloGranularity(metricTimeConfig);
-  // TODO: to be replaced by a time series metric for the remaining error budget of the slo
-  const mockMetrics = generateFakeBurndown(metricTimeConfig, granularity);
+  const { remainingBudgetSpark } = metrics?.[configuration.id!] ?? {};
+  const timeConfig = applyAdjustedTimeframe(tc, remainingBudgetSpark?.adjustedTimeframe);
+  const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
   const status = getSingleNumberMetricValue(metrics?.[configuration.id!]?.status) ?? 0;
+  const remainingBudget = getSingleNumberMetricValue(metrics?.[configuration.id!]?.remainingBudget) ?? 0;
 
   return {
     configuration,
     entity: labels?.[configuration.id!] ?? { label: '' },
     status,
-    remainingBudget: mockMetrics.at(-1)?.[1] ?? 0,
-    burnDown: mockMetrics,
-    metricTimeConfig,
-    // TODO: to be replaced by the actual granularity returned from the remaining error budget metric
+    remainingBudget,
+    burnDown: (remainingBudgetSpark?.values ?? []) as MetricDataSeries,
+    metricTimeConfig: timeConfig,
     metricGranularity: granularity
   };
-}
-
-/**
- * Generates mock data for the slo status. This will be replaced one the slo metrics are available via getUnifiedMetrics
- */
-function generateFakeBurndown(timeConfig: TimeConfig, granularity: number): MetricDataSeries {
-  const dataSeries: MetricDataSeries = [];
-  const to = timeConfig.to!;
-  const from = to - timeConfig.windowSize;
-
-  for (let timeStamp = from; timeStamp <= to; timeStamp += granularity) {
-    dataSeries.push([timeStamp, Math.round(Math.random() * 5000)]);
-  }
-
-  return dataSeries;
 }

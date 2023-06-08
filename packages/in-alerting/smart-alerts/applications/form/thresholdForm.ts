@@ -33,7 +33,7 @@ export default function createThresholdForm(
   }
 
   switch (alertType) {
-    case 'errorRate':
+    case 'errors':
     case 'logs':
       return createAdaptiveOrStaticThresholdForm(threshold);
     default:

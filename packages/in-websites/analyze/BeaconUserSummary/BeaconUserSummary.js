@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Card, Link } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';

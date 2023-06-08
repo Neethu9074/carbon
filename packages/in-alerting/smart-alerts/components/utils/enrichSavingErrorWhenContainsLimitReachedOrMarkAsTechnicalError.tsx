@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Error } from '@instana/components/types/util/dataRetrieval';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { t, Trans } from 'in-i18n';
 

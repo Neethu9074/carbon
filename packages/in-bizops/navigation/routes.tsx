@@ -12,7 +12,6 @@ import BizActivitiesList from 'promise-loader?global,bizops!in-bizops/lists/BizA
 import SmartAlertsList from 'promise-loader?global,bizops!in-bizops/lists/SmartAlertsList';
 //@ts-ignore
 import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
-// @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
 import React from 'react';
 

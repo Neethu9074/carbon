@@ -68,7 +68,16 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
   };
 
   return (
-    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />} backgroundColor={theme.lib.colors.white}>
+    <Sticky
+      header={
+        <AnalyzeHeader
+          isGrouped={isGrouped}
+          liveModeDisabled
+          liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
+        />
+      }
+      backgroundColor={theme.lib.colors.white}
+    >
       <LeftRightPadding>
         <Stack gap="gutter">
           <Sections>

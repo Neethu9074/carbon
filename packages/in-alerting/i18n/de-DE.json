@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} Fehler",
         "numberOfFailures": "Fehleralerts"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "Schritt 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} Fehler",
           "failuresWithCount_2": "{{count}} Fehler"
         },
-        "alertPropertiesTitlePlaceholder": "Titel hier einfügen",
-        "alertPropertiesDescriptionPlaceholder": "Beschreibung hier einfügen"
+        "alertPropertiesTitlePlaceholder": "Synthetischer Test fehlgeschlagen",
+        "alertPropertiesDescriptionPlaceholder": "Synthetischer Test fehlgeschlagen für {{count}} aufeinanderfolgende Zeit",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetischer Test fehlgeschlagen für {{count}} aufeinanderfolgende Male",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetischer Test fehlgeschlagen für {{count}} aufeinanderfolgende Male",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetischer Test fehlgeschlagen für {{count}} aufeinanderfolgende Male",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetischer Test fehlgeschlagen für {{count}} aufeinanderfolgende Male"
       },
       "advanced": {
         "alertChannelsLabel": "Alertkanäle",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "Synthetische Tests",
         "alertTestsTitle": "Synthetische Tests: Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
         "propertiesLabel": "Alerteigenschaften",
-        "alertPropertiesPreviewTitlePlaceholder": "[Titel hier einfügen]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[Beschreibung hier einfügen]",
         "propertiesTitle": "Was sollte die Alert Notification enthalten?",
         "failureThreshold": "Zeitschwellenwert",
         "failureThresholdLabel": "Zeitschwellenwert",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "Anzahl der Fehler",
         "timeThreshold": "Zeitschwellenwert",
         "alertingType": "Alerttyp"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Statuscodeanzahl",
+        "beaconRate": "Beaconnachricht-Rate",
+        "views": "Ansichten",
+        "customEventBlueprintConfigMetricLabel": "Vorkommen",
+        "sessions": "Sitzungen"
       }
     }
   }

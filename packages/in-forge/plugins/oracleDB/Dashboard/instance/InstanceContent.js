@@ -33,8 +33,8 @@ import SQLConsumingMoreCPUTable from '../Tables/SQLConsumingMoreCPUTable';
 import ForegroundSessionsTable from '../Tables/ForegroundSessionsTable';
 import TablespaceUsagesTable from '../Tables/TablespaceUsagesTable.js';
 import BlockingSessionsTable from '../Tables/BlockingSessionsTable';
-import SGAPoolSizeTable from '../Tables/SGAPoolSizeTable.js';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import SGAPoolSizeTable from '../Tables/SGAPoolSizeTable';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 

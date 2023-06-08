@@ -142,6 +142,7 @@
         "logParameters": "Paramètres de journal",
         "logStackTrace": "Consigner la trace de pile",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "Cet appel est traité par lots et représente {{batchSize}} appels individuels.",
+        "downloadRawSpanData": "Télécharger les données d'intervalle brutes",
         "correlationMissing": "Corrélation manquante",
         "noOtherRelationsFound": "Aucune autre relation n'a été trouvée.",
         "synthetic": "Synthétique",

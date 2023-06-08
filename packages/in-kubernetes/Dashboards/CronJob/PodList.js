@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
@@ -18,7 +19,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -30,14 +31,7 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
     getContent({ pod, cronJobId }) {
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_pod"
-          label={pod.label}
-          href$={getPodDashboard(pod.id, { cronJobId })}
-          severity={-1}
-        />
-      );
+      return <PodLink pod={pod} cronJobId={cronJobId} />;
     }
   },
   {
@@ -235,4 +229,10 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function PodLink({ pod, cronJobId }) {
+  const href = usePodDashboard(pod.id, { cronJobId });
+
+  return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={pod.label} href={href} severity={-1} />;
 }

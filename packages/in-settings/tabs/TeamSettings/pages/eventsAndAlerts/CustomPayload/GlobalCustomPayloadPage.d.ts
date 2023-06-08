@@ -6,4 +6,4 @@
 
 import React from 'react';
 
-export const GlobalTagBasedPayloadConfigurator: React.ReactNode;
+export const GlobalTagBasedPayloadConfigurator: React.FunctionComponent<any>;
