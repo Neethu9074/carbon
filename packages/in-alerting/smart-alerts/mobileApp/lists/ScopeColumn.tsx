@@ -10,7 +10,12 @@ import React from 'react';
 import { MobileAppAlertConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
+import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn.mless';
 
@@ -25,6 +30,17 @@ export default function ScopeColumn({
   const pages = tagFilterExpression.filter(isTagFilter).filter(filter => {
     return filter.name === 'mobileBeacon.mobileApp.name' && filter.operator !== 'NOT_EQUAL';
   });
+
+  const otherTagFiltersCount = tagFilterExpression.length - pages.length;
+
+  const filterCount = getFiltersCount(tagFilterExpression);
+
+  const maxFilterToDisplay = 3;
+  const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
+
+  const blueprintConfig = getBlueprintConfig(config.rule.alertType);
+  const beaconType = blueprintConfig.getBeaconType(config.rule.metricName as MetricName);
+  const { QueryBuilder } = getQueryBuilderForBeaconType(beaconType);
 
   return (
     <div className={locals.filters}>
@@ -46,6 +62,29 @@ export default function ScopeColumn({
           {page.stringValue}
         </span>
       ))}
+      {otherTagFiltersCount >= 1 && (
+        <Tooltip
+          themeStyle="light"
+          content={
+            <div>
+              <QueryBuilder value={filtersToDisplay} readOnly />
+              {filterCount > maxFilterToDisplay &&
+                t('in-alerting:smartAlerts.mobileApp.alertList.moreFiltersWithCount', {
+                  count: filterCount - maxFilterToDisplay
+                })}
+            </div>
+          }
+          align="topMiddle"
+          delay={500}
+        >
+          <span className={locals.centered}>
+            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
+            {t('in-alerting:smartAlerts.mobileApp.alertList.filter', {
+              count: filterCount
+            })}
+          </span>
+        </Tooltip>
+      )}
     </div>
   );
 }

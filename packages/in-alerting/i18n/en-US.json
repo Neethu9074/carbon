@@ -1052,6 +1052,16 @@
             "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}"
           }
         },
+        "moreFiltersWithCount": "+{{count}} more filter",
+        "moreFiltersWithCount_plural": "+{{count}} more filters",
+        "moreFiltersWithCount_0": "+{{count}} more filters",
+        "moreFiltersWithCount_1": "+{{count}} more filters",
+        "moreFiltersWithCount_2": "+{{count}} more filters",
+        "filter": "Filter",
+        "filter_plural": "Filters",
+        "filter_0": "Filters",
+        "filter_1": "Filters",
+        "filter_2": "Filters",
         "filterApplied": "Filter Applied"
       },
       "simple": {
@@ -1082,24 +1092,7 @@
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
-        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
-        "customEvents": "Custom Event: {{customEventName}}",
-        "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
-        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
-        "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
-        "throughputSimpleLowOperatorText": "Number of {{metricLabel}} is anomalously low",
-        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is above the expectation.",
-        "statusCodeSimpleBelowOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is below the expectation.",
-        "staticThresholdHigherOperatorText": "The number of {{metricLabel}} is higher than {{thresholdValue}}.",
-        "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to {{thresholdValue}}.",
-        "unsupportedOperator": "Unsupported operator: {{operator}}",
-        "thresholdHigherOperatorText": "The number of {{metricLabel}}is higher than expected.",
-        "thresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to expected.",
-        "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
-        "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected."
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
@@ -1109,14 +1102,6 @@
         "customEventUsersColumnLabel": "Users",
         "customEventLabel": "Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
-      },
-      "form": {
-        "errorPleaseProvideCustomEventName": "Please provide a custom event name",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
-        "ruleMetricNameOptionBeaconRate": "Beacon Rate",
-        "ruleMetricNameOptionThroughputSessions": "Sessions",
-        "ruleMetricNameOptionThroughputViews": "Views"
       },
       "advanced": {
         "triggerLabel": "Trigger",
