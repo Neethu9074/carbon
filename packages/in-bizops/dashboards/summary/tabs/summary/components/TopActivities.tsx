@@ -49,9 +49,11 @@ export default function TopActivities({ businessProcessId }: TopActivitiesProps)
   );
 }
 
-//TODO: Link to a page when the 'view all activities' button is clicked
+//TODO: Link to the activities tab when the 'view all activities' button is clicked
+// Still waiting on the activities tab to be implemented first :)
 function ViewAll() {
-  return <div>{t('in-bizops:dashboards.summary.widgets.viewAll')}</div>;
+  //return <div>{t('in-bizops:dashboards.summary.widgets.viewAll')}</div>;
+  return '';
 }
 
 type GetListProps = {

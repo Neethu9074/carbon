@@ -21,6 +21,16 @@ export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const isProcessesActive = matchLocation(paths.businessProcessPath);
   const isActivitiesActive = matchLocation(paths.activitiesPath);
+  /*
+  The plumbing for an activity tab exists here. Waiting on UI list for all activities to be
+  present before enabling the tab. Use the following component to enable the activities tab:
+  <SecondLevelNavigationItem
+    href={createHrefToPath(paths.activitiesPath)}
+    label={t('in-bizops:labelActivities')}
+    isActive={isActivitiesActive && !isProcessesActive}
+    icon={'lib_application_service'}
+  />
+  */
 
   const renderMetaInformation = () => {
     return <BetaBadge />;
@@ -45,12 +55,6 @@ export default function ViewSwitcher() {
               label={t('in-bizops:labelBizOps')}
               isActive={isProcessesActive && !isActivitiesActive}
               icon={'lib_bizops'}
-            />
-            <SecondLevelNavigationItem
-              href={createHrefToPath(paths.activitiesPath)}
-              label={t('in-bizops:labelActivities')}
-              isActive={isActivitiesActive && !isProcessesActive}
-              icon={'lib_application_service'}
             />
           </SecondLevelNavigation>
         </div>

@@ -34,7 +34,11 @@ export default function Summary() {
     <Fragment>
       <Row>
         <Col xs>
-          <Timeline timeShiftConfig={timeShiftConfig} businessProcessName={businessProcessName} />
+          <Timeline
+            timeShiftConfig={timeShiftConfig}
+            businessProcessName={businessProcessName}
+            businessProcessId={businessProcessId}
+          />
         </Col>
         <Col xs>
           <TopActivities businessProcessId={businessProcessId} />
