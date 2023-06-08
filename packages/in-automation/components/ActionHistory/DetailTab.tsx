@@ -79,7 +79,10 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.startTime'), value: formatDateTime(startDate) },
-    { label: t('in-automation:actionHistory.endTime'), value: formatDateTime(endDate) },
+    {
+      label: t('in-automation:actionHistory.endTime'),
+      value: endDate ? formatDateTime(endDate) : formatDateTime(null)
+    },
     { label: t('in-automation:actionHistory.status'), value: getStatus(status) },
     {
       label: t('in-automation:actionHistory.actionContent'),
