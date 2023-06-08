@@ -5,11 +5,11 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { getLinkToHttpRequest, useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp, useLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -93,6 +93,7 @@ function ViewAll({ mobileAppId, selectedMetric, className }) {
 }
 
 function Label({ item, mobileAppId }) {
+  const getLinkToMobileAppHttpRequest = useLinkToHttpRequest();
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -103,7 +104,7 @@ function Label({ item, mobileAppId }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToHttpRequest(mobileAppId, {
+      href={getLinkToMobileAppHttpRequest(mobileAppId, {
         httpRequestId: label
       })}
     >

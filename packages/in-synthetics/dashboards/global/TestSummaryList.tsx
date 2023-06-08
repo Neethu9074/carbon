@@ -61,6 +61,7 @@ import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -173,6 +174,7 @@ export default function TestSummaryList() {
   }
 
   const rightHeader = useFilterHeader(true);
+  const location = useLocation();
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -180,6 +182,7 @@ export default function TestSummaryList() {
         <ViewTrackingMeta
           data={{
             pageName: 'Synthetic Monitoring > Tests',
+            pagePath: location?.pathname,
             productArea: 'Synthetic Monitoring',
             pageRootName: 'Synthetic Monitoring'
           }}

@@ -9,26 +9,31 @@ import React from 'react';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useGenerateLinkToPageLoad } from 'in-websites/navigation/paths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
+import { useLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 const path = '/dl';
 
-export default <Route key="deepLink" path={path} children={<DeepLink />} />;
+export default (
+  <Route key="deepLink" path={path}>
+    <DeepLink />
+  </Route>
+);
 
 function DeepLink() {
   const location = useLocation();
   const getLinkToTraceDetail = useLinkToTraceDetail();
+  const getLinkToMobileAppSession = useLinkToSession();
+  const getLinkToWebsitePageLoad = useGenerateLinkToPageLoad();
 
-  const getLinkToPageLoad = useGenerateLinkToPageLoad();
-  const to$ =
-    resolveWebsitesPageLoadIdDeepLink(location, getLinkToPageLoad) || resolveMobileAppsSessionIdDeepLink(location);
+  const to =
+    resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail) ||
+    resolveWebsitesPageLoadIdDeepLink(location, getLinkToWebsitePageLoad) ||
+    resolveMobileAppsSessionIdDeepLink(location, getLinkToMobileAppSession());
 
-  const to = resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail);
-
-  if (to$ || to) {
-    return <RedirectWithHash to={to} to$={to$} />;
+  if (to) {
+    return <RedirectWithHash to={to} />;
   }
 
   return <RedirectWithHash to="/" />;
@@ -49,10 +54,10 @@ function resolveWebsitesPageLoadIdDeepLink(location, getLinkToPageLoad) {
   }
 }
 
-function resolveMobileAppsSessionIdDeepLink(location) {
+function resolveMobileAppsSessionIdDeepLink(location, getLinkToMobileAppSession) {
   const sessionId = getMatrixParameter(location, path, 'mobileApps.session.id');
   const beaconTimestamp = getMatrixParameter(location, path, 'mobileApps.session.timestamp');
   if (sessionId && beaconTimestamp) {
-    return getLinkToSession({ sessionId, beaconTimestamp });
+    return getLinkToMobileAppSession({ sessionId, beaconTimestamp });
   }
 }

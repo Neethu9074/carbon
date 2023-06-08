@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { Ul, Li } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { formatDateTime } from 'in-services/formatters/date';
 import { getModifiedUrlStream } from 'in-stores/navigation';

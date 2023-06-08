@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { uniq, pull } from 'lodash';
+import { uniq, pull, union } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
@@ -222,7 +222,7 @@ function createOrSaveAlert({
           uniq(actionIds).forEach(id => {
             const actionAssociation = {
               action_id: id,
-              application_alert_ids: [alertConfigId].concat(result[id].application_alert),
+              application_alert_ids: union([alertConfigId], result[id].application_alert),
               builtin_event_ids: result[id].builtin_event_ids,
               custom_event_ids: result[id].custom_events
             };

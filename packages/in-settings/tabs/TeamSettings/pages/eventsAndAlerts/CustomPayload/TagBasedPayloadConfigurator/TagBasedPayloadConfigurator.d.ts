@@ -56,6 +56,23 @@ export function createTagBasedWebsitePayloadConfigurator({
   getSuggestions?: (args: GetSuggestionsProps) => Observable<Result<Suggestions>>;
 });
 
+export interface GetMobileAppSuggestionsProps {
+  name: string;
+  key?: string;
+  timeConfig: TimeConfig;
+  propose?: TagSuggestionProposeType;
+  tagFilterExpression?: TagFilterExpressionElementUnion;
+  beaconType?: MobileAppMonitoringBeaconType;
+}
+
+export function createTagBasedMobileAppPayloadConfigurator({
+  getTagCatalog,
+  getSuggestions
+}: {
+  getTagCatalog: () => Observable<Result<TagCatalog>>;
+  getSuggestions?: (args: GetMobileAppSuggestionsProps) => Observable<Result<Suggestions>>;
+});
+
 interface TagNodeLike {
   type?: string;
 }

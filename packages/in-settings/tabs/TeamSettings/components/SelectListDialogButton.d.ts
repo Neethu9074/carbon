@@ -16,6 +16,7 @@ interface SelectListDialogButtonProps {
   limit?: number;
   hiddenIds: string[];
   createSubmitLabel: (numberOfItems: number) => string;
+  renderCustomCloseBehaviour?: () => void;
   requiresAtLeastOneMessage: string;
 }
 

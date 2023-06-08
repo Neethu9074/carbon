@@ -9,10 +9,10 @@ import {
   syntheticAlertListPath,
   syntheticConfigurationPath
 } from 'in-synthetics/navigation/paths';
-import { syntheticCreateTestAdvanceModeEnabled, syntheticSmartAlertsEnabled } from 'in-services/featureFlags';
 import Configuration from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration';
 import ResultsList from 'in-synthetics/dashboards/summary/tabs/results/ResultsList';
 import Summary from 'in-synthetics/dashboards/summary/tabs/summary/Summary';
+import { syntheticSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-alerting/smart-alerts/synthetics/Alerts';
 import { t } from 'in-i18n';
 
@@ -32,7 +32,7 @@ export default [
     path: `${syntheticAlertListPath}`,
     component: Alerts
   },
-  syntheticCreateTestAdvanceModeEnabled && {
+  {
     label: t('in-synthetics:dashboard.summary.configurationTab'),
     path: `${syntheticConfigurationPath}`,
     component: Configuration

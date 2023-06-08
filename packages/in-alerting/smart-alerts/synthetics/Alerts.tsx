@@ -23,6 +23,7 @@ import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Location } from 'in-stores/navigation/types';
@@ -46,13 +47,15 @@ export const tableActions: TableActions<SyntheticAlertConfigWithMetadata> = {
 
 export default function Alerts({ testId }: AlertsProps) {
   const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+  const location = useLocation();
 
   return (
     <>
       <ViewTrackingMeta
         data={{
           productArea: 'Synthetics Monitoring',
-          pageRootName: 'Smart Alerts List'
+          pageRootName: 'Smart Alerts List',
+          pagePath: location?.pathname
         }}
       />
       <AlertBaseList<SyntheticAlertConfigWithMetadata>

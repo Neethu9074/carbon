@@ -33,14 +33,14 @@ export function getTitlePlaceholder(form: MapForm<any>) {
   switch (alertType) {
     case 'specificJsError': {
       if ((rule as SpecificJsErrorsWebsiteAlertRule).operator === operators.NOT_EMPTY) {
-        return t('in-alerting:smartAlerts.websites.form.anyJSErrors');
+        return t('in-alerting:smartAlerts.eum.form.anyJSErrors');
       }
       const errorMessage = (rule as SpecificJsErrorsWebsiteAlertRule).value;
-      return t('in-alerting:smartAlerts.websites.form.JSErrors', { errorMessage: errorMessage });
+      return t('in-alerting:smartAlerts.eum.form.JSErrors', { errorMessage: errorMessage });
     }
     case 'statusCode': {
       const statusCodeString = (rule as StatusCodeWebsiteAlertRule).value;
-      return t('in-alerting:smartAlerts.websites.form.HTTPStatusCodes', {
+      return t('in-alerting:smartAlerts.eum.form.HTTPStatusCodes', {
         statusCode: fillStatusCodeValue(statusCodeString)
       });
     }
@@ -64,10 +64,10 @@ export function getTitlePlaceholder(form: MapForm<any>) {
     }
     case 'customEvent': {
       const customEventName = (rule as CustomEventWebsiteAlertRule).customEventName;
-      return t('in-alerting:smartAlerts.websites.form.customEvents', { customEventName });
+      return t('in-alerting:smartAlerts.eum.form.customEvents', { customEventName });
     }
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -82,7 +82,7 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
     case 'specificJsError': {
       const specificJsErrorRule = rule as SpecificJsErrorsWebsiteAlertRule;
       if (specificJsErrorRule.operator === operators.NOT_EMPTY) {
-        return t('in-alerting:smartAlerts.websites.form.JSErrorsHaveBeenDetected');
+        return t('in-alerting:smartAlerts.eum.form.JSErrorsHaveBeenDetected');
       }
       return getJSErrorText(specificJsErrorRule.operator, specificJsErrorRule.value);
     }
@@ -116,10 +116,10 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
     case 'customEvent': {
       const customEventName = (rule as CustomEventWebsiteAlertRule).customEventName;
 
-      return t('in-alerting:smartAlerts.websites.form.customEventsText', { customEventName });
+      return t('in-alerting:smartAlerts.eum.form.customEventsText', { customEventName });
     }
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -151,42 +151,42 @@ function fillStatusCodeValue(statusCode: string) {
 function getJSErrorText(operator: TagFilterOperator, ruleValue?: string) {
   switch (operator) {
     case operators.EQUALS:
-      return t('in-alerting:smartAlerts.websites.form.JSErrorTextEquals', { ruleValue });
+      return t('in-alerting:smartAlerts.eum.form.JSErrorTextEquals', { ruleValue });
     case operators.CONTAINS:
-      return t('in-alerting:smartAlerts.websites.form.JSErrorTextContains', { ruleValue });
+      return t('in-alerting:smartAlerts.eum.form.JSErrorTextContains', { ruleValue });
     case operators.STARTS_WITH:
-      return t('in-alerting:smartAlerts.websites.form.JSErrorTextStartsWith', { ruleValue });
+      return t('in-alerting:smartAlerts.eum.form.JSErrorTextStartsWith', { ruleValue });
     case operators.ENDS_WITH:
-      return t('in-alerting:smartAlerts.websites.form.JSErrorTextEndsWith', { ruleValue });
+      return t('in-alerting:smartAlerts.eum.form.JSErrorTextEndsWith', { ruleValue });
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }
 
 function getSlownessSimpleHighOrLowOperatorText(aggregationText: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.websites.form.slownessSimpleHighOperatorText', { aggregationText })
-    : t('in-alerting:smartAlerts.websites.form.slownessSimpleLowOperatorText', { aggregationText });
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleHighOperatorText', { aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorText', { aggregationText });
 }
 
 function getThroughputSimpleHighOrLowOperatorText(metricLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.websites.form.throughputSimpleHighOperatorText', { metricLabel })
-    : t('in-alerting:smartAlerts.websites.form.throughputSimpleLowOperatorText', { metricLabel });
+    ? t('in-alerting:smartAlerts.eum.form.throughputSimpleHighOperatorText', { metricLabel })
+    : t('in-alerting:smartAlerts.eum.form.throughputSimpleLowOperatorText', { metricLabel });
 }
 
 function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.websites.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
-    : t('in-alerting:smartAlerts.websites.form.statusCodeSimpleBelowOperatorText', {
+    ? t('in-alerting:smartAlerts.eum.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
+    : t('in-alerting:smartAlerts.eum.form.statusCodeSimpleBelowOperatorText', {
         statusCodeLabel
       });
 }
 
 function getSlownessSimpleAboveOrBelowOperatorText(aggregationText: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.websites.form.slownessSimpleAboveOperatorText', { aggregationText })
-    : t('in-alerting:smartAlerts.websites.form.slownessSimpleBelowOperatorText', { aggregationText });
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorText', { aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleBelowOperatorText', { aggregationText });
 }
 
 function getSlownessGreaterOrLessOperatorText(
@@ -196,27 +196,27 @@ function getSlownessGreaterOrLessOperatorText(
 ) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.websites.form.slownessGreaterOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterOperatorText', {
         aggregationText,
         thresholdValue
       });
     case '>=':
-      return t('in-alerting:smartAlerts.websites.form.slownessGreaterEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterEqualsOperatorText', {
         aggregationText,
         thresholdValue
       });
     case '<':
-      return t('in-alerting:smartAlerts.websites.form.slownessLessOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessLessOperatorText', {
         aggregationText,
         thresholdValue
       });
     case '<=':
-      return t('in-alerting:smartAlerts.websites.form.slownessLessEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessLessEqualsOperatorText', {
         aggregationText,
         thresholdValue
       });
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator: operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator: operator }));
   }
 }
 
@@ -227,41 +227,41 @@ function getStaticThresholdHigherOrLowerOperatorText(
 ) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.websites.form.staticThresholdHigherOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '>=':
-      return t('in-alerting:smartAlerts.websites.form.staticThresholdHigherEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherEqualsOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '<':
-      return t('in-alerting:smartAlerts.websites.form.staticThresholdLowerOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerOperatorText', {
         metricLabel,
         thresholdValue
       });
     case '<=':
-      return t('in-alerting:smartAlerts.websites.form.staticThresholdLowerEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerEqualsOperatorText', {
         metricLabel,
         thresholdValue
       });
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }
 
 function getThresholdHigherOrLowerOperatorText(metricLabel: string, operator: ThresholdOperator) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.websites.form.thresholdHigherOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdHigherOperatorText', { metricLabel });
     case '>=':
-      return t('in-alerting:smartAlerts.websites.form.thresholdHigherEqualsOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdHigherEqualsOperatorText', { metricLabel });
     case '<':
-      return t('in-alerting:smartAlerts.websites.form.thresholdLowerOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdLowerOperatorText', { metricLabel });
     case '<=':
-      return t('in-alerting:smartAlerts.websites.form.thresholdLowerEqualsOperatorText', { metricLabel });
+      return t('in-alerting:smartAlerts.eum.form.thresholdLowerEqualsOperatorText', { metricLabel });
     default:
-      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator }));
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }

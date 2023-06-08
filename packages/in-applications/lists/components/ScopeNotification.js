@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
@@ -8,18 +9,17 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   useLinkToApplicationDashboard,
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
-import { getServiceDashboard as getKubernetesServiceDashboard } from 'in-kubernetes/navigation/paths';
+import { useServiceDashboard, useDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -59,6 +59,9 @@ export default connectTo(
     const getLinkToServiceDashboard = useLinkToServiceDashboard();
     const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
+    const kubernetesDashboardLink = useDashboardForEntity(snapshotId, plugin);
+    const kubernetesServiceDashboardLink = useServiceDashboard(serviceId);
+
     let entityLabel;
     let href;
     let href$;
@@ -75,8 +78,11 @@ export default connectTo(
       entityLabel = snapshotLabel;
       href$ = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
     } else if (tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes'))) {
+      href = !tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes.service.name'))
+        ? kubernetesDashboardLink
+        : kubernetesServiceDashboardLink;
+
       entityLabel = getKubernetesLabel(tagFilters);
-      href$ = getKubernetesDashboardLink(snapshotId, plugin, tagFilters, serviceId);
     }
 
     return (
@@ -161,11 +167,4 @@ function getLabel(result) {
 
 function getKubernetesLabel(tagFilters) {
   return tagFilters[tagFilters.length - 1]?.value;
-}
-
-function getKubernetesDashboardLink(snapshotId, plugin, tagFilters, serviceId) {
-  if (!tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes.service.name'))) {
-    return getDashboardForEntity(snapshotId, plugin);
-  }
-  return getKubernetesServiceDashboard(serviceId);
 }

@@ -53,6 +53,28 @@
   .code {
     max-width: 100%;
   }
+  .dialog {
+    max-width: 60vw;
+  }
+  .confirmationDialogContent {
+    margin-bottom: 2rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 1rem;
+    }
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: -1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--ids-color-option-neutral-400);
+  }
 }
 
 :global {

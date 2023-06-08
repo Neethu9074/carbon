@@ -13,12 +13,13 @@ import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/dial
 import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
-import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
+import ProvideCustomEvent from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
@@ -84,6 +85,7 @@ export default function SimpleAlertConfigDialogStep1({
                 windowSize: alertingDialogItemPickerTimeframe
               }}
               mode="Simple"
+              eumType={eumType}
             />
           </SelectedBlueprintPresenter>
         )}

@@ -13,6 +13,7 @@ export interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement>
   name?: string;
   value?: string;
   hasError?: boolean;
+  disabled?: boolean;
   hideValidityInformationOnFocus?: boolean;
 }
 

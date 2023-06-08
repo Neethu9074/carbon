@@ -31,7 +31,7 @@ import {
   hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
-  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
@@ -63,6 +63,7 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
@@ -81,7 +82,6 @@ import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -337,14 +337,16 @@ function Synthetics(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-synthetics"
-      label={t('in-synthetics:navigation.synthetics')}
-      icon={'lib_synthetic'}
-      isActive={matchLocation(isSyntheticMonitoringView)}
-      href={createHrefToPath(syntheticsPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-synthetics"
+        label={t('in-synthetics:navigation.synthetics')}
+        icon={'lib_synthetic'}
+        isActive={matchLocation(isSyntheticMonitoringView)}
+        href={createHrefToPath(syntheticsPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -355,14 +357,16 @@ function BizOps(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.businessMonitoring')}
-      icon={'lib_bizops'}
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon={'lib_bizops'}
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -392,14 +396,16 @@ function SloDashboard(props) {
   }
 
   return (
-    <View
-      id="main-nav-slo-dashboard"
-      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-      icon="lib_service_level"
-      isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsOverview)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(serviceLevelsOverview)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -411,15 +417,17 @@ function AutomationMenu(props) {
   }
 
   return (
+    !playwithEnabled && (
     <View
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath)}
+      isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
       href={createHrefToPath(actionCatalogPath)}
       isBeta
       {...props}
     />
+    )
   );
 }
 
@@ -435,6 +443,7 @@ function Analyze(props) {
     groupBy: {}
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -461,9 +470,12 @@ function Analyze(props) {
             ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
-            getLinkToMobileAppAnalyze({
-              beaconType: 'sessions'
-            }),
+            just(
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessions',
+                groupBy: {}
+              })
+            ),
           hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
         ].filter(Boolean)[0]
       }

@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "La valeur du filtre d'étiquette a été réduite à la longueur maximale autorisée.",
     "sanitizedTagFilterValueAndOperator": "La valeur du filtre d'étiquette a été réduite à la longueur maximale autorisée, et l'opérateur a été ajusté en conséquence.",
     "source": "Source",
+    "sourceAbbreviated": "Src",
     "destination": "Destination",
+    "destinationAbbreviated": "Dest",
     "documentation": "Documentation",
     "string": {
       "contains": "contient",

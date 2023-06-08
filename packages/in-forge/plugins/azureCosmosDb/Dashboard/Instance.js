@@ -55,7 +55,7 @@ export default function Instance({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: millis.detaileds,
+            formatter: millis.detailed,
             metrics: ['metrics.instance.rl'],
             labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelRl')],
             type: 'line'

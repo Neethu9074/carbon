@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { KeyValue } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

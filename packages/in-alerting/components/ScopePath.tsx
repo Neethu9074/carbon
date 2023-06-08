@@ -6,8 +6,9 @@
 import React, { forwardRef, Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon, SvgIconProps } from '@instana/components';
+import { SvgIcon, SvgIconProps } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/legacy';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 

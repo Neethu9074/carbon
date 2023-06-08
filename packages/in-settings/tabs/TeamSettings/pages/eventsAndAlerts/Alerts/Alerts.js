@@ -6,7 +6,7 @@
 import React, { Fragment, useState } from 'react';
 import { get } from 'lodash';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   getEntityHref,
@@ -17,7 +17,7 @@ import {
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import { toggleAlertTracker, openAlertSubmitFormTracker, deleteAlertTracker } from 'in-settings/tracker';
-import List, { createNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
+import List, { CreateNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
@@ -130,11 +130,13 @@ const tableActions = {
 function defaultRightHeader(enabled, setEnabled) {
   return (
     <Fragment>
-      {createNewEntityButton({
-        labelNew: t('in-settings:tabs.newAlert'),
-        pathNew: teamSettingsAlertingAlertNew,
-        trackEvent: openAlertSubmitFormTracker
-      })}
+      {
+        <CreateNewEntityButton
+          labelNew={t('in-settings:tabs.newAlert')}
+          trackEvent={openAlertSubmitFormTracker}
+          pathNew={teamSettingsAlertingAlertNew}
+        />
+      }
       <ComboBox
         name="filter-state"
         value={enabled}

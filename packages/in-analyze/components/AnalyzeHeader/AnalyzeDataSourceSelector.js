@@ -23,7 +23,6 @@ import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/com
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
@@ -36,6 +35,7 @@ import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import Pill from 'in-components/Pill';
@@ -45,6 +45,8 @@ import { t } from 'in-i18n';
 import locals from './AnalyzeDataSourceSelector.mless';
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
     websiteTagCatalogPageChange: useWebsiteTagCatalog('pageChange'),
@@ -188,7 +190,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'sessionStart',
-          getHref$: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
             tagCatalog &&
             getLinkToMobileAppAnalyze({
               groupBy: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
@@ -199,7 +201,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         },
         {
           dataSource: 'viewChange',
-          getHref$: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
             tagCatalog &&
             getLinkToMobileAppAnalyze({
               groupBy: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
@@ -210,7 +212,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         },
         {
           dataSource: 'httpRequest',
-          getHref$: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
             tagCatalog &&
             getLinkToMobileAppAnalyze({
               groupBy: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
@@ -221,7 +223,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         },
         {
           dataSource: 'custom',
-          getHref$: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
             tagCatalog &&
             getLinkToMobileAppAnalyze({
               groupBy: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
@@ -233,7 +235,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'crash',
           enabled: mobileAppCrashBeaconEnabled,
-          getHref$: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
+          getHref: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
             tagCatalog &&
             getLinkToMobileAppAnalyze({
               groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,

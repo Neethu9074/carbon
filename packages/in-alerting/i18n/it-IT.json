@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} errori",
         "numberOfFailures": "Generazione di avvisi di errore"
       },
+      "alertProperties": {
+        "testName": "Nome_test",
+        "locationName": "Nome_ubicazione"
+      },
       "simple": {
         "stepConfigsStep1Title": "Passo 1: Test",
         "simpleAlertConfigDialogStep1Headline": "Quali test sintetici dovrebbero essere segnalati?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} malfunzionamenti",
           "failuresWithCount_2": "{{count}} malfunzionamenti"
         },
-        "alertPropertiesTitlePlaceholder": "Inserisci titolo qui",
-        "alertPropertiesDescriptionPlaceholder": "Inserisci descrizione qui"
+        "alertPropertiesTitlePlaceholder": "Test sintetico non riuscito",
+        "alertPropertiesDescriptionPlaceholder": "Test sintetico non riuscito per {{count}} volta consecutiva",
+        "alertPropertiesDescriptionPlaceholder_plural": "Test sintetico non riuscito per {{count}} volte consecutive",
+        "alertPropertiesDescriptionPlaceholder_0": "Test sintetico non riuscito per {{count}} volte consecutive",
+        "alertPropertiesDescriptionPlaceholder_1": "Test sintetico non riuscito per {{count}} volte consecutive",
+        "alertPropertiesDescriptionPlaceholder_2": "Test sintetico non riuscito per {{count}} volte consecutive"
       },
       "advanced": {
         "alertChannelsLabel": "Canali di avviso",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "Test sintetici",
         "alertTestsTitle": "Test sintetici: quali test sintetici dovrebbero essere segnalati?",
         "propertiesLabel": "Proprietà avviso",
-        "alertPropertiesPreviewTitlePlaceholder": "[Inserisci titolo qui]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserisci descrizione qui]",
         "propertiesTitle": "Cosa deve includere la notifica di avviso?",
         "failureThreshold": "Soglia temporale",
         "failureThresholdLabel": "Soglia temporale",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "Numero di errori",
         "timeThreshold": "Soglia temporale",
         "alertingType": "Tipo di avviso"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Conteggio codici di stato",
+        "beaconRate": "Frequenza beacon",
+        "views": "Viste",
+        "customEventBlueprintConfigMetricLabel": "Ricorrenze",
+        "sessions": "Sessioni"
       }
     }
   }

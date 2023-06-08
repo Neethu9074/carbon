@@ -73,7 +73,6 @@ module.exports = {
   rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  syntheticCreateTestAdvanceModeEnabled: true,
   syntheticCredentialEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
@@ -84,5 +83,6 @@ module.exports = {
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
-  systemRuleEntityCountEnabled: true
+  systemRuleEntityCountEnabled: true,
+  userSettingsThemeEnabled: true
 };

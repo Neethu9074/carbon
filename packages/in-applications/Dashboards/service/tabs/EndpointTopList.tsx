@@ -7,7 +7,7 @@ import React from 'react';
 
 import { AggregationType, ApplicationBoundaryScope, BoundaryScope, TimeConfig } from '@instana/types';
 import { EndpointItem } from '@instana/types';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';

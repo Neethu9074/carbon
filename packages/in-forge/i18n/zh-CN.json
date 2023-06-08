@@ -274,11 +274,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Camunda 出口",
-  "pluginName_camundaexit_0": "Camunda 出口",
-  "pluginName_camundaexit_1": "Camunda 出口",
-  "pluginName_camundaexit_2": "Camunda 出口",
-  "pluginName_camundaexit": "Camunda 出口",
   "pluginName_cassandraCluster_plural": "Cassandra 集群",
   "pluginName_cassandraCluster_0": "Cassandra 集群",
   "pluginName_cassandraCluster_1": "Cassandra 集群",
@@ -404,6 +399,16 @@
   "pluginName_sapJavaInstance_1": "SAP Java 实例",
   "pluginName_sapJavaInstance_2": "SAP Java 实例",
   "pluginName_sapJavaInstance": "SAP Java 实例",
+  "pluginName_sapHanaSystem_plural": "SAP Hana 系统",
+  "pluginName_sapHanaSystem_0": "SAP Hana 系统",
+  "pluginName_sapHanaSystem_1": "SAP Hana 系统",
+  "pluginName_sapHanaSystem_2": "SAP Hana 系统",
+  "pluginName_sapHanaSystem": "SAP Hana 系统",
+  "pluginName_sapWebDispatcher_plural": "SAP Web 分派器",
+  "pluginName_sapWebDispatcher_0": "SAP Web 分派器",
+  "pluginName_sapWebDispatcher_1": "SAP Web 分派器",
+  "pluginName_sapWebDispatcher_2": "SAP Web 分派器",
+  "pluginName_sapWebDispatcher": "SAP Web 分派器",
   "pluginName_sapHost_plural": "SAP 主机",
   "pluginName_sapHost_0": "SAP 主机",
   "pluginName_sapHost_1": "SAP 主机",
@@ -1003,6 +1008,7 @@
   "pluginName_msiis_1": "Internet Information Server",
   "pluginName_msiis_2": "Internet Information Server",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "MSMQ 消息",
   "pluginName_msSqlDatabase_plural": "MS SQL 实例",
   "pluginName_msSqlDatabase_0": "MS SQL 实例",
   "pluginName_msSqlDatabase_1": "MS SQL 实例",
@@ -1286,6 +1292,16 @@
   "pluginName_tibcoEMS_1": "Tibco EMS",
   "pluginName_tibcoEMS_2": "Tibco EMS",
   "pluginName_tibcoEMS": "Tibco EMS",
+  "pluginName_tibcoEMSQueue_plural": "Tibco EMS 队列",
+  "pluginName_tibcoEMSQueue_0": "Tibco EMS 队列",
+  "pluginName_tibcoEMSQueue_1": "Tibco EMS 队列",
+  "pluginName_tibcoEMSQueue_2": "Tibco EMS 队列",
+  "pluginName_tibcoEMSQueue": "Tibco EMS 队列",
+  "pluginName_tibcoEMSTopic_plural": "Tibco EMS 主题",
+  "pluginName_tibcoEMSTopic_0": "Tibco EMS 主题",
+  "pluginName_tibcoEMSTopic_1": "Tibco EMS 主题",
+  "pluginName_tibcoEMSTopic_2": "Tibco EMS 主题",
+  "pluginName_tibcoEMSTopic": "Tibco EMS 主题",
   "pluginName_tomcatApplicationContainer_plural": "Tomcat",
   "pluginName_tomcatApplicationContainer_0": "Tomcat",
   "pluginName_tomcatApplicationContainer_1": "Tomcat",
@@ -1532,11 +1548,6 @@
   "tracingTypeName_camunda_0": "Camunda 调用",
   "tracingTypeName_camunda_1": "Camunda 调用",
   "tracingTypeName_camunda_2": "Camunda 调用",
-  "tracingTypeName_camundaexit": "Camunda 外部任务消息",
-  "tracingTypeName_camundaexit_plural": "Camunda 外部任务消息",
-  "tracingTypeName_camundaexit_0": "Camunda 外部任务消息",
-  "tracingTypeName_camundaexit_1": "Camunda 外部任务消息",
-  "tracingTypeName_camundaexit_2": "Camunda 外部任务消息",
   "tracingTypeName_cassandra": "Cassandra 查询",
   "tracingTypeName_cassandra_plural": "Cassandra 查询",
   "tracingTypeName_cassandra_0": "Cassandra 查询",
@@ -1592,6 +1603,22 @@
   "tracingTypeName_cxfserver_0": "HTTP 调用",
   "tracingTypeName_cxfserver_1": "HTTP 调用",
   "tracingTypeName_cxfserver_2": "HTTP 调用",
+  "tracingTypeName_datapower": "IBM DataPower",
+  "tracingTypeName_datapowerhttpserver": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpserver_plural": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpserver_0": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpserver_1": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpserver_2": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpclient": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpclient_plural": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpclient_0": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpclient_1": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerhttpclient_2": "IBM DataPower HTTP 调用",
+  "tracingTypeName_datapowerinternal": "IBM DataPower 内部调用",
+  "tracingTypeName_datapowerinternal_plural": "IBM DataPower 内部调用",
+  "tracingTypeName_datapowerinternal_0": "IBM DataPower 内部调用",
+  "tracingTypeName_datapowerinternal_1": "IBM DataPower 内部调用",
+  "tracingTypeName_datapowerinternal_2": "IBM DataPower 内部调用",
   "tracingTypeName_distributeme": "DistributeMe 调用",
   "tracingTypeName_distributeme_plural": "DistributeMe 调用",
   "tracingTypeName_distributeme_0": "DistributeMe 调用",
@@ -2451,7 +2478,8 @@
     "graphql": "graphql",
     "logger": "记录器",
     "missing": "缺少",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2526,8 +2554,6 @@
       "databases": "数据库",
       "processId": "进程标识",
       "startTime": "开始时间",
-      "topics": "主题",
-      "queues": "队列",
       "sealed": "封存",
       "standby": "就绪",
       "initialized": "已初始化",
@@ -4915,7 +4941,7 @@
       "threads": "线程数",
       "throttlingDelay": "调速和延迟"
     },
-    "camunda": {
+    "bpm": {
       "camunda": "Camunda"
     },
     "cassandraCluster": {
@@ -5827,7 +5853,8 @@
         "hadr": "hadr",
         "vmonlockStatsValue": "锁定统计信息（内存）",
         "vmonlockStats": "锁定统计信息",
-        "databaseVmondeltaStats": "事务性能（增量值）"
+        "databaseVmondeltaStats": "事务性能（增量值）",
+        "standbyId": "备用标识"
       },
       "db2": "Db2",
       "processId": "进程标识",
@@ -6020,7 +6047,7 @@
       "secLogPage": "辅助日志页面",
       "secLogPos": "辅助日志位置",
       "secLogTime": "辅助日志时间",
-      "HADR_CONNECT_STATUS": "HADR 连接状态",
+      "hadrConnectStatus": "HADR 连接状态",
       "hadrWaitsTotal": "HADR 等待总计",
       "sockSendBufReq": "请求的发送缓冲区",
       "sockSendBufActual": "实际发送缓冲区",
@@ -6503,17 +6530,44 @@
       },
       "version": "版本"
     },
-    "phmcConsole": {
-      "logicalPartition": "逻辑分区",
-      "total": "总计",
-      "utilized": "已使用",
-      "available": "可用",
-      "configurable": "可配置",
-      "assignedMem": "分配给 LPAR 的内存",
-      "backedPhysicalMem": "支持的物理内存",
-      "entitledProcUnits": "授权单位",
-      "maxVirtualProcessors": "最大虚拟处理器数",
-      "currentVirtualProcessors": "当前虚拟处理器数"
+    "phmcSystem": {
+      "totalProcUnits": "处理单元总数",
+      "configurableProcUnits": "可配置的处理单元数",
+      "utilizedProcUnits": "已使用的处理单元数",
+      "availableProcUnits": "可用的处理单元数",
+      "totalMem": "总内存",
+      "configurableMem": "可配置的内存",
+      "availableMem": "可用内存",
+      "assignedMemToLpars": "分配给 LPAR 的内存",
+      "assignedMemHypervisor": "已分配内存系统管理程序",
+      "powerReading": "电源读数",
+      "totalProcUnitsPercent": "处理单元总数（以百分比计）",
+      "configurableProcUnitsPercent": "可配置的处理单元（以百分比计）",
+      "utilizedProcUnitsPercent": "已利用的处理单元（以百分比计）",
+      "availableProcUnitsPercent": "可用处理单元（以百分比计）",
+      "totalMemPercentage": "总内存 (%)",
+      "configurableMemPercentage": "可配置内存 (%)",
+      "availableMemPercentage": "可用内存 (%)",
+      "assignedMemToLparsPercentage": "分配给 LPAR 的内存 (%)",
+      "adapter": "适配器",
+      "receivedPackets": "SR IOV 适配器接收的包数",
+      "sentPackets": "SR-IOV 适配器接收的包数",
+      "droppedPackets": "SR-IOV 适配器丢弃的包数",
+      "sentBytes": "SR-IOV 适配器发送的字节数",
+      "receivedBytes": "SR-IOV 适配器接收的字节数",
+      "transferredBytes": "SR-IOV 适配器传输的字节数",
+      "errorIn": "接收到的错误数/秒",
+      "errorOut": "传输错误数/秒"
+    },
+    "phmcSharedProcessorPool": {
+      "utilizedProcUnits": "已使用的处理单元数",
+      "availableProcUnits": "可用的处理单元数",
+      "currentReservedProcUnits": "当前保留的处理单元",
+      "assignedProcUnits": "已分配的处理单元",
+      "totalEntitledProcUnits": "授权处理单元总数",
+      "entitledProcUnitsUsedPercent": "授权处理单元总数 (%)",
+      "utilizedProcUnitsPercent": "已利用的处理单元 (%)",
+      "availableProcUnitsPercent": "可用的处理单元 (%)"
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -6941,7 +6995,9 @@
       "aliveThreads": "活动线程数",
       "dummyThreads": "哑元线程数",
       "daemonThreads": "守护程序线程数",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "长期支持文档",
+      "eolPythonRuntime": "检测到 EOL 版本的 Python 运行时。 此版本不会接收更新或安全修订，并且可能包含未修复的漏洞，此外，它超出了通常 instana 支持的范围。 更新 Python 版本以避免发生问题。"
     },
     "rabbitMq": {
       "dashboard": {
@@ -7283,7 +7339,9 @@
       "gcRunDuration": "GC 运行持续时间",
       "threadCount": "线程计数",
       "threads": "线程数",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "长期支持文档",
+      "eolRubyRuntime": "检测到 Ruby 运行时的 EOL 版本。 此版本不会接收更新或安全修订，并且可能包含未修复的漏洞。 此外，它超出了通常 Instana 支持的范围。 更新 Ruby 版本以避免问题。"
     },
     "sapHana": {
       "dashboard": {
@@ -9373,24 +9431,47 @@
             "resourceName": "资源名称",
             "unitStorageCapacity": "存储容量",
             "percentUsed": "已用百分比",
+            "unitNumber": "单元号",
+            "serialNumber": "序列号",
+            "aspNumber": "ASP 编号",
+            "ssdLifeRemaining": "SSD 剩余寿命",
+            "ssdPowerOnDays": "SSD 供电天数",
+            "ssdSupportedBytesWritten": "写入的 SSD 支持字节数",
+            "ssdBytesWritten": "写入的 SSD 字节数",
+            "ssdReadWriteProtected": "SSD 读写保护",
+            "ssdPFAWarning": "SSD PFA 警告"
+          },
+          "systemDiskStatus": {
+            "name": "系统总体磁盘信息",
+            "resourceName": "资源名称",
+            "unitStorageCapacity": "存储容量",
+            "percentUsed": "已用百分比",
             "diskType": "磁盘类型",
             "unitNumber": "单元号",
             "serialNumber": "序列号",
             "aspNumber": "ASP 编号",
             "raidType": "Raid 类型",
             "protectionStatus": "保护状态",
-            "ssdLifeRemaining": "SSD 剩余寿命",
-            "ssdPowerOnDays": "SSD 供电天数",
-            "unitMediaCapacityGb": "介质容量 (GB)",
+            "multiplePathUnit": "多路径单元",
             "charts": {
               "elapsedIORequests": "耗用的 IO 请求数",
               "elapsedRequestSize": "耗用的请求大小",
-              "elapsedPercentBusy": "耗用的忙碌百分比",
-              "totalReadRequests": "读取请求总数",
-              "totalWriteRequests": "写入请求总数",
-              "elapsedDataRead": "已读取的耗用数据",
-              "elapsedDataWritten": "已写入的耗用数据"
+              "elapsedPercentBusy": "耗用的忙碌百分比"
             }
+          },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express (NVMe) 信息",
+            "resourceName": "资源名称",
+            "hardwareModelNumber": "型号",
+            "lifeRemaining": "剩余寿命",
+            "spareCapacity": "备用容量",
+            "spareCapacityThreshold": "备用容量阈值",
+            "namespaceUsed": "已使用的名称空间",
+            "powerCycles": "关闭再打开电源",
+            "powerOnHours": "供电小时数",
+            "mediaErrors": "介质错误",
+            "unSafeShutDowns": "不安全关闭",
+            "firmwareLevel": "固件级别"
           }
         }
       },
@@ -9489,8 +9570,8 @@
         "queueManagersWithCount": "队列管理器 ({{len}})",
         "ibmMqCluster": "IBM MQ 集群",
         "type": "类型",
-        "messages": "消息数",
-        "publications": "发布",
+        "pubMessagesCount": "当前发布计数",
+        "publications": "当前发布",
         "subscriptions": "订购",
         "topicString": "主题字符串",
         "topicsWithCount": "主题 ({{len}})"
@@ -9762,8 +9843,8 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "消息数",
-        "publications": "发布",
+        "pubMessagesCount": "当前发布计数",
+        "publications": "当前发布",
         "count": "计数",
         "subscriptions": "订购",
         "ibmMqTopic": "IBM MQ 主题"
@@ -9774,7 +9855,7 @@
       "topicType": "主题类型",
       "topicAlternatedAt": "主题更改时间",
       "messages": "消息数",
-      "publications": "发布",
+      "publications": "当前发布",
       "count": "计数",
       "lastResetTime": "上次重置时间",
       "reset": "重置",
@@ -10211,6 +10292,28 @@
       "pid": "PID",
       "state": "状态",
       "totalConnections": "连接总数",
+      "totalHttpRequests": "HTTP 请求总数",
+      "nginxTotalRequests": "Kong NGINX 总请求数",
+      "totalNumberofRequests": "总请求数",
+      "direction": "方向",
+      "service": "服务",
+      "route": "路由",
+      "code": "代码",
+      "source": "源",
+      "consumer": "使用者",
+      "kongBandwidth": "带宽",
+      "bytes": "字节",
+      "kongEnterpriseLicenseErrors": "Kong 企业许可证错误",
+      "database": "Kong 数据库",
+      "kongDbEntitiesTotal": "Kong 数据库实体计数错误",
+      "workerStateUpdateFrequency": "工作程序状态更新频率",
+      "workerConsistency": "工作程序一致性",
+      "prometheusEnabled": "Prometheus 插件已启用",
+      "totalTraffic": "总流量",
+      "status2xx": "状态 2XX",
+      "status3xx": "状态 3XX",
+      "status4xx": "状态 4XX",
+      "status5xx": "状态 5XX",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx 计时器",
         "sharedDictionaryAllocated": "共享字典分配的平板",
@@ -10834,19 +10937,13 @@
       "labelUpTime": "正常运行时间",
       "labelCount": "计数",
       "labelSize": "大小",
-      "labelTopic": "主题",
-      "categoryTopics": "主题",
-      "labelQueue": "队列",
-      "categoryQueues": "队列",
       "labelReadOperationsRate": "读取操作速率",
       "labelWriteOperationsRate": "写入操作速率",
       "labelUsedMemory": "已用内存",
       "labelInMessagesCount": "传入消息计数",
       "labelInMessagesRate": "传入消息速率",
-      "labelInMessagesSize": "传入消息大小",
       "labelOutMessagesCount": "传出消息计数",
       "labelOutMessagesRate": "传出消息速率",
-      "labelOutMessagesSize": "传出消息大小",
       "labelConnectionsCount": "连接计数",
       "labelSessionsCount": "会话计数",
       "labelDurablesCount": "持久消息计数",
@@ -10857,6 +10954,12 @@
       "labelReceiversCount": "接收方计数",
       "infoStatisticsDisabled": "请启用 Tibco EMS 的统计信息以启用指标收集。将 <codeTag>statistics = enabled</codeTag> 添加到 <bold>tibemsd.conf</bold> 文件，然后重新启动服务器，或者以 <bold>tibemsadmin</bold> 身份运行 <codeTag>set server statistics=enabled</codeTag>。",
       "infoEnableMetricCollection": "要启用指标收集，请将 <bold>tibjms-8.5.1.jar</bold> 和 <bold>tibjmsadmin-8.5.1.jar</bold> 分别添加到 <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 和 <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1。"
+    },
+    "tibcoEMSTopic": {
+      "headerTibcoEMSTopic": "Tibco EMS 主题"
+    },
+    "tibcoEMSQueue": {
+      "headerTibcoEMSQueue": "Tibco EMS 队列"
     },
     "tomcatAppContainer": {
       "titleName": "名称",
@@ -11362,7 +11465,7 @@
     "webSphereMember": {
       "weight": "权重"
     },
-    "zhmcConsole": {
+    "zhmcCpc": {
       "logicalPartition": "逻辑分区",
       "channelUsage": "通道使用情况",
       "cpcProcessorUsage": "CPC 处理器使用情况",
@@ -12616,9 +12719,9 @@
       "resourceType": "资源类型",
       "serviceName": "服务名称",
       "cPUUsage": "CPU 使用率",
-      "typeId": "类型标识",
       "memoryUsage": "内存使用率",
       "CPU_IO_WAIT": "IO 等待",
+      "unit": "单元",
       "cPU_SYSTEM_UTILIZATION": "系统利用率",
       "cPU_USER_UTILIZATION": "用户利用率",
       "mEMORY_Free_KB": "字节量/秒",
@@ -12629,9 +12732,15 @@
       "mEMORY_SWAP_TOTAL_KB": "交换总量",
       "mEMORY_SWAP_FREE_KB": "字节量/秒交换",
       "mEMORY_SWAP_FREE": "交换可用量百分比",
-      "fileSystem": "已用文件系统",
+      "fileSystem": "文件系统",
       "availabilityZone": "可用性区域",
-      "rating": "评级"
+      "rating": "评级",
+      "webServiceAvailability": "Web Service 可用性",
+      "agentAvailability": "SAP 代理程序 Web Service 可用性",
+      "oSCOLAvailability": "SAP OsCol Web Service 可用性",
+      "cPUSystemUsage": "CPU 系统利用率",
+      "totalMemoryUsage": "内存总使用率",
+      "fileSystemUsed": "文件系统统计信息"
     },
     "abapInstance": {
       "label": "ABAP 实例",
@@ -12639,8 +12748,7 @@
       "maxValue": "最大值",
       "status": "状态",
       "hostName": "主机名",
-      "eventName": "事件名称",
-      "category": "类别",
+      "objectType": "Object Type",
       "centralService": "中央服务",
       "instanceAvail": "实例效用",
       "javaToAbap": "Java 到 Abap",
@@ -12714,7 +12822,7 @@
       "minValue": "最小值",
       "maxValue": "最大值",
       "hostName": "主机名",
-      "resourceType": "资源类型",
+      "objectType": "Object Type",
       "host_id": "主机标识",
       "value": "值",
       "abapSystemAvailability": "Abap 系统可用性",
@@ -12798,7 +12906,7 @@
     "sapDbTenant": {
       "label": "SAP DB 租户",
       "hostName": "主机名",
-      "resourceType": "资源类型",
+      "objectType": "Object Type",
       "serviceAvailability": "服务可用性"
     },
     "sapDbInstance": {
@@ -12818,8 +12926,7 @@
       "maxValue": "最大值",
       "status": "状态",
       "hostName": "主机名",
-      "eventName": "事件名称",
-      "category": "类别",
+      "objectType": "Object Type",
       "mergeDBKeyeq_1012": "合并数据库密钥 eq_1012",
       "reclaimDBKeyeq_1012": "回收数据库密钥 eq_1012",
       "sparseDBKeyeq_1012": "稀疏数据库密钥 eq_1012",
@@ -12832,9 +12939,9 @@
       "minValue": "最小值",
       "maxValue": "最大值",
       "status": "状态",
+      "messageDeliveredStatus": "消息传递状态",
       "hostName": "主机名",
-      "eventName": "事件名称",
-      "category": "类别",
+      "objectType": "Object Type",
       "systemHttpAvailability": "系统 HTTP 可用性",
       "j2EEMessagesError": "J2EE 消息错误",
       "j2EEMessagesCancelled": "已取消 J2EE 消息",
@@ -12846,8 +12953,7 @@
       "maxValue": "最大值",
       "status": "状态",
       "hostName": "主机名",
-      "eventName": "事件名称",
-      "category": "类别",
+      "objectType": "Object Type",
       "httpAvailability": "HTTP 可用性",
       "iCMStatus": "ICM 状态",
       "gRMGServiceStatus": "GRMG 服务状态",
@@ -12858,6 +12964,18 @@
       "webServicesStatus": "Web Service 状态",
       "sCSEnqueueStatus": "SCS 入队状态",
       "sCSMessageServerStatus": "SCS 消息服务器状态"
+    },
+    "sapHanaSystem": {
+      "label": "SAP Hana 系统",
+      "hostName": "主机名",
+      "objectType": "Object Type",
+      "systemAvailability": "系统可用性"
+    },
+    "sapWebDispatcher": {
+      "label": "SAP Web 分派器",
+      "hostName": "主机名",
+      "objectType": "Object Type",
+      "systemAvailability": "系统可用性"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "未启用 Redis TLS，建议在生产环境中启用 Redis TLS",
@@ -13054,7 +13172,7 @@
       "titleSort": "排序",
       "titleSize": "大小"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "业务键",
       "titleCaseIntanceId": "实例标识标识",
       "titleRootProcessUUID": "根进程 UUID",
@@ -13063,14 +13181,12 @@
       "titleActivityId": "活动标识",
       "titleActivityName": "活动名称",
       "titleActivityDesc": "活动描述",
+      "titleActivityType": "活动类型",
       "titleExternalTaskWorkerId": "外部任务工作程序标识",
       "titleExternalTaskTopic": "外部任务主题",
       "titleExternalTaskId": "外部任务标识",
       "titleExternalTaskRetries": "重试次数",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "外部任务主题"
     },
     "cassandra": {
       "titleKeyspace": "键空间",
@@ -13349,6 +13465,11 @@
     "ibmdb2": {
       "titleQuery": "查询"
     },
+    "ibmdatapower": {
+      "titleOperationName": "操作名称",
+      "titleObjectName": "对象名",
+      "titleObjectType": "Object Type"
+    },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} 到 {{returnDestination}}",
       "titleDestination": "目标",
@@ -13482,7 +13603,9 @@
       "titleMachine": "机器",
       "titleQueue": "队列",
       "titleOperation": "操作",
-      "titleTransactionType": "事务类型"
+      "titleTransactionType": "事务类型",
+      "titleExceptionType": "异常类型",
+      "titleError": "错误"
     },
     "muleClient": {
       "titleProtocol": "协议",

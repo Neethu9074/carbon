@@ -142,6 +142,7 @@
         "logParameters": "Parâmetros de log",
         "logStackTrace": "Rastreio de pilha de log",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "Esta chamada está em lote e representa chamadas individuais de {{batchSize}}.",
+        "downloadRawSpanData": "Fazer download de dados de span brutos",
         "correlationMissing": "Correlação ausente",
         "noOtherRelationsFound": "Nenhuma outra relação localizada.",
         "synthetic": "Sintético",

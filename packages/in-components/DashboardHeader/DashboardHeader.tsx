@@ -6,13 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, LoadingSkeleton, SvgIcon } from '@instana/components';
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
@@ -47,6 +49,7 @@ export interface DashboardHeaderProps {
   theme?: keyof typeof themes;
   result?: Result<any> | Nullish;
   icon?: string;
+  isBeta?: boolean;
   renderIcon?: () => React.ReactNode;
   title: string;
   renderTimeSelection?: (props: any) => React.ReactNode;
@@ -81,6 +84,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     hideUrlShortener,
     withBorderBottom,
     headerHref$,
+    isBeta = false,
     onHeaderClick = () => {}
   } = props;
   let {
@@ -163,6 +167,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               <span className={locals.label}>{label}</span>
             )}
             {renderMetaInformation && renderMetaInformation(props)}
+            {isBeta && <BetaBadge />}
           </div>
           <div className={locals.rightContent}>
             {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}

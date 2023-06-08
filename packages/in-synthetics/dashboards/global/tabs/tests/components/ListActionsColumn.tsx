@@ -9,26 +9,12 @@ import React, { useEffect, useState } from 'react';
 import { Progress, SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import {
-  showUpdateErrorMessage,
-  showDeleteSuccessMessage,
-  showDeleteErrorMessage
-} from 'in-synthetics/components/utils/userFeedback';
-// @ts-expect-error Could not find a declaration file for this module
-import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-//import Tooltip from 'in-components/Tooltip/Tooltip';
-import { stopPropagation } from 'in-services/util/function';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getTest, updateTest, removeTest } from 'in-synthetics/api';
+import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import IconButton from 'in-components/IconButton/IconButton';
 import { dummyTest } from 'in-synthetics/utils/constants';
+import { getTest, updateTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { t, Trans } from 'in-i18n';
-
-import locals from './ListActionsColumn.mless';
+import { t } from 'in-i18n';
 
 type Props = {
   item: TestResultListItem;
@@ -49,7 +35,6 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
   const [reloadCount, setReloadCount] = useState(0);
 
   const testId: string = item?.testResultCommonProperties?.testCommonProperties?.id ?? '';
-  const testLabel: string = item?.testResultCommonProperties?.testCommonProperties?.label ?? '';
   const totalLocations: number = item?.testResultCommonProperties?.testCommonProperties?.locationIds?.length ?? 0;
 
   const syntheticTest: TestResponse = useObservable<any, [number]>(() => getTest(testId), [reloadCount]) || dummyTest;
@@ -93,63 +78,18 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
     );
   }
 
-  function deleteTest(testId: string) {
-    addActiveDialog(
-      <ConfirmationDialog
-        header={t('in-synthetics:dashboard.testList.labelConfirm')}
-        description={
-          <span>
-            <Trans i18nKey="in-synthetics:dashboard.testList.labelConfirmRemoveTest" values={{ testLabel }} />
-          </span>
-        }
-        confirmButtonLabel={t('in-synthetics:dashboard.testList.labelRemove')}
-        onSubmit={() => {
-          close();
-          removeTest(testId).once(
-            () => {
-              showDeleteSuccessMessage();
-              reloadTests();
-            },
-            () => {
-              showDeleteErrorMessage();
-            }
-          );
-        }}
-      />
-    );
-  }
-
   // For tests without location(s), disable the Pause/Resume button
   return (
-    <HorizontalFlexWrapper className={locals.actions}>
-      <Tooltip content={pauseResume}>
-        <IconButton
-          kind="primaryv2"
-          type={isMoreMenuSaving ? 'lib_actions_loading' : active ? 'lib_actions_pause' : 'lib_actions_play'}
-          iconSpinning={isMoreMenuSaving}
-          // @ts-expect-error Type 'undefined' is not assignable to type 'SyntheticTest'.
-          onClick={() => pauseOrResume(syntheticTest.data)}
-          alignment="right"
-          disabled={totalLocations > 0 ? false : true}
-        />
-      </Tooltip>
-      <MoreMenu
-        renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
-          <IconButton
-            kind="info"
-            type="lib_menu_more_horizontal"
-            onClick={e => {
-              stopPropagation(e);
-              toggle();
-            }}
-            ref={ref as React.MutableRefObject<HTMLButtonElement>}
-          />
-        )}
-      >
-        <MoreMenuButton icon="lib_actions_delete" onClick={() => deleteTest(testId)}>
-          {t('in-synthetics:dashboard.testList.delete')}
-        </MoreMenuButton>
-      </MoreMenu>
-    </HorizontalFlexWrapper>
+    <Tooltip content={pauseResume}>
+      <IconButton
+        kind="primaryv2"
+        type={isMoreMenuSaving ? 'lib_actions_loading' : active ? 'lib_actions_pause' : 'lib_actions_play'}
+        iconSpinning={isMoreMenuSaving}
+        // @ts-expect-error Type 'undefined' is not assignable to type 'SyntheticTest'.
+        onClick={() => pauseOrResume(syntheticTest.data)}
+        alignment="right"
+        disabled={totalLocations > 0 ? false : true}
+      />
+    </Tooltip>
   );
 }

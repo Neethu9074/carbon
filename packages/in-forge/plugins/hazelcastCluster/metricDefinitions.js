@@ -8,8 +8,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['isClusterSafe', 'nodeCount'],
-    labels: [t('in-forge:plugins.hazelcastCluster.isClusterSafe'), t('in-forge:plugins.hazelcastCluster.nodeCount')],
+    metrics: ['nodeCount'],
+    labels: [t('in-forge:plugins.hazelcastCluster.nodeCount')],
     min: 0,
     formatter: siPrefix
   }

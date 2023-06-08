@@ -10,9 +10,9 @@ import { just } from '@instana/observables';
 
 import {
   httpRequestsTabFullyQualified,
-  getLinkToAnalyze,
   detailsPath,
-  useGetLinkToMobileApp
+  useGetLinkToMobileApp,
+  useLinkToAnalyze
 } from 'in-mobile-apps/navigation/paths';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
@@ -48,11 +48,11 @@ export default connectTo(({ location }) => {
 
 function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig, httpRequestId }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
-
   const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
     tabPath: '/httpRequests',
     viewId
   });
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
   if (!httpRequestId) {
     return <RedirectWithHash to={httpRequestsTabFullyQualified} />;
@@ -377,9 +377,9 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
         <Button
           kind="secondary"
-          href$={
+          href={
             tagCatalogHttpRequest &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'httpRequest',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,

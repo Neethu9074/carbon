@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { mobileAppPath, mobileAppPathFullyQualified, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
@@ -63,7 +63,8 @@ export default function MobileAppDashboard() {
     viewId: getMatrixParameter(location, mobileAppPath, matrixViewId),
     viewPath: mobileAppPathFullyQualified,
     timeConfig: getTimeConfig(location),
-    ...tagFilterManipulators
+    ...tagFilterManipulators,
+    location
   };
 
   const implicitTagFilters = (props.implicitTagFilters = [
@@ -112,7 +113,7 @@ export default function MobileAppDashboard() {
       />
       {showAlertButton && (
         <FloatingActionButtons>
-          <CreateSmartAlert />
+          <CreateSmartAlert {...props} />
         </FloatingActionButtons>
       )}
       <Footer />
@@ -160,16 +161,18 @@ function renderMobileAppContext(props) {
   return <MobileAppContext {...props} />;
 }
 
-function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
+function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters }) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   return (
     <>
       {viewId && (
         <Button
           kind="primary"
           icon="lib_mobile_app"
-          href$={
+          href={
             tagCatalogSessionStart &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'viewChange',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
@@ -188,9 +191,9 @@ function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessio
         <Button
           kind="primary"
           icon="lib_mobile_app_session"
-          href$={
+          href={
             tagCatalogSessionStart &&
-            getLinkToAnalyze({
+            getLinkToMobileAppAnalyze({
               beaconType: 'sessionStart',
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
@@ -205,5 +208,16 @@ function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessio
         </Button>
       )}
     </>
+  );
+}
+
+function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
+  return (
+    <ButtonLine
+      viewId={viewId}
+      tagCatalogSessionStart={tagCatalogSessionStart}
+      mobileAppLabel={mobileAppLabel}
+      tagFilters={tagFilters}
+    />
   );
 }

@@ -249,9 +249,8 @@
       "applicationLabel": "Application",
       "health": "Health",
       "action": "Action",
-      "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
-      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{testLabel}}</strong>?",
+      "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",
       "labelRemove": "Remove",
       "na": "N/A"
     },
@@ -266,7 +265,7 @@
       "health": "Health",
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
-      "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
+      "activeTestLinked": "There are {{linkedTests}} active tests associated with location <strong>{{label}}</strong> ({{status}}). Deleting this location will cause data loss in test summary charts. Are you sure you want to delete this location?<br/>To upgrade the location without deleting, see <documentLink>documentation</documentLink>.",
       "deleteLocation": "Delete location",
       "noDataAvailable": {
         "message": "{{component}} not available"
@@ -492,7 +491,14 @@
       "noScriptFileFound": "No script file found.",
       "noCustomProperties": "No custom properties defined for this test.",
       "propertyTitle": "Property",
-      "valueTitle": "Value"
+      "valueTitle": "Value",
+      "dialog": {
+        "deleteTest": "Delete test",
+        "reasonTitle": "Reason for deletion",
+        "typingValidationTitle": "Type {{synthetic}} to continue",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete"
+      }
     }
   }
 }

@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';

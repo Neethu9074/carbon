@@ -94,6 +94,7 @@ export default function ApplicationDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
+          pagePath: location?.pathname,
           productArea: 'Applications',
           pageRootName: 'Application'
         }}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useCallback } from 'react';
 import invariant from 'invariant';
 
 import {
@@ -48,6 +49,7 @@ export const alertsTab = '/alerts';
 
 export const sessionViewPath = '/session';
 export const sessionViewPathFullyQualified = `${analyzePathFullyQualified}${sessionViewPath}`;
+
 export function useCloseSessionViewLink() {
   const { location, createHref } = useNavigation();
 
@@ -135,89 +137,104 @@ export function useGetLinkToMobileApp(
 }
 
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
-export function getLinkToAnalyze({
-  beaconType,
-  groupBy,
-  formModel,
-  chartedMetrics,
-  fields,
-  tagCatalog,
-  detailId,
-  timeConfig
-}) {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = analyzePathFullyQualified;
-    if (__DEV__) {
-      invariant(groupBy, 'groupBy must be defined when generating analyze links!');
-      invariant(beaconType, 'beaconType must be defined when generating analyze links!');
-    }
+export function useLinkToAnalyze() {
+  const { location, createHref } = useNavigation();
 
-    setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.detailId, detailId);
-
-    if (timeConfig) {
-      setTimeConfig(params, timeConfig);
-    }
-
-    let updatedFormModel = formModel;
-    if (tagCatalog && updatedFormModel?.length > 0) {
-      const availableTags = tagCatalog.tags.map(t => t.name);
-      const allTagsSupported = updatedFormModel
-        .filter(element => element.type === TAG_FILTER)
-        .every(tagFilter => availableTags.includes(tagFilter.name));
-      if (!allTagsSupported) {
-        updatedFormModel = null;
+  return useCallback(
+    ({ beaconType, groupBy, formModel, chartedMetrics, fields, tagCatalog, detailId, timeConfig }) => {
+      location.pathname = analyzePathFullyQualified;
+      if (__DEV__) {
+        invariant(groupBy, 'groupBy must be defined when generating analyze links!');
+        invariant(beaconType, 'beaconType must be defined when generating analyze links!');
       }
-    }
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.tagFilterExpression, updatedFormModel);
 
-    // reset sorting
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderBy);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderByGroups);
-  });
+      setOrDeleteMatrixKey(location, analyzePath, beaconTypeMatrixParameter, beaconType);
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.groupBy, groupBy);
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.fields, fields);
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.chartedMetrics, chartedMetrics);
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
+
+      if (timeConfig) {
+        setTimeConfig(location, timeConfig);
+      }
+
+      let updatedFormModel = formModel;
+      if (tagCatalog && updatedFormModel?.length > 0) {
+        const availableTags = tagCatalog.tags.map(t => t.name);
+        const allTagsSupported = updatedFormModel
+          .filter(element => element.type === TAG_FILTER)
+          .every(tagFilter => availableTags.includes(tagFilter.name));
+        if (!allTagsSupported) {
+          updatedFormModel = null;
+        }
+      }
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.tagFilterExpression, updatedFormModel);
+
+      // reset sorting
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.orderBy);
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.orderByGroups);
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 }
 
-export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = `${sessionViewPathFullyQualified}${summaryTab}`;
-    setOrDeleteMatrixKey(params, sessionViewPath, sessionIdMatrixParameter, sessionId);
-    setOrDeleteMatrixKey(params, sessionViewPath, beaconIdMatrixParameter, beaconId);
-    setOrDeleteMatrixKey(params, sessionViewPath, beaconTimestampMatrixParameter, beaconTimestamp);
+export function useLinkToSession() {
+  const { location, createHref } = useNavigation();
 
-    // make sure that there is no grouping as otherwise the session cannot be loaded.
-    setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
-  });
+  return useCallback(
+    ({ sessionId, beaconId, beaconTimestamp }) => {
+      location.pathname = `${sessionViewPathFullyQualified}${summaryTab}`;
+      setOrDeleteMatrixKey(location, sessionViewPath, sessionIdMatrixParameter, sessionId);
+      setOrDeleteMatrixKey(location, sessionViewPath, beaconIdMatrixParameter, beaconId);
+      setOrDeleteMatrixKey(location, sessionViewPath, beaconTimestampMatrixParameter, beaconTimestamp);
+
+      // make sure that there is no grouping as otherwise the session cannot be loaded.
+      setOrDeleteMatrixKey(location, analyzePath, groupMatrixParameter, serializeGroup({}));
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 }
 
-export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = emptyObject) {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = `${mobileAppPathFullyQualified}/httpRequests/details`;
-    setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+export function useLinkToHttpRequest() {
+  const { location, createHref } = useNavigation();
 
-    if (viewId !== undefined) {
-      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
-    }
+  return useCallback(
+    (mobileAppId, { httpRequestId, viewId } = emptyObject) => {
+      location.pathname = `${mobileAppPathFullyQualified}/httpRequests/details`;
+      setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
 
-    setOrDeleteMatrixKey(params, '/details', httpRequestIdMatrixParameter, httpRequestId);
-  });
+      if (viewId !== undefined) {
+        setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+      }
+
+      setOrDeleteMatrixKey(location, '/details', httpRequestIdMatrixParameter, httpRequestId);
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 }
 
-export function getLinkToCustomEvent(mobileAppId, { customEventId, viewId } = emptyObject) {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = `${mobileAppPathFullyQualified}/customEvents/details`;
-    setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+export function useLinkToCustomEvent() {
+  const { location, createHref } = useNavigation();
 
-    if (viewId !== undefined) {
-      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
-    }
+  return useCallback(
+    (mobileAppId, { customEventId, viewId } = emptyObject) => {
+      location.pathname = `${mobileAppPathFullyQualified}/customEvents/details`;
+      setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
 
-    setOrDeleteMatrixKey(params, '/details', customEventIdMatrixParameter, customEventId);
-  });
+      if (viewId !== undefined) {
+        setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+      }
+
+      setOrDeleteMatrixKey(location, '/details', customEventIdMatrixParameter, customEventId);
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
 }

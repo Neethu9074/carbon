@@ -31,7 +31,7 @@ export function getShowZoneInSidebarHeader(plugin) {
 }
 
 export function getTechnologyLabel(plugin) {
-  const definition = getSnapshotDefinition(plugin);
+  const definition = getOptionalSnapshotDefinition(plugin);
   if (!definition) {
     return '';
   }
@@ -145,7 +145,7 @@ export function getContext(snapshot) {
 }
 
 export function getDashboardHeaderActions(props) {
-  const snapshotDefinition = getOptionalSnapshotDefinition(props.snapshot.get('plugin'))
+  const snapshotDefinition = getOptionalSnapshotDefinition(props.snapshot.get('plugin'));
   return snapshotDefinition?.getDashboardHeaderActions?.(props) ?? [];
 }
 

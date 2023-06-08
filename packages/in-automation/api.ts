@@ -33,7 +33,14 @@ const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions`;
 const associationsUrl = `${automationAPIBase}/settings/actions-associations`;
 
-type postActionAssociation = Omit<ActionAssociations, 'id'>;
+export function createBuiltInActions() {
+  return http<Action[]>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${actionUrl}/built-in-actions`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -84,7 +91,7 @@ export function getAction(actionId: string): Observable<Action> {
 }
 
 export function saveNewAction(actionSpecification: NewAction) {
-  return http({
+  return http<Action>({
     method: 'POST',
     maxRetries: 3,
     url: actionUrl,
@@ -94,7 +101,7 @@ export function saveNewAction(actionSpecification: NewAction) {
 }
 
 export function saveAction(actionSpecification: NewAction, id: string) {
-  return http({
+  return http<Action>({
     method: 'PUT',
     maxRetries: 3,
     url: `${actionUrl}/${encodeURIComponent(id)}`,
@@ -158,6 +165,7 @@ export function getAllActionsWithAISuggestionsInternal({
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;
+export type NewActionAssociation = Omit<ActionAssociations, 'id'>;
 
 export const createDocLinkField = (value: string): Field => ({
   value,
@@ -445,6 +453,16 @@ export function runWebhookAction({
   });
 }
 
+export function addAssociations(data: NewActionAssociation) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: associationsUrl,
+    headers: getCsrfHeader(),
+    data: data
+  }).map(response => response.body);
+}
+
 export type DynamicParamValue = {
   name: string;
   key?: string;
@@ -472,7 +490,7 @@ export function resolveDynamicParameters(eventId: string, parameters: DynamicPar
   });
 }
 
-export function saveNewAssociation(data: postActionAssociation) {
+export function saveNewAssociation(data: NewActionAssociation) {
   return http({
     method: 'POST',
     maxRetries: 3,

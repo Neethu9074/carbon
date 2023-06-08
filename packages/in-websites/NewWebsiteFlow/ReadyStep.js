@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, Link } from '@instana/components';
+import { Button } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';

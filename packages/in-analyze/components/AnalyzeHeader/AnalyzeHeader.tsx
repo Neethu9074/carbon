@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 // @ts-expect-error migrate to TS
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
@@ -17,6 +17,7 @@ import { productAreaTrackingNames, getLabelByType } from 'in-analyze/AnalyzeView
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getActiveConfiguration } from 'in-analyze/components/AnalyzeHeader/utils';
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
+import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
@@ -38,7 +39,9 @@ export default function AnalyzeHeader({
   label,
   headerHref$,
   onHeaderClick,
-  contextConfigurations = undefined
+  contextConfigurations = undefined,
+  liveModeDisabled,
+  liveModeDisabledTooltip
 }: AnalyzeHeaderProps) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location) as ActiveConfiguration;
@@ -86,6 +89,16 @@ export default function AnalyzeHeader({
     );
   };
 
+  const renderTimeSelection = () => {
+    return (
+      <TimeSelection
+        darkTheme={false}
+        liveModeDisabled={liveModeDisabled}
+        liveModeDisabledTooltip={liveModeDisabledTooltip}
+      />
+    );
+  };
+
   const dashboardHeaderProps = {
     showHistoricDataWarning: false,
     contextConfigurations: contextConfig,
@@ -93,7 +106,8 @@ export default function AnalyzeHeader({
     label: HeaderLabel,
     title: t('in-analyze:analyzeHeader.title'),
     headerHref$: headerHref$,
-    onHeaderClick: onHeaderClick
+    onHeaderClick: onHeaderClick,
+    renderTimeSelection: renderTimeSelection
   };
 
   return (

@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "Añadir {{count}} acciones",
   "noActionsSelected": "No se han seleccionado acciones",
   "actionSensorTimeout": "No se ha podido manejar la solicitud de backend. Compruebe la configuración del agente para asegurarse de que el sensor de acción esté instalado.",
+  "validVaultParameter": "Ambos parámetros de caja fuerte marcados como opcionales deberán estar en blanco o no en blanco.",
   "newAction": "Acción nueva",
   "ok": "Aceptar",
   "runAction": "Ejecutar acción",

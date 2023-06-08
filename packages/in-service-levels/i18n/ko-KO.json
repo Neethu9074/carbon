@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "태그"
+      },
+      "sloStatusColumnContent": {
+        "target": "대상 {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}}분",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"컨텍스트\": \"{{entityType}}\", \"계수\": {{remaining}} })",
+        "remainingEvent_website": "{{count}}개 비콘",
+        "remainingEvent_website_plural": "{{count}}개 비콘",
+        "remainingEvent_website_0": "{{count}}개 비콘",
+        "remainingEvent_website_1": "{{count}}개 비콘",
+        "remainingEvent_website_2": "{{count}}개 비콘",
+        "remainingEvent_application": "{{count}}회 호출",
+        "remainingEvent_application_plural": "{{count}}회 호출",
+        "remainingEvent_application_0": "{{count}}회 호출",
+        "remainingEvent_application_1": "{{count}}회 호출",
+        "remainingEvent_application_2": "{{count}}회 호출",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\":\"{{durationUnit}}\", \"계수\":{{duration}}}), 고정 / {{remaining}} 남음",
+        "timeWindow_rolling": "$t (in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\": \"{{durationUnit}}\", \"계수\":{{duration}}}), 롤링",
+        "timeWindowSize_month": "{{count}}개월",
+        "timeWindowSize_month_plural": "{{count}}개월",
+        "timeWindowSize_month_0": "{{count}}개월",
+        "timeWindowSize_month_1": "{{count}}개월",
+        "timeWindowSize_month_2": "{{count}}개월",
+        "timeWindowSize_week": "{{count}}주",
+        "timeWindowSize_week_plural": "{{count}}주",
+        "timeWindowSize_week_0": "{{count}}주",
+        "timeWindowSize_week_1": "{{count}}주",
+        "timeWindowSize_week_2": "{{count}}주",
+        "timeWindowSize_day": "{{count}}일",
+        "timeWindowSize_day_plural": "{{count}}일",
+        "timeWindowSize_day_0": "{{count}}일",
+        "timeWindowSize_day_1": "{{count}}일",
+        "timeWindowSize_day_2": "{{count}}일"
       }
     },
     "title": "서비스 레벨 목표",
     "columnLabels": {
       "name": "이름",
       "entity": "엔티티",
-      "blueprint": "블루프린트"
+      "blueprint": "블루프린트",
+      "errorBudget": "남은 예산 오류",
+      "status": "상태/대상",
+      "tags": "태그"
     }
   }
 }

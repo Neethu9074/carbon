@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Node from 'in-components/TreeMap/components/Node';
 import Tooltip from 'in-components/Tooltip';

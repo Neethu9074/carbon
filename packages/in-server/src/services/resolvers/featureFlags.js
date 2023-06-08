@@ -261,11 +261,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCreateTestAdvanceModeEnabled',
-    instanaCtlKey: 'feature.synthetic.create.test.advance.mode.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'syntheticSmartAlertsEnabled',
     instanaCtlKey: 'feature.synthetic.smart.alerts.enabled',
     defaultValue: false
@@ -378,6 +373,11 @@ module.exports = exports = [
   {
     uiClientKey: 'systemRuleEntityCountEnabled',
     instanaCtlKey: 'feature.system.rule.entity.count.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'userSettingsThemeEnabled',
+    instanaCtlKey: 'feature.user.settings.theme.enabled',
     defaultValue: false
   }
 ];

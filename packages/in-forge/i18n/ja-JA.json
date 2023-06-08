@@ -274,11 +274,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Camunda 出口",
-  "pluginName_camundaexit_0": "Camunda 出口",
-  "pluginName_camundaexit_1": "Camunda 出口",
-  "pluginName_camundaexit_2": "Camunda 出口",
-  "pluginName_camundaexit": "Camunda 出口",
   "pluginName_cassandraCluster_plural": "Cassandra クラスター",
   "pluginName_cassandraCluster_0": "Cassandra クラスター",
   "pluginName_cassandraCluster_1": "Cassandra クラスター",
@@ -404,6 +399,16 @@
   "pluginName_sapJavaInstance_1": "SAP Java インスタンス",
   "pluginName_sapJavaInstance_2": "SAP Java インスタンス",
   "pluginName_sapJavaInstance": "SAP Java インスタンス",
+  "pluginName_sapHanaSystem_plural": "SAP Hana システム",
+  "pluginName_sapHanaSystem_0": "SAP Hana システム",
+  "pluginName_sapHanaSystem_1": "SAP Hana システム",
+  "pluginName_sapHanaSystem_2": "SAP Hana システム",
+  "pluginName_sapHanaSystem": "SAP Hana システム",
+  "pluginName_sapWebDispatcher_plural": "SAP Web ディスパッチャー",
+  "pluginName_sapWebDispatcher_0": "SAP Web ディスパッチャー",
+  "pluginName_sapWebDispatcher_1": "SAP Web ディスパッチャー",
+  "pluginName_sapWebDispatcher_2": "SAP Web ディスパッチャー",
+  "pluginName_sapWebDispatcher": "SAP Web ディスパッチャー",
   "pluginName_sapHost_plural": "SAP ホスト",
   "pluginName_sapHost_0": "SAP ホスト",
   "pluginName_sapHost_1": "SAP ホスト",
@@ -1003,6 +1008,7 @@
   "pluginName_msiis_1": "Internet Information Server",
   "pluginName_msiis_2": "Internet Information Server",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "MSMQ メッセージ",
   "pluginName_msSqlDatabase_plural": "MS SQL インスタンス",
   "pluginName_msSqlDatabase_0": "MS SQL インスタンス",
   "pluginName_msSqlDatabase_1": "MS SQL インスタンス",
@@ -1286,6 +1292,16 @@
   "pluginName_tibcoEMS_1": "Tibco EMS",
   "pluginName_tibcoEMS_2": "Tibco EMS",
   "pluginName_tibcoEMS": "Tibco EMS",
+  "pluginName_tibcoEMSQueue_plural": "Tibco EMS キュー",
+  "pluginName_tibcoEMSQueue_0": "Tibco EMS キュー",
+  "pluginName_tibcoEMSQueue_1": "Tibco EMS キュー",
+  "pluginName_tibcoEMSQueue_2": "Tibco EMS キュー",
+  "pluginName_tibcoEMSQueue": "Tibco EMS キュー",
+  "pluginName_tibcoEMSTopic_plural": "Tibco EMS トピック",
+  "pluginName_tibcoEMSTopic_0": "Tibco EMS トピック",
+  "pluginName_tibcoEMSTopic_1": "Tibco EMS トピック",
+  "pluginName_tibcoEMSTopic_2": "Tibco EMS トピック",
+  "pluginName_tibcoEMSTopic": "Tibco EMS トピック",
   "pluginName_tomcatApplicationContainer_plural": "Tomcat",
   "pluginName_tomcatApplicationContainer_0": "Tomcat",
   "pluginName_tomcatApplicationContainer_1": "Tomcat",
@@ -1532,11 +1548,6 @@
   "tracingTypeName_camunda_0": "Camunda 呼び出し",
   "tracingTypeName_camunda_1": "Camunda 呼び出し",
   "tracingTypeName_camunda_2": "Camunda 呼び出し",
-  "tracingTypeName_camundaexit": "Camunda 外部タスク・メッセージ",
-  "tracingTypeName_camundaexit_plural": "Camunda 外部タスク・メッセージ",
-  "tracingTypeName_camundaexit_0": "Camunda 外部タスク・メッセージ",
-  "tracingTypeName_camundaexit_1": "Camunda 外部タスク・メッセージ",
-  "tracingTypeName_camundaexit_2": "Camunda 外部タスク・メッセージ",
   "tracingTypeName_cassandra": "Cassandra 照会",
   "tracingTypeName_cassandra_plural": "Cassandra 照会",
   "tracingTypeName_cassandra_0": "Cassandra 照会",
@@ -1592,6 +1603,22 @@
   "tracingTypeName_cxfserver_0": "HTTP 呼び出し",
   "tracingTypeName_cxfserver_1": "HTTP 呼び出し",
   "tracingTypeName_cxfserver_2": "HTTP 呼び出し",
+  "tracingTypeName_datapower": "IBM DataPower",
+  "tracingTypeName_datapowerhttpserver": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpserver_plural": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpserver_0": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpserver_1": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpserver_2": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpclient": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpclient_plural": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpclient_0": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpclient_1": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerhttpclient_2": "IBM DataPower HTTP 呼び出し",
+  "tracingTypeName_datapowerinternal": "IBM DataPower 内部呼び出し",
+  "tracingTypeName_datapowerinternal_plural": "IBM DataPower 内部呼び出し",
+  "tracingTypeName_datapowerinternal_0": "IBM DataPower 内部呼び出し",
+  "tracingTypeName_datapowerinternal_1": "IBM DataPower 内部呼び出し",
+  "tracingTypeName_datapowerinternal_2": "IBM DataPower 内部呼び出し",
   "tracingTypeName_distributeme": "DistributeMe 呼び出し",
   "tracingTypeName_distributeme_plural": "DistributeMe 呼び出し",
   "tracingTypeName_distributeme_0": "DistributeMe 呼び出し",
@@ -2451,7 +2478,8 @@
     "graphql": "graphql",
     "logger": "ロガー",
     "missing": "欠落",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2526,8 +2554,6 @@
       "databases": "データベース",
       "processId": "プロセス ID",
       "startTime": "開始時刻",
-      "topics": "トピック数",
-      "queues": "キュー数",
       "sealed": "シール済み",
       "standby": "スタンバイ",
       "initialized": "初期化",
@@ -4915,7 +4941,7 @@
       "threads": "スレッド数",
       "throttlingDelay": "スロットルと遅延"
     },
-    "camunda": {
+    "bpm": {
       "camunda": "Camunda"
     },
     "cassandraCluster": {
@@ -5827,7 +5853,8 @@
         "hadr": "hadr",
         "vmonlockStatsValue": "ロック統計 (メモリー)",
         "vmonlockStats": "ロック統計",
-        "databaseVmondeltaStats": "トランザクション・パフォーマンス (増分値)"
+        "databaseVmondeltaStats": "トランザクション・パフォーマンス (増分値)",
+        "standbyId": "スタンバイ ID"
       },
       "db2": "DB2",
       "processId": "プロセス ID",
@@ -6020,7 +6047,7 @@
       "secLogPage": "2 次ログページ",
       "secLogPos": "2 次ログ位置",
       "secLogTime": "2 次ログ時間",
-      "HADR_CONNECT_STATUS": "HADR 接続状況",
+      "hadrConnectStatus": "HADR 接続状況",
       "hadrWaitsTotal": "HADR 待機合計",
       "sockSendBufReq": "要求された送信バッファー",
       "sockSendBufActual": "実際の送信バッファー",
@@ -6503,17 +6530,44 @@
       },
       "version": "バージョン"
     },
-    "phmcConsole": {
-      "logicalPartition": "論理パーティション",
-      "total": "合計",
-      "utilized": "使用された",
-      "available": "使用可能",
-      "configurable": "構成可能",
-      "assignedMem": "LPAR に割り当てられたメモリ",
-      "backedPhysicalMem": "バックアップ済み物理メモリー",
-      "entitledProcUnits": "使用権のあるユニット",
-      "maxVirtualProcessors": "最大仮想プロセッサー数",
-      "currentVirtualProcessors": "現在の仮想プロセッサー数"
+    "phmcSystem": {
+      "totalProcUnits": "処理装置の合計数",
+      "configurableProcUnits": "構成可能な処理装置",
+      "utilizedProcUnits": "使用済み処理装置",
+      "availableProcUnits": "使用可能な処理装置",
+      "totalMem": "合計メモリー",
+      "configurableMem": "構成可能メモリー",
+      "availableMem": "使用可能メモリー",
+      "assignedMemToLpars": "LPAR に割り当てられたメモリ",
+      "assignedMemHypervisor": "割り当て済みメモリー・ハイパーバイザー",
+      "powerReading": "電力読み取り",
+      "totalProcUnitsPercent": "処理装置の合計 (パーセント単位)",
+      "configurableProcUnitsPercent": "構成可能な処理装置 (パーセント単位)",
+      "utilizedProcUnitsPercent": "処理装置の使用率 (パーセント単位)",
+      "availableProcUnitsPercent": "使用可能な処理装置 (パーセント単位)",
+      "totalMemPercentage": "合計メモリー (%)",
+      "configurableMemPercentage": "構成可能メモリー (%)",
+      "availableMemPercentage": "使用可能メモリー (%)",
+      "assignedMemToLparsPercentage": "LPAR に割り当てられたメモリー (%)",
+      "adapter": "アダプター",
+      "receivedPackets": "SR IOV アダプターによって受信されたパケット数",
+      "sentPackets": "SR-IOV アダプターによって受信されたパケット数",
+      "droppedPackets": "SR-IOV アダプターによってドロップされたパケット数",
+      "sentBytes": "SR-IOV アダプターによって送信されたバイト数",
+      "receivedBytes": "SR-IOV アダプターによって受信されたバイト数",
+      "transferredBytes": "SR-IOV アダプターによって転送されたバイト数",
+      "errorIn": "受信エラー/秒",
+      "errorOut": "送信エラー/秒"
+    },
+    "phmcSharedProcessorPool": {
+      "utilizedProcUnits": "使用済み処理装置",
+      "availableProcUnits": "使用可能な処理装置",
+      "currentReservedProcUnits": "現在の予約済み処理装置数",
+      "assignedProcUnits": "割り当てられた処理装置数",
+      "totalEntitledProcUnits": "ライセンス済み処理装置の合計数",
+      "entitledProcUnitsUsedPercent": "ライセンス済み処理装置の合計 (%)",
+      "utilizedProcUnitsPercent": "使用済み処理装置 (%)",
+      "availableProcUnitsPercent": "使用可能な処理装置 (%)"
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -6941,7 +6995,9 @@
       "aliveThreads": "稼働中のスレッド数",
       "dummyThreads": "ダミー・スレッド数",
       "daemonThreads": "デーモン・スレッド数",
-      "python": "Python"
+      "python": "Python",
+      "longTermSupportDocs": "長期サポート資料",
+      "eolPythonRuntime": "Python ランタイムの EOL バージョンが検出されました。 このバージョンには、更新やセキュリティ修復は受信されません。また、未修正の脆弱性が含まれている可能性があります。さらに、通常の instana サポートの範囲外です。 問題を回避するために、Python のバージョンを更新します。"
     },
     "rabbitMq": {
       "dashboard": {
@@ -7283,7 +7339,9 @@
       "gcRunDuration": "GC 実行期間",
       "threadCount": "スレッド数",
       "threads": "スレッド数",
-      "ruby": "Ruby"
+      "ruby": "Ruby",
+      "longTermSupportDocs": "長期サポート資料",
+      "eolRubyRuntime": "Ruby ランタイムの EOL バージョンが検出されました。 このバージョンには、更新やセキュリティ修復を受信しないため、未修正の脆弱性が含まれている可能性があります。 さらに、これは通常の Instana サポートの範囲外です。 問題を回避するために、Ruby のバージョンを更新します。"
     },
     "sapHana": {
       "dashboard": {
@@ -9373,24 +9431,47 @@
             "resourceName": "リソース名",
             "unitStorageCapacity": "ストレージ容量",
             "percentUsed": "使用率(%)",
+            "unitNumber": "装置番号",
+            "serialNumber": "シリアル番号",
+            "aspNumber": "ASP番号",
+            "ssdLifeRemaining": "SSD 残存耐用量",
+            "ssdPowerOnDays": "SSD 電源オン日数",
+            "ssdSupportedBytesWritten": "SSD でサポートされる書き込みバイト数",
+            "ssdBytesWritten": "SSD 書き込みバイト数",
+            "ssdReadWriteProtected": "SSD 読み取り/書き込み保護",
+            "ssdPFAWarning": "SSD PFA 警告"
+          },
+          "systemDiskStatus": {
+            "name": "システム全体ディスク情報",
+            "resourceName": "リソース名",
+            "unitStorageCapacity": "ストレージ容量",
+            "percentUsed": "使用率(%)",
             "diskType": "ディスク・タイプ",
             "unitNumber": "装置番号",
             "serialNumber": "シリアル番号",
             "aspNumber": "ASP番号",
             "raidType": "Raidタイプ",
             "protectionStatus": "保護状況",
-            "ssdLifeRemaining": "SSD 残存耐用量",
-            "ssdPowerOnDays": "SSD 電源オン日数",
-            "unitMediaCapacityGb": "メディア容量(GB)",
+            "multiplePathUnit": "複数パス装置",
             "charts": {
               "elapsedIORequests": "経過入出力の要求",
               "elapsedRequestSize": "経過要求のサイズ",
-              "elapsedPercentBusy": "経過パーセントが使用中です",
-              "totalReadRequests": "合計読み取り要求数",
-              "totalWriteRequests": "合計書き込み要求数",
-              "elapsedDataRead": "経過データ読み取り",
-              "elapsedDataWritten": "経過データ書き込み"
+              "elapsedPercentBusy": "経過パーセントが使用中です"
             }
+          },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express(NVMe) 情報",
+            "resourceName": "リソース名",
+            "hardwareModelNumber": "型式番号",
+            "lifeRemaining": "残り寿命",
+            "spareCapacity": "予備容量",
+            "spareCapacityThreshold": "予備容量のしきい値",
+            "namespaceUsed": "使用される名前空間",
+            "powerCycles": "電源サイクル",
+            "powerOnHours": "電源オン時間",
+            "mediaErrors": "メディア・エラー",
+            "unSafeShutDowns": "アンセーフ・シャットダウン",
+            "firmwareLevel": "ファームウェア・レベル"
           }
         }
       },
@@ -9489,8 +9570,8 @@
         "queueManagersWithCount": "キュー・マネージャー数 ({{len}})",
         "ibmMqCluster": "IBM MQ クラスター",
         "type": "タイプ",
-        "messages": "メッセージ数",
-        "publications": "資料",
+        "pubMessagesCount": "現在の公開カウント",
+        "publications": "現在の資料",
         "subscriptions": "サブスクリプション数",
         "topicString": "トピック・ストリング",
         "topicsWithCount": "トピック数 ({{len}})"
@@ -9762,8 +9843,8 @@
     },
     "ibmMqTopic": {
       "dashboard": {
-        "messages": "メッセージ数",
-        "publications": "資料",
+        "pubMessagesCount": "現在の公開カウント",
+        "publications": "現在の資料",
         "count": "カウント",
         "subscriptions": "サブスクリプション数",
         "ibmMqTopic": "IBM MQ トピック"
@@ -9774,7 +9855,7 @@
       "topicType": "トピック・タイプ",
       "topicAlternatedAt": "トピックの入れ替え日時",
       "messages": "メッセージ数",
-      "publications": "資料",
+      "publications": "現在の資料",
       "count": "カウント",
       "lastResetTime": "最終リセット時刻",
       "reset": "リセット",
@@ -10211,6 +10292,28 @@
       "pid": "PID",
       "state": "状態",
       "totalConnections": "合計接続数",
+      "totalHttpRequests": "HTTP 要求の総数",
+      "nginxTotalRequests": "Kong NGINX 合計要求数",
+      "totalNumberofRequests": "要求の総数",
+      "direction": "方向",
+      "service": "サービス",
+      "route": "経路",
+      "code": "コード",
+      "source": "ソース",
+      "consumer": "コンシューマー",
+      "kongBandwidth": "帯域幅",
+      "bytes": "バイト数",
+      "kongEnterpriseLicenseErrors": "Kong エンタープライズ・ライセンス・エラー",
+      "database": "Kong データベース",
+      "kongDbEntitiesTotal": "Kong データベース・エンティティー・カウント・エラー",
+      "workerStateUpdateFrequency": "ワーカー状態の更新頻度",
+      "workerConsistency": "ワーカーの整合性",
+      "prometheusEnabled": "Prometheus プラグインが有効",
+      "totalTraffic": "合計トラフィック",
+      "status2xx": "状況 2XX",
+      "status3xx": "状況 3XX",
+      "status4xx": "状況 4XX",
+      "status5xx": "状況 5XX",
       "dashboard": {
         "kongNginxTimers": "コング-Nginx タイマー",
         "sharedDictionaryAllocated": "共有辞書割り振り済みスラブ",
@@ -10834,19 +10937,13 @@
       "labelUpTime": "アップタイム",
       "labelCount": "カウント",
       "labelSize": "サイズ",
-      "labelTopic": "トピック",
-      "categoryTopics": "トピック数",
-      "labelQueue": "キュー",
-      "categoryQueues": "キュー数",
       "labelReadOperationsRate": "読み取り操作レート",
       "labelWriteOperationsRate": "書き込み操作レート",
       "labelUsedMemory": "使用中のメモリー",
       "labelInMessagesCount": "インバウンド・メッセージ数",
       "labelInMessagesRate": "インバウンド・メッセージ・レート",
-      "labelInMessagesSize": "インバウンド・メッセージ・サイズ",
       "labelOutMessagesCount": "アウトバウンド・メッセージ数",
       "labelOutMessagesRate": "アウトバウンド・メッセージ・レート",
-      "labelOutMessagesSize": "アウトバウンド・メッセージ・サイズ",
       "labelConnectionsCount": "接続数",
       "labelSessionsCount": "セッション数",
       "labelDurablesCount": "永続サブスクライバー数",
@@ -10857,6 +10954,12 @@
       "labelReceiversCount": "受信側数",
       "infoStatisticsDisabled": "メトリックの収集を有効にするには、Tibco EMS の統計を有効にしてください。 <bold>tibemsd.conf</bold> ファイルに <codeTag>statistics = enabled</codeTag> を追加してサーバーを再始動するか、<bold>tibemsadmin</bold> を使用して <codeTag>set server statistics=enabled</codeTag> を実行します。",
       "infoEnableMetricCollection": "メトリックの収集を有効にするには、<bold>tibjms-8.5.1.jar</bold> および <bold>tibjmsadmin-8.5.1.jar</bold> を、それぞれ <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 および <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1 に追加します。"
+    },
+    "tibcoEMSTopic": {
+      "headerTibcoEMSTopic": "Tibco EMS トピック"
+    },
+    "tibcoEMSQueue": {
+      "headerTibcoEMSQueue": "Tibco EMS キュー"
     },
     "tomcatAppContainer": {
       "titleName": "名前",
@@ -11362,7 +11465,7 @@
     "webSphereMember": {
       "weight": "ウェイト"
     },
-    "zhmcConsole": {
+    "zhmcCpc": {
       "logicalPartition": "論理パーティション",
       "channelUsage": "チャネルの使用状況",
       "cpcProcessorUsage": "CPC プロセッサーの使用状況",
@@ -11401,7 +11504,7 @@
       "utilization": "使用率",
       "flags": "フラグ",
       "networkUsage": "ネットワークの使用状況",
-      "storageUsage": "ストレージの使用状況",
+      "storageUsage": "ストレージ使用量",
       "acceleratorUsage": "アクセラレーターの使用状況",
       "cryptoUsage": "暗号の使用状況",
       "cpSharedProcessorUsage": "共有プロセッサー使用量",
@@ -12616,9 +12719,9 @@
       "resourceType": "リソース・タイプ",
       "serviceName": "サービス名",
       "cPUUsage": "CPU 使用率",
-      "typeId": "タイプ ID",
       "memoryUsage": "メモリー使用量",
       "CPU_IO_WAIT": "入出力待機",
+      "unit": "ユニット",
       "cPU_SYSTEM_UTILIZATION": "システムの使用状況",
       "cPU_USER_UTILIZATION": "ユーザー使用率",
       "mEMORY_Free_KB": "無料",
@@ -12629,9 +12732,15 @@
       "mEMORY_SWAP_TOTAL_KB": "合計スワップ",
       "mEMORY_SWAP_FREE_KB": "空きスワップ",
       "mEMORY_SWAP_FREE": "空きスワップ (%)",
-      "fileSystem": "使用中のファイル・システム",
+      "fileSystem": "ファイル・システム",
       "availabilityZone": "アベイラビリティー・ゾーン",
-      "rating": "評価"
+      "rating": "評価",
+      "webServiceAvailability": "Web サービスの可用性",
+      "agentAvailability": "SAP エージェント Web サービス可用性",
+      "oSCOLAvailability": "SAP OsCol Web サービス可用性",
+      "cPUSystemUsage": "CPU システム使用率",
+      "totalMemoryUsage": "合計メモリー使用量",
+      "fileSystemUsed": "ファイル・システム統計"
     },
     "abapInstance": {
       "label": "ABAP インスタンス",
@@ -12639,8 +12748,7 @@
       "maxValue": "最大値",
       "status": "状況",
       "hostName": "ホスト名",
-      "eventName": "イベント名",
-      "category": "カテゴリー",
+      "objectType": "オブジェクト・タイプ",
       "centralService": "中央サービス",
       "instanceAvail": "使用可能なインスタンス",
       "javaToAbap": "Java から ABAP へ",
@@ -12714,7 +12822,7 @@
       "minValue": "最小値",
       "maxValue": "最大値",
       "hostName": "ホスト名",
-      "resourceType": "リソース・タイプ",
+      "objectType": "オブジェクト・タイプ",
       "host_id": "ホスト ID",
       "value": "値",
       "abapSystemAvailability": "ABAP システム可用性",
@@ -12798,7 +12906,7 @@
     "sapDbTenant": {
       "label": "SAP DB Tenant",
       "hostName": "ホスト名",
-      "resourceType": "リソース・タイプ",
+      "objectType": "オブジェクト・タイプ",
       "serviceAvailability": "サービス・アベイラビリティー"
     },
     "sapDbInstance": {
@@ -12818,8 +12926,7 @@
       "maxValue": "最大値",
       "status": "状況",
       "hostName": "ホスト名",
-      "eventName": "イベント名",
-      "category": "カテゴリー",
+      "objectType": "オブジェクト・タイプ",
       "mergeDBKeyeq_1012": "DB キー eq_1012 のマージ",
       "reclaimDBKeyeq_1012": "DB キー eq_1012 の再要求",
       "sparseDBKeyeq_1012": "スパース DB キー eq_1012",
@@ -12832,9 +12939,9 @@
       "minValue": "最小値",
       "maxValue": "最大値",
       "status": "状況",
+      "messageDeliveredStatus": "メッセージ配信状況",
       "hostName": "ホスト名",
-      "eventName": "イベント名",
-      "category": "カテゴリー",
+      "objectType": "オブジェクト・タイプ",
       "systemHttpAvailability": "システム HTTP 可用性",
       "j2EEMessagesError": "J2EE メッセージ・エラー",
       "j2EEMessagesCancelled": "J2EE キャンセルされたメッセージ",
@@ -12846,8 +12953,7 @@
       "maxValue": "最大値",
       "status": "状況",
       "hostName": "ホスト名",
-      "eventName": "イベント名",
-      "category": "カテゴリー",
+      "objectType": "オブジェクト・タイプ",
       "httpAvailability": "HTTP 可用性",
       "iCMStatus": "ICM 状況",
       "gRMGServiceStatus": "GRMG サービス状況",
@@ -12858,6 +12964,18 @@
       "webServicesStatus": "Web サービス状況",
       "sCSEnqueueStatus": "SCS エンキュー状況",
       "sCSMessageServerStatus": "SCS メッセージ・サーバー状況"
+    },
+    "sapHanaSystem": {
+      "label": "SAP Hana システム",
+      "hostName": "ホスト名",
+      "objectType": "オブジェクト・タイプ",
+      "systemAvailability": "システム可用性"
+    },
+    "sapWebDispatcher": {
+      "label": "SAP Web ディスパッチャー",
+      "hostName": "ホスト名",
+      "objectType": "オブジェクト・タイプ",
+      "systemAvailability": "システム可用性"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS が有効になっていません。実稼働環境では Redis TLS を有効にすることをお勧めします。",
@@ -13054,7 +13172,7 @@
       "titleSort": "ソート",
       "titleSize": "サイズ"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "ビジネス・キー",
       "titleCaseIntanceId": "ケース・インスタンス ID",
       "titleRootProcessUUID": "ルート・プロセス UUID",
@@ -13063,14 +13181,12 @@
       "titleActivityId": "アクティビティー ID",
       "titleActivityName": "アクティビティー名",
       "titleActivityDesc": "アクティビティーの説明",
+      "titleActivityType": "アクティビティー・タイプ",
       "titleExternalTaskWorkerId": "外部タスク・ワーカー ID",
       "titleExternalTaskTopic": "外部タスク・トピック",
       "titleExternalTaskId": "外部タスク ID",
       "titleExternalTaskRetries": "再試行",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "外部タスク・トピック"
     },
     "cassandra": {
       "titleKeyspace": "キー・スペース",
@@ -13349,6 +13465,11 @@
     "ibmdb2": {
       "titleQuery": "照会"
     },
+    "ibmdatapower": {
+      "titleOperationName": "操作名",
+      "titleObjectName": "オブジェクト名",
+      "titleObjectType": "オブジェクト・タイプ"
+    },
     "ibmmq": {
       "indexReturn": "{{returnLabel}} から {{returnDestination}}",
       "titleDestination": "宛先",
@@ -13482,7 +13603,9 @@
       "titleMachine": "マシン",
       "titleQueue": "キュー",
       "titleOperation": "操作",
-      "titleTransactionType": "トランザクション・タイプ"
+      "titleTransactionType": "トランザクション・タイプ",
+      "titleExceptionType": "例外タイプ",
+      "titleError": "エラー"
     },
     "muleClient": {
       "titleProtocol": "プロトコル",

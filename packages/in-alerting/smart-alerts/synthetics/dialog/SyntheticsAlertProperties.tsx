@@ -34,7 +34,7 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
           form={form}
           onChange={onChange}
           getDescriptionPlaceholder={getDescriptionPlaceholder}
-          renderAlertPopertiesTitleRow={() => (
+          renderAlertPropertiesTitleRow={() => (
             <AlertPropertiesTitleRow
               form={form}
               onChange={onChange}

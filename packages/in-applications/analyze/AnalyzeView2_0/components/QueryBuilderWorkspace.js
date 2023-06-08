@@ -64,9 +64,24 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
   } = props;
 
   const { hasError, errors } = validate(formModel);
+  const renderLiveModeDisableTooltip = () => {
+    if (dataSource === 'calls') {
+      return t('in-applications:callsLiveModeDisabled');
+    } else if (dataSource === 'traces') {
+      return t('in-applications:tracesLiveModeDisabled');
+    }
+  };
+
   return (
     <Sticky
-      header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
+      header={
+        <AnalyzeHeader
+          formModel={formModel}
+          isGrouped={isGrouped}
+          liveModeDisabled
+          liveModeDisabledTooltip={renderLiveModeDisableTooltip()}
+        />
+      }
       backgroundColor={theme.lib.colors.white}
     >
       <LeftRightPadding>

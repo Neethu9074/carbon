@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';

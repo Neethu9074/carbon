@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';

@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} 个故障",
         "numberOfFailures": "故障警报"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "步骤 1：测试",
         "simpleAlertConfigDialogStep1Headline": "应该在哪些合成测试上发出警报？",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} 个失败",
           "failuresWithCount_2": "{{count}} 个失败"
         },
-        "alertPropertiesTitlePlaceholder": "在此处插入标题",
-        "alertPropertiesDescriptionPlaceholder": "在此处插入描述"
+        "alertPropertiesTitlePlaceholder": "合成测试失败",
+        "alertPropertiesDescriptionPlaceholder": "连续 {{count}} 次合成测试失败",
+        "alertPropertiesDescriptionPlaceholder_plural": "连续 {{count}} 次合成测试失败",
+        "alertPropertiesDescriptionPlaceholder_0": "连续 {{count}} 次合成测试失败",
+        "alertPropertiesDescriptionPlaceholder_1": "连续 {{count}} 次合成测试失败",
+        "alertPropertiesDescriptionPlaceholder_2": "连续 {{count}} 次合成测试失败"
       },
       "advanced": {
         "alertChannelsLabel": "警报通道",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "合成测试",
         "alertTestsTitle": "合成测试：应该在哪些合成测试上发出警报？",
         "propertiesLabel": "警报属性",
-        "alertPropertiesPreviewTitlePlaceholder": "[在此处插入标题]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[在此处插入描述]",
         "propertiesTitle": "警报通知应包含哪些内容？",
         "failureThreshold": "时间阈值",
         "failureThresholdLabel": "时间阈值",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
         "alertingType": "警报类型"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "状态码计数",
+        "beaconRate": "信标速率",
+        "views": "视图数",
+        "customEventBlueprintConfigMetricLabel": "出现次数",
+        "sessions": "会话"
       }
     }
   }

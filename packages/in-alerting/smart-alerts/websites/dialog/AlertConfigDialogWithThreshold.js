@@ -7,12 +7,12 @@ import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/websites/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/hooks/useVerifyCustomPayloadItemsWithTagCatalog';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';

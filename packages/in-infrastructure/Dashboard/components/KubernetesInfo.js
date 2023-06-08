@@ -1,16 +1,17 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
 import {
-  getDeploymentDashboard,
-  getPodDashboard,
-  getNamespaceDashboard,
-  getClusterDashboard,
-  getNodeDashboard
+  useDeploymentDashboard,
+  useNamespaceDashboard,
+  useClusterDashboard,
+  usePodDashboard,
+  useNodeDashboard
 } from 'in-kubernetes/navigation/paths';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
@@ -81,60 +82,31 @@ export default connectTo(
             <DescriptionList>
               {namespaceSnapshot ? (
                 <DescriptionItem title={t('in-infrastructure:dashboard.namespace')}>
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getNamespaceDashboard}
-                    snapshotId={namespaceSnapshot.get('id')}
-                  >
-                    {getLabel(namespaceSnapshot)}
-                  </KubernetesSnapshotLink>
+                  <NamespaceSnapshotLink label={getLabel(namespaceSnapshot)} id={namespaceSnapshot.get('id')} />
                 </DescriptionItem>
               ) : (
                 <DescriptionItem title={t('in-infrastructure:dashboard.namespace')}>
                   {labels.get('io.kubernetes.pod.namespace')}
                 </DescriptionItem>
               )}
-
               {podSnapshot ? (
                 <DescriptionItem title={t('in-infrastructure:dashboard.pod')}>
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getPodDashboard}
-                    snapshotId={podSnapshot.get('id')}
-                  >
-                    {getLabel(podSnapshot)}
-                  </KubernetesSnapshotLink>
+                  <PodSnapshotLink label={getLabel(podSnapshot)} id={podSnapshot.get('id')} />
                 </DescriptionItem>
               ) : null}
-
               {deploymentSnapshot ? (
                 <DescriptionItem title={t('in-infrastructure:dashboard.deployment')}>
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getDeploymentDashboard}
-                    snapshotId={deploymentSnapshot.get('id')}
-                  >
-                    {getLabel(deploymentSnapshot)}
-                  </KubernetesSnapshotLink>
+                  <DeploymentSnapshotLink label={getLabel(deploymentSnapshot)} id={deploymentSnapshot.get('id')} />
                 </DescriptionItem>
               ) : null}
-
               {nodeSnapshot ? (
                 <DescriptionItem title={t('in-infrastructure:dashboard.node')}>
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getNodeDashboard}
-                    snapshotId={nodeSnapshot.get('id')}
-                  >
-                    {getLabel(nodeSnapshot)}
-                  </KubernetesSnapshotLink>
+                  <NodeSnapshotLink label={getLabel(nodeSnapshot)} id={nodeSnapshot.get('id')} />
                 </DescriptionItem>
               ) : null}
-
               {clusterSnapshot ? (
                 <DescriptionItem title={t('in-infrastructure:dashboard.cluster')}>
-                  <KubernetesSnapshotLink
-                    getKubernetesViewEntityDashboard={getClusterDashboard}
-                    snapshotId={clusterSnapshot.get('id')}
-                  >
-                    {getLabel(clusterSnapshot)}
-                  </KubernetesSnapshotLink>
+                  <ClusterSnapshotLink label={getLabel(clusterSnapshot)} id={clusterSnapshot.get('id')} />
                 </DescriptionItem>
               ) : null}
               <DescriptionItem title={t('in-infrastructure:dashboard.restartCount')}>
@@ -154,6 +126,36 @@ export default connectTo(
     );
   }
 );
+
+function NamespaceSnapshotLink({ label, id }) {
+  const namespaceDashboardHref = useNamespaceDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={namespaceDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function PodSnapshotLink({ label, id }) {
+  const podDashboardHref = usePodDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={podDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function DeploymentSnapshotLink({ label, id }) {
+  const deploymentDashboardHref = useDeploymentDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={deploymentDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function NodeSnapshotLink({ label, id }) {
+  const nodeDashboardHref = useNodeDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={nodeDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
+
+function ClusterSnapshotLink({ label, id }) {
+  const clusterDashboardHref = useClusterDashboard(id);
+
+  return <KubernetesSnapshotLink viewEntityDashboardHref={clusterDashboardHref}>{label}</KubernetesSnapshotLink>;
+}
 
 function getPodForContainer(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getPodForContainerSubscription({ snapshotId, timeConfig }));

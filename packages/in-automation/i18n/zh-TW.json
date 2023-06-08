@@ -13,6 +13,7 @@
   "addNumberOfItemsAction_2": "新增 {{count}} 個動作",
   "noActionsSelected": "未選取任何動作",
   "actionSensorTimeout": "無法處理後端要求。 請檢查代理程式配置，以確定已安裝「動作」感應器。",
+  "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "newAction": "新增動作",
   "ok": "確定",
   "runAction": "執行動作",

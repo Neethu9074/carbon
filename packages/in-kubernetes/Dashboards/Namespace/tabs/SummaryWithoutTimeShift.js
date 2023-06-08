@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -27,7 +28,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
@@ -52,8 +53,20 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);
 
+  const allDeploymentsHrefs = useNamespaceDashboard(namespace.id, {
+    tab: '/deployments'
+  });
+
+  const allDeploymentsConfigsHrefs = useNamespaceDashboard(namespace.id, {
+    tab: '/deploymentconfigs'
+  });
+
+  const allPodsHrefs = useNamespaceDashboard(namespace.id, {
+    tab: '/pods'
+  });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={namespace.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[6, 6]}>
@@ -212,27 +225,17 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
           <TopDeploymentsList
             namespaceId={namespace.id}
             timeConfig={timeConfig}
-            allItemsHrefs$={{
-              deployments: getNamespaceDashboard(namespace.id, {
-                tab: '/deployments'
-              }),
-              deploymentConfigs: getNamespaceDashboard(namespace.id, {
-                tab: '/deploymentconfigs'
-              })
+            allItemsHrefs={{
+              deployments: allDeploymentsHrefs,
+              deploymentConfigs: allDeploymentsConfigsHrefs
             }}
             showDeploymentConfigs={isOpenshift(get(namespace, ['clusterDistribution'], 'kubernetes'))}
           />
         </Col>
         <Col lg={6}>
-          <TopPodsList
-            namespaceId={namespace.id}
-            timeConfig={timeConfig}
-            allItemsHref$={getNamespaceDashboard(namespace.id, {
-              tab: '/pods'
-            })}
-          />
+          <TopPodsList namespaceId={namespace.id} timeConfig={timeConfig} allItemsHref={allPodsHrefs} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

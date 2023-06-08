@@ -3,12 +3,25 @@
   "labelSmartAlerts": "Alertas inteligentes",
   "labelActivities": "Atividades",
   "lists": {
-    "activityLabel": "Contagem da atividade",
-    "idLabel": "ID de Processo",
+    "pageTitle": "Processos de negócios",
+    "activityLabel": "Atividades",
+    "nameLabel": "Nome",
     "noData": "Dados não disponíveis",
-    "toolLabel": "Ferramenta"
+    "healthLabel": "Funcionamento",
+    "startLabel": "Iniciado"
   },
   "navigation": {
     "bizOps": "Processos de negócios"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "Analisar instâncias",
+    "summary": {
+      "pageTitle": "Processo de negócios",
+      "summaryTab": "Resumo",
+      "widgets": {
+        "timeline": "Linha de tempo",
+        "businessProcessStartedLabel": "{{businessProcessName}} iniciado"
+      }
+    }
   }
 }
