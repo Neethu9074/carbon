@@ -32,10 +32,6 @@ const formSideEffects = [
     effects: [clampTimeWindowDuration as EffectFunction]
   },
   {
-    path: [entityId],
-    effects: [clearSliConfigId as EffectFunction]
-  },
-  {
     path: [entityType],
     effects: [cleanEntityId as EffectFunction, clearSliConfigId as EffectFunction]
   }
