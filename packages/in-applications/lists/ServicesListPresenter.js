@@ -38,6 +38,7 @@ import { newServiceView } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { playwithEnabled } from 'in-services/featureFlags';
 import Filters from 'in-applications/components/Filters';
 import { isBlank } from 'in-services/util/string';
 import Footer from 'in-components/Footer';
@@ -211,7 +212,7 @@ export default function ServicesList({
 
   const rightHeader = ({ query }) => (
     <>
-      {role.canConfigureServiceMapping && (
+      {role.canConfigureServiceMapping && !playwithEnabled && (
         <Button
           className={locals.button}
           icon="lib_actions_settings"

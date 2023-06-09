@@ -53,11 +53,12 @@ export default [
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
   },
-  hasSyntheticsAccess && {
-    label: t('in-synthetics:dashboard.testList.mainLabel'),
-    path: `${applicationDashboard}/synthetics`,
-    component: SyntheticsList
-  },
+  hasSyntheticsAccess &&
+    !playwithEnabled && {
+      label: t('in-synthetics:dashboard.testList.mainLabel'),
+      path: `${applicationDashboard}/synthetics`,
+      component: SyntheticsList
+    },
   applicationSmartAlertsEnabled && {
     label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,
