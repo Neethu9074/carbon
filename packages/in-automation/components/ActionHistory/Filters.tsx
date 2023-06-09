@@ -35,7 +35,8 @@ export default function Filters({ setFilter, actionTypes, actionStatuses }: Filt
         options={[
           { label: t('in-automation:actionHistory.success'), value: 'SUCCESS' },
           { label: t('in-automation:actionHistory.failed'), value: 'FAILED' },
-          { label: t('in-automation:actionHistory.inProgress'), value: 'IN_PROGRESS' }
+          { label: t('in-automation:actionHistory.inProgress'), value: 'IN_PROGRESS' },
+          { label: t('in-automation:actionHistory.unknown'), value: 'UNKNOWN' }
         ]}
       />
       <Spacer horizontal="small" />
