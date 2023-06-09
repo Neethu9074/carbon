@@ -100,7 +100,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
           return pauseMaintenanceConfig(entity.id);
         }
       },
-      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED',
+      disabled: entity => entity.state !== 'ACTIVE' && entity.state !== 'SCHEDULED' && entity.state !== 'PAUSED',
       disableLabel: t('in-alerting:components.revisionDropdownButton.pause'),
       enableLabel: t('in-alerting:components.revisionDropdownButton.resume')
     }
