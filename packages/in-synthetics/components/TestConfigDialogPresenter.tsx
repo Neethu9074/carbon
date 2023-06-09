@@ -148,7 +148,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         return (
           !configForm.hierarchyValid ||
           locationsField.value.length === 0 ||
-          (selectedBlueprint.type === 'Script API' && scriptErrors.length !== 0)
+          (form.get('configuration').get('syntheticType').value === 'HTTPScript' && scriptErrors.length !== 0)
         );
       case 2:
         return !frequencyField.valid;
@@ -286,6 +286,9 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                   setRenderSectionsCounter(v => v + 1);
                 }
               }}
+              disabled={
+                form.get('configuration').get('syntheticType').value === 'HTTPScript' && scriptErrors.length !== 0
+              }
             >
               {t('in-synthetics:dialog.createTest.advancedMode.switchModeButton')}
             </Button>
