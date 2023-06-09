@@ -36,6 +36,7 @@ export default function SliSelector({
   const [sliConfigurations, status] = useSliConfigurations(entityType, entityId);
 
   const sliField = form.get(sliConfigId) as Field<SliConfigIdFieldValue>;
+
   const hasSomeConfig = sliConfigurations?.length !== 0;
   const isResolved = status === 'resolved';
   const disabled = !entityId || !hasSomeConfig;
