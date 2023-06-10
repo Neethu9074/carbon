@@ -109,6 +109,7 @@ packages/in-forge/plugins/sapHanaSystem                         @pr-approval @In
 packages/in-forge/plugins/sapHost                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapJava*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapWebDispatcher                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/tuxedoApp*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
