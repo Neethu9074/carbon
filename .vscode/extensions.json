@@ -2,6 +2,7 @@
   // See https://go.microsoft.com/fwlink/?LinkId=827846
   // for the documentation about the extensions.json format
   "recommendations": [
+    "mattpocock.ts-error-translator",
     "instana.copy-packages-relative-path",
     "EditorConfig.EditorConfig",
     "dbaeumer.vscode-eslint",
