@@ -358,7 +358,7 @@ module.exports = exports = [
   {
     uiClientKey: 'recurrentMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'recurrentMaintenanceWindowsTabsEnabled',
