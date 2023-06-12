@@ -5,15 +5,19 @@
 
 import React from 'react';
 
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
-import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -23,6 +27,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   const netPartitions = snapshot.getIn(['data', 'net_partitions'], emptyMap);
+  const nodeName = snapshot.getIn(['data', 'overview.node']);
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
@@ -116,7 +121,85 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DashboardSection title={t('in-forge:plugins.rabbitMq.dashboard.nodeMetrics')}>
+        <Columize>
+          <div>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['node_map.' + nodeName + '.fd_used', 'node_map.' + nodeName + '.fd_total'],
+                labels: [
+                  t('in-forge:plugins.rabbitMq.dashboard.fileDescriptorsUsed'),
+                  t('in-forge:plugins.rabbitMq.dashboard.totalFileDescriptors')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesZeroDecimalPlaces,
+                tooltipFormatter: bytesTwoDecimalPlaces,
+                metrics: ['node_map.' + nodeName + '.mem_used', 'node_map.' + nodeName + '.mem_limit'],
+                labels: [
+                  t('in-forge:plugins.rabbitMq.dashboard.memoryUsed'),
+                  t('in-forge:plugins.rabbitMq.dashboard.memoryLimit')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </div>
+          <div>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['node_map.' + nodeName + '.proc_used', 'node_map.' + nodeName + '.proc_total'],
+                labels: [
+                  t('in-forge:plugins.rabbitMq.dashboard.erlangProcessesUsed'),
+                  t('in-forge:plugins.rabbitMq.dashboard.maxErlangProcesses')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesZeroDecimalPlaces,
+                tooltipFormatter: bytesTwoDecimalPlaces,
+                metrics: ['node_map.' + nodeName + '.disk_free', 'node_map.' + nodeName + '.disk_free_limit'],
+                labels: [
+                  t('in-forge:plugins.rabbitMq.dashboard.diskFreeSpace'),
+                  t('in-forge:plugins.rabbitMq.dashboard.diskAlarmThreshold')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </div>
+        </Columize>
+
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['node_map.' + nodeName + '.sockets_used', 'node_map.' + nodeName + '.sockets_total'],
+            labels: [
+              t('in-forge:plugins.rabbitMq.dashboard.socketsUsed'),
+              t('in-forge:plugins.rabbitMq.dashboard.totalSockets')
+            ],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
 
       <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>

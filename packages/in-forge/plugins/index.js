@@ -141,6 +141,7 @@ import './unmonitoredHost';
 import './webSphereMember';
 import './sapHanaPlatform';
 import './sapJavaInstance';
+import './rabbitMqCluster';
 import './aceMessageFlow';
 import './azureSqlServer';
 import './beeInstanaNode';

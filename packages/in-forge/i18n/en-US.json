@@ -1207,6 +1207,11 @@
   "pluginName_rabbitMq_1": "RabbitMQ",
   "pluginName_rabbitMq_2": "RabbitMQ",
   "pluginName_rabbitMq": "RabbitMQ",
+  "pluginName_rabbitMqCluster_plural": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_0": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_1": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_2": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster": "RabbitMQ Cluster",
   "pluginName_redis_plural": "Redis Nodes",
   "pluginName_redis_0": "Redis Nodes",
   "pluginName_redis_1": "Redis Nodes",
@@ -6591,14 +6596,14 @@
       "adapter": "Adapter",
       "receivedPackets": "Number of packets received by SR IOV Adapter",
       "sentPackets": "Number of packets received by SR-IOV Adapter",
-      "droppedPackets":  "Number of packets dropped by SR-IOV Adapter",
+      "droppedPackets": "Number of packets dropped by SR-IOV Adapter",
       "sentBytes": "Number of bytes sent by SR-IOV Adapter",
       "receivedBytes": "Number of bytes received by SR-IOV Adapter",
       "transferredBytes": "Number of bytes transferred by SR-IOV Adapter",
       "errorIn": "Received errors/s",
       "errorOut": "Transmit errors/s"
     },
-    "phmcVIOS":{
+    "phmcVIOS": {
       "utilizedProcUnits": "Utilized Processing Units",
       "maxProcUnits": "Maximum Processing Units",
       "entitledProcUnits": " Entitled Processing Units",
@@ -6619,7 +6624,7 @@
       "readBytes": "Number of Bytes Read",
       "writeBytes": "Number of Bytes Write",
       "transmittedBytes": "Number of Bytes Transmitted",
-      "dashboard":{
+      "dashboard": {
         "packets": "Packets",
         "bytes": "Bytes",
         "noOfReadWrite": "Number  of Read/Write",
@@ -6634,7 +6639,7 @@
         "sharedStoragePool": "Shared Storage Pool"
       }
     },
-    "phmcSharedProcessorPool":{
+    "phmcSharedProcessorPool": {
       "utilizedProcUnits": "Utilized processing units",
       "availableProcUnits": "Available processing units",
       "currentReservedProcUnits": "Current reserved processing units",
@@ -6666,7 +6671,7 @@
       "readBytes": "Number of Bytes Read",
       "writeBytes": "Number of Bytes Write",
       "transmittedBytes": "Number of Bytes Transmitted",
-      "dashboard":{
+      "dashboard": {
         "packets": "Packets",
         "bytes": "Bytes",
         "noOfReadWrite": "Number  of Read/Write",
@@ -6675,7 +6680,6 @@
         "sriovLogicalPort": "SR IOV Logical Port",
         "genericVirtualAdapter": "Generic Virtual Adapter",
         "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapter"
-
       }
     },
     "phpFpmRuntimePlatform": {
@@ -7137,10 +7141,7 @@
         "fileDescriptorsUsed": "File descriptors used",
         "memoryUsed": "Memory used",
         "socketsUsed": "Sockets used",
-        "erlangProcesses": "Erlang processes",
-        "diskFree": "Disk free",
         "diskAlarmThreshold": "Disk alarm threshold",
-        "nodesWithCount": "Nodes ({{len}})",
         "totalFileDescriptors": "Total file descriptors",
         "memoryLimit": "Memory limit",
         "erlangProcessesUsed": "Erlang processes used",
@@ -7150,7 +7151,8 @@
         "queuesWithCount": "Queues ({{len}})",
         "queue": "Queue",
         "messagesUnacknowledged": "Messages unacknowledged",
-        "messagesTotal": "Messages total"
+        "messagesTotal": "Messages total",
+        "nodeMetrics": "Node metrics"
       },
       "processId": "Process ID",
       "ports": "Ports",
@@ -7182,6 +7184,49 @@
       "messagesAcknowledged": "Messages acknowledged",
       "rabbitMq": "RabbitMQ",
       "queue": "Queue"
+    },
+    "rabbitMqCluster": {
+      "dashboard": {
+        "messagesPer5Sec": "Overall messages (per 5 sec)",
+        "published": "Overall published",
+        "delivered": "Overall delivered",
+        "acknowledged": "Overall acknowledged",
+        "messageStatus": "Overall message status",
+        "ready": "Overall ready",
+        "unacknowledged": "Overall unacknowledged",
+        "total": "Total",
+        "readyRate": "Overall ready rate",
+        "unacknowledgedRate": "Overall unacknowledged rate",
+        "totalRate": "Total rate",
+        "overview": "Overview",
+        "consumers": "Consumers",
+        "connections": "Connections",
+        "networkPartitionDetected": "Network partition detected.",
+        "theNatureOfThePartitionIsAsFollows": "The nature of the partition is as follows:",
+        "node": "Node",
+        "wasPartitionedFrom": "Was partitioned from",
+        "networkPartitionWarnFooter": "While running in this partitioned state, changes (such as queue or exchange declaration and binding) which take place in one partition will not be visible to other partition(s). <br />Other behaviour is not guaranteed. <link>More information on network partitions.</link>",
+        "nodesWithCount": "Nodes ({{len}})",
+        "name": "Name",
+        "version": "Version",
+        "fileDescriptorsUsed": "File descriptors used",
+        "memoryUsed": "Memory used",
+        "socketsUsed": "Sockets used",
+        "erlangProcesses": "Erlang processes",
+        "diskFree": "Disk free",
+        "diskAlarmThreshold": "Disk alarm threshold"
+      },
+      "messages": "Messages",
+      "consumers": "Consumers",
+      "connections": "Connections",
+      "overview": "Overview",
+      "totalNumberOfNetworkPartitions": "Total number of Network partitions",
+      "nodesCount": "Nodes count",
+      "clusterName": "Cluster name",
+      "nodes": "Nodes",
+      "rabbitMqCluster": "RabbitMQ cluster",
+      "nodesUp": "Nodes up",
+      "nodesDown": "Nodes down"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis CONFIG command must not be disabled in the redis.conf and needs to be specified in Instana agent config to collect Redis metrics.",
@@ -9575,8 +9620,8 @@
               "elapsedIORequests": "Elapsed IO Requests",
               "elapsedRequestSize": "Elapsed Request Size",
               "elapsedPercentBusy": "Elapsed Percent Busy"
-              }
-            },
+            }
+          },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
             "resourceName": "Resource Name",
@@ -9592,7 +9637,7 @@
             "firmwareLevel": "Firmware Level"
           }
         }
-      } ,
+      },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
@@ -10405,8 +10450,8 @@
       "errorsInLic": "Errors in License Information Collection",
       "kongNgnixMetricErrors": "Kong Ngnix Metric Errors",
       "totalNumberofDB": "Total Number of Database Entities",
-      "pending":"Pending",
-      "running":"Running",
+      "pending": "Pending",
+      "running": "Running",
       "nginxPending": "Nginx Timers Pending",
       "nginxRunning": "Nginx Timers Running",
       "sharedDictionary": "Shared Dictionary",
@@ -10419,16 +10464,16 @@
       "totalConnections": "Total Connections",
       "totalHttpRequests": "Total Http Requests",
       "nginxTotalRequests": "Kong NGINX Total Requests",
-      "totalNumberofRequests":"Total Number of Requests",
-      "ingressBytes":"Ingress Bandwidth (Bytes)",
-      "egressBytes":"Egress Bandwidth (Bytes)",
-      "ingress":"Ingress",
-      "egress":"Egress",
-      "service":"Service",
+      "totalNumberofRequests": "Total Number of Requests",
+      "ingressBytes": "Ingress Bandwidth (Bytes)",
+      "egressBytes": "Egress Bandwidth (Bytes)",
+      "ingress": "Ingress",
+      "egress": "Egress",
+      "service": "Service",
       "route": "Route",
       "code": "Code",
-      "source":"Source",
-      "consumer":"Consumer",
+      "source": "Source",
+      "consumer": "Consumer",
       "kongBandwidth": "Bandwidth",
       "database":"Kong Database",
       "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
