@@ -6,12 +6,15 @@
 
 import React from 'react';
 
+import { MobileAppAlertConfigWithMetadata } from '@instana/types';
+
 import {
   disableAlertConfig,
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -55,9 +58,28 @@ function handleToggleEnabled(enabled: boolean, id: string, setIsSaving: (arg: bo
   );
 }
 
+function handleEdit(config: MobileAppAlertConfigWithMetadata) {
+  openSmartAlertDialog(config);
+}
+
+function openSmartAlertDialog(config: MobileAppAlertConfigWithMetadata, isCopy = false) {
+  addActiveDialog(
+    <SmartAlertConfigDialogWrapper
+      alertConfig={config}
+      onClose={() => {
+        close();
+        refreshSmartAlertConfigsList();
+      }}
+      editMode={!isCopy}
+      startWithSimpleMode={false}
+    />
+  );
+}
+
 export const actionHandlers = {
   handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
     handleDelete(id, setIsSaving, configName),
+  handleEdit: (config: MobileAppAlertConfigWithMetadata) => handleEdit(config),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving)
 };

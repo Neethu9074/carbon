@@ -37,7 +37,8 @@ export default function TimeThresholdConfigPresenter({
   updateForm,
   hasTraceImpactOption,
   hasUserImpactOption,
-  impactTimeThresholdDisabled
+  impactTimeThresholdDisabled,
+  hasViolationsInPeriod
 }) {
   return (
     <TwoColumnContainer
@@ -51,6 +52,7 @@ export default function TimeThresholdConfigPresenter({
           hasUserImpactOption={hasUserImpactOption}
           hasTraceImpactOption={hasTraceImpactOption}
           impactTimeThresholdDisabled={impactTimeThresholdDisabled}
+          hasViolationsInPeriod={hasViolationsInPeriod}
         />
       }
       warnMessage={
@@ -98,5 +100,6 @@ TimeThresholdConfigPresenter.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool,
+  hasViolationsInPeriod: PropTypes.bool
 };

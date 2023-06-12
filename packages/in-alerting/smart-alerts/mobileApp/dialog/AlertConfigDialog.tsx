@@ -4,13 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item, MapForm } from 'formalistic';
+import { Item, MapForm, Field } from 'formalistic';
 import React, { useState } from 'react';
 
+import {
+  EnrichedError,
+  enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
+} from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialogWithThreshold';
-import alertFormDefinition from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
+import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 
 interface AlertConfigDialogType {
   onClose: (config?: MobileAppAlertConfig) => void;
@@ -30,8 +39,9 @@ export default function AlertConfigDialog({
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
 
-  const [isSaving] = useState(false);
-  const [messages] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [messages, setMessages] = useState<EnrichedError[]>([]);
+  const getLinkToAlertConfig = useGetAlertConfigLink();
 
   return (
     <AlertConfigDialogWithThreshold
@@ -43,7 +53,9 @@ export default function AlertConfigDialog({
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-      onCreate={() => ''}
+      onCreate={() => {
+        createOrSaveAlert(form, setForm, getLinkToAlertConfig, onClose, editMode, setIsSaving, setMessages);
+      }}
       onClose={() => {
         // canceled and dialog closed
         onClose();
@@ -62,4 +74,77 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
     // @ts-expect-error ts cant determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
+}
+
+function createOrSaveAlert(
+  form: MapForm<any>,
+  setForm: (form: MapForm<any>) => void,
+  getLinkToAlertConfig: (alertConfigId: string, mobileAppId: string, alertConfigVersion?: number) => string,
+  onClose: (config?: MobileAppAlertConfig & { readonly id?: string }) => void,
+  editMode: boolean,
+  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
+  setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>
+) {
+  setIsSaving(true);
+
+  // remove existing error messages:
+  setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
+
+  const addMessage = (message: EnrichedError) => {
+    setMessages(prevMessages => [...prevMessages, message]);
+  };
+
+  if (!form.hierarchyValid) {
+    setForm(form.setTouched(true, { recurse: true }));
+    setIsSaving(false);
+    return;
+  }
+
+  const alertConfig = toAlertConfig(form);
+
+  if (editMode) {
+    updateAlertConfig(alertConfig, form.get('id').value).once(
+      alertConfig => {
+        onClose(alertConfig);
+        showSuccessMessage(alertConfig.name, editMode);
+      },
+      error => {
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        setIsSaving(false);
+      }
+    );
+  } else {
+    createAlertConfig(alertConfig).once(
+      alertConfig => {
+        onClose(alertConfig);
+        const href = getLinkToAlertConfig(alertConfig.id, alertConfig.mobileAppId);
+
+        showSuccessMessage(alertConfig.name, editMode, false, href);
+      },
+      error => {
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        setIsSaving(false);
+      }
+    );
+  }
+}
+
+function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
+  const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+
+  return Object.freeze({
+    rule: form.get('rule').toJS(),
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
+    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    enabled: form.get(fieldNames.enabled).value,
+    triggering: form.get(fieldNames.triggering).value,
+    severity: form.get(fieldNames.severity).value,
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
+    name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
+    mobileAppId: form.get(fieldNames.mobileAppId).value,
+    threshold: form.get('threshold').toJS(),
+    timeThreshold: form.get('timeThreshold').toJS(),
+    granularity: form.get(fieldNames.granularity).value
+    //customPayloadFields: [] needed once custom payload is in place
+  });
 }

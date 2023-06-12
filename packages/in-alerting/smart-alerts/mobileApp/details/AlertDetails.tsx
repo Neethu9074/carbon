@@ -28,6 +28,8 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-m
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 //@ts-expect-error Needs TS Migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
+import { Nullish } from 'in-types';
 
 export interface AlertDetailsProps {
   mobileAppId: string;
@@ -51,11 +53,31 @@ export default function AlertDetails(props: AlertDetailsProps) {
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={() => {}}
+      renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
       renderAlertConfiguration={({ alertConfig }: { alertConfig: MobileAppAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
-      showActionButton={false}
+      showActionButton
+    />
+  );
+}
+interface SmartAlertDialogWrapperProps {
+  close: () => void;
+  alertConfig: MobileAppAlertConfigWithMetadata;
+  setRevision: (arg: string | Nullish) => void;
+  isCopy: boolean;
+}
+
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
+  return (
+    <AlertConfigDialog
+      alertConfig={alertConfig}
+      onClose={() => {
+        close();
+        setRevision(null);
+      }}
+      editMode={!isCopy}
+      startWithSimpleMode={false}
     />
   );
 }

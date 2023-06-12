@@ -15,7 +15,7 @@ export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const alertsTab: string;
 
-export function getLinkToCustomEvent()
+export function getLinkToCustomEvent();
 
 interface UseLinkToAnalyzeProps {
   beaconType: string;
@@ -57,4 +57,10 @@ export function useLinkToHttpRequest(): (
 export function useLinkToCustomEvent(): (
   mobileAppId: string,
   { customEventId, viewId }: { customEventId?: string; viewId?: string }
+) => string;
+
+export const useGetAlertConfigLink: () => (
+  alertConfigId: string,
+  mobileAppId: string,
+  alertConfigVersion?: number
 ) => string;

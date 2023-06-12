@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import invariant from 'invariant';
 
 import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam,
   mobileAppId as mobileAppIdMatrixParameter,
   viewId as viewIdMatrixParameter,
   group as groupMatrixParameter,
@@ -237,4 +239,20 @@ export function useLinkToCustomEvent() {
     },
     [location, createHref]
   );
+}
+
+export const useGetAlertConfigLink = () => {
+  const { createHref, location } = useNavigation();
+
+  return (alertConfigId, mobileAppId, alertConfigVersion) => {
+    fillAlertTabSpecificValues(location, mobileAppId, alertConfigId, alertConfigVersion);
+    return createHref(location);
+  };
+};
+
+function fillAlertTabSpecificValues(params, mobileAppId, alertConfigId, alertConfigVersion) {
+  params.pathname = alertsTabDetailsFullyQualified;
+  setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+  setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
