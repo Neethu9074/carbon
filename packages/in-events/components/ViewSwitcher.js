@@ -29,7 +29,7 @@ export default function ViewSwitcher({ selectedEventType }) {
         <IncidentEventsNavigationItem selectedEventType={selectedEventType} />
         <IssueEventsNavigationItem selectedEventType={selectedEventType} />
         <ChangeEventsNavigationItem selectedEventType={selectedEventType} />
-        {(isInternalVisible || agentMonitoringIssuesEnabled) && (
+        {(isInternalVisible || agentMonitoringIssuesEnabled) && !playwithEnabled && (
           <AgentMonitoringIssueEventsNavigationItem selectedEventType={selectedEventType} />
         )}
       </SecondLevelNavigation>
@@ -98,7 +98,6 @@ function ChangeEventsNavigationItem({ selectedEventType }) {
 function AgentMonitoringIssueEventsNavigationItem({ selectedEventType }) {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'agent_monitoring_issue');
-  if (playwithEnabled) return null;
   return (
     <SecondLevelNavigationItem
       href={createHref(location)}
