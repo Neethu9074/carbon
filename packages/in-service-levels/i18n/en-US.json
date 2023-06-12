@@ -9,6 +9,7 @@
     "select": "Select ",
     "noSelection": "None selected",
     "loadMore": "Load more",
+    "noData": "No data available",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",

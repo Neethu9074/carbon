@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-import { Li, LoadingSkeleton } from '@instana/components';
+import { Li, LoadingSkeleton, Ul } from '@instana/components';
 
 import locals from 'in-service-levels/components/SloList/components/SloEntityTable.mless';
 
 export default function TableSkeleton() {
   return (
-    <>
+    <Ul>
       <Li>
         <LoadingSkeleton className={locals.loadSkeleton} />
       </Li>
@@ -28,6 +28,6 @@ export default function TableSkeleton() {
       <Li>
         <LoadingSkeleton className={locals.loadSkeleton} />
       </Li>
-    </>
+    </Ul>
   );
 }

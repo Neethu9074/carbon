@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Application, SloEntityType, Website } from '@instana/types';
+import { Application, Progress, SloEntityType, Website } from '@instana/types';
 import { Card, Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -19,8 +19,10 @@ import {
   isApplicationSloForm
 } from 'in-service-levels/components/ConfigDialog/form';
 import TableSkeleton from 'in-service-levels/components/SloList/components/TableSkeleton';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SearchInput from 'in-components/SearchInput/SearchInput';
+import { noop } from 'in-services/fixedObjects';
 
 import locals from 'in-service-levels/components/SloList/components/SloEntityTable.mless';
 
@@ -32,11 +34,12 @@ export interface EntityData {
 interface SloEntityTableProps {
   entityList?: Application[] | Website[];
   form: SloForm<SloEntityType>;
+  progress: Progress;
   onChange: (entityData: EntityData) => void;
 }
 
 const dataPerRow = 6;
-export default function SloEntityTable({ form, entityList, onChange }: SloEntityTableProps) {
+export default function SloEntityTable({ form, entityList, onChange, progress }: SloEntityTableProps) {
   const [query, setQuery] = useState('');
   const [next, setNext] = useState(dataPerRow);
   const entity = form.get(sloEntityTypeKey).value;
@@ -57,7 +60,8 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
         }
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
-        {entityList ? (
+        {entityList?.length === 0 && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />}
+        {entityList && (
           <Ul>
             {entityList
               .filter(({ label }) => label.includes(query))
@@ -66,7 +70,7 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
                 return (
                   <Li onClick={() => onChange(entityData)} key={entityData.id}>
                     <Stack direction="horizontal">
-                      <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={() => {}} />
+                      <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={noop} />
                       <div style={{ marginTop: '3px' }}>{entityData.label}</div>
                     </Stack>
                   </Li>
@@ -77,11 +81,8 @@ export default function SloEntityTable({ form, entityList, onChange }: SloEntity
               <div className={locals.loadMore}>{t('in-service-levels:general.loadMore')}</div>
             </Li>
           </Ul>
-        ) : (
-          <Ul>
-            <TableSkeleton />
-          </Ul>
         )}
+        {progress.loading && <TableSkeleton />}
       </Card>
     </>
   );

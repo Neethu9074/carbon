@@ -9,7 +9,7 @@
 :local {
   .loadMore {
     margin-left: 361px;
-    color: #00cccc;
+    color: var(--ids-color-option-teal-500);
   }
   .loadSkeleton {
     display: inline-block;

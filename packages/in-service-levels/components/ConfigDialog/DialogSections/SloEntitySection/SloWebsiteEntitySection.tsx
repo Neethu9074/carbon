@@ -27,7 +27,7 @@ export const SloWebsiteEntitySection = ({ form, onChange }: SloWebsiteEntitySect
 
   const selectedLabel = label ?? t('in-service-levels:general.noSelection');
 
-  const [entityList] = useEntityConfigurations(sloEntityTypeField.value);
+  const [entityList, , , progress] = useEntityConfigurations(sloEntityTypeField.value);
 
   const onEntityChange = ({ id, label }: EntityData) => {
     setLabel(label);
@@ -39,7 +39,7 @@ export const SloWebsiteEntitySection = ({ form, onChange }: SloWebsiteEntitySect
       <Typography variant="heading-100" component="h3">
         {t('in-service-levels:general.selectLabel', { selectedLabel })}
       </Typography>
-      <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} />
+      <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} />
     </>
   );
 };
