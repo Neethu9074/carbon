@@ -16,7 +16,6 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
@@ -70,7 +69,6 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     granularity,
     timeConfig
   } = props;
-  useCalculateThresholdOnBackendSignalEmitter(form);
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
   const alertConfigWithFormModel = form.toJS();

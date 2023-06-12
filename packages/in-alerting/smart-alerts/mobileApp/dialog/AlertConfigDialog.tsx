@@ -17,14 +17,14 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
-import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
+import { MobileAppAlertConfig, VersionedConfig } from 'in-types';
 
 interface AlertConfigDialogType {
-  onClose: (config?: MobileAppAlertConfig) => void;
+  onClose: () => void;
   startWithSimpleMode: boolean;
-  alertConfig: MobileAppAlertConfigWithMetadata;
+  alertConfig: MobileAppAlertConfig & VersionedConfig & { duplicateFrom?: string };
   editMode: boolean;
 }
 
@@ -37,7 +37,7 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }: AlertConfigDialogType) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
@@ -145,6 +145,5 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value
-    //customPayloadFields: [] needed once custom payload is in place
   });
 }

@@ -15,6 +15,7 @@ import {
 } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -65,7 +66,7 @@ function handleEdit(config: MobileAppAlertConfigWithMetadata) {
 function openSmartAlertDialog(config: MobileAppAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
-      alertConfig={config}
+      alertConfig={isCopy ? duplicateAlertConfig(config) : config}
       onClose={() => {
         close();
         refreshSmartAlertConfigsList();
@@ -77,9 +78,14 @@ function openSmartAlertDialog(config: MobileAppAlertConfigWithMetadata, isCopy =
 }
 
 export const actionHandlers = {
+  handleClone: (config: MobileAppAlertConfigWithMetadata) => handleClone(config),
   handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
     handleDelete(id, setIsSaving, configName),
   handleEdit: (config: MobileAppAlertConfigWithMetadata) => handleEdit(config),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving)
 };
+
+function handleClone(config: MobileAppAlertConfigWithMetadata) {
+  openSmartAlertDialog(config, true);
+}

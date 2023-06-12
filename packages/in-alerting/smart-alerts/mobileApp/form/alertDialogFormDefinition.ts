@@ -6,16 +6,14 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import { MobileAppAlertConfigWithMetadata } from '@instana/types';
+import { MobileAppAlertConfig, VersionedConfig } from '@instana/types';
 
-// import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
+import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { ThresholdType } from 'in-types';
 
 const severityWarning = 5;
@@ -32,15 +30,7 @@ export const fieldNames = Object.freeze({
   granularity: 'granularity'
 });
 
-export interface AlertConfigHiddenFields {
-  // an optional, "hidden" from field, will not be part with server communication
-  calculateThresholdOnBackend?: boolean;
-}
-
-export default function alertFormDefinition(
-  alertConfig: MobileAppAlertConfigWithMetadata & AlertConfigHiddenFields,
-  editMode: boolean
-): MapForm<any> {
+export default function alertFormDefinition(alertConfig: MobileAppAlertConfig & VersionedConfig): MapForm<any> {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -58,7 +48,8 @@ export default function alertFormDefinition(
     .put(
       fieldNames.tagFilterExpression,
       createField({
-        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : []
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
@@ -121,17 +112,10 @@ export default function alertFormDefinition(
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
-    .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+    .put('rule', createRuleForm(alertConfig.rule ?? {}));
 
-  return applyEditMode(form, editMode);
-}
+  // Removed calculateThresholdOnBackend and applyEditMode for now , and will bring it back once suggestion and Baseline are implemented
+  // return applyEditMode(form, editMode);
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
-  return createMapForm().put(
-    'calculateThresholdOnBackend',
-    createField({
-      value: calculateThresholdOnBackend
-    })
-  );
+  return form;
 }

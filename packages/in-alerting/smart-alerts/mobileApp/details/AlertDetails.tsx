@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { MobileAppAlertConfigWithMetadata } from '@instana/types';
-
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -28,8 +26,9 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-m
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 //@ts-expect-error Needs TS Migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { Nullish } from 'in-types';
+import { MobileAppAlertConfigWithMetadata, Nullish, VersionedConfig } from 'in-types';
 
 export interface AlertDetailsProps {
   mobileAppId: string;
@@ -63,7 +62,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
 }
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: MobileAppAlertConfigWithMetadata;
+  alertConfig: MobileAppAlertConfigWithMetadata & VersionedConfig & { duplicateFrom?: string };
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }
@@ -71,7 +70,7 @@ interface SmartAlertDialogWrapperProps {
 function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
   return (
     <AlertConfigDialog
-      alertConfig={alertConfig}
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       onClose={() => {
         close();
         setRevision(null);

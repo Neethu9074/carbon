@@ -96,8 +96,7 @@ function generateAlertConfig(
       seasonality: null,
       value: 0.0
     },
-    mobileAppId,
-    calculateThresholdOnBackend: false
+    mobileAppId
   };
 }
 
