@@ -269,6 +269,9 @@ export const nonServicePlugins = {
   tuxedoDomain: 'tuxedoDomain',
   tuxedoMachine: 'tuxedoMachine',
   tuxedoServer: 'tuxedoServer',
+  tuxedoAppApplication: 'tuxedoAppApplication',
+  tuxedoAppServiceBrokerProject: 'tuxedoAppServiceBrokerProject',
+  tuxedoAppTuxedoService: 'tuxedoAppTuxedoService',
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   vault: 'vault',
@@ -615,6 +618,13 @@ export const fullyQualifiedPlugins = {
   tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
   tuxedoMachine: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.machine.TuxedoMachine',
   tuxedoServer: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.server.TuxedoServer',
+  tuxedoAppApplication:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.application.TuxedoAppApplication',
+  tuxedoAppServiceBrokerProject:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.servicebrokerproject.TuxedoAppServiceBrokerProject',
+  tuxedoAppTuxedoService:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.tuxedoservice.TuxedoAppTuxedoService',
+
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   vault: 'com.instana.forge.infrastructure.database.vault.Vault',
