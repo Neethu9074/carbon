@@ -11725,6 +11725,7 @@
       "heatLoadWater": "Heat Load (Water)",
       "dewPoint": "Dew Point",
       "humidity": "Humidity",
+      "networkPort": "Network Port",
       "networkPorts": "Network Ports",
       "networkPortId": "Network Port Id",
       "bytesSent": "Bytes Sent",
