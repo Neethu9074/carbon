@@ -249,9 +249,7 @@
       "applicationLabel": "Application",
       "health": "Health",
       "action": "Action",
-      "labelConfirm": "Please Confirm",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",
-      "labelRemove": "Remove",
       "na": "N/A"
     },
     "locationList": {
