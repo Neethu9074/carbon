@@ -430,3 +430,15 @@ export interface Code {
   modified: boolean;
   name: string;
 }
+
+export interface NotificationState {
+  show: boolean;
+  variant?: 'success' | 'failure';
+  message?: string;
+}
+
+export interface ModalNotificationProps {
+  variant?: 'success' | 'failure';
+  message: string;
+  onClick?: () => void;
+}

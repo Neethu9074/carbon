@@ -6,24 +6,27 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { Button, Typography } from '@instana/components';
 import { LocationListItem } from '@instana/types';
 import { Link } from '@instana/legacy';
 
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import { showDeleteSuccessMessage, showDeleteErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { NotificationState } from 'in-synthetics/utils/constants';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import { deleteLocation } from 'in-synthetics/api';
+import Label from 'in-components/form/Label/Label';
+import Input from 'in-components/form/Input/Input';
+import { isBlank } from 'in-services/util/string';
+import Dialog from 'in-components/Dialog/Dialog';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
-
-const context: string = 'locations';
+import locals from './LocationListActionsColumn.mless';
 
 type LocationListActionsColumnProps = {
   item: LocationListItem;
@@ -44,12 +47,47 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
-  function deleteSelectedLocation(locationId: string) {
-    addActiveDialog(
-      <ConfirmationDialog
-        header={t('in-synthetics:dashboard.testList.labelConfirm')}
-        description={
-          <span>
+  function showDeleteDialog() {
+    return addActiveDialog(<DeleteSelectedLocation />);
+  }
+
+  function DeleteSelectedLocation() {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [validationInputValue, setValidationInputValue] = useState('');
+    const [reasonInputValue, setReasonInputvalue] = useState('');
+    const [notification, setNotification] = useState<NotificationState>({ show: false });
+
+    const doDeleteAction = () => {
+      setIsDeleting(true);
+
+      const action$ = deleteLocation(id);
+
+      action$.once(() => {
+        setIsDeleting(false);
+        setReasonInputvalue('');
+        setValidationInputValue('');
+        setNotification({
+          show: true,
+          message: t('in-synthetics:dashboard.locationList.deletionSuccess'),
+          variant: 'success'
+        });
+      });
+
+      action$.errors().once(error => {
+        setIsDeleting(false);
+        setNotification({ show: true, message: error.message, variant: 'failure' });
+      });
+    };
+
+    return (
+      <Dialog
+        title={t('in-synthetics:dashboard.locationList.deleteLocationLabel')}
+        className={locals.dialog}
+        onClose={close}
+        doNotCloseOnOutsideClick
+      >
+        <section className={locals.confirmationDialogContent}>
+          <Typography variant="body-regular">
             {linkedTests > 0 ? (
               <Trans
                 i18nKey={'in-synthetics:dashboard.locationList.activeTestLinked'}
@@ -65,21 +103,55 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
                 values={{ label, status }}
               />
             )}
-          </span>
-        }
-        confirmButtonLabel={t('in-synthetics:dashboard.testList.labelRemove')}
-        onSubmit={() => {
-          close();
-          deleteLocation(locationId).once(
-            () => {
-              showDeleteSuccessMessage(context);
-            },
-            () => {
-              showDeleteErrorMessage(context);
-            }
-          );
-        }}
-      />
+          </Typography>
+          <Label htmlFor="reason">
+            {t('in-synthetics:dashboard.locationList.deletionReason')}
+            <Input
+              name="reason"
+              value={reasonInputValue}
+              disabled={isDeleting}
+              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                setReasonInputvalue(target.value);
+              }}
+            />
+          </Label>
+          <Label htmlFor="typingValidation">
+            {t('in-synthetics:dashboard.locationList.typeToContinue', {
+              location: t('in-synthetics:dashboard.locationList.location')
+            })}
+            <Input
+              name="typingValidation"
+              placeholder={t('in-synthetics:dashboard.locationList.location')}
+              value={validationInputValue}
+              disabled={isDeleting}
+              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                setValidationInputValue(target.value);
+              }}
+            />
+          </Label>
+          {notification.show && (
+            <ModalNotification
+              message={notification.message!}
+              onClick={() => setNotification({ show: false })}
+              variant={notification.variant}
+            />
+          )}
+        </section>
+        <section className={locals.buttons}>
+          <Button kind="subtle" onClick={close}>
+            {t('in-synthetics:dashboard.locationList.cancelButton')}
+          </Button>
+          <Button
+            onClick={() => {
+              doDeleteAction();
+            }}
+            disabled={validationInputValue !== 'LOCATION' || isBlank(reasonInputValue)}
+            kind="danger"
+          >
+            {t('in-synthetics:dashboard.locationList.deleteLocationLabel')}
+          </Button>
+        </section>
+      </Dialog>
     );
   }
 
@@ -98,7 +170,7 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
           />
         )}
       >
-        <MoreMenuButton icon="lib_actions_delete" onClick={() => deleteSelectedLocation(id)}>
+        <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
           {t('in-synthetics:dashboard.locationList.deleteLocation')}
         </MoreMenuButton>
       </MoreMenu>

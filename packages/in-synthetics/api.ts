@@ -44,8 +44,7 @@ export function deleteLocation(locationId: string): Observable<unknown> {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: locationUrl + '/' + locationId,
-    mapToResultObject: true
+    url: locationUrl + '/' + locationId
   }).map(response => deepFreeze(response));
 }
 
