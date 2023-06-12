@@ -74,12 +74,13 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', serviceId);
 
-  return <SeverityAwareEntityLink severity={getSeverity()} label={businessProcessName} href={createHref(location)} />;
+  return (
+    <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
+  );
 }
 
-function getSeverity() {
-  //This needs to be changed with item.severity when it is ready.
-  return 1;
+function getSeverity(item: BusinessProcessItem) {
+  return get(item, ['metrics', 'maxSeverity', 0, 1], 0);
 }
 
 export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
