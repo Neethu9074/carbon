@@ -36,14 +36,15 @@
     };
   </script>
  {{#if playwithinstanaEnabled }}
-  <script type="text/javascript" nonce="{{nonce}}">
-  (function() {
-    var walkme = document.createElement('script');
-    walkme.type = 'text/javascript'; walkme.async = true;
-    walkme.src = 'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/test/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(walkme, s);
-    window._walkmeConfig = {smartLoad:true}; })();
+    <script type="text/javascript" nonce="{{nonce}}">
+      (function() {
+        var walkme = document.createElement('script');
+        walkme.type = 'text/javascript';
+        walkme.async = true;
+        walkme.src = 'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(walkme, s);
+        window._walkmeConfig = {smartLoad:true}; })();
     </script>
 {{/if}}
   {{#if eumTrackingApiKey}}
