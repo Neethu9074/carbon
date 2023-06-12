@@ -120,7 +120,7 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
     .put(
       'headers',
       createField({
-        value: configuration?.headers ?? { '': '' }
+        value: configuration?.headers ?? {}
       })
     )
     .put(

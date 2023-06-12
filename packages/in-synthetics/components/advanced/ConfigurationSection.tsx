@@ -84,35 +84,37 @@ export default function ConfigurationSection({ form, updateForm, isUpdateConfig 
       : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
   };
   const getDefaultHeaders = (): ConfigItem[] => {
-    return [
-      {
-        id: generateUniqueShortId(),
-        key: '',
-        value: '',
-        error: {
-          name: { invalid: false, message: '' },
-          value: { invalid: false, message: '' }
-        }
-      }
-    ];
-  };
-  const getHeadersEditMode = (): ConfigItem[] => {
     const headers = (configForm.get('headers') as Field<Record<string, string>>).value;
-    const headersObject: ConfigItem[] = [];
-    Object.keys(headers).map(key =>
-      headersObject.push({
-        id: generateUniqueShortId(),
-        key: key,
-        value: headers[key],
-        error: {
-          name: { invalid: false, message: '' },
-          value: { invalid: false, message: '' }
+    const headersKeys = Object.keys(headers);
+    if (headersKeys.length) {
+      const headersObject: ConfigItem[] = [];
+      headersKeys.map(key =>
+        headersObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: headers[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return headersObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
         }
-      })
-    );
-    return headersObject;
+      ];
+    }
   };
-  const [headers, setHeaders] = useState(isUpdateConfig ? getHeadersEditMode() : getDefaultHeaders());
+  const [headers, setHeaders] = useState(getDefaultHeaders());
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
 
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
