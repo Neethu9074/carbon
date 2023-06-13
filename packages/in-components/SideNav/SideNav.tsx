@@ -104,6 +104,7 @@ export default class SideNav extends React.Component<SideNavProps> {
 
   highlightCurrentItemOnManualScroll = () => {
     const navItems = this.props.navItems
+      .filter(item => !item.hidden)
       .map((item, index) => {
         const element = document.getElementById(item.scrollId);
         const { top, height } = element!.getBoundingClientRect();

@@ -79,197 +79,185 @@ export default function AdvancedModeContainer(props) {
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
-
-  return (
-    <StepsContainer
-      messages={messages}
-      navItems={[
-        {
-          scrollId: '1',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
-          valid:
-            (!isLogsBlueprint || !fieldTouchedAndInvalid(ruleForm?.get('message'))) &&
-            // for custom ranges only: we do have direct invalidation feedback on the fields,
-            // so only can get invalid after the user has changed it
-            (!isStatusCodeBluePrint || !ruleForm?.get('statusCode')?.hierarchyValid === false),
-          content: (
-            <>
-              <BluePrintSelectionSection
-                alertType={alertType}
-                blueprintConfigList={blueprintConfigList}
-                form={form}
-                updateForm={updateForm}
-                setSliderState={setSliderState}
-              />
-              {blueprintConfig?.baselineEnabled && (
-                <LightCard
-                  title={t(
-                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
-                  )}
-                  withoutPadding
-                  darkFrame
-                >
-                  <StaticOrAdaptiveSwitch
-                    form={form}
-                    setForm={updateForm}
-                    onThresholdTypeChange={onThresholdTypeChange}
-                  />
-                </LightCard>
+  const navItems = [
+    {
+      scrollId: '1',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
+      valid:
+        (!isLogsBlueprint || !fieldTouchedAndInvalid(ruleForm?.get('message'))) &&
+        // for custom ranges only: we do have direct invalidation feedback on the fields,
+        // so only can get invalid after the user has changed it
+        (!isStatusCodeBluePrint || !ruleForm?.get('statusCode')?.hierarchyValid === false),
+      content: (
+        <>
+          <BluePrintSelectionSection
+            alertType={alertType}
+            blueprintConfigList={blueprintConfigList}
+            form={form}
+            updateForm={updateForm}
+            setSliderState={setSliderState}
+          />
+          {blueprintConfig?.baselineEnabled && (
+            <LightCard
+              title={t(
+                'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
               )}
-            </>
-          )
-        },
-        {
-          scrollId: '2',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
-          valid: form.get('applications')?.valid && isTagFilterFormModelValid,
-          content: (
-            <>
-              <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
-              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
-              <IncludeInternalOrSyntheticCallsSwitch
-                form={form}
-                updateForm={updateForm}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-              />
-              <ScopeConfig
-                form={form}
-                updateForm={updateForm}
-                QueryBuilderComponent={QueryBuilderComponent}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-                editMode={editMode}
-                migrationMode={migrationMode}
-                scopeMigrationDetails={scopeMigrationDetails}
-                initialConfiguredApplications={initialConfiguredApplications}
-              />
-            </>
-          )
-        },
-        {
-          scrollId: '3',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.title'),
-          valid: isThresholdSectionValid(),
-          content: (
-            <>
-              <ThresholdSection
-                alertConfigWithFormModel={alertConfigWithFormModel}
-                alertType={alertType}
-                blueprintConfig={blueprintConfig}
-                editMode={editMode}
-                form={form}
-                onChartViewConfigChange={onChartViewConfigChange}
-                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                updateForm={updateForm}
-                ruleComplete={ruleComplete}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-              />
-              {thresholdType === HISTORIC_BASELINE && (
-                <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
-              )}
-              {thresholdType === ADAPTIVE_BASELINE && (
-                <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />
-              )}
-            </>
-          )
-        },
-        {
-          scrollId: '4',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
-          valid: !fieldTouchedAndInvalid(form.get('timeThreshold').get('requests')),
-          content: (
-            <TimeThresholdConfigPresenter
+              withoutPadding
+              darkFrame
+            >
+              <StaticOrAdaptiveSwitch form={form} setForm={updateForm} onThresholdTypeChange={onThresholdTypeChange} />
+            </LightCard>
+          )}
+        </>
+      )
+    },
+    {
+      scrollId: '2',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
+      valid: form.get('applications')?.valid && isTagFilterFormModelValid,
+      content: (
+        <>
+          <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+          <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+          <IncludeInternalOrSyntheticCallsSwitch
+            form={form}
+            updateForm={updateForm}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+          />
+          <ScopeConfig
+            form={form}
+            updateForm={updateForm}
+            QueryBuilderComponent={QueryBuilderComponent}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+            editMode={editMode}
+            migrationMode={migrationMode}
+            scopeMigrationDetails={scopeMigrationDetails}
+            initialConfiguredApplications={initialConfiguredApplications}
+          />
+        </>
+      )
+    },
+    {
+      scrollId: '3',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.title'),
+      valid: isThresholdSectionValid(),
+      content: (
+        <>
+          <ThresholdSection
+            alertConfigWithFormModel={alertConfigWithFormModel}
+            alertType={alertType}
+            blueprintConfig={blueprintConfig}
+            editMode={editMode}
+            form={form}
+            onChartViewConfigChange={onChartViewConfigChange}
+            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+            updateForm={updateForm}
+            ruleComplete={ruleComplete}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+          />
+          {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
+          {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
+        </>
+      )
+    },
+    {
+      scrollId: '4',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
+      valid: !fieldTouchedAndInvalid(form.get('timeThreshold').get('requests')),
+      content: (
+        <TimeThresholdConfigPresenter
+          form={form}
+          onChange={onChange}
+          updateForm={updateForm}
+          impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
+          hasTraceImpactOption
+        />
+      )
+    },
+    {
+      scrollId: '5',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
+      valid: true,
+      content: (
+        <ConfigureAlertChannel
+          form={form}
+          onChange={onChange}
+          setSliderState={setSliderState}
+          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+          numberOfAlertChannelListRows={7}
+        />
+      )
+    },
+    {
+      scrollId: '6',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.title'),
+      valid: true,
+      content: (
+        <AlertPropertiesContainer
+          renderAlertProperties={() => (
+            <AlertProperties
               form={form}
               onChange={onChange}
-              updateForm={updateForm}
-              impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasTraceImpactOption
+              getDescriptionPlaceholder={getDescriptionPlaceholder}
+              getPreviewTitlePlaceholder={getTitlePlaceholder}
+              renderAlertPropertiesTitleRow={() => (
+                <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
+              )}
             />
-          )
-        },
-        {
-          scrollId: '5',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
-          valid: true,
-          content: (
-            <ConfigureAlertChannel
+          )}
+          renderAlertPreview={() => (
+            <ApplicationAlertPreview
               form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={7}
+              description={description}
+              applicationLabel={applicationLabel}
+              evaluationType={evaluationType}
+              severity={severity}
+              triggering={triggering}
             />
-          )
-        },
-        {
-          scrollId: '6',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.title'),
-          valid: true,
-          content: (
-            <AlertPropertiesContainer
-              renderAlertProperties={() => (
-                <AlertProperties
-                  form={form}
-                  onChange={onChange}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  renderAlertPropertiesTitleRow={() => (
-                    <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
-                  )}
-                />
-              )}
-              renderAlertPreview={() => (
-                <ApplicationAlertPreview
-                  form={form}
-                  description={description}
-                  applicationLabel={applicationLabel}
-                  evaluationType={evaluationType}
-                  severity={severity}
-                  triggering={triggering}
-                />
-              )}
-            />
-          )
-        },
-        {
-          scrollId: '7',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
-          valid: isCustomPayloadValidOrUntouched(form),
-          content: (
-            <>
-              <GlobalCustomPayloadCard context="APPLICATION" />
+          )}
+        />
+      )
+    },
+    {
+      scrollId: '7',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
+      valid: isCustomPayloadValidOrUntouched(form),
+      content: (
+        <>
+          <GlobalCustomPayloadCard context="APPLICATION" />
 
-              <AlertConfigCustomPayload
-                form={form}
-                setForm={updateForm}
-                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-                supportDynamicTypes
-              />
-            </>
-          )
-        },
-        {
-          scrollId: '8',
-          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.label'),
-          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.title'),
-          valid: true,
-          hidden: isGlobalSmartAlert || !role.canConfigureAutomationActions || !actionAutomationEnabled,
-          isBeta: true,
-          content: (
-            <>
-              <AlertsActionsSelection form={form} onChange={onChange} pageSize={5} />
-            </>
-          )
-        }
-      ]}
-    />
-  );
+          <AlertConfigCustomPayload
+            form={form}
+            setForm={updateForm}
+            TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+            supportDynamicTypes
+          />
+        </>
+      )
+    },
+    {
+      scrollId: '8',
+      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.label'),
+      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.title'),
+      hidden: isGlobalSmartAlert || !role.canConfigureAutomationActions || !actionAutomationEnabled,
+      valid: true,
+      isBeta: true,
+      content: (
+        <>
+          <AlertsActionsSelection form={form} onChange={onChange} pageSize={5} />
+        </>
+      )
+    }
+  ];
+
+  return <StepsContainer messages={messages} navItems={navItems} />;
 
   function isThresholdSectionValid() {
     if (fieldTouchedAndInvalid(form.get('threshold')?.get('value'))) {
