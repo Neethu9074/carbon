@@ -108,7 +108,7 @@ export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('synthetic
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
 // Synthetic credential feature flag
-export const syntheticCredentialEnabled = isFeatureFlagEnabled('syntheticCredentialEnabled');
+export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystoreEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');

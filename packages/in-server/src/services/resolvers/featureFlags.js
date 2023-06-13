@@ -266,8 +266,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCredentialEnabled',
-    instanaCtlKey: 'feature.synthetic.credential.enabled',
+    uiClientKey: 'syntheticsKeystoreEnabled',
+    instanaCtlKey: 'feature.synthetics.keystore.enabled',
     defaultValue: false
   },
   {
