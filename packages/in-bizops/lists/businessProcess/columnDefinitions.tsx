@@ -24,6 +24,7 @@ import { t } from 'in-i18n';
 import { businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
@@ -130,14 +131,15 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.healthLabel'),
     /* When backend is ready, the health icon needs to be driven by item.openIssues */
-    getContent(item: BusinessProcessItem, { timeConfig }) {
+    getContent(item: BusinessProcessItem, { result, timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service?.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={getResolvedTimeConfig(timeConfig, 0)}
+          //@ts-ignore type error
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
         />
       );
