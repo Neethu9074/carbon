@@ -5,7 +5,7 @@
  */
 
 import { Field, Item } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Typography } from '@instana/components';
 import { SloEntityType } from '@instana/types';
@@ -23,7 +23,18 @@ interface SloScopeSectionProps {
 
 export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
   const sloSloEntityTypeField = form.get(sloEntityTypeKey).value;
-
+  const [label, setLabel] = useState('');
+  const setLabels = (labels: string) => {
+    setLabel(labels);
+  };
+  const getLabel = (Slabel: string) => {
+    return (
+      <Typography variant="heading-100" component="h3">
+        {t('in-service-levels:general.selectLabel')}
+        {Slabel ? Slabel : t('in-service-levels:general.noSelection')}
+      </Typography>
+    );
+  };
   return (
     <>
       <Typography variant="heading-200" component="h2">
@@ -35,11 +46,11 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
           onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true))
         }
       />
-
+      {getLabel(label)}
       {isApplicationSloForm(form) ? (
-        <SloApplicationEntitySection form={form} onChange={onChange} />
+        <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabels} />
       ) : (
-        <SloWebsiteEntitySection form={form} onChange={onChange} />
+        <SloWebsiteEntitySection form={form} onChange={onChange} onLabelChange={setLabels} />
       )}
     </>
   );
