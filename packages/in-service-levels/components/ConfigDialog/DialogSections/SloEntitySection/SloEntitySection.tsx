@@ -27,11 +27,11 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
   const setLabels = (labels: string) => {
     setLabel(labels);
   };
-  const getLabel = (Slabel: string) => {
+  const getLabel = (label: string) => {
     return (
       <Typography variant="heading-100" component="h3">
         {t('in-service-levels:general.selectLabel')}
-        {Slabel ? Slabel : t('in-service-levels:general.noSelection')}
+        {label ? label : t('in-service-levels:general.noSelection')}
       </Typography>
     );
   };
@@ -42,9 +42,10 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
       </Typography>
       <SloEntityTypeSelector
         value={sloSloEntityTypeField}
-        onChange={type =>
-          onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true))
-        }
+        onChange={type => {
+          setLabel(t('in-service-levels:general.noSelection'));
+          onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true));
+        }}
       />
       {getLabel(label)}
       {isApplicationSloForm(form) ? (
