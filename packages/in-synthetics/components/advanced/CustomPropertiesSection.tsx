@@ -31,19 +31,34 @@ interface Props {
 export default function CustomPropertiesSection({ form, updateForm }: Props) {
   const getDefaultCustomProperties = (): ConfigItem[] => {
     const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
-    const customPropertiesrObject: ConfigItem[] = [];
-    Object.keys(customProperties).map(key =>
-      customPropertiesrObject.push({
-        id: generateUniqueShortId(),
-        key: key,
-        value: customProperties[key],
-        error: {
-          name: { invalid: false, message: '' },
-          value: { invalid: false, message: '' }
+    const customPropertyKeys = Object.keys(customProperties);
+    if (customPropertyKeys.length) {
+      const customPropertiesObject: ConfigItem[] = [];
+      customPropertyKeys.map(key =>
+        customPropertiesObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: customProperties[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return customPropertiesObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
         }
-      })
-    );
-    return customPropertiesrObject;
+      ];
+    }
   };
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });

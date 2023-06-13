@@ -79,7 +79,7 @@ export function createForm(savedState: Record<string, any>) {
     .put(
       'customProperties',
       createField({
-        value: savedState?.customProperties ?? { '': '' }
+        value: savedState?.customProperties ?? {}
       })
     );
 }
