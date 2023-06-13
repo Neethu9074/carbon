@@ -31,7 +31,12 @@ export default function InfrastructureIssuesAndChanges({ businessProcessId }: In
     getBizOpsEventsCount({
       processId: businessProcessId,
       granularity: getChartGranularity(timeConfig),
-      timeConfig: timeConfig
+      filter: {
+        timeConfig,
+        includeInternalCalls: false,
+        includeSyntheticCalls: false,
+        useLongTermDataOnly: false
+      }
     }),
     [businessProcessId, timeConfig]
   );
