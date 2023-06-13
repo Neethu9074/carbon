@@ -32,6 +32,13 @@ export default function App() {
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
+        {
+          // GlobalTheme was the first attempt to introduce theming.
+          // It was implemented to support and using theming in QueryBuilder components.
+          // It just holds a string:  'light'(default) or 'dark'
+          //
+          // TODO investigate for usages and decide if it can be completely be removed.
+        }
         <GlobalTheme>
           <ThemeProvider theme="default">
             <ScrollTrackingWrapper>

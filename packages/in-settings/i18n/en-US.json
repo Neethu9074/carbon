@@ -994,7 +994,7 @@
     "theme": "Unknown theme",
     "theme_default": "Instana",
     "theme_dark": "Dark",
-    "theme_g10": "G10",
+    "theme_g10": "Carbon g10",
     "toggleTheQualityOfChartRenderingDisableThisToHaveFluentChartAnimationsOnSlowerSystems": "Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.",
     "highQualityChartRendering": "High quality chart rendering",
     "formatTimeAccordingToUtc": "Format time according to UTC",

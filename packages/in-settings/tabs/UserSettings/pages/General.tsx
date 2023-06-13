@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button, Toggle } from '@instana/components';
+import { Button, getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
@@ -31,6 +31,10 @@ export default function UiConfigGeneralPage() {
   if (!settings) {
     return null;
   }
+
+  const currentTheme = getThemeOverride() ?? 'default';
+  // eslint-disable-next-line no-console
+  console.log('currentTheme', currentTheme);
 
   return (
     <SettingsDetailPage>
@@ -173,21 +177,59 @@ export default function UiConfigGeneralPage() {
         </Button>
       </HorizontalFormGroup>
       {userSettingsThemeEnabled && (
-        <HorizontalFormGroup noHelpTextSpacer>
-          <Heading text={t('in-settings:tabs.themeSettings')} htmlFor="theme" />
+        <HorizontalFormGroup
+          // This is a temporary feature behind a feature flag.
+          // It won't need translation yet, as it will only be available internally.
+          helpText={
+            <>
+              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
+              <br />
+              This will set the theme for the local browser. It will not affect other users or browser windows.
+              <br />
+              It enables testing a different Carbon Theme for parts that are carbonized.
+              <br />
+              <br />
+              This setting will be kept until it will get reset again.
+            </>
+          }
+          isWarning
+        >
+          <Heading
+            text={
+              <Stack direction={'horizontal'} align={'center'}>
+                <span>{t('in-settings:tabs.themeSettings')}</span>
+                <Spacer horizontal="normal" />
+                <Link href="/#/config/user/general" size="sm">
+                  {/* no need for translation yet */}
+                  You can bookmark this settings page.
+                </Link>
+              </Stack>
+            }
+            htmlFor="theme"
+          />
           <Select
             id="theme"
             name="theme"
-            value={'default'}
-            onChange={() => {
-              /* TODO: set theme */
+            value={currentTheme}
+            onChange={event => {
+              const selectTheme = event.target?.value;
+
+              // eslint-disable-next-line no-console
+              console.debug('selected theme:', selectTheme);
+
+              if (currentTheme !== selectTheme) {
+                setThemeOverride(selectTheme);
+                window.location.reload();
+              }
             }}
           >
-            {Object.keys(themes).map(theme => (
-              <option key={theme} value={theme}>
-                {t('in-settings:tabs.theme', { context: theme })}
-              </option>
-            ))}
+            {Object.keys(themes)
+              .filter(name => name != 'dark')
+              .map(theme => (
+                <option key={theme} value={theme}>
+                  {t('in-settings:tabs.theme', { context: theme })}
+                </option>
+              ))}
           </Select>
         </HorizontalFormGroup>
       )}
