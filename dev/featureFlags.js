@@ -79,7 +79,7 @@ module.exports = {
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
   playwithEnabled: false,
-  recurrentMaintenanceWindowsEnabled: true,
+  recurrentMaintenanceWindowsEnabled: false,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
