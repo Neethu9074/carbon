@@ -16,6 +16,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface InfraProps {
@@ -71,7 +72,7 @@ export default function InfrastructureIssuesAndChanges({ businessProcessId }: In
         renderer: Renderer.stackedBar,
         labels: ['Infra Issues', 'Offline', 'Online', 'Changes'],
         metricIds: ['issues', 'offline', 'online', 'change'],
-        colors: [],
+        colors: [theme.lib.colors.pink800, '#9aa5a9', '#99e1e1', '#cdbcf0'],
         metrics: [],
         formatter: getFormatter('number.compact')
       }}
