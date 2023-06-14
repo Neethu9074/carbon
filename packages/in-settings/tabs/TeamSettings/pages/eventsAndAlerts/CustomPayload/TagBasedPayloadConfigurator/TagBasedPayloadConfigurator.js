@@ -29,7 +29,8 @@ export default function TagBasedPayloadConfigurator({
   onChange,
   getTagCatalog,
   suggestionsAlignedLeft,
-  getSuggestions
+  getSuggestions,
+  hideDestinationSourceTag = false
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
@@ -71,6 +72,7 @@ export default function TagBasedPayloadConfigurator({
             <TagBasedPayloadView
               tagCatalog={tagCatalog}
               payloadValue={value}
+              hideDestinationSourceTag={hideDestinationSourceTag}
               doesTagNodeNeedSecondLevelKey={doesTagNodeNeedSecondLevelKey(tagPath)}
             />
           ) : (
@@ -118,7 +120,8 @@ TagBasedPayloadConfigurator.propTypes = {
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
   suggestionsAlignedLeft: rpt.bool,
-  tagFilterExpression: rpt.object
+  tagFilterExpression: rpt.object,
+  hideDestinationSourceTag: rpt.bool
 };
 
 export function createTagBasedApplicationPayloadConfigurator({ getTagCatalog, getSuggestions }) {

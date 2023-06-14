@@ -45,7 +45,14 @@ export default function CustomPayloadViewer({
     return (
       <KeyValue
         className={locals.valueCell}
-        label={<TagBasedPayloadConfigurator value={toViewModel(value)} tagFilterExpression={{}} disabled />}
+        label={
+          <TagBasedPayloadConfigurator
+            value={toViewModel(value)}
+            tagFilterExpression={{}}
+            disabled
+            hideDestinationSourceTag
+          />
+        }
       />
     );
   }
