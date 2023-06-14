@@ -7,8 +7,9 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { DistinctSlider, Message } from '@instana/components';
+import { DistinctSlider, Message, Stack } from '@instana/components';
 
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/CenterAlignmentColumn';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -22,22 +23,56 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [sliderMessage, setSliderMessage] = useState('Use the slider to select a feedback input');
   const timeConfig = useTimeConfig();
+
+  const handleChange = ({ value }: { value: number }) => {
+    setForm(form.updateIn(['feedback'], field => field.setValue(value.toString())));
+    switch (value) {
+      case 1:
+        setSliderMessage(value + ': This script was completely ineffective and/or made the issue worse');
+        break;
+      case 2:
+        setSliderMessage(value + ": This script was not very effective, but it didn't make it worse");
+        break;
+      case 3:
+        setSliderMessage(
+          value + ': This script did not resolve the issue, but it helped me learn more about the problem'
+        );
+        break;
+      case 4:
+        setSliderMessage(
+          value + ': This script did not completely fix the issue, but it came close and improved the situation'
+        );
+        break;
+      case 5:
+        setSliderMessage(value + ': This script worked nearly perfectly and completely solved my problem');
+        break;
+    }
+  };
+
   return (
     <Form
       form={form}
       setForm={form => setForm(form as FeedbackForm)}
       onSubmit={form => handleSubmit({ form: form as FeedbackForm, id, timeConfig, setSuccess, setIsSaving, setError })}
     >
+      {/* sets error and success codes */}
       {error && <Message type="error">Error occured saving feedback</Message>}
       {success && <Message type="success">Feedback successfully saved!</Message>}
-      <DistinctSlider
-        marks={[{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }]}
-        max={5}
-        min={1}
-        value={parseInt(form.get('feedback').value)}
-        onChange={(_, value) => setForm(form => form.updateIn(['feedback'], field => field.setValue(value.toString())))}
-      />
+      <Stack>
+        <DistinctSlider
+          marks={[{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }]}
+          max={5}
+          min={1}
+          value={parseInt(form.get('feedback').value)}
+          // sets the feedback form and value
+          onChange={(_, value) => handleChange({ value: value as number })}
+        />
+        <CenterAlignmentColumn>
+          <Message>{sliderMessage}</Message>
+        </CenterAlignmentColumn>
+      </Stack>
       <FormFooter>
         <SaveButton form={form} isSaving={isSaving} />
       </FormFooter>
