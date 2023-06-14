@@ -47,32 +47,6 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
       });
     });
 
-    describe('if formatterType is MICROS', () => {
-      const formatterType = 'MICROS';
-
-      it('correctly maps integers', () => {
-        // Given
-        const value = 1001;
-
-        // When
-        const actual = mapConditionValue(value, formatterType);
-
-        // Then
-        expect(actual).toBe(1.001);
-      });
-
-      it('returns Nan if value is undefined', () => {
-        // Given
-        const value = undefined;
-
-        // When
-        const actual = mapConditionValue(value, formatterType);
-
-        // Then
-        expect(actual).toBeNaN();
-      });
-    });
-
     it('returns value unchanged if formatterType is undefined', () => {
       // Given
       const value = 1111;
@@ -117,32 +91,6 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
 
         // When
         const actual = unmapConditionValue(value, formatterType);
-
-        // Then
-        expect(actual).toBeNaN();
-      });
-    });
-
-    describe('if formatterType is MICROS', () => {
-      const formatterType = 'MICROS';
-
-      it('correctly maps integers', () => {
-        // Given
-        const value = 1;
-
-        // When
-        const actual = unmapConditionValue(value, formatterType);
-
-        // Then
-        expect(actual).toBe(1000);
-      });
-
-      it('returns NaN if value is undefined', () => {
-        // Given
-        const value = undefined;
-
-        // When
-        const actual = mapConditionValue(value, formatterType);
 
         // Then
         expect(actual).toBeNaN();

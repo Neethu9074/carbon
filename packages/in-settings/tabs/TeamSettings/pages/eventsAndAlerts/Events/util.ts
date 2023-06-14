@@ -110,9 +110,6 @@ export function mapConditionValue(value: number, formatterType: FormatterType): 
   if (formatterType === 'PERCENTAGE') {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value = formatNumber(value, getNumberOfDigits(value));
-  } else if (formatterType === 'MICROS') {
-    // convert to millis
-    value /= 1000;
   }
   return value;
 }
@@ -120,8 +117,6 @@ export function mapConditionValue(value: number, formatterType: FormatterType): 
 export function unmapConditionValue(value: number, formatterType: FormatterType): number {
   if (formatterType === 'PERCENTAGE') {
     value = round(value / 100, getNumberOfDigits(value) + 2);
-  } else if (formatterType === 'MICROS') {
-    value *= 1000;
   }
   return value;
 }
