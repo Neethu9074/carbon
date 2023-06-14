@@ -9,7 +9,7 @@ import React from 'react';
 import { LocationListItem, TimeConfig } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';

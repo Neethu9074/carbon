@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 import { KeyValue } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import RedisTLSDeployContent from 'in-synthetics/dashboards/global/tabs/tests/components/RedisTLSDeployContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';

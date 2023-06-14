@@ -9,7 +9,7 @@ import moment from 'moment';
 
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';

@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Typography } from '@instana/components';
 import { LocationListItem } from '@instana/types';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';

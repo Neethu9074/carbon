@@ -9,7 +9,7 @@ import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
