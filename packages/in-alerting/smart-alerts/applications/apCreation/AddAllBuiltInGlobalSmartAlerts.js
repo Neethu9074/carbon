@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';

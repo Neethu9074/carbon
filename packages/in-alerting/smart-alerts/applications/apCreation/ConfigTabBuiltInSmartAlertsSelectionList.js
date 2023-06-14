@@ -10,7 +10,7 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import ReadOnlyBuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/ReadOnlyBuiltInSmartAlertsSelectionBaseList';
 import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/BuiltInSmartAlertsSelectionBaseList';
@@ -71,7 +71,7 @@ const columnDefinitions = [
           customLabel={() => (
             <Stack gap="xxsmall">
               <Link
-                href$={getLinkToAlertDetails(config)}
+                href={getLinkToAlertDetails(config)}
                 aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
                   name: config.name
                 })}
@@ -125,7 +125,7 @@ const readOnlyColumnDefinitions = [
           />
           <div className={locals.labelTextWrapper}>{config.customLabel?.() ?? <LabelText>{name}</LabelText>}</div>
           <Link
-            href$={getLinkToAlertDetails(config)}
+            href={getLinkToAlertDetails(config)}
             aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
               name: config.name
             })}

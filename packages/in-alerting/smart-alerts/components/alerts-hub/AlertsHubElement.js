@@ -9,7 +9,7 @@ import React from 'react';
 import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { t } from 'in-i18n';
 

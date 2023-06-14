@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import ConfigureAlertingThreshold from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/ConfigureAlertingThreshold';
 import SelectTimeThreshold from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
