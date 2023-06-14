@@ -8,7 +8,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';

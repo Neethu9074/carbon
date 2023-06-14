@@ -7,7 +7,7 @@
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   applicationsAlertingMigrationNotificationDocs,
@@ -90,7 +90,7 @@ export function showNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href$={getModifiedUrlStream(location => {
+          href={getModifiedUrlStream(location => {
             location.pathname = teamSettingsAlertingEvents;
             setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
           })}

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   isInfraEntityType,

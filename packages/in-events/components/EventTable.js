@@ -7,8 +7,8 @@ import { findIndex } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 import { on } from '@instana/observables';
-import { Link } from '@instana/legacy';
 
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
