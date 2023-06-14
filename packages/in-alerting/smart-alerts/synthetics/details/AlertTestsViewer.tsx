@@ -16,8 +16,9 @@ import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTes
 
 interface AlertTestsViewerProps {
   alertTestIds: string[];
+  setTitle: boolean;
 }
-export default function AlertTestsViewer({ alertTestIds = [] }: AlertTestsViewerProps) {
+export default function AlertTestsViewer({ alertTestIds = [], setTitle }: AlertTestsViewerProps) {
   const syntheticTests = useObservable(
     () => getTestsAsResultObservable(getTestsAsResultObservableInternal).startWith(null),
     []
@@ -35,13 +36,14 @@ export default function AlertTestsViewer({ alertTestIds = [] }: AlertTestsViewer
 
   return (
     <AlertTestsList
-      setTitle={false}
+      setTitle={setTitle}
       //@ts-expect-error
       loadEntities={() => getSelectedAlertTests(alertTestIds)}
       renderNoDataAvailable={() => <NoTestSelected />}
       isSearchable={false}
       getHeader={() => null}
       rightHeader={null}
+      displayApplicationLabel={false}
     />
   );
 }

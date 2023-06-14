@@ -63,7 +63,6 @@ export default function ConfigureAlertTest({
   return (
     <>
       <AlertTestsList
-        setTitle={false}
         // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
         renderNoDataAvailable={() => <NoTestSelected />}

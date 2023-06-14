@@ -7,6 +7,7 @@
 import React, { useMemo } from 'react';
 
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
+import { Message } from '@instana/components';
 
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
@@ -72,17 +73,17 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertTestsViewer alertTestIds={syntheticTestIds} />
+          <AlertTestsViewer alertTestIds={syntheticTestIds} setTitle={false} />
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.synthetics.details.alertConfigurationTitleScope')}
         useMaxAvailableHeight={false}
-        openByDefault={tagFilterFormModel.length > 0}
-        bodyWithoutPadding
+        openByDefault
+        bodyWithoutPadding={tagFilterFormModel.length > 0}
         darkFrame
       >
-        {tagFilterFormModel.length > 0 && (
+        {tagFilterFormModel.length > 0 ? (
           <div className={locals.paddingBodyWrapper}>
             <ScopeConfigPresenter
               tagFilterFormModel={tagFilterFormModel}
@@ -90,6 +91,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
               queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
             />
           </div>
+        ) : (
+          <Message small title={t('in-alerting:smartAlerts.synthetics.details.noScopeConfigured')} />
         )}
       </ExpandableLightCard>
       <ExpandableLightCard

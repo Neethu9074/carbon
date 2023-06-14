@@ -1023,7 +1023,8 @@
         "alertConfigurationTitleScope": "Scope",
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time Threshold",
-        "alertingType": "Alerting Type"
+        "alertingType": "Alerting Type",
+        "noScopeConfigured": "No Scope Filter Configured"
       }
     },
     "mobileApp": {

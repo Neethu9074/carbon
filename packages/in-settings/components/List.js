@@ -222,9 +222,8 @@ function List({
         tableInCard={tableInCard}
         fixedLayout
         rightHeader={
-          rightHeader ? (
-            rightHeader
-          ) : (
+          rightHeader ??
+          ((pathNew || onCreateNew) && (
             <CreateNewEntityButton
               labelNew={labelNew}
               trackEvent={trackEvent}
@@ -232,7 +231,7 @@ function List({
               onCreateNew={onCreateNew}
               disabledMessage={newDisabledMessage}
             />
-          )
+          ))
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
