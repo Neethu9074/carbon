@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import { Parameter } from '@instana/types';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';

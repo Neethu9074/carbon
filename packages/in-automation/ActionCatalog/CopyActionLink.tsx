@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
 import { Action } from '@instana/types';
-import { Link } from '@instana/legacy';
 
 import { actionDetailsCopyPath } from 'in-automation/navigation/paths';
 import { getEntityIdView } from 'in-settings/navigation/paths';
@@ -22,7 +22,7 @@ interface CopyActionLinkProps {
 export default function CopyActionLink({ action }: CopyActionLinkProps) {
   return (
     <Tooltip content={t('in-automation:ActionCatalog.duplicate')} delay={500}>
-      <Link ellipsis href$={getEntityIdView(actionDetailsCopyPath, action.id)}>
+      <Link ellipsis href={getEntityIdView(actionDetailsCopyPath, action.id)}>
         <IconButton buttonType="button" kind="primaryv2" type={'lib_actions_copy'} />
       </Link>
     </Tooltip>

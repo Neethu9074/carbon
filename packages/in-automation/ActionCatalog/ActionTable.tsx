@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getType, isDocLink, isScript, isWebhook, getDocLinkFromFields } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
@@ -127,7 +127,7 @@ const nameColumn = (showActionLink: boolean) => ({
     return (
       <Tooltip content={row.name} align="topLeft" delay={500}>
         {showActionLink ? (
-          <Link className={locals.block} ellipsis href$={getEntityIdView(actionCatalogPath, row.id)}>
+          <Link className={locals.block} ellipsis href={getEntityIdView(actionCatalogPath, row.id)}>
             {row.name}
           </Link>
         ) : (

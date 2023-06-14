@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Typography, Spacer } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -98,7 +98,7 @@ export default function RunActionDialogContent({
             i18nKey={'in-automation:linkToActionLogs'}
             components={{
               // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href$={logLink} />
+              logsLink: <Link target="_blank" onClick={close} href={logLink} />
             }}
           />
         )}

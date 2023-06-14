@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { DateFormatterInput } from '@instana/format-date';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -134,7 +134,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
             <td>{label}</td>
             <td>
               {isLink ? (
-                <Link target="_blank" href={stringLink ?? undefined} href$={ObservableLink ?? undefined}>
+                <Link target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
                   {value}
                 </Link>
               ) : (
