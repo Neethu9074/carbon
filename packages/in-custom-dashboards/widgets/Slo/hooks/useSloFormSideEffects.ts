@@ -32,6 +32,10 @@ const formSideEffects = [
     effects: [clampTimeWindowDuration as EffectFunction]
   },
   {
+    path: [entityId],
+    effects: [clearSliConfigId as EffectFunction]
+  },
+  {
     path: [entityType],
     effects: [cleanEntityId as EffectFunction, clearSliConfigId as EffectFunction]
   }
@@ -76,7 +80,9 @@ function clampTimeWindowDuration(form: MapForm<any>): Item {
 }
 
 function clearSliConfigId(form: MapForm<any>): Item {
-  return form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(false));
+  return !form.touched
+    ? form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(false))
+    : form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(true));
 }
 
 function cleanEntityId(form: MapForm<any>): Item {

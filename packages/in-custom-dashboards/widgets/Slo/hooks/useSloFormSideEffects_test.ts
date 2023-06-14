@@ -106,6 +106,28 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects', () => {
       expect(updatedForm.timeWindowDuration).toBe(12);
     });
   });
+
+  describe('#clearSliConfigId', () => {
+    it('Field sliConfigId is set to empty string on entityId change.', () => {
+      let updatedForm: { [key: string]: unknown } = {};
+
+      // GIVEN
+      const form = createForm({
+        entityId: 'oldEntityId',
+        sliConfigId: 'sliConfigId'
+      });
+
+      const updateForm = useSloFormSideEffects(form, f => {
+        updatedForm = f.toJS();
+      });
+
+      // WHEN
+      updateForm(form.updateIn(['entityId'], f => (f as Field<string>).setValue('latestEntityId').setTouched(true)));
+
+      // THEN
+      expect(updatedForm.sliConfigId).toBe('');
+    });
+  });
 });
 
 describe('#clearSliConfigId', () => {
