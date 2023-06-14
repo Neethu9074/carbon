@@ -15,14 +15,14 @@ import {
   onlyUniqueKeyNames,
   requestHeaderNameValidator,
   requestHeaderValueValidator
-} from 'in-synthetics/utils/configValidators';
+} from 'in-synthetics/createTests/validators/configValidators';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import ValidationSection from 'in-synthetics/components/advanced/ValidationSection';
+import ValidationSection from 'in-synthetics/createTests/advanced/ValidationSection';
+import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Validation } from 'in-synthetics/utils/constants';
@@ -34,7 +34,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-import locals from './ConfigurationSection.mless';
+import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
 
 interface Props {
   form: MapForm<any>;

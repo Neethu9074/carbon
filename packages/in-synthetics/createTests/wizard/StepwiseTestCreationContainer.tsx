@@ -9,16 +9,16 @@ import React from 'react';
 import { Application, Error as ScriptError, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import RequestResponseStep from 'in-synthetics/components/steps/RequestResponseStep';
-import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
-import BasicDetailsStep from 'in-synthetics/components/steps/BasicDetailsStep';
-import SelectTestStep from 'in-synthetics/components/steps/SelectTestStep';
-import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
+import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
+import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 import { Code } from 'in-synthetics/utils/constants';
 
-import locals from './StepwiseTestCreationContainer.mless';
+import locals from 'in-synthetics/createTests/wizard/StepwiseTestCreationContainer.mless';
 
 export interface Props {
   step: number;

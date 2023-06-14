@@ -9,14 +9,14 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/data/advancedModeBluePrints';
+import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import SelectedTestType from 'in-synthetics/components/advanced/SelectedTestType';
+import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import { Code } from 'in-synthetics/utils/constants';
 import Menu from 'in-components/Menu';
 
-import locals from './BluePrintSelectionSection.mless';
+import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
 
 interface BluePrintSelectionSectionProps {
   selectedBlueprint: AdvancedBluePrint;

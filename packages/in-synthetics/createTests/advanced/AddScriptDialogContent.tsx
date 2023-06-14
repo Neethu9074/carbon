@@ -11,13 +11,13 @@ import jsZip from 'jszip';
 import { Message } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ConfigSlideContentWrapper from 'in-synthetics/components/advanced/ConfigSlideContentWrapper';
-import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
+import { mainFileNameValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import { mainFileNameValidator } from 'in-synthetics/utils/configValidators';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { Script, SlideInHeader, Zip } from 'in-synthetics/utils/constants';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -34,7 +34,7 @@ import Label from 'in-components/form/Label/Label';
 import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './ScriptsSection.mless';
+import locals from 'in-synthetics/createTests/advanced/ScriptsSection.mless';
 
 interface AddScriptProps {
   form: MapForm<any>;

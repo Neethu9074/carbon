@@ -22,7 +22,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-import locals from './IdentifySection.mless';
+import locals from 'in-synthetics/createTests/advanced/IdentifySection.mless';
 
 export interface Props {
   form: MapForm<any>;

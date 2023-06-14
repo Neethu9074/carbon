@@ -11,11 +11,11 @@ import { isEmpty } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 
-import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { createForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
-import { createForm } from 'in-synthetics/form/updateSyntheticTestForm';
+import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { SlideInHeader } from 'in-synthetics/utils/constants';
 import { updateTest } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';

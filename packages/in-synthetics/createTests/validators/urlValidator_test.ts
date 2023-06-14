@@ -6,7 +6,7 @@
 
 import { t } from '@instana/i18n-react';
 
-import urlValidator from 'in-synthetics/utils/urlValidator';
+import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 
 test('validates an input URL, and return undefined value if input URL is valid', () => {
   expect(urlValidator('http://www.foobar.com/')).toStrictEqual(undefined);

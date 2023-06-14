@@ -13,9 +13,9 @@ import { generateUniqueShortId } from '@instana/utils';
 
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { Validations } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import { Validations } from 'in-synthetics/form/createSyntheticTestForm';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { Placeholders, Validation } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -25,7 +25,7 @@ import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-import locals from './ConfigurationSection.mless';
+import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
 
 interface ValidationProps {
   form: MapForm<any>;

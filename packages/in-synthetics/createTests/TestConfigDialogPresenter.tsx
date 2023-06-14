@@ -10,14 +10,14 @@ import { isEmpty } from 'lodash';
 import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
-import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { SlideInHeader, apiScriptTest, apiSimpleTest } from 'in-synthetics/utils/constants';
-import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
+import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import TestCreationWithSteps from 'in-synthetics/createTests/TestCreationWithSteps';
+import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
-import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { SyntheticTest, Error as ScriptError } from 'in-types';
 import { isNotBlank } from 'in-services/util/string';
 import { createTest } from 'in-synthetics/api';

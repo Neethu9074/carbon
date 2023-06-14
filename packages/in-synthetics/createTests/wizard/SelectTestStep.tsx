@@ -8,14 +8,14 @@ import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import { blueprintConfig, BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { Error as ScriptError } from 'in-types';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
-import locals from './SelectTestStep.mless';
+import locals from 'in-synthetics/createTests/wizard/SelectTestStep.mless';
 
 export interface Props {
   selectedBlueprint: BluePrint;

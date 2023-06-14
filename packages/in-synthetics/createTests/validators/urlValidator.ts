@@ -31,8 +31,8 @@
 
 import { ValidationResult } from 'formalistic';
 
-import isFQDN from 'in-synthetics/utils/isFQDN';
-import isIP from 'in-synthetics/utils/isIP';
+import isFQDN from 'in-synthetics/createTests/utils/isFQDN';
+import isIP from 'in-synthetics/createTests/utils/isIP';
 import { t } from 'in-i18n';
 
 /*

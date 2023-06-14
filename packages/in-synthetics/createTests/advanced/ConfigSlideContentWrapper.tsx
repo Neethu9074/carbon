@@ -6,7 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
-import locals from './ConfigSlideContentWrapper.mless';
+import locals from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper.mless';
 
 export default function ConfigSlideContentWrapper({ children }: { children: ReactNode }) {
   return <div className={locals.slideInContentWrapper}>{children}</div>;

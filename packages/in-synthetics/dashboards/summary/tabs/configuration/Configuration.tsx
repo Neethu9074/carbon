@@ -11,7 +11,7 @@ import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
-import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';

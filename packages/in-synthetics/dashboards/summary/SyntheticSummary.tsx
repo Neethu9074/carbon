@@ -13,7 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
-import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';

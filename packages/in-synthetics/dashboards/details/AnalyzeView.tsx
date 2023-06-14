@@ -24,9 +24,9 @@ import {
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
+import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';

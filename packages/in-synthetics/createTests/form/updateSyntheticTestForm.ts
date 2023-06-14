@@ -11,16 +11,16 @@ import {
   HTTPMethods,
   createZipScriptConfigurationForm,
   syntheticFormValidator
-} from 'in-synthetics/form/createSyntheticTestForm';
+} from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
-import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
+import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
-import urlValidator from 'in-synthetics/utils/urlValidator';
 
 export function createForm(savedState: Record<string, any>) {
   return createMapForm({

@@ -10,8 +10,8 @@ import React, { useState } from 'react';
 import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
+import { onlyUniqueKeyNames } from 'in-synthetics/createTests/validators/configValidators';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import { onlyUniqueKeyNames } from 'in-synthetics/utils/configValidators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { ConfigItem } from 'in-synthetics/utils/constants';
@@ -21,7 +21,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-import locals from './CustomPropertiesSection.mless';
+import locals from 'in-synthetics/createTests/advanced/CustomPropertiesSection.mless';
 
 interface Props {
   form: MapForm<any>;

@@ -10,14 +10,14 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import { Code as CodeType, apiScriptTest, apiSimpleTest, dummyLocations } from 'in-synthetics/utils/constants';
+import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
-import Section, { SubTitle } from 'in-synthetics/components/Section';
-import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
@@ -30,7 +30,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-import locals from './RequestResponseStep.mless';
+import locals from 'in-synthetics/createTests/wizard/RequestResponseStep.mless';
 
 export interface Props {
   form: MapForm<any>;

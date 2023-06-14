@@ -54,7 +54,7 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
+import TestConfigDialogPresenter from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';

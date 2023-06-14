@@ -6,17 +6,17 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { regExpValidator, statusCodeValidator } from 'in-synthetics/utils/configValidators';
-import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
+import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
+import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { apiScriptTest } from 'in-synthetics/utils/constants';
 import { minValidator } from 'in-services/validators/number';
-import urlValidator from 'in-synthetics/utils/urlValidator';
 import { t } from 'in-i18n';
 
 export interface HTTPMethodType {

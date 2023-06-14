@@ -7,15 +7,15 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
-import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
-import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
-import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import StepwiseTestCreationContainer from 'in-synthetics/createTests/wizard/StepwiseTestCreationContainer';
+import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { Code, SlideInHeader } from 'in-synthetics/utils/constants';
 import StepProgressBar from 'in-components/StepProgressBar';
 import { Error as ScriptError } from 'in-types';
 
-import locals from './TestCreationWithSteps.mless';
+import locals from 'in-synthetics/createTests/TestCreationWithSteps.mless';
 
 export interface Props {
   onDialogClose: () => void;

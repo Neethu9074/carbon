@@ -14,7 +14,7 @@ import { t } from '@instana/i18n-react';
 import List, { TableActions, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 
-import locals from './LocationsSection.mless';
+import locals from 'in-synthetics/createTests/advanced/LocationsSection.mless';
 
 export interface LocationsListProps {
   setTitle: boolean;

@@ -8,13 +8,13 @@ import React from 'react';
 
 //@ts-expect-error will convert DebouncedDistinctSlider to typescript
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
-import Section, { ActionTitle, Description, SubTitle } from 'in-synthetics/components/Section';
+import Section, { ActionTitle, Description, SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import { Shape } from 'in-components/Slider/proptypes';
 import FormGroup from 'in-components/form/FormGroup';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-import locals from 'in-synthetics/components/steps/SelectScheduleStep.mless';
+import locals from 'in-synthetics/createTests/wizard/SelectScheduleStep.mless';
 
 export interface Props {
   form: MapForm<any>;

@@ -11,19 +11,19 @@ import { Application, Result } from '@instana/types';
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-import Section from 'in-synthetics/components/Section';
+import Section from 'in-synthetics/createTests/wizard/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-import locals from './BasicDetailsStep.mless';
+import locals from 'in-synthetics/createTests/wizard/BasicDetailsStep.mless';
 
 export interface Props {
   form: MapForm<any>;

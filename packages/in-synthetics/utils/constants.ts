@@ -19,7 +19,7 @@ import {
   TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';

@@ -8,7 +8,7 @@ import React, { forwardRef } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
-import locals from './PingOrScriptOption.mless';
+import locals from 'in-synthetics/createTests/advanced/PingOrScriptOption.mless';
 
 interface PingOrScriptOptionProps {
   checked?: boolean;

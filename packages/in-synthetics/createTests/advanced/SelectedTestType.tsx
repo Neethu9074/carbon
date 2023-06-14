@@ -11,13 +11,13 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
-import PingOrScriptOption from 'in-synthetics/components/advanced/PingOrScriptOption';
-import { AdvancedBluePrint } from 'in-synthetics/data/advancedModeBluePrints';
-import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
+import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import PingOrScriptOption from 'in-synthetics/createTests/advanced/PingOrScriptOption';
+import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Code } from 'in-synthetics/utils/constants';
 
-import locals from './SelectedTestType.mless';
+import locals from 'in-synthetics/createTests/advanced/SelectedTestType.mless';
 
 interface SelectedTestTypeProps {
   selectedBlueprint: AdvancedBluePrint;

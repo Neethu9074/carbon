@@ -15,17 +15,17 @@ import { t } from '@instana/i18n-react';
 // eslint-disable-next-line no-restricted-imports
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
-import ConfigSlideContentWrapper from 'in-synthetics/components/advanced/ConfigSlideContentWrapper';
-import { LocationsListProps } from 'in-synthetics/components/advanced/LocationsSection';
+import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
+import { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import LocationsSection from 'in-synthetics/components/advanced/LocationsSection';
-import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import LocationsSection from 'in-synthetics/createTests/advanced/LocationsSection';
+import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveButton from 'in-components/form/SaveButton';
 
-import locals from './ConfigureLocations.mless';
+import locals from 'in-synthetics/createTests/advanced/ConfigureLocations.mless';
 
 interface ConfigureLocationsProps {
   form: MapForm<any>;
