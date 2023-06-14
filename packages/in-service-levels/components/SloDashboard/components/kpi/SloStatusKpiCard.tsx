@@ -10,7 +10,7 @@ import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { useTheme } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { createSloPercentageFormatter } from 'in-service-levels/utils';
+import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import metrics from 'in-service-levels/metrics';
 

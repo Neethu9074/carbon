@@ -12,8 +12,9 @@ import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { calculateAvailableErrorBudget, calculateTimeRemaining } from 'in-service-levels/utils';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
+import { calculateAvailableErrorBudget } from 'in-service-levels/utils/math';
+import { calculateTimeRemaining } from 'in-service-levels/utils/time';
 import { minutes, number } from 'in-services/formatters/number';
 
 interface ErrorBudgetInfoProps {

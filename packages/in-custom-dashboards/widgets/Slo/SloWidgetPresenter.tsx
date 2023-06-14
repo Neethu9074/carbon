@@ -12,7 +12,7 @@ import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidge
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
-import { calculateSloGranularity } from 'in-service-levels/utils';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
 

@@ -16,9 +16,9 @@ import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/c
 import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { hasError, isLoading, success } from 'in-services/util/result';
+import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import { applyAdjustedTimeframe } from 'in-service-levels/utils';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchedState } from 'in-hooks/utils/types';

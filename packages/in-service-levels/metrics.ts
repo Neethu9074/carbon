@@ -7,7 +7,7 @@
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { calculateSloGranularity } from 'in-service-levels/utils';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 
 interface SloMetricConfigGeneratorProps {
   configId: string;

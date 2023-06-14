@@ -10,7 +10,7 @@ import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { Typography } from '@instana/components';
 
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
-import { calculateSeverity } from 'in-service-levels/utils';
+import { calculateSeverity } from 'in-service-levels/utils/math';
 
 interface Props {
   item: SloListItem;

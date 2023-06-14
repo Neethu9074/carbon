@@ -12,7 +12,7 @@ import SloTimeTile from 'in-custom-dashboards/widgets/Slo/components/widget/tile
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
-import { formatSloStatus } from 'in-service-levels/utils';
+import { formatSloStatus } from 'in-service-levels/utils/format';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';
