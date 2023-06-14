@@ -20,7 +20,7 @@
 
   .to3D {
     position: absolute;
-    bottom: ~'calc((100% - 95px)/2)';
+    bottom: ~'calc((100% - 99px)/2)';
     right: @right;
     width: 2rem;
     display: flex;
@@ -31,6 +31,22 @@
 
     &:hover {
       color: @lib__colors__N800Dark;
+    }
+  }
+
+  .to2D {
+    position: absolute;
+    bottom: 32.8125rem;
+    right: @right;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: @lib__colors__N400;
+
+    &:hover {
+      color: @lib__colors__N500;
     }
   }
 
