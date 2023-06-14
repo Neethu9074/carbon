@@ -41,6 +41,7 @@ export const ProductArea = Object.freeze({
   ZHMC: 'ZHMC',
   PCF: 'PCF',
   OPENSTACK: 'OPENSTACK',
+  POWERVC: 'POWERVC',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   SAP: 'SAP',
   ANALYTICS: 'ANALYTICS',
@@ -66,6 +67,7 @@ export type LimitableProductArea = Extract<
   | 'KUBERNETES'
   | 'VSPHERE'
   | 'PHMC'
+  | 'POWERVC'
   | 'ZHMC'
   | 'PCF'
   | 'OPENSTACK'
@@ -203,6 +205,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.PHMC]: {
     limitation: LimitedAccessScope.LIMITED_PHMC_SCOPE,
     permission: AreaPermission.ACCESS_PHMC,
+    capabilities: noCapabilities
+  },
+  [ProductArea.POWERVC]: {
+    limitation: LimitedAccessScope.LIMITED_POWERVC_SCOPE,
+    permission: AreaPermission.ACCESS_POWERVC,
     capabilities: noCapabilities
   },
   [ProductArea.ZHMC]: {

@@ -15,7 +15,8 @@ import {
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sloV2Enabled
+  sloV2Enabled,
+  powervcEnabled,
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -32,6 +33,7 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_SYNTHETICS_SCOPE: 'LIMITED_SYNTHETICS_SCOPE',
   LIMITED_VSPHERE_SCOPE: 'LIMITED_VSPHERE_SCOPE',
   LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
+  LIMITED_POWERVC_SCOPE: 'LIMITED_POWERVC_SCOPE',
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
@@ -49,6 +51,7 @@ export const AreaPermission = Object.freeze({
   ACCESS_SYNTHETICS: 'ACCESS_SYNTHETICS',
   ACCESS_VSPHERE: 'ACCESS_VSPHERE',
   ACCESS_PHMC: 'ACCESS_PHMC',
+  ACCESS_POWERVC: 'ACCESS_POWERVC',
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
@@ -154,6 +157,8 @@ export const hasVSphereAccess =
   hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
 export const hasPHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
+  export const hasPowerVcAccess =
+  hasPermission(LimitedAccessScope.LIMITED_POWERVC_SCOPE, AreaPermission.ACCESS_POWERVC) && powervcEnabled;
 export const hasZHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
 export const hasPCFAccess =
@@ -167,6 +172,7 @@ export const hasAPlatformAccess =
   hasPHMCAccess ||
   hasZHMCAccess ||
   hasPCFAccess ||
+  hasPowerVcAccess ||
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess;
@@ -179,6 +185,7 @@ export const amountPlatformAccesses = (() => {
   if (hasZHMCAccess) count++;
   if (hasPCFAccess) count++;
   if (hasOpenStackAccess) count++;
+  if (hasPowerVcAccess) count++;
   if (hasKubernetesAccess) count++;
   if (hasSAPAccess) count++;
   return count;
@@ -213,6 +220,9 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   }
   if (phmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
+  }
+  if (powervcEnabled) {
+    areaPermissions.push({ value: AreaPermission.ACCESS_POWERVC, label: t('in-stores:permissionAccessPowerVCLabel') });
   }
   if (zhmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });

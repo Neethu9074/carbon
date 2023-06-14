@@ -13,6 +13,7 @@
   "permissionAccessPCFLabel": "Cloud Foundry",
   "permissionAccessSAPLabel": "SAP",
   "permissionAccessOpenStackLabel": "OpenStack",
+  "permissionAccessPowerVCLabel": "IBM PowerVC",
   "permissionCanConfigureEumApplicationsLabel": "Website monitoring configuration",
   "permissionCanConfigureEumApplicationsDescription": "Permits configuration of website monitoring functionality.",
   "permissionCanConfigureEumApplicationsCategory": "Websites & Mobile Apps",

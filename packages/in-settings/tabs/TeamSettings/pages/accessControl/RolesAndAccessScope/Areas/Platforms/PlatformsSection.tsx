@@ -35,6 +35,8 @@ export const PlatformsSection = () => {
     <Ul>
       {groupConfig.pcfAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PCF} />}
       {groupConfig.phmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PHMC} />}
+      {groupConfig.powervcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.POWERVC} />}
+
       {groupConfig.zhmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.ZHMC} />}
       {groupConfig.openStackAccess !== ScopedPermissionItem.NO_ACCESS && (
         <GeneralPlatformListItem area={ProductArea.OPENSTACK} />

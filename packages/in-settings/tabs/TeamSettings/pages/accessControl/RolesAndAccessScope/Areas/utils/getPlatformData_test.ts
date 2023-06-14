@@ -35,12 +35,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
+      expect(groupConfig.powervcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
-      expect(groupConfig.translations).toHaveLength(7);
+      expect(groupConfig.translations).toHaveLength(8);
       expect(groupConfig.translations).toContain(undefined);
-      expect(t).toHaveBeenCalledTimes(9);
+      expect(t).toHaveBeenCalledTimes(10);
     });
 
     it('returns correct data and calls the translation function with correct params with a non-empty permissions set and a feature flag for one of other platforms enabled', () => {
@@ -55,6 +56,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.powervcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
@@ -86,6 +88,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.openStackAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.phmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
+      expect(groupConfig.powervcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.NO_ACCESS);

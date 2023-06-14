@@ -22,6 +22,7 @@ import {
   pcfEnabled,
   vsphereEnabled,
   openstackEnabled,
+  powervcEnabled,
   phmcEnabled,
   zhmcEnabled,
   sapEnabled
@@ -37,6 +38,7 @@ import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
@@ -228,6 +230,32 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
   );
 }
 
+function WithPowerVcPhysicalContext({ children, region }) {
+  const getPowerVcRegionDashboard = usePowervcRegionDashboard('region');
+
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {region && (
+          <Trans
+            i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+            values={{ entityLabel: region.label }}
+            components={{
+              icon: <SvgIcon className={locals.entitiyIcon} type="lib_powervc" />,
+              entityLink: (
+                <Link
+                  className={locals.entityLink}
+                  href$={powervcEnabled ? getPowerVcRegionDashboard(region.id) : null}
+                />
+              )
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
 function WithOpenstackPhysicalContext({ children, region }) {
   return (
     <div className={locals.linkWithMetaEntities}>
@@ -615,6 +643,9 @@ function getColumnDefinitions(type) {
           return (
             <WithOpenstackPhysicalContext {...item.physicalContext.openstack}>{link}</WithOpenstackPhysicalContext>
           );
+        }
+        if (item.physicalContext.powervc) {
+          return <WithPowerVcPhysicalContext {...item.physicalContext.powervc}>{link}</WithPowerVcPhysicalContext>;
         }
         if (item.physicalContext.phmc) {
           return <WithPhmcPhysicalContext {...item.physicalContext.phmc}>{link}</WithPhmcPhysicalContext>;

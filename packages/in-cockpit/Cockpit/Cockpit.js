@@ -21,6 +21,7 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
@@ -394,6 +395,7 @@ function getPlatformsTitle() {
   if (hasVSphereAccess) numPlatformsAvailable++;
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -411,6 +413,9 @@ function getPlatformsTitle() {
   }
   if (hasPHMCAccess) {
     return t('in-cockpit:cockpit.ibmp');
+  }
+  if (hasPowerVcAccess) {
+    return t('in-cockpit:cockpit.powervcRegion');
   }
   if (hasSAPAccess) {
     return t('in-cockpit:cockpit.sap');
@@ -431,6 +436,7 @@ function getPlatformCardIcon() {
   if (hasVSphereAccess) numPlatformsAvailable++;
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -447,6 +453,9 @@ function getPlatformCardIcon() {
   }
   if (hasPHMCAccess) {
     return 'lib_phmc_console';
+  }
+  if (hasPowerVcAccess) {
+    return 'lib_powervc';
   }
   if (hasZHMCAccess) {
     return 'lib_zhmcConsole';

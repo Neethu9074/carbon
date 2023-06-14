@@ -90,6 +90,7 @@
     "permissions_LOGS": "Log permissions",
     "permissions_PCF": "Cloud Foundry",
     "permissions_PHMC": "IBM Power",
+    "permissions_POWERVC": "IBM PowerVC",
     "permissions_ZHMC": "IBM Z",
     "permissions_KUBERNETES": "Kubernetes",
     "permissions_OPENSTACK": "OpenStack",

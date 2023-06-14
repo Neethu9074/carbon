@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { MapFormItems } from 'formalistic';
 import { PermissionSetWithRoles } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
 
@@ -21,18 +21,19 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasSAPAccess,
   hasVSphereAccess,
   hasZHMCAccess
 } from 'in-stores/permission';
-import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
-import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import {
   LimitableProductArea,
   ProductArea,
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
+import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -52,6 +53,7 @@ export interface PlatformsEditSelectionProps<FORM_TYPE extends MapFormItems>
 const generalAreas: Array<LimitableProductArea> = [
   ...(hasPCFAccess ? [ProductArea.PCF] : []),
   ...(hasPHMCAccess ? [ProductArea.PHMC] : []),
+  ...(hasPowerVcAccess ? [ProductArea.POWERVC] : []),
   ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
   ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
   ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),

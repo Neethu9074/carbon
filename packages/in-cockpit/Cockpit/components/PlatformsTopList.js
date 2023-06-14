@@ -17,6 +17,7 @@ import {
   vsphereDatacenter as vsphereDatacenterType,
   openstackRegion as openstackRegionType,
   phmcServer as phmcServerType,
+  powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
@@ -25,6 +26,7 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasVSphereAccess,
   hasZHMCAccess,
   hasSAPAccess
@@ -36,6 +38,7 @@ import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/g
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
+import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPowerVCRegions';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
@@ -45,8 +48,10 @@ import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import getPowerVCRegion from 'in-powervc/subscriptions/getPowerVCRegion';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
@@ -69,12 +74,15 @@ export default function PlatformsTopList({ config }) {
 
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
 
+  const getPowervcRegionDashboard = usePowervcRegionDashboard('region');
+
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,
     hasPCFAccess && pcfApplicationType,
     hasVSphereAccess && vsphereDatacenterType,
     hasOpenStackAccess && openstackRegionType,
     hasPHMCAccess && phmcServerType,
+    hasPowerVcAccess && powervcServerType,
     hasZHMCAccess && zhmcServerType,
     hasSAPAccess && sapType
   ].filter(Boolean);
@@ -109,6 +117,8 @@ export default function PlatformsTopList({ config }) {
             ? getIbmzZhmcDashboard
             : item.isPhmc
             ? getIbmpPhmcDashboard
+            : item.isPowervc
+            ? getPowervcRegionDashboard
             : item.isOpenstack
             ? getOpenstackRegionDashboard
             : item.isSap
@@ -137,6 +147,9 @@ function getTypeByItem(item) {
   if (item.isPhmc) {
     return phmcServerType;
   }
+  if (item.isPowervc) {
+    return powervcServerType;
+  }
   if (item.isZhmc) {
     return zhmcServerType;
   }
@@ -159,6 +172,8 @@ function getMergedData(params) {
       hasOpenStackAccess && 'isOpenstack',
       hasPHMCAccess && getPhmcsWithDefaults(params),
       hasPHMCAccess && 'isPhmc',
+      hasPowerVcAccess && getPowerVCRegionsWithDefaults(params),
+      hasPowerVcAccess && 'isPowervc',
       hasZHMCAccess && getZhmcsWithDefaults(params),
       hasZHMCAccess && 'isZhmc',
       hasSAPAccess && getAbapSystemListsWithDefaults(params),
@@ -179,6 +194,9 @@ function getItem(id, timeConfig, type) {
   }
   if (type === phmcServerType) {
     return getPhmc({ filter: { applicationId: id, timeConfig } }).map(mapPhmcResult);
+  }
+  if (type === powervcServerType) {
+    return getPowerVCRegion({ filter: { regionId: id, timeConfig } }).map(mapPowervcResult);
   }
   if (type === zhmcServerType) {
     return getZhmc({ filter: { applicationId: id, timeConfig } }).map(mapZhmcResult);
@@ -220,6 +238,9 @@ function mapPhmcResult(result) {
   return result.data ? success({ ...result.data, isPhmc: true }) : result;
 }
 
+function mapPowervcResult(result) {
+  return result.data ? success({ ...result.data, isPowervc: true }) : result;
+}
 function mapZhmcResult(result) {
   return result.data ? success({ ...result.data, isZhmc: true }) : result;
 }
@@ -350,6 +371,9 @@ function getIcon(item) {
   if (item.isPhmc) {
     return 'lib_phmc_console';
   }
+  if (item.isPowervc) {
+    return 'lib_powervc';
+  }
   if (item.isZhmc) {
     return 'lib_zhmcConsole';
   }
@@ -378,6 +402,9 @@ function getSubTitle(item) {
   }
   if (item.isPhmc) {
     return t('in-cockpit:component.platformsTopList.ibmp');
+  }
+  if (item.isPowervc) {
+    return t('in-cockpit:component.platformsTopList.powervcRegion');
   }
   if (item.isZhmc) {
     return t('in-cockpit:component.platformsTopList.ibmz');

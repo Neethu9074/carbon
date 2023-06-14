@@ -22,6 +22,7 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasSyntheticsAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
@@ -63,6 +64,7 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
@@ -551,6 +553,7 @@ function Platforms(props) {
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPCFAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (hasVSphereAccess) numPlatformsAvailable++;
@@ -590,6 +593,16 @@ function Platforms(props) {
           icon="lib_phmc_console"
           href={createHrefToPath(phmcListFullyQualified)}
           isActive={matchLocation(ibmp)}
+          {...props}
+        />
+      )}
+       {hasPowerVcAccess && !playwithEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-powervc"
+          label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
+          icon="lib_powervc"
+          href={createHrefToPath(powervcRegionListFullyQualified)}
+          isActive={matchLocation(powervc)}
           {...props}
         />
       )}
@@ -637,7 +650,7 @@ function Platforms(props) {
   );
 
   if (numPlatformsAvailable > 1) {
-    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, sap);
+    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, powervc, sap);
 
     return (
       <View

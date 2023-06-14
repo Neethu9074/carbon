@@ -17,6 +17,7 @@ import {
   hasInfrastructureAccess,
   hasSyntheticsAccess,
   hasVSphereAccess,
+  hasPowerVcAccess,
   hasPHMCAccess,
   hasZHMCAccess,
   hasPCFAccess,
@@ -47,6 +48,7 @@ import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
+import powervcRoutes from 'in-powervc/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
@@ -75,6 +77,7 @@ export default (
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
     {hasPHMCAccess && phmcRoutes}
+    {hasPowerVcAccess && powervcRoutes}
     {hasVSphereAccess && vsphereRoutes}
     {hasOpenStackAccess && openstackRoutes}
     {hasSAPAccess && sapRoutes}

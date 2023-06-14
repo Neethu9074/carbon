@@ -76,6 +76,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'powervcEnabled',
+    instanaCtlKey: 'feature.powervc.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'zhmcEnabled',
     instanaCtlKey: 'feature.zhmc.enabled',
     defaultValue: false
