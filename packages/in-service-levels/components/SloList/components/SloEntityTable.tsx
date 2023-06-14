@@ -51,7 +51,7 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
   const loadMoreData = () => {
     setNext(next + dataPerRow);
   };
-
+  if (progress.loading) return <TableSkeleton />;
   return (
     <>
       <Card
@@ -60,7 +60,8 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
         }
         rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
       >
-        {entityList?.length === 0 && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />}
+        {entityList?.length === 0 ||
+          (entityList === undefined && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />)}
         {entityList && (
           <Ul>
             {entityList
@@ -82,7 +83,6 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
             </Li>
           </Ul>
         )}
-        {progress.loading && <TableSkeleton />}
       </Card>
     </>
   );

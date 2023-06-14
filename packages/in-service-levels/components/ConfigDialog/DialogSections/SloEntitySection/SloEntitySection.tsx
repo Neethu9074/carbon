@@ -14,6 +14,7 @@ import { SloApplicationEntitySection } from 'in-service-levels/components/Config
 import { SloWebsiteEntitySection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import { SloForm, isApplicationSloForm, sloEntityTypeKey } from 'in-service-levels/components/ConfigDialog/form';
 import SloEntityTypeSelector from 'in-service-levels/components/SloList/components/SloEntityTypeSelector';
+import SloLabel from 'in-service-levels/components/SloList/components/SloLabel';
 import { t } from 'in-i18n';
 
 interface SloScopeSectionProps {
@@ -27,14 +28,7 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
   const setLabels = (labels: string) => {
     setLabel(labels);
   };
-  const getLabel = (label: string) => {
-    return (
-      <Typography variant="heading-100" component="h3">
-        {t('in-service-levels:general.selectLabel')}
-        {label ? label : t('in-service-levels:general.noSelection')}
-      </Typography>
-    );
-  };
+
   return (
     <>
       <Typography variant="heading-200" component="h2">
@@ -47,7 +41,7 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
           onChange([sloEntityTypeKey], field => (field as Field<SloEntityType>).setValue(type).setTouched(true));
         }}
       />
-      {getLabel(label)}
+      <SloLabel label={label} />
       {isApplicationSloForm(form) ? (
         <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabels} />
       ) : (
