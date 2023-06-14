@@ -9,7 +9,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   useLinkToApplicationDashboard,

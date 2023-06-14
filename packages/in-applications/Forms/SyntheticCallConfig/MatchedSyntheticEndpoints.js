@@ -8,7 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td, TableLoadMoreRow, TableHorizontalIndicatorRow } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';

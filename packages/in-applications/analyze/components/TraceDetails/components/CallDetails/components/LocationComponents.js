@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';

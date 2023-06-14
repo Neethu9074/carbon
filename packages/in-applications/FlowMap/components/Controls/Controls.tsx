@@ -6,8 +6,8 @@
 import React, { Fragment, useEffect } from 'react';
 
 import { ResultPrecisionDetails } from '@instana/types';
+import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { LinkProps } from '@instana/legacy';
 
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';

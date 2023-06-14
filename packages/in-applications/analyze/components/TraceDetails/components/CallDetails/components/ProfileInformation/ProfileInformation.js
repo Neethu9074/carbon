@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import { getTopSelfTimeList, createProfileSignature } from 'in-components/Profiling/utils';
@@ -187,7 +187,7 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
 
 function ViewAll({ viewAllHref$, className }) {
   return (
-    <Link className={className} href$={viewAllHref$}>
+    <Link className={className} href={viewAllHref$}>
       {t('in-analyze:traceDetail.components.callDetails.analyzeProfiles')}
     </Link>
   );

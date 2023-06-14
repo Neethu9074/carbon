@@ -9,7 +9,7 @@ import React from 'react';
 import { fromPromise } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   useClusterDashboard,
@@ -100,7 +100,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       plugin={plugin}
       snapshot={snapshot}
       label={entity.label || t('in-applications:dashboards.unknownTime', { entityTime: formatDateTime(entity.time) })}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
+      href={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
         stay
           ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
           : getDashboardLink(entity.id, {
@@ -172,7 +172,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
               entityLink: (
                 <Link
                   className={locals.entityLink}
-                  href$={pcfEnabled ? getApplicationDashboardLink(application.id) : null}
+                  href={pcfEnabled ? getApplicationDashboardLink(application.id) : null}
                 />
               )
             }}
@@ -184,7 +184,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
             values={{ entityLabel: space.label }}
             components={{
               icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_space" />,
-              entityLink: <Link className={locals.entityLink} href$={null} />
+              entityLink: <Link className={locals.entityLink} href={null} />
             }}
           />
         )}
@@ -194,7 +194,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
             values={{ entityLabel: organization.label }}
             components={{
               icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_organization" />,
-              entityLink: <Link className={locals.entityLink} href$={null} />
+              entityLink: <Link className={locals.entityLink} href={null} />
             }}
           />
         )}
@@ -219,7 +219,7 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
               entityLink: (
                 <Link
                   className={locals.entityLink}
-                  href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
+                  href={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
                 />
               )
             }}
@@ -270,7 +270,7 @@ function WithOpenstackPhysicalContext({ children, region }) {
               entityLink: (
                 <Link
                   className={locals.entityLink}
-                  href$={openstackEnabled ? getOpenstackRegionDashboard(region.id) : null}
+                  href={openstackEnabled ? getOpenstackRegionDashboard(region.id) : null}
                 />
               )
             }}
@@ -293,7 +293,7 @@ function WithPhmcPhysicalContext({ children, phmc }) {
             components={{
               icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmc_console" />,
               entityLink: (
-                <Link className={locals.entityLink} href$={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
+                <Link className={locals.entityLink} href={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
               )
             }}
           />
@@ -315,7 +315,7 @@ function WithSapPhysicalContext({ children, sap }) {
             components={{
               icon: <SvgIcon className={locals.entitiyIcon} type="lib_sap" />,
               entityLink: (
-                <Link className={locals.entityLink} href$={sapEnabled ? getAbapSystemDashboard(sap.id) : null} />
+                <Link className={locals.entityLink} href={sapEnabled ? getAbapSystemDashboard(sap.id) : null} />
               )
             }}
           />
@@ -339,7 +339,7 @@ function WithZhmcPhysicalContext({ children, zhmc }) {
             components={{
               icon: <SvgIcon className={locals.entitiyIcon} type="lib_zhmcConsole" />,
               entityLink: (
-                <Link className={locals.entityLink} href$={zhmcEnabled ? getIbmzZhmcDashboard(zhmc.id) : null} />
+                <Link className={locals.entityLink} href={zhmcEnabled ? getIbmzZhmcDashboard(zhmc.id) : null} />
               )
             }}
           />

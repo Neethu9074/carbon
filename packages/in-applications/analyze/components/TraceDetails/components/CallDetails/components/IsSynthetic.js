@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Group from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Group';
 import { configureSyntheticEndpointsView } from 'in-applications/navigation/paths';

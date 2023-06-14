@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';

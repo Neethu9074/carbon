@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Message } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
