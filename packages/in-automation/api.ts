@@ -17,7 +17,8 @@ import {
   ActionAssociation,
   ActionAssociations,
   ApplicationAlertConfigWithMetadata,
-  Result
+  Result,
+  ActionInstance
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
@@ -523,5 +524,31 @@ export function getAllAssociations() {
     maxRetries: 3,
     url: `${associationsUrl}`,
     headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function updateActionInstanceFeedback({
+  id,
+  feedback,
+  to,
+  windowSize
+}: {
+  id: string;
+  feedback: string;
+  to: number;
+  windowSize: number;
+}) {
+  return http<ActionInstance>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
+    data: {
+      feedback: parseInt(feedback)
+    },
+    headers: getCsrfHeader(),
+    queryParams: {
+      to,
+      windowSize
+    }
   }).map(response => response.body);
 }

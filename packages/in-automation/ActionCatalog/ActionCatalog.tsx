@@ -41,6 +41,7 @@ const checkForBuiltInActions = () => {
 export default function ActionCatalogTab() {
   return (
     <AutomationTabs>
+      <p>Hello there General Kenobi</p>
       <ActionTable
         title={t('in-automation:ActionCatalog.actionCatalog')}
         noDataMessage={t('in-automation:ActionCatalog.noActions')}

@@ -15,6 +15,7 @@ import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParams
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
+import Feedback from 'in-automation/components/ActionHistory/Feedback';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -37,6 +38,10 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
   if (actionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
   }
+
+  const feedback = actionInstanceDetail?.data?.metadata.find(
+    (data: { name: string; value: string }) => data.name === 'feedback'
+  )?.value ?? { value: '0' };
   return (
     <div className={locals.detailDialog}>
       <Dialog title={title} onClose={close} withoutBodyPadding>
@@ -50,6 +55,10 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />
               <DetailParamsTab inputParameters={actionInstanceDetail?.data?.inputParameters} />
+            </TabPane>
+            <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
+              <DashboardHeaderShadowModule />
+              <Feedback id={id} feedback={feedback} />
             </TabPane>
           </Tabs>
         </>
