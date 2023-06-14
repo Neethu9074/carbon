@@ -9,6 +9,9 @@ import React, { useEffect, useState } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
+// to suppress warning on deprecated code temporarily
+// eslint-disable-next-line import/no-deprecated
+import { goToPath } from 'in-stores/navigation';
 import { ibmCloudDefaultBaseURL, logDnaDefaultBaseURL } from 'in-integrations/logging/logdna/LinkConstruction';
 import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
 import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
@@ -26,7 +29,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { get, save } from 'in-integrations/logging/api';
 import { Col, Row } from 'in-components/layout/Grid';
-import { goToPath } from 'in-stores/navigation';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { validLogDnaId } from './validation';
@@ -57,7 +59,7 @@ export default function LogDna() {
       });
       let errorSubscription = result$.errors().once(() => {
         setLoading(false);
-        setMessage(t('in-settings:tabs.failedToLoadLogDnaConfiguration'));
+        setMessage(t('in-settings:tabs.failedToLoadMezmoConfiguration'));
       });
       return () => {
         responseSubscription.dispose();
@@ -67,7 +69,7 @@ export default function LogDna() {
     } else {
       return () => disposeAsyncAction();
     }
-  }, []);
+  });
 
   const enabled = form?.get('enabled').value ?? null;
 
@@ -103,6 +105,8 @@ export default function LogDna() {
       refresh();
       setSaving(false);
       setIntegration(savedIntegration);
+      // to suppress warning on deprecated code temporarily
+      // eslint-disable-next-line import/no-deprecated
       goToPath(teamSettingsLogManagementLogDna);
     });
 
@@ -118,14 +122,14 @@ export default function LogDna() {
 
   return (
     <SettingsDetailPage>
-      <Title title={t('in-settings:tabs.configureLogDna')} />
-      <SubViewHeader>{t('in-settings:tabs.configureYourLogDnaSettings')}</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureMezmo')} />
+      <SubViewHeader>{t('in-settings:tabs.configureYourMezmoSettings')}</SubViewHeader>
       <SectionLine />
       {form && (
         <form onSubmit={onSubmit}>
           <div style={{ marginBottom: '1rem' }}>
-            <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableLogDnaIntegrationForInstana')}>
-              <Heading text={t('in-settings:tabs.showLogDnaLinkOnHosts')} htmlFor="logdn-enabled" />
+            <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableMezmoIntegrationForInstana')}>
+              <Heading text={t('in-settings:tabs.showMezmoLinkOnHosts')} htmlFor="logdn-enabled" />
               <Toggle id="logdna-enabled" checked={enabled} onChange={e => onChange('enabled', e.target.checked)} />
             </HorizontalFormGroup>
           </div>
@@ -134,7 +138,7 @@ export default function LogDna() {
               <Col xs={2}>
                 <FormGroup>
                   <Label htmlFor="logdna-selected-instance" hasError={enabled && !field.valid && field.touched}>
-                    {t('in-settings:tabs.logDnaInstance')}
+                    {t('in-settings:tabs.mezmoInstance')}
                   </Label>
                   <Select
                     id="logdna-selected-instance"

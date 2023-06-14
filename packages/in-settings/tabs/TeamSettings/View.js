@@ -276,7 +276,7 @@ function navigationTreeForRole(role) {
       },
       {
         path: teamSettingsLogManagementLogDna,
-        label: t('in-settings:tabs.logDna'),
+        label: t('in-settings:tabs.mezmo'),
         component: LogDnaPage
       },
       {
