@@ -255,7 +255,6 @@ function getDetails(row) {
               theme.lib.colors.lightBlue800
             ],
             type: 'line',
-            aggregation: 'avg',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

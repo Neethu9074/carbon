@@ -143,7 +143,6 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
             ],
             min: 0,
             type: 'line',
-            aggregation: 'avg',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
