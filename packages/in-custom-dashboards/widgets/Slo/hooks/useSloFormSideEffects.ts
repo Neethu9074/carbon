@@ -80,9 +80,7 @@ function clampTimeWindowDuration(form: MapForm<any>): Item {
 }
 
 function clearSliConfigId(form: MapForm<any>): Item {
-  return !form.touched
-    ? form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(false))
-    : form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(true));
+  return form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(f.touched));
 }
 
 function cleanEntityId(form: MapForm<any>): Item {
