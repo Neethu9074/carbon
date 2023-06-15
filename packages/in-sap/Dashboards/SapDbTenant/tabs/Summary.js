@@ -9,18 +9,28 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[6, 6]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.overallRating)}
+        />
         <InfraMetricKpiCard
           title={t('in-sap:dashboards.availability')}
           snapshotId={snapshotId}
