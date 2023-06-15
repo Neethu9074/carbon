@@ -174,7 +174,7 @@ export function putScriptField(form: MapForm<any>, action: ActionFormEntity): Ma
 }
 
 export function removeScriptField(form: MapForm<any>) {
-  return form.remove('script');
+  return form.remove('script').remove('subtype');
 }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {
