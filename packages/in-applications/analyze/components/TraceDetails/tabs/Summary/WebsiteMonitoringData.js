@@ -5,8 +5,9 @@
 
 import React, { Fragment, useState } from 'react';
 
-import { Button, Card, Link } from '@instana/components';
+import { Button, Card } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 
 import {
   hideWebsiteDetailsInTraceView,
@@ -32,11 +33,10 @@ const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
 export default function WebsiteMonitoringData({ traceId, startTime, correlationId }) {
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
-  const result = useObservable(() => getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime }), [
-    correlationId,
-    traceId,
-    startTime
-  ]);
+  const result = useObservable(
+    () => getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime }),
+    [correlationId, traceId, startTime]
+  );
 
   const setShowDetails = show => {
     trySet(localStorageKey, show);

@@ -9,6 +9,7 @@ import { Button } from '@instana/components';
 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -23,7 +24,7 @@ export default connectTo(
   },
   function EnableSelfMonitoringButton({ isOnline, href }) {
     const button = (
-      <Button kind="primary" disabled={!isOnline} href={href}>
+      <Button kind="primary" disabled={!isOnline || playwithEnabled} href={href}>
         {t('in-forge:plugins.host.dashboard.openAgentManagement')}
       </Button>
     );

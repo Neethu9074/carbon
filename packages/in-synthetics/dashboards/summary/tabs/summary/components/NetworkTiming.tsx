@@ -4,7 +4,6 @@
  */
 
 import React, { useState } from 'react';
-import { get } from 'lodash';
 
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -15,7 +14,6 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import DropdownButton from 'in-components/Button/DropdownButton';
-import { TestResponse } from 'in-synthetics/utils/constants';
 import { latencyFixed } from 'in-services/formatters/number';
 import { stackedArea } from 'in-stores/metric/renderer';
 import { TimeShift } from 'in-types';
@@ -23,8 +21,10 @@ import theme from 'in-themes';
 
 type NetworkTimingProps = {
   timeShiftConfig: TimeShift;
-  test: TestResponse;
+  testId: string;
   renderPostChartContent: (a: any) => JSX.Element;
+  locationIds: string;
+  locationDisplayLabels: string;
 };
 
 type Option = {
@@ -34,11 +34,16 @@ type Option = {
 
 type Options = Option[];
 
-export default function NetworkTimings({ test, timeShiftConfig, renderPostChartContent }: NetworkTimingProps) {
-  const locations: string[] = get(test, ['data', 'locations']) || [];
-  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
-  const id = get(test, ['data', 'id']);
-  const options: Options = createOptions(locations, locationDisplayLabels);
+export default function NetworkTimings({
+  testId,
+  locationIds,
+  locationDisplayLabels,
+  timeShiftConfig,
+  renderPostChartContent
+}: NetworkTimingProps) {
+  const locations: string[] = locationIds.split(',');
+  const locationDisplayLabelArray: string[] = locationDisplayLabels.split(',');
+  const options: Options = createOptions(locations, locationDisplayLabelArray);
   const defaultLocation: Option = options[0];
 
   const [location, setLocation] = useState(defaultLocation);
@@ -59,7 +64,7 @@ export default function NetworkTimings({ test, timeShiftConfig, renderPostChartC
 
   const defaultTagFilters = [
     {
-      stringValue: id,
+      stringValue: testId,
       name: testIdTagName,
       operator: EQUALS
     },

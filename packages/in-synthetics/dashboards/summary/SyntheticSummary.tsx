@@ -11,16 +11,15 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error Module needs to be translated to TS
-import TabView from 'in-components/LocationAwareTabView/TabView';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
-import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -58,10 +57,11 @@ export default function SyntheticSummaryDashboard() {
       <TabView
         HeaderComponent={Header}
         location={location}
+        // @ts-expect-error
         tabs={tabs}
         props={props}
         result$={getSyntheticTest({ testId: testId })}
-        withProps={(result: TestResponse) => ({
+        withProps={result => ({
           testName: get(result, ['data', 'label'])
         })}
       />
@@ -73,7 +73,9 @@ export default function SyntheticSummaryDashboard() {
   );
 }
 
-function Header(props: DashboardHeaderProps) {
+function Header(
+  props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'label' | 'renderButtonLine' | 'renderMetaInformation'>
+) {
   return (
     <DashboardHeader
       {...props}

@@ -10,13 +10,13 @@ import React from 'react';
 import {
   AggregationType,
   Cursor,
-  TagFilter,
-  TagFilterExpression,
-  TimeConfig,
-  TagFilterExpressionElementUnion,
   Group,
   MetricDescription,
-  Result
+  Result,
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TimeConfig
 } from '@instana/types';
 import { Observable } from '@instana/observables';
 
@@ -160,6 +160,7 @@ export interface StateManagementChildProps {
   getHrefToDetailId: (id: string, item: unknown) => string;
   setDetailId: (id: string) => void;
   getFacetedSearchSuggestions: (params: GetFacetedSearchSuggestionsParams) => Observable<GetLogGroupsResponse>;
+  setSelectedId: (selectedId: string | null) => void;
 }
 
 interface GroupedView {

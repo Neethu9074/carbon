@@ -26,7 +26,7 @@ import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
-const pathSegment = '/syntheticLocation';
+const pathSegment = '/syntheticLocations';
 const matrixPrefix = '';
 
 const ServerTableWithUrlState = createServerTableWithUrlState({

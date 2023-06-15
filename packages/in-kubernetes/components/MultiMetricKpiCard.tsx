@@ -7,8 +7,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonKinds, Link, SvgIcon } from '@instana/components';
+import { Button, ButtonKinds, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
@@ -98,7 +99,7 @@ export default function MultiMetricKpiCard({
       var val;
       var unit;
       var hasUnitAndVal = splitFormattedValueUnit.length > 1;
-      var percentageNumber = percentage.replace('%', '');
+      var percentageNumber = percentage.replace('%', '').replace(',', '.');
       var percentageOfCapLabel = timeshift !== 0 ? '%)' : '% of cap.)';
       if (hasUnitAndVal) {
         val = splitFormattedValueUnit[0];
@@ -183,7 +184,7 @@ export default function MultiMetricKpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$} onClick={iconAction.onClick}>
+              <Link href={iconAction.href$} onClick={iconAction.onClick}>
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>

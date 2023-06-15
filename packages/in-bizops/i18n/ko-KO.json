@@ -3,12 +3,25 @@
   "labelSmartAlerts": "스마트 경보",
   "labelActivities": "활동",
   "lists": {
-    "activityLabel": "활동 수",
-    "idLabel": "프로세스 ID",
+    "pageTitle": "비즈니스 프로세스",
+    "activityLabel": "활동",
+    "nameLabel": "이름",
     "noData": "사용 가능한 데이터 없음",
-    "toolLabel": "도구"
+    "healthLabel": "상태",
+    "startLabel": "시작됨"
   },
   "navigation": {
     "bizOps": "비즈니스 프로세스"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "인스턴스 분석",
+    "summary": {
+      "pageTitle": "비즈니스 프로세스",
+      "summaryTab": "요약",
+      "widgets": {
+        "timeline": "타임라인",
+        "businessProcessStartedLabel": "{{businessProcessName}}이(가) 시작되었습니다."
+      }
+    }
   }
 }

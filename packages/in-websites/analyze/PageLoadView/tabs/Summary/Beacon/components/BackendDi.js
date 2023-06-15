@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';

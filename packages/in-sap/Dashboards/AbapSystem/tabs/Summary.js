@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
@@ -17,34 +18,48 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
-          title={t('in-sap:dashboards.availabilityRating')}
-          value={vm.availRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.availRating)}
+          color={colorFormatter(sap.overallRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.performanceRating')}
-          value={vm.perfRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.perfRating)}
+          color={colorFormatter(sap.availRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.configRating')}
-          value={vm.configRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallPerformance')}
+          value={getOverallStatus(sap.perfRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.configRating)}
+          color={colorFormatter(sap.perfRating)}
+        />
+      </KpiGridRow>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallException')}
+          value={getOverallStatus(sap.excepRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.excepRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.batchJobs')}
-          value={vm.excepRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallConfiguration')}
+          value={getOverallStatus(sap.configRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.excepRating)}
+          color={colorFormatter(sap.configRating)}
+        />
+        <KpiCard
+          title={t('in-sap:dashboards.selfMonitorRating')}
+          value={getOverallStatus(sap.selfMonitorRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.selfMonitorRating)}
         />
       </KpiGridRow>
       <Row verticallyStretchColumns>

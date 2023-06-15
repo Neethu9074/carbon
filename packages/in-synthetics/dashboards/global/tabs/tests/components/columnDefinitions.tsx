@@ -8,7 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -87,6 +88,16 @@ function ApplicationLabelContent({ item }: { item: TestResultListItem }) {
 function TestLabelContent({ item }: { item: TestResultListItem }) {
   const { location, createHref } = useNavigation();
   location.pathname = syntheticsSummaryPath;
+  const locations = item?.testResultCommonProperties?.testCommonProperties?.locationStatusList;
+  let locationDisplayLabels: string = '';
+  let locationIds: string = '';
+  if (locations != undefined && locations != null && locations.length > 0) {
+    locations.forEach((aLocation: LocationStatus) => {
+      let tempLabel = aLocation.locationDisplayLabel ?? '';
+      locationDisplayLabels = locationDisplayLabels.length === 0 ? tempLabel : locationDisplayLabels + ',' + tempLabel;
+      locationIds = locationIds.length === 0 ? aLocation.locationId : locationIds + ',' + aLocation.locationId;
+    });
+  }
   setOrDeleteMatrixKey(
     location,
     syntheticsDashboard,
@@ -99,6 +110,8 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
     'type',
     item?.testResultCommonProperties?.testCommonProperties?.type
   );
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
 
   return (
     <div>

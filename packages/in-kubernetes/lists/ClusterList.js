@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
+import React from 'react';
 
 import { TableEntityCounter } from '@instana/components';
 import { SvgIcon } from '@instana/components';
@@ -16,7 +17,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
+import { clusterList, useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
@@ -36,18 +37,7 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-kubernetes:name'),
     getContent(item) {
-      const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
-      const clusterIcon = `lib_${clusterDistribution}`;
-      const clusterManagement = get(item, ['cluster', 'clusterManagement']);
-      return (
-        <SeverityAwareEntityLink
-          icon={clusterIcon}
-          label={get(item, ['cluster', 'label'])}
-          href$={getClusterDashboard(get(item, ['cluster', 'id']))}
-          severity={item.entityHealthInfo.maxSeverity}
-          subscriptComponent={<ClusterManagedByWithIcon clusterManagement={clusterManagement} />}
-        />
-      );
+      return <ClusterLink {...item} />;
     }
   },
   {
@@ -146,7 +136,7 @@ export default connectTo(
   },
   function ClusterList({ timeConfig }) {
     return (
-      <Fragment>
+      <>
         <Title title={t('in-kubernetes:clusters')} />
         <ViewTrackingMeta
           data={{
@@ -169,7 +159,7 @@ export default connectTo(
             />
           </Card>
         </WithEmptyStateFallback>
-      </Fragment>
+      </>
     );
   }
 );
@@ -202,12 +192,31 @@ function ClusterManagedByWithIcon({ clusterManagement }) {
   if (clusterManagement && clusterManagement.shortName !== 'none') {
     return (
       <div className={locals.clusterManagement}>
-        <Fragment>
+        <>
           <span className={locals.clusterManagementLabel}>Managed by {clusterManagement.fullName}</span>
           <SvgIcon className={locals.clusterManagementIcon} type={`lib_${clusterManagement.shortName}`} />
-        </Fragment>
+        </>
       </div>
     );
   }
   return null;
+}
+
+function ClusterLink(item) {
+  const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
+  const clusterManagement = get(item, ['cluster', 'clusterManagement']);
+  const clusterLabel = get(item, ['cluster', 'label']);
+  const clusterIcon = `lib_${clusterDistribution}`;
+
+  const clusterHref = useClusterDashboard(get(item, ['cluster', 'id']));
+
+  return (
+    <SeverityAwareEntityLink
+      icon={clusterIcon}
+      label={clusterLabel}
+      href={clusterHref}
+      severity={item.entityHealthInfo.maxSeverity}
+      subscriptComponent={<ClusterManagedByWithIcon clusterManagement={clusterManagement} />}
+    />
+  );
 }

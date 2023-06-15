@@ -7,7 +7,6 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import { oracleRacMonitoringEnabled } from 'in-services/featureFlags';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import InstanceInfo from './instance/InstanceInfo';
 import RACInfo from './rac/RacInfo';
@@ -15,7 +14,7 @@ import { t } from 'in-i18n';
 
 export default function OracleDBSidebar({ snapshot }) {
   const data = snapshot.get('data');
-  if (oracleRacMonitoringEnabled && data.get('enableRacMonitoring')) {
+  if (data.get('enableRacMonitoring')) {
     return (
       <div>
         <Collapsible initiallyOpen>

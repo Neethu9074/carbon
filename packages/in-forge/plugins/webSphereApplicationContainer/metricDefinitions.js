@@ -308,5 +308,16 @@ export default [
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: millis
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'certificates',
+      'expDaysLeft',
+      t('in-forge:plugins.webSphereAppContainer.labelCertificate')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleCertificateDaystoExp'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelCertificates')],
+    min: 0,
+    formatter: number
   }
 ];

@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -18,22 +19,28 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[6, 6]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.overallRating)}
+        />
         <KpiCard
           title={t('in-sap:dashboards.hdbConnectionStatus')}
-          value={vm.connectStatusRating || valueMissingPlaceholder}
+          value={sap.connectStatusRating || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.connectStatusRating)}
+          color={colorFormatter(sap.connectStatusRating)}
         />
         <KpiCard
           title={t('in-sap:dashboards.diskUsage')}
-          value={vm.diskUsageRating || valueMissingPlaceholder}
+          value={sap.diskUsageRating || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.diskUsageRating)}
+          color={colorFormatter(sap.diskUsageRating)}
         />
       </KpiGridRow>
       <Row>

@@ -17,6 +17,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -42,7 +43,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      {handleToggleEnabled && (
+      {handleToggleEnabled && !playwithEnabled && (
         <Tooltip content={getTooltipForAction()} delay={500}>
           <div className={locals.separator}>
             <IconButton
@@ -64,7 +65,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
         </Tooltip>
       )}
 
-      {hasSecondaryActions && (
+      {hasSecondaryActions && !playwithEnabled && (
         <MoreMenu
           renderInteractiveElement={({ ref, toggle }) => (
             <div className={locals.separator}>

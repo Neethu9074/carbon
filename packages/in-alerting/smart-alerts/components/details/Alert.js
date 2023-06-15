@@ -26,6 +26,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -68,7 +69,6 @@ export default function Alert({
     alertConfigId,
     reload
   );
-
   if (alertConfigErrors?.length || alertConfigVersionsErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors, ...alertConfigVersionsErrors]} />;
   } else if (!alertConfig || !alertConfigVersions) {
@@ -186,8 +186,11 @@ function useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload) {
   const result =
     useObservable(() => getConfig(alertConfigId, alertConfigCreated), [alertConfigId, alertConfigCreated, reload]) ??
     {};
-
-  return { alertConfig: result.data, alertConfigErrors: result.errors };
+  if (role.canConfigureAutomationActions && actionAutomationEnabled && result.data) {
+    return { alertConfig: { actionIds: result.actionIds, ...result.data }, alertConfigErrors: result.errors };
+  } else {
+    return { alertConfig: result.data, alertConfigErrors: result.errors };
+  }
 }
 
 Alert.propTypes = {

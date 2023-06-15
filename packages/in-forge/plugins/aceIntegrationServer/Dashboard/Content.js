@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import MessageFlowTable from 'in-forge/plugins/aceIntegrationServer/Dashboard/MessageFlowTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';

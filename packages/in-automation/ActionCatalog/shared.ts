@@ -6,20 +6,21 @@
 
 import { keyBy } from 'lodash';
 
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
-import { AdditionalHeaders, Authen } from 'in-automation/api';
-import { Action, Field, Nullish } from 'in-types';
+import { Action, Field } from 'in-types';
+import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
 import { t } from 'in-i18n';
 
-export const getType = (action: ActionFormEntity | Nullish) => {
-  if (isDocLink(action?.type)) {
+export const getType = (type: string) => {
+  if (isDocLink(type)) {
     return t('in-automation:ActionCatalog.docLink');
-  } else if (isScript(action?.type)) {
+  } else if (isScript(type)) {
     return t('in-automation:ActionCatalog.script');
-  } else if (isWebhook(action?.type)) {
+  } else if (isWebhook(type)) {
     return t('in-automation:ActionCatalog.http');
+  } else if (isExternal(type)) {
+    return t('in-automation:actionHistory.external');
   } else {
-    return action?.type;
+    return type;
   }
 };
 
@@ -45,7 +46,7 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined): Fiel
 export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
 
-export const getInterpreterToUse = (action: Action) => {
+export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
@@ -72,7 +73,7 @@ interface WebhookFields {
   headerParsed: AdditionalHeaders;
   header: Field;
 }
-export function getWebhookFields(action: ActionFormEntity): WebhookFields {
+export function getWebhookFields(action: Action | NewAction): WebhookFields {
   const host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
@@ -87,10 +88,12 @@ export function getWebhookFields(action: ActionFormEntity): WebhookFields {
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
+export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
+export const EXTERNAL_TYPE = 'EXTERNAL';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
@@ -106,3 +109,40 @@ export const AUTH_TYPES = Object.freeze([
   { value: BEARER_TOKEN, translation: t('in-automation:ActionCatalog.bearerToken') },
   { value: API_KEY, translation: t('in-automation:ActionCatalog.apiKey') }
 ]);
+
+export type selectedEventsTypes = { builtin_event_ids: string[]; custom_event_ids: string[] };
+
+function safeParseJSON<T>(str: string = '{}') {
+  try {
+    return JSON.parse(str) as T;
+  } catch {
+    return {};
+  }
+}
+
+type VaultParameter = { secretKey: string; secretPath: string };
+const isVaultParameter = (param: VaultParameter | {}): param is VaultParameter => {
+  return 'secretKey' in param && 'secretPath' in param;
+};
+export const parseVaultParameter = (str?: string) => {
+  const vaultParameter = safeParseJSON<VaultParameter>(str);
+  if (!isVaultParameter(vaultParameter)) {
+    return { secretKey: '', secretPath: '' };
+  }
+  return vaultParameter;
+};
+
+type DynamicParameter = { key?: string; tagName: string };
+const isDynamicParameter = (param: DynamicParameter | {}): param is DynamicParameter => {
+  return 'tagName' in param;
+};
+export const parseDynamicParameter = (str?: string) => {
+  const dynamicParameter = safeParseJSON<DynamicParameter>(str);
+  if (!isDynamicParameter(dynamicParameter)) {
+    return { key: '', tagName: '' };
+  }
+  return dynamicParameter;
+};
+
+export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
+  (action?.metadata?.builtIn ?? false) && !isCopy;

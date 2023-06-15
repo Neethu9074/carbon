@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
@@ -16,7 +16,7 @@ import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/Analyze
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -50,13 +50,19 @@ const mobileAppColumnDefinition = {
   label: t('in-mobile-apps:mobileBeacons.mobileApp'),
   sortable: false,
   getContent({ beacon }) {
-    return (
-      <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
-        {beacon.mobileAppLabel}
-      </Link>
-    );
+    return <MobileAppColumnComponent beacon={beacon} />;
   }
 };
+
+function MobileAppColumnComponent({ beacon }) {
+  const linkToMobileAppHref = useGetLinkToMobileApp(beacon.mobileAppId);
+
+  return (
+    <Link className={locals.link} href={linkToMobileAppHref}>
+      {beacon.mobileAppLabel}
+    </Link>
+  );
+}
 
 const columnsPerDataSource = {
   sessionStart: [

@@ -5,21 +5,36 @@
  */
 
 // @ts-expect-error
+import ActionHistory from 'promise-loader?global!in-automation/components/ActionHistory/ActionHistory';
+// @ts-expect-error
 import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalog';
 // @ts-expect-error
 import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
 import { Route } from 'react-router';
 import React from 'react';
 
-import { actionCatalogPath, actionDetailsPath, actionDetailsCopyFormPath } from 'in-automation/navigation/paths';
+import {
+  actionCatalogPath,
+  actionDetailsPath,
+  actionDetailsCopyFormPath,
+  actionHistoryPath
+} from 'in-automation/navigation/paths';
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+
+const addKeyToComponent = (component: React.ReactElement, key = '') => React.cloneElement(component, { key });
 
 export default [
   <Route exact path={actionCatalogPath} key="actionCatalog">
     {renderAsyncRouteChildren(ActionCatalogTab)}
   </Route>,
-  <Route exact path={[actionDetailsPath, actionDetailsCopyFormPath]} key="actionDetails">
-    {renderAsyncRouteChildren(ActionDetailsPage)}
-  </Route>
+  <Route exact path={actionHistoryPath} key="InstanaActionHistory">
+    {renderAsyncRouteChildren(ActionHistory)}
+  </Route>,
+  <Route
+    exact
+    path={[actionDetailsPath, actionDetailsCopyFormPath]}
+    key="actionDetails"
+    render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props.match.params?.id)}
+  />
 ];

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';

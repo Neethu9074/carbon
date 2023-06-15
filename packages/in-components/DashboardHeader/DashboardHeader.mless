@@ -10,6 +10,7 @@
   .dashboardHeader {
     padding: 0 1.5rem;
   }
+
   .borderBottom {
     border-bottom: 1px solid @lib__colors__N300;
   }

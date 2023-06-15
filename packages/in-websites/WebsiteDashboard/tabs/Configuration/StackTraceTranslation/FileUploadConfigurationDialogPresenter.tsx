@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
@@ -44,13 +44,15 @@ interface Props {
 export default function FileUploadConfigurationDialogPresenter(props: Props) {
   const { form, message, onSubmit, onChange, websiteId } = props;
 
-  const apiBaseUrl = `${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload`;
+  const apiBaseUrl = `${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload`;
   const apiUploadUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/form`;
   const apiClearUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/clear`;
 
   const lines = [`# examples`];
   lines.push(``);
-  lines.push(`# upload source map file`);
+  lines.push(
+    `# upload source map file (Use compressed file if the file size is larger than 10MB. See documentation for details)`
+  );
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiUploadUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
@@ -109,7 +111,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
                 components={{
                   documentation: (
                     <Link
-                      href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-web-rest-api-examples"
+                      href="https://www.ibm.com/docs/en/obi/current?topic=websites-uploading-javascript-source-maps"
                       external
                     >
                       null

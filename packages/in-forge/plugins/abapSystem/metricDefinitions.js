@@ -5,6 +5,7 @@
  */
 
 import { number, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
@@ -19,6 +20,7 @@ export default [
       'metrics.Configuration.NUMBER_OF_ABAP_TRANSPORTS.ABAP_TRANSPORTS.value',
 
       'metrics.Configuration.Expiring_ABAP_certificates.ABAP_SYS_EXPIRING_CERT_ALERT.value',
+
       'metrics.Configuration.Failed_ABAP_Transports.ABAP_SYS_FAILED_TRANSPORTS.value',
       'metrics.Configuration.Failed_ABAP_Transports.ABAP_SYS_FAILED_TRANSPORT_ALERT.value',
 
@@ -39,11 +41,6 @@ export default [
       'metrics.Configuration.Users_with_critical_profiles.ABAP_SYS_AUTH_PROFILE_ALERT.value',
       'metrics.Configuration.Users_with_critical_profiles.ABAP_SYS_AUTH_PROFILE_USERS_PER_CLIENT.value',
       'metrics.Configuration.Users_with_critical_profiles.ABAP_SYS_EXPIRING_CERTIFICATES_PER_INSTANCE.value',
-
-      'metrics.Exceptions.ABAP_Short_Dumps.ABAP_SYS_SHORT_DUMPS.value',
-      'metrics.Exceptions.ABAP_Short_Dumps.ABAP_SYS_SHORT_DUMPS_5MIN.value',
-      'metrics.Exceptions.ABAP_Short_Dumps.ABAP_SYS_SHORT_DUMPS_LASTHOUR.value',
-      'metrics.Exceptions.ABAP_Short_Dumps.ABAP_SYS_SHORT_DUMPS_TODAY.value',
 
       'metrics.Exceptions.Batch_Jobs.ABAP_SYSTEM_BATCH_JOBS_RUNNING.value',
       'metrics.Exceptions.Batch_Jobs.ABAP_SYS_BATCHJOBS_CANCEL_1H.value',
@@ -121,11 +118,6 @@ export default [
       t('in-forge:plugins.abapSystem.authProfilePerClient'),
       t('in-forge:plugins.abapSystem.expiringCertificate'),
 
-      t('in-forge:plugins.abapSystem.shortDumps'),
-      t('in-forge:plugins.abapSystem.shortDumps5mins'),
-      t('in-forge:plugins.abapSystem.shortDumpsLastHour'),
-      t('in-forge:plugins.abapSystem.shortDumpsToday'),
-
       t('in-forge:plugins.abapSystem.batchJobsRunning'),
       t('in-forge:plugins.abapSystem.batchJobsCancelled'),
 
@@ -182,5 +174,17 @@ export default [
     labels: [t('in-forge:plugins.abapSystem.enqueueGranule'), t('in-forge:plugins.abapSystem.spoolNumberRange')],
     min: 0,
     formatter: percentagePlainZeroDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'metrics.Exceptions.ABAP_Short_Dumps',
+        'value',
+        t('in-forge:plugins.abapSystem.abapShortDumps')
+      )
+    ],
+    labels: [t('in-forge:plugins.abapSystem.abapShortDumps')],
+    min: 0,
+    formatter: number.compact
   }
 ];

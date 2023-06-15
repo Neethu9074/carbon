@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "Pan down",
       "overlaysTooltipToggleCountryRegionNames": "Toggle country/region names",
       "overlaysTooltipPanRight": "Pan right",
-      "overlaysTooltipSwitchTo2DMap": "Switch to 2D map",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "Country/Region",
       "globeViewTitle": "Website World Globe",
       "globViewFootertext": "Images provided by NASA",
@@ -638,7 +636,9 @@
         "geographyExplanationTagFilters_1": "There were no page loads found in the selected time range matching your filter",
         "geographyExplanationTagFilters_2": "There were no page loads found in the selected time range matching your filters",
         "geographyTooltip": "Switch to 3D globe",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "Switch to 2D map",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "Type…",

@@ -12,12 +12,13 @@ import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/c
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
-import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
+import { useLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function MobileAppBeaconDetails({ beacon }) {
+  const getLinkToMobileAppSession = useLinkToSession();
   const type = getType(beacon);
   const typeDefinition = types[type];
 
@@ -65,7 +66,7 @@ export default function MobileAppBeaconDetails({ beacon }) {
       )}
       <Button
         onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
-        href$={getLinkToSession({
+        href={getLinkToMobileAppSession({
           sessionId: beacon.sessionId,
           beaconTimestamp: beacon.timestamp
         })}

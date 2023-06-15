@@ -11,10 +11,10 @@ import {
   exploreFullyQualified,
   k8sTeamFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import { kubernetesExploreEnabled, kubernetesTeamEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { kubernetesExploreEnabled, kubernetesTeamEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
@@ -43,7 +43,7 @@ export default function KubernetesViewSwitcher() {
             label={t('in-kubernetes:namespaces')}
             isActive={matchLocation(namespaceListFullyQualified)}
           />
-          {kubernetesExploreEnabled && (
+          {kubernetesExploreEnabled && !playwithEnabled && (
             <SecondLevelNavigationItem
               href={createHrefToPath(exploreFullyQualified)}
               icon="lib_kubernetes"
@@ -51,7 +51,7 @@ export default function KubernetesViewSwitcher() {
               isActive={matchLocation(exploreFullyQualified)}
             />
           )}
-          {kubernetesTeamEnabled && (
+          {kubernetesTeamEnabled && !playwithEnabled && (
             <SecondLevelNavigationItem
               href={createHrefToPath(k8sTeamFullyQualified)}
               icon="lib_kubernetes"

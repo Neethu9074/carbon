@@ -22,6 +22,7 @@ import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -33,12 +34,14 @@ import { t } from 'in-i18n';
 
 export default function SmartAlertList() {
   const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
-
+  const location = useLocation();
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
+            pageName: 'Synthetic Monitoring > Smart Alerts',
+            pagePath: location?.pathname,
             productArea: 'Synthetics Monitoring',
             pageRootName: 'Smart Alerts'
           }}

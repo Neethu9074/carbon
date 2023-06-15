@@ -5,13 +5,13 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
@@ -75,12 +75,14 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 
 function ViewAll({ tagFilters, mobileAppLabel, className }) {
   const tagCatalogCustom = useTagCatalog(beaconType);
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   return (
     <Link
       className={className}
-      href$={
+      href={
         tagCatalogCustom &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
             tagFilters,
@@ -99,6 +101,8 @@ function ViewAll({ tagFilters, mobileAppLabel, className }) {
 }
 
 function Label({ item, tagFilters, mobileAppLabel }) {
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -109,9 +113,9 @@ function Label({ item, tagFilters, mobileAppLabel }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={
+      href={
         tagCatalogCustom &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
             tagFilters: tagFilters.concat({ name: 'mobileBeacon.platform', operator: 'EQUALS', stringValue: label }),

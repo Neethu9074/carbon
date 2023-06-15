@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} 次失敗",
         "numberOfFailures": "失敗警示"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "步驟 1：測試",
         "simpleAlertConfigDialogStep1Headline": "應該警示哪些綜合測試？",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} 個失敗",
           "failuresWithCount_2": "{{count}} 個失敗"
         },
-        "alertPropertiesTitlePlaceholder": "在這裡插入標題",
-        "alertPropertiesDescriptionPlaceholder": "在這裡插入說明"
+        "alertPropertiesTitlePlaceholder": "綜合測試失敗",
+        "alertPropertiesDescriptionPlaceholder": "連續 {{count}} 次綜合測試失敗",
+        "alertPropertiesDescriptionPlaceholder_plural": "綜合測試連續 {{count}} 次失敗",
+        "alertPropertiesDescriptionPlaceholder_0": "綜合測試連續 {{count}} 次失敗",
+        "alertPropertiesDescriptionPlaceholder_1": "綜合測試連續 {{count}} 次失敗",
+        "alertPropertiesDescriptionPlaceholder_2": "綜合測試連續 {{count}} 次失敗"
       },
       "advanced": {
         "alertChannelsLabel": "警示通道",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "綜合測試",
         "alertTestsTitle": "綜合測試：應警示哪些綜合測試？",
         "propertiesLabel": "警示內容",
-        "alertPropertiesPreviewTitlePlaceholder": "[在這裡插入標題]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[在這裡插入說明]",
         "propertiesTitle": "警示通知應包含哪些內容？",
         "failureThreshold": "時間臨界值",
         "failureThresholdLabel": "時間臨界值",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "失敗次數",
         "timeThreshold": "時間臨界值",
         "alertingType": "警示類型"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "狀態碼計數",
+        "beaconRate": "引標率",
+        "views": "檢視表",
+        "customEventBlueprintConfigMetricLabel": "出現項目數",
+        "sessions": "階段作業"
       }
     }
   }

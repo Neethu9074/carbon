@@ -6,7 +6,6 @@
 import { Observable } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';

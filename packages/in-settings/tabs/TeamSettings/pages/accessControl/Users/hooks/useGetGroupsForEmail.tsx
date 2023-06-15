@@ -27,7 +27,7 @@ export const useGetGroupsForEmail = (email: string): FetchedState<GroupWithRoles
   return resultToFetchedStateResponse(result);
 };
 
-function getGroupsOfASingleUserAsResult(email: string): Observable<Result<GroupWithRoles[]>> {
+export function getGroupsOfASingleUserAsResult(email: string): Observable<Result<GroupWithRoles[]>> {
   return http<GroupWithRoles[]>({
     method: 'GET',
     maxRetries: 3,

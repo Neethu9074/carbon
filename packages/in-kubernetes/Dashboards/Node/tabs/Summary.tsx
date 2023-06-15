@@ -1,9 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { AggregationType, KubernetesNode, ResultType, TimeConfig } from '@instana/types';
 
@@ -18,12 +19,11 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import { kubernetesClusterTagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// @ts-expect-error
-import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/formatters/number';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { useNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -76,6 +76,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id
   };
+
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
@@ -83,8 +84,10 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
+  const viewAllHref = useNodeDashboard(snapshotId, { tab: '/conditions' });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={node.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
@@ -341,12 +344,9 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsTableCard
-            conditions={node.conditions}
-            viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
-          />
+          <ConditionsTableCard conditions={node.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

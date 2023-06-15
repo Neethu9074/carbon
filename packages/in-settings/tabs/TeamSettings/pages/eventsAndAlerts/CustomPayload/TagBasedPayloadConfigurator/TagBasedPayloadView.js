@@ -22,7 +22,7 @@ import styleDefs from 'in-components/QueryBuilder/components/Tag/Tag.mless';
  * cloning the TagReadOnly component to implement this behavior.
  */
 export default function TagBasedPayloadView(props) {
-  const { tagCatalog, payloadValue, doesTagNodeNeedSecondLevelKey } = props;
+  const { tagCatalog, payloadValue, doesTagNodeNeedSecondLevelKey, hideDestinationSourceTag } = props;
   const element = {
     name: payloadValue.tagName,
     operator: 'EQUALS',
@@ -35,9 +35,7 @@ export default function TagBasedPayloadView(props) {
 
   return (
     <div className={classNames(tagBaseLocals.tag, locals.main)}>
-      {form.get('entity')?.map(field => (
-        <EntityReadOnly entity={field.value} />
-      ))}
+      {!hideDestinationSourceTag && form.get('entity')?.map(field => <EntityReadOnly entity={field.value} />)}
       <NameReadOnly {...props} element={element} showFullPath={false} />
       {doesTagNodeNeedSecondLevelKey && <OperatorReadOnly element={element} tagType={tagType} />}
       <ValueInput form={form} />

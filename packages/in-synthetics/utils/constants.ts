@@ -19,7 +19,7 @@ import {
   TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { SliderState } from 'in-synthetics/components/TestConfigDialogPresenter';
+import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';
@@ -33,6 +33,8 @@ export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
 export const successValue = '1';
+export const apiSimpleTest = 'API Simple';
+export const apiScriptTest = 'API Script';
 
 export const dummyLocations = {
   data: [],
@@ -361,6 +363,10 @@ export interface AdvancedModeProps {
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
+  setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
+  isUpdateConfig: boolean;
+  scriptDetails?: Code;
+  setScriptDetails?: React.Dispatch<React.SetStateAction<Code>>;
 }
 
 export interface ConfigItem {
@@ -400,4 +406,39 @@ export const Placeholders: Record<string, Field> = {
 export interface ErrorType {
   invalid: boolean;
   message: string;
+}
+
+export interface SlideInHeader {
+  title: string | null;
+  onClose: (() => void) | null;
+}
+
+export interface Script {
+  name: string;
+  text: string;
+  scriptFile?: string;
+  errorMessage?: string;
+  extension: string;
+}
+
+export interface Zip {
+  name: string;
+  files: string[];
+}
+
+export interface Code {
+  modified: boolean;
+  name: string;
+}
+
+export interface NotificationState {
+  show: boolean;
+  variant?: 'success' | 'failure';
+  message?: string;
+}
+
+export interface ModalNotificationProps {
+  variant?: 'success' | 'failure';
+  message: string;
+  onClick?: () => void;
 }

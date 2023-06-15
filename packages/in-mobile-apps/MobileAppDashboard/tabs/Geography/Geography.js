@@ -7,9 +7,6 @@ import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/Websit
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
-
 import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobileAppCountryBreakdown';
 import TwoDMobileAppGeoMap from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/2DMobileAppGeoMap';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -54,9 +51,14 @@ export default function Geography(props) {
                     getData$={getData$}
                     getValue={v => v.sessions}
                   />
-                  <Link className={locals.link} href={createHrefToPath(`${mobileAppPathFullyQualified}/geography`)}>
-                    <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
-                  </Link>
+                  <Tooltip content={t('in-mobile-apps:dashboard.tabs.switchTo2DTooltip')} align="leftMiddle">
+                    <Button
+                      dark
+                      href={createHrefToPath(`${mobileAppPathFullyQualified}/geography`)}
+                      className={locals.to2D}
+                      renderContent={() => <span>{t('in-mobile-apps:dashboard.tabs.2DBtn')}</span>}
+                    />
+                  </Tooltip>
                   <p className={locals.footerText}>{t('in-mobile-apps:dashboard.tabs.globViewFootertext')}</p>
                 </div>
               </Route>

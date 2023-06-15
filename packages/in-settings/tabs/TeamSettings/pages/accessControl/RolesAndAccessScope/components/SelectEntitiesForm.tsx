@@ -59,8 +59,15 @@ export default function SelectEntitiesForm<I>({
   const onClickItem = (entity: I) => {
     const id = extractId(entity);
     if (selectedIds.includes(id)) {
+      // Unselect selected id
       setSelectedIds(selectedIds.filter(selectedId => selectedId !== id));
+
+      // Uncheck all rows selected if needed
+      if (allVisibleRowsSelected) {
+        setAllVisibleRowsSelected(false);
+      }
     } else {
+      // Add selected id
       setSelectedIds([...selectedIds, id]);
     }
   };

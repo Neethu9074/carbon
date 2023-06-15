@@ -9,31 +9,38 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[6, 6]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.overallRating)}
+        />
         <KpiCard
           title={t('in-sap:dashboards.deliveredMessages')}
-          value={vm.j2eePerfRating || valueMissingPlaceholder}
+          value={sap.j2eePerfRating || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.j2eePerfRating)}
+          color={colorFormatter(sap.j2eePerfRating)}
         />
         <KpiCard
           title={t('in-sap:dashboards.hostAgentConnectionStatus')}
-          value={vm.javaHostAgentRating || valueMissingPlaceholder}
+          value={sap.javaHostAgentRating || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.javaHostAgentRating)}
+          color={colorFormatter(sap.javaHostAgentRating)}
         />
       </KpiGridRow>
       <Row>

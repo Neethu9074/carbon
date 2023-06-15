@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import '@instana/components/esm/index.css';
 import { compose } from 'recompose';
 import React from 'react';
+
+import { ThemeProvider } from '@instana/components';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -31,28 +32,30 @@ function App({ apiCallSatisfied }) {
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <DialogPresenter />
+        <ThemeProvider theme="default">
+          <DialogPresenter />
 
-        <FullViewOnboardingWidget
-          isRestricted
-          disableAwsSensorDocumentation
-          isAgentDeployed={false}
-          isBackendAvailable={apiCallSatisfied}
-          agentKey={config.agentKey}
-          tenant={config.tenant}
-          tenantUnit={config.tenantUnit}
-          butlerDomain={config.butlerDomain}
-          trackingIdPrefix="onboarding"
-          getRedirectButtonProperties={() => ({
-            disabled: !apiCallSatisfied,
-            href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
-            children: 'Sign in to Instana'
-          })}
-          agentEndpoint={config.agentEndpoint}
-          agentEndpointPort={config.agentEndpointPort}
-          serverlessEndpoint={config.serverlessEndpoint}
-        />
-        <TooltipPresenter />
+          <FullViewOnboardingWidget
+            isRestricted
+            disableAwsSensorDocumentation
+            isAgentDeployed={false}
+            isBackendAvailable={apiCallSatisfied}
+            agentKey={config.agentKey}
+            tenant={config.tenant}
+            tenantUnit={config.tenantUnit}
+            butlerDomain={config.butlerDomain}
+            trackingIdPrefix="onboarding"
+            getRedirectButtonProperties={() => ({
+              disabled: !apiCallSatisfied,
+              href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
+              children: 'Sign in to Instana'
+            })}
+            agentEndpoint={config.agentEndpoint}
+            agentEndpointPort={config.agentEndpointPort}
+            serverlessEndpoint={config.serverlessEndpoint}
+          />
+          <TooltipPresenter />
+        </ThemeProvider>
       </GlobalTheme>
     </ErrorBoundary>
   );

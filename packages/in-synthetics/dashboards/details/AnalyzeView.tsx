@@ -24,9 +24,9 @@ import {
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
+import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
@@ -61,7 +61,6 @@ export default function SyntheticAnalyzeView() {
   const status: number = +(getMatrixParameter(location, syntheticDetailsPath, 'status') ?? 0);
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
   const finishTime: number = startTime + responseTime;
-  const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
@@ -105,7 +104,7 @@ export default function SyntheticAnalyzeView() {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status', 'start_time'],
+          syntheticMetrics: ['errors', 'status', 'start_time', 'response_size'],
           filter: {
             timeConfig,
             includeInternalCalls: false,
@@ -205,7 +204,7 @@ export default function SyntheticAnalyzeView() {
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}
-                    value={responseSize}
+                    value={get(resultList.data?.items[0], ['metrics', 'response_size', 0, 1], 0)}
                     renderValue={bytes.detailed}
                   />
                 </Col>

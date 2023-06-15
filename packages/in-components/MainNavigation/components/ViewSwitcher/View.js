@@ -6,7 +6,8 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import SubView from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';

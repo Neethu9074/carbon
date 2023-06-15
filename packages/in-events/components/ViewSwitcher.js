@@ -9,8 +9,8 @@ import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { agentMonitoringIssuesEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -29,7 +29,7 @@ export default function ViewSwitcher({ selectedEventType }) {
         <IncidentEventsNavigationItem selectedEventType={selectedEventType} />
         <IssueEventsNavigationItem selectedEventType={selectedEventType} />
         <ChangeEventsNavigationItem selectedEventType={selectedEventType} />
-        {(isInternalVisible || agentMonitoringIssuesEnabled) && (
+        {(isInternalVisible || agentMonitoringIssuesEnabled) && !playwithEnabled && (
           <AgentMonitoringIssueEventsNavigationItem selectedEventType={selectedEventType} />
         )}
       </SecondLevelNavigation>
@@ -98,7 +98,6 @@ function ChangeEventsNavigationItem({ selectedEventType }) {
 function AgentMonitoringIssueEventsNavigationItem({ selectedEventType }) {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'agent_monitoring_issue');
-
   return (
     <SecondLevelNavigationItem
       href={createHref(location)}

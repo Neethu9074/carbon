@@ -18,6 +18,7 @@ const helpTexts = {
   'entity.agent.gitops': t('in-stores:search.fieldsEntityAgentGitops'),
   'entity.aws': t('in-stores:search.fieldsEntityAws'),
   'entity.aws.beanstalk': t('in-stores:search.fieldsEntityAwsBeanstalk'),
+  'entity.aws.cloudfront': t('in-stores:search.fieldsEntityAwsCloudFront'),
   'entity.aws.elb': t('in-stores:search.fieldsEntityAwsElb'),
   'entity.aws.rds': t('in-stores:search.fieldsEntityAwsRds'),
   'entity.aws.s3': t('in-stores:search.fieldsEntityAwsS3'),

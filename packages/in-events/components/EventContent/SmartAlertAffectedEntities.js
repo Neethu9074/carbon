@@ -6,7 +6,8 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card, Link } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   getLinkToUnboundAnalytics,

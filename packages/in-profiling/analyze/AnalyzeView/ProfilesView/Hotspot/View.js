@@ -6,7 +6,7 @@
 import React, { useEffect } from 'react';
 
 import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-components/Profiling/navigation/matrix';
 import { cpuColorMapper, memColorMapper, timeColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';

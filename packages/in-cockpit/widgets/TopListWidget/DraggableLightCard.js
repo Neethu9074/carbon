@@ -5,8 +5,9 @@
 
 import React, { useState } from 'react';
 
-import { Link, Card } from '@instana/components';
 import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import locals from './DraggableLightCard.mless';
 

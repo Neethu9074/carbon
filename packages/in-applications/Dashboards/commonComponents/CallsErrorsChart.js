@@ -43,7 +43,7 @@ export default function CallsErrorsChart({
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
-  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+  const errorsBlueprintConfig = getBlueprintConfig('errors');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
   const aggregation = perSecondAggregationEnabled ? 'PER_SECOND' : 'SUM';
@@ -160,11 +160,11 @@ export default function CallsErrorsChart({
               seasonality: DAILY,
               operator: '<='
             },
-            errorRate: {
+            errorCount: {
               rule: {
-                alertType: errorRateBlueprintConfig.type,
-                aggregation: errorRateBlueprintConfig.getAggregation(),
-                metricName: errorRateBlueprintConfig.getMetricName()
+                alertType: errorsBlueprintConfig.type,
+                aggregation: 'MEAN',
+                metricName: 'errors'
               }
             }
           }

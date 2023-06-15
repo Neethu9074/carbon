@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
+import React from 'react';
 
 import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
@@ -14,7 +15,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesNamespaces from 'in-kubernetes/subscriptions/getKubernetesNamespaces';
-import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { namespaceList, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -33,14 +34,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-kubernetes:name'),
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_namespace"
-          label={get(item, ['namespace', 'label'])}
-          href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
+      return <NamespaceLink {...item} />;
     }
   },
   {
@@ -125,7 +119,7 @@ export default connectTo(
   },
   function NamespaceList({ timeConfig }) {
     return (
-      <Fragment>
+      <>
         <Title title={t('in-kubernetes:namespaces')} />
         <ViewTrackingMeta
           data={{
@@ -148,7 +142,7 @@ export default connectTo(
             />
           </Card>
         </WithEmptyStateFallback>
-      </Fragment>
+      </>
     );
   }
 );
@@ -199,4 +193,17 @@ function getKubernetesNamespacesSubscribeEvent({
       timeConfig
     }
   });
+}
+
+function NamespaceLink(item) {
+  const namespaceHref = useNamespaceDashboard(get(item, ['namespace', 'id']));
+
+  return (
+    <SeverityAwareEntityLink
+      icon="lib_kubernetes_namespace"
+      label={get(item, ['namespace', 'label'])}
+      href={namespaceHref}
+      severity={item.entityHealthInfo.maxSeverity}
+    />
+  );
 }

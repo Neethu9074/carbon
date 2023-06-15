@@ -187,7 +187,7 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
 
 function ViewAll({ viewAllHref$, className }) {
   return (
-    <Link className={className} href$={viewAllHref$}>
+    <Link className={className} href={viewAllHref$}>
       {t('in-analyze:traceDetail.components.callDetails.analyzeProfiles')}
     </Link>
   );

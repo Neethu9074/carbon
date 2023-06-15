@@ -6,7 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Link, SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   beaconIdUrlParameter,
@@ -18,7 +19,7 @@ import SplitScreenSessionContent from 'in-mobile-apps/analyze/SessionView/SplitS
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
-import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
+import { useCloseSessionViewLink } from 'in-mobile-apps/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -39,6 +40,7 @@ export default function SessionView(props) {
   const [{ sessionId, beaconId, beaconTimestamp }, onChange] = useUrlState(urlStateConfig);
   const content = renderSplitScreenContent({ sessionId, beaconId, beaconTimestamp, onChange, ...props });
   const beaconType = props.dataSource;
+
   return (
     <>
       <ViewTrackingMeta
@@ -71,6 +73,8 @@ export default function SessionView(props) {
 }
 
 function Header(props) {
+  const closeSessionViewHref = useCloseSessionViewLink();
+
   return (
     <>
       <Breadcrumbs
@@ -79,7 +83,7 @@ function Header(props) {
             label={t('in-mobile-apps:sessionView.analyticsBreadscrumbLabel', {
               prefix: dataSourceTitles[props.beaconType]
             })}
-            href$={closeSessionViewLink}
+            href={closeSessionViewHref}
           />,
           props.sessionLabel && (
             <Breadcrumb label={t('in-mobile-apps:sessionView.sessionBreadscrumbLabel')}>

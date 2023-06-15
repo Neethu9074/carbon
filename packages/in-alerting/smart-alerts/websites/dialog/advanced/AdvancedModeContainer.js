@@ -17,21 +17,26 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/dialog/advanced/WebsiteAlertPropertiesTitleRow';
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/dialog/advanced/BluePrintSelectionSection';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
-import { ThresholdSection } from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdSection';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
+import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -120,7 +125,8 @@ export default function AdvancedModeContainer(props) {
               form={form}
               updateForm={updateForm}
               QueryBuilderComponent={QueryBuilderComponent}
-              websiteLabel={websiteLabel}
+              label={websiteLabel}
+              iconType="lib_website"
             />
           )
         },
@@ -131,7 +137,7 @@ export default function AdvancedModeContainer(props) {
           valid: isThresholdSectionValid(),
           content: (
             <>
-              <ThresholdSection
+              <ThresholdSelectionInteractiveChart
                 alertType={alertType}
                 blueprintConfig={blueprintConfig}
                 editMode={editMode}
@@ -143,6 +149,12 @@ export default function AdvancedModeContainer(props) {
                 thresholdResult={thresholdResult}
                 timeConfig={timeConfig}
                 websiteLabel={websiteLabel}
+                AlertingChartWithErrorMessage={WebsitesAlertingChartWithErrorMessage}
+                eumType={websiteEum}
+                isPercentageMetric={isPercentageMetric}
+                getMetricUnitPostfix={getMetricUnitPostfix}
+                ruleMetricNameOptions={ruleMetricNameOptions}
+                AlertTypeSwitch={AlertTypeSwitch}
               />
               {thresholdType === HISTORIC_BASELINE && (
                 <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
@@ -198,8 +210,12 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
-                  renderAlertPopertiesTitleRow={() => (
-                    <WebsiteAlertPropertiesTitleRow form={form} onChange={onChange} />
+                  renderAlertPropertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={getTitlePlaceholder}
+                    />
                   )}
                 />
               )}

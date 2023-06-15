@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';

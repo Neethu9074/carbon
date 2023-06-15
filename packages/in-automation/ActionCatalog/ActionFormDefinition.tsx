@@ -5,6 +5,7 @@
  */
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
+import { List } from 'immutable';
 import mimeDb from 'mime-db';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -107,6 +108,18 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
       'parameters',
       createField({
         value: mappedParams
+      })
+    )
+    .put(
+      'selectedEvents',
+      createField({
+        value: List(action.selectedEvents)
+      })
+    )
+    .put(
+      'applicationAlertConfigIds',
+      createField({
+        value: List(action.applicationAlertConfigIds)
       })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);

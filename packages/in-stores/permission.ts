@@ -6,14 +6,17 @@
 import {
   actionAutomationEnabled,
   businessObservabilityEnabled,
+  infraExploreDataEnabled,
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
+  sapEnabled,
+  syntheticsKeystoreEnabled,
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sapEnabled,
-  infraExploreDataEnabled
+  sloV2Enabled,
+  powervcEnabled,
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -30,6 +33,7 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_SYNTHETICS_SCOPE: 'LIMITED_SYNTHETICS_SCOPE',
   LIMITED_VSPHERE_SCOPE: 'LIMITED_VSPHERE_SCOPE',
   LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
+  LIMITED_POWERVC_SCOPE: 'LIMITED_POWERVC_SCOPE',
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
@@ -47,6 +51,7 @@ export const AreaPermission = Object.freeze({
   ACCESS_SYNTHETICS: 'ACCESS_SYNTHETICS',
   ACCESS_VSPHERE: 'ACCESS_VSPHERE',
   ACCESS_PHMC: 'ACCESS_PHMC',
+  ACCESS_POWERVC: 'ACCESS_POWERVC',
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
@@ -81,12 +86,14 @@ export const Capability = Object.freeze({
   CAN_VIEW_AUDIT_LOG: 'CAN_VIEW_AUDIT_LOG',
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  //CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
-  CAN_SEE_USAGE_INFORMATION: 'CAN_SEE_USAGE_INFORMATION',
-  CAN_SEE_ON_PREM_LICENE_INFORMATION: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
+  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -95,7 +102,9 @@ export const Capability = Object.freeze({
   CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
   CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
   CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
-  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS'
+  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
+  CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
+  CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -148,6 +157,8 @@ export const hasVSphereAccess =
   hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
 export const hasPHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
+  export const hasPowerVcAccess =
+  hasPermission(LimitedAccessScope.LIMITED_POWERVC_SCOPE, AreaPermission.ACCESS_POWERVC) && powervcEnabled;
 export const hasZHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
 export const hasPCFAccess =
@@ -161,6 +172,7 @@ export const hasAPlatformAccess =
   hasPHMCAccess ||
   hasZHMCAccess ||
   hasPCFAccess ||
+  hasPowerVcAccess ||
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess;
@@ -173,13 +185,15 @@ export const amountPlatformAccesses = (() => {
   if (hasZHMCAccess) count++;
   if (hasPCFAccess) count++;
   if (hasOpenStackAccess) count++;
+  if (hasPowerVcAccess) count++;
   if (hasKubernetesAccess) count++;
   if (hasSAPAccess) count++;
   return count;
 })();
 
+export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
-  hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
@@ -206,6 +220,9 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   }
   if (phmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
+  }
+  if (powervcEnabled) {
+    areaPermissions.push({ value: AreaPermission.ACCESS_POWERVC, label: t('in-stores:permissionAccessPowerVCLabel') });
   }
   if (zhmcEnabled) {
     areaPermissions.push({ value: AreaPermission.ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
@@ -459,6 +476,16 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanViewLogsCategory'),
     isOwnerPermission: false
   },
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  /*  [Capability.CAN_DELETE_LOGS]: {
+    keyForGroupApi: Capability.CAN_DELETE_LOGS,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanDeleteLogsLabel'),
+    description: t('in-stores:permissionCanDeleteLogsDescription'),
+    category: t('in-stores:permissionCanDeleteLogsCategory'),
+    isOwnerPermission: true
+  },*/
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
     keyForApiTokenApi: '', // indicates that this is not a permission for a token
@@ -468,22 +495,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     isOwnerPermission: false
   },
   /* Account Information */
-  [Capability.CAN_SEE_USAGE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
-    keyForApiTokenApi: 'canSeeUsageInformation',
-    label: t('in-stores:permissionCanSeeUsageInformationLabel'),
-    description: t('in-stores:permissionCanSeeUsageInformationDescription'),
-    category: t('in-stores:permissionCanSeeUsageInformationCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION]: {
-    keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-    keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
-    label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
-    description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
-    category: t('in-stores:permissionCanSeeOnPremLicenseInformationCategory'),
-    isOwnerPermission: false
-  },
   [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION]: {
     keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
     keyForApiTokenApi: 'canViewAccountAndBillingInformation',
@@ -505,6 +516,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanRunAutomationActionsLabel'),
     description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
+  },
+  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
+    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+    keyForApiTokenApi: 'canViewAutomationActionInstances',
+    label: t('in-stores:permissionCanViewActionHistory'),
+    description: t('in-stores:permissionCanViewActionHistoryDescription'),
+    category: t('in-stores:permissionCanViewActionHistoryCategory')
   },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
@@ -542,6 +560,20 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canViewSyntheticTestResults',
     label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
     description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_USE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canUseSyntheticCredentials',
+    label: t('in-stores:permissionCanUseSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanUseSyntheticCredentialsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
+    keyForApiTokenApi: 'canConfigureSyntheticCredentials',
+    label: t('in-stores:permissionCanConfigureSyntheticCredentialsLabel'),
+    description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
   },
   /* BizOps */
@@ -589,7 +621,19 @@ export function getProductPermissions(): Array<ProductPermission> {
         Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
         Capability.CAN_VIEW_SYNTHETIC_TESTS,
         Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
+        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+      ];
+
+      return !syntheticCapabilities.includes(keyForGroupApi);
+    });
+  } else if (!syntheticsKeystoreEnabled) {
+    //Synthetic credential is controlled by syntheticsKeystoreEnabled FF
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const syntheticCapabilities: Array<CapabilityType> = [
+        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
       ];
 
       return !syntheticCapabilities.includes(keyForGroupApi);
@@ -600,7 +644,8 @@ export function getProductPermissions(): Array<ProductPermission> {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       const automationCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-        Capability.CAN_RUN_AUTOMATION_ACTIONS
+        Capability.CAN_RUN_AUTOMATION_ACTIONS,
+        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
       ];
 
       return !automationCapabilities.includes(keyForGroupApi);
@@ -638,8 +683,4 @@ export const productOwnerPermissions = getProductPermissions().filter(permission
 export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
 export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
-export const fallBackPermissions = [
-  ...LimitedAccessScopes,
-  Capability.CAN_VIEW_LOGS,
-  Capability.CAN_VIEW_TRACE_DETAILS
-];
+export const fallBackPermissions = [...LimitedAccessScopes];

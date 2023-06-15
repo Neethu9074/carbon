@@ -707,7 +707,9 @@
     "sanitizedTagFilterValue": "标记过滤器值已缩短为最大允许长度。",
     "sanitizedTagFilterValueAndOperator": "标记过滤器值已缩短为最大允许长度，并相应地调整了运算符。",
     "source": "源",
+    "sourceAbbreviated": "源",
     "destination": "目标",
+    "destinationAbbreviated": "目标",
     "documentation": "Documentation",
     "string": {
       "contains": "包含",

@@ -16,6 +16,7 @@ import {
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
+  powervcEnabled,
   vsphereEnabled,
   zhmcEnabled,
   sapEnabled
@@ -42,6 +43,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
   const kubernetesAccess = hasAnyAccess(ProductArea.KUBERNETES);
   const vSphereAccess = hasAnyAccess(ProductArea.VSPHERE, vsphereEnabled);
   const phmcAccess = hasAnyAccess(ProductArea.PHMC, phmcEnabled);
+  const powervcAccess = hasAnyAccess(ProductArea.POWERVC, powervcEnabled);
   const zhmcAccess = hasAnyAccess(ProductArea.ZHMC, zhmcEnabled);
   const openStackAccess = hasAnyAccess(ProductArea.OPENSTACK, openstackEnabled);
   const pcfAccess = hasAnyAccess(ProductArea.PCF, pcfEnabled);
@@ -79,6 +81,10 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.OPENSTACK }));
   }
+  if (powervcAccess !== ScopedPermissionItem.NO_ACCESS) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.POWERVC }));
+  }
   if (vSphereAccess !== ScopedPermissionItem.NO_ACCESS) {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.VSPHERE }));
@@ -113,6 +119,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
     pcfAccess,
     vSphereAccess,
     phmcAccess,
+    powervcAccess,
     zhmcAccess,
     openStackAccess,
     sapAccess,

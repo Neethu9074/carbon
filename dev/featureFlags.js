@@ -27,6 +27,7 @@ module.exports = {
   onPremLicenseInformationEnabled: false,
   pcfEnabled: true,
   phmcEnabled: true,
+  powervcEnabled:true,
   sapEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
@@ -73,12 +74,16 @@ module.exports = {
   rbacImprovementEnabled: true,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  syntheticCreateTestAdvanceModeEnabled: true,
+  syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
-  oracleRacMonitoringEnabled: false,
+  playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: false,
-  kongEnabled: false
+  recurrentMaintenanceWindowsTabsEnabled: false,
+  kongEnabled: false,
+  mobileAppSmartAlertsEnabled: true,
+  systemRuleEntityCountEnabled: true,
+  userSettingsThemeEnabled: true
 };

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/legacy';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -66,7 +67,7 @@ const cols = [
       getValue(row) {
         return row.app.get('finishTime');
       },
-      getContent: function(finishTime) {
+      getContent: function (finishTime) {
         if (finishTime > 0) {
           return formatDateTime(finishTime);
         } else {

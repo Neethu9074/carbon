@@ -33,7 +33,7 @@ export default function LogDnaButton(props) {
       )}
       onClick={() => jumpToLogDna()}
     >
-      {t('in-settings:tabs.logDna')}
+      {t('in-settings:tabs.mezmo')}
     </Button>
   );
 }

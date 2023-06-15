@@ -90,7 +90,7 @@ export function showNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href$={getModifiedUrlStream(location => {
+          href={getModifiedUrlStream(location => {
             location.pathname = teamSettingsAlertingEvents;
             setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
           })}

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -23,7 +22,8 @@ import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteConte
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -31,63 +31,38 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import DashboardHeader from 'in-components/DashboardHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { getTimeConfig } from 'in-stores/time/config';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default compose(
-  withUrlState({
-    bind: [
-      {
-        ...tagFiltersInDashboardUrlParameter,
-        as: 'tagFilters'
-      }
-    ],
-    replaceHistory: false,
-    reducerName: 'onChange'
-  }),
-  withProps(({ onChange }) => ({
-    onChange: ({ tagFilters }) => {
+const urlStateDefinition = {
+  bind: [{ ...tagFiltersInDashboardUrlParameter, as: 'tagFilters' }],
+  replaceHistory: false,
+  reducerName: 'onChange'
+};
+
+export default function WebsiteDashboard() {
+  const location = useLocation();
+  const [{ tagFilters: customTagFilters }, setUrl] = useUrlState(urlStateDefinition);
+
+  const setUrlNew = tagFilters =>
+    setUrl({
       // We have to pass down the website ID and page name tag filters to the analyze bar. This is necessary
       // so that the analyze bar loads meaningful suggestions. Unfortunately this also means that the analyze
       // bar will eventually to try set these kinds of tag filters. We must forbid setting of these, as
       // otherwise the UI behavior will be super confusing.
-      onChange({
-        tagFilters: tagFilters.filter(f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name')
-      });
-    }
-  })),
-  withProps(({ onChange, location }) => ({
-    setTagFilters(tagFilters) {
-      onChange({
-        // drop the implicit tag filters
-        tagFilters: tagFilters.filter(f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name')
-      });
-    },
-    timeConfig: getTimeConfig(location)
-  })),
-  tagFilterManipulators({ tagFiltersTrackers })
-)(WebsiteDashboard);
+      //
+      // drop the implicit tag filters
+      tagFilters: tagFilters.filter(f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name')
+    });
 
-function WebsiteDashboard({
-  location,
-  tagFilters: customTagFilters,
-  removeTagFilter,
-  upsertTagFilter,
-  clearTagFilters,
-  setTagFilters,
-  addTagFilter
-}) {
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, customTagFilters, setUrlNew);
   const props = {
     websiteId: getMatrixParameter(location, websitePath, matrixWebsiteId),
     pageId: getMatrixParameter(location, websitePath, matrixPageId),
     viewPath: websitePathFullyQualified,
     timeConfig: getTimeConfig(location),
-    removeTagFilter,
-    upsertTagFilter,
-    clearTagFilters,
-    setTagFilters,
-    addTagFilter
+    ...tagFilterManipulators
   };
 
   const implicitTagFilters = (props.implicitTagFilters = [
@@ -115,7 +90,8 @@ function WebsiteDashboard({
       <ViewTrackingMeta
         data={{
           productArea: 'EUM: Websites',
-          pageRootName: props.pageId ? 'Website Page' : 'Website'
+          pageRootName: props.pageId ? 'Website Page' : 'Website',
+          pagePath: location?.pathname
         }}
       />
 

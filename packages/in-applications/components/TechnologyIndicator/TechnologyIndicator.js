@@ -25,7 +25,7 @@ export default function TechnologyIndicator({ pluginOrGroupType, getHref$, showT
 
   if (getHref$) {
     content = (
-      <Link className={locals.link} href$={getHref$ && getHref$(pluginOrGroupType)}>
+      <Link className={locals.link} href={getHref$ && getHref$(pluginOrGroupType)}>
         {content}
       </Link>
     );

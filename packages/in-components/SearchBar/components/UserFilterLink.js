@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';

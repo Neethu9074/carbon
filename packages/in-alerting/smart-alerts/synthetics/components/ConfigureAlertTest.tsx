@@ -15,6 +15,7 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import TestSummaryList from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList';
 import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTestSelected';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
@@ -62,7 +63,6 @@ export default function ConfigureAlertTest({
   return (
     <>
       <AlertTestsList
-        setTitle={false}
         // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
         renderNoDataAvailable={() => <NoTestSelected />}
@@ -128,7 +128,7 @@ function SelectListDialogContent({
       staticContent={
         <AlertConfigSlideInContentWrapper>
           <SelectListDialogContentComponent
-            listComponent={AlertTestsList}
+            listComponent={props => <TestSummaryList tableActions={props.tableActions} hiddenIds={props.hiddenIds} />}
             hiddenIds={(form.get('syntheticTestIds') as Field<string[]>)?.value ?? []}
             limit={limitForConnectedAlertTests}
             onSubmit={onSubmit}

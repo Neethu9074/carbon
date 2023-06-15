@@ -13,11 +13,12 @@ import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dia
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdTypeSelection';
 import { getOperatorLabel } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
+import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
-import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
 export default function ErrorRateThresholdCondition({
@@ -33,6 +34,7 @@ export default function ErrorRateThresholdCondition({
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
+  const percentageMetric = isPercentageMetric(metricName);
 
   return (
     <>
@@ -47,7 +49,13 @@ export default function ErrorRateThresholdCondition({
           />
         ) : (
           <>
-            <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
+            <Dropdown
+              value={metricName}
+              items={ruleMetricNameOptions.errors}
+              onChange={value => {
+                updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+              }}
+            />
             <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
             <ThresholdTypeSelection
@@ -69,7 +77,7 @@ export default function ErrorRateThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           isGlobalSmartAlert={isGlobalSmartAlert}
           hasSmallInputField
-          percentageMetric
+          percentageMetric={percentageMetric}
         />
       )}
 

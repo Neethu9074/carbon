@@ -10,41 +10,45 @@ import { TagFilterExpression, TimeShift } from '@instana/types/typeDefinitions';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface TimelineProps {
   timeShiftConfig: TimeShift;
+  businessProcessName: string;
+  businessProcessId: string;
 }
 
 interface RenderChartProps {
   timeShiftConfig: TimeShift;
   businessProcessName: string;
+  businessProcessId: string;
 }
 
-export default function Timeline({ timeShiftConfig }: TimelineProps) {
-  const location = useLocation();
-  const businessProcessName: string =
-    getMatrixParameter(location, businessProcessDashboard, 'name') ?? t('in-bizops:dashboards.summary.pageTitle');
-
-  return <RenderChart timeShiftConfig={timeShiftConfig} businessProcessName={businessProcessName} />;
+export default function Timeline({ timeShiftConfig, businessProcessName, businessProcessId }: TimelineProps) {
+  return (
+    <RenderChart
+      timeShiftConfig={timeShiftConfig}
+      businessProcessName={businessProcessName}
+      businessProcessId={businessProcessId}
+    />
+  );
 }
 
-const RenderChart = ({ timeShiftConfig, businessProcessName }: RenderChartProps) => {
+const RenderChart = ({ timeShiftConfig, businessProcessName, businessProcessId }: RenderChartProps) => {
+  const timeConfig = useTimeConfig();
   const tagFilterExpression: TagFilterExpression = {
     type: 'EXPRESSION',
     logicalOperator: 'AND',
     elements: [
       {
-        name: 'bpm_process_name',
+        name: 'bpm_process_definition_id',
         operator: 'EQUALS',
-        stringValue: businessProcessName,
+        stringValue: businessProcessId,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       }
@@ -57,7 +61,9 @@ const RenderChart = ({ timeShiftConfig, businessProcessName }: RenderChartProps)
     source: 'BIZOPS',
     tagFilterExpression: tagFilterExpression,
     timeShift: timeShiftConfig.offset,
-    metric: 'bpm_root_process_id',
+    timeConfig: timeConfig,
+    dataSource: 'BUSINESS_PROCESSES',
+    metric: 'started_processes',
     label: t('in-bizops:dashboards.summary.widgets.businessProcessStartedLabel', {
       businessProcessName: businessProcessName
     }),

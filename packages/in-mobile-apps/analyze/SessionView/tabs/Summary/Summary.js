@@ -6,13 +6,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { debounce, find } from 'lodash';
 
-import { Link, Message } from '@instana/components';
+import { Message } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -35,6 +36,8 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
   const [query, setQuery] = useState('');
   const [view, setView] = useState('');
   const [types, setTypes] = useState([]);
+
+  const linkToMobileAppHref = useGetLinkToMobileApp(firstBeacon.mobileAppId);
 
   useEffect(() => {
     debouncedOpenSession({
@@ -60,7 +63,7 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
         </Col>
         <Col xs>
           <KpiCard title={t('in-mobile-apps:sessionView.tabsSummary.mobileAppTitle')}>
-            <Link href$={getLinkToMobileApp(firstBeacon.mobileAppId)} className={locals.linkToMobileApp}>
+            <Link href={linkToMobileAppHref} className={locals.linkToMobileApp}>
               {firstBeacon.mobileAppLabel}
             </Link>
           </KpiCard>

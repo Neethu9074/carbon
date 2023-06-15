@@ -35,6 +35,7 @@ export interface AlertTestsListProps {
     totalHitsAfterFilter: number,
     entitiesBeforePagination: number
   ) => ReactNode;
+  displayApplicationLabel?: boolean;
 }
 
 export default function AlertTestsList({
@@ -48,7 +49,8 @@ export default function AlertTestsList({
   rightHeader,
   isSearchable = true,
   onRowClick,
-  inSelectListDialog = false
+  inSelectListDialog = false,
+  displayApplicationLabel = true
 }: AlertTestsListProps): JSX.Element {
   const syntheticTests = getTestsAsResultObservable('')
     .map((result: Result<SyntheticTest[]> | null) => {
@@ -62,9 +64,9 @@ export default function AlertTestsList({
   return (
     <List<SyntheticTest>
       title={setTitle ? t('in-alerting:smartAlerts.synthetics.selectTests.alertTests') : null}
-      getHeader={defaultGetHeader(inSelectListDialog, tableActions)}
+      getHeader={setTitle ? defaultGetHeader(inSelectListDialog, tableActions) : () => null}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions()}
+      columnDefinitions={displayApplicationLabel ? [...columnDefinitions(), applicationLabel()] : columnDefinitions()}
       tableActions={tableActions}
       //@ts-expect-error
       loadEntities={loadEntities ? loadEntities : () => syntheticTests}
@@ -87,7 +89,7 @@ function columnDefinitions() {
     {
       id: 'test_name',
       label: t('in-synthetics:dashboard.testList.testLabel'),
-      width: 50,
+      width: 30,
       getContent(entity: SyntheticTest) {
         return (
           <Tooltip content={entity.label} align="topLeft" delay={500}>
@@ -103,6 +105,7 @@ function columnDefinitions() {
       id: 'status',
       label: t('in-synthetics:dashboard.testList.status'),
       defaultOrderDirection: 'ASC',
+      width: 10,
       getContent(entity: SyntheticTest) {
         const status = entity?.active
           ? t('in-synthetics:dashboard.testList.active')
@@ -114,6 +117,7 @@ function columnDefinitions() {
       id: 'synthetic_type',
       label: t('in-synthetics:dashboard.testList.type'),
       defaultOrderDirection: 'ASC',
+      width: 15,
       getContent(entity: SyntheticTest) {
         return (
           <div>
@@ -126,30 +130,33 @@ function columnDefinitions() {
           </div>
         );
       }
-    },
-    {
-      id: 'applicationLabel',
-      label: t('in-synthetics:dashboard.testList.applicationLabel'),
-      defaultOrderDirection: 'ASC',
-      getContent(item: SyntheticTest) {
-        const applicationLabel = item.applicationLabel;
-        if (applicationLabel != null && applicationLabel !== '') {
-          return (
-            <HorizontalFlexWrapper>
-              <SvgIcon type={'lib_application_invert'} />
-              <span className={locals.label}>{applicationLabel}</span>
-            </HorizontalFlexWrapper>
-          );
-        } else {
-          return (
-            <div>
-              <span className={locals.label}>{''}</span>
-            </div>
-          );
-        }
-      }
     }
   ];
+}
+
+function applicationLabel() {
+  return {
+    id: 'applicationLabel',
+    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    defaultOrderDirection: 'ASC',
+    getContent(item: SyntheticTest) {
+      const applicationLabel = item.applicationLabel;
+      if (applicationLabel != null && applicationLabel !== '') {
+        return (
+          <HorizontalFlexWrapper>
+            <SvgIcon type={'lib_application_invert'} />
+            <span className={locals.label}>{applicationLabel}</span>
+          </HorizontalFlexWrapper>
+        );
+      } else {
+        return (
+          <div>
+            <span className={locals.label}>{''}</span>
+          </div>
+        );
+      }
+    }
+  };
 }
 
 function defaultGetHeader(inSelectListDialog: boolean, tableActions: TableActions<SyntheticTest>) {

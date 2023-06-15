@@ -1,0 +1,66 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import { MapForm } from 'formalistic';
+import React from 'react';
+
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import { blueprintConfig, BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { Error as ScriptError } from 'in-types';
+import Menu from 'in-components/Menu';
+import { t } from 'in-i18n';
+
+import locals from 'in-synthetics/createTests/wizard/SelectTestStep.mless';
+
+export interface Props {
+  selectedBlueprint: BluePrint;
+  onSelectBluePrint: (item: BluePrint) => void;
+  updateForm: (form: MapForm<any>) => void;
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
+  simpleMode: boolean;
+}
+
+interface Description {
+  headline: string;
+  htmlContent: string;
+}
+
+export default function SelectTestStep({
+  selectedBlueprint,
+  onSelectBluePrint,
+  updateForm,
+  setScriptErrors,
+  simpleMode
+}: Props) {
+  return (
+    <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
+      <Menu
+        items={blueprintConfig}
+        addRightSeparator
+        initialItemSelected={selectedBlueprint}
+        onItemClick={item => {
+          onSelectBluePrint(item);
+          updateForm(createForm(simpleMode, item));
+          setScriptErrors([] as ScriptError[]);
+        }}
+      />
+      <div className={locals.presenterWrapper}>
+        <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
+          {selectedBlueprint.description?.map((paragraph: Description) => {
+            return (
+              <div key={paragraph.headline}>
+                <div className={locals.descriptionHeadline}>{paragraph.headline}</div>
+                <DangerousHtmlPresenter className={locals.htmlText} html={paragraph.htmlContent} />
+              </div>
+            );
+          })}
+        </SelectedBlueprintPresenter>
+      </div>
+    </SimpleModeStepContentWrapper>
+  );
+}

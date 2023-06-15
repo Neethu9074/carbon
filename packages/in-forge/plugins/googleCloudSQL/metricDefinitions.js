@@ -25,7 +25,7 @@ export default [
     formatter: bytes.detailed
   },
   {
-    metrics: ['database.cpu.reserved_cores', '"database.cpu.usage_time'],
+    metrics: ['database.cpu.reserved_cores', 'database.cpu.usage_time'],
     labels: [t('in-forge:plugins.googleCloudSQL.reservedCores'), t('in-forge:plugins.googleCloudSQL.usageTime')],
     min: 0,
     category: [t('in-forge:plugins.googleCloudSQL.cpu')],

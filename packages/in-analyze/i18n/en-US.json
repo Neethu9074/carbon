@@ -142,6 +142,7 @@
         "logParameters": "Log Parameters",
         "logStackTrace": "Log Stack Trace",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "This call is batched and represents {{batchSize}} individual calls.",
+        "downloadRawSpanData": "Download call details",
         "correlationMissing": "Correlation missing",
         "noOtherRelationsFound": "No other relations found.",
         "synthetic": "Synthetic",

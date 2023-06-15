@@ -30,7 +30,7 @@ import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
 
-const metrics = ['response_time', 'start_time', 'status', 'response_size'];
+const metrics = ['response_time', 'start_time', 'status'];
 
 const orders = [
   { by: 'response_time', direction: 'DESC' },
@@ -50,10 +50,9 @@ const colors = [null, null, theme.lib.colors.failure];
 
 interface ResultsTopListProps {
   testId: string;
-  locationsMap: Map<string, string>;
 }
 
-export default function ResultsTopList({ testId, locationsMap }: ResultsTopListProps) {
+export default function ResultsTopList({ testId }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
 
   const urlMatrixParamConfig = {
@@ -73,7 +72,6 @@ export default function ResultsTopList({ testId, locationsMap }: ResultsTopListP
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       testId={testId}
-      locationsMap={locationsMap}
       renderHistoricDataIndicator
       getList={getList}
       Renderer={TopListCardPresenter}
@@ -153,15 +151,13 @@ function ViewAll({ testId }: ViewAllProps) {
 type LabelProps = {
   item: TestResultListItem;
   selectedMetric: string;
-  locationsMap: Map<string, string>;
 };
 
-function Label({ item, selectedMetric, locationsMap }: LabelProps) {
+function Label({ item, selectedMetric }: LabelProps) {
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
   const resultId = item.testResultCommonProperties.id;
-  const testLocation =
-    (item.testResultCommonProperties.locationId && locationsMap.get(item.testResultCommonProperties.locationId)) || '';
+  const testLocation = item.testResultCommonProperties.locationDisplayLabel ?? '';
 
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
@@ -180,12 +176,6 @@ function Label({ item, selectedMetric, locationsMap }: LabelProps) {
     syntheticDetailsPath,
     'responseTime',
     get(item, ['metrics', 'response_time', 0, 1], 0)
-  );
-  setOrDeleteMatrixKey(
-    location,
-    syntheticDetailsPath,
-    'responseSize',
-    get(item, ['metrics', 'response_size', 0, 1], 0)
   );
 
   return <Link href={createHref(location)}>{testLocation + AdditionalLabel({ item, selectedMetric })}</Link>;

@@ -6,8 +6,9 @@
 import React, { forwardRef, Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon, SvgIconProps } from '@instana/components';
+import { SvgIcon, SvgIconProps } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 
@@ -59,7 +60,7 @@ function ScopeEntry({ iconType, iconSize, label, href, href$ }: ScopeEntryProps)
   return (
     <>
       <SvgIcon className={locals.icon} size={iconSize} type={iconType} />
-      <Link href$={href$} href={href} className={locals.link}>
+      <Link href={href$ ?? href} className={locals.link}>
         {label}
       </Link>
     </>

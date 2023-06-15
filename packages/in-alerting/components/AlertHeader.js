@@ -18,6 +18,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import IconButton from 'in-components/IconButton/IconButton';
+import { playwithEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -177,7 +178,7 @@ export default function AlertHeader({
               <Spacer horizontal="normal" />
             </>
           )}
-          {alertConfig.readOnly && (
+          {alertConfig.readOnly && !playwithEnabled && (
             <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
                 kind="primaryv2"
@@ -189,7 +190,7 @@ export default function AlertHeader({
             </Tooltip>
           )}
 
-          {allowActionButtons && !alertConfig.readOnly && showActionButton && (
+          {allowActionButtons && !alertConfig.readOnly && showActionButton && !playwithEnabled && (
             <>
               <Tooltip
                 content={

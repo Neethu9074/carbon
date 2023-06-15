@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import Tooltip from 'in-components/Tooltip';
 

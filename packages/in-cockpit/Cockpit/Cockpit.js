@@ -7,8 +7,9 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React, { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { Button, Link, Message, SvgIcon } from '@instana/components';
+import { Button, Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/legacy';
 
 import {
   hasAPlatformAccess,
@@ -20,6 +21,7 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
@@ -49,6 +51,7 @@ import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
@@ -174,7 +177,7 @@ function Header() {
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (
           <>
-            {role.canConfigureAgents && (
+            {role.canConfigureAgents && !playwithEnabled && (
               <Button
                 kind="secondaryDarker"
                 icon="lib_actions_settings"
@@ -184,7 +187,7 @@ function Header() {
               </Button>
             )}
 
-            {role.canConfigureUsers && (
+            {role.canConfigureUsers && !playwithEnabled && (
               <Button
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
@@ -260,7 +263,8 @@ const Content = function Content({ itemOrder, applicationId, width }) {
   return (
     <div
       className={classNames(locals.wrapper, {
-        [locals.wrapperWithRightContent]: !!renderNavigation
+        [locals.wrapperWithRightContent]: !!renderNavigation,
+        [locals.marginTop57]: playwithEnabled
       })}
     >
       <div
@@ -391,6 +395,7 @@ function getPlatformsTitle() {
   if (hasVSphereAccess) numPlatformsAvailable++;
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -408,6 +413,9 @@ function getPlatformsTitle() {
   }
   if (hasPHMCAccess) {
     return t('in-cockpit:cockpit.ibmp');
+  }
+  if (hasPowerVcAccess) {
+    return t('in-cockpit:cockpit.powervcRegion');
   }
   if (hasSAPAccess) {
     return t('in-cockpit:cockpit.sap');
@@ -428,6 +436,7 @@ function getPlatformCardIcon() {
   if (hasVSphereAccess) numPlatformsAvailable++;
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasSAPAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -444,6 +453,9 @@ function getPlatformCardIcon() {
   }
   if (hasPHMCAccess) {
     return 'lib_phmc_console';
+  }
+  if (hasPowerVcAccess) {
+    return 'lib_powervc';
   }
   if (hasZHMCAccess) {
     return 'lib_zhmcConsole';

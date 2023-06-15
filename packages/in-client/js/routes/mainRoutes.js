@@ -17,21 +17,23 @@ import {
   hasInfrastructureAccess,
   hasSyntheticsAccess,
   hasVSphereAccess,
+  hasPowerVcAccess,
   hasPHMCAccess,
   hasZHMCAccess,
   hasPCFAccess,
   hasOpenStackAccess,
   hasEventsAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasSloAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { internalMonitoringUnit, sloV2Enabled } from 'in-services/featureFlags';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
@@ -46,6 +48,7 @@ import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
+import powervcRoutes from 'in-powervc/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
@@ -66,7 +69,7 @@ export default (
     )}
 
     {hasEventsAccess && eventRoutes}
-    {sloV2Enabled && sloRoutes}
+    {hasSloAccess && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
     {role.canConfigureAutomationActions && actionAutomationEnabled && automationRoutes}
@@ -74,6 +77,7 @@ export default (
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
     {hasPHMCAccess && phmcRoutes}
+    {hasPowerVcAccess && powervcRoutes}
     {hasVSphereAccess && vsphereRoutes}
     {hasOpenStackAccess && openstackRoutes}
     {hasSAPAccess && sapRoutes}

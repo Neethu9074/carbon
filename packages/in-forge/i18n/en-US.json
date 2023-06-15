@@ -194,6 +194,11 @@
   "pluginName_awsApiGateway_1": "AWS API Gateways",
   "pluginName_awsApiGateway_2": "AWS API Gateways",
   "pluginName_awsApiGateway": "AWS API Gateway",
+  "pluginName_awsCloudFront_plural": "AWS CloudFronts",
+  "pluginName_awsCloudFront_0": "AWS CloudFronts",
+  "pluginName_awsCloudFront_1": "AWS CloudFronts",
+  "pluginName_awsCloudFront_2": "AWS CloudFronts",
+  "pluginName_awsCloudFront": "AWS CloudFront",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -259,6 +264,11 @@
   "pluginName_azureFunctions_1": "Azure Functions",
   "pluginName_azureFunctions_2": "Azure Functions",
   "pluginName_azureFunctions": "Azure Function",
+  "pluginName_baw_plural": "BAW",
+  "pluginName_baw_0": "BAW",
+  "pluginName_baw_1": "BAW",
+  "pluginName_baw_2": "BAW",
+  "pluginName_baw": "BAW",
   "pluginName_beeInstanaNode_plural": "BeeInstana Servers",
   "pluginName_beeInstanaNode_0": "BeeInstana Servers",
   "pluginName_beeInstanaNode_1": "BeeInstana Servers",
@@ -274,11 +284,6 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
-  "pluginName_camundaexit_plural": "Camunda Exit",
-  "pluginName_camundaexit_0": "Camunda Exit",
-  "pluginName_camundaexit_1": "Camunda Exit",
-  "pluginName_camundaexit_2": "Camunda Exit",
-  "pluginName_camundaexit": "Camunda Exit",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -612,6 +617,11 @@
   "pluginName_host_1": "Hosts",
   "pluginName_host_2": "Hosts",
   "pluginName_host": "Host",
+  "pluginName_remoteHost_plural": "Remote Hosts",
+  "pluginName_remoteHost_0": "Remote Hosts",
+  "pluginName_remoteHost_1": "Remote Hosts",
+  "pluginName_remoteHost_2": "Remote Hosts",
+  "pluginName_remoteHost": "Remote Host",
   "pluginName_httpd_plural": "Apache HTTPds",
   "pluginName_httpd_0": "Apache HTTPds",
   "pluginName_httpd_1": "Apache HTTPds",
@@ -1013,6 +1023,7 @@
   "pluginName_msiis_1": "Internet Information Servers",
   "pluginName_msiis_2": "Internet Information Servers",
   "pluginName_msiis": "Internet Information Server",
+  "pluginName_msmq": "MSMQ Message",
   "pluginName_msSqlDatabase_plural": "MS SQL Instances",
   "pluginName_msSqlDatabase_0": "MS SQL Instances",
   "pluginName_msSqlDatabase_1": "MS SQL Instances",
@@ -1135,11 +1146,11 @@
   "pluginName_phmcSharedProcessorPool_2": "pHMC Shared Processor Pools",
   "pluginName_phmcSharedProcessorPool_1": "pHMC Shared Processor Pools",
   "pluginName_phmcSharedProcessorPool": "pHMC Shared Processor Pool",
-  "pluginName_phmcVIOS_plural": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_0": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_2": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS_1": "pHMC Logical Virtual I/O Servers",
-  "pluginName_phmcVIOS": "pHMC Logical Virtual I/O Server",
+  "pluginName_phmcVIOS_plural": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_0": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_2": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS_1": "pHMC Virtual I/O Servers",
+  "pluginName_phmcVIOS": "pHMC Virtual I/O Server",
   "pluginName_phpFpmRuntimePlatform_plural": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_0": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_1": "PHP-FPM Runtimes",
@@ -1171,6 +1182,11 @@
   "pluginName_process_1": "Processes",
   "pluginName_process_2": "Processes",
   "pluginName_process": "Process",
+  "pluginName_processGroup_plural": "Process Groups",
+  "pluginName_processGroup_0": "Process Groups",
+  "pluginName_processGroup_1": "Process Groups",
+  "pluginName_processGroup_2": "Process Groups",
+  "pluginName_processGroup": "Process Group",
   "pluginName_processingStatistics_plural": "Processing Statistics",
   "pluginName_processingStatistics_0": "Processing Statistics",
   "pluginName_processingStatistics_1": "Processing Statistics",
@@ -1196,6 +1212,11 @@
   "pluginName_rabbitMq_1": "RabbitMQ",
   "pluginName_rabbitMq_2": "RabbitMQ",
   "pluginName_rabbitMq": "RabbitMQ",
+  "pluginName_rabbitMqCluster_plural": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_0": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_1": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster_2": "RabbitMQ Clusters",
+  "pluginName_rabbitMqCluster": "RabbitMQ Cluster",
   "pluginName_redis_plural": "Redis Nodes",
   "pluginName_redis_0": "Redis Nodes",
   "pluginName_redis_1": "Redis Nodes",
@@ -1317,6 +1338,12 @@
   "pluginName_tuxedoMachine_plural": "Tuxedo Machines",
   "pluginName_tuxedoServer": "Tuxedo Server",
   "pluginName_tuxedoServer_plural": "Tuxedo Servers",
+  "pluginName_tuxedoAppApplication": "Application",
+  "pluginName_tuxedoAppApplication_plural": "Applications",
+  "pluginName_tuxedoAppServiceBrokerProject": "Service Broker Project",
+  "pluginName_tuxedoAppServiceBrokerProject_plural": "Service Broker Projects",
+  "pluginName_tuxedoAppTuxedoService": "Tuxedo Service",
+  "pluginName_tuxedoAppTuxedoService_plural": "Tuxedo Services",
   "pluginName_unmonitoredHost_plural": "Unmonitored Hosts",
   "pluginName_unmonitoredHost_0": "Unmonitored Hosts",
   "pluginName_unmonitoredHost_1": "Unmonitored Hosts",
@@ -1552,11 +1579,11 @@
   "tracingTypeName_camunda_0": "Camunda Calls",
   "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
-  "tracingTypeName_camundaexit": "Camunda External Task Message",
-  "tracingTypeName_camundaexit_plural": "Camunda External Task Messages",
-  "tracingTypeName_camundaexit_0": "Camunda External Task Messages",
-  "tracingTypeName_camundaexit_1": "Camunda External Task Message",
-  "tracingTypeName_camundaexit_2": "Camunda External Task Messages",
+  "tracingTypeName_baw": "BAW Call",
+  "tracingTypeName_baw_plural": "BAW Calls",
+  "tracingTypeName_baw_0": "BAW Calls",
+  "tracingTypeName_baw_1": "BAW Call",
+  "tracingTypeName_baw_2": "BAW Calls",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -2487,7 +2514,8 @@
     "graphql": "graphql",
     "logger": "logger",
     "missing": "missing",
-    "xray": "xray"
+    "xray": "xray",
+    "bpm": "bpm"
   },
   "plugins": {
     "titleARN": "ARN",
@@ -2942,7 +2970,13 @@
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
-      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})"
+      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})",
+      "xmlNamesCount": "XML Names ({{len}})",
+      "xmlNames": "XML Names",
+      "xmlNameType": "Type",
+      "xmlNameUsed": "Used",
+      "xmlNamePercentFree": "Percentage Free",
+      "xmlNameMaximum": "Maximum"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
@@ -4245,6 +4279,39 @@
       "labelCount": "Count"
     },
 
+    "awsCloudFront": {
+      "infoTitle": {
+        "distributionId": "Distribution ID",
+        "distributionStatus": "Status",
+        "distributionLastModifiedTime": "Last Modified Time"
+      },
+      "headerCloudFrontInfo": "CloudFront Info",
+      "categoryDistribution": "Distribution",
+      "categoryFunction": "Function",
+      "labelRequests": "Requests",
+      "labelBytesUploaded": "Uploaded",
+      "labelBytesDownloaded": "Downloaded",
+      "label4xxErrorRate": "4xx",
+      "label5xxErrorRate": "5xx",
+      "labelTotalErrorRate": "Total",
+      "labelCacheHitRate": "Rate",
+      "labelOriginLatency": "Time",
+      "labelFunctionInvocations": "Count",
+      "labelFunctionValidationErrors": "Validation",
+      "labelFunctionExecutionErrors": "Execution",
+      "labelFunctionComputeUtilization": "Compute Utilization",
+      "labelFunctionThrottles": "Throttles",
+      "titleRequests": "Requests",
+      "titleCacheHit": "Cache Hit",
+      "titleOriginLatency": "Origin Latency",
+      "titleFunction": "Function",
+      "titleData": "Data",
+      "titleErrorRate": "Error Rate",
+      "titleFunctionErrors": "Function Errors",
+      "titleFunctionNames": "Function Names",
+      "titleAssociatedFunctions": "Associated Functions"
+    },
+
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -4917,7 +4984,8 @@
         "labelOpenedDbs1m": "Number of opended dbs for 1min period",
         "labelOpenedDbs5m": "Number of opended dbs for 5min period",
         "labelOpenedDbs1h": "Number of opended dbs for 1h period",
-        "labelEmergencyFlush": "Number of emergency flushes"
+        "labelEmergencyFlush": "Number of emergency flushes",
+        "labelNumOfErrorRequests": "Number of error requests"
       }
     },
     "bizTalk": {
@@ -4953,8 +5021,9 @@
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
     },
-    "camunda": {
-      "camunda": "Camunda"
+    "bpm": {
+      "camunda": "Camunda",
+      "baw": "BAW"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
@@ -5246,7 +5315,6 @@
         "titleMetrics": "Metrics",
         "titleQueryID": "Query ID",
         "titleQuery": "Query",
-        "titleElapsed": "Elapsed",
         "titleReadRows": "Read Rows",
         "titleReadBytes": "Read Bytes",
         "titleRunningQueries": "Running Queries",
@@ -5265,15 +5333,20 @@
         "titlePartitionId": "Partition Id",
         "titleResultPartName": "Part Name",
         "titleNumberOfParts": "Num Parts",
+        "titleEstimate": "Estimate",
+        "titleProgress": "Progress",
+        "titleElapsed": "Elapsed",
+        "titleIsMutation": "Is Mutation",
+        "titleTotalSizeBytesCompressed": "Total Size Bytes Compressed",
         "titleRowsRead": "Rows Read",
         "titleRowsWritten": "Rows Written",
         "titleMemoryUsage": "Memory Usage",
         "explanationRunningQueriesNotAvailable": "Running queries is not available if the selected time range ends in the past.",
         "explanationRunningMergesNotAvailable": "Running merges is not available if the selected time range ends in the past.",
-        "errorRetrieveRunningMerges": "Failed to retrieve running merges",
-        "errorRetrieveRunningQueries": "Failed to retrieve running queries",
-        "infoNoRunningQueries": "Failed to retrieve running queries",
-        "infoNoRunningMerges": "Failed to retrieve running merges"
+        "errorRetrieveRunningMerges": "Failed to retrieve running merges.",
+        "errorRetrieveRunningQueries": "Failed to retrieve running queries.",
+        "infoNoRunningQueries": "There are no running queries.",
+        "infoNoRunningMerges": "There are no running merges."
       }
     },
     "cloudFoundry": {
@@ -6565,14 +6638,50 @@
       "adapter": "Adapter",
       "receivedPackets": "Number of packets received by SR IOV Adapter",
       "sentPackets": "Number of packets received by SR-IOV Adapter",
-      "droppedPackets":  "Number of packets dropped by SR-IOV Adapter",
+      "droppedPackets": "Number of packets dropped by SR-IOV Adapter",
       "sentBytes": "Number of bytes sent by SR-IOV Adapter",
       "receivedBytes": "Number of bytes received by SR-IOV Adapter",
       "transferredBytes": "Number of bytes transferred by SR-IOV Adapter",
       "errorIn": "Received errors/s",
       "errorOut": "Transmit errors/s"
     },
-    "phmcSharedProcessorPool":{
+    "phmcVIOS": {
+      "utilizedProcUnits": "Utilized Processing Units",
+      "maxProcUnits": "Maximum Processing Units",
+      "entitledProcUnits": " Entitled Processing Units",
+      "entitledProcUnitsPercentage": " Entitled Processing Units (%)",
+      "maxCpuCapacityUtilisation": "Max CPU Capacity Utilisation",
+      "utilizedMem": "Utilized Memory",
+      "assignedMem": "Assigned Memory",
+      "utilizedMemPercentage": "Utilized Memory (%)",
+      "sentPackets": "Sent Packets",
+      "receivedPackets": "Received Packets",
+      "droppedPackets": "Dropped Packets",
+      "sentBytes": "Number of Bytes Sent by Adapter",
+      "receivedBytes": "Number of Bytes Received by Adapter",
+      "transferredBytes": "Number of Bytes Transferred by Adapter",
+      "transferredPhysicalBytes": "Number of Bytes Transferred in Physical ",
+      "numOfReads": "Number of Reads",
+      "numOfWrites": "Number of Writes",
+      "readBytes": "Number of Bytes Read",
+      "writeBytes": "Number of Bytes Write",
+      "transmittedBytes": "Number of Bytes Transmitted",
+      "dashboard": {
+        "packets": "Packets",
+        "bytes": "Bytes",
+        "noOfReadWrite": "Number  of Read/Write",
+        "noOfByte": "Number of Byte",
+        "genericAdapter": "Generic Adapter",
+        "sharedAdapter": "Shared Adapter",
+        "virtualEthernetAdapter": "Virtual Ethernet Adapter",
+        "sriovLogicalPort": "SR IOV Logical Port",
+        "genericPhysicalAdapter": "Generic Physical Adapter",
+        "genericVirtualAdapter": "Generic Virtual Adapter",
+        "fiberChannelAdapter": "Fiber Channel Adapter",
+        "sharedStoragePool": "Shared Storage Pool"
+      }
+    },
+    "phmcSharedProcessorPool": {
       "utilizedProcUnits": "Utilized processing units",
       "availableProcUnits": "Available processing units",
       "currentReservedProcUnits": "Current reserved processing units",
@@ -6581,6 +6690,39 @@
       "entitledProcUnitsUsedPercent": "Total entitled processing units (%)",
       "utilizedProcUnitsPercent": "Utilized proc units (%)",
       "availableProcUnitsPercent": "Available processing units (%)"
+    },
+    "phmcLPAR": {
+      "utilizedProcUnits": "Utilized Processing Units",
+      "maxProcUnits": "Maximum Processing Units",
+      "entitledProcUnits": " Entitled Processing Units",
+      "entitledProcUnitsPercentage": " Entitled Processing Units (%)",
+      "maxCpuCapacityUtilisation": "Max CPU Capacity Utilisation",
+      "logicalMem": "Logical Memory",
+      "backedPhysicalMem": "Backed Physical Memory",
+      "totalIOMem": "Total IO Memory",
+      "mappedIOMem": "Mapped IO Memory",
+      "sentPackets": "Sent Packets",
+      "receivedPackets": "Received Packets",
+      "droppedPackets": "Dropped Packets",
+      "sentBytes": "Number of Bytes Sent by Adapter",
+      "receivedBytes": "Number of Bytes Received by Adapter",
+      "transferredBytes": "Number of Bytes Transferred by Adapter",
+      "transferredPhysicalBytes": "Number of Bytes Transferred in Physical ",
+      "numOfReads": "Number of Reads",
+      "numOfWrites": "Number of Writes",
+      "readBytes": "Number of Bytes Read",
+      "writeBytes": "Number of Bytes Write",
+      "transmittedBytes": "Number of Bytes Transmitted",
+      "dashboard": {
+        "packets": "Packets",
+        "bytes": "Bytes",
+        "noOfReadWrite": "Number  of Read/Write",
+        "noOfByte": "Number of Byte",
+        "virtualEthernetAdapter": "Virtual Ethernet Adapter",
+        "sriovLogicalPort": "SR IOV Logical Port",
+        "genericVirtualAdapter": "Generic Virtual Adapter",
+        "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapter"
+      }
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {
@@ -7012,6 +7154,10 @@
       "longTermSupportDocs": "Long-term support docs",
       "eolPythonRuntime": "An EOL version of Python runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities, furthermore it is outside of the scope of the usual instana support. Update your Python version to avoid problems."
     },
+    "processingStatistics": {
+      "hostCount": "Host Count",
+      "instanaAgentCount": "Instana Agent Count"
+    },
     "rabbitMq": {
       "dashboard": {
         "messagesReady": "Messages ready",
@@ -7037,10 +7183,7 @@
         "fileDescriptorsUsed": "File descriptors used",
         "memoryUsed": "Memory used",
         "socketsUsed": "Sockets used",
-        "erlangProcesses": "Erlang processes",
-        "diskFree": "Disk free",
         "diskAlarmThreshold": "Disk alarm threshold",
-        "nodesWithCount": "Nodes ({{len}})",
         "totalFileDescriptors": "Total file descriptors",
         "memoryLimit": "Memory limit",
         "erlangProcessesUsed": "Erlang processes used",
@@ -7050,7 +7193,8 @@
         "queuesWithCount": "Queues ({{len}})",
         "queue": "Queue",
         "messagesUnacknowledged": "Messages unacknowledged",
-        "messagesTotal": "Messages total"
+        "messagesTotal": "Messages total",
+        "nodeMetrics": "Node metrics"
       },
       "processId": "Process ID",
       "ports": "Ports",
@@ -7082,6 +7226,49 @@
       "messagesAcknowledged": "Messages acknowledged",
       "rabbitMq": "RabbitMQ",
       "queue": "Queue"
+    },
+    "rabbitMqCluster": {
+      "dashboard": {
+        "messagesPer5Sec": "Overall messages (per 5 sec)",
+        "published": "Overall published",
+        "delivered": "Overall delivered",
+        "acknowledged": "Overall acknowledged",
+        "messageStatus": "Overall message status",
+        "ready": "Overall ready",
+        "unacknowledged": "Overall unacknowledged",
+        "total": "Total",
+        "readyRate": "Overall ready rate",
+        "unacknowledgedRate": "Overall unacknowledged rate",
+        "totalRate": "Total rate",
+        "overview": "Overview",
+        "consumers": "Consumers",
+        "connections": "Connections",
+        "networkPartitionDetected": "Network partition detected.",
+        "theNatureOfThePartitionIsAsFollows": "The nature of the partition is as follows:",
+        "node": "Node",
+        "wasPartitionedFrom": "Was partitioned from",
+        "networkPartitionWarnFooter": "While running in this partitioned state, changes (such as queue or exchange declaration and binding) which take place in one partition will not be visible to other partition(s). <br />Other behaviour is not guaranteed. <link>More information on network partitions.</link>",
+        "nodesWithCount": "Nodes ({{len}})",
+        "name": "Name",
+        "version": "Version",
+        "fileDescriptorsUsed": "File descriptors used",
+        "memoryUsed": "Memory used",
+        "socketsUsed": "Sockets used",
+        "erlangProcesses": "Erlang processes",
+        "diskFree": "Disk free",
+        "diskAlarmThreshold": "Disk alarm threshold"
+      },
+      "messages": "Messages",
+      "consumers": "Consumers",
+      "connections": "Connections",
+      "overview": "Overview",
+      "totalNumberOfNetworkPartitions": "Total number of Network partitions",
+      "nodesCount": "Nodes count",
+      "clusterName": "Cluster name",
+      "nodes": "Nodes",
+      "rabbitMqCluster": "RabbitMQ cluster",
+      "nodesUp": "Nodes up",
+      "nodesDown": "Nodes down"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis CONFIG command must not be disabled in the redis.conf and needs to be specified in Instana agent config to collect Redis metrics.",
@@ -7354,7 +7541,8 @@
       "threads": "Threads",
       "ruby": "Ruby",
       "longTermSupportDocs": "Long-term support docs",
-      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems."
+      "eolRubyRuntime": "An EOL version of Ruby runtime has been detected. This version does not receive updates or security fixes and might contain unfixed vulnerabilities. Furthermore, it is outside of the scope of the usual Instana support. Update your Ruby version to avoid problems.",
+      "inProcessCollectorVersion": "Instana Gem Version"
     },
     "sapHana": {
       "dashboard": {
@@ -8364,7 +8552,8 @@
       "maxBytesLostToSlop": "Max #Bytes Lost to Slop",
       "maxMbAllocated": "Max MB Allocated",
       "copiedBytesWoMutableLists": "Copied Bytes /wo Mutable Lists",
-      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists"
+      "maxCopiedBytesWoMutableLists": "Max Copied Bytes /wo Mutable Lists",
+      "inProcessCollectorVersion": "instana-haskell-trace-sdk Version"
     },
     "hazelcastCluster": {
       "isClusterSafe": "Is Cluster Safe",
@@ -9342,7 +9531,7 @@
             "libraryName": "Library",
             "activeJobs": "Active Jobs",
             "maxActiveJobs": "Max Active Jobs",
-            "description": "Description"
+            "description": "Descriptions"
           },
           "userSpoolSpace": {
             "name": "Top Spool Space Consumption",
@@ -9426,7 +9615,7 @@
             "messageSecondLevelText": "Second Level Text"
           },
           "spinningDiskType": {
-            "name": "Spinning Disk Info",
+            "name": "Hardware Disk Drives (HDD) Info",
             "resourceName": "Resource Name",
             "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
@@ -9473,8 +9662,8 @@
               "elapsedIORequests": "Elapsed IO Requests",
               "elapsedRequestSize": "Elapsed Request Size",
               "elapsedPercentBusy": "Elapsed Percent Busy"
-              }
-            },
+            }
+          },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
             "resourceName": "Resource Name",
@@ -9490,7 +9679,7 @@
             "firmwareLevel": "Firmware Level"
           }
         }
-      } ,
+      },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
@@ -9726,6 +9915,9 @@
         "totalCurrentTransfers": "Total Current Transfers",
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
+        "totalTimedOutTransfers": "Total Timed Out Transfers",
+        "totalRetryingTransfers": "Total Retrying Transfers",
+        "totalWaitForCapacityTransfers": "Total Transfers Waiting for Capacity",
         "transferState": "State",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
@@ -10061,6 +10253,8 @@
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",
       "apm": "APM",
+      "k8s": "Kubernetes",
+      "unknown": "Unknown",
       "theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints": "The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing: <strong><code>{{missing}}</code></strong>. Please refer to your Linux distribution docs on how to install these utilities.",
       "theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications": "The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET applications.",
       "troubleshootingDocs": "Troubleshooting docs",
@@ -10300,6 +10494,8 @@
       "totalNumberofDB": "Total Number of Database Entities",
       "pending": "Pending",
       "running": "Running",
+      "nginxPending": "Nginx Timers Pending",
+      "nginxRunning": "Nginx Timers Running",
       "sharedDictionary": "Shared Dictionary",
       "subsystem": "Subsystem",
       "totalCapacity": "Total Capacity",
@@ -10310,16 +10506,17 @@
       "totalConnections": "Total Connections",
       "totalHttpRequests": "Total Http Requests",
       "nginxTotalRequests": "Kong NGINX Total Requests",
-      "totalNumberofRequests":"Total Number of Requests",
-      "direction":"Direction",
-      "service":"Service",
+      "totalNumberofRequests": "Total Number of Requests",
+      "ingressBytes": "Ingress Bandwidth (Bytes)",
+      "egressBytes": "Egress Bandwidth (Bytes)",
+      "ingress": "Ingress",
+      "egress": "Egress",
+      "service": "Service",
       "route": "Route",
       "code": "Code",
-      "source":"Source",
-      "consumer":"Consumer",
+      "source": "Source",
+      "consumer": "Consumer",
       "kongBandwidth": "Bandwidth",
-      "bytes": "Bytes",
-      "kongEnterpriseLicenseErrors": "Kong Enterprise License Errors",
       "database":"Kong Database",
       "kongDbEntitiesTotal":"Kong Db Entity Count Errors",
       "workerStateUpdateFrequency":"Worker State Update Frequency",
@@ -10330,6 +10527,16 @@
       "status3xx":"Status 3XX",
       "status4xx":"Status 4XX",
       "status5xx":"Status 5XX",
+      "latency":"Kong Latency by services",
+      "kongKonglatencyRoute":"Kong Latency by routes",
+      "requestLatency":"Kong Request Latency by services",
+      "requestLatencyRoute":"Kong Request Latency by routes",
+      "upstreamLatency":"Kong Upstream Latency by services",
+      "upstreamLatencyRoute":"Kong Upstream Latency by routes",
+      "kongLatencyFiftyPercentile":"50th Percentile",
+      "kongLatencyNinetyPercentile":"90th Percentile",
+      "kongLatencyNinetyfivePercentile":"95th Percentile",
+      "kongLatencyNinetyninePercentile":"99th Percentile",
       "dashboard": {
         "kongNginxTimers": "Kong-Nginx Timers",
         "sharedDictionaryAllocated": "Shared Dictionary Allocated Slabs",
@@ -11126,6 +11333,56 @@
       "numQueuedEachServ": "Number of requests currently enqueued",
       "stateMetric": "State Metric"
     },
+    "tuxedoAppApplication": {
+      "tuxedoAppApplication": "Application",
+      "appName": "Application Name",
+      "numOfSBrokerProjects": "Service Broker Project",
+      "numOfTuxSvcs": "Tuxedo Service",
+      "ts_avgResTime": "TS Average Response Time",
+      "ts_throughput": "TS Throughput",
+      "tsName": "Tuxedo Service Name",
+      "sbpName": "Service Broker Project Name",
+      "tuxedoServiceWithCount": "Tuxedo Service List ({{len}})",
+      "svcBrokerProjectWithCount": "Service Broker Project List ({{len}})",
+      "sbp_avgResTime": "SBP Average Response Time",
+      "sbp_preCallTime": "Pre-call Processing Time",
+      "sbp_postCallTime": "Post-call Processing Time",
+      "sbp_callTime": "Call Processing Time",
+      "sbp_timeBreakdown": "SBP Processing Time Breakdown",
+      "sbp_throughput": "SBP Throughput",
+      "sbp_errors": "SBP Errors"
+    },
+    "tuxedoAppServiceBrokerProject": {
+      "tuxedoAppServiceBrokerProject": "Service Broker Project",
+      "serviceBrokerWithCount": "Service Broker List ({{len}})",
+      "serviceBroker": "Service Broker",
+      "sbpName": "Service Broker Project Name",
+      "avgResTime": "Average Response Time",
+      "preCallTime": "Pre-call Processing Time",
+      "postCallTime": "Post-call Processing Time",
+      "timeBreakdown": "Processing Time Breakdown",
+      "callTime": "Call Processing Time",
+      "throughput": "Throughput",
+      "errors": "Errors",
+      "rsfu": "Response Payload Size",
+      "rqfu": "Request Payload Size"
+    },
+    "tuxedoAppTuxedoService": {
+      "tuxedoAppTuxedoService": "Tuxedo Service",
+      "tsName": "Tuxedo Service Name",
+      "server": "Server",
+      "release": "Release",
+      "host": "Host",
+      "tuxedoServerWithCount": "Tuxedo Server List ({{len}})",
+      "avgResTime": "Average Response Time",
+      "throughput": "Throughput",
+      "transactionAndCallTime": "Transactions and Call Time",
+      "countLessHalf": "<0.5s",
+      "countHalfAndOneHalf": "0.5s - 1.5s",
+      "countOneHalfAndThree": "1.5s - 3s",
+      "countThreeAndFive": "3s - 5s",
+      "countGreaterFive": ">5s"
+    },
     "unmonitoredHost": {
       "headerNetworkInformation": "Network Information",
       "infoNoEntityInfo": "There is no further information about this entity."
@@ -11375,12 +11632,22 @@
       "titleTransactionGlobalTimeoutCount": "Global Timeout Count",
       "titleTransactionGlobalTranTime": "Global Transaction Time",
       "titleTransactionsModule": "Transactions",
+      "titleCertificatesCount": "Certificates ({{len}})",
+      "titleKeystore": "Keystore",
+      "titleCertificateAlias": "Alias",
+      "titleCertificateOwner": "Owner",
+      "titleCertificateIssuer": "Issuer",
+      "titleCertificateSerial": "Serial Number",
+      "titleCertificateExp": "Expiration",
+      "titleCertificateDaystoExp": "Remaining Days Before Expiration",
       "headerWebSphereServerInfo": "WebSphere Server Info",
       "headerDatasourceName": "Datasource [{{datasourceName}}]",
       "headerWebContainerThreadPool": "Web Container Thread Pool",
       "categoryThreadPool": "Thread Pool",
       "labelWebModule": "Web Module",
       "labelActiveThreads": "Active Threads",
+      "labelCertificate": "Certificate",
+      "labelCertificates": "Certificates",
       "labelPoolSize": "Pool Size",
       "labelConcurrentlyHungThreads": "Concurrent Hung Thread Count",
       "labelDeclaredThreadHung": "Declared Thread Hung Count",
@@ -11500,6 +11767,7 @@
       "heatLoadWater": "Heat Load (Water)",
       "dewPoint": "Dew Point",
       "humidity": "Humidity",
+      "networkPort": "Network Port",
       "networkPorts": "Network Ports",
       "networkPortId": "Network Port Id",
       "bytesSent": "Bytes Sent",
@@ -12125,7 +12393,8 @@
       "nodeJsModuleAnalysis": "Node.js module analysis",
       "app": "App",
       "gcPauseS": "GC pause/s",
-      "eventLoopLag": "Event Loop Lag"
+      "eventLoopLag": "Event Loop Lag",
+      "inProcessCollectorVersion": "@instana/collector Version"
     },
     "packet": {
       "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity.",
@@ -12491,7 +12760,12 @@
       "executions": "Executions",
       "sharableMemInMB": "Sharable Memory (MB)",
       "oracleRAC": "Oracle RAC",
-      "serviceName": "Service Name"
+      "serviceName": "Service Name",
+      "instanceCount": "Instance Count",
+      "instanceID": "Instance ID",
+      "processDetails": "Process Details",
+      "dbDetails": "DB Details",
+      "sqlExecutionAndParseDetails": "SQL Execution And Parse Details"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",
@@ -12765,24 +13039,19 @@
       "status": "Status",
       "hostName": "Host Name",
       "objectType": "Object Type",
-      "centralService": "Central Service",
-      "instanceAvail": "Instance Avail",
-      "javaToAbap": "Java To Abap",
-      "abapToJava": "Abap To Java",
+      "scsMessageServerStatus": "SCS Message Server Status",
+      "scsEnqueueServerStatus": "SCS Enqueue Server Status",
+      "localHttpAvailability": "Local Http Availability",
+      "scsMessageServerAvail": "SCS Message Server Availability",
       "receiveStatus": "Receive Status",
       "instanceAvailability": "Instance Availability",
       "instanceStatus": "Instance Status",
       "localRFC": "Local RFC",
-      "localLogonTest": "Local Logon Test",
-      "instanceStatusRemote": "Instance Status Remote",
       "abapShortDumps": "Abap Short Dumps",
       "abapShortDumpsFreq": "Abap Short Dumps Freq",
+      "recieveStatusFromHost": "Recieve Status From Host",
+      "systemLog": "System Log",
       "dialogClientUsers": "Dialog Client Users",
-      "abapClienteq000": "Abap Client eq000",
-      "abapClienteq001": "Abap Client eq001",
-      "abapClienteq066": "Abap Client eq066",
-      "abapClienteq400": "Abap Client eq400",
-      "abapClienteq500": "Abap Client eq500",
       "noDialogUsersClient": "No Dialog Users Client",
       "instDialogUsers": "Inst Dialog Users",
       "intHttpUsers": "Int Http Users",
@@ -12792,6 +13061,7 @@
       "instBTCQueueLength": "Inst BTC Queue Length",
       "instBTCWPFree": "Inst BTCWP Free",
       "instBTCWPStopped": "Inst BTCWP Stopped",
+
       "instDialogLongRunning": "Inst Dialog Long Running",
       "dialogResources": "Dialog Resources",
       "noOfdialogStepsPerMin": "No Of Dialog Steps Per Min",
@@ -12801,6 +13071,7 @@
       "noICMConnections": "No ICM Connections",
       "noICMReq": "No ICM Req",
       "noICMThreads": "No ICM Threads",
+
       "memory": "Memory",
       "memoryCUADb": "Memory CUA Db",
       "memoryNametab": "Memory Nametab",
@@ -12809,19 +13080,23 @@
       "memoryTableGeneric": "Memory Table Generic",
       "memoryTableSingle": "Memory Table Single",
       "memoryNoOfBufferSwaps": "Memory No Of Buffer Swaps",
+
       "spoolResources": "Spool Resources",
+
       "wPStopped": "WP Stopped",
       "update1WPStopped": "Update1 WP Stopped",
       "update2WPStopped": "Update2 WP Stopped",
       "updateResources": "Update Resources",
+      "localInstanceHttpAvailability": "Local Instance Http Availability",
+      "frequencySystemLogMessage": "Frequency System Log Message",
       "dialogDBReqTime": "Dialog DB Req Time",
       "dialogNetworkTime": "Dialog Network Time",
       "dialogRespTime": "Dialog Resp Time",
       "dialogLoadGenTime": "Dialog LoadGen Time",
       "dialogStandardRespTime": "Dialog Standard Resp Time",
-      "gatewayClientUsage": "Gateway Client Usage",
-      "gatewayConnectionUsage": "Gateway Connection Usage",
-      "remoteGatewayUsage": "Remote Gateway Usage",
+      "dialogWorkProcesses": "Dialog Work Processes",
+      "dispatcherWaitQueue": "Dispatcher Wait Queue",
+      "dialogWorkProcessUsed": "Dialog Work Process Used",
       "iCMConnectionUsage": "ICM Connection Usage",
       "iCMReqUsage": "ICM Req Usage",
       "iCMThreadUsage": "ICM Thread Usage",
@@ -12830,8 +13105,9 @@
       "memoryPagingUsed": "Memory Paging Used",
       "memoryRollUsed": "Memory Roll Used",
       "spoolUtil": "Spool Util",
-      "update1QueueUtil": "Update1 Queue Util",
-      "update2QueueUtil": "update2QueueUtil"
+      "abapClienteq": "Abap Client eq",
+      "gatewayResourceUsage": "Gateway Resource Usage",
+      "updateQueueUtilization": "Update Queue Utilization"
     },
     "abapSystem": {
       "label": "ABAP System",
@@ -12861,10 +13137,7 @@
       "authProfileAlert": "Auth Profile Alert",
       "authProfilePerClient": "Auth Profile Per Client",
       "expiringCertificate": "Expiring Certificate",
-      "shortDumps": "Short Dumps",
-      "shortDumps5mins": "Short Dumps 5mins",
-      "shortDumpsLastHour": "Short Dumps Last Hour",
-      "shortDumpsToday": "Short Dumps Today",
+      "abapShortDumps": "ABAP Short Dumps",
       "batchJobsRunning": "Batch Jobs Running",
       "batchJobsCancelled": "Batch Jobs Cancelled",
       "enqueueOlder1Hour": "Enqueue Older 1Hour",
@@ -12923,7 +13196,12 @@
       "label": "SAP DB Tenant",
       "hostName": "Host Name",
       "objectType": "Object Type",
-      "serviceAvailability": "Service Availability"
+      "serviceAvailability": "Service Availability",
+      "dbInstanceStatus": "Db Instance Status",
+      "failedIOReads": "Failed IO Reads",
+      "failedIOWrites": "Failed IO Writes",
+      "logRaceRatio": "Log Race Ratio",
+      "logSwitchRatio": "Log Switch Ratio"
     },
     "sapDbInstance": {
       "label": "SAP DB Instance",
@@ -12948,20 +13226,28 @@
       "sparseDBKeyeq_1012": "Sparse DB Key eq_1012",
       "failedIOReadsKeyeq_1009": "Failed IO Reads Key eq_1009",
       "failedIOWritesKeyeq_1008": "Failed IO Writes Key eq_1008",
-      "newHANATraceFilesKeyeq_1020": "New HANA Trace Files Key eq_1020"
+      "newHANATraceFilesKeyeq_1020": "New HANA Trace Files Key eq_1020",
+      "dbAvailability": "Db Availability",
+      "disabaledMetrics": "Disabaled Metrics",
+      "traceSettings": "Trace Settings"
     },
     "sapJavaSystem": {
       "label": "SAP Java System",
-      "minValue": "Minimum Value",
-      "maxValue": "Maximum Value",
-      "status": "Status",
       "messageDeliveredStatus": "Message Delivered Status",
       "hostName": "Host Name",
       "objectType": "Object Type",
-      "systemHttpAvailability": "System Http Availability",
       "j2EEMessagesError": "J2EE Messages Error",
       "j2EEMessagesCancelled": "J2EE Messages Cancelled",
-      "j2EEMessagesDelivered": "J2EE Messages Delivered"
+      "j2EEMessagesDelivered": "J2EE Messages Delivered",
+      "bPMTaskError": "BPM Task Error",
+      "bPMInstanceFailed": "BPM Instance Failed",
+      "bPMInstanceSuspended": "BPM Instance Suspended",
+      "bPMTaskSuspended": "BPM Task Suspended",
+      "activeProcess": "BPM Active Process",
+      "activeTask": "BPM Active Task",
+      "completedTask": "BPM Completed Task",
+      "totalProcessInstance": "Total BPM Process Instance",
+      "totalProcessTask": "Total BPM Process Task"
     },
     "sapJavaInstance": {
       "label": "SAP Java Instance",
@@ -12973,13 +13259,20 @@
       "httpAvailability": "Http Availability",
       "iCMStatus": "ICM Status",
       "gRMGServiceStatus": "GRMG Service Status",
-      "instAvailability": "inst Availability",
       "jCOStatus": "JCO Status",
       "p4ServiceStatus": "P4 Service Status",
       "servletEngineStatus": "Servlet Engine Status",
       "webServicesStatus": "Web Services Status",
+      "javaNodeServerStatus" : "Java Node Server Status",
+      "processNameEqServerStatus": "Process Name Eq Server Status",
       "sCSEnqueueStatus": "SCS Enqueue Status",
-      "sCSMessageServerStatus": "SCS Message Server Status"
+      "sCSMessageServerStatus": "SCS Message Server Status",
+      "threadUsage": "Thread Usage",
+      "dbResponeTime": "DB Respone Time",
+      "enqueueResponseTime": "Enqueue Response Time",
+      "garbageCollection": "Garbage Collection",
+      "blsResponseTime": "BLS Response Time",
+      "webServiceResponseTime": "webServiceResponseTime"
     },
     "sapHanaSystem": {
       "label": "SAP Hana System",
@@ -12991,7 +13284,9 @@
       "label": "SAP Web Dispatcher",
       "hostName": "Host Name",
       "objectType": "Object Type",
-      "systemAvailability": "System Availability"
+      "systemAvailability": "System Availability",
+      "webDispatcherAvailability": "Web Dispatcher Availability",
+      "recieveStatusFromHost": "Recieve Status From Host"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",
@@ -13050,6 +13345,24 @@
         "javascriptWorkloadDes": "The workload for HTTPScript tests running in javascript playback engine",
         "browserWorkloadDes": "The workload for BrowserScript tests running in browserscript playback engine",
         "status": "Status"
+      }
+    },
+    "processGroup": {
+      "label": "Process Group",
+      "title": "Processes",
+      "displayName": "Display Name",
+      "pid": "PID",
+      "executable": "Executable",
+      "parentid": "Parent ID",
+      "cpuUsage": "CPU Usage",
+      "system": "System CPU",
+      "memory": "Memory",
+      "resident": "Resident Memory"
+    },
+    "remoteHost": {
+      "source": "Source",
+      "dashboard": {
+        "fsid": "Identifier"
       }
     }
   },
@@ -13188,7 +13501,7 @@
       "titleSort": "Sort",
       "titleSize": "Size"
     },
-    "camunda": {
+    "bpm": {
       "titleBusinessKey": "Business Key",
       "titleCaseIntanceId": "Case Instance ID",
       "titleRootProcessUUID": "Root Process UUID",
@@ -13197,14 +13510,12 @@
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
       "titleActivityDesc": "Activity Description",
+      "titleActivityType": "Activity Type",
       "titleExternalTaskWorkerId": "External Task Worker ID",
       "titleExternalTaskTopic": "External Task Topic",
       "titleExternalTaskId": "External Task ID",
       "titleExternalTaskRetries": "Retries",
       "titleBusinessVariable": "{{businessVariableKey}}"
-    },
-    "camunda-exit": {
-      "titleExternalTaskTopic": "External Task Topic"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -13621,7 +13932,9 @@
       "titleMachine": "Machine",
       "titleQueue": "Queue",
       "titleOperation": "Operation",
-      "titleTransactionType": "Transaction-Type"
+      "titleTransactionType": "Transaction-Type",
+      "titleExceptionType": "Exception-Type",
+      "titleError": "Error"
     },
     "muleClient": {
       "titleProtocol": "Protocol",

@@ -60,7 +60,7 @@ export default function BizOpsList() {
         <ServerTableWithUrlState
           get={getBusinessProcessListData}
           timeConfig={timeConfig}
-          cardTitle={t('in-bizops:lists.pageTitle')}
+          cardTitle={t('in-bizops:lists.cardTitle')}
         />
       </LeftRightPadding>
       <Footer />
@@ -116,12 +116,11 @@ function getBusinessProcessListData({
     },
     order: { by: orderBy, direction: orderDirection },
     metrics: {
-      startedProcessesCount: businessProcessMetric
+      started_processes: businessProcessMetric
     },
     filter: {
       timeConfig
     },
-    timeConfig,
     tagFilterExpression
   });
 }

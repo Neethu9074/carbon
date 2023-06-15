@@ -6,14 +6,27 @@
 
 import React from 'react';
 
+import UserCallsCommitsRollbacksDetailsTable from '../Tables/UserCallsCommitsRollbacksDetailsTable';
+import TopCPUConsumingSessionsLast10MinTable from '../Tables/TopCPUConsumingSessionsLast10MinTable';
+import PhysicalAndSessionLogicalReadsTable from '../Tables/PhysicalAndSessionLogicalReadsTable';
+import SQLExecutionAndParseDetailsTable from '../Tables/SQLExecutionAndParseDetailsTable';
+import TopTenCPUConsumingSessionsTable from '../Tables/TopTenCPUConsumingSessionsTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import TopElapsedTimeQueriesTable from '../Tables/TopElapsedTimeQueriesTable';
+import ActiveSessionHistoryTable from '../Tables/ActiveSessionHistoryTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import SQLConsumingMoreCPUTable from '../Tables/SQLConsumingMoreCPUTable';
+import ProcessUtilizationTable from '../Tables/ProcessUtilizationTable';
+import ForegroundSessionsTable from '../Tables/ForegroundSessionsTable';
+import BlockingSessionsTable from '../Tables/BlockingSessionsTable';
 import { number, megaBytes } from 'in-services/formatters/number';
-import SGAPoolSizeTable from '../Tables/SGAPoolSizeTable.js';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import SGAPoolSizeTable from '../Tables/SGAPoolSizeTable';
+import BufferCacheTable from '../Tables/BufferCacheTable';
+import DBDetailsTable from '../Tables/DBDetailsTable';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
@@ -88,6 +101,21 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
         <SGAPoolSizeTable snapshot={snapshot} timeConfig={timeConfig} />
       </Columize>
+      <ProcessUtilizationTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DBDetailsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <SQLExecutionAndParseDetailsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <Columize>
+        <BufferCacheTable snapshot={snapshot} timeConfig={timeConfig} />
+        <PhysicalAndSessionLogicalReadsTable snapshot={snapshot} timeConfig={timeConfig} />
+      </Columize>
+      <UserCallsCommitsRollbacksDetailsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <TopCPUConsumingSessionsLast10MinTable snapshot={snapshot} />
+      <ForegroundSessionsTable snapshot={snapshot} />
+      <TopElapsedTimeQueriesTable snapshot={snapshot} />
+      <TopTenCPUConsumingSessionsTable snapshot={snapshot} />
+      <ActiveSessionHistoryTable snapshot={snapshot} />
+      <SQLConsumingMoreCPUTable snapshot={snapshot} />
+      <BlockingSessionsTable snapshot={snapshot} />
     </div>
   );
 }

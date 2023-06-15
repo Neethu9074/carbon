@@ -25,6 +25,7 @@ export const nonServicePlugins = {
   apmProxy: 'apmProxy',
   availabilityZone: 'availabilityZone',
   awsBeanstalk: 'awsBeanstalk',
+  awsCloudFront: 'awsCloudFront',
   awsDynamoDb: 'awsDynamoDb',
   awsEc: 'awsEc',
   awsEcs: 'awsEcs',
@@ -63,6 +64,7 @@ export const nonServicePlugins = {
   beeInstanaNode: 'beeInstanaNode',
   bizTalk: 'bizTalk',
   camunda: 'camunda',
+  baw: 'baw',
   cassandraNode: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
   ceph: 'ceph',
@@ -241,6 +243,7 @@ export const nonServicePlugins = {
   prometheus: 'prometheus',
   pythonRuntimePlatform: 'pythonRuntimePlatform',
   rabbitMq: 'rabbitMq',
+  rabbitMqCluster: 'rabbitMqCluster',
   redis: 'redis',
   redisCluster: 'redisCluster',
   redisEnterpriseNode: 'redisEnterpriseNode',
@@ -268,6 +271,9 @@ export const nonServicePlugins = {
   tuxedoDomain: 'tuxedoDomain',
   tuxedoMachine: 'tuxedoMachine',
   tuxedoServer: 'tuxedoServer',
+  tuxedoAppApplication: 'tuxedoAppApplication',
+  tuxedoAppServiceBrokerProject: 'tuxedoAppServiceBrokerProject',
+  tuxedoAppTuxedoService: 'tuxedoAppTuxedoService',
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
   vault: 'vault',
@@ -298,7 +304,9 @@ export const nonServicePlugins = {
   sapJavaInstance: 'sapJavaInstance',
   sapJavaSystem: 'sapJavaSystem',
   sapHanaSystem: 'sapHanaSystem',
-  sapWebDispatcher: 'sapWebDispatcher'
+  sapWebDispatcher: 'sapWebDispatcher',
+  remoteHost: 'remoteHost',
+  processGroup: 'processGroup'
 };
 
 export const applicationPlugins = {
@@ -349,6 +357,7 @@ export const fullyQualifiedPlugins = {
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsBeanstalk: 'com.instana.forge.hardware.virtual.aws.beanstalk.AwsBeanstalk',
+  awsCloudFront: 'com.instana.forge.hardware.virtual.aws.cloudfront.AwsCloudFront',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
   awsEcs: 'com.instana.forge.hardware.virtual.aws.ecs.cluster.awsEcs',
@@ -386,6 +395,7 @@ export const fullyQualifiedPlugins = {
   beeInstanaNode: 'com.instana.forge.infrastructure.database.beeinstana.BeeInstanaNode',
   bizTalk: 'com.instana.forge.infrastructure.messaging.biztalk.BizTalk',
   camunda: 'camunda',
+  baw: 'baw',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
   ceph: 'com.instana.forge.infrastructure.database.ceph.Ceph',
@@ -585,6 +595,7 @@ export const fullyQualifiedPlugins = {
   prometheus: 'com.instana.forge.infrastructure.custom.prometheus.Prometheus',
   pythonRuntimePlatform: 'com.instana.forge.infrastructure.runtime.python.PythonRuntimePlatform',
   rabbitMq: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMq',
+  rabbitMqCluster: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMqCluster',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   redisEnterpriseNode: 'com.instana.forge.infrastructure.cache.redisenterprise.derivedentity.node.RedisEnterpriseNode',
   redisCluster: 'com.instana.forge.infrastructure.cache.redis.RedisCluster',
@@ -611,6 +622,13 @@ export const fullyQualifiedPlugins = {
   tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
   tuxedoMachine: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.machine.TuxedoMachine',
   tuxedoServer: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.server.TuxedoServer',
+  tuxedoAppApplication:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.application.TuxedoAppApplication',
+  tuxedoAppServiceBrokerProject:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.servicebrokerproject.TuxedoAppServiceBrokerProject',
+  tuxedoAppTuxedoService:
+    'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.tuxedoservice.TuxedoAppTuxedoService',
+
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
   vault: 'com.instana.forge.infrastructure.database.vault.Vault',
@@ -644,7 +662,9 @@ export const fullyQualifiedPlugins = {
   sapJavaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javasystem.SapJavaSystem',
   sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
   sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem',
-  sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher'
+  sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
+  remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
+  processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

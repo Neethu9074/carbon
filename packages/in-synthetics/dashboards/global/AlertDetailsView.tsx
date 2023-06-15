@@ -10,12 +10,12 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-//@ts-expect-error
-import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
 import { alertsTabDetailsFullyQualified, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { AlertDetailsProps } from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
+import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
@@ -37,7 +37,7 @@ export default function AlertDetailsView() {
   const isDetailsMainPage = isMainPage(location);
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
-  const props = {
+  const props: AlertDetailsProps = {
     testId,
     test,
     location,
@@ -54,7 +54,8 @@ export default function AlertDetailsView() {
           <ViewTrackingMeta
             data={{
               productArea: 'Synthetic Monitoring',
-              pageRootName: 'Global Alert Details'
+              pageRootName: 'Global Alert Details',
+              pagePath: location?.pathname
             }}
           />
           <AlertDetails {...props} />
@@ -88,7 +89,8 @@ export default function AlertDetailsView() {
             <ViewTrackingMeta
               data={{
                 productArea: 'Synthetic Monitoring',
-                pageRootName: 'Local Alert Details'
+                pageRootName: 'Local Alert Details',
+                pagePath: location?.pathname
               }}
             />
             <AlertDetails {...props} />

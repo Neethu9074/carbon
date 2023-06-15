@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';

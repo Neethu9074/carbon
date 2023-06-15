@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE Count",
       "httpRequestHttpDeleteRawDataLabel": "HTTP Method",
       "customBeaconCountLabel": "Occurrences",
-      "customBeaconDurationLabel": "Duration"
+      "customBeaconDurationLabel": "Duration",
+      "crashBeaconCountLabel": "Crashes"
     },
     "quickFilterBar": {
       "mobileAppLabel": "Mobile App",
@@ -278,6 +279,8 @@
       "noSessionExplanationWithFilters": "There were no sessions found in the selected time range matching your filters.",
       "switchTo3DTooltip": "Switch to 3D globe",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "Switch to 2D map",
+      "2DBtn": "2D",
       "errorTypesTitle": "Error Types",
       "viewAllErrorTypesLink": "View all error types",
       "originTitle": "Origin",
@@ -350,7 +353,8 @@
         "viewTopListLabelUsers": "Users",
         "viewTopListLinkLabel": "View all views",
         "viewTopListTitle": "Views"
-      }
+      },
+      "smartAlerts": "Smart Alerts"
     },
     "noDataAvailable": {
       "viewsTitle": "No views available",

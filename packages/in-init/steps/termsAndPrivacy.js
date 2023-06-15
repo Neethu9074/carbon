@@ -8,6 +8,8 @@ import React from 'react';
 
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
+
+import '@instana/legacy/esm/index.css';
 import '@instana/components/esm/index.css';
 
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';

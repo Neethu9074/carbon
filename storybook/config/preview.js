@@ -23,6 +23,7 @@ import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 
 import 'in-themes/foundation.less';
+import '@instana/legacy/esm/index.css';
 import '@instana/components/esm/index.css';
 import locals from './config.mless';
 

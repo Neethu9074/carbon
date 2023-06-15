@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Li, LiLoadMore, Link, Ul } from '@instana/components';
+import { Li, LiLoadMore, Ul } from '@instana/components';
+import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
@@ -50,7 +51,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
 
           return (
             <Li key={event.id}>
-              <Link href$={analyseEvent$} ellipsis>
+              <Link href={analyseEvent$} ellipsis>
                 <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(event.severity)}>
                   <div className={locals.label}>
                     <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>

@@ -32,11 +32,12 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
+#
 # Shared ownership
 # packages/in-forge
 packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-# packages/in-forge/i18n
-packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-sensors-system @instana/eng-ibm-us-sensors @instana/eng-java @instana/eng-synthetics-agent
+# Deliberately mentioning packages/in-forge/i18n without any code owners. This is intended to reduce code review requests triggered by changes in these files.
+packages/in-forge/i18n
 # Specific ownerships for different sensors
 packages/in-forge/plugins/ace*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/aliCloud*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
@@ -108,6 +109,7 @@ packages/in-forge/plugins/sapHanaSystem                         @pr-approval @In
 packages/in-forge/plugins/sapHost                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapJava*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapWebDispatcher                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/tuxedoApp*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -116,7 +118,7 @@ packages/in-init                    @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-integrations            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-forge/tracing
-packages/in-forge/tracing/camunda   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-forge/tracing/bpm       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
 # Shared ownership
 # packages/in-internal
 packages/in-kubernetes              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
@@ -128,6 +130,7 @@ packages/in-openstack                   @pr-approval @Instana-IBM-GitHub-Enterpr
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-phmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-powervc                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-sdk                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

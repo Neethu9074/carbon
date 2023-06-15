@@ -108,6 +108,7 @@
         "scheduleTitle": "排程：何時執行此測試？",
         "identifyLabel": "識別",
         "identifyTitle": "識別：測試將執行什麼動作？",
+        "customPropertiesTitle": "自訂內容",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
         "simultaneous": "同時",
         "simultaneousDescription": "此測試將在每一個選取的位置上同步執行。",
@@ -123,7 +124,22 @@
           "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
           "jsonRootMustBeAnObject": "JSON root 必須是物件。",
           "mustBeValidHttpReturnCode": "狀態必須是有效的 HTTP 回覆碼。",
-          "shouldBeValidRegExp": "輸入的字串應該是有效的正規表示式。"
+          "shouldBeValidRegExp": "輸入的字串應該是有效的正規表示式。",
+          "followRedirect": "遵循重新導向",
+          "header": "標頭",
+          "headerValue": "值",
+          "body": "內文",
+          "validationString": "驗證字串",
+          "addHeader": "新增標頭",
+          "operation": "作業",
+          "headerNameMustBeUnique": "標頭名稱必須是唯一的。",
+          "shouldBeValidHeaderName": "輸入的字串必須是有效的 HTTP 要求標頭名稱。",
+          "shouldBeValidHeaderValue": "輸入的字串必須是有效的 HTTP 要求標頭值。",
+          "scriptLabel": "Script",
+          "addscriptAction": "新增 Script",
+          "editscriptAction": "編輯 Script",
+          "scriptFileName": "檔案名稱",
+          "scriptNotAdded": "未新增任何 Script"
         },
         "loadMore": "載入更多",
         "selectTests": {
@@ -136,6 +152,12 @@
           "apiName": "API",
           "browserName": "瀏覽器",
           "internetServicesName": "網際網路服務"
+        },
+        "customProperties": {
+          "property": "內容",
+          "propertyValue": "值",
+          "addProperty": "新增內容",
+          "propertyNameMustBeUnique": "內容名稱必須是唯一的。"
         }
       }
     },
@@ -269,7 +291,8 @@
       },
       "totalRuns": "{{totalRuns}} 執行總數",
       "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
-      "smartAlertsTab": "智慧型警示"
+      "smartAlertsTab": "智慧型警示",
+      "configurationTab": "配置"
     },
     "resultsListPage": {
       "startedColumn": "已開始",
@@ -413,6 +436,29 @@
       "violationsCount": "{{violationsCount}} 次失敗",
       "testsCount": "{{testsCount}} 個測試",
       "numberOfFailures": "失敗警示"
+    },
+    "configuration": {
+      "configurationTitle": "API {{testType}} 測試配置",
+      "testTypeTitle": "測試類型",
+      "testType": "類型",
+      "subType": "子類型",
+      "configSectionTitle": "配置",
+      "operation": "作業",
+      "url": "URL",
+      "header": "標頭",
+      "value": "值",
+      "body": "內文",
+      "validationString": "驗證字串",
+      "expectStatus": "預期狀態",
+      "expectMatch": "預期符合",
+      "expectJSON": "預期 JSON",
+      "additionalOptionsTitle": "其他選項",
+      "followRedirect": "遵循重新導向",
+      "allowInsecure": "容許不安全",
+      "locationsTitle": "位置",
+      "scheduleTitle": "排程",
+      "identifyTitle": "識別",
+      "customProperties": "自訂內容"
     }
   }
 }

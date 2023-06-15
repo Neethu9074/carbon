@@ -7,12 +7,12 @@
 import { PermissionSetWithRoles } from '@instana/types';
 
 import {
-  CapabilityType,
-  AreaPermissionType,
   AreaPermission,
+  AreaPermissionType,
   Capability,
-  LimitedAccessScopeType,
-  LimitedAccessScope
+  CapabilityType,
+  LimitedAccessScope,
+  LimitedAccessScopeType
 } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -41,6 +41,7 @@ export const ProductArea = Object.freeze({
   ZHMC: 'ZHMC',
   PCF: 'PCF',
   OPENSTACK: 'OPENSTACK',
+  POWERVC: 'POWERVC',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   SAP: 'SAP',
   ANALYTICS: 'ANALYTICS',
@@ -49,8 +50,8 @@ export const ProductArea = Object.freeze({
   SYNTHETICS: 'SYNTHETICS',
   AGENTS: 'AGENTS',
   ACCESS_CONTROL: 'ACCESS_CONTROL',
-  ACCOUNT: 'ACCOUNT',
   AUTOMATION: 'AUTOMATION',
+  LOGS: 'LOGS',
   MIXED: 'MIXED',
   GLOBAL: 'GLOBAL'
 } as const);
@@ -66,6 +67,7 @@ export type LimitableProductArea = Extract<
   | 'KUBERNETES'
   | 'VSPHERE'
   | 'PHMC'
+  | 'POWERVC'
   | 'ZHMC'
   | 'PCF'
   | 'OPENSTACK'
@@ -97,10 +99,7 @@ const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
 const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
-export const analyticsCapabilities: Array<CapabilityType> = [
-  Capability.CAN_VIEW_LOGS,
-  Capability.CAN_VIEW_TRACE_DETAILS
-];
+export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
 
 export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
@@ -112,8 +111,17 @@ export const eventCapabilities: Array<CapabilityType> = [
 export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
-  Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
+  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
+  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
+  //Capability.CAN_DELETE_LOGS,
+];
+
+export const logCapabilities: Array<CapabilityType> = [
+  //Capability.CAN_DELETE_LOGS,
+  Capability.CAN_VIEW_LOGS,
+  Capability.CAN_CONFIGURE_LOG_MANAGEMENT
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
@@ -145,24 +153,19 @@ export const accessControlCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SESSION_SETTINGS
 ];
 
-export const accountAndBillingCapabilities: Array<CapabilityType> = [
-  Capability.CAN_SEE_USAGE_INFORMATION,
-  Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
-];
-
 export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-  Capability.CAN_RUN_AUTOMATION_ACTIONS
+  Capability.CAN_RUN_AUTOMATION_ACTIONS,
+  Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
+  ...logCapabilities,
   ...customDashboardCapabilities,
   ...syntheticMonitoringCapabilities,
   ...agentsCapabilities,
   ...accessControlCapabilities,
-  ...accountAndBillingCapabilities,
   ...automationCapabilities
 ];
 
@@ -204,6 +207,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     permission: AreaPermission.ACCESS_PHMC,
     capabilities: noCapabilities
   },
+  [ProductArea.POWERVC]: {
+    limitation: LimitedAccessScope.LIMITED_POWERVC_SCOPE,
+    permission: AreaPermission.ACCESS_POWERVC,
+    capabilities: noCapabilities
+  },
   [ProductArea.ZHMC]: {
     limitation: LimitedAccessScope.LIMITED_ZHMC_SCOPE,
     permission: AreaPermission.ACCESS_ZHMC,
@@ -237,10 +245,10 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.ANALYTICS]: { capabilities: analyticsCapabilities },
   [ProductArea.EVENT]: { capabilities: eventCapabilities },
   [ProductArea.MIXED]: { capabilities: mixedCapabilities },
+  [ProductArea.LOGS]: { capabilities: logCapabilities },
   [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },
   [ProductArea.AGENTS]: { capabilities: agentsCapabilities },
   [ProductArea.ACCESS_CONTROL]: { capabilities: accessControlCapabilities },
-  [ProductArea.ACCOUNT]: { capabilities: accountAndBillingCapabilities },
   [ProductArea.AUTOMATION]: { capabilities: automationCapabilities },
   [ProductArea.GLOBAL]: { capabilities: unionGlobalCapabilities }
 } as const);

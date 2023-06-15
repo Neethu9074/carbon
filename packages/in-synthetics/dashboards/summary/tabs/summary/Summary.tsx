@@ -17,7 +17,6 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -33,16 +32,13 @@ interface SummaryProps {
 }
 
 export default function Summary({ test }: SummaryProps) {
-  const locationDisplayLabels: string[] = test.data?.locationDisplayLabels || [];
-  const locations: string[] = test.data?.locations || [];
-  const locationsMap: Map<string, string> =
-    locationDisplayLabels.length === locations.length
-      ? buildLocationsMap(locations, locationDisplayLabels)
-      : new Map<string, string>();
   const timeShiftConfig: TimeShift = useTimeShiftConfig();
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
+  const locationDisplayLabels: string =
+    getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
+  const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
 
   const tagFilters = [
     {
@@ -169,14 +165,32 @@ export default function Summary({ test }: SummaryProps) {
       </Row>
       <Row>
         <Col xs>
-          <Failures test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+          <Failures
+            testId={testId}
+            locationIds={locationIds}
+            locationDisplayLabels={locationDisplayLabels}
+            timeShiftConfig={timeShiftConfig}
+            renderPostChartContent={MarkerLanes}
+          />
         </Col>
         <Col xs>
-          <ResponseTime test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+          <ResponseTime
+            testId={testId}
+            locationIds={locationIds}
+            locationDisplayLabels={locationDisplayLabels}
+            timeShiftConfig={timeShiftConfig}
+            renderPostChartContent={MarkerLanes}
+          />
         </Col>
         {testType && !test.progress.loading && (
           <Col xs>
-            <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+            <NetworkTimings
+              testId={testId}
+              locationIds={locationIds}
+              locationDisplayLabels={locationDisplayLabels}
+              timeShiftConfig={timeShiftConfig}
+              renderPostChartContent={MarkerLanes}
+            />
           </Col>
         )}
       </Row>
@@ -184,10 +198,16 @@ export default function Summary({ test }: SummaryProps) {
         {!test.progress.loading && (
           <>
             <Col lg={testType ? 4 : 6}>
-              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
+              <ResponseSize
+                testId={testId}
+                locationIds={locationIds}
+                locationDisplayLabels={locationDisplayLabels}
+                timeShiftConfig={timeShiftConfig}
+                renderPostChartContent={MarkerLanes}
+              />
             </Col>
             <Col lg={testType ? 4 : 6}>
-              <ResultsTopList testId={testId} locationsMap={locationsMap} />
+              <ResultsTopList testId={testId} />
             </Col>
           </>
         )}

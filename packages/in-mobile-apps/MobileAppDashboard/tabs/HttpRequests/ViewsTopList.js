@@ -5,11 +5,11 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { getLinkToAnalyze, getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
@@ -77,12 +77,14 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 
 function ViewAll({ tagFilters, mobileAppLabel, className }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+
   return (
     <Link
       className={className}
-      href$={
+      href={
         tagCatalogHttpRequest &&
-        getLinkToAnalyze({
+        getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
             tagFilters,
@@ -108,14 +110,13 @@ function Label({ item, mobileAppId }) {
     // ignore
   }
 
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    viewId: label,
+    tabPath: '/httpRequests'
+  });
+
   return (
-    <Link
-      onClick={() => trackTopListNavigation()}
-      href$={getLinkToMobileApp(mobileAppId, {
-        viewId: label,
-        tabPath: '/httpRequests'
-      })}
-    >
+    <Link onClick={() => trackTopListNavigation()} href={linkToMobileAppHref}>
       {label}
     </Link>
   );

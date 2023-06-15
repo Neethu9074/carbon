@@ -37,6 +37,7 @@ export default function GroupNameSection({ value, setValue }: GroupNameSectionPr
       <Label className={locals.label}>
         {t('in-settings:groupSection.label')}
         <Input
+          id="group-name"
           onChange={e => setValue(e.target.value)}
           value={value ?? ''}
           style={{ width: '100%' }}

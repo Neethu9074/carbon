@@ -13,7 +13,7 @@ export function validLogDnaId(str: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-settings:tabs.invalidLogDnaId')
+        message: t('in-settings:tabs.invalidMezmoId')
       }
     ];
   }

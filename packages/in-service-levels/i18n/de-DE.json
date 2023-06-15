@@ -35,13 +35,50 @@
       },
       "sloTagFilter": {
         "placeholder": "Tag"
+      },
+      "sloStatusColumnContent": {
+        "target": "Ziel {{target}}"
+      },
+      "errorBudgetInfo": {
+        "budget_timeBased": "{{remaining}} / {{budget}} min",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
+        "remainingEvent_website": "{{count}} Beaconnachricht",
+        "remainingEvent_website_plural": "{{count}} Beaconnachrichten",
+        "remainingEvent_website_0": "{{count}} Beaconnachrichten",
+        "remainingEvent_website_1": "{{count}} Beaconnachricht",
+        "remainingEvent_website_2": "{{count}} Beaconnachrichten",
+        "remainingEvent_application": "{{count}} Aufruf",
+        "remainingEvent_application_plural": "{{count}} Aufrufe",
+        "remainingEvent_application_0": "{{count}} Aufrufe",
+        "remainingEvent_application_1": "{{count}} Aufruf",
+        "remainingEvent_application_2": "{{count}} Aufrufe",
+        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} verbleibend",
+        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rollierend",
+        "timeWindowSize_month": "{{count}} Monat",
+        "timeWindowSize_month_plural": "{{count}} Monate",
+        "timeWindowSize_month_0": "{{count}} Monate",
+        "timeWindowSize_month_1": "{{count}} Monat",
+        "timeWindowSize_month_2": "{{count}} Monate",
+        "timeWindowSize_week": "{{count}} Woche",
+        "timeWindowSize_week_plural": "{{count}} Wochen",
+        "timeWindowSize_week_0": "{{count}} Wochen",
+        "timeWindowSize_week_1": "{{count}} Woche",
+        "timeWindowSize_week_2": "{{count}} Wochen",
+        "timeWindowSize_day": "{{count}} Tag",
+        "timeWindowSize_day_plural": "{{count}} Tage",
+        "timeWindowSize_day_0": "{{count}} Tage",
+        "timeWindowSize_day_1": "{{count}} Tag",
+        "timeWindowSize_day_2": "{{count}} Tage"
       }
     },
     "title": "Service-Level-Ziele",
     "columnLabels": {
       "name": "Name",
       "entity": "Entität",
-      "blueprint": "Entwurf"
+      "blueprint": "Entwurf",
+      "errorBudget": "Verbleibendes Fehlerbudget",
+      "status": "Status/Ziel",
+      "tags": "Tags"
     }
   }
 }

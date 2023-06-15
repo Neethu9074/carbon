@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -29,7 +29,7 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
       {form.get('baseUrl').map(field => (
         <FormGroup>
           <Label htmlFor="logdna-ibm-cloud-base-url" hasError={!disabled && !field.valid && field.touched}>
-            {t('in-settings:tabs.logDnaIbmCloudBaseURL')}
+            {t('in-settings:tabs.mezmoIbmCloudBaseURL')}
           </Label>
           <Input
             id="logdna-ibm-cloud-base-url"
@@ -48,7 +48,7 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
       {form.get('accountId').map(field => (
         <FormGroup>
           <Label htmlFor="logdna-ibm-cloud-id" hasError={!disabled && !field.valid && field.touched}>
-            {t('in-settings:tabs.logDnaIbmCloudId')}
+            {t('in-settings:tabs.mezmoIbmCloudId')}
           </Label>
           <Input
             id="logdna-ibm-cloud-id"
@@ -67,16 +67,18 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
       {
         <DescriptionText>
           <Trans
-            i18nKey={'in-settings:tabs.logDnaDocumentationReference'}
+            i18nKey={'in-settings:tabs.mezmoDocumentationReference'}
             components={{
-              documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current?topic=logging-logdna" external />
+              documentationLink: (
+                <Link href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-mezmo" external />
+              )
             }}
           />
         </DescriptionText>
       }
       {!areFieldsInvalid && (
         <FormGroup>
-          <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>
+          <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
           <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
             {logdnaUrl}
           </a>

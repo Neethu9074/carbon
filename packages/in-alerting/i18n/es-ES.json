@@ -1051,6 +1051,10 @@
         "violationsCount": "{{violationsCount}} anomalías",
         "numberOfFailures": "Alerta de anomalía"
       },
+      "alertProperties": {
+        "testName": "Test_Name",
+        "locationName": "Location_Name"
+      },
       "simple": {
         "stepConfigsStep1Title": "Paso 1: Pruebas",
         "simpleAlertConfigDialogStep1Headline": "¿Sobre qué pruebas sintéticas se debe alertar?",
@@ -1071,8 +1075,12 @@
           "failuresWithCount_1": "{{count}} anomalías",
           "failuresWithCount_2": "{{count}} anomalías"
         },
-        "alertPropertiesTitlePlaceholder": "Insertar título aquí",
-        "alertPropertiesDescriptionPlaceholder": "Insertar descripción aquí"
+        "alertPropertiesTitlePlaceholder": "La prueba sintética ha fallado",
+        "alertPropertiesDescriptionPlaceholder": "La prueba sintética ha fallado {{count}} vez consecutiva",
+        "alertPropertiesDescriptionPlaceholder_plural": "La prueba sintética ha fallado {{count}} veces consecutivas",
+        "alertPropertiesDescriptionPlaceholder_0": "La prueba sintética ha fallado {{count}} veces consecutivas",
+        "alertPropertiesDescriptionPlaceholder_1": "La prueba sintética ha fallado {{count}} veces consecutivas",
+        "alertPropertiesDescriptionPlaceholder_2": "La prueba sintética ha fallado {{count}} veces consecutivas"
       },
       "advanced": {
         "alertChannelsLabel": "Canales de alerta",
@@ -1081,8 +1089,6 @@
         "alertTestsLabel": "Pruebas sintéticas",
         "alertTestsTitle": "Pruebas sintéticas: ¿Sobre qué pruebas sintéticas se debe alertar?",
         "propertiesLabel": "Propiedades de alerta",
-        "alertPropertiesPreviewTitlePlaceholder": "[Insertar título aquí]",
-        "alertPropertiesPreviewDescriptionPlaceholder": "[Inserte la descripción aquí]",
         "propertiesTitle": "¿Qué debe incluir la notificación de alerta?",
         "failureThreshold": "Umbral de tiempo",
         "failureThresholdLabel": "Umbral de tiempo",
@@ -1114,6 +1120,15 @@
         "noOfFailure": "Número de anomalías",
         "timeThreshold": "Umbral de tiempo",
         "alertingType": "Tipo de alerta"
+      }
+    },
+    "mobileApp": {
+      "data": {
+        "statusCodeCount": "Número de códigos de estado",
+        "beaconRate": "Tasa de baliza",
+        "views": "Vistas",
+        "customEventBlueprintConfigMetricLabel": "Apariciones",
+        "sessions": "Sesiones"
       }
     }
   }

@@ -20,6 +20,10 @@ export function isLargeTrace(traceSummaryData?: TraceSummary): boolean {
   );
 }
 
+export function isLazyLoadedCallTreeSupported(traceSummaryData?: TraceSummary): boolean {
+  return Boolean(largeTracesV2Enabled && traceSummaryData?.allowLazyLoading);
+}
+
 export function shouldUseLazyLoadedCallTree(traceSummaryData?: TraceSummary): boolean {
-  return Boolean(largeTracesV2Enabled && traceSummaryData?.allowLazyLoading && isLargeTrace(traceSummaryData));
+  return Boolean(isLazyLoadedCallTreeSupported(traceSummaryData) && isLargeTrace(traceSummaryData));
 }

@@ -22,14 +22,17 @@ import {
   hasOpenStackAccess,
   hasPCFAccess,
   hasPHMCAccess,
+  hasPowerVcAccess,
   hasSyntheticsAccess,
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasSloAccess,
+  hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
-  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
@@ -57,18 +60,21 @@ import {
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
-import { isSloView, serviceLevelsDashboard } from 'in-service-levels/navigation/path';
+import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
+import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -78,10 +84,10 @@ import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
 import { all, any } from 'in-services/fixedStreams';
@@ -150,76 +156,80 @@ export default function ViewSwitcher({
       <AutomationMenu {...commonProps} />
       <SloDashboard {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
-      <View
-        id="main-nav-settings"
-        label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
-        icon="lib_actions_settings_inverted"
-        isActive={matchLocation(settingsPath)}
-        href={createHrefToPath(settingsPath)}
-        {...commonProps}
-      />
-      <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
-      <View
-        id="main-nav-more"
-        label={t('in-components:mainNavigation.viewSwitcherLabelMore')}
-        icon="lib_menu_additional_resources"
-        expandedSubMenu={expandedSubMenu}
-        setExpandedSubMenu={setExpandedSubMenu}
-        isActive={matchLocation(agentsPath)}
-        sidebarIsExpanded={isExpanded}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        {tenantSwitcherEnabled && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
-            href={tenantSwitcherLink}
-            external
-            id="main-nav-tenants"
+      {!playwithEnabled && (
+        <>
+          <View
+            id="main-nav-settings"
+            label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
+            icon="lib_actions_settings_inverted"
+            isActive={matchLocation(settingsPath)}
+            href={createHrefToPath(settingsPath)}
+            {...commonProps}
           />
-        )}
-        {role.canConfigureAgents && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
-            href={createHrefToPath(agentsPath)}
+          <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
+          <View
+            id="main-nav-more"
+            label={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+            icon="lib_menu_additional_resources"
+            expandedSubMenu={expandedSubMenu}
+            setExpandedSubMenu={setExpandedSubMenu}
             isActive={matchLocation(agentsPath)}
-            onClick={onViewSwitched}
-            id="main-nav-agents"
-          />
-        )}
-        {releaseNotesEnabled && (
-          <SubViewItem
-            label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
-            onClick={e => {
-              showReleaseNotes();
-              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
-            }}
-            id="main-nav-release-notes"
-          />
-        )}
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          href="https://www.ibm.com/docs/en/obi/current"
-          external
-          id="main-nav-documentation"
-        />
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
-          className={locals.linkElement}
-          href="https://support.instana.com"
-          external
-          id="main-nav-support"
-        />
-        <SubViewItem
-          label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
-          onClick={e => {
-            addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
-          }}
-          id="main-nav-about"
-        />
-        <SignOut />
-      </View>
+            sidebarIsExpanded={isExpanded}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            {tenantSwitcherEnabled && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
+                href={tenantSwitcherLink}
+                external
+                id="main-nav-tenants"
+              />
+            )}
+            {role.canConfigureAgents && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
+                href={createHrefToPath(agentsPath)}
+                isActive={matchLocation(agentsPath)}
+                onClick={onViewSwitched}
+                id="main-nav-agents"
+              />
+            )}
+            {releaseNotesEnabled && (
+              <SubViewItem
+                label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
+                onClick={e => {
+                  showReleaseNotes();
+                  onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
+                }}
+                id="main-nav-release-notes"
+              />
+            )}
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
+              href="https://www.ibm.com/docs/en/obi/current"
+              external
+              id="main-nav-documentation"
+            />
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
+              className={locals.linkElement}
+              href="https://support.instana.com"
+              external
+              id="main-nav-support"
+            />
+            <SubViewItem
+              label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
+              onClick={e => {
+                addActiveDialog(<AboutInstanaDialog />);
+                onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
+              }}
+              id="main-nav-about"
+            />
+            <SignOut />
+          </View>
+        </>
+      )}
     </ul>
   );
 }
@@ -329,14 +339,16 @@ function Synthetics(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-synthetics"
-      label={t('in-synthetics:navigation.synthetics')}
-      icon={'lib_synthetic'}
-      isActive={matchLocation(isSyntheticMonitoringView)}
-      href={createHrefToPath(syntheticsPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-synthetics"
+        label={t('in-synthetics:navigation.synthetics')}
+        icon={'lib_synthetic'}
+        isActive={matchLocation(isSyntheticMonitoringView)}
+        href={createHrefToPath(syntheticsPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -347,14 +359,16 @@ function BizOps(props) {
     return null;
   }
   return (
-    <View
-      id="main-nav-bizops"
-      label={t('in-bizops:navigation.bizOps')}
-      icon={'lib_bizops'}
-      isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(businessProcessPath)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-bizops"
+        label={t('in-bizops:navigation.businessMonitoring')}
+        icon={'lib_bizops'}
+        isActive={matchLocation(isBizOpsView)}
+        href={createHrefToPath(businessProcessPath)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -379,19 +393,21 @@ function Applications(props) {
 function SloDashboard(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!sloV2Enabled) {
+  if (!hasSloAccess) {
     return null;
   }
 
   return (
-    <View
-      id="main-nav-slo-dashboard"
-      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-      icon="lib_service_level"
-      isActive={matchLocation(isSloView)}
-      href={createHrefToPath(serviceLevelsDashboard)}
-      {...props}
-    />
+    !playwithEnabled && (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(serviceLevelsOverview)}
+        {...props}
+      />
+    )
   );
 }
 
@@ -403,15 +419,17 @@ function AutomationMenu(props) {
   }
 
   return (
+    !playwithEnabled && (
     <View
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath)}
+      isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
       href={createHrefToPath(actionCatalogPath)}
       isBeta
       {...props}
     />
+    )
   );
 }
 
@@ -423,9 +441,11 @@ function Analyze(props) {
   );
 
   const analyzeHref = useLinkToAnalyze({
-    beaconType: 'pageLoad'
+    beaconType: 'pageLoad',
+    groupBy: {}
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -452,9 +472,13 @@ function Analyze(props) {
             ),
           hasWebsitesAccess && just(analyzeHref),
           hasMobileAppsAccess &&
-            getLinkToMobileAppAnalyze({
-              beaconType: 'sessions'
-            })
+            just(
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessions',
+                groupBy: {}
+              })
+            ),
+          hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
         ].filter(Boolean)[0]
       }
       {...props}
@@ -529,6 +553,7 @@ function Platforms(props) {
   if (hasOpenStackAccess) numPlatformsAvailable++;
   if (hasPCFAccess) numPlatformsAvailable++;
   if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasPowerVcAccess) numPlatformsAvailable++;
   if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (hasVSphereAccess) numPlatformsAvailable++;
@@ -551,7 +576,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasOpenStackAccess && (
+      {hasOpenStackAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
@@ -561,7 +586,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasPHMCAccess && (
+      {hasPHMCAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -571,7 +596,17 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasZHMCAccess && (
+       {hasPowerVcAccess && !playwithEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-powervc"
+          label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
+          icon="lib_powervc"
+          href={createHrefToPath(powervcRegionListFullyQualified)}
+          isActive={matchLocation(powervc)}
+          {...props}
+        />
+      )}
+      {hasZHMCAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -591,7 +626,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasSAPAccess && (
+      {hasSAPAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-sap"
           label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
@@ -601,7 +636,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {hasVSphereAccess && (
+      {hasVSphereAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
@@ -615,7 +650,7 @@ function Platforms(props) {
   );
 
   if (numPlatformsAvailable > 1) {
-    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, sap);
+    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp, powervc, sap);
 
     return (
       <View

@@ -36,6 +36,13 @@ import showNotification, {
   storedAlarmTimeOrNull,
   timeExpired
 } from 'in-synthetics/utils/setReminders';
+import {
+  applicationIdTagName,
+  locationIdTagName,
+  testIdTagName,
+  testNameTagName,
+  typeTagName
+} from 'in-synthetics/tags';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 //@ts-expect-error
@@ -43,18 +50,18 @@ import FloatingActionButtonMenu from 'in-components/FloatingActionButton/Floatin
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { applicationIdTagName, locationIdTagName, testNameTagName, typeTagName } from 'in-synthetics/tags';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
+import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import TestConfigDialogPresenter from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
-import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -167,12 +174,15 @@ export default function TestSummaryList() {
   }
 
   const rightHeader = useFilterHeader(true);
+  const location = useLocation();
 
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
+            pageName: 'Synthetic Monitoring > Tests',
+            pagePath: location?.pathname,
             productArea: 'Synthetic Monitoring',
             pageRootName: 'Synthetic Monitoring'
           }}
@@ -216,6 +226,7 @@ type GetTestSummaryList = {
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
+  excludeIds?: string[];
 };
 
 export function getTestSummaryListData({
@@ -229,7 +240,8 @@ export function getTestSummaryListData({
   appId = '',
   syntheticTypes = [],
   locationIds = [],
-  applicationIds = []
+  applicationIds = [],
+  excludeIds = []
 }: GetTestSummaryList) {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
@@ -258,6 +270,12 @@ export function getTestSummaryListData({
     logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
+  /** This filter expression excludes selected tests when creating Smart Alerts .  */
+  const testFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 
   if (query && query.length > 0) {
     baseTagFilterExpression.elements.push({
@@ -282,8 +300,14 @@ export function getTestSummaryListData({
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
   addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
+  addFilter(excludeIds, testIdTagName, NOT_EQUAL, testFilterExpression);
 
-  baseTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression, appTagFilterExpression);
+  baseTagFilterExpression.elements.push(
+    typeTagFilterExpression,
+    locationTagFilterExpression,
+    appTagFilterExpression,
+    testFilterExpression
+  );
 
   const sparkChartGranularity = getChartGranularity(timeConfig);
 

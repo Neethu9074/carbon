@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { Button, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

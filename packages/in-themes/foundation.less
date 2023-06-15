@@ -82,3 +82,14 @@ input[type='search']::-webkit-search-cancel-button {
     }
   }
 }
+
+/** this is a quick fix to enforce the correct color
+ * to override .component-base's dark-color
+ * see https://github.ibm.com/instana/ui-foundation/blob/7337b89c043cac905025821bb021a676df75e967/packages/components/src/index.scss#L34
+ *
+ * To fix this, correctly, adapting the legacy-component will help
+ * enforcing the right color.
+ */
+.link {
+  color: var(--colors-blue-800);
+}

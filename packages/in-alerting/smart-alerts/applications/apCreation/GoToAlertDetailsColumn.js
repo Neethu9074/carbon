@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { getLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
 import theme from 'in-themes';
@@ -17,7 +18,7 @@ export default function GoToAlertDetailsColumn({ id, name, created }) {
     // The review of a component to visually hide things is still ongoing. in the meantime we use aria-label to provide
     // necessary information to AT users. Since we manually set i18n strings, at least we should have no issues with translation services.
     <Link
-      href$={getLinkToAlertDetails({ id, created })}
+      href={getLinkToAlertDetails({ id, created })}
       aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', { name })}
       external
     >

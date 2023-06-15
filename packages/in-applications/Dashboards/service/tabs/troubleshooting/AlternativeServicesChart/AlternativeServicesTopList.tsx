@@ -5,7 +5,8 @@
 
 import React, { Fragment, ReactElement } from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error TopListCardPresenter is not yet converted to TS, nor does it provide types

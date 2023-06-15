@@ -23,7 +23,7 @@ export function AffectedEntity({ item, createItemLink, children }) {
     <Tr size="compact">
       <Td className={locals.labelCell} ellipsis="50vw">
         <div className={locals.cell}>
-          <Link onClick={() => applicationsAlertingEventDetailsGoToAnalyze()} href$={href$} href={href}>
+          <Link onClick={() => applicationsAlertingEventDetailsGoToAnalyze()} href={href$ ?? href}>
             {item.name}
           </Link>
         </div>

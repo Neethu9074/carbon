@@ -3,12 +3,25 @@
   "labelSmartAlerts": "スマート・アラート",
   "labelActivities": "アクティビティー",
   "lists": {
-    "activityLabel": "アクティビティー・カウント",
-    "idLabel": "プロセス ID",
+    "pageTitle": "ビジネス・プロセス",
+    "activityLabel": "アクティビティー",
+    "nameLabel": "名前",
     "noData": "表示可能なデータがありません",
-    "toolLabel": "ツール"
+    "healthLabel": "正常性",
+    "startLabel": "開始済み"
   },
   "navigation": {
     "bizOps": "ビジネス・プロセス"
+  },
+  "dashboards": {
+    "analyzeInstancesButton": "インスタンスの分析",
+    "summary": {
+      "pageTitle": "ビジネス・プロセス",
+      "summaryTab": "サマリー",
+      "widgets": {
+        "timeline": "タイムライン",
+        "businessProcessStartedLabel": "{{businessProcessName}} が開始されました"
+      }
+    }
   }
 }

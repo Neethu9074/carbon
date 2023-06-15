@@ -65,6 +65,16 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleEstimate'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return Number(row.estimate);
+      },
+      getContent: seconds.fixedDetailed
+    }
+  },
+  {
     title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleElapsed'),
     type: 'number',
     typeArgs: {
@@ -75,11 +85,40 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleProgress'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return Number(row.progress);
+      },
+      getContent: number.detailed
+    }
+  },
+  {
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleIsMutation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.is_mutation === 1 ? 'True' : 'False';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleTotalSizeBytesCompressed'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return Number(row.total_size_bytes_compressed);
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
     title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleRowsRead'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return Number(row.elapsed);
+        return Number(row.rows_read);
       },
       getContent: number.compact
     }

@@ -23,6 +23,7 @@ import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
+import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -128,7 +129,7 @@ function EventTable(props) {
 }
 
 function Header(props) {
-  if (!props.result) {
+  if (isLoading(props.result)) {
     return (
       <DashboardHeader
         title={t('in-events:titleEvent')}

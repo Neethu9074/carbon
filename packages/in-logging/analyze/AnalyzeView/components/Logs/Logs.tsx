@@ -23,9 +23,9 @@ import {
   logTableTags
 } from 'in-logging/queryBuilder';
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { HeaderActionProps, LogsProps, SortDirection } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import { HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
@@ -36,10 +36,14 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { trySet } from 'in-services/localStorage';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
+
+const pageSize = 20;
 
 export interface ColumnContentProps extends ListItemProps, LogItem {
   isToggled: boolean;
@@ -56,20 +60,26 @@ export default function Logs(props: LogsProps) {
     groupLabel,
     selectedId,
     withoutHeader,
-    detailId
+    detailId,
+    setSelectedId
   } = props;
 
-  const initialLogLines = initialLogLinesProp || groupedPaginationRef.current?.[groupLabel] || 20;
+  const initialLogLines = initialLogLinesProp || groupedPaginationRef.current?.[groupLabel] || pageSize;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? (tag: TagFilter) => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
 
   const selectedWasOpened = useRef(false);
+  const timeConfig = useTimeConfig();
 
   useEffect(() => {
     selectedWasOpened.current = false;
   }, [selectedId]);
+
+  /* Changing the timeframe to one outside of where the selected log is can cause errors so selectedId is cleared on every timeConfig change using the effect cleanup */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => setSelectedId(null), [timeConfig]);
 
   const initiallyToggled = selectedId ? [selectedId] : [];
   const toggledEntries = useRef(new Set(initiallyToggled));
@@ -86,9 +96,14 @@ export default function Logs(props: LogsProps) {
   }
 
   const getData = (params: GetDataParams) => {
+    const isFirstPage = params.initialLogLines === pageSize;
+
     if (groupedPaginationRef.current && params.initialLogLines) {
       groupedPaginationRef.current[groupLabel] = params.initialLogLines;
     }
+
+    if (isFirstPage) params.contextSubjectLogId = props.selectedId;
+
     return getTableData(params);
   };
 
@@ -165,11 +180,14 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
   }, [orderBy.direction]);
 
   const sortingButtonClickHandle = () => {
-    sortingChanged({ source: `changed sorting order to ${orderBy.direction}` });
-    setOrder({
+    const newDirection = (orderBy.direction === 'ASC' ? 'DESC' : 'ASC') as SortDirection;
+    sortingChanged({ source: `changed sorting order to ${newDirection}` });
+    const order = {
       by: orderBy.by,
-      direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
-    });
+      direction: newDirection
+    };
+    trySet('logSortingOrder', JSON.stringify(order));
+    setOrder(order);
   };
   const sortingIcon = orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending';
   const sortingButtonLabel =
@@ -183,15 +201,16 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
 }
 
 function getTableData(props: GetDataParams) {
-  const { timeConfig, afterKey, backendQueryModel, retrievalSize = 20, orderBy } = props;
+  const { timeConfig, afterKey, backendQueryModel, retrievalSize = pageSize, orderBy, contextSubjectLogId } = props;
 
   return getLogs({
     timeConfig,
-    retrievalSize,
+    retrievalSize: contextSubjectLogId ? 40 : retrievalSize,
     afterKey,
     tagFilterExpression: backendQueryModel,
     requestedTags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE],
-    orderDirection: orderBy?.direction
+    orderDirection: orderBy?.direction,
+    contextSubjectLogId
   });
 }
 

@@ -1,10 +1,10 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { AggregationType, KubernetesPod, ResultType, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
@@ -27,10 +27,9 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// @ts-expect-error
-import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { usePodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error
 import MetricValue from 'in-components/MetricValue';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -96,8 +95,10 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
     comparisonIncreaseColor: blue.id
   };
 
+  const viewAllHref = usePodDashboard(pod.id, { tab: '/conditions' });
+
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={pod.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
@@ -238,6 +239,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           />
         </Col>
       </Row>
+
       <Row>
         <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
@@ -304,6 +306,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           />
         </Col>
       </Row>
+
       <Row>
         <Col lg={12}>
           <LogsChartInteractionWrapper
@@ -323,12 +326,9 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsTableCard
-            conditions={pod.conditions}
-            viewAllHref$={getPodDashboard(pod.id, { tab: '/conditions' })}
-          />
+          <ConditionsTableCard conditions={pod.conditions} viewAllHref={viewAllHref} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

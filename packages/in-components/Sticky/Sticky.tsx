@@ -66,7 +66,6 @@ export default class Sticky extends React.Component<StickyProps> {
     if (!this.wrapper || !this.header || !this.contentWrapper) {
       return;
     }
-
     this.wrapper.style.paddingTop = `0px`;
     this.header.style.position = `static`;
     this.header.style.width = 'auto';

@@ -62,13 +62,12 @@ global.window.instana.user = {
         canConfigureMobileAppMonitoring: true,
         canConfigureUsers: true,
         canInstallNewAgents: true,
-        canSeeUsageInformation: true,
         canConfigureIntegrations: true,
-        canSeeOnPremLicenseInformation: true,
         canConfigureTeams: true,
         canConfigureCustomAlerts: true,
         canConfigureAutomationActions: true,
         canRunAutomationActions: true,
+        canViewAutomationActionInstances: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,
         canConfigureAgentRunMode: true,
@@ -101,9 +100,9 @@ global.window.requestAnimationFrame = global.requestAnimationFrame;
 
 // many tests import a whole bunch of modules and at some point this always
 // ends up in in-connection (which requirs WebSocket globals).
-global.window.WebSocket = function() {
-  this.send = function() {};
-  this.close = function() {};
+global.window.WebSocket = function () {
+  this.send = function () {};
+  this.close = function () {};
 };
 
 // react unit tests with enzyme

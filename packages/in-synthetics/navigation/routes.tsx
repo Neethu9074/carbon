@@ -15,7 +15,6 @@ import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboar
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
 //@ts-expect-error
 import AlertDetailsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/AlertDetailsView';
-// @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
 import React from 'react';
 

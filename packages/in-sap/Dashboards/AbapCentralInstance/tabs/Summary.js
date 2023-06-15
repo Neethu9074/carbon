@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -18,35 +19,23 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
 
   return (
     <Fragment>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[6, 6]}>
         <KpiCard
-          title={t('in-sap:dashboards.instanceAvailability')}
-          value={vm.availInstanceRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.availInstanceRating)}
+          color={colorFormatter(sap.overallRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.abapCentralInstanceAvailability')}
-          value={vm.availCentralInstanceRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.availCentralInstanceRating)}
-        />
-        <KpiCard
-          title={t('in-sap:dashboards.abapInstancePerformance')}
-          value={vm.perfRating || valueMissingPlaceholder}
-          borderless
-          color={colorFormatter(vm.perfRating)}
-        />
-        <KpiCard
-          title={t('in-sap:dashboards.abapInstanceExceptions')}
-          value={vm.excepRating || valueMissingPlaceholder}
-          borderless
-          color={colorFormatter(vm.excepRating)}
+          color={colorFormatter(sap.availRating)}
         />
       </KpiGridRow>
       <Row>

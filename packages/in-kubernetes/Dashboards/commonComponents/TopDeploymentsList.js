@@ -1,15 +1,19 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { get } from 'lodash';
 import React from 'react';
 
-import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { Link } from '@instana/components';
+
+import { useDeploymentDashboard, useDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
+import { trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -26,6 +30,7 @@ export default function TopDeploymentsList(props) {
       }
     ]
   };
+  const { clusterId, namespaceId } = props;
   const [{ deploymentsTab }, setUrlState] = useUrlState(urlStateDefinition);
   const selectedTab = deploymentsTab ?? tabDeployments;
   const setSelectedTab = tab => setUrlState({ deploymentsTab: tab });
@@ -43,18 +48,8 @@ export default function TopDeploymentsList(props) {
       getItems={_props =>
         selectedTab === tabDeployments ? getKubernetesDeployments(_props) : getOpenShiftDeploymentConfigs(_props)
       }
-      getItemHref$={item =>
-        get(item, ['deployment'])
-          ? getDeploymentDashboard(item.deployment.id, {
-              clusterId: props.clusterId,
-              namespaceId: props.namespaceId
-            })
-          : getDeploymentConfigDashboard(item.deploymentConfig.id, {
-              clusterId: props.clusterId,
-              namespaceId: props.namespaceId
-            })
-      }
-      allItemsHref$={props.allItemsHrefs$[selectedTab]}
+      Label={item => <Label {...item} clusterId={clusterId} namespaceId={namespaceId} />}
+      allItemsHref={props.allItemsHrefs[selectedTab]}
       getItemLabel={item => get(item, ['deployment'], get(item, ['deploymentConfig'])).name}
     />
   );
@@ -79,5 +74,27 @@ function header({ showDeploymentConfigs, selectedTab, setSelectedTab }) {
         activeKey={selectedTab}
       />
     )
+  );
+}
+
+function Label({ item, clusterId, namespaceId, getItemLabel, className }) {
+  const deploymentHref = useDeploymentDashboard(item.deployment.id, {
+    clusterId,
+    namespaceId
+  });
+
+  const deploymentConfigHref = useDeploymentConfigDashboard(item.deploymentConfig.id, {
+    clusterId: clusterId,
+    namespaceId: namespaceId
+  });
+
+  return (
+    <Link
+      className={className}
+      href={get(item, ['deployment']) ? deploymentHref : deploymentConfigHref}
+      onClick={() => trackTopListNavigation()}
+    >
+      {getItemLabel(item)}
+    </Link>
   );
 }
