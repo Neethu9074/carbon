@@ -8,6 +8,7 @@
 
 :local {
   .loadMore {
+    //style to centralize the loadmore button in sloTable
     margin-left: 361px;
     color: var(--ids-color-option-teal-500);
   }
@@ -15,5 +16,8 @@
     display: inline-block;
     height: 1rem;
     width: 100%;
+  }
+  .checkBoxItem {
+    margin-top: 3px;
   }
 }

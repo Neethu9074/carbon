@@ -25,9 +25,6 @@ interface SloScopeSectionProps {
 export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
   const sloSloEntityTypeField = form.get(sloEntityTypeKey).value;
   const [label, setLabel] = useState('');
-  const setLabels = (labels: string) => {
-    setLabel(labels);
-  };
 
   return (
     <>
@@ -43,9 +40,9 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
       />
       <SloLabel label={label} />
       {isApplicationSloForm(form) ? (
-        <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabels} />
+        <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
       ) : (
-        <SloWebsiteEntitySection form={form} onChange={onChange} onLabelChange={setLabels} />
+        <SloWebsiteEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
       )}
     </>
   );

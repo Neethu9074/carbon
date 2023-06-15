@@ -44,7 +44,7 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
   const [next, setNext] = useState(dataPerRow);
   const entity = form.get(sloEntityTypeKey).value;
 
-  const result = isApplicationSloForm(form)
+  const entityId = isApplicationSloForm(form)
     ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
     : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
 
@@ -53,37 +53,35 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
   };
   if (progress.loading) return <TableSkeleton />;
   return (
-    <>
-      <Card
-        title={
-          t('in-service-levels:general.select') + t('in-service-levels:general.entityTypes.label', { context: entity })
-        }
-        rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
-      >
-        {entityList?.length === 0 ||
-          (entityList === undefined && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />)}
-        {entityList && (
-          <Ul>
-            {entityList
-              .filter(({ label }) => label.includes(query))
-              .slice(0, next)
-              .map(entityData => {
-                return (
-                  <Li onClick={() => onChange(entityData)} key={entityData.id}>
-                    <Stack direction="horizontal">
-                      <CheckboxFancy asRadioButton checked={entityData.id === result} onChange={noop} />
-                      <div style={{ marginTop: '3px' }}>{entityData.label}</div>
-                    </Stack>
-                  </Li>
-                );
-              })}
+    <Card
+      title={
+        t('in-service-levels:general.select') + t('in-service-levels:general.entityTypes.label', { context: entity })
+      }
+      rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
+    >
+      {entityList?.length === 0 ||
+        (entityList === undefined && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />)}
+      {entityList && (
+        <Ul>
+          {entityList
+            .filter(({ label }) => label.includes(query))
+            .slice(0, next)
+            .map(entityData => {
+              return (
+                <Li onClick={() => onChange(entityData)} key={entityData.id}>
+                  <Stack direction="horizontal">
+                    <CheckboxFancy asRadioButton checked={entityData.id === entityId} onChange={noop} />
+                    <div className={locals.checkBoxItem}>{entityData.label}</div>
+                  </Stack>
+                </Li>
+              );
+            })}
 
-            <Li onClick={loadMoreData}>
-              <div className={locals.loadMore}>{t('in-service-levels:general.loadMore')}</div>
-            </Li>
-          </Ul>
-        )}
-      </Card>
-    </>
+          <Li onClick={loadMoreData}>
+            <div className={locals.loadMore}>{t('in-service-levels:general.loadMore')}</div>
+          </Li>
+        </Ul>
+      )}
+    </Card>
   );
 }

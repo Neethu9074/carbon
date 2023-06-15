@@ -27,9 +27,5 @@ export const SloApplicationEntitySection = ({ form, onChange, onLabelChange }: S
     onChange(['entity', 'applicationId'], field => (field as Field<string>).setValue(id).setTouched(true));
   };
 
-  return (
-    <>
-      <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} />
-    </>
-  );
+  return <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} />;
 };

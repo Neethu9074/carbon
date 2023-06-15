@@ -28,9 +28,5 @@ export const SloWebsiteEntitySection = ({ form, onChange, onLabelChange }: SloWe
     onChange(['entity', 'websiteId'], field => (field as Field<string>).setValue(id).setTouched(true));
   };
 
-  return (
-    <>
-      <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} />
-    </>
-  );
+  return <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} />;
 };
