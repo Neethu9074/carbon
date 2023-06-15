@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 
 import { DistinctSlider, Message, Stack } from '@instana/components';
 
-import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/CenterAlignmentColumn';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -18,6 +17,9 @@ import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
 
+//import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/CenterAlignmentColumn';
+//import TextArea from 'in-components/form/TextArea/TextArea';
+
 export default function Feedback({ id, feedback }: { id: string; feedback: string }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback));
   const [isSaving, setIsSaving] = useState(false);
@@ -25,6 +27,11 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
   const [success, setSuccess] = useState(false);
   const [sliderMessage, setSliderMessage] = useState('Use the slider to select a feedback input');
   const timeConfig = useTimeConfig();
+
+  /**
+   * This function handles the change when the slider moves, setting form and setting message
+   * @param value
+   */
 
   const handleChange = ({ value }: { value: number }) => {
     setForm(form.updateIn(['feedback'], field => field.setValue(value.toString())));
@@ -60,7 +67,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
       {/* sets error and success codes */}
       {error && <Message type="error">Error occured saving feedback</Message>}
       {success && <Message type="success">Feedback successfully saved!</Message>}
-      <Stack>
+      <Stack align="center">
         <DistinctSlider
           marks={[{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }]}
           max={5}
@@ -69,9 +76,9 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
           // sets the feedback form and value
           onChange={(_, value) => handleChange({ value: value as number })}
         />
-        <CenterAlignmentColumn>
-          <Message>{sliderMessage}</Message>
-        </CenterAlignmentColumn>
+
+        <Message>{sliderMessage}</Message>
+        <textarea placeholder="Additional Comments?" rows={10} cols={110} />
       </Stack>
       <FormFooter>
         <SaveButton form={form} isSaving={isSaving} />
@@ -84,6 +91,11 @@ type FormItems = {
   feedback: Field<string>;
 };
 type FeedbackForm = MapForm<FormItems>;
+
+/**
+ * Handles submission upon pressing save function
+ * @param form, id, setIsSaving, setError, timeConfig, setSuccess
+ */
 
 const handleSubmit = ({
   form,
@@ -103,6 +115,7 @@ const handleSubmit = ({
   setIsSaving(true);
   setError(false);
   updateActionInstanceFeedback({
+    // updates the actioninstance feedback in backend
     id,
     feedback: form.get('feedback').value,
     to: timeConfig.to ?? Date.now(),
