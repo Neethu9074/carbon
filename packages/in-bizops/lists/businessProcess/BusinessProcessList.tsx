@@ -98,10 +98,11 @@ function getBusinessProcessListData({
     logicalOperator: 'AND',
     elements: []
   };
-  //search against bpm_process_name
+
+  //search against bpm_process_definition_name
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({
-      name: 'bpm_process_name',
+      name: 'bpm_process_definition_name',
       operator: 'CONTAINS',
       stringValue: query,
       entity: NOT_APPLICABLE,
