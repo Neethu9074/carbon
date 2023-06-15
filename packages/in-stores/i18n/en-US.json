@@ -175,6 +175,7 @@
     "fieldsEntityAgentGitops": "Instana Agent GitOps configuration",
     "fieldsEntityAws": "Amazon Web Services",
     "fieldsEntityAwsBeanstalk": "fieldsElastic Beanstalk",
+    "fieldsEntityAwsCloudFront": "AWS CloudFront",
     "fieldsEntityAwsElb": "fieldsElastic Load Balancing",
     "fieldsEntityAwsRds": "Relational Database Service",
     "fieldsEntityAwsS3": "Simple Storage Service",

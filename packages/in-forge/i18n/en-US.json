@@ -194,6 +194,11 @@
   "pluginName_awsApiGateway_1": "AWS API Gateways",
   "pluginName_awsApiGateway_2": "AWS API Gateways",
   "pluginName_awsApiGateway": "AWS API Gateway",
+  "pluginName_awsCloudFront_plural": "AWS CloudFronts",
+  "pluginName_awsCloudFront_0": "AWS CloudFronts",
+  "pluginName_awsCloudFront_1": "AWS CloudFronts",
+  "pluginName_awsCloudFront_2": "AWS CloudFronts",
+  "pluginName_awsCloudFront": "AWS CloudFront",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -4272,6 +4277,39 @@
       "labelAverage": "Average",
       "labelSum": "Sum",
       "labelCount": "Count"
+    },
+
+    "awsCloudFront": {
+      "infoTitle": {
+        "distributionId": "Distribution ID",
+        "distributionStatus": "Status",
+        "distributionLastModifiedTime": "Last Modified Time"
+      },
+      "headerCloudFrontInfo": "CloudFront Info",
+      "categoryDistribution": "Distribution",
+      "categoryFunction": "Function",
+      "labelRequests": "Requests",
+      "labelBytesUploaded": "Uploaded",
+      "labelBytesDownloaded": "Downloaded",
+      "label4xxErrorRate": "4xx",
+      "label5xxErrorRate": "5xx",
+      "labelTotalErrorRate": "Total",
+      "labelCacheHitRate": "Rate",
+      "labelOriginLatency": "Time",
+      "labelFunctionInvocations": "Count",
+      "labelFunctionValidationErrors": "Validation",
+      "labelFunctionExecutionErrors": "Execution",
+      "labelFunctionComputeUtilization": "Compute Utilization",
+      "labelFunctionThrottles": "Throttles",
+      "titleRequests": "Requests",
+      "titleCacheHit": "Cache Hit",
+      "titleOriginLatency": "Origin Latency",
+      "titleFunction": "Function",
+      "titleData": "Data",
+      "titleErrorRate": "Error Rate",
+      "titleFunctionErrors": "Function Errors",
+      "titleFunctionNames": "Function Names",
+      "titleAssociatedFunctions": "Associated Functions"
     },
 
     "azure": {

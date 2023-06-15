@@ -160,6 +160,7 @@ import './sapJavaSystem';
 import './ibmMqMftAgent';
 import './aliCloudMysql';
 import './awsApiGateway';
+import './awsCloudFront';
 import './awsEcsCluster';
 import './awsEcsService';
 import './awsMskCluster';
