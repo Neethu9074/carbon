@@ -10,8 +10,6 @@ import { create } from '@instana/observables';
 
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 import CountryList from 'in-websites/WebsiteDashboard/components/GlobeView/components/CountryList';
-import { websitePathFullyQualified } from 'in-websites/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Button from 'in-components/MapControls/Button';
 import { applyTransform } from 'in-services/util/dom';
 import { Vector3 } from 'in-map/3DLibProvider';
@@ -113,17 +111,6 @@ function OverlaysReactComponent({ update$, globeView, data$, getValue }) {
             </Tooltip>
             <Tooltip content={t('in-websites:websiteDashboard.components.overlaysTooltipPanRight')} align="leftMiddle">
               <Button dark icon="lib_arrow_drop_right" onClick={() => globeView.rotateRight()} />
-            </Tooltip>
-            <Tooltip
-              content={t('in-websites:websiteDashboard.components.overlaysTooltipSwitchTo2DMap')}
-              align="leftMiddle"
-            >
-              <Button
-                dark
-                href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}
-                className={locals.to2D}
-                renderContent={() => <span>{t('in-websites:websiteDashboard.components.overlaysButton2D')}</span>}
-              />
             </Tooltip>
           </div>
         </div>
