@@ -24,7 +24,7 @@ interface SloScopeSectionProps {
 
 export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
   const sloSloEntityTypeField = form.get(sloEntityTypeKey).value;
-  const [label, setLabel] = useState('');
+  const [label, setLabel] = useState<string>();
 
   return (
     <>

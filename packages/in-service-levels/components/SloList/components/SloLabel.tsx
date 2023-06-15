@@ -11,13 +11,13 @@ import { Typography } from '@instana/components';
 import { t } from 'in-i18n';
 
 interface SloLabelProps {
-  label: string;
+  label?: string;
 }
 export default function SloLabel({ label }: SloLabelProps) {
   return (
     <Typography variant="heading-100" component="h3">
       {t('in-service-levels:general.selectLabel')}
-      {label ? label : t('in-service-levels:general.noSelection')}
+      {label ?? t('in-service-levels:general.noSelection')}
     </Typography>
   );
 }

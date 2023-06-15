@@ -6,7 +6,7 @@
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
-    "select": "Select ",
+    "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "None selected",
     "loadMore": "Load more",
     "noData": "No data available",

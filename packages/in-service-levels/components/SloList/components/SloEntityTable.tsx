@@ -7,13 +7,12 @@
 import React, { useState } from 'react';
 
 import { Application, Progress, SloEntityType, Website } from '@instana/types';
-import { Card, Li, Stack, Ul } from '@instana/components';
+import { Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
   sloApplicationIdKey,
   sloEntityKey,
-  sloEntityTypeKey,
   SloForm,
   sloWebsiteIdKey,
   isApplicationSloForm
@@ -21,7 +20,6 @@ import {
 import TableSkeleton from 'in-service-levels/components/SloList/components/TableSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { noop } from 'in-services/fixedObjects';
 
 import locals from 'in-service-levels/components/SloList/components/SloEntityTable.mless';
@@ -35,30 +33,27 @@ interface SloEntityTableProps {
   entityList?: Application[] | Website[];
   form: SloForm<SloEntityType>;
   progress: Progress;
+  query: string;
   onChange: (entityData: EntityData) => void;
 }
 
 const dataPerRow = 6;
-export default function SloEntityTable({ form, entityList, onChange, progress }: SloEntityTableProps) {
-  const [query, setQuery] = useState('');
+export default function SloEntityTable({ form, entityList, onChange, progress, query }: SloEntityTableProps) {
   const [next, setNext] = useState(dataPerRow);
-  const entity = form.get(sloEntityTypeKey).value;
 
   const entityId = isApplicationSloForm(form)
     ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
     : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
 
+  const isDataAvailable = entityList?.length ?? 0 > 0;
   const loadMoreData = () => {
     setNext(next + dataPerRow);
   };
   if (progress.loading) return <TableSkeleton />;
+  if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
+
   return (
-    <Card
-      title={
-        t('in-service-levels:general.select') + t('in-service-levels:general.entityTypes.label', { context: entity })
-      }
-      rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
-    >
+    <>
       {entityList?.length === 0 ||
         (entityList === undefined && <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />)}
       {entityList && (
@@ -82,6 +77,6 @@ export default function SloEntityTable({ form, entityList, onChange, progress }:
           </Li>
         </Ul>
       )}
-    </Card>
+    </>
   );
 }
