@@ -38,7 +38,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: processColumnDefinitions,
-  defaultOrderBy: 'bpm_process_name',
+  defaultOrderBy: 'process_name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -79,7 +79,7 @@ type GetBusinessProcessList = {
 
 function getBusinessProcessListData({
   timeConfig,
-  orderBy = 'bpm_process_name',
+  orderBy = 'process_name',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
