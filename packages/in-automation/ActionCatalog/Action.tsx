@@ -249,8 +249,9 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
     const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
   } else if (isScript(type)) {
-    const scriptValue = (form.get('script') as FormField<string>).value;
-    fields.push(...createScriptFields(scriptValue));
+    const value = (form.get('script') as FormField<string>).value;
+    const subtype = (form.get('subtype') as FormField<string>).value;
+    fields.push(...createScriptFields({ value, subtype }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

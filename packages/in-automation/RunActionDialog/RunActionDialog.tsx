@@ -12,7 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
-  getInterpreterFromFields,
+  getInterpreterToUse,
   getScriptFromFields,
   getWebhookFields,
   isScript,
@@ -281,7 +281,7 @@ function onSave({
   const { id: actionId, name: actionName } = action;
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
-    const interpreter = getInterpreterFromFields(action.fields);
+    const interpreter = getInterpreterToUse(action);
     runScriptAction({
       script,
       volatileId: selectedVolatileId,

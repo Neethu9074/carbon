@@ -6,8 +6,8 @@
 
 import { keyBy } from 'lodash';
 
+import { Action, Field } from 'in-types';
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
-import { Field, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (type: string) => {
@@ -45,6 +45,23 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.ignoreCertErrors ?? { value: 'false', encoding: 'ascii', name: 'ignoreCertErrors' };
 export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
+
+export const getInterpreterToUse = (action: Action | NewAction) => {
+  const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
+  const hasShebang = plaintextScript.startsWith('#!');
+  if (hasShebang) {
+    return {
+      encoding: 'base64',
+      name: 'subtype',
+      value: btoa(plaintextScript.split('\n')[0].replace('#!', '').trim())
+    };
+  }
+  return getInterpreterFromFields(action.fields);
+};
 
 interface WebhookFields {
   host: Field;
