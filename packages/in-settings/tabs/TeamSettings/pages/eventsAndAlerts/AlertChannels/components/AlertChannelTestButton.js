@@ -40,6 +40,8 @@ export default class extends React.Component {
       return;
     }
 
+    const successMessage = 'Alerting Channel was successfully triggered, please check the channel!';
+
     this.setState({
       loading: true,
       error: false,
@@ -52,8 +54,7 @@ export default class extends React.Component {
         this.setState({
           loading: false,
           message: response.get('result'),
-          errorResponse:
-            response.get('result') && response.get('result') === t('in-settings:successResponse') ? false : true
+          errorResponse: response.get('result') && response.get('result') === successMessage ? false : true
         });
         clickTestAlertChannelTracker({
           alertChannelLabel: this.props.alertChannel.get('kind'),
@@ -100,7 +101,7 @@ export default class extends React.Component {
               description={
                 this.state.errorResponse || this.state.error
                   ? this.state.message
-                  : `Test Alert sent to ${this.props.alertChannelLabel} Alert Channel`
+                  : t('in-settings:testAlertChannelSuccess', { channel: this.props.alertChannelLabel })
               }
               className="test_channel_dialog_child"
               bold

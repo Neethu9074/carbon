@@ -1148,5 +1148,5 @@
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
-  "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
+  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel"
 }
