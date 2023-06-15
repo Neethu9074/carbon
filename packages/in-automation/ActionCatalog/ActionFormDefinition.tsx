@@ -18,12 +18,14 @@ import {
   getDocLinkFromFields,
   getInterpreterFromFields,
   getScriptFromFields,
+  getTimeoutFromFields,
   getWebhookFields,
   isDocLink,
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { positiveNumberValidator } from 'in-services/validators/number';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -64,7 +66,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
-  let form = createMapForm()
+  let form: MapForm<any> = createMapForm()
     .put(
       'name',
       createField({
@@ -120,6 +122,16 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
       'applicationAlertConfigIds',
       createField({
         value: List(action.applicationAlertConfigIds)
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: getTimeoutFromFields(action.fields).value,
+        validator: (val: string) => {
+          if (val === '') return null;
+          return positiveNumberValidator(val);
+        }
       })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);

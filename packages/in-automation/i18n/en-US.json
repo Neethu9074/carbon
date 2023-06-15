@@ -97,6 +97,8 @@
     "3ParamaterDetails": "3. Parameter Details",
     "theValueMustNotBeBlank": "The value must not be blank.",
     "name": "Name",
+    "timeout": "Timeout (optional)",
+    "timeoutHelpText": "The maximum time in seconds to wait for the action to complete. If the action does not complete within the timeout, it will be terminated. This will override the timeout set in the agent configuration.",
     "description": "Description",
     "value": "Value",
     "type": "Type",

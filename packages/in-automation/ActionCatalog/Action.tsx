@@ -242,7 +242,7 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
   const type = (form.get('type') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
-
+  const timeout = (form.get('timeout') as FormField<string>).value;
   const fields: Field[] = [];
 
   if (isDocLink(type)) {
@@ -251,7 +251,7 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
   } else if (isScript(type)) {
     const value = (form.get('script') as FormField<string>).value;
     const subtype = (form.get('subtype') as FormField<string>).value;
-    fields.push(...createScriptFields({ value, subtype }));
+    fields.push(...createScriptFields({ value, subtype, timeout }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;
@@ -292,6 +292,7 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
     }
     fields.push(
       ...createWebhookFields({
+        timeout,
         host,
         method,
         accept,

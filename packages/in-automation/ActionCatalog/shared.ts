@@ -45,6 +45,8 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.ignoreCertErrors ?? { value: 'false', encoding: 'ascii', name: 'ignoreCertErrors' };
 export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
+export const getTimeoutFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.timeout ?? { value: '', encoding: 'ascii', name: 'timeout' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
