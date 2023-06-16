@@ -66,7 +66,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       </Row>
       <Row>
         <Col lg>
-          <ErrorBudgetChart configuration={configuration} timeConfig={fullWindowTimeConfig} isFullSloTimeWindow />
+          <ErrorBudgetChart configuration={configuration} timeConfig={selectedTimeConfig} showFullSloTimeWindow />
         </Col>
       </Row>
     </>
