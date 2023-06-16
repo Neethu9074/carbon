@@ -7,7 +7,7 @@ import { isValid, parse } from 'date-fns';
 import React from 'react';
 
 import { Message, Button, keyCodes } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Applications, {
   applicationSelectionTableActions,

@@ -181,7 +181,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
+          <Link href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>
