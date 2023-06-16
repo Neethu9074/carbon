@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TagFilter } from '@instana/types';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   ApplicationProps,
