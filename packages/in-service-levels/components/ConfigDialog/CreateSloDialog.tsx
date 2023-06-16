@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
-import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/DialogSections/SloEntitySection/SloEntitySection';
+import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
+import { SloScopeSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
+import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
-import { createSloForm } from 'in-service-levels/components/ConfigDialog/form';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
@@ -23,18 +24,18 @@ export default function CreateSloDialog() {
 
   const navItems: Array<NavItem> = [
     {
-      scrollId: '1-select-entity',
+      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />,
       label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
+      scrollId: '1-select-entity',
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
-      valid: true,
-      content: (
-        <SloEntitySection
-          form={form}
-          onChange={(path, fn) => {
-            updateForm(form.updateIn(path as any, fn));
-          }}
-        />
-      )
+      valid: true
+    },
+    {
+      content: <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />,
+      label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
+      scrollId: '2-select-scope',
+      title: t('in-service-levels:createSloDialog.selectScopeNavItem'),
+      valid: true
     }
   ];
 

@@ -1,6 +1,9 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "beacon": "Beacon",
+    "boundary": "Boundary",
+    "clear": "Clear",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
@@ -25,9 +28,17 @@
     }
   },
   "createSloDialog": {
+    "customFilter": "Custom Filter",
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:"
+    "selectEntityTitle": "Select an entity to add SLO to:",
+    "selectScopeNavItem": "Select Scope",
+    "selectScopeTitle": "Select Scope",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP Requests",
+      "beaconLabel_pageLoad": "Website Page Loads",
+      "beaconLabel_custom": "Website Custom Events"
+    }
   },
   "sloList": {
     "components": {

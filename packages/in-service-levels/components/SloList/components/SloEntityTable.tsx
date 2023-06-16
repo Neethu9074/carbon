@@ -10,13 +10,7 @@ import { Application, Progress, SloEntityType, Website } from '@instana/types';
 import { Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import {
-  sloApplicationIdKey,
-  sloEntityKey,
-  SloForm,
-  sloWebsiteIdKey,
-  isApplicationSloForm
-} from 'in-service-levels/components/ConfigDialog/form';
+import { SloForm, isApplicationSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import TableSkeleton from 'in-service-levels/components/SloList/components/TableSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -38,18 +32,20 @@ interface SloEntityTableProps {
 }
 
 const dataPerRow = 6;
+
 export default function SloEntityTable({ form, entityList, onChange, progress, query }: SloEntityTableProps) {
   const [next, setNext] = useState(dataPerRow);
 
   const entityId = isApplicationSloForm(form)
-    ? form.getIn([sloEntityKey, sloApplicationIdKey]).value
-    : form.getIn([sloEntityKey, sloWebsiteIdKey]).value;
+    ? form.getIn(['entity', 'applicationId']).value
+    : form.getIn(['entity', 'websiteId']).value;
 
   const isDataAvailable = entityList !== undefined && entityList.length > 0;
-  const loadMoreData = () => {
-    setNext(next + dataPerRow);
-  };
+
+  const loadMoreData = () => setNext(next + dataPerRow);
+
   if (progress.loading) return <TableSkeleton />;
+
   if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
 
   return (

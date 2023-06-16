@@ -7,7 +7,7 @@
 describe('in-custom-dashboards/widgets/Apdex/apdexTypes', () => {
   beforeEach(jest.resetModules);
 
-  it.each([true, false])('includes application in the AvailableEntityTypes if applicaitonApdexEnabled is %s', flag => {
+  it.each([true, false])('includes application in the AvailableEntityTypes if applicationApdexEnabled is %s', flag => {
     // Given
     jest.doMock('in-services/featureFlags', () => ({
       applicationApdexEnabled: flag
