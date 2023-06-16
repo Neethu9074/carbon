@@ -59,6 +59,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
+    autoRefresh: false,
     windowSize: alertingEventDetailsChartTimeframe
   };
 
