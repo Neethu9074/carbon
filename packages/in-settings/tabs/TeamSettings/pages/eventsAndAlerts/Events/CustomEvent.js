@@ -368,12 +368,13 @@ function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
 
 const formToRuleMapper =
   ({ severity, entityType }) =>
-  form => {
-    const formatterType = form.get('formatter')?.value ?? null;
-    let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
-    conditionValue = unmapConditionValue(conditionValue, formatterType);
+  ruleForm => {
+    const formatterType = ruleForm.get('formatter')?.value ?? null;
+    const aggregation = ruleForm.get('aggregation')?.value ?? null;
+    let conditionValue = Number(ruleForm.get('conditionValue')?.value ?? 0);
+    conditionValue = unmapConditionValue(conditionValue, formatterType, aggregation);
 
-    let metricName = form.get('metricName')?.value ?? null;
+    let metricName = ruleForm.get('metricName')?.value ?? null;
     let metricPattern = null;
 
     if (isBuiltInDynamicMetric(entityType, metricName)) {
@@ -382,8 +383,8 @@ const formToRuleMapper =
         metricPattern = {
           prefix: metricDefinition.metricPattern.pre,
           postfix: metricDefinition.metricPattern.post,
-          operator: form.get('metricPatternOperator').value,
-          placeholder: form.get('metricPatternPlaceholder')?.value ?? null
+          operator: ruleForm.get('metricPatternOperator').value,
+          placeholder: ruleForm.get('metricPatternPlaceholder')?.value ?? null
         };
         metricName = null;
       }
@@ -391,10 +392,10 @@ const formToRuleMapper =
     return createThresholdRule(
       metricName,
       metricPattern,
-      form.get('rollup') ? Number(form.get('rollup').value) : 0,
-      form.get('window') ? Number(form.get('window').value) : null,
-      form.get('aggregation')?.value ?? null,
-      form.get('conditionOperator')?.value ?? null,
+      ruleForm.get('rollup') ? Number(ruleForm.get('rollup').value) : 0,
+      ruleForm.get('window') ? Number(ruleForm.get('window').value) : null,
+      ruleForm.get('aggregation')?.value ?? null,
+      ruleForm.get('conditionOperator')?.value ?? null,
       conditionValue,
       severity
     );
