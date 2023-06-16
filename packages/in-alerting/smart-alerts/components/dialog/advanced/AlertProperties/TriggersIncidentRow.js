@@ -21,7 +21,7 @@ export default function TriggersIncidentRow({ form, trackTriggerChanged, onChang
         <Toggle
           checked={Boolean(form.get('triggering')?.value)}
           onChange={e => {
-            onChange(['triggering'], field => field.setValue(e.target.checked || '').setTouched(true));
+            onChange(['triggering'], field => field.setValue(e.target.checked || false).setTouched(true));
             trackTriggerChanged?.();
           }}
         />

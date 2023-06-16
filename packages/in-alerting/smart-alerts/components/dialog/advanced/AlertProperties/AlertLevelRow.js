@@ -37,7 +37,7 @@ export default function AlertLevelRow({ form, onChange, trackAlertLevelChanged }
         name="severity"
         id="severity"
         onChange={e => {
-          onChange(['severity'], field => field.setValue(e.target.value).setTouched(true));
+          onChange(['severity'], field => field.setValue(Number(e.target.value)).setTouched(true));
           trackAlertLevelChanged?.();
         }}
         defaultValue={severitySelectOptions[severity].value}
