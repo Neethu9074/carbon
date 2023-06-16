@@ -134,7 +134,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
               hasUserImpactOption={false}
-              hasViolationsInPeriod={false}
             />
           )
         },

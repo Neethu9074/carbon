@@ -26,14 +26,14 @@ export default function SelectTimeThreshold({
   updateForm,
   hasUserImpactOption,
   hasTraceImpactOption,
-  impactTimeThresholdDisabled,
-  hasViolationsInPeriod = true
+  impactTimeThresholdDisabled
 }) {
   const { violationsInSequence, violationsInPeriod, userImpactOfViolationsInSequence, traceImpact } =
     timeThresholdTypes;
-  const checkboxes = hasViolationsInPeriod
-    ? [createOption(form, updateForm, violationsInSequence), createOption(form, updateForm, violationsInPeriod)]
-    : [createOption(form, updateForm, violationsInSequence)];
+  const checkboxes = [
+    createOption(form, updateForm, violationsInSequence),
+    createOption(form, updateForm, violationsInPeriod)
+  ];
 
   if (hasUserImpactOption) {
     checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence, impactTimeThresholdDisabled));
@@ -98,6 +98,5 @@ SelectTimeThreshold.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasUserImpactOption: PropTypes.bool,
   hasTraceImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool,
-  hasViolationsInPeriod: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool
 };
