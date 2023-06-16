@@ -6,11 +6,16 @@
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "None selected",
+    "loadMore": "Load more",
+    "noData": "No data available",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
+    "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "metrics": {
       "status": "Status",

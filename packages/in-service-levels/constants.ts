@@ -17,3 +17,5 @@ export const entityTypes: Record<SloEntityType, EntityTypeData> = {
   application: { label: t('in-service-levels:general.entityTypes.label', { context: 'application' }) },
   website: { label: t('in-service-levels:general.entityTypes.label', { context: 'website' }) }
 };
+
+export const sloEntityTypes = Object.keys(entityTypes) as SloEntityType[];
