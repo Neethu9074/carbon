@@ -15,21 +15,22 @@ import {
 import { Button, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface AnalyzeSloCallsButtonProps {
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
-export default function AnalyzeSloEventsButton({ configuration }: AnalyzeSloCallsButtonProps) {
+export default function AnalyzeSloEventsButton({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
+  const timeConfig = useTimeConfig();
+  const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
+
   return (
-    <Button
-      kind="primary"
-      icon={getIconType(configuration.entity)}
-      disabled // This is disabled for now until the full functionality is implemented
-    >
+    <Button kind="primary" icon={getIconType(entity)} href={linkToAnalyze}>
       <Typography variant="body-regular" onDark>
-        {t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(configuration.entity) })}
+        {t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(entity) })}
       </Typography>
     </Button>
   );
