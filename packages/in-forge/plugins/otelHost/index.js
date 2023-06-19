@@ -4,7 +4,6 @@
  */
 
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
-import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition';
@@ -21,18 +20,12 @@ const aixPlugin = plugins.host + '_aix';
 const solarisPlugin = plugins.host + '_solaris';
 
 registerSnapshotDefinition({
-  plugin: plugins.host,
+  plugin: plugins.otelHost,
 
   showZoneInSidebarHeader: true,
   tableDefinition,
   kpiDefinitions,
-  agentMonitoringIssueDefinitions,
   metricDefinitions,
-
-  getPower(snapshot) {
-    const data = snapshot.get('data');
-    return data.get('memory.total', 1) * data.get('cpu.count', 1);
-  },
 
   getIconType(snapshot) {
     const os = snapshot.getIn(['data', 'os.name'], '');
