@@ -117,16 +117,24 @@ router.get('/', async (req, res) => {
     if (statusCode === 401) {
       const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
       const nonce = uuidv4();
-      res
-        .status(401)
-        .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
-        .send(
+      if (serverConfig.clientConfig.featureFlags?.playwithEnabled) {
+        res.status(401).send(
           compiledRedirectTemplate({
-            signInUrl: `${uiClientBaseUrl}/auth/signIn`,
-            returnUrlWithoutHash: encodeURIComponent(uiClientBaseUrl + req.originalUrl),
-            nonce
+            signInUrl: `https://www.instana.com/apm-observability-sandbox`
           })
         );
+      } else {
+        res
+          .status(401)
+          .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
+          .send(
+            compiledRedirectTemplate({
+              signInUrl: `${uiClientBaseUrl}/auth/signIn`,
+              returnUrlWithoutHash: encodeURIComponent(uiClientBaseUrl + req.originalUrl),
+              nonce
+            })
+          );
+      }
       return;
     } else if (statusCode === 403) {
       const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);

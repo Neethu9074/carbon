@@ -71,8 +71,13 @@ Are you using the right URL for local development, e.g. local-instana.pink.insta
     document.querySelector('.in-index-centered-content').style = 'color: #fff; font-size: 2rem; text-align: center';
   }, 500);
   setTimeout(() => {
-    window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
-  }, 3000);
+	if (window.instana.config.featureFlags?.playwithEnabled) 
+  {
+		window.location.href = '/auth/demo/autoSignIn?returnUrl=' + encodeURIComponent(window.location.href);
+	} else {
+		window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
+	}
+}, 3000);
 }
 </script>
 <script>
