@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -12,11 +11,16 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup.mless';
 
+interface ThresholdConditionFormGroupPros {
+  children?: ReactNode;
+  iconType?: string;
+  label?: string;
+}
 export default function ThresholdConditionFormGroup({
   children,
   iconType = 'lib_alerting_threshold_icon',
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')
-}) {
+}: ThresholdConditionFormGroupPros) {
   return (
     <div className={locals.thresholdConditionItem}>
       <SvgIcon className={locals.icon} type={iconType} />
@@ -34,9 +38,3 @@ export default function ThresholdConditionFormGroup({
     </div>
   );
 }
-
-ThresholdConditionFormGroup.propTypes = {
-  children: PropTypes.node,
-  iconType: PropTypes.string,
-  label: PropTypes.string
-};
