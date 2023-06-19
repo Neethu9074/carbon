@@ -1,16 +1,24 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "beacon": "Beacon",
+    "boundary": "Boundary",
+    "clear": "Clear",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "None selected",
+    "loadMore": "Load more",
+    "noData": "No data available",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
+    "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "metrics": {
       "status": "Status",
@@ -20,9 +28,17 @@
     }
   },
   "createSloDialog": {
+    "customFilter": "Custom Filter",
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:"
+    "selectEntityTitle": "Select an entity to add SLO to:",
+    "selectScopeNavItem": "Select Scope",
+    "selectScopeTitle": "Select Scope",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP Requests",
+      "beaconLabel_pageLoad": "Website Page Loads",
+      "beaconLabel_custom": "Website Custom Events"
+    }
   },
   "sloList": {
     "components": {

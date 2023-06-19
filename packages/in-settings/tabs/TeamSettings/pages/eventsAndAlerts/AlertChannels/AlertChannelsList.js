@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -84,7 +84,7 @@ function columnDefinitions(hasRowNavigation) {
           <Tooltip content={entity.name} align="topLeft" delay={500}>
             <WithSubscript subscript={getKind(entity)}>
               {hasRowNavigation ? (
-                <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
+                <Link href={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
                   {entity.name}
                 </Link>
               ) : (

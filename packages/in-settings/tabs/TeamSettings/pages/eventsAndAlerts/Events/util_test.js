@@ -9,6 +9,8 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 
 describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () => {
+  const defaultTestAggregation = 'avg';
+
   describe('mapConditionValue', () => {
     describe('if formatterType is PERCENTAGE', () => {
       const formatterType = 'PERCENTAGE';
@@ -18,7 +20,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = 0.71;
 
         // When
-        const actual = mapConditionValue(value, formatterType);
+        const actual = mapConditionValue(value, formatterType, defaultTestAggregation);
 
         // Then
         expect(actual).toBe(71);
@@ -29,7 +31,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = 0.71119;
 
         // When
-        const actual = mapConditionValue(value, formatterType);
+        const actual = mapConditionValue(value, formatterType, defaultTestAggregation);
 
         // Then
         expect(actual).toBe(71.119);
@@ -40,7 +42,45 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = undefined;
 
         // When
-        const actual = mapConditionValue(value, formatterType);
+        const actual = mapConditionValue(value, formatterType, defaultTestAggregation);
+
+        // Then
+        expect(actual).toBeNaN();
+      });
+    });
+
+    describe('if aggregation is relative_diff', () => {
+      const formatterType = 'MILLIS';
+      const aggregation = 'relative_diff';
+
+      it('correctly maps integers', () => {
+        // Given
+        const value = 0.71;
+
+        // When
+        const actual = mapConditionValue(value, formatterType, aggregation);
+
+        // Then
+        expect(actual).toBe(71);
+      });
+
+      it('correctly maps decimals', () => {
+        // Given
+        const value = 0.71119;
+
+        // When
+        const actual = mapConditionValue(value, formatterType, aggregation);
+
+        // Then
+        expect(actual).toBe(71.119);
+      });
+
+      it('returns NaN if value is undefined', () => {
+        // Given
+        const value = undefined;
+
+        // When
+        const actual = mapConditionValue(value, formatterType, aggregation);
 
         // Then
         expect(actual).toBeNaN();
@@ -52,7 +92,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
       const value = 1111;
 
       // When
-      const actual = mapConditionValue(value, undefined);
+      const actual = mapConditionValue(value, undefined, defaultTestAggregation);
 
       // Then
       expect(actual).toBe(value);
@@ -68,7 +108,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = 71;
 
         // When
-        const actual = unmapConditionValue(value, formatterType);
+        const actual = unmapConditionValue(value, formatterType, defaultTestAggregation);
 
         // Then
         expect(actual).toBe(0.71);
@@ -79,7 +119,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = 71.119;
 
         // When
-        const actual = unmapConditionValue(value, formatterType);
+        const actual = unmapConditionValue(value, formatterType, defaultTestAggregation);
 
         // Then
         expect(actual).toBe(0.71119);
@@ -90,7 +130,45 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
         const value = undefined;
 
         // When
-        const actual = unmapConditionValue(value, formatterType);
+        const actual = unmapConditionValue(value, formatterType, defaultTestAggregation);
+
+        // Then
+        expect(actual).toBeNaN();
+      });
+    });
+
+    describe('if aggregation is relative_diff', () => {
+      const formatterType = 'MILLIS';
+      const aggregation = 'relative_diff';
+
+      it('correctly maps integers', () => {
+        // Given
+        const value = 71;
+
+        // When
+        const actual = unmapConditionValue(value, formatterType, aggregation);
+
+        // Then
+        expect(actual).toBe(0.71);
+      });
+
+      it('correctly maps decimals', () => {
+        // Given
+        const value = 71.119;
+
+        // When
+        const actual = unmapConditionValue(value, formatterType, aggregation);
+
+        // Then
+        expect(actual).toBe(0.71119);
+      });
+
+      it('returns NaN if value is undefined', () => {
+        // Given
+        const value = undefined;
+
+        // When
+        const actual = unmapConditionValue(value, formatterType, aggregation);
 
         // Then
         expect(actual).toBeNaN();
@@ -102,7 +180,7 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util', () =
       const value = 1111;
 
       // When
-      const actual = mapConditionValue(value, undefined);
+      const actual = mapConditionValue(value, undefined, defaultTestAggregation);
 
       // Then
       expect(actual).toBe(value);
