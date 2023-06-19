@@ -58,18 +58,16 @@ function getCustomEventBasedTagFilterExpression({
   indicator
 }: GetCustomEventBasedTagFilterExpressionProps): GoodBadTagFilterExpression {
   const { goodEventsFilter, badEventsFilter } = indicator;
-  const goodTagFilterExpression = goodEventsFilter ?? emptyTagFilterExpression;
 
   if (!badEventsFilter) {
-    const badTagFilterConjunction = invertTagFilterExpression(goodTagFilterExpression);
     return {
-      good: goodTagFilterExpression,
-      bad: badTagFilterConjunction
+      good: goodEventsFilter,
+      bad: invertTagFilterExpression(goodEventsFilter)
     };
   }
 
   return {
-    good: goodTagFilterExpression,
+    good: goodEventsFilter,
     bad: badEventsFilter
   };
 }

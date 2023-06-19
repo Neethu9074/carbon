@@ -81,19 +81,19 @@ function getLabelsTagFilter({
 function getInternalIdTagFilter({ applicationId, endpointId, serviceId, websiteId }: GetLabelsProps): TagFilter[] {
   const expressions = [];
 
-  if (applicationId !== undefined) {
+  if (applicationId) {
     expressions.push(tagFilter('application.id', EQUALS, applicationId, undefined, 'DESTINATION'));
   }
 
-  if (endpointId !== undefined) {
+  if (endpointId) {
     expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, undefined, 'DESTINATION'));
   }
 
-  if (serviceId !== undefined) {
-    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, undefined, 'DESTINATION'));
+  if (serviceId) {
+    expressions.push(tagFilter('service.id', EQUALS, serviceId, undefined, 'DESTINATION'));
   }
 
-  if (websiteId !== undefined) {
+  if (websiteId) {
     expressions.push(tagFilter('beacon.website.id', EQUALS, websiteId, undefined, 'NOT_APPLICABLE'));
   }
 

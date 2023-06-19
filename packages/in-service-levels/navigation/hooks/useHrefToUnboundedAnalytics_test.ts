@@ -12,7 +12,6 @@ import useBasicTagFilterExpressionOriginal from 'in-service-levels/navigation/ho
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { useNavigation as useNavigationOriginal } from 'in-stores/navigation/hooks/useNavigation';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { days } from 'in-services/time/time';
 
 jest.mock('in-stores/navigation/hooks/useNavigation');
@@ -50,8 +49,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         boundaryScope: 'ALL',
         type: 'application',
         endpointId: 'someEndpointId',
-        serviceId: 'someServiceId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        serviceId: 'someServiceId'
       };
 
       const indicator: EventBasedSli = {
@@ -63,6 +61,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -81,8 +80,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         applicationId: 'someAppId',
         boundaryScope: 'ALL',
         type: 'application',
-        serviceId: 'someServiceId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        serviceId: 'someServiceId'
       };
 
       const indicator: EventBasedSli = {
@@ -94,6 +92,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -112,8 +111,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         applicationId: 'someAppId',
         boundaryScope: 'ALL',
         type: 'application',
-        serviceId: 'someServiceId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        serviceId: 'someServiceId'
       };
 
       const indicator: EventBasedSli = {
@@ -125,6 +123,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -143,8 +142,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         applicationId: 'someAppId',
         boundaryScope: 'ALL',
         type: 'application',
-        serviceId: 'someServiceId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        serviceId: 'someServiceId'
       };
 
       const indicator: EventBasedSli = {
@@ -156,6 +154,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -175,8 +174,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       const entity: WebsiteSloEntity = {
         type: 'website',
         beaconType: 'pageLoad',
-        websiteId: 'someWebsiteId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        websiteId: 'someWebsiteId'
       };
 
       const indicator: EventBasedSli = {
@@ -188,6 +186,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -205,8 +204,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       const entity: WebsiteSloEntity = {
         type: 'website',
         beaconType: 'pageLoad',
-        websiteId: 'someWebsiteId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        websiteId: 'someWebsiteId'
       };
 
       const indicator: EventBasedSli = {
@@ -218,6 +216,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -236,8 +235,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       const entity: WebsiteSloEntity = {
         type: 'website',
         beaconType: 'pageLoad',
-        websiteId: 'someWebsiteId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        websiteId: 'someWebsiteId'
       };
 
       const indicator: EventBasedSli = {
@@ -249,6 +247,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
@@ -267,8 +266,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       const entity: WebsiteSloEntity = {
         type: 'website',
         beaconType: 'pageLoad',
-        websiteId: 'someWebsiteId',
-        tagFilterExpression: tagFilter('call.type', 'EQUALS', 'HTTP')
+        websiteId: 'someWebsiteId'
       };
 
       const indicator: TimeBasedSli = {
@@ -281,6 +279,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       // When
       renderHook(() => useHrefToUnboundedAnalytics({ entity, indicator, timeConfig }));
 
+      // Then
       expect(createHref).toBeCalledWith(
         expect.objectContaining({
           matrix: {
