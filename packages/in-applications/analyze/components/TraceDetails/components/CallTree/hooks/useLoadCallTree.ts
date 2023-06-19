@@ -31,7 +31,7 @@ import getCallDetails, { GetCallDetailsResult } from 'in-applications/subscripti
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { Result } from 'in-types';
+import { Mutable, Result } from 'in-types';
 
 export interface OnRelatedCallsLoadedProps {
   callId: string;
@@ -86,7 +86,7 @@ export function useLoadCallTree({
     if ((!lazyLoading && isLoading(eagerCallTreeResult)) || hasError(eagerCallTreeResult)) {
       return eagerCallTreeResult;
     }
-    return createEagerSearchIndexAndSetParentIds(eagerCallTreeResult);
+    return createEagerSearchIndexAndEnrichTree(eagerCallTreeResult);
   }, [lazyLoading, eagerCallTreeResult]);
 
   useEffect(() => {
@@ -318,11 +318,9 @@ function successfulLazyCallTreeResult(lazyCallTree: LazyCallTree): LazyCallTreeR
   };
 }
 
-function createEagerSearchIndexAndSetParentIds(
-  eagerCallTreeResult: Result<TraceActivityTreeNode>
-): EagerCallTreeResult {
+function createEagerSearchIndexAndEnrichTree(eagerCallTreeResult: Result<TraceActivityTreeNode>): EagerCallTreeResult {
   const searchIndex = new Map<string, TraceActivityTreeNodeWithParentId>();
-  const node = populateEagerSearchIndexAndSetParentIds(searchIndex, eagerCallTreeResult.data);
+  const node = populateEagerSearchIndexAndEnrichTree(searchIndex, eagerCallTreeResult.data);
   return {
     ...eagerCallTreeResult,
     ...(node != null && { data: node }),
@@ -330,19 +328,23 @@ function createEagerSearchIndexAndSetParentIds(
   };
 }
 
-function populateEagerSearchIndexAndSetParentIds(
+function populateEagerSearchIndexAndEnrichTree(
   searchIndex: Map<string, TraceActivityTreeNodeWithParentId>,
-  node?: TraceActivityTreeNode
+  node?: TraceActivityTreeNode,
+  parent?: TraceActivityTreeNode
 ): TraceActivityTreeNodeWithParentId | null {
   let nodeCopy: TraceActivityTreeNodeWithParentId | null = null;
   if (node != null) {
     nodeCopy = { ...node } as TraceActivityTreeNodeWithParentId;
+    if (parent) {
+      adjustTimeSkew(nodeCopy, parent);
+    }
     nodeCopy.children = [];
     if (nodeCopy.model !== 'LOG') {
       searchIndex.set(nodeCopy.id, nodeCopy);
     }
     node.children.forEach(child => {
-      const newChild = populateEagerSearchIndexAndSetParentIds(searchIndex, child);
+      const newChild = populateEagerSearchIndexAndEnrichTree(searchIndex, child, nodeCopy!);
       if (newChild) {
         newChild.parentId = node.id;
         nodeCopy!.children.push(newChild);
@@ -350,6 +352,25 @@ function populateEagerSearchIndexAndSetParentIds(
     });
   }
   return nodeCopy;
+}
+
+function adjustTimeSkew(node: Mutable<TraceActivityTreeNode>, parent: TraceActivityTreeNode) {
+  if (node.start >= parent.start) {
+    return;
+  }
+
+  const timeSkewAdjustmentLimitMillis = 1000;
+  const startDiff = parent.start - node.start;
+  // the way how we visually represent network time is to split it in half and take the first half as a
+  // request latency and the seconds half as a response latency
+  const requestLatency = (parent.networkTime ?? 0) / 2;
+
+  if (startDiff + requestLatency < timeSkewAdjustmentLimitMillis) {
+    // a call should not start before its parent call was received by its destination service
+    node.start = parent.start + requestLatency;
+  } else if (startDiff < timeSkewAdjustmentLimitMillis) {
+    node.start = parent.start;
+  }
 }
 
 /**
