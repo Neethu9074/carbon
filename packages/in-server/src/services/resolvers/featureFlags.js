@@ -271,11 +271,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'perSecondAggregationEnabled',
-    instanaCtlKey: 'feature.per.second.aggregation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
     defaultValue: false

@@ -57,7 +57,6 @@ module.exports = {
   kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
-  perSecondAggregationEnabled: false,
   apdexWidgetEnabled: true,
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
