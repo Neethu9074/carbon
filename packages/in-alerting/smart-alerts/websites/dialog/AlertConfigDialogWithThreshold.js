@@ -25,9 +25,10 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/dialog/adva
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/hooks/useThresholdSuggestion';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { days } from 'in-services/time';
 
 /**
@@ -100,7 +101,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
-  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+  useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, {
     isValid,
     simpleMode,
     alertConfigWithFormModel,

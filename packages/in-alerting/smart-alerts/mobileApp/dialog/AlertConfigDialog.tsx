@@ -15,6 +15,7 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/mobileApp/d
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -37,19 +38,17 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }: AlertConfigDialogType) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
-
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
   const getLinkToAlertConfig = useGetAlertConfigLink();
 
   return (
     <AlertConfigDialogWithThreshold
-      updateForm={(updateForm: MapForm<any>) => {
-        setForm(updateForm);
-      }}
+      updateForm={updateForm}
       form={form}
-      onChange={createOnChange(setForm, form)}
+      onChange={createOnChange(updateForm, form)}
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}

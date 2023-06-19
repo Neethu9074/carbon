@@ -14,7 +14,6 @@ import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/d
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
@@ -72,14 +71,10 @@ export default function ThroughputThresholdCondition({
             updateForm={updateForm}
             metricUnitPostfix={metricUnitPostfix}
           />
-          {/* eumType === websiteEum , this condition need to be removed once UseSuggestion is implemented for mobileapp  */}
-          {eumType === websiteEum && (
-            <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
-          )}
+          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
-      {/* eumType === websiteEum , this condition need to be removed once HISTORIC_BASELINE adn ADAPTIVE_BASELINE is implemented for mobileapp  */}
-      {thresholdType !== STATIC_THRESHOLD && eumType === websiteEum && (
+      {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>

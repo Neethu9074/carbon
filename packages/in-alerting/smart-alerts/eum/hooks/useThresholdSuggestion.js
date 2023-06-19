@@ -11,10 +11,9 @@ import { empty } from '@instana/observables';
 
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
-export default function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
+export default function useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, config) {
   const {
     isValid,
     simpleMode,

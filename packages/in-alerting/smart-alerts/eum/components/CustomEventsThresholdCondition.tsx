@@ -22,7 +22,6 @@ import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/Thre
 import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -79,19 +78,15 @@ export default function CustomEventsThresholdCondition({
             percentageMetric={percentageMetric}
             metricUnitPostfix={metricUnitPostfix}
           />
-          {/* eumType === websiteEum , this condition need to be removed once useSuggestion is implemented for mobileapp  */}
-          {eumType === websiteEum && (
-            <UseSuggestedValueButton
-              form={form}
-              updateForm={updateForm}
-              metricUnitPostfix={metricUnitPostfix}
-              percentageMetric={percentageMetric}
-            />
-          )}
+          <UseSuggestedValueButton
+            form={form}
+            updateForm={updateForm}
+            metricUnitPostfix={metricUnitPostfix}
+            percentageMetric={percentageMetric}
+          />
         </ThresholdConditionFormGroup>
       )}
-      {/* eumType === websiteEum , this condition need to be removed once HISTORIC_BASELINE adn ADAPTIVE_BASELINE is implemented for mobileapp  */}
-      {thresholdType !== STATIC_THRESHOLD && eumType === websiteEum && (
+      {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>

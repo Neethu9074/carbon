@@ -60,6 +60,7 @@ export interface AlertConfigDialogPresenterProps {
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
   timeConfig?: TimeConfig;
+  thresholdResult: any;
 }
 
 export interface SlideInConfig {
