@@ -214,7 +214,7 @@ export default function ViewSwitcher({
             <SubViewItem
               label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
               className={locals.linkElement}
-              href="https://support.instana.com"
+              href="https://www.ibm.com/mysupport/s/?language=en_US"
               external
               id="main-nav-support"
             />
@@ -420,15 +420,15 @@ function AutomationMenu(props) {
 
   return (
     !playwithEnabled && (
-    <View
-      id="main-nav-automation-dashboard"
-      label={t('in-automation:automation')}
-      icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
-      href={createHrefToPath(actionCatalogPath)}
-      isBeta
-      {...props}
-    />
+      <View
+        id="main-nav-automation-dashboard"
+        label={t('in-automation:automation')}
+        icon="lib_automation"
+        isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
+        href={createHrefToPath(actionCatalogPath)}
+        isBeta
+        {...props}
+      />
     )
   );
 }
@@ -596,7 +596,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-       {hasPowerVcAccess && !playwithEnabled && (
+      {hasPowerVcAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-powervc"
           label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
