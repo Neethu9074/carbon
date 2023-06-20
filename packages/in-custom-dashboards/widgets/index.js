@@ -1,11 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import * as applicationHealth from 'in-custom-dashboards/widgets/ApplicationHealth';
 import * as timeZones from 'in-custom-dashboards/widgets/TimeZones';
 import * as bigNumber from 'in-custom-dashboards/widgets/BigNumber';
+import * as histogram from 'in-custom-dashboards/widgets/Histogram';
 import * as markdown from 'in-custom-dashboards/widgets/Markdown';
 import * as list from 'in-custom-dashboards/widgets/TopList';
 import * as chart from 'in-custom-dashboards/widgets/Chart';
@@ -23,7 +25,8 @@ const all = {
   [chart.type]: chart,
   [list.type]: list,
   [pie.type]: pie,
-  [applicationHealth.type]: applicationHealth
+  [applicationHealth.type]: applicationHealth,
+  [histogram.type]: histogram
 };
 export default all;
 

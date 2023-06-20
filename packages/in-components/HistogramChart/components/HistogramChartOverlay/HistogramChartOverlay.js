@@ -1,13 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
-import ChartContextMenu from 'in-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
+import HistogramChartContextMenu from 'in-components/HistogramChart/components/HistogramChartOverlay/components/HistogramChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -17,7 +18,7 @@ import cursors from 'in-components/cursors';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-import locals from './LatencyChartOverlay.mless';
+import locals from './HistogramChartOverlay.mless';
 
 const SELECTION_HANDLE_WIDTH_IN_PX = 8;
 const SELECTION_HANDLE_BOUND_IN_PX = SELECTION_HANDLE_WIDTH_IN_PX / 2 + 1;
@@ -29,24 +30,17 @@ const SELECTION_HANDLE_HEIGHT_IN_PX = 30;
  * - selection context menu
  * - highlighting of buckets with a tooltip
  */
-export default function LatencyChartOverlay({
+export default function HistogramChartOverlay({
   buckets,
-  // width of a bucket in pixels
-  bucketWidth,
-  // horizontal center of a bucket in pixels
-  bucketCenter,
+  bucketWidth, // width of a bucket in pixels
+  bucketCenter, // horizontal center of a bucket in pixels
   height,
   width,
-  // initial selection, e.g., {from: 1, to: 10}
-  selection,
-  // items for the selection context menu, if not set, selection will be disabled
-  selectionMenuItems,
-  // callback to call when selection changes, e.g., onSelectionChanged({from: 2, to: 3})
-  onSelectionChanged,
-  // can the selection be moved and resized?
-  selectionAdjustable,
-  // object with a function: `render({from, to, style})` which will be used to render a tooltip
-  tooltipRenderer
+  selection, // initial selection, e.g., {from: 1, to: 10}
+  selectionMenuItems, // items for the selection context menu, if not set, selection will be disabled
+  onSelectionChanged, // callback to call when selection changes, e.g., onSelectionChanged({from: 2, to: 3})
+  selectionAdjustable, // can the selection be moved and resized?
+  tooltipRenderer // object with a function: `render({from, to, style})` which will be used to render a tooltip
 }) {
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
@@ -470,7 +464,7 @@ export default function LatencyChartOverlay({
         />
       )}
       {selectionDone && (
-        <ChartContextMenu
+        <HistogramChartContextMenu
           style={{ bottom: height, left: selectionStartX + selectionWidth }}
           immediatelyOpenContextMenu={immediatelyOpenContextMenu}
           showContextMenu={showContextMenu}

@@ -1,0 +1,23 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+@import 'in-components/HistogramChart/shared.less';
+@import '~in-themes/active.less';
+
+:local {
+  .lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .horizontalLine {
+    position: relative;
+    border-top: 1px solid @lib__colors__N600Light;
+    opacity: 0.2;
+    z-index: @z-index__horizontalLine;
+  }
+}
