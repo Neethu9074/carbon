@@ -54,6 +54,7 @@ export default function SmartAlertList() {
           getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
           createRowLinkLocation={createRowLinkLocation}
           sortOptions={sortOptions}
+          alertsTab={syntheticSmartAlertsPath}
         />
       </LeftRightPadding>
       <Footer />

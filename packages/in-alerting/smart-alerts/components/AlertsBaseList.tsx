@@ -10,8 +10,9 @@ import { Observable } from '@instana/observables';
 import { Card } from '@instana/components';
 import { Result } from '@instana/types';
 
+//@ts-expect-error
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import List, { TableActions as ListTableActions } from 'in-settings/components/List';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
@@ -47,6 +48,7 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
   actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
+  alertsTab?: string;
 }
 
 export interface AlertConfigType {
@@ -81,7 +83,8 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   onRowClick,
   createRowLinkLocation,
   sortOptions = [],
-  actionHandlers
+  actionHandlers,
+  alertsTab
 }: AlertBaseListProps<AlertConfig>) {
   const [alertsSize, setAlertsSize] = useState<number | null>(null);
   const header = t('in-alerting:smartAlerts.list.header.configuredAlerts', { numberOfAlerts: alertsSize });
@@ -112,6 +115,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           sortOptions={sortOptions}
           pageSize={15}
           createRowLinkLocation={createRowLinkLocation}
+          alertsTab={alertsTab}
         />
       </Card>
     );
