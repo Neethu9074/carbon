@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useEffect } from 'react';
@@ -13,7 +14,7 @@ import { on } from '@instana/observables';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 
-import locals from './ChartContextMenu.mless';
+import locals from './HistogramChartContextMenu.mless';
 
 const { isEscape } = keyCodes;
 export default function ChartContextMenu({

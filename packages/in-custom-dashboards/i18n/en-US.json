@@ -720,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "At least one time zone must be configured.",
       "pleaseSelectATimeZone": "Please select a time zone."
+    },
+    "histogram": {
+      "histogram": "Histogram",
+      "demo": {
+        "title": "Distribution"
+      },
+      "formComp": {
+        "metrics": "Metric selection",
+        "axisConfiguration": "Axis configuration",
+        "formatter": "Formatter (x-axis)"
+      }
     }
   },
   "duplicateDashboardDialog": {

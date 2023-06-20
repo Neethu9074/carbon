@@ -25,7 +25,8 @@ export default function FormComponent({
   dataSourceSection,
   labelSection,
   formatterSection,
-  timeShiftConfiguration
+  timeShiftConfiguration,
+  withAggregationInMetrics = true
 }) {
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
@@ -84,28 +85,32 @@ export default function FormComponent({
         >
           <option value="eventCount">{t('in-custom-dashboards:widgets.srcEvent.formComponent.eventCount')}</option>
         </SelectInSection>
-        <SelectInSection
-          label={t('in-custom-dashboards:widgets.srcEvent.formComponent.aggregation')}
-          id="metic-configurator-event-aggregation"
-          value={aggregationField.value}
-          disabled
-          additionalContent={<TouchedMessages field={aggregationField} />}
-          useAlternateBg
-        >
-          {!metricField.valid && (
-            <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelectMetric')}</option>
-          )}
-          {metricField.valid && (
-            <>
-              <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelect')}</option>
-              {Object.keys(aggregationLabels).map(aggregation => (
-                <option key={aggregation} value={aggregation}>
-                  {aggregationLabels[aggregation]}
-                </option>
-              ))}
-            </>
-          )}
-        </SelectInSection>
+
+        {withAggregationInMetrics && (
+          <SelectInSection
+            label={t('in-custom-dashboards:widgets.srcEvent.formComponent.aggregation')}
+            id="metic-configurator-event-aggregation"
+            value={aggregationField.value}
+            disabled
+            additionalContent={<TouchedMessages field={aggregationField} />}
+            useAlternateBg
+          >
+            {!metricField.valid && (
+              <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelectMetric')}</option>
+            )}
+            {metricField.valid && (
+              <>
+                <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelect')}</option>
+                {Object.keys(aggregationLabels).map(aggregation => (
+                  <option key={aggregation} value={aggregation}>
+                    {aggregationLabels[aggregation]}
+                  </option>
+                ))}
+              </>
+            )}
+          </SelectInSection>
+        )}
+
         {formatterSection}
       </Sections>
 
