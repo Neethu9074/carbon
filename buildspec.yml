@@ -7,8 +7,6 @@ env:
   parameter-store:
     INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
-    CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
-    CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
     EFS_DATA_DIR: 'efs.data.dir'
     EFS_DNS: 'efs.data.dns'
     GITHUB_API_TOKEN: "ibm.github.e.api.token"
