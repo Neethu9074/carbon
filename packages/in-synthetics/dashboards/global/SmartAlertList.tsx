@@ -21,7 +21,6 @@ import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
-import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -50,7 +49,6 @@ export default function SmartAlertList() {
           extraColumnDefinitions={extraColumnDefinitions}
           getAlertConfigs={() => getAllAlertConfigs('', { asObservable: true })}
           actionHandlers={handlers}
-          tableActions={tableActions}
           getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
           createRowLinkLocation={createRowLinkLocation}
           sortOptions={sortOptions}

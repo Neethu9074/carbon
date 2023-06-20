@@ -7,21 +7,16 @@
 import React from 'react';
 
 import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig,
-  getAllAlertConfigs
-} from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
-import AlertBaseList, { TableActions } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
+import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -33,17 +28,6 @@ import { t } from 'in-i18n';
 export interface AlertsProps {
   testId: string;
 }
-
-export const tableActions: TableActions<SyntheticAlertConfigWithMetadata> = {
-  delete: {
-    deleteEntity: (config: SyntheticAlertConfigWithMetadata) => deleteAlertConfig(config.id)
-  },
-  toggleEnabled: {
-    get: (config: SyntheticAlertConfigWithMetadata) => config.enabled,
-    toggle: (config: SyntheticAlertConfigWithMetadata) =>
-      config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id)
-  }
-};
 
 export default function Alerts({ testId }: AlertsProps) {
   const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};

@@ -7,13 +7,14 @@
 import { just, create } from '@instana/observables';
 
 import AlertBaseList, { AlertConfigType, ColumnDefinition } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { success } from 'in-services/util/result';
 
 export default { component: AlertBaseList };
 
 export const Empty = {
   args: {
     extraColumnDefinitions: [],
-    loadEntities: () => just([]),
+    getAlertConfigs: () => just(success([])),
     getSubtitle: () => 'Test',
     noDataMessage: 'No Data'
   }
@@ -41,30 +42,27 @@ const extraColumn: ColumnDefinition<AlertConfigType> = {
 export const WithEntries = {
   args: {
     extraColumnDefinitions: [],
-    loadEntities: () => just(entries)
+    getAlertConfigs: () => just(success(entries))
   }
 };
 
 export const WithSubtitle = {
   args: {
     extraColumnDefinitions: [],
-    loadEntities: () => just(entries),
+    getAlertConfigs: () => just(success(entries)),
     getSubtitle: (config: AlertConfigType) => 'Some Subtile for ' + config.name
   }
 };
 export const WithMultiColumn = {
   args: {
     extraColumnDefinitions: [extraColumn],
-    loadEntities: () => just(entries)
+    getAlertConfigs: () => just(success(entries))
   }
 };
 
 export const WithError = {
   args: {
     extraColumnDefinitions: [],
-    loadEntities: () =>
-      create()
-        .emitError('This fails.')
-        .freeze()
+    getAlertConfigs: () => create().emitError('This fails.').freeze()
   }
 };

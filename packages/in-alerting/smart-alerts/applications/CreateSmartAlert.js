@@ -16,7 +16,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { propTypeLocation } from 'in-stores/navigation';
-import { reload } from 'in-settings/components/List';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -49,7 +48,6 @@ export default function CreateSmartAlert({
             onClose={() => {
               close();
               if (location.pathname.includes(alertsTabListFullyQualified)) {
-                reload();
                 refreshSmartAlertConfigsList();
               }
             }}
