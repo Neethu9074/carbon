@@ -16,8 +16,8 @@ import NetworkInterfacesTable from 'in-forge/plugins/otelHost/Dashboard/NetworkI
 import FileSystemsTable from 'in-forge/plugins/otelHost/Dashboard/FileSystemsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { isWindows, isZos, isLinux } from 'in-forge/plugins/otelHost/hostUtils';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { isWindows, isZos, isLinux } from 'in-forge/plugins/host/hostUtils';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DisksTable from 'in-forge/plugins/otelHost/Dashboard/DisksTable';
