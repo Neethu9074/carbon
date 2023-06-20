@@ -12,12 +12,12 @@ import { Message } from '@instana/components';
 import PercentileMenu, {
   ALL_PERCENTILES
 } from 'in-components/LatencyDistributionBase10Chart/components/PercentileMenu';
-import LatencyChartOverlay from 'in-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
+import HistogramChartOverlay from 'in-components/HistogramChart/components/HistogramChartOverlay/HistogramChartOverlay';
+import HistogramBarChart from 'in-components/HistogramChart/components/HistogramBarChart/HistogramBarChart';
 import PercentileMarkers from 'in-components/LatencyDistributionBase10Chart/components/PercentileMarkers';
 import HorizontalAxis from 'in-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LineChart from 'in-components/LatencyDistributionBase10Chart/components/LineChart';
-import BarChart from 'in-components/LatencyDistributionBase10Chart/components/BarChart';
 import Tooltip from 'in-components/LatencyDistributionBase10Chart/components/Tooltip';
 import { HEIGHT as horizontalAxisHeight } from 'in-components/Axis/HorizontalAxis';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -222,22 +222,24 @@ export default function LatencyDistributionBase10ChartPresenter({
       {header}
       {showLegend && <ChartLegend chart={chartConfig} />}
       <div className={locals.container} style={{ width: chartWidth }}>
-        {// for consistency with other charts hide the vertical axis when no metric is selected
-        (enabledMetric || enabledTimeShiftMetric) && (
-          <VerticalAxis
-            scale={{ from: 0, to: maxCallCount }}
-            height={chartHeight - percentileStripHeight}
-            style={{
-              marginTop: percentileStripHeight,
-              backgroundColor: theme.lib.colors.white,
-              position: 'absolute',
-              zIndex: 1 // z-index__axisLabel from shared
-            }}
-            tickLabelBackgroundColor={theme.lib.colors.white}
-          />
-        )}
+        {
+          // for consistency with other charts hide the vertical axis when no metric is selected
+          (enabledMetric || enabledTimeShiftMetric) && (
+            <VerticalAxis
+              scale={{ from: 0, to: maxCallCount }}
+              height={chartHeight - percentileStripHeight}
+              style={{
+                marginTop: percentileStripHeight,
+                backgroundColor: theme.lib.colors.white,
+                position: 'absolute',
+                zIndex: 1 // z-index__axisLabel from shared
+              }}
+              tickLabelBackgroundColor={theme.lib.colors.white}
+            />
+          )
+        }
         <div style={{ height: chartHeight }}>
-          <LatencyChartOverlay
+          <HistogramChartOverlay
             buckets={buckets}
             bucketWidth={bucketWidth}
             bucketCenter={bucketCenter}
@@ -273,7 +275,7 @@ export default function LatencyDistributionBase10ChartPresenter({
               style={{ bottom: 0 }}
             />
           ) : (
-            <BarChart
+            <HistogramBarChart
               buckets={buckets}
               config={chartConfig.config}
               bucketWidth={bucketWidth}
@@ -283,16 +285,18 @@ export default function LatencyDistributionBase10ChartPresenter({
               style={{ bottom: 0 }}
             />
           )}
-          {// percentile markers are based on the normal metric (without time-shift), show it only if enabled
-          enabledMetric && (
-            <PercentileMarkers
-              percentileBuckets={percentileBuckets}
-              bucketWidth={bucketWidth}
-              bucketCenter={bucketCenter}
-              chartHeight={chartHeight}
-              percentilesShown={percentilesShown}
-            />
-          )}
+          {
+            // percentile markers are based on the normal metric (without time-shift), show it only if enabled
+            enabledMetric && (
+              <PercentileMarkers
+                percentileBuckets={percentileBuckets}
+                bucketWidth={bucketWidth}
+                bucketCenter={bucketCenter}
+                chartHeight={chartHeight}
+                percentilesShown={percentilesShown}
+              />
+            )
+          }
           <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} bucketCenter={bucketCenter} />
           <HorizontalLines
             nbBars={4}
