@@ -25,9 +25,9 @@ export default function ProcessSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {args && args.size > 0 ? (
+      {args && args.size > 0 && (
         <KeyValueOverlay header={t('in-forge:plugins.process.dashboard.arguments')} data={args} sort={false} />
-      ) : null}
+      )}
 
       <KeyValueOverlay header={t('in-forge:plugins.process.dashboard.environmentVariables')} data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />

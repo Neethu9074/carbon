@@ -11,10 +11,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Device',
+    title: t('in-forge:plugins.otelHost.dashboard.device'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Mount',
+    title: t('in-forge:plugins.otelHost.dashboard.mount'),
     type: 'string',
     typeArgs: {
       getSnapshotId(row) {
@@ -35,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'Mode',
+    title: t('in-forge:plugins.otelHost.dashboard.mode'),
     type: 'string',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.otelHost.dashboard.type'),
     type: 'string',
     typeArgs: {
       getSnapshotId(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-forge:plugins.otelHost.dashboard.bytes_used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -75,7 +76,7 @@ const cols = [
     }
   },
   {
-    title: 'Inode used',
+    title: t('in-forge:plugins.otelHost.dashboard.inode_used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

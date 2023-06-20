@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.host.dashboard.device'),
+    title: t('in-forge:plugins.otelHost.dashboard.device'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes I/O Read',
+    title: t('in-forge:plugins.otelHost.dashboard.io_read'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes I/O Write',
+    title: t('in-forge:plugins.otelHost.dashboard.io_write'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: 'I/O Time',
+    title: t('in-forge:plugins.otelHost.dashboard.io_tim'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Operation Read',
+    title: t('in-forge:plugins.otelHost.dashboard.oper_read'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -88,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Operation Read Time',
+    title: t('in-forge:plugins.otelHost.dashboard.oper_tim_read'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -104,7 +104,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Operation Write',
+    title: t('in-forge:plugins.otelHost.dashboard.oper_write'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -120,7 +120,7 @@ const cols = [
     }
   },
   {
-    title: 'Operation Write Time',
+    title: t('in-forge:plugins.otelHost.dashboard.oper_tim_write'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -136,7 +136,7 @@ const cols = [
     }
   },
   {
-    title: 'Weighted I/O Time',
+    title: t('in-forge:plugins.otelHost.dashboard.io_tim_weighted'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

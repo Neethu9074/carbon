@@ -10,10 +10,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'NetWork',
+    title: t('in-forge:plugins.otelHost.dashboard.network'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Packets Receive',
+    title: t('in-forge:plugins.otelHost.dashboard.packets_receive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Packets Rransmit',
+    title: t('in-forge:plugins.otelHost.dashboard.packets_transmit'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'I/O Receive',
+    title: t('in-forge:plugins.otelHost.dashboard.io_receive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'I/O Transmit',
+    title: t('in-forge:plugins.otelHost.dashboard.io_transmit'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped Receive',
+    title: t('in-forge:plugins.otelHost.dashboard.dropped_receive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped Transmit',
+    title: t('in-forge:plugins.otelHost.dashboard.dropped_transmit'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -118,7 +119,7 @@ const cols = [
     }
   },
   {
-    title: 'Errors Receive',
+    title: t('in-forge:plugins.otelHost.dashboard.errors_receive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -134,7 +135,7 @@ const cols = [
     }
   },
   {
-    title: 'Errors Transmit',
+    title: t('in-forge:plugins.otelHost.dashboard.errors_transmit'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
