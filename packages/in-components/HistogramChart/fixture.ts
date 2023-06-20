@@ -133,6 +133,8 @@ export const emptyBins: Result<HistogramMetricResult[]> = {
       max: 0,
       min: 0,
       granularity: 3600000,
+      timestamp: 0,
+      label: '',
       adjustedTimeframe: {
         windowSize: 3600000,
         to: 1686682800000
@@ -140,6 +142,7 @@ export const emptyBins: Result<HistogramMetricResult[]> = {
     }
   ],
   errors: [],
+  time: 1686686400001,
   resultPrecisionDetails: {
     resultPrecision: 'PRECISION_UNKNOWN'
   },
@@ -473,6 +476,8 @@ export const largeDataset: Result<HistogramMetricResult[]> = {
       sum: 95341.6,
       min: 0,
       max: 117514000,
+      timestamp: 0,
+      label: '',
       granularity: 3600000,
       adjustedTimeframe: {
         windowSize: 3600000,
