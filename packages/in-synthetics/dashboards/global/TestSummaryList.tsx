@@ -47,9 +47,9 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 //@ts-expect-error
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -72,6 +72,7 @@ import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const urlStateDefinition = {
@@ -190,7 +191,7 @@ export default function TestSummaryList() {
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          <CreateSyntheticTest onClose={close} />
+          {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
           <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
             {t('in-synthetics:createSmartAlert.buttonLabel')}

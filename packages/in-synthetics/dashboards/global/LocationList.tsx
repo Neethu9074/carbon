@@ -12,7 +12,7 @@ import { OrderDirection, TagFilter, TimeConfig } from '@instana/types';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';
+import columnDefinitions from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';

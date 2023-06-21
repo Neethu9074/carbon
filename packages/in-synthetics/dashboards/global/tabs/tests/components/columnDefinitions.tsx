@@ -24,6 +24,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -122,7 +123,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   );
 }
 
-export const columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
+let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
   {
     id: 'test_name',
     defaultOrderDirection: 'ASC',
@@ -319,8 +320,11 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
         }
       }
     }
-  },
-  {
+  }
+];
+
+if (role?.canConfigureSyntheticTests) {
+  columnDefinitions.push({
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
@@ -333,5 +337,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
         </HorizontalFlexWrapper>
       );
     }
-  }
-];
+  });
+}
+
+export default columnDefinitions;
