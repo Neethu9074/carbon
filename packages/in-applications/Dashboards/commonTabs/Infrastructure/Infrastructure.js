@@ -100,7 +100,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       plugin={plugin}
       snapshot={snapshot}
       label={entity.label || t('in-applications:dashboards.unknownTime', { entityTime: formatDateTime(entity.time) })}
-      href={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
         stay
           ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
           : getDashboardLink(entity.id, {
