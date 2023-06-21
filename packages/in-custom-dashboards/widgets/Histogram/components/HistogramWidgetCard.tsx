@@ -5,6 +5,7 @@
  */
 
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import { Card } from '@instana/components';
 
@@ -31,6 +32,9 @@ export default function HistogramWidgetCard({
 }: HistogramWidgetCardProps) {
   const result = useResultData({ config });
 
+  const hasNoData = result?.data?.length === 0;
+  const hasNoErrors = result?.errors.length === 0;
+
   return (
     <Card
       title={title}
@@ -42,7 +46,11 @@ export default function HistogramWidgetCard({
         </>
       }
     >
-      <div className={locals.container}>
+      <div
+        className={classNames({
+          [locals.container]: !hasNoData || !hasNoErrors
+        })}
+      >
         <HistogramChart result={result} config={config} />
       </div>
     </Card>

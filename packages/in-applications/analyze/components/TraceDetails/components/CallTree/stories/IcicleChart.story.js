@@ -40,13 +40,11 @@ export function Default() {
 export function LoadingStory() {
   return (
     <ServerIcicleChart
-      mockedStream={() =>
-        always({
-          progress: { loading: true },
-          errors: [],
-          data: {}
-        })
-      }
+      callTreeResult={{
+        progress: { loading: true },
+        errors: [],
+        data: {}
+      }}
     />
   );
 }
@@ -54,13 +52,11 @@ export function LoadingStory() {
 export function ErrorStory() {
   return (
     <ServerIcicleChart
-      mockedStream={() =>
-        always({
-          progress: { loading: false },
-          errors: [{ message: 'Unexpected server error' }],
-          data: {}
-        })
-      }
+      callTreeResult={{
+        progress: { loading: false },
+        errors: [{ message: 'Unexpected server error' }],
+        data: {}
+      }}
     />
   );
 }

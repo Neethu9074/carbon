@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { Bucket } from '../types';
 
 export type Bins = [string | number | null, number][];
@@ -138,4 +139,34 @@ export function getMaxLabelCharsCount(bins: Bins) {
 
     return acc;
   }, 0);
+}
+
+/**
+ * Formats the bins array using the provided formatter function.
+ * @param bins - The input array of bins.
+ * @param formatter - The formatting function to be applied to each bin value.
+ * @returns The modified bins array.
+ */
+export function formatBins(bins: Bins, formatter: FormatterFn) {
+  if (bins.length === 0) {
+    return [];
+  }
+
+  return bins.map(bin => {
+    let value = bin[0] && formatter(Number(bin[0]));
+    const specialCases = ['0', '0 B', '0ms'];
+
+    const count = bin[1];
+
+    if (bin[0] === null) {
+      value = null;
+    }
+
+    // Handle special cases (when value is 0, 0B or 0ms)
+    if (typeof value === 'string' && specialCases.includes(`${value}`)) {
+      value = value?.replace('0', '1');
+    }
+
+    return [value, count];
+  }) as Bins;
 }

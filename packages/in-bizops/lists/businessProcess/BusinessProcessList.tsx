@@ -99,6 +99,15 @@ function getBusinessProcessListData({
     elements: []
   };
 
+  // hide any entry with blank process name
+  tagFilterExpression.elements.push({
+    name: 'bpm_process_definition_name',
+    operator: 'NOT_EQUAL',
+    value: '',
+    entity: NOT_APPLICABLE,
+    type: 'TAG_FILTER'
+  });
+
   //search against bpm_process_definition_name
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({

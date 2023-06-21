@@ -93,7 +93,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     getContent: BusinessProcessNameColumnContent
   },
   {
-    id: 'bpm_root_process_id',
+    id: 'started_processes',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
@@ -113,7 +113,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   },
   {
-    id: 'bpm_activity_id',
+    id: 'activities_count',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.activityLabel'),
