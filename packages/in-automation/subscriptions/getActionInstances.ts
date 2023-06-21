@@ -24,7 +24,7 @@ interface getActionInstancesWithDefaultsProps {
   orderBy?: string;
   orderDirection?: OrderDirection;
   timeConfig: TimeConfig;
-  actionTypes?: string[];
+  types?: string[];
   actionStatuses?: string[];
 }
 
@@ -35,7 +35,7 @@ export function getActionInstancesWithDefaults({
   orderBy = 'actionName',
   orderDirection = 'ASC',
   timeConfig,
-  actionTypes = [],
+  types = [],
   actionStatuses = []
 }: getActionInstancesWithDefaultsProps) {
   return getActionInstances({
@@ -50,7 +50,7 @@ export function getActionInstancesWithDefaults({
 
     search: query,
     timeConfig,
-    actionTypes: actionTypes,
+    types: types,
     actionStatuses: actionStatuses
   });
 }

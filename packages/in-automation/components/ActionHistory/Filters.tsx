@@ -12,12 +12,12 @@ import { FilterSectionProps } from 'in-automation/components/ActionHistory/const
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-export default function Filters({ setFilter, actionTypes, actionStatuses }: FilterSectionProps) {
+export default function Filters({ setFilter, types, actionStatuses }: FilterSectionProps) {
   return (
     <>
       <ComboBox
-        value={actionTypes}
-        onChange={t => Array.isArray(t) && setFilter({ actionTypes: t.map(a => a.value) })}
+        value={types}
+        onChange={t => Array.isArray(t) && setFilter({ types: t.map(a => a.value) })}
         placeholder={t('in-automation:actionHistory.type')}
         isMulti
         options={[
