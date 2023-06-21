@@ -7,18 +7,16 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { DistinctSlider, Message, Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
+import OptionBox from 'in-applications/components/OptionBox';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
-
-//import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/CenterAlignmentColumn';
-//import TextArea from 'in-components/form/TextArea/TextArea';
 
 export default function Feedback({ id, feedback }: { id: string; feedback: string }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback));
@@ -67,18 +65,48 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
       {/* sets error and success codes */}
       {error && <Message type="error">Error occured saving feedback</Message>}
       {success && <Message type="success">Feedback successfully saved!</Message>}
-      <Stack align="center">
-        <DistinctSlider
-          marks={[{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }]}
-          max={5}
-          min={1}
-          value={parseInt(form.get('feedback').value)}
-          // sets the feedback form and value
-          onChange={(_, value) => handleChange({ value: value as number })}
+      <Stack direction="vertical">
+        <OptionBox
+          icon={''}
+          title={'1'}
+          description="Total Failure"
+          asRadioButton
+          checked={1 == parseInt(form.get('feedback').value)}
+          onChange={() => handleChange({ value: 1 })}
         />
-
+        <OptionBox
+          icon={''}
+          title={'2'}
+          description="Mostly failed, but with some success"
+          asRadioButton
+          checked={1 == parseInt(form.get('feedback').value)}
+          onChange={() => handleChange({ value: 2 })}
+        />
+        <OptionBox
+          icon={''}
+          title={'3'}
+          description="Worked, but with some issues"
+          asRadioButton
+          checked={1 == parseInt(form.get('feedback').value)}
+          onChange={() => handleChange({ value: 3 })}
+        />
+        <OptionBox
+          icon={''}
+          title={'4'}
+          description="Almost, but with some issues"
+          asRadioButton
+          checked={1 == parseInt(form.get('feedback').value)}
+          onChange={() => handleChange({ value: 4 })}
+        />
+        <OptionBox
+          icon={''}
+          title={'5'}
+          description="Worked completely"
+          asRadioButton
+          checked={1 == parseInt(form.get('feedback').value)}
+          onChange={() => handleChange({ value: 5 })}
+        />
         <Message>{sliderMessage}</Message>
-        <textarea placeholder="Additional Comments?" rows={10} cols={110} />
       </Stack>
       <FormFooter>
         <SaveButton form={form} isSaving={isSaving} />
