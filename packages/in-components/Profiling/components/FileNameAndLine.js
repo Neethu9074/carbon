@@ -13,6 +13,7 @@ import { getCodeView } from 'in-sdk/snapshot/snapshot';
 import locals from './FileNameAndLine.mless';
 
 export default function FileNameAndLine({ canFetchSourceCode, entitySnapshot, profileNode }) {
+  const fileLine = profileNode.fileLine === 0 ? '' : `:${profileNode.fileLine}`;
   return (
     <span
       className={classNames({
@@ -28,7 +29,7 @@ export default function FileNameAndLine({ canFetchSourceCode, entitySnapshot, pr
           : undefined
       }
     >
-      {profileNode.fileName}:{profileNode.fileLine}
+      {profileNode.fileName}{fileLine}
     </span>
   );
 }
