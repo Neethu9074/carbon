@@ -8,8 +8,8 @@ import { Field, MapForm, Item } from 'formalistic';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
-import { TimeConfig } from '@instana/types';
 
 import { SimpleModeContainerProps } from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
@@ -60,7 +60,7 @@ export interface AlertConfigDialogPresenterProps {
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
   timeConfig?: TimeConfig;
-  thresholdResult: any;
+  thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
 }
 
 export interface SlideInConfig {

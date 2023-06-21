@@ -119,7 +119,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
-      thresholdResult={{}}
+      thresholdResult={null}
       TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       isDynamicCustomPayloadValid
       QueryBuilderComponent={AlertQueryBuilder}

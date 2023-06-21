@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { HistoricBaselineData, Result } from '@instana/types';
+
 //@ts-expect-error needs TS migration
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 //@ts-expect-error needs TS migration
@@ -211,7 +213,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     if (!ruleComplete) {
       return false;
     }
-    if (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) {
+    if (thresholdType === HISTORIC_BASELINE && (thresholdResult as Result<HistoricBaselineData>)?.errors?.length > 0) {
       return false;
     }
     return true;
