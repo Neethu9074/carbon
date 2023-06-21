@@ -45,7 +45,7 @@ export default function useHistogram({ result, chartWidth, applyFormatter }: Pro
   const isBucketsEmpty = values?.reduce((acc, currentValue) => acc + currentValue[1], 0) === 0;
 
   // Get formatted bins
-  const formattedBins = values.map(bin => [bin[0] && applyFormatter(bin[0] ?? null), bin[1]]) as Bins;
+  const formattedBins = values?.map(bin => [bin[0] && applyFormatter(bin[0] ?? null), bin[1]]) as Bins;
 
   // Group bins and remove duplicates
   const groupedBins = groupBinsByFormattedValue(formattedBins);
