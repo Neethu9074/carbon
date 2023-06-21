@@ -21,7 +21,7 @@ This will set dummy default values for some required variables like `BRANCH_NAME
 from source (be patient), extract the required files, and then build a container image from those files. You should end up with something like the following image in your local registry after you build it:
 
     REPOSITORY                                                                   TAG           IMAGE ID       CREATED             SIZE
-    containers.instana.io/instana/<your-current-branch>/product/ui-client        3.local-0     464697e62bf8   9 seconds ago       464MB
+    delivery.instana.io/instana/<your-current-branch>/product/ui-client        3.local-0     464697e62bf8   9 seconds ago       464MB
 
 ### Building On CI
 
