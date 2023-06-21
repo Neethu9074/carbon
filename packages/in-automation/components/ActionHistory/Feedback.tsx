@@ -79,7 +79,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
           title={'2'}
           description="Mostly failed, but with some success"
           asRadioButton
-          checked={1 == parseInt(form.get('feedback').value)}
+          checked={2 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 2 })}
         />
         <OptionBox
@@ -87,7 +87,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
           title={'3'}
           description="Worked, but with some issues"
           asRadioButton
-          checked={1 == parseInt(form.get('feedback').value)}
+          checked={3 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 3 })}
         />
         <OptionBox
@@ -95,7 +95,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
           title={'4'}
           description="Almost, but with some issues"
           asRadioButton
-          checked={1 == parseInt(form.get('feedback').value)}
+          checked={4 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 4 })}
         />
         <OptionBox
@@ -103,7 +103,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
           title={'5'}
           description="Worked completely"
           asRadioButton
-          checked={1 == parseInt(form.get('feedback').value)}
+          checked={5 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 5 })}
         />
         <Message>{sliderMessage}</Message>
