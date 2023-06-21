@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { alertsTab } from 'in-applications/navigation/paths';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { alertsCategory } from 'in-applications/navigation/matrix';
+import { alertsTab } from 'in-applications/navigation/paths';
 import useUrlState from 'in-hooks/useUrlState';
 
 export function useUrlBasedCategory(initialCategory: string) {

@@ -6,7 +6,10 @@
 
 import { just, create } from '@instana/observables';
 
-import AlertBaseList, { AlertConfigType, ColumnDefinition } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import AlertBaseList, {
+  AlertConfigType,
+  ColumnDefinition
+} from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { success } from 'in-services/util/result';
 
 export default { component: AlertBaseList };
@@ -50,7 +53,7 @@ export const WithSubtitle = {
   args: {
     extraColumnDefinitions: [],
     getAlertConfigs: () => just(success(entries)),
-    getSubtitle: (config: AlertConfigType) => 'Some Subtile for ' + config.name
+    getSubtitle: (config: AlertConfigType) => 'Some Subtitle for ' + config.name
   }
 };
 export const WithMultiColumn = {

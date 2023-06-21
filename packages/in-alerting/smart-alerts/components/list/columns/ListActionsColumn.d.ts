@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ActionHandlers, AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { ActionHandlers, AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 
 export type ListActionsColumnProps = {
   config: AlertConfigType;

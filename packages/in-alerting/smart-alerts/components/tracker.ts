@@ -15,7 +15,7 @@ import {
   ALERTING_CLONE_TRIGGER,
   ALERTING_RESUMED
 } from 'in-services/tracking/eventNames';
-import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { track } from 'in-services/tracking/tracking';
 
 export function trackStartCreate(): void {

@@ -23,9 +23,9 @@ import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileA
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
-import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -52,6 +52,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         createRowLinkLocation={createRowLinkLocation}
+        alertsTab={alertsTab}
       />
     </>
   );

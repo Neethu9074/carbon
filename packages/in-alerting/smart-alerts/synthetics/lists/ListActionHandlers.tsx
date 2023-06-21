@@ -11,12 +11,12 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, VersionedConfig } from 'in-types';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
-import { ActionHandlers } from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';

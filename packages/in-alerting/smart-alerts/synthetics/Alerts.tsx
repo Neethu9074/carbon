@@ -14,9 +14,9 @@ import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synth
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
-import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -49,6 +49,7 @@ export default function Alerts({ testId }: AlertsProps) {
         getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
+        alertsTab={alertsTab}
       />
     </>
   );

@@ -9,11 +9,13 @@ import React from 'react';
 import { TagCatalog, TagFilter } from '@instana/types';
 
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -53,6 +55,10 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
           <AlertConfigDialog
             onClose={() => {
               close();
+
+              if (location.pathname.includes(alertsTabListFullyQualified)) {
+                refreshSmartAlertConfigsList();
+              }
             }}
             //@ts-expect-error Type error since HistoricBaselineConfig | AdaptiveBaselineConfig is  not available
             alertConfig={alertConfig}

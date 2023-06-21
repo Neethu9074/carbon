@@ -7,14 +7,16 @@
 import { ColumnizedDefinition } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
 
 interface Props<AlertConfig extends AlertConfigType> {
+  getLocalAlertConfigsFetchFunction: () => Observable<Result<AlertConfig[]>>;
   getGlobalAlertConfigFetchFunction?: () => Observable<Result<AlertConfig[]>>;
-  getLocalAlertConfigsFetchFunction?: () => Observable<Result<AlertConfig[]>>;
+  getLocalAlertConfigTitle: (numberOfAlerts: string) => string;
+  getGlobalAlertConfigTitle?: (numberOfAlerts: string) => string;
   columnDefinitions: ColumnizedDefinition[];
   pageSize?: number;
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;

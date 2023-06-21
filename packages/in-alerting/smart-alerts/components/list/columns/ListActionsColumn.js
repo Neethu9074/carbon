@@ -21,7 +21,7 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn.mless';
+import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
 export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   const { handleEdit, handleClone, handleToggleEnabled, handleDelete } = actionHandlers;

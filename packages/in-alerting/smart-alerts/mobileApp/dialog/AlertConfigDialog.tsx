@@ -70,7 +70,7 @@ export default function AlertConfigDialog({
 
 function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: MapForm<any>) {
   return function onChange(path: string[], updater: (item: Item) => Item): void {
-    // @ts-expect-error ts cant determine nested fields of MapForm<any>
+    // @ts-expect-error ts can't determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
 }

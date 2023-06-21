@@ -11,7 +11,7 @@ import ListDeselectionColumn from 'in-alerting/smart-alerts/applications/list/co
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
 import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/columns/ListSelectionColumn';
-import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { t } from 'in-i18n';

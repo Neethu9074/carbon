@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 
 // comparison is done in case-insensitive
 export default function getResultsToDisplay<AlertConfig extends AlertConfigType>(

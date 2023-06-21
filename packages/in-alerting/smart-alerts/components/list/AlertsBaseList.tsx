@@ -11,8 +11,8 @@ import { Card } from '@instana/components';
 import { Result } from '@instana/types';
 
 //@ts-expect-error
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
-import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
+import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { Location } from 'in-stores/navigation/types';
@@ -37,7 +37,7 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
   actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
-  alertsTab?: string;
+  alertsTab: string;
 }
 
 export interface AlertConfigType {
@@ -69,9 +69,14 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
 
   return (
     <Card size="l">
-      <SmartAlertsBaseList<AlertConfig>
+      <SmartAlertsListWithUrlState<AlertConfig>
         columnDefinitions={columnDef.map(toAlertListColumns)}
         getLocalAlertConfigsFetchFunction={getAlertConfigs}
+        getLocalAlertConfigTitle={(numberOfAlerts: number) =>
+          t('in-alerting:smartAlerts.list.header.configuredAlerts', {
+            numberOfAlerts
+          })
+        }
         sortOptions={sortOptions}
         pageSize={15}
         createRowLinkLocation={createRowLinkLocation}
