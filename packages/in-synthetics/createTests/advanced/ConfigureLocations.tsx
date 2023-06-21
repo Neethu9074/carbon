@@ -19,10 +19,10 @@ import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/Config
 import { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LocationsSection from 'in-synthetics/createTests/advanced/LocationsSection';
-import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
+import { SliderState } from 'in-synthetics/utils/constants';
 import SaveButton from 'in-components/form/SaveButton';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigureLocations.mless';

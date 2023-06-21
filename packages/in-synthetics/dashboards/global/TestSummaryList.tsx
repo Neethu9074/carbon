@@ -54,10 +54,10 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import TestConfigDialogPresenter from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
+import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -138,18 +138,8 @@ export default function TestSummaryList() {
     }
   }, [storedDialogAlarm]);
 
-  function reloadTests() {}
+  //function reloadTests() {}
 
-  function onAddWidget() {
-    addActiveDialog(
-      <TestConfigDialogPresenter
-        onClose={() => {
-          close();
-        }}
-        reloadTests={reloadTests}
-      />
-    );
-  }
   function showSADialog() {
     trackStartCreate();
     return addActiveDialog(<CreateSmartAlertDialog />);
@@ -200,9 +190,7 @@ export default function TestSummaryList() {
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          <Button onClick={onAddWidget} icon="lib_openclose_add_box" kind="primaryv2">
-            {t('in-synthetics:createTest.buttonLabel')}
-          </Button>
+          <CreateSyntheticTest onClose={close} />
 
           <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
             {t('in-synthetics:createSmartAlert.buttonLabel')}

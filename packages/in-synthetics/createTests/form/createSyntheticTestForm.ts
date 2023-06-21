@@ -50,13 +50,6 @@ export function createForm(
         : createActionConfigurationForm(savedState ?? {})
     )
     .put(
-      'response',
-      createField({
-        value: savedState?.response,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
       'locations',
       createField({
         value: savedState?.locations ?? [],
@@ -74,7 +67,7 @@ export function createForm(
       'description',
       createField({
         value: savedState?.description ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     )
     .put(
@@ -87,8 +80,7 @@ export function createForm(
     .put(
       'applicationId',
       createField({
-        value: savedState?.applicationId ?? null,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+        value: savedState?.applicationId ?? null
       })
     )
     .put(

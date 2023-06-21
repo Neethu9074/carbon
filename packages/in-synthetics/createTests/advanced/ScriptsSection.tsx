@@ -15,11 +15,10 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
+import { Code, SlideInHeader, SliderState, Zip } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { Code, SlideInHeader, Zip } from 'in-synthetics/utils/constants';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
