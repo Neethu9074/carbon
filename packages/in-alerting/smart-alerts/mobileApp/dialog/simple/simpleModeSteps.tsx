@@ -12,14 +12,18 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
 import { SimpleAlertConfigDialogStep2Props } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
+import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
   {
-    title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep1Title')
+    title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep1Title'),
+    validateIntermediately: [
+      ['rule', 'value'],
+      ['rule', 'customEventName']
+    ]
   },
   {
     title: t('in-alerting:smartAlerts.mobileApp.simple.stepConfigsStep2Title')
