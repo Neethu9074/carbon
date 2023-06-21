@@ -89,7 +89,7 @@ function generateAlertConfig(
     rule: {
       alertType,
       operator: STARTS_WITH,
-      value: '4',
+      value: '5',
       customEventName,
       metricName
     },

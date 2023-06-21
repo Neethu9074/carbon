@@ -1030,7 +1030,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Status Code Count",
-        "beaconRate": "Beacon Rate",
+        "beaconRate": "Status Code Rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
@@ -1091,7 +1091,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
-        "ruleMetricNameOptionBeaconRate": "Beacon Rate",
+        "ruleMetricNameOptionBeaconRate": "Status Code Rate",
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
