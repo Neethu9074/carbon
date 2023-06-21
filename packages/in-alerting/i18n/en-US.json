@@ -1140,7 +1140,7 @@
         "anyJSErrors": "Any JS Errors",
         "JSErrors": "JS Error(s): {{errorMessage}}",
         "customEvents": "Custom Event: {{customEventName}}",
-        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
+        "HTTPStatusCodes": "HTTP Status Code(s): {{statusCode}}",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
         "unsupportedOperator": "Unsupported operator: {{operator}}",
