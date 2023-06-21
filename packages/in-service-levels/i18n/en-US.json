@@ -24,7 +24,16 @@
       "status": "Status",
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
-      "consumedBudget": "Error Budget Consumed"
+      "consumedBudget": "Error Budget Consumed",
+      "beaconCount": "Beacon Count",
+      "calls": "Calls",
+      "latency": "Latency",
+      "beaconDuration": "Beacon Duration",
+      "threshold": "Threshold",
+      "errors":  "Erroneous Call Rate",
+      "beaconErrorRate": "Beacon Error Rate",
+      "goodEvents": "Good Events",
+      "badEvents": "Bad Events"
     }
   },
   "createSloDialog": {
@@ -122,6 +131,12 @@
         "title_fullWindow": "Error Budget over entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "trafficChart": {
+        "title": "Traffic"
+      },
+      "indicatorChart": {
+        "title": "Indicator"
       }
     }
   }

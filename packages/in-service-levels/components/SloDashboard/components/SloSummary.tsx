@@ -6,9 +6,11 @@
 
 import React from 'react';
 
+import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
 import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/SloStatusKpiCard';
+import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
@@ -55,13 +57,17 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       </Row>
       <Row>
         <Col lg={4}>
-          <PlaceholderLoadingChart />
+          <IndicatorChart
+            indicator={configuration.indicator}
+            entity={configuration.entity}
+            timeConfig={selectedTimeConfig}
+          />
         </Col>
         <Col lg={4}>
           <ErrorBudgetChart configuration={configuration} timeConfig={selectedTimeConfig} />
         </Col>
         <Col lg={4}>
-          <PlaceholderLoadingChart />
+          <TrafficChart configuration={configuration} timeConfig={selectedTimeConfig} />
         </Col>
       </Row>
       <Row>
@@ -77,7 +83,7 @@ function PlaceholderLoadingKpiCard() {
   return <ResultAwareKpiCard title="placeholder" result={pendingResult} renderKpiCard={() => <div />} />;
 }
 
-function PlaceholderLoadingChart() {
+export function PlaceholderLoadingChart() {
   const timeConfig = useTimeConfig();
   return (
     <ResultAwareChart

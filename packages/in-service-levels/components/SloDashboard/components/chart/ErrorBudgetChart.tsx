@@ -36,7 +36,7 @@ interface ErrorBudgetChartProps {
 export default function ErrorBudgetChart({ configuration, timeConfig, showFullSloTimeWindow }: ErrorBudgetChartProps) {
   const theme = useTheme();
 
-  const { indicator, lastUpdated } = configuration;
+  const { indicator, entity, lastUpdated } = configuration;
 
   const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(
     configuration,
@@ -90,7 +90,7 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
           />
         ),
         renderPostChartContent: props =>
-          showFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes configuration={configuration} {...props} />,
+          showFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes entity={entity} {...props} />,
 
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work

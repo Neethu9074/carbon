@@ -7,13 +7,17 @@ import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import {
+  drawLines,
+  fillTopBackground,
+  getLineWidth,
+  Vertex
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import { ScaleType } from 'in-services/scale';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
-
-type Vertex = [number, number];
 
 type MetricId = string | 'default';
 interface MetricConfig {
@@ -107,41 +111,6 @@ function generateVertices(
   lineVertices.push([posX + shiftX, previousPosY!]);
 
   return lineVertices;
-}
-
-export function getLineWidth(config: RenderConfig) {
-  return config.y1?.lineWidth ?? 2;
-}
-
-function drawLines(lineVertices: Vertex[], config: RenderConfig) {
-  const startVertex = lineVertices[0];
-  config.backBufferCtx.moveTo(startVertex[0], startVertex[1]);
-  for (let i = 1; i < lineVertices.length; i++) {
-    const thisVertex = lineVertices[i];
-    config.backBufferCtx.lineTo(thisVertex[0], thisVertex[1]);
-  }
-}
-
-function fillTopBackground(
-  lineVertices: Vertex[],
-  config: RenderConfig,
-  color: string,
-  markerPaneHeight: number
-): void {
-  const startVertex = lineVertices[0];
-  const endVertex = lineVertices[lineVertices.length - 1];
-
-  // background are above
-  config.backBufferCtx.save();
-  config.backBufferCtx.beginPath();
-  config.backBufferCtx.fillStyle = color;
-  config.backBufferCtx.globalAlpha = 0.25;
-  drawLines(lineVertices, config);
-  config.backBufferCtx.lineTo(endVertex[0], markerPaneHeight);
-  config.backBufferCtx.lineTo(startVertex[0], markerPaneHeight);
-  config.backBufferCtx.closePath();
-  config.backBufferCtx.fill();
-  config.backBufferCtx.restore();
 }
 
 export default createStairwayRenderer({});
