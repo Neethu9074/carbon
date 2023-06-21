@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -71,8 +71,21 @@ function SmartAlertConfigDialogWithQueryValidation({
   numeratorTagFilterFormModel,
   ...props
 }) {
-  const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+  const {
+    form,
+    updateForm,
+    startWithSimpleMode,
+    editMode,
+    withTrackCreate,
+    withTrackClose,
+    isSaving,
+    setIsSimpleMode
+  } = props;
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  useEffect(() => {
+    setIsSimpleMode(simpleMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simpleMode]);
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid

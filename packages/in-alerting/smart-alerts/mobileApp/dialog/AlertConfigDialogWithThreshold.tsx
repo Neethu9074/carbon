@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
 import { MobileAppAlertRule, MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
@@ -57,6 +57,7 @@ interface AlertConfigDialogWithThresholdProps {
   onCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
+  setIsSimpleMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FORM_ID = 'smart-alert-editor';
@@ -74,12 +75,17 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     granularity,
-    timeConfig
+    timeConfig,
+    setIsSimpleMode
   } = props;
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  useEffect(() => {
+    setIsSimpleMode(simpleMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
