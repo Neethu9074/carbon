@@ -9,6 +9,7 @@ import { HistogramMetricResult, Result } from '@instana/types';
 import {
   Bins,
   createBinsArrayObject,
+  formatBins,
   getMaxLabelCharsCount,
   groupBinsByFormattedValue
 } from 'in-components/HistogramChart/components/HistogramChartPresenter/hooks/utils';
@@ -45,7 +46,7 @@ export default function useHistogram({ result, chartWidth, applyFormatter }: Pro
   const isBucketsEmpty = values?.reduce((acc, currentValue) => acc + currentValue[1], 0) === 0;
 
   // Get formatted bins
-  const formattedBins = values.map(bin => [bin[0] && applyFormatter(bin[0] ?? null), bin[1]]) as Bins;
+  const formattedBins = formatBins(values as Bins, applyFormatter);
 
   // Group bins and remove duplicates
   const groupedBins = groupBinsByFormattedValue(formattedBins);

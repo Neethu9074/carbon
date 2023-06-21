@@ -4,7 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Bins, createBinsArrayObject, getMaxLabelCharsCount, groupBinsByFormattedValue, isLabelVisible } from './utils';
+import {
+  Bins,
+  createBinsArrayObject,
+  formatBins,
+  getMaxLabelCharsCount,
+  groupBinsByFormattedValue,
+  isLabelVisible
+} from './utils';
+import { formatters } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 
 const maxVisibleLabels = 5;
 
@@ -75,19 +83,23 @@ describe('createBinsArrayObject', () => {
 
   it('with multiple bins', () => {
     const bins: Bins = [
-      [0, 10],
-      [10, 20],
-      [20, 30],
-      [30, 40]
+      ['0%', 1],
+      ['10,000%', 1],
+      ['15,000%', 1],
+      ['20,000%', 1],
+      ['25,000%', 1],
+      [null, 2]
     ];
 
     const result = createBinsArrayObject({ bins, maxVisibleLabels });
 
     expect(result).toEqual([
-      { calls: 10, from: null, tickMark: true, to: 0 },
-      { calls: 20, from: 0, tickMark: true, to: 10 },
-      { calls: 30, from: 10, tickMark: true, to: 20 },
-      { calls: 40, from: 20, tickMark: true, to: 30 }
+      { calls: 1, from: null, tickMark: true, to: '0%' },
+      { calls: 1, from: '0%', tickMark: true, to: '10,000%' },
+      { calls: 1, from: '10,000%', tickMark: true, to: '15,000%' },
+      { calls: 1, from: '15,000%', tickMark: true, to: '20,000%' },
+      { calls: 1, from: '20,000%', tickMark: true, to: '25,000%' },
+      { calls: 2, from: '25,000%', tickMark: true, to: null }
     ]);
   });
 
@@ -574,5 +586,120 @@ describe('getMaxLabelCharsCount', () => {
     const result = getMaxLabelCharsCount(bins);
 
     expect(result).toEqual(24);
+  });
+});
+
+describe('formatBins', () => {
+  it('empty array', () => {
+    const bins: Bins = [];
+    const formatter = formatters.percentage.compact;
+
+    const result = formatBins(bins, formatter);
+
+    expect(result).toEqual([]);
+  });
+
+  it('with non-values', () => {
+    const bins: Bins = [
+      [10, 5],
+      [20, 10],
+      [30, 3]
+    ];
+    const formatter = formatters.percentage.compact;
+
+    const result = formatBins(bins, formatter);
+
+    expect(result).toEqual([
+      ['1,000%', 5],
+      ['2,000%', 10],
+      ['3,000%', 3]
+    ]);
+  });
+
+  it('with special cases - number 42 formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = formatters.number.compact;
+
+    const result = formatBins(bins, formatter);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 3455374],
+      ['1', 0],
+      ['1', 35295],
+      ['1', 7010],
+      ['1', 10575],
+      ['1', 4945],
+      ['1', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - bytes e.g. 3MiB formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = formatters.bytes.compact;
+
+    const result = formatBins(bins, formatter);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 3455374],
+      ['1 B', 0],
+      ['1 B', 35295],
+      ['1 B', 7010],
+      ['1 B', 10575],
+      ['1 B', 4945],
+      ['1 B', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - milliseconds e.g. 42ms formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = formatters.millis.compact;
+
+    const result = formatBins(bins, formatter);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 3455374],
+      ['1ms', 0],
+      ['1ms', 35295],
+      ['1ms', 7010],
+      ['1ms', 10575],
+      ['1ms', 4945],
+      ['1ms', 10],
+      [null, 0]
+    ]);
   });
 });

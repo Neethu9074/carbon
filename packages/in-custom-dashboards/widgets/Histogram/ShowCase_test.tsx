@@ -20,7 +20,7 @@ describe('in-custom-dashboards/widgets/Histogram/ShowCase', () => {
     await screen.findByText('80');
 
     // Legend should be displayed
-    await screen.findByText(`${t('in-components:histogram.metricLabel')} - Total 4762`);
+    await screen.findByText(`${t('in-components:histogram.metricLabel')} - Total 523`);
   });
 
   it('must render correct number of bars', async () => {
@@ -28,6 +28,6 @@ describe('in-custom-dashboards/widgets/Histogram/ShowCase', () => {
 
     const bars = container.getElementsByClassName('local-css-bucket').length;
 
-    await expect(bars).toBe(23);
+    await expect(bars).toBe(28);
   });
 });
