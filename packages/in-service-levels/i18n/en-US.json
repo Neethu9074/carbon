@@ -1,28 +1,53 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "beacon": "Beacon",
+    "boundary": "Boundary",
+    "clear": "Clear",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "None selected",
+    "loadMore": "Load more",
+    "noData": "No data available",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
+    "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "metrics": {
       "status": "Status",
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
-      "consumedBudget": "Error Budget Consumed"
+      "consumedBudget": "Error Budget Consumed",
+      "beaconCount": "Beacon Count",
+      "calls": "Calls",
+      "latency": "Latency",
+      "beaconDuration": "Beacon Duration",
+      "threshold": "Threshold",
+      "errors":  "Erroneous Call Rate",
+      "beaconErrorRate": "Beacon Error Rate",
+      "goodEvents": "Good Events",
+      "badEvents": "Bad Events"
     }
   },
   "createSloDialog": {
+    "customFilter": "Custom Filter",
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:"
+    "selectEntityTitle": "Select an entity to add SLO to:",
+    "selectScopeNavItem": "Select Scope",
+    "selectScopeTitle": "Select Scope",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP Requests",
+      "beaconLabel_pageLoad": "Website Page Loads",
+      "beaconLabel_custom": "Website Custom Events"
+    }
   },
   "sloList": {
     "components": {
@@ -106,6 +131,12 @@
         "title_fullWindow": "Error Budget over entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "trafficChart": {
+        "title": "Traffic"
+      },
+      "indicatorChart": {
+        "title": "Indicator"
       }
     }
   }

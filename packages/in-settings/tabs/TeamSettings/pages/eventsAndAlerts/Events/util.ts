@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { EventSpecificationInfo, EventSpecificationType, AlertingAggregation } from 'in-types';
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
-import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
 import { isAppDataPlugin } from 'in-forge/plugins/pluginTypes';
 import { FormatterType } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -106,19 +106,32 @@ export function formatterTypeToValueLabel(formatterType: FormatterType, metricNa
   }
 }
 
-export function mapConditionValue(value: number, formatterType: FormatterType): number {
-  if (formatterType === 'PERCENTAGE') {
+export function mapConditionValue(
+  value: number,
+  formatterType: FormatterType,
+  aggregation: AlertingAggregation
+): number {
+  if (isValueInPercentageScale(formatterType, aggregation)) {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value = formatNumber(value, getNumberOfDigits(value));
   }
   return value;
 }
 
-export function unmapConditionValue(value: number, formatterType: FormatterType): number {
-  if (formatterType === 'PERCENTAGE') {
+export function unmapConditionValue(
+  value: number,
+  formatterType: FormatterType,
+  aggregation: AlertingAggregation
+): number {
+  if (isValueInPercentageScale(formatterType, aggregation)) {
+    // we only store the value in range [0, 1.0], but we use a scale of [0, 100.0]
     value = round(value / 100, getNumberOfDigits(value) + 2);
   }
   return value;
+}
+
+function isValueInPercentageScale(formatterType: FormatterType, aggregation: AlertingAggregation) {
+  return formatterType === 'PERCENTAGE' || aggregation === 'relative_diff';
 }
 
 /**

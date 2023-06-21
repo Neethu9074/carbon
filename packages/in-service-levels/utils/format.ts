@@ -44,7 +44,7 @@ export function createSloPercentageFormatter(sloTarget: number): NumberFormatter
 }
 
 export function getSingleNumberMetricValue(metric?: MetricResult): number | undefined {
-  if (!metric || metric.values.length !== 1) {
+  if (!metric || metric?.values?.length !== 1) {
     return undefined;
   }
   return metric.values[0][1];

@@ -33,6 +33,8 @@ export interface Role {
   canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
+  canConfigureSyntheticTests: boolean;
+  canViewSyntheticTests: boolean;
   /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
   uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
   //canDeleteLogs: boolean;

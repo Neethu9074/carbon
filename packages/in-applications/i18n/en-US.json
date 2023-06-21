@@ -8,8 +8,6 @@
   "labelTrace": "Trace",
   "linkDownload": "Download",
   "labelCalls": "Calls",
-  "labelCallsPerSecondShort": "Calls/s",
-  "labelErroneousCallsPerSecondShort": "Erroneous Calls/s",
   "labelCallsPerSecondFull": "Calls Per Second",
   "labelTraces": "Traces",
   "labelErrorRate": "Error Rate",

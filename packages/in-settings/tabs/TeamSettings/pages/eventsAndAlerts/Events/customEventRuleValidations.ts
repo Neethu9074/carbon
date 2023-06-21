@@ -9,6 +9,13 @@ import { isEmpty } from 'lodash';
 
 import { t } from '@instana/i18n-react';
 
+import { AlertingAggregation } from 'in-types';
+
+const aggregationsNotAllowedForOneSecondWindow: ReadonlyArray<AlertingAggregation> = Object.freeze([
+  'relative_diff',
+  'absolute_diff'
+]);
+
 export function customEventRulesValidator(mapFormRules: Item[] = []): ValidationResult {
   const interactedRules = (mapFormRules as MapForm<any>[]).filter(
     rule => rule.get('metricName')?.touched || !isEmpty((rule.get('metricName') as Field<string>)?.value)
@@ -41,5 +48,22 @@ export function customEventRulesValidator(mapFormRules: Item[] = []): Validation
     }
   }
 
+  if (hasAggregationNotAllowedForOneSecondWindow(mapFormRules)) {
+    if ((mapFormRules as MapForm<any>[])[0].get('window').value === '1000') {
+      return [
+        {
+          severity: 'error',
+          message: t('in-settings:tabs.oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed')
+        }
+      ];
+    }
+  }
+
   return null;
+}
+
+function hasAggregationNotAllowedForOneSecondWindow(mapFormRules: Item[]) {
+  return (mapFormRules as MapForm<any>[])
+    .map(rule => rule.get('aggregation').value)
+    .some(aggregation => aggregationsNotAllowedForOneSecondWindow.includes(aggregation));
 }

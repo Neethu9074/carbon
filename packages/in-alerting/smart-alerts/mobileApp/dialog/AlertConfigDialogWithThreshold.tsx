@@ -4,11 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
-import { MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
+import { MobileAppAlertRule, MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
 
+// import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 //@ts-expect-error ts migartion
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import {
@@ -16,8 +18,11 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+//@ts-expect-error
+import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/simpleModeSteps';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/AdvancedModeContainer';
@@ -26,6 +31,7 @@ import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScro
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
+import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { days } from 'in-services/time';
 
@@ -36,6 +42,7 @@ export const tagSuggestionTimeConfig = {
   windowSize: days.toMillis(1),
   autoRefresh: true
 };
+
 interface AlertConfigDialogWithThresholdProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
@@ -50,6 +57,7 @@ interface AlertConfigDialogWithThresholdProps {
   onCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
+  setIsSimpleMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FORM_ID = 'smart-alert-editor';
@@ -67,10 +75,17 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     granularity,
-    timeConfig
+    timeConfig,
+    setIsSimpleMode
   } = props;
 
+  useCalculateThresholdOnBackendSignalEmitter(form);
+
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  useEffect(() => {
+    setIsSimpleMode(simpleMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
@@ -107,6 +122,24 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     tagFilterExpression as FormModelElement[],
     updateTagFilterExpression
   );
+
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
+
+  const isValid = blueprintConfig.isRuleComplete(rule as MobileAppAlertRule) && isTagFilterFormModelValid;
+
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, {
+    isValid,
+    simpleMode,
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
+  });
 
   const footer = simpleMode ? (
     <SimpleDialogFooter
@@ -151,7 +184,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
-      thresholdResult={null}
+      thresholdResult={thresholdResult}
       //@ts-expect-error
       TagBasedPayloadConfigurator={null}
       isDynamicCustomPayloadValid

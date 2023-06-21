@@ -8,15 +8,12 @@ import React from 'react';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
-import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { t } from 'in-i18n';
 
 const tabCallCount = {
   id: 'call',
-  label: perSecondAggregationEnabled
-    ? t('in-applications:labelCallsPerSecondFull')
-    : t('in-applications:labelCallCount')
+  label: t('in-applications:labelCallCount')
 };
 const tabHttpStatusCodes = {
   id: 'http',

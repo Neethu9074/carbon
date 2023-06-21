@@ -111,7 +111,9 @@ export const aggregationOptions: Options = Object.freeze([
   { value: 'avg', label: t('in-settings:tabs.avg') },
   { value: 'sum', label: t('in-settings:tabs.sum') },
   { value: 'min', label: t('in-settings:tabs.min') },
-  { value: 'max', label: t('in-settings:tabs.max') }
+  { value: 'max', label: t('in-settings:tabs.max') },
+  { value: 'relative_diff', label: t('in-settings:tabs.relative_diff') },
+  { value: 'absolute_diff', label: t('in-settings:tabs.absolute_diff') }
 ]);
 
 export const conditionOperatorOptions: Options = Object.freeze([

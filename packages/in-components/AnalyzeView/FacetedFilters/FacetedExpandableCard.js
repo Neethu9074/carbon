@@ -8,7 +8,6 @@ import React from 'react';
 import { Button, SvgIcon } from '@instana/components';
 
 import { ua2FacetedSearchFilterClosedTracker, ua2FacetedSearchFilterOpenedTracker } from 'in-components/tracker';
-import { openFacetedSearchByDefault } from 'in-services/featureFlags';
 import ExpandableCard from './ExpandableCardWithSubtitle';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -92,7 +91,7 @@ function GroupingButton({ isGrouped, tracker, title, tag, dataSource, linkToGrou
 
 export default function FacetedExpandableCard(props) {
   const {
-    openByDefault = openFacetedSearchByDefault,
+    openByDefault = false,
     tag,
     entity,
     dataSource,

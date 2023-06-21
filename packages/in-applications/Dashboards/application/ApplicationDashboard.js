@@ -29,7 +29,7 @@ import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-service
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';

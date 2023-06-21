@@ -13,20 +13,22 @@ import {
   editActionsColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
+import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
 import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks/useUrlBasedCategory';
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
+import { alertsTab } from 'in-applications/navigation/paths';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
 
   return (
-    <SmartAlertsBaseList
+    <SmartAlertsListWithUrlState
       configsCategory={configsCategory}
       setConfigsCategory={setConfigsCategory}
       onNoData={onNoData}
@@ -40,10 +42,21 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
           asObservable: true
         })
       }
+      getLocalAlertConfigTitle={numberOfAlerts =>
+        t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
+          numberOfAlerts
+        })
+      }
+      getGlobalAlertConfigTitle={numberOfAlerts =>
+        t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
+          numberOfAlerts
+        })
+      }
       columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory))}
       sortOptions={sortOptions}
       extraSearchAttributes={[getMetricName]}
       createRowLinkLocation={createRowLinkLocation(configsCategory)}
+      alertsTab={alertsTab}
     />
   );
 }

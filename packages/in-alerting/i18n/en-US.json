@@ -1030,7 +1030,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Status Code Count",
-        "beaconRate": "Beacon Rate",
+        "beaconRate": "Status Code Rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
@@ -1039,8 +1039,8 @@
         "customEventBlueprintConfigName": "Custom Events",
         "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
         "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-        "throughputBlueprintConfigHeadline": "Automatic Alerts for Page Views",
-        "throughputBlueprintConfigText": "Automatic alerts on anomalously low or high number of views for selected pages of this Mobile apps.",
+        "throughputBlueprintConfigHeadline": "Automatic Alerts for Mobile App Views",
+        "throughputBlueprintConfigText": "Automatic alerts on an anomalously low or high number of views in a Mobile App.",
         "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
@@ -1050,7 +1050,9 @@
         "columns": {
           "name": {
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}"
+            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} more filter",
@@ -1089,7 +1091,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
-        "ruleMetricNameOptionBeaconRate": "Beacon Rate",
+        "ruleMetricNameOptionBeaconRate": "Status Code Rate",
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
@@ -1138,7 +1140,7 @@
         "anyJSErrors": "Any JS Errors",
         "JSErrors": "JS Error(s): {{errorMessage}}",
         "customEvents": "Custom Event: {{customEventName}}",
-        "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
+        "HTTPStatusCodes": "HTTP Status Code(s): {{statusCode}}",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
         "unsupportedOperator": "Unsupported operator: {{operator}}",

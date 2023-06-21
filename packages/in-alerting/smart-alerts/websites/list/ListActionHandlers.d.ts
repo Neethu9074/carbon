@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ActionHandlers } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 
 /* list action handlers specific for application smart alerts*/
 

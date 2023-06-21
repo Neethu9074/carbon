@@ -24,6 +24,7 @@ export default function MetricConfigurator({
   withPotentialProblemsConfiguration,
   formatterSection,
   timeShiftConfiguration,
+  withAggregationInMetrics = true,
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
@@ -92,6 +93,7 @@ export default function MetricConfigurator({
         axisForm={axisForm}
         axisName={axisName}
         withGrouping={withGrouping}
+        withAggregationInMetrics={withAggregationInMetrics}
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
       />

@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
 import { Button, SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link } from '@instana/legacy';
 
 import {
   LARGE_TRACE_THRESHOLD,
@@ -16,7 +16,6 @@ import {
 } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -25,7 +24,6 @@ import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { analyzeTagFilterExpression } from './analyzeTagFilter';
@@ -147,28 +145,14 @@ function Header(props) {
 
 function applyTraceIdFilter(formModel, traceId) {
   const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
-
-  if (traceIdFilterOverrideEnabled) {
-    return traceIdFilterExpression;
-  }
-
-  const shortTraceId = traceId.slice(-16);
-  const hasTraceIdFilter = formModel.some(
-    tagFilter =>
-      tagFilter.name === 'trace.id' && tagFilter.operator === EQUALS && tagFilter.value?.endsWith(shortTraceId)
-  );
-  if (hasTraceIdFilter) {
-    return formModel;
-  }
-
-  return joinExpressions({ expressions: [formModel, traceIdFilterExpression] });
+  return traceIdFilterExpression;
 }
 
 function renderButtonLine(props) {
   return <TraceDetailViewButtonLine {...props} />;
 }
 
-function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
+function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
 
@@ -193,13 +177,13 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
     updateLocationToAnalyze(location, {
       dataSource: 'calls',
       formModel: applyTraceIdFilter(formModel, traceIdInUrl),
-      facets: traceIdFilterOverrideEnabled ? null : facets,
+      facets: null,
       timeConfig: adjustedTimeConfig,
       hiddenCalls: { includeInternal: true, includeSynthetic: true },
       resetUndefinedParams: false
     });
     return location;
-  }, [adjustedTimeConfig, facets, formModel, location, traceIdInUrl]);
+  }, [adjustedTimeConfig, formModel, location, traceIdInUrl]);
 
   if (!role.canViewLogs || !role.canViewTraceDetails) {
     return null;

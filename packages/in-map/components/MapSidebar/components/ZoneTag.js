@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { groupsColorPool } from 'in-services/util/ColorGenerator';
@@ -32,7 +32,7 @@ export default connectTo(
     const background = groupsColorPool.getColorHex(zoneSnapshot.get('id'));
 
     return (
-      <Link className={block} href$={getLinkToSnapshotInCurrentView(zoneSnapshot.get('id'))} style={{ background }}>
+      <Link className={block} href={getLinkToSnapshotInCurrentView(zoneSnapshot.get('id'))} style={{ background }}>
         {getLabel(zoneSnapshot)}
       </Link>
     );

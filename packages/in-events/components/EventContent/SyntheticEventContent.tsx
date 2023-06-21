@@ -93,6 +93,7 @@ function getChartTimeConfig(event: EventMap, syntheticTestInterval: number): Tim
   const chartTimeConfig = getChartTimeConfigByEvent(event);
   return {
     ...chartTimeConfig,
+    autoRefresh: false,
     // We extend the window size a little to give more context, as well as to ensure the chart does not just contain 1 bucket,
     // which looks very odd. But not always at least 12 hours, because that's probably too much context, and distracts from the
     // relevant part as long as we do not highlight that region properly.

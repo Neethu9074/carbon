@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -25,9 +25,10 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/dialog/adva
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/hooks/useThresholdSuggestion';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { days } from 'in-services/time';
 
 /**
@@ -70,8 +71,21 @@ function SmartAlertConfigDialogWithQueryValidation({
   numeratorTagFilterFormModel,
   ...props
 }) {
-  const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+  const {
+    form,
+    updateForm,
+    startWithSimpleMode,
+    editMode,
+    withTrackCreate,
+    withTrackClose,
+    isSaving,
+    setIsSimpleMode
+  } = props;
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  useEffect(() => {
+    setIsSimpleMode(simpleMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simpleMode]);
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
@@ -100,7 +114,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
-  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+  useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, {
     isValid,
     simpleMode,
     alertConfigWithFormModel,

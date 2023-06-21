@@ -24,7 +24,8 @@ function ServerFlowMap(props) {
     expandChildLeft,
     expandChildRight,
     expandNodeLeft,
-    expandNodeRight
+    expandNodeRight,
+    loadMore
   } = props;
   return (
     <FlowMap3DPresentation
@@ -43,6 +44,7 @@ function ServerFlowMap(props) {
       expandChildRight={expandChildRight}
       expandNodeLeft={expandNodeLeft}
       expandNodeRight={expandNodeRight}
+      loadMore={loadMore}
     />
   );
 }

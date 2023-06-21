@@ -255,6 +255,7 @@ export default function Summary({
                 <div className={locals.icicleChartWrapper}>
                   <ServerIcicleChart
                     traceId={traceId}
+                    callTreeResult={callTreeResult}
                     getColor={getColor}
                     onCallClicked={onCallClicked}
                     hoveredServiceEndpoint$={hoveredServiceEndpoint$}

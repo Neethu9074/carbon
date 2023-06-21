@@ -17,7 +17,7 @@ import {
   applicationDashboard,
   globalAlertDetails
 } from 'in-applications/navigation/paths';
-import { isCategoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { isCategoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
 

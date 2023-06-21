@@ -14,8 +14,8 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/bluep
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
-import { sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
-import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -46,6 +46,7 @@ export default function Alerts({ websiteId, websiteLabel }) {
         noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
+        alertsTab={alertsTab}
       />
 
       <Footer />

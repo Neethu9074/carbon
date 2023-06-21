@@ -32,7 +32,6 @@ export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   'highResolutionInfrastructureMetricsEnabled',
   true
 );
-export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
@@ -50,8 +49,6 @@ export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshoo
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
-
-export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearchByDefault', false);
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
@@ -82,8 +79,6 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
-
-export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
 
 // RBAC usability improvements
 export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
@@ -144,8 +139,6 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
-
-export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
 

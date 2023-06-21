@@ -18,7 +18,7 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';

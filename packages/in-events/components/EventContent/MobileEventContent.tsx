@@ -51,6 +51,7 @@ export default function MobileEventContent({ event }: Props) {
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
+    autoRefresh: false,
     windowSize: alertingEventDetailsChartTimeframe
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);

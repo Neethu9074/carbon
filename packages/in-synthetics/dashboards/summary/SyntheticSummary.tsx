@@ -28,6 +28,7 @@ import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
 import { SyntheticTest } from 'in-types';
+import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
@@ -82,7 +83,7 @@ function Header(
       icon={'lib_synthetic'}
       title={t('in-synthetics:dashboard.testList.mainLabel')}
       label={get(props.result, ['data', 'label'])}
-      renderButtonLine={RenderButtonLine}
+      renderButtonLine={role?.canConfigureSyntheticTests ? RenderButtonLine : undefined}
       renderMetaInformation={RenderMetaInformation}
     />
   );

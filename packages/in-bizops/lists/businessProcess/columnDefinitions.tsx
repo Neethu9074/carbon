@@ -86,14 +86,14 @@ function getSeverity(item: BusinessProcessItem) {
 
 export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
   {
-    id: 'bpm_process_name',
+    id: 'process_name',
     sortable: true,
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.nameLabel'),
     getContent: BusinessProcessNameColumnContent
   },
   {
-    id: 'bpm_root_process_id',
+    id: 'started_processes',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
@@ -113,7 +113,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   },
   {
-    id: 'bpm_activity_id',
+    id: 'activities_count',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.activityLabel'),
@@ -127,7 +127,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
   },
   {
     id: 'health',
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.healthLabel'),
     /* When backend is ready, the health icon needs to be driven by item.openIssues */

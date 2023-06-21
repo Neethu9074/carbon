@@ -8,16 +8,36 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { ThresholdType } from '@instana/types';
 
-import { StaticThresholdConfig, ThresholdConfigUnion, ThresholdOperator } from 'in-types';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
+  HistoricBaselineConfig,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig,
+  StaticThresholdConfig,
+  ThresholdConfig,
+  ThresholdConfigUnion,
+  ThresholdOperator
+} from 'in-types';
+import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
-  threshold: ThresholdConfigUnion | undefined // supporting old javascript based code
+  threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
+  alertType: MobileAlertType
 ): MapForm<any> {
-  return createStaticThresholdForm(threshold as StaticThresholdConfig);
+  if (!threshold) {
+    return createBaselineEnabledForm();
+  }
+
+  switch (alertType) {
+    case 'statusCode':
+      return createStaticThresholdForm(threshold as StaticThresholdConfig);
+    default:
+      return createBaselineEnabledForm(threshold);
+  }
 }
 
 function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<any> {
@@ -40,6 +60,51 @@ function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<a
   );
 }
 
+function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
+  if (!threshold || isStaticThresholdConfig(threshold)) {
+    return createStaticThresholdForm(threshold);
+  }
+
+  if (isHistoricBaselineConfig(threshold)) {
+    return createHistoricBaselineForm(threshold);
+  }
+
+  throw new Error(`Unknown threshold type ${threshold?.type}.`);
+}
+
+function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm<any> {
+  return createBaseForm(threshold)
+    .put(
+      'seasonality',
+      createField({
+        value: threshold.seasonality ?? DAILY
+      })
+    )
+    .put(
+      'baseline',
+      createField({
+        validator: array => {
+          if (array?.length === 0) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.websites.form.errorBaselineIsEmpty')
+              }
+            ];
+          }
+          return null;
+        },
+        value: threshold.baseline
+      })
+    )
+    .put(
+      'deviationFactor',
+      createField({
+        value: threshold.deviationFactor ?? defaultDeviationFactor
+      })
+    );
+}
+
 function createBaseForm(threshold?: {
   type?: ThresholdType;
   operator?: ThresholdOperator;
@@ -49,7 +114,7 @@ function createBaseForm(threshold?: {
     .put(
       'type',
       createField({
-        value: threshold?.type ?? STATIC_THRESHOLD
+        value: threshold?.type ?? HISTORIC_BASELINE
       })
     )
     .put(

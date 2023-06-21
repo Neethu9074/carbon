@@ -131,11 +131,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'newApCreationEnabled',
-    instanaCtlKey: 'feature.new.ap.creation.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'entityCountWidgetEnabled',
     instanaCtlKey: 'feature.entity.count.widget.enabled',
     defaultValue: false
@@ -198,11 +193,6 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'openFacetedSearchByDefault',
-    instanaCtlKey: 'feature.facetedsearch.open.default',
     defaultValue: false
   },
   {
@@ -278,11 +268,6 @@ module.exports = exports = [
   {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'perSecondAggregationEnabled',
-    instanaCtlKey: 'feature.per.second.aggregation.enabled',
     defaultValue: false
   },
   {

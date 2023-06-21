@@ -384,6 +384,14 @@
     "presenterLabelCalls": "Calls",
     "latencyRangeLabelFromTimeToTime": "{{from}} to {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} to {{to}}",
+    "metricLabel": "Measurements",
+    "presenterLabelNoDataToDisplay": "No data to display",
+    "total": "Total",
+    "min": "Min",
+    "max": "Max"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "Not Found"
   },
@@ -823,8 +831,8 @@
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
   },
-  "liveModeIndicator":{
-    "widgetNotSupportedInLiveMode":"This widget is not updated during Live Mode."
+  "liveModeIndicator": {
+    "widgetNotSupportedInLiveMode": "This widget is not updated during Live Mode."
   },
   "migratedTenantBanner": {
     "title": "Migrated Tenant Unit",

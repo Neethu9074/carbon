@@ -1,0 +1,138 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { useState } from 'react';
+import { MapForm } from 'formalistic';
+
+import { useObservable } from '@instana/hooks';
+import { t } from '@instana/i18n-react';
+
+// @ts-expect-error
+import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
+import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
+import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
+import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getApplicationsList } from 'in-synthetics/api';
+import { Code } from 'in-synthetics/utils/constants';
+import { Error as ScriptError } from 'in-types';
+import { Application, Result } from 'in-types';
+
+import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
+
+interface WizardModeContainerProps {
+  form: MapForm<any>;
+  formId: string;
+  onClose: () => void;
+  onCreate: () => void;
+  updateForm: (form: MapForm<any>) => void;
+  simpleModeStep: number;
+  setSimpleModeStep: React.Dispatch<React.SetStateAction<number>>;
+  simpleMode: boolean;
+  scriptErrors: ScriptError[];
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
+  scriptDetails: Code;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  isSaving: boolean;
+  isStepDisabled: (step: number) => boolean | undefined;
+}
+
+const WizardModeContainer = ({
+  form,
+  formId,
+  onClose,
+  onCreate,
+  updateForm,
+  setSimpleModeStep,
+  simpleModeStep,
+  simpleMode,
+  scriptErrors,
+  setScriptErrors,
+  scriptDetails,
+  setScriptDetails,
+  isSaving,
+  isStepDisabled
+}: WizardModeContainerProps) => {
+  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
+  const stepConfigs = Object.freeze([
+    {
+      title: t('in-synthetics:dialog.createTest.titles.step1')
+    },
+    {
+      title: t('in-synthetics:dialog.createTest.titles.step2')
+    },
+    {
+      title: t('in-synthetics:dialog.createTest.titles.step3')
+    },
+    {
+      title: t('in-synthetics:dialog.createTest.titles.step4')
+    }
+  ]);
+
+  return (
+    <div className={locals.container}>
+      <SimpleModePageNavigation
+        form={form}
+        formId={formId}
+        onClose={onClose}
+        onCreate={onCreate}
+        updateForm={updateForm}
+        setSimpleModeStep={setSimpleModeStep}
+        onStepChanged={() => {}}
+        renderStep={(step: number) => {
+          switch (step) {
+            case 0:
+              return (
+                <SelectTestStep
+                  selectedBlueprint={selectedBlueprint}
+                  onSelectBluePrint={setSelectedBlueprint}
+                  updateForm={updateForm}
+                  setScriptErrors={setScriptErrors}
+                  simpleMode={simpleMode}
+                />
+              );
+            case 1:
+              return (
+                <RequestResponseStep
+                  selectedBlueprint={selectedBlueprint}
+                  form={form}
+                  updateForm={updateForm}
+                  scriptErrors={scriptErrors}
+                  setScriptErrors={setScriptErrors}
+                  scriptDetails={scriptDetails}
+                  setScriptDetails={setScriptDetails}
+                />
+              );
+            case 2:
+              return <SelectScheduleStep form={form} updateForm={updateForm} simpleMode={simpleMode} />;
+            case 3:
+              return (
+                <BasicDetailsStep
+                  selectedBlueprint={selectedBlueprint}
+                  form={form}
+                  updateForm={updateForm}
+                  applications={applications}
+                />
+              );
+            default:
+              return null;
+          }
+        }}
+        stepConfigs={stepConfigs}
+        simpleModeStep={simpleModeStep}
+        isSaving={isSaving}
+        additionalStepCheck={(step: number) => {
+          return step !== 0 ? isStepDisabled(step) : true;
+        }}
+      />
+    </div>
+  );
+};
+
+export default WizardModeContainer;

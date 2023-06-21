@@ -11,7 +11,7 @@ import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn.mless';
+import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
 export default function ListDeselectionColumn({ config, onDeselect }) {
   const { id } = config;

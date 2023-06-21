@@ -6,22 +6,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { createLogger } from '@instana/logger';
-
-import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
-import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
-import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 
-const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({ onClose, alertConfig, editMode, startWithSimpleMode }) {
@@ -30,23 +25,26 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
   const duplicateFrom = alertConfig?.duplicateFrom;
-  const withTrackCreate = simpleMode => {
-    createOrSaveAlert(
+  const withTrackCreate = eumType => {
+    createOrSaveAlert({
       form,
       setForm,
+      getLinkToAlertConfig,
       onClose,
       editMode,
       setIsSaving,
       setMessages,
-      getLinkToAlertConfig,
-      simpleMode,
+      toAlertConfig,
+      isSimpleMode,
+      eumType,
       duplicateFrom
-    );
+    });
   };
 
   return (
@@ -63,9 +61,10 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
       startWithSimpleMode={startWithSimpleMode}
       granularity={form.get('granularity').value}
       withTrackClose={() => onClose({})}
-      withTrackCreate={withTrackCreate}
+      withTrackCreate={() => withTrackCreate(eumType)}
       isSaving={isSaving}
       messages={messages}
+      setIsSimpleMode={setIsSimpleMode}
     />
   );
 }
@@ -89,66 +88,6 @@ function createOnChange(setForm, externalForm) {
     }
     setForm(updatedForm);
   };
-}
-
-function createOrSaveAlert(
-  form,
-  setForm,
-  onClose,
-  editMode,
-  setIsSaving,
-  setMessages,
-  getLinkToAlertConfig,
-  simpleMode,
-  duplicateFrom
-) {
-  setIsSaving(true);
-
-  // remove existing error messages:
-  setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
-
-  const addMessage = message => {
-    setMessages(prevMessages => [...prevMessages, message]);
-  };
-
-  if (!form.hierarchyValid) {
-    setForm(form.setTouched(true, { recurse: true }));
-    setIsSaving(false);
-    return;
-  }
-
-  const alertConfig = toAlertConfig(form);
-
-  if (editMode) {
-    updateAlertConfig(alertConfig, form.get('id').value).once(
-      alertConfig => {
-        onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, editMode);
-        trackAlertUpdated(alertConfig);
-      },
-      error => {
-        logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
-        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
-        setIsSaving(false);
-      }
-    );
-  } else {
-    createAlertConfig(alertConfig).once(
-      alertConfig => {
-        onClose(alertConfig);
-        const href = getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, null);
-
-        showSuccessMessage(alertConfig.name, editMode, false, href);
-        const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
-        trackAlertSaved(newConfig, simpleMode);
-      },
-      error => {
-        logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
-        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
-        setIsSaving(false);
-      }
-    );
-  }
 }
 
 function toAlertConfig(form) {
