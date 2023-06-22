@@ -54,16 +54,12 @@ describe('in-service-levels/utils/tagFilter', () => {
       websiteId: 'someWebsiteId'
     };
 
-    // Since invertTagFilterExpression is not implemented yet, this is only a placeholder
-    // to not forget to cover the implementation later with a tests.
-    try {
-      // When
-      createGoodBadTagFilterExpression({ indicator, entity });
-      expect(true).toEqual(false);
-    } catch (e: any) {
-      // Then
-      expect(e.message).toEqual('not yet implemented');
-    }
+    // When
+    const { good, bad } = createGoodBadTagFilterExpression({ indicator, entity });
+
+    // Then
+    expect(good).toEqual(tagFilter('beacon.http.status', 'EQUALS', 200));
+    expect(bad).toEqual(tagFilter('beacon.http.status', 'NOT_EQUAL', 200));
   });
 
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter is configured', () => {

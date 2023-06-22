@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilterOperator } from '@instana/types';
+
 import {
   CLOSE_BRACKET,
   Conjunction,
@@ -11,8 +13,8 @@ import {
   OPEN_BRACKET,
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter, toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LogicalOperator, Nullish, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
-import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { deepFreeze } from 'in-services/util/object';
@@ -339,4 +341,68 @@ export function isTagFilterExpression(element: TagFilterExpressionElementUnion):
 
 export function isTagFilter(element: TagFilterExpressionElementUnion): element is TagFilter {
   return element.type === TAG_FILTER_TYPE;
+}
+
+export function invert(element: TagFilterExpressionElementUnion): TagFilterExpressionElementUnion {
+  if (isTagFilterExpression(element)) {
+    return invertTagFilterExpression(element);
+  }
+
+  if (isTagFilter(element)) {
+    return invertTagFilter(element);
+  }
+
+  throw new Error('Unsupported implementation of TagFilterExpressionElementUnion');
+}
+
+function invertTagFilter(filter: TagFilter): TagFilter {
+  return tagFilter(filter.name, invertTagFilterOperator(filter.operator), filter.value, filter.key, filter.entity);
+}
+
+function invertTagFilterExpression(expression: TagFilterExpression): TagFilterExpression {
+  return createTagFilterExpression(
+    invertLogicalOperator(expression.logicalOperator),
+    expression.elements.map(e => invert(e))
+  );
+}
+
+function invertLogicalOperator(operator: LogicalOperator): LogicalOperator {
+  return operator === 'AND' ? 'OR' : 'AND';
+}
+
+function invertTagFilterOperator(operator: TagFilterOperator): TagFilterOperator {
+  switch (operator) {
+    case 'EQUALS':
+      return 'NOT_EQUAL';
+    case 'CONTAINS':
+      return 'NOT_CONTAIN';
+    case 'STARTS_WITH':
+      return 'NOT_STARTS_WITH';
+    case 'ENDS_WITH':
+      return 'NOT_ENDS_WITH';
+    case 'IS_BLANK':
+      return 'NOT_BLANK';
+    case 'IS_EMPTY':
+      return 'NOT_EMPTY';
+    case 'GREATER_OR_EQUAL_THAN':
+      return 'LESS_THAN';
+    case 'GREATER_THAN':
+      return 'LESS_OR_EQUAL_THAN';
+    case 'LESS_OR_EQUAL_THAN':
+      return 'GREATER_THAN';
+    case 'LESS_THAN':
+      return 'GREATER_OR_EQUAL_THAN';
+    case 'NOT_EQUAL':
+      return 'EQUALS';
+    case 'NOT_CONTAIN':
+      return 'CONTAINS';
+    case 'NOT_STARTS_WITH':
+      return 'STARTS_WITH';
+    case 'NOT_ENDS_WITH':
+      return 'ENDS_WITH';
+    case 'NOT_BLANK':
+      return 'IS_BLANK';
+    case 'NOT_EMPTY':
+      return 'IS_EMPTY';
+  }
 }

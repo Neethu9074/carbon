@@ -19,9 +19,9 @@ import {
 } from '@instana/types';
 
 import { EQUALS, GREATER_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { invert, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
@@ -62,7 +62,7 @@ function getCustomEventBasedTagFilterExpression({
   if (!badEventsFilter) {
     return {
       good: goodEventsFilter,
-      bad: invertTagFilterExpression(goodEventsFilter)
+      bad: invert(goodEventsFilter)
     };
   }
 
@@ -120,10 +120,6 @@ function getTagFilterExpressionFromBlueprint({
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-}
-
-export function invertTagFilterExpression(_tagFilterExpression: TagFilterExpressionElementUnion): TagFilterExpression {
-  throw new Error('not yet implemented');
 }
 
 export function toSimplifiedFormModelElements(tagFilterExpression: TagFilterExpression): FormModelElement[] {
