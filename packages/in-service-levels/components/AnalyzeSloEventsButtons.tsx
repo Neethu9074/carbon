@@ -16,6 +16,7 @@ import { Button, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
+import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -23,16 +24,32 @@ interface AnalyzeSloCallsButtonProps {
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
-export default function AnalyzeSloEventsButton({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
+export default function AnalyzeSloEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
+  const { bad: badEventsFilterExpression } = createGoodBadTagFilterExpression({ entity, indicator });
+
   const timeConfig = useTimeConfig();
   const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
+  const linkToAnalyzeWithBadEvents = useHrefToUnboundedAnalytics({
+    indicator,
+    entity,
+    timeConfig,
+    additionalTagFilterExpression: badEventsFilterExpression,
+    withLabels: true
+  });
 
   return (
-    <Button kind="primary" icon={getIconType(entity)} href={linkToAnalyze}>
-      <Typography variant="body-regular" onDark>
-        {t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(entity) })}
-      </Typography>
-    </Button>
+    <>
+      <Button kind="primary" icon={getIconType(entity)} href={linkToAnalyze}>
+        <Typography variant="body-regular" onDark>
+          {t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(entity) })}
+        </Typography>
+      </Button>
+      <Button kind="info" icon={getIconType(entity)} href={linkToAnalyzeWithBadEvents}>
+        <Typography variant="body-regular" onDark>
+          {t('in-service-levels:analyzeSloEventsButton.analyzeBadCalls', { entity: getLabel(entity) })}
+        </Typography>
+      </Button>
+    </>
   );
 }
 

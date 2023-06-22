@@ -16,7 +16,7 @@ import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFil
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 describe('in-service-levels/utils/tagFilter', () => {
-  it('returns empty TagFilterExpressions as good and bad events filter for time-based SLIs', () => {
+  it('returns default TagFilterExpressions for good and bad events when a time-based SLI is provided', () => {
     // Given
     const indicator: TimeBasedSli = {
       blueprint: 'availability',
@@ -35,8 +35,8 @@ describe('in-service-levels/utils/tagFilter', () => {
     const { good, bad } = createGoodBadTagFilterExpression({ indicator, entity });
 
     // Then
-    expect(good).toEqual({ elements: [], logicalOperator: 'AND', type: 'EXPRESSION' });
-    expect(bad).toEqual({ elements: [], logicalOperator: 'AND', type: 'EXPRESSION' });
+    expect(good).toEqual(tagFilter('beacon.erroneous', 'EQUALS', false));
+    expect(bad).toEqual(tagFilter('beacon.erroneous', 'EQUALS', true));
   });
 
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter configuration is missing', () => {
@@ -206,6 +206,41 @@ describe('in-service-levels/utils/tagFilter', () => {
       blueprint: 'availability',
       threshold: 0.9,
       type: 'eventBased'
+    };
+
+    const entity: WebsiteSloEntity = {
+      type: 'website',
+      beaconType: 'httpRequest',
+      websiteId: 'someWebsiteId'
+    };
+
+    // When
+    const { good, bad } = createGoodBadTagFilterExpression({ indicator, entity });
+
+    // Then
+    expect(good).toEqual({
+      entity: 'NOT_APPLICABLE',
+      name: 'beacon.erroneous',
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      value: false
+    });
+    expect(bad).toEqual({
+      entity: 'NOT_APPLICABLE',
+      name: 'beacon.erroneous',
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      value: true
+    });
+  });
+
+  it('returns good and bad events filter for entity with time-based SLIs', () => {
+    // Given
+    const indicator: TimeBasedSli = {
+      blueprint: 'availability',
+      threshold: 0.9,
+      aggregation: 'P90',
+      type: 'timeBased'
     };
 
     const entity: WebsiteSloEntity = {

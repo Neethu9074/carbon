@@ -8,7 +8,6 @@ import {
   CustomEventBasedSli,
   isApplicationSloEntity,
   isCustomEventBasedSli,
-  isEventBasedSli,
   isWebsiteSloEntity,
   ServiceLevelIndicator,
   ServiceLevelIndicatorUnion,
@@ -21,7 +20,6 @@ import {
 import { EQUALS, GREATER_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { invert, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
@@ -43,11 +41,7 @@ export function createGoodBadTagFilterExpression({
     return getCustomEventBasedTagFilterExpression({ indicator });
   }
 
-  if (isEventBasedSli(indicator)) {
-    return getTagFilterExpressionFromBlueprint({ indicator, entity });
-  }
-
-  return { good: emptyTagFilterExpression, bad: emptyTagFilterExpression };
+  return getTagFilterExpressionFromBlueprint({ indicator, entity });
 }
 
 interface GetCustomEventBasedTagFilterExpressionProps {

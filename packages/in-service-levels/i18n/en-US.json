@@ -116,7 +116,8 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "Analyze {{entity}}"
+    "analyze": "Analyze {{entity}}",
+    "analyzeBadCalls": "Analyze bad {{entity}}"
   },
   "sloDashboard": {
     "components": {
