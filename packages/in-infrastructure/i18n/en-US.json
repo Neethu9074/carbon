@@ -53,8 +53,7 @@
     "javaRuntime": "Java Runtime",
     "status": "Status",
     "agentDetails": "Agent Details",
-    "totalAgents": "Total Agents",
-    "copy": "Copy"
+    "totalAgents": "Total Agents"
   },
   "dashboard": {
     "comparisonTable": "Comparison Table",
