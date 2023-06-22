@@ -7,7 +7,7 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { KeyValue, Message, Stack } from '@instana/components';
 
 // import OptionBox from 'in-applications/components/OptionBox';
 import { close } from 'in-components/DialogPresenter/store';
@@ -70,16 +70,16 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
       {error && <Message type="error">Error occured saving feedback</Message>}
       {success && <Message type="success">Feedback successfully saved!</Message>}
 
-      <div style={{ padding: '4em' }}>
-        <Stack direction="vertical" gap={'large'}>
-          <Message> Tell us about your experience with this action </Message>
+      <div style={{ padding: '4em', paddingTop: '0px' }}>
+        <KeyValue label="Tell us about your experience with this action" />
+        <Stack direction="vertical" gap={'small'}>
           <label>
             <input
               type="radio"
               checked={1 == parseInt(form.get('feedback').value)}
               onChange={() => handleChange({ value: 1 })}
             />
-            I am extremely unhappy
+            {/* <Typography variant='body-regular'>I am extremely unhappy</Typography> */}I am extremely unhappy
           </label>
 
           <label>
@@ -118,47 +118,9 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
             I was extremely satisfied
           </label>
 
-          {/* <OptionBox
-          icon={''}
-          title={':(('}
-          description="I am extremely unhappy"
-          asRadioButton
-          checked={1 == parseInt(form.get('feedback').value)}
-          onChange={() => handleChange({ value: 1 })}
-        />
-        <OptionBox
-          icon={''}
-          title={':('}
-          description="I am dissatisfied"
-          asRadioButton
-          checked={2 == parseInt(form.get('feedback').value)}
-          onChange={() => handleChange({ value: 2 })}
-        />
-        <OptionBox
-          icon={''}
-          title={':|'}
-          description="I am neutral"
-          asRadioButton
-          checked={3 == parseInt(form.get('feedback').value)}
-          onChange={() => handleChange({ value: 3 })}
-        />
-        <OptionBox
-          icon={''}
-          title={':)'}
-          description="I was satisfied"
-          asRadioButton
-          checked={4 == parseInt(form.get('feedback').value)}
-          onChange={() => handleChange({ value: 4 })}
-        />
-        <OptionBox
-          icon={''}
-          title={''}
-          description="I was extremely satisfied"
-          asRadioButton
-          checked={5 == parseInt(form.get('feedback').value)}
-          onChange={() => handleChange({ value: 5 })}
-        /> */}
           {/* <Message>{sliderMessage}</Message> */}
+          <KeyValue label="Additional Comments (optional)" />
+          <textarea rows={10} />
         </Stack>
       </div>
       <FormFooter>
