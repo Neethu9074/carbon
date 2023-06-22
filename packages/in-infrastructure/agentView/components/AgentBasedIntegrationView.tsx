@@ -1,0 +1,134 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import { useState } from 'react';
+import React from 'react';
+
+import { Stack, SvgIcon, Typography, Link } from '@instana/components';
+
+// @ts-expect-error Module needs to be translated to TS
+import { Listing } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
+// @ts-expect-error Module needs to be translated to TS
+import { Bash } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
+import FormFooter, { SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { close } from 'in-components/DialogPresenter/store';
+import Tooltip from 'in-components/Tooltip';
+import { Trans, t } from 'in-i18n';
+import theme from 'in-themes';
+
+import locals from './AgentBasedIntegrationView.mless';
+
+function renderValueLines(lines: string[]) {
+  let result: string[] = [];
+  lines.forEach((item, i) => (result = i === lines.length - 1 ? result.concat(item) : result.concat('<br key={i} />')));
+  return <>{result}</>;
+}
+
+function Description({ lines }: { lines: string[] }) {
+  return <p>{renderValueLines(lines)}</p>;
+}
+
+const AgentBasedIntegrationView = () => {
+  const architectureOptions = ['AMD 64', 's390x'];
+  const [architecture, setArchitecture] = useState(architectureOptions[0]);
+  const supportsUrl = 'https://www.ibm.com/docs/en/instana-observability/current?topic=apis-agent-based-integrations';
+  return (
+    <DialogWithSlideInView
+      title={
+        <div className={locals.heading}>
+          <Typography variant="heading-400">
+            {t('in-infrastructure:agentView.installAgentBasedIntegrations')}
+          </Typography>
+        </div>
+      }
+      onClose={close}
+      doNotCloseOnOutsideClick
+      className={locals.dialog}
+    >
+      <div className={locals.wrapper}>
+        <Typography variant="body-regular">
+          <Description lines={[t('in-infrastructure:agentView.installAgentBasedOverlayDescription')]} />
+          <Description lines={[t('in-infrastructure:agentView.support')]} />
+          <Listing
+            items={[
+              t('in-infrastructure:agentView.sap'),
+              t('in-infrastructure:agentView.omegamon'),
+              t('in-infrastructure:agentView.itmv6'),
+              <Stack direction="horizontal" gap="xsmall" align="center">
+                {t('in-infrastructure:agentView.apmv8')}
+                <Tooltip
+                  content={<div className={locals.tooltip}>{t('in-infrastructure:agentView.apmV8ToolKitInfo')}</div>}
+                >
+                  <SvgIcon type="lib_help_error_info_outline" size="s" color={theme.lib.colors.N600Light} />
+                </Tooltip>
+              </Stack>
+            ]}
+          />
+          <br />
+          <Description lines={[t('in-infrastructure:agentView.description')]} />
+        </Typography>
+        <div className={locals.archboxview}>
+          <Typography variant="body-regular">
+            <LightCard
+              title={<Typography variant="body-bold"> {t('in-infrastructure:agentView.archType')}</Typography>}
+              className={locals.archBox}
+            >
+              <Stack direction="vertical" gap="xsmall">
+                <CheckboxFancy
+                  label={t('in-infrastructure:agentView.amd64')}
+                  checked={architecture === architectureOptions[0]}
+                  onChange={() => setArchitecture(architectureOptions[0])}
+                  size="default"
+                  asRadioButton
+                />
+                <CheckboxFancy
+                  label={t('in-infrastructure:agentView.s360x')}
+                  checked={architecture === architectureOptions[1]}
+                  onChange={() => setArchitecture(architectureOptions[1])}
+                  size="default"
+                  asRadioButton
+                />
+              </Stack>
+            </LightCard>
+          </Typography>
+        </div>
+        <div className={locals.curlCommandBox}>
+          <Typography variant="body-bold"> {t('in-infrastructure:agentView.curlCommand')}</Typography>
+          <div className={locals.codeBox}>
+            <Bash
+              lines={[
+                architecture === 'AMD 64'
+                  ? t('in-infrastructure:agentView.curlCommandForAMD64')
+                  : t('in-infrastructure:agentView.curlCommandFors360x')
+              ]}
+            />
+          </div>
+          <Typography variant="body-regular">
+            <Trans
+              i18nKey="in-infrastructure:agentView.additionalHelpAndSupport"
+              components={{
+                supportLink: (
+                  <Link href={supportsUrl} external>
+                    {' '}
+                  </Link>
+                )
+              }}
+            />
+          </Typography>
+        </div>
+        <FormFooter className={locals.controls}>
+          <SaveButton type="submit" kind="primary" onClick={close}>
+            {t('in-infrastructure:agentView.footerButtonDone')}
+          </SaveButton>
+        </FormFooter>
+      </div>
+    </DialogWithSlideInView>
+  );
+};
+export default AgentBasedIntegrationView;

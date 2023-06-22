@@ -293,7 +293,7 @@
   "whileWeGetYouStartedWouldYouLikeTo": "While we get you started, would you like to…",
   "getAFeelingForInstanaWithHighlightsOfWhatItCanDo": "Get a feeling for Instana with highlights of what it can do",
   "watchExampleVideos": "Watch example videos",
-  "installingInstanaAgents": "Installing Instana Agents",
+  "installAgents": "Install Agents",
   "preparingInstance": "Preparing instance",
   "agentDeployed": "Agent deployed",
   "agentsAreReportingDataIsBeingCollected": "Agents are reporting. Data is being collected.",
