@@ -34,6 +34,7 @@ export default function HistogramWidgetCard({
 
   const hasNoData = result?.data?.length === 0;
   const hasNoErrors = result?.errors.length === 0;
+  const isLoading = result?.progress.loading;
 
   return (
     <Card
@@ -48,7 +49,7 @@ export default function HistogramWidgetCard({
     >
       <div
         className={classNames({
-          [locals.container]: !hasNoData || !hasNoErrors
+          [locals.container]: !hasNoData && hasNoErrors && !isLoading
         })}
       >
         <HistogramChart result={result} config={config} />

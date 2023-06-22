@@ -8,13 +8,12 @@ import React, { useRef, useState } from 'react';
 
 import { create } from '@instana/observables';
 
-import {
-  getMaxCallCount,
-  getHistogramHeaderTitle,
-  formatters
-} from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 // @ts-expect-error
 import HistogramChartOverlay from 'in-components/HistogramChart/components/HistogramChartOverlay/HistogramChartOverlay';
+import {
+  getMaxCallCount,
+  getHistogramHeaderTitle
+} from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 import UnavailableData from 'in-components/HistogramChart/components/HistogramChartPresenter/components/UnavailableData';
 import HorizontalLines from 'in-components/HistogramChart/components/HistogramChartPresenter/components/HorizontalLines';
 import useHistogram from 'in-components/HistogramChart/components/HistogramChartPresenter/hooks/useHistogram';
@@ -59,13 +58,22 @@ export default function HistogramChartPresenter({
   const chartWidth = customWidth || width;
   const isDataMissing = !width || !result;
 
-  const [formatter, formatterType] = config?.formatter.split('.');
-  const formatterY = formatters.number;
-
-  const { isBucketsEmpty, bucketWidth, bucketCenter, hasError, isLoading, buckets, total, min, max } = useHistogram({
+  const {
+    isBucketsEmpty,
+    bucketWidth,
+    bucketCenter,
+    hasError,
+    isLoading,
+    buckets,
+    total,
+    min,
+    max,
+    formatter,
+    formatterY
+  } = useHistogram({
     result,
     chartWidth,
-    applyFormatter: formatters[formatter][formatterType]
+    formatter: config?.formatter
   });
 
   if (isDataMissing) {
@@ -106,7 +114,7 @@ export default function HistogramChartPresenter({
   const metricName = getHistogramHeaderTitle({
     minHistogramValue: min,
     maxHistogramValue: max,
-    applyFormatter: formatters[formatter][formatterType],
+    applyFormatter: formatter,
     total
   });
 
