@@ -60,17 +60,17 @@ export default function ScriptsSection({
             scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
             extension: 'zip'
           }
-      : scriptDetails?.modified
+      : scriptDetails?.modified && configForm.get('script')
       ? {
-          name: scriptDetails.name,
+          name: scriptDetails?.name,
           text: (configForm.get('script') as Field<string>).value,
-          extension: isNotBlank(scriptDetails.name) ? 'js' : ''
+          extension: isNotBlank(scriptDetails?.name) ? 'js' : ''
         }
       : { name: '', text: '', extension: 'js' }
   );
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
-    (isUpdateConfig && !isUpdated) || (scriptDetails.modified && isBlank(scriptDetails.name))
+    (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
       ? ''
       : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
   );
@@ -96,7 +96,9 @@ export default function ScriptsSection({
     setScript({ name: '', text: '', extension: '' });
     setColumnLabel(t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'));
     setIsUpdated(true);
-    setScriptDetails({ modified: true, name: '' });
+    if (!isUpdateConfig) {
+      setScriptDetails({ modified: true, name: '' });
+    }
   }
 
   const columnDefinition = [
