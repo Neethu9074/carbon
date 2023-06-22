@@ -1121,7 +1121,8 @@
     "status_expired": "Expired",
     "status_unscheduled": "Unscheduled",
     "status_finished": "Finished",
-    "status_paused": "Paused"
+    "status_paused": "Paused",
+    "timezoneDifferenceMessage": "Warning! The timezone in which the current configuration was created in ({{configTimezone}}) and your current timezone ({{userTimezone}}) are different. Saving and/or editing the configuration may have an un-intended outcome on the maintenance window"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",

@@ -8,17 +8,19 @@ import React, { useEffect, useState } from 'react';
 import { Field, Item, MapForm } from 'formalistic';
 import { RRule } from 'rrule';
 
-import { Stack } from '@instana/components';
-import { Duration } from '@instana/types';
+import { Duration, MaintenanceConfigV2 } from '@instana/types';
+import { Message, Stack } from '@instana/components';
 
 import {
   createRRuleFreq,
+  setPartsToUTCDate,
   setRRuleDtstart
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { parseDateTime } from 'in-services/formatters/date';
+import { getSingle } from 'in-services/settings/settings';
 import ScheduleRange from './scheduling/ScheduleRange';
 import FormGroup from 'in-components/form/FormGroup';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -32,10 +34,11 @@ import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Maintena
 export interface MaintenanceScheduleStepProps {
   form: MapForm<any>;
   setForm: SetFormFunction;
+  entity: MaintenanceConfigV2;
 }
 
 export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepProps) {
-  const { form, setForm } = props;
+  const { form, setForm, entity } = props;
   // I expect the Typescript police to get me for using any but in this case the setValue property can be any value used in the form
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
     //@ts-ignore-next-line
@@ -51,21 +54,57 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const timeField = (windowForm.getIn(['start', 'time']) as Field<String>).value;
   const duration = (windowForm.get('duration') as Field<Duration>).value;
 
+  const TimezoneMessage = () => {
+    //@ts-ignore
+    const timezoneIdFromEntity = entity.scheduling?.timezoneId;
+
+    const currentTimezoneId = getSingle('formatTimestampsAsUtc')
+      ? 'UTC'
+      : new Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const message =
+      timezoneIdFromEntity && currentTimezoneId && timezoneIdFromEntity !== currentTimezoneId
+        ? t('in-settings:maintenanceWindow.timezoneDifferenceMessage', {
+            configTimezone: timezoneIdFromEntity,
+            userTimezone: currentTimezoneId
+          })
+        : null;
+
+    return (
+      <div>
+        {message && (
+          <Message withIcon small>
+            <div>{message}</div>
+          </Message>
+        )}
+      </div>
+    );
+  };
+
   const [recurrentType, setRecrruentType] = useState(rrule ? rrule.options.freq : -1);
 
   useEffect(() => {
-    const dateTimeStart = parseDateTime(`${dateStartField} ${timeField}`);
+    let dateTimeStart = null;
+    try {
+      dateTimeStart = parseDateTime(`${dateStartField} ${timeField}`);
+    } catch (exception) {
+      dateTimeStart = null;
+    }
+
+    if (!dateTimeStart) return;
+
+    const formattedUTCDate = setPartsToUTCDate(dateTimeStart);
     if (
       rrule &&
       timeField &&
       dateStartField &&
       !isNaN(dateTimeStart.getTime()) &&
-      dateTimeStart.getTime() !== rrule.options.dtstart.getTime()
+      formattedUTCDate.getTime() !== rrule.options.dtstart.getTime()
     ) {
       setForm(
         //@ts-ignore-next-line
         form.updateIn(['window', 'recurrence', 'rrule'], item =>
-          (item as Field<any>).setValue(setRRuleDtstart(rrule, dateTimeStart)).setTouched(true)
+          (item as Field<any>).setValue(setRRuleDtstart(rrule, formattedUTCDate)).setTouched(true)
         )
       );
     }
@@ -156,7 +195,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
           <ScheduleRange form={form} setValue={setValue} setFormRRule={setFormRRule} rrule={rrule} />
         )}
       </HorizontalFlexWrapper>
-
+      <TimezoneMessage />
       <TouchedMessages field={form.get('window')} />
     </FormGroup>
   );

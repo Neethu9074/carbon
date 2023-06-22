@@ -6,10 +6,13 @@
 
 import { MapForm } from 'formalistic';
 
+import { MaintenanceConfigV2 } from '@instana/types';
+
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 
 interface RMConfigContainer {
   form: MapForm;
+  entity: MaintenanceConfigV2;
   onChange: OnEntityChange;
   onChangeApplyOn: Function;
   setForm: SetFormFunction;

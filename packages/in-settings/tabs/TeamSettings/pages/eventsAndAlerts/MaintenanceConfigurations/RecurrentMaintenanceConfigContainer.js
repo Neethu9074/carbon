@@ -11,6 +11,7 @@ import { stepConfigs, stepRenderers } from './components/simpleModeConfig';
 
 export default function RecurrentMaintenanceConfigContainer({
   form,
+  entity,
   onChange,
   onChangeApplyOn,
   setForm,
@@ -28,6 +29,7 @@ export default function RecurrentMaintenanceConfigContainer({
       stepRenderers={stepRenderers}
       step={step}
       messages={messages}
+      entity={entity}
     />
   ) : (
     <AdvancedModeMaintenanceContainer
@@ -35,6 +37,7 @@ export default function RecurrentMaintenanceConfigContainer({
       onChange={onChange}
       onChangeApplyOn={onChangeApplyOn}
       setForm={setForm}
+      entity={entity}
     />
   );
 }

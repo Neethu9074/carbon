@@ -42,9 +42,9 @@ export const stepConfigs = [
 ];
 
 export const stepRenderers = [
-  ({ form, setForm }: MaintenanceScheduleStepProps) => (
+  ({ form, setForm, entity }: MaintenanceScheduleStepProps) => (
     <SimpleModeStepContentWrapper headline={t('in-settings:tabs.scheduleTitle')}>
-      <MaintenanceScheduleStep form={form} setForm={setForm} />
+      <MaintenanceScheduleStep form={form} setForm={setForm} entity={entity} />
     </SimpleModeStepContentWrapper>
   ),
   ({ form, onChange, onChangeApplyOn, setForm }: MaintenanceScopeProps) => (

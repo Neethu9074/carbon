@@ -5,7 +5,7 @@
  */
 
 import { RRule, Weekday } from 'rrule';
-import { add } from 'date-fns';
+import { add, sub } from 'date-fns';
 
 export const createRRuleFreq = (
   freq: typeof RRule.MONTHLY | typeof RRule.DAILY | typeof RRule.WEEKLY | typeof RRule.YEARLY
@@ -150,6 +150,26 @@ export const getEndAndTimeDurationOfWindow = (duration: Number, durationUnit: St
   const windowEnd = add(startDate, { [`${durationUnit.toLowerCase()}`]: duration });
   return windowEnd;
 };
+
+export const subtractDurationFromGivenTime = (duration: Number, durationUnit: String, startDate: Date): Date => {
+  const windowEnd = sub(startDate, { [`${durationUnit.toLowerCase()}`]: duration });
+  return windowEnd;
+};
+
+export function setPartsToUTCDate(d: Date) {
+  return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()));
+}
+
+export function setUTCPartsToDate(d: Date) {
+  return new Date(
+    d.getUTCFullYear(),
+    d.getUTCMonth(),
+    d.getUTCDate(),
+    d.getUTCHours(),
+    d.getUTCMinutes(),
+    d.getUTCSeconds()
+  );
+}
 
 export interface StartObject {
   dates: string;
