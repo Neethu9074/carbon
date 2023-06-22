@@ -9,21 +9,25 @@ import React, { useState } from 'react';
 
 import { Message, Stack } from '@instana/components';
 
+// import OptionBox from 'in-applications/components/OptionBox';
+import { close } from 'in-components/DialogPresenter/store';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
-import OptionBox from 'in-applications/components/OptionBox';
+import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
+
+// import Input from 'in-components/form/Input/Input';
 
 export default function Feedback({ id, feedback }: { id: string; feedback: string }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [sliderMessage, setSliderMessage] = useState('Use the slider to select a feedback input');
+  // const [sliderMessage, setSliderMessage] = useState("Current feedback " + form.get('feedback').value);
   const timeConfig = useTimeConfig();
 
   /**
@@ -33,27 +37,27 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
 
   const handleChange = ({ value }: { value: number }) => {
     setForm(form.updateIn(['feedback'], field => field.setValue(value.toString())));
-    switch (value) {
-      case 1:
-        setSliderMessage(value + ': This script was completely ineffective and/or made the issue worse');
-        break;
-      case 2:
-        setSliderMessage(value + ": This script was not very effective, but it didn't make it worse");
-        break;
-      case 3:
-        setSliderMessage(
-          value + ': This script did not resolve the issue, but it helped me learn more about the problem'
-        );
-        break;
-      case 4:
-        setSliderMessage(
-          value + ': This script did not completely fix the issue, but it came close and improved the situation'
-        );
-        break;
-      case 5:
-        setSliderMessage(value + ': This script worked nearly perfectly and completely solved my problem');
-        break;
-    }
+    // switch (value) {
+    //   case 1:
+    //     setSliderMessage(value + ': This script was completely ineffective and/or made the issue worse');
+    //     break;
+    //   case 2:
+    //     setSliderMessage(value + ": This script was not very effective, but it didn't make it worse");
+    //     break;
+    //   case 3:
+    //     setSliderMessage(
+    //       value + ': This script did not resolve the issue, but it helped me learn more about the problem'
+    //     );
+    //     break;
+    //   case 4:
+    //     setSliderMessage(
+    //       value + ': This script did not completely fix the issue, but it came close and improved the situation'
+    //     );
+    //     break;
+    //   case 5:
+    //     setSliderMessage(value + ': This script worked nearly perfectly and completely solved my problem');
+    //     break;
+    // }
   };
 
   return (
@@ -65,50 +69,100 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
       {/* sets error and success codes */}
       {error && <Message type="error">Error occured saving feedback</Message>}
       {success && <Message type="success">Feedback successfully saved!</Message>}
-      <Stack direction="vertical">
-        <OptionBox
+
+      <div style={{ padding: '4em' }}>
+        <Stack direction="vertical" gap={'large'}>
+          <Message> Tell us about your experience with this action </Message>
+          <label>
+            <input
+              type="radio"
+              checked={1 == parseInt(form.get('feedback').value)}
+              onChange={() => handleChange({ value: 1 })}
+            />
+            I am extremely unhappy
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              checked={2 == parseInt(form.get('feedback').value)}
+              onChange={() => handleChange({ value: 2 })}
+            />
+            I am dissatisfied
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              checked={3 == parseInt(form.get('feedback').value)}
+              onChange={() => handleChange({ value: 3 })}
+            />
+            I am neutral
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              checked={4 == parseInt(form.get('feedback').value)}
+              onChange={() => handleChange({ value: 4 })}
+            />
+            I was satisfied
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              checked={5 == parseInt(form.get('feedback').value)}
+              onChange={() => handleChange({ value: 5 })}
+            />
+            I was extremely satisfied
+          </label>
+
+          {/* <OptionBox
           icon={''}
-          title={'1'}
-          description="Total Failure"
+          title={':(('}
+          description="I am extremely unhappy"
           asRadioButton
           checked={1 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 1 })}
         />
         <OptionBox
           icon={''}
-          title={'2'}
-          description="Mostly failed, but with some success"
+          title={':('}
+          description="I am dissatisfied"
           asRadioButton
           checked={2 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 2 })}
         />
         <OptionBox
           icon={''}
-          title={'3'}
-          description="Worked, but with some issues"
+          title={':|'}
+          description="I am neutral"
           asRadioButton
           checked={3 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 3 })}
         />
         <OptionBox
           icon={''}
-          title={'4'}
-          description="Almost, but with some issues"
+          title={':)'}
+          description="I was satisfied"
           asRadioButton
           checked={4 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 4 })}
         />
         <OptionBox
           icon={''}
-          title={'5'}
-          description="Worked completely"
+          title={''}
+          description="I was extremely satisfied"
           asRadioButton
           checked={5 == parseInt(form.get('feedback').value)}
           onChange={() => handleChange({ value: 5 })}
-        />
-        <Message>{sliderMessage}</Message>
-      </Stack>
+        /> */}
+          {/* <Message>{sliderMessage}</Message> */}
+        </Stack>
+      </div>
       <FormFooter>
+        <CancelButton onClick={close} />
         <SaveButton form={form} isSaving={isSaving} />
       </FormFooter>
     </Form>
