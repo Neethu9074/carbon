@@ -65,6 +65,8 @@ export interface DashboardHeaderProps {
   withBorderBottom?: boolean;
   headerHref$?: Observable<string>;
   onHeaderClick?: (params: any) => any;
+  liveModeDisabled?: boolean;
+  liveModeDisabledTooltip?: string;
 }
 
 const isNotLastElement = (index: number, array: any[]) => {
@@ -85,7 +87,9 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     withBorderBottom,
     headerHref$,
     isBeta = false,
-    onHeaderClick = () => {}
+    onHeaderClick = () => {},
+    liveModeDisabled = false,
+    liveModeDisabledTooltip
   } = props;
   let {
     label,
@@ -172,7 +176,15 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
           <div className={locals.rightContent}>
             {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
             {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
-            {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+            {renderTimeSelection ? (
+              renderTimeSelection(props)
+            ) : (
+              <TimeSelection
+                darkTheme={theme === themes.dark}
+                liveModeDisabled={liveModeDisabled}
+                liveModeDisabledTooltip={liveModeDisabledTooltip}
+              />
+            )}
           </div>
         </div>
         {(renderButtonLine || renderButtonLineSecondary) && (
