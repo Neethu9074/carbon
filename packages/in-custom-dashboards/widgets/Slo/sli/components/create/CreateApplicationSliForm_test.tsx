@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Application, AvailabilitySliEntity } from '@instana/types';
 
-import { useValidateApplicationFilterExpression as uVAFE } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
 import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateApplicationSliForm';
+import { useValidateApplicationFilterExpression as uVAFE } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
 import { availabilityType, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -22,7 +22,7 @@ jest.mock('in-applications/hooks/useApplication', () => ({
   __esModule: true,
   default: jest.fn(() => [undefined, 'pending', []])
 }));
-jest.mock('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder', () => ({
+jest.mock('in-service-levels/hooks/useApplicationQueryBuilder', () => ({
   useApplicationQueryBuilder: jest.fn(() => ({ QueryBuilder: jest.fn(), isQueryValid: jest.fn() })),
   useValidateApplicationFilterExpression: jest.fn(() => false)
 }));

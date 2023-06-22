@@ -136,7 +136,13 @@
         "title": "Traffic"
       },
       "indicatorChart": {
-        "title": "Indicator"
+        "title": "Indicator",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "Good event filters:",
+            "badEventFilters": "Bad event filters:"
+          }
+        }
       }
     }
   }

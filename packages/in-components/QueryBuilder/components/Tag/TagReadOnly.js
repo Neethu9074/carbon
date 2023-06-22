@@ -48,6 +48,6 @@ export default function TagReadOnly(props) {
       return null;
     }
 
-    return <InputValueViewerReadOnly value={field.value || ''} />;
+    return <InputValueViewerReadOnly value={field.value ?? ''} />;
   }
 }

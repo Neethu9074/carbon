@@ -10,7 +10,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 // eslint-disable-next-line
-import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
+import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

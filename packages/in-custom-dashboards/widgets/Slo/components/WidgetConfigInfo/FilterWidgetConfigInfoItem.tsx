@@ -10,8 +10,8 @@ import React from 'react';
 import { isTagFilter, isTagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { StackItem } from '@instana/components';
 
-import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
-import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
+import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
+import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 

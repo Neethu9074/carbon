@@ -24,6 +24,7 @@ import { t } from '@instana/i18n-react';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
@@ -65,6 +66,7 @@ export default function EventBasedIndicatorChart({
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        rightHeaderContent: <FilterInfo entity={entity} indicator={indicator} />,
         granularity: goodEventsMetricResult?.granularity ?? granularity,
         y1: {
           metricIds: [badEventsMetricId, goodEventsMetricId],

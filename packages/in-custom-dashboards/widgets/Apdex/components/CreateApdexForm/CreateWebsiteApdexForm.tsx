@@ -19,7 +19,7 @@ import {
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
+} from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
 // eslint-disable-next-line import/no-deprecated

@@ -20,7 +20,7 @@ import {
 import {
   useApplicationQueryBuilder,
   useValidateApplicationFilterExpression
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+} from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import ApplicationScopeConfiguratorSections from 'in-custom-dashboards/widgets/Apdex/components/ApplicationScopeConfiguratorSections';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';

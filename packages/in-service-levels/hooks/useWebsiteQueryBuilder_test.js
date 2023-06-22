@@ -10,7 +10,7 @@ import { just } from '@instana/observables';
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
+} from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSuggestions as getWebsiteSuggestions } from 'in-websites/queryBuilder';
@@ -18,7 +18,7 @@ import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalo
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { success } from 'in-services/util/result';
-import { days } from 'in-services/time/time';
+import { days } from 'in-services/time';
 
 jest.mock('in-websites/queryBuilder', () => ({
   ...jest.requireActual('in-websites/queryBuilder'),
@@ -36,7 +36,7 @@ jest.mock('in-components/QueryBuilder', () => ({
   createQueryBuilder: jest.fn()
 }));
 
-describe('in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder', () => {
+describe('in-service-levels/hooks/useWebsiteQueryBuilder', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('useWebsiteQueryBuilder', () => {

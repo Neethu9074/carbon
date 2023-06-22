@@ -5,17 +5,27 @@
 
 import { useMemo } from 'react';
 
+import {
+  BoundaryScope,
+  Result,
+  TagFilter,
+  TagFilterEntity,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from '@instana/types';
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { BoundaryScope, Result, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
+import { boundaryScopes } from 'in-applications/constants';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
@@ -67,9 +77,23 @@ export function useValidateApplicationFilterExpression({
 }: UseValidateApplicationFilterExpressionProps): boolean {
   const timeConfig = useTimeConfig();
   return (
-    useObservable(() => (filterExpression?.length ? isQueryValid(filterExpression, timeConfig) : just(success(true))), [
-      filterExpression,
-      timeConfig
-    ])?.data ?? false
+    useObservable(
+      () => (filterExpression?.length ? isQueryValid(filterExpression, timeConfig) : just(success(true))),
+      [filterExpression, timeConfig]
+    )?.data ?? false
   );
+}
+
+function getApplicationIdTagFilter(boundaryScope: BoundaryScope, applicationId: string): TagFilter {
+  return tagFilter(
+    boundaryScope === boundaryScopes.inbound ? 'boundary.application.id' : 'application.id',
+    EQUALS,
+    applicationId,
+    null,
+    tagFilterEntity(boundaryScope)
+  );
+}
+
+function tagFilterEntity(boundaryScope: BoundaryScope): TagFilterEntity {
+  return boundaryScope === boundaryScopes.inbound ? NOT_APPLICABLE : DESTINATION;
 }

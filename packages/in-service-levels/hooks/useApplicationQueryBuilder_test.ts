@@ -10,7 +10,7 @@ import { just } from '@instana/observables';
 import {
   useApplicationQueryBuilder,
   useValidateApplicationFilterExpression
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+} from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
@@ -33,7 +33,7 @@ jest.mock('in-components/QueryBuilder', () => ({
 
 const createQueryBuilder = cQB as jest.MockedFunction<typeof cQB>;
 
-describe('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder', () => {
+describe('in-service-levels/hooks/useApplicationQueryBuilder', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('useApplicationQueryBuilder', () => {
