@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { FormatterFn } from 'in-stores/metric/formatters';
-import { Bucket } from '../types';
+import { Bucket, Formatter } from 'in-components/HistogramChart/components/HistogramChartPresenter/types';
 
 export type Bins = [string | number | null, number][];
 
@@ -147,26 +146,54 @@ export function getMaxLabelCharsCount(bins: Bins) {
  * @param formatter - The formatting function to be applied to each bin value.
  * @returns The modified bins array.
  */
-export function formatBins(bins: Bins, formatter: FormatterFn) {
+interface FormatBinsProps {
+  bins: Bins;
+  formatter: Formatter;
+}
+
+export function formatBins({ bins, formatter }: FormatBinsProps) {
   if (bins.length === 0) {
     return [];
   }
 
+  const { applyFormatter, type } = formatter;
+
   return bins.map(bin => {
-    let value = bin[0] && formatter(Number(bin[0]));
-    const specialCases = ['0', '0 B', '0ms'];
-
+    const binValue = bin[0];
     const count = bin[1];
+    const isFormatterCompact = type === 'compact';
 
-    if (bin[0] === null) {
-      value = null;
-    }
+    const roudedUpValue = roundUp({
+      value: Number(binValue),
+      decimalPlaces: isFormatterCompact ? 0 : 2
+    });
 
-    // Handle special cases (when value is 0, 0B or 0ms)
-    if (typeof value === 'string' && specialCases.includes(`${value}`)) {
-      value = value?.replace('0', '1');
-    }
+    const value = binValue === null ? null : applyFormatter(roudedUpValue);
 
     return [value, count];
   }) as Bins;
+}
+
+/**
+ * Rounds up a number to the specified number of decimal places.
+ * @param {number} value - The number to round up.
+ * @param {number} decimalPlaces - The number of decimal places to round up to.
+ * @returns {number} The rounded-up number.
+ */
+interface RoundUpProps {
+  value: number;
+  decimalPlaces: number;
+}
+
+/**
+ * Rounds a number up to a specified number of decimal places.
+ *
+ * @param {number} value - The number to be rounded.
+ * @param {number} decimalPlaces - The number of decimal places to round to.
+ * @returns {number} The rounded number.
+ */
+export function roundUp({ value, decimalPlaces }: RoundUpProps) {
+  const multiplier = 10 ** decimalPlaces;
+
+  return Math.ceil(value * multiplier) / multiplier;
 }

@@ -48,7 +48,11 @@ export function getHistogramHeaderTitle({
   return `${metricName} ${totalLabel} ${minAndMaxLabels}`;
 }
 
-export const formatters = {
+export interface Formatters {
+  [key: string]: any;
+}
+
+export const formatters: Formatters = {
   percentage: percentage,
   number: number,
   bytes: bytes,
