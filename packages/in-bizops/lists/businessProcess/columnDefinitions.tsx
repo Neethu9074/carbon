@@ -39,29 +39,6 @@ export interface TimeResult {
   time: number;
 }
 
-/*
- * Returns a normalized timeConfig where "to" is set to result.time (unless it is already set and equal to result.time,
- * in which case timeConfig is returned unmodified). Instead of a result object with an attribute "time" you can also
- * pass in a number (millis since epoch) directly.
- */
-export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: number | TimeResult): TimeConfig {
-  let resultTime;
-  if (typeof resultOrTime === 'number') {
-    resultTime = resultOrTime;
-  } else if (typeof resultOrTime === 'object') {
-    resultTime = resultOrTime.time;
-  }
-
-  if (timeConfig.to === resultTime) {
-    return timeConfig;
-  }
-  return {
-    ...timeConfig,
-    to: resultTime,
-    focusedMoment: resultTime
-  };
-}
-
 function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   const { location, createHref } = useNavigation();
 
@@ -97,13 +74,13 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
-    getContent(item: BusinessProcessItem, { result, timeConfig }) {
+    getContent(item: BusinessProcessItem, { timeConfig }) {
       return (
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
           //@ts-ignore
-          timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
+          timeConfig={timeConfig}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.started_processes}
           metric={item.businessProcess.startedInstancesCount}
