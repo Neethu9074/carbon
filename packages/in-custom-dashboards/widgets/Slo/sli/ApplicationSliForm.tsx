@@ -8,18 +8,18 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import {
   applicationSliTypeOptions,
   applicationType,
   availabilityType,
   SliEntityType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
+import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
+import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
-import BoundaryScopeConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BoundaryScopeConfigurator';
-import HiddenCallsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/HiddenCallsConfigurator';
-import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-import ServiceSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
