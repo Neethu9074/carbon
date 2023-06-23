@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Li, LoadingSkeleton, Ul } from '@instana/components';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
+import locals from './SloEntityTableSkeleton.mless';
 
 export default function SloEntityTableSkeleton() {
   return (
