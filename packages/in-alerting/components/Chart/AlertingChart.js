@@ -45,10 +45,6 @@ export default function AlertingChart({
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
-  if (!idValidTimeThreshold(timeThreshold)) {
-    return null;
-  }
-
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
@@ -172,7 +168,7 @@ export default function AlertingChart({
   }
 }
 
-function idValidTimeThreshold(timeThreshold) {
+function isValidTimeThreshold(timeThreshold) {
   if (
     (timeThreshold?.users !== undefined && !timeThreshold.users) ||
     (timeThreshold?.userPercentage !== undefined && !timeThreshold.userPercentage) ||
@@ -207,6 +203,11 @@ function getAlertsPreviewQuery({
   timeThreshold
 }) {
   if (shouldRequestAlertsPreview(threshold)) {
+    //  validate if timeThreshold to prevent websocket error
+    if (!isValidTimeThreshold(timeThreshold)) {
+      return null;
+    }
+
     return {
       tagFilterExpression: enrichedTagFilterExpression,
       includeInternal,
