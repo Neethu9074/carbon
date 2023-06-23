@@ -13,6 +13,9 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { t } from 'in-i18n';
 
 const pathSegment = '/sapjavacentralinstance';
@@ -39,6 +42,13 @@ const columnDefinitions = [
     label: t('in-sap:hostName'),
     getContent(item) {
       return item.hostName;
+    }
+  },
+  {
+    id: 'overallRating',
+    label: t('in-sap:dashboards.overallRating'),
+    getContent(item) {
+      return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
     }
   },
   {
