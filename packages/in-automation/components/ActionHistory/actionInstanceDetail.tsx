@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -24,15 +24,18 @@ import { t } from 'in-i18n';
 
 import locals from './actionInstanceDetail.mless';
 
+// import { reload } from 'in-settings/components/List';
+
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
+  const [reload, setReload] = useState(0);
   const actionInstanceDetail =
     useObservable(
       getActionInstance({
         actionInstanceId: id,
         timeConfig
       }),
-      [id, timeConfig]
+      [id, timeConfig, reload]
     ) ?? pendingResult;
 
   if (actionInstanceDetail.progress?.loading) {
@@ -58,7 +61,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
-              <Feedback id={id} feedback={feedback} />
+              <Feedback id={id} feedback={feedback} setReload={setReload} />
             </TabPane>
           </Tabs>
         </>

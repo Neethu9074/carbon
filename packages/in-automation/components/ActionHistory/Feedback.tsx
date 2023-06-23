@@ -22,11 +22,22 @@ import { TimeConfig } from 'in-types';
 
 // import Input from 'in-components/form/Input/Input';
 
-export default function Feedback({ id, feedback }: { id: string; feedback: string }) {
-  const [form, setForm] = useState<FeedbackForm>(createForm(feedback));
+export default function Feedback({
+  id,
+  feedback,
+  setReload,
+  comment
+}: {
+  id: string;
+  feedback: string;
+  setReload: (updateFn: (counter: number) => number) => void;
+  comment: string;
+}) {
+  const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+
   // const [sliderMessage, setSliderMessage] = useState("Current feedback " + form.get('feedback').value);
   const timeConfig = useTimeConfig();
 
@@ -64,7 +75,9 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
     <Form
       form={form}
       setForm={form => setForm(form as FeedbackForm)}
-      onSubmit={form => handleSubmit({ form: form as FeedbackForm, id, timeConfig, setSuccess, setIsSaving, setError })}
+      onSubmit={form =>
+        handleSubmit({ form: form as FeedbackForm, id, timeConfig, setSuccess, setIsSaving, setError, setReload })
+      }
     >
       {/* sets error and success codes */}
       {error && <Message type="error">Error occured saving feedback</Message>}
@@ -120,7 +133,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
 
           {/* <Message>{sliderMessage}</Message> */}
           <KeyValue label="Additional Comments (optional)" />
-          <textarea rows={10} />
+          <textarea rows={10} value={form.get('comment').value} />
         </Stack>
       </div>
       <FormFooter>
@@ -133,6 +146,7 @@ export default function Feedback({ id, feedback }: { id: string; feedback: strin
 
 type FormItems = {
   feedback: Field<string>;
+  comment: Field<string>;
 };
 type FeedbackForm = MapForm<FormItems>;
 
@@ -148,13 +162,15 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess
-}: {
+}: //setReload
+{
   form: FeedbackForm;
   id: string;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
+  setReload: (updateFn: (counter: number) => number) => void;
 }) => {
   setIsSaving(true);
   setError(false);
@@ -162,12 +178,14 @@ const handleSubmit = ({
     // updates the actioninstance feedback in backend
     id,
     feedback: form.get('feedback').value,
+    comment: form.get('comment').value,
     to: timeConfig.to ?? Date.now(),
     windowSize: timeConfig.windowSize
   }).once(
     () => {
       setIsSaving(false);
       setSuccess(true);
+      //setReload((reload : number) => reload+1)
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
@@ -179,14 +197,22 @@ const handleSubmit = ({
   );
 };
 
-const createForm = (feedback: string) => {
-  let form = createMapForm().put(
-    'feedback',
-    createField({
-      value: feedback,
-      validator: notBlankValidator
-    })
-  );
+const createForm = (feedback: string, comment: string): MapForm => {
+  let form = createMapForm()
+    .put(
+      'feedback',
+      createField({
+        value: feedback,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'comment',
+      createField({
+        value: comment,
+        validator: notBlankValidator
+      })
+    );
 
   return form;
 };

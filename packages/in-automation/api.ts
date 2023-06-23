@@ -531,19 +531,22 @@ export function updateActionInstanceFeedback({
   id,
   feedback,
   to,
-  windowSize
+  windowSize,
+  comment
 }: {
   id: string;
   feedback: string;
   to: number;
   windowSize: number;
+  comment: string;
 }) {
   return http<ActionInstance>({
     method: 'PUT',
     maxRetries: 3,
     url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
     data: {
-      feedback: parseInt(feedback)
+      feedback: parseInt(feedback),
+      comment
     },
     headers: getCsrfHeader(),
     queryParams: {
