@@ -22,9 +22,9 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
 import ButtonGroup from 'in-components/ButtonGroup';
-import metrics from 'in-service-levels/metrics';
 
 interface ErrorBudgetChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -65,7 +65,7 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
           metrics: [metricResult?.metrics.consumed ?? [], metricResult?.metrics.remaining ?? []],
           min: showFullConsumption ? findMinMetricValue(metricResult?.metrics.remaining ?? []) : 0,
           renderAllTickLabels: showFullConsumption,
-          labels: [metrics.consumedBudget.label, metrics.remainingBudget.label],
+          labels: [sloMetrics.consumedBudget.label, sloMetrics.remainingBudget.label],
           colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
           renderer,
           formatter
@@ -120,12 +120,12 @@ function useErrorBudgetChartMetrics(
   const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
   const activeTimeConfig = showFullSloTimeWindow ? fullWindowTimeConfig : timeConfig;
   const metricConfigs = {
-    consumed: metrics.consumedBudget.timeSeries({
+    consumed: sloMetrics.consumedBudget.timeSeries({
       configId: id!,
       timeConfig: activeTimeConfig,
       contextTimeConfig: !showFullSloTimeWindow ? fullWindowTimeConfig : undefined
     }),
-    remaining: metrics.remainingBudget.timeSeries({
+    remaining: sloMetrics.remainingBudget.timeSeries({
       configId: id!,
       timeConfig: activeTimeConfig,
       contextTimeConfig: !showFullSloTimeWindow ? fullWindowTimeConfig : undefined

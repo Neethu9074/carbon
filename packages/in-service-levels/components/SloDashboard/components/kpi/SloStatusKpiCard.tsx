@@ -12,7 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import metrics from 'in-service-levels/metrics';
+import { sloMetrics } from 'in-service-levels/metrics';
 
 interface SloStatusKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -26,10 +26,10 @@ export default function SloStatusKpiCard({ configuration, timeConfig }: SloStatu
 
   return (
     <BigNumberKpiCard
-      title={metrics.status.label}
+      title={sloMetrics.status.label}
       formatter={formatter}
       config={{
-        metricConfiguration: metrics.status.singleNumber({ timeConfig, configId: id! }),
+        metricConfiguration: sloMetrics.status.singleNumber({ timeConfig, configId: id! }),
         staticCompanionValue: t('in-service-levels:sloDashboard.components.sloStatusKpiCard.target', {
           value: formatter(target)
         }),

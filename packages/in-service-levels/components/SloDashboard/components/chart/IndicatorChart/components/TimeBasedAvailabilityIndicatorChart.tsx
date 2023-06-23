@@ -28,6 +28,7 @@ import { calculateSloReferenceChartGranularity } from 'in-service-levels/compone
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { TimeBasedAvailabilityBlueprintIndicator } from 'in-service-levels/types';
+import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -64,9 +65,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
           metricIds: [metricId, thresholdMetricId],
           metrics: [metric, metric.map(([timestamp]) => [timestamp, threshold])],
           labels: [
-            isApplicationSloEntity(entity)
-              ? t('in-service-levels:general.metrics.errors')
-              : t('in-service-levels:general.metrics.beaconErrorRate'),
+            isApplicationSloEntity(entity) ? applicationMetrics.errorRate.label : websiteMetrics.beaconErrorRate.label,
             t('in-service-levels:general.metrics.threshold')
           ],
           colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
@@ -89,34 +88,23 @@ function useMetricConfiguration(
 ): UnifiedMetricConfigurationUnion {
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
-    return {
-      granularity,
-      aggregation: indicator.aggregation,
-      source: 'APPLICATION',
-      dataSource: 'CALLS',
+    return applicationMetrics.errorRate.timeSeries({
+      entity,
       tagFilterExpression,
-      timeShift: { offset: 0 },
-      includeInternal: Boolean(entity.includeInternal),
-      includeSynthetic: Boolean(entity.includeSynthetic),
-      metric: 'errors',
-      resultType: 'TIME_SERIES',
-      queryPrecision: 'FULL',
-      timeConfig
-    };
+      granularity,
+      timeConfig,
+      aggregation: indicator.aggregation
+    });
   }
 
   if (isWebsiteSloEntity(entity)) {
-    return {
-      granularity,
-      aggregation: indicator.aggregation,
-      source: 'WEBSITE',
-      metric: 'beaconErrorRate',
-      beaconType: entity.beaconType,
+    return websiteMetrics.beaconErrorRate.timeSeries({
+      entity,
       tagFilterExpression,
-      timeShift: { offset: 0 },
+      granularity,
       timeConfig,
-      resultType: 'TIME_SERIES'
-    };
+      aggregation: indicator.aggregation
+    });
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);

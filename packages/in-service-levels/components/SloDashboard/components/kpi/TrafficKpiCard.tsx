@@ -16,6 +16,7 @@ import {
 } from '@instana/types';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -35,7 +36,7 @@ export default function TrafficKpiCard({ configuration, timeConfig }: TrafficKpi
 
   return (
     <BigNumberKpiCard
-      title="Traffic"
+      title={t('in-service-levels:sloDashboard.components.trafficKpiCard.title')}
       formatter={primaryFormatter}
       companionFormatter={companionFormatter}
       config={{
@@ -54,36 +55,16 @@ interface MetricConfigurations {
 function useMetricConfiguration(entity: SloEntityUnion, timeConfig: TimeConfig): MetricConfigurations {
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
-    const config = {
-      source: 'APPLICATION',
-      dataSource: 'CALLS',
-      tagFilterExpression,
-      timeShift: { offset: 0 },
-      includeInternal: Boolean(entity.includeInternal),
-      includeSynthetic: Boolean(entity.includeSynthetic),
-      metric: 'calls',
-      resultType: 'SINGLE_NUMBER',
-      queryPrecision: 'FULL',
-      timeConfig
-    } as const;
+    const metricProps = { entity, tagFilterExpression, timeConfig };
     return {
-      primaryMetricConfiguration: { ...config, aggregation: 'PER_SECOND' },
-      companionMetricConfiguration: { ...config, aggregation: 'SUM' }
+      primaryMetricConfiguration: applicationMetrics.calls.singleNumber({ ...metricProps, aggregation: 'PER_SECOND' }),
+      companionMetricConfiguration: applicationMetrics.calls.singleNumber(metricProps)
     };
   }
 
   if (isWebsiteSloEntity(entity)) {
-    const config = {
-      source: 'WEBSITE',
-      metric: 'beaconCount',
-      beaconType: entity.beaconType,
-      tagFilterExpression,
-      timeShift: { offset: 0 },
-      timeConfig,
-      resultType: 'SINGLE_NUMBER'
-    } as const;
     return {
-      primaryMetricConfiguration: { ...config, aggregation: 'SUM' }
+      primaryMetricConfiguration: websiteMetrics.beaconCount.singleNumber({ entity, tagFilterExpression, timeConfig })
     };
   }
 

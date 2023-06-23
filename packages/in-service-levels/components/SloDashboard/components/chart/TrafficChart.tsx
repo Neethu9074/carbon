@@ -22,6 +22,7 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
 interface TrafficChartProps {
@@ -55,34 +56,15 @@ function useMetricConfiguration(entity: SloEntityUnion, granularity: number, tim
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
     return {
-      label: t('in-service-levels:general.metrics.calls'),
-      granularity,
-      aggregation: 'SUM',
-      source: 'APPLICATION',
-      dataSource: 'CALLS',
-      tagFilterExpression,
-      timeShift: { offset: 0 },
-      includeInternal: Boolean(entity.includeInternal),
-      includeSynthetic: Boolean(entity.includeSynthetic),
-      metric: 'calls',
-      resultType: 'TIME_SERIES',
-      queryPrecision: 'FULL',
-      timeConfig
+      label: applicationMetrics.calls.label,
+      ...applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity })
     };
   }
 
   if (isWebsiteSloEntity(entity)) {
     return {
-      label: t('in-service-levels:general.metrics.beaconCount'),
-      granularity,
-      aggregation: 'SUM',
-      source: 'WEBSITE',
-      metric: 'beaconCount',
-      beaconType: entity.beaconType,
-      tagFilterExpression,
-      timeShift: { offset: 0 },
-      timeConfig,
-      resultType: 'TIME_SERIES'
+      label: websiteMetrics.beaconCount.label,
+      ...websiteMetrics.beaconCount.timeSeries({ entity, tagFilterExpression, timeConfig, granularity })
     };
   }
 

@@ -130,6 +130,7 @@
         "target": "SLO Target: {{value}}"
       },
       "trafficKpiCard": {
+        "title": "Traffic",
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {

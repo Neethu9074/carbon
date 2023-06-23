@@ -20,8 +20,8 @@ import { calculateTimeConfigForSloTimeWindow } from 'in-service-levels/hooks/use
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
+import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
-import metrics from 'in-service-levels/metrics';
 
 export interface SloMetricsResult {
   status: MetricResult;
@@ -55,15 +55,15 @@ function getMetricConfig(
   return configurations.reduce<Record<string, UnifiedMetricConfigurationUnion>>((metricConfig, sloConfig) => {
     const sloTimeConfig = calculateTimeConfigForSloTimeWindow(timeConfig, sloConfig.timeWindow);
 
-    metricConfig[`${sloConfig.id}-status`] = metrics.status.singleNumber({
+    metricConfig[`${sloConfig.id}-status`] = sloMetrics.status.singleNumber({
       configId: sloConfig.id!,
       timeConfig: sloTimeConfig
     });
-    metricConfig[`${sloConfig.id}-remainingBudget`] = metrics.remainingBudget.singleNumber({
+    metricConfig[`${sloConfig.id}-remainingBudget`] = sloMetrics.remainingBudget.singleNumber({
       configId: sloConfig.id!,
       timeConfig: sloTimeConfig
     });
-    metricConfig[`${sloConfig.id}-remainingBudgetSpark`] = metrics.remainingBudget.timeSeriesCompact({
+    metricConfig[`${sloConfig.id}-remainingBudgetSpark`] = sloMetrics.remainingBudget.timeSeriesCompact({
       configId: sloConfig.id!,
       timeConfig: sloTimeConfig
     });

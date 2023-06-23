@@ -29,6 +29,7 @@ import { createTagFilterExpression } from 'in-components/QueryBuilder/transforma
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
+import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -110,34 +111,23 @@ function getMetricConfiguration(
   timeConfig: TimeConfig
 ): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
-    return {
-      granularity,
-      aggregation: 'SUM',
-      source: 'APPLICATION',
-      dataSource: 'CALLS',
+    return applicationMetrics.calls.timeSeries({
+      entity,
       tagFilterExpression,
-      timeShift: { offset: 0 },
-      includeInternal: Boolean(entity.includeInternal),
-      includeSynthetic: Boolean(entity.includeSynthetic),
-      metric: 'calls',
-      resultType: 'TIME_SERIES',
-      queryPrecision: 'FULL',
-      timeConfig
-    };
+      timeConfig,
+      granularity,
+      aggregation: 'SUM'
+    });
   }
 
   if (isWebsiteSloEntity(entity)) {
-    return {
-      granularity,
-      aggregation: 'SUM',
-      source: 'WEBSITE',
-      metric: 'beaconCount',
-      beaconType: entity.beaconType,
+    return websiteMetrics.beaconCount.timeSeries({
+      entity,
       tagFilterExpression,
-      timeShift: { offset: 0 },
       timeConfig,
-      resultType: 'TIME_SERIES'
-    };
+      granularity,
+      aggregation: 'SUM'
+    });
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
