@@ -6,7 +6,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
+import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { EndpointItem, PaginatedResult } from 'in-types';
 import uE from 'in-applications/hooks/useEndpoints';

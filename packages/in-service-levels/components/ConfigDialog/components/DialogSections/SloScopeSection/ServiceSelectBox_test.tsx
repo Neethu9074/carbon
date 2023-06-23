@@ -8,14 +8,16 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import ServiceSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox';
+import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import useServices from 'in-applications/hooks/useServices';
+import useServicesOriginal from 'in-applications/hooks/useServices';
+import { noop } from 'in-services/fixedObjects';
 
 jest.mock('in-applications/hooks/useServices', () => ({
   __esModule: true,
   default: jest.fn()
 }));
+const useServices = useServicesOriginal as jest.MockedFunction<typeof useServicesOriginal>;
 
 describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
   beforeEach(jest.clearAllMocks);
@@ -27,7 +29,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find('option')).toHaveLength(1);
@@ -39,7 +43,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find('option').prop('children')).toEqual(
@@ -52,7 +58,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find(SelectInSection).prop('label')).toEqual(
@@ -65,7 +73,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find(SelectInSection).prop('disabled')).toBeTruthy();
@@ -76,7 +86,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find(SelectInSection).prop('value')).toEqual('');
@@ -87,7 +99,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // When
       useServices.mockReturnValueOnce([undefined, status, [], { loading: true }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find(SelectInSection).prop('hasError')).toBeFalsy();
@@ -99,8 +113,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
       const status = 'resolved';
 
       // When
-      useServices.mockReturnValueOnce([undefined, status, [], { loading: false }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      useServices.mockReturnValueOnce([
+        { items: [], page: 1, pageSize: 1, totalHits: 0 },
+        status,
+        [],
+        { loading: false }
+      ]);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find('option').prop('children')).toEqual(
@@ -112,8 +133,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
       const status = 'resolved';
 
       // When
-      useServices.mockReturnValueOnce([undefined, status, [], { loading: false }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      useServices.mockReturnValueOnce([
+        { items: [], page: 1, pageSize: 1, totalHits: 0 },
+        status,
+        [],
+        { loading: false }
+      ]);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find(SelectInSection).prop('disabled')).toBeFalsy();
@@ -124,52 +152,31 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
       // Given
       const status = 'resolved';
       const fetchedServices = [
-        { service: { id: 'serviceA', label: 'Service A' } },
-        { service: { id: 'serviceB', label: 'Service B' } }
+        { service: { id: 'serviceA', label: 'Service A', snapshotIds: [], technologies: [], types: [] }, metrics: {} },
+        { service: { id: 'serviceB', label: 'Service B', snapshotIds: [], technologies: [], types: [] }, metrics: {} }
       ];
 
       // When
-      useServices.mockReturnValueOnce([{ items: fetchedServices }, status, [], { loading: false }]);
-      const wrapper = shallow(<ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" />);
+      useServices.mockReturnValueOnce([
+        { items: fetchedServices, page: 1, pageSize: 1, totalHits: 2 },
+        status,
+        [],
+        { loading: false }
+      ]);
+      const wrapper = shallow(
+        <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={noop} />
+      );
 
       // Then
       expect(wrapper.find('option')).toHaveLength(3);
-      expect(
-        wrapper
-          .find('option')
-          .at(0)
-          .prop('children')
-      ).toEqual(t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices'));
-      expect(
-        wrapper
-          .find('option')
-          .at(0)
-          .prop('value')
-      ).toEqual('');
-      expect(
-        wrapper
-          .find('option')
-          .at(1)
-          .prop('children')
-      ).toEqual('Service A');
-      expect(
-        wrapper
-          .find('option')
-          .at(1)
-          .prop('value')
-      ).toEqual('serviceA');
-      expect(
-        wrapper
-          .find('option')
-          .at(2)
-          .prop('children')
-      ).toEqual('Service B');
-      expect(
-        wrapper
-          .find('option')
-          .at(2)
-          .prop('value')
-      ).toEqual('serviceB');
+      expect(wrapper.find('option').at(0).prop('children')).toEqual(
+        t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')
+      );
+      expect(wrapper.find('option').at(0).prop('value')).toEqual('');
+      expect(wrapper.find('option').at(1).prop('children')).toEqual('Service A');
+      expect(wrapper.find('option').at(1).prop('value')).toEqual('serviceA');
+      expect(wrapper.find('option').at(2).prop('children')).toEqual('Service B');
+      expect(wrapper.find('option').at(2).prop('value')).toEqual('serviceB');
     });
   });
   describe('If a service has been selected', () => {
@@ -178,12 +185,17 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
       const onChangeMock = jest.fn();
       const status = 'resolved';
       const fetchedServices = [
-        { service: { id: 'serviceA', label: 'Service A' } },
-        { service: { id: 'serviceB', label: 'Service B' } }
+        { service: { id: 'serviceA', label: 'Service A', snapshotIds: [], technologies: [], types: [] }, metrics: {} },
+        { service: { id: 'serviceB', label: 'Service B', snapshotIds: [], technologies: [], types: [] }, metrics: {} }
       ];
 
       // When
-      useServices.mockReturnValueOnce([{ items: fetchedServices }, status, [], { loading: false }]);
+      useServices.mockReturnValueOnce([
+        { items: fetchedServices, page: 1, pageSize: 1, totalHits: 2 },
+        status,
+        [],
+        { loading: false }
+      ]);
       const wrapper = shallow(
         <ServiceSelectBox applicationId="someApplication" boundaryScope="INBOUND" onChange={onChangeMock} />
       );

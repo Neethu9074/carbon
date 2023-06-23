@@ -10,13 +10,13 @@ import { Application, Progress, SloEntityType, Website } from '@instana/types';
 import { Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import SloEntityTableSkeleton from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTableSkeleton';
 import { SloForm, isApplicationSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import TableSkeleton from 'in-service-levels/components/SloList/components/TableSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { noop } from 'in-services/fixedObjects';
 
-import locals from 'in-service-levels/components/SloList/components/SloEntityTable.mless';
+import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
 
 export interface EntityData {
   id: string;
@@ -44,7 +44,7 @@ export default function SloEntityTable({ form, entityList, onChange, progress, q
 
   const loadMoreData = () => setNext(next + dataPerRow);
 
-  if (progress.loading) return <TableSkeleton />;
+  if (progress.loading) return <SloEntityTableSkeleton />;
 
   if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
 

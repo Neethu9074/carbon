@@ -9,8 +9,10 @@ import { Item } from 'formalistic';
 
 import { Card } from '@instana/components';
 
+import SloEntityTable, {
+  EntityData
+} from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import { ApplicationSloForm, ApplicationSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import SloEntityTable, { EntityData } from 'in-service-levels/components/SloList/components/SloEntityTable';
 import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { t } from 'in-i18n';
