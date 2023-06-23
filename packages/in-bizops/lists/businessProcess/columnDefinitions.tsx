@@ -9,7 +9,6 @@ import React from 'react';
 
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
-//// @ts-expect-error Module needs to be translated to TS
 //import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error Module needs to be translated to TS
@@ -74,13 +73,13 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
-    getContent(item: BusinessProcessItem, { timeConfig }) {
+    getContent(item: BusinessProcessItem, { timeConfig, result }) {
       return (
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
           //@ts-ignore
-          timeConfig={timeConfig}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.started_processes}
           metric={item.businessProcess.startedInstancesCount}
