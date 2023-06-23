@@ -6,7 +6,7 @@
 import { apiScriptTest, apiSimpleTest } from 'in-synthetics/utils/constants';
 import { t } from 'in-i18n';
 
-const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.title');
+const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.title');
 const tipsForUsing = t('in-synthetics:dialog.createTest.bluePrint.apiSimple.tipsForUsing.title');
 
 export const blueprintConfig: readonly Readonly<BluePrint>[] = Object.freeze([

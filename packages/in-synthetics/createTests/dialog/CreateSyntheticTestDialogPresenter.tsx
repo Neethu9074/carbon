@@ -15,6 +15,7 @@ import {
   SlideInConfig,
   SlideInHeader,
   SliderState,
+  TestTypeSelected,
   apiScriptTest,
   apiSimpleTest
 } from 'in-synthetics/utils/constants';
@@ -46,8 +47,8 @@ export interface CreateSyntheticTestDialogPresenterProps {
   setSlideInViewVisible: React.Dispatch<React.SetStateAction<boolean>>;
   slideInConfig: SlideInConfig | null;
   setSliderState: (state: SliderState) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -196,8 +197,10 @@ const CreateSyntheticTestDialogPresenter = ({
               onClick={() => {
                 //@ts-expect-error
                 setTestTypeSelected((prevState: SetStateAction<any>) => {
-                  if (selectedBlueprint.type === apiSimpleTest) return { ...prevState, simple: true, script: false };
-                  if (selectedBlueprint.type === apiScriptTest) return { ...prevState, simple: false, script: true };
+                  if (selectedBlueprint.type === apiSimpleTest)
+                    return { ...prevState, api: { simple: true, script: false } };
+                  if (selectedBlueprint.type === apiScriptTest)
+                    return { ...prevState, api: { simple: false, script: true } };
                 });
                 setSimpleMode(!simpleMode);
                 populateCommonAttributes(form);

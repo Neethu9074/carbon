@@ -8,9 +8,9 @@ import React, { forwardRef } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
-import locals from 'in-synthetics/createTests/advanced/PingOrScriptOption.mless';
+import locals from 'in-synthetics/createTests/advanced/SimpleOrScriptOption.mless';
 
-interface PingOrScriptOptionProps {
+interface SimpleOrScriptOptionProps {
   checked?: boolean;
   disabled?: boolean;
   title: string;
@@ -19,14 +19,14 @@ interface PingOrScriptOptionProps {
   onChange: (checked: boolean) => void;
 }
 
-const PingOrScriptOption = ({
+const SimpleOrScriptOption = ({
   checked,
   disabled,
   title,
   description,
   asRadioButton,
   onChange
-}: PingOrScriptOptionProps) => {
+}: SimpleOrScriptOptionProps) => {
   return (
     <OptionBoxWithRef
       checked={checked}
@@ -77,4 +77,4 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
   );
 });
 
-export default PingOrScriptOption;
+export default SimpleOrScriptOption;

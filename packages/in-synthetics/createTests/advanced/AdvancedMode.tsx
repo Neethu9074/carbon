@@ -48,20 +48,28 @@ const AdvancedMode = ({
   const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
 
   const getTestTypeSection = (syntheticType: string) => {
-    if (syntheticType === 'HTTPScript') {
-      return (
-        <ScriptsSection
-          form={form}
-          updateForm={updateForm}
-          setSliderState={setSliderState}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-          isUpdateConfig={isUpdateConfig}
-          scriptDetails={scriptDetails!}
-          setScriptDetails={setScriptDetails!}
-        />
-      );
+    switch (syntheticType) {
+      case 'HTTPScript':
+        return (
+          <ScriptsSection
+            form={form}
+            updateForm={updateForm}
+            setSliderState={setSliderState}
+            setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+            isUpdateConfig={isUpdateConfig}
+            scriptDetails={scriptDetails!}
+            setScriptDetails={setScriptDetails!}
+          />
+        );
+      case 'HTTPAction':
+        return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
+      case 'BrowserScript':
+        return <h1>BrowserScript Section</h1>;
+      case 'WebpageScript':
+        return <h1>{`WebpageScript (single) section`}</h1>;
+      default:
+        return null;
     }
-    return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
   };
 
   const mainSection = {

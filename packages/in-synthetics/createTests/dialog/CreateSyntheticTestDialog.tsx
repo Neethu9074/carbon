@@ -12,8 +12,8 @@ import { createLogger } from '@instana/logger';
 
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { Code, SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
 
@@ -31,7 +31,10 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   const [simpleMode, setSimpleMode] = useState(true);
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
-  const [testTypeSelected, setTestTypeSelected] = useState({ simple: false, script: false });
+  const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
+    api: { simple: false, script: false },
+    browser: { simple: false, script: false }
+  });
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
   const formId = 'create-synthetics-test-form';
 

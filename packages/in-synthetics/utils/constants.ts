@@ -357,8 +357,8 @@ export interface AdvancedModeProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
@@ -451,4 +451,14 @@ export interface ModalNotificationProps {
   variant?: 'success' | 'failure';
   message: string;
   onClick?: () => void;
+}
+
+export interface SimpleOrScript {
+  simple: boolean;
+  script: boolean;
+}
+
+export interface TestTypeSelected {
+  api: SimpleOrScript;
+  browser: SimpleOrScript;
 }

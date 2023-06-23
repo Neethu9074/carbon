@@ -11,19 +11,19 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
+import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScriptOption';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
-import PingOrScriptOption from 'in-synthetics/createTests/advanced/PingOrScriptOption';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { Code, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
-import { Code } from 'in-synthetics/utils/constants';
 
 import locals from 'in-synthetics/createTests/advanced/SelectedTestType.mless';
 
 interface SelectedTestTypeProps {
   selectedBlueprint: AdvancedBluePrint;
   updateForm: (form: MapForm<any>) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
@@ -33,15 +33,29 @@ interface SelectedTestTypeProps {
 
 const pingAPIDescription = (
   <>
-    <b>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.title')}</b>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
     <p>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.line1')}</p>
   </>
 );
 
 const scriptAPIDescription = (
   <>
-    <b>{t('in-synthetics:dialog.createTest.bluePrint.apiSimple.whenToUse.title')}</b>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
     <p>{t('in-synthetics:dialog.createTest.bluePrint.apiScript.whenToUse.line1')}</p>
+  </>
+);
+
+const simpleBrowserDescription = (
+  <>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.browserSimple.whenToUse.line1')}</p>
+  </>
+);
+
+const scriptBrowserDescription = (
+  <>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.browserScript.whenToUse.line1')}</p>
   </>
 );
 
@@ -62,7 +76,15 @@ const SelectedTestType = ({
         {
           //Default component is RenderHttpTests
           selectedBlueprint.type === 'Browser' ? (
-            <RenderBrowser selectedBlueprint={selectedBlueprint} />
+            <RenderBrowser
+              selectedBlueprint={selectedBlueprint}
+              testTypeSelected={testTypeSelected}
+              setTestTypeSelected={setTestTypeSelected}
+              commonAttributes={commonAttributes}
+              setCommonAttributes={setCommonAttributes}
+              isUpdateConfig={isUpdateConfig}
+              setScriptDetails={setScriptDetails}
+            />
           ) : selectedBlueprint.type === 'Internet Services' ? (
             <RenderInternetServices selectedBlueprint={selectedBlueprint} />
           ) : (
@@ -83,8 +105,10 @@ const SelectedTestType = ({
           kind="primary"
           className={locals.button}
           onClick={() => {
-            if (testTypeSelected.simple) selectedBlueprint.testType = 'HTTPAction';
-            if (testTypeSelected.script) selectedBlueprint.testType = 'HTTPScript';
+            if (testTypeSelected?.api.simple) selectedBlueprint.testType = 'HTTPAction';
+            if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
+            if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageScript';
+            if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
             updateForm(createForm(false, selectedBlueprint, commonAttributes));
             setRenderSectionsCounter(v => v + 1);
           }}
@@ -98,8 +122,8 @@ const SelectedTestType = ({
 
 interface RenderHttpTestsProps {
   selectedBlueprint: AdvancedBluePrint;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
@@ -125,14 +149,19 @@ const RenderHttpTests = ({
       <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
       <Row>
         <Col lg={6} className={locals.column}>
-          <PingOrScriptOption
+          <SimpleOrScriptOption
             //The default behavior is that both testTypeSelected.simple and
             //testTypeSelected.script are false, i.e, neither Simple Test nor Script Test is selected.
-            checked={!testTypeSelected.simple && !testTypeSelected.script ? simple : testTypeSelected.simple}
+            checked={
+              !testTypeSelected?.api.simple && !testTypeSelected?.api.script ? simple : testTypeSelected?.api.simple
+            }
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.httpActionTitle')}
             description={pingAPIDescription}
             onChange={() => {
-              setTestTypeSelected({ simple: true, script: false });
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, api: { simple: true, script: false } };
+              });
               setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'HTTPAction' });
               setScriptDetails({ modified: false, name: '' });
             }}
@@ -141,14 +170,19 @@ const RenderHttpTests = ({
           />
         </Col>
         <Col lg={6} className={locals.column}>
-          <PingOrScriptOption
+          <SimpleOrScriptOption
             //The default behavior is that both testTypeSelected.simple and
             //testTypeSelected.script are false, i.e, neither Simple Test nor Script Test is selected.
-            checked={!testTypeSelected.simple && !testTypeSelected.script ? script : testTypeSelected.script}
+            checked={
+              !testTypeSelected?.api.simple && !testTypeSelected?.api.script ? script : testTypeSelected?.api.script
+            }
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.httpScriptTitle')}
             description={scriptAPIDescription}
             onChange={() => {
-              setTestTypeSelected({ simple: false, script: true });
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, api: { simple: false, script: true } };
+              });
               setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'HTTPScript' });
               setScriptDetails({ modified: false, name: '' });
             }}
@@ -163,20 +197,84 @@ const RenderHttpTests = ({
 
 interface BaseRenderProps {
   selectedBlueprint: AdvancedBluePrint;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
 }
 
-const RenderBrowser = ({ selectedBlueprint }: BaseRenderProps) => {
+const RenderBrowser = ({
+  selectedBlueprint,
+  testTypeSelected,
+  setTestTypeSelected,
+  commonAttributes,
+  setCommonAttributes,
+  isUpdateConfig,
+  setScriptDetails
+}: BaseRenderProps) => {
+  const simple: boolean = commonAttributes.syntheticType === 'WebpageScript' ? true : false;
+  const script: boolean = commonAttributes.syntheticType === 'BrowserScript' ? true : false;
   return (
     <>
       <h3 className={locals.headline}>
         <span>{selectedBlueprint.description.headline}</span>
       </h3>
       <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
+      <Row>
+        <Col lg={6} className={locals.column}>
+          <SimpleOrScriptOption
+            checked={
+              !testTypeSelected?.browser.simple && !testTypeSelected?.browser.script
+                ? simple
+                : testTypeSelected?.browser.simple
+            }
+            title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.browserSimpleTitle')}
+            description={simpleBrowserDescription}
+            onChange={() => {
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, browser: { simple: true, script: false } };
+              });
+              setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'WebpageScript' });
+              setScriptDetails({ modified: false, name: '' });
+            }}
+            disabled={isUpdateConfig}
+            asRadioButton
+          />
+        </Col>
+        <Col lg={6} className={locals.column}>
+          <SimpleOrScriptOption
+            checked={
+              !testTypeSelected?.browser.simple && !testTypeSelected?.browser.script
+                ? script
+                : testTypeSelected?.browser.script
+            }
+            title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.browserScriptTitle')}
+            description={scriptBrowserDescription}
+            onChange={() => {
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, browser: { simple: false, script: true } };
+              });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'BrowserScript' });
+              setScriptDetails({ modified: false, name: '' });
+            }}
+            disabled={isUpdateConfig}
+            asRadioButton
+          />
+        </Col>
+      </Row>
     </>
   );
 };
 
-const RenderInternetServices = ({ selectedBlueprint }: BaseRenderProps) => {
+interface RenderInternetServicesProps {
+  selectedBlueprint: AdvancedBluePrint;
+}
+
+const RenderInternetServices = ({ selectedBlueprint }: RenderInternetServicesProps) => {
   return (
     <>
       <h3 className={locals.headline}>
