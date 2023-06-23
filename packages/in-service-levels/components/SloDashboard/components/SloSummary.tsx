@@ -10,13 +10,10 @@ import IndicatorChart from 'in-service-levels/components/SloDashboard/components
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
 import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/SloStatusKpiCard';
+import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
-import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import { pendingResult } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Nullish } from 'in-types';
@@ -52,7 +49,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           <ErrorBudgetKpiCard configuration={configuration} timeConfig={fullWindowTimeConfig} />
         </Col>
         <Col xs>
-          <PlaceholderLoadingKpiCard />
+          <TrafficKpiCard configuration={configuration} timeConfig={selectedTimeConfig} />
         </Col>
       </Row>
       <Row>
@@ -76,24 +73,5 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
         </Col>
       </Row>
     </>
-  );
-}
-
-function PlaceholderLoadingKpiCard() {
-  return <ResultAwareKpiCard title="placeholder" result={pendingResult} renderKpiCard={() => <div />} />;
-}
-
-export function PlaceholderLoadingChart() {
-  const timeConfig = useTimeConfig();
-  return (
-    <ResultAwareChart
-      result={pendingResult}
-      config={{
-        title: 'placeholder',
-        y1: { metrics: [], colors: [], renderer: Renderer.line, metricIds: [], labels: [] },
-        timeConfig,
-        customChartSkeletonHeight: 182
-      }}
-    />
   );
 }
