@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -22,6 +22,7 @@ interface DeleteIconProps {
 }
 
 interface DeleteProps {
+  kind?: DeleteKind;
   tooltipContent?: string;
   dialogMessage: string | React.ReactElement<any, string | React.JSXElementConstructor<any>> | undefined;
   itemName: string;
@@ -30,6 +31,12 @@ interface DeleteProps {
   isDeleting: boolean;
   skipDialog?: boolean;
   disabled?: boolean;
+  label?: string;
+}
+
+export enum DeleteKind {
+  Icon = 'icon',
+  Button = 'button'
 }
 
 export function Delete({
@@ -40,7 +47,9 @@ export function Delete({
   isDeleting,
   itemName,
   skipDialog = false,
-  tooltipContent
+  tooltipContent,
+  kind = DeleteKind.Icon,
+  label = t('in-settings:components.removeBtn')
 }: DeleteProps) {
   const handleClick = () => {
     if (disabled) return;
@@ -68,13 +77,21 @@ export function Delete({
     );
   };
 
-  if (!tooltipContent) return <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />;
+  if (kind === DeleteKind.Button) {
+    return (
+      <Button data-testid="inline-editor-delete-button" kind="action" onClick={handleClick} disabled={isDeleting}>
+        {label ? label : t('in-settings:components.removeBtn')}
+      </Button>
+    );
+  } else {
+    if (!tooltipContent) return <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />;
 
-  return (
-    <Tooltip content={tooltipContent}>
-      <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />
-    </Tooltip>
-  );
+    return (
+      <Tooltip content={tooltipContent}>
+        <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />
+      </Tooltip>
+    );
+  }
 }
 
 export const DeleteIcon = React.forwardRef<SVGSVGElement, DeleteIconProps>((props, ref) => {

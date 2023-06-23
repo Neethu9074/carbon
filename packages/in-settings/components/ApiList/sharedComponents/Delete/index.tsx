@@ -5,5 +5,6 @@
  */
 
 import { Delete } from 'in-settings/components/ApiList/sharedComponents/Delete/Delete';
+export { DeleteKind } from 'in-settings/components/ApiList/sharedComponents/Delete/Delete';
 
 export default Delete;

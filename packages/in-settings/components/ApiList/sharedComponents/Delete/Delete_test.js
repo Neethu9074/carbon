@@ -6,6 +6,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { DeleteKind } from 'in-settings/components/ApiList/sharedComponents/Delete';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setActiveTooltip } from 'in-components/Tooltip/store';
@@ -101,5 +102,82 @@ describe('in-settings/components/ApiList/sharedComponents/Delete', () => {
     // Then
     expect(doDelete).not.toHaveBeenCalled();
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls addActiveDialog and does not call doDelete when component kind is button and skipDialog prop is set to false', () => {
+    // Given
+    const doDelete = jest.fn();
+    const deleteLabel = 'Delete foo';
+    const itemName = 'John Woo';
+
+    // When
+    render(
+      <Delete kind={DeleteKind.Button} itemName={itemName} doDelete={doDelete} label={deleteLabel} isDeleting={false} />
+    );
+    // Icon is not displayed
+    expect(screen.queryByTestId('deleteIcon')).toBeFalsy();
+    // Delete button is shown
+    expect(screen.queryByText(deleteLabel)).toBeTruthy();
+    const deleteBtn = screen.queryByTestId('inline-editor-delete-button');
+    fireEvent.click(deleteBtn);
+
+    expect(doDelete).not.toHaveBeenCalled();
+    expect(addActiveDialog).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls doDelete and does not call addActiveDialog when component kind is button and skipDialog prop is set to true', () => {
+    // Given
+    const doDelete = jest.fn();
+    const deleteLabel = 'Delete foo';
+    const itemName = 'John Woo';
+
+    // When
+    render(
+      <Delete
+        kind={DeleteKind.Button}
+        itemName={itemName}
+        doDelete={doDelete}
+        label={deleteLabel}
+        isDeleting={false}
+        skipDialog
+      />
+    );
+    // Icon is not displayed
+    expect(screen.queryByTestId('deleteIcon')).toBeFalsy();
+    // Delete button is shown
+    expect(screen.queryByText(deleteLabel)).toBeTruthy();
+    const deleteBtn = screen.queryByTestId('inline-editor-delete-button');
+    fireEvent.click(deleteBtn);
+
+    // Then
+    expect(doDelete).toHaveBeenCalledTimes(1);
+    expect(addActiveDialog).not.toHaveBeenCalled();
+  });
+
+  it('delete button is disabled when isDeleting is set to true', () => {
+    // Given
+    const doDelete = jest.fn();
+    const deleteLabel = 'Delete foo';
+    const itemName = 'John Woo';
+
+    // When
+    render(
+      <Delete
+        kind={DeleteKind.Button}
+        itemName={itemName}
+        doDelete={doDelete}
+        label={deleteLabel}
+        isDeleting
+        skipDialog
+      />
+    );
+    // Icon is not displayed
+    expect(screen.queryByTestId('deleteIcon')).toBeFalsy();
+    // Delete button is shown
+    expect(screen.queryByText(deleteLabel)).toBeTruthy();
+    const deleteBtn = screen.queryByTestId('inline-editor-delete-button');
+
+    // Then
+    expect(deleteBtn).toBeDisabled();
   });
 });

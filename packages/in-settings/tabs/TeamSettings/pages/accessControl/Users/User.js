@@ -16,6 +16,7 @@ import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEdit
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
 import { rbacImprovementEnabled } from 'in-services/featureFlags';
@@ -23,6 +24,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-components/layout/Grid';
+import { removeUserFromTenant } from 'in-api/users';
 import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
 import { role } from 'in-stores/user';
@@ -76,8 +78,10 @@ function renderLoadingState() {
 const UserRenderer = props => {
   const { userId, setMessage } = props;
   const [user, setUser] = useState({ ...props.user });
+  const [isDeleting, setIsDeleting] = useState(false);
   const [form, setForm] = useState(() => createUserNameForm(user.fullName));
   const [refreshPermissions, setRefreshPermissions] = useState(false);
+  const { goToPath } = useNavigation();
 
   const refreshGroupsAndPermissions = () => {
     // Reset
@@ -116,10 +120,30 @@ const UserRenderer = props => {
     );
   };
 
+  const handleDeleteUser = (fullName, userId) => {
+    // Mark delete in progress
+    setIsDeleting(true);
+
+    // Delete user
+    const deletion$ = removeUserFromTenant(userId);
+    deletion$.once(
+      () => {
+        setIsDeleting(false);
+        // Deletion successful, goto users page
+        goToPath(teamSettingsAccessControlUsers);
+      },
+      () => {
+        setIsDeleting(false);
+        setMessage({ text: t('in-settings:components.failedToRemoveItemName', { itemName: fullName }), type: 'error' });
+      }
+    );
+  };
+
   return (
     <>
       <InlineEditorRow
         canEdit={role.canConfigureUsers}
+        canDelete={role.canConfigureUsers}
         label={user.fullName}
         extra={user.email}
         avatar={<Gravatar className={locals.avatar} email={user.email} size="l" />}
@@ -130,6 +154,9 @@ const UserRenderer = props => {
         onClickCancel={() =>
           setForm(form.updateIn(['fullName'], field => field.setValue(user.fullName).setTouched(false)))
         }
+        onClickDelete={() => handleDeleteUser(user.fullName, user.id)}
+        deleteLabel={t('in-settings:tabs.deleteUser')}
+        isDeleting={isDeleting}
       />
 
       <Row>

@@ -247,7 +247,6 @@
       "wrong": "Something is wrong",
       "errorInfo": "We are unable to retrieve data from the database",
       "errorId": "Error ID: {{errorId}}",
-      "success": "Success",
       "failed": "Failure",
       "inProgress": "In progress"
     },
@@ -1052,7 +1051,8 @@
     "validDateAndTime": "Please enter a valid date or time",
     "repeatUntil": "Repeat Until",
     "finishedInTheNextFiveSeconds": "The maintenance window is finished or will be finished in the next 5 seconds",
-    "viewMwConfigMessage": "View Maintenance Window Configuration Here"
+    "viewMwConfigMessage": "View Maintenance Window Configuration Here",
+    "deleteUser": "Delete user"
   },
   "languageSelection": {
     "language": "Language",
