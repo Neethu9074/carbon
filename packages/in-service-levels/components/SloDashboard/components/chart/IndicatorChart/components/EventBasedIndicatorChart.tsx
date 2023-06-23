@@ -17,6 +17,7 @@ import {
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 import { useTheme } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -57,7 +58,7 @@ export default function EventBasedIndicatorChart({
             [badEventsMetricId]: getMetricConfiguration(entity, badFilterExpression, granularity, timeConfig)
           }
         }),
-      [entity, indicator, timeConfig]
+      [generateStableHash({ goodFilterExpression, badFilterExpression }), entity, granularity, timeConfig]
     ) ?? pendingResult;
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);

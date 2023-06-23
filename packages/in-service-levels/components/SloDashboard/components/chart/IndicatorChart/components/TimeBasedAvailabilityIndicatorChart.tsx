@@ -14,6 +14,7 @@ import {
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 import { useTheme } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -51,7 +52,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
       () => getUnifiedMetrics({ metrics: { [metricId]: metricConfiguration } }),
-      [entity, indicator, granularity, timeConfig]
+      [generateStableHash(metricConfiguration)]
     ) ?? pendingResult;
 
   const metric = (result.data?.[0].values as MetricDataSeries) ?? [];
