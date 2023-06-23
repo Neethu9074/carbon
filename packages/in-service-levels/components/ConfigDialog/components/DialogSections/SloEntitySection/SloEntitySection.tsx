@@ -12,9 +12,9 @@ import { SloEntityType } from '@instana/types';
 
 import { SloApplicationEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
 import { SloWebsiteEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
+import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
 import { SloForm, isApplicationSloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import SloEntityTypeSelector from 'in-service-levels/components/SloList/components/SloEntityTypeSelector';
-import SloLabel from 'in-service-levels/components/SloList/components/SloLabel';
+import SloLabel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloLabel';
 import { t } from 'in-i18n';
 
 interface SloScopeSectionProps {
