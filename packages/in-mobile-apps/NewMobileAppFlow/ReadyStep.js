@@ -16,7 +16,7 @@ import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import { t, Trans } from 'in-i18n';
 
-export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {
+export default function ReadyStep({ mobileAppName, mobileAppId, linkToMobileAppHref }) {
   return (
     <Frame title={t('in-mobile-apps:newAppFlow.everythingIsReadyTitle')}>
       <Paragraph>
@@ -52,7 +52,7 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
           {t('in-mobile-apps:newAppFlow.installationInstructionsBtn')}
         </Button>
 
-        <Button kind="primaryv2" href$={mobileAppLink$}>
+        <Button kind="primaryv2" href={linkToMobileAppHref}>
           {t('in-mobile-apps:newAppFlow.GoToMobileAppDashboardBtn')}
         </Button>
       </Actions>
