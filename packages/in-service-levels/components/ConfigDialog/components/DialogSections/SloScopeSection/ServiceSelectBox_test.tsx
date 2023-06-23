@@ -134,42 +134,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox', () => {
 
       // Then
       expect(wrapper.find('option')).toHaveLength(3);
-      expect(
-        wrapper
-          .find('option')
-          .at(0)
-          .prop('children')
-      ).toEqual(t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices'));
-      expect(
-        wrapper
-          .find('option')
-          .at(0)
-          .prop('value')
-      ).toEqual('');
-      expect(
-        wrapper
-          .find('option')
-          .at(1)
-          .prop('children')
-      ).toEqual('Service A');
-      expect(
-        wrapper
-          .find('option')
-          .at(1)
-          .prop('value')
-      ).toEqual('serviceA');
-      expect(
-        wrapper
-          .find('option')
-          .at(2)
-          .prop('children')
-      ).toEqual('Service B');
-      expect(
-        wrapper
-          .find('option')
-          .at(2)
-          .prop('value')
-      ).toEqual('serviceB');
+      expect(wrapper.find('option').at(0).prop('children')).toEqual(
+        t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')
+      );
+      expect(wrapper.find('option').at(0).prop('value')).toEqual('');
+      expect(wrapper.find('option').at(1).prop('children')).toEqual('Service A');
+      expect(wrapper.find('option').at(1).prop('value')).toEqual('serviceA');
+      expect(wrapper.find('option').at(2).prop('children')).toEqual('Service B');
+      expect(wrapper.find('option').at(2).prop('value')).toEqual('serviceB');
     });
   });
   describe('If a service has been selected', () => {
