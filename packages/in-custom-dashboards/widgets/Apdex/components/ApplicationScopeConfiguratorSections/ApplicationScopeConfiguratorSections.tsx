@@ -11,6 +11,8 @@ import { ApplicationBoundaryScope } from '@instana/types';
 import { Button, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+// eslint-disable-next-line import/no-deprecated -- Existing usage of deprecated code, this component will be removed in the future
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import {
   apdexEntityKey,
   boundaryScopeKey,
@@ -20,8 +22,6 @@ import {
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
-// eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';

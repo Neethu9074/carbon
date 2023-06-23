@@ -9,8 +9,8 @@ import React from 'react';
 
 import { SloEntityType } from '@instana/types';
 
-import { ApplicationTagFilterBuilder } from 'in-service-levels/components/SloList/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
-import { WebsiteTagFilterBuilder } from 'in-service-levels/components/SloList/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
+import { ApplicationTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
+import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
 import { isApplicationSloForm, SloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
 
 interface TagFilterBuilderProps {

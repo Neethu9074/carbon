@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-import { ApplicationTagFilterBuilder } from 'in-service-levels/components/SloList/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
+import { ApplicationTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';

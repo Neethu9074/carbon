@@ -9,9 +9,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-// eslint-disable-next-line
-import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
