@@ -46,29 +46,12 @@ export default function Feedback({
    * @param value
    */
 
-  const handleChange = ({ value }: { value: number }) => {
+  const handleFeedbackChange = ({ value }: { value: number }) => {
     setForm(form.updateIn(['feedback'], field => field.setValue(value.toString())));
-    // switch (value) {
-    //   case 1:
-    //     setSliderMessage(value + ': This script was completely ineffective and/or made the issue worse');
-    //     break;
-    //   case 2:
-    //     setSliderMessage(value + ": This script was not very effective, but it didn't make it worse");
-    //     break;
-    //   case 3:
-    //     setSliderMessage(
-    //       value + ': This script did not resolve the issue, but it helped me learn more about the problem'
-    //     );
-    //     break;
-    //   case 4:
-    //     setSliderMessage(
-    //       value + ': This script did not completely fix the issue, but it came close and improved the situation'
-    //     );
-    //     break;
-    //   case 5:
-    //     setSliderMessage(value + ': This script worked nearly perfectly and completely solved my problem');
-    //     break;
-    // }
+  };
+
+  const handleCommentChange = (value: string) => {
+    setForm(form.updateIn(['comment'], field => field.setValue(value)));
   };
 
   return (
@@ -90,16 +73,16 @@ export default function Feedback({
             <input
               type="radio"
               checked={1 == parseInt(form.get('feedback').value)}
-              onChange={() => handleChange({ value: 1 })}
+              onChange={() => handleFeedbackChange({ value: 1 })}
             />
-            {/* <Typography variant='body-regular'>I am extremely unhappy</Typography> */}I am extremely unhappy
+            I am extremely unhappy
           </label>
 
           <label>
             <input
               type="radio"
               checked={2 == parseInt(form.get('feedback').value)}
-              onChange={() => handleChange({ value: 2 })}
+              onChange={() => handleFeedbackChange({ value: 2 })}
             />
             I am dissatisfied
           </label>
@@ -108,7 +91,7 @@ export default function Feedback({
             <input
               type="radio"
               checked={3 == parseInt(form.get('feedback').value)}
-              onChange={() => handleChange({ value: 3 })}
+              onChange={() => handleFeedbackChange({ value: 3 })}
             />
             I am neutral
           </label>
@@ -117,7 +100,7 @@ export default function Feedback({
             <input
               type="radio"
               checked={4 == parseInt(form.get('feedback').value)}
-              onChange={() => handleChange({ value: 4 })}
+              onChange={() => handleFeedbackChange({ value: 4 })}
             />
             I was satisfied
           </label>
@@ -126,14 +109,14 @@ export default function Feedback({
             <input
               type="radio"
               checked={5 == parseInt(form.get('feedback').value)}
-              onChange={() => handleChange({ value: 5 })}
+              onChange={() => handleFeedbackChange({ value: 5 })}
             />
             I was extremely satisfied
           </label>
 
           {/* <Message>{sliderMessage}</Message> */}
           <KeyValue label="Additional Comments (optional)" />
-          <textarea rows={10} value={form.get('comment').value} />
+          <textarea rows={10} value={form.get('comment').value} onChange={e => handleCommentChange(e.target.value)} />
         </Stack>
       </div>
       <FormFooter>
@@ -161,9 +144,9 @@ const handleSubmit = ({
   setIsSaving,
   setError,
   timeConfig,
-  setSuccess
-}: //setReload
-{
+  setSuccess,
+  setReload
+}: {
   form: FeedbackForm;
   id: string;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
@@ -174,6 +157,7 @@ const handleSubmit = ({
 }) => {
   setIsSaving(true);
   setError(false);
+
   updateActionInstanceFeedback({
     // updates the actioninstance feedback in backend
     id,
@@ -185,7 +169,7 @@ const handleSubmit = ({
     () => {
       setIsSaving(false);
       setSuccess(true);
-      //setReload((reload : number) => reload+1)
+      setReload((old: number) => old + 1);
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
@@ -197,8 +181,8 @@ const handleSubmit = ({
   );
 };
 
-const createForm = (feedback: string, comment: string): MapForm => {
-  let form = createMapForm()
+const createForm = (feedback: string, comment: string): FeedbackForm => {
+  return createMapForm()
     .put(
       'feedback',
       createField({
@@ -209,10 +193,7 @@ const createForm = (feedback: string, comment: string): MapForm => {
     .put(
       'comment',
       createField({
-        value: comment,
-        validator: notBlankValidator
+        value: comment
       })
-    );
-
-  return form;
+    ) as unknown as FeedbackForm;
 };

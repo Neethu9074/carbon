@@ -24,17 +24,17 @@ import { t } from 'in-i18n';
 
 import locals from './actionInstanceDetail.mless';
 
-// import { reload } from 'in-settings/components/List';
-
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
   const [reload, setReload] = useState(0);
+
   const actionInstanceDetail =
     useObservable(
-      getActionInstance({
-        actionInstanceId: id,
-        timeConfig
-      }),
+      () =>
+        getActionInstance({
+          actionInstanceId: id,
+          timeConfig
+        }),
       [id, timeConfig, reload]
     ) ?? pendingResult;
 
@@ -45,6 +45,11 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
   const feedback = actionInstanceDetail?.data?.metadata.find(
     (data: { name: string; value: string }) => data.name === 'feedback'
   )?.value ?? { value: '0' };
+
+  const comment =
+    actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'comment')
+      ?.value ?? '';
+
   return (
     <div className={locals.detailDialog}>
       <Dialog title={title} onClose={close} withoutBodyPadding>
@@ -61,7 +66,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
-              <Feedback id={id} feedback={feedback} setReload={setReload} />
+              <Feedback id={id} feedback={feedback} comment={comment} setReload={setReload} />
             </TabPane>
           </Tabs>
         </>
