@@ -8,7 +8,6 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/otelHost/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/otelHost/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
-import 'in-forge/plugins/host/metrics';
 
 const linuxPlugin = plugins.host + '_linux';
 const zosPlugin = plugins.host + '_zos';
