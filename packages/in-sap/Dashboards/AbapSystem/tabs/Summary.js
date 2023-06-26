@@ -10,10 +10,13 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+import { number, millis } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
@@ -62,69 +65,87 @@ export default function Summary({ timeConfig, data: sap }) {
           color={colorFormatter(sap.selfMonitorRating)}
         />
       </KpiGridRow>
+
+      <Columize>
+        <DashboardSection title={t('in-sap:dashboards.responseTime')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'metrics.Performance.System_response_time.ABAP_SYST_DIALOG_RESPONSETIME_HOUR.value',
+                'metrics.Performance.System_response_time.ABAP_SYS_RFC_RESPONSETIME_HOUR.value'
+              ],
+              labels: [t('in-sap:dashboards.dialogResponseTime'), t('in-sap:dashboards.rFCResponseTime')],
+              type: 'line',
+              formatter: millis
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.batchJob')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'metrics.Exceptions.Batch_Jobs.ABAP_SYSTEM_BATCH_JOBS_RUNNING.value',
+                'metrics.Exceptions.Batch_Jobs.ABAP_SYS_BATCHJOBS_CANCEL_5MIN.value',
+                'metrics.Exceptions.Batch_Jobs.ABAP_SYS_BATCHJOBS_CANCEL_1H.value'
+              ],
+              labels: [
+                t('in-sap:dashboards.batchJobs'),
+                t('in-sap:dashboards.batchJobsCancelled'),
+                t('in-sap:dashboards.batchJobsCancelledHour')
+              ],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title={t('in-sap:dashboards.queue')} useMaxAvailableHeight>
+          <Card title={t('in-sap:dashboards.serviceThroughput')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
-                metrics: [
-                  'metrics.Exceptions.ABAP_SYSTEM_BGRFC_OLDEST_AGE.value',
-                  'metrics.Exceptions.ABAP_SYSTEM_BGRFC_QUEUES_ERRORSTATE.value',
-                  'metrics.Exceptions.ABAP_SYSTEM_BGRFC_QUEUES_OLDER_1DAY.value',
-                  'metrics.Exceptions.ABAP_SYS_ENQUEUE_OLDER_1DAY.value'
-                ],
-                labels: [
-                  t('in-sap:dashboards.age'),
-                  t('in-sap:dashboards.errorState'),
-                  t('in-sap:dashboards.Older1Day'),
-                  t('in-sap:dashboards.enqueue')
-                ],
+                metrics: ['metrics.Performance.Average_payload_size_sent_per_service_call.GW_SERVICE_THROUGHPUT.value'],
+                labels: [t('in-sap:dashboards.averagePayload')],
                 type: 'line'
               }}
             />
           </Card>
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title={t('in-sap:dashboards.userStats')} useMaxAvailableHeight>
+          <Card title={t('in-sap:dashboards.userLoad')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
                 metrics: [
-                  'metrics.Performance.ABAP_SYST_DIALOG_USERS.value',
-                  'metrics.Performance.ABAP_SYST_HTTP_USERS.value',
-                  'metrics.Performance.ABAP_SYST_TOTAL_USERS.value',
-                  'metrics.Performance.ABAP_SYS_CONCURRENT_USERS.value'
+                  'metrics.Performance.User_Load.ABAP_SYST_DIALOG_USERS.value',
+                  'metrics.Performance.User_Load.ABAP_SYST_HTTP_USERS.value',
+                  'metrics.Performance.User_Load.ABAP_SYST_TOTAL_USERS.value',
+                  'metrics.Performance.User_Load.ABAP_SYS_CONCURRENT_USERS.value',
+                  'metrics.Performance.User_Load.ABAP_SYS_USERS_PER_APPSERVER.value'
                 ],
                 labels: [
                   t('in-sap:dashboards.dialogUsers'),
                   t('in-sap:dashboards.httpUsers'),
                   t('in-sap:dashboards.totalUsers'),
-                  t('in-sap:dashboards.concurrentUsers')
+                  t('in-sap:dashboards.concurrentUsers'),
+                  t('in-sap:dashboards.appServerUsers')
                 ],
-                type: 'line'
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={12}>
-          <Card title={t('in-sap:dashboards.globalChnage')} useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: number,
-                metrics: ['metrics.Configuration.ABAP_SYS_GLOBAL_CHANGE_OPTION.value'],
-                labels: [t('in-sap:dashboards.value')],
                 type: 'line'
               }}
             />
