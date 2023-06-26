@@ -69,52 +69,22 @@ export default function Feedback({
       <div style={{ padding: '4em', paddingTop: '0px' }}>
         <KeyValue label="Tell us about your experience with this action" />
         <Stack direction="vertical" gap={'small'}>
-          <label>
-            <input
-              type="radio"
-              checked={1 == parseInt(form.get('feedback').value)}
-              onChange={() => handleFeedbackChange({ value: 1 })}
-            />
-            I am extremely unhappy
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              checked={2 == parseInt(form.get('feedback').value)}
-              onChange={() => handleFeedbackChange({ value: 2 })}
-            />
-            I am dissatisfied
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              checked={3 == parseInt(form.get('feedback').value)}
-              onChange={() => handleFeedbackChange({ value: 3 })}
-            />
-            I am neutral
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              checked={4 == parseInt(form.get('feedback').value)}
-              onChange={() => handleFeedbackChange({ value: 4 })}
-            />
-            I was satisfied
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              checked={5 == parseInt(form.get('feedback').value)}
-              onChange={() => handleFeedbackChange({ value: 5 })}
-            />
-            I was extremely satisfied
-          </label>
-
-          {/* <Message>{sliderMessage}</Message> */}
+          {[
+            'I am extremely unhappy',
+            'I am dissatisfied',
+            'I am neutral',
+            'I was satisfied',
+            'I was extremely satisfied'
+          ].map((label, i) => (
+            <label>
+              <input
+                type="radio"
+                checked={i + 1 == parseInt(form.get('feedback').value)}
+                onChange={() => handleFeedbackChange({ value: i + 1 })}
+              />
+              {label}
+            </label>
+          ))}
           <KeyValue label="Additional Comments (optional)" />
           <textarea rows={10} value={form.get('comment').value} onChange={e => handleCommentChange(e.target.value)} />
         </Stack>
@@ -144,9 +114,9 @@ const handleSubmit = ({
   setIsSaving,
   setError,
   timeConfig,
-  setSuccess,
-  setReload
-}: {
+  setSuccess
+}: // setReload
+{
   form: FeedbackForm;
   id: string;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
@@ -159,7 +129,6 @@ const handleSubmit = ({
   setError(false);
 
   updateActionInstanceFeedback({
-    // updates the actioninstance feedback in backend
     id,
     feedback: form.get('feedback').value,
     comment: form.get('comment').value,
@@ -169,7 +138,7 @@ const handleSubmit = ({
     () => {
       setIsSaving(false);
       setSuccess(true);
-      setReload((old: number) => old + 1);
+      // setReload((old: number) => old + 1);
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
