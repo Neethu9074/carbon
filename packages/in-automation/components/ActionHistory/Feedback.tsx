@@ -30,7 +30,7 @@ export default function Feedback({
 }: {
   id: string;
   feedback: string;
-  setReload: (updateFn: (counter: number) => number) => void;
+  setReload: (n: number) => void;
   comment: string;
 }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
@@ -153,7 +153,7 @@ const handleSubmit = ({
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
-  setReload: (updateFn: (counter: number) => number) => void;
+  setReload: (n: number) => void;
 }) => {
   setIsSaving(true);
   setError(false);
@@ -169,10 +169,11 @@ const handleSubmit = ({
     () => {
       setIsSaving(false);
       setSuccess(true);
-      setReload((old: number) => old + 1);
+      // This helps to reload the actioninstance details
       setTimeout(() => {
         setSuccess(false);
-      }, 5000);
+        setReload(Math.random());
+      }, 4000);
     },
     () => {
       setIsSaving(false);

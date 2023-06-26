@@ -26,8 +26,7 @@ import locals from './actionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
-  const [reload, setReload] = useState(0);
-
+  const [reload, setReload] = useState<number>(0);
   const actionInstanceDetail =
     useObservable(
       () =>
@@ -37,7 +36,6 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
         }),
       [id, timeConfig, reload]
     ) ?? pendingResult;
-
   if (actionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
   }
