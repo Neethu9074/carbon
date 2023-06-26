@@ -308,7 +308,7 @@ module.exports = exports = [
   {
     uiClientKey: 'actionAutomationEnabled',
     instanaCtlKey: 'feature.automation.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'pluginMetricStatisticsEnabled',
