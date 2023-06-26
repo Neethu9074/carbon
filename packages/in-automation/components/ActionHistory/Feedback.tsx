@@ -38,21 +38,7 @@ export default function Feedback({
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // const [sliderMessage, setSliderMessage] = useState("Current feedback " + form.get('feedback').value);
   const timeConfig = useTimeConfig();
-
-  /**
-   * This function handles the change when the slider moves, setting form and setting message
-   * @param value
-   */
-
-  const handleFeedbackChange = ({ value }: { value: number }) => {
-    setForm(form.updateIn(['feedback'], field => field.setValue(value.toString())));
-  };
-
-  const handleCommentChange = (value: string) => {
-    setForm(form.updateIn(['comment'], field => field.setValue(value)));
-  };
 
   return (
     <Form
@@ -80,13 +66,17 @@ export default function Feedback({
               <input
                 type="radio"
                 checked={i + 1 == parseInt(form.get('feedback').value)}
-                onChange={() => handleFeedbackChange({ value: i + 1 })}
+                onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue((i + 1).toString())))}
               />
               {label}
             </label>
           ))}
           <KeyValue label="Additional Comments (optional)" />
-          <textarea rows={10} value={form.get('comment').value} onChange={e => handleCommentChange(e.target.value)} />
+          <textarea
+            rows={10}
+            value={form.get('comment').value}
+            onChange={e => setForm(form.updateIn(['comment'], field => field.setValue(e.target.value)))}
+          />
         </Stack>
       </div>
       <FormFooter>
@@ -114,9 +104,9 @@ const handleSubmit = ({
   setIsSaving,
   setError,
   timeConfig,
-  setSuccess
-}: // setReload
-{
+  setSuccess,
+  setReload
+}: {
   form: FeedbackForm;
   id: string;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
@@ -138,7 +128,8 @@ const handleSubmit = ({
     () => {
       setIsSaving(false);
       setSuccess(true);
-      // setReload((old: number) => old + 1);
+      // TODO: fix
+      setReload((old: number) => old + 1);
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
