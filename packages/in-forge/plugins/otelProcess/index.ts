@@ -5,16 +5,18 @@
 
 import { Map } from 'immutable';
 
+// @ts-expect-error Module needs to be translated to TS
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/otelProcess/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/otelProcess/kpiDefinitions';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.otelProcess,
   kpiDefinitions,
   metricDefinitions,
-  getContext(snapshot) {
+  getContext({ snapshot }: { snapshot: SnapshotData }) {
     return Map({
       Environment: snapshot.getIn(['data', 'env'])
     });

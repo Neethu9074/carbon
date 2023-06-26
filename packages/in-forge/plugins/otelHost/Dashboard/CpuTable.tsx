@@ -6,10 +6,13 @@
 import { Range } from 'immutable';
 import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -18,10 +21,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.cpu'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: any) {
         return row.cpuNumber;
       },
-      getContent(cpuNumber) {
+      getContent(cpuNumber: any) {
         return `CPU ${cpuNumber}`;
       }
     }
@@ -31,10 +34,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.user'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.user`;
       },
       getContent: percentage.detailed,
@@ -48,10 +51,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.system'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.system`;
       },
       getContent: percentage.detailed,
@@ -65,10 +68,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.wait'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.wait`;
       },
       getContent: percentage.detailed,
@@ -82,10 +85,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.nice'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.nice`;
       },
       getContent: percentage.detailed,
@@ -99,10 +102,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.steal'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.steal`;
       },
       getContent: percentage.detailed,
@@ -116,10 +119,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.interrupt'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.interrupt`;
       },
       getContent: percentage.detailed,
@@ -133,10 +136,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.softirq'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `cpus.cpu${row.cpuNumber}.softirq`;
       },
       getContent: percentage.detailed,
@@ -147,7 +150,8 @@ const cols = [
   }
 ];
 
-export default function CpuTable({ snapshot, timeConfig }) {
+export default function CpuTable({ snapshot }: { snapshot: SnapshotData }) {
+  const timeConfig = useTimeConfig();
   const cpuCount = snapshot.getIn(['data', 'cpucount'], 1);
   if (cpuCount < 2) {
     return null;
@@ -178,14 +182,12 @@ export default function CpuTable({ snapshot, timeConfig }) {
   );
 }
 
-function getRowDetails(row) {
+function getRowDetails(row: any) {
   return (
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       y1={{
-        min: 0,
-        max: 1,
         formatter: percentage.detailed,
         metrics: [
           'cpus.cpu' + row.cpuNumber + '.user',
