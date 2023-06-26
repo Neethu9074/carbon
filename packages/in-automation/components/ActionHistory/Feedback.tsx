@@ -25,13 +25,15 @@ import { TimeConfig } from 'in-types';
 export default function Feedback({
   id,
   feedback,
-  setReload,
-  comment
+  comment,
+  setLocalFeedback,
+  setLocalComment
 }: {
   id: string;
   feedback: string;
-  setReload: (n: number) => void;
   comment: string;
+  setLocalFeedback: (f: string) => void;
+  setLocalComment: (c: string) => void;
 }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
@@ -45,7 +47,16 @@ export default function Feedback({
       form={form}
       setForm={form => setForm(form as FeedbackForm)}
       onSubmit={form =>
-        handleSubmit({ form: form as FeedbackForm, id, timeConfig, setSuccess, setIsSaving, setError, setReload })
+        handleSubmit({
+          form: form as FeedbackForm,
+          id,
+          timeConfig,
+          setSuccess,
+          setIsSaving,
+          setError,
+          setLocalFeedback,
+          setLocalComment
+        })
       }
     >
       {/* sets error and success codes */}
@@ -65,6 +76,7 @@ export default function Feedback({
             <label>
               <input
                 type="radio"
+                key={label}
                 checked={i + 1 == parseInt(form.get('feedback').value)}
                 onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue((i + 1).toString())))}
               />
@@ -105,7 +117,8 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess,
-  setReload
+  setLocalFeedback,
+  setLocalComment
 }: {
   form: FeedbackForm;
   id: string;
@@ -113,26 +126,29 @@ const handleSubmit = ({
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
-  setReload: (n: number) => void;
+  setLocalFeedback: (f: string) => void;
+  setLocalComment: (c: string) => void;
 }) => {
   setIsSaving(true);
   setError(false);
 
+  const newFeedback = form.get('feedback').value;
+  const newComment = form.get('comment').value;
+
   updateActionInstanceFeedback({
     id,
-    feedback: form.get('feedback').value,
-    comment: form.get('comment').value,
+    feedback: newFeedback,
+    comment: newComment,
     to: timeConfig.to ?? Date.now(),
     windowSize: timeConfig.windowSize
   }).once(
     () => {
       setIsSaving(false);
       setSuccess(true);
+      setLocalFeedback(newFeedback);
+      setLocalComment(newComment);
       setTimeout(() => {
         setSuccess(false);
-
-        // reload the actioninstance details
-        setReload(Math.random());
       }, 4000);
     },
     () => {

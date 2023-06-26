@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -26,7 +26,6 @@ import locals from './actionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
-  const [reload, setReload] = useState<number>(0);
   const actionInstanceDetail =
     useObservable(
       () =>
@@ -34,19 +33,34 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
           actionInstanceId: id,
           timeConfig
         }),
-      [id, timeConfig, reload]
+      [id, timeConfig]
     ) ?? pendingResult;
+
+  const [feedback, setFeedback] = useState('0');
+  const [comment, setComment] = useState('');
+
+  const dataFeedback = useMemo(
+    () =>
+      actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'feedback')
+        ?.value,
+    [actionInstanceDetail]
+  );
+
+  const dataComment = useMemo(
+    () =>
+      actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'comment')
+        ?.value,
+    [actionInstanceDetail]
+  );
+
+  useEffect(() => {
+    setFeedback(dataFeedback);
+    setComment(dataComment);
+  }, [dataFeedback, dataComment]);
+
   if (actionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
   }
-
-  const feedback = actionInstanceDetail?.data?.metadata.find(
-    (data: { name: string; value: string }) => data.name === 'feedback'
-  )?.value ?? { value: '0' };
-
-  const comment =
-    actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'comment')
-      ?.value ?? '';
 
   return (
     <div className={locals.detailDialog}>
@@ -64,7 +78,13 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
-              <Feedback id={id} feedback={feedback} comment={comment} setReload={setReload} />
+              <Feedback
+                id={id}
+                feedback={feedback}
+                comment={comment}
+                setLocalFeedback={setFeedback}
+                setLocalComment={setComment}
+              />
             </TabPane>
           </Tabs>
         </>
