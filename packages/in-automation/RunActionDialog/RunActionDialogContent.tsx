@@ -6,12 +6,13 @@
 
 import { Field, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import { Typography, Spacer } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
-import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   AUTH_TYPES,
   getInterpreterToUse,
@@ -21,18 +22,20 @@ import {
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
+import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import { Action, Parameter, VolatileId, DynamicFieldValue, AgentSnapshot } from 'in-types';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { close } from 'in-components/DialogPresenter/store';
@@ -44,6 +47,7 @@ import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
+import { getSnapshot } from 'in-stores/snapshot';
 import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
@@ -177,18 +181,13 @@ function AgentSelection({
               <option hidden value="">
                 {t('in-automation:pleaseSelect')}
               </option>
-              {agentSnapShots?.data?.online?.map(agent => {
-                const hostname = agent.data?.hostname;
-                const label =
-                  agent.volatileId?.host_id === volatileId.host_id
-                    ? t('in-automation:triggeringAgent', { hostname })
-                    : hostname;
-                return (
-                  <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
-                    {label}
-                  </option>
-                );
-              })}
+              {agentSnapShots?.data?.online?.map(agent => (
+                <AgentOption
+                  key={agent.id}
+                  agent={agent}
+                  isTriggeringAgent={agent.volatileId?.host_id === volatileId.host_id}
+                />
+              ))}
             </>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -198,6 +197,17 @@ function AgentSelection({
     </>
   );
 }
+
+const AgentOption = ({ agent, isTriggeringAgent }: { agent: AgentSnapshot; isTriggeringAgent: boolean }) => {
+  const hostSnapshot = useObservable(() => getHostSnapshotId(fromJS(agent)).flatMap(id => getSnapshot(id)), [agent]);
+  const hostname = hostSnapshot?.get('label');
+  const label = isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname;
+  return (
+    <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
+      {label}
+    </option>
+  );
+};
 
 function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);

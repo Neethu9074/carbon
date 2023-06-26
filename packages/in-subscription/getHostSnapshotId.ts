@@ -7,7 +7,7 @@ import { generateStableHash } from '@instana/utils';
 
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription({
+export default createSubscription<Map<string, any>, string>({
   eventId: 'subscribe-host-snapshot-id',
 
   getId(snapshot) {
@@ -17,7 +17,7 @@ export default createSubscription({
   getData(subscriptionId, snapshot) {
     return {
       subscriptionId,
-      entityId: snapshot.get('entityId').toJS()
+      entityId: snapshot?.get('entityId')?.toJS()
     };
   }
 });
