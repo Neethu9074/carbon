@@ -51,8 +51,8 @@ export default function Summary({ timeConfig, data: sap }) {
               y1={{
                 formatter: number,
                 metrics: [
-                  'metrics.Availability.Java_Enqueue_Server_Status.JAVA_SCS_ENQUEUE_STATUS.value',
-                  'metrics.Availability.Java_Enqueue_Server_Status.JAVA_SCS_MESSAGE_SERVER_STATUS.value'
+                  'metrics.Availability.Java_Enqueue_Server_Status.JAVA_SCS_ENQUEUE_STATUS_Java_Enqueue_Server_Status.value',
+                  'metrics.Availability.Java_Enqueue_Server_Status.JAVA_SCS_MESSAGE_SERVER_STATUS_Java_Message_Server_Status.value'
                 ],
                 labels: [t('in-sap:dashboards.enqueueServerStatus'), t('in-sap:dashboards.messageServerStatus')],
                 type: 'line'
