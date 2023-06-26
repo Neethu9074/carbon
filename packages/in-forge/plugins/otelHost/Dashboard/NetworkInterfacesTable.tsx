@@ -5,11 +5,14 @@
 
 import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -17,7 +20,7 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.network'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: any) {
         return row.name;
       }
     }
@@ -26,10 +29,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.packets_receive'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.packets_receive`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -42,10 +45,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.packets_transmit'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.packets_transmit`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -58,10 +61,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_receive'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.io_receive`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -74,10 +77,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_transmit'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.io_transmit`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -90,10 +93,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.dropped_receive'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.dropped_receive`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -106,10 +109,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.dropped_transmit'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.dropped_transmit`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -122,10 +125,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.errors_receive'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.errors_receive`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -138,10 +141,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.errors_transmit'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `network.${row.name}.errors_transmit`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -152,10 +155,11 @@ const cols = [
   }
 ];
 
-export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
+export default function NetworkInterfacesTable({ snapshot }: { snapshot: SnapshotData }) {
+  const timeConfig = useTimeConfig();
   const rows = snapshot
     .getIn(['data', 'network'], emptyMap)
-    .map((iface, name) => {
+    .map((iface: any, name: any) => {
       return {
         key: name,
         name: name,
@@ -170,7 +174,7 @@ export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
   return <Table cardTitle={'NetWork'} withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
 }
 
-function getDetails(row) {
+function getDetails(row: any) {
   return (
     <Chart
       snapshotId={row.snapshotId}
@@ -183,8 +187,6 @@ function getDetails(row) {
         type: 'line'
       }}
       y2={{
-        min: 0,
-        max: 1,
         metrics: ['network.' + row.key + '.io_receive', 'network.' + row.key + '.io_transmit'],
         labels: ['I/O Receive', 'I/O Transmit'],
         formatter: bytesTwoDecimalPlaces,

@@ -1,0 +1,44 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+// @ts-expect-error Module needs to be translated to TS
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import metricDefinitions from 'in-forge/plugins/otelHost/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/otelHost/kpiDefinitions';
+import { plugins } from 'in-forge/constants';
+import 'in-forge/plugins/host/metrics';
+
+const linuxPlugin = plugins.host + '_linux';
+const zosPlugin = plugins.host + '_zos';
+const applePlugin = plugins.host + '_apple';
+const windowsPlugin = plugins.host + '_windows';
+const aixPlugin = plugins.host + '_aix';
+const solarisPlugin = plugins.host + '_solaris';
+
+registerSnapshotDefinition({
+  plugin: plugins.otelHost,
+
+  showZoneInSidebarHeader: true,
+  kpiDefinitions,
+  metricDefinitions,
+
+  getIconType(snapshot: any) {
+    const os = snapshot.getIn(['data', 'os.name'], '');
+    if (os.match(/aix/i)) {
+      return aixPlugin;
+    } else if (os.match(/solaris/i) || os.match(/sunos/i)) {
+      return solarisPlugin;
+    } else if (os.match(/linux/i)) {
+      return linuxPlugin;
+    } else if (os.match(/windows/i)) {
+      return windowsPlugin;
+    } else if (os.match(/mac/i)) {
+      return applePlugin;
+    } else if (os.match(/z\/os/i)) {
+      return zosPlugin;
+    }
+    return linuxPlugin;
+  }
+});

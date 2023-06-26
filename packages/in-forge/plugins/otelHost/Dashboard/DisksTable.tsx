@@ -5,12 +5,16 @@
 
 import React from 'react';
 
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error Module needs to be translated to TS
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeBySecondsTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -18,7 +22,7 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.device'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: any) {
         return row.name;
       }
     }
@@ -27,10 +31,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_read'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.io_read`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -43,10 +47,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_write'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.io_write`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -59,10 +63,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_tim'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.io_tim`;
       },
       getContent: timeBySecondsTwoDecimalPlaces,
@@ -75,10 +79,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.oper_read'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.oper_read`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -91,10 +95,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.oper_tim_read'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.oper_tim_read`;
       },
       getContent: timeBySecondsTwoDecimalPlaces,
@@ -107,10 +111,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.oper_write'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.oper_write`;
       },
       getContent: bytesTwoDecimalPlaces,
@@ -123,10 +127,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.oper_tim_write'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.oper_tim_write`;
       },
       getContent: timeBySecondsTwoDecimalPlaces,
@@ -139,10 +143,10 @@ const cols = [
     title: t('in-forge:plugins.otelHost.dashboard.io_tim_weighted'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: any) {
         return `disks.${row.name}.io_tim_weighted`;
       },
       getContent: timeBySecondsTwoDecimalPlaces,
@@ -153,10 +157,11 @@ const cols = [
   }
 ];
 
-export default function DisksTable({ snapshot, timeConfig }) {
+export default function DisksTable({ snapshot }: { snapshot: SnapshotData }) {
+  const timeConfig = useTimeConfig();
   const rows = snapshot
     .getIn(['data', 'disks'], emptyMap)
-    .map((disk, name) => {
+    .map((disk: any, name: any) => {
       return {
         key: name,
         name: name,
@@ -175,7 +180,7 @@ export default function DisksTable({ snapshot, timeConfig }) {
   return <Table cardTitle={'Disks'} withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
 }
 
-function getDetails(row) {
+function getDetails(row: any) {
   return (
     <>
       <Columize>
