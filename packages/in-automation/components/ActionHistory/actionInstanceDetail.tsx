@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -26,6 +26,7 @@ import locals from './actionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
+  const [hasStaleFeedback, setHasStaleFeedback] = useState(false);
   const [reload, setReload] = useState(0);
 
   const actionInstanceDetail =
@@ -38,23 +39,32 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
       [id, timeConfig, reload]
     ) ?? pendingResult;
 
-  // console.log(reload)
+  // Cache the action instance data so when we reload the data, the LoadingIndicator won't reappear and discard the tab state
+  const [cachedActionInstanceDetail, setCachedActionInstanceDetail] = useState(actionInstanceDetail);
+
+  useEffect(() => {
+    if (!actionInstanceDetail.progress?.loading) {
+      setCachedActionInstanceDetail(actionInstanceDetail);
+    }
+  }, [actionInstanceDetail]);
 
   const feedback = useMemo(
     () =>
-      actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'feedback')
-        ?.value,
-    [actionInstanceDetail]
+      cachedActionInstanceDetail?.data?.metadata.find(
+        (data: { name: string; value: string }) => data.name === 'feedback'
+      )?.value ?? 0,
+    [cachedActionInstanceDetail]
   );
 
   const comment = useMemo(
     () =>
-      actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'comment')
-        ?.value,
-    [actionInstanceDetail]
+      cachedActionInstanceDetail?.data?.metadata.find(
+        (data: { name: string; value: string }) => data.name === 'comment'
+      )?.value ?? '',
+    [cachedActionInstanceDetail]
   );
 
-  if (actionInstanceDetail.progress?.loading) {
+  if (cachedActionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
   }
 
@@ -62,19 +72,26 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     <div className={locals.detailDialog}>
       <Dialog title={title} onClose={close} withoutBodyPadding>
         <>
-          <Tabs>
+          <Tabs
+            onTabChange={(from, _) => {
+              // fetch the data again only if we navigate away from the feedback tab
+              if (from == 2 && hasStaleFeedback) {
+                setHasStaleFeedback(false);
+                setReload(Math.random());
+              }
+            }}
+          >
             <TabPane title={t('in-automation:actionHistory.properties')}>
               <DashboardHeaderShadowModule />
-
-              <DetailTab id={id} properties={actionInstanceDetail.data} />
+              <DetailTab id={id} properties={cachedActionInstanceDetail.data} />
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />
-              <DetailParamsTab inputParameters={actionInstanceDetail?.data?.inputParameters} />
+              <DetailParamsTab inputParameters={cachedActionInstanceDetail?.data?.inputParameters} />
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
-              <Feedback id={id} feedback={feedback} comment={comment} setReload={setReload} />
+              <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
             </TabPane>
           </Tabs>
         </>

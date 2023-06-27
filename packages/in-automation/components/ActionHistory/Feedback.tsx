@@ -26,12 +26,12 @@ export default function Feedback({
   id,
   feedback,
   comment,
-  setReload
+  setHasStaleFeedback
 }: {
   id: string;
   feedback: string;
   comment: string;
-  setReload: (n: number) => void;
+  setHasStaleFeedback: (v: boolean) => void;
 }) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
@@ -52,7 +52,7 @@ export default function Feedback({
           setSuccess,
           setIsSaving,
           setError,
-          setReload
+          setHasStaleFeedback
         })
       }
     >
@@ -114,7 +114,7 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess,
-  setReload
+  setHasStaleFeedback
 }: {
   form: FeedbackForm;
   id: string;
@@ -122,7 +122,7 @@ const handleSubmit = ({
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
-  setReload: (n: number) => void;
+  setHasStaleFeedback: (v: boolean) => void;
 }) => {
   setIsSaving(true);
   setError(false);
@@ -140,7 +140,7 @@ const handleSubmit = ({
     () => {
       setIsSaving(false);
       setSuccess(true);
-      setReload(Math.random());
+      setHasStaleFeedback(true);
       setTimeout(() => {
         setSuccess(false);
       }, 4000);

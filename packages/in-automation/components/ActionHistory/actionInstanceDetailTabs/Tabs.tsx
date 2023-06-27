@@ -13,10 +13,11 @@ import locals from './tabs.mless';
 type Props = {
   children: ReactElement<TabTitleProps>[];
   preSelectedTabIndex?: number;
+  onTabChange?: (fromTab: number, toTab: number) => void;
 };
 
 const Tabs = (props: Props): JSX.Element => {
-  const { children, preSelectedTabIndex } = props;
+  const { children, preSelectedTabIndex, onTabChange } = props;
 
   // First tab is shown by default
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(preSelectedTabIndex || 0);
@@ -30,7 +31,12 @@ const Tabs = (props: Props): JSX.Element => {
             title={item.props.title}
             index={index}
             isActive={index === selectedTabIndex}
-            setSelectedTab={setSelectedTabIndex}
+            setSelectedTab={() => {
+              if (onTabChange) {
+                onTabChange(selectedTabIndex, index);
+              }
+              setSelectedTabIndex(index);
+            }}
           />
         ))}
       </ul>
