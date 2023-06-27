@@ -43,6 +43,7 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  withAggregationInMetrics = true,
   withPotentialProblemsConfiguration,
   withGrouping = true,
   maxGrouping = 20
@@ -160,30 +161,32 @@ export default function FormComponent({
           }
         </SelectInSection>
 
-        <SelectInSection
-          label={t('in-custom-dashboards:widgets.srcApp.formComponent.aggregation')}
-          id="metic-configurator-application-aggregation"
-          value={aggregationField.value}
-          onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
-          hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid || (isSingleAggregator && aggregators.includes(aggregationField.value))}
-          additionalContent={<TouchedMessages field={metricField} />}
-          useAlternateBg
-        >
-          {!metricField.valid && (
-            <option value="">{t('in-custom-dashboards:widgets.srcApp.formComponent.pleaseSelectMetric')}</option>
-          )}
-          {metricField.valid && (
-            <>
-              <option value="">{t('in-custom-dashboards:widgets.srcApp.formComponent.pleaseSelect')}</option>
-              {aggregators.map(aggregation => (
-                <option key={aggregation} value={aggregation}>
-                  {aggregationLabels[aggregation]}
-                </option>
-              ))}
-            </>
-          )}
-        </SelectInSection>
+        {withAggregationInMetrics && (
+          <SelectInSection
+            label={t('in-custom-dashboards:widgets.srcApp.formComponent.aggregation')}
+            id="metic-configurator-application-aggregation"
+            value={aggregationField.value}
+            onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+            hasError={!aggregationField.valid && aggregationField.touched}
+            disabled={!metricField.valid || (isSingleAggregator && aggregators.includes(aggregationField.value))}
+            additionalContent={<TouchedMessages field={metricField} />}
+            useAlternateBg
+          >
+            {!metricField.valid && (
+              <option value="">{t('in-custom-dashboards:widgets.srcApp.formComponent.pleaseSelectMetric')}</option>
+            )}
+            {metricField.valid && (
+              <>
+                <option value="">{t('in-custom-dashboards:widgets.srcApp.formComponent.pleaseSelect')}</option>
+                {aggregators.map(aggregation => (
+                  <option key={aggregation} value={aggregation}>
+                    {aggregationLabels[aggregation]}
+                  </option>
+                ))}
+              </>
+            )}
+          </SelectInSection>
+        )}
 
         {formatterSection}
       </Sections>

@@ -1,0 +1,59 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+@import 'in-components/HistogramChart/shared.less';
+
+:local {
+  .overlay {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+  }
+
+  .glassPane {
+    position: absolute;
+    bottom: 0;
+    opacity: 0.5;
+    z-index: @z-index__glassPane;
+  }
+
+  .selection {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    z-index: @z-index__selection;
+    margin: 0;
+    padding: 0;
+  }
+
+  @color__selection_border: @lib__colors__blue800;
+  @color__selection_border_sides: rgba(@color__selection_border, 0.4);
+
+  .selectionAdjustable {
+    border-right: 1px solid @color__selection_border_sides;
+    border-left: 1px solid @color__selection_border_sides;
+    border-bottom: 3px solid @color__selection_border;
+    margin-bottom: -3px;
+    box-sizing: content-box;
+  }
+
+  .selectionHandle {
+    position: absolute;
+    background-color: @lib__colors__white;
+    border: 1px solid @color__selection_border;
+    border-radius: 2px;
+    box-sizing: border-box;
+    z-index: @z-index__selectionHandle;
+  }
+
+  .barStrike {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    border-left: 1px solid @lib__colors__N500;
+    z-index: @z-index__barStrike;
+  }
+}

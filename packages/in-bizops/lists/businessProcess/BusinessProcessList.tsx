@@ -38,7 +38,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: processColumnDefinitions,
-  defaultOrderBy: 'bpm_process_name',
+  defaultOrderBy: 'process_name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -79,7 +79,7 @@ type GetBusinessProcessList = {
 
 function getBusinessProcessListData({
   timeConfig,
-  orderBy = 'bpm_process_name',
+  orderBy = 'process_name',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
@@ -98,10 +98,20 @@ function getBusinessProcessListData({
     logicalOperator: 'AND',
     elements: []
   };
-  //search against bpm_process_name
+
+  // hide any entry with blank process name
+  tagFilterExpression.elements.push({
+    name: 'bpm_process_definition_name',
+    operator: 'NOT_EQUAL',
+    value: '',
+    entity: NOT_APPLICABLE,
+    type: 'TAG_FILTER'
+  });
+
+  //search against bpm_process_definition_name
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({
-      name: 'bpm_process_name',
+      name: 'bpm_process_definition_name',
       operator: 'CONTAINS',
       stringValue: query,
       entity: NOT_APPLICABLE,

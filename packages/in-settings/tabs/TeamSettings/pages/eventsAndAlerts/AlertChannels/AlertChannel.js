@@ -8,7 +8,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { Card, SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   getEntityIdView,
@@ -224,7 +224,7 @@ function AlertChannelLabel({ entity }) {
   return (
     <Tooltip content={label} align="topLeft" delay={500}>
       <WithSubscript subscript={getSubscript(entity)}>
-        <Link href$={href$} href={href} ellipsis>
+        <Link href={href$ ?? href} ellipsis>
           {label}
         </Link>
       </WithSubscript>

@@ -11,6 +11,8 @@ import { ApplicationBoundaryScope } from '@instana/types';
 import { Button, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+// eslint-disable-next-line import/no-deprecated -- Existing usage of deprecated code, this component will be removed in the future
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import {
   apdexEntityKey,
   boundaryScopeKey,
@@ -18,12 +20,11 @@ import {
   includeSyntheticKey,
   tagFilterExpressionKey
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
-import BoundaryScopeConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BoundaryScopeConfigurator';
-import HiddenCallsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/HiddenCallsConfigurator';
+import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
+import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
@@ -40,9 +41,13 @@ export default function ApplicationScopeConfiguratorSections({
   QueryBuilder
 }: ApplicationScopeConfiguratorProps) {
   const boundaryScope =
+    // eslint-disable-next-line import/no-deprecated
     getField<ApplicationBoundaryScope>(form, [apdexEntityKey, boundaryScopeKey])?.value ?? 'INBOUND';
+  // eslint-disable-next-line import/no-deprecated
   const includeInternal = getField<boolean>(form, [apdexEntityKey, includeInternalKey])?.value;
+  // eslint-disable-next-line import/no-deprecated
   const includeSynthetic = getField<boolean>(form, [apdexEntityKey, includeSyntheticKey])?.value;
+  // eslint-disable-next-line import/no-deprecated
   const tagFilterExpression = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey])?.value ?? [];
 
   return (

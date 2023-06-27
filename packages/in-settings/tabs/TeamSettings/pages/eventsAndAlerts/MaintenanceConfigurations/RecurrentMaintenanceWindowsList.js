@@ -43,8 +43,8 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function RecurrentMaintenanceWindowsList(props) {
-  const getStartAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'start');
-  const getEndAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'end');
+  const getStartAsString = entity => getFormattedDateTimeOccurence(entity, 'start');
+  const getEndAsString = entity => getFormattedDateTimeOccurence(entity, 'end');
   const [saved, setSaved] = useState(false);
   const allMaintenanceConfigs = useObservable(getMaintenanceConfigsMutableV2, [saved]) ?? indeterminateProgress;
 
@@ -181,7 +181,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
+          <Link href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>
@@ -248,16 +248,16 @@ const columnDefinitions = [
     label: t('in-settings:tabs.startTime'),
     ellipsis: true,
     getValue(entity) {
-      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
         return '';
       }
       return getDateTimeFromFirstWindow('start', entity);
     },
     getContent(entity) {
-      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
         return '';
       }
-      return getFormattedDateTimeFromFirstWindow('start', entity);
+      return formatDateTime(new Date(entity.occurrence.start));
     }
   },
   {
@@ -268,10 +268,10 @@ const columnDefinitions = [
       return getEndTime(entity);
     },
     getContent(entity) {
-      if (entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) {
+      if ((entity.state === 'UNSCHEDULED' && entity.scheduling.start === 1) || !entity.occurrence) {
         return '';
       }
-      return formatDateTime(getEndTime(entity));
+      return formatDateTime(new Date(entity.occurrence.end));
     }
   },
   {
@@ -347,17 +347,21 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
   );
 };
 
-function getFormattedDateTimeFromFirstWindow(key, entity) {
-  if (entity.scheduling && entity.scheduling.start) {
-    return formatDateTime(new Date(entity.scheduling.start));
+function getFormattedDateTimeOccurence(entity, startOrEnd) {
+  if (entity.occurrence) {
+    if (startOrEnd === 'start' && entity.occurrence.start) {
+      return formatDateTime(new Date(entity.occurrence.start));
+    } else if (startOrEnd === 'end' && entity.occurrence.end) {
+      return formatDateTime(new Date(entity.occurrence.end));
+    }
   } else {
     return null;
   }
 }
 
 function getDateTimeFromFirstWindow(key, entity) {
-  if (entity.scheduling && entity.scheduling.start) {
-    return entity.scheduling.start;
+  if (entity.occurrence && entity.occurrence.start) {
+    return entity.occurrence.start;
   } else {
     return null;
   }

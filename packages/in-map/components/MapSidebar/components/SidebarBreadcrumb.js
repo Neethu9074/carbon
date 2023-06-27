@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
@@ -45,7 +45,7 @@ const Crumb = connectTo(
       <Tooltip content={tooltip} align="rightMiddle">
         <li className={locals.crumb}>
           <Link
-            href$={getLinkToSnapshotInCurrentView(snapshotId)}
+            href={getLinkToSnapshotInCurrentView(snapshotId)}
             title={t('in-map:selectThisEntity')}
             className={locals.crumbLink}
             onClick={() => {

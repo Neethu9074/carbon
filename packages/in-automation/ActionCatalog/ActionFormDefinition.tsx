@@ -16,13 +16,16 @@ import {
   BEARER_TOKEN,
   getAuthenFromFields,
   getDocLinkFromFields,
+  getInterpreterFromFields,
   getScriptFromFields,
+  getTimeoutFromFields,
   getWebhookFields,
   isDocLink,
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { positiveNumberValidator } from 'in-services/validators/number';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -63,7 +66,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
   const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
-  let form = createMapForm()
+  let form: MapForm<any> = createMapForm()
     .put(
       'name',
       createField({
@@ -120,6 +123,16 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
       createField({
         value: List(action.applicationAlertConfigIds)
       })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: getTimeoutFromFields(action.fields).value,
+        validator: (val: string) => {
+          if (val === '') return null;
+          return positiveNumberValidator(val);
+        }
+      })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);
   else if (isScript(action.type)) form = putScriptField(form, action);
@@ -146,22 +159,34 @@ export function removeDocLinkField(form: MapForm<any>) {
 
 export function putScriptField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
   const script = getScriptFromFields(action.fields);
+  const interpreter = getInterpreterFromFields(action.fields);
+  let plaintextInterpreter = interpreter.value;
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
     plaintextScript = atob(plaintextScript);
   }
+  if (interpreter.encoding === 'base64') {
+    plaintextInterpreter = atob(plaintextInterpreter);
+  }
 
-  return form.put(
-    'script',
-    createField({
-      value: plaintextScript,
-      validator: notBlankValidator
-    })
-  );
+  return form
+    .put(
+      'script',
+      createField({
+        value: plaintextScript,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'subtype',
+      createField({
+        value: plaintextInterpreter
+      })
+    );
 }
 
 export function removeScriptField(form: MapForm<any>) {
-  return form.remove('script');
+  return form.remove('script').remove('subtype');
 }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {

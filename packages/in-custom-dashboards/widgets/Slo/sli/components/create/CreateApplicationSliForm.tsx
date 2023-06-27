@@ -12,7 +12,7 @@ import { Observable } from '@instana/observables';
 import {
   useValidateApplicationFilterExpression,
   useApplicationQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+} from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';

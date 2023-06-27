@@ -10,17 +10,11 @@ import { HorizontalIndicator } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
-import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';
 
-export default connectTo(props => ({
-  callTreeResult: props.mockedStream ? props.mockedStream() : getTraceActivityTree({ id: props.traceId })
-}))(ServerIcicleChart);
-
-function ServerIcicleChart(props) {
+export default function ServerIcicleChart(props) {
   const { callTreeResult } = props;
 
   const isLoading = get(callTreeResult, ['progress', 'loading'], false);

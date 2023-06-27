@@ -8,6 +8,7 @@ import React from 'react';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
 import { t } from 'in-i18n';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './StackTracePresentation.mless';
 
@@ -15,45 +16,53 @@ const STRIP_QUOTES_REGEX = /`|'/g;
 
 export default function StackTracePresentation({ stackTrace, isOnline, snapshot, noPadding }) {
   let noCodeLinkMessage;
+
   if (isOnline === false) {
     noCodeLinkMessage = t(
       'in-analyze:traceDetail.components.callDetails.pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana'
     );
   } else if (!snapshot) {
     noCodeLinkMessage = t(
-      'in-analyze:traceDetail.components.callDetails.pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure'
+      'in-analyze:traceDetail.components.callDetails.pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails'
     );
   }
 
+  const listContent = (
+    <ol
+      className={classNames({
+        [locals.list]: true,
+        [locals.noPadding]: noPadding
+      })}
+    >
+      {stackTrace.map((st, i) => {
+        const fileLine = combine(st.file, st.line);
+        return (
+          <li key={i}>
+            {st.method && <span className={locals.method}>{stripQuotes(st.method)} </span>}
+            <span className={locals.in}>{t('in-analyze:traceDetail.components.callDetails.in')}</span>
+            <span>
+              {isOnline && snapshot ? (
+                <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
+                  {fileLine}
+                </ShowCodeButton>
+              ) : (
+                fileLine
+              )}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+
   return (
     <>
-      <ol
-        className={classNames({
-          [locals.list]: true,
-          [locals.noPadding]: noPadding
-        })}
-      >
-        {stackTrace.map((st, i) => {
-          const fileLine = combine(st.file, st.line);
-          return (
-            <li key={i}>
-              {st.method && <span className={locals.method}>{stripQuotes(st.method)} </span>}
-              <span className={locals.in}>{t('in-analyze:traceDetail.components.callDetails.in')}</span>
-              <span>
-                {isOnline && snapshot ? (
-                  <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
-                    {fileLine}
-                  </ShowCodeButton>
-                ) : (
-                  fileLine
-                )}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
-
-      {noCodeLinkMessage && <p className={locals.noCodeLinkMessage}>{noCodeLinkMessage}</p>}
+      {noCodeLinkMessage && (
+        <Tooltip content={noCodeLinkMessage} align="topMiddle">
+          {listContent}
+        </Tooltip>
+      )}
+      {!noCodeLinkMessage && { listContent }}
     </>
   );
 }

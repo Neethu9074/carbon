@@ -85,7 +85,7 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
       useLongTermDataOnly: false
     },
     metrics: {
-      count: {
+      activitiesCount: {
         metric: 'activitiesCount',
         aggregation: 'DISTINCT_COUNT'
       }

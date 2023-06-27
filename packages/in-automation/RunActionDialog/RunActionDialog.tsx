@@ -12,8 +12,9 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
-  getInterpreterFromFields,
+  getInterpreterToUse,
   getScriptFromFields,
+  getTimeoutFromFields,
   getWebhookFields,
   isScript,
   isWebhook,
@@ -279,14 +280,16 @@ function onSave({
 
   const allInputParameters = [...inputParameters, ...hiddenInputParameters];
   const { id: actionId, name: actionName } = action;
+  const timeout = getTimeoutFromFields(action.fields).value;
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
-    const interpreter = getInterpreterFromFields(action.fields);
+    const interpreter = getInterpreterToUse(action);
     runScriptAction({
       script,
       volatileId: selectedVolatileId,
       event,
       actionName,
+      timeout,
       actionId,
       interpreter,
       inputParameters: allInputParameters
@@ -297,6 +300,7 @@ function onSave({
       volatileId: selectedVolatileId,
       event,
       actionName,
+      timeout,
       actionId,
       host,
       method,

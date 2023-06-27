@@ -4,17 +4,42 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TimeConfig } from '@instana/types';
+import {
+  AggregationType,
+  ApplicationSloEntity,
+  TagFilterExpressionElementUnion,
+  TimeConfig,
+  WebsiteSloEntity
+} from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { deepFreeze } from 'in-services/util/object';
 
 interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
+  // Time config specifying the full slo time window. Needed if only a slice of the slo time window is shown
+  contextTimeConfig?: TimeConfig;
 }
 
-const metricConfigurations = Object.freeze({
+type TimeSeriesGenerator<T> = T & { granularity: number };
+
+interface ApplicationMetricConfigGeneratorProps {
+  entity: Pick<ApplicationSloEntity, 'includeInternal' | 'includeSynthetic'>;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  timeConfig: TimeConfig;
+  aggregation?: AggregationType;
+}
+
+interface WebsiteMetricConfigGeneratorProps {
+  entity: Pick<WebsiteSloEntity, 'beaconType'>;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  timeConfig: TimeConfig;
+  aggregation?: AggregationType;
+}
+
+export const sloMetrics = deepFreeze({
   status: {
     label: t('in-service-levels:general.metrics.status'),
     singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
@@ -28,6 +53,7 @@ const metricConfigurations = Object.freeze({
         timeConfig
       } as const)
   },
+
   remainingBudget: {
     label: t('in-service-levels:general.metrics.remainingBudget'),
     singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
@@ -40,7 +66,7 @@ const metricConfigurations = Object.freeze({
         metric: 'ERROR_BUDGET_REMAINING',
         timeConfig
       } as const),
-    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, contextTimeConfig }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -49,7 +75,8 @@ const metricConfigurations = Object.freeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: calculateSloGranularity(timeConfig),
+        context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
       } as const),
     timeSeriesCompact: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
       ({
@@ -63,6 +90,7 @@ const metricConfigurations = Object.freeze({
         granularity: calculateSloGranularity(timeConfig)
       } as const)
   },
+
   totalBudget: {
     label: t('in-service-levels:general.metrics.totalBudget'),
     singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
@@ -76,9 +104,10 @@ const metricConfigurations = Object.freeze({
         timeConfig
       } as const)
   },
+
   consumedBudget: {
     label: t('in-service-levels:general.metrics.consumedBudget'),
-    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, contextTimeConfig }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -87,9 +116,181 @@ const metricConfigurations = Object.freeze({
         resultType: 'TIME_SERIES',
         metric: 'CONSUMED_ERROR_BUDGET_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: calculateSloGranularity(timeConfig),
+        context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
       } as const)
   }
 });
 
-export default metricConfigurations;
+export const applicationMetrics = deepFreeze({
+  calls: {
+    label: t('in-service-levels:general.metrics.calls'),
+    singleNumber: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      aggregation = 'SUM'
+    }: ApplicationMetricConfigGeneratorProps) =>
+      ({
+        source: 'APPLICATION',
+        dataSource: 'CALLS',
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        includeInternal: Boolean(entity.includeInternal),
+        includeSynthetic: Boolean(entity.includeSynthetic),
+        metric: 'calls',
+        aggregation,
+        resultType: 'SINGLE_NUMBER',
+        queryPrecision: 'FULL',
+        timeConfig
+      } as const),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<ApplicationMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation: 'SUM',
+        source: 'APPLICATION',
+        dataSource: 'CALLS',
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        includeInternal: Boolean(entity.includeInternal),
+        includeSynthetic: Boolean(entity.includeSynthetic),
+        metric: 'calls',
+        resultType: 'TIME_SERIES',
+        queryPrecision: 'FULL',
+        timeConfig
+      } as const)
+  },
+
+  latency: {
+    label: t('in-service-levels:general.metrics.latency'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity,
+      aggregation = 'P99'
+    }: TimeSeriesGenerator<ApplicationMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation,
+        source: 'APPLICATION',
+        dataSource: 'CALLS',
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        includeInternal: Boolean(entity.includeInternal),
+        includeSynthetic: Boolean(entity.includeSynthetic),
+        metric: 'latency',
+        resultType: 'TIME_SERIES',
+        queryPrecision: 'FULL',
+        timeConfig
+      } as const)
+  },
+
+  errorRate: {
+    label: t('in-service-levels:general.metrics.errors'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity,
+      aggregation = 'P99'
+    }: TimeSeriesGenerator<ApplicationMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation,
+        source: 'APPLICATION',
+        dataSource: 'CALLS',
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        includeInternal: Boolean(entity.includeInternal),
+        includeSynthetic: Boolean(entity.includeSynthetic),
+        metric: 'errors',
+        resultType: 'TIME_SERIES',
+        queryPrecision: 'FULL',
+        timeConfig
+      } as const)
+  }
+});
+
+export const websiteMetrics = deepFreeze({
+  beaconCount: {
+    label: t('in-service-levels:general.metrics.beaconCount'),
+    singleNumber: ({ entity, tagFilterExpression, timeConfig }: WebsiteMetricConfigGeneratorProps) =>
+      ({
+        source: 'WEBSITE',
+        metric: 'beaconCount',
+        aggregation: 'SUM',
+        beaconType: entity.beaconType,
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        timeConfig,
+        resultType: 'SINGLE_NUMBER'
+      } as const),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<WebsiteMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation: 'SUM',
+        source: 'WEBSITE',
+        metric: 'beaconCount',
+        beaconType: entity.beaconType,
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        timeConfig,
+        resultType: 'TIME_SERIES'
+      } as const)
+  },
+
+  beaconDuration: {
+    label: t('in-service-levels:general.metrics.beaconDuration'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity,
+      aggregation = 'P99'
+    }: TimeSeriesGenerator<WebsiteMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation,
+        source: 'WEBSITE',
+        metric: 'beaconDuration',
+        beaconType: entity.beaconType,
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        timeConfig,
+        resultType: 'TIME_SERIES'
+      } as const)
+  },
+
+  beaconErrorRate: {
+    label: t('in-service-levels:general.metrics.beaconErrorRate'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity,
+      aggregation = 'P99'
+    }: TimeSeriesGenerator<WebsiteMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation,
+        source: 'WEBSITE',
+        metric: 'beaconErrorRate',
+        beaconType: entity.beaconType,
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        timeConfig,
+        resultType: 'TIME_SERIES'
+      } as const)
+  }
+});

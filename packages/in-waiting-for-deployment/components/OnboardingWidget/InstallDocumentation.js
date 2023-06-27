@@ -31,7 +31,7 @@ export default function InstallDocumentation(props) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>
-        <span className={locals.headingText}>{t('in-waiting-for-deployment:installingInstanaAgents')}</span>
+        <span className={locals.headingText}>{t('in-waiting-for-deployment:installAgents')}</span>
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>

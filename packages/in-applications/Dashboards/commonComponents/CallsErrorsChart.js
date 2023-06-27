@@ -16,7 +16,6 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
@@ -46,14 +45,10 @@ export default function CallsErrorsChart({
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
-  const aggregation = perSecondAggregationEnabled ? 'PER_SECOND' : 'SUM';
-  const formatter = perSecondAggregationEnabled ? 'perSecond.detailed' : 'number.compact';
-  const callsLabel = perSecondAggregationEnabled
-    ? t('in-applications:labelCallsPerSecondShort')
-    : t('in-applications:labelCalls');
-  const erroneousCallsLabel = perSecondAggregationEnabled
-    ? t('in-applications:labelErroneousCallsPerSecondShort')
-    : t('in-applications:titleErroneousCalls');
+  const aggregation = 'SUM';
+  const formatter = 'number.compact';
+  const callsLabel = t('in-applications:labelCalls');
+  const erroneousCallsLabel = t('in-applications:titleErroneousCalls');
 
   const defaultMetricConfig = {
     granularity,

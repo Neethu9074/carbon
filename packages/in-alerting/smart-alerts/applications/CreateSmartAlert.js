@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -16,7 +16,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { propTypeLocation } from 'in-stores/navigation';
-import { reload } from 'in-settings/components/List';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -48,8 +47,8 @@ export default function CreateSmartAlert({
             })}
             onClose={() => {
               close();
+
               if (location.pathname.includes(alertsTabListFullyQualified)) {
-                reload();
                 refreshSmartAlertConfigsList();
               }
             }}

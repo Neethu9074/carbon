@@ -63,7 +63,6 @@ export default function AdvancedModeContainer(props) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
-
   const blueprintConfig = getBlueprintConfig(alertType);
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
 

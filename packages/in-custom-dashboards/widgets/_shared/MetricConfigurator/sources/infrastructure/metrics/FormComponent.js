@@ -46,6 +46,7 @@ export default function FormComponent({
   formatterSection,
   timeShiftConfiguration,
   withGrouping = true,
+  withAggregationInMetrics = true,
   maxGrouping = 50
 }) {
   const typeField = form.get('type');
@@ -148,77 +149,82 @@ export default function FormComponent({
           />
           <TouchedMessages field={metricField} />
         </Section>
-        <SelectInSection
-          label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
-          id="metric-configurator-infra-aggregation"
-          value={aggregationField.value}
-          onChange={e =>
-            onChange([], form =>
-              form
-                .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
-                .updateIn(['crossSeriesAggregation'], field => {
-                  if (isCrossSeriesAggregationRestricted) {
-                    return field;
-                  }
-                  if (e.target.value === 'PER_SECOND') {
-                    return field.setValue('SUM').setTouched(true);
-                  }
-                  return field.setValue(e.target.value).setTouched(true);
-                })
-            )
-          }
-          additionalContent={
-            <>
-              <TouchedMessages field={aggregationField} />
-              <div className={locals.crossSeriesAggregationWrapper}>
-                <Tooltip
-                  content={getCrossSeriesAggregationTooltip(
-                    isCrossSeriesAggregationRestricted,
-                    isCrossSeriesSumAggregationToggleEnabled,
-                    aggregationField.value
-                  )}
-                >
-                  <span>
-                    <Toggle
-                      id="metric-configurator-cross-series-aggregation"
-                      checked={isSumCrossSeriesAggregation}
-                      disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                      onChange={e => {
-                        let newCrossSeriesAggregation = aggregationField.value;
-                        if (e.target.checked) {
-                          newCrossSeriesAggregation = 'SUM';
-                        }
-                        onChange(['crossSeriesAggregation'], field =>
-                          field.setValue(newCrossSeriesAggregation).setTouched(true)
-                        );
-                      }}
-                    />
-                  </span>
-                </Tooltip>
-                <Spacer horizontal="xxsmall" />
-                {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
-                <Spacer horizontal="small" />
-                <HelpAction>
-                  {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
-                </HelpAction>
-              </div>
-              <TouchedMessages field={crossSeriesAggregationField} />
-            </>
-          }
-          useAlternateBg
-          disabled={!metricField.valid}
-        >
-          {!metricField.valid && <option value="">{aggregationLabels[Object.keys(aggregationLabels)[0]]}</option>}
-          {metricField.valid && (
-            <>
-              {Object.keys(aggregationLabels).map(aggregation => (
-                <option key={aggregation} value={aggregation}>
-                  {aggregationLabels[aggregation]}
-                </option>
-              ))}
-            </>
-          )}
-        </SelectInSection>
+        {withAggregationInMetrics && (
+          <SelectInSection
+            label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
+            id="metric-configurator-infra-aggregation"
+            value={aggregationField.value}
+            onChange={e =>
+              onChange([], form =>
+                form
+                  .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
+                  .updateIn(['crossSeriesAggregation'], field => {
+                    if (isCrossSeriesAggregationRestricted) {
+                      return field;
+                    }
+                    if (e.target.value === 'PER_SECOND') {
+                      return field.setValue('SUM').setTouched(true);
+                    }
+                    return field.setValue(e.target.value).setTouched(true);
+                  })
+              )
+            }
+            additionalContent={
+              <>
+                <TouchedMessages field={aggregationField} />
+                <div className={locals.crossSeriesAggregationWrapper}>
+                  <Tooltip
+                    content={getCrossSeriesAggregationTooltip(
+                      isCrossSeriesAggregationRestricted,
+                      isCrossSeriesSumAggregationToggleEnabled,
+                      aggregationField.value
+                    )}
+                  >
+                    <span>
+                      <Toggle
+                        id="metric-configurator-cross-series-aggregation"
+                        checked={isSumCrossSeriesAggregation}
+                        disabled={!isCrossSeriesSumAggregationToggleEnabled}
+                        onChange={e => {
+                          let newCrossSeriesAggregation = aggregationField.value;
+                          if (e.target.checked) {
+                            newCrossSeriesAggregation = 'SUM';
+                          }
+                          onChange(['crossSeriesAggregation'], field =>
+                            field.setValue(newCrossSeriesAggregation).setTouched(true)
+                          );
+                        }}
+                      />
+                    </span>
+                  </Tooltip>
+                  <Spacer horizontal="xxsmall" />
+                  {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+                  <Spacer horizontal="small" />
+                  <HelpAction>
+                    {t(
+                      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp'
+                    )}
+                  </HelpAction>
+                </div>
+                <TouchedMessages field={crossSeriesAggregationField} />
+              </>
+            }
+            useAlternateBg
+            disabled={!metricField.valid}
+          >
+            {!metricField.valid && <option value="">{aggregationLabels[Object.keys(aggregationLabels)[0]]}</option>}
+            {metricField.valid && (
+              <>
+                {Object.keys(aggregationLabels).map(aggregation => (
+                  <option key={aggregation} value={aggregation}>
+                    {aggregationLabels[aggregation]}
+                  </option>
+                ))}
+              </>
+            )}
+          </SelectInSection>
+        )}
+
         {formatterSection}
       </Sections>
 
@@ -255,10 +261,7 @@ export default function FormComponent({
 }
 
 function getGrouping(form) {
-  return form
-    .get('grouping')
-    ?.get(0)
-    ?.toJS();
+  return form.get('grouping')?.get(0)?.toJS();
 }
 
 function getCrossSeriesAggregationTooltip(

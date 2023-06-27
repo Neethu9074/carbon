@@ -23,7 +23,7 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';

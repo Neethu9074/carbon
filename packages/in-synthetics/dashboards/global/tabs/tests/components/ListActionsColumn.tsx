@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { Progress, SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import IconButton from 'in-components/IconButton/IconButton';
 import { dummyTest } from 'in-synthetics/utils/constants';
 import { getTest, updateTest } from 'in-synthetics/api';

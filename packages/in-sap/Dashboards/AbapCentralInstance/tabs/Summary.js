@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -18,35 +19,23 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: vm }) {
-  const snapshotId = vm.id;
+export default function Summary({ timeConfig, data: sap }) {
+  const snapshotId = sap.id;
 
   return (
     <Fragment>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[6, 6]}>
         <KpiCard
-          title={t('in-sap:dashboards.instanceAvailability')}
-          value={vm.availInstanceRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallRating')}
+          value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.availInstanceRating)}
+          color={colorFormatter(sap.overallRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.abapCentralInstanceAvailability')}
-          value={vm.availCentralInstanceRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(vm.availCentralInstanceRating)}
-        />
-        <KpiCard
-          title={t('in-sap:dashboards.abapInstancePerformance')}
-          value={vm.perfRating || valueMissingPlaceholder}
-          borderless
-          color={colorFormatter(vm.perfRating)}
-        />
-        <KpiCard
-          title={t('in-sap:dashboards.abapInstanceExceptions')}
-          value={vm.excepRating || valueMissingPlaceholder}
-          borderless
-          color={colorFormatter(vm.excepRating)}
+          color={colorFormatter(sap.availRating)}
         />
       </KpiGridRow>
       <Row>
@@ -56,60 +45,17 @@ export default function Summary({ timeConfig, data: vm }) {
       </Row>
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title={t('in-sap:dashboards.icm')} useMaxAvailableHeight>
+          <Card title={t('in-sap:dashboards.availability')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: number,
                 metrics: [
-                  'metrics.Performance.ICM_Resources.ABAP_INST_ICM_CONN_USAGE.value',
-                  'metrics.Performance.ICM_Resources.ABAP_INST_ICM_REQUEST_USAGE.value',
-                  'metrics.Performance.ICM_Resources.ABAP_INST_ICM_THREAD_USAGE.value'
+                  'metrics.Availability.ABAP_Central_Service_Availability.ABAP_SCS_ENQUEUE_SERVER_STATUS.value',
+                  'metrics.Availability.ABAP_Central_Service_Availability.ABAP_SCS_MESSAGE_SERVER_STATUS.value'
                 ],
-                labels: [
-                  t('in-sap:dashboards.connUsage'),
-                  t('in-sap:dashboards.reqUsage'),
-                  t('in-sap:dashboards.threadUsage')
-                ],
-                type: 'line'
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={12}>
-          <Card title={t('in-sap:dashboards.instanceUser')} useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: number,
-                metrics: [
-                  'metrics.Performance.ABAP_User_Load.ABAP_INST_TOTAL_USERS.value',
-                  'metrics.Performance.ABAP_User_Load.ABAP_INST_RFC_USERS.value'
-                ],
-                labels: [t('in-sap:dashboards.totalUser'), t('in-sap:dashboards.rfcUser')],
-                type: 'line'
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={12}>
-          <Card title={t('in-sap:dashboards.dialog')} useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: number,
-                metrics: [
-                  'metrics.Performance.Dialog_Response_Time.DIALOG_DB_REQUEST_TIME.value',
-                  'metrics.Performance.Dialog_Response_Time.DIALOG_RESPONSE_TIME.value'
-                ],
-                labels: [t('in-sap:dashboards.reqTime'), t('in-sap:dashboards.resTime')],
+                labels: [t('in-sap:dashboards.enqueueServerStatus'), t('in-sap:dashboards.messageServerStatus')],
                 type: 'line'
               }}
             />

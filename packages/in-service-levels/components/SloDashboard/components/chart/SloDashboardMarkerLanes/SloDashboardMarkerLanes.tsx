@@ -6,23 +6,23 @@
 
 import React from 'react';
 
-import { isApplicationSloEntity, isWebsiteSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isApplicationSloEntity, isWebsiteSloEntity, SloEntityUnion } from '@instana/types';
 
 import ApplicationSloMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/ApplicationSloMarkerLanes';
 import WebsiteSloMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/WebsiteSloMarkerLanes';
 import { AdditionChartContentProps } from 'in-components/Chart/types';
 
 export interface SloDashboardMarkerLanesProps extends AdditionChartContentProps {
-  configuration: ServiceLevelObjectiveConfiguration;
+  entity: SloEntityUnion;
 }
 
-export default function SloDashboardMarkerLanes({ configuration, ...props }: SloDashboardMarkerLanesProps) {
-  if (isApplicationSloEntity(configuration.entity)) {
-    return <ApplicationSloMarkerLanes entity={configuration.entity} {...props} />;
+export default function SloDashboardMarkerLanes({ entity, ...props }: SloDashboardMarkerLanesProps) {
+  if (isApplicationSloEntity(entity)) {
+    return <ApplicationSloMarkerLanes entity={entity} {...props} />;
   }
 
-  if (isWebsiteSloEntity(configuration.entity)) {
-    return <WebsiteSloMarkerLanes entity={configuration.entity} {...props} />;
+  if (isWebsiteSloEntity(entity)) {
+    return <WebsiteSloMarkerLanes entity={entity} {...props} />;
   }
 
   return null;

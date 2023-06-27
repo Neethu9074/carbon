@@ -10,9 +10,10 @@ import { isTimeBasedSli, ServiceLevelObjectiveConfiguration, TimeConfig } from '
 import { useTheme } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { minutes, number } from 'in-services/formatters/number';
-import metrics from 'in-service-levels/metrics';
+import { minutes } from 'in-services/formatters/number';
+import { sloMetrics } from 'in-service-levels/metrics';
 
 interface ErrorBudgetKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -20,13 +21,13 @@ interface ErrorBudgetKpiCardProps {
 }
 
 export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorBudgetKpiCardProps) {
-  const { id } = configuration;
-  const formatter = isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : number.compact;
+  const { id, entity } = configuration;
+  const formatter = isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : createSloEventFormatter(entity);
   const theme = useTheme();
 
   return (
     <BigNumberKpiCard
-      title={metrics.remainingBudget.label}
+      title={sloMetrics.remainingBudget.label}
       formatter={formatter}
       companionFormatter={value => {
         return t('in-service-levels:sloDashboard.components.errorBudgetKpiCard.totalBudget', {
@@ -34,8 +35,8 @@ export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorB
         });
       }}
       config={{
-        metricConfiguration: metrics.remainingBudget.singleNumber({ timeConfig, configId: id! }),
-        companionMetricConfiguration: metrics.totalBudget.singleNumber({ timeConfig, configId: id! }),
+        metricConfiguration: sloMetrics.remainingBudget.singleNumber({ timeConfig, configId: id! }),
+        companionMetricConfiguration: sloMetrics.totalBudget.singleNumber({ timeConfig, configId: id! }),
         getColor: value => (value != null && value < 0 ? theme.ids.color.option.red['500'] : undefined)
       }}
     />

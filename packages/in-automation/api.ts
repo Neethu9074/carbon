@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { combineLatest, just, Observable, timeout } from '@instana/observables';
+import { combineLatest, just, Observable, timeout as timeoutFn } from '@instana/observables';
 
 import {
   Action,
@@ -175,19 +175,26 @@ export const createDocLinkField = (value: string): Field => ({
   name: 'URL'
 });
 
-export const createScriptFields = (value: string): Field[] => [
+interface ScriptFields {
+  value: string;
+  subtype: string;
+  timeout: string
+}
+
+export const createScriptFields = ({ value, subtype, timeout }: ScriptFields): Field[] => [
   {
+    value: btoa(subtype),
     description: 'script subtype',
     encoding: 'base64',
-    name: 'subtype',
-    value: btoa('bash')
+    name: 'subtype'
   },
   {
     value: btoa(value),
     description: 'script content',
     encoding: 'base64',
     name: 'script_ssh'
-  }
+  },
+  { ...createTimeoutField(timeout) }
 ];
 
 export interface NoAuth {
@@ -223,6 +230,7 @@ interface WebhookFields {
   body: string;
   authen: Authen;
   ignoreCertErrors: boolean;
+  timeout: string;
 }
 export const createWebhookFields = ({
   host,
@@ -233,7 +241,8 @@ export const createWebhookFields = ({
   additionalHeaders,
   body,
   authen,
-  ignoreCertErrors
+  ignoreCertErrors,
+  timeout
 }: WebhookFields): Field[] => [
   {
     description: 'method of the https request',
@@ -275,8 +284,16 @@ export const createWebhookFields = ({
     description: 'body of the https request',
     encoding: 'ascii',
     name: 'body'
-  }
+  },
+  { ...createTimeoutField(timeout) }
 ];
+
+const createTimeoutField = (value: string): Field => ({
+  value,
+  description: 'timeout of the action execution in seconds',
+  encoding: 'ascii',
+  name: 'timeout'
+});
 
 export function createAction(
   name: string = t('in-automation:newAction'),
@@ -304,6 +321,7 @@ interface RunActionBaseParams {
   actionName: string;
   actionId: string;
   inputParameters: ActionExecutionParameter[];
+  timeout: string;
 }
 
 interface RunActionRequest {
@@ -323,10 +341,19 @@ interface RunScriptActionParams extends RunActionBaseParams {
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction({ volatileId, event, actionName, type, request, inputParameters, actionId }: RunActionParams) {
+function runAction({
+  volatileId,
+  event,
+  actionName,
+  type,
+  request,
+  inputParameters,
+  actionId,
+  timeout
+}: RunActionParams) {
   return combineLatest(
     [
-      timeout(10000).flatMap(() =>
+      timeoutFn(10000).flatMap(() =>
         just(
           error<null>([
             {
@@ -347,7 +374,7 @@ function runAction({ volatileId, event, actionName, type, request, inputParamete
           eventId: event?.id,
           actionName,
           actionId,
-          timeout: '300',
+          timeout: timeout === '' ? null : timeout,
           request: request
         }
       })
@@ -363,13 +390,15 @@ export function runScriptAction({
   actionName,
   actionId,
   interpreter,
-  inputParameters
+  inputParameters,
+  timeout
 }: RunScriptActionParams) {
   return runAction({
     type: 'SCRIPT',
     volatileId,
     event,
     actionName,
+    timeout,
     actionId,
     inputParameters,
     request: [
@@ -408,13 +437,15 @@ export function runWebhookAction({
   ignoreCertErrors,
   header,
   authen,
-  inputParameters
+  inputParameters,
+  timeout
 }: RunWebhookActionParams) {
   return runAction({
     type: 'HTTP',
     volatileId,
     event,
     actionName,
+    timeout,
     actionId,
     inputParameters,
     request: [

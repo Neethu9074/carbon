@@ -40,7 +40,7 @@ export function getBusinessProcessListWithDefaults({
   //The value of query is from the Search box, by default, it is ''.
   page = 1,
   pageSize = 20,
-  orderBy = 'bpm_process_name',
+  orderBy = 'process_name',
   orderDirection = 'ASC',
   timeConfig,
   tagFilterExpression

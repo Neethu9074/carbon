@@ -23,6 +23,10 @@ import {
   simpleModeMaintenanceWindowTracker,
   submitMaintenanceWindowTracker
 } from 'in-settings/tracker';
+import {
+  setPartsToUTCDate,
+  subtractDurationFromGivenTime
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 //@ts-ignore-next-line
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import {
@@ -50,6 +54,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
+import { getSingle } from 'in-services/settings/settings';
 import Section from 'in-settings/components/Section';
 import { Nullish } from 'in-types';
 import { Trans, t } from 'in-i18n';
@@ -247,6 +252,7 @@ function RecurrentMaintenanceForm({
       secondaryActionText={t('in-components:blueprintFormMultistep.buttonCancel')}
     />
   );
+
   return (
     <form onSubmit={onSubmit}>
       <DialogWithSlideInView
@@ -291,6 +297,7 @@ function RecurrentMaintenanceForm({
 
         <div className={simpleMode ? locals.simpleDialog : locals.dialog}>
           <RecurrentMaintenanceConfigContainer
+            entity={entity}
             form={form}
             onChange={onChange}
             onChangeApplyOn={onChangeApplyOn}
@@ -390,13 +397,15 @@ function save(
   let scheduling;
 
   if (rrule) {
-    const rruleDates = rrule.all((_, i) => i < 1);
-    const recurrentStart = (rruleDates[0] as Date).getTime();
+    const recurrentStart = windowStart;
     scheduling = {
       start: recurrentStart,
       type: 'RECURRENT',
       duration,
-      rrule: rruleWithoutInvalidRules ? RRule.optionsToString(rruleWithoutInvalidRules.options)?.split('RRULE:')[1] : ''
+      rrule: rruleWithoutInvalidRules
+        ? RRule.optionsToString(rruleWithoutInvalidRules.options)?.split('RRULE:')[1]
+        : '',
+      timezoneId: getSingle('formatTimestampsAsUtc') ? '' : new Intl.DateTimeFormat().resolvedOptions().timeZone //If format as UTC then we send an empty string
     } as RecurrentMaintenanceWindow;
   } else {
     scheduling = {
@@ -429,9 +438,16 @@ function save(
 }
 
 function getTime(subForm: MapForm<any>) {
-  return parseDateTime(
-    `${(subForm.get('date') as Field<string>)?.value} ${(subForm.get('time') as Field<string>)?.value}`
-  ).getTime();
+  const dateVal = (subForm.get('date') as Field<string>).value;
+  const timeVal = (subForm.get('time') as Field<string>).value;
+  let parsedDateTime = null;
+
+  try {
+    parsedDateTime = parseDateTime(`${dateVal} ${timeVal}`).getTime();
+  } catch (exception) {
+    parsedDateTime = null;
+  }
+  return parsedDateTime;
 }
 
 function onChangeApplyOn(form: MapForm<any>, applyOn: string): MapForm<any> | Nullish {
@@ -733,7 +749,12 @@ function windowValidator(w: MapFormItems): ValidationResult {
   if (rrule && rrule.options.until) {
     windowEnd = rrule.options.until.getTime();
   } else if (rrule && rrule.options.count) {
-    if (!rrule.after(new Date())) {
+    // We need to check if there are any dates after the current date
+    // We cannot simply just check if there are any past the current time but we must take the current time and see if there are any within in the duration of the mw
+    // This is for MWs that may begin before the current date ends but end after
+    const checkingDateAfter = subtractDurationFromGivenTime(duration.amount, duration.unit, new Date());
+
+    if (!rrule.after(setPartsToUTCDate(checkingDateAfter), true)) {
       return [
         {
           severity: 'error',
@@ -741,7 +762,7 @@ function windowValidator(w: MapFormItems): ValidationResult {
         }
       ];
     }
-  } else if (!rrule) {
+  } else if (!rrule && windowStart) {
     windowEnd = add(windowStart, { [duration.unit.toLocaleLowerCase()]: duration.amount }).getTime();
   } else {
     return null;
@@ -780,14 +801,6 @@ function windowValidator(w: MapFormItems): ValidationResult {
       }
     ];
   }
-  /*   if (!windowStart || !duration || (!durationUnit && touchedWindowFields)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-settings:tabs.eitherBothOrNoneOfStartTimeAndEndTimeHaveToBeSpecified')
-      }
-    ];
-  } */
 
   return null;
 }

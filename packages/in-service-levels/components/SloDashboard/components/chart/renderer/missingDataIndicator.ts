@@ -6,7 +6,7 @@
 
 import { TimeConfig } from '@instana/types';
 
-import { getLineWidth } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
+import { getLineWidth } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import { RenderConfig } from 'in-components/Chart/renderer/types';
 import theme from 'in-themes';
 

@@ -16,6 +16,7 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
+import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -51,6 +52,7 @@ export default function MobileEventContent({ event }: Props) {
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
+    autoRefresh: false,
     windowSize: alertingEventDetailsChartTimeframe
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);
@@ -64,6 +66,7 @@ export default function MobileEventContent({ event }: Props) {
 
             <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
             <DescriptionButtons>
+              <MobileAppAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeMobileAppEventButton
                 mobileAppName={eventEntity.mobileAppName}
                 alertConfig={alertConfig}

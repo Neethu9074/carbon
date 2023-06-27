@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+// import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { HistoricBaselineConfig } from '@instana/types/typeDefinitions';
 import {
   MobileAppAlertConfig,
   MobileAppAlertConfigWithMetadata,
@@ -18,14 +20,15 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { NumberFormatterObject } from 'in-services/formatters/number';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Location } from 'in-stores/navigation/types';
@@ -49,6 +52,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         createRowLinkLocation={createRowLinkLocation}
+        alertsTab={alertsTab}
       />
     </>
   );
@@ -82,6 +86,19 @@ function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUn
       metricLabel: formattedMetricLabel,
       operator: humanReadableOperator,
       value: formattedValue
+    });
+  }
+
+  if (type === HISTORIC_BASELINE) {
+    const { seasonality } = threshold as HistoricBaselineConfig;
+    if (seasonality === DAILY) {
+      return t('in-alerting:smartAlerts.mobileApp.alertList.columns.name.subtitleForStaticDailySeasonality', {
+        metricLabel: formattedMetricLabel
+      });
+    }
+
+    return t('in-alerting:smartAlerts.mobileApp.alertList.columns.name.subtitleForStaticWeeklySeasonality', {
+      metricLabel: formattedMetricLabel
     });
   }
 

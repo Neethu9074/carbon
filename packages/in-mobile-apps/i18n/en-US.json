@@ -279,6 +279,8 @@
       "noSessionExplanationWithFilters": "There were no sessions found in the selected time range matching your filters.",
       "switchTo3DTooltip": "Switch to 3D globe",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "Switch to 2D map",
+      "2DBtn": "2D",
       "errorTypesTitle": "Error Types",
       "viewAllErrorTypesLink": "View all error types",
       "originTitle": "Origin",

@@ -12,6 +12,8 @@ import InlineEditorReadonly, {
 import InlineEditorInput, {
   InlineEditorInputProps
 } from 'in-settings/tabs/TeamSettings/components/InlineEditorRow/InlineEditorInput';
+import { DeleteKind } from 'in-settings/components/ApiList/sharedComponents/Delete';
+import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from './InlineEditorRow.mless';
@@ -19,6 +21,11 @@ import locals from './InlineEditorRow.mless';
 interface InlineEditorRowProps extends InlineEditorInputProps, InlineEditorReadonlyExposedProps {
   avatar: ReactNode;
   canEdit?: boolean;
+  canDelete?: boolean;
+  onClickDelete?: VoidFunction;
+  deleteLabel?: string;
+  skipDeleteDialog?: boolean;
+  isDeleting?: boolean;
 }
 
 export default function InlineEditorRow({
@@ -29,8 +36,13 @@ export default function InlineEditorRow({
   onInputChange,
   onClickSave,
   onClickCancel,
+  onClickDelete,
   hasError,
-  canEdit
+  canEdit,
+  canDelete,
+  deleteLabel,
+  skipDeleteDialog = false,
+  isDeleting = false
 }: InlineEditorRowProps) {
   const [isEditMode, setEditMode] = useState(false);
 
@@ -39,7 +51,6 @@ export default function InlineEditorRow({
       <Col lg>
         <div className={locals.column}>
           {avatar}
-
           {isEditMode ? (
             <InlineEditorInput
               inputValue={inputValue}
@@ -61,6 +72,20 @@ export default function InlineEditorRow({
           )}
         </div>
       </Col>
+      {canDelete && onClickDelete ? (
+        <Col xs--auto className={locals.deleteButton}>
+          <Delete
+            kind={DeleteKind.Button}
+            itemName={label}
+            dialogMessage=""
+            confirmLabel=""
+            doDelete={() => onClickDelete()}
+            label={deleteLabel}
+            isDeleting={isDeleting}
+            skipDialog={skipDeleteDialog}
+          />
+        </Col>
+      ) : null}
     </Row>
   );
 }

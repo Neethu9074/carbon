@@ -12,7 +12,7 @@ import {
   entityNameColumnDefinition,
   editActionsColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { successObservable } from 'in-services/util/result';
 
 jest.mock('react-router');
@@ -41,6 +41,8 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
+        getLocalAlertConfigTitle={numberOfAlerts => `Local Alerts (${numberOfAlerts})`}
+        getGlobalAlertConfigTitle={numberOfAlerts => `Global Alerts (${numberOfAlerts})`}
         columnDefinitions={columnDefinitions}
         sortOptions={[]}
       />
@@ -58,6 +60,8 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
+        getLocalAlertConfigTitle={numberOfAlerts => `Local Alerts (${numberOfAlerts})`}
+        getGlobalAlertConfigTitle={numberOfAlerts => `Global Alerts (${numberOfAlerts})`}
         columnDefinitions={columnDefinitions}
         sortOptions={[]}
       />
@@ -74,6 +78,8 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
+        getLocalAlertConfigTitle={numberOfAlerts => `Local Alerts (${numberOfAlerts})`}
+        getGlobalAlertConfigTitle={numberOfAlerts => `Global Alerts (${numberOfAlerts})`}
         columnDefinitions={columnDefinitions}
         sortOptions={[]}
       />

@@ -13,18 +13,6 @@ import http from 'in-services/http';
 
 const baseUrl = 'api/events/settings/mobile-app-alert-configs';
 
-function getRequest(id: string, timestamp: number) {
-  return http<MobileAppAlertConfigWithMetadata>({
-    method: 'GET',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}`,
-    queryParams: {
-      validOn: timestamp
-    }
-  });
-}
-
 export function createAlertConfig(data: MobileAppAlertConfig): Observable<MobileAppAlertConfigWithMetadata> {
   return http<MobileAppAlertConfigWithMetadata>({
     method: 'POST',
@@ -46,6 +34,18 @@ export function updateAlertConfig(
     url: `${baseUrl}/${id}`,
     data
   }).map(response => response.body);
+}
+
+function getRequest(id: string, timestamp: number) {
+  return http<MobileAppAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    queryParams: {
+      validOn: timestamp
+    }
+  });
 }
 
 export function getAllAlertConfigs(id: string, timestamp: number): Observable<MobileAppAlertConfigWithMetadata> {

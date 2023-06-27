@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
-import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-alerting/smart-alerts/components/list/NameColumnCell.mless';

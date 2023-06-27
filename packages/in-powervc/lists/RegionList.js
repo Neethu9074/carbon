@@ -9,11 +9,11 @@ import React, { Fragment } from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import PowervcNoDataNotification from 'in-powervc/lists/components/PowervcNoDataNotification';
 import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPowerVCRegions';
 import PowerVCLabel from 'in-powervc/Dashboards/commonComponents/PowerVCLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { percentage, kiloBytes } from 'in-services/formatters/number';
-import NoData from 'in-powervc/Dashboards/commonComponents/NoData.js';
 import { powervcRegionList } from 'in-powervc/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import connectTo from 'in-hoc/connectTo';
@@ -111,7 +111,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={() => <NoData icon="lib_powervc" />}
+          FallbackComponent={() => <PowervcNoDataNotification icon="lib_powervc" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

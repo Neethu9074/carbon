@@ -169,7 +169,6 @@
         "type": "類型",
         "category": "種類",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "請注意：只有仍在 Instana 監視之下的程序，才能擷取其原始碼。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "請注意：Instana 必須可在程序中順利鏈結對應的基礎架構，才能擷取該程序的原始碼。",
         "stackTrace": "堆疊追蹤",
         "in": "位於",
         "windowLocation": "視窗位置",

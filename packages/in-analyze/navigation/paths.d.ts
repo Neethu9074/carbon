@@ -6,8 +6,10 @@
 import { Observable } from '@instana/observables';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { AggregationType, BoundaryScope, Group, Order } from 'in-types';
 import { EntityType } from 'in-analyze/applicationFilter';
-import { AggregationType, Group, Order } from 'in-types';
+
+export const analyze: string;
 
 interface ChartMetric {
   metricId: string;
@@ -26,6 +28,8 @@ interface MetricField {
   aggregationId: AggregationType;
   type: 'metric';
 }
+
+export function tagFilterForBoundaryScope(boundaryScope: BoundaryScope, applicationName: string): TagFilter;
 
 export function createMetricField(metric: string, aggregation: AggregationType): MetricField;
 

@@ -37,11 +37,11 @@
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
+        "title": "When to use?",
         "apiSimple": {
           "name": "API Simple",
           "headline": "API Simple (HTTP Action)",
           "whenToUse": {
-            "title": "When to use?",
             "line1": "Use an API Simple (HTTP Action) test to test a single Rest API"
           },
           "tipsForUsing": {
@@ -63,6 +63,16 @@
             "line2": "Step 2: Use the Upload the script option to upload a node.js test script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
             "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
+          }
+        },
+        "browserSimple": {
+          "whenToUse": {
+            "line1": "Use a BrowserScript test to test...."
+          }
+        },
+        "browserScript": {
+          "whenToUse": {
+            "line1": "Use a WebpageScript test to test...."
           }
         }
       },
@@ -96,6 +106,8 @@
           "browserTypeLabel": "Browser",
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
+          "browserSimpleTitle": "Browser Simple Test",
+          "browserScriptTitle": "Browser Script Test",
           "internetServicesTypeLabel": "Internet Services",
           "internetServicesTypeHeadline": "Internet Services Tests",
           "internetServicesTypeText": "Internet services synthetic testing involves simulating user interactions with web services to monitor and test their performance, helping identify and prevent downtime issues."

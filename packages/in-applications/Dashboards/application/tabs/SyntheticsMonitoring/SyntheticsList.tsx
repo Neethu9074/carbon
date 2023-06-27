@@ -22,9 +22,9 @@ import {
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';

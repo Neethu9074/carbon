@@ -32,18 +32,6 @@
     font-weight: 700;
   }
 
-  .to2D {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: @lib__colors__N400;
-
-    &:hover {
-      color: @lib__colors__N500;
-    }
-  }
-
   .placeholder {
     margin: 0.5rem;
   }

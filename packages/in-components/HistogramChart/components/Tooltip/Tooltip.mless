@@ -1,0 +1,86 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+@import 'in-components/HistogramChart/shared.less';
+
+:local {
+  .tooltipContent {
+    position: absolute;
+    z-index: @z-index__tooltipContent;
+    transform: translate(0, 100%);
+    display: flex;
+    flex-direction: column;
+    min-width: 12rem;
+    max-width: 20rem;
+
+    background: @lib__colors__white;
+    color: @lib__colors__N800Dark;
+    border-radius: @lib__shapes__radius_large;
+    font-size: 0.75rem;
+    box-shadow: @lib__shadows__subtle;
+    border: 1px solid @lib__colors__N300;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 0 0.5rem;
+    line-height: 2;
+    background: @lib__colors__N200;
+    border-bottom: 1px solid @lib__colors__N300;
+    border-top-left-radius: @lib__shapes__radius_large;
+    border-top-right-radius: @lib__shapes__radius_large;
+  }
+
+  .entries {
+    padding: 0.2rem 0.5rem;
+    margin: 0;
+    list-style: none;
+  }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    line-height: 1.75;
+  }
+
+  .dot {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+    flex-shrink: 0;
+    margin-right: 0.25rem;
+    border-radius: 50%;
+  }
+
+  .label {
+    width: 100%;
+    .ellipsis();
+  }
+
+  .timeShift {
+    color: @lib__colors__N600Light;
+    text-transform: lowercase;
+  }
+
+  .aggregation {
+    .flexbox();
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+    text-align: right;
+  }
+
+  .value {
+    flex-shrink: 0;
+    margin-left: 0.25rem;
+    font-weight: bold;
+    color: @lib__colors__N900Primary;
+  }
+}

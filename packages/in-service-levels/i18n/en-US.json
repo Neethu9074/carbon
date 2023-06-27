@@ -1,28 +1,65 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "beacon": "Beacon",
+    "boundary": "Boundary",
+    "clear": "Clear",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
     "copyButtonLabel": "Copy",
     "deleteButtonLabel": "Delete",
+    "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "None selected",
+    "loadMore": "Load more",
+    "noData": "No data available",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
+    "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "metrics": {
       "status": "Status",
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
-      "consumedBudget": "Error Budget Consumed"
+      "consumedBudget": "Error Budget Consumed",
+      "beaconCount": "Beacon Count",
+      "calls": "Calls",
+      "latency": "Latency",
+      "beaconDuration": "Beacon Duration",
+      "threshold": "Threshold",
+      "errors":  "Erroneous Call Rate",
+      "beaconErrorRate": "Beacon Error Rate",
+      "goodEvents": "Good Events",
+      "badEvents": "Bad Events"
+    },
+    "format": {
+      "event_website": "{{formatted}} beacon",
+      "event_website_plural": "{{formatted}} beacons",
+      "event_website_0": "{{formatted}} beacons",
+      "event_website_1": "{{formatted}} beacon",
+      "event_website_2": "{{formatted}} beacons",
+      "event_application": "{{formatted}} call",
+      "event_application_plural": "{{formatted}} calls",
+      "event_application_0": "{{formatted}} calls",
+      "event_application_1": "{{formatted}} call",
+      "event_application_2": "{{formatted}} calls"
     }
   },
   "createSloDialog": {
+    "customFilter": "Custom Filter",
     "title": "Create Service Level Objective (SLO)",
     "selectEntityNavItem": "Select Entity",
-    "selectEntityTitle": "Select an entity to add SLO to:"
+    "selectEntityTitle": "Select an entity to add SLO to:",
+    "selectScopeNavItem": "Select Scope",
+    "selectScopeTitle": "Select Scope",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP Requests",
+      "beaconLabel_pageLoad": "Website Page Loads",
+      "beaconLabel_custom": "Website Custom Events"
+    }
   },
   "sloList": {
     "components": {
@@ -49,18 +86,8 @@
       },
       "errorBudgetInfo": {
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "remainingEvent_website": "{{formatted}} beacon",
-        "remainingEvent_website_plural": "{{formatted}} beacons",
-        "remainingEvent_website_0": "{{formatted}} beacons",
-        "remainingEvent_website_1": "{{formatted}} beacon",
-        "remainingEvent_website_2": "{{formatted}} beacons",
-        "remainingEvent_application": "{{formatted}} call",
-        "remainingEvent_application_plural": "{{formatted}} calls",
-        "remainingEvent_application_0": "{{formatted}} calls",
-        "remainingEvent_application_1": "{{formatted}} call",
-        "remainingEvent_application_2": "{{formatted}} calls",
+        "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
         "timeWindowSize_month": "{{count}} month",
@@ -91,7 +118,8 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "Analyze {{entity}}"
+    "analyze": "Analyze {{entity}}",
+    "analyzeBadCalls": "Analyze bad {{entity}}"
   },
   "sloDashboard": {
     "components": {
@@ -101,11 +129,27 @@
       "sloStatusKpiCard": {
         "target": "SLO Target: {{value}}"
       },
+      "trafficKpiCard": {
+        "title": "Traffic",
+        "totalTraffic": "Total: {{value}}"
+      },
       "errorBudgetChart": {
         "title": "Error Budget",
         "title_fullWindow": "Error Budget over entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "trafficChart": {
+        "title": "Traffic"
+      },
+      "indicatorChart": {
+        "title": "Indicator",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "Good event filters:",
+            "badEventFilters": "Bad event filters:"
+          }
+        }
       }
     }
   }

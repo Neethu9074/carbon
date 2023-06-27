@@ -11,11 +11,13 @@ import { Stack, Spacer } from '@instana/components';
 
 //@ts-expect-error TS migration
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
+import { onThresholdTypeChange as mobileAppOnThresholdTypeChange } from 'in-alerting/smart-alerts/mobileApp/form/thresholdTypeForm';
 import { onThresholdTypeChange as websiteOnThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
+import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
@@ -33,27 +35,26 @@ export default function ThresholdTypeSelection({ form, updateForm, editMode, thr
           value={thresholdComboBoxValue}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
-            {
-              /* eumType === websiteEum , this condition need to be removed once sesonality is implemented for mobileapp  */
+            if (eumType === websiteEum) {
+              return websiteOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
             }
-            return eumType === websiteEum
-              ? websiteOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm)
-              : '';
+            if (eumType === mobileAppEum) {
+              return mobileAppOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
+            }
+            return '';
           }}
         />
       )}
-      {/* eumType === websiteEum , this condition need to be removed once HISTORIC_BASELINE adn ADAPTIVE_BASELINE is implemented for mobileapp  */}
-      {eumType === websiteEum && (
-        <>
-          <Spacer vertical size="xxsmall" />
-          <Stack space="xxsmall" align="center" direction="horizontal">
-            {options.length > 1 && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
-            {thresholdType === HISTORIC_BASELINE && (
-              <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
-            )}
-          </Stack>
-        </>
-      )}
+
+      <>
+        <Spacer vertical size="xxsmall" />
+        <Stack space="xxsmall" align="center" direction="horizontal">
+          {options.length > 1 && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
+          {thresholdType === HISTORIC_BASELINE && (
+            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+          )}
+        </Stack>
+      </>
     </>
   );
 }

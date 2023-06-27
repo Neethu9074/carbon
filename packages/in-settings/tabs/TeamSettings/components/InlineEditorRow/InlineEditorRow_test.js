@@ -82,6 +82,46 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
     expect(inputElement.value).toEqual('Captain John Harkness');
   });
 
+  it('renders correctly in edit mode with delete enabled', () => {
+    const { getByText } = render(
+      <InlineEditorRow
+        label="John Harkness"
+        extra="Captain"
+        avatar={<></>}
+        inputValue="Captain John Harkness"
+        onInputChange={noop}
+        onClickSave={noop}
+        onClickCancel={noop}
+        onClickDelete={noop}
+        canEdit
+        canDelete
+        deleteLabel="Remove user"
+      />
+    );
+
+    expect(getByText('Remove user')).toBeVisible();
+  });
+
+  it('renders correctly in edit mode with delete disabled', () => {
+    const { queryByText } = render(
+      <InlineEditorRow
+        label="John Harkness"
+        extra="Captain"
+        avatar={<></>}
+        inputValue="Captain John Harkness"
+        onInputChange={noop}
+        onClickSave={noop}
+        onClickCancel={noop}
+        onClickDelete={noop}
+        canEdit
+        canDelete={false}
+        deleteLabel="Remove user"
+      />
+    );
+
+    expect(queryByText('Remove user')).toBeFalsy();
+  });
+
   it('calls onClickSave callback when save button has been clicked', () => {
     const onClickSave = jest.fn();
 
@@ -147,5 +187,32 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
 
     expect(onInputChange).toHaveBeenCalledTimes(1);
     expect(onInputChange).toHaveBeenCalledWith('foo');
+  });
+
+  it('calls onClickDelete callback when delete button has been clicked', async () => {
+    const onClickDelete = jest.fn();
+    const deleteLabel = 'Remove user';
+
+    const { container, getByText } = render(
+      <InlineEditorRow
+        label="John Harkness"
+        extra="Captain"
+        avatar={<></>}
+        inputValue="Captain John Harkness"
+        onInputChange={noop}
+        onClickSave={noop}
+        onClickCancel={noop}
+        onClickDelete={onClickDelete}
+        canEdit
+        canDelete
+        skipDeleteDialog
+        deleteLabel={deleteLabel}
+      />
+    );
+
+    expect(getByText(deleteLabel)).toBeVisible();
+    fireEvent.click(container.querySelector('.local-css-deleteButton button'));
+
+    expect(onClickDelete).toHaveBeenCalledTimes(1);
   });
 });

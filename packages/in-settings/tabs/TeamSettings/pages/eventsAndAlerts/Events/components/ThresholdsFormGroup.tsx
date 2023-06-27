@@ -16,7 +16,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { isPercentile } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { formatterTypeToValueLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
+import { CustomEventSpecificationWithMetadata, Nullish, AlertingAggregation } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
 import ComboBox, { Option } from 'in-components/ComboBox';
@@ -138,9 +138,10 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
         {(form.get('conditionValue') as Field<string>).map(field => (
           <FormGroup>
             <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-              {formatterTypeToValueLabel(
+              {conditionLabel(
                 (form.get('formatter') as Field<FormatterType>).value,
-                (form.get('metricName') as Field<string>).value
+                (form.get('metricName') as Field<string>).value,
+                (form.get('aggregation') as Field<AlertingAggregation>).value
               )}
             </Label>
             <Input
@@ -158,6 +159,13 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
     </>
   );
 }
+
+const conditionLabel = (formatterType: FormatterType, metricName: string, aggregation: AlertingAggregation) => {
+  if (aggregation === 'relative_diff') {
+    return t('in-settings:tabs.relativeDifferencePercentage');
+  }
+  return formatterTypeToValueLabel(formatterType, metricName);
+};
 
 export function TimeWindowFormGroup({ form, disabled, onChange, columnsSize = 3 }: TimeWindowFormGroupProps) {
   return (

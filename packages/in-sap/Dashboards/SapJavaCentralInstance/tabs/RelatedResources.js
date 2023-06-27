@@ -13,6 +13,9 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { t } from 'in-i18n';
 
 const pathSegment = '/sapjavacentralinstance';
@@ -42,8 +45,15 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'health',
-    label: t('in-sap:health'),
+    id: 'overallRating',
+    label: t('in-sap:dashboards.overallRating'),
+    getContent(item) {
+      return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
+    }
+  },
+  {
+    id: 'issues',
+    label: t('in-sap:issues'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

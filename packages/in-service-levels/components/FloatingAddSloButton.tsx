@@ -7,7 +7,7 @@
 import React from 'react';
 
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import CreateSloDialog from 'in-service-levels/components/CreateSloDialog';
+import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';

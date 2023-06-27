@@ -16,12 +16,13 @@ import {
   ThresholdOperator
 } from '@instana/types';
 
+import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
 //@ts-expect-error needs TS migration
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 //@ts-expect-error
 import { availableFilterTags } from 'in-mobile-apps/tags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -31,13 +32,6 @@ import { isNotBlank } from 'in-services/util/string';
 import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-// replace this by importing thresholdTypeOptions from the in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData
-export const thresholdTypeOptions = Object.freeze([
-  {
-    value: STATIC_THRESHOLD,
-    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')
-  }
-]);
 type ThresholdTypeOptions = readonly Option[];
 
 export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
@@ -66,13 +60,21 @@ interface BluePrintBase {
     timeConfig: FixedTimeConfig
   ) => FormModelElement[];
   readonly getAlertsPreviewRequest: () => undefined;
+  readonly getThresholdSuggestionRequest: (metricName: MetricName) => typeof getMobileAppMetricThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 }
 
 export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
 
-const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([...thresholdTypeOptions]);
+const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
+  ...thresholdTypeOptions
+  // ,
+  // {
+  //   value: ADAPTIVE_BASELINE,
+  //   label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+  // }
+]);
 
 export interface BluePrint extends BluePrintBase {
   readonly type: MobileAlertType;
@@ -80,6 +82,7 @@ export interface BluePrint extends BluePrintBase {
   readonly headline?: string;
   readonly text?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+  readonly baselineEnabled: boolean;
   readonly getMetricName: (alertRule: MobileAppAlertRule) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getBeaconType: (metricName: MetricName) => MobileAppMonitoringBeaconType;
@@ -104,7 +107,8 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   thresholdDefaults: {
     operator: '>=' as ThresholdOperator
   },
-  getAlertsPreviewRequest: () => undefined
+  getAlertsPreviewRequest: () => undefined,
+  getThresholdSuggestionRequest: () => getMobileAppMetricThresholdSuggestion
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -130,7 +134,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
   isRuleComplete: (alertRule: MobileAppAlertRule) => isNotBlank((alertRule as StatusCodeMobileAppAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
-  getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER)
+  getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
+  baselineEnabled: false
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -149,7 +154,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAvailableTags: (metricName: MetricName) =>
     getIncludedTags(metricName === 'views' ? availableFilterTags.viewChange : availableFilterTags.sessionStart),
   isRuleComplete: () => true,
-  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER
+  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
+  baselineEnabled: true
 });
 
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -175,7 +181,8 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: (alertRule: MobileAppAlertRule) =>
     isNotBlank((alertRule as CustomEventMobileAppAlertRule).customEventName),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigIncompleteRuleMessage'),
-  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER
+  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
+  baselineEnabled: true
 });
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([

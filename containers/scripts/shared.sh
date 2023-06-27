@@ -57,7 +57,6 @@ function _docker_login() {
     _log_info "Skipping docker login for local builds"
   else
     _log_info "Login to delivery.instana.io"
-    echo "${CONTAINERS_INSTANA_IO_PASSWORD}" | docker login -u ${CONTAINERS_INSTANA_IO_USER} --password-stdin "https://containers.instana.io"
     echo "${INSTANA_ARTIFACTORY_PASSWORD}" | docker login -u ${INSTANA_ARTIFACTORY_USERNAME} --password-stdin "https://delivery.instana.io"
   fi
 }

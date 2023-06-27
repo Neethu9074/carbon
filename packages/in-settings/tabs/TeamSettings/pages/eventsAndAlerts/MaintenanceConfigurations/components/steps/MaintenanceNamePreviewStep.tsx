@@ -12,7 +12,10 @@ import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { formatDate, formatTime } from '@instana/format-date';
 
-import { getEndAndTimeDurationOfWindow } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import {
+  getEndAndTimeDurationOfWindow,
+  setUTCPartsToDate
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import { StartObject } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -37,7 +40,6 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
   const [previewArrayOfDates, setPreviewArrayOfDates] = useState<StartObject[]>([]);
   //@ts-ignore-next-line
   const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule>).value;
-
   /* This useEffect generates the preview window. The reason this needs to be a useEffect is if the user uses the advanced mode and has all the steps viewable at once */
   useEffect(() => {
     let previewDatesStr = [];
@@ -47,6 +49,7 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
       const rruleDates = rrule.all((_, i) => i < 5);
       if (Array.isArray(rruleDates) && rruleDates.length > 0) {
         rruleDates.forEach(date => {
+          date = setUTCPartsToDate(date);
           const windowEnd = getEndAndTimeDurationOfWindow(duration.amount, duration.unit, date);
           if (isNaN(windowEnd.getTime())) return;
 

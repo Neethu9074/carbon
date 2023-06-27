@@ -7,9 +7,6 @@ import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/Websit
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
-
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
@@ -57,12 +54,17 @@ export default function Geography(props) {
                     getData$={getData$}
                     getValue={v => v.beaconCount}
                   />
-                  <Link
-                    className={locals.link}
-                    href={createHref({ ...location, pathname: `${websitePathFullyQualified}/geography` })}
+                  <Tooltip
+                    content={t('in-websites:websiteDashboard.tabs.geography.switchTo2DTooltip')}
+                    align="leftMiddle"
                   >
-                    <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
-                  </Link>
+                    <Button
+                      dark
+                      href={createHref({ ...location, pathname: `${websitePathFullyQualified}/geography` })}
+                      className={locals.to2D}
+                      renderContent={() => <span>{t('in-websites:websiteDashboard.tabs.geography.switchTo2D')}</span>}
+                    />
+                  </Tooltip>
                   <p className={locals.footerText}>{t('in-websites:websiteDashboard.components.globViewFootertext')}</p>
                 </div>
               </Route>

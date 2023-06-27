@@ -15,28 +15,34 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
 import ButtonGroup from 'in-components/ButtonGroup';
-import metrics from 'in-service-levels/metrics';
 
 interface ErrorBudgetChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
+  // The currently user selected timeConfig, the chart will calculate the full slo  time window on its own
   timeConfig: TimeConfig;
-  isFullSloTimeWindow?: boolean;
+  showFullSloTimeWindow?: boolean;
 }
 
-export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloTimeWindow }: ErrorBudgetChartProps) {
+export default function ErrorBudgetChart({ configuration, timeConfig, showFullSloTimeWindow }: ErrorBudgetChartProps) {
   const theme = useTheme();
 
-  const { id, indicator, lastUpdated } = configuration;
+  const { indicator, entity, lastUpdated } = configuration;
 
-  const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(id!, timeConfig);
+  const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(
+    configuration,
+    timeConfig,
+    showFullSloTimeWindow
+  );
 
   const [showFullConsumption, setShowFullConsumption] = useState(false);
 
@@ -52,14 +58,14 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.errorBudgetChart.title', {
-          context: isFullSloTimeWindow ? 'fullWindow' : ''
+          context: showFullSloTimeWindow ? 'fullWindow' : ''
         }),
         y1: {
           metricIds: ['consumed', 'remaining'],
           metrics: [metricResult?.metrics.consumed ?? [], metricResult?.metrics.remaining ?? []],
           min: showFullConsumption ? findMinMetricValue(metricResult?.metrics.remaining ?? []) : 0,
           renderAllTickLabels: showFullConsumption,
-          labels: [metrics.consumedBudget.label, metrics.remainingBudget.label],
+          labels: [sloMetrics.consumedBudget.label, sloMetrics.remainingBudget.label],
           colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
           renderer,
           formatter
@@ -84,12 +90,12 @@ export default function ErrorBudgetChart({ configuration, timeConfig, isFullSloT
           />
         ),
         renderPostChartContent: props =>
-          isFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes configuration={configuration} {...props} />,
+          showFullSloTimeWindow ? undefined : <SloDashboardMarkerLanes entity={entity} {...props} />,
 
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work
-        customHeight: isFullSloTimeWindow ? 300 : undefined,
-        customChartSkeletonHeight: isFullSloTimeWindow ? 300 : 238
+        customHeight: showFullSloTimeWindow ? 300 : undefined,
+        customChartSkeletonHeight: showFullSloTimeWindow ? 300 : 238
       }}
       result={{ progress, errors }}
     />
@@ -105,17 +111,32 @@ interface ErrorBudgetChartMetrics {
   adjustedTimeConfig: TimeConfig;
 }
 
-function useErrorBudgetChartMetrics(configId: string, timeConfig: TimeConfig): FetchedState<ErrorBudgetChartMetrics> {
+function useErrorBudgetChartMetrics(
+  config: ServiceLevelObjectiveConfiguration,
+  timeConfig: TimeConfig,
+  showFullSloTimeWindow: boolean | undefined
+): FetchedState<ErrorBudgetChartMetrics> {
+  const { id, timeWindow } = config;
+  const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
+  const activeTimeConfig = showFullSloTimeWindow ? fullWindowTimeConfig : timeConfig;
   const metricConfigs = {
-    consumed: metrics.consumedBudget.timeSeries({ configId: configId, timeConfig }),
-    remaining: metrics.remainingBudget.timeSeries({ configId: configId, timeConfig })
+    consumed: sloMetrics.consumedBudget.timeSeries({
+      configId: id!,
+      timeConfig: activeTimeConfig,
+      contextTimeConfig: !showFullSloTimeWindow ? fullWindowTimeConfig : undefined
+    }),
+    remaining: sloMetrics.remainingBudget.timeSeries({
+      configId: id!,
+      timeConfig: activeTimeConfig,
+      contextTimeConfig: !showFullSloTimeWindow ? fullWindowTimeConfig : undefined
+    })
   };
   const result = useObservable(
     () =>
       getUnifiedMetrics({
         metrics: metricConfigs
       }),
-    [configId, timeConfig]
+    [id!, timeConfig]
   );
 
   if (!result || isLoading(result) || hasError(result)) {

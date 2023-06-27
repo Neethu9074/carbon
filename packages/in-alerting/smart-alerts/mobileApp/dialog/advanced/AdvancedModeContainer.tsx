@@ -6,8 +6,12 @@
 
 import React from 'react';
 
+import { HistoricBaselineData, Result } from '@instana/types';
+
 //@ts-expect-error needs TS migration
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+//@ts-expect-error needs TS migration
+import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 //@ts-expect-error needs TS migration
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 //@ts-expect-error
@@ -35,6 +39,7 @@ import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/util
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -50,10 +55,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     QueryBuilderComponent,
     editMode,
     onChartViewConfigChange,
-    selectedChartViewConfigIndex
+    selectedChartViewConfigIndex,
+    thresholdResult
   } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
+  const thresholdType = form.get('threshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
 
@@ -117,6 +124,9 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 ruleMetricNameOptions={ruleMetricNameOptions}
                 AlertTypeSwitch={AlertTypeSwitch}
               />
+              {thresholdType === HISTORIC_BASELINE && (
+                <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
+              )}
             </>
           )
         },
@@ -134,7 +144,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
               hasUserImpactOption={false}
-              hasViolationsInPeriod={false}
             />
           )
         },
@@ -198,7 +207,13 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     if (fieldTouchedAndInvalid(form.get('threshold'))) {
       return false;
     }
+    if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {
+      return false;
+    }
     if (!ruleComplete) {
+      return false;
+    }
+    if (thresholdType === HISTORIC_BASELINE && (thresholdResult as Result<HistoricBaselineData>)?.errors?.length > 0) {
       return false;
     }
     return true;

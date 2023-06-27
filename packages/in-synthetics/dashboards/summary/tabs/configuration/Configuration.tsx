@@ -11,7 +11,7 @@ import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
-import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
@@ -28,6 +28,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
+import { role } from 'in-stores/user';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
 
@@ -154,7 +155,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   };
 
   const renderActionButton = (isBrowserEnabled: boolean) => {
-    if (isBrowserEnabled) {
+    if (isBrowserEnabled || !role?.canConfigureSyntheticTests) {
       return undefined;
     }
     return <ActionButtons test={test.data} />;

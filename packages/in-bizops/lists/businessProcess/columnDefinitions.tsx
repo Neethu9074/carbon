@@ -9,7 +9,6 @@ import React from 'react';
 
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
-//// @ts-expect-error Module needs to be translated to TS
 //import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error Module needs to be translated to TS
@@ -39,29 +38,6 @@ export interface TimeResult {
   time: number;
 }
 
-/*
- * Returns a normalized timeConfig where "to" is set to result.time (unless it is already set and equal to result.time,
- * in which case timeConfig is returned unmodified). Instead of a result object with an attribute "time" you can also
- * pass in a number (millis since epoch) directly.
- */
-export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: number | TimeResult): TimeConfig {
-  let resultTime;
-  if (typeof resultOrTime === 'number') {
-    resultTime = resultOrTime;
-  } else if (typeof resultOrTime === 'object') {
-    resultTime = resultOrTime.time;
-  }
-
-  if (timeConfig.to === resultTime) {
-    return timeConfig;
-  }
-  return {
-    ...timeConfig,
-    to: resultTime,
-    focusedMoment: resultTime
-  };
-}
-
 function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   const { location, createHref } = useNavigation();
 
@@ -86,24 +62,24 @@ function getSeverity(item: BusinessProcessItem) {
 
 export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
   {
-    id: 'bpm_process_name',
+    id: 'process_name',
     sortable: true,
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.nameLabel'),
     getContent: BusinessProcessNameColumnContent
   },
   {
-    id: 'bpm_root_process_id',
+    id: 'started_processes',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.startLabel'),
-    getContent(item: BusinessProcessItem, { result, timeConfig }) {
+    getContent(item: BusinessProcessItem, { timeConfig, result }) {
       return (
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
           //@ts-ignore
-          timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.started_processes}
           metric={item.businessProcess.startedInstancesCount}
@@ -113,7 +89,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   },
   {
-    id: 'bpm_activity_id',
+    id: 'activities_count',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.activityLabel'),
@@ -127,7 +103,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
   },
   {
     id: 'health',
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.healthLabel'),
     /* When backend is ready, the health icon needs to be driven by item.openIssues */

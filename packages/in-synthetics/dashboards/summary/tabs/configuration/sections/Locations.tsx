@@ -12,7 +12,7 @@ import { t } from '@instana/i18n-react';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
-import { columnDefinitions } from 'in-synthetics/components/advanced/LocationsSection';
+import { columnDefinitions } from 'in-synthetics/createTests/advanced/LocationsSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 

@@ -19,6 +19,7 @@ import { t } from 'in-i18n';
 
 interface AdvancedModeMaintenanceContainerProps {
   form: MapForm<any>;
+  entity: MaintenanceConfigV2;
   onChange: OnEntityChange<MaintenanceConfigV2>;
   onChangeApplyOn: Function;
   setForm: SetFormFunction;
@@ -26,6 +27,7 @@ interface AdvancedModeMaintenanceContainerProps {
 
 export default function AdvancedModeMaintenanceContainer({
   form,
+  entity,
   onChange,
   onChangeApplyOn,
   setForm
@@ -41,7 +43,7 @@ export default function AdvancedModeMaintenanceContainer({
           content: (
             <>
               <ExpandableLightCard title={t('in-settings:tabs.scheduleStep')} darkFrame openByDefault>
-                <MaintenanceScheduleStep form={form} setForm={setForm} />
+                <MaintenanceScheduleStep form={form} setForm={setForm} entity={entity} />
               </ExpandableLightCard>
             </>
           )

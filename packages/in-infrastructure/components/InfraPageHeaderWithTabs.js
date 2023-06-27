@@ -7,7 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
@@ -30,7 +30,7 @@ import locals from './InfraAnalyticsBeta.mless';
 function renderButtonLine() {
   return (
     <div className={locals.betaMarker}>
-      <Link className={locals.betaLink} href$={defaultInfraExploreView}>
+      <Link className={locals.betaLink} href={defaultInfraExploreView}>
         <Pill kind="primary" className={locals.betaPill}>
           {t('in-infrastructure:explore.beta')}
         </Pill>

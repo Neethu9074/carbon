@@ -27,4 +27,8 @@
   .saveButton {
     margin-left: 0.25rem;
   }
+
+  .deleteButton {
+    margin-right: 0.75rem;
+  }
 }

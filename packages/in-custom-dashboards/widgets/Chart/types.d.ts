@@ -40,7 +40,7 @@ type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
 type MetricParams = 'metric' | 'source' | 'aggregation';
 type BaseMetric = Pick<UnifiedMetricConfiguration, MetricParams>;
 
-interface Metric extends BaseMetric {
+export interface Metric extends BaseMetric {
   timeShift?: TimeShift | TimeShiftOffset;
   compareToTimeShifted?: boolean;
   color?: string;

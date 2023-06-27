@@ -5,7 +5,7 @@
 
 import { Observable } from '@instana/observables';
 
-import { WebsiteAlertConfig, WebsiteAlertConfigWithMetadata, ConfigVersion, Result } from 'in-types';
+import { WebsiteAlertConfigWithMetadata, ConfigVersion, Result, WebsiteAlertConfig } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';

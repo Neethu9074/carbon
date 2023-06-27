@@ -131,11 +131,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'newApCreationEnabled',
-    instanaCtlKey: 'feature.new.ap.creation.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'entityCountWidgetEnabled',
     instanaCtlKey: 'feature.entity.count.widget.enabled',
     defaultValue: false
@@ -198,11 +193,6 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'openFacetedSearchByDefault',
-    instanaCtlKey: 'feature.facetedsearch.open.default',
     defaultValue: false
   },
   {
@@ -281,11 +271,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'perSecondAggregationEnabled',
-    instanaCtlKey: 'feature.per.second.aggregation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
     defaultValue: false
@@ -308,7 +293,7 @@ module.exports = exports = [
   {
     uiClientKey: 'actionAutomationEnabled',
     instanaCtlKey: 'feature.automation.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'pluginMetricStatisticsEnabled',
@@ -363,7 +348,7 @@ module.exports = exports = [
   {
     uiClientKey: 'recurrentMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'recurrentMaintenanceWindowsTabsEnabled',

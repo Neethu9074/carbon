@@ -75,25 +75,24 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
   const type = (form.get('type') as Field<string>).value;
   return (
     <fieldset>
-      <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
       <Row>
         <Col lg={8}>
-          <>
-            <MetaDataSection form={form} setForm={setForm} onChange={onChange} />
-            <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
-            <TypeSection form={form} onChange={onChange} entity={action} isCreate={isCreate} />
-            {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
-            {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
-            {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
-            {!isDocLink(type) && (
-              <>
-                <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
-                <FormGroup>
-                  <ParametersTable form={form} setForm={setForm} onChange={onChange} />
-                </FormGroup>
-              </>
-            )}
-          </>
+          <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
+          <MetaDataSection form={form} setForm={setForm} onChange={onChange} />
+          <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
+          <TypeSection form={form} onChange={onChange} entity={action} isCreate={isCreate} />
+          {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
+          {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
+          {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
+          {!isDocLink(type) && (
+            <>
+              <TimeoutSection form={form} onChange={onChange} />
+              <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
+              <FormGroup>
+                <ParametersTable form={form} setForm={setForm} onChange={onChange} />
+              </FormGroup>
+            </>
+          )}
           <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForEvent')}</SectionHeading>
           <EventsSelection form={form} setForm={setForm} />
           <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}</SectionHeading>
@@ -104,6 +103,32 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
   );
 }
 
+const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+  const timeout = form.get('timeout') as Field<string>;
+  const isNotEditable = useContext(isNotEditableContext);
+  return (
+    <>
+      {timeout.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-timeout" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.timeout')}
+          </Label>
+          <Input
+            id="action-timeout"
+            type="number"
+            disabled={isNotEditable}
+            value={isNaN(parseInt(field.value)) ? '' : field.value}
+            onChange={e => onChange('timeout', e.target.value)}
+            hasError={!field.valid && field.touched}
+            min="1"
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.timeoutHelpText')}</HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
+};
 const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
@@ -238,23 +263,46 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
 
 const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const script = form.get('script') as Field<string>;
+  const subtype = form.get('subtype') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
-  return script.map(field => (
-    <FormGroup>
-      <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-        {t('in-automation:ActionCatalog.script')}
-      </Label>
-      <Code
-        readOnly={isNotEditable}
-        lineNumbers
-        mode={'shell'}
-        value={field.value}
-        onChange={value => onChange('script', value)}
-      />
-      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-    </FormGroup>
-  ));
+  return (
+    <>
+      {subtype.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-subtype" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.interpreter')}
+          </Label>
+          <Input
+            id="action-subtype"
+            type="text"
+            disabled={isNotEditable}
+            value={field.value}
+            onChange={e => onChange('subtype', e.target.value)}
+            hasError={!field.valid && field.touched}
+            maxLength={256}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.interpreterHelper')}</HelpText>
+        </FormGroup>
+      ))}
+      {script.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+            {t('in-automation:ActionCatalog.script')}
+          </Label>
+          <Code
+            readOnly={isNotEditable}
+            lineNumbers
+            mode={'shell'}
+            value={field.value}
+            onChange={value => onChange('script', value)}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      ))}
+    </>
+  );
 };
 
 const WebhookSection = ({

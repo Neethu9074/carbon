@@ -275,11 +275,12 @@ export function putMetricDataSourceFieldsForOneRule(entityType, rule) {
     metricPlaceholderOperator,
     metricFormat,
     conditionOperator,
-    conditionValue: originalConditionValue
+    conditionValue: originalConditionValue,
+    aggregation
   } = getRuleAttributesForEntityType(entityType, rule);
 
   const formatter = metricTypeOrBuiltinFormatterIfMissing(metricFormat, entityType, metricName);
-  const conditionValue = mapConditionValue(originalConditionValue, formatter);
+  const conditionValue = mapConditionValue(originalConditionValue, formatter, aggregation);
 
   let form = createMapForm()
     .put(
@@ -449,7 +450,7 @@ function putEntityCountDetectionFields(form, event) {
     );
 }
 
-export function putWindowField(form, eventSpec) {
+function putWindowField(form, eventSpec) {
   return form.put(
     'window',
     createField({
@@ -459,7 +460,7 @@ export function putWindowField(form, eventSpec) {
   );
 }
 
-export function putRollupField(form, eventSpec) {
+function putRollupField(form, eventSpec) {
   return form.put(
     'rollup',
     createField({
@@ -469,7 +470,7 @@ export function putRollupField(form, eventSpec) {
   );
 }
 
-export function putAggregationField(form, eventSpec) {
+function putAggregationField(form, eventSpec) {
   return form.put(
     'aggregation',
     createField({

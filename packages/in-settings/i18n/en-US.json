@@ -78,9 +78,9 @@
     "role_permission_scope_all": "all",
     "no_access": "No access",
     "platform_permissions": "Access {{quantityOfAreas}}",
-    "analyticsContentMessage": "Members will view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
-    "infrastructureContentMessage": "Members will view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
-    "eventsAndAlertsContentMessage": "Members will view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
+    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "permissions": "Permissions",
     "permissions_DASHBOARD": "Custom dashboard permissions",
     "permissions_SYNTHETICS": "Synthetic monitoring permissions",
@@ -247,7 +247,6 @@
       "wrong": "Something is wrong",
       "errorInfo": "We are unable to retrieve data from the database",
       "errorId": "Error ID: {{errorId}}",
-      "success": "Success",
       "failed": "Failure",
       "inProgress": "In progress"
     },
@@ -451,6 +450,7 @@
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
     "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No more than one threshold can be defined on the same metric.",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "When defining multiple metrics by pattern, only one rule is allowed to use a different matching operator from 'is'.",
+    "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "A time window of 1 second is not allowed when absolute or relative difference aggregation is used.",
     "thisEntityTypeHasBeenDeprecated": "This entity type has been deprecated. Please choose a different type.",
     "failedToSaveSettings": "Failed to save settings: {{err}}",
     "events": "Events",
@@ -876,6 +876,9 @@
     "sum": "sum",
     "min": "min",
     "max": "max",
+    "relative_diff": "Relative difference",
+    "absolute_diff": "Absolute difference",
+    "relativeDifferencePercentage": "Relative difference (%)",
     "is": "is",
     "contains": "contains",
     "startsWith": "starts with",
@@ -1048,7 +1051,8 @@
     "validDateAndTime": "Please enter a valid date or time",
     "repeatUntil": "Repeat Until",
     "finishedInTheNextFiveSeconds": "The maintenance window is finished or will be finished in the next 5 seconds",
-    "viewMwConfigMessage": "View Maintenance Window Configuration Here"
+    "viewMwConfigMessage": "View Maintenance Window Configuration Here",
+    "deleteUser": "Delete user"
   },
   "languageSelection": {
     "language": "Language",
@@ -1117,7 +1121,8 @@
     "status_expired": "Expired",
     "status_unscheduled": "Unscheduled",
     "status_finished": "Finished",
-    "status_paused": "Paused"
+    "status_paused": "Paused",
+    "timezoneDifferenceMessage": "Warning! The timezone in which the current configuration was created in ({{configTimezone}}) and your current timezone ({{userTimezone}}) are different. Saving and/or editing the configuration may have an un-intended outcome on the maintenance window"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",
@@ -1148,5 +1153,5 @@
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
-  "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
+  "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel"
 }

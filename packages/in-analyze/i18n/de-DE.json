@@ -169,7 +169,6 @@
         "type": "Typ",
         "category": "Kategorie",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, die noch von Instana überwacht werden.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, bei denen Instana die entsprechende Infrastruktur erfolgreich verlinken konnte.",
         "stackTrace": "Stack-Trace",
         "in": "in",
         "windowLocation": "Fensterposition",

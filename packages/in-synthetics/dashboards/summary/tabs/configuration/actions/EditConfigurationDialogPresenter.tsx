@@ -11,12 +11,12 @@ import { isEmpty } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 
-import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { createForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
+import { SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import AdvancedMode from 'in-synthetics/components/advanced/AdvancedMode';
-import { createForm } from 'in-synthetics/form/updateSyntheticTestForm';
-import { SlideInHeader } from 'in-synthetics/utils/constants';
+import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
@@ -58,9 +58,15 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     script: form.get('script')?.value
   });
   const syntheticType = test.configuration.syntheticType;
-  const [testTypeSelected, setTestTypeSelected] = useState({
-    simple: syntheticType === 'HTTPAction',
-    script: syntheticType === 'HTTPScript'
+  const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
+    api: {
+      simple: syntheticType === 'HTTPAction',
+      script: syntheticType === 'HTTPScript'
+    },
+    browser: {
+      simple: false,
+      script: false
+    }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
     title: null,

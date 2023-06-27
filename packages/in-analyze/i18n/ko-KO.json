@@ -169,7 +169,6 @@
         "type": "유형",
         "category": "카테고리",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "참고: 소스 코드는 Instana에서 계속 모니터링 하는 프로세스에 대해서만 검색할 수 있습니다.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "참고: 소스 코드는 Instana가 해당 인프라를 링크할 수 있는 프로세스에 대해서만 검색할 수 있습니다.",
         "stackTrace": "StackTrace",
         "in": "위치",
         "windowLocation": "창 위치",

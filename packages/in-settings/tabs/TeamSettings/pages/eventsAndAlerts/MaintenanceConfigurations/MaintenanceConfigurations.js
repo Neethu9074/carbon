@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -56,7 +56,7 @@ const columnDefinitions = [
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link
-            href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
+            href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
             onClick={() => editMaintenanceWindowTracker()}
           >
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>

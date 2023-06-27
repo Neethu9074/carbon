@@ -14,23 +14,33 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig, MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { HistoricBaselineConfig, MobileAppAlertRule, StaticThresholdConfig } from 'in-types';
 import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
-import { MobileAppAlertRule, StaticThresholdConfig } from 'in-types';
 
-export default function createBlueprintForm(form: MapForm<any>, alertType: MobileAlertType, alertThreshold = {}) {
+export default function createBlueprintForm(
+  form: MapForm<any>,
+  alertType: MobileAlertType,
+  alertThreshold = {},
+  isSimpleMode: boolean
+) {
   const threshold = (form.get('threshold') as MapForm<any>).toJS() as unknown as ThresholdConfigUnion;
   const tagFilterExpression = (form.get('tagFilterExpression') as Field<FormModelElement[]>).value;
 
   const blueprintConfig = getBlueprintConfig(alertType)!;
 
-  const newThresholdForm: MapForm<any> = createThresholdForm({
-    ...threshold,
-    ...alertThreshold,
-    type: STATIC_THRESHOLD
-  } as StaticThresholdConfig);
+  const newThresholdForm: MapForm<any> = createThresholdForm(
+    {
+      ...threshold,
+      ...alertThreshold,
+      // In simple mode, user does not have a choice to change threshold type, so we need to set it to HISTORIC_BASELINE
+      // when user select a blueprint which has baseline enabled!
+      type: blueprintConfig.baselineEnabled ? (isSimpleMode ? HISTORIC_BASELINE : threshold.type) : STATIC_THRESHOLD
+    } as HistoricBaselineConfig | StaticThresholdConfig,
+    alertType
+  );
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({

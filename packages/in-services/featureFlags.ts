@@ -32,7 +32,6 @@ export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   'highResolutionInfrastructureMetricsEnabled',
   true
 );
-export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
@@ -50,8 +49,6 @@ export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshoo
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
-
-export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearchByDefault', false);
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
@@ -82,8 +79,6 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
-
-export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
 
 // RBAC usability improvements
 export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
@@ -147,7 +142,7 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
-export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
+export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
@@ -163,7 +158,7 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
-export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', false);
+export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
   false
