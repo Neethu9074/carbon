@@ -179,12 +179,14 @@
     "feedbackTab": "Feedback",
     "properties": "Properties",
     "filterNameOrActionInstanceId": "Filter by  Name, Event Name or Action Instance ID",
-    "inputPrompt":  "Tell us about your experience with this action:",
+    "inputPrompt": "Tell us about your experience with this action:",
     "unhappyFeedback": "I am extremely unhappy",
     "dissatisfiedFeedback": "I am dissatisfied",
     "neutralFeedback": "I am neutral",
     "satisfiedFeedback": "I was satisfied",
     "verySatisfiedFeedback": "I was extremely satisfied",
-    "additionalFeedback": "Additional Comments (optional)"
+    "additionalFeedback": "Additional Comments (optional)",
+    "feedbackError": "An error occured while saving feedback",
+    "feedbackSuccess": "Feedback successfully saved!"
   }
 }

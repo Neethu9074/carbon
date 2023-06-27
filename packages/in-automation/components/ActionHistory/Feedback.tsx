@@ -57,12 +57,12 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
       <div className={locals.feedbackForm}>
         {error && (
           <Message withIcon type="error" className={locals.message}>
-            Error occured saving feedback
+            {t('in-automation:actionHistory.feedbackError')}
           </Message>
         )}
         {success && (
           <Message withIcon type="success" className={locals.message}>
-            Feedback successfully saved!
+            {t('in-automation:actionHistory.feedbackSuccess')}
           </Message>
         )}
 
