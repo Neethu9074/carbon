@@ -140,7 +140,9 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
-export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
+export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
+
+export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
