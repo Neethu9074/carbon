@@ -169,7 +169,6 @@
         "type": "Tipo",
         "category": "Categoria",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Nota: o código de origem só pode ser recuperado para processos que ainda estão sendo monitorados pelo Instana.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Nota: o código de origem só pode ser recuperado para processos nos quais a Instana pôde vincular com sucesso a infraestrutura correspondente.",
         "stackTrace": "StackTrace",
         "in": "entrada",
         "windowLocation": "Local da janela",

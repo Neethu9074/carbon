@@ -169,7 +169,6 @@
         "type": "类型",
         "category": "类别",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "请注意：只能针对仍由 Instana 监视的进程检索源代码。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "请注意：只能针对 Instana 可成功链接相应基础架构的进程检索源代码。",
         "stackTrace": "堆栈跟踪",
         "in": "位在",
         "windowLocation": "窗口位置",

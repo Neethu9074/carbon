@@ -169,7 +169,6 @@
         "type": "Type",
         "category": "Catégorie",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Remarque : le code source ne peut être récupéré que pour les processus qui sont encore surveillés par Instana.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Remarque : le code source ne peut être récupéré que pour les processus dans lesquels Instana a pu lier avec succès l'infrastructure correspondante.",
         "stackTrace": "StackTrace",
         "in": "in",
         "windowLocation": "Emplacement de la fenêtre",
