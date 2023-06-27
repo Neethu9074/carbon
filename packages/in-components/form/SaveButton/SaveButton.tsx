@@ -11,7 +11,7 @@ import { Button, ButtonKinds, ButtonTypes } from '@instana/components';
 import { t } from 'in-i18n';
 
 export interface SaveButtonProps {
-  children?: string | ReactElement;
+  children: string | ReactElement;
   className?: string;
   form?: Item;
   /**
