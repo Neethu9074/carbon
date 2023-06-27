@@ -68,12 +68,12 @@ function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
   // result can be undefined, isLoading(Result<x>) cannot be used here
   if (!result?.progress?.loading) {
     let syntheticTypes: string[] = [];
-    result?.data?.forEach(function(item: SyntheticTest) {
-      syntheticTypes.push(item.configuration.syntheticType ?? '');
+    result?.data?.forEach(function (item: SyntheticTest) {
+      syntheticTypes.push(item?.configuration.syntheticType ?? '');
     });
 
     // Clean up duplicate and empty array elements
-    syntheticTypes = syntheticTypes.filter(function(item, index, arrayRef) {
+    syntheticTypes = syntheticTypes.filter(function (item, index, arrayRef) {
       return arrayRef.indexOf(item) === index && item !== '';
     });
 
@@ -95,11 +95,11 @@ function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get locationDisplayLabels and locationIds from SyntheticTest
   if (!result?.progress?.loading) {
     result?.data?.forEach((item: SyntheticTest) => {
-      if (item.locationDisplayLabels) {
-        item.locationDisplayLabels.forEach((locationDisplayLabel, i) => {
+      if (item?.locationDisplayLabels) {
+        item?.locationDisplayLabels.forEach((locationDisplayLabel, i) => {
           locationLabelOptions.push({
             label: locationDisplayLabel,
-            value: item.locations?.at(i) ?? ''
+            value: item?.locations?.at(i) ?? ''
           });
         });
       }
@@ -109,7 +109,9 @@ function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
     locationLabelOptions = locationLabelOptions.filter(
       (item, index, arrayRef) =>
         index ===
-        arrayRef.findIndex(t => t.label === item.label && t.value === item.value && (t.label !== '' || t.value !== ''))
+        arrayRef.findIndex(
+          t => t.label === item?.label && t.value === item?.value && (t.label !== '' || t.value !== '')
+        )
     );
   }
 
@@ -122,10 +124,10 @@ function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
 function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get applicationLabels and applicationIds from SyntheticTest
   if (!result?.progress?.loading) {
-    result?.data?.forEach(function(item: SyntheticTest) {
+    result?.data?.forEach(function (item: SyntheticTest) {
       const applicationitem = {
-        label: item.applicationLabel ?? '',
-        value: item.applicationId ?? ''
+        label: item?.applicationLabel ?? '',
+        value: item?.applicationId ?? ''
       };
       applicationLabelOptions.push(applicationitem);
     });
@@ -134,7 +136,9 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
     applicationLabelOptions = applicationLabelOptions.filter(
       (item, index, arrayRef) =>
         index ===
-        arrayRef.findIndex(t => t.label === item.label && t.value === item.value && (t.label !== '' || t.value !== ''))
+        arrayRef.findIndex(
+          t => t.label === item?.label && t.value === item?.value && (t.label !== '' || t.value !== '')
+        )
     );
   }
 
