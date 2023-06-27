@@ -19,6 +19,7 @@ import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
+import { t } from 'in-i18n';
 
 import locals from './Feedback.mless';
 
@@ -68,15 +69,14 @@ export default function Feedback({
           </Message>
         )}
 
-        <KeyValue className={locals.prompt} label="Tell us about your experience with this action:" />
-
+        <KeyValue className={locals.prompt} label={t('in-automation:actionHistory.inputPrompt')} />
         <Stack gap="small">
           {[
-            'I am extremely unhappy',
-            'I am dissatisfied',
-            'I am neutral',
-            'I was satisfied',
-            'I was extremely satisfied'
+            t('in-automation:actionHistory.unhappyFeedback'),
+            t('in-automation:actionHistory.dissatisfiedFeedback'),
+            t('in-automation:actionHistory.neutralFeedback'),
+            t('in-automation:actionHistory.satisfiedFeedback'),
+            t('in-automation:actionHistory.verySatisfiedFeedback')
           ].map((label, i) => (
             <label key={label} className={locals.feedbackLabel}>
               <input
@@ -89,7 +89,7 @@ export default function Feedback({
             </label>
           ))}
         </Stack>
-        <KeyValue className={locals.commentLabel} label="Additional Comments (optional)" />
+        <KeyValue className={locals.commentLabel} label={t('in-automation:actionHistory.additionalFeedback')} />
         <TextArea
           className={locals.commentBox}
           value={form.get('comment').value}
