@@ -23,17 +23,14 @@ import { t } from 'in-i18n';
 
 import locals from './Feedback.mless';
 
-export default function Feedback({
-  id,
-  feedback,
-  comment,
-  setHasStaleFeedback
-}: {
+interface FeedbackProps {
   id: string;
   feedback: string;
   comment: string;
   setHasStaleFeedback: (v: boolean) => void;
-}) {
+}
+
+export default function Feedback({ id, feedback, comment, setHasStaleFeedback }: FeedbackProps) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
@@ -112,6 +109,16 @@ type FormItems = {
 };
 type FeedbackForm = MapForm<FormItems>;
 
+interface HandleSubmitParams {
+  form: FeedbackForm;
+  id: string;
+  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  timeConfig: TimeConfig;
+  setHasStaleFeedback: (v: boolean) => void;
+}
+
 const handleSubmit = ({
   form,
   id,
@@ -120,15 +127,7 @@ const handleSubmit = ({
   timeConfig,
   setSuccess,
   setHasStaleFeedback
-}: {
-  form: FeedbackForm;
-  id: string;
-  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<boolean>>;
-  setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-  timeConfig: TimeConfig;
-  setHasStaleFeedback: (v: boolean) => void;
-}) => {
+}: HandleSubmitParams) => {
   setIsSaving(true);
   setError(false);
 
