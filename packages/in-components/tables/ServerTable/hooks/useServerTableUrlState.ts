@@ -36,7 +36,7 @@ interface UrlStateParams {
   defaultQuery?: string;
   defaultDisabledColumns?: readonly string[];
 
-  paginationResettingUrlParameters?: readonly ParameterDefinition<unknown>[];
+  paginationResettingUrlParameters?: readonly ParameterDefinition<any>[];
 }
 
 export default function useServerTableUrlState({
