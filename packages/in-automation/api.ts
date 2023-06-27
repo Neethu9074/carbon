@@ -178,7 +178,7 @@ export const createDocLinkField = (value: string): Field => ({
 interface ScriptFields {
   value: string;
   subtype: string;
-  timeout: string
+  timeout: string;
 }
 
 export const createScriptFields = ({ value, subtype, timeout }: ScriptFields): Field[] => [
@@ -558,19 +558,15 @@ export function getAllAssociations() {
   }).map(response => response.body);
 }
 
-export function updateActionInstanceFeedback({
-  id,
-  feedback,
-  to,
-  windowSize,
-  comment
-}: {
+interface UpdateActionParams {
   id: string;
   feedback: string;
   to: number;
   windowSize: number;
   comment: string;
-}) {
+}
+
+export function updateActionInstanceFeedback({ id, feedback, to, windowSize, comment }: UpdateActionParams) {
   return http<ActionInstance>({
     method: 'PUT',
     maxRetries: 3,
