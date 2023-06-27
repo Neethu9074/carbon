@@ -546,7 +546,7 @@ export function updateActionInstanceFeedback({
     url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
     data: {
       feedback: parseInt(feedback),
-      comment
+      comment: comment || ''
     },
     headers: getCsrfHeader(),
     queryParams: {

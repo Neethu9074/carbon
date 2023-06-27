@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -26,6 +26,8 @@ import locals from './actionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
+  const [reload, setReload] = useState(0);
+
   const actionInstanceDetail =
     useObservable(
       () =>
@@ -33,30 +35,24 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
           actionInstanceId: id,
           timeConfig
         }),
-      [id, timeConfig]
+      [id, timeConfig, reload]
     ) ?? pendingResult;
 
-  const [feedback, setFeedback] = useState('0');
-  const [comment, setComment] = useState('');
+  // console.log(reload)
 
-  const dataFeedback = useMemo(
+  const feedback = useMemo(
     () =>
       actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'feedback')
         ?.value,
     [actionInstanceDetail]
   );
 
-  const dataComment = useMemo(
+  const comment = useMemo(
     () =>
       actionInstanceDetail?.data?.metadata.find((data: { name: string; value: string }) => data.name === 'comment')
         ?.value,
     [actionInstanceDetail]
   );
-
-  useEffect(() => {
-    setFeedback(dataFeedback);
-    setComment(dataComment);
-  }, [dataFeedback, dataComment]);
 
   if (actionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
@@ -78,13 +74,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
-              <Feedback
-                id={id}
-                feedback={feedback}
-                comment={comment}
-                setLocalFeedback={setFeedback}
-                setLocalComment={setComment}
-              />
+              <Feedback id={id} feedback={feedback} comment={comment} setReload={setReload} />
             </TabPane>
           </Tabs>
         </>
