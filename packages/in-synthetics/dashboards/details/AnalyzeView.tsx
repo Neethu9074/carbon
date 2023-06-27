@@ -38,6 +38,7 @@ import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { bytes, meanLatency } from 'in-services/formatters/number';
 import { getTest, getTestResultMetadata } from 'in-synthetics/api';
@@ -64,9 +65,9 @@ export default function SyntheticAnalyzeView() {
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
-  const isBrowserScriptTest: boolean =
-    (testType === 'BrowserScript' || testType === 'WebpageScript') && syntheticBrowserScriptEnabled;
-  const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
+  const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
+
+  const formatType: string = isBrowserTest ? 'HAR' : 'SUBTRANSACTIONS';
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
@@ -150,7 +151,7 @@ export default function SyntheticAnalyzeView() {
               }}
             />
             <Fragment>
-              {isBrowserScriptTest && (
+              {isBrowserTest && (
                 <Row>
                   <DownloadButton testId={testId} resultId={resultId} testResultMetadata={testResultMetadata} />
                 </Row>
@@ -194,9 +195,7 @@ export default function SyntheticAnalyzeView() {
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
                     value={
-                      isBrowserScriptTest
-                        ? details.data?.har?.log.entries.length
-                        : details.data?.subtransactions?.length
+                      isBrowserTest ? details.data?.har?.log.entries.length : details.data?.subtransactions?.length
                     }
                   />
                 </Col>
@@ -218,12 +217,12 @@ export default function SyntheticAnalyzeView() {
               )}
               <Row>
                 <Col lg={12}>
-                  {isBrowserScriptTest ? (
+                  {isBrowserTest ? (
                     <BrowserTestTimeline
                       details={details}
                       startTime={startTime}
                       finishTime={finishTime}
-                      isBrowserType={isBrowserScriptTest}
+                      isBrowserType={isBrowserTest}
                     />
                   ) : (
                     <Timeline details={details} startTime={startTime} finishTime={finishTime} />
@@ -237,7 +236,7 @@ export default function SyntheticAnalyzeView() {
                       testId={testId}
                       resultId={resultId}
                       timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
-                      isBrowserTestType={isBrowserScriptTest}
+                      isBrowserTestType={isBrowserTest}
                     />
                   </Col>
                 </Row>
