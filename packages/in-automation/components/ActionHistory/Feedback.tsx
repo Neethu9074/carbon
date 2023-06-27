@@ -9,18 +9,18 @@ import React, { useState } from 'react';
 
 import { KeyValue, Message, Stack } from '@instana/components';
 
-// import OptionBox from 'in-applications/components/OptionBox';
-import { close } from 'in-components/DialogPresenter/store';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
+import { close } from 'in-components/DialogPresenter/store';
+import TextArea from 'in-components/form/TextArea/TextArea';
 import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
 
-// import Input from 'in-components/form/Input/Input';
+import locals from './Feedback.mless';
 
 export default function Feedback({
   id,
@@ -56,13 +56,21 @@ export default function Feedback({
         })
       }
     >
-      {/* sets error and success codes */}
-      {error && <Message type="error">Error occured saving feedback</Message>}
-      {success && <Message type="success">Feedback successfully saved!</Message>}
+      <div className={locals.feedbackForm}>
+        {error && (
+          <Message withIcon type="error" className={locals.message}>
+            Error occured saving feedback
+          </Message>
+        )}
+        {success && (
+          <Message withIcon type="success" className={locals.message}>
+            Feedback successfully saved!
+          </Message>
+        )}
 
-      <div style={{ padding: '4em', paddingTop: '0px' }}>
-        <KeyValue label="Tell us about your experience with this action" />
-        <Stack direction="vertical" gap={'small'}>
+        <KeyValue className={locals.prompt} label="Tell us about your experience with this action:" />
+
+        <Stack gap="small">
           {[
             'I am extremely unhappy',
             'I am dissatisfied',
@@ -70,23 +78,25 @@ export default function Feedback({
             'I was satisfied',
             'I was extremely satisfied'
           ].map((label, i) => (
-            <label>
+            <label key={label} className={locals.feedbackLabel}>
               <input
                 type="radio"
-                key={label}
+                className={locals.feedbackInput}
                 checked={i + 1 == parseInt(form.get('feedback').value)}
                 onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue((i + 1).toString())))}
               />
               {label}
             </label>
           ))}
-          <KeyValue label="Additional Comments (optional)" />
-          <textarea
-            rows={10}
-            value={form.get('comment').value}
-            onChange={e => setForm(form.updateIn(['comment'], field => field.setValue(e.target.value)))}
-          />
         </Stack>
+        <KeyValue className={locals.commentLabel} label="Additional Comments (optional)" />
+        <TextArea
+          className={locals.commentBox}
+          value={form.get('comment').value}
+          onChange={e =>
+            setForm(form.updateIn(['comment'], field => field.setValue((e.target as HTMLInputElement).value)))
+          }
+        />
       </div>
       <FormFooter>
         <CancelButton onClick={close} />
@@ -101,11 +111,6 @@ type FormItems = {
   comment: Field<string>;
 };
 type FeedbackForm = MapForm<FormItems>;
-
-/**
- * Handles submission upon pressing save function
- * @param form, id, setIsSaving, setError, timeConfig, setSuccess
- */
 
 const handleSubmit = ({
   form,
@@ -143,7 +148,7 @@ const handleSubmit = ({
       setHasStaleFeedback(true);
       setTimeout(() => {
         setSuccess(false);
-      }, 4000);
+      }, 10 * 1000);
     },
     () => {
       setIsSaving(false);

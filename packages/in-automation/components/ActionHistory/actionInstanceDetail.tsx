@@ -39,7 +39,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
       [id, timeConfig, reload]
     ) ?? pendingResult;
 
-  // Cache the action instance data so when we reload the data, the LoadingIndicator won't reappear and discard the tab state
+  // cache the action instance data so when we reload the data, the LoadingIndicator won't reappear and discard the tab state
   const [cachedActionInstanceDetail, setCachedActionInstanceDetail] = useState(actionInstanceDetail);
 
   useEffect(() => {
