@@ -51,6 +51,13 @@ const RenderChart = ({ timeShiftConfig, businessProcessName, businessProcessId }
         stringValue: businessProcessId,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
+      },
+      {
+        name: 'bpm_process_definition_name',
+        operator: 'EQUALS',
+        stringValue: businessProcessName,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
       }
     ]
   };

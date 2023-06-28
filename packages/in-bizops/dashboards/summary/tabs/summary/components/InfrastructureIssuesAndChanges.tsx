@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { Result } from '@instana/types/typeDefinitions';
+import { Result, TagFilterExpression } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
 
 import getBizOpsEventsCount from 'in-bizops/subscriptions/getBizOpsEventsCount';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -21,16 +22,40 @@ import { t } from 'in-i18n';
 
 interface InfraProps {
   businessProcessId: string;
+  businessProcessName: string;
 }
 
-export default function InfrastructureIssuesAndChanges({ businessProcessId }: InfraProps) {
+export default function InfrastructureIssuesAndChanges({ businessProcessId, businessProcessName }: InfraProps) {
   // get timeConfig, create filter for subscription
   const timeConfig = useTimeConfig();
 
-  // intitiate the subscription via an observable
+  // Filter to specify the exact business process we want info from
+  const tagFilterExpression: TagFilterExpression = {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: [
+      {
+        name: 'bpm_process_definition_id',
+        operator: 'EQUALS',
+        stringValue: businessProcessId,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      },
+      {
+        name: 'bpm_process_definition_name',
+        operator: 'EQUALS',
+        stringValue: businessProcessName,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      }
+    ]
+  };
+
+  // Initiate the subscription via an observable
   const bizopsEventCountResponse = useObservable(
     getBizOpsEventsCount({
-      processId: businessProcessId,
+      processId: businessProcessId, // Replaced by tagFilterExpression. To be deleted
+      tagFilterExpression: tagFilterExpression,
       granularity: getChartGranularity(timeConfig),
       filter: {
         timeConfig,
