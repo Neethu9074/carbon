@@ -65,7 +65,7 @@ export default function AddScriptDialogContent({
     reader.readAsDataURL(file);
     reader.onload = async () => {
       const zip = await jsZip.loadAsync(file);
-      setZipFile({ name: file.name, files: Object.keys(zip.files) });
+      setZipFile({ name: file.name, files: Object.keys(zip.files).filter(file => file.endsWith('.js')) });
       callBack(file, reader.result as unknown as string);
     };
   }
