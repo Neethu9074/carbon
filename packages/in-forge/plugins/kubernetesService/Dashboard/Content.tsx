@@ -12,6 +12,7 @@ import { useServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function KubernetesServiceDashboard({ snapshot }: Props) {
-  const to: string = useServiceDashboard(snapshot.id);
+  const href: string = useServiceDashboard(snapshot.get('id'));
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }

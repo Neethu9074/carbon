@@ -12,6 +12,7 @@ import { useDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function KubernetesDeploymentDashboard({ snapshot }: Props) {
-  const to: string = useDeploymentDashboard(snapshot.id);
+  const href: string = useDeploymentDashboard(snapshot.get('id'));
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }

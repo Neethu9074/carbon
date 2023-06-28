@@ -12,6 +12,7 @@ import { useDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem, TimeConfig } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -21,7 +22,7 @@ interface Props {
 }
 
 export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeConfig }: Props) {
-  const to: string = useDeploymentConfigDashboard(snapshot.id, { timeConfig });
+  const href: string = useDeploymentConfigDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }

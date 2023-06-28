@@ -12,6 +12,7 @@ import { useDaemonSetDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function KubernetesDaemonSetDashboard({ snapshot }: Props) {
-  const to: string = useDaemonSetDashboard(snapshot.id);
+  const href: string = useDaemonSetDashboard(snapshot.get('id'));
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }
