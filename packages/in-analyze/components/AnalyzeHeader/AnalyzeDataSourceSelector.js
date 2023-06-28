@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { Li, SvgIcon, Ul } from '@instana/components';
@@ -335,23 +335,28 @@ function ProductAreaEntry({
 }) {
   const [onClickNotificationMessage, setOnClickNotificationMessage] = useState();
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
-  if (!isEnabled) {
-    return null;
-  }
 
   const hrefGetter = getHref$ || getHref;
 
-  const { href$, href } = unwrapLink(
-    hrefGetter?.({
-      isGrouped,
-      formModel,
-      ...websiteTagCatalogs,
-      ...mobileTagCatalogs,
-      callsTagCatalog,
-      tracesTagCatalog,
-      setOnClickNotificationMessage
-    })
+  const { href$, href } = useMemo(
+    () =>
+      unwrapLink(
+        hrefGetter?.({
+          isGrouped,
+          formModel,
+          ...websiteTagCatalogs,
+          ...mobileTagCatalogs,
+          callsTagCatalog,
+          tracesTagCatalog,
+          setOnClickNotificationMessage
+        })
+      ),
+    [callsTagCatalog, formModel, hrefGetter, isGrouped, mobileTagCatalogs, tracesTagCatalog, websiteTagCatalogs]
   );
+
+  if (!isEnabled) {
+    return null;
+  }
 
   return (
     <Li
