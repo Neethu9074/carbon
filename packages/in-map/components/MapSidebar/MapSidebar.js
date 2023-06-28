@@ -50,5 +50,5 @@ export default connectTo(
 );
 
 function getSidebarImpl([plugin]) {
-  return plugin && fromPromise(getForgeComponent(`./${plugin}/Sidebar/Details.js`));
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Sidebar/Details`));
 }

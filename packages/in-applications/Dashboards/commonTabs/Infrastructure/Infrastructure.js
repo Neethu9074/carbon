@@ -782,7 +782,7 @@ function getTabSubscript([plugin]) {
   const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
   return (
     snapshotDefinition?.supportsInfrastructureTabSubscript &&
-    fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`))
+    fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript`))
   );
 }
 
