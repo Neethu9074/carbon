@@ -79,7 +79,7 @@ function getColumnDefinitions({
     {
       id: 'actions',
       label: '',
-      getContent: () => <SloActions />,
+      getContent: item => <SloActions item={item} />,
       width: 5
     }
   ];

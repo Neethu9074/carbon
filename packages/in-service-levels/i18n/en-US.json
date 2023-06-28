@@ -46,6 +46,11 @@
       "event_application_0": "{{formatted}} calls",
       "event_application_1": "{{formatted}} call",
       "event_application_2": "{{formatted}} calls"
+    },
+    "deleteDialog": {
+      "pleaseConfirm": "Please Confirm",
+      "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
+      "delete": "Delete"
     }
   },
   "createSloDialog": {
@@ -120,6 +125,12 @@
   "analyzeSloEventsButton": {
     "analyze": "Analyze {{entity}}",
     "analyzeBadCalls": "Analyze bad {{entity}}"
+  },
+  "hooks": {
+    "useDoDeleteSloConfiguration": {
+      "success": "SLO configuration was successfully deleted.",
+      "failure": "Failed to delete the SLO"
+    }
   },
   "sloDashboard": {
     "components": {
