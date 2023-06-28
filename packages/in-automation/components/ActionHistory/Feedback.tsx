@@ -96,7 +96,7 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
         />
       </div>
       <FormFooter>
-        <CancelButton onClick={close}>{t('in-automation:actionHistory.cancelButton')}</CancelButton>
+        <CancelButton onClick={close} />
         <SaveButton form={form} isSaving={isSaving}>
           {t('in-automation:actionHistory.saveButton')}
         </SaveButton>
