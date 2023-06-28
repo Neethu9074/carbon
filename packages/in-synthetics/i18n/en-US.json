@@ -482,6 +482,7 @@
       "configSectionTitle": "Configuration",
       "operation": "Operation",
       "url": "URL",
+      "webpageActionUrl": "WebpageAction URL",
       "header": "Header",
       "value": "Value",
       "body": "Body",
