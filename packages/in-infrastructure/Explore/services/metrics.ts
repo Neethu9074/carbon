@@ -3,30 +3,38 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TimeConfig } from '@instana/types';
+import { AggregationType, TimeConfig } from '@instana/types';
 
+import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 
-interface MetricAndAggregation {
-  metric: string;
-  aggregation: string;
+interface OldMetricItem {
+  metricId?: string
+  aggregationId?: AggregationType
 }
+
+type BackwardsCompatibleItem = MetricItem & OldMetricItem
 
 export function fromUrlMetrics({
   urlMetrics,
   kpiDefinitions
 }: {
-  urlMetrics: MetricAndAggregation[];
+  urlMetrics: BackwardsCompatibleItem[] | undefined;
   kpiDefinitions: KpiDefinition[];
-}): MetricAndAggregation[] {
-  if (urlMetrics.length == 0) {
+}): MetricItem[] {
+  if (urlMetrics === undefined) {
     return kpiDefinitions.map(kpiDefinition => ({
       metric: kpiDefinition.metric,
       aggregation: 'MEAN'
-    }));
+    }))
   }
-  return urlMetrics;
+  return urlMetrics
+    .map(m => ({
+      metric: m.metric ?? m.metricId,
+      aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN'
+    }))
+    .filter(m => Boolean(m.metric))
 }
 
 export function getGranularity(timeConfig: TimeConfig) {

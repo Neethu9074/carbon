@@ -31,7 +31,6 @@ import {
   tagFilterExpressionMatrixParameter,
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
-  chartsMatrixParameter,
   groupMatrixParameter,
   orderMatrixParameter,
   typeMatrixParameter,
@@ -78,7 +77,6 @@ const urlStateDefinition = {
   bind: [
     tagFilterExpressionMatrixParameter,
     groupMatrixParameter,
-    chartsMatrixParameter,
     metricsMatrixParameter,
     orderMatrixParameter,
     typeMatrixParameter,
@@ -121,6 +119,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
+  const chartedMetrics = fromUrlMetrics({ urlMetrics: urlChartedMetrics, kpiDefinitions: kpiDefinitions.slice(0, 1) });
 
   const getInfraExploreState = () => {
     return { type, tagFilterExpression, group, metrics, order };
@@ -135,9 +134,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
   const isInitPage =
     !type &&
-    (!group || group?.groupbyTag == 'type') &&
-    (!metrics || metrics?.length == 0) &&
-    (!tagFilterExpression || tagFilterExpression?.length == 0);
+    (!group?.groupbyTag || group?.groupbyTag === 'type') &&
+    (!metrics || metrics?.length === 0) &&
+    (!tagFilterExpression || tagFilterExpression?.length === 0);
 
   return (
     <EntityExploreHeader
@@ -175,7 +174,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             kpiDefinitions={kpiDefinitions}
             tagCatalog={tagCatalog}
             refreshFixatedTimeConfig={() => {}}
-            chartedMetrics={urlChartedMetrics}
+            chartedMetrics={chartedMetrics}
           />
         </Stack>
       </LeftRightPadding>
@@ -211,12 +210,12 @@ function Content({
         defaultOrder;
       setUrl({ metrics, order: newOrder });
     },
-    [setUrl]
+    [setUrl, order.by, order.direction]
   );
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
-  const onChartedMetricChange = useCallback(chartedMetric => setUrl({ chartedMetrics: chartedMetric }), [setUrl]);
+  const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
   const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
 
   const backendQueryModel = useMemo(
@@ -241,20 +240,6 @@ function Content({
     type,
     query: catalogQuery.debouncedValue
   });
-
-  if (
-    chartedMetrics !== undefined &&
-    chartedMetrics.length > 0 &&
-    !metrics.some(
-      item => item.metric === chartedMetrics[0]?.metricId && item.aggregation === chartedMetrics[0]?.aggregationId
-    )
-  ) {
-    metrics.push({
-      metric: chartedMetrics[0]?.metricId,
-      aggregation: chartedMetrics[0]?.aggregationId,
-      removeFromTable: true
-    });
-  }
 
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
 
@@ -338,7 +323,7 @@ function Content({
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
       catalogQuery={catalogQuery}
-      onChartedMetricChange={onChartedMetricChange}
+      onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
     />
   );
@@ -368,7 +353,7 @@ function List({
   backendQueryModel,
   setMetrics,
   catalogQuery,
-  onChartedMetricChange,
+  onChartedMetricsChange,
   chartedMetrics
 }) {
   if (isInitPage) {
@@ -432,7 +417,7 @@ function List({
       metrics={metrics}
       metricMetadatas={metricMetadatas}
       order={order}
-      onChartedMetricChange={onChartedMetricChange}
+      onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
       showHeader
       tracking={{

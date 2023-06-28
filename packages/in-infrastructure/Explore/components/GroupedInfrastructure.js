@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import {
   ColumnizedContent,
@@ -53,9 +53,9 @@ export default function GroupedInfrastructure(props) {
 
   const granularity = getGranularity(timeConfig);
   const tagType = group?.tagType;
-  const fullQualifiedGroup = group.groupbyTagSecondLevelKey
+  const fullQualifiedGroup = useMemo(() => group.groupbyTagSecondLevelKey
     ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
-    : group.groupbyTag;
+    : group.groupbyTag, [group.groupbyTagSecondLevelKey, group.groupbyTag]);
 
   const cursorPaginatedProps = useCursorPagination(
     ({ cursor }) =>

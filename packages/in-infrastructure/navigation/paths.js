@@ -29,20 +29,12 @@ export const groupMatrixParameter = {
   initialState: emptyObject
 };
 
-export const chartsMatrixParameter = {
-  path: infraExplorePath,
-  name: 'charts',
-  serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyArray),
-  initialState: emptyObject
-};
-
 export const chartedMetricsMatrixParameter = {
   path: infraExplorePath,
   name: 'chartedMetrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
-  initialState: emptyArray
+  initialState: undefined
 };
 
 export const typeMatrixParameter = {
@@ -56,7 +48,7 @@ export const metricsMatrixParameter = {
   name: 'metrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
-  initialState: emptyArray
+  initialState: undefined
 };
 
 export const orderMatrixParameter = {
@@ -81,7 +73,7 @@ export const resetMetricsAndOrderOnTypeChange = {
     }
   ],
   reset: {
-    metrics: emptyArray,
+    metrics: undefined,
     order: undefined,
     chartedMetrics: undefined,
     group: undefined,
@@ -96,7 +88,6 @@ export function isInfraExploreView() {
 export function getLinkToExplore({
   tagFilterExpression,
   group,
-  charts,
   type,
   metrics,
   order,
@@ -122,10 +113,6 @@ export function getLinkToExplore({
 
     if (group) {
       setMatrixKey(params, groupMatrixParameter, group);
-    }
-
-    if (charts) {
-      setMatrixKey(params, chartsMatrixParameter, charts);
     }
 
     if (type) {
@@ -160,7 +147,6 @@ export const defaultInfraExploreView = getLinkToExplore({
   group: defaultAllInfraGroup,
   type: defaultType,
   tagFilterExpression: [],
-  metrics: []
 });
 
 function setMatrixKey(params, matrixParameter, value) {
