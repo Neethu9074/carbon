@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",
+        "orphan": "The position of this call in the calls tree is unknown because the parent call is missing.",
         "of": "of",
         "inheritedFrom": "Inherited from"
       },
