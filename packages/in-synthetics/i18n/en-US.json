@@ -162,7 +162,8 @@
           "zipFileUploadedMessage": "Bundled files cannot be modified or validated",
           "scriptEditedManuallyMessage": "Script added or modified manually",
           "mainFileNameLabel": "Main File Name",
-          "invalidMainFileName": "Main file name not valid"
+          "invalidMainFileName": "Main file name not valid",
+          "webpageUrl": "Webpage URL"
         },
         "loadMore": "Load More",
         "selectTests": {

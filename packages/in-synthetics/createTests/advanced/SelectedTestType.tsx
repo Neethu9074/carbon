@@ -16,6 +16,7 @@ import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBl
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { Code, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
+import { isBlank } from 'in-services/util/string';
 
 import locals from 'in-synthetics/createTests/advanced/SelectedTestType.mless';
 
@@ -107,11 +108,12 @@ const SelectedTestType = ({
           onClick={() => {
             if (testTypeSelected?.api.simple) selectedBlueprint.testType = 'HTTPAction';
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
-            if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageScript';
+            if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
             updateForm(createForm(false, selectedBlueprint, commonAttributes));
             setRenderSectionsCounter(v => v + 1);
           }}
+          disabled={isBlank(commonAttributes.syntheticType)}
         >
           {t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeButton')}
         </Button>
@@ -214,7 +216,7 @@ const RenderBrowser = ({
   isUpdateConfig,
   setScriptDetails
 }: BaseRenderProps) => {
-  const simple: boolean = commonAttributes.syntheticType === 'WebpageScript' ? true : false;
+  const simple: boolean = commonAttributes.syntheticType === 'WebpageAction' ? true : false;
   const script: boolean = commonAttributes.syntheticType === 'BrowserScript' ? true : false;
   return (
     <>
@@ -237,7 +239,7 @@ const RenderBrowser = ({
               setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
                 return { ...prevState, browser: { simple: true, script: false } };
               });
-              setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'WebpageScript' });
+              setCommonAttributes({ ...commonAttributes, url: '', syntheticType: 'WebpageAction' });
               setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}

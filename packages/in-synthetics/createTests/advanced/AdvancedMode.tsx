@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
@@ -63,10 +64,12 @@ const AdvancedMode = ({
         );
       case 'HTTPAction':
         return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
-      case 'BrowserScript':
-        return <h1>BrowserScript Section</h1>;
+      case 'WebpageAction':
+        return <BrowserSimpleConfiguration form={form} updateForm={updateForm} />;
       case 'WebpageScript':
         return <h1>{`WebpageScript (single) section`}</h1>;
+      case 'BrowserScript':
+        return <h1>BrowserScript Section</h1>;
       default:
         return null;
     }

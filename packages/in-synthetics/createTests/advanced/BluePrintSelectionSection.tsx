@@ -98,6 +98,7 @@ const SelectionMenu = ({
         items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
         addRightSeparator
         onItemClick={item => {
+          setCommonAttributes({ ...commonAttributes, syntheticType: '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {

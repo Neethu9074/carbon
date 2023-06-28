@@ -97,7 +97,7 @@ const createSyntheticTest = (
     } as SyntheticTest;
   } else {
     if (
-      form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+      form.get('configuration').get('syntheticType').value === 'HTTPAction' &&
       isEmpty(form.get('configuration').get('headers').value)
     ) {
       updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
