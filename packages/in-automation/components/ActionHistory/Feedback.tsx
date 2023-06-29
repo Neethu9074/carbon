@@ -62,7 +62,8 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
         )}
         {success && (
           <Message withIcon type="success" className={locals.message}>
-            {t('in-automation:actionHistory.feedbackSuccess')}
+            <b>{t('in-automation:actionHistory.feedbackSuccessTitle')}</b>{' '}
+            {t('in-automation:actionHistory.feedbackSuccessMessage')}
           </Message>
         )}
 

@@ -186,8 +186,9 @@
     "satisfiedFeedback": "I was satisfied",
     "verySatisfiedFeedback": "I was extremely satisfied",
     "additionalFeedback": "Additional Comments (optional)",
-    "feedbackError": "An error occured while saving feedback",
-    "feedbackSuccess": "Feedback successfully saved!",
+    "feedbackError": "An error occured while saving your feedback. Please try again later.",
+    "feedbackSuccessTitle": "Feedback Submitted.",
+    "feedbackSuccessMessage": "Thank you for your feedback!",
     "saveButton": "Save"
   }
 }
