@@ -21,6 +21,7 @@ import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import SaveButton from 'in-components/form/SaveButton';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel.mless';
@@ -95,22 +96,24 @@ function SelectListDialogContent({
           <SelectListDialogContentComponent
             listComponent={AlertChannelsList}
             listComponentRightHeader={
-              <Button
-                className={locals.createAlertChannelButton}
-                kind="action"
-                icon="lib_actions_build_outline"
-                onClick={() => {
-                  setSlideInContentVisible(true);
-                  setCustomSlideInHeaderConfig({
-                    title: t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle'),
-                    onClose() {
-                      setSlideInContentVisible(false);
-                    }
-                  });
-                }}
-              >
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle')}
-              </Button>
+              role.canConfigureIntegrations && (
+                <Button
+                  className={locals.createAlertChannelButton}
+                  kind="action"
+                  icon="lib_actions_build_outline"
+                  onClick={() => {
+                    setSlideInContentVisible(true);
+                    setCustomSlideInHeaderConfig({
+                      title: t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle'),
+                      onClose() {
+                        setSlideInContentVisible(false);
+                      }
+                    });
+                  }}
+                >
+                  {t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle')}
+                </Button>
+              )
             }
             hiddenIds={form.get('alertChannelIds').value}
             limit={limitForConnectedAlertChannels}
@@ -162,7 +165,7 @@ function SelectListDialogContent({
   );
 }
 
-const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function(selectedChannels) {
+const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function (selectedChannels) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
