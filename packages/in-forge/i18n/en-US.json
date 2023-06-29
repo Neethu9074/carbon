@@ -2980,11 +2980,11 @@
       "peeringStatus": "Peering Status",
       "peeringStatusCount": "Gateway Peering Status({{len}})",
       "peeringStatusAddress": "Address",
-      "peeringStatusName": "Configuration name",
-      "peeringStatusPending": "Pending updates",
-      "peeringStatusOffset": "Replication offset",
+      "peeringStatusName": "Configuration Name",
+      "peeringStatusPending": "Pending Updates",
+      "peeringStatusOffset": "Replication Offset",
       "peeringStatusPrimary": "Primary",
-      "peeringStatusLink": "Link status",
+      "peeringStatusLink": "Link Status",
       "peeringStatusCombination": "ConfigurationName:Address"
     },
     "ibmDataPowerEthernetInterface": {
