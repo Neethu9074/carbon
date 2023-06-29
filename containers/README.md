@@ -21,14 +21,13 @@ This will set dummy default values for some required variables like `BRANCH_NAME
 from source (be patient), extract the required files, and then build a container image from those files. You should end up with something like the following image in your local registry after you build it:
 
     REPOSITORY                                                                   TAG           IMAGE ID       CREATED             SIZE
-    containers.instana.io/instana/<your-current-branch>/product/ui-client        3.local-0     464697e62bf8   9 seconds ago       464MB
+    delivery.instana.io/instana/<your-current-branch>/product/ui-client        3.local-0     464697e62bf8   9 seconds ago       464MB
 
 ### Building On CI
 
 Images that are built on CI download the component's `tar.gz` file from Artifactory instead of building it from source, and need
 proper values to be provided for `BRANCH_NAME`, `ARTIFACT_VERSION` and `IMAGE_VERSION`. Additionally, the following env variables need to be provided as well:
   - `INSTANA_ARTIFACTORY_USERNAME` and `INSTANA_ARTIFACTORY_PASSWORD` to download `tar.gz` files from Artifactory.
-  - `CONTAINERS_INSTANA_IO_USER` and `CONTAINERS_INSTANA_IO_PASSWORD` to interact with `containers.instana.io`
 
 #### About the `ARTIFACT_VERSION` and `IMAGE_VERSION` env vars
 
@@ -47,8 +46,6 @@ For example:
     IMAGE_VERSION=3.198.10-0 \
     INSTANA_ARTIFACTORY_USERNAME=<artifactory-user> \
     INSTANA_ARTIFACTORY_PASSWORD=<artifactory-pswd> \
-    CONTAINERS_INSTANA_IO_USER=<containers-user> \
-    CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build.sh ui-client
 
 Will produce:
@@ -81,8 +78,6 @@ To build an image for a component on CI:
     IMAGE_VERSION=3.198.10-0 \
     ARTIFACT_RND_INSTANA_IO_USER=<artifactory-user> \
     ARTIFACT_RND_INSTANA_IO_PASSWORD=<artifactory-pswd> \
-    CONTAINERS_INSTANA_IO_USER=<containers-user> \
-    CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build-and-publish.sh ui-client
 
 Please see the `Build & Push Images` and `Deploy` stages in the `Jenkinsfile` at the root of this repository for the implementation.
