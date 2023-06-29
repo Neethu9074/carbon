@@ -2977,13 +2977,15 @@
       "xmlNameUsed": "Used",
       "xmlNamePercentFree": "Percentage Free",
       "xmlNameMaximum": "Maximum",
+      "peeringStatus": "Peering Status",
       "peeringStatusCount": "Gateway Peering Status({{len}})",
       "peeringStatusAddress": "Address",
-      "peeringStatusName": "Name",
-      "peeringStatusPending": "Pending",
-      "peeringStatusOffset": "Offset",
+      "peeringStatusName": "Configuration name",
+      "peeringStatusPending": "Pending updates",
+      "peeringStatusOffset": "Replication offset",
       "peeringStatusPrimary": "Primary",
-      "peeringStatusLink": "Link"
+      "peeringStatusLink": "Link status",
+      "peeringStatusCombination": "ConfigurationName:Address"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",

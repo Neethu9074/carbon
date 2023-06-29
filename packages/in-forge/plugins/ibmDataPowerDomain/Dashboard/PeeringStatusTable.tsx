@@ -102,10 +102,11 @@ export default function peeringStatusTable({
         const prefix = key.substring(0, key.lastIndexOf('.'));
         if (!uniqueKeys.has(prefix)) {
           uniqueKeys.add(prefix);
+
           return {
             key: prefix,
-            name: snapshot.getIn(['data', prefix + '.name']),
-            address: snapshot.getIn(['data', prefix + '.address']),
+            name: prefix.substring(prefix.indexOf('.') + 1, prefix.indexOf(':')),
+            address: prefix.split(':')[1],
             link: snapshot.getIn(['data', prefix + '.link']),
             primary: snapshot.getIn(['data', prefix + '.primary']),
             timeConfig,
