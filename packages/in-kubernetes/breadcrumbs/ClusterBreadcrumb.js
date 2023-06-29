@@ -19,7 +19,7 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function ClusterBreadcrumb({ clusterId, cluster, href$ }) {
+  function ClusterBreadcrumb({ clusterId, cluster, href }) {
     const clusterDistribution = get(cluster, ['clusterDistribution'], 'kubernetes');
     const clusterIcon = `lib_${clusterDistribution}`;
 
@@ -30,7 +30,7 @@ export default connectTo(
           <Breadcrumb
             label={t('in-kubernetes:breadcrumbs.cluster')}
             icon={clusterIcon}
-            href$={href$}
+            href={href}
             healthInfo={healthInfo}
           >
             {cluster && cluster.label}
