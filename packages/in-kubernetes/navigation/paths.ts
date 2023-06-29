@@ -89,14 +89,6 @@ export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboard
 
 export const summaryTab = '/summary';
 
-const defaultProps = {
-  ...emptyObject,
-  timeConfig: {
-    windowSize: 0,
-    autoRefresh: false
-  }
-};
-
 interface BaseProps {
   tab?: NavigateToDashboardProps['tab'];
   tabMatrix?: NavigateToDashboardProps['tabMatrix'];
@@ -120,7 +112,7 @@ export function useServiceDashboard(
     timeConfig,
     namespaceId,
     clusterId
-  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = defaultProps
+  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: serviceDashboardFullyQualified,
@@ -137,7 +129,7 @@ export function useServiceDashboard(
   });
 }
 
-export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeConfig }: BaseProps = defaultProps) {
+export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeConfig }: BaseProps = emptyObject) {
   return useNavigateToDashboard({
     base: clusterDashboardFullyQualified,
     tab,
@@ -151,7 +143,7 @@ export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeCon
 
 export function useNamespaceDashboard(
   namespaceId: string,
-  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = defaultProps
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: namespaceDashboardFullyQualified,
@@ -178,7 +170,7 @@ export function usePodDashboard(
     deploymentId,
     nodeId,
     cronJobId
-  }: BaseProps & IdsProps = defaultProps
+  }: BaseProps & IdsProps = emptyObject
 ) {
   return useNavigateToDashboard({
     base: podDashboardFullyQualified,
@@ -200,7 +192,7 @@ export function usePodDashboard(
 
 export function useNodeDashboard(
   nodeId: string,
-  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = defaultProps
+  { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: nodeDashboardFullyQualified,
@@ -218,7 +210,7 @@ export function useNodeDashboard(
 
 export function useCronJobDashboard(
   cronJobId: string,
-  { tab, tabMatrix, timeConfig, clusterId, podId }: BaseProps & Pick<IdsProps, 'clusterId' | 'podId'> = defaultProps
+  { tab, tabMatrix, timeConfig, clusterId, podId }: BaseProps & Pick<IdsProps, 'clusterId' | 'podId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: cronJobDashboardFullyQualified,
@@ -243,7 +235,7 @@ export function useDeploymentDashboard(
     timeConfig,
     clusterId,
     namespaceId
-  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = defaultProps
+  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: deploymentDashboardFullyQualified,
@@ -268,7 +260,7 @@ export function useDeploymentConfigDashboard(
     timeConfig,
     clusterId,
     namespaceId
-  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = defaultProps
+  }: BaseProps & Pick<IdsProps, 'namespaceId' | 'clusterId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: deploymentConfigDashboardFullyQualified,
@@ -293,7 +285,7 @@ export function useDaemonSetDashboard(
     timeConfig,
     clusterId,
     namespaceId
-  }: BaseProps & Pick<IdsProps, 'clusterId' | 'namespaceId'> = defaultProps
+  }: BaseProps & Pick<IdsProps, 'clusterId' | 'namespaceId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: daemonSetDashboardFullyQualified,
@@ -318,7 +310,7 @@ export function useStatefulSetDashboard(
     timeConfig,
     clusterId,
     namespaceId
-  }: BaseProps & Pick<IdsProps, 'clusterId' | 'namespaceId'> = defaultProps
+  }: BaseProps & Pick<IdsProps, 'clusterId' | 'namespaceId'> = emptyObject
 ) {
   return useNavigateToDashboard({
     base: statefulSetDashboardFullyQualified,
@@ -401,7 +393,7 @@ function useNavigateToDashboard({
 export const useNavigateToClusterDashboard = () => {
   const { createHref, location } = useNavigation();
 
-  return (clusterId: string, { tab = summaryTab, tabMatrix = {}, timeConfig }: BaseProps = defaultProps) => {
+  return (clusterId: string, { tab = summaryTab, tabMatrix = {}, timeConfig }: BaseProps = emptyObject) => {
     location.pathname = clusterDashboardFullyQualified + tab;
 
     setOrDeleteMatrixKey(location, clusterDashboard, matrixClusterId, clusterId);

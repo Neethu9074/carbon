@@ -18,12 +18,12 @@ export default connectTo(
       })
       .map(result => (result.data ? result.data : null))
   }),
-  function WorkloadControllerBreadcrumb({ headerTitle, workloadControllerId, workloadController, href$ }) {
+  function WorkloadControllerBreadcrumb({ headerTitle, workloadControllerId, workloadController, href }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={workloadControllerId}
         render={healthInfo => (
-          <Breadcrumb label={headerTitle} icon="lib_kubernetes_workload" href$={href$} healthInfo={healthInfo}>
+          <Breadcrumb label={headerTitle} icon="lib_kubernetes_workload" href={href} healthInfo={healthInfo}>
             {workloadController && workloadController.name}
           </Breadcrumb>
         )}
