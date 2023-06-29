@@ -2976,7 +2976,14 @@
       "xmlNameType": "Type",
       "xmlNameUsed": "Used",
       "xmlNamePercentFree": "Percentage Free",
-      "xmlNameMaximum": "Maximum"
+      "xmlNameMaximum": "Maximum",
+      "peeringStatusCount": "Gateway Peering Status({{len}})",
+      "peeringStatusAddress": "Address",
+      "peeringStatusName": "Name",
+      "peeringStatusPending": "Pending",
+      "peeringStatusOffset": "Offset",
+      "peeringStatusPrimary": "Primary",
+      "peeringStatusLink": "Link"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
