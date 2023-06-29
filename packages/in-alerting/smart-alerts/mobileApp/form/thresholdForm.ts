@@ -6,9 +6,10 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import { ThresholdType } from '@instana/types';
+import { isAdaptiveBaselineData, ThresholdType } from '@instana/types';
 
 import {
+  AdaptiveBaselineData,
   HistoricBaselineConfig,
   isHistoricBaselineConfig,
   isStaticThresholdConfig,
@@ -69,6 +70,10 @@ function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
     return createHistoricBaselineForm(threshold);
   }
 
+  if (isAdaptiveBaselineData(threshold)) {
+    return createAdaptiveBaselineForm(threshold);
+  }
+
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
 
@@ -94,6 +99,23 @@ function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm<
           }
           return null;
         },
+        value: threshold.baseline
+      })
+    )
+    .put(
+      'deviationFactor',
+      createField({
+        value: threshold.deviationFactor ?? defaultDeviationFactor
+      })
+    );
+}
+
+function createAdaptiveBaselineForm(threshold: AdaptiveBaselineData) {
+  return createBaseForm(threshold)
+    .put(
+      'baseline',
+      createField({
+        // For adaptiveBaseline an empty list (baseline)is legit. No validation needed.
         value: threshold.baseline
       })
     )

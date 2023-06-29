@@ -7,6 +7,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { Message, Spacer } from '@instana/components';
+
+import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/mobileApp/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
@@ -14,12 +17,41 @@ import {
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
-import { t } from 'in-i18n';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { t, Trans } from 'in-i18n';
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
 export default function MobileAppAlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel } = props;
+  const { alertConfigWithFormModel, isEventsView, isAlertDetailView } = props;
 
+  const { threshold } = alertConfigWithFormModel;
+
+  if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
+    return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
+  }
+
+  return <ChartWithErrorMessageAndData {...props} />;
+}
+
+function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+  const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
+  return (
+    <>
+      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
+      {error && (
+        <>
+          <Spacer size="normal" />
+          <Message type="warning" withIcon small>
+            <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
+          </Message>
+        </>
+      )}
+    </>
+  );
+}
+
+function ChartWithErrorMessageAndData(props) {
+  const { alertConfigWithFormModel } = props;
   const { threshold, rule, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);

@@ -109,6 +109,10 @@ export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystor
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 
+export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertsAdaptiveBaselineEnabled'
+);
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

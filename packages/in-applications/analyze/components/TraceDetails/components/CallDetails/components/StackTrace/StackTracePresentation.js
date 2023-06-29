@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
-import { t } from 'in-i18n';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './StackTracePresentation.mless';
 

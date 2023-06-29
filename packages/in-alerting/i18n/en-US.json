@@ -1052,7 +1052,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} more filter",
