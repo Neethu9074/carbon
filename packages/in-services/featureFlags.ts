@@ -171,3 +171,8 @@ export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 
 export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeEnabled', false);
+
+export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnabled(
+  'oneMinuteGranularityForStaticThresholdEnabled',
+  false
+);

@@ -15,23 +15,27 @@ import { t } from 'in-i18n';
 const defaultAllowedGranularity = [5, 10, 15, 20, 30];
 const adaptiveBaselineAllowedGranularity = [20, 30];
 
-function getMarksForThresholdType(thresholdType) {
-  const allowedGranularities =
-    thresholdType === ADAPTIVE_BASELINE ? adaptiveBaselineAllowedGranularity : defaultAllowedGranularity;
-
-  return allowedGranularities.map(min => ({
+function getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed) {
+  return getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed).map(min => ({
     value: min,
     label: `${min} min`,
     millis: minutes.toMillis(min)
   }));
 }
 
-function getDefaultMark(marks, thresholdType) {
-  return thresholdType === ADAPTIVE_BASELINE ? marks[0] : marks[1];
+function getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed) {
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return adaptiveBaselineAllowedGranularity;
+  }
+  return oneMinuteGranularityAllowed ? [1].concat(defaultAllowedGranularity) : defaultAllowedGranularity;
 }
 
-export default function ConfigureGranularity({ onChange, granularity, thresholdType }) {
-  const marks = getMarksForThresholdType(thresholdType);
+function getDefaultMark(marks, thresholdType) {
+  return thresholdType === ADAPTIVE_BASELINE ? 20 : 10;
+}
+
+export default function ConfigureGranularity({ onChange, granularity, thresholdType, oneMinuteGranularityAllowed }) {
+  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
   const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
 
   return (
@@ -54,5 +58,6 @@ export default function ConfigureGranularity({ onChange, granularity, thresholdT
 ConfigureGranularity.propTypes = {
   onChange: PropTypes.func,
   granularity: PropTypes.number.isRequired,
-  thresholdType: PropTypes.string
+  thresholdType: PropTypes.string,
+  oneMinuteGranularityAllowed: PropTypes.bool
 };

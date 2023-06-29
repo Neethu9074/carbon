@@ -16,9 +16,14 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import {
+  smartAlertsLogsBlueprintEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled
+} from 'in-services/featureFlags';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
@@ -28,10 +33,8 @@ import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/a
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertsActionsSelection from 'in-automation/AssociatedActionsCard/AlertsActionsSelection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
-import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
@@ -175,6 +178,9 @@ export default function AdvancedModeContainer(props) {
           updateForm={updateForm}
           impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
           hasTraceImpactOption
+          oneMinuteGranularityAllowed={
+            thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+          }
         />
       )
     },

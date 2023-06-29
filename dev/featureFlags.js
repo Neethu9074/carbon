@@ -80,5 +80,6 @@ module.exports = {
   mobileAppSmartAlertsEnabled: true,
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
-  userSettingsThemeEnabled: true
+  userSettingsThemeEnabled: true,
+  oneMinuteGranularityForStaticThresholdEnabled: true
 };

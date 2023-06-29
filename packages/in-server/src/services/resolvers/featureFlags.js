@@ -374,5 +374,10 @@ module.exports = exports = [
     uiClientKey: 'userSettingsThemeEnabled',
     instanaCtlKey: 'feature.user.settings.theme.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
+    instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
+    defaultValue: false
   }
 ];
