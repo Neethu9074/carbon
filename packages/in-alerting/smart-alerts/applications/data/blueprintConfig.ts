@@ -119,7 +119,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   thresholdDefaults: {
     operator: '>='
-  },
+  } as const,
   isBeta: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines,
   getEntityTagFilterFormModel: (

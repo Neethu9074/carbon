@@ -38,5 +38,6 @@
   },
   "sonarlint.connectedMode.project": {
     "projectKey": "ui-client"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

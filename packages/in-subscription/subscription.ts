@@ -24,7 +24,7 @@ export interface Options<IN, OUT> {
 
   disposeSubscriptionOnDocumentHidden?: boolean;
 
-  transform?(observable: Observable<Object>, opts?: IN): Observable<OUT>;
+  transform?(observable: Observable<OUT>, opts?: IN): Observable<OUT>;
 
   /**
    * A side-effect that triggers when creating the observable for the first time

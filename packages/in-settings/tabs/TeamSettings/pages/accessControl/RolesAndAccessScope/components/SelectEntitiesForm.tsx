@@ -22,7 +22,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
-interface SelectEntitiesFormProps<I> {
+interface SelectEntitiesFormProps<I extends Object> {
   preselectedIds: Array<string>;
   observable: () => Observable<Result<I[]>>;
   onClickCancel: VoidFunction;
@@ -31,7 +31,7 @@ interface SelectEntitiesFormProps<I> {
   extractName: ExtractNameFunction<I>;
 }
 
-export default function SelectEntitiesForm<I>({
+export default function SelectEntitiesForm<I extends Object>({
   preselectedIds,
   observable,
   onClickCancel,
@@ -210,9 +210,9 @@ interface GetColumnDefinition<I> {
   extractName: ExtractNameFunction<I>;
 }
 
-type SelectEntitiesColumnDefinitions<I> = Array<ColumnDefinition<I>>;
+type SelectEntitiesColumnDefinitions<I extends Object> = Array<ColumnDefinition<I>>;
 
-function getColumnDefinition<I>({
+function getColumnDefinition<I extends Object>({
   selectedIds,
   onClickItem,
   extractId,

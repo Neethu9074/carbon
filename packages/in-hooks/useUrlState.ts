@@ -37,7 +37,7 @@ export type UrlStateReturn<State> = [
   GetStateChangeUrl: (change: Partial<State>) => string
 ];
 
-export default function useUrlState<State>({
+export default function useUrlState<State extends StateWithoutGuarantees>({
   bind,
   resets = emptyArray as [],
   reducer = defaultingReducer,

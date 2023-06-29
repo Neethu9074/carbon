@@ -38,7 +38,7 @@ import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-interface LimitedAccessPanelProps<I, FORM_TYPE extends MapFormItems>
+interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE>,
     Pick<
       PermissionSectionProps<I, FORM_TYPE>,
@@ -54,7 +54,7 @@ interface LimitedAccessPanelProps<I, FORM_TYPE extends MapFormItems>
   onChangeRole: (role: AreaRoleType) => void;
 }
 
-export default function LimitedAccessPanel<I, FORM_TYPE extends MapFormItems>({
+export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
   roleTooltipText,
   role,
   form,

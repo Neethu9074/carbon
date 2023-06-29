@@ -46,7 +46,7 @@ import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
 
-export interface PermissionSectionProps<I, FORM_TYPE extends MapFormItems>
+export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapFormItems>
   extends SlideControlProps<SubSlideConfig>,
     FormControlProps<FORM_TYPE> {
   title: string;
@@ -62,7 +62,7 @@ export interface PermissionSectionProps<I, FORM_TYPE extends MapFormItems>
   entityPermissionKey: EntityPermissionKey;
 }
 
-export default function PermissionSection<I, FORM_TYPE extends MapFormItems>({
+export default function PermissionSection<I extends Object, FORM_TYPE extends MapFormItems>({
   title,
   accessAllDescription,
   limitedAccessDescription,

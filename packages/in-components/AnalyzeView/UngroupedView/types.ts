@@ -100,7 +100,7 @@ export interface UngroupedViewListPresenterProps<Item = any> extends UngroupedVi
 
 export interface ListItemProps {
   isInitiallyToggled?: boolean;
-  item: unknown;
+  item: any;
   href?: string;
   className: string;
   renderNestedContent: () => JSX.Element;
