@@ -64,6 +64,6 @@ export function customEventRulesValidator(mapFormRules: Item[] = []): Validation
 
 function hasAggregationNotAllowedForOneSecondWindow(mapFormRules: Item[]) {
   return (mapFormRules as MapForm<any>[])
-    .map(rule => rule.get('aggregation').value)
+    .map(rule => rule.get('aggregation')?.value)
     .some(aggregation => aggregationsNotAllowedForOneSecondWindow.includes(aggregation));
 }
