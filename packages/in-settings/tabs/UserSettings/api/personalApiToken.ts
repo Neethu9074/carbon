@@ -3,16 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 function refresh() {
   refreshSignal.emit(true);
+}
+
+/**
+ * Model for a PersonalApiToken
+ * @property tokenId id of token
+ * @property accessGrantingToken actual token
+ * @property name name of token
+ * @property userId id of user associated with token
+ * @property tenantUnitId of current token
+ */
+export interface PersonalApiToken {
+  readonly tokenId: string;
+  readonly accessGrantingToken: string;
+  readonly name: string;
+  readonly userId: string;
 }
 
 export const getPersonalApiTokensOfUserAsResultObservable = memoize(
@@ -21,10 +37,10 @@ export const getPersonalApiTokensOfUserAsResultObservable = memoize(
   60000
 );
 
-function getPersonalApiTokensOfUserInternal(userId) {
+function getPersonalApiTokensOfUserInternal(userId: string) {
   return refreshSignal.flatMap(() =>
     createObservable(
-      http({
+      http<PersonalApiToken[]>({
         method: 'GET',
         maxRetries: 3,
         url: `/api/settings/personal-api-tokens?userId=${userId}`
@@ -35,10 +51,10 @@ function getPersonalApiTokensOfUserInternal(userId) {
 
 export const getPersonalApiTokenAsResultObservable = memoize(getPersonalApiTokenInternal, id => id, 60000);
 
-function getPersonalApiTokenInternal(id) {
+function getPersonalApiTokenInternal(id: string) {
   return refreshSignal.flatMap(() =>
     createObservable(
-      http({
+      http<PersonalApiToken[]>({
         method: 'GET',
         maxRetries: 3,
         url: `/api/settings/personal-api-tokens/${encodeURIComponent(id)}`
@@ -47,8 +63,8 @@ function getPersonalApiTokenInternal(id) {
   );
 }
 
-export function createPersonalApiToken(personalApiToken) {
-  return http({
+export function createPersonalApiToken(personalApiToken: PersonalApiToken): Observable<PersonalApiToken> {
+  return http<PersonalApiToken>({
     method: 'POST',
     headers: getCsrfHeader(),
     maxRetries: 0,
@@ -57,8 +73,8 @@ export function createPersonalApiToken(personalApiToken) {
   }).map(mapAndRefresh);
 }
 
-export function savePersonalApiToken(personalApiToken) {
-  return http({
+export function savePersonalApiToken(personalApiToken: PersonalApiToken): Observable<PersonalApiToken> {
+  return http<PersonalApiToken>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -67,8 +83,8 @@ export function savePersonalApiToken(personalApiToken) {
   }).map(mapAndRefresh);
 }
 
-export function deletePersonalApiToken(id) {
-  return http({
+export function deletePersonalApiToken(id: string): Observable<void> {
+  return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -76,7 +92,7 @@ export function deletePersonalApiToken(id) {
   }).map(mapAndRefresh);
 }
 
-function mapAndRefresh(response) {
+function mapAndRefresh<T>(response: Response<T>): T {
   refresh();
   return response.body;
 }
