@@ -4,6 +4,7 @@
   "metrics_Usage": "Usage",
   "metrics_Memory": "Memory",
   "metrics_Used": "Used",
+  "metrics_TotalUsage": "Total Usage",
   "notMonitoringTitle": "Not Monitoring",
   "noDataTitle": "No Monitoring Data Found",
   "notMonitoringText": "Please install the Instana agent on the systems you want to monitor. Installation instructions are available in our [online documentation][Docs].\n\nShould you need additional assistance, please contact us via our [support portal][Support].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=setting-up-managing-instana\n[Support]:https://support.instana.com",
