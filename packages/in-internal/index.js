@@ -70,6 +70,7 @@ import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
 import Landing from 'in-internal/components/Landing';
 import Agents from 'in-internal/thisUnit/Agents';
+import OTLPAcceptor from 'in-internal/monitoringUnit/otlpAcceptor/OtlpAcceptor';
 
 export default function Internal() {
   const internalRoutes = internalMonitoringUnit
@@ -230,6 +231,11 @@ export default function Internal() {
           key="internalServerlessacceptors"
           path="/internal/monitoringUnit/serverless/serverlessacceptors"
           children={wrapInInternalView(ServerlessAcceptors)}
+        />,
+        <Route
+          key="otlpAcceptors"
+          path="/internal/monitoringUnit/otlpAcceptors"
+          children={wrapInInternalView(OTLPAcceptor)}
         />,
         <Route
           key="internalCashiers"

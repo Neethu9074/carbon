@@ -10,15 +10,14 @@ import { Card } from '@instana/components';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
-import { pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
+import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { internalMonitoringUnit } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
-import { role, isInstanaEmail } from 'in-stores/user';
-import { Row, Col } from 'in-components/layout/Grid';
+import { isInstanaEmail, role } from 'in-stores/user';
+import { Col, Row } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { config } from 'in-services/config';
 import Footer from 'in-components/Footer';
@@ -26,11 +25,15 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Landing.mless';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 export default connectTo(
   { timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ },
   function Landing({ timeConfig, isInternalVisible }) {
     const granularity = getInfraGranularity(timeConfig);
+
+    const { createHref, location } = useNavigation();
+    const otlpAcceptorsHref = createHref({ ...location, pathname: '/internal/monitoringUnit/otlpAcceptors' });
 
     return (
       <>
@@ -176,6 +179,11 @@ export default connectTo(
                             params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
                           )}
                           description={t('in-internal:components.landing.serverlessAcceptorDesc')}
+                        />
+                        <LinkListItem
+                          label={t('in-internal:components.landing.otlpAcceptor')}
+                          href={otlpAcceptorsHref}
+                          description={t('in-internal:components.landing.otlpAcceptorDesc')}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.cashiers')}

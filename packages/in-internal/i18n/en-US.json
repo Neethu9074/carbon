@@ -22,8 +22,10 @@
       "agentDesc": "Learn which unit has agents that are experiencing problems.",
       "pipelines": "Pipelines",
       "acceptor": "Acceptor",
+      "otlpAcceptor": "OTLP Acceptor",
       "acceptorDesc": "Agents transmit data to acceptors. Acceptors are therefore the first-mile for most of the data transmitted to Instana.",
       "serverlessAcceptorDesc": "Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, without an Instana agent in between.",
+      "otlpAcceptorDesc": "Acceptors for OpenTelemetry data",
       "cashiers": "Cashiers",
       "cashiersDesc": "Cashier components are used for generating usage stats for customers and internal accounting.",
       "hubforceDesc": "Hubforce (i.e. Portal) ",
@@ -780,6 +782,12 @@
         "cpuUsage": "CPU Usage",
         "hostsLength": "Hosts ({{length}})"
       }
+    },
+    "otlpAcceptor": {
+      "noSteadyIdFound": "No Steady ID found",
+      "steadyIdFound": "Steady ID found",
+      "successfulLogRecordRead": "Successful Log Record Read",
+      "logRecordReadFailure": "Log Record Read Failure"
     },
     "sloViolations": {
       "sloViolateGroupedProc": "SLO Violations Grouped By Process",

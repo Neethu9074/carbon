@@ -17,7 +17,8 @@ interface Axis {
 }
 
 interface InfrastructureMetricChartProps {
-  snapshotId: string;
+  snapshotId?: string;
+  snapshotIds?: string[];
   timeConfig: TimeConfig;
   y1: Axis;
   y2?: Axis;
