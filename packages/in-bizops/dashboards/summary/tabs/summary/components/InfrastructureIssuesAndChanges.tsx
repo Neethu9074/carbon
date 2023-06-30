@@ -54,7 +54,6 @@ export default function InfrastructureIssuesAndChanges({ businessProcessId, busi
   // Initiate the subscription via an observable
   const bizopsEventCountResponse = useObservable(
     getBizOpsEventsCount({
-      processId: businessProcessId, // Replaced by tagFilterExpression. To be deleted
       tagFilterExpression: tagFilterExpression,
       granularity: getChartGranularity(timeConfig),
       filter: {
