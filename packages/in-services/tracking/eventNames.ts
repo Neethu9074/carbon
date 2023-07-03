@@ -347,10 +347,12 @@ export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
 export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
 export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 
-// Action associations for events
+// Action associations and action history
 export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
 export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
+export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
+export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 
 // Smart Alert Tracking
 

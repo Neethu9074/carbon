@@ -26,6 +26,7 @@ import ActionInstanceDetail from 'in-automation/components/ActionHistory/actionI
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
@@ -159,6 +160,10 @@ export default function ActionHistoryTable() {
       actionStatuses={actionStatuses}
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+        actionHistoryInstanceViewTracker({
+          actionInstanceId: row.actionInstanceId,
+          actionName: row.actionName
+        });
       }}
       searchWidth={350}
       searchMaxWidth={450}
