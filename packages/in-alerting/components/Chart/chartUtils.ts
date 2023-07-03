@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { clamp } from 'lodash';
+
+import { EventOrMap } from 'in-events/types';
+
 export interface AdjustedTimeframe {
   to: number;
   from: number;
@@ -112,4 +116,17 @@ function adjustTimeframe(to: number, windowSize: number, granularity: number): A
  */
 export function adjustTimestamp(timestamp: number, granularity: number) {
   return Math.floor(timestamp / granularity) * granularity;
+}
+
+/**
+ * Find the number of days for an event
+ * @param event   contains event details.
+ */
+
+export function getWindowSizeFromEvent(event: EventOrMap, minDurationMillis: number, maxDurationMillis: number) {
+  const eventData = event.toJS();
+  const eventStartDate = Number(eventData?.start);
+  const eventEndDate = Number(eventData?.end ?? Date.now());
+  const eventDuration = eventEndDate - eventStartDate;
+  return clamp(eventDuration, minDurationMillis, maxDurationMillis);
 }
