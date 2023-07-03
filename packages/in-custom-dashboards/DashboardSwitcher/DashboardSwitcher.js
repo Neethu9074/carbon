@@ -3,35 +3,37 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withProps, compose } from 'recompose';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
-import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+import { dashboardIdUrlParameter, viewPathFullyQualified } from 'in-custom-dashboards/navigation/url';
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
 import { navigationParameters$ } from 'in-stores/navigation';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const systemOverviewTitle = 'Instana';
 const loadingTitle = t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcher.loading');
 
-export default compose(
-  connectTo({
-    result: getCustomDashboards(),
-    navigationParameters: navigationParameters$
-  }),
-  withProps(({ result, navigationParameters, titleOverwrite }) => ({
+export default function DashboardSwitcher({ titleOverwrite }) {
+  const result = useObservable(getCustomDashboards, []);
+  const navigationParameters = useObservable(navigationParameters$, []);
+
+  if (!result || !navigationParameters) return null;
+
+  const presenterProps = {
     ...determineActiveDashboard(result, navigationParameters, titleOverwrite),
     isLoadingMore: result.progress.loading,
     customDashboards: result && result.data,
     onCreateNewDashboard
-  }))
-)(DashboardSwitcherPresenter);
+  };
 
+  return <DashboardSwitcherPresenter activeDashboardTitle={titleOverwrite} {...presenterProps} />;
+}
 function determineActiveDashboard(result, navigationParameters, titleOverwrite) {
   const activeDashboard = {
     activeDashboardTitle: loadingTitle,

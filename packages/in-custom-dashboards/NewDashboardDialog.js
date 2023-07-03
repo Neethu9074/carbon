@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps, withState } from 'recompose';
 import { createField } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import PromptPresenter from 'in-components/Dialog/PromptPresenter';
@@ -16,16 +15,17 @@ import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default compose(
-  withState('state', 'setState', {
+export default function NewDashboardDialog() {
+  const [state, setState] = useState({
     field: createField({
       value: '',
       validator: notBlankValidator
     }),
     isSaving: false,
     errors: null
-  }),
-  withProps(({ state, setState }) => ({
+  });
+
+  const presenterProps = {
     header: t('in-custom-dashboards:newDashboardDialog.createNewDashboard'),
     headerIcon: 'lib_views_grid',
     inputLabel: t('in-custom-dashboards:newDashboardDialog.dashboardName'),
@@ -96,5 +96,7 @@ export default compose(
           }
         );
     }
-  }))
-)(PromptPresenter);
+  };
+
+  return <PromptPresenter {...presenterProps} />;
+}

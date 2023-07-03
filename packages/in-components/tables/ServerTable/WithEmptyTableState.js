@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withProps } from 'recompose';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -11,8 +10,10 @@ import EntityPageMainNotification from 'in-components/EntityPageMainNotification
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { t } from 'in-i18n';
 
-export default function withEmptyTableState(props) {
-  return withProps(props)(ServerTableWithEmptyState);
+export default function withEmptyTableState(extraProps) {
+  const ExtendedServerTableWithEmptyState = props => <ServerTableWithEmptyState {...props} {...extraProps} />;
+  ExtendedServerTableWithEmptyState.displayName = 'ExtendedServerTableWithEmptyState';
+  return ExtendedServerTableWithEmptyState;
 }
 
 function ServerTableWithEmptyState(props) {
