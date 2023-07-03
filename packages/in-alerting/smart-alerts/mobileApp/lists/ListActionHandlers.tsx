@@ -16,6 +16,7 @@ import {
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -35,6 +36,7 @@ function handleDelete(id: string, setIsSaving: (saving: boolean) => void, config
         close();
         deleteAlertConfig(id).once(
           () => {
+            trackAlertDeleteConfirm(id);
             refreshSmartAlertConfigsList();
           },
           () => {

@@ -27,6 +27,7 @@ import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseLi
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -37,12 +38,14 @@ import { t } from 'in-i18n';
 
 export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
   const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
+  const location = useLocation();
   return (
     <>
       <ViewTrackingMeta
         data={{
           productArea: 'MobileApp Monitoring',
-          pageRootName: 'Smart Alerts List'
+          pageRootName: 'Smart Alerts List',
+          pagePath: location?.pathname
         }}
       />
       <AlertBaseList<MobileAppAlertConfigWithMetadata>
