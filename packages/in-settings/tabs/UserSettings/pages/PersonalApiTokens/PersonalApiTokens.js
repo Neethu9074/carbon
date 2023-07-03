@@ -11,13 +11,13 @@ import {
   deletePersonalApiToken,
   getPersonalApiTokensOfUserAsResultObservable
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
-import { getEntityIdView, userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import CreatePersonalApiToken from './CreatePersonalApiToken';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import EditPersonalApiToken from './EditPersonalApiToken';
 import ApiList from 'in-settings/components/ApiList';
 import { user } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -43,7 +43,8 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
       {items.map(personalApiToken => (
         <Li
           key={personalApiToken.tokenId}
-          href$={getEntityIdView(userSettingsPersonalApiTokens, personalApiToken.tokenId)}
+          onClick={() => addActiveDialog(<EditPersonalApiToken onClose={close} current={personalApiToken} />)}
+          /*href$={getEntityIdView(userSettingsPersonalApiTokens, personalApiToken.tokenId)}*/
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}

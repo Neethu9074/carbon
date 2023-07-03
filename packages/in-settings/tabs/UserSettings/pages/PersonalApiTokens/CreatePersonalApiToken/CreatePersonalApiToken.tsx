@@ -51,18 +51,11 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
   const userId = user?.id ?? ('' as string);
 
   /**
-   * Error handler, displaying an error message if creation fails (e.g. Network)
+   * Handles a form submit
+   * @param e event to be handled
    */
-  const handleError = () => {
-    const message = t('in-settings:tabs.failedToCreatePersonalApiToken');
-    setErrors([{ code: 'SERVER', message }]);
-    setCreating(false);
-  };
-
-  /**
-   * Handler for creating a new PersonalApiToken
-   */
-  const doCreate = () => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setCreating(true);
 
     createPersonalApiToken({
@@ -70,24 +63,22 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
       accessGrantingToken: generateUniqueShortId(),
       userId,
       name: form.toJS()['name']
-    }).once(body => {
-      onCreated({
-        tokenId: body.tokenId,
-        name: body.name,
-        accessGrantingToken: body.accessGrantingToken,
-        userId: body.userId
-      });
-      setCreating(false);
-    }, handleError);
-  };
-
-  /**
-   * Handles a form submit
-   * @param e event to be handled
-   */
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    doCreate();
+    }).once(
+      body => {
+        onCreated({
+          tokenId: body.tokenId,
+          name: body.name,
+          accessGrantingToken: body.accessGrantingToken,
+          userId: body.userId
+        });
+        setCreating(false);
+      },
+      () => {
+        const message = t('in-settings:tabs.failedToCreatePersonalApiToken');
+        setErrors([{ code: 'SERVER', message }]);
+        setCreating(false);
+      }
+    );
   };
 
   /**
@@ -107,7 +98,7 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
       {form.get('name').map(field => (
         <FormGroup>
           <Label htmlFor="personal-api-token-name" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.createPersonalApiTokenNameDescription')}
+            {t('in-settings:tabs.personalApiTokenNameDescription')}
           </Label>
           <Input
             id="personal-api-token-name"

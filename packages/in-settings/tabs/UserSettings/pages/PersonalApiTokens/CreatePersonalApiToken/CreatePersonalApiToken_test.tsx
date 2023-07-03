@@ -50,9 +50,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalAp
     // headline for create-form
     expect(getByText('in-settings:tabs.createPersonalApiToken')).toBeInTheDocument();
     // label for token name
-    expect(getByText('in-settings:tabs.createPersonalApiTokenNameDescription')).toBeInTheDocument();
+    expect(getByText('in-settings:tabs.personalApiTokenNameDescription')).toBeInTheDocument();
     // input for token name
-    expect(getByLabelText('in-settings:tabs.createPersonalApiTokenNameDescription')).toBeInTheDocument();
+    expect(getByLabelText('in-settings:tabs.personalApiTokenNameDescription')).toBeInTheDocument();
 
     expect(getByText('forms.actions.save')).toBeInTheDocument();
     expect(getByText('forms.actions.cancel')).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalAp
 
     const { container, getByLabelText, getByText } = render(<CreatePersonalApiToken onClose={onClose} />);
 
-    const input = getByLabelText('in-settings:tabs.createPersonalApiTokenNameDescription');
+    const input = getByLabelText('in-settings:tabs.personalApiTokenNameDescription');
     fireEvent.change(input, { target: { value: '123' } });
     fireEvent.submit(container.querySelector('form') as HTMLFormElement);
 
@@ -89,7 +89,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalAp
 
     const { container, getByLabelText, queryByText, getByText } = render(<CreatePersonalApiToken onClose={onClose} />);
 
-    const input = getByLabelText('in-settings:tabs.createPersonalApiTokenNameDescription');
+    const input = getByLabelText('in-settings:tabs.personalApiTokenNameDescription');
     fireEvent.change(input, { target: { value: '123' } });
     fireEvent.submit(container.querySelector('form') as HTMLFormElement);
 
@@ -116,7 +116,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalAp
 
     const { getByLabelText, queryByText, getByText } = render(<CreatePersonalApiToken onClose={onClose} />);
 
-    const input = getByLabelText('in-settings:tabs.createPersonalApiTokenNameDescription');
+    const input = getByLabelText('in-settings:tabs.personalApiTokenNameDescription');
     fireEvent.change(input, { target: { value: '123' } });
     const submitBtn = getByText('forms.actions.save') as HTMLButtonElement;
     fireEvent.click(submitBtn);
