@@ -5,13 +5,15 @@
 
 import React from 'react';
 
-import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
+import {
+  GetLinkToExploreProps,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import { InfraAlertConfig, TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion } from 'in-types';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -21,11 +23,12 @@ interface Props {
 
 export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Props) {
   const { tagFilterExpression, rule } = alertConfig;
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
-  const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, timeConfig);
+  const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, timeConfig, getLinkToInfraEntityExplore);
 
   return (
-    <Button kind="primary" icon="lib_analyze_inverted" href$={linkToUA}>
+    <Button kind="primary" icon="lib_analyze_inverted" href={linkToUA}>
       {t('in-analyze:analyzeHeader.analyzeInfrastructureSelectedTitle')}
     </Button>
   );
@@ -34,25 +37,28 @@ export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Pro
 function getLinkToUnboundAnalytics(
   rule: GenericInfraAlertRule,
   tagFilterExpression: TagFilterExpressionElementUnion,
-  timeConfig: TimeConfig
-): Observable<string> {
+  timeConfig: TimeConfig,
+  getLinkToInfraEntityExplore: (getLinkToExploreProps: GetLinkToExploreProps) => string
+): string {
   const { metricName, aggregation, entityType } = rule;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  return getLinkToExplore({
-    tagFilterExpression: tagFilterFormModel,
-    type: entityType,
-    timeConfig,
-    metrics: [
-      {
-        metric: metricName,
-        aggregation
+  return urlWithoutQueryParameter(
+    getLinkToInfraEntityExplore({
+      tagFilterExpression: tagFilterFormModel,
+      type: entityType,
+      timeConfig,
+      metrics: [
+        {
+          metric: metricName,
+          aggregation
+        }
+      ],
+      order: {
+        by: `${metricName}.${aggregation}`,
+        direction: 'DESC'
       }
-    ],
-    order: {
-      by: `${metricName}.${aggregation}`,
-      direction: 'DESC'
-    }
-  }).map(urlWithoutQueryParameter);
+    })
+  );
 }

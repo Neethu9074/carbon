@@ -14,6 +14,10 @@ import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } fr
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
+import {
   hasApplicationsAccess,
   hasInfrastructureAccess,
   hasMobileAppsAccess,
@@ -31,7 +35,6 @@ import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/ta
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -46,6 +49,7 @@ import locals from './AnalyzeDataSourceSelector.mless';
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
@@ -253,7 +257,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'infrastructure',
           beta: true,
-          getHref$: getLinkToExploreDefault
+          getHref: () => getLinkToInfraEntityExplore(defaultInfraExploreViewParams)
         }
       ]
     },

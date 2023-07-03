@@ -5,13 +5,15 @@
 
 import React from 'react';
 
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import CsvExporter from 'in-components/CsvExporter';
 import { t } from 'in-i18n';
 
 export default function EntityListPresenter({ order, result, onChange, query }) {
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
   const columnDefinitions = [
     {
       id: 'label',
@@ -24,7 +26,7 @@ export default function EntityListPresenter({ order, result, onChange, query }) 
             <EntityLink
               label={item.label}
               plugin={item.type}
-              href$={getLinkToExplore({ type: item.type, group: {} })}
+              href={getLinkToInfraEntityExplore({ type: item.type, group: {} })}
             />
           </div>
         );

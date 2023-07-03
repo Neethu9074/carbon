@@ -7,6 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
+import { just } from '@instana/observables';
 
 import {
   filterAddedTracker,
@@ -34,7 +35,9 @@ import {
   groupMatrixParameter,
   orderMatrixParameter,
   typeMatrixParameter,
-  chartedMetricsMatrixParameter
+  chartedMetricsMatrixParameter,
+  useLinkToExplore as useLinkToInfraEntityExplore,
+  defaultInfraExploreViewParams
 } from 'in-infrastructure/navigation/paths';
 import GroupingConfigurator, {
   isGroupingConfigurationValid
@@ -49,7 +52,6 @@ import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
-import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
@@ -95,6 +97,7 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const [
     {
       tagFilterExpression,
@@ -145,7 +148,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
-      headerHref$={isInitPage ? null : defaultInfraExploreView}
+      headerHref$={isInitPage ? null : just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))}
       renderTypeSelector={!isInitPage}
     >
       <ViewTrackingMeta
@@ -356,6 +359,8 @@ function List({
   onChartedMetricsChange,
   chartedMetrics
 }) {
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
   if (isInitPage) {
     return (
       <EntityList
@@ -368,7 +373,7 @@ function List({
         }}
         order={order}
         type={type}
-        headerHref$={defaultInfraExploreView}
+        headerHref$={just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))}
       />
     );
   }

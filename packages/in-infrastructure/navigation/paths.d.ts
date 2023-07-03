@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Observable } from '@instana/observables';
-
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { AggregationType, Group, Order, TimeConfig } from 'in-types';
 
@@ -24,12 +22,6 @@ interface GetLinkToExploreProps {
   chartedMetrics?: Array<MetricItem>;
 }
 
-export function getLinkToExplore({
-  tagFilterExpression,
-  group,
-  type,
-  metrics,
-  order,
-  timeConfig,
-  chartedMetrics
-}: GetLinkToExploreProps): Observable<string>;
+export function useLinkToExplore(): (getLinkToExploreProps: GetLinkToExploreProps) => string;
+
+export const defaultInfraExploreViewParams: GetLinkToExploreProps;
