@@ -11,15 +11,12 @@ import { LoadingSkeleton } from '@instana/components';
 
 import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RoleAndAccessScopeColumns';
 import { success as successResult, error as errorResult, isLoading, hasError } from 'in-services/util/result';
-import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
-import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
-import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
@@ -161,21 +158,12 @@ const UserRenderer = props => {
 
       <Row>
         <Col lg={6}>
-          <Groups userId={userId} refresh={rbacImprovementEnabled ? refreshGroupsAndPermissions : refresh} />
+          <Groups userId={userId} refresh={refreshGroupsAndPermissions} />
         </Col>
         <Col lg={6}>
-          {rbacImprovementEnabled && <RoleAndAccessScopeColumns email={user.email} refresh={refreshPermissions} />}
-          {!rbacImprovementEnabled && <Areas userEmail={user.email} refresh={refresh} />}
+          <RoleAndAccessScopeColumns email={user.email} refresh={refreshPermissions} />
         </Col>
       </Row>
-
-      {!rbacImprovementEnabled && (
-        <Row>
-          <Col lg>
-            <UserPermissions userId={userId} />
-          </Col>
-        </Row>
-      )}
     </>
   );
 };

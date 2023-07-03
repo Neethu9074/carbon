@@ -18,7 +18,6 @@ import { ProductAreaPermissionMap } from '../RolesAndAccessScope/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
-import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
@@ -79,7 +78,6 @@ const columnDefinitions = [
   {
     getContent({ group }) {
       const isLimitedAccessGroup = () => {
-        if (group.permissionSet.permissions?.includes(RESTRICTED_ACCESS)) return true;
         for (const [, { limitation }] of Object.entries(ProductAreaPermissionMap)) {
           if (limitation && group.permissionSet.permissions?.includes(limitation)) return true;
         }

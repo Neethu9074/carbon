@@ -306,11 +306,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'rbacImprovementEnabled',
-    instanaCtlKey: 'feature.rbac.improvement.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false

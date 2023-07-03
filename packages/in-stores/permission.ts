@@ -16,12 +16,10 @@ import {
   vsphereEnabled,
   zhmcEnabled,
   sloV2Enabled,
-  powervcEnabled,
+  powervcEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-export const RESTRICTED_ACCESS = 'RESTRICTED_ACCESS';
 
 export const LimitedAccessScope = Object.freeze({
   LIMITED_WEBSITES_SCOPE: 'LIMITED_WEBSITES_SCOPE',
@@ -157,7 +155,7 @@ export const hasVSphereAccess =
   hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
 export const hasPHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
-  export const hasPowerVcAccess =
+export const hasPowerVcAccess =
   hasPermission(LimitedAccessScope.LIMITED_POWERVC_SCOPE, AreaPermission.ACCESS_POWERVC) && powervcEnabled;
 export const hasZHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
@@ -667,20 +665,9 @@ export function getProductPermissions(): Array<ProductPermission> {
   return permissions;
 }
 
-function getProductRestrictions() {
-  return [
-    {
-      value: RESTRICTED_ACCESS,
-      label: t('in-stores:permissionRestrictedLabel'),
-      help: t('in-stores:permissionRestrictedHelp')
-    }
-  ];
-}
-
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();
 export const productOwnerPermissions = getProductPermissions().filter(permission => permission.isOwnerPermission);
 export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
-export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
 export const fallBackPermissions = [...LimitedAccessScopes];

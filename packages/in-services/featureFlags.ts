@@ -80,9 +80,6 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
-// RBAC usability improvements
-export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
-
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',

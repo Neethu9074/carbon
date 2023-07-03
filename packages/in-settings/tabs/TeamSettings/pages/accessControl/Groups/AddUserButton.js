@@ -11,7 +11,6 @@ import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import CancelButton from 'in-components/form/CancelButton';
 import SaveButton from 'in-components/form/SaveButton';
@@ -24,11 +23,6 @@ import locals from './AddUserButton.mless';
 
 export default function AddUserButton({ members, addUsers, groupId }) {
   const onSubmit = (users, setIsSaving, setErrors) => {
-    const updateOldAndCloseDialog = () => {
-      setIsSaving(false);
-      addUsers(users);
-      close();
-    };
     const handleError = (message, code) => {
       if (!code) {
         code = 'server';
@@ -39,31 +33,29 @@ export default function AddUserButton({ members, addUsers, groupId }) {
       setIsSaving(false);
       setErrors([{ code: code, message }]);
     };
-    if (rbacImprovementEnabled) {
-      setIsSaving(true);
-      const userIds = users.map(user => user.id);
-      setUsersToGroup(groupId, userIds).once(
-        data => {
-          if (Number.isInteger(data.status) && data.status > 199 && data.status < 300) {
-            updateOldAndCloseDialog();
-          } else {
-            handleError(null, null);
-          }
-        },
-        errData => {
-          let code = null;
-          let message = null;
-          if (errData?.response?.status === 404) {
-            code = 'CLIENT';
-            const err = t('in-settings:tabs.groupNotFound');
-            message = t('in-settings:tabs.failedToAddUsersToGroup', { err });
-          }
-          handleError(message, code);
+    setIsSaving(true);
+    const userIds = users.map(user => user.id);
+    setUsersToGroup(groupId, userIds).once(
+      data => {
+        if (Number.isInteger(data.status) && data.status > 199 && data.status < 300) {
+          setIsSaving(false);
+          addUsers(users);
+          close();
+        } else {
+          handleError(null, null);
         }
-      );
-    } else {
-      updateOldAndCloseDialog();
-    }
+      },
+      errData => {
+        let code = null;
+        let message = null;
+        if (errData?.response?.status === 404) {
+          code = 'CLIENT';
+          const err = t('in-settings:tabs.groupNotFound');
+          message = t('in-settings:tabs.failedToAddUsersToGroup', { err });
+        }
+        handleError(message, code);
+      }
+    );
   };
   return (
     <Button
@@ -75,18 +67,6 @@ export default function AddUserButton({ members, addUsers, groupId }) {
     >
       {t('in-settings:tabs.addUser')}
     </Button>
-  );
-}
-/**
- * Provides a button as done before the featureFlag was introduced
- * @param {isSaving: boolean, disabled: boolean} param0 props for component
- * @returns new Component instance
- */
-function LegacyAddUserToGroupButton({ isSaving, disabled }) {
-  return (
-    <SaveButton isSaving={isSaving} className={locals.legacyButton} disabled={disabled} kind="primary">
-      {t('in-settings:tabs.addUserToGroup')}
-    </SaveButton>
   );
 }
 
@@ -144,11 +124,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
             labelColumn
           ]}
         />
-        {rbacImprovementEnabled ? (
-          <Actions isSaving={isSaving} disabled={disabled} />
-        ) : (
-          <LegacyAddUserToGroupButton isSaving={isSaving} disabled={disabled} />
-        )}
+        <Actions isSaving={isSaving} disabled={disabled} />
       </form>
     </Dialog>
   );
