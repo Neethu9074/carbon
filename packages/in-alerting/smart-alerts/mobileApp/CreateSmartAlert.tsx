@@ -15,6 +15,7 @@ import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/da
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -65,6 +66,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
             startWithSimpleMode
           />
         );
+        trackStartCreate();
       }}
       withBoxShadow
     >
