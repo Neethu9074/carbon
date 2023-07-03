@@ -5,40 +5,52 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
-import { isAdaptiveBaselineConfig } from '@instana/types';
+import {
+  CustomEventMobileAppAlertRule,
+  HistoricBaselineConfig,
+  MobileAppAlertConfigWithMetadata,
+  StaticThresholdConfig,
+  StatusCodeMobileAppAlertRule,
+  ThresholdConfig,
+  isAdaptiveBaselineConfig
+} from '@instana/types';
 
+//@ts-expect-error TS migration
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
-import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+//@ts-expect-error TS migration
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
+import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+//@ts-expect-error TS migration
+import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+//@ts-expect-error TS migration
+import ListTitle from 'in-components/lists/Title';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
-import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import ListTitle from 'in-components/lists/Title';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig }) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: MobileAppAlertConfigWithMetadata }) {
   const {
-    rule: { value, alertType, metricName, aggregation, customEventName },
+    rule: { alertType, metricName, aggregation },
     threshold,
     timeThreshold,
     granularity,
@@ -47,13 +59,16 @@ export default function AlertConfiguration({ alertConfig }) {
     mobileAppId
   } = alertConfig;
 
+  const value = (alertConfig.rule as StatusCodeMobileAppAlertRule).value;
+  const customEventName = (alertConfig.rule as CustomEventMobileAppAlertRule).customEventName;
+
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const mobileAppLabel = useMobileAppLabel(mobileAppId);
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
@@ -71,7 +86,10 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+        <AlertThresholdInfos
+          threshold={threshold as ThresholdConfig & StaticThresholdConfig & HistoricBaselineConfig}
+          rule={{ alertType, aggregation, metricName }}
+        />
       </ExpandableLightCard>
 
       <ChartViewConfigurator
@@ -121,8 +139,10 @@ export default function AlertConfiguration({ alertConfig }) {
         <div className={locals.paddingBodyWrapper}>
           <ScopeConfigPresenter
             tagFilterFormModel={tagFilterFormModel}
-            queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-            scopePath={<MobileAppScopePath mobileAppName={mobileAppLabel} />}
+            queryBuilder={
+              (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+            }
+            scopePath={<MobileAppScopePath mobileAppName={mobileAppLabel ?? undefined} />}
           />
         </div>
       </ExpandableLightCard>
@@ -156,12 +176,8 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} />
+        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger={false} />
       </ExpandableLightCard>
     </AlertDetailsCard>
   );
 }
-
-AlertConfiguration.propTypes = {
-  alertConfig: PropTypes.object.isRequired
-};
