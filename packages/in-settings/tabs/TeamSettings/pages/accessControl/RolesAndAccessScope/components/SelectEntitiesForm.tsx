@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { OrderDirection, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
@@ -152,6 +152,12 @@ function useSelectEntities<I>({
   const fetchedState = useFetchedStateObservable(observable);
   const withoutPreselectedState = filterByPreselection(fetchedState, preselectedIds, extractId);
   const filteredEntities = filterByName(withoutPreselectedState, nameQuery, extractName, orderDirection);
+
+  useEffect(() => {
+    // Ensure selectedIds is updated when preselectedIds changes,
+    // to avoid that already unselected ids are still shown as selected.
+    setSelectedIds(preselectedIds);
+  }, [preselectedIds]);
 
   return [
     allVisibleRowsSelected,
