@@ -24,7 +24,6 @@ import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
@@ -76,7 +75,6 @@ export default function AlertDetailsView() {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={get(test, ['data', 'label'])}
               withBorderBottom
-              renderMetaInformation={renderMetaInformation}
             />
             <DashboardHeaderShadowModule />
           </>
@@ -108,7 +106,3 @@ export default function AlertDetailsView() {
 function isMainPage(location: Location) {
   return location?.pathname === alertsTabDetailsFullyQualified;
 }
-
-const renderMetaInformation = () => {
-  return <BetaBadge />;
-};

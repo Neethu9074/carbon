@@ -122,7 +122,7 @@ export default function SyntheticAnalyzeView() {
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
 
   const renderMetaInformation = () => {
-    return <BetaBadge />;
+    return isBrowserTest ? <BetaBadge /> : null;
   };
   return (
     <>

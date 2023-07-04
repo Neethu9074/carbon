@@ -11,7 +11,9 @@ import {
   SETTINGS_AUTOMATION_ACTION_CREATE,
   SETTINGS_AUTOMATION_ACTION_EDIT,
   SETTINGS_AUTOMATION_ACTION_DELETE,
-  ACTION_SMART_ALERT_ASSOCIATED
+  ACTION_SMART_ALERT_ASSOCIATED,
+  AUTOMATION_ACTION_HISTORY_VIEW,
+  AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW
 } from 'in-services/tracking/tracking';
 
 export const associateActionsTracker = (e: any) => track(REMEDIATION_ASSOCIATE_ACTION, e);
@@ -21,3 +23,5 @@ export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION
 export const deleteActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_DELETE, e);
 export const trackAlertActionAssociated = (actions: string[], id: string) =>
   track(ACTION_SMART_ALERT_ASSOCIATED, { actions, id });
+export const actionHistoryTracker = () => track(AUTOMATION_ACTION_HISTORY_VIEW);
+export const actionHistoryInstanceViewTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, e);

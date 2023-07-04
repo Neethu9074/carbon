@@ -143,7 +143,7 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
-export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
+export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 

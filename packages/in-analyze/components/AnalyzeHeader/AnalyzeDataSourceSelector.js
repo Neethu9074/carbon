@@ -79,7 +79,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'logs',
-          beta: true,
           getHref$: getLinkToLogsAnalyze,
           onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
         }

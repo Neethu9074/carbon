@@ -11,6 +11,7 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { actionHistoryTracker } from 'in-automation/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { role } from 'in-stores/user';
@@ -45,6 +46,9 @@ export default function ViewSwitcher() {
               href={createHrefToPath(actionHistoryPath)}
               label={t('in-automation:actionHistory.actionHistory')}
               isActive={isHistoryActive}
+              onClick={() => {
+                actionHistoryTracker();
+              }}
             />
           )}
         </SecondLevelNavigation>

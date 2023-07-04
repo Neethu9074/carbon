@@ -34,11 +34,6 @@
     font-weight: 500;
     color: @lib__colors__N800Dark;
     margin-top: 0.5rem;
-
-    .betaBadge {
-      margin-top: 8px;
-      width: max-content;
-    }
   }
 
   .verticalAlignedCells {

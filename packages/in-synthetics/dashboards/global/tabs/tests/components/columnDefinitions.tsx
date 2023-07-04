@@ -21,6 +21,7 @@ import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/naviga
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
@@ -109,7 +110,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
     location,
     syntheticsDashboard,
     'type',
-    item?.testResultCommonProperties?.testCommonProperties?.type
+    getSyntheticType(item?.testResultCommonProperties?.testCommonProperties?.type ?? '')
   );
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
