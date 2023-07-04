@@ -1120,7 +1120,8 @@
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
-        "thresholdTitle": "Threshold: When is the condition violated?"
+        "thresholdTitle": "Threshold: When is the condition violated?",
+        "userImpactInfo": "Only authenticated users are considered for the user-impact threshold."
       }
     },
     "inventory": {

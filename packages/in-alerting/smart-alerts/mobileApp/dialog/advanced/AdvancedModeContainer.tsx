@@ -170,7 +170,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               onChange={onChange}
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasUserImpactOption={false}
+              hasUserImpactOption
+              userImpactInfo={t('in-alerting:smartAlerts.mobileApp.advanced.userImpactInfo')}
             />
           )
         },
