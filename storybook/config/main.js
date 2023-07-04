@@ -29,6 +29,9 @@ module.exports = {
   },
   framework: '@storybook/react',
   addons: ['@storybook/addon-essentials'],
+  typescript: {
+    reactDocgen: 'react-docgen-typescript-plugin'
+  },
   features: {
     emotionAlias: false
   }
