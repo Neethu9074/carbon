@@ -4,15 +4,13 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-import { compose } from 'recompose';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Button } from '@instana/components';
 
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
@@ -21,132 +19,107 @@ import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import getAccount from 'in-subscription/getAccount';
 import Dialog from 'in-components/Dialog/Dialog';
-import connect from 'in-hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './RequestQuoteDialog.mless';
 
-class RequestQuoteDialog extends React.Component {
-  static displayName = 'RequestQuoteDialog';
+export default connectTo({
+  result: getAccount()
+})(RequestQuoteDialog);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      error: false,
-      message: null
-    };
-  }
+function RequestQuoteDialog(props) {
+  const [form, setForm] = useState(() => getInitialState(props.result).form);
+  const [{ loading, error, message }, setState] = useState({ loading: true });
 
-  render() {
-    const { form } = this.props;
-    return (
-      <Dialog title={t('in-components:requestQuoteDialog.dialogRequestQuoteTitle')} onClose={close}>
-        {!form && (
-          <div className={locals.loadingState}>
-            <LoadingIndicator
-              className={locals.loadingStateIcon}
-              width={300}
-              text={t('in-components:requestQuoteDialog.dialogRequestLoadingText')}
-            />
-          </div>
-        )}
-
-        {form && (
-          <form onSubmit={this.onSubmit}>
-            {this.state.message ? (
-              <Section>
-                <div className={locals.notificationWrapper}>
-                  <Notification failure={this.state.error} success={!this.state.error} loading={this.state.loading}>
-                    {this.state.message}
-                  </Notification>
-                </div>
-              </Section>
-            ) : null}
-
-            {form ? <RequestQuoteForm form={form} onChange={this.onChange} /> : null}
-
-            {form ? (
-              <div className={locals.buttonWrapper}>
-                <Button kind="action" onClick={close}>
-                  {t('forms.actions.cancel')}
-                </Button>
-                <Button kind="primary" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  {t('forms.actions.submit')}
-                </Button>
-              </div>
-            ) : null}
-          </form>
-        )}
-      </Dialog>
-    );
-  }
-
-  onChange = (fieldName, value) => {
-    const updatedForm = this.props.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-
-    this.props.setForm(updatedForm);
-  };
-
-  componentWillUnmount() {
-    if (this.requestQuoteSubscription) {
-      this.requestQuoteSubscription.dispose();
-      this.requestQuoteSubscription = null;
+  function disposeSubscription(subscription) {
+    if (subscription) {
+      subscription.dispose();
     }
   }
 
-  onSubmit = e => {
+  useEffect(() => {
+    setForm(getInitialState(props.result).form);
+  }, [props.result]);
+
+  const onChange = (fieldName, value) => {
+    const updatedForm = form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+
+    setForm(updatedForm);
+  };
+
+  const onSubmit = e => {
     e.preventDefault();
 
     track(REQUEST_QUOTE_SUBMITTED);
 
-    if (!this.props.form.hierarchyValid) {
-      this.props.setForm(this.props.form.setTouched(true, { recurse: true }));
+    if (!loading && !form.hierarchyValid) {
+      setForm(form.setTouched(true, { recurse: true }));
       return;
     }
+    setState({ loading: true, error: false, message: null });
 
-    this.setState({ loading: true, error: false, message: null });
-
-    this.requestQuoteSubscription = requestQuote(this.props.form.toJS()).subscribe(result => {
+    const requestQuoteSubscription = requestQuote(form.toJS()).subscribe(result => {
       if (result.progress.loading) {
         return;
       } else if (result.errors.length > 0) {
-        this.setState({
-          loading: false,
-          error: true,
-          message: result.errors.map(e => e.message).join(' ')
-        });
-        return;
+        setState({ loading: false, error: true, message: result.errors.map(e => e.message).join(' ') });
+        disposeSubscription(requestQuoteSubscription);
       } else {
-        this.setState({
+        setState({
           loading: false,
           error: false,
           message: t('in-components:requestQuoteDialog.dialogRequestQuoteSubmittedMsg')
         });
         setTimeout(close, 3000);
+        disposeSubscription(requestQuoteSubscription);
       }
     });
   };
+
+  return (
+    <Dialog title={t('in-components:requestQuoteDialog.dialogRequestQuoteTitle')} onClose={close}>
+      {!form && (
+        <div className={locals.loadingState}>
+          <LoadingIndicator
+            className={locals.loadingStateIcon}
+            width={300}
+            text={t('in-components:requestQuoteDialog.dialogRequestLoadingText')}
+          />
+        </div>
+      )}
+
+      {form && (
+        <form onSubmit={onSubmit}>
+          {message ? (
+            <Section>
+              <div className={locals.notificationWrapper}>
+                <Notification failure={error} success={!error} loading={loading}>
+                  {message}
+                </Notification>
+              </div>
+            </Section>
+          ) : null}
+
+          {form ? <RequestQuoteForm form={form} onChange={onChange} /> : null}
+
+          {form ? (
+            <div className={locals.buttonWrapper}>
+              <Button kind="action" onClick={close}>
+                {t('forms.actions.cancel')}
+              </Button>
+              <Button kind="primary" type="submit" disabled={!form.hierarchyValid && form.touched}>
+                {t('forms.actions.submit')}
+              </Button>
+            </div>
+          ) : null}
+        </form>
+      )}
+    </Dialog>
+  );
 }
 
-export default compose(
-  connect({
-    result: getAccount()
-  }),
-  withPropDependingState({
-    getInitialState,
-    resets: [
-      {
-        getResettingProps: () => ['result'],
-        onReset: getInitialState
-      }
-    ],
-    reducerName: 'setForm',
-    reducer: (prevState, form) => ({ form })
-  })
-)(RequestQuoteDialog);
-
-function getInitialState({ result }) {
+function getInitialState(result) {
   if (!result || result.progress.loading) {
     return emptyObject;
   } else if (result.errors.length > 0) {

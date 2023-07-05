@@ -101,7 +101,7 @@ export default function ServiceEndpointList({
       get={getTableData}
       defaultPageSize={5}
       columnDefinitions={columnDefinitions}
-      paginationResettingProps={{ traceId }}
+      paginationResettingProps={[traceId]}
       defaultOrderBy="aggregatedTime"
       defaultOrderDirection="DESC"
       size="compact"

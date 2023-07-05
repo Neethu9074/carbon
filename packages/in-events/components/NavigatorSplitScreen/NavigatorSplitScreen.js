@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { compose } from 'recompose';
-import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -13,7 +12,6 @@ import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/N
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
@@ -22,34 +20,16 @@ import { t } from 'in-i18n';
 
 import locals from './NavigatorSplitScreen.mless';
 
-export default compose(
-  connectTo({
-    screenWidth: debouncedResize$
-      .startWith(true)
-      .map(() => window.innerWidth)
-      .distinct()
-  }),
-  withPropDependingState({
-    getInitialState,
-    resets: [
-      {
-        getResettingProps: () => ['screenWidth'],
-        onReset: getInitialState
-      }
-    ],
-    reducerName: 'setExpanded',
-    reducer: (prevState, expanded) => ({
-      ...prevState,
-      expanded
-    })
-  })
-)(NavigatorSplitScreen);
-
-function getInitialState({ screenWidth }) {
-  return {
-    expanded: screenWidth >= 1680
-  };
+function getInitialState(screenWidth) {
+  return screenWidth >= 1680;
 }
+
+export default connectTo({
+  screenWidth: debouncedResize$
+    .startWith(true)
+    .map(() => window.innerWidth)
+    .distinct()
+})(NavigatorSplitScreen);
 
 function NavigatorSplitScreen({
   navigator,
@@ -64,10 +44,14 @@ function NavigatorSplitScreen({
   loadMore,
   progress,
   children,
-  expanded,
-  setExpanded,
+  screenWidth,
   resultPrecisionDetails
 }) {
+  const [expanded, setExpanded] = useState(getInitialState(screenWidth));
+  useEffect(() => {
+    setExpanded(getInitialState(screenWidth));
+  }, [screenWidth]);
+
   const nextOpenItemIndex = findNextIndexToOpen(openItemIndex, items);
   const prevOpenItemIndex = findPrevIndexToOpen(openItemIndex, items);
   const hasNext = openItemIndex < nextOpenItemIndex;
