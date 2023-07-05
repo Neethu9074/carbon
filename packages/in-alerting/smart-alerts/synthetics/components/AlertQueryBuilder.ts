@@ -30,7 +30,7 @@ export function createBoundedAlertQueryBuilder(suggestionTimeConfig?: TimeConfig
   });
 }
 
-// The getTagCatalog can be injected
+// The getTagCatalog can be injected for story book
 export function createBoundedAlertQueryBuilderFactory(
   getTagCatalogTest: (props: GetTagCatalogProps) => Observable<Result<TagCatalog>>,
   suggestionTimeConfig?: TimeConfig
@@ -55,7 +55,8 @@ function tagSuggestionArgs(args: GetSuggestionsProps, suggestionTimeConfig?: Tim
     ...args,
     tagName: args.name,
     timeConfig: suggestionTimeConfig ?? args.timeConfig,
-    secondLevelKeyTagName: args.key
+    secondLevelKeyTagName: args.key,
+    value: args.value
   };
 }
 
