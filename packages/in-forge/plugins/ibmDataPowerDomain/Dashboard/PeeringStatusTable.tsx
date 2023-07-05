@@ -98,7 +98,7 @@ export default function peeringStatusTable({
   const rows = snapshot
     .getIn(['data'], List())
     .map((_value: string, key: string) => {
-      if (key.startsWith('peeringStatus')) {
+      if (key.startsWith('peeringStatus.')) {
         const prefix = key.substring(0, key.lastIndexOf('.'));
         if (!uniqueKeys.has(prefix)) {
           uniqueKeys.add(prefix);

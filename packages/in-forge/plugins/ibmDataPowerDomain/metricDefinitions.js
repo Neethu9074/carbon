@@ -40,5 +40,17 @@ export default [
     category: [t('in-forge:plugins.ibmDataPowerDomain.peeringStatus')],
     min: 0,
     formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'peeringStatus',
+      'offset',
+      t('in-forge:plugins.ibmDataPowerDomain.peeringStatusCombination'),
+      'any'
+    ),
+    label: t('in-forge:plugins.ibmDataPowerDomain.peeringStatusOffset'),
+    category: [t('in-forge:plugins.ibmDataPowerDomain.peeringStatus')],
+    min: 0,
+    formatter: number
   }
 ];
