@@ -137,12 +137,6 @@ const handleSubmit = ({
 
   const newFeedback = form.get('feedback').value;
   const newComment = form.get('comment').value;
-  // tracks feedback and comment
-  actionHistoryInstanceFeedbackTracker({
-    actionInstanceId: id,
-    actionInstanceFeedback: newFeedback,
-    actionInstanceComment: newComment
-  });
 
   updateActionInstanceFeedback({
     id,
@@ -158,6 +152,12 @@ const handleSubmit = ({
       setTimeout(() => {
         setSuccess(false);
       }, 5 * 1000);
+      // tracks feedback and comment
+      actionHistoryInstanceFeedbackTracker({
+        actionInstanceId: id,
+        actionInstanceFeedback: newFeedback,
+        actionInstanceComment: newComment
+      });
     },
     () => {
       setIsSaving(false);
