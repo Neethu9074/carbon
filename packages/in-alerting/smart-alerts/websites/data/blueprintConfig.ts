@@ -142,7 +142,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getThresholdTypeOptions: () => websitesThresholdTypeOptions,
   thresholdDefaults: {
     operator: '>='
-  },
+  } as const,
   getEntityTagFilterFormModel: (alertConfig: WebsiteAlertConfig) =>
     tagFilter('beacon.website.id', EQUALS, alertConfig.websiteId),
   getRuleTagFilterFormModel: () => [],

@@ -27,6 +27,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { useAlertConfigLink } from 'in-websites/navigation/paths';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -196,6 +197,7 @@ function getPropertyValue(entity, key) {
 const typeLabels = Object.freeze({
   ApplicationSmartAlert: t('in-settings:tabs.applicationSmartAlert'),
   WebsiteSmartAlert: t('in-settings:tabs.websiteSmartAlert'),
+  MobileSmartAlert: t('in-settings:tabs.mobileSmartAlert'),
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert'),
   SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert')
 });
@@ -206,11 +208,14 @@ function AlertChannelLabel({ entity }) {
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
+  const mobileAlertConfigLink = useGetAlertConfigLink();
 
   let href;
   let href$;
   if (type === 'WebsiteSmartAlert') {
     href = websiteAlertConfigLink;
+  } else if (type === 'MobileSmartAlert') {
+    href = mobileAlertConfigLink(id, entityId);
   } else if (type === 'ApplicationSmartAlert') {
     href = getApplicationsAlertConfig(id, entityId);
   } else if (type === 'GlobalApplicationSmartAlert') {

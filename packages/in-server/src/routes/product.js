@@ -116,11 +116,12 @@ router.get('/', async (req, res) => {
     const [statusCode, userStr] = await getCurrentUser(req);
     if (statusCode === 401) {
       const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
+      const clientConfig = await configResolver.getClientConfig(req, req.tenant, req.unit);
       const nonce = uuidv4();
-      if (serverConfig.clientConfig.featureFlags?.playwithEnabled) {
+      if (clientConfig.featureFlags?.playwithEnabled) {
         res.status(401).send(
           compiledRedirectTemplate({
-            signInUrl: `https://www.instana.com/apm-observability-sandbox`
+            signInUrl: `https://www.ibm.com/account/reg/us-en/signup?formid=urx-52153&`
           })
         );
       } else {

@@ -41,7 +41,7 @@ import {
   operators,
   SERVICE
 } from 'in-analyze/applicationFilter';
-import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';

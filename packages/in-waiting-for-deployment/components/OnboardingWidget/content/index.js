@@ -14,7 +14,6 @@ import GoogleCloudRunContent from 'in-waiting-for-deployment/components/Onboardi
 import IBMServerlessContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/IBMServerlessContent';
 import ManualWindowsContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ManualWindowsContent';
 import OpenShiftHelmContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/OpenShiftHelmContent';
-import ManualIBMApmContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ManualIBMApmContent';
 import K8sDaemonSetContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/K8sDaemonSetContent';
 import K8sHelmChartContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/K8sHelmChartContent';
 import ManualMacOsContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ManualMacOsContent';
@@ -304,13 +303,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: ElasticComputingWindowsContent
         }
       ]
-    },
-    {
-      label: t('in-waiting-for-deployment:content.IBM'),
-      category: t('in-waiting-for-deployment:content.integrations'),
-      keyWords: 'ibmapm',
-      icon: 'lib_infra_apmproxy',
-      Content: ManualIBMApmContent
     }
   ];
 }

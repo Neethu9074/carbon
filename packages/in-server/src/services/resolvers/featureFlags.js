@@ -306,11 +306,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'rbacImprovementEnabled',
-    instanaCtlKey: 'feature.rbac.improvement.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
@@ -348,7 +343,7 @@ module.exports = exports = [
   {
     uiClientKey: 'recurrentMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'recurrentMaintenanceWindowsTabsEnabled',
@@ -357,7 +352,12 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'mobileAppSmartAlertsEnabled',
-    instanaCtlKey: 'feature.mobile.app.smart.alerts.enabled',
+    instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
     defaultValue: false
   },
   {
@@ -368,6 +368,11 @@ module.exports = exports = [
   {
     uiClientKey: 'userSettingsThemeEnabled',
     instanaCtlKey: 'feature.user.settings.theme.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
+    instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
     defaultValue: false
   }
 ];

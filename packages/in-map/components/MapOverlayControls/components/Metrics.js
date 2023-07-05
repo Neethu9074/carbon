@@ -174,7 +174,7 @@ function getMetricList(view) {
   if (view === types.container) {
     return {
       CPU: {
-        Usage: [
+        TotalUsage: [
           {
             name: 'cpu.total_usage',
             label: t('in-map:totalCpuUsage'),
@@ -183,7 +183,7 @@ function getMetricList(view) {
         ]
       },
       Memory: {
-        MemUsage: [{ name: 'memory.usage', label: t('in-map:memoryUsage'), timeWindowAggregation: 'mean' }]
+        Usage: [{ name: 'memory.usage', label: t('in-map:memoryUsage'), timeWindowAggregation: 'mean' }]
       }
     };
   }

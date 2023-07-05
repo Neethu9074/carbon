@@ -44,5 +44,5 @@ export default connectTo(
 );
 
 function getDetails([plugin]) {
-  return plugin && fromPromise(getForgeComponent(`./${plugin}/Info.js`));
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Info`));
 }

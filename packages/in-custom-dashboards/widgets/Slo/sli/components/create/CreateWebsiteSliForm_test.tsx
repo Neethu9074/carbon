@@ -7,9 +7,9 @@ import { shallow } from 'enzyme';
 import { isMatch } from 'lodash';
 import React from 'react';
 
-import { useValidateWebsiteFilterExpression as uVWFE } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
 import { SliConfig, websiteEventBased, websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateWebsiteSliForm';
+import { useValidateWebsiteFilterExpression as uVWFE } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from 'in-types';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
@@ -21,7 +21,7 @@ jest.mock('in-websites/hooks/useWebsite', () => ({
   __esModule: true,
   default: jest.fn(() => [undefined, 'pending', []])
 }));
-jest.mock('in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder', () => ({
+jest.mock('in-service-levels/hooks/useWebsiteQueryBuilder', () => ({
   useWebsiteQueryBuilder: jest.fn(() => ({ QueryBuilder: jest.fn(), isQueryValid: jest.fn() })),
   useValidateWebsiteFilterExpression: jest.fn(() => false)
 }));

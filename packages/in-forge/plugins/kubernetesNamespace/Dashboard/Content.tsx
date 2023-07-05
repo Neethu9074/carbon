@@ -12,6 +12,7 @@ import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function KubernetesNamespaceDashboard({ snapshot }: Props) {
-  const to: string = useNamespaceDashboard(snapshot.id);
+  const href: string = useNamespaceDashboard(snapshot.get('id'));
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }

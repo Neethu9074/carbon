@@ -9,18 +9,12 @@ import React from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-// Files below are shared files coming from in-custom-dashboards. There is a plan to move these components to a proper shared folders,
-// but for now it is a faster solution
-// eslint-disable-next-line
-import BoundaryScopeConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BoundaryScopeConfigurator';
-import { ApplicationTagFilterBuilder } from 'in-service-levels/components/SloList/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
-// eslint-disable-next-line
-import HiddenCallsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/HiddenCallsConfigurator';
+import { ApplicationTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
+import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
+import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
+import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
+import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import { ApplicationSloForm, ApplicationSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
-// eslint-disable-next-line
-import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-// eslint-disable-next-line
-import ServiceSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

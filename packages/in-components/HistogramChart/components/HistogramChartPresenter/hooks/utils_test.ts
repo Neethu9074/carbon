@@ -4,7 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Bins, createBinsArrayObject, getMaxLabelCharsCount, groupBinsByFormattedValue, isLabelVisible } from './utils';
+import {
+  Bins,
+  createBinsArrayObject,
+  formatBins,
+  getMaxLabelCharsCount,
+  groupBinsByFormattedValue,
+  isLabelVisible,
+  roundUp
+} from './utils';
+import { formatters } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 
 const maxVisibleLabels = 5;
 
@@ -75,19 +84,23 @@ describe('createBinsArrayObject', () => {
 
   it('with multiple bins', () => {
     const bins: Bins = [
-      [0, 10],
-      [10, 20],
-      [20, 30],
-      [30, 40]
+      ['0%', 1],
+      ['10,000%', 1],
+      ['15,000%', 1],
+      ['20,000%', 1],
+      ['25,000%', 1],
+      [null, 2]
     ];
 
     const result = createBinsArrayObject({ bins, maxVisibleLabels });
 
     expect(result).toEqual([
-      { calls: 10, from: null, tickMark: true, to: 0 },
-      { calls: 20, from: 0, tickMark: true, to: 10 },
-      { calls: 30, from: 10, tickMark: true, to: 20 },
-      { calls: 40, from: 20, tickMark: true, to: 30 }
+      { calls: 1, from: null, tickMark: true, to: '0%' },
+      { calls: 1, from: '0%', tickMark: true, to: '10,000%' },
+      { calls: 1, from: '10,000%', tickMark: true, to: '15,000%' },
+      { calls: 1, from: '15,000%', tickMark: true, to: '20,000%' },
+      { calls: 1, from: '20,000%', tickMark: true, to: '25,000%' },
+      { calls: 2, from: '25,000%', tickMark: true, to: null }
     ]);
   });
 
@@ -574,5 +587,286 @@ describe('getMaxLabelCharsCount', () => {
     const result = getMaxLabelCharsCount(bins);
 
     expect(result).toEqual(24);
+  });
+});
+
+describe('formatBins', () => {
+  it('empty array', () => {
+    const bins: Bins = [];
+    const formatter = {
+      name: 'percentage',
+      type: 'compact',
+      applyFormatter: formatters.percentage.compact
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([]);
+  });
+
+  it('with non-values', () => {
+    const bins: Bins = [
+      [10, 5],
+      [20, 10],
+      [30, 3]
+    ];
+    const formatter = {
+      name: 'percentage',
+      type: 'compact',
+      applyFormatter: formatters.percentage.compact
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['1,000%', 5],
+      ['2,000%', 10],
+      ['3,000%', 3]
+    ]);
+  });
+
+  it('with special cases - number 42 formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'number',
+      type: 'compact',
+      applyFormatter: formatters.number.compact
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0', 0],
+      ['0', 3455374],
+      ['1', 0],
+      ['1', 35295],
+      ['1', 7010],
+      ['1', 10575],
+      ['1', 4945],
+      ['1', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - number 42.12 formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'number',
+      type: 'detailed',
+      applyFormatter: formatters.number.detailed
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0.00', 0],
+      ['0.00', 3455374],
+      ['0.01', 0],
+      ['0.02', 35295],
+      ['0.09', 7010],
+      ['0.10', 10575],
+      ['0.11', 4945],
+      ['0.43', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - bytes e.g. 3MiB formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'bytes',
+      type: 'compact',
+      applyFormatter: formatters.bytes.compact
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0 B', 0],
+      ['0 B', 3455374],
+      ['1 B', 0],
+      ['1 B', 35295],
+      ['1 B', 7010],
+      ['1 B', 10575],
+      ['1 B', 4945],
+      ['1 B', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - bytes e.g. 3.00MiB formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'bytes',
+      type: 'detailed',
+      applyFormatter: formatters.bytes.detailed
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0.00 B', 0],
+      ['0.00 B', 3455374],
+      ['0.01 B', 0],
+      ['0.02 B', 35295],
+      ['0.09 B', 7010],
+      ['0.10 B', 10575],
+      ['0.11 B', 4945],
+      ['0.43 B', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - milliseconds e.g. 42ms formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'millis',
+      type: 'compact',
+      applyFormatter: formatters.millis.compact
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0ms', 0],
+      ['0ms', 3455374],
+      ['1ms', 0],
+      ['1ms', 35295],
+      ['1ms', 7010],
+      ['1ms', 10575],
+      ['1ms', 4945],
+      ['1ms', 10],
+      [null, 0]
+    ]);
+  });
+
+  it('with special cases - milliseconds e.g. 42.15ms formatter', () => {
+    const bins: Bins = [
+      [0, 0],
+      [0, 3455374],
+      [0.0093, 0],
+      [0.0103, 35295],
+      [0.0839, 7010],
+      [0.0922, 10575],
+      [0.1015, 4945],
+      [0.424, 10],
+      [null, 0]
+    ];
+    const formatter = {
+      name: 'millis',
+      type: 'detailed',
+      applyFormatter: formatters.millis.detailed
+    };
+
+    const result = formatBins({ bins, formatter });
+
+    expect(result).toEqual([
+      ['0.00ms', 0],
+      ['0.00ms', 3455374],
+      ['0.01ms', 0],
+      ['0.02ms', 35295],
+      ['0.09ms', 7010],
+      ['0.10ms', 10575],
+      ['0.11ms', 4945],
+      ['0.43ms', 10],
+      [null, 0]
+    ]);
+  });
+});
+
+describe('roundUp', () => {
+  it('rounding up to 0 decimal places', () => {
+    const value = 3.14;
+    const decimalPlaces = 0;
+
+    const result = roundUp({ value, decimalPlaces });
+
+    expect(result).toEqual(4);
+  });
+
+  it('rounding up to 2 decimal places', () => {
+    const value = 3.14159;
+    const decimalPlaces = 2;
+
+    const result = roundUp({ value, decimalPlaces });
+
+    expect(result).toEqual(3.15);
+  });
+
+  it('rounding up negative values', () => {
+    const value = -1.234;
+    const decimalPlaces = 2;
+
+    const result = roundUp({ value, decimalPlaces });
+
+    expect(result).toEqual(-1.23);
+  });
+
+  it('rounding up a whole number', () => {
+    const value = 6;
+    const decimalPlaces = 1;
+
+    const result = roundUp({ value, decimalPlaces });
+
+    expect(result).toEqual(6);
+  });
+
+  it('rounding up to large decimal number of decimals', () => {
+    const value = 1.23456789;
+    const decimalPlaces = 8;
+
+    const result = roundUp({ value, decimalPlaces });
+
+    expect(result).toEqual(1.23456789);
   });
 });

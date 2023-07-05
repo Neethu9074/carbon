@@ -368,6 +368,8 @@ export default {
   'Trace with missing root span': {
     id: 'fake_root',
     label: 'Root call not yet received',
+    start: 80,
+    duration: 35,
     children: [
       {
         id: '2',
@@ -386,7 +388,8 @@ export default {
           }
         ],
         service: {},
-        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' },
+        isOrphan: true
       },
       {
         id: '3',
@@ -395,7 +398,8 @@ export default {
         duration: 5,
         children: [],
         service: {},
-        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' },
+        isOrphan: true
       }
     ],
     service: {},

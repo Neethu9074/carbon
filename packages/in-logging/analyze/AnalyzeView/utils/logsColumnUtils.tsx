@@ -21,7 +21,7 @@ interface LogLevelColumnProps {
 
 export const logLevelColumn = {
   id: 'logLevel',
-  width: '4.5rem',
+  width: 'fit-content',
   widthInAbsoluteUnit: true,
   getContent({ tags, onSelectTagHref }: LogLevelColumnProps) {
     return (

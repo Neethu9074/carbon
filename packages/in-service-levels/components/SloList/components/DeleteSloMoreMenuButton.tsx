@@ -1,0 +1,26 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React from 'react';
+
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { t } from '@instana/i18n-react';
+
+import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
+import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+
+interface Props {
+  configuration: ServiceLevelObjectiveConfiguration;
+}
+
+export default function DeleteSloMoreMenuButton({ configuration }: Props) {
+  const doDelete = useDoDeleteSloConfiguration(configuration);
+  return (
+    <MoreMenuButton icon="lib_actions_delete" onClick={doDelete}>
+      {t('in-service-levels:general.deleteButtonLabel')}
+    </MoreMenuButton>
+  );
+}

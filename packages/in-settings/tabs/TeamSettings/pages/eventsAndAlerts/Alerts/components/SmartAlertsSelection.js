@@ -48,7 +48,7 @@ function SelectedSmartAlertsList({ form, setForm, isAutomation }) {
 
   return (
     <List
-      title={title}
+      title={!isAutomation ? title : null}
       columnDefinitions={getColumnDefinitions(form, setForm)}
       loadEntities={() => loadEntities(selection)}
       searchAttributes={[getEntityName, getEntityType]}

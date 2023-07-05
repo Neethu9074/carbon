@@ -11,7 +11,7 @@ import { Observable } from '@instana/observables';
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
+} from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { createForm, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';

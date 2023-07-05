@@ -17,7 +17,8 @@ import {
   ActionAssociation,
   ActionAssociations,
   ApplicationAlertConfigWithMetadata,
-  Result
+  Result,
+  ActionInstance
 } from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
@@ -177,7 +178,7 @@ export const createDocLinkField = (value: string): Field => ({
 interface ScriptFields {
   value: string;
   subtype: string;
-  timeout: string
+  timeout: string;
 }
 
 export const createScriptFields = ({ value, subtype, timeout }: ScriptFields): Field[] => [
@@ -554,5 +555,30 @@ export function getAllAssociations() {
     maxRetries: 3,
     url: `${associationsUrl}`,
     headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+interface UpdateActionParams {
+  id: string;
+  feedback: string;
+  to: number;
+  windowSize: number;
+  comment: string;
+}
+
+export function updateActionInstanceFeedback({ id, feedback, to, windowSize, comment }: UpdateActionParams) {
+  return http<ActionInstance>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
+    data: {
+      feedback: parseInt(feedback),
+      comment: comment || ''
+    },
+    headers: getCsrfHeader(),
+    queryParams: {
+      to,
+      windowSize
+    }
   }).map(response => response.body);
 }

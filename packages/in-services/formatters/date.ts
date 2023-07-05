@@ -43,7 +43,9 @@ export function parseDate(dateString: string): Date {
 
 function parseDateAsUtc(dateString: string): Date {
   const dateAccordingToLocalTime: Date = parseDateAccordingToLocalTime(dateString);
-
+  // Need to replicate the same behaviour as parseDateAccordingToLocalTime which returns NaN upon an invalid date
+  // If this check doesn't exist then an error gets thrown which may crash UI elements
+  if (isNaN(dateAccordingToLocalTime.getTime())) return dateAccordingToLocalTime;
   return zonedTimeToUtc(dateAccordingToLocalTime, 'UTC');
 }
 
@@ -57,7 +59,9 @@ export function parseDateTime(dateTimeString: string): Date {
 
 function parseDateTimeAsUtc(dateTimeString: string): Date {
   const dateTimeAccordingToLocalTime: Date = parseDateTimeAccordingToLocalTime(dateTimeString);
-
+  // Need to replicate the same behaviour as parseDateTimeAccordingToLocalTime which returns NaN upon an invalid date
+  // If this check doesn't exist then an error gets thrown which may crash UI elements
+  if (isNaN(dateTimeAccordingToLocalTime.getTime())) return dateTimeAccordingToLocalTime;
   return zonedTimeToUtc(dateTimeAccordingToLocalTime, 'UTC');
 }
 

@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps, withState } from 'recompose';
-import { createMapForm, createField } from 'formalistic';
-import React from 'react';
+import { createField, createMapForm } from 'formalistic';
+import React, { useState } from 'react';
 
 import { Toggle } from '@instana/components';
 
@@ -19,8 +18,8 @@ import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default compose(
-  withState('state', 'setState', ({ config }) => ({
+export default function DuplicateDashboardDialog({ config }) {
+  const [state, setState] = useState(() => ({
     form: createMapForm()
       .put(
         'title',
@@ -37,8 +36,9 @@ export default compose(
       ),
     isSaving: false,
     errors: null
-  })),
-  withProps(({ state, setState, config }) => ({
+  }));
+
+  const presenterProps = {
     header: t('in-custom-dashboards:duplicateDashboardDialog.duplicateDashboard'),
     headerIcon: 'lib_views_grid',
     inputLabel: t('in-custom-dashboards:duplicateDashboardDialog.dashboardName'),
@@ -83,7 +83,6 @@ export default compose(
           }
         ];
       }
-
       addCustomDashboard({
         title: state.form.get('title').value,
         accessRules,
@@ -118,9 +117,7 @@ export default compose(
             });
           }
         );
-    }
-  })),
-  withProps(({ state, setState, config }) => ({
+    },
     additionalFields:
       config.accessRules.length > 0 &&
       state.form.get('copySharingConfiguration').map(field => (
@@ -147,5 +144,7 @@ export default compose(
           }
         />
       ))
-  }))
-)(PromptPresenter);
+  };
+
+  return <PromptPresenter {...presenterProps} />;
+}

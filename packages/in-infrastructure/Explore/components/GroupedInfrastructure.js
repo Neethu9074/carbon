@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import {
   ColumnizedContent,
@@ -21,6 +21,7 @@ import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/Me
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
@@ -31,7 +32,6 @@ import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
 import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -53,9 +53,9 @@ export default function GroupedInfrastructure(props) {
 
   const granularity = getGranularity(timeConfig);
   const tagType = group?.tagType;
-  const fullQualifiedGroup = group.groupbyTagSecondLevelKey
+  const fullQualifiedGroup = useMemo(() => group.groupbyTagSecondLevelKey
     ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
-    : group.groupbyTag;
+    : group.groupbyTag, [group.groupbyTagSecondLevelKey, group.groupbyTag]);
 
   const cursorPaginatedProps = useCursorPagination(
     ({ cursor }) =>
@@ -116,6 +116,7 @@ function Presenter({
   query,
   onQueryChange
 }) {
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
@@ -135,7 +136,8 @@ function Presenter({
     metrics,
     type,
     onFocusOnGroup: tracking?.onFocusOnGroup,
-    metricMetadatas
+    metricMetadatas,
+    getLinkToInfraEntityExplore
   });
   const groupSortOptions = fullQualifiedGroup
     ? [
@@ -246,7 +248,8 @@ function columns({
   timeConfig,
   granularity,
   onFocusOnGroup,
-  metricMetadatas
+  metricMetadatas,
+  getLinkToInfraEntityExplore
 }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
@@ -338,7 +341,7 @@ function columns({
             <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
               <IconLink
                 type="lib_actions_filter"
-                href$={getLinkToExplore(getParamsForGroup(group))}
+                href={getLinkToInfraEntityExplore(getParamsForGroup(group))}
                 onClick={() => onFocusOnGroup?.(group)}
               />
             </Tooltip>

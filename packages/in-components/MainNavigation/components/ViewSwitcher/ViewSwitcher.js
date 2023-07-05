@@ -42,6 +42,10 @@ import {
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
+import {
   agentsPath,
   containerPath,
   isTableView,
@@ -74,7 +78,6 @@ import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths'
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
-import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -214,7 +217,7 @@ export default function ViewSwitcher({
             <SubViewItem
               label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
               className={locals.linkElement}
-              href="https://support.instana.com"
+              href="https://www.ibm.com/mysupport/s/?language=en_US"
               external
               id="main-nav-support"
             />
@@ -420,15 +423,15 @@ function AutomationMenu(props) {
 
   return (
     !playwithEnabled && (
-    <View
-      id="main-nav-automation-dashboard"
-      label={t('in-automation:automation')}
-      icon="lib_automation"
-      isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
-      href={createHrefToPath(actionCatalogPath)}
-      isBeta
-      {...props}
-    />
+      <View
+        id="main-nav-automation-dashboard"
+        label={t('in-automation:automation')}
+        icon="lib_automation"
+        isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
+        href={createHrefToPath(actionCatalogPath)}
+        isBeta
+        {...props}
+      />
     )
   );
 }
@@ -446,6 +449,7 @@ function Analyze(props) {
   });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   if (!hasAnalyzeAccess) {
     return null;
@@ -478,7 +482,7 @@ function Analyze(props) {
                 groupBy: {}
               })
             ),
-          hasInfrastructureAnalyzeAccess && getLinkToExploreDefault()
+          hasInfrastructureAnalyzeAccess && just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))
         ].filter(Boolean)[0]
       }
       {...props}
@@ -596,7 +600,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-       {hasPowerVcAccess && !playwithEnabled && (
+      {hasPowerVcAccess && !playwithEnabled && (
         <ViewItemForPlatforms
           id="main-nav-powervc"
           label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}

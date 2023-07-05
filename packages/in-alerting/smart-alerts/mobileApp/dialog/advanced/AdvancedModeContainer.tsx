@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
+
+import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana/types';
 
 //@ts-expect-error needs TS migration
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
@@ -14,6 +17,7 @@ import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/di
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 //@ts-expect-error
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -32,12 +36,15 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import { mobileAppSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -65,6 +72,13 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   const mobileAppId = form.get('mobileAppId')?.value;
   const [mobileApp] = useMobileApp(mobileAppId);
 
+  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
+    if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
+      onChartViewConfigChange?.(0);
+    }
+    return updateForm?.(updatedForm);
+  };
+
   return (
     <StepsContainer
       messages={[]}
@@ -82,6 +96,21 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
+              {mobileAppSmartAlertsAdaptiveBaselineEnabled && blueprintConfig?.baselineEnabled && (
+                <LightCard
+                  title={t(
+                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
+                  )}
+                  withoutPadding
+                  darkFrame
+                >
+                  <StaticOrAdaptiveSwitch
+                    form={form}
+                    setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
+                    onThresholdTypeChange={onThresholdTypeChange}
+                  />
+                </LightCard>
+              )}
             </>
           )
         },
@@ -141,7 +170,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               onChange={onChange}
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasUserImpactOption={false}
+              hasUserImpactOption
+              userImpactInfo={t('in-alerting:smartAlerts.mobileApp.advanced.userImpactInfo')}
             />
           )
         },
@@ -211,7 +241,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     if (!ruleComplete) {
       return false;
     }
-    if (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) {
+    if (thresholdType === HISTORIC_BASELINE && (thresholdResult as Result<HistoricBaselineData>)?.errors?.length > 0) {
       return false;
     }
     return true;

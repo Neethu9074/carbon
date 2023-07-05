@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { amCharts, loadMap, getMapName } from 'in-components/AmMap/libraryWrapper';
+import { amCharts, canDrillDownToMap, getMapName, loadMap } from 'in-components/AmMap/libraryWrapper';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { lightGreenToDarkGreenHex } from 'in-themes/heatMapColors';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -20,7 +20,7 @@ import { t } from 'in-i18n';
 
 import locals from './GeoHeatMapPresenter.mless';
 
-// result must eventually resolve with data in the form of:
+// result of the getData property must eventually resolve with data in the form of:
 // {
 //   code: {
 //     title,
@@ -29,13 +29,38 @@ import locals from './GeoHeatMapPresenter.mless';
 // }
 
 export default function GeoHeatMapPresenter(props) {
-  const { result, height, mapCode } = props;
-  const map = useObservable(loadMap(mapCode), [mapCode]);
-  if (!result || result.progress.loading || !map) {
+  const { height, getData, canDrillDown } = props;
+  const [mapCode, setMapCode] = useState('world');
+
+  const result = useObservable(
+    ([mapCode]) =>
+      getData(mapCode === 'world' ? undefined : mapCode)
+        // For some unknown reason AmMap really hates synchronous data retrieval.
+        // When not executing nextFrame(), then the following breaks the heat map:
+        //
+        // 1. Click on USA (states should be colored)
+        // 2. Click on the home button
+        // 3. Click on USA (no state is colored)
+        .nextFrame(),
+    [mapCode]
+  );
+
+  const map = useObservable(([mapCode]) => loadMap(mapCode), [mapCode]);
+
+  if (!result || result?.progress?.loading || !map || !result.data) {
     return <LoadingIndicator text={t('in-components:geoHeatMap.loadingIndicatorLoadingData')} height={height} />;
   } else if (result.errors.length > 0) {
     return <NoDataAvailable height={height} />;
   }
+
+  const onHomeClick = () => setMapCode('world');
+  const onAreaClick = newMapCode => {
+    if (mapCode !== 'world' || !canDrillDown) return;
+    if (canDrillDownToMap(newMapCode)) {
+      // let the Map finish zooming in on a country before switching data
+      setTimeout(() => setMapCode(newMapCode), 1000);
+    }
+  };
 
   return (
     <Content
@@ -43,6 +68,11 @@ export default function GeoHeatMapPresenter(props) {
       // The pure HOC will make sure that this doesn't happen exceedingly often.
       map={map}
       key={Math.random()}
+      setMapCode={setMapCode}
+      mapCode={mapCode}
+      result={result}
+      onHomeClick={onHomeClick}
+      onAreaClick={onAreaClick}
       {...props}
     />
   );
@@ -56,7 +86,6 @@ function Content({
   mapCode,
   map,
   height,
-  projection,
   notDefinedValue,
   controlWrapperClassName,
   label
@@ -64,6 +93,8 @@ function Content({
   let onZoomIn;
   let onZoomOut;
   let onHome;
+
+  const projection = mapCode === 'world' ? 'winkel3' : 'mercator';
 
   return (
     <div className={locals.wrapper} style={{ height: `${height}px` }}>

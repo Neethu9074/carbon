@@ -12,6 +12,7 @@ import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { SnapshotItem as BaseSnapshotItem } from 'in-types';
 
 interface SnapshotItem extends Omit<BaseSnapshotItem, 'id'> {
+  get: (id: string) => string;
   id: string;
 }
 
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export default function KubernetesClusterDashboard({ snapshot }: Props) {
-  const to: string = useClusterDashboard(snapshot.id);
+  const href: string = useClusterDashboard(snapshot.get('id'));
 
-  return <RedirectWithHash to={to} />;
+  return <RedirectWithHash href={href} />;
 }

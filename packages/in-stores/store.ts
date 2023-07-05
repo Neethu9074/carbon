@@ -52,7 +52,7 @@ export function createStore<T>(spec: StoreSpec<T>) {
     invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   }
 
-  let currentState = spec.initialValue;
+  let currentState: T | null = spec.initialValue;
   if (spec.isGlobal) {
     allStates[spec.name] = currentState;
   }

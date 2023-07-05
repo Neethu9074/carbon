@@ -7,9 +7,11 @@
 import { isUndefined } from 'lodash';
 
 import { getIntlNumberFormatter, NumberFormatter } from '@instana/format-numbers';
-import { MetricResult } from '@instana/types';
+import { MetricResult, SloEntityUnion } from '@instana/types';
+import { t } from '@instana/i18n-react';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { number, NumberFormatterFunction } from 'in-services/formatters/number';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 
 interface FormatSloStatusResponse {
@@ -43,8 +45,18 @@ export function createSloPercentageFormatter(sloTarget: number): NumberFormatter
   });
 }
 
+export function createSloEventFormatter(entity: SloEntityUnion): NumberFormatterFunction {
+  return (value: number): string => {
+    return t('in-service-levels:general.format.event', {
+      context: entity.type,
+      count: value,
+      formatted: number.compact(value)
+    });
+  };
+}
+
 export function getSingleNumberMetricValue(metric?: MetricResult): number | undefined {
-  if (!metric || metric.values.length !== 1) {
+  if (!metric || metric?.values?.length !== 1) {
     return undefined;
   }
   return metric.values[0][1];

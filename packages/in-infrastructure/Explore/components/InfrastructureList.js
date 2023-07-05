@@ -47,7 +47,7 @@ export default function InfrastructureList({
   metricCatalog,
   query,
   onQueryChange,
-  onChartedMetricChange,
+  onChartedMetricsChange,
   chartedMetrics,
   setUrl,
   displayChart = true
@@ -107,18 +107,13 @@ export default function InfrastructureList({
         <ChartsPresenter
           chartedMetrics={chartedMetrics}
           metricMetadatas={metricMetadatas}
-          defaultTableMetric={
-            metrics && metrics.length > 0 && chartedMetrics?.length === 0
-              ? [{ metricId: metrics[0].metric, aggregationId: 'MEAN', rendererId: 'line' }]
-              : undefined
-          }
           dataSource={'analytics'}
           chartableDataSeries={undefined}
-          metricCatalogInit={metricCatalog}
+          metricCatalog={metricCatalog}
           isLoading={isLoading}
           isValid={!hasErrors}
           isGrouped={false}
-          onChartedMetricChange={onChartedMetricChange}
+          onChartedMetricsChange={onChartedMetricsChange}
           tagFilterExpression={backendQueryModel}
           type={type}
           setUrl={setUrl}
@@ -263,7 +258,7 @@ InfrastructureList.propTypes = {
   backendQueryModel: rpt.object,
   showHeader: rpt.bool,
   setMetrics: rpt.func,
-  onChartedMetricChange: rpt.func,
+  onChartedMetricsChange: rpt.func,
   setOrder: rpt.func,
   metrics: rpt.array,
   metricMetadatas: rpt.object,

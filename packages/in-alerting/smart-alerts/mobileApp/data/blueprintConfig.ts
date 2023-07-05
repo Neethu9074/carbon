@@ -22,6 +22,7 @@ import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetric
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 //@ts-expect-error
 import { availableFilterTags } from 'in-mobile-apps/tags';
@@ -68,12 +69,11 @@ interface BluePrintBase {
 export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
 
 const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
-  ...thresholdTypeOptions
-  // ,
-  // {
-  //   value: ADAPTIVE_BASELINE,
-  //   label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
-  // }
+  ...thresholdTypeOptions,
+  {
+    value: ADAPTIVE_BASELINE,
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+  }
 ]);
 
 export interface BluePrint extends BluePrintBase {

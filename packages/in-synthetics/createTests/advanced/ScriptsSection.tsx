@@ -15,11 +15,10 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
+import { Code, SlideInHeader, SliderState, Zip } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { Code, SlideInHeader, Zip } from 'in-synthetics/utils/constants';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -61,17 +60,17 @@ export default function ScriptsSection({
             scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
             extension: 'zip'
           }
-      : scriptDetails?.modified
+      : scriptDetails?.modified && configForm.get('script')
       ? {
-          name: scriptDetails.name,
+          name: scriptDetails?.name,
           text: (configForm.get('script') as Field<string>).value,
-          extension: isNotBlank(scriptDetails.name) ? 'js' : ''
+          extension: isNotBlank(scriptDetails?.name) ? 'js' : ''
         }
       : { name: '', text: '', extension: 'js' }
   );
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
-    (isUpdateConfig && !isUpdated) || (scriptDetails.modified && isBlank(scriptDetails.name))
+    (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
       ? ''
       : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
   );
@@ -97,7 +96,9 @@ export default function ScriptsSection({
     setScript({ name: '', text: '', extension: '' });
     setColumnLabel(t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName'));
     setIsUpdated(true);
-    setScriptDetails({ modified: true, name: '' });
+    if (!isUpdateConfig) {
+      setScriptDetails({ modified: true, name: '' });
+    }
   }
 
   const columnDefinition = [

@@ -17,7 +17,8 @@ import {
   BeaconType,
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
-  SloEntityUnion
+  SloEntityUnion,
+  TagFilterExpressionElementUnion
 } from '@instana/types';
 
 import {
@@ -31,6 +32,7 @@ import {
   createMetricField,
   MetricField
 } from 'in-analyze/navigation/paths';
+import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -48,6 +50,7 @@ interface UseHrefToUnboundedAnalyticsProps {
   indicator: ServiceLevelIndicatorUnion;
   entity: SloEntityUnion;
   timeConfig: TimeConfig;
+  additionalTagFilterExpression?: TagFilterExpressionElementUnion;
   withLabels?: boolean;
 }
 
@@ -55,10 +58,14 @@ export default function useHrefToUnboundedAnalytics({
   indicator,
   entity,
   timeConfig,
+  additionalTagFilterExpression,
   withLabels
 }: UseHrefToUnboundedAnalyticsProps): string | undefined {
   const { location, createHref } = useNavigation();
-  const tagFilterExpression = useBasicTagFilterExpression({ entity, withLabels });
+  const basicTagFilterExpression = useBasicTagFilterExpression({ entity, withLabels });
+  const tagFilterExpression = additionalTagFilterExpression
+    ? createTagFilterExpression('AND', [basicTagFilterExpression, additionalTagFilterExpression])
+    : basicTagFilterExpression;
 
   const analyticsLocation = getLocationToUnboundedAnalytics({
     location,

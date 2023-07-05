@@ -26,6 +26,7 @@ import ActionInstanceDetail from 'in-automation/components/ActionHistory/actionI
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
@@ -51,7 +52,7 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.type'),
     id: 'type',
     getContent(row: ActionInstance) {
-      return getType(row.actionType);
+      return getType(row.type);
     }
   },
   {
@@ -86,8 +87,8 @@ const columnDefinitions = [
 
 const urlStateDefinition = {
   bind: filterUrlStateDefinition.bind,
-  reducer: (prevState: FilterState, { actionTypes, actionStatuses }: CurrentState) => ({
-    actionTypes: actionTypes || prevState.actionTypes,
+  reducer: (prevState: FilterState, { types, actionStatuses }: CurrentState) => ({
+    types: types || prevState.types,
     actionStatuses: actionStatuses || prevState.actionStatuses
   })
 };
@@ -113,7 +114,7 @@ type GetActionInstanceList = {
   orderBy?: string;
   orderDirection?: OrderDirection;
   timeConfig: TimeConfig;
-  actionTypes: string[];
+  types: string[];
   actionStatuses: string[];
 };
 
@@ -124,7 +125,7 @@ export function GetActionInstanceListData({
   page = 1,
   pageSize = 20,
   query = '',
-  actionTypes = [],
+  types = [],
   actionStatuses = []
 }: GetActionInstanceList) {
   return getActionInstances({
@@ -139,26 +140,30 @@ export function GetActionInstanceListData({
 
     search: query,
     timeConfig,
-    actionTypes: actionTypes,
+    types: types,
     actionStatuses: actionStatuses
   });
 }
 
 export default function ActionHistoryTable() {
-  const [{ actionTypes, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
+  const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
-      rightHeader={<Filters setFilter={setFilter} actionTypes={actionTypes} actionStatuses={actionStatuses} />}
+      rightHeader={<Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
-      actionTypes={actionTypes}
+      types={types}
       actionStatuses={actionStatuses}
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+        actionHistoryInstanceViewTracker({
+          actionInstanceId: row.actionInstanceId,
+          actionName: row.actionName
+        });
       }}
       searchWidth={350}
       searchMaxWidth={450}

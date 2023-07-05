@@ -6,25 +6,21 @@
 import React from 'react';
 
 import { Button, ColumnizedContent, Li, Ul } from '@instana/components';
-import { generateUniqueShortId } from '@instana/utils';
-import { createLogger } from '@instana/logger';
 
 import {
   deletePersonalApiToken,
-  createPersonalApiToken,
   getPersonalApiTokensOfUserAsResultObservable
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
-import { getEntityHref, getEntityIdView, userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import CreatePersonalApiToken from './CreatePersonalApiToken';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import EditPersonalApiToken from './EditPersonalApiToken';
 import ApiList from 'in-settings/components/ApiList';
-import { goToPath } from 'in-stores/navigation';
 import { user } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const logger = createLogger('PersonalApiTokens');
 
 export default function PersonalApiTokens() {
   return (
@@ -47,7 +43,8 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
       {items.map(personalApiToken => (
         <Li
           key={personalApiToken.tokenId}
-          href$={getEntityIdView(userSettingsPersonalApiTokens, personalApiToken.tokenId)}
+          onClick={() => addActiveDialog(<EditPersonalApiToken onClose={close} current={personalApiToken} />)}
+          /*href$={getEntityIdView(userSettingsPersonalApiTokens, personalApiToken.tokenId)}*/
         >
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
@@ -108,23 +105,12 @@ const columnDefinitions = [
 ];
 
 function renderAdditionalHeaderContent() {
-  const onAdd = () => {
-    const accessGrantingToken = generateUniqueShortId();
-    const saveResult$ = createPersonalApiToken({
-      accessGrantingToken,
-      tokenId: generateUniqueShortId(),
-      userId: user.id,
-      name: t('in-settings:tabs.newPersonalApiToken')
-    });
-    // Note: The backend will overwrite the end-user provided IDs during creation.
-    saveResult$.once(savedApiToken => goToPath(getEntityHref(userSettingsPersonalApiTokens, savedApiToken.tokenId)));
-    saveResult$.errors().once(error => {
-      logger.error(`Failed to save new personal API token: ${error.message}`, error);
-    });
-  };
-
   return (
-    <Button kind="action" onClick={onAdd} icon="lib_openclose_add_circle_outline">
+    <Button
+      kind="action"
+      onClick={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}
+      icon="lib_openclose_add_circle_outline"
+    >
       {t('in-settings:tabs.newPersonalApiToken')}
     </Button>
   );

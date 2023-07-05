@@ -9,7 +9,8 @@ import { GetActionInstanceQuery, ActionInstance, Result } from 'in-types';
 
 const getActionInstance = createResultSubscriptionFactory<GetActionInstanceQuery, Result<ActionInstance>>({
   eventId: 'getActionInstanceDetails',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: 0
 });
 
 export default getActionInstance;

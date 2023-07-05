@@ -17,7 +17,9 @@ import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeed
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
+import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -28,6 +30,7 @@ import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
 import { SyntheticTest } from 'in-types';
+import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
@@ -82,7 +85,7 @@ function Header(
       icon={'lib_synthetic'}
       title={t('in-synthetics:dashboard.testList.mainLabel')}
       label={get(props.result, ['data', 'label'])}
-      renderButtonLine={RenderButtonLine}
+      renderButtonLine={role?.canConfigureSyntheticTests ? RenderButtonLine : undefined}
       renderMetaInformation={RenderMetaInformation}
     />
   );
@@ -95,10 +98,12 @@ interface RenderMetaInformationProps {
 function RenderMetaInformation({ test }: RenderMetaInformationProps) {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
+  const testType: string = test.data?.configuration?.syntheticType ?? '';
+  const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
 
   return errorCode === 'NOT_FOUND' ? (
     <div className={locals.metaInformation}>
-      <BetaBadge />
+      {isBrowserTest ? <BetaBadge /> : null}
       <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
     </div>
   ) : (
@@ -106,7 +111,7 @@ function RenderMetaInformation({ test }: RenderMetaInformationProps) {
       <span className={locals.label}>
         {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
       </span>
-      <BetaBadge />
+      {isBrowserTest ? <BetaBadge /> : null}
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/cre
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
-import { Code } from 'in-synthetics/utils/constants';
+import { Code, TestTypeSelected } from 'in-synthetics/utils/constants';
 import Menu from 'in-components/Menu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
@@ -22,8 +22,8 @@ interface BluePrintSelectionSectionProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
@@ -71,8 +71,8 @@ interface SelectionMenuProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
@@ -98,7 +98,13 @@ const SelectionMenu = ({
         items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
         addRightSeparator
         onItemClick={item => {
+          setCommonAttributes({ ...commonAttributes, syntheticType: '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
+          //@ts-expect-error
+          setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+            return { ...prevState, api: { simple: false, script: false }, browser: { simple: false, script: false } };
+          });
+          setRenderSectionsCounter(0);
         }}
         initialItemSelected={selectedBlueprint}
       />

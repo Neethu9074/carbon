@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { create } from '@instana/observables';
 
@@ -20,6 +20,20 @@ export default {
 };
 
 export function CallTreeStory() {
+  const [expandedCalls, setExpandedCalls] = useState(new Set());
+  const onCallExpanded = useCallback(
+    callId => setExpandedCalls(old => new Set(Array.from(old.keys())).add(callId)),
+    []
+  );
+  const onCallCollapsed = useCallback(
+    callId =>
+      setExpandedCalls(old => {
+        var newValue = new Set(Array.from(old.keys()));
+        newValue.delete(callId);
+        return newValue;
+      }),
+    []
+  );
   return (
     <TraceExamples
       render={rootCall => (
@@ -28,6 +42,9 @@ export function CallTreeStory() {
           openedCall$={create()}
           callTreeResult={{ data: rootCall, errors: [], progress: {} }}
           getColor={getColorByServiceAndEndpoint}
+          expandedCalls={expandedCalls}
+          onCallExpanded={onCallExpanded}
+          onCallCollapsed={onCallCollapsed}
         />
       )}
     />

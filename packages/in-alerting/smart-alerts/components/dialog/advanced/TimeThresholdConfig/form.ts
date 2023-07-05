@@ -128,7 +128,7 @@ export function createViolationsInSequenceForm(
 }
 
 const provideNumberGreaterEqualsOneValidator = (num: number | string): ValidationResult => {
-  if (num === '' || num < 1) {
+  if (num === '' || Number(num) < 1) {
     return [
       {
         severity: 'error',
@@ -157,7 +157,7 @@ export function putUserPercentageField(form: MapForm<any>, userPercentage?: numb
     createField({
       value: userPercentage ?? percentageOfUserDefault,
       validator: (num: number | string): ValidationResult => {
-        if (num === '' || num < 0.01 || num > 1.0) {
+        if (num === '' || Number(num) < 0.01 || Number(num) > 1.0) {
           return [
             {
               severity: 'error',

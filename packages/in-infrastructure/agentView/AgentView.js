@@ -25,6 +25,7 @@ import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTim
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import AgentBasedIntegrationView from './components/AgentBasedIntegrationView';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -123,6 +124,9 @@ function renderButtonLine(props) {
   const { agentSnapshots } = props;
   return <ButtonLine agentSnapshots={agentSnapshots} />;
 }
+function onInstallingAgentBasedintergrationsClick() {
+  addActiveDialog(<AgentBasedIntegrationView />);
+}
 
 function ButtonLine({ agentSnapshots }) {
   const { createHrefToPath } = useNavigation();
@@ -157,9 +161,15 @@ function ButtonLine({ agentSnapshots }) {
         </>
       )}
       {role.canConfigureAgents && (
-        <Button kind="primary" href={createHrefToPath('/agents/installation')}>
-          {t('in-infrastructure:agentView.installingInstanaAgents')}
-        </Button>
+        <>
+          <Button kind="secondary" href={createHrefToPath('/agents/installation')}>
+            {t('in-infrastructure:agentView.installAgents')}
+          </Button>
+
+          <Button onClick={onInstallingAgentBasedintergrationsClick} kind="secondary">
+            {t('in-infrastructure:agentView.installAgentBasedIntegrations')}
+          </Button>
+        </>
       )}
     </div>
   );

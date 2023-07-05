@@ -37,13 +37,22 @@ export default function TimeThresholdConfigPresenter({
   updateForm,
   hasTraceImpactOption,
   hasUserImpactOption,
-  impactTimeThresholdDisabled
+  impactTimeThresholdDisabled,
+  oneMinuteGranularityAllowed,
+  userImpactInfo
 }) {
   return (
     <TwoColumnContainer
       moveMainAreaRight
       mainContentHeadline={getTitle(form.get('timeThreshold'))}
-      mainContent={<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />}
+      mainContent={
+        <ConfigureAlertingThreshold
+          form={form}
+          onChange={onChange}
+          updateForm={updateForm}
+          oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
+        />
+      }
       secondaryContent={
         <SelectTimeThreshold
           form={form}
@@ -82,6 +91,7 @@ export default function TimeThresholdConfigPresenter({
         )
       }
       removePaddingSecondaryArea
+      infoContent={checkIfUserImpact(form.get('timeThreshold')) && userImpactInfo}
     />
   );
 }
@@ -91,6 +101,10 @@ function getTitle(form) {
   return titleValues[timeThresholdType];
 }
 
+function checkIfUserImpact(form) {
+  return form.get('type').value === 'userImpactOfViolationsInSequence' ? true : false;
+}
+
 TimeThresholdConfigPresenter.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -98,5 +112,7 @@ TimeThresholdConfigPresenter.propTypes = {
   updateForm: PropTypes.func.isRequired,
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
-  impactTimeThresholdDisabled: PropTypes.bool
+  impactTimeThresholdDisabled: PropTypes.bool,
+  oneMinuteGranularityAllowed: PropTypes.bool,
+  userImpactInfo: PropTypes.string
 };

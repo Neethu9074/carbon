@@ -66,7 +66,6 @@ module.exports = {
   syntheticBrowserScriptEnabled: true,
   syntheticBrowserCreateTestEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  rbacImprovementEnabled: true,
   syntheticSmartAlertsEnabled: true,
   syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
@@ -74,10 +73,12 @@ module.exports = {
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: true,
   playwithEnabled: false,
-  recurrentMaintenanceWindowsEnabled: false,
+  recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
+  mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
-  userSettingsThemeEnabled: true
+  userSettingsThemeEnabled: true,
+  oneMinuteGranularityForStaticThresholdEnabled: true
 };

@@ -104,7 +104,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
 
   let distinctCount: number = 0;
   if (!result.progress.loading) {
-    distinctCount = (result.data?.at(0)?.values.length ?? 0) / 2;
+    distinctCount = (result.data?.at(0)?.values?.length ?? 0) / 2;
   }
 
   // labels to be shown in the widget

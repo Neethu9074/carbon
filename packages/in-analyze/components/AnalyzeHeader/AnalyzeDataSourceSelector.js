@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { Li, SvgIcon, Ul } from '@instana/components';
@@ -13,6 +13,10 @@ import { useObservable } from '@instana/hooks';
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import {
   hasApplicationsAccess,
   hasInfrastructureAccess,
@@ -31,7 +35,6 @@ import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/ta
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -46,6 +49,7 @@ import locals from './AnalyzeDataSourceSelector.mless';
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
@@ -75,7 +79,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'logs',
-          beta: true,
           getHref$: getLinkToLogsAnalyze,
           onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
         }
@@ -253,7 +256,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'infrastructure',
           beta: true,
-          getHref$: getLinkToExploreDefault
+          getHref: () => getLinkToInfraEntityExplore(defaultInfraExploreViewParams)
         }
       ]
     },
@@ -335,23 +338,28 @@ function ProductAreaEntry({
 }) {
   const [onClickNotificationMessage, setOnClickNotificationMessage] = useState();
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
-  if (!isEnabled) {
-    return null;
-  }
 
   const hrefGetter = getHref$ || getHref;
 
-  const { href$, href } = unwrapLink(
-    hrefGetter?.({
-      isGrouped,
-      formModel,
-      ...websiteTagCatalogs,
-      ...mobileTagCatalogs,
-      callsTagCatalog,
-      tracesTagCatalog,
-      setOnClickNotificationMessage
-    })
+  const { href$, href } = useMemo(
+    () =>
+      unwrapLink(
+        hrefGetter?.({
+          isGrouped,
+          formModel,
+          ...websiteTagCatalogs,
+          ...mobileTagCatalogs,
+          callsTagCatalog,
+          tracesTagCatalog,
+          setOnClickNotificationMessage
+        })
+      ),
+    [callsTagCatalog, formModel, hrefGetter, isGrouped, mobileTagCatalogs, tracesTagCatalog, websiteTagCatalogs]
   );
+
+  if (!isEnabled) {
+    return null;
+  }
 
   return (
     <Li

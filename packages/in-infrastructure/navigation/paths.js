@@ -4,12 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import { useCallback } from 'react';
+
 import { buildJsonSerializer, buildJsonParser, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructure/Explore/constants';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
 export const infraExplorePath = '/explore';
 
@@ -29,20 +32,12 @@ export const groupMatrixParameter = {
   initialState: emptyObject
 };
 
-export const chartsMatrixParameter = {
-  path: infraExplorePath,
-  name: 'charts',
-  serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyArray),
-  initialState: emptyObject
-};
-
 export const chartedMetricsMatrixParameter = {
   path: infraExplorePath,
   name: 'chartedMetrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
-  initialState: emptyArray
+  initialState: undefined
 };
 
 export const typeMatrixParameter = {
@@ -56,7 +51,7 @@ export const metricsMatrixParameter = {
   name: 'metrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
-  initialState: emptyArray
+  initialState: undefined
 };
 
 export const orderMatrixParameter = {
@@ -81,7 +76,7 @@ export const resetMetricsAndOrderOnTypeChange = {
     }
   ],
   reset: {
-    metrics: emptyArray,
+    metrics: undefined,
     order: undefined,
     chartedMetrics: undefined,
     group: undefined,
@@ -93,74 +88,65 @@ export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
 
-export function getLinkToExplore({
-  tagFilterExpression,
-  group,
-  charts,
-  type,
-  metrics,
-  order,
-  timeConfig,
-  chartedMetrics
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = infraExplorePath;
+export function useLinkToExplore() {
+  const { location, createHref } = useNavigation();
 
-    if (tagFilterExpression) {
-      // In order for numeric values (such as process id) to
-      // be used as a value filter, the value must be converted
-      // to a string. This ensures that the URL conversion
-      // will properly escape the value (i.e. prefix it with
-      // '*').
-      tagFilterExpression.forEach((expression) => {
-        if ((typeof expression.value) === 'number') {
-          expression.value = String(expression.value);
-        }
-      });
-      setMatrixKey(params, tagFilterExpressionMatrixParameter, tagFilterExpression);
-    }
+  return useCallback(
+    ({ tagFilterExpression, group, type, metrics, order, timeConfig, chartedMetrics }) => {
+      const clonedLocation = cloneLocation(location);
 
-    if (group) {
-      setMatrixKey(params, groupMatrixParameter, group);
-    }
+      clonedLocation.pathname = infraExplorePath;
 
-    if (charts) {
-      setMatrixKey(params, chartsMatrixParameter, charts);
-    }
+      if (tagFilterExpression) {
+        // In order for numeric values (such as process id) to
+        // be used as a value filter, the value must be converted
+        // to a string. This ensures that the URL conversion
+        // will properly escape the value (i.e. prefix it with
+        // '*').
+        tagFilterExpression.forEach(expression => {
+          if (typeof expression.value === 'number') {
+            expression.value = String(expression.value);
+          }
+        });
+        setMatrixKey(clonedLocation, tagFilterExpressionMatrixParameter, tagFilterExpression);
+      }
 
-    if (type) {
-      setMatrixKey(params, typeMatrixParameter, type);
-    }
+      if (group) {
+        setMatrixKey(clonedLocation, groupMatrixParameter, group);
+      }
 
-    if (metrics) {
-      setMatrixKey(params, metricsMatrixParameter, metrics);
-    }
+      if (type) {
+        setMatrixKey(clonedLocation, typeMatrixParameter, type);
+      }
 
-    if (order) {
-      setMatrixKey(params, orderMatrixParameter, order);
-    }
+      if (metrics) {
+        setMatrixKey(clonedLocation, metricsMatrixParameter, metrics);
+      }
 
-    if (timeConfig) {
-      setTimeConfig(params, timeConfig);
-    }
+      if (order) {
+        setMatrixKey(clonedLocation, orderMatrixParameter, order);
+      }
 
-    if (chartedMetrics) {
-      setMatrixKey(params, chartedMetricsMatrixParameter, chartedMetrics);
-    }
+      if (timeConfig) {
+        setTimeConfig(clonedLocation, timeConfig);
+      }
 
-    setMatrixKey(params, dataSourcerMatrixParameter, 'infrastructure');
-  });
+      if (chartedMetrics) {
+        setMatrixKey(clonedLocation, chartedMetricsMatrixParameter, chartedMetrics);
+      }
+
+      setMatrixKey(clonedLocation, dataSourcerMatrixParameter, 'infrastructure');
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
 
-export function getLinkToExploreDefault() {
-  return getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
-}
-
-export const defaultInfraExploreView = getLinkToExplore({
+export const defaultInfraExploreViewParams = Object.freeze({
   group: defaultAllInfraGroup,
   type: defaultType,
-  tagFilterExpression: [],
-  metrics: []
+  tagFilterExpression: []
 });
 
 function setMatrixKey(params, matrixParameter, value) {

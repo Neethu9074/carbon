@@ -170,8 +170,30 @@ const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => 
   );
 };
 
+const renderWebpageActionTestTypeContent = (configuration: HttpActionConfiguration) => {
+  return (
+    <Row key={'webpageActionURL'}>
+      <Col xs={3}>
+        <KeyValue label={t('in-synthetics:dashboard.configuration.webpageActionUrl')} value={configuration.url} />
+      </Col>
+    </Row>
+  );
+};
+
 const ConfigSection = ({ test }: Props) => {
   const { configuration } = test;
+  let content = null;
+  switch (test.configuration.syntheticType) {
+    case 'HTTPAction':
+      content = renderSimpleTestTypeContent(configuration as HttpActionConfiguration);
+      break;
+    case 'WebpageAction':
+      content = renderWebpageActionTestTypeContent(configuration as HttpActionConfiguration);
+      break;
+    default:
+      content = renderScriptTestTypeContent(configuration as HttpScriptConfiguration);
+  }
+
   return (
     <ExpandableLightCard
       className={locals.expandableCard}
@@ -180,9 +202,7 @@ const ConfigSection = ({ test }: Props) => {
       useMaxAvailableHeight
       openByDefault
     >
-      {test.configuration.syntheticType === 'HTTPAction'
-        ? renderSimpleTestTypeContent(configuration as HttpActionConfiguration)
-        : renderScriptTestTypeContent(configuration as HttpScriptConfiguration)}
+      {content}
     </ExpandableLightCard>
   );
 };

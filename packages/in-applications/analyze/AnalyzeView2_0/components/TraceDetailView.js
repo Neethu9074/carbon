@@ -63,7 +63,6 @@ export default function TraceDetailView(props) {
           pageRootName: 'Analytics'
         }}
       />
-
       <Sticky
         header={
           <DashboardHeader
@@ -74,6 +73,8 @@ export default function TraceDetailView(props) {
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             withBorderBottom
             showHistoricDataWarning={false}
+            liveModeDisabled
+            liveModeDisabledTooltip={t('in-applications:tracesLiveModeDisabled')}
           />
         }
       >

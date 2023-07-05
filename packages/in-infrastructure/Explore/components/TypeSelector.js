@@ -11,7 +11,11 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Li } from '@instana/components';
 
-import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
+import {
+  groupMatrixParameter,
+  typeMatrixParameter,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
@@ -72,11 +76,12 @@ export default function TypeSelector({ onTypeSelected }) {
 
 function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
   const [query, setQuery] = useState('');
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
-  const filteredTypes = useMemo(() => types.filter(({ name }) => query === '' || containsIgnoreCase(name, query)), [
-    types,
-    query
-  ]);
+  const filteredTypes = useMemo(
+    () => types.filter(({ name }) => query === '' || containsIgnoreCase(name, query)),
+    [types, query]
+  );
 
   const listRef = useRef();
 
@@ -102,7 +107,7 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
           <Li
             noAlternatingBg
             key={plugin}
-            href$={getLinkToExplore(getParamsForType(plugin))}
+            href={getLinkToInfraEntityExplore(getParamsForType(plugin))}
             onDefaultHrefInteractionSideEffect={() => {
               onTypeSelected(plugin);
               close();
@@ -130,18 +135,17 @@ function getType(type) {
     return allInfrastructureType;
   }
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
-  return (
-    snapshotDefinition &&
-    !isEmpty(snapshotDefinition) ? {
-      plugin: type,
-      icon: `lib_infra_${type}`,
-      name: getPluginName(type, 2)
-    } : {
-      plugin: type,
-      icon: `lib_infra_unknownIcon`,
-      name: type
-    }
-  );
+  return snapshotDefinition && !isEmpty(snapshotDefinition)
+    ? {
+        plugin: type,
+        icon: `lib_infra_${type}`,
+        name: getPluginName(type, 2)
+      }
+    : {
+        plugin: type,
+        icon: `lib_infra_unknownIcon`,
+        name: type
+      };
 }
 
 function updatedGroup(group, type) {

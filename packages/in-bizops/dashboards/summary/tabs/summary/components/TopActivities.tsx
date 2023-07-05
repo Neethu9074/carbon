@@ -12,6 +12,7 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -26,9 +27,10 @@ time window.
 
 interface TopActivitiesProps {
   businessProcessId: string;
+  businessProcessName: string;
 }
 
-export default function TopActivities({ businessProcessId }: TopActivitiesProps) {
+export default function TopActivities({ businessProcessId, businessProcessName }: TopActivitiesProps) {
   const timeConfig = useTimeConfig();
   /* TODO: When/if more metrics are added, use the labels prop to supply the 
   header tab button labels. Since we're starting with just one metric (count),
@@ -42,6 +44,7 @@ export default function TopActivities({ businessProcessId }: TopActivitiesProps)
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       businessProcessId={businessProcessId}
+      businessProcessName={businessProcessName}
       getList={getList}
       Renderer={TopListCardPresenter}
       Label={Label}
@@ -58,11 +61,12 @@ function ViewAll() {
 
 type GetListProps = {
   businessProcessId: string;
+  businessProcessName: string;
   timeConfig: TimeConfig;
 };
 
 // Invoke the websocket to fetch business activity list data from backend
-function getList({ businessProcessId, timeConfig }: GetListProps) {
+function getList({ businessProcessId, businessProcessName, timeConfig }: GetListProps) {
   const tagFilterExpression: TagFilterExpression = {
     logicalOperator: 'AND',
     type: 'EXPRESSION',
@@ -72,6 +76,13 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
         name: 'process_id',
         operator: 'EQUALS',
         value: businessProcessId,
+        type: 'TAG_FILTER'
+      },
+      {
+        name: 'bpm_process_definition_name',
+        operator: 'EQUALS',
+        stringValue: businessProcessName,
+        entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       }
     ]

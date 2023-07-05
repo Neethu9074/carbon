@@ -4,16 +4,16 @@
  */
 
 import { createField } from 'formalistic';
+import React, { useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { interval } from '@instana/observables';
 
 import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
+import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { notBlankValidator } from 'in-services/validators/string';
 import InputStep from 'in-mobile-apps/NewMobileAppFlow/InputStep';
 import ReadyStep from 'in-mobile-apps/NewMobileAppFlow/ReadyStep';
@@ -25,60 +25,48 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-export default class NewMobileAppFlow extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      field: createField({ value: '', validator: notBlankValidator }),
-      saveError: null,
-      saveResult: null,
-      loading: false
-    };
+export default function NewMobileAppFlow() {
+  const [field, setField] = useState(createField({ value: '', validator: notBlankValidator }));
+  const [mobileApp, setMobileApp] = useState(null);
+  const [mobileAppId, setMobileAppId] = useState('');
+  const [mobileAppName, setMobileAppName] = useState();
+  const [saveError, setSaveError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
+    timeConfig: getWaitForEntityCreationTimeConfig()
+  });
+
+  function onChange(e) {
+    setField(field.setValue(e.target.value).setTouched(true));
   }
 
-  onChange = e => {
-    this.setState({
-      field: this.state.field.setValue(e.target.value).setTouched(true)
-    });
-  };
-
-  onSubmit = e => {
+  function onSubmit(e) {
     e.preventDefault();
 
-    const { field } = this.state;
     if (!field.valid) {
-      this.setState({
-        field: this.state.field.setTouched(true)
-      });
-      return;
+      setField(field.setTouched(true));
     }
 
-    this.setState({
-      loading: true,
-      saveError: null
-    });
+    setLoading(true);
+    setSaveError(null);
 
     addMobileAppTracker({
       mobileAppName: field.value
     });
 
-    this.saveSubscription = combineDataAndError(addMobileApp(field.value)).once(({ data, error }) => {
+    combineDataAndError(addMobileApp(field.value)).once(({ data, error }) => {
       if (error) {
-        this.setState({
-          loading: false,
-          saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
-        });
+        setLoading(false);
+        setSaveError(get(error, ['response', 'body', 'errors', 0]) || String(error));
       } else {
-        this.setState({
-          loading: false,
-          saveError: null,
-          saveResult: data,
-          mobileApp: null,
-          mobileAppId: data.id,
-          mobileAppName: field.value
-        });
+        setLoading(false);
+        setSaveError(null);
+        setMobileApp(null);
+        setMobileAppId(data.id);
+        setMobileAppName(field.value);
 
-        this.mobileAppSubscription = interval(5000)
+        interval(5000)
           .flatMap(millis =>
             getMobileApp({
               id: data.id,
@@ -87,45 +75,32 @@ export default class NewMobileAppFlow extends React.PureComponent {
               cacheBreaker: millis
             })
           )
-          .filter(result => result.data)
-          .once(mobileApp => this.setState({ mobileApp }));
+          .filter(result => {
+            return result.data;
+          })
+          .once(mobileApp => setMobileApp(mobileApp));
       }
     });
-  };
-
-  componentWillUnmount() {
-    if (this.saveSubscription) {
-      this.saveSubscription.dispose();
-    }
-    if (this.mobileAppSubscription) {
-      this.mobileAppSubscription.dispose();
-    }
   }
 
-  render() {
-    const { mobileAppId, mobileApp } = this.state;
-    let content;
-    if (!mobileAppId) {
-      content = <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
-    } else if (!mobileApp) {
-      content = <WaitStep {...this.state} />;
-    } else {
-      content = (
-        <ReadyStep
-          {...this.state}
-          mobileAppLink$={getLinkToMobileApp(mobileAppId, {
-            timeConfig: getWaitForEntityCreationTimeConfig()
-          })}
-        />
-      );
-    }
-
-    return (
-      <Sticky header={<ViewSwitcher />}>
-        <Title title={t('in-mobile-apps:newAppFlow.newMobileAppTitle')} />
-        {content}
-        <Footer />
-      </Sticky>
+  let content;
+  if (!mobileAppId) {
+    content = (
+      <InputStep field={field} saveError={saveError} loading={loading} onChange={onChange} onSubmit={onSubmit} />
+    );
+  } else if (!mobileApp) {
+    content = <WaitStep mobileAppId={mobileAppId} mobileAppName={mobileAppName} />;
+  } else {
+    content = (
+      <ReadyStep mobileAppId={mobileAppId} mobileAppName={mobileAppName} linkToMobileAppHref={linkToMobileAppHref} />
     );
   }
+
+  return (
+    <Sticky header={<ViewSwitcher />}>
+      <Title title={t('in-mobile-apps:newAppFlow.newMobileAppTitle')} />
+      {content}
+      <Footer />
+    </Sticky>
+  );
 }

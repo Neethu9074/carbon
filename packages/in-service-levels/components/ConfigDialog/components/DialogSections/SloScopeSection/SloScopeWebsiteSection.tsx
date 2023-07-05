@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Typography } from '@instana/components';
 
-import { WebsiteTagFilterBuilder } from 'in-service-levels/components/SloList/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
-import { BeaconSelector } from 'in-service-levels/components/SloList/components/FormComponents/BeaconSelector';
+import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
+import { BeaconSelector } from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
 import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';

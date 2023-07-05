@@ -25,10 +25,23 @@ export default function AnalyzeButton({ businessProcessName }: AnalyzeButtonProp
       kind="primary"
       icon="lib_application_call"
       href={getLinkToAnalyze({
-        formModel: [tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName)],
+        formModel: [
+          tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName),
+          { type: 'CONJUNCTION', logicalOperator: 'AND' },
+          { type: 'OPEN_BRACKET' },
+          tagFilter('call.type', EQUALS, 'BATCH'),
+          { type: 'CONJUNCTION', logicalOperator: 'OR' },
+          tagFilter('call.type', EQUALS, 'INTERNAL'),
+          { type: 'CLOSE_BRACKET' }
+        ],
         groupBy: {
           groupbyTag: 'call.bpm.root.process.instance.id'
-        }
+        },
+        hiddenCalls: {
+          includeInternal: true,
+          includeSynthetic: false
+        },
+        fastQueryModeEnabled: true
       })}
     >
       {t('in-bizops:dashboards.analyzeInstances')}

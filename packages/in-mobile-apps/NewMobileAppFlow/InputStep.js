@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 
 import locals from './InputStep.mless';
 
-export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
+export default function InputStep({ field, saveError, loading, onChange, onSubmit }) {
   return (
     <Frame title={t('in-mobile-apps:newAppFlow.addMobileAppTitle')}>
       <Paragraph>{t('in-mobile-apps:newAppFlow.addMobileAppDesc')}</Paragraph>

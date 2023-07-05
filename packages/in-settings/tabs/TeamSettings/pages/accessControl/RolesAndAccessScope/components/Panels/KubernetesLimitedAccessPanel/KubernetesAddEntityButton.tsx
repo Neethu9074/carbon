@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { GroupPermissionEntity, PermissionSetWithRoles, Result } from '@instana/types';
@@ -22,7 +23,6 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { MapFormItems } from 'formalistic';
 
 /**
  * Properties for the component
@@ -65,6 +65,7 @@ export default function _KubernetesAddEntityButton<FORM_TYPE extends MapFormItem
           title: addButtonLabel,
           content: (
             <SelectEntitiesForm
+              key={entityType}
               preselectedIds={getSelectedEntityIds(entityType, permissionSetField?.value)}
               observable={observable}
               extractId={extractId}

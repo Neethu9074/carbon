@@ -11,12 +11,12 @@ export const pathSegment = actionHistoryPath;
 export const matrixPrefix = '';
 
 export interface FilterState {
-  actionTypes: string[];
+  types: string[];
   actionStatuses: string[];
 }
 
 export type CurrentState = {
-  actionTypes?: string[];
+  types?: string[];
   actionStatuses?: string[];
 };
 
@@ -27,8 +27,8 @@ export type Timing = {
 
 export const actionTypesUrlParameter = {
   path: pathSegment,
-  name: 'actionTypes',
-  as: 'actionTypes',
+  name: 'types',
+  as: 'types',
   initialState: [],
   parser: buildJsonParser([]),
   serializer: buildJsonSerializer()
@@ -55,6 +55,6 @@ export const filterUrlStateDefinition = {
 
 export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
-  actionTypes: string[];
+  types: string[];
   actionStatuses: string[];
 }

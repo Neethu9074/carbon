@@ -42,8 +42,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'health',
-    label: t('in-sap:health'),
+    id: 'issues',
+    label: t('in-sap:issues'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

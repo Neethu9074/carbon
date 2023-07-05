@@ -6,14 +6,20 @@
 
 import React from 'react';
 
+import {
+  MobileAppAlertRule,
+  ThresholdConfig,
+  StaticThresholdConfig,
+  HistoricBaselineConfig,
+  AdaptiveBaselineConfig
+} from 'in-types';
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
-import { MobileAppAlertRule, ThresholdConfig, StaticThresholdConfig, HistoricBaselineConfig } from 'in-types';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { t } from 'in-i18n';
 
 interface Props {
-  threshold: ThresholdConfig & StaticThresholdConfig & HistoricBaselineConfig;
+  threshold: ThresholdConfig & StaticThresholdConfig & AdaptiveBaselineConfig & HistoricBaselineConfig;
   rule: MobileAppAlertRule;
 }
 

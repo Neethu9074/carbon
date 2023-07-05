@@ -34,6 +34,7 @@ import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Row.mless';
@@ -160,7 +161,13 @@ function Row({
               [locals.detailGroupWithLazyNode]: true
             })}
           >
-            <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} isLazyNode />
+            <HorizontalLine
+              depth={depth}
+              marginLeft={marginLeft}
+              lineWidth={lineWidth}
+              isLazyNode
+              isOrphan={call.isOrphan}
+            />
             {isParenWithHiddenNestingLevel(call) ? (
               <ShowHiddenParentNestingLevelNode onShowHiddenParentNestingLevel={onShowHiddenParentNestingLevel} />
             ) : (
@@ -291,7 +298,7 @@ function CallInformation(props) {
           [locals.leftLargeTrace]: isLargeTrace
         })}
       >
-        <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} />
+        <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} isOrphan={call.isOrphan} />
         {hasChildren && (
           <SvgIcon
             className={locals.expandIcon}
@@ -355,7 +362,7 @@ function getLineWidth(depth, hasChildren) {
   return marginPerDepth * 2;
 }
 
-function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode }) {
+function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode, isOrphan }) {
   if (depth === 0) {
     return null;
   }
@@ -372,7 +379,15 @@ function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode }) {
         [locals.leftLine]: true,
         [locals.horizontalWithLazyNode]: isLazyNode
       })}
-    />
+    >
+      {isOrphan && (
+        <Tooltip content={t('in-analyze:traceDetail.components.callTree.orphan')} align={'topMiddle'}>
+          <div className={locals.orphan}>
+            <SvgIcon type={'lib_help_error_help_circle'} color={theme.lib.colors.N600Light} size="xs" />
+          </div>
+        </Tooltip>
+      )}
+    </div>
   );
 }
 

@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { SloEntityType } from '@instana/types';
 
-import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
 
 interface SloListFilterState {
@@ -34,20 +34,6 @@ export default function useSloListFilterUrlState({
 
 function createUrlStateDefinition({ pathSegment, matrixPrefix = '' }: Params): Options<SloListFilterState> {
   return {
-    bind: [
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}entityType`,
-        as: 'entityType'
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}tags`,
-        as: 'tags',
-        initialState: [],
-        parser: buildJsonParser([]),
-        serializer: buildJsonSerializer()
-      }
-    ]
+    bind: [createEntityIdUrlParameter(pathSegment, matrixPrefix), createTagsUrlParameter(pathSegment, matrixPrefix)]
   };
 }

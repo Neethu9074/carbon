@@ -103,28 +103,6 @@ function doGenerate() {
     console.log('Metric overview for Grafana written to %s', targetFileName);
   });
 
-  it('must generate static metric overview for UI backend', () => {
-    const result = relevantPlugins.reduce((plugins, pluginName) => {
-      const metrics = allMetricDefinitions[pluginName].filter(isStaticMetric).map(metric => {
-        return {
-          formatter: getFormatterType(metric.formatter),
-          label: getPluginName(pluginName, 2) + ' ' + metric.label,
-          description: metric.label,
-          metricId: metric.metric,
-          pluginId: pluginName,
-          custom: false
-        };
-      });
-      plugins[pluginName] = metrics;
-      return plugins;
-    }, {});
-
-    const targetFileName = path.join(process.cwd(), 'metricOverviewForUiBackend.json');
-    const content = `${JSON.stringify(result, 0, 2)}`;
-    fs.writeFileSync(targetFileName, content);
-    console.log('Metric overview for ui backend written to %s', targetFileName);
-  });
-
   it('must generate static and dynamic metric definitions for UI backend', () => {
     const PLACEHOLDER = '<placeholder>';
     const patterMetricWithPlaceholder = metric => {

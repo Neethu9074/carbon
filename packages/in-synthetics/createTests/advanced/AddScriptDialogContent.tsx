@@ -13,13 +13,12 @@ import { Message } from '@instana/components';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
 import { mainFileNameValidator } from 'in-synthetics/createTests/validators/configValidators';
-import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
+import { Script, SlideInHeader, SliderState, Zip } from 'in-synthetics/utils/constants';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { Script, SlideInHeader, Zip } from 'in-synthetics/utils/constants';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -66,7 +65,7 @@ export default function AddScriptDialogContent({
     reader.readAsDataURL(file);
     reader.onload = async () => {
       const zip = await jsZip.loadAsync(file);
-      setZipFile({ name: file.name, files: Object.keys(zip.files) });
+      setZipFile({ name: file.name, files: Object.keys(zip.files).filter(file => file.endsWith('.js')) });
       callBack(file, reader.result as unknown as string);
     };
   }

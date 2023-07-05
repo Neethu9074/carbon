@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { Nullish } from 'in-types';
 
 export interface Bucket {
@@ -11,4 +12,9 @@ export interface Bucket {
   to: number | string | Nullish;
   calls: number;
   tickMark?: boolean;
+}
+
+export interface Formatter {
+  type: string;
+  applyFormatter: FormatterFn;
 }

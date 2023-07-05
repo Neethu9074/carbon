@@ -11,9 +11,10 @@ import {
   simpleListNameColumnDefinition,
   selectActionColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
-import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
+import { t } from 'in-i18n';
 
 /* Application specific selection list */
 export default function SmartAlertSelectionList({
@@ -33,6 +34,16 @@ export default function SmartAlertSelectionList({
       setConfigsCategory={setConfigsCategory}
       getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
       getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
+      getLocalAlertConfigTitle={numberOfAlerts =>
+        t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
+          numberOfAlerts
+        })
+      }
+      getGlobalAlertConfigTitle={numberOfAlerts =>
+        t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
+          numberOfAlerts
+        })
+      }
       columnDefinitions={getColumnDefinitions(selection, onChange, isCategoryGlobal(configsCategory))}
       sortOptions={sortOptions}
       extraSearchAttributes={[getMetricName]}

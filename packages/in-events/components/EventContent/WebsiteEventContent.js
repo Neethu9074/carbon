@@ -7,6 +7,10 @@ import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
+import {
+  alertingEventDetailsChartTimeframe as minDurationMillis,
+  alertingDialogItemPickerTimeframe as maxDurationMillis
+} from 'in-alerting/components/constants';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
@@ -17,10 +21,10 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
-import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
+import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -46,13 +50,16 @@ export default function WebsiteEventContent({ event }) {
   const { tagFilterExpression, rule } = alertConfig;
   const { alertType, metricName } = rule;
 
+  const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
+
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
     autoRefresh: false,
-    windowSize: alertingEventDetailsChartTimeframe
+    ...(windowSize && { windowSize })
   };
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);

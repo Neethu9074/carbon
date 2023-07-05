@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
+import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
@@ -78,7 +79,7 @@ function getColumnDefinitions({
     {
       id: 'actions',
       label: '',
-      getContent: () => <SloActions />,
+      getContent: item => <SloActions item={item} />,
       width: 5
     }
   ];
@@ -112,7 +113,11 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     pathSegment,
     matrixPrefix,
     defaultOrderBy: 'name',
-    defaultPageSize: 10
+    defaultPageSize: 10,
+    paginationResettingUrlParameters: [
+      createEntityIdUrlParameter(pathSegment, matrixPrefix),
+      createTagsUrlParameter(pathSegment, matrixPrefix)
+    ]
   });
   const [{ tags, entityType }, setFilter] = useSloListFilterUrlState({ pathSegment, matrixPrefix });
 

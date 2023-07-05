@@ -8,7 +8,10 @@ import React, { useState } from 'react';
 
 import { Result, PaginatedResult } from '@instana/types';
 
-import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import ServerTablePresenter, {
+  ListItem,
+  ServerTablePresenterProps
+} from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import EntityTablePaginator from './EntityTablePaginator';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -22,7 +25,7 @@ type OverwrittenServerTableProps =
   | 'page'
   | 'pageSize';
 
-interface EntityTableProps<ITEM_CONFIG>
+interface EntityTableProps<ITEM_CONFIG extends ListItem>
   extends Omit<ServerTablePresenterProps<ITEM_CONFIG>, OverwrittenServerTableProps> {
   columnDefinition: ColumnDefinition<ITEM_CONFIG>[];
   onClickItem: (item: ITEM_CONFIG) => void;
@@ -31,7 +34,7 @@ interface EntityTableProps<ITEM_CONFIG>
   paginated?: boolean;
 }
 
-export default function EntityTable<ITEM_CONFIG>({
+export default function EntityTable<ITEM_CONFIG extends ListItem>({
   onClickItem,
   columnDefinition,
   fetchedConfigState,

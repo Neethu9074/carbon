@@ -14,6 +14,7 @@ import ResultsList from 'in-synthetics/dashboards/summary/tabs/results/ResultsLi
 import Summary from 'in-synthetics/dashboards/summary/tabs/summary/Summary';
 import { syntheticSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-alerting/smart-alerts/synthetics/Alerts';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default [
@@ -32,7 +33,7 @@ export default [
     path: `${syntheticAlertListPath}`,
     component: Alerts
   },
-  {
+  role?.canViewSyntheticTests && {
     label: t('in-synthetics:dashboard.summary.configurationTab'),
     path: `${syntheticConfigurationPath}`,
     component: Configuration

@@ -169,7 +169,7 @@
         "type": "Type",
         "category": "Category",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Please note: Source code can only be retrieved for processes that are still under monitoring by Instana.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastructure.",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "Please note: Source code is compiled and therefore we cannot show more details.",
         "stackTrace": "StackTrace",
         "in": "in",
         "windowLocation": "Window Location",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",
+        "orphan": "The position of this call in the calls tree is unknown because the parent call is missing.",
         "of": "of",
         "inheritedFrom": "Inherited from"
       },

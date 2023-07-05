@@ -6,8 +6,8 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
+import { Li, ScrollBox, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
 
 import { Code as CodeType, apiScriptTest, apiSimpleTest, dummyLocations } from 'in-synthetics/utils/constants';
 import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
@@ -107,16 +107,17 @@ export default function RequestResponseStep({
     }
 
     return (
-      <div>
+      <ScrollBox maxHeight="38%">
         {locations.data?.filter(Boolean).map(location => (
-          <CheckboxFancy
-            key={location.id}
-            label={location.displayLabel}
-            checked={locationsField?.value?.includes(location.id)}
-            onChange={() => onLocationSelect(location)}
-          />
+          <Li key={location.id}>
+            <CheckboxFancy
+              label={location.displayLabel}
+              checked={locationsField?.value?.includes(location.id)}
+              onChange={() => onLocationSelect(location)}
+            />
+          </Li>
         ))}
-      </div>
+      </ScrollBox>
     );
   }
 

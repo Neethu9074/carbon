@@ -41,10 +41,13 @@ export default function Summary() {
           />
         </Col>
         <Col xs>
-          <TopActivities businessProcessId={businessProcessId} />
+          <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
         </Col>
         <Col xs>
-          <InfrastructureIssuesAndChanges businessProcessId={businessProcessId} />
+          <InfrastructureIssuesAndChanges
+            businessProcessId={businessProcessId}
+            businessProcessName={businessProcessName}
+          />
         </Col>
       </Row>
     </Fragment>

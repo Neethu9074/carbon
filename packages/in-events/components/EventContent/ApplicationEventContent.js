@@ -8,6 +8,10 @@ import React, { useState } from 'react';
 import { Card } from '@instana/components';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import {
+  alertingEventDetailsChartTimeframe as minDurationMillis,
+  alertingDialogItemPickerTimeframe as maxDurationMillis
+} from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
@@ -23,9 +27,9 @@ import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventA
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
+import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -56,11 +60,14 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const thresholdType = threshold.type;
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
 
+  const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
+
   const blueprintConfig = getBlueprintConfig(alertType);
+
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
     autoRefresh: false,
-    windowSize: alertingEventDetailsChartTimeframe
+    ...(windowSize && { windowSize })
   };
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);

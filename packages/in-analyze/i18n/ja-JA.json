@@ -169,7 +169,6 @@
         "type": "タイプ",
         "category": "カテゴリー",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "注: ソース・コードは、Instana によるモニタリングがまだ続行しているプロセスについてのみ取得できます。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "注: ソース・コードは、対応するインフラストラクチャーが正常にリンクされたプロセスについてのみ取得できます。",
         "stackTrace": "スタック・トレース",
         "in": "場所",
         "windowLocation": "ウィンドウの位置",

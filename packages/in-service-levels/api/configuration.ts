@@ -11,14 +11,15 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityType
 } from '@instana/types';
+import { create, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
-import { create } from '@instana/observables';
 
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
-const refreshSignal = create<string>().startWith('');
+const refreshSignal = create<string>().emit('');
 
 export interface GetAllSloConfigurationsArguments {
   page?: number;
@@ -81,3 +82,16 @@ export const getSloConfiguration = memoize<string, Result<ServiceLevelObjectiveC
   id => id,
   minutes.toMillis(1)
 );
+
+export function deleteSloConfiguration(id: string): Observable<true> {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/slo/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader(),
+    treat400AsError: true
+  }).map(() => {
+    refreshSignal.emit(id);
+    return true;
+  });
+}

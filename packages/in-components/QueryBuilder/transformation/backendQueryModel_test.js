@@ -12,7 +12,9 @@ import {
   OPERATOR_OR,
   OPERATOR_NOT,
   isTagFilterExpression,
-  isTagFilter
+  isTagFilter,
+  invert,
+  createTagFilterExpression
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import {
   TAG as FM_TAG,
@@ -20,7 +22,7 @@ import {
   OPEN_BRACKET as FM_OPEN_BRACKET,
   CLOSE_BRACKET as FM_CLOSE_BRACKET
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { tagFilter, type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
   describe('#toBackendQueryModel', () => {
@@ -732,6 +734,80 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           value: 'value'
         })
       ).toBeTruthy();
+    });
+  });
+
+  describe('#invert', () => {
+    it.each([
+      ['EQUALS', 'NOT_EQUAL'],
+      ['CONTAINS', 'NOT_CONTAIN'],
+      ['STARTS_WITH', 'NOT_STARTS_WITH'],
+      ['ENDS_WITH', 'NOT_ENDS_WITH'],
+      ['IS_BLANK', 'NOT_BLANK'],
+      ['IS_EMPTY', 'NOT_EMPTY'],
+      ['GREATER_OR_EQUAL_THAN', 'LESS_THAN'],
+      ['GREATER_THAN', 'LESS_OR_EQUAL_THAN'],
+      ['LESS_OR_EQUAL_THAN', 'GREATER_THAN'],
+      ['LESS_THAN', 'GREATER_OR_EQUAL_THAN'],
+      ['NOT_EQUAL', 'EQUALS'],
+      ['NOT_CONTAIN', 'CONTAINS'],
+      ['NOT_STARTS_WITH', 'STARTS_WITH'],
+      ['NOT_ENDS_WITH', 'ENDS_WITH'],
+      ['NOT_BLANK', 'IS_BLANK'],
+      ['NOT_EMPTY', 'IS_EMPTY']
+    ])('inverts a simple tagFilter with operator %s to %s', (operator, expectedOperator) => {
+      // Given
+      const filter = tagFilter('snacks.available', operator, 'IceCream', 'someKey', 'DESTINATION');
+
+      // When
+      const actualFilter = invert(filter);
+
+      // Then
+      expect(actualFilter).toEqual(
+        tagFilter('snacks.available', expectedOperator, 'IceCream', 'someKey', 'DESTINATION')
+      );
+    });
+
+    it.each([
+      ['AND', 'OR'],
+      ['OR', 'AND']
+    ])('inverts a the logical operator %s of a tagFilterExpression to %s', (operator, expectedOperator) => {
+      // Given
+      const expression = createTagFilterExpression(operator, [
+        tagFilter('snacks.available', 'GREATER_THAN', 0),
+        tagFilter('snacks.type', 'EQUALS', 'IceCream')
+      ]);
+
+      // When
+      const actual = invert(expression);
+
+      // Then
+      expect(actual).toEqual(expect.objectContaining({ logicalOperator: expectedOperator }));
+    });
+
+    it('correctly inverts a complex tagFilterExpression', () => {
+      // Given
+      const expression = createTagFilterExpression('AND', [
+        tagFilter('snacks.available', 'GREATER_THAN', 0),
+        createTagFilterExpression('OR', [
+          tagFilter('snacks.type', 'EQUALS', 'Sorbet'),
+          tagFilter('snacks.type', 'CONTAINS', 'Ice')
+        ])
+      ]);
+
+      // When
+      const actual = invert(expression);
+
+      // Then
+      expect(actual).toEqual(
+        createTagFilterExpression('OR', [
+          tagFilter('snacks.available', 'LESS_OR_EQUAL_THAN', 0),
+          createTagFilterExpression('AND', [
+            tagFilter('snacks.type', 'NOT_EQUAL', 'Sorbet'),
+            tagFilter('snacks.type', 'NOT_CONTAIN', 'Ice')
+          ])
+        ])
+      );
     });
   });
 });

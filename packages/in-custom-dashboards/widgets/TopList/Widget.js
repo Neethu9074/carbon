@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/legacy';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -19,7 +20,6 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
-import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
@@ -110,6 +110,7 @@ function Label({ item, config, result, tagCatalog }) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   let filters = config.metricConfiguration.tagFilters;
   if (filters) {
@@ -223,7 +224,9 @@ function Label({ item, config, result, tagCatalog }) {
       link = analyzeHref;
       break;
     case 'INFRASTRUCTURE_METRICS':
-      link = (hasInfrastructureAnalyzeAccess && getLinkToEntityExplore(config, formModel)) || '';
+      link =
+        (hasInfrastructureAnalyzeAccess && getLinkToEntityExplore(config, formModel, getLinkToInfraEntityExplore)) ||
+        '';
       break;
   }
 
@@ -288,8 +291,8 @@ function getConvertedValue(value) {
   return value;
 }
 
-function getLinkToEntityExplore(config, formModel) {
-  return getLinkToExplore({
+function getLinkToEntityExplore(config, formModel, getLinkToInfraEntityExplore) {
+  return getLinkToInfraEntityExplore({
     type: config.metricConfiguration.type,
     ...infraMetrics(config),
     tagFilterExpression: formModel

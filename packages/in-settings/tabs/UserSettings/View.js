@@ -11,12 +11,10 @@ import {
   userSettingsAdvanced,
   userSettingsPrivacy,
   userSettingsCommunication,
-  userSettingsPersonalApiTokens,
-  userSettingsPersonalApiTokenEdit
+  userSettingsPersonalApiTokens
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
-import PersonalApiTokenPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
@@ -53,13 +51,7 @@ const navigationTree = [
       {
         path: userSettingsPersonalApiTokens,
         label: t('in-settings:tabs.personalApiTokens'),
-        component: PersonalApiTokensPage,
-        subPages: [
-          {
-            path: userSettingsPersonalApiTokenEdit,
-            component: PersonalApiTokenPage
-          }
-        ]
+        component: PersonalApiTokensPage
       }
     ]
   }

@@ -40,21 +40,20 @@ export function createForm(
   })
     .put(
       'configuration',
-      // @ts-expect-error testType does not exist in BluePrint type
-      selectedBlueprint?.type === apiScriptTest || selectedBlueprint?.testType === 'HTTPScript'
+      selectedBlueprint?.type === apiScriptTest ||
+        // @ts-expect-error testType does not exist in BluePrint type
+        selectedBlueprint?.testType === 'HTTPScript' ||
+        // @ts-expect-error testType does not exist in BluePrint type
+        selectedBlueprint?.testType === 'BrowserScript'
         ? !simpleMode && !savedState?.script
           ? createAdvancedScriptConfigurationForm(savedState ?? {})
           : createScriptConfigurationForm(savedState ?? {})
         : !simpleMode
-        ? createAdvancedActionConfigurationForm(savedState ?? {})
+        ? // @ts-expect-error testType does not exist in BluePrint type
+          selectedBlueprint?.testType === 'HTTPAction'
+          ? createAdvancedActionConfigurationForm(savedState ?? {})
+          : createAdvancedBrowserActionConfigurationForm(savedState ?? {})
         : createActionConfigurationForm(savedState ?? {})
-    )
-    .put(
-      'response',
-      createField({
-        value: savedState?.response,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
     )
     .put(
       'locations',
@@ -74,7 +73,7 @@ export function createForm(
       'description',
       createField({
         value: savedState?.description ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     )
     .put(
@@ -87,8 +86,7 @@ export function createForm(
     .put(
       'applicationId',
       createField({
-        value: savedState?.applicationId ?? null,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+        value: savedState?.applicationId ?? null
       })
     )
     .put(
@@ -274,6 +272,36 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       'allowInsecure',
       createField({
         value: savedState?.allowInsecure ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+}
+
+function createAdvancedBrowserActionConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'WebpageAction',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'url',
+      createField({
+        value: savedState?.url ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );

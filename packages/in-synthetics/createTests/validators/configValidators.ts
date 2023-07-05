@@ -86,7 +86,7 @@ export function mainFileNameValidator(
   zipFile: { name: string; files: string[] },
   mainFileName: string
 ): ValidationResult {
-  if (zipFile.files.indexOf(zipFile.name.replace('.zip', '').concat('/', mainFileName)) === -1) {
+  if (zipFile.files.indexOf(mainFileName) === -1) {
     return [
       {
         severity: 'error',

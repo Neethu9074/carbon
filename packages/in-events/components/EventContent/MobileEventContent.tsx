@@ -10,17 +10,22 @@ import { Card } from '@instana/components';
 
 //@ts-expect-error needs TS migration
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import {
+  alertingEventDetailsChartTimeframe as minDurationMillis,
+  alertingDialogItemPickerTimeframe as maxDurationMillis
+} from 'in-alerting/components/constants';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
+import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
+import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -49,10 +54,11 @@ export default function MobileEventContent({ event }: Props) {
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+  const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
     autoRefresh: false,
-    windowSize: alertingEventDetailsChartTimeframe
+    ...(windowSize && { windowSize })
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -65,6 +71,7 @@ export default function MobileEventContent({ event }: Props) {
 
             <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
             <DescriptionButtons>
+              <MobileAppAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeMobileAppEventButton
                 mobileAppName={eventEntity.mobileAppName}
                 alertConfig={alertConfig}

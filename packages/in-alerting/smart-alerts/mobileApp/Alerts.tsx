@@ -16,17 +16,18 @@ import {
 } from '@instana/types';
 
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 //@ts-expect-error Needs TS migration
 import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
+import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
-import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -37,12 +38,14 @@ import { t } from 'in-i18n';
 
 export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
   const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
+  const location = useLocation();
   return (
     <>
       <ViewTrackingMeta
         data={{
           productArea: 'MobileApp Monitoring',
-          pageRootName: 'Smart Alerts List'
+          pageRootName: 'Smart Alerts List',
+          pagePath: location?.pathname
         }}
       />
       <AlertBaseList<MobileAppAlertConfigWithMetadata>
@@ -52,6 +55,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         createRowLinkLocation={createRowLinkLocation}
+        alertsTab={alertsTab}
       />
     </>
   );
@@ -85,6 +89,12 @@ function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUn
       metricLabel: formattedMetricLabel,
       operator: humanReadableOperator,
       value: formattedValue
+    });
+  }
+
+  if (type === ADAPTIVE_BASELINE) {
+    return t('in-alerting:smartAlerts.mobileApp.alertList.columns.name.subtitleForAdaptiveThreshold', {
+      metricLabel: formattedMetricLabel
     });
   }
 

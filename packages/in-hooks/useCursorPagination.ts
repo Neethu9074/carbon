@@ -60,7 +60,7 @@ const initialState: State<any, any> = {
   resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
 };
 
-export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
+export default function useCursorPagination<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>>(
   create: GetCursorPaginated<CURSOR, ITEM> | GetCursorPaginatedWithNext<CURSOR, ITEM>,
   deps: React.DependencyList = []
 ): State<CURSOR, ITEM> & {
@@ -110,12 +110,15 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
 
   const result: Result<SupportedResponseFormats<ITEM, CURSOR>> =
     useObservable(observable, [observable, ...deps]) ?? pendingResult;
-  useEffect(() => setState((prev: State<CURSOR, ITEM>) => updateResult(prev, result)), [
-    result,
-    // eslint cannot statically analyze the following case
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    ...deps
-  ]);
+  useEffect(
+    () => setState((prev: State<CURSOR, ITEM>) => updateResult(prev, result)),
+    [
+      result,
+      // eslint cannot statically analyze the following case
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ...deps
+    ]
+  );
 
   const loadMore: () => void = useCallback(
     () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, cursor: prev.nextCursor, nextCursor: undefined })),

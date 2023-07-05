@@ -64,7 +64,7 @@ function extendForStatusCode(
     .put(
       'value',
       createField({
-        value: rule.value ?? '4',
+        value: rule.value ?? '5',
         validator: notBlankValidator
       })
     );

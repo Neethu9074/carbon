@@ -141,7 +141,7 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
               {conditionLabel(
                 (form.get('formatter') as Field<FormatterType>).value,
                 (form.get('metricName') as Field<string>).value,
-                (form.get('aggregation') as Field<AlertingAggregation>).value
+                (form.get('aggregation') as Field<AlertingAggregation>)?.value
               )}
             </Label>
             <Input
@@ -160,7 +160,7 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
   );
 }
 
-const conditionLabel = (formatterType: FormatterType, metricName: string, aggregation: AlertingAggregation) => {
+const conditionLabel = (formatterType: FormatterType, metricName: string, aggregation?: AlertingAggregation) => {
   if (aggregation === 'relative_diff') {
     return t('in-settings:tabs.relativeDifferencePercentage');
   }

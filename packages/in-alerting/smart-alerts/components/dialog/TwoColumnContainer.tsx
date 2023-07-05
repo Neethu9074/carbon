@@ -7,7 +7,10 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message } from '@instana/components';
+import { Message, SvgIcon } from '@instana/components';
+
+import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/TwoColumnContainer.mless';
 
@@ -18,6 +21,7 @@ interface TwoColumnContainerProps {
   removePaddingSecondaryArea?: boolean;
   secondaryContent: ReactNode;
   warnMessage?: ReactNode;
+  infoContent?: ReactNode;
   removeMainAreaContentBorder?: boolean;
 }
 
@@ -28,6 +32,7 @@ export default function TwoColumnContainer({
   moveMainAreaRight,
   removePaddingSecondaryArea,
   warnMessage,
+  infoContent,
   removeMainAreaContentBorder
 }: TwoColumnContainerProps) {
   return (
@@ -38,7 +43,15 @@ export default function TwoColumnContainer({
       })}
     >
       <div className={locals.mainArea}>
-        <h3 className={locals.headline}>{mainContentHeadline}</h3>
+        {/* Note:  some css has been applied for 2nd child here using :nth-child  inside columnHeader class*/}
+        <div className={locals.columnHeader}>
+          <h3 className={locals.headline}>{mainContentHeadline}</h3>
+          {infoContent && (
+            <Tooltip align="topMiddle" content={infoContent}>
+              <SvgIcon type="lib_help_error_info_outline" color={theme.lib.colors.N600Light} />
+            </Tooltip>
+          )}
+        </div>
         {warnMessage && <Message type="warning">{warnMessage}</Message>}
         <div
           className={classNames({

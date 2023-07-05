@@ -11,7 +11,6 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import * as paths from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
 
@@ -32,16 +31,11 @@ export default function ViewSwitcher() {
   />
   */
 
-  const renderMetaInformation = () => {
-    return <BetaBadge />;
-  };
-
   const dashboardHeaderProps = {
     icon: 'lib_bizops',
     label: t('in-bizops:navigation.businessMonitoring'),
     title: t('in-bizops:navigation.businessMonitoring'),
-    showHistoricDataWarning: false,
-    renderMetaInformation
+    showHistoricDataWarning: false
   };
 
   return (

@@ -18,7 +18,7 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function NamespaceBreadcrumb({ namespaceId, namespace, href$ }) {
+  function NamespaceBreadcrumb({ namespaceId, namespace, href }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={namespaceId}
@@ -26,7 +26,7 @@ export default connectTo(
           <Breadcrumb
             label={t('in-kubernetes:breadcrumbs.namespace')}
             icon="lib_kubernetes_namespace"
-            href$={href$}
+            href={href}
             healthInfo={healthInfo}
           >
             {namespace && namespace.label}

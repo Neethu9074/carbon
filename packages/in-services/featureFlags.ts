@@ -80,9 +80,6 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
-// RBAC usability improvements
-export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
-
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',
@@ -108,6 +105,10 @@ export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystor
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
+
+export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertsAdaptiveBaselineEnabled'
+);
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -140,6 +141,8 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
+export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
+
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
@@ -156,7 +159,7 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 // Recurrent Maintenance Window Flag
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
-export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', false);
+export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
   false
@@ -165,3 +168,8 @@ export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 
 export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeEnabled', false);
+
+export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnabled(
+  'oneMinuteGranularityForStaticThresholdEnabled',
+  false
+);

@@ -24,6 +24,7 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -74,7 +75,7 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
   );
 }
 
-export const columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] = [
+let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] = [
   {
     id: 'location_name',
     sortable: true,
@@ -214,8 +215,11 @@ export const columnDefinitions: ColumnDefinition<LocationListItem, locationListP
         );
       }
     }
-  },
-  {
+  }
+];
+
+if (role?.canConfigureSyntheticLocations) {
+  columnDefinitions.push({
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
@@ -228,8 +232,8 @@ export const columnDefinitions: ColumnDefinition<LocationListItem, locationListP
         </HorizontalFlexWrapper>
       );
     }
-  }
-];
+  });
+}
 
 function NamespaceLink({ namespace, namespaceId }: { namespace: string; namespaceId: string }) {
   const href = useNamespaceDashboard(namespaceId);
@@ -239,3 +243,5 @@ function NamespaceLink({ namespace, namespaceId }: { namespace: string; namespac
     </Link>
   );
 }
+
+export default columnDefinitions;

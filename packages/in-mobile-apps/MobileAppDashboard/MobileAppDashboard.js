@@ -93,7 +93,8 @@ export default function MobileAppDashboard() {
       <ViewTrackingMeta
         data={{
           productArea: 'EUM: Mobile Apps',
-          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App'
+          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App',
+          pagePath: location?.pathname
         }}
       />
 

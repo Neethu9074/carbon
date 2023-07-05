@@ -43,7 +43,7 @@ export default function Summary({ timeConfig, data: region }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['cpuUsage'],
+                metrics: ['instanceUsage'],
                 labels: [t('in-powervc:instanceUsage')],
                 formatter: number.compact,
                 type: 'line'
@@ -52,8 +52,8 @@ export default function Summary({ timeConfig, data: region }) {
             />
           </Card>
         </Col>
-        </Row>
-        <Row verticallyStretchColumns>
+      </Row>
+      <Row verticallyStretchColumns>
         <Col lg={6}>
           <Card title={t('in-powervc:dashboards.totalRAMUsed')} useMaxAvailableHeight>
             <Chart
@@ -86,8 +86,8 @@ export default function Summary({ timeConfig, data: region }) {
             />
           </Card>
         </Col>
-        </Row>
-        <Row verticallyStretchColumns>
+      </Row>
+      <Row verticallyStretchColumns>
         <Col lg={6}>
           <Card title={t('in-powervc:dashboards.totalFloatingIpsUsed')} useMaxAvailableHeight>
             <Chart
@@ -120,7 +120,7 @@ export default function Summary({ timeConfig, data: region }) {
             />
           </Card>
         </Col>
-        </Row>
+      </Row>
     </Fragment>
   );
 }

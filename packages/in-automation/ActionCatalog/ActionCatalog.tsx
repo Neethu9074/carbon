@@ -32,7 +32,10 @@ const tableActions = {
 const checkForBuiltInActions = () => {
   return getAllActions().flatMap(actions => {
     if (actions.filter(action => action?.metadata?.builtIn).length === 0) {
-      return createBuiltInActions().flatMap(() => getAllActions());
+      return createBuiltInActions()
+        .flatMap(() => getAllActions())
+        .errors()
+        .flatMap(() => just(actions));
     }
     return just(actions);
   });

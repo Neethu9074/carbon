@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { ua2ChartChangedTracker } from 'in-websites/tracker';
@@ -19,58 +19,27 @@ export function ChartsPresenter(props) {
     metricMetadatas,
     dataSource,
     chartableDataSeries,
-    metricCatalogInit,
-    onChartedMetricChange,
+    metricCatalog,
+    onChartedMetricsChange,
     isGrouped,
+    isValid,
+    isLoading,
     tagFilterExpression,
-    type,
-    setUrl
+    type
   } = props;
 
-  getAggregations();
-
-  const [chartMetricCatalog, setMetricCatalog] = useState({ ...metricCatalogInit, type: '' });
-
-  if (!metricCatalogInit?.progress?.loading && chartMetricCatalog['type'] !== type) {
-    setMetricCatalog({ ...metricCatalogInit, type: type });
-  }
-
-  const options = getOptions(chartMetricCatalog, metricMetadatas);
-
-  if (!chartedMetrics.length && !metricMetadatas.progress?.loading && Object.keys(options)[0]?.length) {
-    if (Object.keys(metricMetadatas.data).length > 0) {
-      setUrl({
-        chartedMetrics: [
-          {
-            metricId: Object.keys(metricMetadatas.data)[0],
-            aggregationId: 'MEAN',
-            rendererId: 'line'
-          }
-        ]
-      });
-    } else if (type === chartMetricCatalog.type) {
-      const metricLevel = Object.keys(options)[0];
-      if (metricLevel?.length) {
-        const metric = options[metricLevel][0];
-        setUrl({
-          chartedMetrics: [
-            {
-              metricId: metric.metricId,
-              aggregationId: 'MEAN',
-              rendererId: 'line'
-            }
-          ]
-        });
-      }
-    }
-  }
+  const options = useMemo(() => getOptions(metricCatalog, metricMetadatas), [metricCatalog, metricMetadatas]);
 
   return (
     <Sections className={locals.chartWrapper}>
       <Charting
-        {...props}
+        isGrouped={isGrouped}
+        isValid={isValid}
+        dataSource={dataSource}
+        isLoading={isLoading}
         chartedMetrics={chartedMetrics?.map(chartedMetric => ({
-          ...chartedMetric,
+          metricId: chartedMetric.metric ?? chartedMetric.metricId,
+          aggregationId: chartedMetric.aggregation ?? chartedMetric.aggregationId,
           rendererId: 'line'
         }))}
         unifiedMetricsSource="INFRASTRUCTURE_METRICS"
@@ -97,10 +66,10 @@ export function ChartsPresenter(props) {
           };
         }}
         backendQueryModelWithFacets={tagFilterExpression}
-        chartableMetricCatalog={getChartableMetricCatalog(chartMetricCatalog, metricMetadatas).metrics}
+        chartableMetricCatalog={getChartableMetricCatalog(metricCatalog, metricMetadatas).metrics}
         processedOptions={options}
-        onChartedMetricsChange={chartedMetric => {
-          onChartedMetricChange(chartedMetric);
+        onChartedMetricsChange={metrics => {
+          onChartedMetricsChange(metrics.map(metric => ({ metric: metric.metricId, aggregation: metric.aggregationId })));
         }}
         {...defaultProps}
       />
@@ -159,32 +128,32 @@ function getChartableMetricCatalog(metricsCatalog, metricMetadatas) {
   return { metrics: result };
 }
 
-function getOptions(metricCatalogInit, metricMetadatas) {
+function getOptions(metricCatalog, metricMetadatas) {
   let result = {};
-  if (!metricCatalogInit?.progress?.loading) {
-    const oneLevelMetricType = Object.keys(metricCatalogInit?.data?.metrics);
+  if (!metricCatalog?.progress?.loading) {
+    const oneLevelMetricType = Object.keys(metricCatalog?.data?.metrics);
+    // TODO: fix usage of `metricCatalog.data.metrics` - always use `...tree`
     if (
       oneLevelMetricType.length === 1 &&
-      metricCatalogInit?.data?.metrics[oneLevelMetricType[0]]?.METRIC &&
-      Object.keys(metricCatalogInit?.data?.metrics[oneLevelMetricType[0]]?.METRIC).length > 0
+      metricCatalog?.data?.metrics[oneLevelMetricType[0]]?.METRIC &&
+      Object.keys(metricCatalog?.data?.metrics[oneLevelMetricType[0]]?.METRIC).length > 0
     ) {
-      const aggr = getAggregations();
       let optionsArr = [];
 
-      metricCatalogInit?.data?.tree?.forEach(t => {
+      // TODO: get rid of usage of metricMetadatas
+      metricCatalog?.data?.tree?.forEach(t => {
         let formatterName = getFormatterName(metricMetadatas, t.name);
         optionsArr.push({
           metricId: t.name,
           label: t.label,
           description: t.description,
-          aggregations: aggr,
+          aggregations,
           formatter: formatterName
         });
         result['metrics'] = optionsArr;
       });
     } else {
-      const aggr = getAggregations();
-      metricCatalogInit?.data?.tree?.forEach(t => {
+      metricCatalog?.data?.tree?.forEach(t => {
         let optionsArr = [];
 
         t.children?.forEach(m => {
@@ -193,11 +162,12 @@ function getOptions(metricCatalogInit, metricMetadatas) {
             metricId: m.name,
             label: m.label,
             description: m.description,
-            aggregations: aggr,
+            aggregations,
             groupLabel: t.label,
             formatter: formatterName
           });
         });
+        // TODO: get rid of magic _
         result['_' + t.label] = optionsArr;
       });
     }
@@ -205,18 +175,11 @@ function getOptions(metricCatalogInit, metricMetadatas) {
   return result;
 }
 
-function getAggregations() {
-  let result = [];
-  Object.keys(aggregationLabels).forEach(k =>
-    result.push({
-      id: k,
-      label: aggregationLabels[k],
-      renderers: [{ id: 'line', label: 'Line', renderer: {} }]
-    })
-  );
-
-  return result;
-}
+const aggregations = Object.keys(aggregationLabels).map(k => ({
+  id: k,
+  label: aggregationLabels[k],
+  renderers: [{ id: 'line', label: 'Line', renderer: {} }]
+}));
 
 const defaultProps = {
   refreshFixatedTimeConfig: () => {},

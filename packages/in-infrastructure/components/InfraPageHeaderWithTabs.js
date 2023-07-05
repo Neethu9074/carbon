@@ -9,11 +9,14 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
-import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -27,10 +30,12 @@ import { t } from 'in-i18n';
 
 import locals from './InfraAnalyticsBeta.mless';
 
-function renderButtonLine() {
+function ButtonLine() {
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
   return (
     <div className={locals.betaMarker}>
-      <Link className={locals.betaLink} href={defaultInfraExploreView}>
+      <Link className={locals.betaLink} href={getLinkToInfraEntityExplore(defaultInfraExploreViewParams)}>
         <Pill kind="primary" className={locals.betaPill}>
           {t('in-infrastructure:explore.beta')}
         </Pill>
@@ -38,6 +43,10 @@ function renderButtonLine() {
       </Link>
     </div>
   );
+}
+
+function renderButtonLine() {
+  return <ButtonLine />;
 }
 
 export default function InfraPageHeaderWithTabs({

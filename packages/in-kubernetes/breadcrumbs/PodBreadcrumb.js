@@ -18,7 +18,7 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function NodeBreadPodBreadcrumbcrumb({ podId, pod, href$ }) {
+  function NodeBreadPodBreadcrumbcrumb({ podId, pod, href }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={podId}
@@ -26,7 +26,7 @@ export default connectTo(
           <Breadcrumb
             label={t('in-kubernetes:breadcrumbs.pod')}
             icon="lib_kubernetes_pod"
-            href$={href$}
+            href={href}
             healthInfo={healthInfo}
           >
             {pod && pod.label}

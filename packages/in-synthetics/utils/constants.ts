@@ -4,6 +4,7 @@
  */
 
 import { MapForm } from 'formalistic';
+import { ReactNode } from 'react';
 
 import {
   PaginatedResult,
@@ -19,7 +20,6 @@ import {
   TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { SliderState } from 'in-synthetics/createTests/TestConfigDialogPresenter';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';
@@ -357,8 +357,8 @@ export interface AdvancedModeProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
-  testTypeSelected: { simple: boolean; script: boolean };
-  setTestTypeSelected: (type: { simple: boolean; script: boolean }) => void;
+  testTypeSelected: TestTypeSelected;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
   commonAttributes: Record<string, any>;
@@ -367,6 +367,16 @@ export interface AdvancedModeProps {
   isUpdateConfig: boolean;
   scriptDetails?: Code;
   setScriptDetails?: React.Dispatch<React.SetStateAction<Code>>;
+}
+
+export interface SlideInConfig {
+  title?: string;
+  component?: ReactNode;
+}
+
+export interface SliderState {
+  slideInConfig?: SlideInConfig;
+  isVisible: boolean;
 }
 
 export interface ConfigItem {
@@ -441,4 +451,14 @@ export interface ModalNotificationProps {
   variant?: 'success' | 'failure';
   message: string;
   onClick?: () => void;
+}
+
+export interface SimpleOrScript {
+  simple: boolean;
+  script: boolean;
+}
+
+export interface TestTypeSelected {
+  api: SimpleOrScript;
+  browser: SimpleOrScript;
 }

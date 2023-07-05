@@ -21,9 +21,11 @@ import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/naviga
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -108,7 +110,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
     location,
     syntheticsDashboard,
     'type',
-    item?.testResultCommonProperties?.testCommonProperties?.type
+    getSyntheticType(item?.testResultCommonProperties?.testCommonProperties?.type ?? '')
   );
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
@@ -122,7 +124,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   );
 }
 
-export const columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
+let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
   {
     id: 'test_name',
     defaultOrderDirection: 'ASC',
@@ -319,8 +321,11 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
         }
       }
     }
-  },
-  {
+  }
+];
+
+if (role?.canConfigureSyntheticTests) {
+  columnDefinitions.push({
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
@@ -333,5 +338,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
         </HorizontalFlexWrapper>
       );
     }
-  }
-];
+  });
+}
+
+export default columnDefinitions;

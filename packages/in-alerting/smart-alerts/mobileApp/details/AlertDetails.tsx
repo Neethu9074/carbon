@@ -23,10 +23,9 @@ import {
 //@ts-expect-error Needs TS Migration
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-mobile-apps/navigation/matrix';
 //@ts-expect-error Needs TS Migration
-import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
-//@ts-expect-error Needs TS Migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { MobileAppAlertConfigWithMetadata, Nullish, VersionedConfig } from 'in-types';
 

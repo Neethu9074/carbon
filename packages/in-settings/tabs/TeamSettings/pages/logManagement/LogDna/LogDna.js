@@ -69,7 +69,8 @@ export default function LogDna() {
     } else {
       return () => disposeAsyncAction();
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const enabled = form?.get('enabled').value ?? null;
 

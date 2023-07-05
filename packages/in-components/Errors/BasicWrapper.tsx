@@ -24,7 +24,7 @@ export type IconSize = keyof typeof SvgIconSizes;
 export default function BasicWrapper({ width, height, title, text, renderIcon, className }: BasicWrapperProps) {
   let size: string = 'default';
   let iconSize: IconSize = 'xl';
-  if (height && height < 80) {
+  if (height && Number(height) < 80) {
     size = 'small';
     iconSize = 'regular';
   }
