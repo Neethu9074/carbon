@@ -39,47 +39,50 @@ export function getResultIconLabel(result, label, size) {
   return label;
 }
 
+function configReportSummary(configType) {
+  const reportSummary = {
+    created: [],
+    updated: [],
+    skipped: [],
+    error: [],
+    na: []
+  };
+
+  configType.configs?.map(config => {
+    const { result, id } = config;
+    if (result) {
+      const normalizedResult = result.toLowerCase();
+      switch (normalizedResult) {
+        case 'created':
+          reportSummary.created.push(id);
+          break;
+        case 'updated':
+          reportSummary.updated.push(id);
+          break;
+        case 'skipped':
+          reportSummary.skipped.push(id);
+          break;
+        case 'error':
+          reportSummary.error.push(id);
+          break;
+      }
+    } else {
+      reportSummary.na.push(id);
+    }
+  });
+
+  return reportSummary;
+}
+
 // returns a summary of result type counts from config data
 export function getConfigReportSummary(allConfigData) {
   let reportSummary = {};
+
   if (allConfigData) {
-    Object.values(allConfigData).map(configType => {
-      if (configType !== null) {
-        let resultCreatedIds = [];
-        let resultUpdatedIds = [];
-        let resultSkippedIds = [];
-        let resultErrorIds = [];
-        let noResultIds = [];
-        configType.configs.map(config => {
-          if (config.result) {
-            switch (config.result.toLowerCase()) {
-              case 'created':
-                resultCreatedIds.push(config.id);
-                break;
-              case 'updated':
-                resultUpdatedIds.push(config.id);
-                break;
-              case 'skipped':
-                resultSkippedIds.push(config.id);
-                break;
-              case 'error':
-                resultErrorIds.push(config.id);
-                break;
-            }
-          } else {
-            noResultIds.push(config.id);
-          }
-        });
-        let configReportSummary = {
-          created: resultCreatedIds,
-          updated: resultUpdatedIds,
-          skipped: resultSkippedIds,
-          error: resultErrorIds,
-          na: noResultIds
-        };
-        reportSummary[configType.key] = configReportSummary;
-      }
-    });
+    const configTypes = Object.values(allConfigData);
+    configTypes
+      .filter(configType => configType !== null && configType.key)
+      .forEach(configType => (reportSummary[configType.key] = configReportSummary(configType)));
   }
   return reportSummary;
 }
