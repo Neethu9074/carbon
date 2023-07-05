@@ -37,7 +37,9 @@ import {
   NO_AUTH,
   SCRIPT_TYPE,
   WEBHOOK_TYPE,
-  getType
+  getType,
+  MANUAL_TYPE,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -73,6 +75,7 @@ interface ActionFormProps {
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
   const type = (form.get('type') as Field<string>).value;
+  const showTimeoutSection = isScript(type) || isWebhook(type);
   return (
     <fieldset>
       <Row>
@@ -84,7 +87,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
           {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
           {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
           {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
-          {!isDocLink(type) && (
+          {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
               <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
@@ -93,9 +96,13 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </FormGroup>
             </>
           )}
-          <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForEvent')}</SectionHeading>
+          <SectionHeading>
+            {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
+          </SectionHeading>
           <EventsSelection form={form} setForm={setForm} />
-          <SectionHeading>{t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}</SectionHeading>
+          <SectionHeading>
+            {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}
+          </SectionHeading>
           <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
         </Col>
       </Row>
@@ -217,6 +224,11 @@ const TypeSection = ({
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = putWebhookFields(updatedForm, action);
+                } else if (isManual(type)) {
+                  // manual actions don't have any associated fields
+                  updatedForm = removeDocLinkField(updatedForm);
+                  updatedForm = removeScriptField(updatedForm);
+                  updatedForm = removeWebhookFields(updatedForm);
                 }
                 return updatedForm;
               })
@@ -226,6 +238,7 @@ const TypeSection = ({
             <option value={DOC_LINK_TYPE}>{t('in-automation:ActionCatalog.docLink')}</option>
             <option value={SCRIPT_TYPE}>{t('in-automation:ActionCatalog.script')}</option>
             <option value={WEBHOOK_TYPE}>{t('in-automation:ActionCatalog.http')}</option>
+            <option value={MANUAL_TYPE}>{t('in-automation:ActionCatalog.manual')}</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
