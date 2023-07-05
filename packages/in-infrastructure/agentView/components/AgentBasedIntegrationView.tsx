@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { Fragment } from 'react';
 import { useState } from 'react';
-import React from 'react';
 
 import { Stack, SvgIcon, Typography, Link } from '@instana/components';
 
@@ -18,6 +18,7 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
@@ -25,9 +26,12 @@ import theme from 'in-themes';
 import locals from './AgentBasedIntegrationView.mless';
 
 function renderValueLines(lines: string[]) {
-  let result: string[] = [];
-  lines.forEach((item, i) => (result = i === lines.length - 1 ? result.concat(item) : result.concat('<br key={i} />')));
-  return <>{result}</>;
+  return lines.map((line, idx) => (
+    <Fragment key={idx}>
+      {line}
+      {idx !== lines.length - 1 && <br />}
+    </Fragment>
+  ));
 }
 
 function Description({ lines }: { lines: string[] }) {
@@ -57,7 +61,9 @@ const AgentBasedIntegrationView = () => {
           <Description lines={[t('in-infrastructure:agentView.support')]} />
           <Listing
             items={[
-              t('in-infrastructure:agentView.sap'),
+              <div>
+                {t('in-infrastructure:agentView.sap')} <BetaBadge />
+              </div>,
               t('in-infrastructure:agentView.omegamon'),
               t('in-infrastructure:agentView.itmv6'),
               <Stack direction="horizontal" gap="xsmall" align="center">

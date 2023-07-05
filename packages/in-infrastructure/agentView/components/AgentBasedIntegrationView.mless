@@ -11,23 +11,22 @@
     max-width: 55vw;
   }
   .heading {
-    padding-left: 8px;
+    padding-left: 0.5rem;
   }
   .wrapper {
-    padding: 0px 8px 8px 8px;
+    padding: 0px 0.5rem 0.5rem 0.5rem;
   }
   .archBox {
-    border: 1px solid @lib__colors__N300;
+    border: 1px solid var(--colors-gray-300);
   }
   .archboxview {
-    padding-top: 8px;
+    padding-top: 0.5rem;
   }
   .codeBox {
-    font-size: var(--ids-font-size-option-body-small);
     padding-top: 1rem;
   }
   .curlCommandBox {
-    padding: 16px 0 48px 0;
+    padding: 1rem 0 3rem 0;
   }
   .controls {
     padding: 1rem 0;
@@ -39,15 +38,5 @@
     button {
       min-width: 6.25rem;
     }
-  }
-  .tooltip {
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-  .command {
-    justify-content: space-between;
-    min-width: 30rem;
   }
 }
