@@ -6,12 +6,16 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { businessProcessActivityListPath } from 'in-bizops/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -52,11 +56,19 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   );
 }
 
-//TODO: Link to the activities tab when the 'view all activities' button is clicked
-// Still waiting on the activities tab to be implemented first :)
-function ViewAll() {
-  //return <div>{t('in-bizops:dashboards.summary.widgets.viewAll')}</div>;
-  return '';
+interface viewAllProps {
+  className: string;
+}
+
+// className styling provided by chart component
+function ViewAll({ className }: viewAllProps) {
+  const location = useNavigation();
+  const viewAllPath: string = location.createHrefToPath(businessProcessActivityListPath);
+  return (
+    <Link className={className} href={viewAllPath}>
+      {t('in-bizops:dashboards.summary.widgets.viewAll')}
+    </Link>
+  );
 }
 
 type GetListProps = {

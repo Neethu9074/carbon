@@ -124,9 +124,10 @@ export const hiddenSearchFieldValues = {
 };
 
 // ########################################################################################
-// Business Observability flags
+// Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
+export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
 
 // ########################################################################################
 // Chart gap hiding

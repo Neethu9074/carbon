@@ -11,12 +11,9 @@ import {
   Result,
   GetBusinessActivitiesQuery,
   BusinessActivity,
-  TimeConfig,
-  Order,
-  Pagination,
-  AggregationType,
-  Filter,
-  TagFilterExpression
+  OrderDirection,
+  TagFilterExpression,
+  TimeConfig
 } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
@@ -30,34 +27,45 @@ const getBusinessActivityList = createResultSubscriptionFactory<
 
 export default getBusinessActivityList;
 
-interface getBusinessActivityListDefaultProps {
-  filter: Filter;
-  metrics: {
-    id: {
-      metric: string;
-      aggregation: AggregationType;
-    };
-  };
-  order: Order;
-  pagination: Pagination;
+interface GetBusinessActivityListDefaultProps {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  timeConfig: TimeConfig;
   tagFilterExpression?: TagFilterExpression;
-  timeConfig?: TimeConfig;
 }
-
 export function getBusinessActivityListWithDefaults({
-  filter,
-  metrics,
-  order,
-  pagination,
-  tagFilterExpression,
-  timeConfig
-}: getBusinessActivityListDefaultProps): Observable<Result<PaginatedResult<BusinessActivity>>> {
+  //The value of query is from the Search box, by default, it is ''.
+  page = 1,
+  pageSize = 20,
+  orderBy = 'activitiesCount',
+  orderDirection = 'DESC',
+  timeConfig,
+  tagFilterExpression
+}: GetBusinessActivityListDefaultProps): Observable<Result<PaginatedResult<BusinessActivity>>> {
   return getBusinessActivityList({
-    pagination: pagination,
-    order: order,
-    metrics: metrics,
-    filter: filter,
-    tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined,
-    timeConfig: timeConfig ? timeConfig : undefined
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {
+      count: {
+        aggregation: 'DISTINCT_COUNT',
+        metric: 'activitiesCounts'
+      }
+    },
+    filter: {
+      timeConfig: timeConfig,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
+    },
+    tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
   });
 }

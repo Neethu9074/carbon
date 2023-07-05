@@ -321,6 +321,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsFeatureEnabled',
+    instanaCtlKey: 'feature.bizops.feature.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: false
