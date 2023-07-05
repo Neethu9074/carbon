@@ -48,8 +48,6 @@ const parameters = [
 export default {
   name,
   label,
-  isBeta: true,
-  feedbackLink: 'https://forms.gle/Y9yhYAtNPKEZZzXj9',
 
   getParameters() {
     return parameters;
