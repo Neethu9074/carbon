@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { KeyValue, Message, Stack } from '@instana/components';
 
+import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -151,6 +152,12 @@ const handleSubmit = ({
       setTimeout(() => {
         setSuccess(false);
       }, 5 * 1000);
+      // tracks feedback and comment
+      actionHistoryInstanceFeedbackTracker({
+        actionInstanceId: id,
+        actionInstanceFeedback: newFeedback,
+        actionInstanceComment: newComment
+      });
     },
     () => {
       setIsSaving(false);
