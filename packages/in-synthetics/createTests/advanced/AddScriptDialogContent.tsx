@@ -39,6 +39,7 @@ interface AddScriptProps {
   form: MapForm<any>;
   scriptContent: Script;
   zipFileDetails: Zip;
+  isBrowser: boolean;
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<React.SetStateAction<SlideInHeader>>;
   onSubmit: (scriptContent: Script, zipFile: Zip) => void;
@@ -48,6 +49,7 @@ export default function AddScriptDialogContent({
   form,
   scriptContent,
   zipFileDetails,
+  isBrowser,
   setSliderState,
   setCustomSlideInHeaderConfig,
   onSubmit
@@ -84,11 +86,13 @@ export default function AddScriptDialogContent({
       const extension = e.target.value.substring(e.target.value.lastIndexOf('.') + 1);
       isModified(false);
       setZipFile({ name: '', files: [] });
-      if (extension === 'js') {
+      if (extension === 'js' || extension === 'side') {
         setUploadIcon('lib_views_file');
         text = await e.target.files[0].text();
         setScript({ name: e.target.files[0].name, text, extension });
-        setScriptErrors(validate(text));
+        if (extension === 'js') {
+          setScriptErrors(validate(text));
+        }
       } else {
         setUploadIcon('lib_views_folder');
         setMainFileError({ invalid: false, message: '' });
@@ -111,14 +115,16 @@ export default function AddScriptDialogContent({
   }
 
   function onEditScript(text: string) {
-    setScriptErrors(validate(text));
+    if (script.extension !== 'side') {
+      setScriptErrors(validate(text));
+      setScript({
+        name: modified ? '' : script.name,
+        text,
+        extension: modified ? '' : script.extension
+      });
+      isModified(true);
+    }
     setZipFile({ name: '', files: [] });
-    setScript({
-      name: modified ? '' : script.name,
-      text,
-      extension: modified ? '' : script.extension
-    });
-    isModified(true);
   }
 
   return (
@@ -133,11 +139,17 @@ export default function AddScriptDialogContent({
                     {t('in-synthetics:dialog.createTest.advancedMode.configStep.uploadFileLabel')}
                   </div>
                   <DescriptionText>
-                    {t('in-synthetics:dialog.createTest.advancedMode.configStep.uploadFileDescription')}
+                    {isBrowser
+                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.browserUploadFileDescription')
+                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.uploadFileDescription')}
                   </DescriptionText>
                 </div>
                 <>
-                  <FileInputButton accept="text/javascript,.zip" icon={uploadIcon} onChange={onFileUpload} />
+                  <FileInputButton
+                    accept={isBrowser ? 'text/javascript,.zip,.side' : 'text/javascript,.zip'}
+                    icon={uploadIcon}
+                    onChange={onFileUpload}
+                  />
                   {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
                 </>
               </HorizontalFlexWrapper>
@@ -175,7 +187,7 @@ export default function AddScriptDialogContent({
               <div className={locals.scriptTitle}>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
               </div>
-              {script.extension !== 'zip' ? (
+              {script.extension !== 'zip' && script.extension !== 'side' ? (
                 <>
                   <DescriptionText>
                     {t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptDescription')}
@@ -196,7 +208,11 @@ export default function AddScriptDialogContent({
               ) : (
                 <Message
                   withIcon
-                  title={t('in-synthetics:dialog.createTest.advancedMode.configStep.zipFileUploadedMessage')}
+                  title={
+                    isBrowser && script.extension === 'side'
+                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage')
+                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.zipFileUploadedMessage')
+                  }
                 />
               )}
             </div>

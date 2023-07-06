@@ -33,6 +33,9 @@ interface ScriptProps {
   isUpdateConfig: boolean;
   scriptDetails: Code;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  isBrowser: boolean;
 }
 
 export default function ScriptsSection({
@@ -42,9 +45,13 @@ export default function ScriptsSection({
   setCustomSlideInHeaderConfig,
   isUpdateConfig,
   scriptDetails,
-  setScriptDetails
+  setScriptDetails,
+  commonAttributes,
+  setCommonAttributes,
+  isBrowser
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
+  const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(
     isUpdateConfig && !isUpdated
@@ -78,13 +85,20 @@ export default function ScriptsSection({
   function deleteScript() {
     if (script.extension !== 'zip') {
       updateForm(
-        form.updateIn(['configuration', 'script'], (field: Item) =>
-          (field as Field<string>).setValue('').setTouched(true)
-        )
+        form
+          .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+            (field as Field<string>).setValue('').setTouched(true)
+          )
+          .updateIn(['configuration', 'script'], (field: Item) =>
+            (field as Field<string>).setValue('').setTouched(true)
+          )
       );
     } else {
+      let updatedForm = form.updateIn(['configuration', 'syntheticType'], (field: Item) =>
+        (field as Field<string>).setValue('').setTouched(true)
+      );
       //@ts-ignore-next-line
-      let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
+      updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
       //@ts-ignore-next-line
@@ -154,6 +168,11 @@ export default function ScriptsSection({
                     setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
                     onSubmit={(scriptContent, zipFile) => {
                       let updatedForm;
+                      let scriptType = isBrowser
+                        ? scriptContent.extension === 'js' || scriptContent.extension === 'zip'
+                          ? 'BrowserScript'
+                          : 'WebpageScript'
+                        : syntheticType;
                       if (scriptContent.extension !== 'zip') {
                         if (!form.get('configuration').get('script')) {
                           updatedForm = form.put(
@@ -171,12 +190,18 @@ export default function ScriptsSection({
                                   )
                                 }).setTouched(true)
                               )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptType).setTouched(true)
+                              )
                               .remove('scripts')
                           );
                         } else {
                           updatedForm = form
                             .updateIn(['configuration', 'script'], (field: Item) =>
                               (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                            )
+                            .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+                              (field as Field<string>).setValue(scriptType).setTouched(true)
                             )
                             .remove('scripts');
                         }
@@ -191,6 +216,9 @@ export default function ScriptsSection({
                                 'scripts',
                                 createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
                               )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptType).setTouched(true)
+                              )
                               .remove('script')
                           );
                         } else {
@@ -203,6 +231,9 @@ export default function ScriptsSection({
                               )
                               .updateIn(['scripts', 'scriptFile'], (field: Item) =>
                                 (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+                              )
+                              .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptType).setTouched(true)
                               )
                               .remove('script')
                           );
@@ -221,8 +252,12 @@ export default function ScriptsSection({
                           : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
                       );
                       setIsUpdated(true);
+                      if (isBrowser) {
+                        setCommonAttributes({ ...commonAttributes, syntheticType: scriptType });
+                      }
                     }}
                     setSliderState={setSliderState}
+                    isBrowser={isBrowser}
                   />
                 ),
                 title:

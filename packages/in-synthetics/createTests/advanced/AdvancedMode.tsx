@@ -51,6 +51,8 @@ const AdvancedMode = ({
   const getTestTypeSection = (syntheticType: string) => {
     switch (syntheticType) {
       case 'HTTPScript':
+      case 'BrowserScript':
+      case 'WebpageScript':
         return (
           <ScriptsSection
             form={form}
@@ -60,16 +62,15 @@ const AdvancedMode = ({
             isUpdateConfig={isUpdateConfig}
             scriptDetails={scriptDetails!}
             setScriptDetails={setScriptDetails!}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isBrowser={syntheticType === 'HTTPScript' ? false : true}
           />
         );
       case 'HTTPAction':
         return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
       case 'WebpageAction':
         return <BrowserSimpleConfiguration form={form} updateForm={updateForm} />;
-      case 'WebpageScript':
-        return <h1>{`WebpageScript (single) section`}</h1>;
-      case 'BrowserScript':
-        return <h1>BrowserScript Section</h1>;
       default:
         return null;
     }

@@ -154,7 +154,7 @@ function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>)
   return createMapForm().put(
     'syntheticType',
     createField({
-      value: savedState?.syntheticType ?? 'HTTPScript',
+      value: savedState?.syntheticType,
       validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
     })
   );

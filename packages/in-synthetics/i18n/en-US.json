@@ -163,7 +163,9 @@
           "scriptEditedManuallyMessage": "Script added or modified manually",
           "mainFileNameLabel": "Main File Name",
           "invalidMainFileName": "Main file name not valid",
-          "webpageUrl": "Webpage URL"
+          "webpageUrl": "Webpage URL",
+          "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated"
         },
         "loadMore": "Load More",
         "selectTests": {
