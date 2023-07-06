@@ -14,14 +14,17 @@ export const businessProcessPath = '/businessProcesses';
 export const activitiesPath = '/bizopsActivities';
 export const smartAlertsPath = '/bizopsSmartAlerts';
 export const businessProcessDashboard = '/businessProcess';
+export const businessActivityDashboardPath = '/businessActivity';
 export const businessProcessAlertListPath = `${businessProcessDashboard}${alertsTab}`;
 export const businessProcessSummaryPath = `${businessProcessDashboard}${summaryTab}`;
 export const businessProcessActivityListPath = `${businessProcessDashboard}${activitiesTab}`;
+export const businessActivitySummaryPath = `${businessProcessDashboard}${businessActivityDashboardPath}${summaryTab}`;
 
 export const isBizOpsView = getRootPathPredicate(
   businessProcessPath,
   activitiesPath,
   smartAlertsPath,
   businessProcessSummaryPath,
-  businessProcessActivityListPath
+  businessProcessActivityListPath,
+  businessActivitySummaryPath
 );
