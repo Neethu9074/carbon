@@ -51,7 +51,6 @@ gulp.task('dev', cb => {
       copyDevWaitingHtml,
       writeDevConfigFile,
       startDevProxy,
-      openDevUrlInBrowser
     ),
     enableDevWatches,
     webpackDev
@@ -168,7 +167,7 @@ function openDevUrlInBrowser(cb) {
   if (!process.env.DONT_OPEN_BROWSER) {
     buildUtil.openBrowser(getDevUrl());
   }
-  cb();
+  cb?.();
 }
 
 function getDevUrl() {
@@ -176,9 +175,16 @@ function getDevUrl() {
 }
 
 function webpackDev() {
+  const onReadyCallback = (_showInstructions, firstRun) => {
+    if (firstRun) {
+      openDevUrlInBrowser(() => {});
+    }
+  };
+
   // Start a webpack-dev-server
   const server = new WebpackDevServer(
     {
+      open: false,
       hot: hotReload,
       liveReload: hotReload,
       allowedHosts: hotReload ? 'all' : ['.instana.rocks'],
@@ -198,16 +204,13 @@ function webpackDev() {
       port: webpackDevServerPort,
       host: 'localhost'
     },
-    createWebpackCompiler(webpackConfig)
+    createWebpackCompiler(webpackConfig, onReadyCallback)
   );
 
   return new Promise((resolve, reject) => {
     try {
       server.startCallback(() => {
-        console.log('[webpack:dev]', `http://localhost:${webpackDevServerPort}/`);
         console.log();
-        console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
-        console.log(chalk.blue('The terminal output will change once completed.'));
         resolve();
       });
     } catch (exception) {
@@ -279,7 +282,7 @@ function createWebpackCompiler(config, onReadyCallback) {
     }
 
     if (typeof onReadyCallback === 'function') {
-      onReadyCallback(showInstructions);
+      onReadyCallback(showInstructions, isFirstCompile);
     }
     isFirstCompile = false;
 
