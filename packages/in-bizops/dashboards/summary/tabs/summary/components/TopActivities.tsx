@@ -14,9 +14,10 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { businessProcessActivityListPath } from 'in-bizops/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -63,6 +64,11 @@ interface viewAllProps {
 // className styling provided by chart component
 function ViewAll({ className }: viewAllProps) {
   const location = useNavigation();
+  // <FEATURE FLAG>
+  if (!bizopsFeatureEnabled) {
+    return '';
+  }
+  // </FEATURE FLAG>
   const viewAllPath: string = location.createHrefToPath(businessProcessActivityListPath);
   return (
     <Link className={className} href={viewAllPath}>
