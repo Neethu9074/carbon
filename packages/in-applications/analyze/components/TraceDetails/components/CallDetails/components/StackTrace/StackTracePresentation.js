@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './StackTracePresentation.mless';
 
@@ -27,7 +27,38 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
     );
   }
 
-  const listContent = (
+  return (
+    <>
+      {noCodeLinkMessage && (
+        <Tooltip content={noCodeLinkMessage} align="topMiddle">
+          <div>
+            <ListContent isOnline={isOnline} snapshot={snapshot} stackTrace={stackTrace} noPadding={noPadding} />
+          </div>
+        </Tooltip>
+      )}
+      {!noCodeLinkMessage && (
+        <ListContent isOnline={isOnline} snapshot={snapshot} stackTrace={stackTrace} noPadding={noPadding} />
+      )}
+    </>
+  );
+}
+
+function combine(file, line) {
+  if (line != null) {
+    return `${file}:${line}`;
+  }
+  return file;
+}
+
+// Some trace agents will record quotes in method names. We don't want to present these
+// as it looks ugly.
+// Ruby example: `<main>'
+function stripQuotes(s) {
+  return s.replace(STRIP_QUOTES_REGEX, '');
+}
+
+function ListContent({ stackTrace, isOnline, snapshot, noPadding }) {
+  return (
     <ol
       className={classNames({
         [locals.list]: true,
@@ -54,29 +85,4 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
       })}
     </ol>
   );
-
-  return (
-    <>
-      {noCodeLinkMessage && (
-        <Tooltip content={noCodeLinkMessage} align="topMiddle">
-          {listContent}
-        </Tooltip>
-      )}
-      {!noCodeLinkMessage && { listContent }}
-    </>
-  );
-}
-
-function combine(file, line) {
-  if (line != null) {
-    return `${file}:${line}`;
-  }
-  return file;
-}
-
-// Some trace agents will record quotes in method names. We don't want to present these
-// as it looks ugly.
-// Ruby example: `<main>'
-function stripQuotes(s) {
-  return s.replace(STRIP_QUOTES_REGEX, '');
 }
