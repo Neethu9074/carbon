@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
@@ -26,7 +26,7 @@ function BackToParentPathLink({ parentPath, parentViewName }) {
     return <div />;
   }
   return (
-    <Link className={locals.backNavigationWrapper} href$={getView(parentPath)}>
+    <Link className={locals.backNavigationWrapper} href={getView(parentPath)}>
       <SvgIcon className={locals.icon} type="lib_arrow_left" />
       {t('in-settings:components.backToParentViewName', { parentViewName: parentViewName })}
     </Link>

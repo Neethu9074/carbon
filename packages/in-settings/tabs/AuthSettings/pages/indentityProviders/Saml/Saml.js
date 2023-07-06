@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -106,12 +106,17 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
               components={{
                 activeDirectoryLink: (
                   <Link
+                    size="sm"
                     external
                     href="https://www.ibm.com/docs/en/obi/current?topic=authentication-configuring-active-directory"
                   />
                 ),
                 oktaLink: (
-                  <Link external href="https://www.ibm.com/docs/en/obi/current?topic=authentication-integrating-okta" />
+                  <Link
+                    size="sm"
+                    external
+                    href="https://www.ibm.com/docs/en/obi/current?topic=authentication-integrating-okta"
+                  />
                 )
               }}
             />

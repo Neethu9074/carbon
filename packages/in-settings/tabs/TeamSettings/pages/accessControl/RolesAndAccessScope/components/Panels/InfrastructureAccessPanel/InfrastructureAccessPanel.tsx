@@ -9,7 +9,7 @@ import React from 'react';
 
 import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   AreaRole,
