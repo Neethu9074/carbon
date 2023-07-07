@@ -4,18 +4,25 @@
  * Copyright IBM Corp. 2022
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {
+  PaginatedResult,
+  Result,
+  TagFilterExpression,
+  TimeConfig,
+  WebsitePaginatedBeaconGroupsItem
+} from '@instana/types';
 
 import {
   getEventName,
   getMetricCount,
   getTableData
 } from 'in-alerting/smart-alerts/websites/components/customEventsUtil';
+import { joinExpressions, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import CustomEventRow from 'in-alerting/smart-alerts/websites/components/CustomEventRow';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import List from 'in-settings/components/List';
@@ -24,28 +31,46 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/components/CustomEventsList.mless';
 
+interface WebsiteAggType {
+  [index: string]: number[][];
+}
+
 const columnDefinitions = [
   {
     id: 'name',
     width: '60',
     label: t('in-alerting:smartAlerts.websites.customEvent.customEventNameColumnLabel'),
-    getContent: item => <CustomEventRow item={item} />
+    getContent: (item: WebsitePaginatedBeaconGroupsItem) => <CustomEventRow item={item} />
   },
   {
     id: 'occurrencesAgg',
     width: '20',
     label: t('in-alerting:smartAlerts.websites.customEvent.customEventOccurrencesColumnLabel'),
-    getValue: item => getMetricCount(item.metrics.occurrencesAgg),
-    getContent: item => <MetricValue value={getMetricCount(item.metrics.occurrencesAgg, true)} />
+    getValue: (item: WebsitePaginatedBeaconGroupsItem) =>
+      getMetricCount(item.metrics.occurrencesAgg as unknown as WebsiteAggType),
+    getContent: (item: WebsitePaginatedBeaconGroupsItem) => (
+      <MetricValue value={getMetricCount(item.metrics.occurrencesAgg as unknown as WebsiteAggType, true)} />
+    )
   },
   {
     id: 'usersAgg',
     width: '20',
     label: t('in-alerting:smartAlerts.websites.customEvent.customEventUsersColumnLabel'),
-    getValue: item => getMetricCount(item.metrics.usersAgg),
-    getContent: item => <MetricValue value={getMetricCount(item.metrics.usersAgg, true)} />
+    getValue: (item: WebsitePaginatedBeaconGroupsItem) =>
+      getMetricCount(item.metrics.usersAgg as unknown as WebsiteAggType),
+    getContent: (item: WebsitePaginatedBeaconGroupsItem) => (
+      <MetricValue value={getMetricCount(item.metrics.usersAgg as unknown as WebsiteAggType, true)} />
+    )
   }
 ];
+
+interface CustomEventsListProps {
+  websiteId: string;
+  tagFilterExpression: FormModelElement | FormModelElement[];
+  timeConfig: TimeConfig;
+  onCustomEventSelect: (arg: string) => void;
+  slideOut: () => void;
+}
 
 export default function CustomEventsList({
   websiteId,
@@ -53,7 +78,7 @@ export default function CustomEventsList({
   timeConfig,
   onCustomEventSelect,
   slideOut
-}) {
+}: CustomEventsListProps) {
   const expression = joinExpressions({
     logicalOperator: and,
     expressions: [
@@ -79,11 +104,14 @@ export default function CustomEventsList({
         columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
-            tagFilterExpression: toBackendQueryModel(expression),
+            tagFilterExpression: toBackendQueryModel(expression) as TagFilterExpression,
             timeConfig
           })
-            .filter(tableData => tableData.data)
-            .map(tableData => tableData.data.items)
+            .filter(tableData => Boolean(tableData.data))
+            .map(
+              (tableData: Result<PaginatedResult<WebsitePaginatedBeaconGroupsItem>>) =>
+                (tableData.data as PaginatedResult<WebsitePaginatedBeaconGroupsItem>)?.items
+            )
         }
         pageSize={10}
         noDataMessage={t('in-alerting:smartAlerts.websites.customEvent.noCustomEventsFound')}
@@ -96,11 +124,3 @@ export default function CustomEventsList({
     </>
   );
 }
-
-CustomEventsList.propTypes = {
-  websiteId: PropTypes.string.isRequired,
-  tagFilterExpression: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onCustomEventSelect: PropTypes.func.isRequired,
-  slideOut: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
-};

@@ -3,14 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  JavaScriptError,
+  PaginatedResult,
+  Result,
+  TagFilterExpressionElementUnion,
+  TimeConfig,
+  WebsiteErrorsItem
+} from '@instana/types';
+
+//@ts-expect-error TS migartion
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -21,11 +30,25 @@ const columnDefinitions = [
   {
     id: 'message',
     label: t('in-alerting:smartAlerts.websites.components.errorMessage'),
-    getContent: error => ErrorRow(error)
+    getContent: (error: JavaScriptError) => ErrorRow(error)
   }
 ];
 
-export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfig, onJsErrorSelect, slideOut }) {
+interface JsErrorsListProps {
+  websiteId: string;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  timeConfig: TimeConfig;
+  onJsErrorSelect: (arg: string) => void;
+  slideOut: () => void;
+}
+
+export default function JsErrorsList({
+  websiteId,
+  tagFilterExpression,
+  timeConfig,
+  onJsErrorSelect,
+  slideOut
+}: JsErrorsListProps) {
   return (
     <>
       <List
@@ -39,13 +62,18 @@ export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfi
             tagFilterExpression: toBackendQueryModel(
               joinExpressions({
                 logicalOperator: and,
-                expressions: [tagFilter('beacon.website.id', 'EQUALS', websiteId), tagFilterExpression]
+                expressions: [
+                  tagFilter('beacon.website.id', 'EQUALS', websiteId),
+                  tagFilterExpression as FormModelElement | FormModelElement[]
+                ]
               })
             ),
             timeConfig
           })
-            .filter(tableData => tableData.data)
-            .map(tableData => tableData.data.items.map(item => item.error))
+            .filter((tableData: Result<PaginatedResult<WebsiteErrorsItem>>) => tableData.data)
+            .map((tableData: Result<PaginatedResult<WebsiteErrorsItem>>) =>
+              tableData.data?.items.map((item: WebsiteErrorsItem) => item.error)
+            )
         }
         pageSize={10}
         noDataMessage={t('in-alerting:smartAlerts.websites.components.noDataMessage')}
@@ -59,15 +87,12 @@ export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfi
   );
 }
 
-JsErrorsList.propTypes = {
-  websiteId: PropTypes.string.isRequired,
-  tagFilterExpression: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onJsErrorSelect: PropTypes.func.isRequired,
-  slideOut: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
-};
+interface TableDataProps {
+  timeConfig: TimeConfig;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+}
 
-function getTableData({ timeConfig, tagFilterExpression }) {
+function getTableData({ timeConfig, tagFilterExpression }: TableDataProps) {
   return getWebsiteErrors({
     tagFilterExpression,
     timeConfig,
@@ -88,7 +113,7 @@ function getTableData({ timeConfig, tagFilterExpression }) {
   });
 }
 
-function ErrorRow(error) {
+function ErrorRow(error: JavaScriptError) {
   return (
     <Tooltip content={error.message} align="topLeft" delay={500}>
       <div className={locals.row}>{error.message}</div>
