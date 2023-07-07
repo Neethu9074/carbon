@@ -2995,7 +2995,7 @@
       "peeringStatusOffset": "Replication Offset",
       "peeringStatusPrimary": "Primary",
       "peeringStatusLink": "Link Status",
-      "peeringStatusCombination": "ConfigurationName:Address"
+      "peeringStatusCombination": "Configuration Name:Address"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
