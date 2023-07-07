@@ -14,12 +14,11 @@ import {
   WebsiteErrorsItem
 } from '@instana/types';
 
-//@ts-expect-error TS migartion
-import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -70,9 +69,9 @@ export default function JsErrorsList({
             ),
             timeConfig
           })
-            .filter((tableData: Result<PaginatedResult<WebsiteErrorsItem>>) => tableData.data)
+            .filter(tableData => Boolean(tableData.data))
             .map((tableData: Result<PaginatedResult<WebsiteErrorsItem>>) =>
-              tableData.data?.items.map((item: WebsiteErrorsItem) => item.error)
+              (tableData.data as PaginatedResult<WebsiteErrorsItem>)?.items.map((item: WebsiteErrorsItem) => item.error)
             )
         }
         pageSize={10}
