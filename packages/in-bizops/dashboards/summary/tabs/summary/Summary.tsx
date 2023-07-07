@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
-import Timeline from 'in-bizops/dashboards/summary/tabs/summary/components/Timeline';
+import Count from 'in-bizops/dashboards/summary/tabs/summary/components/Count';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -34,7 +34,7 @@ export default function Summary() {
     <Fragment>
       <Row>
         <Col xs>
-          <Timeline
+          <Count
             timeShiftConfig={timeShiftConfig}
             businessProcessName={businessProcessName}
             businessProcessId={businessProcessId}

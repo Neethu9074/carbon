@@ -24,12 +24,10 @@
       "summaryTab": "Summary",
       "activitiesTab": "Activities",
       "widgets": {
-        "timeline": "Timeline",
         "topActivities": "Top Activities (Count)",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
         "viewAll": "View all activities",
-        "count": "Count",
-        "businessProcessStartedLabel": "{{businessProcessName}} started"
+        "count": "Count"
       }
     },
     "activity": {

@@ -17,7 +17,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-interface TimelineProps {
+interface CountProps {
   timeShiftConfig: TimeShift;
   businessProcessName: string;
   businessProcessId: string;
@@ -29,7 +29,7 @@ interface RenderChartProps {
   businessProcessId: string;
 }
 
-export default function Timeline({ timeShiftConfig, businessProcessName, businessProcessId }: TimelineProps) {
+export default function Count({ timeShiftConfig, businessProcessName, businessProcessId }: CountProps) {
   return (
     <RenderChart
       timeShiftConfig={timeShiftConfig}
@@ -71,9 +71,7 @@ const RenderChart = ({ timeShiftConfig, businessProcessName, businessProcessId }
     timeConfig: timeConfig,
     dataSource: 'BUSINESS_PROCESSES',
     metric: 'started_processes',
-    label: t('in-bizops:dashboards.summary.widgets.businessProcessStartedLabel', {
-      businessProcessName: businessProcessName
-    }),
+    label: businessProcessName,
     color: theme.lib.colors.chart.strokeColors25[0]
   };
 
@@ -82,7 +80,7 @@ const RenderChart = ({ timeShiftConfig, businessProcessName, businessProcessId }
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
-      title={t('in-bizops:dashboards.summary.widgets.timeline')}
+      title={t('in-bizops:dashboards.summary.widgets.count')}
       automaticallySize={false}
       reverseLegendOrder={Boolean(timeShiftConfig.offset)}
       reverseTooltipOrder
