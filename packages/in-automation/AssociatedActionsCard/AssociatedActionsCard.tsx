@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -38,13 +38,11 @@ function getObservables(isCustomEvent: boolean) {
   };
 }
 
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
+
   const actions =
-    useObservable<Action[], [string]>(
-      () => getActionsForEventSpecification(eventSpecificationId),
-      [eventSpecificationId]
-    ) ?? [];
+    useObservable(() => getActionsForEventSpecification(eventSpecificationId), [eventSpecificationId, reload]) ?? [];
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
@@ -60,8 +58,9 @@ const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
 
 export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
+  const [reload, triggerReload] = useState<number>(0);
   const isCustomEvent = getIsCustomEvent(event);
-  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
+  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
   const selectedActions = actions.map(action => action.id);
 
   if (!eventSpecification) {
@@ -79,7 +78,12 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       showActionLink
       event={event}
       rightHeader={
-        <RightHeader eventSpecification={eventSpecification} actions={actions} isCustomEvent={isCustomEvent} />
+        <RightHeader
+          eventSpecification={eventSpecification}
+          triggerReload={triggerReload}
+          actions={actions}
+          isCustomEvent={isCustomEvent}
+        />
       }
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
@@ -93,9 +97,10 @@ interface RightHeaderProps {
   eventSpecification: EventSpecification;
   actions: Action[];
   isCustomEvent: boolean;
+  triggerReload: (n: number) => void;
 }
 
-function RightHeader({ eventSpecification, actions, isCustomEvent }: RightHeaderProps) {
+function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
   const onClick = () =>
     addActiveDialog(
       <ConfigureAssociatedActionsDialog
@@ -103,6 +108,7 @@ function RightHeader({ eventSpecification, actions, isCustomEvent }: RightHeader
         actions={actions}
         isCustomEvent={isCustomEvent}
         onClose={close}
+        triggerReload={triggerReload}
       />
     );
 
