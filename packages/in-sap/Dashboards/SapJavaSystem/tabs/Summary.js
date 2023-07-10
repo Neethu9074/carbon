@@ -31,16 +31,36 @@ export default function Summary({ timeConfig, data: sap }) {
           color={colorFormatter(sap.overallRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.deliveredMessages')}
-          value={sap.j2eePerfRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(sap.j2eePerfRating)}
+          color={colorFormatter(sap.availRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.hostAgentConnectionStatus')}
-          value={sap.javaHostAgentRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallPerformance')}
+          value={getOverallStatus(sap.perfRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(sap.javaHostAgentRating)}
+          color={colorFormatter(sap.perfRating)}
+        />
+      </KpiGridRow>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallException')}
+          value={getOverallStatus(sap.excepRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.excepRating)}
+        />
+        <KpiCard
+          title={t('in-sap:dashboards.overallConfiguration')}
+          value={getOverallStatus(sap.configRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.configRating)}
+        />
+        <KpiCard
+          title={t('in-sap:dashboards.selfMonitorRating')}
+          value={getOverallStatus(sap.selfMonitorRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.selfMonitorRating)}
         />
       </KpiGridRow>
       <Row>

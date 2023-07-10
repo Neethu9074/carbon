@@ -11,7 +11,7 @@ export const getHumanReadablePluginName = function (value) {
     case 'sapDbInstance':
       return 'DB Instance';
     case 'sapDbms':
-      return 'DBMS';
+      return 'Db2';
     case 'sapDbTenant':
       return 'DB Tenant';
     case 'sapHanaPlatform':

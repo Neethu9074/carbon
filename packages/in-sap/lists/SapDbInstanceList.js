@@ -14,7 +14,10 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import SapNoDataNotification from 'in-sap/lists/components/SapNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
+import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { getDashboardForEntity } from 'in-sap/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { sapDbInstanceList } from 'in-sap/navigation/paths';
@@ -56,8 +59,15 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'health',
-    label: t('in-sap:health'),
+    id: 'overallRating',
+    label: t('in-sap:dashboards.overallRating'),
+    getContent(item) {
+      return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
+    }
+  },
+  {
+    id: 'issues',
+    label: t('in-sap:issues'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

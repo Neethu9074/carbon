@@ -31,10 +31,10 @@ export default function Summary({ timeConfig, data: sap }) {
           color={colorFormatter(sap.overallRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.messageServerStatus')}
-          value={sap.serverStatusRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(sap.enqueueStatusRating)}
+          color={colorFormatter(sap.availRating)}
         />
       </KpiGridRow>
       <Row>

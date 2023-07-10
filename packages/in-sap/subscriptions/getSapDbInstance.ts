@@ -5,11 +5,11 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapDbInstanceItem } from 'in-types';
+import { Result, SapJavaInstanceItem } from 'in-types';
 
 interface GetDbInstanceRequest {}
 
-interface GetDbInstanceResponse extends Result<SapDbInstanceItem> {}
+interface GetDbInstanceResponse extends Result<SapJavaInstanceItem> {}
 
 export default createResultSubscriptionFactory<GetDbInstanceRequest, GetDbInstanceResponse>({
   eventId: 'getSapDbInstance'

@@ -5,11 +5,11 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapHanaItem } from 'in-types';
+import { Result, SapDbItem } from 'in-types';
 
 interface GetSapHanaRequest {}
 
-interface GetSapHanaResponse extends Result<SapHanaItem> {}
+interface GetSapHanaResponse extends Result<SapDbItem> {}
 
 export default createResultSubscriptionFactory<GetSapHanaRequest, GetSapHanaResponse>({
   eventId: 'getSapHana'
