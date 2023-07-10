@@ -72,7 +72,7 @@ module.exports = {
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
-  limitVisibleNestingLevelsInTraceEnabled: true,
+  limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
