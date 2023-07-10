@@ -5,6 +5,7 @@
  */
 
 import { MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { t } from '@instana/i18n-react';
@@ -93,7 +94,7 @@ const SelectionMenu = ({
   setScriptDetails
 }: SelectionMenuProps) => {
   return (
-    <div className={locals.container}>
+    <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
       <Menu
         items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
         addRightSeparator

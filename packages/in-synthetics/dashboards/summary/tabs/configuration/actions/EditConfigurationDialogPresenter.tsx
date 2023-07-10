@@ -64,8 +64,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       script: syntheticType === 'HTTPScript'
     },
     browser: {
-      simple: false,
-      script: false
+      simple: syntheticType === 'WebpageAction',
+      script: syntheticType === 'BrowserScript' || syntheticType === 'WebpageScript'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
@@ -86,7 +86,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
     if (
-      form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+      form.get('configuration').get('syntheticType').value === 'HTTPAction' &&
       isEmpty(form.get('configuration').get('headers').value)
     ) {
       updatedForm = form.put('configuration', form.get('configuration').remove('headers'));

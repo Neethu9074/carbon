@@ -32,7 +32,9 @@ export function createForm(savedState: Record<string, any>) {
         ? savedState?.configuration?.script
           ? createScriptFileConfigurationForm(savedState?.configuration)
           : createScriptsBundleConfigurationForm(savedState?.configuration)
-        : createActionConfigurationForm(savedState?.configuration)
+        : savedState?.configuration?.syntheticType === 'HTTPAction'
+        ? createActionConfigurationForm(savedState?.configuration)
+        : createAdvancedBrowserActionConfigurationForm(savedState?.configuration)
     )
     .put(
       'response',
@@ -211,4 +213,34 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
       })
     )
     .put('scripts', createZipScriptConfigurationForm(configuration.scripts.bundle, configuration.scripts.scriptFile!));
+}
+
+function createAdvancedBrowserActionConfigurationForm(configuration: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: configuration?.syntheticType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'url',
+      createField({
+        value: configuration?.url,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
 }

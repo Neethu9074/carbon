@@ -42,7 +42,9 @@ const AdvancedMode = ({
   setScriptDetails
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
+      testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
+    ]
   );
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   const configForm = form.get('configuration') as MapForm<any>;
