@@ -19,7 +19,6 @@ import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -43,11 +42,6 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
-
-  const isBrowserScriptTest: boolean =
-    (test.data?.configuration?.syntheticType === 'BrowserScript' ||
-      test.data?.configuration?.syntheticType === 'WebpageScript') &&
-    syntheticBrowserScriptEnabled;
 
   const testLabel: string = test.data?.label;
 
@@ -154,8 +148,8 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     );
   };
 
-  const renderActionButton = (isBrowserEnabled: boolean) => {
-    if (isBrowserEnabled || !role?.canConfigureSyntheticTests) {
+  const renderActionButton = () => {
+    if (!role?.canConfigureSyntheticTests) {
       return undefined;
     }
     return <ActionButtons test={test.data} />;
@@ -174,7 +168,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={renderActionButton(isBrowserScriptTest)}
+      rightHeaderContent={renderActionButton()}
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />
