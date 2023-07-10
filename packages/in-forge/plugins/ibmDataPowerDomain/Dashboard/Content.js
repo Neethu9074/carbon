@@ -7,6 +7,7 @@ import React from 'react';
 
 import SqlDatasourcesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/SqlDatasourcesTable';
 import QueueManagersTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/QueueManagersTable';
+import PeeringStatusTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/PeeringStatusTable';
 import XmlNamesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/XmlNamesTable';
 import ServicesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/ServicesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -43,6 +44,7 @@ export default function IbmDataPowerDomainDashboard({ snapshot, timeConfig }) {
       <ServicesTable snapshot={snapshot} timeConfig={timeConfig} />
       <SqlDatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
       <XmlNamesTable snapshot={snapshot} />
+      <PeeringStatusTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
