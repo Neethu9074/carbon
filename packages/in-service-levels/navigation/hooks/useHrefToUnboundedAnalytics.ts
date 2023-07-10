@@ -14,7 +14,7 @@ import {
   BlueprintType,
   AggregationType,
   Group,
-  BeaconType,
+  WebsiteBeaconType,
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
   SloEntityUnion,
@@ -230,7 +230,7 @@ function updateLocationForApplicationEntity({
 
 interface UpdateLocationForWebsiteEntityProps extends UpdateLocationForEntityProps {
   aggregation: AggregationType;
-  beaconType: BeaconType;
+  beaconType: WebsiteBeaconType;
 }
 
 function updateLocationForWebsiteEntity({

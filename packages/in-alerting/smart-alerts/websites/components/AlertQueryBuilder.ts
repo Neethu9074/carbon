@@ -16,7 +16,7 @@ import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';
-import { BeaconType, Nullish } from 'in-types';
+import { WebsiteBeaconType, Nullish } from 'in-types';
 
 /**
  * Creates a QueryBuilder that is bound to a single website, use-case and beacon-type.
@@ -35,7 +35,7 @@ import { BeaconType, Nullish } from 'in-types';
 
 export function createBoundedAlertQueryBuilder(
   websiteId: string | undefined,
-  beaconType: BeaconType = 'pageLoad',
+  beaconType: WebsiteBeaconType = 'pageLoad',
   thresholdType?: ThresholdType,
   suggestionTimeConfig?: TimeConfig
 ): CreateQueryBuilderResponse {
@@ -56,7 +56,7 @@ function getUseCase(thresholdType?: ThresholdType) {
 export function getWebsiteTagSuggestions(
   args: GetSuggestionsProps,
   websiteId: string | Nullish,
-  beaconType: BeaconType,
+  beaconType: WebsiteBeaconType,
   suggestionTimeConfig?: TimeConfig
 ): Observable<Result<Suggestions>> {
   return getSuggestions({
@@ -74,7 +74,7 @@ function tagSuggestionArgs(args: GetSuggestionsProps, suggestionTimeConfig?: Tim
   };
 }
 
-function create(beaconType: BeaconType, thresholdType?: ThresholdType) {
+function create(beaconType: WebsiteBeaconType, thresholdType?: ThresholdType) {
   return createBoundedAlertQueryBuilder(undefined, beaconType, thresholdType);
 }
 
@@ -131,7 +131,7 @@ export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
  */
 
 export function getQueryBuilderForBeaconType(
-  beaconType: BeaconType | Nullish,
+  beaconType: WebsiteBeaconType | Nullish,
   thresholdType?: ThresholdType
 ): CreateQueryBuilderResponse {
   if (thresholdType === ADAPTIVE_BASELINE) {

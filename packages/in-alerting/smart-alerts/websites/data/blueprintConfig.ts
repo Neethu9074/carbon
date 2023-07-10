@@ -5,7 +5,7 @@
 
 import {
   AggregationType,
-  BeaconType,
+  WebsiteBeaconType,
   CustomEventWebsiteAlertRule,
   HistoricBaselineData,
   isAdaptiveBaselineConfig,
@@ -115,7 +115,7 @@ export interface BluePrint extends BluePrintBase {
   readonly getMaxMetricValue: (metricName: MetricName) => number;
 
   readonly getAvailableTags: (metricName: MetricName) => string[];
-  readonly getBeaconType: (metricName: MetricName) => BeaconType;
+  readonly getBeaconType: (metricName: MetricName) => WebsiteBeaconType;
   readonly getAggregation: (alertRule: WebsiteAlertRule) => AggregationType;
 
   readonly isRuleComplete: (alertRule: WebsiteAlertRule) => boolean;
