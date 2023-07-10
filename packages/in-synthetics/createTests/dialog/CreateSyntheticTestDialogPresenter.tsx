@@ -85,7 +85,7 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const selectedBlueprint = blueprintConfig[0];
+  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
 
   const populateCommonAttributes = (form: MapForm<any>) => {
     commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
@@ -246,6 +246,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setScriptDetails={setScriptDetails}
             isSaving={isSaving}
             isStepDisabled={isStepDisabled}
+            selectedBlueprint={selectedBlueprint}
+            setSelectedBlueprint={setSelectedBlueprint}
           />
         ) : (
           <AdvancedMode

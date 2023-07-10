@@ -58,7 +58,7 @@ export default function AddScriptDialogContent({
   const [slideInContentVisible, setSlideInContentVisible] = useState(false);
   const [script, setScript] = useState<Script>(scriptContent);
   const [scriptErrors, setScriptErrors] = useState([] as Error[]);
-  const [modified, isModified] = useState(false);
+  const [modified, isModified] = useState(true);
   const [zipFile, setZipFile] = useState(zipFileDetails);
   const [mainFileError, setMainFileError] = useState({ invalid: false, message: '' });
 

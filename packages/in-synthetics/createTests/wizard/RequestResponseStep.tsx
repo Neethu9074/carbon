@@ -131,7 +131,16 @@ export default function RequestResponseStep({
     try {
       const text = await e.target.files[0].text();
       setScriptDetails({ modified: false, name: e.target.files[0].name });
-      updateCode(text);
+      setScriptErrors(validate(text));
+      setState({
+        loading: false,
+        script: text
+      });
+      updateForm(
+        form.updateIn(['configuration', 'script'], (field: Item) =>
+          (field as Field<string>).setValue(text).setTouched(true)
+        )
+      );
     } catch (e) {
       setState({
         loading: false,

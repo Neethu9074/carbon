@@ -85,20 +85,13 @@ export default function ScriptsSection({
   function deleteScript() {
     if (script.extension !== 'zip') {
       updateForm(
-        form
-          .updateIn(['configuration', 'syntheticType'], (field: Item) =>
-            (field as Field<string>).setValue('').setTouched(true)
-          )
-          .updateIn(['configuration', 'script'], (field: Item) =>
-            (field as Field<string>).setValue('').setTouched(true)
-          )
+        form.updateIn(['configuration', 'script'], (field: Item) =>
+          (field as Field<string>).setValue('').setTouched(true)
+        )
       );
     } else {
-      let updatedForm = form.updateIn(['configuration', 'syntheticType'], (field: Item) =>
-        (field as Field<string>).setValue('').setTouched(true)
-      );
       //@ts-ignore-next-line
-      updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
+      let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
       //@ts-ignore-next-line
