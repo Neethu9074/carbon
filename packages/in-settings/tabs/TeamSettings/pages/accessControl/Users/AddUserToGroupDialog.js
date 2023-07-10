@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { Button } from '@instana/components';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import ActionBar from 'in-settings/components/Dialog/ActionBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import ApiList from 'in-settings/components/ApiList';
@@ -26,15 +27,21 @@ export default withSelectableItems(function AddUserToGroupDialog({
   checkIfSelected,
   toggleItem
 }) {
+  const [isSaving, setIsSaving] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const disabled = selectedEntities.size === 0;
+
   return (
     <Dialog className={locals.dialog} title={t('in-settings:tabs.addUserToAGroup')} onClose={close}>
+      <ErroneousResultPresenter errors={errors} addBottomMargin />
       <form
         onSubmit={e => {
           stopPropagationAndPreventDefault(e);
-          onSubmit(Array.from(selectedEntities.values()));
+          onSubmit(Array.from(selectedEntities.values()), setIsSaving, setErrors);
         }}
       >
         <ApiList
+          pageSize={10}
           ListRenderer={ListRenderer}
           getItems={getGroupsAsResultObservable}
           itemName="Group"
@@ -52,9 +59,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
             return true;
           }}
         />
-        <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
-          {t('in-settings:tabs.addUserToGroup')}
-        </Button>
+        <ActionBar isSaving={isSaving} disabled={disabled} />
       </form>
     </Dialog>
   );

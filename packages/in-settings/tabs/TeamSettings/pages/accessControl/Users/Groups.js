@@ -149,6 +149,6 @@ function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage, 
   );
 }
 
-function renderAdditionalHeaderContent({ userId, refresh, setErrorMessage }) {
-  return <AddUserToGroupButton userId={userId} refresh={refresh} setErrorMessage={setErrorMessage} />;
+function renderAdditionalHeaderContent({ userId, refresh }) {
+  return <AddUserToGroupButton userId={userId} refresh={refresh} />;
 }

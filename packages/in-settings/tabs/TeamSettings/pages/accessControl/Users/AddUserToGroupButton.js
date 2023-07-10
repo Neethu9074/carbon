@@ -12,7 +12,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { saveGroups } from 'in-settings/tabs/TeamSettings/api/groups';
 import { t } from 'in-i18n';
 
-export default function AddUserToGroupButton({ userId, refresh, setErrorMessage }) {
+export default function AddUserToGroupButton({ userId, refresh }) {
   return (
     <Button
       kind="action"
@@ -20,7 +20,9 @@ export default function AddUserToGroupButton({ userId, refresh, setErrorMessage 
         addActiveDialog(
           <AddUserToGroupDialog
             userId={userId}
-            onSubmit={newGroupsToAdd => addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage)}
+            onSubmit={(newGroupsToAdd, setIsSaving, setErrors) =>
+              addUserToGroup(userId, refresh, newGroupsToAdd, setIsSaving, setErrors)
+            }
           />
         );
       }}
@@ -31,7 +33,7 @@ export default function AddUserToGroupButton({ userId, refresh, setErrorMessage 
   );
 }
 
-function addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage) {
+function addUserToGroup(userId, refresh, newGroupsToAdd, setIsSaving, setErrors) {
   const groupsWithUser = newGroupsToAdd.slice().map(group => {
     return {
       ...group,
@@ -39,17 +41,20 @@ function addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage) {
       permissions: [{ id: group.permissionSet.id, scope: 'TU' }]
     };
   });
+  setIsSaving(true);
 
   const result$ = saveGroups(groupsWithUser);
   result$.once(
     () => {
+      setIsSaving(false);
       if (refresh) {
         refresh();
       }
       close();
     },
     error => {
-      setErrorMessage(t('in-settings:tabs.failedToAddUserToGroups', { err: error.message }));
+      setIsSaving(false);
+      setErrors([{ code: 'server', message: t('in-settings:tabs.failedToAddUserToGroups', { err: error.message }) }]);
     }
   );
 }
