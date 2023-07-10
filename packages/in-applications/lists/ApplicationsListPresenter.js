@@ -220,7 +220,8 @@ export default function ApplicationsListPresenter({
         <ViewTrackingMeta
           data={{
             productArea: 'Applications',
-            pageRootName: 'Applications'
+            pageRootName: 'Applications',
+            pagePath: location?.pathname
           }}
         />
 
