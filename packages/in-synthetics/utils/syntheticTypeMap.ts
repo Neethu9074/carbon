@@ -16,17 +16,17 @@ const syntheticTypeMap = new Map<string, string>([
 ]);
 
 export function getSyntheticType(displayType: string) {
-  return syntheticTypeMap.has(displayType) ? syntheticTypeMap.get(displayType) : null;
+  return syntheticTypeMap.has(displayType) ? syntheticTypeMap.get(displayType) : displayType;
 }
 
 export function getDisplayType(syntheticType: string) {
-  for (let value of syntheticTypeMap.values()) {
+  for (let [key, value] of syntheticTypeMap.entries()) {
     if (value === syntheticType) {
-      return value;
+      return key;
     } else {
       continue;
     }
   }
   //No display type found;
-  return null;
+  return syntheticType;
 }

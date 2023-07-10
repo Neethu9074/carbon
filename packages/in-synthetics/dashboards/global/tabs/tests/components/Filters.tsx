@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 
+import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
@@ -81,7 +82,7 @@ function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
 
     syntheticTypeOptions = syntheticTypes.map(syntheticType => {
       return {
-        label: syntheticType,
+        label: getDisplayType(syntheticType),
         value: syntheticType
       };
     });
