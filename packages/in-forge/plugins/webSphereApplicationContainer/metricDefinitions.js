@@ -319,5 +319,44 @@ export default [
     category: [t('in-forge:plugins.webSphereAppContainer.labelCertificates')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [
+      'sib.msgEngWriteBytes',
+      'sib.msgEngReadBytes',
+      'sib.cliMsgWriteBytes',
+      'sib.cliMsgReadBytes'
+    ],
+    labels: [
+      t('in-forge:plugins.webSphereAppContainer.titleSIBMsgWriteToMsgEng'),
+      t('in-forge:plugins.webSphereAppContainer.titleSIBMsgReadFromMsgEng'),
+      t('in-forge:plugins.webSphereAppContainer.titleSIBMsgWriteToCli'),
+      t('in-forge:plugins.webSphereAppContainer.titleSIBMsgReadFromCli')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.webSphereAppContainer.titleSIB')],
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'sib.queues',
+      'msgProduced',
+      t('in-forge:plugins.webSphereAppContainer.titleSIBQueue')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleSIBQueueProduced'),
+    category: [t('in-forge:plugins.webSphereAppContainer.titleSIB')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'sib.queues',
+      'msgConsumed',
+      t('in-forge:plugins.webSphereAppContainer.titleSIBQueue')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleSIBQueueConsumed'),
+    category: [t('in-forge:plugins.webSphereAppContainer.titleSIB')],
+    min: 0,
+    formatter: number
   }
 ];
