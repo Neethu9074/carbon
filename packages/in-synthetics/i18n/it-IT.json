@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "Immettere lo script qui"
       },
       "basicDetails": {
-        "title": "Qual è il nome di questo test di ping",
-        "scriptTitle": "Qual è il nome di questo test di script HTTP",
+        "title": "Qual è il nome di questo test di API semplice (azione HTTP)",
+        "scriptTitle": "Qual è il nome di questo test di script API (script HTTP)",
         "labelName": "Nome del test",
         "labelDescription": "Descrizione",
         "labelFrequency": "Frequenza (minuti)",
         "labelApplications": "Selezionare un'applicazione"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "API di ping",
-          "headline": "Azione HTTP",
+        "apiSimple": {
+          "name": "API semplice",
+          "headline": "API semplice (azione HTTP)",
           "whenToUse": {
             "title": "Quando utilizzarlo?",
-            "line1": "Utilizzare un test di azione HTTP per verificare una singola API Rest"
+            "line1": "Utilizza un test API semplice (azione HTTP) per verificare una singola API Rest"
           },
           "tipsForUsing": {
             "title": "Consigli per l'uso",
@@ -52,11 +52,11 @@
             "line4": "Passo 4: Nella sezione Nome e descrizione, immettere un nome significativo per il test nel campo Nome. Aggiungere una descrizione dello scopo del test al campo Descrizione."
           }
         },
-        "scriptApi": {
-          "name": "API script",
-          "headline": "Script HTTP",
+        "apiScript": {
+          "name": "Script API",
+          "headline": "Script API (script HTTP)",
           "whenToUse": {
-            "line1": "Utilizza un test di script HTTP e uno script basato su Node.js per verificare la sequenza di più API Rest"
+            "line1": "Utilizza un test di script API (script HTTP) e uno script basato su Node.js per verificare la sequenza di più API Rest"
           },
           "tipsForUsing": {
             "line1": "Passo 1: Scegliere il tipo di test che si desidera creare.",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Tipo di test selezionato",
           "rightListLabel": "Tipo di test",
-          "apiTypeLabel": "Test semplice | Test script",
+          "apiTypeLabel": "Test API semplice | Test script API",
           "apiTypeHeadline": "Quale tipo di test sintetico si desidera creare",
           "apiTypeText": "I test API possono essere utilizzati per monitorare le API fornite dalle applicazioni web. I test API possono essere utilizzati per misurare la disponibilità e il tempo di risposta. Il test semplice consente di eseguire il ping di un URL o il test di una singola API. Il test di script consente di fornire uno script che può controllare una serie di risposte API, simulare flussi di lavoro complessi e verificare funzionalità specifiche.",
           "selectedTestTypeButton": "Seleziona",
-          "httpScriptTitle": "Test script",
-          "httpActionTitle": "Test semplice",
+          "httpScriptTitle": "Test script API",
+          "httpActionTitle": "Test API semplice",
           "browserTypeLabel": "Browser",
           "browserTypeHeadline": "Test sintetici del browser",
           "browserTypeText": "Il test sintetico del browser è un metodo di monitoraggio delle prestazioni delle applicazioni Web simulando le interazioni dell'utente con un sito Web tramite uno script in un browser Web, fornendo informazioni preziose sui problemi che influenzano l'esperienza dell'utente e garantendo la funzionalità del sito Web.",
@@ -139,7 +139,18 @@
           "addscriptAction": "Aggiungi script",
           "editscriptAction": "Modifica script",
           "scriptFileName": "Nome file",
-          "scriptNotAdded": "Nessuno script aggiunto"
+          "scriptNotAdded": "Nessuno script aggiunto.",
+          "buttonAdd": "Aggiungi",
+          "buttonBack": "Indietro",
+          "buttonSave": "Salva",
+          "uploadFileLabel": "Carica file",
+          "uploadFileDescription": "È possibile caricare un singolo file .js o un file zip con un bundle di file .js.",
+          "scriptDescription": "Lo script caricato sarà visualizzato qui oppure è possibile immetterlo manualmente di seguito.",
+          "validScriptMessage": "Lo script è valido.",
+          "zipFileUploadedMessage": "I file in bundle non possono essere modificati o convalidati",
+          "scriptEditedManuallyMessage": "Script aggiunto o modificato manualmente",
+          "mainFileNameLabel": "Nome file principale",
+          "invalidMainFileName": "Nome file principale non valido"
         },
         "loadMore": "Carica altro",
         "selectTests": {
@@ -170,6 +181,7 @@
     "feedback": {
       "successTitle": "Operazione riuscita.",
       "successMessageCreate": "Test sintetico creato correttamente",
+      "successMessageUpdate": "Test sintetico aggiornato correttamente",
       "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
       "failureMessageCreate": "Impossibile creare un test sintetico. Riprovare successivamente",
@@ -179,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "Ubicazione eliminata correttamente",
       "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
+    },
+    "updateTest": {
+      "dialogTitle": "Modifica test API",
+      "buttonSave": "Salva",
+      "scriptSavedMessage": "Script aggiunto",
+      "bundleSavedMessage": "Script in bundle aggiunti"
     }
   },
   "createTest": {
@@ -231,10 +249,7 @@
       "applicationLabel": "Applicazione",
       "health": "Integrità",
       "action": "Azione",
-      "delete": "Elimina il test",
-      "labelConfirm": "Confermare",
-      "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test sintetico <strong>{{testLabel}}</strong>?",
-      "labelRemove": "Rimuovi",
+      "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test <strong>{{testLabel}}</strong>?",
       "na": "N/D"
     },
     "locationList": {
@@ -245,12 +260,22 @@
       "totalTests": "N. di test collegati",
       "lastRun": "Data/ora ultima esecuzione test",
       "namespace": "Spazio dei nomi",
+      "health": "Integrità",
+      "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
-      "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
+      "activeTestLinked": "Sono presenti {{linkedTests}} test attivi associati all'ubicazione <strong>{{label}}</strong> ({{status}}). L'eliminazione di questa ubicazione provocherà la perdita di dati nei grafici di riepilogo del test. Si è sicuri di voler eliminare questa ubicazione?<br/>Per aggiornare l'ubicazione senza eliminarla, consultare la <documentLink>documentazione</documentLink>.",
       "deleteLocation": "Elimina ubicazione",
       "noDataAvailable": {
         "message": "{{component}} non disponibile"
-      }
+      },
+      "deletionReason": "Motivi dell'eliminazione",
+      "typeToContinue": "Immettere {{location}} per continuare",
+      "location": "UBICAZIONE",
+      "deletionSuccess": "L'ubicazione è stata eliminata",
+      "cancelButton": "Annulla",
+      "deleteLocationLabel": "Elimina ubicazione",
+      "success": "Riuscito",
+      "failure": "Non riuscito"
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -457,8 +482,29 @@
       "allowInsecure": "Consenti nessuna protezione",
       "locationsTitle": "Ubicazione/i",
       "scheduleTitle": "Pianifica",
+      "frequencyTitle": "Frequenza",
+      "simultaneousValue": "Simultanea",
+      "frequencyPluralValue": "{{minutes}} minuti",
+      "frequencySingleValue": "{{minutes}} minuto",
       "identifyTitle": "Identifica",
-      "customProperties": "Proprietà personalizzate"
+      "customProperties": "Proprietà personalizzate",
+      "identifySectionName": "Nome",
+      "identifySectionDescription": "Descrizione",
+      "associatedApplication": "Applicazione associata",
+      "noApplicationAssociated": "Nessuna applicazione associata",
+      "configScriptTitle": "Script",
+      "configScriptFileName": "Nome file",
+      "noScriptFileFound": "Nessun file di script trovato.",
+      "noCustomProperties": "Nessuna proprietà personalizzata definita per questo test.",
+      "propertyTitle": "Proprietà",
+      "valueTitle": "Valore",
+      "dialog": {
+        "deleteTest": "Elimina test",
+        "reasonTitle": "Motivo dell'eliminazione",
+        "typingValidationTitle": "Immettere {{synthetic}} per continuare",
+        "cancelButton": "Annulla",
+        "deleteButton": "Elimina"
+      }
     }
   }
 }

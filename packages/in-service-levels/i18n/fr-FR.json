@@ -1,21 +1,44 @@
 {
   "general": {
     "addButtonLabel": "Ajouter",
+    "beacon": "Alarme",
+    "boundary": "Limite",
+    "clear": "Effacer",
     "saveButtonLabel": "Sauvegarder",
     "cancelButtonLabel": "Annuler",
     "editButtonLabel": "Editer",
     "copyButtonLabel": "Copier",
     "deleteButtonLabel": "Supprimer",
+    "select": "Sélectionnez $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "Aucun élément sélectionné",
+    "loadMore": "Charger plus",
+    "noData": "Aucune donnée disponible",
     "entityTypes": {
       "label": "Entité inconnue",
       "label_application": "Application",
       "label_website": "Site Web"
+    },
+    "selectLabel": "Sélection : {{selectedLabel}}",
+    "serviceLevelObjective": "Objectif de niveau de service",
+    "metrics": {
+      "status": "Statut",
+      "remainingBudget": "Erreur budget restant",
+      "totalBudget": "Budget d'erreur",
+      "consumedBudget": "Budget d'erreur utilisé"
     }
   },
   "createSloDialog": {
+    "customFilter": "Filtre personnalisé",
     "title": "Créer un objectif de niveau de service (SLO)",
     "selectEntityNavItem": "Sélectionner une entité",
-    "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :"
+    "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
+    "selectScopeNavItem": "Sélectionner une portée",
+    "selectScopeTitle": "Sélectionner une portée",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "Demandes HTTP",
+      "beaconLabel_pageLoad": "Chargements de page de site Web",
+      "beaconLabel_custom": "Evénements personnalisés de site Web"
+    }
   },
   "sloList": {
     "components": {
@@ -28,7 +51,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "Plan directeur inconnu",
         "blueprint_latency": "Temps d'attente",
-        "blueprint_availability": "Disponibilité"
+        "blueprint_availability": "Disponibilité",
+        "blueprint_custom": "Personnalisé"
       },
       "entityTypeFilter": {
         "placeholder": "Type d'entité"
@@ -40,18 +64,19 @@
         "target": "Cible {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}} min",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
-        "remainingEvent_website": "{{count}} balise",
-        "remainingEvent_website_plural": "{{count}} balises",
-        "remainingEvent_website_0": "{{count}} balises",
-        "remainingEvent_website_1": "{{count}} balise",
-        "remainingEvent_website_2": "{{count}} balises",
-        "remainingEvent_application": "{{count}} appel",
-        "remainingEvent_application_plural": "{{count}} appels",
-        "remainingEvent_application_0": "{{count}} appels",
-        "remainingEvent_application_1": "{{count}} appel",
-        "remainingEvent_application_2": "{{count}} appels",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "Balise {{formatted}}",
+        "remainingEvent_website_plural": "Balises {{formatted}}",
+        "remainingEvent_website_0": "Balises {{formatted}}",
+        "remainingEvent_website_1": "Balise {{formatted}}",
+        "remainingEvent_website_2": "Balises {{formatted}}",
+        "remainingEvent_application": "Appel {{formatted}}",
+        "remainingEvent_application_plural": "Appels {{formatted}}",
+        "remainingEvent_application_0": "Appels {{formatted}}",
+        "remainingEvent_application_1": "Appel {{formatted}}",
+        "remainingEvent_application_2": "Appels {{formatted}}",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixe / {{remaining}} restant",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), en continu",
         "timeWindowSize_month": "{{count}} mois",
@@ -79,6 +104,25 @@
       "errorBudget": "Erreur budget restant",
       "status": "Statut / Cible",
       "tags": "Étiquettes"
+    }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "Analyser {{entity}}"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "Budget : {{value}}"
+      },
+      "sloStatusKpiCard": {
+        "target": "Cible SLO : {{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "Budget d'erreur",
+        "title_fullWindow": "Erreur de budget sur l'ensemble de la fenêtre de temps",
+        "optionCompact": "Compact",
+        "optionFull": "Consommation totale"
+      }
     }
   }
 }

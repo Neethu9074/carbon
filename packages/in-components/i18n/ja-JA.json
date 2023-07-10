@@ -382,6 +382,14 @@
     "presenterLabelCalls": "呼び出し",
     "latencyRangeLabelFromTimeToTime": "{{from}} から {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} から {{to}}",
+    "metricLabel": "計測値",
+    "presenterLabelNoDataToDisplay": "表示するデータがありません",
+    "total": "合計",
+    "min": "最小",
+    "max": "最大"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "未検出"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "プラットフォーム",

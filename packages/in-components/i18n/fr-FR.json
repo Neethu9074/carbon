@@ -382,6 +382,14 @@
     "presenterLabelCalls": "Appels",
     "latencyRangeLabelFromTimeToTime": "{{from}} à {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} à {{to}}",
+    "metricLabel": "Mesures",
+    "presenterLabelNoDataToDisplay": "Aucune donnée à afficher",
+    "total": "Total",
+    "min": "Min",
+    "max": "Max"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "Non trouvé"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plateformes",

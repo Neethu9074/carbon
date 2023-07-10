@@ -1,21 +1,44 @@
 {
   "general": {
     "addButtonLabel": "추가",
+    "beacon": "비컨",
+    "boundary": "경계",
+    "clear": "지우기",
     "saveButtonLabel": "저장",
     "cancelButtonLabel": "취소",
     "editButtonLabel": "편집",
     "copyButtonLabel": "복사",
     "deleteButtonLabel": "삭제",
+    "select": "$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"}) 선택",
+    "noSelection": "선택되지 않음",
+    "loadMore": "추가 로드",
+    "noData": "사용 가능한 데이터 없음",
     "entityTypes": {
       "label": "알 수 없는 엔티티",
       "label_application": "애플리케이션",
       "label_website": "웹 사이트"
+    },
+    "selectLabel": "선택사항: {{selectedLabel}}",
+    "serviceLevelObjective": "서비스 레벨 목표(SLO)",
+    "metrics": {
+      "status": "상태",
+      "remainingBudget": "남은 예산 오류",
+      "totalBudget": "오류 예산",
+      "consumedBudget": "소비된 오류 예산"
     }
   },
   "createSloDialog": {
+    "customFilter": "사용자 정의 필터",
     "title": "SLO(Service Level Objective) 생성",
     "selectEntityNavItem": "엔티티 선택",
-    "selectEntityTitle": "SLO를 추가할 엔티티 선택:"
+    "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
+    "selectScopeNavItem": "범위 선택",
+    "selectScopeTitle": "범위 선택",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP 요청",
+      "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
+      "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트"
+    }
   },
   "sloList": {
     "components": {
@@ -28,7 +51,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "알 수 없는 Blueprint",
         "blueprint_latency": "대기 시간",
-        "blueprint_availability": "Availability"
+        "blueprint_availability": "Availability",
+        "blueprint_custom": "사용자 정의"
       },
       "entityTypeFilter": {
         "placeholder": "엔티티 유형"
@@ -40,18 +64,19 @@
         "target": "대상 {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}}분",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"컨텍스트\": \"{{entityType}}\", \"계수\": {{remaining}} })",
-        "remainingEvent_website": "{{count}}개 비콘",
-        "remainingEvent_website_plural": "{{count}}개 비콘",
-        "remainingEvent_website_0": "{{count}}개 비콘",
-        "remainingEvent_website_1": "{{count}}개 비콘",
-        "remainingEvent_website_2": "{{count}}개 비콘",
-        "remainingEvent_application": "{{count}}회 호출",
-        "remainingEvent_application_plural": "{{count}}회 호출",
-        "remainingEvent_application_0": "{{count}}회 호출",
-        "remainingEvent_application_1": "{{count}}회 호출",
-        "remainingEvent_application_2": "{{count}}회 호출",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "{{formatted}} 비컨",
+        "remainingEvent_website_plural": "{{formatted}} 비컨",
+        "remainingEvent_website_0": "{{formatted}} 비컨",
+        "remainingEvent_website_1": "{{formatted}} 비컨",
+        "remainingEvent_website_2": "{{formatted}} 비컨",
+        "remainingEvent_application": "{{formatted}} 호출",
+        "remainingEvent_application_plural": "{{formatted}} 호출",
+        "remainingEvent_application_0": "{{formatted}} 호출",
+        "remainingEvent_application_1": "{{formatted}} 호출",
+        "remainingEvent_application_2": "{{formatted}} 호출",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\":\"{{durationUnit}}\", \"계수\":{{duration}}}), 고정 / {{remaining}} 남음",
         "timeWindow_rolling": "$t (in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\": \"{{durationUnit}}\", \"계수\":{{duration}}}), 롤링",
         "timeWindowSize_month": "{{count}}개월",
@@ -79,6 +104,25 @@
       "errorBudget": "남은 예산 오류",
       "status": "상태/대상",
       "tags": "태그"
+    }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "{{entity}} 분석"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "예산: {{value}}"
+      },
+      "sloStatusKpiCard": {
+        "target": "SLO 대상: {{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "오류 예산",
+        "title_fullWindow": "전체 기간 동안의 오류 예산",
+        "optionCompact": "압축",
+        "optionFull": "전체 소비"
+      }
     }
   }
 }

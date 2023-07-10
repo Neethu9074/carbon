@@ -8,8 +8,6 @@
   "labelTrace": "추적",
   "linkDownload": "다운로드",
   "labelCalls": "호출",
-  "labelCallsPerSecondShort": "초당 호출 수",
-  "labelErroneousCallsPerSecondShort": "초당 불필요한 호출 수",
   "labelCallsPerSecondFull": "초당 호출 수",
   "labelTraces": "추적",
   "labelErrorRate": "오류 비율",
@@ -130,12 +128,20 @@
   "Rendering": "렌더링",
   "loadingData": "데이터 로드 중",
   "UnexpectedErrorOccurred": "예상치 못한 오류가 발생함",
+  "callsLiveModeDisabled": "라이브 모드가 호출에 대해 지원되지 않음",
+  "tracesLiveModeDisabled": "라이브 모드가 추적에 대해 지원되지 않음",
   "applicationMap": {
     "webglNotSupportedTitle": "브라우저에서 WebGL을 지원하지 않음",
     "webglNotSupported": "Instana 사용자 인터페이스에는 WebGL이라는 기술을 사용하여 렌더링되는 3D 컴포넌트가 포함되어 있습니다. 유감스럽게도 이 기술은 아직 모든 플랫폼에서는 사용 가능하지 않습니다. 일부 브라우저 특히, 이전 버전의 브라우저는 WebGL을 지원하지 않습니다. Chrome, Firefox, Safari 8 또는 MS Edge 등의 최신 세대 자동 업데이트 브라우저를 사용하는 것이 좋습니다.\n\n모든 플랫폼 및 브라우저 조합을 지원하기 위해 최선을 다하고 있습니다.그러나 WebGL 사용에 오류가 있을 수 있습니다.[온라인 테스트](https://get.webgl.org/)를 사용하여 사용자 플랫폼이 WebGL을 지원하는지 확인할 수 있습니다.\n\n온라인 테스트에서 플랫폼이 WebGL을 지원하지만 Instana 3D 맵을 여전히 실행할 수 없는 경우에는 [다음으로 문의하십시오](https://support.instana.com/hc/en-us/requests/new).\n\n자세한 문제점 해결 정보는 [WebGL 호환성 테이블](http://caniuse.com/#feat=webgl) 또는 [WebGL 웹 사이트](http://webgl.org/)를 참조하십시오.",
     "webglNotInitializedTitle": "WebGL을 초기화할 수 없음",
     "webglNotInitialized": "브라우저가 WebGL을 지원하지만 초기화할 수 없습니다. 일부 브라우저 및 하드웨어 문제로 인해 이러한 문제가 발생할 수 있습니다. 가능한 몇 가지 이유는 다음과 같습니다.\n\n  - 열린 탭이 너무 많음\n  - 전용 GPU가 부족하거나 GPU 사용 중\n  - 브라우저/하드웨어 비호환\n\n자세한 문제점 해결 정보는 [WebGL 테스트 사이트](https://get.webgl.org/) 또는 [공식 WebGL 문서](https://www.khronos.org/webgl/wiki/FAQ)를 참조하십시오.",
-    "tooltipToggleServiceOutside": "모든 서비스를 이 애플리케이션 외부로 토글"
+    "tooltipToggleServiceOutside": "이 애플리케이션에 포함되지 않은 서비스도 표시",
+    "tooltipNodeSize": "각 서비스 노드의 크기를 판별하는 메트릭 선택",
+    "tooltipLayoutFlow": "플로우 레이아웃",
+    "tooltipLayoutForce": "압축 레이아웃",
+    "tooltipSimulateTraffic": "트래픽 시뮬레이션",
+    "tooltipZoomIn": "확대",
+    "tooltipZoomOut": "축소"
   },
   "applicationSwitcher": {
     "header": "애플리케이션 퍼스펙티브의 컨텍스트에서<br />이 서비스가 표시됩니다.",

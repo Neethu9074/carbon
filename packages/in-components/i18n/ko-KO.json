@@ -382,6 +382,14 @@
     "presenterLabelCalls": "호출",
     "latencyRangeLabelFromTimeToTime": "{{from}} - {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} - {{to}}",
+    "metricLabel": "수치",
+    "presenterLabelNoDataToDisplay": "표시할 데이터 없음",
+    "total": "총계",
+    "min": "최소",
+    "max": "최대"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "찾을 수 없음"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "플랫폼",

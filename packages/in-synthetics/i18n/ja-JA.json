@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "ここにスクリプトを入力"
       },
       "basicDetails": {
-        "title": "この ping テストの名前は何ですか",
-        "scriptTitle": "この HTTP スクリプト・テストの名前は何ですか",
+        "title": "この API シンプル (HTTP アクション) テストの名前は何ですか",
+        "scriptTitle": "この API スクリプト (HTTP スクリプト) テストの名前は何ですか",
         "labelName": "テストの名前",
         "labelDescription": "説明",
         "labelFrequency": "頻度 (分)",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "Ping API",
-          "headline": "HTTP アクション",
+        "apiSimple": {
+          "name": "API シンプル",
+          "headline": "API シンプル (HTTP アクション)",
           "whenToUse": {
             "title": "いつ使用しますか?",
-            "line1": "HTTP アクション・テストを使用して単一の Rest API をテストします"
+            "line1": "単一の Rest API をテストするための API シンプル (HTTP アクション) テストの使用"
           },
           "tipsForUsing": {
             "title": "使用のヒント",
@@ -52,11 +52,11 @@
             "line4": "ステップ 4:「名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
-        "scriptApi": {
-          "name": "スクリプト API",
-          "headline": "HTTP スクリプト",
+        "apiScript": {
+          "name": "API スクリプト",
+          "headline": "API スクリプト (HTTP スクリプト)",
           "whenToUse": {
-            "line1": "HTTP スクリプト・テストと Node.js ベースのスクリプトを使用して、複数の Rest API のシーケンスをテストします"
+            "line1": "API スクリプト (HTTP スクリプト) テストおよび Node.js ベースのスクリプトを使用して、複数の Rest API のシーケンスをテストします"
           },
           "tipsForUsing": {
             "line1": "ステップ 1: 作成するテストのタイプを選択します。",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "選択されたテスト・タイプ",
           "rightListLabel": "テスト・タイプ",
-          "apiTypeLabel": "シンプル・テスト | スクリプト・テスト",
+          "apiTypeLabel": "API シンプル・テスト | API スクリプト・テスト",
           "apiTypeHeadline": "どのような種類のシンセティック・テストを作成しますか",
           "apiTypeText": "API テストを使用して、Web アプリケーションによって提供される API をモニターできます。 API テストを使用して、可用性と応答時間を測定できます。 単純テストでは、URL を ping するか、単一の API をテストすることができます。 「スクリプト」テストでは、API 応答のセットの検査、複雑なワークフローのシミュレート、および特定の機能のテストを行うことができるスクリプトを提供できます。",
           "selectedTestTypeButton": "選択",
-          "httpScriptTitle": "スクリプト・テスト",
-          "httpActionTitle": "単純テスト",
+          "httpScriptTitle": "API スクリプト・テスト",
+          "httpActionTitle": "API シンプル・テスト",
           "browserTypeLabel": "ブラウザー",
           "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
@@ -139,7 +139,18 @@
           "addscriptAction": "スクリプトの追加",
           "editscriptAction": "スクリプトの編集",
           "scriptFileName": "ファイル名",
-          "scriptNotAdded": "スクリプトは追加されません"
+          "scriptNotAdded": "スクリプトが追加されていません。",
+          "buttonAdd": "追加",
+          "buttonBack": "戻る",
+          "buttonSave": "保存",
+          "uploadFileLabel": "ファイルのアップロード",
+          "uploadFileDescription": "単一の .js ファイルをアップロードすることも、バンドルされた .js ファイルの zip ファイルをアップロードすることもできます。",
+          "scriptDescription": "アップロードしたスクリプトがここに表示されます。または、以下に手動で入力することもできます。",
+          "validScriptMessage": "スクリプトは有効です。",
+          "zipFileUploadedMessage": "バンドル・ファイルは変更も検証もできません",
+          "scriptEditedManuallyMessage": "手動で追加または変更されたスクリプト",
+          "mainFileNameLabel": "メインファイル名",
+          "invalidMainFileName": "メインファイル名が無効です"
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -170,6 +181,7 @@
     "feedback": {
       "successTitle": "成功",
       "successMessageCreate": "シンセティック・テストの作成に成功しました",
+      "successMessageUpdate": "合成テストが正常に更新されました",
       "successMessageDelete": "シンセティック・テストの削除に成功しました。",
       "failureTitle": "失敗",
       "failureMessageCreate": "シンセティック・テストの作成に失敗しました。 後で再試行してください",
@@ -179,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "ロケーションが正常に削除されました",
       "failureMesssageDelete": "ロケーションの削除に失敗しました。 後で再試行してください"
+    },
+    "updateTest": {
+      "dialogTitle": "API テストの編集",
+      "buttonSave": "保存",
+      "scriptSavedMessage": "スクリプトが追加されました",
+      "bundleSavedMessage": "バンドルされたスクリプトが追加されました"
     }
   },
   "createTest": {
@@ -231,10 +249,7 @@
       "applicationLabel": "アプリケーション",
       "health": "正常性",
       "action": "アクション",
-      "delete": "テストの削除",
-      "labelConfirm": "ご確認ください",
-      "labelConfirmRemoveTest": "シンセティック・テスト<strong>{{testLabel}}</strong>を削除しますか?",
-      "labelRemove": "削除",
+      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。",
       "na": "該当なし"
     },
     "locationList": {
@@ -245,12 +260,22 @@
       "totalTests": "リンクされているテストの数",
       "lastRun": "最終テスト実行日",
       "namespace": "名前空間",
+      "health": "正常性",
+      "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか?",
-      "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) にはアクティブなテストが割り当てられています。このロケーションを削除しますか?",
+      "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) に関連付けられた {{linkedTests}} アクティブ・テストがあります。 このロケーションを削除すると、テスト・サマリー・グラフでデータ損失が発生します。 このロケーションを削除してもよろしいですか。<br/>削除せずにロケーションをアップグレードするには、<documentLink>資料</documentLink>を参照してください。",
       "deleteLocation": "ロケーションの削除",
       "noDataAvailable": {
         "message": "{{component}} が使用不可です"
-      }
+      },
+      "deletionReason": "削除の理由",
+      "typeToContinue": "続行するには {{location}} を入力してください",
+      "location": "LOCATION",
+      "deletionSuccess": "ロケーションが削除されました",
+      "cancelButton": "キャンセル",
+      "deleteLocationLabel": "ロケーションの削除",
+      "success": "成功",
+      "failure": "失敗"
     },
     "summary": {
       "successRate": "成功率",
@@ -457,8 +482,29 @@
       "allowInsecure": "非セキュアを許可",
       "locationsTitle": "ロケーション",
       "scheduleTitle": "スケジュール",
+      "frequencyTitle": "頻度",
+      "simultaneousValue": "同時",
+      "frequencyPluralValue": "{{minutes}} 分",
+      "frequencySingleValue": "{{minutes}} 分",
       "identifyTitle": "識別",
-      "customProperties": "カスタム・プロパティー"
+      "customProperties": "カスタム・プロパティー",
+      "identifySectionName": "名前",
+      "identifySectionDescription": "説明",
+      "associatedApplication": "関連アプリケーション",
+      "noApplicationAssociated": "関連アプリケーションがありません。",
+      "configScriptTitle": "スクリプト",
+      "configScriptFileName": "ファイル名",
+      "noScriptFileFound": "スクリプト・ファイルが見つかりません。",
+      "noCustomProperties": "このテストにはカスタム・プロパティーが定義されていません。",
+      "propertyTitle": "プロパティー",
+      "valueTitle": "値",
+      "dialog": {
+        "deleteTest": "テストを削除",
+        "reasonTitle": "削除の理由",
+        "typingValidationTitle": "続行するには {{synthetic}} を入力してください",
+        "cancelButton": "キャンセル",
+        "deleteButton": "削除"
+      }
     }
   }
 }

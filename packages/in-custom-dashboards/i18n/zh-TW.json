@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "只有您可看見此儀表板。",
         "publicDashboard": "公用儀表板",
         "publicDashboardExplain": "您組織中的每個人都可看見此儀表板。只有您能夠進行變更，但您可以新增編輯者。",
-        "done": "完成"
+        "save": "儲存",
+        "cancel": "取消",
+        "tooltipCloseAndCancel": "關閉並取消"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "基礎架構和平台實體計數"
-      },
-      "entityCountFormComponent": {
-        "query": "查詢",
-        "helpAction": "動態焦點查詢 (DFQ)（當您在基礎架構圖內使用時）。",
-        "metric": "度量",
-        "count": "計數",
-        "aggregation": "聚集",
-        "pleaseSelect": "請選取",
-        "pleaseSelectMetric": "請選取度量"
-      },
       "metricsFormComponent": {
         "metric": "度量",
         "selectMetric": "選取度量",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "輪詢時間範圍",
         "timeWindowType_fixed": "固定時間範圍"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "應用程式 SLO",
-          "websites": "網站 SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "SLI 名稱",
         "sliType": "SLI 類型",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "必須配置至少一個時區。",
       "pleaseSelectATimeZone": "請選取時區。"
+    },
+    "histogram": {
+      "histogram": "直方圖",
+      "demo": {
+        "title": "分佈"
+      },
+      "formComp": {
+        "metrics": "選取度量",
+        "axisConfiguration": "軸配置",
+        "formatter": "格式製作程式（X 軸）"
+      }
     }
   },
   "duplicateDashboardDialog": {

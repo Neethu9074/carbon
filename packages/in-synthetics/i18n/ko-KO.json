@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "여기에 스크립트 입력"
       },
       "basicDetails": {
-        "title": "ping 테스트 이름",
-        "scriptTitle": "이 HTTP 스크립트 테스트의 이름은 무엇입니까",
+        "title": "이 API 단순(HTTP 조치) 테스트의 이름",
+        "scriptTitle": "이 API 스크립트(HTTP Script) 테스트의 이름",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
         "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "Ping API",
-          "headline": "HTTP 조치",
+        "apiSimple": {
+          "name": "API 단순",
+          "headline": "API 단순(HTTP 조치)",
           "whenToUse": {
             "title": "사용 시기",
-            "line1": "HTTP Action 테스트를 사용하여 단일 REST API 테스트"
+            "line1": "단일 REST API를 테스트하려면 API 단순(HTTP 조치) 테스트 사용"
           },
           "tipsForUsing": {
             "title": "사용 팁",
@@ -52,11 +52,11 @@
             "line4": "4단계: 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
-        "scriptApi": {
-          "name": "스크립트 API",
-          "headline": "HTTP 스크립트",
+        "apiScript": {
+          "name": "API 스크립트",
+          "headline": "API 스크립트(HTTP 스크립트)",
           "whenToUse": {
-            "line1": "HTTP 스크립트 테스트 및 Node.js 기반 스크립트를 사용하여 여러 REST API 시퀀스를 테스트하십시오."
+            "line1": "API 스크립트(HTTP Script) 테스트 및 Node.js 기반 스크립트를 사용하여 다중 Rest API 시퀀스 테스트"
           },
           "tipsForUsing": {
             "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "선택된 테스트 유형",
           "rightListLabel": "테스트 유형",
-          "apiTypeLabel": "간단한 테스트 | 스크립트 테스트",
+          "apiTypeLabel": "API 단순 테스트 | API 스크립트 테스트",
           "apiTypeHeadline": "작성하려는 합성 테스트 종류",
           "apiTypeText": "API 테스트를 사용하여 웹 애플리케이션에서 제공하는 API를 모니터링할 수 있습니다. API 테스트를 사용하여 가용성 및 응답 시간을 측정할 수 있습니다. 간단한 테스트를 사용하면 URL을 ping하거나 단일 API를 테스트할 수 있습니다. 스크립트 테스트를 사용하면 API 응답 세트를 확인하고 복잡한 워크플로우를 시뮬레이션하고 특정 기능을 테스트할 수 있는 스크립트를 제공할 수 있습니다.",
           "selectedTestTypeButton": "선택",
-          "httpScriptTitle": "스크립트 테스트",
-          "httpActionTitle": "간단한 테스트",
+          "httpScriptTitle": "API 스크립트 테스트",
+          "httpActionTitle": "API 단순 테스트",
           "browserTypeLabel": "브라우저",
           "browserTypeHeadline": "브라우저 합성 테스트",
           "browserTypeText": "브라우저 합성 테스트는 웹 브라우저의 스크립트를 통해 웹 사이트와의 사용자 상호작용을 시뮬레이션하여 웹 애플리케이션 성능을 모니터링하는 방법으로, 사용자 환경에 영향을 미치는 문제에 대한 유용한 통찰력을 제공하고 웹 사이트가 제대로 기능하는 데 도움이 됩니다.",
@@ -139,7 +139,18 @@
           "addscriptAction": "스크립트 추가",
           "editscriptAction": "스크립트 편집",
           "scriptFileName": "파일 이름",
-          "scriptNotAdded": "추가된 스크립트 없음"
+          "scriptNotAdded": "추가된 스크립트가 없습니다.",
+          "buttonAdd": "추가",
+          "buttonBack": "뒤로",
+          "buttonSave": "저장",
+          "uploadFileLabel": "파일 업로드",
+          "uploadFileDescription": "단일 .js 파일 또는 번들 .js 파일의 zip 파일을 업로드할 수 있습니다.",
+          "scriptDescription": "업로드한 스크립트가 여기에 표시되거나 아래에 수동으로 입력할 수 있습니다.",
+          "validScriptMessage": "스크립트가 올바릅니다.",
+          "zipFileUploadedMessage": "번들 파일은 수정하거나 유효성 검증할 수 없음",
+          "scriptEditedManuallyMessage": "수동으로 스크립트 추가 또는 수정",
+          "mainFileNameLabel": "기본 파일 이름",
+          "invalidMainFileName": "기본 파일 이름이 올바르지 않음"
         },
         "loadMore": "추가 로드",
         "selectTests": {
@@ -170,6 +181,7 @@
     "feedback": {
       "successTitle": "완료!",
       "successMessageCreate": "합성 테스트가 성공적으로 작성됨",
+      "successMessageUpdate": "합성 테스트 업데이트 완료",
       "successMessageDelete": "합성 테스트 삭제 완료",
       "failureTitle": "실패함",
       "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오.",
@@ -179,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "위치가 성공적으로 삭제됨",
       "failureMesssageDelete": "위치를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
+    },
+    "updateTest": {
+      "dialogTitle": "API 테스트 편집",
+      "buttonSave": "저장",
+      "scriptSavedMessage": "스크립트 추가 완료",
+      "bundleSavedMessage": "번들 스크립트 추가"
     }
   },
   "createTest": {
@@ -231,10 +249,7 @@
       "applicationLabel": "애플리케이션",
       "health": "상태",
       "action": "조치",
-      "delete": "이 테스트를 삭제",
-      "labelConfirm": "확인하십시오.",
-      "labelConfirmRemoveTest": "합성 테스트 <strong>{{testLabel}}</strong>을(를) 제거하시겠습니까?",
-      "labelRemove": "제거",
+      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> 테스트를 제거하시겠습니까?",
       "na": "해당사항 없음"
     },
     "locationList": {
@@ -245,12 +260,22 @@
       "totalTests": "링크된 테스트의 수",
       "lastRun": "마지막 테스트 실행 시간",
       "namespace": "네임스페이스",
+      "health": "상태",
+      "noHealthInfo": "해당사항 없음",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
-      "activeTestLinked": "<strong>{{label}}</strong>({{status}}) 위치에 지정된 활성 테스트가 있습니다. 이 위치를 제거하시겠습니까?",
+      "activeTestLinked": "위치 <strong>{{label}}</strong>과(와) 연관된 {{linkedTests}} 활성 테스트가 있습니다({{status}}). 이 위치를 삭제하면 테스트 요약 차트에서 데이터가 유실됩니다. 위치를 삭제하시겠습니까?<br/>삭제하지 않고 위치를 업그레이드하려면 <documentLink>문서</documentLink>를 참조하십시오.",
       "deleteLocation": "위치 삭제",
       "noDataAvailable": {
         "message": "{{component}} 사용 불가"
-      }
+      },
+      "deletionReason": "삭제 이유",
+      "typeToContinue": "계속하려면 {{location}} 입력",
+      "location": "위치",
+      "deletionSuccess": "위치 삭제 완료",
+      "cancelButton": "취소",
+      "deleteLocationLabel": "위치 삭제",
+      "success": "성공",
+      "failure": "실패함"
     },
     "summary": {
       "successRate": "성공률",
@@ -457,8 +482,29 @@
       "allowInsecure": "비보안 허용",
       "locationsTitle": "위치",
       "scheduleTitle": "스케줄",
+      "frequencyTitle": "빈도",
+      "simultaneousValue": "동시",
+      "frequencyPluralValue": "{{minutes}}분",
+      "frequencySingleValue": "{{minutes}}분",
       "identifyTitle": "식별",
-      "customProperties": "사용자 정의 특성"
+      "customProperties": "사용자 정의 특성",
+      "identifySectionName": "이름",
+      "identifySectionDescription": "설명",
+      "associatedApplication": "연관된 애플리케이션",
+      "noApplicationAssociated": "연관된 애플리케이션 없음",
+      "configScriptTitle": "스크립트",
+      "configScriptFileName": "파일 이름",
+      "noScriptFileFound": "스크립트 파일을 찾을 수 없습니다.",
+      "noCustomProperties": "이 테스트에 대해 정의된 사용자 정의 특성이 없습니다.",
+      "propertyTitle": "특성",
+      "valueTitle": "값",
+      "dialog": {
+        "deleteTest": "테스트 삭제",
+        "reasonTitle": "삭제 이유",
+        "typingValidationTitle": "계속하려면 {{synthetic}} 입력",
+        "cancelButton": "취소",
+        "deleteButton": "삭제"
+      }
     }
   }
 }

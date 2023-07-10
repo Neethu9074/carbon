@@ -8,8 +8,6 @@
   "labelTrace": "追蹤",
   "linkDownload": "下載",
   "labelCalls": "呼叫",
-  "labelCallsPerSecondShort": "呼叫數/秒",
-  "labelErroneousCallsPerSecondShort": "錯誤呼叫數/秒",
   "labelCallsPerSecondFull": "每秒呼叫數",
   "labelTraces": "追蹤",
   "labelErrorRate": "錯誤率",
@@ -130,12 +128,20 @@
   "Rendering": "呈現",
   "loadingData": "正在載入資料",
   "UnexpectedErrorOccurred": "發生非預期的錯誤",
+  "callsLiveModeDisabled": "呼叫不支援即時模式",
+  "tracesLiveModeDisabled": "追蹤不支援即時模式",
   "applicationMap": {
     "webglNotSupportedTitle": "瀏覽器不支援 WebGL",
     "webglNotSupported": "Instana 使用者介面包含 3D 元件，是以稱為 WebGL 的技術呈現。只可惜，此技術還無法在所有平台上使用。有些瀏覽器（尤其是舊版的瀏覽器）不支援 WebGL。我們建議使用最新一代的自動更新瀏覽器：Chrome、Firefox、Safari 8 或 MS Edge。\n\n 我們盡力支援所有的平台與瀏覽器組合。不過，有可能是我們對 WebGL 的使用有錯誤。您可以使用 [線上測試](https://get.webgl.org/) 檢查您的平台是否支援 WebGL。\n\n假設線上測試指出，您的平台支援 WebGL，但 Instana 3D 地圖仍舊失靈，[請與我們聯絡](https://support.instana.com/hc/en-us/requests/new)。\n\n如需進一步的疑難排解資訊，請參閱 [WebGL 相容性表格](http://caniuse.com/#feat=webgl) 或 [WebGL 網站](http://webgl.org/)。",
     "webglNotInitializedTitle": "WebGL 無法起始設定",
     "webglNotInitialized": "您的瀏覽器支援 WebGL，但卻無法起始設定。基於某些瀏覽器及硬體原因，可能發生此情況。可能的原因如下：\n\n  - 開啟的標籤太多\n  - 缺乏專用 GPU 或 GPU 忙碌中\n  - 瀏覽器 / 硬體不相容\n\n如需進一步的疑難排解資訊，請參閱 [WebGL 測試網站](https://get.webgl.org/) 或 [WebGL 官方說明文件](https://www.khronos.org/webgl/wiki/FAQ)。",
-    "tooltipToggleServiceOutside": "切換此應用程式外部的所有服務"
+    "tooltipToggleServiceOutside": "同時顯示未包含在此應用程式中的服務",
+    "tooltipNodeSize": "選取選擇一個確定每個服務節點大小的度量",
+    "tooltipLayoutFlow": "流程佈置",
+    "tooltipLayoutForce": "精簡佈置",
+    "tooltipSimulateTraffic": "模擬資料流量",
+    "tooltipZoomIn": "放大",
+    "tooltipZoomOut": "縮小"
   },
   "applicationSwitcher": {
     "header": "您正在應用程式視景的環境定義中<br />檢視此服務",

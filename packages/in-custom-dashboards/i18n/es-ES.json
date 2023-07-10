@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted.",
         "publicDashboard": "Panel de control público",
         "publicDashboardExplain": "Este panel de control lo puede visualizar cualquier usuario de su organización. Solo usted puede realizar cambios, pero puede añadir editores.",
-        "done": "Hecho"
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "tooltipCloseAndCancel": "Cerrar y cancelar"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "Número de entidades de infraestructura y plataformas"
-      },
-      "entityCountFormComponent": {
-        "query": "Consulta",
-        "helpAction": "Una consulta de foco dinámico (DFQ) como la que utilizaría en el mapa de la infraestructura.",
-        "metric": "Métrica",
-        "count": "Número",
-        "aggregation": "Agregación",
-        "pleaseSelect": "Seleccione",
-        "pleaseSelectMetric": "Seleccione una métrica"
-      },
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "Ventana de tiempo de desplazable",
         "timeWindowType_fixed": "Ventana de tiempo fijo"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "SLO de aplicación",
-          "websites": "Sitio web SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "Nombre de SLI",
         "sliType": "Tipo de SLI",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "Se debe configurar al menos un huso horario.",
       "pleaseSelectATimeZone": "Seleccione un huso horario."
+    },
+    "histogram": {
+      "histogram": "Histograma",
+      "demo": {
+        "title": "Distribución"
+      },
+      "formComp": {
+        "metrics": "Selección de métricas",
+        "axisConfiguration": "Configuración de eje",
+        "formatter": "Formateador (eje x)"
+      }
     }
   },
   "duplicateDashboardDialog": {

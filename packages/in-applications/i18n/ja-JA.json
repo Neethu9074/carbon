@@ -8,8 +8,6 @@
   "labelTrace": "トレース",
   "linkDownload": "ダウンロード",
   "labelCalls": "呼び出し",
-  "labelCallsPerSecondShort": "呼び出し/秒",
-  "labelErroneousCallsPerSecondShort": "エラーのあるコール/秒",
   "labelCallsPerSecondFull": "一秒当たりの呼び出しの数",
   "labelTraces": "トレース",
   "labelErrorRate": "エラー率",
@@ -130,12 +128,20 @@
   "Rendering": "レンダリング",
   "loadingData": "データのロード中",
   "UnexpectedErrorOccurred": "予期しないエラーが発生しました",
+  "callsLiveModeDisabled": "ライブ・モードは呼び出しではサポートされていません",
+  "tracesLiveModeDisabled": "ライブ・モードはトレースではサポートされていません",
   "applicationMap": {
     "webglNotSupportedTitle": "ブラウザーが WebGL をサポートしていません",
     "webglNotSupported": "Instana ユーザー・インターフェースには、WebGL というテクノロジーを使用してレンダリングされる 3D コンポーネントが含まれています。 残念ながら、このテクノロジーは、まだすべてのプラットフォームで使用できるわけではありません。 一部のブラウザー (特に古いバージョンのブラウザー) は、WebGL をサポートしていません。 最新世代の自動更新ブラウザー (Chrome、Firefox、Safari 8、または MS Edge) を使用することをお勧めします。\n\nすべてのプラットフォームとブラウザーの組み合わせをサポートするように最善を尽くしています。 ただし、WebGL の使用法にエラーが含まれている可能性があります。 [オンライン・テスト](https://get.webgl.org/)を使用して、ご使用のプラットフォームが WebGL をサポートしているかどうかを確認できます。\n\nオンライン・テストの結果、ご使用のプラットフォームが WebGL をサポートしているにもかかわらず、Instana 3D マップが作動不能なままである場合は、[お問い合わせください](https://support.instana.com/hc/en-us/requests/new)。\n\n詳細なトラブルシューティング情報については、[WebGL 互換性の表](http://caniuse.com/#feat=webgl) または [WebGL Web サイト](http://webgl.org/)を参照してください。",
     "webglNotInitializedTitle": "WebGL を初期化できません",
     "webglNotInitialized": "お使いのブラウザーは WebGL をサポートしていますが、初期化できません。 これは、ブラウザーとハードウェアに関する何らかの理由で発生する可能性があります。 次のような理由が考えられます。\n\n  - 開いているタブが多すぎる\n  - 専用の GPU がないまたは GPU がビジー状態である\n  - ブラウザー/ハードウェアの非互換性\n\n詳細なトラブルシューティング情報については、[WebGL テスト・サイト](https://get.webgl.org/)または[公式の WebGL 資料](https://www.khronos.org/webgl/wiki/FAQ)を参照してください。",
-    "tooltipToggleServiceOutside": "このアプリケーションの外部でのすべてのサービスの切り替え"
+    "tooltipToggleServiceOutside": "このアプリケーションに含まれていないサービスも表示する",
+    "tooltipNodeSize": "各サービス・ノードのサイズを決定するメトリックを選択する",
+    "tooltipLayoutFlow": "フロー・レイアウト",
+    "tooltipLayoutForce": "コンパクト・レイアウト",
+    "tooltipSimulateTraffic": "トラフィックのシミュレート",
+    "tooltipZoomIn": "ズームイン",
+    "tooltipZoomOut": "ズームアウト"
   },
   "applicationSwitcher": {
     "header": "このサービスをアプリケーション・パースペクティブの<br />コンテキストで表示しています",

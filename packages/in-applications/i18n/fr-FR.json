@@ -8,8 +8,6 @@
   "labelTrace": "Trace",
   "linkDownload": "Télécharger",
   "labelCalls": "Appels",
-  "labelCallsPerSecondShort": "Appels/s",
-  "labelErroneousCallsPerSecondShort": "Appels/s erronés",
   "labelCallsPerSecondFull": "Appels par seconde",
   "labelTraces": "Traces",
   "labelErrorRate": "Taux d'erreurs",
@@ -130,12 +128,20 @@
   "Rendering": "Rendu",
   "loadingData": "Chargement des données",
   "UnexpectedErrorOccurred": "Une erreur inattendue s'est produite.",
+  "callsLiveModeDisabled": "Le mode interactif n'est pas pris en charge pour les appels",
+  "tracesLiveModeDisabled": "Le mode interactif n'est pas pris en charge pour les traces",
   "applicationMap": {
     "webglNotSupportedTitle": "Le navigateur ne prend pas en charge WebGL",
     "webglNotSupported": "L'interface utilisateur Instana contient des composants 3D qui sont rendus à l'aide de la technologie WebGL. Malheureusement, cette technologie n'est pas encore disponible sur toutes les plateformes. Certains navigateurs, en particulier les anciennes versions des navigateurs, ne prennent pas en charge WebGL. Nous recommandons d'utiliser la nouvelle génération de navigateurs à mise à jour automatique : Chrome, Firefox, Safari 8 ou MS Edge.\n\nNous prenons toutes les dispositions pour prendre en charge toutes les combinaisons de plateformes et de navigateurs. Cependant, il se peut que notre utilisation de WebGL contienne des erreurs. Vous pouvez utiliser un [test en ligne](https://get.webgl.org/) pour vérifier que votre plateforme prend en charge WebGL.\n\nSi le test en ligne indique que votre plateforme prend en charge WebGL et que la mappe 3D Instana reste inexploitable, [veuillez nous contacter](https://support.instana.com/hc/en-us/requests/new).\n\nPour plus d'informations sur le traitement des incidents, reportez-vous au [tableau de compatibilité WebGL](http://caniuse.com/#feat=webgl) ou consultez le site Web [WebGL](http://webgl.org/).",
     "webglNotInitializedTitle": "WebGL ne peut pas être initialisé.",
     "webglNotInitialized": "Le navigateur prend en charge WebGL, mais il ne peut pas être initialisé. Cela peut se produire pour des raisons liées au navigateur et au matériel. Les raisons possibles sont les suivantes : \n\n-trop d'onglets ouverts\n - absence de GPU dédiée ou GPU occupée\n - incompatibilité de navigateur/matérielle\n\nPour plus d'informations sur le traitement des incidents, veuillez consulter le [site de test WebGL](https://get.webgl.org/) ou la [documentation WebGL officielle(https://www.khronos.org/webgl/wiki/FAQ).",
-    "tooltipToggleServiceOutside": "Basculer tous les services en dehors de cette application"
+    "tooltipToggleServiceOutside": "Afficher également les services qui ne sont pas inclus dans cette application",
+    "tooltipNodeSize": "Sélectionner une métrique qui détermine la taille de chaque nœud de service",
+    "tooltipLayoutFlow": "Agencement du flux",
+    "tooltipLayoutForce": "Présentation compacte",
+    "tooltipSimulateTraffic": "Simuler le trafic",
+    "tooltipZoomIn": "Zoom avant",
+    "tooltipZoomOut": "Zoom arrière"
   },
   "applicationSwitcher": {
     "header": "Vous visualisez ce service dans le<br />contexte d'une perspective d'application.",

@@ -382,6 +382,14 @@
     "presenterLabelCalls": "调用数",
     "latencyRangeLabelFromTimeToTime": "{{from}} 到 {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} 到 {{to}}",
+    "metricLabel": "度量",
+    "presenterLabelNoDataToDisplay": "没有可显示的数据",
+    "total": "总计",
+    "min": "最小值",
+    "max": "最大值"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "未找到"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "平台",

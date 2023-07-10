@@ -1,21 +1,44 @@
 {
   "general": {
     "addButtonLabel": "追加",
+    "beacon": "ビーコン",
+    "boundary": "境界",
+    "clear": "クリア",
     "saveButtonLabel": "保存",
     "cancelButtonLabel": "キャンセル",
     "editButtonLabel": "編集",
     "copyButtonLabel": "コピー",
     "deleteButtonLabel": "削除",
+    "select": "$t (in-service-levels:general.entityTypes.label, {\"context\": \"{{entity}}\"}) を選択する",
+    "noSelection": "選択なし",
+    "loadMore": "さらにロード",
+    "noData": "表示可能なデータがありません",
     "entityTypes": {
       "label": "不明なエンティティー",
       "label_application": "アプリケーション",
       "label_website": "Web サイト"
+    },
+    "selectLabel": "選択: {{selectedLabel}}",
+    "serviceLevelObjective": "サービス・レベル目標",
+    "metrics": {
+      "status": "状況",
+      "remainingBudget": "残りのエラー予算",
+      "totalBudget": "エラー予算",
+      "consumedBudget": "消費されたエラー予算"
     }
   },
   "createSloDialog": {
+    "customFilter": "カスタム・フィルター",
     "title": "サービス・レベル目標 (SLO) の作成",
     "selectEntityNavItem": "エンティティーの選択",
-    "selectEntityTitle": "SLO を追加するエンティティーの選択:"
+    "selectEntityTitle": "SLO を追加するエンティティーの選択:",
+    "selectScopeNavItem": "スコープの選択",
+    "selectScopeTitle": "スコープの選択",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP 要求",
+      "beaconLabel_pageLoad": "Web サイト・ページのロード",
+      "beaconLabel_custom": "Web サイトのカスタム・イベント"
+    }
   },
   "sloList": {
     "components": {
@@ -28,7 +51,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "不明なブループリント",
         "blueprint_latency": "待ち時間",
-        "blueprint_availability": "アベイラビリティー"
+        "blueprint_availability": "アベイラビリティー",
+        "blueprint_custom": "カスタム"
       },
       "entityTypeFilter": {
         "placeholder": "エンティティー・タイプ"
@@ -40,18 +64,19 @@
         "target": "ターゲット {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}} 分",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
-        "remainingEvent_website": "{{count}} ビーコン",
-        "remainingEvent_website_plural": "{{count}} 個のビーコン",
-        "remainingEvent_website_0": "{{count}} 個のビーコン",
-        "remainingEvent_website_1": "{{count}} ビーコン",
-        "remainingEvent_website_2": "{{count}} 個のビーコン",
-        "remainingEvent_application": "{{count}} 件の呼び出し",
-        "remainingEvent_application_plural": "{{count}} 件の呼び出し",
-        "remainingEvent_application_0": "{{count}} 件の呼び出し",
-        "remainingEvent_application_1": "{{count}} 件の呼び出し",
-        "remainingEvent_application_2": "{{count}} 件の呼び出し",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "{{formatted}} ビーコン",
+        "remainingEvent_website_plural": "{{formatted}} ビーコン (複数可)",
+        "remainingEvent_website_0": "{{formatted}} ビーコン (複数可)",
+        "remainingEvent_website_1": "{{formatted}} ビーコン",
+        "remainingEvent_website_2": "{{formatted}} ビーコン (複数可)",
+        "remainingEvent_application": "{{formatted}} 呼び出し",
+        "remainingEvent_application_plural": "{{formatted}} 呼び出し (複数可)",
+        "remainingEvent_application_0": "{{formatted}} 呼び出し (複数可)",
+        "remainingEvent_application_1": "{{formatted}} 呼び出し",
+        "remainingEvent_application_2": "{{formatted}} 呼び出し (複数可)",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
         "timeWindowSize_month": "{{count}} 月",
@@ -79,6 +104,25 @@
       "errorBudget": "残りのエラー予算",
       "status": "状況/ターゲット",
       "tags": "タグ"
+    }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "{{entity}} の分析"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "予算: {{value}}"
+      },
+      "sloStatusKpiCard": {
+        "target": "SLO ターゲット: {{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "エラー予算",
+        "title_fullWindow": "時間枠全体のエラー予算",
+        "optionCompact": "コンパクト",
+        "optionFull": "全消費量"
+      }
     }
   }
 }

@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "在此处输入脚本"
       },
       "basicDetails": {
-        "title": "此 ping 测试的名称是什么",
-        "scriptTitle": "此 HTTP 脚本测试的名称",
+        "title": "此 API 简单（HTTP 操作）测试的名称",
+        "scriptTitle": "此 API 脚本（HTTP 脚本）测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述",
         "labelFrequency": "频率（分钟）",
         "labelApplications": "选择应用程序"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "Ping API",
-          "headline": "HTTP 操作",
+        "apiSimple": {
+          "name": "API 简单",
+          "headline": "API 简单（HTTP 操作）",
           "whenToUse": {
             "title": "何时使用？",
-            "line1": "使用 HTTP 操作测试来测试单个 Rest API"
+            "line1": "使用 API 简单（HTTP 操作）测试来测试单个 Rest API"
           },
           "tipsForUsing": {
             "title": "使用提示",
@@ -52,11 +52,11 @@
             "line4": "步骤 4：在“名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
-        "scriptApi": {
-          "name": "脚本 API",
-          "headline": "HTTP 脚本",
+        "apiScript": {
+          "name": "API 脚本",
+          "headline": "API 脚本（HTTP 脚本）",
           "whenToUse": {
-            "line1": "使用 HTTP 脚本测试和基于 Node.js 的脚本来测试多个 Rest API 的序列"
+            "line1": "使用 API 脚本（HTTP 脚本）测试和基于 Node.js 的脚本来测试多个 REST API 的序列"
           },
           "tipsForUsing": {
             "line1": "步骤 1：选择要创建的测试类型。",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "所选测试类型",
           "rightListLabel": "测试类型",
-          "apiTypeLabel": "简单测试 | 脚本测试",
+          "apiTypeLabel": "API 简单测试 | API 脚本测试",
           "apiTypeHeadline": "您想创建什么样的合成测试",
           "apiTypeText": "API 测试可用于监视 Web 应用程序提供的 API。 API 测试可用于度量可用性和响应时间。 简单测试允许您对 URL 执行 ping 操作或测试单个 API。 “脚本”测试允许您提供可以检查一组 API 响应、模拟复杂工作流程以及测试特定功能的脚本。",
           "selectedTestTypeButton": "选择",
-          "httpScriptTitle": "脚本测试",
-          "httpActionTitle": "简单测试",
+          "httpScriptTitle": "API 脚本测试",
+          "httpActionTitle": "API 简单测试",
           "browserTypeLabel": "浏览器",
           "browserTypeHeadline": "浏览器合成测试",
           "browserTypeText": "浏览器合成测试是一种监视 Web 应用程序性能的方法，通过 Web 浏览器中的脚本模拟用户与 Web 站点的交互，对影响用户体验的问题提供有价值的洞察并确保 Web 站点功能。",
@@ -139,7 +139,18 @@
           "addscriptAction": "添加脚本",
           "editscriptAction": "编辑脚本",
           "scriptFileName": "文件名",
-          "scriptNotAdded": "未添加脚本"
+          "scriptNotAdded": "未添加脚本。",
+          "buttonAdd": "添加",
+          "buttonBack": "上一步",
+          "buttonSave": "保存",
+          "uploadFileLabel": "上载文件",
+          "uploadFileDescription": "您可以上载单个 .js 文件或捆绑的 .js 文件的 zip 文件。",
+          "scriptDescription": "您上载的脚本将显示在此处，或者您可以在下面手动输入该脚本。",
+          "validScriptMessage": "脚本有效。",
+          "zipFileUploadedMessage": "无法修改或验证捆绑文件",
+          "scriptEditedManuallyMessage": "手动添加或修改脚本",
+          "mainFileNameLabel": "主文件名",
+          "invalidMainFileName": "主文件名无效"
         },
         "loadMore": "加载更多",
         "selectTests": {
@@ -170,6 +181,7 @@
     "feedback": {
       "successTitle": "成功！",
       "successMessageCreate": "已成功创建合成测试",
+      "successMessageUpdate": "已成功更新合成测试",
       "successMessageDelete": "已成功删除合成测试",
       "failureTitle": "失败！",
       "failureMessageCreate": "未能创建合成测试。 请稍后重试",
@@ -179,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "已成功删除位置",
       "failureMesssageDelete": "无法删除该位置。 请稍后重试"
+    },
+    "updateTest": {
+      "dialogTitle": "编辑 API 测试",
+      "buttonSave": "保存",
+      "scriptSavedMessage": "已添加脚本",
+      "bundleSavedMessage": "已添加捆绑脚本"
     }
   },
   "createTest": {
@@ -231,10 +249,7 @@
       "applicationLabel": "应用程序",
       "health": "运行状况",
       "action": "操作",
-      "delete": "删除测试",
-      "labelConfirm": "请确认",
-      "labelConfirmRemoveTest": "确定要移除合成测试 <strong>{{testLabel}}</strong> 吗？",
-      "labelRemove": "除去",
+      "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？",
       "na": "不适用"
     },
     "locationList": {
@@ -245,12 +260,22 @@
       "totalTests": "链接的测试数",
       "lastRun": "上次测试运行时间",
       "namespace": "名称空间",
+      "health": "运行状况",
+      "noHealthInfo": "不适用",
       "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？",
-      "activeTestLinked": "在位置 <strong>{{label}}</strong> ({{status}}) 上分配了活动的测试，确定要除去此位置吗？",
+      "activeTestLinked": "存在 {{linkedTests}} 个与位置 <strong>{{label}}</strong> ({{status}}) 关联的活动测试。 删除此位置将导致测试摘要图表中的数据丢失。 确定要删除此位置吗？<br/>要在不删除的情况下升级位置，请参阅<documentLink>文档</documentLink>。",
       "deleteLocation": "删除位置",
       "noDataAvailable": {
         "message": "{{component}} 不可用"
-      }
+      },
+      "deletionReason": "删除原因",
+      "typeToContinue": "输入 {{location}} 以继续",
+      "location": "位置",
+      "deletionSuccess": "已删除该位置",
+      "cancelButton": "取消",
+      "deleteLocationLabel": "删除位置",
+      "success": "成功",
+      "failure": "失败"
     },
     "summary": {
       "successRate": "成功率",
@@ -457,8 +482,29 @@
       "allowInsecure": "允许不安全",
       "locationsTitle": "位置",
       "scheduleTitle": "调度",
+      "frequencyTitle": "频率",
+      "simultaneousValue": "同时",
+      "frequencyPluralValue": "{{minutes}} 分钟",
+      "frequencySingleValue": "{{minutes}} 分钟",
       "identifyTitle": "识别",
-      "customProperties": "定制属性"
+      "customProperties": "定制属性",
+      "identifySectionName": "名称",
+      "identifySectionDescription": "描述",
+      "associatedApplication": "已关联应用程序",
+      "noApplicationAssociated": "未关联任何应用程序",
+      "configScriptTitle": "脚本",
+      "configScriptFileName": "文件名",
+      "noScriptFileFound": "找不到脚本文件。",
+      "noCustomProperties": "没有为此测试定义任何定制属性。",
+      "propertyTitle": "属性",
+      "valueTitle": "值",
+      "dialog": {
+        "deleteTest": "删除测试",
+        "reasonTitle": "删除原因",
+        "typingValidationTitle": "输入 {{synthetic}} 以继续",
+        "cancelButton": "取消",
+        "deleteButton": "删除"
+      }
     }
   }
 }

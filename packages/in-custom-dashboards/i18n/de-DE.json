@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "Dieses Dashboard ist nur für Sie sichtbar.",
         "publicDashboard": "Öffentliches Dashboard",
         "publicDashboardExplain": "Dieses Dashboard ist für alle in Ihrer Organisation sichtbar. Nur Sie können Änderungen vornehmen, aber Sie können Bearbeiter hinzufügen.",
-        "done": "Erledigt"
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "tooltipCloseAndCancel": "Schließen und abbrechen"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "Anzahl der Infrastruktur- und Plattformentitäten"
-      },
-      "entityCountFormComponent": {
-        "query": "Abfrage",
-        "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Infrastrukturzuordnung verwenden würden.",
-        "metric": "Messwert",
-        "count": "Anzahl",
-        "aggregation": "Aggregation",
-        "pleaseSelect": "Bitte auswählen",
-        "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
-      },
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "Rotierendes Zeitfenster",
         "timeWindowType_fixed": "Festes Zeitfenster"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "Anwendungs-SLO",
-          "websites": "Website-SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "SLI-Name",
         "sliType": "SLI-Typ",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "Es muss mindestens eine Zeitzone konfiguriert werden.",
       "pleaseSelectATimeZone": "Wählen Sie eine Zeitzone aus."
+    },
+    "histogram": {
+      "histogram": "Histogramm",
+      "demo": {
+        "title": "Verteilung"
+      },
+      "formComp": {
+        "metrics": "Metrikauswahl",
+        "axisConfiguration": "Achsenkonfiguration",
+        "formatter": "Formatierungsprogramm (x-Achse)"
+      }
     }
   },
   "duplicateDashboardDialog": {

@@ -1,21 +1,44 @@
 {
   "general": {
     "addButtonLabel": "添加",
+    "beacon": "信标",
+    "boundary": "边界",
+    "clear": "清除",
     "saveButtonLabel": "保存",
     "cancelButtonLabel": "取消",
     "editButtonLabel": "编辑",
     "copyButtonLabel": "副本",
     "deleteButtonLabel": "删除",
+    "select": "选择 $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "未选择任何项",
+    "loadMore": "加载更多",
+    "noData": "无可用数据",
     "entityTypes": {
       "label": "未知实体",
       "label_application": "应用程序",
       "label_website": "Web 站点"
+    },
+    "selectLabel": "选择：{{selectedLabel}}",
+    "serviceLevelObjective": "服务级别目标",
+    "metrics": {
+      "status": "状态",
+      "remainingBudget": "错误预算剩余",
+      "totalBudget": "错误预算",
+      "consumedBudget": "使用的错误预算"
     }
   },
   "createSloDialog": {
+    "customFilter": "定制过滤器",
     "title": "创建服务级别目标 (SLO)",
     "selectEntityNavItem": "选择实体",
-    "selectEntityTitle": "选择要向其添加 SLO 的实体："
+    "selectEntityTitle": "选择要向其添加 SLO 的实体：",
+    "selectScopeNavItem": "选择作用域",
+    "selectScopeTitle": "选择作用域",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "HTTP 请求",
+      "beaconLabel_pageLoad": "Web 站点页面加载次数",
+      "beaconLabel_custom": "Web 站点定制事件数"
+    }
   },
   "sloList": {
     "components": {
@@ -28,7 +51,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "未知蓝图",
         "blueprint_latency": "等待时间",
-        "blueprint_availability": "可用性"
+        "blueprint_availability": "可用性",
+        "blueprint_custom": "定制"
       },
       "entityTypeFilter": {
         "placeholder": "实体类型"
@@ -40,18 +64,19 @@
         "target": "目标 {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}} 分钟",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}} })",
-        "remainingEvent_website": "{{count}} 个信标",
-        "remainingEvent_website_plural": "{{count}} 个信标",
-        "remainingEvent_website_0": "{{count}} 个信标",
-        "remainingEvent_website_1": "{{count}} 个信标",
-        "remainingEvent_website_2": "{{count}} 个信标",
-        "remainingEvent_application": "{{count}} 个调用",
-        "remainingEvent_application_plural": "{{count}} 个调用",
-        "remainingEvent_application_0": "{{count}} 个调用",
-        "remainingEvent_application_1": "{{count}} 个调用",
-        "remainingEvent_application_2": "{{count}} 个调用",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "{{formatted}} 信标",
+        "remainingEvent_website_plural": "{{formatted}} 信标",
+        "remainingEvent_website_0": "{{formatted}} 信标",
+        "remainingEvent_website_1": "{{formatted}} 信标",
+        "remainingEvent_website_2": "{{formatted}} 信标",
+        "remainingEvent_application": "{{formatted}} 调用",
+        "remainingEvent_application_plural": "{{formatted}} 调用",
+        "remainingEvent_application_0": "{{formatted}} 调用",
+        "remainingEvent_application_1": "{{formatted}} 调用",
+        "remainingEvent_application_2": "{{formatted}} 调用",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，已修复/剩余 {{remaining}} 个",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，滚动",
         "timeWindowSize_month": "{{count}} 个月",
@@ -79,6 +104,25 @@
       "errorBudget": "错误预算剩余",
       "status": "状态/目标",
       "tags": "标记"
+    }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "分析 {{entity}}"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "预算：{{value}}"
+      },
+      "sloStatusKpiCard": {
+        "target": "SLO 目标：{{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "错误预算",
+        "title_fullWindow": "整个时间范围内的错误预算",
+        "optionCompact": "精简",
+        "optionFull": "完全消耗"
+      }
     }
   }
 }
