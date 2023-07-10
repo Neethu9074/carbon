@@ -22,7 +22,7 @@ import locals from './DeployTabSelection.mless';
 export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcceptorURL }: PoPProperties) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const popDocsUrl =
-    'https://www.ibm.com/docs/en/instana-observability/current?topic=beta-pop-deployment#deployment-options';
+    'https://www.ibm.com/docs/en/instana-observability/current?topic=monitoring-pop-deployment#deployment-options';
   const docLinkComponent = (
     <Trans
       i18nKey="in-synthetics:dashboard.testList.popDialog.subTitle"
