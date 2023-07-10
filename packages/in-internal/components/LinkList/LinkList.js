@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import locals from './LinkList.mless';
 
@@ -18,7 +18,7 @@ export function LinkListItem({ href, href$, label, description, children, extern
   return (
     <li className={locals.item}>
       {isLink && (
-        <Link className={locals.label} href={href} href$={href$} external={external}>
+        <Link className={locals.label} href={href$ ?? href} external={external}>
           {label}
         </Link>
       )}

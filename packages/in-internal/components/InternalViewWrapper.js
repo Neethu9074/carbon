@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -31,7 +31,7 @@ export default function InternalViewWrapper({ children }) {
 
 function renderContext() {
   return (
-    <Link className={locals.analyticsLink} href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}>
+    <Link className={locals.analyticsLink} href={getModifiedUrlStream(p => (p.pathname = '/internal'))}>
       {t('in-internal:components.internalViewWrapper.internal')}
     </Link>
   );

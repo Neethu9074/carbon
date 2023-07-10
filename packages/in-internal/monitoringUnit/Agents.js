@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -31,10 +31,10 @@ const cols = [
       getContent(val, row) {
         return (
           <Link
-            external
-            href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
+            href={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
               linkToTenantUnit(href, row.snapshot.getIn(['data', 'tenant']), row.snapshot.getIn(['data', 'unit']))
             )}
+            external
           >
             {val}
           </Link>

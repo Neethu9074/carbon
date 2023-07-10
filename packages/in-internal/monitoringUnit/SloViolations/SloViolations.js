@@ -8,7 +8,7 @@ import React from 'react';
 
 import { interval } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -119,14 +119,14 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
     <div className={locals.violationsForEntity}>
       <Dl>
         <Di title={getPluginName(context.mostSpecific.get('plugin'), 1)}>
-          <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
+          <Link href={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
             {context.mostSpecific.get('label')}
           </Link>
         </Di>
 
         {context.docker && (
           <Di title={getPluginName(context.docker.get('plugin'), 1)}>
-            <Link href$={getDashboardLink(context.docker.get('id'), { pathname: physicalDashboardPath })}>
+            <Link href={getDashboardLink(context.docker.get('id'), { pathname: physicalDashboardPath })}>
               {context.docker.get('label')}
             </Link>
           </Di>
@@ -134,7 +134,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
 
         {context.host && (
           <Di title={getPluginName(context.host.get('plugin'), 1)}>
-            <Link href$={getDashboardLink(context.host.get('id'), { pathname: physicalDashboardPath })}>
+            <Link href={getDashboardLink(context.host.get('id'), { pathname: physicalDashboardPath })}>
               {context.host.get('label')}
             </Link>
           </Di>
@@ -184,7 +184,7 @@ const Event = connect(({ event }) => ({
 
       <Link
         className={locals.title}
-        href$={getEventsViewFilteredBy({
+        href={getEventsViewFilteredBy({
           query: onlySlosQuery,
           eventId: event.id,
           eventTypeFilter: 'issue'
