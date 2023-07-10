@@ -5,7 +5,7 @@
  */
 
 import React, { useState, ReactNode } from 'react';
-import { MapForm } from 'formalistic';
+import { MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
@@ -57,7 +57,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     applicationId: form.get('applicationId').value,
     script: form.get('script')?.value
   });
-  const syntheticType = test.configuration.syntheticType;
+  const isActive: boolean = test.active;
+  const syntheticType: string = test.configuration.syntheticType;
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: {
       simple: syntheticType === 'HTTPAction',
@@ -85,6 +86,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     setIsSubmitting(true);
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
+    updatedForm = form.put('active', createField({ value: isActive }));
     if (
       form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
       isEmpty(form.get('configuration').get('headers').value)
@@ -99,7 +101,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       testConfig = {
         id: testId,
         active: true,
-        ...form.toJS()
+        ...updatedForm.toJS()
       } as SyntheticTest;
     }
 
