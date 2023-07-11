@@ -21,7 +21,6 @@ import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -56,7 +55,7 @@ export default function PotentialProblemsLane({
     return null;
   }
 
-  if (!applicationId || !applicationSmartAlertsEnabled) {
+  if (!applicationId) {
     return null;
   }
 

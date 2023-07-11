@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -26,9 +25,7 @@ export const modeSelectedSmartAlerts = 'selected-smart-alerts';
 const eventSelectionModeOptions = [
   { value: modeEventTypes, label: t('in-settings:tabs.alertOnEventTypeS') },
   { value: modeSelectedEvents, label: t('in-settings:tabs.alertOnEventS') },
-  ...(applicationSmartAlertsEnabled
-    ? [{ value: modeSelectedSmartAlerts, label: t('in-settings:tabs.alertOnApSmartAlerts') }]
-    : [])
+  { value: modeSelectedSmartAlerts, label: t('in-settings:tabs.alertOnApSmartAlerts') }
 ];
 
 export default function Step2({ form, setForm, onChange, onChangeEventSelectionMode }) {

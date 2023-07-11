@@ -6,7 +6,6 @@
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
-import { applicationSmartAlertsEnabled, playwithEnabled } from 'in-services/featureFlags';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -16,6 +15,7 @@ import Services from 'in-applications/Dashboards/application/tabs/Services';
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -59,7 +59,7 @@ export default [
       path: `${applicationDashboard}/synthetics`,
       component: SyntheticsList
     },
-  applicationSmartAlertsEnabled && {
+  {
     label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,
     component: Alerts

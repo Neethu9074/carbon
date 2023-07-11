@@ -9,7 +9,6 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { alertsList, applicationsList, servicesList } from 'in-applications/navigation/paths';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
@@ -42,15 +41,12 @@ export default function AppViewSwitcher() {
             label={t('in-applications:labelServices')}
             isActive={isServiceViewActive && !isSmartAlertsViewActive}
           />
-
-          {applicationSmartAlertsEnabled && (
-            <SecondLevelNavigationItem
-              href={createHref({ ...location, pathname: alertsList })}
-              icon="lib_events_critical"
-              label={t('in-applications:labelSmartAlerts')}
-              isActive={isSmartAlertsViewActive && !isServiceViewActive}
-            />
-          )}
+          <SecondLevelNavigationItem
+            href={createHref({ ...location, pathname: alertsList })}
+            icon="lib_events_critical"
+            label={t('in-applications:labelSmartAlerts')}
+            isActive={isSmartAlertsViewActive && !isServiceViewActive}
+          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

@@ -29,7 +29,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import CreateApplication from 'in-applications/creation/CreateApplication';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { boundaryScopes } from 'in-applications/constants';
@@ -250,9 +249,7 @@ export default function ApplicationsListPresenter({
             <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
           )}
 
-          {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
-            <CreateGlobalSmartAlertButton renderAsSimpleButton />
-          )}
+          {role.canConfigureGlobalAlertConfigs && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>
     </Sticky>

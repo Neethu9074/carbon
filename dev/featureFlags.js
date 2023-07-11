@@ -8,7 +8,6 @@
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
-  applicationSmartAlertsEnabled: true,
   businessObservabilityEnabled: true,
   bizopsFeatureEnabled: true,
   containerInfoEnabled: true,
@@ -81,5 +80,6 @@ module.exports = {
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
-  oneMinuteGranularityForStaticThresholdEnabled: true
+  oneMinuteGranularityForStaticThresholdEnabled: true,
+  alertsHubEnabled: false
 };
