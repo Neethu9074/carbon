@@ -10,8 +10,8 @@ import React, { useState } from 'react';
 import { KeyValue, Message, Stack } from '@instana/components';
 
 import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
+import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
@@ -26,7 +26,7 @@ import locals from './Feedback.mless';
 
 interface FeedbackProps {
   id: string;
-  feedback: string;
+  feedback: number;
   comment: string;
   setHasStaleFeedback: (v: boolean) => void;
 }
@@ -35,10 +35,10 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
-  const [feedbackNotSelectedError, setFeedbackNotSelectedError] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const timeConfig = useTimeConfig();
+  const feedbackField = form.get('feedback');
 
   return (
     <Form
@@ -52,8 +52,7 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
           setSuccess,
           setIsSaving,
           setError,
-          setHasStaleFeedback,
-          setFeedbackNotSelectedError
+          setHasStaleFeedback
         })
       }
     >
@@ -63,7 +62,7 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
             {t('in-automation:actionHistory.feedbackError')}
           </Message>
         )}
-        {feedbackNotSelectedError && (
+        {feedbackField.touched && !feedbackField.valid && (
           <Message withIcon type="error" className={locals.message}>
             {t('in-automation:actionHistory.feedbackNotSelectedError')}
           </Message>
@@ -88,8 +87,8 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
               <input
                 type="radio"
                 className={locals.feedbackInput}
-                checked={i + 1 == parseInt(form.get('feedback').value)}
-                onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue((i + 1).toString())))}
+                checked={i + 1 == form.get('feedback').value}
+                onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue(i + 1)))}
               />
               {label}
             </label>
@@ -115,7 +114,7 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
 }
 
 type FormItems = {
-  feedback: Field<string>;
+  feedback: Field<number>;
   comment: Field<string>;
 };
 type FeedbackForm = MapForm<FormItems>;
@@ -128,7 +127,6 @@ interface HandleSubmitParams {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
   setHasStaleFeedback: (v: boolean) => void;
-  setFeedbackNotSelectedError: (v: boolean) => void;
 }
 
 const handleSubmit = ({
@@ -138,21 +136,14 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess,
-  setHasStaleFeedback,
-  setFeedbackNotSelectedError
+  setHasStaleFeedback
 }: HandleSubmitParams) => {
   setIsSaving(true);
   setError(false);
-  setFeedbackNotSelectedError(false);
 
   const newFeedback = form.get('feedback').value;
   const newComment = form.get('comment').value;
 
-  if (parseInt(newFeedback) === 0) {
-    setIsSaving(false);
-    setFeedbackNotSelectedError(true);
-    return;
-  }
   updateActionInstanceFeedback({
     id,
     feedback: newFeedback,
@@ -181,13 +172,13 @@ const handleSubmit = ({
   );
 };
 
-const createForm = (feedback: string, comment: string): FeedbackForm => {
+const createForm = (feedback: number, comment: string): FeedbackForm => {
   return createMapForm()
     .put(
       'feedback',
       createField({
         value: feedback,
-        validator: notBlankValidator
+        validator: positiveNumberValidator // this ensures the default value of 0 can't be submitted
       })
     )
     .put(
