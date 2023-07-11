@@ -19,10 +19,10 @@ export function getLinkToCustomEvent();
 
 interface UseLinkToAnalyzeProps {
   beaconType: string;
-  groupBy: Group;
+  groupBy: Partial<Group>;
   formModel: FormModelElement[];
-  chartedMetrics: Array<ChartedMetric | ChartedTemplateMetric>;
-  timeConfig: TimeConfig;
+  chartedMetrics?: Array<ChartedMetric | ChartedTemplateMetric>;
+  timeConfig?: TimeConfig;
   fields?: MetricField[];
   tagCatalog?: TagCatalog;
   detailId?: string;
