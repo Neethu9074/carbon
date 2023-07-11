@@ -66,8 +66,16 @@
           }
         },
         "browserSimple": {
+          "name": "Browser Simple",
+          "headline": "Browser Simple (Webpage Action)",
           "whenToUse": {
             "line1": "Use a BrowserScript test to test...."
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: Choose the type of test which you wish to create.",
+            "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
+            "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "browserScript": {
