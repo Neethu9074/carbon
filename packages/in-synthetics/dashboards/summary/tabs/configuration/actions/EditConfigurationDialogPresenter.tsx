@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Field, MapForm, createField } from 'formalistic';
 import React, { useState, ReactNode } from 'react';
-import { MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
@@ -119,6 +119,37 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     );
   }
 
+  const isProceedDisabledAdvanced = () => {
+    const configForm = form.get('configuration') as MapForm<any>;
+    const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+    const labelField = form.get('label') as Field<string>;
+    const frequencyField = form.get('testFrequency') as Field<number>;
+    if (
+      isSubmitting ||
+      // for HTTPAction and WebpageAction
+      ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
+        configForm.get('url') &&
+        !configForm.get('url').valid) ||
+      // for HTTPScript, WebpageScript, and BrowserScript
+      ((syntheticTypeField.value === 'HTTPScript' ||
+        syntheticTypeField.value === 'WebpageScript' ||
+        syntheticTypeField.value === 'BrowserScript') &&
+        // Initially there isn't 'script'/ 'scripts' within configuration
+        ((!configForm.get('script') && !configForm.get('scripts')) ||
+          // validating js file if 'script' is present
+          (configForm.get('script') && !configForm.get('script').valid) ||
+          // validating zip file if 'scripts' is present
+          (configForm.get('scripts') &&
+            (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      !syntheticTypeField.valid ||
+      !frequencyField.valid ||
+      !labelField.valid
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   const footer = (
     <FormFooter>
       <CancelButton onClick={() => onClose()} />
@@ -128,7 +159,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         formId={formId}
         form={form}
         isSaving={isSubmitting}
-        disabled={isSubmitting}
+        disabled={isProceedDisabledAdvanced()}
       >
         {t('in-synthetics:dialog.updateTest.buttonSave')}
       </SaveButton>

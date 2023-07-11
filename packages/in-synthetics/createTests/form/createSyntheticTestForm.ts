@@ -145,7 +145,7 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
       'script',
       createField({
         value: savedState?.script,
-        validator: notUndefinedValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }
