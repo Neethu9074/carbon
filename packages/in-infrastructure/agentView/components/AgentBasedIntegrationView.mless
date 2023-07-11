@@ -16,6 +16,9 @@
   .wrapper {
     padding: 0px 0.5rem 0.5rem 0.5rem;
   }
+  .tooltip {
+    hyphens: none;
+  }
   .archBox {
     border: 1px solid var(--colors-gray-300);
   }
