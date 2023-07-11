@@ -26,19 +26,17 @@ import { shorten, isNotBlank } from 'in-services/util/string';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 import locals from './PageLoadView.mless';
 
-export default withUrlState({
-  bind: [pageLoadIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter],
-  reducerName: 'onChange'
-})(PageLoadView);
-
-function PageLoadView(props) {
+export default function PageLoadView(props) {
+  const [urlState, onChange] = useUrlState({
+    bind: [pageLoadIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter]
+  });
   const content = renderSplitScreenContent_v2(props);
   const beaconType = props.dataSource;
   return (
@@ -53,7 +51,9 @@ function PageLoadView(props) {
       <Sticky
         header={
           <DashboardHeader
+            {...urlState}
             {...props}
+            onChange={onChange}
             title={t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
             icon="lib_website"
             label={dataSourceTitles[beaconType]}

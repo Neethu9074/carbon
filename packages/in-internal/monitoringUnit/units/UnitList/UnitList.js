@@ -4,7 +4,8 @@
  */
 
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
+
+import { useObservable } from '@instana/hooks';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -12,20 +13,19 @@ import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Table from 'in-sdk/components/dashboard/Table';
-import { timeConfig$ } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getSnapshots } from 'in-stores/snapshot';
 import Select from 'in-components/form/Select';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import search from 'in-subscription/search';
-import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './UnitList.mless';
 
-export default compose(
-  connect(() => ({
-    timeConfig: timeConfig$,
-    units: timeConfig$.flatMap(timeConfig =>
+export default function UnitList() {
+  const timeConfig = useTimeConfig();
+  const units = useObservable(
+    () =>
       search({
         query: 'entity.selfType:tenantUnit',
         view: 'TABLE',
@@ -38,10 +38,10 @@ export default compose(
             tenant: snapshot.getIn(['data', 'tenant']),
             unit: snapshot.getIn(['data', 'unit'])
           }))
-        )
-    )
-  })),
-  withUrlState({
+        ),
+    [timeConfig]
+  );
+  const [urlState, setUrlState] = useUrlState({
     bind: [
       {
         path: '/units',
@@ -53,12 +53,9 @@ export default compose(
         name: 'metricAggregation',
         initialState: 'mean'
       }
-    ],
-    reducerName: 'setState',
-    reducer: (prev, next) => ({ ...prev, ...next }),
-    replaceHistory: true
-  })
-)(function UnitList({ units, analysisType, setState, timeConfig, metricAggregation }) {
+    ]
+  });
+  const { analysisType, metricAggregation } = urlState;
   const { cols, initialSortColumn, initialSortDirection, getRowDetails } =
     analysisTypes[analysisType] || analysisTypes[''];
 
@@ -91,7 +88,7 @@ export default compose(
               {t('in-internal:monitoringUnit.units.unitList.analyze')}
               <Select
                 value={analysisType}
-                onChange={e => setState({ analysisType: e.target.value })}
+                onChange={e => setUrlState({ analysisType: e.target.value })}
                 className={locals.modeSwitch}
               >
                 {Object.keys(analysisTypes)
@@ -105,7 +102,7 @@ export default compose(
               {t('in-internal:monitoringUnit.units.unitList.metricAggreg')}
               <Select
                 value={metricAggregation}
-                onChange={e => setState({ metricAggregation: e.target.value })}
+                onChange={e => setUrlState({ metricAggregation: e.target.value })}
                 className={locals.aggregationSwitch}
               >
                 <option value="mean">{t('in-internal:monitoringUnit.units.unitList.mean')}</option>
@@ -118,4 +115,4 @@ export default compose(
       )}
     </InternalViewWrapper>
   );
-});
+}
