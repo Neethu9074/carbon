@@ -200,7 +200,7 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
       'script',
       createField({
         value: configuration?.script,
-        validator: notUndefinedValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }

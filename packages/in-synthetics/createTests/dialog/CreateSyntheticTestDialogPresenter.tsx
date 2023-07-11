@@ -138,10 +138,14 @@ const CreateSyntheticTestDialogPresenter = ({
     const locationsField = form.get('locations') as Field<string[]>;
     if (
       isSaving ||
-      // for HTTPAction
-      (syntheticTypeField.value === 'HTTPAction' && configForm.get('url') && !configForm.get('url').valid) ||
-      // for HTTPScript
-      (syntheticTypeField.value === 'HTTPScript' &&
+      // for HTTPAction & WebpageAction
+      ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
+        configForm.get('url') &&
+        !configForm.get('url').valid) ||
+      // for HTTPScript, WebpageScript, and BrowserScript
+      ((syntheticTypeField.value === 'HTTPScript' ||
+        syntheticTypeField.value === 'WebpageScript' ||
+        syntheticTypeField.value === 'BrowserScript') &&
         // Initially there isn't 'script'/ 'scripts' within configuration
         ((!configForm.get('script') && !configForm.get('scripts')) ||
           // validating js file if 'script' is present
