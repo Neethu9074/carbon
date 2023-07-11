@@ -35,6 +35,7 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
+  const [feedbackNotSelectedError, setFeedbackNotSelectedError] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const timeConfig = useTimeConfig();
@@ -51,7 +52,8 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
           setSuccess,
           setIsSaving,
           setError,
-          setHasStaleFeedback
+          setHasStaleFeedback,
+          setFeedbackNotSelectedError
         })
       }
     >
@@ -59,6 +61,11 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
         {error && (
           <Message withIcon type="error" className={locals.message}>
             {t('in-automation:actionHistory.feedbackError')}
+          </Message>
+        )}
+        {feedbackNotSelectedError && (
+          <Message withIcon type="error" className={locals.message}>
+            {t('in-automation:actionHistory.feedbackNotSelectedError')}
           </Message>
         )}
         {success && (
@@ -121,6 +128,7 @@ interface HandleSubmitParams {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
   setHasStaleFeedback: (v: boolean) => void;
+  setFeedbackNotSelectedError: (v: boolean) => void;
 }
 
 const handleSubmit = ({
@@ -130,14 +138,21 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess,
-  setHasStaleFeedback
+  setHasStaleFeedback,
+  setFeedbackNotSelectedError
 }: HandleSubmitParams) => {
   setIsSaving(true);
   setError(false);
+  setFeedbackNotSelectedError(false);
 
   const newFeedback = form.get('feedback').value;
   const newComment = form.get('comment').value;
 
+  if (parseInt(newFeedback) === 0) {
+    setIsSaving(false);
+    setFeedbackNotSelectedError(true);
+    return;
+  }
   updateActionInstanceFeedback({
     id,
     feedback: newFeedback,

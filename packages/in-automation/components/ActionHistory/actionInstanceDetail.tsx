@@ -52,7 +52,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     () =>
       cachedActionInstanceDetail?.data?.metadata.find(
         (data: { name: string; value: string }) => data.name === 'feedback'
-      )?.value ?? 3,
+      )?.value ?? 0,
     [cachedActionInstanceDetail]
   );
 
