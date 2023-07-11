@@ -27,6 +27,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
+import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -141,9 +142,13 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const ActionButtons = ({ test }: ActionButtonProps) => {
     return (
       <Stack gap="normal" direction="horizontal">
-        <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationEditAction')} delay={500}>
+          <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+        </Tooltip>
         {/* <SvgIcon type={'lib_actions_copy'} /> */}
-        <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationDeleteAction')} delay={500}>
+          <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+        </Tooltip>
       </Stack>
     );
   };

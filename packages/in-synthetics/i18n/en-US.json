@@ -528,7 +528,9 @@
         "typingValidationTitle": "Type {{synthetic}} to continue",
         "cancelButton": "Cancel",
         "deleteButton": "Delete"
-      }
+      },
+      "configurationEditAction": "Edit",
+      "configurationDeleteAction": "Delete"
     }
   }
 }
