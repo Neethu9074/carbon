@@ -25,7 +25,7 @@ export type ConfigureAssociatedActionsDialogProps = {
   actions: Action[];
   isCustomEvent: boolean;
   onClose: typeof close;
-  triggerReload: (n: number) => void;
+  triggerReload: () => void;
 };
 
 export type ConfigureAssociatedActionsDialogState = {
@@ -36,7 +36,7 @@ export type ConfigureAssociatedActionsDialogState = {
   allActions: Action[];
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
-  triggerReload: (n: number) => void;
+  triggerReload: () => void;
 };
 
 export type OnSubmit = () => void;
@@ -115,7 +115,7 @@ function createOrSaveAction({
   const closeAndReload = () => {
     onClose();
     // This helps to reload the actions table
-    triggerReload(Math.random());
+    triggerReload();
   };
   const handleErrors = () => {
     setSavingError(true);

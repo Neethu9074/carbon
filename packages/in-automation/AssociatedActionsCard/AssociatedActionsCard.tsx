@@ -99,7 +99,7 @@ interface RightHeaderProps {
   eventSpecification: EventSpecification;
   actions: Action[];
   isCustomEvent: boolean;
-  triggerReload: (n: number) => void;
+  triggerReload: () => void;
 }
 
 function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
