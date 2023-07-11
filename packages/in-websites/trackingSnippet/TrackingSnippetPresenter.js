@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';

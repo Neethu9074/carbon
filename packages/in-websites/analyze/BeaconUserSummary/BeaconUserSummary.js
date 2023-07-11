@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Card } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';

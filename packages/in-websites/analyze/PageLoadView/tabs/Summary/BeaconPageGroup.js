@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 
 import { SvgIcon, toInteractiveElement } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
