@@ -38,17 +38,20 @@ function getObservables(isCustomEvent: boolean) {
   };
 }
 
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
+  const [reload, triggerReload] = useState<number>(0);
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-
   const actions =
-    useObservable(() => getActionsForEventSpecification(eventSpecificationId), [eventSpecificationId, reload]) ?? [];
+    useObservable<Action[], [string, number]>(
+      () => getActionsForEventSpecification(eventSpecificationId),
+      [eventSpecificationId, reload]
+    ) ?? [];
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
     [eventSpecificationId]
   );
-  return { actions, eventSpecification };
+  return { actions, eventSpecification, triggerReload: () => triggerReload(Math.random()) };
 }
 
 const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
@@ -58,9 +61,8 @@ const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
 
 export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
-  const [reload, triggerReload] = useState<number>(0);
   const isCustomEvent = getIsCustomEvent(event);
-  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+  const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
   const selectedActions = actions.map(action => action.id);
 
   if (!eventSpecification) {
