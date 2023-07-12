@@ -67,10 +67,9 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
+export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
-export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', false);
-export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
+export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
@@ -172,3 +171,5 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
   'oneMinuteGranularityForStaticThresholdEnabled',
   false
 );
+
+export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);

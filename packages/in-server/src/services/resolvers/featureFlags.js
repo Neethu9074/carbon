@@ -208,7 +208,7 @@ module.exports = exports = [
   {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -268,12 +268,7 @@ module.exports = exports = [
   {
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'applicationApdexEnabled',
-    instanaCtlKey: 'feature.apdex.application.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websiteUploadConfigEnabled',
@@ -379,5 +374,10 @@ module.exports = exports = [
     uiClientKey: 'alertsHubEnabled',
     instanaCtlKey: 'feature.alerts.hub.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sloEnabled',
+    instanaCtlKey: 'feature.slo.enabled',
+    defaultValue: true
   }
 ];

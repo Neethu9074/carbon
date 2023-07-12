@@ -12,11 +12,11 @@ import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTag
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
+import { isApdexWidgetEnabled } from 'in-custom-dashboards/widgets/Apdex/constants';
 import { ApdexWidgetConfiguration } from 'in-custom-dashboards/widgets/Apdex/form';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Apdex';
 import { WidgetProps } from 'in-custom-dashboards/widgets/types';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { apdexWidgetEnabled } from 'in-services/featureFlags';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
@@ -52,7 +52,7 @@ export default function ApdexWidgetPresenter({
 
   const height = isPreview ? widgetPreviewHeight : undefined;
 
-  if (!apdexWidgetEnabled) return;
+  if (!isApdexWidgetEnabled) return null;
 
   return (
     <ApdexWidget

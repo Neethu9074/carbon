@@ -58,7 +58,6 @@ module.exports = {
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,
-  applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
@@ -81,5 +80,6 @@ module.exports = {
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
   oneMinuteGranularityForStaticThresholdEnabled: true,
-  alertsHubEnabled: false
+  alertsHubEnabled: false,
+  sloEnabled: true
 };
