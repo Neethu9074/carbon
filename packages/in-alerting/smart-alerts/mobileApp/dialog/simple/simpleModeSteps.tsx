@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
-//@ts-expect-error need ts migration
-import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep1';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { SimpleAlertConfigDialogStep2Props } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
+import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogStep2';
 import { t } from 'in-i18n';
 
@@ -33,8 +33,12 @@ export const stepConfigs = [
   }
 ];
 
+export interface UpdateForm {
+  updateForm: (form: MapForm<any>) => void;
+}
+
 export const stepRenderers = [
-  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => {
+  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl & UpdateForm) => {
     return <SimpleAlertConfigDialogStep1 {...parentProps} />;
   },
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl & SimpleAlertConfigDialogStep2Props) => (

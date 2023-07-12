@@ -4,36 +4,59 @@
  * Copyright IBM Corp. 2023
  */
 
-import PropTypes from 'prop-types';
+import { MapForm } from 'formalistic';
+import { Field } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
 
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
+//@ts-expect-error TS migration
 import MobileAppCustomEventsList from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList';
+//@ts-expect-error TS migration
 import WebsiteCustomEventsList from 'in-alerting/smart-alerts/websites/components/CustomEventsList';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
+//@ts-expect-error TS migration
+import DebouncedInput from 'in-components/form/Input/DebouncedInput';
+import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
-import DebouncedInput from 'in-components/form/Input/DebouncedInput';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent.mless';
 
-export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEvent, mode, updateForm, eumType }) {
+interface ProvideCustomEventProps {
+  form: MapForm<any>;
+  timeConfig: Omit<TimeConfig, 'autoRefresh'>;
+  onSelectCustomEvent: ({ slideInConfig, isVisible }: SliderState) => void;
+  mode: string;
+  updateForm: (form: MapForm<any>) => void;
+  eumType: string;
+}
+
+export default function ProvideCustomEvent({
+  form,
+  timeConfig,
+  onSelectCustomEvent,
+  mode,
+  updateForm,
+  eumType
+}: ProvideCustomEventProps) {
   const customEventNameField = form.get('rule').get('customEventName');
 
-  const onValueChange = value => {
-    let updatedForm = form.updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true));
+  const onValueChange = (value: string) => {
+    let updatedForm = form.updateIn(['rule', 'customEventName'], f =>
+      (f as Field<string>).setValue(value ?? '').setTouched(true)
+    );
 
-    // we can get rid of `eumType === websiteEum` this condition once HistoricBaseline is implemented for mobile app
-    if (mode !== modeAdvanced && eumType === websiteEum) {
+    if (mode !== modeAdvanced) {
       // here, in simple-mode, the backend could have set the type to static silently,
       // so we need to reset it, before fetching the new baseline
       //
@@ -41,6 +64,7 @@ export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEve
       // user with a not-enough-data message
       const threshold = form.get('threshold').toJS();
       const thresholdWithHistoricBaseline = { ...threshold, type: HISTORIC_BASELINE };
+      // @ts-ignore
       updatedForm = updatedForm
         .updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true))
         .put('threshold', createThresholdForm(thresholdWithHistoricBaseline, 'customEvent').setTouched(true));
@@ -49,7 +73,7 @@ export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEve
     return updateForm(updatedForm);
   };
 
-  return customEventNameField.map(field => (
+  return customEventNameField.map((field: Field<string>) => (
     <div className={locals.container}>
       {mode === modeAdvanced && (
         <>
@@ -88,7 +112,21 @@ export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEve
   ));
 }
 
-function SelectCustomEventButton({ form, onSelectCustomEvent, onValueChange, timeConfig, eumType }) {
+interface SelectCustomEventButtonProps {
+  form: MapForm<any>;
+  timeConfig: Omit<TimeConfig, 'autoRefresh'>;
+  onSelectCustomEvent: ({ slideInConfig, isVisible }: SliderState) => void;
+  onValueChange: (arg: string) => void;
+  eumType: string;
+}
+
+function SelectCustomEventButton({
+  form,
+  onSelectCustomEvent,
+  onValueChange,
+  timeConfig,
+  eumType
+}: SelectCustomEventButtonProps) {
   return (
     <Button
       onClick={() =>
@@ -127,15 +165,12 @@ function SelectCustomEventButton({ form, onSelectCustomEvent, onValueChange, tim
   );
 }
 
-ProvideCustomEvent.propTypes = {
-  form: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  onSelectCustomEvent: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
-};
+interface CustomEventInputProps {
+  field: Field<string>;
+  onValueChange: (arg: string) => void;
+}
 
-function CustomEventInput({ field, onValueChange }) {
+function CustomEventInput({ field, onValueChange }: CustomEventInputProps) {
   return (
     <DebouncedInput
       className={locals.customEventInput}

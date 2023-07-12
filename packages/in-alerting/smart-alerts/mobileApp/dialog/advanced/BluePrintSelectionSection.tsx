@@ -4,20 +4,30 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
+//@ts-expect-error
 import BlueprintSelection from 'in-alerting/smart-alerts/components/dialog/advanced/BlueprintSelection';
+import { MobileAlertType, blueprintConfigs } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import createBlueprintForm from 'in-alerting/smart-alerts/mobileApp/form/blueprintFormCreator';
 import ProvideCustomEvent from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
-import { blueprintConfigs } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
-export default function BluePrintSelectionSection(props) {
+interface BluePrintSelectionSectionProps {
+  alertType: MobileAlertType;
+  form: MapForm<any>;
+  setSliderState: ({ slideInConfig, isVisible }: SliderState) => void;
+  updateForm: (form: MapForm<any>) => void;
+}
+
+export default function BluePrintSelectionSection(props: BluePrintSelectionSectionProps) {
   const { alertType, form, setSliderState, updateForm } = props;
 
   return (
