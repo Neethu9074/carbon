@@ -7,9 +7,10 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { KeyValue, Message, Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -19,6 +20,7 @@ import TextArea from 'in-components/form/TextArea/TextArea';
 import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Label from 'in-components/form/Label/Label';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -62,11 +64,6 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
             {t('in-automation:actionHistory.feedbackError')}
           </Message>
         )}
-        {feedbackField.touched && !feedbackField.valid && (
-          <Message withIcon type="error" className={locals.message}>
-            {t('in-automation:actionHistory.feedbackNotSelectedError')}
-          </Message>
-        )}
         {success && (
           <Message withIcon type="success" className={locals.message}>
             <b>{t('in-automation:actionHistory.feedbackSuccessTitle')}</b>{' '}
@@ -74,8 +71,8 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
           </Message>
         )}
 
-        <KeyValue className={locals.prompt} label={t('in-automation:actionHistory.inputPrompt')} />
-        <Stack gap="small">
+        <Label className={locals.prompt}>{t('in-automation:actionHistory.inputPrompt')}</Label>
+        <Stack gap="xxsmall">
           {[
             t('in-automation:actionHistory.unhappyFeedback'),
             t('in-automation:actionHistory.dissatisfiedFeedback'),
@@ -83,18 +80,20 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
             t('in-automation:actionHistory.satisfiedFeedback'),
             t('in-automation:actionHistory.verySatisfiedFeedback')
           ].map((label, i) => (
-            <label key={label} className={locals.feedbackLabel}>
-              <input
-                type="radio"
-                className={locals.feedbackInput}
-                checked={i + 1 == form.get('feedback').value}
-                onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue(i + 1)))}
-              />
-              {label}
-            </label>
+            <CheckboxFancy
+              asRadioButton
+              label={label}
+              key={label}
+              labelClassName={locals.checkboxLabel}
+              checked={i + 1 == form.get('feedback').value}
+              onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue(i + 1)))}
+            />
           ))}
         </Stack>
-        <KeyValue className={locals.commentLabel} label={t('in-automation:actionHistory.additionalFeedback')} />
+        {feedbackField.touched && !feedbackField.valid && (
+          <span className={locals.feedbackError}>{t('in-automation:actionHistory.feedbackNotSelectedError')}</span>
+        )}
+        <Label className={locals.commentLabel}>{t('in-automation:actionHistory.additionalFeedback')}</Label>
         <TextArea
           className={locals.commentBox}
           value={form.get('comment').value}

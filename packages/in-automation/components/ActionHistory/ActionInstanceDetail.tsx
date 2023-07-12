@@ -22,7 +22,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from './actionInstanceDetail.mless';
+import locals from './ActionInstanceDetail.mless';
 
 export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
   const timeConfig = useTimeConfig();
