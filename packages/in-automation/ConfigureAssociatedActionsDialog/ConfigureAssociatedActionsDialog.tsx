@@ -36,7 +36,6 @@ export type ConfigureAssociatedActionsDialogState = {
   allActions: Action[];
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
-  triggerReload: () => void;
 };
 
 export type OnSubmit = () => void;
@@ -81,12 +80,9 @@ export default function ConfigureAssociatedActionsDialog({
 
 type CreateOrSaveActionParams = Pick<
   ConfigureAssociatedActionsDialogProps,
-  'eventSpecification' | 'isCustomEvent' | 'onClose'
+  'eventSpecification' | 'isCustomEvent' | 'onClose' | 'triggerReload'
 > &
-  Pick<
-    ConfigureAssociatedActionsDialogState,
-    'setIsSaving' | 'form' | 'allActions' | 'setSavingError' | 'triggerReload'
-  >;
+  Pick<ConfigureAssociatedActionsDialogState, 'setIsSaving' | 'form' | 'allActions' | 'setSavingError'>;
 
 function createOrSaveAction({
   form,
