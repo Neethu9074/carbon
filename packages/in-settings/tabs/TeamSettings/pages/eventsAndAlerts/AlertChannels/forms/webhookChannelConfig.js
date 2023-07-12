@@ -85,9 +85,11 @@ export default {
     const headers = (alertChannel.get('headers') || emptyList)
       .toArray()
       .map(s => {
-        const [key, value] = s.split(':', 2);
-        if (isNotBlank(key) && isNotBlank(value)) {
-          return createHeaderForm(key, value);
+        const [key, ...value] = s.split(':');
+        let headerValue = '';
+        if (value && value.length > 0) headerValue = value.join(':').trimStart();
+        if (isNotBlank(key) && isNotBlank(headerValue)) {
+          return createHeaderForm(key, headerValue);
         }
         return null;
       })
@@ -264,18 +266,12 @@ function onChangeHeader(form, onChange, path, value) {
 }
 
 function addHeader(form, onChange) {
-  const headers = form
-    .get('headers')
-    .setTouched(true)
-    .push(createHeaderForm());
+  const headers = form.get('headers').setTouched(true).push(createHeaderForm());
   onChange('headers', headers, undefined, true);
 }
 
 function removeHeader(form, onChange, index) {
-  const headers = form
-    .get('headers')
-    .setTouched(true)
-    .remove(index);
+  const headers = form.get('headers').setTouched(true).remove(index);
   onChange('headers', headers, undefined, true);
 }
 
