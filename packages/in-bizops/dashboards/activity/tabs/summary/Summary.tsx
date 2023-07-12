@@ -6,7 +6,7 @@
 
 import React, { Fragment } from 'react';
 
-import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/activity/tabs/summary/components/InfrastructureIssuesAndChanges';
+import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import Duration from 'in-bizops/dashboards/activity/tabs/summary/components/Duration';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -52,7 +52,10 @@ export default function Summary() {
           <Duration />
         </Col>
         <Col xs>
-          <InfrastructureIssuesAndChanges />
+          <InfrastructureIssuesAndChanges
+            businessProcessId={businessProcessId}
+            businessProcessName={businessProcessName}
+          />
         </Col>
       </Row>
     </Fragment>
