@@ -173,7 +173,7 @@ router.get('/', async (req, res) => {
     const nonce = uuidv4();
     //Adding play-with-user
     const customerEmail = req.cookies['customer-email'];
-    const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : userStr;
+    const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
     res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     res.send(
@@ -181,7 +181,7 @@ router.get('/', async (req, res) => {
         indexJsChecksum,
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-        mixpanelToken: getMixpanelToken(getParsedUser(loggedUser), termsAndPrivacy.allAnalyticsServices),
+        mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
