@@ -5,7 +5,7 @@
  */
 
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Message, Stack } from '@instana/components';
 
@@ -38,9 +38,19 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [closeModalTimeoutId, setCloseModalTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const timeConfig = useTimeConfig();
   const feedbackField = form.get('feedback');
+
+  useEffect(() => {
+    return () => {
+      if (closeModalTimeoutId) {
+        clearTimeout(closeModalTimeoutId);
+        setCloseModalTimeoutId(null);
+      }
+    };
+  }, [closeModalTimeoutId, setCloseModalTimeoutId]);
 
   return (
     <Form
@@ -54,7 +64,8 @@ export default function Feedback({ id, feedback, comment, setHasStaleFeedback }:
           setSuccess,
           setIsSaving,
           setError,
-          setHasStaleFeedback
+          setHasStaleFeedback,
+          setCloseModalTimeoutId
         })
       }
     >
@@ -126,6 +137,7 @@ interface HandleSubmitParams {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   timeConfig: TimeConfig;
   setHasStaleFeedback: (v: boolean) => void;
+  setCloseModalTimeoutId: (v: ReturnType<typeof setTimeout>) => void;
 }
 
 const handleSubmit = ({
@@ -135,7 +147,8 @@ const handleSubmit = ({
   setError,
   timeConfig,
   setSuccess,
-  setHasStaleFeedback
+  setHasStaleFeedback,
+  setCloseModalTimeoutId
 }: HandleSubmitParams) => {
   setIsSaving(true);
   setError(false);
@@ -154,9 +167,11 @@ const handleSubmit = ({
       setIsSaving(false);
       setSuccess(true);
       setHasStaleFeedback(true);
-      setTimeout(() => {
-        setSuccess(false);
-      }, 5 * 1000);
+      setCloseModalTimeoutId(
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5 * 1000)
+      );
       // tracks feedback and comment
       actionHistoryInstanceFeedbackTracker({
         actionInstanceId: id,
