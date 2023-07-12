@@ -49,7 +49,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
     <TopListWithUrlState
       metrics={['activitiesCount']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
-      //labels={[t('in-bizops:dashboards.summary.widgets.count')]}
+      //labels={''}
       formatters={[number.compact]}
       ViewAll={ViewAll}
       timeConfig={timeConfig}

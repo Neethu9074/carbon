@@ -3,6 +3,9 @@
   "labelBizOps": "Processes",
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Activities",
+  "components": {
+    "count": "Count"
+  },
   "lists": {
     "pageTitle": "Business Monitoring",
     "cardTitle": "Business Processes",
@@ -26,8 +29,7 @@
       "widgets": {
         "topActivities": "Top Activities (Count)",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
-        "viewAll": "View all activities",
-        "count": "Count"
+        "viewAll": "View all activities"
       }
     },
     "activity": {
