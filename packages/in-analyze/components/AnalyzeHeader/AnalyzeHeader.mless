@@ -48,5 +48,9 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
+
+    // workaround for missing margin for showing outline when focused
+    margin-left: 2px;
+    margin-right: 2px;
   }
 }
