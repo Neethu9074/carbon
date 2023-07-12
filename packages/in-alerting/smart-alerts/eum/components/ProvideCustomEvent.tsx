@@ -10,13 +10,11 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-//@ts-expect-error TS migration
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import MobileAppCustomEventsList from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList';
 //@ts-expect-error TS migration
-import WebsiteCustomEventsList from 'in-alerting/smart-alerts/websites/components/CustomEventsList';
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
-//@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
+import WebsiteCustomEventsList from 'in-alerting/smart-alerts/websites/components/CustomEventsList';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
@@ -34,7 +32,7 @@ import locals from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent.m
 
 interface ProvideCustomEventProps {
   form: MapForm<any>;
-  timeConfig: Omit<TimeConfig, 'autoRefresh'>;
+  timeConfig: TimeConfig;
   onSelectCustomEvent: ({ slideInConfig, isVisible }: SliderState) => void;
   mode: string;
   updateForm: (form: MapForm<any>) => void;
@@ -114,7 +112,7 @@ export default function ProvideCustomEvent({
 
 interface SelectCustomEventButtonProps {
   form: MapForm<any>;
-  timeConfig: Omit<TimeConfig, 'autoRefresh'>;
+  timeConfig: TimeConfig;
   onSelectCustomEvent: ({ slideInConfig, isVisible }: SliderState) => void;
   onValueChange: (arg: string) => void;
   eumType: string;

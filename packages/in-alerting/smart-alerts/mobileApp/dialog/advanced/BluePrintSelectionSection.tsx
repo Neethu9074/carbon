@@ -54,7 +54,8 @@ export default function BluePrintSelectionSection(props: BluePrintSelectionSecti
             <ProvideCustomEvent
               form={form}
               timeConfig={{
-                windowSize: alertingDialogItemPickerTimeframe
+                windowSize: alertingDialogItemPickerTimeframe,
+                autoRefresh: false
               }}
               updateForm={updateForm}
               onSelectCustomEvent={setSliderState}

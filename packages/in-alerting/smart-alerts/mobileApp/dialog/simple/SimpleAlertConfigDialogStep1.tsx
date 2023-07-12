@@ -72,7 +72,8 @@ export default function SimpleAlertConfigDialogStep1({
               updateForm={updateForm}
               onSelectCustomEvent={setSliderState}
               timeConfig={{
-                windowSize: alertingDialogItemPickerTimeframe
+                windowSize: alertingDialogItemPickerTimeframe,
+                autoRefresh: false
               }}
               mode="Simple"
               eumType={eumType}
