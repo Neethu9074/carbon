@@ -19,11 +19,7 @@ import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import {
-  businessActivitySummaryPath,
-  businessProcessSummaryPath,
-  businessProcessPath
-} from 'in-bizops/navigation/paths';
+import { businessActivityDashboard, businessProcessDashboard, businessProcessPath } from 'in-bizops/navigation/paths';
 import { smartAlertsPath } from 'in-bizops/navigation/paths';
 import { activitiesPath } from 'in-bizops/navigation/paths';
 
@@ -37,10 +33,10 @@ export default [
   <Route key="SmartAlertsList" exact path={smartAlertsPath}>
     {renderAsyncRouteChildren(SmartAlertsList)}
   </Route>,
-  <Route key="businessProcessDashboard" exact path={businessProcessSummaryPath}>
-    {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
-  </Route>,
-  <Route key="BusinessActivityDashboard" exact path={businessActivitySummaryPath}>
+  <Route key="BusinessActivityDashboard" path={businessActivityDashboard}>
     {renderAsyncRouteChildren(BusinessActivitySummaryDashboard)}
+  </Route>,
+  <Route key="businessProcessDashboard" path={businessProcessDashboard}>
+    {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
   </Route>
 ];
