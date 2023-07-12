@@ -560,7 +560,7 @@ export function getAllAssociations() {
 
 interface UpdateActionParams {
   id: string;
-  feedback: string;
+  feedback: number;
   to: number;
   windowSize: number;
   comment: string;
@@ -572,7 +572,7 @@ export function updateActionInstanceFeedback({ id, feedback, to, windowSize, com
     maxRetries: 3,
     url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
     data: {
-      feedback: parseInt(feedback),
+      feedback,
       comment: comment || ''
     },
     headers: getCsrfHeader(),
