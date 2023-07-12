@@ -48,7 +48,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     }
   }, [actionInstanceDetail]);
 
-  const feedback = useMemo<number>(
+  const feedback = useMemo(
     () =>
       cachedActionInstanceDetail?.data?.metadata.find(
         (data: { name: string; value: string }) => data.name === 'feedback'
@@ -56,7 +56,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     [cachedActionInstanceDetail]
   );
 
-  const comment = useMemo<string>(
+  const comment = useMemo(
     () =>
       cachedActionInstanceDetail?.data?.metadata.find(
         (data: { name: string; value: string }) => data.name === 'comment'

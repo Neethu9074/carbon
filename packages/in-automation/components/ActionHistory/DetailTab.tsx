@@ -23,7 +23,7 @@ import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-import locals from './actionInstanceDetail.mless';
+import locals from './ActionInstanceDetail.mless';
 
 interface ActionInstanceProperty {
   actionInstanceId: string;

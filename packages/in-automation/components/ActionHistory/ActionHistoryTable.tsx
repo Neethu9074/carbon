@@ -22,7 +22,7 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import ActionInstanceDetail from 'in-automation/components/ActionHistory/actionInstanceDetail';
+import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
