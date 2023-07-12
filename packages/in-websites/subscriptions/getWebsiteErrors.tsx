@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetWebsiteErrorsQuery, PaginatedResult, Result, WebsiteErrorsItem } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetWebsiteErrorsQuery, Result<PaginatedResult<WebsiteErrorsItem>>>({
   eventId: 'getWebsiteErrors',
   trackSubscriptionStatistics: true
 });
