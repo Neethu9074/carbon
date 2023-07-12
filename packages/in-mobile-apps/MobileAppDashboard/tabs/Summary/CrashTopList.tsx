@@ -26,12 +26,12 @@ import { number } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = ['uniqueUsers', 'beaconCount'];
+const metrics = ['beaconCount', 'uniqueUsers'];
 const labels = [
-  t('in-mobile-apps:dashboard.tabs.affectedUsersLabel'),
-  t('in-mobile-apps:dashboard.tabs.occurrencesLabel')
+  t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
+  t('in-mobile-apps:dashboard.tabs.affectedUsersLabel')
 ];
-const aggregations = ['DISTINCT_COUNT', 'SUM'];
+const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, number.compact];
 
 export interface CrashTopListProps {
