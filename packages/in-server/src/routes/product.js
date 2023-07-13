@@ -172,7 +172,7 @@ router.get('/', async (req, res) => {
 
     const nonce = uuidv4();
     //Adding play-with-user
-    const customerEmail = req.cookies['customer-email'];
+    const customerEmail = { email: req.cookies['customer-email'] };
     const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
     res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
