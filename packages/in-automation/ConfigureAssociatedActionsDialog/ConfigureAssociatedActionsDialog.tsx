@@ -25,6 +25,7 @@ export type ConfigureAssociatedActionsDialogProps = {
   actions: Action[];
   isCustomEvent: boolean;
   onClose: typeof close;
+  triggerReload: () => void;
 };
 
 export type ConfigureAssociatedActionsDialogState = {
@@ -43,7 +44,8 @@ export default function ConfigureAssociatedActionsDialog({
   eventSpecification,
   actions,
   isCustomEvent,
-  onClose
+  onClose,
+  triggerReload
 }: ConfigureAssociatedActionsDialogProps) {
   const [form, setForm] = useState<ConfigureAssociatedActionsDialogState['form']>(createForm(actions));
   const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogState['savingError']>(false);
@@ -58,7 +60,8 @@ export default function ConfigureAssociatedActionsDialog({
       setIsSaving,
       eventSpecification,
       allActions,
-      setSavingError
+      setSavingError,
+      triggerReload
     });
   };
 
@@ -77,7 +80,7 @@ export default function ConfigureAssociatedActionsDialog({
 
 type CreateOrSaveActionParams = Pick<
   ConfigureAssociatedActionsDialogProps,
-  'eventSpecification' | 'isCustomEvent' | 'onClose'
+  'eventSpecification' | 'isCustomEvent' | 'onClose' | 'triggerReload'
 > &
   Pick<ConfigureAssociatedActionsDialogState, 'setIsSaving' | 'form' | 'allActions' | 'setSavingError'>;
 
@@ -88,7 +91,8 @@ function createOrSaveAction({
   setIsSaving,
   allActions,
   onClose,
-  setSavingError
+  setSavingError,
+  triggerReload
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
   const actionIds = getActionsFromForm(form).value;
@@ -106,7 +110,8 @@ function createOrSaveAction({
 
   const closeAndReload = () => {
     onClose();
-    window.location.reload();
+    // This helps to reload the actions table
+    triggerReload();
   };
   const handleErrors = () => {
     setSavingError(true);
