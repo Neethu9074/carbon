@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Gravatar from 'in-components/Gravatar';
@@ -54,9 +54,9 @@ export default function User({ beacon, beacons }) {
           {firstBeaconIsMissingUserData && (
             <Tooltip content={t('in-mobile-apps:beaconUserSum.userTooltipContent')}>
               <Link
-                external
                 href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#identifying-users"
                 className={locals.firstBeaconIsMissingUserDataLink}
+                external
               >
                 <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />
               </Link>

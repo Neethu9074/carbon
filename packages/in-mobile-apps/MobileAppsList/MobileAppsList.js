@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Button, Card } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Button, Card, Link } from '@instana/components';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
