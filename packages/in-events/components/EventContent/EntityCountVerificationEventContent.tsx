@@ -21,11 +21,10 @@ import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/const
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-// @ts-ignore
-import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
+import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { EventMap, EventOrMap } from 'in-events/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
