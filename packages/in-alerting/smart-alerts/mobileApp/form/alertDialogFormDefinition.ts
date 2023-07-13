@@ -6,6 +6,7 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
@@ -27,7 +28,8 @@ export const fieldNames = Object.freeze({
   name: 'name',
   mobileAppId: 'mobileAppId',
   id: 'id',
-  granularity: 'granularity'
+  granularity: 'granularity',
+  customPayloadFields: 'customPayloadFields'
 });
 
 export interface AlertConfigHiddenFields {
@@ -121,7 +123,8 @@ export default function alertFormDefinition(
     )
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
 }

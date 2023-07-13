@@ -28,16 +28,21 @@ import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
@@ -60,6 +65,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     editMode,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
+    TagBasedPayloadConfigurator,
+    isDynamicCustomPayloadValid,
     thresholdResult
   } = props;
   const ruleForm = form.get('rule');
@@ -224,6 +231,24 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 />
               )}
             />
+          )
+        },
+        {
+          scrollId: '7',
+          label: t('in-alerting:smartAlerts.mobileApp.advanced.payloadsLabel'),
+          title: t('in-alerting:smartAlerts.mobileApp.advanced.payloadsTitle'),
+          valid: isCustomPayloadValidOrUntouched(form) && isDynamicCustomPayloadValid,
+          content: (
+            <>
+              <GlobalCustomPayloadCard context="MOBILE_APP" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
           )
         }
       ]}
