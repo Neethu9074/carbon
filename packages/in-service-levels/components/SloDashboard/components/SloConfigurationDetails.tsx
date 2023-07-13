@@ -8,6 +8,8 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
+import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Nullish } from 'in-types';
 
@@ -28,9 +30,11 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
+  const { configuration } = data;
+
   return (
-    <Card title={data.configuration.name}>
-      <></>
+    <Card title={configuration.name} rightHeaderContent={<SloActionButtons configuration={configuration} />}>
+      <SloTagsList tags={configuration.tags} />
     </Card>
   );
 }
