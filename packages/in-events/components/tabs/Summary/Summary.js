@@ -20,8 +20,10 @@ import {
   isSyntheticSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent,
-  isMobileSmartAlertEvent
+  isMobileSmartAlertEvent,
+  isEntityCountVerificationEvent
 } from 'in-events/components/eventUtil';
+import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
@@ -122,6 +124,10 @@ const EventContent = connectTo(
 
     if (isMobileSmartAlertEvent(event)) {
       return <MobileEventContent event={event} />;
+    }
+
+    if (isEntityCountVerificationEvent(event)) {
+      return <EntityCountVerificationEventContent event={event} snapshot={snapshot} />;
     }
 
     const eventType = getEventType(event);

@@ -453,6 +453,7 @@
     "aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied": "A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
     "offlineEventDetection": "Offline event detection",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Hosts that do not have matching entities running on them",
+    "entityCountVerification": "Hosts that have unexpected number of entities running on them",
     "hostAvailabilityDetection": "Host availability detection",
     "instanaAgentCountDetection": "Count of Instana Agents",
     "pleaseSelectASeverity": "Please select a severity",

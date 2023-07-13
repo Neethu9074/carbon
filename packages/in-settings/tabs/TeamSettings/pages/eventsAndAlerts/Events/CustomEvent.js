@@ -17,11 +17,13 @@ import {
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
-  saveCustomEventSpecificationWithActions
+  saveCustomEventSpecificationWithActions,
+  createCustomSystemRuleBasedEventSpecificationForEntityCountVerification
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
   dataSourceSystem,
+  entityCountVerification,
   entityVerification,
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
@@ -303,6 +305,26 @@ function getEntityCountEventSpecification(form, event) {
   return createCustomSystemRuleBasedEventSpecificationForEntityCount(entityCountFields);
 }
 
+function getEntityCountVerificationEventSpecification(form, query, event) {
+  const entityCountVerificationFields = {
+    id: event?.id ?? null,
+    name: form.get('name').value,
+    query,
+    triggering: form.get('triggering').value,
+    description: form.get('description').value,
+    expirationTime: form.get('gracePeriod').value,
+    enabled: event?.enabled ?? true,
+    severity: Number(form.get('severity')?.value ?? 0),
+    matchingEntityType: form.get('matchingEntityType')?.value ?? null,
+    matchingOperator: form.get('matchingOperator')?.value ?? null,
+    matchingEntityLabel: form.get('matchingEntityLabel')?.value ?? null,
+    conditionOperator: form.get('conditionOperator').value,
+    conditionValue: Number(form.get('conditionValue').value)
+  };
+
+  return createCustomSystemRuleBasedEventSpecificationForEntityCountVerification(entityCountVerificationFields);
+}
+
 function getCustomSystemRuleBasedEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecification(
     event?.id ?? null,
@@ -338,6 +360,10 @@ function getEventSpecification(event, form) {
 
     if (systemRule === entityCountDetection.id) {
       return getEntityCountEventSpecification(form, event);
+    }
+
+    if (systemRule === entityCountVerification.id) {
+      return getEntityCountVerificationEventSpecification(form, query, event);
     }
 
     return getCustomSystemRuleBasedEventSpecification(form, query, event);
