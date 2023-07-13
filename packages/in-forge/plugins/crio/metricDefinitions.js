@@ -70,5 +70,12 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.crio.memory')],
     formatter: percentage
+  },
+  {
+    metric: 'memory.used_percentage',
+    label: t('in-forge:plugins.crio.memoryTotalUsagePercentage'),
+    min: 0,
+    category: [t('in-forge:plugins.crio.memory')],
+    formatter: percentage
   }
 ];
