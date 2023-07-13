@@ -7,16 +7,23 @@
 import React from 'react';
 
 import { TimeConfig } from '@instana/types';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import {
+  businessActivityPath,
+  businessActivityDashboard,
+  businessProcessDashboard,
+  businessProcessSummaryPath
+} from 'in-bizops/navigation/paths';
 import DashboardHeader, {
   ContextConfiguration,
   DashboardHeaderProps
 } from 'in-components/DashboardHeader/DashboardHeader';
-import { businessActivityDashboardPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
@@ -26,19 +33,20 @@ import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
+import locals from './BusinessActivitySummary.mless';
+
 export default function BusinessActivitySummary() {
   const location: Location = useLocation();
   const timeConfig = useTimeConfig();
 
   const businessActivityName: string =
-    getMatrixParameter(location, businessActivityDashboardPath, 'activityName') ??
-    t('in-bizops:dashboards.summary.pageTitle');
+    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.activity.pageTitle');
 
   const serviceId: string = getMatrixParameter(location, businessProcessDashboard, 'serviceId') ?? '';
 
   const props = {
     label: businessActivityName,
-    viewPath: `${businessProcessDashboard}${businessActivityDashboardPath}`,
+    viewPath: businessActivityDashboard,
     serviceId: serviceId,
     timeConfig,
     boundaryScope: '',
@@ -64,15 +72,9 @@ export default function BusinessActivitySummary() {
 }
 
 function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButtonLine' | 'renderMetaInformation'>) {
-  const location: Location = useLocation();
-
-  const businessProcessName: string =
-    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
-    t('in-bizops:dashboards.activity.pageTitle');
-
   const contextConfigurations: ContextConfiguration[] = [];
   contextConfigurations.push({
-    renderContext: () => businessProcessName,
+    renderContext: RenderBusinessProcessContext,
     contextIcon: 'lib_bizops'
   });
 
@@ -102,5 +104,21 @@ function RenderButtonLine({ label, serviceId }: RenderProps) {
       />
       <AnalyzeButton businessProcessName={label} />
     </>
+  );
+}
+
+function RenderBusinessProcessContext() {
+  const { location, createHref } = useNavigation();
+
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  location.pathname = businessProcessSummaryPath;
+
+  return (
+    <Link href={createHref(location)} className={locals.contextLink}>
+      {businessProcessName}
+    </Link>
   );
 }

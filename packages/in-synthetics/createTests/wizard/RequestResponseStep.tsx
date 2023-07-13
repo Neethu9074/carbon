@@ -9,8 +9,15 @@ import { Field, MapForm, Item } from 'formalistic';
 import { Li, ScrollBox, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { Code as CodeType, apiScriptTest, apiSimpleTest, dummyLocations } from 'in-synthetics/utils/constants';
-import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import {
+  Code as CodeType,
+  apiScriptTest,
+  apiSimpleTest,
+  browserSimpleTest,
+  dummyLocations
+} from 'in-synthetics/utils/constants';
+import BrowserSimpleTestSection from 'in-synthetics/createTests/wizard/BrowserSimpleTestSection';
+import ApiSimpleTestSection from 'in-synthetics/createTests/wizard/ApiSimpleTestSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -18,16 +25,11 @@ import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { Progress, Error as ScriptError } from 'in-types';
-import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
 import Code from 'in-synthetics/packages/Code';
-import ComboBox from 'in-components/ComboBox';
-import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/RequestResponseStep.mless';
@@ -168,59 +170,7 @@ export default function RequestResponseStep({
 
   return (
     <Section headingText={t('in-synthetics:dialog.createTest.requestStep.title')}>
-      {selectedBlueprint.type === apiSimpleTest && (
-        <div className={locals.requestContainer}>
-          <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.subTitle')}</SubTitle>
-          <Stack direction="horizontal">
-            <FormGroup>
-              <Label htmlFor={'httpMethod'} hasError={!methodField?.valid && methodField?.touched}>
-                {t('in-synthetics:dialog.createTest.requestStep.labelOperation')}
-              </Label>
-              <ComboBox
-                name={'httpMethod'}
-                value={methodField?.value}
-                options={HTTPMethods}
-                onChange={e => {
-                  if (e != null && !(e instanceof Array)) {
-                    updateForm(
-                      form.updateIn(['configuration', 'operation'], (field: Item) =>
-                        (field as Field<string>).setValue(e.value).setTouched(true)
-                      )
-                    );
-                  }
-                }}
-                defaultValue={HTTPMethods[0].value}
-                isClearable={false}
-                isOptionDisabled={(option: any) => option.isdisabled}
-                isDisabled // Only GET is being supported in the first iteration
-              />
-              <TouchedMessages field={methodField} />
-            </FormGroup>
-
-            {urlField.map(field => (
-              <FormGroup className={locals.urlInput}>
-                <Label htmlFor="url" hasError={!field.valid && field.touched}>
-                  {t('in-synthetics:dialog.createTest.requestStep.labelUrl')}
-                </Label>
-                <Input
-                  name="url"
-                  value={field.value}
-                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                    updateForm(
-                      form.updateIn(['configuration', 'url'], (field: Item) =>
-                        (field as Field<string>).setValue(target?.value).setTouched(true)
-                      )
-                    );
-                  }}
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Stack>
-        </div>
-      )}
-
+      {getSectionToRender(selectedBlueprint.type, methodField, urlField, form, updateForm)}
       <div className={locals.requestContainer}>
         <Stack direction="horizontal" gap="normal">
           <div>
@@ -258,3 +208,20 @@ export default function RequestResponseStep({
     </Section>
   );
 }
+
+const getSectionToRender = (
+  bluePrintType: string,
+  methodField: Field<string>,
+  urlField: Field<string>,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
+) => {
+  switch (bluePrintType) {
+    case apiSimpleTest:
+      return <ApiSimpleTestSection methodField={methodField} updateForm={updateForm} urlField={urlField} form={form} />;
+    case browserSimpleTest:
+      return <BrowserSimpleTestSection updateForm={updateForm} urlField={urlField} form={form} />;
+    default:
+      return null;
+  }
+};

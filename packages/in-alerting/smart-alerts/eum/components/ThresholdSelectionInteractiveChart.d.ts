@@ -19,7 +19,7 @@ export interface ThresholdProps {
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
   AlertingChartWithErrorMessage: ReactNode;
-  AlertTypeSwitch: ReactNode;
+  AlertTypeSwitch: (arg: AlertTypeSwitchProps) => React.ReactNode;
 }
 
 export default function ThresholdSelectionInteractiveChart({

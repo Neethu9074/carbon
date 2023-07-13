@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { Button, Spacer as SpacerComponent } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

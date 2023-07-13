@@ -13,12 +13,13 @@ export const alertsTab = '/alerts';
 export const businessProcessPath = '/businessProcesses';
 export const activitiesPath = '/bizopsActivities';
 export const smartAlertsPath = '/bizopsSmartAlerts';
+export const businessActivityPath = '/businessActivity';
 export const businessProcessDashboard = '/businessProcess';
-export const businessActivityDashboardPath = '/businessActivity';
+export const businessActivityDashboard = `${businessProcessDashboard}${businessActivityPath}`;
 export const businessProcessAlertListPath = `${businessProcessDashboard}${alertsTab}`;
 export const businessProcessSummaryPath = `${businessProcessDashboard}${summaryTab}`;
 export const businessProcessActivityListPath = `${businessProcessDashboard}${activitiesTab}`;
-export const businessActivitySummaryPath = `${businessProcessDashboard}${businessActivityDashboardPath}${summaryTab}`;
+export const businessActivitySummaryPath = `${businessActivityDashboard}${summaryTab}`;
 
 export const isBizOpsView = getRootPathPredicate(
   businessProcessPath,

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
@@ -234,7 +234,7 @@ function Label({ item, config, result, tagCatalog }) {
 
   return (
     config.metricConfiguration.grouping && (
-      <Link href$={href$} href={href} onClick={close}>
+      <Link href={href$ ?? href} onClick={close} className={locals.compactLink}>
         <LinkContent item={item} groupBy={groupBy} />
       </Link>
     )

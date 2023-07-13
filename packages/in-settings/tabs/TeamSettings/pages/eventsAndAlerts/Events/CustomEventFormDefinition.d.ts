@@ -10,6 +10,7 @@ import { IdNamePair } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/
 import { CustomEventSpecification, Nullish, ThresholdRule } from 'in-types';
 
 export const ruleTypeEntityVerification: string;
+export const ruleTypeEntityCountVerification: string;
 export const ruleTypeHostAvailability: string;
 export const ruleTypeEntityCount: string;
 export const dataSourceCustom: string;
@@ -17,6 +18,7 @@ export const dataSourceBuiltIn: string;
 export const dataSourceSystem: string;
 
 export const entityCountDetection: IdNamePair;
+export const entityCountVerification: IdNamePair;
 
 export function createEventFormDefinition(mutableEvent: CustomEventSpecification, isCreate?: boolean): MapForm;
 

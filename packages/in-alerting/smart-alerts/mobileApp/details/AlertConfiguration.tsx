@@ -27,7 +27,6 @@ import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-//@ts-expect-error TS migration
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
@@ -36,7 +35,6 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-//@ts-expect-error TS migration
 import ListTitle from 'in-components/lists/Title';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';

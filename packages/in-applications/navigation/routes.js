@@ -32,73 +32,49 @@ import {
   analyzePath
 } from 'in-applications/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default function applicationRoutes() {
   const appRoutes = [];
   if (role.canConfigureServiceMapping) {
     appRoutes.push(
-      <Route
-        key="applicationPerspectiveNewServiceView"
-        path={newServiceView}
-        children={renderAsyncRouteChildren(CustomServiceMapping)}
-      />,
-      <Route
-        key="applicationPerspectiveConfigureSyntheticEndpoints"
-        path={configureSyntheticEndpointsView}
-        children={renderAsyncRouteChildren(SyntheticCallConfig)}
-      />,
-      <Route
-        key="applicationPerspectiveConfigureEndpoints"
-        path={configureEndpointsView}
-        children={renderAsyncRouteChildren(CustomEndpointMapping)}
-      />
+      <Route key="applicationPerspectiveNewServiceView" path={newServiceView}>
+        {renderAsyncRouteChildren(CustomServiceMapping)}
+      </Route>,
+      <Route key="applicationPerspectiveConfigureSyntheticEndpoints" path={configureSyntheticEndpointsView}>
+        {renderAsyncRouteChildren(SyntheticCallConfig)}
+      </Route>,
+      <Route key="applicationPerspectiveConfigureEndpoints" path={configureEndpointsView}>
+        {renderAsyncRouteChildren(CustomEndpointMapping)}
+      </Route>
     );
   }
   appRoutes.push([
-    <Route
-      key="applicationPerspectiveNewApplicationWaiter"
-      path={`${newApplicationWaiterView}/:appId/:appName`}
-      children={renderAsyncRouteChildren(NewApplicationWaiter)}
-    />,
-    <Route
-      key="applicationPerspectiveApplicationslist"
-      path={applicationsList}
-      children={renderAsyncRouteChildren(ApplicationsList)}
-    />,
-    <Route
-      key="applicationPerspectiveApplicationDashboard"
-      path={applicationDashboard}
-      children={renderAsyncRouteChildren(ApplicationDashboard)}
-    />,
-    <Route
-      key="applicationPerspectiveServicesList"
-      path={servicesList}
-      children={renderAsyncRouteChildren(ServicesList)}
-    />,
-    <Route
-      key="applicationPerspectiveServiceDashboard"
-      path={serviceDashboard}
-      children={renderAsyncRouteChildren(ServiceDashboard)}
-    />,
-    <Route
-      key="applicationPerspectiveEndpointDashboard"
-      path={endpointDashboard}
-      children={renderAsyncRouteChildren(EndpointDashboard)}
-    />,
-    <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
+    <Route key="applicationPerspectiveNewApplicationWaiter" path={`${newApplicationWaiterView}/:appId/:appName`}>
+      {renderAsyncRouteChildren(NewApplicationWaiter)}
+    </Route>,
+    <Route key="applicationPerspectiveApplicationslist" path={applicationsList}>
+      {renderAsyncRouteChildren(ApplicationsList)}
+    </Route>,
+    <Route key="applicationPerspectiveApplicationDashboard" path={applicationDashboard}>
+      {renderAsyncRouteChildren(ApplicationDashboard)}
+    </Route>,
+    <Route key="applicationPerspectiveServicesList" path={servicesList}>
+      {renderAsyncRouteChildren(ServicesList)}
+    </Route>,
+    <Route key="applicationPerspectiveServiceDashboard" path={serviceDashboard}>
+      {renderAsyncRouteChildren(ServiceDashboard)}
+    </Route>,
+    <Route key="applicationPerspectiveEndpointDashboard" path={endpointDashboard}>
+      {renderAsyncRouteChildren(EndpointDashboard)}
+    </Route>,
+    <Route key="applicationPerspectiveAnalyze" path={analyzePath}>
+      {renderAsyncRouteChildren(AnalyzeView2_0)}
+    </Route>,
+    <Route key="applicationPerspectiveAlertsList" path={alertsList}>
+      {renderAsyncRouteChildren(GlobalSmartAlerts)}
+    </Route>
   ]);
-
-  if (applicationSmartAlertsEnabled) {
-    appRoutes.push(
-      <Route
-        key="applicationPerspectiveAlertsList"
-        path={alertsList}
-        children={renderAsyncRouteChildren(GlobalSmartAlerts)}
-      />
-    );
-  }
 
   return appRoutes;
 }

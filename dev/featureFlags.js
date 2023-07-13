@@ -8,7 +8,6 @@
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
-  applicationSmartAlertsEnabled: true,
   businessObservabilityEnabled: true,
   bizopsFeatureEnabled: true,
   containerInfoEnabled: true,
@@ -59,7 +58,6 @@ module.exports = {
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,
-  applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
@@ -81,5 +79,7 @@ module.exports = {
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
-  oneMinuteGranularityForStaticThresholdEnabled: true
+  oneMinuteGranularityForStaticThresholdEnabled: true,
+  alertsHubEnabled: false,
+  sloEnabled: true
 };

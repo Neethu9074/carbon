@@ -30,7 +30,7 @@
       "latency": "Latency",
       "beaconDuration": "Beacon Duration",
       "threshold": "Threshold",
-      "errors":  "Erroneous Call Rate",
+      "errors": "Erroneous Call Rate",
       "beaconErrorRate": "Beacon Error Rate",
       "goodEvents": "Good Events",
       "badEvents": "Bad Events"
@@ -133,6 +133,10 @@
     }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "Summary",
+      "configurationLabel": "Configuration"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "Budget: {{value}}"

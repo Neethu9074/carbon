@@ -38,12 +38,12 @@ import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelector from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
+import { isWebsiteSloEnabled } from 'in-custom-dashboards/widgets/Slo/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { websiteSloEnabled } from 'in-services/featureFlags';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -152,10 +152,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   return (
     <Stack gap="normal">
-      <FormComponentHeader showFeedbackButton={isWebsiteEntityType} />
+      <FormComponentHeader />
 
       <Stack gap="xsmall">
-        {websiteSloEnabled && (
+        {isWebsiteSloEnabled && (
           <Sections>
             <Section title={t('in-custom-dashboards:widgets.slo.formComponent.sloType')}>
               <MonitoringSourceSelector

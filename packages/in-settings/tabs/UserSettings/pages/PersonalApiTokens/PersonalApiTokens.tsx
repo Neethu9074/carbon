@@ -5,7 +5,9 @@
 
 import React from 'react';
 
+import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { Observable, create } from '@instana/observables';
+import { Link } from '@instana/components';
 
 import {
   PersonalApiToken,
@@ -16,6 +18,7 @@ import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/Personal
 import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -49,7 +52,7 @@ export default function PersonalApiTokens() {
       tableActions={tableActions}
       loadEntities={() => loadEntities(userId)}
       initialOrderBy="name"
-      onRowClick={current => addActiveDialog(<EditPersonalApiToken onClose={close} current={current} />)}
+      onRowClick={item => addActiveDialog(<EditPersonalApiToken onClose={close} current={item} />)}
       onCreateNew={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}
       labelNew={t('in-settings:tabs.newPersonalApiToken')}
       searchAttributes={['name', 'tokenId', 'accessGrantingToken']}
@@ -64,7 +67,12 @@ const columnDefinitions = [
     id: 'name',
     label: t('in-settings:tabs.name'),
     width: 60,
-    getContent: (entity: PersonalApiToken) => <span className="link">{entity.name}</span>
+    getContent: (entity: PersonalApiToken) => (
+      // @ts-ignore
+      <Link href={userSettingsPersonalApiTokens} ellipsis onClick={preventDefault}>
+        {entity.name}
+      </Link>
+    )
   },
   {
     id: 'token',
@@ -84,6 +92,8 @@ const columnDefinitions = [
     )
   }
 ];
+
+const preventDefault = (e: EventPlaceholder) => e.preventDefault();
 
 const maskToken = (token: string) => token.substring(0, 4) + '********************';
 

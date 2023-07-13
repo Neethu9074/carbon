@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
@@ -55,7 +55,7 @@ export function ClickableListItem({ onClick, href$, href, children }) {
   if (href$ || href) {
     return (
       <li className={locals.item}>
-        <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
+        <Link className={locals.link} href={href$ ?? href} onClick={onClick}>
           {children}
         </Link>
       </li>

@@ -46,6 +46,7 @@ jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader');
 jest.mock('in-applications/hooks/useTagCatalog');
 
 jest.mock('in-services/featureFlags', () => ({
+  sloEnabled: true,
   apdexWidgetEnabled: true
 }));
 
@@ -107,6 +108,21 @@ describe('in-custom-dashboards/widgets/Apdex', () => {
 
     // Then
     expect(wrapper.find(ApdexWidget).prop('granularity')).toEqual(minutes.toMillis(1));
+  });
+
+  it('does not render anything if the sloEnabled featureFlag is not set', async () => {
+    // Given
+    jest.resetModules();
+    jest.doMock('in-services/featureFlags', () => ({
+      sloEnabled: false
+    }));
+    const { default: WidgetPresenter } = await import('in-custom-dashboards/widgets/Apdex/ApdexWidgetPresenter');
+
+    // When
+    const wrapper = shallow(<WidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />);
+
+    // Then
+    expect(wrapper.find(ApdexWidget).exists()).not.toBeTruthy();
   });
 
   it('does not render anything if the apdexWidgetEnabled featureFlag is not set', async () => {

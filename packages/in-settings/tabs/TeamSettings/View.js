@@ -49,13 +49,13 @@ import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsA
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
-import { applicationSmartAlertsEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import { alertsHubEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
@@ -145,7 +145,7 @@ function navigationTreeForRole(role) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureCustomAlerts) {
-      if (applicationSmartAlertsEnabled) {
+      if (alertsHubEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingHub,
           label: t('in-alerting:smartAlerts.components.alertsHub.title'),

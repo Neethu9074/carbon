@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import { Button, Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   hasAPlatformAccess,

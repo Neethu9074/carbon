@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Node from 'in-components/TreeMap/components/Node';
 import Tooltip from 'in-components/Tooltip';
@@ -28,7 +28,7 @@ export default function Group({ group, groupProps = {}, nodeProps }) {
 
   if (groupProps.getHref$) {
     headerContent = (
-      <Link className={locals.link} href$={groupProps.getHref$(group)}>
+      <Link className={locals.link} href={groupProps.getHref$(group)}>
         {headerContent}
       </Link>
     );

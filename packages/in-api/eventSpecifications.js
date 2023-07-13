@@ -10,7 +10,8 @@ import { generateUniqueShortId } from '@instana/utils';
 import {
   ruleTypeEntityVerification,
   ruleTypeHostAvailability,
-  ruleTypeEntityCount
+  ruleTypeEntityCount,
+  ruleTypeEntityCountVerification
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -159,6 +160,44 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityCount({
       {
         ruleType: ruleTypeEntityCount,
         severity,
+        conditionOperator,
+        conditionValue
+      }
+    ]
+  };
+}
+
+export function createCustomSystemRuleBasedEventSpecificationForEntityCountVerification({
+  id = generateUniqueShortId(),
+  name = t('in-settings:tabs.newEvent'),
+  query = '',
+  triggering = false,
+  description = '',
+  expirationTime = null,
+  enabled = true,
+  severity = 5,
+  matchingEntityType,
+  matchingOperator,
+  matchingEntityLabel,
+  conditionOperator,
+  conditionValue
+}) {
+  return {
+    id,
+    name,
+    entityType: 'host',
+    query,
+    triggering,
+    description,
+    expirationTime,
+    enabled,
+    rules: [
+      {
+        ruleType: ruleTypeEntityCountVerification,
+        severity,
+        matchingEntityType,
+        matchingOperator,
+        matchingEntityLabel,
         conditionOperator,
         conditionValue
       }

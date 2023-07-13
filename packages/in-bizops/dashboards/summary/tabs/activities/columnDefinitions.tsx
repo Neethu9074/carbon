@@ -12,6 +12,7 @@ import { BusinessActivityItem, TimeConfig } from '@instana/types';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -42,13 +43,13 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.countLabel'),
-    getContent(item: BusinessActivityItem, { timeConfig }) {
+    getContent(item: BusinessActivityItem, { timeConfig, result }) {
       return (
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
           //@ts-ignore
-          timeConfig={timeConfig}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.timeseries_counts}
           metric={item.metrics.count}

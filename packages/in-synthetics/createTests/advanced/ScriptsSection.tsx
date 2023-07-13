@@ -53,13 +53,21 @@ export default function ScriptsSection({
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
+  const isSideScript = () => {
+    try {
+      JSON.parse((configForm.get('script') as Field<string>).value);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
   const [script, setScript] = useState(
     isUpdateConfig && !isUpdated
       ? configForm.get('script')
         ? {
             name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
             text: (configForm.get('script') as Field<string>).value,
-            extension: 'js'
+            extension: isSideScript() ? 'side' : 'js'
           }
         : {
             name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
@@ -189,14 +197,18 @@ export default function ScriptsSection({
                               .remove('scripts')
                           );
                         } else {
-                          updatedForm = form
-                            .updateIn(['configuration', 'script'], (field: Item) =>
-                              (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                            )
-                            .updateIn(['configuration', 'syntheticType'], (field: Item) =>
-                              (field as Field<string>).setValue(scriptType).setTouched(true)
-                            )
-                            .remove('scripts');
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .updateIn(['script'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptType).setTouched(true)
+                              )
+                              .remove('scripts')
+                          );
                         }
                         updateForm(updatedForm);
                       } else {
@@ -225,7 +237,7 @@ export default function ScriptsSection({
                               .updateIn(['scripts', 'scriptFile'], (field: Item) =>
                                 (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
                               )
-                              .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+                              .updateIn(['syntheticType'], (field: Item) =>
                                 (field as Field<string>).setValue(scriptType).setTouched(true)
                               )
                               .remove('script')

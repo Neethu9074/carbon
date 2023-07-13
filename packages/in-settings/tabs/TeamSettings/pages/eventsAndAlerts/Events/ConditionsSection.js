@@ -17,13 +17,15 @@ import {
   isCustomDataSourceSelected,
   isBuiltInDataSourceSelected,
   isHostAvailabilitySystemRule,
-  isEntityCountSystemRule
+  isEntityCountSystemRule,
+  entityCountVerification
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   getEntityTypeOptionsOfBuiltInMetrics,
   isDeprecatedAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import EntityCountVerificationFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EntityCountVerificationFormGroup';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import EntityCountDetectionFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EntityCountDetectionFormGroup';
 import {
@@ -159,6 +161,15 @@ export function ConditionsSection({
         <>
           {systemRuleField?.value === entityVerification.id && (
             <ObserveHostHasMatchingEntitiesRunningFormGroup
+              disabled={disabled}
+              form={form}
+              entityTypes={getEntityTypeOptionsOfBuiltInMetrics(true)}
+              onChange={onChange}
+            />
+          )}
+
+          {systemRuleField?.value === entityCountVerification.id && (
+            <EntityCountVerificationFormGroup
               disabled={disabled}
               form={form}
               entityTypes={getEntityTypeOptionsOfBuiltInMetrics(true)}

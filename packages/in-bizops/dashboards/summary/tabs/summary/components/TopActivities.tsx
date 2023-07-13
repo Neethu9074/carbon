@@ -12,11 +12,14 @@ import { Link } from '@instana/components';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { businessActivityDashboardPath, businessActivitySummaryPath } from 'in-bizops/navigation/paths';
+import {
+  businessProcessActivityListPath,
+  businessActivityPath,
+  businessActivitySummaryPath
+} from 'in-bizops/navigation/paths';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { businessProcessActivityListPath } from 'in-bizops/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { bizopsFeatureEnabled } from 'in-services/featureFlags';
@@ -46,7 +49,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
     <TopListWithUrlState
       metrics={['activitiesCount']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
-      //labels={[t('in-bizops:dashboards.summary.widgets.count')]}
+      //labels={''}
       formatters={[number.compact]}
       ViewAll={ViewAll}
       timeConfig={timeConfig}
@@ -145,7 +148,7 @@ function Label({ item }: LabelProps) {
 
   if (bizopsFeatureEnabled) {
     location.pathname = businessActivitySummaryPath;
-    setOrDeleteMatrixKey(location, businessActivityDashboardPath, 'activityName', activityName);
+    setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
 
     return <Link href={createHref(location)}>{activityName}</Link>;
   } else {

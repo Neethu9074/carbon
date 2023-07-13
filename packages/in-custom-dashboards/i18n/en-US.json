@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Website (Beta)",
+        "source_website": "Website",
         "callOut_application": "Excludes factors beyond your control such as poor internet connectivity of end-users, but may not accurately reflect end-user experience",
         "callOut_website": "Most accurately reflects end-user experience, but does not exclude factors beyond your control such as poor internet connectivity of end-users"
       },
