@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 
 import { isApplicationSmartAlertEvent, isWebsiteSmartAlertEvent } from 'in-events/components/eventUtil';
 import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
-import SuggestedActions from 'in-automation/SuggestedActionsCard/SuggestedActions';
+import RecommendedActions from 'in-automation/RecommendedActions/RecommendedActions';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -89,8 +89,8 @@ export default connectTo(
           !isApplicationSmartAlertEvent(triggerEvent) && (
             <Row withoutSideMargin>
               <Col xs>
-                <Card>
-                  <SuggestedActions
+                <Card title={t('in-events:recommendedActions')}>
+                  <RecommendedActions
                     volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
                     event={triggerEvent?.toJS()}
                   />

@@ -18,8 +18,6 @@ import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automatio
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { Event, VolatileId, Action } from 'in-types';
-import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
 
 interface SuggestedActionsCardProps {
   event: Event;
@@ -53,7 +51,7 @@ const getIsCustomEvent = (event: SuggestedActionsCardProps['event']) =>
 const getEventSpecificationId = (event: SuggestedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function SuggestedActionsCard({ event, volatileId }: SuggestedActionsCardProps) {
+export default function SuggestedActions({ event, volatileId }: SuggestedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
@@ -63,9 +61,11 @@ export default function SuggestedActionsCard({ event, volatileId }: SuggestedAct
     if (!eventSpecification) return null;
     const selectedActionsSet = new Set(selectedActions);
     return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
-      actions.filter(action => !selectedActionsSet.has(action.id))
+      actions
+        .filter(action => !selectedActionsSet.has(action.id))
+        .slice(0, 5)
+        .sort((a, b) => b.score - a.score)
     );
-    // const scoredActions = new Set(getScoredActionsForEventMemoized(selectedActions).map(actions => actions.map(action => action.id)));
   }, [eventSpecification, selectedActions]);
 
   if (!getUnusedSuggestedActions) {
@@ -73,16 +73,16 @@ export default function SuggestedActionsCard({ event, volatileId }: SuggestedAct
   }
 
   return (
-    <ActionTable
-      title={t('in-events:recommendedActions')}
-      showExecuteColumn={role?.canRunAutomationActions}
-      showActionLink
-      event={event}
-      volatileId={volatileId}
-      pageSize={5}
-      loadEntities={() => getUnusedSuggestedActions}
-      scored
-      isBeta
-    />
+    <>
+      <ActionTable
+        showActionLink
+        event={event}
+        volatileId={volatileId}
+        pageSize={5}
+        isSearchable={false}
+        loadEntities={() => getUnusedSuggestedActions}
+        scored
+      />
+    </>
   );
 }
