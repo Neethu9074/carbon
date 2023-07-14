@@ -96,6 +96,9 @@ export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartA
 // Synthetic credential feature flag
 export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystoreEnabled');
 
+// Synthetic RBAC feature flag
+export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 

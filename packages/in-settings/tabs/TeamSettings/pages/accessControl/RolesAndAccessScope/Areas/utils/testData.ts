@@ -10,7 +10,8 @@ export const mockEmptyPermissionsSet = {
   kubernetesNamespaceUIDs: [],
   mobileAppIds: [],
   permissions: [],
-  websiteIds: []
+  websiteIds: [],
+  syntheticTestIds: []
 };
 
 const mockPermissionsWithLimitedAccess = [
@@ -125,6 +126,7 @@ export const mockPermissionsSetWithData = {
     { scopeId: '11', scopeRoleId: '1111' },
     { scopeId: '12', scopeRoleId: '1212' }
   ],
+  syntheticTestIds: [],
   permissions: mockPermissionsWithLimitedAccess
 };
 

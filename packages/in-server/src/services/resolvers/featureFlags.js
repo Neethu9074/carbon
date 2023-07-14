@@ -379,5 +379,10 @@ module.exports = exports = [
     uiClientKey: 'sloEnabled',
     instanaCtlKey: 'feature.slo.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'syntheticRbacEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.enabled',
+    defaultValue: false
   }
 ];
