@@ -12,8 +12,8 @@ import { combineLatest } from '@instana/observables';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
+import { useGenerateLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
-import { getLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
@@ -41,6 +41,7 @@ import { t } from 'in-i18n';
 export default function WebsitesAndMobileTopList({ config }) {
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
+  const getLinkToMobileApp = useGenerateLinkToMobileApp();
   const linkToNewMobileAppHref = useLinkToNewMobileApp();
 
   const header = (
