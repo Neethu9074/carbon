@@ -29,6 +29,8 @@ interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
   title?: string;
+  reload?: number;
+  setReload?: (r: number) => void;
 }
 
 function getObservables(isCustomEvent: boolean) {
@@ -38,8 +40,7 @@ function getObservables(isCustomEvent: boolean) {
   };
 }
 
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
-  const [reload, triggerReload] = useState<number>(0);
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
   const actions =
     useObservable<Action[], [string, number]>(
@@ -51,7 +52,7 @@ function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: b
     () => getEventSpecification(eventSpecificationId),
     [eventSpecificationId]
   );
-  return { actions, eventSpecification, triggerReload: () => triggerReload(Math.random()) };
+  return { actions, eventSpecification };
 }
 
 const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
@@ -59,10 +60,27 @@ const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
 const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
+export default function AssociatedActionsCard({
+  event,
+  volatileId,
+  title,
+  reload: outerReload,
+  setReload: setOuterReload
+}: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
-  const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
+
+  const [innerReload, setInnerReload] = useState(0);
+  const reload = innerReload + (outerReload ?? 0);
+  const triggerReload = () => {
+    setInnerReload(Math.random());
+    if (setOuterReload) {
+      setOuterReload(Math.random());
+    }
+  };
+
+  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+
   const selectedActions = actions.map(action => action.id);
 
   if (!eventSpecification) {

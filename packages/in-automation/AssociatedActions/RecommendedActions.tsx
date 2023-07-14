@@ -1,0 +1,150 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React, { useMemo, useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
+
+import {
+  getCustomEventActions,
+  getBuiltinEventActions,
+  getBuiltInEventSpecificationMutable,
+  getCustomEventSpecificationMutable,
+  saveCustomEventSpecificationWithActions,
+  updateActionsAssignedToBuiltInEvent
+} from 'in-api/eventSpecifications';
+import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
+import NotificationComponent from 'in-components/form/Notification/Notification';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import ActionTable from 'in-automation/ActionCatalog/ActionTable';
+import { associateActionsTracker } from 'in-automation/tracker';
+import { Event, VolatileId, Action } from 'in-types';
+import { t } from 'in-i18n';
+
+interface SuggestedActionsCardProps {
+  event: Event;
+  volatileId: VolatileId;
+  reload: number;
+  setReload: (r: number) => void;
+}
+
+function getObservables(isCustomEvent: boolean) {
+  return {
+    getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
+    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
+  };
+}
+
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
+  const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
+  const actions =
+    useObservable<Action[], [string, number]>(
+      () => getActionsForEventSpecification(eventSpecificationId),
+      [eventSpecificationId, reload]
+    ) ?? [];
+
+  const eventSpecification = useObservable<EventSpecification, [string]>(
+    () => getEventSpecification(eventSpecificationId),
+    [eventSpecificationId]
+  );
+  return { actions, eventSpecification };
+}
+
+const getIsCustomEvent = (event: SuggestedActionsCardProps['event']) =>
+  (event?.metadata?.custom_issue as boolean) ?? false;
+const getEventSpecificationId = (event: SuggestedActionsCardProps['event']) =>
+  event?.metadata?.eventSpecificationId as string;
+
+export default function SuggestedActions({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
+  const [error, setError] = useState(false);
+  const eventSpecificationId = getEventSpecificationId(event);
+  const isCustomEvent = getIsCustomEvent(event);
+
+  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+  const triggerReload = () => setReload(Math.random());
+
+  const getUnusedSuggestedActions = useMemo(() => {
+    if (!eventSpecification || !actions) return null;
+
+    const selectedActionsSet = new Set(actions.map(action => action.id));
+
+    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
+      actions
+        .filter(action => !selectedActionsSet.has(action.id))
+        .slice(0, 5)
+        .sort((a, b) => b.score - a.score)
+    );
+  }, [eventSpecification, actions]);
+
+  if (!eventSpecification || !getUnusedSuggestedActions) {
+    return <LoadingIndicator size="xl" />;
+  }
+
+  return (
+    <>
+      {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
+      <ActionTable
+        showActionLink
+        event={event}
+        volatileId={volatileId}
+        pageSize={5}
+        isSearchable={false}
+        loadEntities={() => getUnusedSuggestedActions}
+        scored
+        tableActions={{
+          select: {
+            select: selectedAction =>
+              associateAction({
+                action: selectedAction,
+                existingActions: actions,
+                event: eventSpecification,
+                triggerReload,
+                setError,
+                isCustomEvent
+              })
+          }
+        }}
+      />
+    </>
+  );
+}
+interface AssociateActionProps {
+  action: Action;
+  existingActions: Action[];
+  event: EventSpecification;
+  triggerReload: () => void;
+  setError: (e: boolean) => void;
+  isCustomEvent: boolean;
+}
+
+function associateAction({
+  action,
+  event,
+  triggerReload,
+  setError,
+  isCustomEvent,
+  existingActions
+}: AssociateActionProps) {
+  associateActionsTracker({
+    eventName: event.name,
+    actionNames: [action.name]
+  });
+
+  const onSave = () => triggerReload();
+  const handleErrors = () => setError(true);
+  const updatedActions = [...existingActions, action];
+
+  if (isCustomEvent) {
+    getCustomEventSpecificationMutable(event.id).once(
+      response =>
+        saveCustomEventSpecificationWithActions({ ...response, actions: updatedActions }).once(onSave, handleErrors),
+      handleErrors
+    );
+    return;
+  }
+
+  updateActionsAssignedToBuiltInEvent(updatedActions, event.id).once(onSave, handleErrors);
+}

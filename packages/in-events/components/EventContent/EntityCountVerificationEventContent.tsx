@@ -13,10 +13,10 @@ import { Card } from '@instana/components';
 // @ts-ignore
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
-import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import AssociatedActions from 'in-automation/AssociatedActions/AssociatedActionsCard';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';

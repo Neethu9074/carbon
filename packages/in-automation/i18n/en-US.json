@@ -3,6 +3,7 @@
   "associateActions": "Associate Actions",
   "associatedActions": "Associated Actions",
   "actionsAssociationsNote": "Note that action associations are saved with the definition of the event.",
+  "failedToSaveAssocation": "Failed to save action association.",
   "failedToSaveAssocations": "Failed to save action associations.",
   "pleaseSelectAtLeastOneAction": "Please select at least one action.",
   "addActions": "Add Actions",

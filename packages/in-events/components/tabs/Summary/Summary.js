@@ -34,9 +34,9 @@ import ApplicationEventContent from 'in-events/components/EventContent/Applicati
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
-import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import AssociatedActions from 'in-automation/AssociatedActions/AssociatedActionsCard';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';

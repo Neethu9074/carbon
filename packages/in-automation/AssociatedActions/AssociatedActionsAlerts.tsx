@@ -10,7 +10,7 @@ import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ConfigureAssociatedActionsAlertsDialog from 'in-automation/AssociatedActionsCard/ConfigureAssociatedActionsAlertsDialog';
+import ConfigureAssociatedActionsAlertsDialog from 'in-automation/AssociatedActions/ConfigureAssociatedActionsAlertsDialog';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApplicationAlertActionAssociations } from 'in-automation/api';
