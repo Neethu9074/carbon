@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
-import { uniq, pull, union } from 'lodash';
+// import { uniq, pull, union } from 'lodash';
 import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 
 import { createLogger } from '@instana/logger';
 
@@ -26,7 +26,7 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { saveNewAssociation, getAllAssociations } from 'in-automation/api';
+import { updateApplicationAlertAssociations } from 'in-automation/api';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { trackAlertActionAssociated } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
@@ -48,8 +48,7 @@ export default function AlertConfigDialog({
   const [form, setForm] = useState(() =>
     createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
   );
-  //Need this to get difference(deleted) for actionids
-  const summaryActionIds = alertConfig?.actionIds ?? [];
+
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -84,8 +83,7 @@ export default function AlertConfigDialog({
       getLinkToGlobalAlertConfigWithoutAPDashboard,
       getLinkToAlertConfig,
       simpleMode,
-      duplicateFrom,
-      summaryActionIds
+      duplicateFrom
     });
   };
 
@@ -126,8 +124,7 @@ function createOrSaveAlert({
   getLinkToGlobalAlertConfigWithoutAPDashboard,
   getLinkToAlertConfig,
   simpleMode,
-  duplicateFrom,
-  summaryActionIds
+  duplicateFrom
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -137,131 +134,131 @@ function createOrSaveAlert({
     setMessages(prevMessages => [...prevMessages, message]);
   };
 
-  // parse all associations data to get associations of actions ids we have in form
-  function getAlertsByActionIds(data, actionIds) {
-    const result = {};
+  // // parse all associations data to get associations of actions ids we have in form
+  // function getAlertsByActionIds(data, actionIds) {
+  //   const result = {};
 
-    actionIds.forEach(actionId => {
-      result[actionId] = {
-        builtin_event_ids: [],
-        custom_events: [],
-        application_alert: []
-      };
-    });
+  //   actionIds.forEach(actionId => {
+  //     result[actionId] = {
+  //       builtin_event_ids: [],
+  //       custom_events: [],
+  //       application_alert: []
+  //     };
+  //   });
 
-    data.forEach(item => {
-      const action = item.action || {};
-      const actionId = action.id;
-      const builtinEventId = item.builtin_event_id;
-      const customEvent = item.custom_event;
-      const applicationAlert = item.application_alert;
+  //   data.forEach(item => {
+  //     const action = item.action || {};
+  //     const actionId = action.id;
+  //     const builtinEventId = item.builtin_event_id;
+  //     const customEvent = item.custom_event;
+  //     const applicationAlert = item.application_alert;
 
-      if (actionIds.includes(actionId)) {
-        if (builtinEventId) {
-          result[actionId].builtin_event_ids.push(builtinEventId);
-        }
-        if (customEvent) {
-          result[actionId].custom_events.push(customEvent.id);
-        }
-        if (applicationAlert) {
-          result[actionId].application_alert.push(applicationAlert.id);
-        }
-      }
-    });
+  //     if (actionIds.includes(actionId)) {
+  //       if (builtinEventId) {
+  //         result[actionId].builtin_event_ids.push(builtinEventId);
+  //       }
+  //       if (customEvent) {
+  //         result[actionId].custom_events.push(customEvent.id);
+  //       }
+  //       if (applicationAlert) {
+  //         result[actionId].application_alert.push(applicationAlert.id);
+  //       }
+  //     }
+  //   });
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  function actionAssociations(actionIds, alertConfigId, alertConfig, isEffectivelyEditMode) {
-    //concat form.actionids and actual associated action ids from alert details
+  // function actionAssociations(actionIds, alertConfigId, alertConfig, isEffectivelyEditMode) {
+  //   //concat form.actionids and actual associated action ids from alert details
 
-    function reload() {
-      onClose(alertConfig);
-      showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-      trackAlertUpdated(alertConfig);
-    }
-    const concatenatedArray = summaryActionIds.concat(actionIds);
-    //returns unique array
-    const uniqueArray = [...new Set(concatenatedArray)];
-    let alertCount = uniqueArray.length;
-    //get all associations and parse the data format. We need this data to get all associations for action.
-    getAllAssociations().once(
-      res => {
-        const result = getAlertsByActionIds(res, uniqueArray);
-        //If we delete the actions by deslecting, we will hget the difference Array
-        const differenceArray = summaryActionIds.filter(item => !actionIds.includes(item));
+  //   function reload() {
+  //     onClose(alertConfig);
+  //     showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+  //     trackAlertUpdated(alertConfig);
+  //   }
+  //   const concatenatedArray = summaryActionIds.concat(actionIds);
+  //   //returns unique array
+  //   const uniqueArray = [...new Set(concatenatedArray)];
+  //   let alertCount = uniqueArray.length;
+  //   //get all associations and parse the data format. We need this data to get all associations for action.
+  //   getAllAssociations().once(
+  //     res => {
+  //       const result = getAlertsByActionIds(res, uniqueArray);
+  //       //If we delete the actions by deslecting, we will hget the difference Array
+  //       const differenceArray = summaryActionIds.filter(item => !actionIds.includes(item));
 
-        if (differenceArray.length > 0) {
-          differenceArray.forEach(id => {
-            //When we delete action association, we have to exclude the app alert id and send new array to api
-            const actionAssociation = {
-              action_id: id,
-              application_alert_ids: pull(result[id].application_alert, alertConfigId),
-              builtin_event_ids: result[id].builtin_event_ids,
-              custom_event_ids: result[id].custom_events
-            };
-            saveNewAssociation(actionAssociation).once(
-              () => {
-                alertCount = alertCount - 1;
-                if (alertCount === 0 && isEffectivelyEditMode) {
-                  reload();
-                }
-              },
+  //       if (differenceArray.length > 0) {
+  //         differenceArray.forEach(id => {
+  //           //When we delete action association, we have to exclude the app alert id and send new array to api
+  //           const actionAssociation = {
+  //             action_id: id,
+  //             application_alert_ids: pull(result[id].application_alert, alertConfigId),
+  //             builtin_event_ids: result[id].builtin_event_ids,
+  //             custom_event_ids: result[id].custom_events
+  //           };
+  //           saveNewAssociation(actionAssociation).once(
+  //             () => {
+  //               alertCount = alertCount - 1;
+  //               if (alertCount === 0 && isEffectivelyEditMode) {
+  //                 reload();
+  //               }
+  //             },
 
-              err => {
-                logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
-                addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-                setIsSaving(false);
-              }
-            );
-          });
-        }
+  //             err => {
+  //               logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
+  //               addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+  //               setIsSaving(false);
+  //             }
+  //           );
+  //         });
+  //       }
 
-        //When we add  action association, we have to
-        if (actionIds.length > 0) {
-          uniq(actionIds).forEach(id => {
-            const actionAssociation = {
-              action_id: id,
-              application_alert_ids: union([alertConfigId], result[id].application_alert),
-              builtin_event_ids: result[id].builtin_event_ids,
-              custom_event_ids: result[id].custom_events
-            };
-            saveNewAssociation(actionAssociation).once(
-              () => {
-                alertCount = alertCount - 1;
-                if (alertCount === 0) {
-                  if (isEffectivelyEditMode) {
-                    reload();
-                  } else {
-                    onClose(alertConfig);
-                    const href = getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
-                    showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-                    const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
-                    trackAlertSaved(newConfig, simpleMode);
-                  }
-                }
-              },
+  //       //When we add  action association, we have to
+  //       if (actionIds.length > 0) {
+  //         uniq(actionIds).forEach(id => {
+  //           const actionAssociation = {
+  //             action_id: id,
+  //             application_alert_ids: union([alertConfigId], result[id].application_alert),
+  //             builtin_event_ids: result[id].builtin_event_ids,
+  //             custom_event_ids: result[id].custom_events
+  //           };
+  //           saveNewAssociation(actionAssociation).once(
+  //             () => {
+  //               alertCount = alertCount - 1;
+  //               if (alertCount === 0) {
+  //                 if (isEffectivelyEditMode) {
+  //                   reload();
+  //                 } else {
+  //                   onClose(alertConfig);
+  //                   const href = getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
+  //                   showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+  //                   const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
+  //                   trackAlertSaved(newConfig, simpleMode);
+  //                 }
+  //               }
+  //             },
 
-              err => {
-                logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
-                addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-                setIsSaving(false);
-              }
-            );
-          });
-        } else {
-          if (isEffectivelyEditMode && differenceArray.length === 0) {
-            reload();
-          }
-        }
+  //             err => {
+  //               logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
+  //               addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+  //               setIsSaving(false);
+  //             }
+  //           );
+  //         });
+  //       } else {
+  //         if (isEffectivelyEditMode && differenceArray.length === 0) {
+  //           reload();
+  //         }
+  //       }
 
-        trackAlertActionAssociated(actionIds, alertConfigId);
-      },
-      err => {
-        logger.error(`failed to get associations:  ${err.message}`, err);
-      }
-    );
-  }
+  //       trackAlertActionAssociated(actionIds, alertConfigId);
+  //     },
+  //     err => {
+  //       logger.error(`failed to get associations:  ${err.message}`, err);
+  //     }
+  //   );
+  // }
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -282,7 +279,20 @@ function createOrSaveAlert({
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
         if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          actionAssociations(actionIds, form.get('id').value, config, isEffectivelyEditMode);
+          // actionAssociations(actionIds, form.get('id').value, config, isEffectivelyEditMode);
+          updateApplicationAlertAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
+            () => {
+              onClose(config);
+              showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+              trackAlertUpdated(alertConfig);
+              trackAlertActionAssociated(actionIds, form.get('id').value);
+            },
+            err => {
+              logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);
+              addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+              setIsSaving(false);
+            }
+          );
         } else {
           onClose(config);
           showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
@@ -304,7 +314,21 @@ function createOrSaveAlert({
           !isEffectivelyGlobalSmartAlert &&
           actionIds.length > 0
         ) {
-          actionAssociations(actionIds, config.id, config, isEffectivelyEditMode);
+          updateApplicationAlertAssociations({ actions: actionIds, alertId: config.id }).once(
+            () => {
+              onClose(config);
+              const href = getLinkToAlertConfig(config.id, null, config.applicationId);
+              showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+              const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+              trackAlertSaved(newConfig, simpleMode);
+              trackAlertActionAssociated(actionIds, config.id);
+            },
+            err => {
+              logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);
+              addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
+              setIsSaving(false);
+            }
+          );
         } else {
           onClose(config);
           const href = isEffectivelyGlobalSmartAlert
