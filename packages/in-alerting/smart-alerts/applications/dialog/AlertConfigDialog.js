@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-// import { uniq, pull, union } from 'lodash';
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
 
@@ -134,132 +133,6 @@ function createOrSaveAlert({
     setMessages(prevMessages => [...prevMessages, message]);
   };
 
-  // // parse all associations data to get associations of actions ids we have in form
-  // function getAlertsByActionIds(data, actionIds) {
-  //   const result = {};
-
-  //   actionIds.forEach(actionId => {
-  //     result[actionId] = {
-  //       builtin_event_ids: [],
-  //       custom_events: [],
-  //       application_alert: []
-  //     };
-  //   });
-
-  //   data.forEach(item => {
-  //     const action = item.action || {};
-  //     const actionId = action.id;
-  //     const builtinEventId = item.builtin_event_id;
-  //     const customEvent = item.custom_event;
-  //     const applicationAlert = item.application_alert;
-
-  //     if (actionIds.includes(actionId)) {
-  //       if (builtinEventId) {
-  //         result[actionId].builtin_event_ids.push(builtinEventId);
-  //       }
-  //       if (customEvent) {
-  //         result[actionId].custom_events.push(customEvent.id);
-  //       }
-  //       if (applicationAlert) {
-  //         result[actionId].application_alert.push(applicationAlert.id);
-  //       }
-  //     }
-  //   });
-
-  //   return result;
-  // }
-
-  // function actionAssociations(actionIds, alertConfigId, alertConfig, isEffectivelyEditMode) {
-  //   //concat form.actionids and actual associated action ids from alert details
-
-  //   function reload() {
-  //     onClose(alertConfig);
-  //     showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-  //     trackAlertUpdated(alertConfig);
-  //   }
-  //   const concatenatedArray = summaryActionIds.concat(actionIds);
-  //   //returns unique array
-  //   const uniqueArray = [...new Set(concatenatedArray)];
-  //   let alertCount = uniqueArray.length;
-  //   //get all associations and parse the data format. We need this data to get all associations for action.
-  //   getAllAssociations().once(
-  //     res => {
-  //       const result = getAlertsByActionIds(res, uniqueArray);
-  //       //If we delete the actions by deslecting, we will hget the difference Array
-  //       const differenceArray = summaryActionIds.filter(item => !actionIds.includes(item));
-
-  //       if (differenceArray.length > 0) {
-  //         differenceArray.forEach(id => {
-  //           //When we delete action association, we have to exclude the app alert id and send new array to api
-  //           const actionAssociation = {
-  //             action_id: id,
-  //             application_alert_ids: pull(result[id].application_alert, alertConfigId),
-  //             builtin_event_ids: result[id].builtin_event_ids,
-  //             custom_event_ids: result[id].custom_events
-  //           };
-  //           saveNewAssociation(actionAssociation).once(
-  //             () => {
-  //               alertCount = alertCount - 1;
-  //               if (alertCount === 0 && isEffectivelyEditMode) {
-  //                 reload();
-  //               }
-  //             },
-
-  //             err => {
-  //               logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
-  //               addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-  //               setIsSaving(false);
-  //             }
-  //           );
-  //         });
-  //       }
-
-  //       //When we add  action association, we have to
-  //       if (actionIds.length > 0) {
-  //         uniq(actionIds).forEach(id => {
-  //           const actionAssociation = {
-  //             action_id: id,
-  //             application_alert_ids: union([alertConfigId], result[id].application_alert),
-  //             builtin_event_ids: result[id].builtin_event_ids,
-  //             custom_event_ids: result[id].custom_events
-  //           };
-  //           saveNewAssociation(actionAssociation).once(
-  //             () => {
-  //               alertCount = alertCount - 1;
-  //               if (alertCount === 0) {
-  //                 if (isEffectivelyEditMode) {
-  //                   reload();
-  //                 } else {
-  //                   onClose(alertConfig);
-  //                   const href = getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
-  //                   showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-  //                   const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
-  //                   trackAlertSaved(newConfig, simpleMode);
-  //                 }
-  //               }
-  //             },
-
-  //             err => {
-  //               logger.error(`failed to associate actions: ${alertConfig} ${err.message}`, err);
-  //               addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-  //               setIsSaving(false);
-  //             }
-  //           );
-  //         });
-  //       } else {
-  //         if (isEffectivelyEditMode && differenceArray.length === 0) {
-  //           reload();
-  //         }
-  //       }
-
-  //       trackAlertActionAssociated(actionIds, alertConfigId);
-  //     },
-  //     err => {
-  //       logger.error(`failed to get associations:  ${err.message}`, err);
-  //     }
-  //   );
-  // }
-
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     setIsSaving(false);
@@ -278,8 +151,8 @@ function createOrSaveAlert({
   if (isEffectivelyEditMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
+        // add action associations
         if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          // actionAssociations(actionIds, form.get('id').value, config, isEffectivelyEditMode);
           updateApplicationAlertAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
             () => {
               onClose(config);
@@ -308,6 +181,7 @@ function createOrSaveAlert({
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
+        // add action associations
         if (
           role.canConfigureAutomationActions &&
           actionAutomationEnabled &&
