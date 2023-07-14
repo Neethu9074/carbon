@@ -37,10 +37,10 @@ const DEFAULT_PAGE_SIZE = 100;
 
 export default function useEndpoints(props: UseEndpointsProps): FetchedState<PaginatedResult<EndpointItem>> {
   const timeConfig = useTimeConfig();
-  const result = useObservable(
-    () => getEndpoints(buildQuery(props, timeConfig)),
-    [generateStableHash(props), timeConfig]
-  );
+  const result = useObservable(() => getEndpoints(buildQuery(props, timeConfig)), [
+    generateStableHash(props),
+    timeConfig
+  ]);
 
   return resultToFetchedStateResponse(result);
 }
