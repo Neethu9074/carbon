@@ -22,6 +22,7 @@ packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-automation              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-bizops                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-new-components          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
