@@ -10,7 +10,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getOpenstackInstances from 'in-openstack/subscriptions/getOpenstackInstances';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getOpenstackInstanceDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackInstanceDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -21,13 +21,19 @@ import { t } from 'in-i18n';
 const pathSegment = '/openstack-instances';
 const matrixPrefix = 'instance.';
 
+function LabelContent({ label, id, regionId }) {
+  const getOpenstackInstanceDashboard = useOpenstackInstanceDashboard();
+
+  return <EntityLink label={label} href={getOpenstackInstanceDashboard(id, { regionId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-openstack:dashboards.name'),
     getContent(item, props) {
       const regionId = props.regionId;
-      return <EntityLink label={item.label} href$={getOpenstackInstanceDashboard(item.id, { regionId })} />;
+      return <LabelContent label={item.label} id={item.id} regionId={regionId} />;
     }
   },
   {

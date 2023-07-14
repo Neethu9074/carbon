@@ -6,9 +6,11 @@
 
 import React from 'react';
 
-import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function Dashboard({ snapshot, timeConfig }) {
-  return <RedirectWithHash to$={getOpenstackHypervisorDashboard(snapshot.get('id'), { timeConfig })} />;
+  const getOpenstackHypervisorDashboard = useOpenstackHypervisorDashboard();
+
+  return <RedirectWithHash to={getOpenstackHypervisorDashboard(snapshot.get('id'), { timeConfig })} />;
 }

@@ -8,7 +8,6 @@ import React from 'react';
 import HypervisorBreadcrumb from 'in-openstack/breadcrumbs/HypervisorBreadcrumb';
 import InstanceBreadcrumb from 'in-openstack/breadcrumbs/InstanceBreadcrumb';
 import HomeViewBreadcrumb from 'in-openstack/breadcrumbs/HomeViewBreadcrumb';
-import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import RegionBreadcrumb from 'in-openstack/breadcrumbs/RegionBreadcrumb';
 
 export function RegionBreadcrumbs(props) {
@@ -21,7 +20,7 @@ export function HypervisorBreadcrumbs(props) {
 
   return [
     <HomeViewBreadcrumb />,
-    regionId && <RegionBreadcrumb {...props} href$={getOpenstackRegionDashboard(regionId)} />,
+    regionId && <RegionBreadcrumb {...props} />,
     hypervisorId && <HypervisorBreadcrumb {...props} />
   ];
 }
@@ -29,7 +28,7 @@ export function InstanceBreadcrumbs(props) {
   const { instanceId, regionId } = props;
   return [
     <HomeViewBreadcrumb />,
-    regionId && <RegionBreadcrumb {...props} href$={getOpenstackRegionDashboard(regionId)} />,
+    regionId && <RegionBreadcrumb {...props} />,
     instanceId && <InstanceBreadcrumb {...props} />
   ];
 }
