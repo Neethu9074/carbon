@@ -31,17 +31,15 @@ interface UseEndpointsProps {
   pagination?: Partial<Pagination>;
   supportedOrderByCriteria?: boolean;
   tagFilterExpression?: TagFilterExpression;
-  time?: TimeConfig;
 }
 
 const DEFAULT_PAGE_SIZE = 100;
 
 export default function useEndpoints(props: UseEndpointsProps): FetchedState<PaginatedResult<EndpointItem>> {
   const timeConfig = useTimeConfig();
-  const modifiedTime = props.time ? props.time : timeConfig;
   const result = useObservable(
-    () => getEndpoints(buildQuery(props, modifiedTime)),
-    [generateStableHash(props), modifiedTime]
+    () => getEndpoints(buildQuery(props, timeConfig)),
+    [generateStableHash(props), timeConfig]
   );
 
   return resultToFetchedStateResponse(result);

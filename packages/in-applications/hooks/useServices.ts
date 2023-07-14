@@ -31,14 +31,13 @@ interface UseServicesProps {
   pagination?: Partial<Pagination>;
   tagFilterExpression?: TagFilterExpression;
   contextScope?: ContextScope;
-  time?: TimeConfig;
 }
 
 const DEFAULT_PAGE_SIZE = 100;
 
 export default function useServices(props: UseServicesProps): FetchedState<PaginatedResult<ServiceItem>> {
   const time = useTimeConfig();
-  const modifiedTime = props.time ? props.time : time;
+  const modifiedTime = time;
 
   const result = useObservable(
     () => getServices(buildQuery(props, modifiedTime)),

@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import {
   applicationSliTypeOptions,
@@ -148,34 +149,36 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
           )}
           {sliType === applicationType && (
             <>
-              <Sections>
-                <ServiceSelectBox
-                  boundaryScope={boundaryScope}
-                  applicationId={applicationId}
-                  value={serviceId}
-                  hasError={!serviceIdField.valid && serviceIdField.touched}
-                  onChange={value =>
-                    onChange(['sliEntity', 'serviceId'], f =>
-                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
-                    )
-                  }
-                />
-              </Sections>
+              <ConfigDialogTimeConfigContextModification>
+                <Sections>
+                  <ServiceSelectBox
+                    boundaryScope={boundaryScope}
+                    applicationId={applicationId}
+                    value={serviceId}
+                    hasError={!serviceIdField.valid && serviceIdField.touched}
+                    onChange={value =>
+                      onChange(['sliEntity', 'serviceId'], f =>
+                        (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                      )
+                    }
+                  />
+                </Sections>
 
-              <Sections>
-                <EndpointSelectBox
-                  boundaryScope={boundaryScope}
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  value={endpointId}
-                  hasError={!endpointIdField.valid && endpointIdField.touched}
-                  onChange={value =>
-                    onChange(['sliEntity', 'endpointId'], f =>
-                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
-                    )
-                  }
-                />
-              </Sections>
+                <Sections>
+                  <EndpointSelectBox
+                    boundaryScope={boundaryScope}
+                    applicationId={applicationId}
+                    serviceId={serviceId}
+                    value={endpointId}
+                    hasError={!endpointIdField.valid && endpointIdField.touched}
+                    onChange={value =>
+                      onChange(['sliEntity', 'endpointId'], f =>
+                        (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                      )
+                    }
+                  />
+                </Sections>
+              </ConfigDialogTimeConfigContextModification>
             </>
           )}
         </Stack>

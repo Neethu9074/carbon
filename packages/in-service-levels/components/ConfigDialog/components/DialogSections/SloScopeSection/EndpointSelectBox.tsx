@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useEndpoints from 'in-applications/hooks/useEndpoints';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
@@ -19,7 +18,6 @@ interface EndpointSelectBoxProps {
   value: string | Nullish;
   onChange: (endpoint: string) => void;
 }
-const time = ConfigDialogTimeConfigContextModification();
 export default function EndpointSelectBox({
   applicationId,
   hasError,
@@ -33,8 +31,7 @@ export default function EndpointSelectBox({
     service: serviceId ?? undefined,
     filter: {
       applicationBoundaryScope: boundaryScope
-    },
-    time
+    }
   });
 
   return (
