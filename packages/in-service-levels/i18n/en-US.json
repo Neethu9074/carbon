@@ -165,6 +165,24 @@
             "badEventFilters": "Bad event filters:"
           }
         }
+      },
+      "scopeSection": {
+        "title": "Scope",
+        "apBoundaryScopeLabel": "Boundary",
+        "apBoundaryScope": "Unknown",
+        "apBoundaryScope_ALL": "All calls",
+        "apBoundaryScope_INBOUND": "In-bound calls",
+        "apHiddenCallsLabel": "Hidden calls",
+        "apHiddenCallsInternal": "Includes internal calls",
+        "apHiddenCallsSynthetic": "Includes synthetic calls",
+        "apServiceLabel": "Service",
+        "apAllServices": "All Services",
+        "apEndpointLabel": "Endpoint",
+        "apAllEndpoints": "All Endpoints",
+        "eumBeaconTypeLabel": "Beacon type",
+        "customFilterLabel": "Custom filter",
+        "ariaLabelChecked": "selected",
+        "ariaLabelUnchecked": "unselected"
       }
     }
   }

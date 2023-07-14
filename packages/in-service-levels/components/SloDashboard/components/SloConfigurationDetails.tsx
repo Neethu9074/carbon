@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Ul } from '@instana/components';
 
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
+import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Nullish } from 'in-types';
 
@@ -17,7 +18,7 @@ interface SloConfigurationDetailsProps {
   data?: SloTabData | Nullish;
 }
 
-interface SloConfigurationDetailsContentProps {
+export interface SloConfigurationDetailsContentProps {
   data: SloTabData;
 }
 
@@ -35,6 +36,9 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
   return (
     <Card title={configuration.name} rightHeaderContent={<SloActionButtons configuration={configuration} />}>
       <SloTagsList tags={configuration.tags} />
+      <Ul>
+        <ScopeSection data={data} />
+      </Ul>
     </Card>
   );
 }
