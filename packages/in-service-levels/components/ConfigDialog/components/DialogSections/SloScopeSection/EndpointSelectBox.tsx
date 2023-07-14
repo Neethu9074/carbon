@@ -18,6 +18,7 @@ interface EndpointSelectBoxProps {
   value: string | Nullish;
   onChange: (endpoint: string) => void;
 }
+
 export default function EndpointSelectBox({
   applicationId,
   hasError,

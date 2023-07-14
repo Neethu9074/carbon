@@ -17,6 +17,7 @@ interface ServiceSelectBoxProps {
   value?: string | Nullish;
   onChange: (application?: string) => void;
 }
+
 export default function ServiceSelectBox({
   applicationId,
   hasError,
