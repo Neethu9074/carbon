@@ -284,7 +284,7 @@ function createOrSaveAlert({
             () => {
               onClose(config);
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-              trackAlertUpdated(alertConfig);
+              trackAlertUpdated(config);
               trackAlertActionAssociated(actionIds, form.get('id').value);
             },
             err => {
