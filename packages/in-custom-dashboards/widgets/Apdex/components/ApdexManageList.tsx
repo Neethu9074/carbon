@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import {
   APDEX_MANAGEMENT_CREATE_START,
   APDEX_MANAGEMENT_DELETE,
@@ -76,46 +77,48 @@ export default function ApdexManageList({
   };
 
   return (
-    <SlideInView
-      onShowSlideInContentChange={onShowSlideInContentChange}
-      showSlideInContent={showCreateForm}
-      HeaderComponent={NoHeader}
-      slideTransitionDurationMillis={transitionDelay}
-      slideInContentTitle={t('in-custom-dashboards:widgets.apdex.apdexManageList.title')}
-      renderSlideInContent={setFooter => {
-        // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
-        if (!isCreateFormVisible) return <></>;
-        return (
-          <CreateApdexForm
-            apdexConfig={editableApdexConfig}
-            entityType={entityType}
-            entityId={entityId}
-            setFooter={setFooter}
-            onClose={onCloseCreateForm}
-            onSave={apdexConfig => onChange(apdexConfig)}
+    <ConfigDialogTimeConfigContextModification>
+      <SlideInView
+        onShowSlideInContentChange={onShowSlideInContentChange}
+        showSlideInContent={showCreateForm}
+        HeaderComponent={NoHeader}
+        slideTransitionDurationMillis={transitionDelay}
+        slideInContentTitle={t('in-custom-dashboards:widgets.apdex.apdexManageList.title')}
+        renderSlideInContent={setFooter => {
+          // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
+          if (!isCreateFormVisible) return <></>;
+          return (
+            <CreateApdexForm
+              apdexConfig={editableApdexConfig}
+              entityType={entityType}
+              entityId={entityId}
+              setFooter={setFooter}
+              onClose={onCloseCreateForm}
+              onSave={apdexConfig => onChange(apdexConfig)}
+            />
+          );
+        }}
+        staticContent={
+          <ApdexList
+            fetchedConfigState={apdexResult}
+            onChange={({ query, orderBy, orderDirection }) => {
+              setQuery(query ?? '');
+              setOrderBy(orderBy!);
+              setOrderDirection(orderDirection!);
+            }}
+            onSelect={apdexConfig => onChange(apdexConfig)}
+            onCreate={onCreateConfig}
+            onEdit={onEditConfig}
+            onDelete={onDeleteApdexConfig}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            query={query}
           />
-        );
-      }}
-      staticContent={
-        <ApdexList
-          fetchedConfigState={apdexResult}
-          onChange={({ query, orderBy, orderDirection }) => {
-            setQuery(query ?? '');
-            setOrderBy(orderBy!);
-            setOrderDirection(orderDirection!);
-          }}
-          onSelect={apdexConfig => onChange(apdexConfig)}
-          onCreate={onCreateConfig}
-          onEdit={onEditConfig}
-          onDelete={onDeleteApdexConfig}
-          orderBy={orderBy}
-          orderDirection={orderDirection}
-          query={query}
-        />
-      }
-      onAfterSlideOut={hideCreateForm}
-      enforceMaxHeightForStaticContent
-    />
+        }
+        onAfterSlideOut={hideCreateForm}
+        enforceMaxHeightForStaticContent
+      />
+    </ConfigDialogTimeConfigContextModification>
   );
 }
 
