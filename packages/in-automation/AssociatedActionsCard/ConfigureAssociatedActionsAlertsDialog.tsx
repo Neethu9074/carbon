@@ -11,8 +11,8 @@ import { useObservable } from '@instana/hooks';
 
 import ConfigureAssociatedActionsDialogContent from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
 import { associateActionsTracker, trackAlertActionAssociated } from 'in-automation/tracker';
-import { Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import { updateApplicationAlertAssociations } from 'in-automation/api';
+import { Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { getAllActions } from 'in-automation/api';
 
@@ -32,7 +32,6 @@ export type ConfigureAssociatedActionsDialogState = {
   allActions: Action[];
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
-  // summaryActionIds: string[];
   triggerReload: (n: number) => void;
   reload?: number;
 };
@@ -48,7 +47,6 @@ export default function ConfigureAssociatedActionsAlertsDialog({
   const [form, setForm] = useState<ConfigureAssociatedActionsDialogState['form']>(createForm(actions));
   const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogState['savingError']>(false);
   const [isSaving, setIsSaving] = useState<ConfigureAssociatedActionsDialogState['isSaving']>(false);
-  // const summaryActionIds: string[] = actions.map(action => action.id);
   const allActions =
     useObservable<ConfigureAssociatedActionsDialogState['allActions'], never[]>(getAllActions, []) ?? [];
   const onSubmit: OnSubmit = () => {
@@ -59,7 +57,6 @@ export default function ConfigureAssociatedActionsAlertsDialog({
       eventSpecification,
       allActions,
       setSavingError,
-      // summaryActionIds,
       triggerReload
     });
   };
@@ -90,12 +87,10 @@ function createOrSaveAction({
   allActions,
   onClose,
   setSavingError,
-  // summaryActionIds,
   triggerReload
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
   const actionIds = getActionsFromForm(form).value;
-
   const { id: applicationId, name: eventName } = eventSpecification;
   const actionNames = allActions.reduce<string[]>(
     (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
