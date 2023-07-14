@@ -37,11 +37,10 @@ const DEFAULT_PAGE_SIZE = 100;
 
 export default function useServices(props: UseServicesProps): FetchedState<PaginatedResult<ServiceItem>> {
   const timeConfig = useTimeConfig();
-
-  const result = useObservable(
-    () => getServices(buildQuery(props, timeConfig)),
-    [generateStableHash(props), timeConfig]
-  );
+  const result = useObservable(() => getServices(buildQuery(props, timeConfig)), [
+    generateStableHash(props),
+    timeConfig
+  ]);
 
   return resultToFetchedStateResponse(result);
 }
