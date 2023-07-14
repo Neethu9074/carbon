@@ -1036,7 +1036,8 @@
     "repeatUntil": "Repeat Until",
     "finishedInTheNextFiveSeconds": "The maintenance window is finished or will be finished in the next 5 seconds",
     "viewMwConfigMessage": "View Maintenance Window Configuration Here",
-    "deleteUser": "Delete user"
+    "deleteUser": "Delete user",
+    "tfaEnabled": "2FA enabled"
   },
   "languageSelection": {
     "language": "Language",
