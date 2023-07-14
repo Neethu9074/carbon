@@ -6,7 +6,6 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -18,13 +17,13 @@ import {
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
-import { getScoredActionsForEventOrAlert, EventSpecification } from 'in-automation/api';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { getScoredActionsForEventOrAlert, EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { deleteActionAssociationTracker } from 'in-automation/tracker';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import ActionTable from 'in-automation/ActionCatalog/ActionTable';
-import { Event, VolatileId, Action } from 'in-types';
+import { close } from 'in-components/DialogPresenter/store';
+import { VolatileId, Action, Event } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -66,7 +65,6 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
-  const selectedActions = actions.map(action => action.id);
   const closeAndReload = () => {
     close();
     // This helps to reload the actions table
@@ -76,6 +74,8 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
   }
+
+  const selectedActions = actions.map(action => action.id);
   const { id: eventId } = eventSpecification;
   const tableActions = {
     delete: {
@@ -97,6 +97,55 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
     getScoredActionsForEventOrAlert(selectedActions, eventSpecification)
   );
 
+  function submitActionSelection(selectedIds: string[]) {
+    const actionIds = actions.map(obj => obj.id);
+    const newActionsArray = actionIds.concat(selectedIds);
+    const convertedActionsArray = newActionsArray.map(str => {
+      return { id: str };
+    });
+
+    if (isCustomEvent) {
+      return getCustomEventSpecificationMutable(eventId).once(response =>
+        saveCustomEventSpecificationWithActions({ ...response, actions: convertedActionsArray }).once(closeAndReload)
+      );
+    } else {
+      return updateActionsAssignedToBuiltInEvent(convertedActionsArray, eventId).once(closeAndReload);
+    }
+  }
+
+  function ScoredActionTable({
+    eventSpecification,
+    ...props
+  }: Omit<ActionTableProps, 'loadEntities'> & { eventSpecification: EventSpecification }) {
+    return (
+      <ActionTable
+        {...props}
+        pageSize={5}
+        loadEntities={() =>
+          getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '')
+        }
+        scored
+      />
+    );
+  }
+  const RightHeader = (
+    <SelectListDialogButton
+      onSubmit={(selectedActions: string[]) => submitActionSelection(selectedActions)}
+      title={t('in-settings:tabs.addActions')}
+      label={t('in-settings:tabs.addActions')}
+      listComponent={(props: ActionTableProps) => (
+        <ScoredActionTable {...props} eventSpecification={eventSpecification} />
+      )}
+      hiddenIds={selectedActions}
+      createSubmitLabel={(numberOfItems: number) =>
+        numberOfItems > 0
+          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          : t('in-settings:tabs.addActions')
+      }
+      requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
+    />
+  );
+
   return (
     <ActionTable
       title={title ?? t('in-automation:associatedActions')}
@@ -105,47 +154,11 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       getEntityName={action => t('in-automation:actionAssociationWithNameForDelete', { actionName: action.name })}
       event={event}
       tableActions={tableActions}
-      rightHeader={
-        <RightHeader
-          eventSpecification={eventSpecification}
-          triggerReload={triggerReload}
-          actions={actions}
-          isCustomEvent={isCustomEvent}
-        />
-      }
+      rightHeader={RightHeader}
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
       scored
       isBeta
     />
-  );
-}
-
-interface RightHeaderProps {
-  eventSpecification: EventSpecification;
-  actions: Action[];
-  isCustomEvent: boolean;
-  triggerReload: () => void;
-}
-
-function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
-  const onClick = () =>
-    addActiveDialog(
-      <ConfigureAssociatedActionsDialog
-        eventSpecification={eventSpecification}
-        actions={actions}
-        isCustomEvent={isCustomEvent}
-        onClose={close}
-        triggerReload={triggerReload}
-      />
-    );
-
-  return (
-    <>
-      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={onClick}>
-        {t('in-automation:selectActions')}
-      </Button>
-      <Spacer horizontal="xsmall" />
-    </>
   );
 }
