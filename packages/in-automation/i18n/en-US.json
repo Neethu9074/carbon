@@ -51,6 +51,7 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
+  "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",

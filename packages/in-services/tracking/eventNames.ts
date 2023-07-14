@@ -349,6 +349,7 @@ export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 
 // Action associations and action history
 export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
+export const DELETE_ASSOCIATE_ACTION = 'action.association.delete';
 export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';

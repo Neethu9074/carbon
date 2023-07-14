@@ -13,12 +13,15 @@ import {
   getCustomEventActions,
   getBuiltinEventActions,
   getBuiltInEventSpecificationMutable,
+  updateActionsAssignedToBuiltInEvent,
+  saveCustomEventSpecificationWithActions,
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import { getScoredActionsForEventOrAlert, EventSpecification } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { deleteActionAssociationTracker } from 'in-automation/tracker';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { Event, VolatileId, Action } from 'in-types';
@@ -64,10 +67,31 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
   const selectedActions = actions.map(action => action.id);
+  const closeAndReload = () => {
+    close();
+    // This helps to reload the actions table
+    triggerReload();
+  };
 
   if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
   }
+  const { id: eventId } = eventSpecification;
+  const tableActions = {
+    delete: {
+      deleteEntity: (action: Action) => {
+        deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
+        const newActionsArray = actions.filter(obj => obj.id !== action.id);
+        if (isCustomEvent) {
+          getCustomEventSpecificationMutable(eventId).once(response =>
+            saveCustomEventSpecificationWithActions({ ...response, actions: newActionsArray }).once(closeAndReload)
+          );
+        } else {
+          updateActionsAssignedToBuiltInEvent(newActionsArray, eventId).once(closeAndReload);
+        }
+      }
+    }
+  };
 
   const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
     getScoredActionsForEventOrAlert(selectedActions, eventSpecification)
@@ -78,7 +102,9 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       title={title ?? t('in-automation:associatedActions')}
       showExecuteColumn={role?.canRunAutomationActions}
       showActionLink
+      getEntityName={action => t('in-automation:actionAssociationWithNameForDelete', { actionName: action.name })}
       event={event}
+      tableActions={tableActions}
       rightHeader={
         <RightHeader
           eventSpecification={eventSpecification}
