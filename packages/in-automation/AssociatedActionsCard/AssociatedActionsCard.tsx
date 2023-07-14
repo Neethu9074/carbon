@@ -17,11 +17,17 @@ import {
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import { getScoredActionsForEventOrAlert, EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
+import {
+  getScoredActionsForEventOrAlert,
+  EventSpecification,
+  getAllActionsWithAISuggestions,
+  getAllActions
+} from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { deleteActionAssociationTracker } from 'in-automation/tracker';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { associateActionsTracker } from 'in-automation/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { VolatileId, Action, Event } from 'in-types';
 import { role } from 'in-stores/user';
@@ -63,20 +69,21 @@ const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
 
 export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
+  const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
+
   const closeAndReload = () => {
     close();
     // This helps to reload the actions table
     triggerReload();
   };
-
   if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
   }
 
   const selectedActions = actions.map(action => action.id);
-  const { id: eventId } = eventSpecification;
+  const { id: eventId, name: eventName } = eventSpecification;
   const tableActions = {
     delete: {
       deleteEntity: (action: Action) => {
@@ -103,7 +110,14 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
     const convertedActionsArray = newActionsArray.map(str => {
       return { id: str };
     });
-
+    const actionNames = allActions.reduce<string[]>(
+      (acc, action) => [...acc, ...(newActionsArray.includes(action.id) ? [action.name] : [])],
+      []
+    );
+    associateActionsTracker({
+      eventName,
+      actionNames
+    });
     if (isCustomEvent) {
       return getCustomEventSpecificationMutable(eventId).once(response =>
         saveCustomEventSpecificationWithActions({ ...response, actions: convertedActionsArray }).once(closeAndReload)
