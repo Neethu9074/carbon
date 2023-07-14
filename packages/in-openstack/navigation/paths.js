@@ -65,7 +65,7 @@ function useDashboard(base, matrixSegment, matrixParam, paramsCallback) {
         paramsCallback(clonedLocation, regionId);
       }
 
-      return createHref(location);
+      return createHref(clonedLocation);
     },
     [base, matrixSegment, matrixParam, paramsCallback, location, createHref]
   );
