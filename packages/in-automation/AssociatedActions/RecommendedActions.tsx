@@ -38,13 +38,24 @@ function getObservables(isCustomEvent: boolean) {
   };
 }
 
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
+function useAssociatedActionsDataWithCache(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
+
+  // the actions cache is used if the observable reverts back into a loading state after having initially loaded,
+  // in which case we fallback to the previous value until we recieve a new one to avoid flickering.
+  // const [actionsCache, setActionsCache] = useState<Action[]>([]);
+
   const actions =
     useObservable<Action[], [string, number]>(
       () => getActionsForEventSpecification(eventSpecificationId),
       [eventSpecificationId, reload]
-    ) ?? [];
+    ) ?? null;
+
+  // useEffect(() => {
+  //   if (actions.length > 0 && actions !== actionsCache) {
+  //     setActionsCache(actions);
+  //   }
+  // }, [actions, actionsCache]);
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
@@ -63,23 +74,30 @@ export default function SuggestedActions({ event, volatileId, reload, setReload 
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
 
-  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+  const { actions: existingActions, eventSpecification } = useAssociatedActionsDataWithCache(
+    eventSpecificationId,
+    isCustomEvent,
+    reload
+  );
   const triggerReload = () => setReload(Math.random());
 
   const getUnusedSuggestedActions = useMemo(() => {
-    if (!eventSpecification || !actions) return null;
+    if (!eventSpecification) return null;
 
-    const selectedActionsSet = new Set(actions.map(action => action.id));
+    const selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
 
-    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
-      actions
-        .filter(action => !selectedActionsSet.has(action.id))
-        .slice(0, 5)
-        .sort((a, b) => b.score - a.score)
+    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
+      allActions => {
+        if (!existingActions) return [];
+        return allActions
+          .filter(action => action.color != 'low' && !selectedActionsSet.has(action.id))
+          .slice(0, 5)
+          .sort((a, b) => b.score - a.score);
+      }
     );
-  }, [eventSpecification, actions]);
+  }, [eventSpecification, existingActions]);
 
-  if (!eventSpecification || !getUnusedSuggestedActions) {
+  if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
   }
 
@@ -87,6 +105,7 @@ export default function SuggestedActions({ event, volatileId, reload, setReload 
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
       <ActionTable
+        noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
         event={event}
         volatileId={volatileId}
@@ -99,7 +118,7 @@ export default function SuggestedActions({ event, volatileId, reload, setReload 
             select: selectedAction =>
               associateAction({
                 action: selectedAction,
-                existingActions: actions,
+                existingActions,
                 event: eventSpecification,
                 triggerReload,
                 setError,

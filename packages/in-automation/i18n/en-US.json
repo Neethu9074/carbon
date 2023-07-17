@@ -52,6 +52,7 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
+  "noRecommendedActionsAvailable": "No recommended actions available",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -73,7 +74,7 @@
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to documentation that can help with remediation.",
-    "manual":"Manual",
+    "manual": "Manual",
     "execute": "Execute",
     "confidence_low": "Low",
     "body": "Body (optional)",
