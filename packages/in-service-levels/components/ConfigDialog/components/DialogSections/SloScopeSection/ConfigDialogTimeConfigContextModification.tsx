@@ -13,10 +13,7 @@ export default function ConfigDialogTimeConfigContextModification({ children }: 
   const timeWindowSizeForSevenDays = days.toMillis(7);
 
   return (
-    <LocalTimeConfigContextModification
-      modification={() => modifyTimeConfig(timeWindowSizeForSevenDays)}
-      valuesToWatch={[timeWindowSizeForSevenDays]}
-    >
+    <LocalTimeConfigContextModification modification={() => modifyTimeConfig(timeWindowSizeForSevenDays)}>
       {children}
     </LocalTimeConfigContextModification>
   );

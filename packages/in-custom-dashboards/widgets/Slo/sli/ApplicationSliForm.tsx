@@ -148,38 +148,36 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
             </Sections>
           )}
           {sliType === applicationType && (
-            <>
-              <ConfigDialogTimeConfigContextModification>
-                <Sections>
-                  <ServiceSelectBox
-                    boundaryScope={boundaryScope}
-                    applicationId={applicationId}
-                    value={serviceId}
-                    hasError={!serviceIdField.valid && serviceIdField.touched}
-                    onChange={value =>
-                      onChange(['sliEntity', 'serviceId'], f =>
-                        (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
-                      )
-                    }
-                  />
-                </Sections>
+            <ConfigDialogTimeConfigContextModification>
+              <Sections>
+                <ServiceSelectBox
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  value={serviceId}
+                  hasError={!serviceIdField.valid && serviceIdField.touched}
+                  onChange={value =>
+                    onChange(['sliEntity', 'serviceId'], f =>
+                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                    )
+                  }
+                />
+              </Sections>
 
-                <Sections>
-                  <EndpointSelectBox
-                    boundaryScope={boundaryScope}
-                    applicationId={applicationId}
-                    serviceId={serviceId}
-                    value={endpointId}
-                    hasError={!endpointIdField.valid && endpointIdField.touched}
-                    onChange={value =>
-                      onChange(['sliEntity', 'endpointId'], f =>
-                        (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
-                      )
-                    }
-                  />
-                </Sections>
-              </ConfigDialogTimeConfigContextModification>
-            </>
+              <Sections>
+                <EndpointSelectBox
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  value={endpointId}
+                  hasError={!endpointIdField.valid && endpointIdField.touched}
+                  onChange={value =>
+                    onChange(['sliEntity', 'endpointId'], f =>
+                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                    )
+                  }
+                />
+              </Sections>
+            </ConfigDialogTimeConfigContextModification>
           )}
         </Stack>
       </Stack>
