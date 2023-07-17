@@ -20,11 +20,12 @@ import {
   apiSimpleTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
-import { BluePrint, blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -87,7 +88,9 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [selectedBlueprint, setSelectedBlueprint] = useState(
+    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+  );
 
   const populateCommonAttributes = (form: MapForm<any>) => {
     commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
