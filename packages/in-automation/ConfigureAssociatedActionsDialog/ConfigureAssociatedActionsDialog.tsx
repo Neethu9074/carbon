@@ -117,7 +117,6 @@ function createOrSaveAction({
     setSavingError(true);
     setIsSaving(false);
   };
-
   if (isCustomEvent) {
     getCustomEventSpecificationMutable(eventId).once(
       response => saveCustomEventSpecificationWithActions({ ...response, actions }).once(closeAndReload, handleErrors),
