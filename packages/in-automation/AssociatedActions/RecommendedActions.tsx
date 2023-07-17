@@ -38,24 +38,14 @@ function getObservables(isCustomEvent: boolean) {
   };
 }
 
-function useAssociatedActionsDataWithCache(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-
-  // the actions cache is used if the observable reverts back into a loading state after having initially loaded,
-  // in which case we fallback to the previous value until we recieve a new one to avoid flickering.
-  // const [actionsCache, setActionsCache] = useState<Action[]>([]);
 
   const actions =
     useObservable<Action[], [string, number]>(
       () => getActionsForEventSpecification(eventSpecificationId),
       [eventSpecificationId, reload]
-    ) ?? null;
-
-  // useEffect(() => {
-  //   if (actions.length > 0 && actions !== actionsCache) {
-  //     setActionsCache(actions);
-  //   }
-  // }, [actions, actionsCache]);
+    ) ?? null; // fallback to null instead of an empty array so we can recognize the loading state
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
@@ -74,7 +64,7 @@ export default function SuggestedActions({ event, volatileId, reload, setReload 
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
 
-  const { actions: existingActions, eventSpecification } = useAssociatedActionsDataWithCache(
+  const { actions: existingActions, eventSpecification } = useAssociatedActionsData(
     eventSpecificationId,
     isCustomEvent,
     reload
