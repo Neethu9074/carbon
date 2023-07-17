@@ -13,7 +13,7 @@ import { createLogger } from '@instana/logger';
 
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { createForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
+import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import { SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
@@ -43,7 +43,7 @@ interface Props {
 export default function EditConfigurationDialogPresenter({ test, onClose, setReloadCount }: Props) {
   const testId: string = test.id || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [form, setForm] = useState(() => createForm(test));
+  const [form, setForm] = useState(() => updateForm(test));
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(1);

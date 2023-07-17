@@ -22,7 +22,8 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
 
-export function createForm(savedState: Record<string, any>) {
+export function updateForm(savedState: Record<string, any>) {
+  const isFile: boolean = savedState?.configuration?.script != undefined ? true : false;
   return createMapForm({
     validator: syntheticFormValidator
   })
@@ -31,7 +32,7 @@ export function createForm(savedState: Record<string, any>) {
       savedState?.configuration?.syntheticType === 'HTTPScript' ||
         savedState?.configuration?.syntheticType === 'WebpageScript' ||
         savedState?.configuration?.syntheticType === 'BrowserScript'
-        ? savedState?.configuration?.script
+        ? isFile
           ? createScriptFileConfigurationForm(savedState?.configuration)
           : createScriptsBundleConfigurationForm(savedState?.configuration)
         : savedState?.configuration?.syntheticType === 'HTTPAction'
@@ -214,7 +215,10 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
-    .put('scripts', createZipScriptConfigurationForm(configuration.scripts.bundle, configuration.scripts.scriptFile!));
+    .put(
+      'scripts',
+      createZipScriptConfigurationForm(configuration?.scripts?.bundle, configuration?.scripts?.scriptFile!)
+    );
 }
 
 function createAdvancedBrowserActionConfigurationForm(configuration: Record<string, any>) {
