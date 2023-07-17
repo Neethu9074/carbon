@@ -10,7 +10,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -25,7 +25,7 @@ export default function zCicsDashboard({ snapshot, timeConfig }) {
           <MetricValue
             snapshotId={snapshotId}
             metric="CICSplex_Region_Overview.cpu_utilization"
-            formatter={number.compact}
+            formatter={percentagePlainTwoDecimalPlaces}
           />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.zCics.storageViolations')}>
