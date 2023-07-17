@@ -81,6 +81,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     }
     setSlideInViewVisible(isVisible);
   };
+  const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
+  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
 
   function onSubmit(form: MapForm<any>) {
     setIsSubmitting(true);
@@ -130,6 +132,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
         configForm.get('url') &&
         !configForm.get('url').valid) ||
+      invalidHeader.invalid ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -143,7 +146,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
             (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
       !syntheticTypeField.valid ||
       !frequencyField.valid ||
-      !labelField.valid
+      !labelField.valid ||
+      invalidCustomProperty.invalid
     ) {
       return true;
     }
@@ -206,6 +210,10 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setCommonAttributes={setCommonAttributes}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           isUpdateConfig
+          invalidHeader={invalidHeader}
+          setInvalidHeader={setInvalidHeader}
+          invalidCustomProperty={invalidCustomProperty}
+          setInvalidCustomProperty={setInvalidCustomProperty}
         />
       </form>
     </DialogWithSlideInView>

@@ -88,6 +88,8 @@ const CreateSyntheticTestDialogPresenter = ({
     onClose: null
   });
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
+  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
 
   const populateCommonAttributes = (form: MapForm<any>) => {
     commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
@@ -142,6 +144,7 @@ const CreateSyntheticTestDialogPresenter = ({
       ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
         configForm.get('url') &&
         !configForm.get('url').valid) ||
+      invalidHeader.invalid ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -156,7 +159,8 @@ const CreateSyntheticTestDialogPresenter = ({
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
-      !labelField.valid
+      !labelField.valid ||
+      invalidCustomProperty.invalid
     ) {
       return true;
     }
@@ -272,6 +276,10 @@ const CreateSyntheticTestDialogPresenter = ({
             isUpdateConfig={false}
             scriptDetails={scriptDetails}
             setScriptDetails={setScriptDetails}
+            invalidHeader={invalidHeader}
+            setInvalidHeader={setInvalidHeader}
+            invalidCustomProperty={invalidCustomProperty}
+            setInvalidCustomProperty={setInvalidCustomProperty}
           />
         )}
       </div>

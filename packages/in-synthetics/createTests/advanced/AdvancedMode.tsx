@@ -39,7 +39,11 @@ const AdvancedMode = ({
   setCustomSlideInHeaderConfig,
   isUpdateConfig,
   scriptDetails,
-  setScriptDetails
+  setScriptDetails,
+  invalidHeader,
+  setInvalidHeader,
+  invalidCustomProperty,
+  setInvalidCustomProperty
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
@@ -70,7 +74,15 @@ const AdvancedMode = ({
           />
         );
       case 'HTTPAction':
-        return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
+        return (
+          <ConfigurationSection
+            form={form}
+            updateForm={updateForm}
+            isUpdateConfig={isUpdateConfig}
+            invalidHeader={invalidHeader}
+            setInvalidHeader={setInvalidHeader}
+          />
+        );
       case 'WebpageAction':
         return <BrowserSimpleConfiguration form={form} updateForm={updateForm} />;
       default:
@@ -141,7 +153,14 @@ const AdvancedMode = ({
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       valid: true,
-      content: <CustomPropertiesSection form={form} updateForm={updateForm} />
+      content: (
+        <CustomPropertiesSection
+          form={form}
+          updateForm={updateForm}
+          invalidCustomProperty={invalidCustomProperty}
+          setInvalidCustomProperty={setInvalidCustomProperty}
+        />
+      )
     }
   ];
 

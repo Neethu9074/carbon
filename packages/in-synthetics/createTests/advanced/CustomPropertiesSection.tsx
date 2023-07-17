@@ -13,8 +13,8 @@ import { generateUniqueShortId } from '@instana/utils';
 import { onlyUniqueKeyNames } from 'in-synthetics/createTests/validators/configValidators';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { ConfigItem, Invalid } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
-import { ConfigItem } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
 import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label/Label';
@@ -26,9 +26,16 @@ import locals from 'in-synthetics/createTests/advanced/CustomPropertiesSection.m
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  invalidCustomProperty: Invalid;
+  setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
-export default function CustomPropertiesSection({ form, updateForm }: Props) {
+export default function CustomPropertiesSection({
+  form,
+  updateForm,
+  invalidCustomProperty,
+  setInvalidCustomProperty
+}: Props) {
   const getDefaultCustomProperties = (): ConfigItem[] => {
     const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
     const customPropertyKeys = Object.keys(customProperties);
@@ -61,7 +68,6 @@ export default function CustomPropertiesSection({ form, updateForm }: Props) {
     }
   };
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
-  const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
 
   function addNewCustomPropertyRow() {
     setCustomProperties([
