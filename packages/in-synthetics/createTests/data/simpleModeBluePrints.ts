@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { apiScriptTest, apiSimpleTest, browserSimpleTest } from 'in-synthetics/utils/constants';
+import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import { t } from 'in-i18n';
 
 const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.title');
@@ -71,6 +71,28 @@ export const blueprintConfig: readonly Readonly<BluePrint>[] = Object.freeze([
             <li>${t('in-synthetics:dialog.createTest.bluePrint.browserSimple.tipsForUsing.line2')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.browserSimple.tipsForUsing.line3')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.browserSimple.tipsForUsing.line4')}</li>
+          </ul>
+        `
+      }
+    ]
+  },
+  {
+    type: browserScriptTest,
+    name: t('in-synthetics:dialog.createTest.bluePrint.browserScript.name'),
+    headline: t('in-synthetics:dialog.createTest.bluePrint.browserScript.headline'),
+    description: [
+      {
+        headline: whenToUse,
+        htmlContent: t('in-synthetics:dialog.createTest.bluePrint.browserScript.whenToUse.line1')
+      },
+      {
+        headline: tipsForUsing,
+        htmlContent: `
+          <ul>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.browserScript.tipsForUsing.line1')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.browserScript.tipsForUsing.line2')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.browserScript.tipsForUsing.line3')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.browserScript.tipsForUsing.line4')}</li>
           </ul>
         `
       }

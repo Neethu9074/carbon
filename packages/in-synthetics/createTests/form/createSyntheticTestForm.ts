@@ -7,12 +7,12 @@ import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { apiScriptTest, apiSimpleTest, browserScriptTest } from 'in-synthetics/utils/constants';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
-import { apiScriptTest, apiSimpleTest } from 'in-synthetics/utils/constants';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -38,9 +38,11 @@ export function createForm(
   // @ts-expect-error testType does not exist in BluePrint type
   const testType = selectedBlueprint?.testType;
   const type = selectedBlueprint?.type;
-  const isScript: boolean = type === apiScriptTest || testType === 'HTTPScript' || testType === 'BrowserScript';
+  const isScript: boolean =
+    type === apiScriptTest || type === browserScriptTest || testType === 'HTTPScript' || testType === 'BrowserScript';
   const isApiSimpleAdvanced: boolean = testType === 'HTTPAction';
   const isApiSimpleWizard: boolean = type === apiSimpleTest;
+  const isBrowserScriptWizard: boolean = type === browserScriptTest;
 
   /**
    * "type" is the display name of a testType.
@@ -57,6 +59,8 @@ export function createForm(
     : simpleMode
     ? isApiSimpleWizard
       ? createActionConfigurationForm(savedState ?? {})
+      : isBrowserScriptWizard
+      ? createBrowserScriptConfigurationForm(savedState ?? {})
       : createWebpageActionConfigurationForm(savedState ?? {})
     : createActionConfigurationForm(savedState ?? {});
 
@@ -147,6 +151,24 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
       'syntheticType',
       createField({
         value: savedState?.syntheticType ?? 'HTTPScript',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'script',
+      createField({
+        value: savedState?.script,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    );
+}
+
+function createBrowserScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'BrowserScript',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )

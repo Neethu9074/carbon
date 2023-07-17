@@ -18,11 +18,12 @@ import {
   TestTypeSelected,
   apiScriptTest,
   apiSimpleTest,
+  browserScriptTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
-import { BluePrint, blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
+import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
@@ -52,7 +53,6 @@ export interface CreateSyntheticTestDialogPresenterProps {
   setTestTypeSelected: (t: TestTypeSelected) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
-  selectedBlueprint: Readonly<BluePrint>;
 }
 
 const CreateSyntheticTestDialogPresenter = ({
@@ -120,7 +120,7 @@ const CreateSyntheticTestDialogPresenter = ({
         if (syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') {
           stepDisabled = configForm.hierarchyValid && locationsField.value.length !== 0;
         }
-        if (syntheticTypeField.value === 'HTTPScript') {
+        if (syntheticTypeField.value === 'HTTPScript' || syntheticTypeField.value === 'BrowserScript') {
           stepDisabled = configForm.hierarchyValid && scriptErrors.length === 0;
         }
         return stepDisabled;
@@ -211,8 +211,10 @@ const CreateSyntheticTestDialogPresenter = ({
                     return { ...prevState, api: { simple: true, script: false } };
                   if (selectedBlueprint.type === apiScriptTest)
                     return { ...prevState, api: { simple: false, script: true } };
-                  if (selectedBlueprint.type == browserSimpleTest)
+                  if (selectedBlueprint.type === browserSimpleTest)
                     return { ...prevState, browser: { simple: true, script: false } };
+                  if (selectedBlueprint.type === browserScriptTest)
+                    return { ...prevState, browser: { simple: false, script: true } };
                 });
                 setSimpleMode(!simpleMode);
                 populateCommonAttributes(form);

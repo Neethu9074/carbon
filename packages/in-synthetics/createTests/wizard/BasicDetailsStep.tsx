@@ -10,6 +10,7 @@ import { Application, Result } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -109,12 +110,23 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
     );
   }
 
-  const headingText =
-    selectedBlueprint?.type === 'Script API'
-      ? t('in-synthetics:dialog.createTest.basicDetails.scriptTitle')
-      : t('in-synthetics:dialog.createTest.basicDetails.title');
+  const renderHeadingText = (type: string) => {
+    switch (type) {
+      case apiSimpleTest:
+        return t('in-synthetics:dialog.createTest.basicDetails.title');
+      case apiScriptTest:
+        return t('in-synthetics:dialog.createTest.basicDetails.scriptTitle');
+      case browserSimpleTest:
+        return t('in-synthetics:dialog.createTest.basicDetails.webpageActionTitle');
+      case browserScriptTest:
+        return t('in-synthetics:dialog.createTest.basicDetails.browserScriptTitle');
+      default:
+        return '';
+    }
+  };
+
   return (
-    <Section headingText={headingText}>
+    <Section headingText={renderHeadingText(selectedBlueprint?.type)}>
       {labelField.map(field => (
         <FormGroup className={locals.urlInput}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>

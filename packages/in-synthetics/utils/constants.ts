@@ -36,6 +36,7 @@ export const successValue = '1';
 export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
+export const browserScriptTest = 'Browser Script';
 
 export const dummyLocations = {
   data: [],
