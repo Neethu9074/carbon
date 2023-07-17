@@ -53,7 +53,7 @@ export function getUsers() {
   }).map(response => response.body);
 }
 
-export function getPermissions(userId) {
+export function getPermissions(userId: string) {
   return createObservable(
     http({
       method: 'GET',
@@ -63,19 +63,19 @@ export function getPermissions(userId) {
   );
 }
 
-export function removeUserFromTenant(userId) {
+export function removeUserFromTenant(userId: string) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `/api/settings/users/${encodeURIComponent(userId)}`
   }).map(v => {
-    refreshSignalUsers.emit(userId);
+    refreshSignalUsers.emit(true);
     return v;
   });
 }
 
-export function sendInvitation(invitations) {
+export function sendInvitation(invitations: any) {
   return http({
     method: 'POST',
     url: `/api/settings/invitations`,
@@ -87,7 +87,7 @@ export function sendInvitation(invitations) {
   });
 }
 
-export function revokeInvitation(email) {
+export function revokeInvitation(email: string) {
   return http({
     method: 'DELETE',
     maxRetries: 3,

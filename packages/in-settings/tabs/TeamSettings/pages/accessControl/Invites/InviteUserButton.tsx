@@ -13,11 +13,10 @@ import InviteUserDialog, {
   UserInvite,
   UserSentState
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
-// @ts-expect-error this is not yet typescript
-import { sendInvitation } from 'in-api/users';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { emptyObject } from 'in-services/fixedObjects';
+import { sendInvitation } from 'in-api/users';
 import { Response } from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -71,6 +70,7 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
     text: t('in-settings:tabs.sendingInvitation'),
     type: 'success'
   });
+  // @ts-expect-error
   const invitationResult$: Observable<Response<UserInvitationResult>> = sendInvitation(
     invitations.filter(i => i.userSentState === 'notSentYet')
   );
