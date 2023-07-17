@@ -17,13 +17,13 @@ export function getCustomEventSpecificationMutable(
 ): Observable<CustomEventSpecificationWithMetadata>;
 export function getBuiltinEventActions(eventSpecificationId: string): Observable<Action[]>;
 export function saveCustomEventSpecificationWithActions(
-  eventSpecification: CustomEventSpecification
+  eventSpecification: CustomEventSpecificationWithMetada
 ): Observable<CustomEventSpecification>;
 export function updateActionsAssignedToBuiltInEvent(
   actions: { id: string }[],
   eventSpecificationId: string | undefined
 ): Observable<Action[]>;
 export function getBuiltInEventSpecificationMutable(eventSpecificationId: string): Observable<EventSpecificationInfo>;
-export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;
+// export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;
 export function getEventSpecificationByIds(eventSpecificationIds: string[]): Observable<EventSpecificationInfo[]>;
 export function getEventSpecifications(eventSpecificationIds?: string[]): Observable<EventSpecificationInfo[]>;

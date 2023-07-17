@@ -24,12 +24,12 @@ import {
   getAllActions
 } from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { VolatileId, Action, Event, CustomEventSpecificationWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { deleteActionAssociationTracker } from 'in-automation/tracker';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { close } from 'in-components/DialogPresenter/store';
-import { VolatileId, Action, Event } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -73,6 +73,15 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
 
+  const eventSpecificationTest = useObservable<
+    CustomEventSpecificationWithMetadata,
+    [EventSpecification | null | undefined]
+  >(
+    // () => getCustomEventSpecificationMutable(eventSpecification.id),
+    eventSpecification ? getCustomEventSpecificationMutable(eventSpecification.id) : undefined,
+    [eventSpecification]
+  );
+
   const closeAndReload = () => {
     close();
     // This helps to reload the actions table
@@ -88,13 +97,16 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
     delete: {
       deleteEntity: (action: Action) => {
         deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
-        const newActionsArray = actions.filter(obj => obj.id !== action.id);
+        const newActionsArray = actions.filter(obj => obj.id !== action.id).map(obj => obj.id);
+        const convertedActionsArray = newActionsArray.map(str => {
+          return { id: str };
+        });
         if (isCustomEvent) {
-          getCustomEventSpecificationMutable(eventId).once(response =>
-            saveCustomEventSpecificationWithActions({ ...response, actions: newActionsArray }).once(closeAndReload)
-          );
+          // getCustomEventSpecificationMutable(eventId).once(response =>
+          return saveCustomEventSpecificationWithActions({ ...eventSpecificationTest, actions: convertedActionsArray });
+          // );
         } else {
-          updateActionsAssignedToBuiltInEvent(newActionsArray, eventId).once(closeAndReload);
+          return updateActionsAssignedToBuiltInEvent(convertedActionsArray, eventId);
         }
       }
     }
@@ -106,7 +118,7 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
 
   function submitActionSelection(selectedIds: string[]) {
     const actionIds = actions.map(obj => obj.id);
-    const newActionsArray = actionIds.concat(selectedIds);
+    const newActionsArray = [...new Set(actionIds)].concat(selectedIds);
     const convertedActionsArray = newActionsArray.map(str => {
       return { id: str };
     });
@@ -114,14 +126,18 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       (acc, action) => [...acc, ...(newActionsArray.includes(action.id) ? [action.name] : [])],
       []
     );
+
     associateActionsTracker({
       eventName,
       actionNames
     });
     if (isCustomEvent) {
-      return getCustomEventSpecificationMutable(eventId).once(response =>
-        saveCustomEventSpecificationWithActions({ ...response, actions: convertedActionsArray }).once(closeAndReload)
-      );
+      // return getCustomEventSpecificationMutable(eventId).once(response =>
+      return saveCustomEventSpecificationWithActions({
+        ...eventSpecificationTest,
+        actions: convertedActionsArray
+      }).once(closeAndReload);
+      // );
     } else {
       return updateActionsAssignedToBuiltInEvent(convertedActionsArray, eventId).once(closeAndReload);
     }
