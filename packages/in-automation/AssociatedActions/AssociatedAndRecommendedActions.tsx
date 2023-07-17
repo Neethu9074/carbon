@@ -9,9 +9,9 @@ import React, { useState } from 'react';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import RecommendedActionsCard from './RecommendedActionsCard';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import AssociatedActions from './AssociatedActionsCard';
-import RecommendedActions from './RecommendedActions';
 import { Event, VolatileId } from 'in-types';
 
 interface AssociatedAndRecommendedActionsProps {
@@ -40,7 +40,7 @@ export default function AssociatedAndRecommendedActions({ volatileId, event }: A
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:recommendedActions')}>
-            <RecommendedActions volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
+            <RecommendedActionsCard volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
           </Card>
         </Col>
       </Row>

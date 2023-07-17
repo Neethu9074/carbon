@@ -59,7 +59,7 @@ const getIsCustomEvent = (event: SuggestedActionsCardProps['event']) =>
 const getEventSpecificationId = (event: SuggestedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function SuggestedActions({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
+export default function RecommendedActionsCard({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
