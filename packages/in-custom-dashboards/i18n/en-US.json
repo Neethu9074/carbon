@@ -731,6 +731,11 @@
         "axisConfiguration": "Axis configuration",
         "formatter": "Formatter (x-axis)"
       }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "Table Preview"
+      }
     }
   },
   "duplicateDashboardDialog": {

@@ -46,8 +46,11 @@ function List(props) {
     progress,
     eventType,
     isPresentingHighlightedTimeframe,
-    timeConfig
+    timeConfig,
+    headers,
+    isPreview
   } = props;
+
   const isDenseList = !!selectedEventId;
   const cols = isDenseList ? 2 : 6;
 
@@ -77,17 +80,25 @@ function List(props) {
                 </SortableColumn>
               ) : (
                 <>
-                  <SortableColumn {...props} technicalName="problem.problemText">
-                    {t('in-events:headerTitle')}
-                  </SortableColumn>
-                  <Th>{t('in-events:headerOn')}</Th>
-                  <SortableColumn {...props} technicalName="start">
-                    {t('in-events:headerStarted')}
-                  </SortableColumn>
-                  <SortableColumn {...props} technicalName="end">
-                    {t('in-events:headerEnd')}
-                  </SortableColumn>
-                  <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
+                  {isDisplayColumn(headers, 'title') && (
+                    <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
+                      {t('in-events:headerTitle')}
+                    </SortableColumn>
+                  )}
+                  {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerOn')}</Th>}
+                  {isDisplayColumn(headers, 'started') && (
+                    <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
+                      {t('in-events:headerStarted')}
+                    </SortableColumn>
+                  )}
+                  {isDisplayColumn(headers, 'ended') && (
+                    <SortableColumn {...props} technicalName="end" sortable={!isPreview}>
+                      {t('in-events:headerEnd')}
+                    </SortableColumn>
+                  )}
+                  {isDisplayColumn(headers, 'timeline') && (
+                    <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
+                  )}
                 </>
               )}
             </Tr>
@@ -103,9 +114,10 @@ function List(props) {
                 event={event}
                 timeScale={timeScale}
                 timeConfig={timeConfig}
+                headers={headers}
+                isPreview={isPreview}
               />
             ))}
-
             {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
             <TableHorizontalIndicatorRow cols={cols} progress={progress} />
             {progress.loading && <TableLoadingSkeletonRows cols={cols} />}
@@ -163,7 +175,10 @@ function List(props) {
   }
 }
 
-function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName }) {
+function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName, sortable }) {
+  if (!sortable) {
+    return <Th>{children}</Th>;
+  }
   return (
     <SortableTh
       isSortedByThisColumn={orderBy === technicalName}
@@ -179,4 +194,11 @@ function SortableColumn({ children, orderBy, orderDirection, onChange, technical
       {children}
     </SortableTh>
   );
+}
+
+export function isDisplayColumn(headers, item) {
+  if (!headers) {
+    return true;
+  }
+  return headers.length > 0 && headers.includes(item);
 }

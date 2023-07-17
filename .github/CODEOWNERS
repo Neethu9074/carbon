@@ -170,3 +170,7 @@ packages/in-service-levels                                                      
 packages/in-custom-dashboards/widgets/Slo                                                   @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/Apdex                                                 @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+
+# Custom Widget Table
+
+packages/in-custom-dashboards/widgets/Table @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui
