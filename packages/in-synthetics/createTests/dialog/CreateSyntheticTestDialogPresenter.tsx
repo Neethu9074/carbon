@@ -22,10 +22,11 @@ import {
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
-import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -87,7 +88,9 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [selectedBlueprint, setSelectedBlueprint] = useState(
+    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+  );
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
 

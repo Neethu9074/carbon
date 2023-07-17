@@ -13,8 +13,9 @@ import { createLogger } from '@instana/logger';
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
 
@@ -25,7 +26,8 @@ interface CreateSyntheticTestDialogProps {
 }
 
 const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) => {
-  const [form, updateForm] = useState(() => createForm(true, blueprintConfig[0]));
+  const selectedBlueprint = getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0];
+  const [form, updateForm] = useState(() => createForm(true, selectedBlueprint));
   const [isSaving, setIsSaving] = useState(false);
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [scriptDetails, setScriptDetails] = useState<Code>({ modified: false, name: '' });
