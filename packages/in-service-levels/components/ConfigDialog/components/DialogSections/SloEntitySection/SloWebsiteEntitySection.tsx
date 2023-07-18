@@ -5,35 +5,34 @@
  */
 
 import React, { useState } from 'react';
-import { Item } from 'formalistic';
 
 import { Card } from '@instana/components';
 
 import SloEntityTable, {
   EntityData
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
-import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { t } from 'in-i18n';
 
 interface SloWebsiteEntitySectionProps {
-  form: WebsiteSloForm;
-  onChange: (path: WebsiteSloFormPath, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
   onLabelChange: (label: string) => void;
 }
 
 export const SloWebsiteEntitySection = ({ form, onChange, onLabelChange }: SloWebsiteEntitySectionProps) => {
   const [query, setQuery] = useState('');
 
-  const entityTypeField = form.get('entityType');
-  const websiteIdField = form.getIn(['entity', 'websiteId']);
+  const entityTypeField = form.getIn(['entity', 'type']);
+  const websiteIdField = form.getIn(['entity', 'entityId']);
 
   const [entityList, , , progress] = useEntityConfigurations(entityTypeField.value);
 
   const onEntityChange = ({ id, label }: EntityData) => {
     onLabelChange(label);
-    onChange(['entity', 'websiteId'], () => websiteIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityId'], () => websiteIdField.setValue(id).setTouched(true));
   };
 
   return (

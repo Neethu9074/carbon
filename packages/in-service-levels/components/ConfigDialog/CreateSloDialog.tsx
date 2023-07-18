@@ -25,7 +25,7 @@ export default function CreateSloDialog() {
 
   const navItems: Array<NavItem> = [
     {
-      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />,
+      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />,
       label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       scrollId: '1-select-entity',
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
@@ -34,7 +34,7 @@ export default function CreateSloDialog() {
     {
       content: (
         <ConfigDialogTimeConfigContextModification>
-          <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />
+          <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />
         </ConfigDialogTimeConfigContextModification>
       ),
       label: t('in-service-levels:createSloDialog.selectScopeNavItem'),

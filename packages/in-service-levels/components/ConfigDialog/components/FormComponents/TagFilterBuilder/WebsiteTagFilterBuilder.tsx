@@ -4,25 +4,24 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 interface SloScopeWebsiteSectionProps {
-  form: WebsiteSloForm;
-  onChange: (path: WebsiteSloFormPath, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const WebsiteTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteSectionProps) => {
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
-  const websiteIdField = form.getIn(['entity', 'websiteId']);
+  const websiteIdField = form.getIn(['entity', 'entityId']);
 
   const { QueryBuilder } = useWebsiteQueryBuilder({
     beaconType: beaconTypeField.value,
