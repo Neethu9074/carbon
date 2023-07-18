@@ -4,15 +4,24 @@
  */
 
 import {
+  ANALYZE_TRACE_VIEW_ANALYZE_CALLS_FROM_TRACE_CLICK,
+  ANALYZE_TRACE_VIEW_CHILD_CALL_LOAD_MORE_CLICK,
   ANALYZE_TRACE_VIEW_CLOSED,
+  ANALYZE_TRACE_VIEW_DOWNLOAD_CALL_DETAILS,
+  ANALYZE_TRACE_VIEW_DOWNLOAD_TRACES,
+  ANALYZE_TRACE_VIEW_EXPAND_COLLAPSE_SIDEBAR,
   ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA,
+  ANALYZE_TRACE_VIEW_RETRY_CALL_CLICK,
+  ANALYZE_TRACE_VIEW_ROOT_CALL_LOAD_MORE_CLICK,
   ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK,
   ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK,
   ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK,
+  ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE,
   ANALYZE_TRACE_VIEW_TREE_CALL_CLICK,
   ANALYZE_UA2_API_QUERY_PRESSED,
   ANALYZE_UA2_CHART_CHANGED,
   ANALYZE_UA2_CHART_REMOVED,
+  ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM,
   ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED,
   ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED,
   ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED,
@@ -65,10 +74,9 @@ export const ua2OrderByGroupChangedTracker = e => track(ANALYZE_UA2_ORDER_BY_GRO
 export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
 export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);
 export const ua2FastQueryModeChangedTracker = e => track(ANALYZE_UA2_FAST_QUERY_MODE_CHANGED, e);
-
 export const ua2FormModelChangedTracker = e => track(ANALYZE_UA2_FORMMODEL_CHANGED, e);
 export const ua2FacetsChangedTracker = e => track(ANALYZE_UA2_FACETS_CHANGED, e);
-
+export const ua2ExpandCollapseGroupedListItem = e => track(ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM, e);
 export const traceViewClosedTracker = e => track(ANALYZE_TRACE_VIEW_CLOSED, e);
 export const traceViewNavigateBackToUa = e => track(ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA, e);
 export const traceViewTraceListClickedTracker = e => track(ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK, e);
@@ -76,12 +84,27 @@ export const traceViewTraceServiceEndpointListClickedTracker = e =>
   track(ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK, e);
 export const traceViewCallTimelineDetailClickedTracker = e => track(ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK, e);
 export const traceViewCallTreeDetailClickedTracker = e => track(ANALYZE_TRACE_VIEW_TREE_CALL_CLICK, e);
+export const collapseOrExpandTraceDetailSidebar = e => track(ANALYZE_TRACE_VIEW_EXPAND_COLLAPSE_SIDEBAR, e);
+export const loadRootCallClickedTracker = e => track(ANALYZE_TRACE_VIEW_ROOT_CALL_LOAD_MORE_CLICK, e);
+export const loadChildCallClickedTracker = e => track(ANALYZE_TRACE_VIEW_CHILD_CALL_LOAD_MORE_CLICK, e);
+export const retryCallClickedTracker = e => track(ANALYZE_TRACE_VIEW_RETRY_CALL_CLICK, e);
+export const analyzeCallsOfTraceClickedTracker = e => track(ANALYZE_TRACE_VIEW_ANALYZE_CALLS_FROM_TRACE_CLICK, e);
+export const downloadTraceClickedTracker = e => track(ANALYZE_TRACE_VIEW_DOWNLOAD_TRACES, e);
+export const downloadCallDetailsClickedTracker = e => track(ANALYZE_TRACE_VIEW_DOWNLOAD_CALL_DETAILS, e);
 
+export const traceViewTrackIfLargeTrace = e => track(ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE, e);
 export const traceViewTracker = {
   traceViewNavigateBackToUa,
   traceViewClosedTracker,
   traceViewTraceListClickedTracker,
   traceViewTraceServiceEndpointListClickedTracker,
   traceViewCallTreeDetailClickedTracker,
-  traceViewCallTimelineDetailClickedTracker
+  traceViewCallTimelineDetailClickedTracker,
+  collapseOrExpandTraceDetailSidebar,
+  loadRootCallClickedTracker,
+  loadChildCallClickedTracker,
+  analyzeCallsOfTraceClickedTracker,
+  downloadTraceClickedTracker,
+  downloadCallDetailsClickedTracker,
+  traceViewTrackIfLargeTrace
 };

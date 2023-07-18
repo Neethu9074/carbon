@@ -90,7 +90,8 @@ export default function GroupedView(props) {
     Chart,
     customLatencyUiFormatterName,
     CustomHeaderActions,
-    getCustomGroupingTagFilter
+    getCustomGroupingTagFilter,
+    tracker
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -205,7 +206,8 @@ export default function GroupedView(props) {
     getLabel,
     groupBy,
     dataSource,
-    groupingTagCatalog
+    groupingTagCatalog,
+    getCustomGroupingTagFilter
   ]);
 
   const sortOptions = fields
@@ -312,6 +314,7 @@ export default function GroupedView(props) {
                     initiallyOpen={props.selectedGroup === key}
                     key={key}
                     toggleContentOnRowClick
+                    tracking={tracker}
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
                         groupBy,

@@ -6,7 +6,7 @@
 import React, { useEffect, useRef } from 'react';
 import { get } from 'lodash';
 
-import { Card, Stack, SvgIcon } from '@instana/components';
+import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
@@ -17,6 +17,7 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
 import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
@@ -128,11 +129,16 @@ function ActionButtons({ call, onClose }) {
   const svgIconColor = theme.lib.colors.N500;
   return (
     <>
-      <a ref={downloadLinkRef} className={locals.downloadLink} rel="noopener noreferrer" target="_blank">
+      <Link
+        ref={downloadLinkRef}
+        className={locals.downloadLink}
+        target="_blank"
+        onClick={() => downloadCallDetailsClickedTracker({})}
+      >
         <Tooltip content={downloadLabel}>
           <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />
         </Tooltip>
-      </a>
+      </Link>
       <Tooltip content={closeLabel}>
         <SvgIcon onClick={onClose} aria-label={closeLabel} type="lib_openclose_cancel" color={svgIconColor} />
       </Tooltip>
