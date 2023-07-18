@@ -77,50 +77,48 @@ export default function ApdexManageList({
   };
 
   return (
-    <>
-      <SlideInView
-        onShowSlideInContentChange={onShowSlideInContentChange}
-        showSlideInContent={showCreateForm}
-        HeaderComponent={NoHeader}
-        slideTransitionDurationMillis={transitionDelay}
-        slideInContentTitle={t('in-custom-dashboards:widgets.apdex.apdexManageList.title')}
-        renderSlideInContent={setFooter => {
-          // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
-          if (!isCreateFormVisible) return <></>;
-          return (
-            <ConfigDialogTimeConfigContextModification>
-              <CreateApdexForm
-                apdexConfig={editableApdexConfig}
-                entityType={entityType}
-                entityId={entityId}
-                setFooter={setFooter}
-                onClose={onCloseCreateForm}
-                onSave={apdexConfig => onChange(apdexConfig)}
-              />
-            </ConfigDialogTimeConfigContextModification>
-          );
-        }}
-        staticContent={
-          <ApdexList
-            fetchedConfigState={apdexResult}
-            onChange={({ query, orderBy, orderDirection }) => {
-              setQuery(query ?? '');
-              setOrderBy(orderBy!);
-              setOrderDirection(orderDirection!);
-            }}
-            onSelect={apdexConfig => onChange(apdexConfig)}
-            onCreate={onCreateConfig}
-            onEdit={onEditConfig}
-            onDelete={onDeleteApdexConfig}
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            query={query}
-          />
-        }
-        onAfterSlideOut={hideCreateForm}
-        enforceMaxHeightForStaticContent
-      />
-    </>
+    <SlideInView
+      onShowSlideInContentChange={onShowSlideInContentChange}
+      showSlideInContent={showCreateForm}
+      HeaderComponent={NoHeader}
+      slideTransitionDurationMillis={transitionDelay}
+      slideInContentTitle={t('in-custom-dashboards:widgets.apdex.apdexManageList.title')}
+      renderSlideInContent={setFooter => {
+        // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
+        if (!isCreateFormVisible) return <></>;
+        return (
+          <ConfigDialogTimeConfigContextModification>
+            <CreateApdexForm
+              apdexConfig={editableApdexConfig}
+              entityType={entityType}
+              entityId={entityId}
+              setFooter={setFooter}
+              onClose={onCloseCreateForm}
+              onSave={apdexConfig => onChange(apdexConfig)}
+            />
+          </ConfigDialogTimeConfigContextModification>
+        );
+      }}
+      staticContent={
+        <ApdexList
+          fetchedConfigState={apdexResult}
+          onChange={({ query, orderBy, orderDirection }) => {
+            setQuery(query ?? '');
+            setOrderBy(orderBy!);
+            setOrderDirection(orderDirection!);
+          }}
+          onSelect={apdexConfig => onChange(apdexConfig)}
+          onCreate={onCreateConfig}
+          onEdit={onEditConfig}
+          onDelete={onDeleteApdexConfig}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          query={query}
+        />
+      }
+      onAfterSlideOut={hideCreateForm}
+      enforceMaxHeightForStaticContent
+    />
   );
 }
 
