@@ -194,13 +194,15 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
       )}
 
       {sliType === availabilityType && (
-        <GoodBadEventsConfigurator
-          entityType="application"
-          label={apName}
-          form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
-          QueryBuilderComponent={QueryBuilderComponent}
-        />
+        <ConfigDialogTimeConfigContextModification>
+          <GoodBadEventsConfigurator
+            entityType="application"
+            label={apName}
+            form={sliEntityForm}
+            updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
+            QueryBuilderComponent={QueryBuilderComponent}
+          />
+        </ConfigDialogTimeConfigContextModification>
       )}
     </Stack>
   );
