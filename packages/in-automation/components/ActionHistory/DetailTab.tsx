@@ -37,7 +37,7 @@ interface ActionInstanceProperty {
   actionId: string;
   startDate: DateFormatterInput;
   endDate: DateFormatterInput;
-  targetsnapshotid?: string;
+  targetSnapshotId?: string;
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
   const { createHref, location } = useNavigation();
@@ -59,7 +59,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     hostSnapshotId,
     actionId,
     startDate,
-    targetsnapshotid,
+    targetSnapshotId,
     endDate
   } = properties;
 
@@ -110,13 +110,13 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     tableData.push({ label: t('in-automation:actionHistory.errorMessage'), value: errorMessage });
   }
 
-  if (targetsnapshotid) {
+  if (targetSnapshotId) {
     tableData.push({
       label: t('in-automation:actionHistory.targetSnapshotId'),
-      value: targetsnapshotid,
+      value: targetSnapshotId,
       isLink: true,
       isObservable: true,
-      ObservableLink: getDashboardLink(targetsnapshotid, { pathname: '/physical/dashboard' })
+      ObservableLink: getDashboardLink(targetSnapshotId, { pathname: '/physical/dashboard' })
     });
   }
 
