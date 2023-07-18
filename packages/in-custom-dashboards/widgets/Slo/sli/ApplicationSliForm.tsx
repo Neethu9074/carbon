@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import {
   applicationSliTypeOptions,
@@ -147,7 +148,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
             </Sections>
           )}
           {sliType === applicationType && (
-            <>
+            <ConfigDialogTimeConfigContextModification>
               <Sections>
                 <ServiceSelectBox
                   boundaryScope={boundaryScope}
@@ -176,7 +177,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   }
                 />
               </Sections>
-            </>
+            </ConfigDialogTimeConfigContextModification>
           )}
         </Stack>
       </Stack>
@@ -193,13 +194,15 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
       )}
 
       {sliType === availabilityType && (
-        <GoodBadEventsConfigurator
-          entityType="application"
-          label={apName}
-          form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
-          QueryBuilderComponent={QueryBuilderComponent}
-        />
+        <ConfigDialogTimeConfigContextModification>
+          <GoodBadEventsConfigurator
+            entityType="application"
+            label={apName}
+            form={sliEntityForm}
+            updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
+            QueryBuilderComponent={QueryBuilderComponent}
+          />
+        </ConfigDialogTimeConfigContextModification>
       )}
     </Stack>
   );
