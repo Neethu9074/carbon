@@ -8,9 +8,10 @@ import React from 'react';
 
 import { Card, Ul } from '@instana/components';
 
+import { ObjectiveSection } from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
-import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';
+import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Nullish } from 'in-types';
 
@@ -34,10 +35,11 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
   const { configuration } = data;
 
   return (
-    <Card title={configuration.name} rightHeaderContent={<SloActionButtons configuration={configuration} />}>
+    <Card rightHeaderContent={<SloActionButtons configuration={configuration} />}>
       <SloTagsList tags={configuration.tags} />
-      <Ul>
+      <Ul space="large">
         <ScopeSection data={data} />
+        <ObjectiveSection data={data} />
       </Ul>
     </Card>
   );

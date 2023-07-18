@@ -14,9 +14,12 @@ import {
   SloEntityType,
   WebsiteSloEntity
 } from '@instana/types';
-import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, Spacer, Stack, SvgIcon, Ul } from '@instana/components';
+import { KeyValue, Spacer, Stack, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import SloConfigSection, {
+  RowDefinition
+} from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import {
   ApplicationSloTabData,
   isApplicationSloTabData,
@@ -32,12 +35,7 @@ interface ScopeSectionProps {
   data: SloTabData | ApplicationSloTabData;
 }
 
-interface RowDefinition {
-  id: string;
-  columns: ColumnizedDefinition[];
-}
-
-const columnDefinitions: Record<SloEntityType, RowDefinition[]> = {
+const contentDefinitions: Record<SloEntityType, RowDefinition[]> = {
   application: [
     { id: 'boundaryScope', columns: [{ getContent: BoundaryScopeColumn, verticallyCenter: true }] },
     { id: 'hiddenCalls', columns: [{ getContent: HiddenCallsColumn, verticallyCenter: true }] },
@@ -48,7 +46,11 @@ const columnDefinitions: Record<SloEntityType, RowDefinition[]> = {
         { getContent: EndpointColumn, verticallyCenter: true }
       ]
     },
-    { id: 'customFilter', columns: [{ getContent: ApplicationCustomFilterColumn, verticallyCenter: true }] }
+    {
+      id: 'customFilter',
+      columns: [{ getContent: ApplicationCustomFilterColumn, verticallyCenter: true }],
+      shouldRender: data => Boolean(data.configuration.entity.tagFilterExpression)
+    }
   ],
   website: [
     { id: 'beaconType', columns: [{ getContent: BeaconTypeColumn, verticallyCenter: true }] },
@@ -59,7 +61,8 @@ const columnDefinitions: Record<SloEntityType, RowDefinition[]> = {
           getContent: WebsiteCustomFilterColumn,
           verticallyCenter: true
         }
-      ]
+      ],
+      shouldRender: data => Boolean(data.configuration.entity.tagFilterExpression)
     }
   ]
 };
@@ -69,22 +72,11 @@ export default function ScopeSection({ data }: ScopeSectionProps) {
   const { entity } = configuration;
   const { type } = entity;
   return (
-    <Li
-      renderNestedContent={() => (
-        <Ul>
-          {columnDefinitions[type]?.map(cd => {
-            return (
-              <Li key={cd.id}>
-                <ColumnizedContent columnDefinitions={cd.columns} data={data} />
-              </Li>
-            );
-          })}
-        </Ul>
-      )}
-      initiallyOpen
-    >
-      {t('in-service-levels:sloDashboard.components.scopeSection.title')}
-    </Li>
+    <SloConfigSection
+      data={data}
+      label={t('in-service-levels:sloDashboard.components.scopeSection.title')}
+      contentDefinitions={contentDefinitions[type] ?? []}
+    />
   );
 }
 
