@@ -83,6 +83,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
   const runningPodCountBigNumberMetricConfig = {
     ...defaultConfig,
     ...isPodDistinctCountMetric,
+    tagFilterExpression: tagFilterExpressionPodPhase('Running'),
     resultType: 'SINGLE_NUMBER' as ResultType
   };
   const defaultChartMetricConfig = {
@@ -271,14 +272,12 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
                 ...defaultChartMetricConfig,
-                ...isPodSumMetric
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
                 ...defaultChartMetricConfig,
-                ...isPodSumMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}
