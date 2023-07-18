@@ -51,7 +51,7 @@ export function createForm(
       ? createAdvancedScriptConfigurationForm(savedState ?? {})
       : createScriptConfigurationForm(savedState ?? {})
     : !simpleMode
-    ? isApiSimpleAdvanced
+    ? isApiSimpleAdvanced || isApiSimpleWizard
       ? createAdvancedActionConfigurationForm(savedState ?? {})
       : createAdvancedWebpageActionConfigurationForm(savedState ?? {})
     : simpleMode
