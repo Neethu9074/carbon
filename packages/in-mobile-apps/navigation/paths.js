@@ -120,6 +120,18 @@ export function useGetLinkToMobileApp(
 ) {
   const { location, createHref } = useNavigation();
 
+  return linkToMobileApp(location, tabPath, mobileAppId, viewId, tabParameters, timeConfig, createHref);
+}
+
+export const useGenerateLinkToMobileApp = () => {
+  const { createHref, location } = useNavigation();
+
+  return (mobileAppId, { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject) => {
+    return linkToMobileApp(location, tabPath, mobileAppId, viewId, tabParameters, timeConfig, createHref);
+  };
+};
+
+function linkToMobileApp(location, tabPath, mobileAppId, viewId, tabParameters, timeConfig, createHref) {
   location.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
   setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
 

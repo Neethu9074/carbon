@@ -7,24 +7,28 @@
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
   Code,
+  ConfigItem,
   SlideInConfig,
   SlideInHeader,
   SliderState,
   TestTypeSelected,
   apiScriptTest,
   apiSimpleTest,
+  browserScriptTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
-import { BluePrint, blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -52,7 +56,6 @@ export interface CreateSyntheticTestDialogPresenterProps {
   setTestTypeSelected: (t: TestTypeSelected) => void;
   renderSectionsCounter: number;
   setRenderSectionsCounter: React.Dispatch<React.SetStateAction<number>>;
-  selectedBlueprint: Readonly<BluePrint>;
 }
 
 const CreateSyntheticTestDialogPresenter = ({
@@ -87,7 +90,80 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [selectedBlueprint, setSelectedBlueprint] = useState(
+    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+  );
+
+  const getDefaultHeaders = (): ConfigItem[] => {
+    const headers = form.get('configuration')?.get('headers')
+      ? (form.get('configuration')?.get('headers') as Field<Record<string, string>>)?.value
+      : {};
+    const headersKeys = Object.keys(headers);
+    if (headersKeys.length) {
+      const headersObject: ConfigItem[] = [];
+      headersKeys.map(key =>
+        headersObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: headers[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return headersObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        }
+      ];
+    }
+  };
+  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
+  const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
+
+  const getDefaultCustomProperties = (): ConfigItem[] => {
+    const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
+    const customPropertyKeys = Object.keys(customProperties);
+    if (customPropertyKeys.length) {
+      const customPropertiesObject: ConfigItem[] = [];
+      customPropertyKeys.map(key =>
+        customPropertiesObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: customProperties[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return customPropertiesObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        }
+      ];
+    }
+  };
+  const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
+  const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
 
   const populateCommonAttributes = (form: MapForm<any>) => {
     commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
@@ -118,7 +194,7 @@ const CreateSyntheticTestDialogPresenter = ({
         if (syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') {
           stepDisabled = configForm.hierarchyValid && locationsField.value.length !== 0;
         }
-        if (syntheticTypeField.value === 'HTTPScript') {
+        if (syntheticTypeField.value === 'HTTPScript' || syntheticTypeField.value === 'BrowserScript') {
           stepDisabled = configForm.hierarchyValid && scriptErrors.length === 0;
         }
         return stepDisabled;
@@ -138,10 +214,23 @@ const CreateSyntheticTestDialogPresenter = ({
     const locationsField = form.get('locations') as Field<string[]>;
     if (
       isSaving ||
+      renderSectionsCounter === 0 ||
       // for HTTPAction & WebpageAction
       ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
         configForm.get('url') &&
         !configForm.get('url').valid) ||
+      (syntheticTypeField.value === 'HTTPAction' &&
+        configForm.get('headers') &&
+        headers.filter(
+          header =>
+            (header.error.name.invalid && !header.error.value.invalid) ||
+            (!header.error.name.invalid && header.error.value.invalid)
+        ).length > 0 ||
+        invalidHeader.invalid ||
+        (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
+        invalidJSON.invalid ||
+        (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
+      ) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -156,7 +245,13 @@ const CreateSyntheticTestDialogPresenter = ({
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
-      !labelField.valid
+      !labelField.valid ||
+      customProperties.filter(
+        property =>
+          (property.error.name.invalid && !property.error.value.invalid) ||
+          (!property.error.name.invalid && property.error.value.invalid)
+      ).length > 0 ||
+      invalidCustomProperty.invalid
     ) {
       return true;
     }
@@ -207,8 +302,10 @@ const CreateSyntheticTestDialogPresenter = ({
                     return { ...prevState, api: { simple: true, script: false } };
                   if (selectedBlueprint.type === apiScriptTest)
                     return { ...prevState, api: { simple: false, script: true } };
-                  if (selectedBlueprint.type == browserSimpleTest)
+                  if (selectedBlueprint.type === browserSimpleTest)
                     return { ...prevState, browser: { simple: true, script: false } };
+                  if (selectedBlueprint.type === browserScriptTest)
+                    return { ...prevState, browser: { simple: false, script: true } };
                 });
                 setSimpleMode(!simpleMode);
                 populateCommonAttributes(form);
@@ -272,6 +369,16 @@ const CreateSyntheticTestDialogPresenter = ({
             isUpdateConfig={false}
             scriptDetails={scriptDetails}
             setScriptDetails={setScriptDetails}
+            headers={headers}
+            setHeaders={setHeaders}
+            invalidHeader={invalidHeader}
+            setInvalidHeader={setInvalidHeader}
+            invalidJSON={invalidJSON}
+            setInvalidJSON={setInvalidJSON}
+            customProperties={customProperties}
+            setCustomProperties={setCustomProperties}
+            invalidCustomProperty={invalidCustomProperty}
+            setInvalidCustomProperty={setInvalidCustomProperty}
           />
         )}
       </div>

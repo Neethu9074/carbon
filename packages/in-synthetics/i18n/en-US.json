@@ -31,6 +31,8 @@
       "basicDetails": {
         "title": "What is the name of this API Simple (HTTP Action) test",
         "scriptTitle": "What is the name of this API Script (HTTP Script) test",
+        "webpageActionTitle": "What is the name of this Browser Simple (Webpage Action) test",
+        "browserScriptTitle": "What is the name of this Browser Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
@@ -79,8 +81,16 @@
           }
         },
         "browserScript": {
+          "name": "Browser Script",
+          "headline": "Browser Script (BrowserScript)",
           "whenToUse": {
-            "line1": "Use a WebpageScript test to test...."
+            "line1": "Use a Browser Script test to test...."
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: ....",
+            "line2": "Step 2: ....",
+            "line3": "Step 3: ....",
+            "line4": "Step 4: ...."
           }
         }
       },

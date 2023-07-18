@@ -1044,7 +1044,13 @@
         "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "Unexpectedly Low Number of Views",
+        "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Views",
+        "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Views is significantly lower than expected compared to the available past data.",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Unexpectedly High Number of Views",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously High Number of Views",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of Views is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the mobile app."
       },
       "alertList": {
         "columns": {

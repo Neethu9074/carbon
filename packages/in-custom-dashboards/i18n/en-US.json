@@ -731,6 +731,32 @@
         "axisConfiguration": "Axis configuration",
         "formatter": "Formatter (x-axis)"
       }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "Table Preview"
+      },
+      "form": {
+        "title": "What would you like to show?",
+        "dataSource": "Data Source",
+        "helpAction": "A Dynamic Focus Query (DFQ) as you would use it within the event view.",
+        "query": "Query",
+        "columns": "Select Columns",
+        "pleaseSelect": "Please Select",
+        "validators": {
+          "theValueMustNotBeEmpty": "At least one column needs to be selected"
+        }
+      },
+      "dataSource": {
+        "events": "Events"
+      },
+      "eventColumns": {
+        "title": "Title",
+        "entityLabel": "Entity",
+        "startedOn": "Started On",
+        "endedOn": "Ended On",
+        "duration": "Duration"
+      }
     }
   },
   "duplicateDashboardDialog": {

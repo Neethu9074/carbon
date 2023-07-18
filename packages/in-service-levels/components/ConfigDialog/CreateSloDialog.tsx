@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import { SloScopeSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
@@ -24,14 +25,18 @@ export default function CreateSloDialog() {
 
   const navItems: Array<NavItem> = [
     {
-      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />,
+      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />,
       label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       scrollId: '1-select-entity',
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       valid: true
     },
     {
-      content: <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path as any, fn))} />,
+      content: (
+        <ConfigDialogTimeConfigContextModification>
+          <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />
+        </ConfigDialogTimeConfigContextModification>
+      ),
       label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
       scrollId: '2-select-scope',
       title: t('in-service-levels:createSloDialog.selectScopeNavItem'),

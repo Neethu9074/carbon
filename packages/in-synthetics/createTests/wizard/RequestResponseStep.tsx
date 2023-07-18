@@ -13,6 +13,7 @@ import {
   Code as CodeType,
   apiScriptTest,
   apiSimpleTest,
+  browserScriptTest,
   browserSimpleTest,
   dummyLocations
 } from 'in-synthetics/utils/constants';
@@ -73,6 +74,8 @@ export default function RequestResponseStep({
   const locationsField = form.get('locations') as Field<string[]>;
   const [state, setState] = useState<State>({ loading: false });
   const script = configForm.get('script') as Field<string>;
+  const renderScript: boolean =
+    selectedBlueprint.type === apiScriptTest || selectedBlueprint.type === browserScriptTest;
 
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
@@ -174,7 +177,7 @@ export default function RequestResponseStep({
       <div className={locals.requestContainer}>
         <Stack direction="horizontal" gap="normal">
           <div>
-            {selectedBlueprint.type === apiScriptTest && (
+            {renderScript && (
               <>
                 <SubTitle isUploadScriptSubTitle>
                   {t('in-synthetics:dialog.createTest.requestStep.uploadScriptTitle')}
@@ -187,7 +190,7 @@ export default function RequestResponseStep({
             {renderLocations()}
           </div>
 
-          {selectedBlueprint.type === apiScriptTest && (
+          {renderScript && (
             <div className={locals.scriptUpload}>
               {script.map(field => (
                 <>

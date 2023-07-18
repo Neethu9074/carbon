@@ -6,19 +6,18 @@
 
 import { Item } from 'formalistic';
 
-import { SloEntityType } from '@instana/types';
-
 // eslint-disable-next-line
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
-import { createSloForm, isApplicationSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { createSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 
-const resetScopes = (form: SloForm<SloEntityType>) => {
-  if (isApplicationSloForm(form)) {
-    const formToReturn = createSloForm({ entityType: 'application', previousForm: form });
+const resetScopes = (form: SloForm) => {
+  const entityType = form.getIn(['entity', 'type']).value;
+  if (entityType === 'application') {
+    const formToReturn = createSloForm({ previousForm: form });
 
     return formToReturn;
   } else {
-    const formToReturn = createSloForm({ entityType: 'website', previousForm: form });
+    const formToReturn = createSloForm({ previousForm: form });
 
     return formToReturn;
   }
@@ -26,7 +25,7 @@ const resetScopes = (form: SloForm<SloEntityType>) => {
 
 const formSideEffects = [
   {
-    path: ['entityType'],
+    path: ['entity', 'type'],
     effects: [resetScopes as EffectFunction]
   }
 ];

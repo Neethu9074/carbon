@@ -37,12 +37,10 @@
 
   .clearFacet {
     .typoSettings();
-    color: @lib__colors__teal800;
+    padding: 0;
 
     &:hover {
       background: transparent;
-      color: var(--ids-color-option-teal-500);
-      text-decoration: none;
     }
   }
 }

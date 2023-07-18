@@ -21,6 +21,16 @@ export interface SloTabData {
   entity: LabeledEntity;
 }
 
+export interface ApplicationSloTabData extends SloTabData {
+  service?: LabeledEntity;
+  endpoint?: LabeledEntity;
+}
+
+export function isApplicationSloTabData(data: SloTabData): data is ApplicationSloTabData {
+  const { service, endpoint } = data as ApplicationSloTabData;
+  return Boolean(service || endpoint);
+}
+
 const tabs: Tab<SloTabData, {}>[] = [
   {
     label: t('in-service-levels:sloDashboard.tabs.summaryLabel'),

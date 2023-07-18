@@ -34,10 +34,17 @@ import locals from './SplitScreenList.mless';
 export default function SplitScreenList(props) {
   const [expanded, setExpanded] = useExpanded();
 
+  function handleExpansionWithTracking(event) {
+    setExpanded(event);
+    if (props.tracker?.collapseOrExpandTraceDetailSidebar) {
+      props.tracker.collapseOrExpandTraceDetailSidebar({});
+    }
+  }
+
   return (
     <div className={locals.wrapper}>
-      {!expanded && <CollapsedList setExpanded={setExpanded} />}
-      {expanded && <ExpandedList setExpanded={setExpanded} {...props} />}
+      {!expanded && <CollapsedList setExpanded={handleExpansionWithTracking} />}
+      {expanded && <ExpandedList setExpanded={handleExpansionWithTracking} {...props} />}
 
       <div
         className={classNames({

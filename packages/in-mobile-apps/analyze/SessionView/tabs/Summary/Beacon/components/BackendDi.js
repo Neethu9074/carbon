@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
@@ -53,7 +53,7 @@ function BackendDi({ traceSummaries }) {
           align="topMiddle"
         >
           <div>
-            <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromSession()}>
+            <Link href={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromSession()}>
               {t('in-mobile-apps:sessionView.tabsSumBackendDi.backendTooltipLink', {
                 duration: latencyFixed.compact(summary.duration),
                 callCount: number.compact(summary.callCount),

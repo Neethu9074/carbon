@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 
 import { Button, SvgIcon } from '@instana/components';
@@ -14,6 +14,11 @@ import {
   isLazyLoadedCallTreeSupported,
   shouldUseLazyLoadedCallTree
 } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
+import {
+  analyzeCallsOfTraceClickedTracker,
+  downloadTraceClickedTracker,
+  traceViewTrackIfLargeTrace
+} from 'in-applications/tracker';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -54,7 +59,6 @@ export default function TraceDetailView(props) {
     backendQueryModel
   } = props;
   const isFromSameTrace = analyzeTagFilterExpression(backendQueryModel, traceId);
-
   return (
     <>
       <ViewTrackingMeta
@@ -190,6 +194,20 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
     return null;
   }
 
+  function handleOnClickAnalyzeCall() {
+    if (adjustedTimeConfig !== timeConfig) {
+      addMessage(
+        {
+          type: 'info',
+          timeout: 5000,
+          content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForTrace')
+        },
+        'adjustedTimeConfig'
+      );
+    }
+    analyzeCallsOfTraceClickedTracker({});
+  }
+
   const traceDownloadUrl = isLazyLoadedCallTreeSupported(result?.data)
     ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
         traceIdInUrl
@@ -198,25 +216,20 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
 
   return (
     <>
-      <Button icon="lib_actions_download" kind="secondary" target="_blank" href={traceDownloadUrl}>
+      <Button
+        icon="lib_actions_download"
+        kind="secondary"
+        target="_blank"
+        href={traceDownloadUrl}
+        onClick={() => downloadTraceClickedTracker({})}
+      >
         {t('in-applications:linkDownload')}
       </Button>
       <Button
         icon="lib_analyze"
         kind="secondary"
         href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
-        onClick={() => {
-          if (adjustedTimeConfig !== timeConfig) {
-            addMessage(
-              {
-                type: 'info',
-                timeout: 5000,
-                content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForTrace')
-              },
-              'adjustedTimeConfig'
-            );
-          }
-        }}
+        onClick={handleOnClickAnalyzeCall}
       >
         {t('in-applications:analyze.analyzeCallsOfThisTrace')}
       </Button>
@@ -237,8 +250,18 @@ function renderContext({ getHrefToUngroupedView, tracker }) {
 }
 
 function renderMetaInformation({ traceId, result }) {
+  return <MetaInformation traceId={traceId} result={result} />;
+}
+
+function MetaInformation({ traceId, result }) {
   const displayedTraceId = result?.data?.id ?? traceId;
   const lazyLoadedCallTree = shouldUseLazyLoadedCallTree(result?.data);
+
+  useEffect(() => {
+    if (lazyLoadedCallTree) {
+      traceViewTrackIfLargeTrace({});
+    }
+  }, [lazyLoadedCallTree]);
 
   return (
     <div>
