@@ -13,10 +13,10 @@ import { Card } from '@instana/components';
 // @ts-ignore
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
+import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
-import AssociatedActions from 'in-automation/AssociatedActions/AssociatedActionsCard';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -116,13 +116,7 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         role?.canConfigureCustomAlerts &&
         isIssue &&
         hasEventSpec && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card>
-                <AssociatedActions volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
-              </Card>
-            </Col>
-          </Row>
+          <AssociatedAndRecommendedActions volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
         )}
     </>
   );

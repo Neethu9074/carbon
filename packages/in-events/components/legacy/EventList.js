@@ -70,6 +70,7 @@ export default connectTo(
           !isWebsiteSmartAlertEvent(triggerEvent) &&
           !isApplicationSmartAlertEvent(triggerEvent) && (
             <AssociatedAndRecommendedActions
+              associatedActionsTitle={t('in-events:actionsAssociatedForTriggeringEvent')}
               volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
               event={triggerEvent?.toJS()}
             />

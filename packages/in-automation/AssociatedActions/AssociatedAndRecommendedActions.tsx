@@ -17,9 +17,14 @@ import { Event, VolatileId } from 'in-types';
 interface AssociatedAndRecommendedActionsProps {
   volatileId: VolatileId;
   event: Event;
+  associatedActionsTitle?: string;
 }
 
-export default function AssociatedAndRecommendedActions({ volatileId, event }: AssociatedAndRecommendedActionsProps) {
+export default function AssociatedAndRecommendedActions({
+  volatileId,
+  event,
+  associatedActionsTitle
+}: AssociatedAndRecommendedActionsProps) {
   const [reload, setReload] = useState(0);
 
   return (
@@ -28,7 +33,7 @@ export default function AssociatedAndRecommendedActions({ volatileId, event }: A
         <Col xs>
           <Card>
             <AssociatedActions
-              title={t('in-events:actionsAssociatedForTriggeringEvent')}
+              title={associatedActionsTitle}
               volatileId={volatileId}
               event={event}
               reload={reload}
