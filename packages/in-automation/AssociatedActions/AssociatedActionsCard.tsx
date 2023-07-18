@@ -6,7 +6,6 @@
 
 import React, { useState } from 'react';
 
-import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -16,9 +15,8 @@ import {
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import { getScoredActionsForEventOrAlert, EventSpecification } from 'in-automation/api';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import AssociatedActionsRightHeader from './AssociatedActionsRightHeader';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { Event, VolatileId, Action } from 'in-types';
@@ -98,7 +96,7 @@ export default function AssociatedActionsCard({
       showActionLink
       event={event}
       rightHeader={
-        <RightHeader
+        <AssociatedActionsRightHeader
           eventSpecification={eventSpecification}
           triggerReload={triggerReload}
           actions={actions}
@@ -110,34 +108,5 @@ export default function AssociatedActionsCard({
       scored
       isBeta
     />
-  );
-}
-
-interface RightHeaderProps {
-  eventSpecification: EventSpecification;
-  actions: Action[];
-  isCustomEvent: boolean;
-  triggerReload: () => void;
-}
-
-function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
-  const onClick = () =>
-    addActiveDialog(
-      <ConfigureAssociatedActionsDialog
-        eventSpecification={eventSpecification}
-        actions={actions}
-        isCustomEvent={isCustomEvent}
-        onClose={close}
-        triggerReload={triggerReload}
-      />
-    );
-
-  return (
-    <>
-      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={onClick}>
-        {t('in-automation:selectActions')}
-      </Button>
-      <Spacer horizontal="xsmall" />
-    </>
   );
 }

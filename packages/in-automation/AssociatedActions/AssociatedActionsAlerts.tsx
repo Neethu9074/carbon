@@ -24,14 +24,30 @@ interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
   alertConfig?: ApplicationAlertConfigWithMetadata;
+  reload?: number;
+  setReload?: (r: number) => void;
 }
 
 const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function AssociatedActionsAlerts({ event, volatileId, alertConfig }: AssociatedActionsCardProps) {
+export default function AssociatedActionsAlerts({
+  event,
+  volatileId,
+  alertConfig,
+  reload: outerReload,
+  setReload: setOuterReload
+}: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
-  const [reload, triggerReload] = useState<number>(0);
+
+  const [innerReload, setInnerReload] = useState(0);
+  const reload = innerReload + (outerReload ?? 0);
+  const triggerReload = () => {
+    setInnerReload(Math.random());
+    if (setOuterReload) {
+      setOuterReload(Math.random());
+    }
+  };
 
   const actions =
     useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload]) ??

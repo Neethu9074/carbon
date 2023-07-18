@@ -9,85 +9,63 @@ import React, { useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getCustomEventActions,
-  getBuiltinEventActions,
-  getBuiltInEventSpecificationMutable,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecificationWithActions,
   updateActionsAssignedToBuiltInEvent
 } from 'in-api/eventSpecifications';
-import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
+import { getAllActionsWithAISuggestions, getApplicationAlertActionAssociations } from 'in-automation/api';
+import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { associateActionsTracker } from 'in-automation/tracker';
-import { Event, VolatileId, Action } from 'in-types';
 import { t } from 'in-i18n';
 
-interface SuggestedActionsCardProps {
+interface RecommendedActionsCardAlertsProps {
   event: Event;
   volatileId: VolatileId;
   reload: number;
   setReload: (r: number) => void;
+  alertConfig?: ApplicationAlertConfigWithMetadata;
 }
 
-function getObservables(isCustomEvent: boolean) {
-  return {
-    getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
-    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
-  };
-}
-
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
-  const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-
-  const actions =
-    useObservable<Action[], [string, number]>(
-      () => getActionsForEventSpecification(eventSpecificationId),
-      [eventSpecificationId, reload]
-    ) ?? null; // fallback to null instead of an empty array so we can recognize the loading state
-
-  const eventSpecification = useObservable<EventSpecification, [string]>(
-    () => getEventSpecification(eventSpecificationId),
-    [eventSpecificationId]
-  );
-  return { actions, eventSpecification };
-}
-
-const getIsCustomEvent = (event: SuggestedActionsCardProps['event']) =>
+const getIsCustomEvent = (event: RecommendedActionsCardAlertsProps['event']) =>
   (event?.metadata?.custom_issue as boolean) ?? false;
-const getEventSpecificationId = (event: SuggestedActionsCardProps['event']) =>
+const getEventSpecificationId = (event: RecommendedActionsCardAlertsProps['event']) =>
   event?.metadata?.eventSpecificationId as string;
 
-export default function RecommendedActionsCard({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
+export default function RecommendedActionsCardAlerts({
+  event,
+  volatileId,
+  reload,
+  setReload,
+  alertConfig
+}: RecommendedActionsCardAlertsProps) {
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
 
-  const { actions: existingActions, eventSpecification } = useAssociatedActionsData(
-    eventSpecificationId,
-    isCustomEvent,
-    reload
-  );
+  const existingActions =
+    useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload]) ??
+    null;
+
   const triggerReload = () => setReload(Math.random());
 
   const getUnusedSuggestedActions = useMemo(() => {
-    if (!eventSpecification) return null;
+    if (!alertConfig) return null;
 
     const selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
 
-    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
-      allActions => {
-        if (!existingActions) return [];
-        return allActions
-          .filter(action => action.color != 'low' && !selectedActionsSet.has(action.id))
-          .slice(0, 5)
-          .sort((a, b) => b.score - a.score);
-      }
-    );
-  }, [eventSpecification, existingActions]);
+    return getAllActionsWithAISuggestions(alertConfig.name, alertConfig.description ?? '').map(allActions => {
+      if (!existingActions) return [];
+      return allActions
+        .filter(action => action.color != 'low' && !selectedActionsSet.has(action.id))
+        .slice(0, 5)
+        .sort((a, b) => b.score - a.score);
+    });
+  }, [alertConfig, existingActions]);
 
-  if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
+  if (!alertConfig || !getUnusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
   }
 
@@ -110,7 +88,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
               associateAction({
                 action: selectedAction,
                 existingActions,
-                event: eventSpecification,
+                alertConfig,
                 triggerReload,
                 setError,
                 isCustomEvent
@@ -125,7 +103,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
 interface AssociateActionProps {
   action: Action;
   existingActions: Action[];
-  event: EventSpecification;
+  alertConfig: ApplicationAlertConfigWithMetadata;
   triggerReload: () => void;
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
@@ -133,14 +111,14 @@ interface AssociateActionProps {
 
 export function associateAction({
   action,
-  event,
+  alertConfig,
   triggerReload,
   setError,
   isCustomEvent,
   existingActions
 }: AssociateActionProps) {
   associateActionsTracker({
-    eventName: event.name,
+    eventName: alertConfig.name,
     actionNames: [action.name]
   });
 
@@ -149,7 +127,7 @@ export function associateAction({
   const updatedActions = [...existingActions, action];
 
   if (isCustomEvent) {
-    getCustomEventSpecificationMutable(event.id).once(
+    getCustomEventSpecificationMutable(alertConfig.id).once(
       response =>
         saveCustomEventSpecificationWithActions({ ...response, actions: updatedActions }).once(onSave, handleErrors),
       handleErrors
@@ -157,5 +135,5 @@ export function associateAction({
     return;
   }
 
-  updateActionsAssignedToBuiltInEvent(updatedActions, event.id).once(onSave, handleErrors);
+  updateActionsAssignedToBuiltInEvent(updatedActions, alertConfig.id).once(onSave, handleErrors);
 }
