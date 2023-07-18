@@ -369,8 +369,14 @@ export interface AdvancedModeProps {
   isUpdateConfig: boolean;
   scriptDetails?: Code;
   setScriptDetails?: React.Dispatch<React.SetStateAction<Code>>;
+  headers: ConfigItem[];
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidHeader: Invalid;
   setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidJSON: Invalid;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
+  customProperties: ConfigItem[];
+  setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
 }

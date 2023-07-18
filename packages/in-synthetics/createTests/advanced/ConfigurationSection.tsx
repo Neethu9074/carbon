@@ -40,16 +40,24 @@ interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   isUpdateConfig: boolean;
+  headers: ConfigItem[];
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidHeader: Invalid;
   setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidJSON: Invalid;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
 export default function ConfigurationSection({
   form,
   updateForm,
   isUpdateConfig,
+  headers,
+  setHeaders,
   invalidHeader,
-  setInvalidHeader
+  setInvalidHeader,
+  invalidJSON,
+  setInvalidJSON
 }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
@@ -91,41 +99,7 @@ export default function ConfigurationSection({
       ? expectedObject
       : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
   };
-  const getDefaultHeaders = (): ConfigItem[] => {
-    const headers = (configForm.get('headers') as Field<Record<string, string>>).value;
-    const headersKeys = Object.keys(headers);
-    if (headersKeys.length) {
-      const headersObject: ConfigItem[] = [];
-      headersKeys.map(key =>
-        headersObject.push({
-          id: generateUniqueShortId(),
-          key: key,
-          value: headers[key],
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        })
-      );
-      return headersObject;
-    } else {
-      return [
-        {
-          id: generateUniqueShortId(),
-          key: '',
-          value: '',
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        }
-      ];
-    }
-  };
-  const [headers, setHeaders] = useState(getDefaultHeaders());
-
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
-  const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
   function addNewHeaderRow() {
     setHeaders([

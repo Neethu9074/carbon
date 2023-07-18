@@ -40,8 +40,14 @@ const AdvancedMode = ({
   isUpdateConfig,
   scriptDetails,
   setScriptDetails,
+  headers,
+  setHeaders,
   invalidHeader,
   setInvalidHeader,
+  invalidJSON,
+  setInvalidJSON,
+  customProperties,
+  setCustomProperties,
   invalidCustomProperty,
   setInvalidCustomProperty
 }: AdvancedModeProps) => {
@@ -79,8 +85,12 @@ const AdvancedMode = ({
             form={form}
             updateForm={updateForm}
             isUpdateConfig={isUpdateConfig}
+            headers={headers}
+            setHeaders={setHeaders}
             invalidHeader={invalidHeader}
             setInvalidHeader={setInvalidHeader}
+            invalidJSON={invalidJSON}
+            setInvalidJSON={setInvalidJSON}
           />
         );
       case 'WebpageAction':
@@ -157,6 +167,8 @@ const AdvancedMode = ({
         <CustomPropertiesSection
           form={form}
           updateForm={updateForm}
+          customProperties={customProperties}
+          setCustomProperties={setCustomProperties}
           invalidCustomProperty={invalidCustomProperty}
           setInvalidCustomProperty={setInvalidCustomProperty}
         />

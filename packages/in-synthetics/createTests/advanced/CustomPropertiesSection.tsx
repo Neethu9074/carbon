@@ -5,7 +5,7 @@
  */
 
 import { Field, Item, MapForm, ValidationResult } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
@@ -26,48 +26,20 @@ import locals from 'in-synthetics/createTests/advanced/CustomPropertiesSection.m
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  customProperties: ConfigItem[];
+  setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
-export default function CustomPropertiesSection({
+export default function CustomPropertiesSection({ 
   form,
   updateForm,
+  customProperties,
+  setCustomProperties,
   invalidCustomProperty,
   setInvalidCustomProperty
 }: Props) {
-  const getDefaultCustomProperties = (): ConfigItem[] => {
-    const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
-    const customPropertyKeys = Object.keys(customProperties);
-    if (customPropertyKeys.length) {
-      const customPropertiesObject: ConfigItem[] = [];
-      customPropertyKeys.map(key =>
-        customPropertiesObject.push({
-          id: generateUniqueShortId(),
-          key: key,
-          value: customProperties[key],
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        })
-      );
-      return customPropertiesObject;
-    } else {
-      return [
-        {
-          id: generateUniqueShortId(),
-          key: '',
-          value: '',
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        }
-      ];
-    }
-  };
-  const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
 
   function addNewCustomPropertyRow() {
     setCustomProperties([

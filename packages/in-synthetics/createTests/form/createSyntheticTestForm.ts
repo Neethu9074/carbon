@@ -287,12 +287,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       'expectStatus',
       createField({
         value: savedState?.expectStatus ?? '',
-        validator: composeAndShortCircuitOnError(
-          statusCodeValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: statusCodeValidator
       })
     )
     .put(
@@ -305,12 +300,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       'expectMatch',
       createField({
         value: savedState?.expectMatch ?? '',
-        validator: composeAndShortCircuitOnError(
-          regExpValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: regExpValidator
       })
     )
     .put(

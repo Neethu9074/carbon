@@ -132,12 +132,7 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
       'expectStatus',
       createField({
         value: configuration?.expectStatus?.toString() ?? '',
-        validator: composeAndShortCircuitOnError(
-          statusCodeValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: statusCodeValidator
       })
     )
     .put(
@@ -150,12 +145,7 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
       'expectMatch',
       createField({
         value: configuration?.expectMatch ?? '',
-        validator: composeAndShortCircuitOnError(
-          regExpValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: regExpValidator
       })
     )
     .put(
