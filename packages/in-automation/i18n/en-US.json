@@ -53,6 +53,7 @@
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
   "noRecommendedActionsAvailable": "No recommended actions available",
+  "associateActionWithName": "Associate action {{actionName}}",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",

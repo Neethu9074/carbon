@@ -487,7 +487,7 @@ function addSelectAction(columns, actionDefinition) {
     widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
-        <Tooltip content={t('in-settings:components.select')} delay={500}>
+        <Tooltip content={actionDefinition.title?.(entity) ?? t('in-settings:components.select')} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"

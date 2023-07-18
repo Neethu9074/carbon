@@ -105,6 +105,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
         scored
         tableActions={{
           select: {
+            title: action => t('in-automation:associateActionWithName', { actionName: action.name }),
             select: selectedAction =>
               associateAction({
                 action: selectedAction,
