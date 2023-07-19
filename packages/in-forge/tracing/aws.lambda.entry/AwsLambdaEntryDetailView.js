@@ -21,8 +21,9 @@ const TRIGGER_AWS_CLOUDWATCH_LOGS = 'aws:cloudwatch.logs';
 const TRIGGER_AWS_S3 = 'aws:s3';
 const TRIGGER_AWS_DYNAMODB = 'aws:dynamodb';
 const TRIGGER_AWS_SQS = 'aws:sqs';
+const TRIGGER_AWS_LAMBDA_FUNCTION_URL = 'aws:lambda.function.url';
 
-const HTTP_TYPES = [TRIGGER_AWS_API_GATEWAY, TRIGGER_AWS_APPLICATION_LOAD_BALANCER];
+const HTTP_TYPES = [TRIGGER_AWS_API_GATEWAY, TRIGGER_AWS_APPLICATION_LOAD_BALANCER, TRIGGER_AWS_LAMBDA_FUNCTION_URL];
 
 export default function AwsLambdaEntryDetailView({ span }) {
   return (
