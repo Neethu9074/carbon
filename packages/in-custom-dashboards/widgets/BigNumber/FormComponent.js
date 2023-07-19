@@ -15,6 +15,7 @@ import {
   sourcePath,
   useFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import sources from '../_shared/MetricConfigurator/sources';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
@@ -23,6 +24,7 @@ import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
+import { defaultFormatter } from 'in-stores/metric/formatters';
 
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   const metricConfig = form.get(metricConfigurationPath);
@@ -52,7 +54,9 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
           onChangeSource(
             metricConfig,
             metricConfigurationForm =>
-              updateForm(form.updateIn([metricConfigurationPath], () => metricConfigurationForm)),
+              updateForm(form
+                .updateIn([metricConfigurationPath], () => metricConfigurationForm)
+                .updateIn([formatterPath], field => field.setValue(sources[newSource]?.defaultFormatterId ?? defaultFormatter.id))),
             newSource
           )
         }

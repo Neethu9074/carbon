@@ -45,14 +45,15 @@ export default function ConfigureAlertTest({
   numberOfAlertTestListRows = 5
 }: ConfigureAlertChannelProps) {
   const getSelectedTests = createMemoizedObservableForReferencedEntities(function (alertTestIds) {
+    const alertTestIdSet = new Set(alertTestIds);
     return getTestsAsResultObservable('')
       .map((result: Result<SyntheticTest[]> | null) => {
         if (result == null || result?.progress?.loading) {
           return null;
         }
         return (
-          (result as Result<SyntheticTest[]>)?.data?.filter(
-            (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+          (result as Result<SyntheticTest[]>)?.data?.filter((listItem: SyntheticTest) =>
+            alertTestIdSet.has(listItem?.id as string)
           ) ?? []
         );
       })

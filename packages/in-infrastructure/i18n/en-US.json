@@ -73,7 +73,8 @@
     "cluster": "Cluster",
     "restartCount": "Restart Count",
     "kubernetesLabels": "Kubernetes Labels",
-    "podmanAnnotations": "Podman Annotations"
+    "podmanAnnotations": "Podman Annotations",
+    "metricExplosion": "This dashboard may not display all metrics as only {{maxMetrics}} were stored"
   },
   "explore": {
     "beta": "Beta",
