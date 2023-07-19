@@ -41,6 +41,7 @@ export const ruleTypeOfflineEventDetection = 'system';
 export const ruleTypeEntityVerification = 'entity_verification';
 export const ruleTypeHostAvailability = 'host_availability';
 export const ruleTypeEntityCount = 'entity_count';
+export const ruleTypeEntityCountVerification = 'entity_count_verification';
 export const dataSourceCustom = 'custom';
 export const dataSourceBuiltIn = 'built-in';
 export const dataSourceSystem = 'system';
@@ -71,11 +72,17 @@ export const entityCountDetection = Object.freeze({
   name: t('in-settings:tabs.instanaAgentCountDetection')
 });
 
+export const entityCountVerification = Object.freeze({
+  id: 'entity.count.on.host.verification', // this id is UI internal only, because we need to group it under systemRules
+  name: t('in-settings:tabs.entityCountVerification')
+});
+
 export const systemRules = Object.freeze([
   offlineEventDetection,
   entityVerification,
   hostAvailabilityDetection,
-  entityCountDetection
+  entityCountDetection,
+  entityCountVerification
 ]);
 
 const defaultScopeFields = Object.freeze({
@@ -218,6 +225,9 @@ export function createEventFormDefinition(mutableEvent, isCreate) {
     }
     if (ruleType === ruleTypeEntityCount) {
       form = putEntityCountDetectionFields(form, eventSpec);
+    }
+    if (ruleType === ruleTypeEntityCountVerification) {
+      form = putEntityCountVerificationFields(form, eventSpec, applyOn);
     }
   }
 
@@ -410,6 +420,48 @@ function putEntityVerificationFields(form, event, applyOn = null) {
     );
 }
 
+function putEntityCountVerificationFields(form, event, applyOn = null) {
+  const { matchingEntityType, matchingOperator, matchingEntityLabel, conditionOperator, conditionValue } =
+    getRuleAttributes(event);
+
+  return putApplyOnField(form, applyOn)
+    .put(
+      'matchingEntityType',
+      createField({
+        value: matchingEntityType,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'matchingOperator',
+      createField({
+        value: matchingOperator ?? 'is',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'matchingEntityLabel',
+      createField({
+        value: matchingEntityLabel,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionOperator',
+      createField({
+        value: conditionOperator,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'conditionValue',
+      createField({
+        value: conditionValue != null ? String(conditionValue) : '',
+        validator: conditionValueValidator
+      })
+    );
+}
+
 function putHostAvailabilityDetectionFields(form, event, applyOn = null) {
   const { offlineDuration, closeAfter } = getRuleAttributes(event);
 
@@ -494,6 +546,16 @@ function removeEntityVerificationFields(form) {
     .remove('applyOn');
 }
 
+function removeEntityCountVerificationFields(form) {
+  return form
+    .remove('matchingEntityType')
+    .remove('matchingOperator')
+    .remove('matchingEntityLabel')
+    .remove('applyOn')
+    .remove('conditionOperator')
+    .remove('conditionValue');
+}
+
 function removeHostAvailabilityDetectionFields(form) {
   return form.remove('offlineDuration').remove('closeAfter').remove('applyOn');
 }
@@ -524,6 +586,10 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
     systemRule = entityCountDetection.id;
   }
 
+  if (!systemRule && ruleAttributes.ruleType === ruleTypeEntityCountVerification) {
+    systemRule = entityCountVerification.id;
+  }
+
   if (systemRule !== entityCountDetection.id) {
     form = putApplyOnField(form);
   }
@@ -543,18 +609,28 @@ export function updateFormDefinitionForSystemRule(form, previousSystemRule, even
   if (nextSystemRule === entityVerification.id) {
     form = removeHostAvailabilityDetectionFields(form);
     form = removeEntityCountDetectionFields(form);
+    form = removeEntityCountVerificationFields(form);
     form = putEntityVerificationFields(form, event);
+  }
+
+  if (nextSystemRule === entityCountVerification.id) {
+    form = removeEntityVerificationFields(form);
+    form = removeHostAvailabilityDetectionFields(form);
+    form = removeEntityCountDetectionFields(form);
+    form = putEntityCountVerificationFields(form, event);
   }
 
   if (nextSystemRule === hostAvailabilityDetection.id) {
     form = removeEntityVerificationFields(form);
     form = removeEntityCountDetectionFields(form);
+    form = removeEntityCountVerificationFields(form);
     form = putHostAvailabilityDetectionFields(form, event);
   }
 
   if (nextSystemRule === entityCountDetection.id) {
     form = removeEntityVerificationFields(form);
     form = removeHostAvailabilityDetectionFields(form);
+    form = removeEntityCountVerificationFields(form);
     form = putEntityCountDetectionFields(form, event);
   }
 
@@ -562,6 +638,7 @@ export function updateFormDefinitionForSystemRule(form, previousSystemRule, even
     form = removeEntityVerificationFields(form);
     form = removeHostAvailabilityDetectionFields(form);
     form = removeEntityCountDetectionFields(form);
+    form = removeEntityCountVerificationFields(form);
     form = putOfflineEventDetectionFields(form, event);
   }
 
@@ -745,7 +822,8 @@ function isSystemDataSource(ruleType) {
     ruleType === ruleTypeOfflineEventDetection ||
     ruleType === ruleTypeEntityVerification ||
     ruleType === ruleTypeHostAvailability ||
-    ruleType === ruleTypeEntityCount
+    ruleType === ruleTypeEntityCount ||
+    ruleType === ruleTypeEntityCountVerification
   );
 }
 

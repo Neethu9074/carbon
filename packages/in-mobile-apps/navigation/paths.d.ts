@@ -14,15 +14,15 @@ import { MetricField } from '../../in-analyze/navigation/paths';
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const alertsTab: string;
-
+export declare const summaryTab: string;
 export function getLinkToCustomEvent();
 
 interface UseLinkToAnalyzeProps {
   beaconType: string;
-  groupBy: Group;
+  groupBy: Partial<Group>;
   formModel: FormModelElement[];
-  chartedMetrics: Array<ChartedMetric | ChartedTemplateMetric>;
-  timeConfig: TimeConfig;
+  chartedMetrics?: Array<ChartedMetric | ChartedTemplateMetric>;
+  timeConfig?: TimeConfig;
   fields?: MetricField[];
   tagCatalog?: TagCatalog;
   detailId?: string;
@@ -63,4 +63,34 @@ export const useGetAlertConfigLink: () => (
   alertConfigId: string,
   mobileAppId: string,
   alertConfigVersion?: number
+) => string;
+
+export function useGetLinkToMobileApp(
+  mobileAppId: string,
+  {
+    tabPath = summaryTab,
+    tabParameters,
+    viewId,
+    timeConfig
+  }: {
+    tabPath?: string;
+    tabParameters?: Record<string, string>;
+    pageId?: string;
+    timeConfig?: TimeConfig;
+  } = {}
+): string;
+
+export const useGenerateLinkToMobileApp: () => (
+  mobileAppId: string,
+  {
+    tabPath = summaryTab,
+    tabParameters,
+    viewId,
+    timeConfig
+  }: {
+    tabPath?: string;
+    tabParameters?: Record<string, string>;
+    pageId?: string;
+    timeConfig?: TimeConfig;
+  }
 ) => string;

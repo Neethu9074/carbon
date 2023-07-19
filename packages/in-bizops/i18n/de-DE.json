@@ -3,7 +3,8 @@
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Aktivitäten",
   "lists": {
-    "pageTitle": "Geschäftsprozesse",
+    "pageTitle": "Business Monitoring",
+    "cardTitle": "Geschäftsprozesse",
     "activityLabel": "Aktivitäten",
     "nameLabel": "Name",
     "noData": "Keine Daten verfügbar",
@@ -11,15 +12,19 @@
     "startLabel": "Gestartet"
   },
   "navigation": {
-    "bizOps": "Geschäftsprozesse"
+    "businessMonitoring": "Business Monitoring"
   },
   "dashboards": {
-    "analyzeInstancesButton": "Instanzen analysieren",
+    "analyzeInstances": "Instanzen analysieren",
     "summary": {
       "pageTitle": "Geschäftsprozess",
       "summaryTab": "Zusammenfassung",
       "widgets": {
         "timeline": "Zeitachse",
+        "topActivities": "Häufigste Aktivitäten (Anzahl)",
+        "infrastructureIssuesAndChanges": "Infrastrukturprobleme und -änderungen",
+        "viewAll": "Alle Aktivitäten anzeigen",
+        "count": "Anzahl",
         "businessProcessStartedLabel": "{{businessProcessName}} gestartet"
       }
     }

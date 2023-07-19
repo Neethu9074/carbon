@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { keyCodes } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { keyCodes, Button } from '@instana/components';
 
 import { addFacetItem, getRangesFromFacets, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
@@ -122,9 +121,9 @@ export default function FacetedFilterRangeInput({
       </Row>
       {isValidNumberRange(minInput, maxInput) && (
         <div className={locals.buttonRow}>
-          <Link href={resetFacets?.(tag)} className={locals.clearFacet}>
+          <Button kind="action" href={resetFacets?.(tag)} className={locals.clearFacet}>
             {t('in-components:analyze.clearFacet')}
-          </Link>
+          </Button>
         </div>
       )}
     </FacetedExpandableCard>

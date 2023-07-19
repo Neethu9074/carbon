@@ -35,6 +35,8 @@ export const defaultPage = 'page_x0';
 export const successValue = '1';
 export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
+export const browserSimpleTest = 'Browser Simple';
+export const browserScriptTest = 'Browser Script';
 
 export const dummyLocations = {
   data: [],
@@ -367,6 +369,16 @@ export interface AdvancedModeProps {
   isUpdateConfig: boolean;
   scriptDetails?: Code;
   setScriptDetails?: React.Dispatch<React.SetStateAction<Code>>;
+  headers: ConfigItem[];
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  invalidHeader: Invalid;
+  setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidJSON: Invalid;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
+  customProperties: ConfigItem[];
+  setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  invalidCustomProperty: Invalid;
+  setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
 export interface SlideInConfig {
@@ -461,4 +473,9 @@ export interface SimpleOrScript {
 export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
+}
+
+export interface Invalid {
+  invalid: boolean;
+  message: string;
 }

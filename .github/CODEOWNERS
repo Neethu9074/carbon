@@ -22,6 +22,7 @@ packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-automation              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-bizops                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-new-components          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
@@ -169,3 +170,7 @@ packages/in-service-levels                                                      
 packages/in-custom-dashboards/widgets/Slo                                                   @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/Apdex                                                 @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+
+# Custom Widget Table
+
+packages/in-custom-dashboards/widgets/Table @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui

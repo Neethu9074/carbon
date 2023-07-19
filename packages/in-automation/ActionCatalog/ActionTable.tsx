@@ -12,7 +12,14 @@ import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import { getType, isDocLink, isScript, isWebhook, getDocLinkFromFields } from 'in-automation/ActionCatalog/shared';
+import {
+  getType,
+  isDocLink,
+  isScript,
+  isWebhook,
+  getDocLinkFromFields,
+  isManual
+} from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
@@ -104,6 +111,8 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-automation:ActionCatalog.run')}
         </Button>
       );
+    } else if (isManual(type)) {
+      return <div />;
     } else {
       return <div>{t('in-automation:ActionCatalog.run')}</div>;
     }

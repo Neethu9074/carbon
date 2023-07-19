@@ -11,9 +11,8 @@ import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ActionBar from 'in-settings/components/Dialog/ActionBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import CancelButton from 'in-components/form/CancelButton';
-import SaveButton from 'in-components/form/SaveButton';
 import { setUsersToGroup } from '../../../api/groups';
 import Dialog from 'in-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
@@ -70,24 +69,6 @@ export default function AddUserButton({ members, addUsers, groupId }) {
   );
 }
 
-/**
- * Provides an action-bar providing a cancel and submit button
- * @param {isSaving: boolean, disabled: boolean} param0 props for component
- * @returns new Component instance
- */
-function Actions({ isSaving, disabled }) {
-  return (
-    <div className={locals.actionsWrapper}>
-      <CancelButton className={locals.button} onClick={close} isSaving={isSaving}>
-        {t('in-settings:tabs.cancel')}
-      </CancelButton>
-      <SaveButton isSaving={isSaving} className={locals.button} disabled={disabled} kind="primary">
-        {t('in-settings:termsDialog.save')}
-      </SaveButton>
-    </div>
-  );
-}
-
 const AddUserDialog = withSelectableItems(function AddUserDialog({
   onSubmit,
   members,
@@ -124,7 +105,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
             labelColumn
           ]}
         />
-        <Actions isSaving={isSaving} disabled={disabled} />
+        <ActionBar isSaving={isSaving} disabled={disabled} />
       </form>
     </Dialog>
   );

@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { fromJS } from 'immutable';
+
 import { combineLatest, just, Observable, timeout as timeoutFn } from '@instana/observables';
 
 import {
@@ -560,7 +562,7 @@ export function getAllAssociations() {
 
 interface UpdateActionParams {
   id: string;
-  feedback: string;
+  feedback: number;
   to: number;
   windowSize: number;
   comment: string;
@@ -572,7 +574,7 @@ export function updateActionInstanceFeedback({ id, feedback, to, windowSize, com
     maxRetries: 3,
     url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
     data: {
-      feedback: parseInt(feedback),
+      feedback,
       comment: comment || ''
     },
     headers: getCsrfHeader(),
@@ -581,4 +583,14 @@ export function updateActionInstanceFeedback({ id, feedback, to, windowSize, com
       windowSize
     }
   }).map(response => response.body);
+}
+
+export function updateApplicationAlertAssociations({ actions, alertId }: { actions: string[]; alertId: string }) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/events/settings/application-alert-configs/${encodeURIComponent(alertId)}/actions`,
+    headers: getCsrfHeader(),
+    data: actions
+  }).map(response => fromJS(response.body));
 }

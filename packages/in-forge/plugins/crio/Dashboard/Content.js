@@ -31,6 +31,13 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.crio.dashboard.memoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.crio.dashboard.memoryTotalUsagePercentage')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="memory.used_percentage"
+            formatter={percentageZeroDecimalPlaces}
+          />
+        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.crio.dashboard.cpuTime')}>

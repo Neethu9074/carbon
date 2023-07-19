@@ -21,6 +21,7 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
+import { isDisplayColumn } from 'in-events/components/EventsList';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
@@ -37,7 +38,16 @@ import { t } from 'in-i18n';
 
 import locals from './EventsListRow.mless';
 
-export default function EventRow({ selectedEventId, onItemClicked, isDenseList, timeScale, timeConfig, event }) {
+export default function EventRow({
+  selectedEventId,
+  onItemClicked,
+  isDenseList,
+  timeScale,
+  timeConfig,
+  event,
+  headers,
+  isPreview
+}) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
   if (isDenseList) {
@@ -58,27 +68,37 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
 
   return (
-    <Tr key={event.id} size="compact" active={active} onClick={onClick}>
+    <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
       <Td>
         <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
       </Td>
-      <Td>
-        <div className={locals.title}>{event.title}</div>
-      </Td>
-      <Td>
-        <OnEntity rawEvent={event} />
-      </Td>
-      <Td>
-        <span className={locals.text}>{formatDateTime(start)}</span>
-      </Td>
-      <Td>
-        <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start)}</span>
-      </Td>
-      <Td>
-        <div className={locals.timelineWrapper}>
-          <div style={{ left, width }} className={locals.line} />
-        </div>
-      </Td>
+      {isDisplayColumn(headers, 'title') && (
+        <Td>
+          <div className={locals.title}>{event.title}</div>
+        </Td>
+      )}
+      {isDisplayColumn(headers, 'entityLabel') && (
+        <Td>
+          <OnEntity rawEvent={event} />
+        </Td>
+      )}
+      {isDisplayColumn(headers, 'started') && (
+        <Td>
+          <span className={locals.text}>{formatDateTime(start)}</span>
+        </Td>
+      )}
+      {isDisplayColumn(headers, 'ended') && (
+        <Td>
+          <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start)}</span>
+        </Td>
+      )}
+      {isDisplayColumn(headers, 'timeline') && (
+        <Td>
+          <div className={locals.timelineWrapper}>
+            <div style={{ left, width }} className={locals.line} />
+          </div>
+        </Td>
+      )}
     </Tr>
   );
 }

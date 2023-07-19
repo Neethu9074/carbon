@@ -22,17 +22,22 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
 
-export function createForm(savedState: Record<string, any>) {
+export function updateForm(savedState: Record<string, any>) {
+  const isFile: boolean = savedState?.configuration?.script != undefined ? true : false;
   return createMapForm({
     validator: syntheticFormValidator
   })
     .put(
       'configuration',
-      savedState?.configuration?.syntheticType === 'HTTPScript'
-        ? savedState?.configuration?.script
+      savedState?.configuration?.syntheticType === 'HTTPScript' ||
+        savedState?.configuration?.syntheticType === 'WebpageScript' ||
+        savedState?.configuration?.syntheticType === 'BrowserScript'
+        ? isFile
           ? createScriptFileConfigurationForm(savedState?.configuration)
           : createScriptsBundleConfigurationForm(savedState?.configuration)
-        : createActionConfigurationForm(savedState?.configuration)
+        : savedState?.configuration?.syntheticType === 'HTTPAction'
+        ? createActionConfigurationForm(savedState?.configuration)
+        : createAdvancedBrowserActionConfigurationForm(savedState?.configuration)
     )
     .put(
       'response',
@@ -127,12 +132,7 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
       'expectStatus',
       createField({
         value: configuration?.expectStatus?.toString() ?? '',
-        validator: composeAndShortCircuitOnError(
-          statusCodeValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: statusCodeValidator
       })
     )
     .put(
@@ -145,12 +145,7 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
       'expectMatch',
       createField({
         value: configuration?.expectMatch ?? '',
-        validator: composeAndShortCircuitOnError(
-          regExpValidator,
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator
-        )
+        validator: regExpValidator
       })
     )
     .put(
@@ -196,7 +191,7 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
       'script',
       createField({
         value: configuration?.script,
-        validator: notUndefinedValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }
@@ -210,5 +205,38 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
-    .put('scripts', createZipScriptConfigurationForm(configuration.scripts.bundle, configuration.scripts.scriptFile!));
+    .put(
+      'scripts',
+      createZipScriptConfigurationForm(configuration?.scripts?.bundle, configuration?.scripts?.scriptFile!)
+    );
+}
+
+function createAdvancedBrowserActionConfigurationForm(configuration: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: configuration?.syntheticType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'url',
+      createField({
+        value: configuration?.url,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
 }

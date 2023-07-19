@@ -7,7 +7,7 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -151,10 +151,10 @@ function Form({ form, onChange }) {
               i18nKey="in-settings:tabs.webhookUrlToIbmWatsonAIOps"
               components={{
                 incomingWebhookLink: (
-                  <a
+                  <Link
+                    size="sm"
                     href="https://www.ibm.com/support/knowledgecenter/en/SSTPTP_1.6.3/com.ibm.netcool_ops.doc/cem/em_incomingwebhook.html"
-                    rel="noreferrer"
-                    target="_blank"
+                    external
                   />
                 )
               }}
@@ -182,18 +182,12 @@ function onChangeHeader(form, onChange, path, value) {
 }
 
 function addHeader(form, onChange) {
-  const headers = form
-    .get('headers')
-    .setTouched(true)
-    .push(createHeaderForm());
+  const headers = form.get('headers').setTouched(true).push(createHeaderForm());
   onChange('headers', headers, undefined, true);
 }
 
 function removeHeader(form, onChange, index) {
-  const headers = form
-    .get('headers')
-    .setTouched(true)
-    .remove(index);
+  const headers = form.get('headers').setTouched(true).remove(index);
   onChange('headers', headers, undefined, true);
 }
 

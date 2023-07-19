@@ -16,7 +16,6 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
@@ -32,6 +31,7 @@ import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -54,9 +54,8 @@ const urlStateDefinition = {
 };
 
 export default function EndpointDashboard({ location }) {
-  const [{ appId, serviceId, endpointId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(
-    urlStateDefinition
-  );
+  const [{ appId, serviceId, endpointId, boundaryScope, syntheticCalls }, setUrlState] =
+    useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
@@ -105,7 +104,7 @@ export default function EndpointDashboard({ location }) {
       ? tab => tab.label === t('in-applications:labelSummary')
       : () => true;
 
-  const showAlertButton = role.canConfigureCustomAlerts && applicationSmartAlertsEnabled;
+  const showAlertButton = role.canConfigureCustomAlerts;
 
   return (
     <>

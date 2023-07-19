@@ -10,6 +10,8 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
+const WebpackBar = require('webpackbar');
+
 const {
   webpackPlugin: cssIdentWebpackPlugin,
   localIdentName,
@@ -40,6 +42,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const plugins = [
+  new WebpackBar(),
   definePlugin,
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
   new CaseSensitivePathsPlugin(),

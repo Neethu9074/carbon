@@ -61,7 +61,8 @@ function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined):
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
     permissions: [],
-    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
+    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' },
+    syntheticTestIds: []
   };
 
   // users not being member of any group fall back to a restricted default
@@ -111,4 +112,9 @@ function enrich(permissionSet: any, group: any) {
       group.permissionSet.infraDfqFilter.scopeId.trim()
     );
   }
+
+  permissionSet.syntheticTestIds = removeDuplicates([
+    ...permissionSet.syntheticTestIds,
+    ...group.permissionSet.syntheticTestIds
+  ]);
 }

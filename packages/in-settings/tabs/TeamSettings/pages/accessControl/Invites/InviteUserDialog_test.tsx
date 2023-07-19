@@ -17,7 +17,8 @@ const emptyPermissions: PermissionSetWithRoles = {
   kubernetesNamespaceUIDs: [],
   mobileAppIds: [],
   permissions: [],
-  websiteIds: []
+  websiteIds: [],
+  syntheticTestIds: []
 };
 
 const getStrippedGroups: { data: GroupWithRoles[] } = {

@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   getConfigAsResultObservable,
@@ -101,8 +101,8 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               components={{
                 docLink: (
                   <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    external
+                    size="lg"
                     href="https://www.ibm.com/docs/en/obi/current?topic=installer-configuring-ldap"
                   />
                 )

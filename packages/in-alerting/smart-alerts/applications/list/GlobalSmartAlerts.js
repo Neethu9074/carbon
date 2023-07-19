@@ -15,7 +15,6 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -54,7 +53,7 @@ export default function GlobalSmartAlerts({ location }) {
           </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
+      {role.canConfigureGlobalAlertConfigs && (
         <FloatingActionButtons>
           <CreateGlobalSmartAlertButton location={location} />
         </FloatingActionButtons>

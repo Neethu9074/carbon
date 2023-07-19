@@ -8,8 +8,8 @@
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
-  applicationSmartAlertsEnabled: true,
   businessObservabilityEnabled: true,
+  bizopsFeatureEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -58,7 +58,6 @@ module.exports = {
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,
-  applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
@@ -71,7 +70,7 @@ module.exports = {
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
-  limitVisibleNestingLevelsInTraceEnabled: true,
+  limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
@@ -80,5 +79,9 @@ module.exports = {
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
-  oneMinuteGranularityForStaticThresholdEnabled: true
+  oneMinuteGranularityForStaticThresholdEnabled: true,
+  alertsHubEnabled: false,
+  sloEnabled: true,
+  syntheticRbacEnabled: true,
+  customWidgetEventsTableEnabled: true
 };

@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
@@ -50,7 +50,7 @@ export default function Node({ node, nodeProps = {} }) {
   );
 
   if (nodeProps.getHref$) {
-    content = <Link href$={nodeProps.getHref$(node)}>{content}</Link>;
+    content = <Link href={nodeProps.getHref$(node)}>{content}</Link>;
   }
 
   if (nodeProps.renderTooltip) {

@@ -4,22 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
 import React from 'react';
-
-import { SloEntityType } from '@instana/types';
 
 import { SloScopeApplicationSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeApplicationSection';
 import { SloScopeWebsiteSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeWebsiteSection';
-import { isApplicationSloForm, SloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 
 interface SloScopeSectionProps {
-  form: SloForm<SloEntityType>;
-  onChange: (path: SloFormPath<SloEntityType>, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const SloScopeSection = ({ form, onChange }: SloScopeSectionProps) => {
-  if (isApplicationSloForm(form)) return <SloScopeApplicationSection form={form} onChange={onChange} />;
+  const entityType = form.getIn(['entity', 'type']).value;
+
+  if (entityType === 'application') return <SloScopeApplicationSection form={form} onChange={onChange} />;
 
   return <SloScopeWebsiteSection form={form} onChange={onChange} />;
 };

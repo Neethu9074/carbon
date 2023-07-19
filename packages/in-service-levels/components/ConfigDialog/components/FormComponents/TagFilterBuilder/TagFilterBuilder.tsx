@@ -4,22 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
 import React from 'react';
-
-import { SloEntityType } from '@instana/types';
 
 import { ApplicationTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
-import { isApplicationSloForm, SloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 
 interface TagFilterBuilderProps {
-  form: SloForm<SloEntityType>;
-  onChange: (path: SloFormPath<SloEntityType>, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const TagFilterBuilder = ({ form, onChange }: TagFilterBuilderProps) => {
-  if (isApplicationSloForm(form)) return <ApplicationTagFilterBuilder form={form} onChange={onChange} />;
+  const entityType = form.getIn(['entity', 'type']).value;
+
+  if (entityType === 'application') return <ApplicationTagFilterBuilder form={form} onChange={onChange} />;
 
   return <WebsiteTagFilterBuilder form={form} onChange={onChange} />;
 };

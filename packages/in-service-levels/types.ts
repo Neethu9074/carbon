@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { isTimeBasedSli, ServiceLevelIndicatorUnion, TimeBasedSli, BeaconType, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelIndicatorUnion, TimeBasedSli, isTimeBasedSli } from '@instana/types';
 
 export interface LabeledEntity {
   label: string;
@@ -25,6 +25,4 @@ export function isTimeBasedAvailabilityBlueprintIndicator(
   return isTimeBasedSli(indicator) && indicator.blueprint === 'availability';
 }
 
-export type SloBeaconTypes = Extract<BeaconType, 'httpRequest' | 'pageLoad' | 'custom'>;
-
-export type SloConfigType = Partial<ServiceLevelObjectiveConfiguration>;
+export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';

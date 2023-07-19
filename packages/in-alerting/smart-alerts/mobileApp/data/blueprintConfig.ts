@@ -195,10 +195,22 @@ export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object
   statusCodeBlueprintConfig,
   {
     ...throughputBlueprintConfig,
+    subType: 'unexpectedDrop',
+    name: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedDropName'),
+    headline: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedDropHeadline'),
+    text: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedDropText'),
     thresholdDefaults: {
       operator: '<='
     },
     isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
+  },
+  {
+    ...throughputBlueprintConfig,
+    subType: 'unexpectedlyHighNumber',
+    name: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
+    headline: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
+    text: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   },
   customEventBlueprintConfig
 ]);

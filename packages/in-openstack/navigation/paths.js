@@ -3,11 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useCallback } from 'react';
+
 import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
 import { instanceId as matrixInstanceId } from 'in-openstack/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -22,69 +25,48 @@ export const hypervisorDashboardFullyQualified = `${openstack}${hypervisorDashbo
 export const instanceDashboard = `/instance`;
 export const instanceDashboardFullyQualified = `${openstack}${instanceDashboard}`;
 
-export function getOpenstackRegionDashboard(regionId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard({
-    base: regionDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: regionDashboard,
-    matrixParam: matrixRegionId,
-    id: regionId
-  });
-}
-export function getOpenstackHypervisorDashboard(hypervisorId, { tab, tabMatrix, timeConfig, regionId } = emptyObject) {
-  return getDashboard({
-    base: hypervisorDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: hypervisorDashboard,
-    matrixParam: matrixHypervisorId,
-    id: hypervisorId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, hypervisorDashboard, matrixRegionId, regionId);
-    }
-  });
-}
-export function getOpenstackInstanceDashboard(instanceId, { tab, tabMatrix, timeConfig, regionId } = emptyObject) {
-  return getDashboard({
-    base: instanceDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: instanceDashboard,
-    matrixParam: matrixInstanceId,
-    id: instanceId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, instanceDashboard, matrixRegionId, regionId);
-    }
-  });
+export function useOpenstackRegionDashboard() {
+  return useDashboard(regionDashboardFullyQualified, regionDashboard, matrixRegionId);
 }
 
-function getDashboard({
-  base,
-  tab = '/summary',
-  tabMatrix = {},
-  timeConfig,
-  matrixSegment,
-  matrixParam,
-  id,
-  paramsCallback
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = `${base}${tab}`;
+export function useOpenstackHypervisorDashboard() {
+  const paramsCallback = (params, regionId) => {
+    setOrDeleteMatrixKey(params, hypervisorDashboard, matrixRegionId, regionId);
+  };
 
-    setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
+  return useDashboard(hypervisorDashboardFullyQualified, hypervisorDashboard, matrixHypervisorId, paramsCallback);
+}
 
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
+export function useOpenstackInstanceDashboard() {
+  const paramsCallback = (params, regionId) => {
+    setOrDeleteMatrixKey(params, instanceDashboard, matrixRegionId, regionId);
+  };
 
-    params.matrix[tab] = tabMatrix;
+  return useDashboard(instanceDashboardFullyQualified, instanceDashboard, matrixInstanceId, paramsCallback);
+}
 
-    if (paramsCallback) {
-      paramsCallback(params);
-    }
-  });
+function useDashboard(base, matrixSegment, matrixParam, paramsCallback) {
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    (id, { tab = '/summary', tabMatrix = {}, timeConfig, regionId } = emptyObject) => {
+      const clonedLocation = cloneLocation(location);
+      clonedLocation.pathname = `${base}${tab}`;
+
+      setOrDeleteMatrixKey(clonedLocation, matrixSegment, matrixParam, id);
+
+      if (timeConfig != null) {
+        setTimeConfig(clonedLocation, timeConfig);
+      }
+
+      clonedLocation.matrix[tab] = tabMatrix;
+
+      if (paramsCallback) {
+        paramsCallback(clonedLocation, regionId);
+      }
+
+      return createHref(clonedLocation);
+    },
+    [base, matrixSegment, matrixParam, paramsCallback, location, createHref]
+  );
 }

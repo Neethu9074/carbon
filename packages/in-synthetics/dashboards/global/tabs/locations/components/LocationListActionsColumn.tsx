@@ -36,7 +36,8 @@ type LocationListActionsColumnProps = {
 export default function LocationListActionsColumn({ item, isLoading }: LocationListActionsColumnProps) {
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const { id, label, linkedTests, status }: LocationListItem = item;
-  const documentUrl = 'https://www.ibm.com/docs/en/instana-observability/current?topic=beta-pop-deployment#upgrade';
+  const documentUrl =
+    'https://www.ibm.com/docs/en/instana-observability/current?topic=monitoring-pop-deployment#upgrade';
 
   useEffect(() => {
     if (!isLoading && isMoreMenuSaving) {

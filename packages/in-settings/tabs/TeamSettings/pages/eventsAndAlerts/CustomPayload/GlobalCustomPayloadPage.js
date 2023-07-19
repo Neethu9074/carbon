@@ -9,7 +9,7 @@ import { uniqBy } from 'lodash';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   deleteItemColumnDefinition,
@@ -108,6 +108,7 @@ export function GlobalCustomPayload(props) {
             components={{
               docLink: (
                 <Link
+                  size="sm"
                   href="https://www.ibm.com/docs/en/obi/current?topic=alerts-configuring-custom-payloads"
                   external
                 />

@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "此仪表板仅对您可见。",
         "publicDashboard": "公共仪表板",
         "publicDashboardExplain": "此仪表板对组织中的所有人都可见。只有您可以进行更改，但您可以添加编辑者。",
-        "done": "完成"
+        "save": "保存",
+        "cancel": "取消",
+        "tooltipCloseAndCancel": "关闭并取消"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "基础架构和平台实体计数"
-      },
-      "entityCountFormComponent": {
-        "query": "查询",
-        "helpAction": "您将在基础架构图中使用的 Dynamic Focus 查询 (DFQ)。",
-        "metric": "指标",
-        "count": "计数",
-        "aggregation": "汇总",
-        "pleaseSelect": "请选择",
-        "pleaseSelectMetric": "请选择指标"
-      },
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "滚动时间窗口",
         "timeWindowType_fixed": "固定时间窗口"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "应用程序 SLO",
-          "websites": "Web 站点 SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "SLI 名称",
         "sliType": "SLI 类型",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "必须至少配置一个时区。",
       "pleaseSelectATimeZone": "请选择时区。"
+    },
+    "histogram": {
+      "histogram": "直方图",
+      "demo": {
+        "title": "分发"
+      },
+      "formComp": {
+        "metrics": "度量选择",
+        "axisConfiguration": "轴配置",
+        "formatter": "格式化程序（X 轴）"
+      }
     }
   },
   "duplicateDashboardDialog": {

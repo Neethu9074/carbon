@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -28,7 +28,7 @@ const cols = [
         return row.snapshot.get('label');
       },
       getContent(val, row) {
-        return <Link href$={getDashboardLink(row.snapshot.get('id'), { pathname: '/physical/dashboard' })}>{val}</Link>;
+        return <Link href={getDashboardLink(row.snapshot.get('id'), { pathname: '/physical/dashboard' })}>{val}</Link>;
       }
     }
   },

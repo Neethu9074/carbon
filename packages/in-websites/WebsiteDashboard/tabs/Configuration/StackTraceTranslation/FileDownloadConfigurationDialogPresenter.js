@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';

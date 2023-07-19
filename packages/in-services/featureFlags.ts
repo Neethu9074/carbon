@@ -52,29 +52,22 @@ export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
-export const configMigrationFeatureEnabled = isFeatureFlagEnabled('configMigrationFeatureEnabled');
-
 // SmartAlerts & AP Alert Migration related feature flags
-export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
-export const builtInGlobalApplicationSmartAlertsEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
-export const potentialProblemsEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
+export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
+  'builtInGlobalApplicationSmartAlertsEnabled'
+);
+export const potentialProblemsEnabled = isFeatureFlagEnabled('potentialProblemsEnabled', true);
+export const deprecateAppDataLegacyEventsEnabled = isFeatureFlagEnabled('deprecateAppDataLegacyEventsEnabled', true);
+export const disallowAppDataLegacyEventsEnabled = isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
+export const hideAppDataLegacyEventsEnabled = isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
+export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
+
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
-export const deprecateAppDataLegacyEventsEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEventsEnabled', true);
-export const disallowAppDataLegacyEventsEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
-export const hideAppDataLegacyEventsEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
-export const perEndpointAdaptiveBaselineEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
 
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
+export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
-export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', false);
-export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
+export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
@@ -103,12 +96,20 @@ export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartA
 // Synthetic credential feature flag
 export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystoreEnabled');
 
+// Synthetic RBAC feature flag
+export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
+
+// Table custom widget
+export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
 );
+
+export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -124,9 +125,10 @@ export const hiddenSearchFieldValues = {
 };
 
 // ########################################################################################
-// Business Observability flags
+// Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
+export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -173,3 +175,5 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
   'oneMinuteGranularityForStaticThresholdEnabled',
   false
 );
+
+export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);

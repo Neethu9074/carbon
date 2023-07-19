@@ -13,15 +13,15 @@ import {
 } from '@instana/types';
 import { ApdexEntityApdexType } from '@instana/types';
 
-import { applicationApdexEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 export const enabledApdexBeaconTypes = deepFreeze(['httpRequest', 'pageLoad', 'custom'] as const);
 
 export type ApdexEntityTypes = Lowercase<ApdexEntityApdexType>;
-export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze(
-  (['website'] as ApdexEntityTypes[]).concat(applicationApdexEnabled ? ['application'] : [])
-);
+export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze([
+  'website',
+  'application'
+] as ApdexEntityTypes[]);
 
 export interface WebsiteApdexConfiguration extends Omit<ApdexConfiguration, 'apdexEntity'> {
   apdexEntity: WebsiteApdexEntity;

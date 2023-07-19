@@ -1,0 +1,17 @@
+/*
+ * (c) Copyright IBM Corp. 2023
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .actionsWrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  .button {
+    margin-top: 0.5rem;
+    min-width: 6.25rem;
+  }
+}

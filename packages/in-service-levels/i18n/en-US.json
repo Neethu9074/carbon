@@ -20,6 +20,26 @@
     },
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
+    "timeWindow": {
+      "type" : "unknown",
+      "type_fixed": "Fixed",
+      "type_rolling": "Rolling",
+      "size_month": "{{count}} month",
+      "size_month_plural": "{{count}} months",
+      "size_month_0": "{{count}} months",
+      "size_month_1": "{{count}} month",
+      "size_month_2": "{{count}} months",
+      "size_week": "{{count}} week",
+      "size_week_plural": "{{count}} weeks",
+      "size_week_0": "{{count}} weeks",
+      "size_week_1": "{{count}} week",
+      "size_week_2": "{{count}} weeks",
+      "size_day": "{{count}} day",
+      "size_day_plural": "{{count}} days",
+      "size_day_0": "{{count}} days",
+      "size_day_1": "{{count}} day",
+      "size_day_2": "{{count}} days"
+    },
     "metrics": {
       "status": "Status",
       "remainingBudget": "Error Budget Remaining",
@@ -30,7 +50,7 @@
       "latency": "Latency",
       "beaconDuration": "Beacon Duration",
       "threshold": "Threshold",
-      "errors":  "Erroneous Call Rate",
+      "errors": "Erroneous Call Rate",
       "beaconErrorRate": "Beacon Error Rate",
       "goodEvents": "Good Events",
       "badEvents": "Bad Events"
@@ -93,23 +113,8 @@
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
         "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
         "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
-        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling",
-        "timeWindowSize_month": "{{count}} month",
-        "timeWindowSize_month_plural": "{{count}} months",
-        "timeWindowSize_month_0": "{{count}} months",
-        "timeWindowSize_month_1": "{{count}} month",
-        "timeWindowSize_month_2": "{{count}} months",
-        "timeWindowSize_week": "{{count}} week",
-        "timeWindowSize_week_plural": "{{count}} weeks",
-        "timeWindowSize_week_0": "{{count}} weeks",
-        "timeWindowSize_week_1": "{{count}} week",
-        "timeWindowSize_week_2": "{{count}} weeks",
-        "timeWindowSize_day": "{{count}} day",
-        "timeWindowSize_day_plural": "{{count}} days",
-        "timeWindowSize_day_0": "{{count}} days",
-        "timeWindowSize_day_1": "{{count}} day",
-        "timeWindowSize_day_2": "{{count}} days"
+        "timeWindow_fixed": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
     "title": "Service Level Objectives",
@@ -133,6 +138,10 @@
     }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "Summary",
+      "configurationLabel": "Configuration"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "Budget: {{value}}"
@@ -161,6 +170,32 @@
             "badEventFilters": "Bad event filters:"
           }
         }
+      },
+      "scopeSection": {
+        "title": "Scope",
+        "apBoundaryScopeLabel": "Boundary",
+        "apBoundaryScope": "Unknown",
+        "apBoundaryScope_ALL": "All calls",
+        "apBoundaryScope_INBOUND": "In-bound calls",
+        "apHiddenCallsLabel": "Hidden calls",
+        "apHiddenCallsInternal": "Includes internal calls",
+        "apHiddenCallsSynthetic": "Includes synthetic calls",
+        "apServiceLabel": "Service",
+        "apAllServices": "All Services",
+        "apEndpointLabel": "Endpoint",
+        "apAllEndpoints": "All Endpoints",
+        "eumBeaconTypeLabel": "Beacon type",
+        "customFilterLabel": "Custom filter",
+        "ariaLabelChecked": "selected",
+        "ariaLabelUnchecked": "unselected"
+      },
+      "objectiveSection": {
+        "title": "Objective",
+        "targetLabel": "Target",
+        "timeWindowLabel": "Time Window",
+        "durationLabel": "Length",
+        "startDateLabel": "Start Date",
+        "startTimeLabel": "Start Time"
       }
     }
   }

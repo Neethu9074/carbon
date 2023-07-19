@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { MapFormItems } from 'formalistic';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -44,7 +44,7 @@ import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
-export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
+export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds' | 'syntheticTestIds';
 
 export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapFormItems>
   extends SlideControlProps<SubSlideConfig>,

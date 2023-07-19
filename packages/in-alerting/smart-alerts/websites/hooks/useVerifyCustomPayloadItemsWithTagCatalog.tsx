@@ -6,14 +6,14 @@
 
 import { useMemo } from 'react';
 
-import { BeaconType, CustomPayloadFieldUnion, DynamicField, isDynamicField } from '@instana/types';
+import { WebsiteBeaconType, CustomPayloadFieldUnion, DynamicField, isDynamicField } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { hasError } from 'in-services/util/result';
 
 export default function useVerifyCustomPayloadItemsWithTagCatalog(
-  beaconType: BeaconType,
+  beaconType: WebsiteBeaconType,
   customPayloadFields: CustomPayloadFieldUnion[]
 ): boolean {
   const customPayloadTagCatalog = useMemo(() => {

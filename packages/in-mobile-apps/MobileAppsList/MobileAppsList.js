@@ -5,25 +5,22 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Button, Card, Link } from '@instana/components';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
+import { playwithEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { number, percentage } from 'in-services/formatters/number';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { playwithEnabled } from 'in-services/featureFlags';
-import { number } from 'in-services/formatters/number';
-import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -76,7 +73,30 @@ const columnDefinitions = [
         />
       );
     }
-  }
+  },
+  ...(mobileAppCrashBeaconEnabled
+    ? [
+        {
+          id: 'crashesAgg',
+          label: t('in-mobile-apps:appsList.crashFreeSessionRateLabel'),
+          defaultOrderDirection: 'ASC',
+          getContent(item, { result, timeConfig }) {
+            return (
+              <SparkChart
+                loading={result?.progress?.loading}
+                rollup={getSparkChartGranularity(timeConfig)}
+                timeConfig={getResolvedTimeConfig(timeConfig, result)}
+                aggregation="MEAN"
+                metrics={item.metrics.crashes}
+                metric={item.metrics.crashesAgg}
+                tooltipFormatter={percentage.detailed}
+                percentageMetric
+              />
+            );
+          }
+        }
+      ]
+    : [])
 ];
 
 function MobileAppLabel({ item }) {

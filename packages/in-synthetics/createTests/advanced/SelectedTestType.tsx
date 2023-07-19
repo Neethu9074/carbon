@@ -217,7 +217,10 @@ const RenderBrowser = ({
   setScriptDetails
 }: BaseRenderProps) => {
   const simple: boolean = commonAttributes.syntheticType === 'WebpageAction' ? true : false;
-  const script: boolean = commonAttributes.syntheticType === 'BrowserScript' ? true : false;
+  const script: boolean =
+    commonAttributes.syntheticType === 'BrowserScript' || commonAttributes.syntheticType === 'WebpageScript'
+      ? true
+      : false;
   return (
     <>
       <h3 className={locals.headline}>

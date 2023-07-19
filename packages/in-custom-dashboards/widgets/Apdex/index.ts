@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { apdexWidgetEnabled } from 'in-services/featureFlags';
+import { isApdexWidgetEnabled } from 'in-custom-dashboards/widgets/Apdex/constants';
 import { t } from 'in-i18n';
 
 export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/Apdex/ShowCase';
@@ -16,10 +16,7 @@ export const type = 'apdex';
 export const label = t('in-custom-dashboards:widgets.apdex.title');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
-export const enabled = apdexWidgetEnabled;
-export const badge = {
-  content: 'BETA'
-};
+export const enabled = isApdexWidgetEnabled;
 
 // For the future we would like to have this value calculated from the minimumHeight of the
 // grid-config but for now we are just using a hard coded height for the preview chart.

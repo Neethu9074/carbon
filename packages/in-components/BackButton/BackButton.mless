@@ -14,7 +14,7 @@
   }
 
   .icon {
-    fill: @lib__colors__blue800;
+    fill: currentColor;
   }
 
   .withoutMargin {

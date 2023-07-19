@@ -3,71 +3,63 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useState } from 'react';
+
 import { timeout } from '@instana/observables';
-import { compose } from 'recompose';
+import { useObservable } from '@instana/hooks';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import { pendingResult } from 'in-services/fixedObjects';
-import { emptyArray } from 'in-services/fixedObjects';
-import connect from 'in-hoc/connectTo';
 
-export default compose(
-  withPropDependingState({
-    // given the props, define the initial state
-    getInitialState,
+export default function ServerTable(props) {
+  const {
+    columnDefinitions,
+    defaultOrderBy,
+    get,
+    defaultOrderDirection,
+    defaultPageSize,
+    paginationResettingProps = [],
+    defaultQuery
+  } = props;
 
-    // define cases which should reset / change the URL state
-    resets: [
-      // reset the page to 1 when one of the properties changes that are used in get
-      {
-        getResettingProps: ({ paginationResettingProps }) => paginationResettingProps || emptyArray,
-        onReset: () => ({ page: 1 })
-      },
+  const [{ page, orderBy, orderDirection, query, pageSize }, onChange] = useState(
+    getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery)
+  );
 
-      // reset everything once one of the basic properties changes
-      {
-        getResettingProps: () => [
-          'columnDefinitions',
-          'defaultOrderBy',
-          'defaultOrderDirection',
-          'defaultPageSize',
-          'defaultQuery',
-          'get'
-        ],
-        onReset: getInitialState
-      }
-    ],
+  useEffect(() => {
+    onChange({ page: 1, orderBy, orderDirection, query, pageSize });
+    // resetting to page 1 only on change of specific props
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, paginationResettingProps);
 
-    reducerName: 'onChange'
-  }),
-  connect((props, prevProps) => {
-    if (props.query !== prevProps.query && props.query !== '') {
-      // Query changes are frequent and we need to debounce these changes.
-      // Also, while debouncing, we immediately want to turn the table state
-      // into a loading state. This is better than having the state of an input
-      // field and the state of the table differ (happens when debouncing within an input
-      // field and the table is still showing data for a previous query).
-      //
-      // The combination of a connectTo() and a timeout().flatMap is effectively
-      // a debounce implementation!
-      //
-      // Because we are debouncing only on query changes and because we are turning
-      // the table immediately into a loading state, we can use larger waiting times
-      // before retrieving data and thereby reduce backend pressure!
-      return {
-        result: timeout(800)
-          .flatMap(() => props.get(props))
+  useEffect(() => {
+    onChange(getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery));
+  }, [columnDefinitions, defaultOrderBy, get, defaultOrderDirection, defaultPageSize, defaultQuery]);
+
+  const result = useObservable(
+    query && query !== ''
+      ? timeout(800)
+          .flatMap(() => get({ ...props, query, page, pageSize, orderBy, orderDirection }))
           .startWith(pendingResult)
-      };
-    }
-    return {
-      result: props.get(props)
-    };
-  })
-)(ServerTablePresenter);
+      : get({ ...props, query, page, pageSize, orderBy, orderDirection }),
+    [query, page, orderBy, orderDirection, pageSize] // does not include all props - to avoid unneeded reload/retrigger
+  );
 
-function getInitialState({ columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery }) {
+  return (
+    <ServerTablePresenter
+      page={page}
+      query={query}
+      orderDirection={orderDirection}
+      pageSize={pageSize}
+      orderBy={orderBy}
+      onChange={onChange}
+      result={result}
+      {...props}
+    />
+  );
+}
+
+function getInitialState(columnDefinitions, defaultOrderBy, defaultOrderDirection, defaultPageSize, defaultQuery) {
   return {
     orderBy: defaultOrderBy || columnDefinitions[0].id,
     orderDirection: defaultOrderDirection || 'ASC',

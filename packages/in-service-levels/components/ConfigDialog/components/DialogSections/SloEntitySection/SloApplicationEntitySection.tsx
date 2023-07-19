@@ -12,28 +12,28 @@ import { Card } from '@instana/components';
 import SloEntityTable, {
   EntityData
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
-import { ApplicationSloForm, ApplicationSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { t } from 'in-i18n';
 
 interface SloApplicationEntitySectionProps {
-  form: ApplicationSloForm;
-  onChange: (path: ApplicationSloFormPath, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: (path: SloFormPath, updater: (i: Item) => Item) => void;
   onLabelChange: (label: string) => void;
 }
 
 export const SloApplicationEntitySection = ({ form, onChange, onLabelChange }: SloApplicationEntitySectionProps) => {
   const [query, setQuery] = useState('');
 
-  const sloEntityTypeField = form.get('entityType');
-  const applicationIdField = form.getIn(['entity', 'applicationId']);
+  const sloEntityTypeField = form.getIn(['entity', 'type']);
+  const entityIdField = form.getIn(['entity', 'entityId']);
 
   const [entityList, , , progress] = useEntityConfigurations(sloEntityTypeField.value);
 
   const onEntityChange = ({ id, label }: EntityData) => {
     onLabelChange(label);
-    onChange(['entity', 'applicationId'], () => applicationIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
   };
 
   return (

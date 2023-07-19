@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   getApiTokens,
@@ -61,7 +61,7 @@ const columnDefinitions = [
     width: 60,
     getContent(entity) {
       return (
-        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
+        <Link href={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
           {entity.name}
         </Link>
       );

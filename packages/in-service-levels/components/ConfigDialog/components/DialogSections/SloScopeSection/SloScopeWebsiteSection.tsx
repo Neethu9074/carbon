@@ -4,21 +4,20 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
 import React from 'react';
 
 import { Typography } from '@instana/components';
 
 import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
 import { BeaconSelector } from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
-import { WebsiteSloForm, WebsiteSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 interface SloScopeWebsiteSectionProps {
-  form: WebsiteSloForm;
-  onChange: (path: WebsiteSloFormPath, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const SloScopeWebsiteSection = ({ form, onChange }: SloScopeWebsiteSectionProps) => {

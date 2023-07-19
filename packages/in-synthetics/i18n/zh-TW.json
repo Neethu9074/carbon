@@ -29,20 +29,20 @@
         "enterTheScriptMessage": "在這裡輸入 Script"
       },
       "basicDetails": {
-        "title": "此連線測試的名稱為何",
-        "scriptTitle": "此 HTTP Script 測試的名稱",
+        "title": "此 API 簡式（HTTP 動作）測試的名稱是什麼",
+        "scriptTitle": "此 API Script (HTTP Script) 測試的名稱是什麼",
         "labelName": "測試的名稱",
         "labelDescription": "說明",
         "labelFrequency": "頻率（分鐘）",
         "labelApplications": "選取應用程式"
       },
       "bluePrint": {
-        "pingApi": {
-          "name": "Ping API",
-          "headline": "HTTP 動作",
+        "apiSimple": {
+          "name": "API 簡式",
+          "headline": "API 簡式 (HTTP 動作)",
           "whenToUse": {
             "title": "何時使用？",
-            "line1": "使用 HTTP 動作測試來測試單一 REST API"
+            "line1": "使用 API 簡式（HTTP 動作）測試來測試單一 REST API"
           },
           "tipsForUsing": {
             "title": "使用秘訣",
@@ -52,11 +52,11 @@
             "line4": "步驟 4：在名稱和說明區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
-        "scriptApi": {
-          "name": "Script API",
-          "headline": "HTTP Script",
+        "apiScript": {
+          "name": "API Script",
+          "headline": "API Script (HTTP Script)",
           "whenToUse": {
-            "line1": "使用 HTTP Script 測試及 Node.js 型 Script 來測試多個 Rest API 的順序"
+            "line1": "使用 API Script (HTTP Script) 測試及 Node.js 型 Script 來測試多個 Rest API 的順序"
           },
           "tipsForUsing": {
             "line1": "步驟 1：選擇您要建立的測試類型。",
@@ -87,12 +87,12 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "選取的測試類型",
           "rightListLabel": "測試類型",
-          "apiTypeLabel": "簡式測試 | Script 測試",
+          "apiTypeLabel": "API 簡式測試 | API Script 測試",
           "apiTypeHeadline": "您要建立何種類型的綜合測試",
           "apiTypeText": "API 測試可用來監視 Web 應用程式所提供的 API。 API 測試可用來測量可用性及回應時間。 簡式測試可讓您對 URL 進行連線測試或測試單一 API。 Script 測試可讓您提供 Script 來檢查一組 API 回應、模擬複雜的工作流程，以及測試特定的功能。",
           "selectedTestTypeButton": "選取",
-          "httpScriptTitle": "Script 測試",
-          "httpActionTitle": "簡式測試",
+          "httpScriptTitle": "API Script 測試",
+          "httpActionTitle": "API 簡式測試",
           "browserTypeLabel": "瀏覽器",
           "browserTypeHeadline": "瀏覽器綜合測試",
           "browserTypeText": "瀏覽器綜合測試是一種監視 Web 應用程式效能的方法，其方式是透過 Web 瀏覽器中的 Script 來模擬使用者與網站的互動，對影響使用者體驗的問題提供有價值的見解並確保網站正常發揮作用。",
@@ -139,7 +139,18 @@
           "addscriptAction": "新增 Script",
           "editscriptAction": "編輯 Script",
           "scriptFileName": "檔案名稱",
-          "scriptNotAdded": "未新增任何 Script"
+          "scriptNotAdded": "未新增任何 Script。",
+          "buttonAdd": "新增",
+          "buttonBack": "上一步",
+          "buttonSave": "儲存",
+          "uploadFileLabel": "上傳檔案",
+          "uploadFileDescription": "您可以上傳單一 .js 檔案或隨附 .js 檔的 zip 檔案。",
+          "scriptDescription": "您上傳的 Script 會出現在這裡，或者您可以在下面手動輸入它。",
+          "validScriptMessage": "Script 有效。",
+          "zipFileUploadedMessage": "無法修改或驗證組合檔案",
+          "scriptEditedManuallyMessage": "手動新增或修改 Script",
+          "mainFileNameLabel": "主要檔名",
+          "invalidMainFileName": "主要檔名稱無效"
         },
         "loadMore": "載入更多",
         "selectTests": {
@@ -170,6 +181,7 @@
     "feedback": {
       "successTitle": "成功！",
       "successMessageCreate": "已順利建立綜合測試",
+      "successMessageUpdate": "已順利更新綜合測試",
       "successMessageDelete": "已順利刪除綜合測試",
       "failureTitle": "失敗！",
       "failureMessageCreate": "無法建立綜合測試。 請稍後重試",
@@ -179,6 +191,12 @@
     "locationFeedback": {
       "successMessageDelete": "已順利刪除位置",
       "failureMesssageDelete": "無法刪除位置。 請稍後重試"
+    },
+    "updateTest": {
+      "dialogTitle": "編輯 API 測試",
+      "buttonSave": "儲存",
+      "scriptSavedMessage": "已新增 Script",
+      "bundleSavedMessage": "已新增組合 Script"
     }
   },
   "createTest": {
@@ -231,10 +249,7 @@
       "applicationLabel": "應用程式",
       "health": "性能",
       "action": "動作",
-      "delete": "刪除測試",
-      "labelConfirm": "請確認",
-      "labelConfirmRemoveTest": "您確定要移除綜合測試 <strong>{{testLabel}}</strong> 嗎？",
-      "labelRemove": "移除",
+      "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？",
       "na": "N/A"
     },
     "locationList": {
@@ -245,12 +260,22 @@
       "totalTests": "鏈結的測試數目",
       "lastRun": "前次測試執行時間",
       "namespace": "名稱空間",
+      "health": "性能",
+      "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
-      "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中的測試，您確定要移除此位置嗎？",
+      "activeTestLinked": "有 {{linkedTests}} 個作用中測試與位置 <strong>{{label}}</strong> ({{status}}) 相關聯。 刪除此位置將導致測試摘要圖表中的資料流失。 您確定要刪除此位置嗎？<br/>若要升級位置而不刪除，請參閱<documentLink>文件</documentLink>。",
       "deleteLocation": "刪除位置",
       "noDataAvailable": {
         "message": "{{component}} 無法使用"
-      }
+      },
+      "deletionReason": "刪除原因",
+      "typeToContinue": "鍵入 {{location}} 以繼續",
+      "location": "位置",
+      "deletionSuccess": "位置已刪除",
+      "cancelButton": "取消",
+      "deleteLocationLabel": "刪除位置",
+      "success": "成功",
+      "failure": "失敗"
     },
     "summary": {
       "successRate": "成功率",
@@ -457,8 +482,29 @@
       "allowInsecure": "容許不安全",
       "locationsTitle": "位置",
       "scheduleTitle": "排程",
+      "frequencyTitle": "頻率",
+      "simultaneousValue": "同時",
+      "frequencyPluralValue": "{{minutes}} 分鐘",
+      "frequencySingleValue": "{{minutes}} 分鐘",
       "identifyTitle": "識別",
-      "customProperties": "自訂內容"
+      "customProperties": "自訂內容",
+      "identifySectionName": "名稱",
+      "identifySectionDescription": "說明",
+      "associatedApplication": "相關聯的應用程式",
+      "noApplicationAssociated": "沒有相關聯的應用程式",
+      "configScriptTitle": "Script",
+      "configScriptFileName": "檔案名稱",
+      "noScriptFileFound": "找不到 Script 檔。",
+      "noCustomProperties": "未定義此測試的自訂內容。",
+      "propertyTitle": "內容",
+      "valueTitle": "值",
+      "dialog": {
+        "deleteTest": "刪除測試",
+        "reasonTitle": "刪除的原因",
+        "typingValidationTitle": "鍵入 {{synthetic}} 以繼續",
+        "cancelButton": "取消",
+        "deleteButton": "刪除"
+      }
     }
   }
 }

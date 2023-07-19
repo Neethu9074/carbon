@@ -6,12 +6,11 @@
 
 import React, { Fragment } from 'react';
 
-import { number, millis, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import { millis, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import HttpAvailability from 'in-sap/Dashboards/tables/HttpAvailabilty';
@@ -25,30 +24,44 @@ export default function Summary({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
           title={t('in-sap:dashboards.overallRating')}
           value={getOverallStatus(sap.overallRating) || valueMissingPlaceholder}
           borderless
           color={colorFormatter(sap.overallRating)}
         />
-        <InfraMetricKpiCard
-          title={t('in-sap:dashboards.icmStatus')}
-          snapshotId={snapshotId}
-          metric="metrics.Availability.Java_ICM_Status.JAVA_ICM_STATUS.value"
-          formatter={number.compact}
-        />
-        <InfraMetricKpiCard
-          title={t('in-sap:dashboards.nodeStatus')}
-          snapshotId={snapshotId}
-          metric="metrics.Availability.Java_Server_Node_Status.JAVA_SERVER_NODE_STATUS_Java_Server_Node_Status.value"
-          formatter={number.compact}
+        <KpiCard
+          title={t('in-sap:dashboards.overallAvailability')}
+          value={getOverallStatus(sap.availRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.availRating)}
         />
         <KpiCard
-          title={t('in-sap:dashboards.httpAvailRating')}
-          value={sap.httpAvailRating || valueMissingPlaceholder}
+          title={t('in-sap:dashboards.overallPerformance')}
+          value={getOverallStatus(sap.perfRating) || valueMissingPlaceholder}
           borderless
-          color={colorFormatter(sap.httpAvailRating)}
+          color={colorFormatter(sap.perfRating)}
+        />
+      </KpiGridRow>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title={t('in-sap:dashboards.overallException')}
+          value={getOverallStatus(sap.excepRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.excepRating)}
+        />
+        <KpiCard
+          title={t('in-sap:dashboards.overallConfiguration')}
+          value={getOverallStatus(sap.configRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.configRating)}
+        />
+        <KpiCard
+          title={t('in-sap:dashboards.selfMonitorRating')}
+          value={getOverallStatus(sap.selfMonitorRating) || valueMissingPlaceholder}
+          borderless
+          color={colorFormatter(sap.selfMonitorRating)}
         />
       </KpiGridRow>
       <Row>

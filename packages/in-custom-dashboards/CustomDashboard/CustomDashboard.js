@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
+import React, { useState, useEffect } from 'react';
 import { find, isEqual } from 'lodash';
-import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { useObservable } from '@instana/hooks';
 
 import {
   editDashboard,
@@ -31,47 +31,34 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
-import withUrlState from 'in-hoc/withUrlState';
-import connectTo from 'in-hoc/connectTo';
+import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
-export default compose(
-  withUrlState({
+export default function CustomDashboardLoader(props) {
+  const urlStateDefinition = {
     bind: [dashboardIdUrlParameter]
-  }),
-  connectTo(({ dashboardId }) => ({
-    result: getCustomDashboard(dashboardId)
-  })),
-  withPropDependingState({
-    getInitialState,
-    resets: [
-      {
-        getResettingProps: () => ['result'],
-        onReset: getInitialState
-      }
-    ],
-    reducerName: 'setState',
-    reducer: (prevState, newState) => ({
-      ...prevState,
-      ...newState
-    })
-  }),
-  withProps(({ setState }) => ({
-    setConfig: config => setState({ config }),
-    setSaving: isSaving => setState({ isSaving })
-  }))
-)(CustomDashboardLoader);
+  };
 
-function CustomDashboardLoader(props) {
-  const { dashboardId, config, setConfig, result, isSaving, setSaving } = props;
+  const [{ dashboardId }, setUrlState] = useUrlState(urlStateDefinition);
+  const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
+
+  const [config, setConfig] = useState(getInitialState(result).config);
+  const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
+  useEffect(() => {
+    setConfig(getInitialState(result).config);
+    setSaving(getInitialState(result).isSaving);
+  }, [result]);
 
   return (
     <CustomDashboardPresenter
       {...props}
+      result={result}
+      config={config}
+      setConfig={setConfig}
+      setUrlState={setUrlState}
       // Reset state when the config changes
       key={dashboardId}
       customDashboardId={dashboardId}
@@ -255,7 +242,7 @@ function CustomDashboardLoader(props) {
   }
 }
 
-function getInitialState({ result }) {
+function getInitialState(result) {
   if (!result || !result.data) {
     return {
       persistedConfig: null,

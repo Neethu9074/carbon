@@ -24,8 +24,8 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { Invalid, Validation } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
-import { Validation } from 'in-synthetics/utils/constants';
 import { ConfigItem } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
@@ -40,9 +40,25 @@ interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   isUpdateConfig: boolean;
+  headers: ConfigItem[];
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
+  invalidHeader: Invalid;
+  setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidJSON: Invalid;
+  setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
-export default function ConfigurationSection({ form, updateForm, isUpdateConfig }: Props) {
+export default function ConfigurationSection({
+  form,
+  updateForm,
+  isUpdateConfig,
+  headers,
+  setHeaders,
+  invalidHeader,
+  setInvalidHeader,
+  invalidJSON,
+  setInvalidJSON
+}: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
@@ -83,42 +99,7 @@ export default function ConfigurationSection({ form, updateForm, isUpdateConfig 
       ? expectedObject
       : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
   };
-  const getDefaultHeaders = (): ConfigItem[] => {
-    const headers = (configForm.get('headers') as Field<Record<string, string>>).value;
-    const headersKeys = Object.keys(headers);
-    if (headersKeys.length) {
-      const headersObject: ConfigItem[] = [];
-      headersKeys.map(key =>
-        headersObject.push({
-          id: generateUniqueShortId(),
-          key: key,
-          value: headers[key],
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        })
-      );
-      return headersObject;
-    } else {
-      return [
-        {
-          id: generateUniqueShortId(),
-          key: '',
-          value: '',
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        }
-      ];
-    }
-  };
-  const [headers, setHeaders] = useState(getDefaultHeaders());
-  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
-
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
-  const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
 
   function addNewHeaderRow() {
     setHeaders([

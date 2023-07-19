@@ -6,20 +6,30 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
+import {
+  businessProcessActivityListPath,
+  businessActivityPath,
+  businessActivitySummaryPath
+} from 'in-bizops/navigation/paths';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 /*
 We want to return a chart that shows the top 5 activities of the selected business process
-in descending order, by count. 
+in descending order, by count.
 
 Count is defined as the number of times that the activity has started within the selected
 time window.
@@ -32,14 +42,14 @@ interface TopActivitiesProps {
 
 export default function TopActivities({ businessProcessId, businessProcessName }: TopActivitiesProps) {
   const timeConfig = useTimeConfig();
-  /* TODO: When/if more metrics are added, use the labels prop to supply the 
+  /* TODO: When/if more metrics are added, use the labels prop to supply the
   header tab button labels. Since we're starting with just one metric (count),
   we don't need the labels prop just yet */
   return (
     <TopListWithUrlState
       metrics={['activitiesCount']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
-      //labels={[t('in-bizops:dashboards.summary.widgets.count')]}
+      //labels={''}
       formatters={[number.compact]}
       ViewAll={ViewAll}
       timeConfig={timeConfig}
@@ -52,11 +62,24 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   );
 }
 
-//TODO: Link to the activities tab when the 'view all activities' button is clicked
-// Still waiting on the activities tab to be implemented first :)
-function ViewAll() {
-  //return <div>{t('in-bizops:dashboards.summary.widgets.viewAll')}</div>;
-  return '';
+interface viewAllProps {
+  className: string;
+}
+
+// className styling provided by chart component
+function ViewAll({ className }: viewAllProps) {
+  const location = useNavigation();
+  // <FEATURE FLAG>
+  if (!bizopsFeatureEnabled) {
+    return '';
+  }
+  // </FEATURE FLAG>
+  const viewAllPath: string = location.createHrefToPath(businessProcessActivityListPath);
+  return (
+    <Link className={className} href={viewAllPath}>
+      {t('in-bizops:dashboards.summary.widgets.viewAll')}
+    </Link>
+  );
 }
 
 type GetListProps = {
@@ -117,11 +140,18 @@ type LabelProps = {
   item: BusinessActivityItem;
 };
 
-/* TODO: Once the individual business activity dashboard is ready,
-revisit this to turn the activity name into a link to the dashboard */
 // Forms each row in the activities chart, including the URL.
 // item is each element returned from the query made in getList
 function Label({ item }: LabelProps) {
+  const { location, createHref } = useNavigation();
   const activityName = item.businessActivity?.activityName;
-  return <div>{activityName}</div>;
+
+  if (bizopsFeatureEnabled) {
+    location.pathname = businessActivitySummaryPath;
+    setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
+
+    return <Link href={createHref(location)}>{activityName}</Link>;
+  } else {
+    return <div>{activityName}</div>;
+  }
 }

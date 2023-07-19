@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 import { List } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { Link, Stack } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
-import { Stack } from '@instana/components';
 
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -183,10 +183,11 @@ function Form({ form, onChange }: FormProps) {
               i18nKey="in-settings:tabs.webhookUrlToZChatOps"
               components={{
                 incomingWebhookLink: (
-                  <a
+                  // @ts-expect-error TS2741: Property 'children' is missing - it will get injected by Trans
+                  <Link
+                    size="sm"
                     href="https://www.ibm.com/docs/en/z-chatops/1.1.0?topic=integrating-z-chatops"
-                    rel="noreferrer"
-                    target="_blank"
+                    external
                   />
                 )
               }}

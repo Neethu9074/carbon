@@ -17,7 +17,6 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -33,6 +32,7 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -86,7 +86,7 @@ export default function ServiceDashboard({ location }) {
     props.syntheticCalls = syntheticCalls || syntheticCallsOptions.default;
   }
 
-  const showAlertButton = role.canConfigureCustomAlerts && applicationSmartAlertsEnabled;
+  const showAlertButton = role.canConfigureCustomAlerts;
 
   return (
     <>

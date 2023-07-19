@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -13,9 +13,9 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
-import { blueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
+import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
@@ -40,6 +40,8 @@ interface WizardModeContainerProps {
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
   isSaving: boolean;
   isStepDisabled: (step: number) => boolean | undefined;
+  selectedBlueprint: BluePrint;
+  setSelectedBlueprint: (item: BluePrint) => void;
 }
 
 const WizardModeContainer = ({
@@ -56,9 +58,10 @@ const WizardModeContainer = ({
   scriptDetails,
   setScriptDetails,
   isSaving,
-  isStepDisabled
+  isStepDisabled,
+  selectedBlueprint,
+  setSelectedBlueprint
 }: WizardModeContainerProps) => {
-  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   const stepConfigs = Object.freeze([
     {

@@ -66,12 +66,13 @@
     "interpreter": "Interpreter (optional)",
     "interpreterHelper": "Interpreter is the program that will execute the script. For example, bash or python. This can be the full path to the interpreter or just the name of the interpreter if it is in the PATH. This field is not required if the script has a shebang, or if the script uses the default interpreter.",
     "docLink": "Documentation Link",
-    "actionTypeHelper": "Documentation link refers to a URL; Script is to run an automation script on Linux; HTTP is to invoke a webhook.",
+    "actionTypeHelper": "Documentation link refers to a URL; Script is to run an automation script on Linux; HTTP is to invoke a webhook; Manual describes manual actions used for AI model training.",
     "noTagsConfigured": "No Tags Configured",
     "addRow": "Add Row",
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to documentation that can help with remediation.",
+    "manual":"Manual",
     "execute": "Execute",
     "confidence_low": "Low",
     "body": "Body (optional)",
@@ -145,8 +146,8 @@
     "uniqueName": "Parameter names must be unique.",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
     "actionCopy": "(Copy of) {{name}}",
-    "ActionAssociationsForEvent": "4. Associate Events",
-    "ActionAssociationsForSmartAlert": "5. Associate Smart Alerts"
+    "ActionAssociationsForEvent": "Associate Events",
+    "ActionAssociationsForSmartAlert": "Associate Smart Alerts"
   },
   "actionHistory": {
     "actionHistory": "Action History",
@@ -187,6 +188,7 @@
     "verySatisfiedFeedback": "I was extremely satisfied",
     "additionalFeedback": "Additional Comments (optional)",
     "feedbackError": "An error occured while saving your feedback. Please try again later.",
+    "feedbackNotSelectedError": "Please select an option before submitting.",
     "feedbackSuccessTitle": "Feedback Submitted.",
     "feedbackSuccessMessage": "Thank you for your feedback!",
     "saveButton": "Save"

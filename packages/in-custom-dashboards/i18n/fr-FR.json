@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord.",
         "publicDashboard": "Tableau de bord public",
         "publicDashboardExplain": "Ce tableau de bord est visible de tous les membres de votre organisation. Vous seul pouvez effectuer des modifications ; vous pouvez ajouter des éditeurs.",
-        "done": "Terminé"
+        "save": "Sauvegarder",
+        "cancel": "Annuler",
+        "tooltipCloseAndCancel": "Fermer et annuler"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "Nombre d'entités d'infrastructure et de plateforme"
-      },
-      "entityCountFormComponent": {
-        "query": "Requête",
-        "helpAction": "Une requête Dynamic Focus Query (DFQ) comme vous l'utiliseriez dans la mappe d'infrastructure.",
-        "metric": "Métrique",
-        "count": "Nombre",
-        "aggregation": "Agrégation",
-        "pleaseSelect": "Effectuez une sélection",
-        "pleaseSelectMetric": "Sélectionnez une métrique."
-      },
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "Fenêtre de temps glissante",
         "timeWindowType_fixed": "Fenêtre de temps fixe"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "SLO de l'application",
-          "websites": "SLO du site Web"
-        }
-      },
       "sliConfig": {
         "sliName": "Nom du SLI",
         "sliType": "Type de SLI",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "Vous devez configurer au moins un fuseau horaire..",
       "pleaseSelectATimeZone": "Sélectionnez un fuseau horaire."
+    },
+    "histogram": {
+      "histogram": "Histogramme",
+      "demo": {
+        "title": "Distribution"
+      },
+      "formComp": {
+        "metrics": "Sélection de métrique",
+        "axisConfiguration": "Configuration d'axe",
+        "formatter": "Formateur (axe des X)"
+      }
     }
   },
   "duplicateDashboardDialog": {

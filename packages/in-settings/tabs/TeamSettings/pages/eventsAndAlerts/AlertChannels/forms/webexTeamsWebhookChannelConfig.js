@@ -7,6 +7,7 @@ import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { Link } from '@instana/components';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -123,10 +124,10 @@ function Form({ form, onChange }) {
               i18nKey="in-settings:tabs.webhookUrlToCiscoWebexTeams"
               components={{
                 incomingWebhookLink: (
-                  <a
+                  <Link
                     href="https://apphub.webex.com/teams/applications/incoming-webhooks-cisco-systems"
-                    rel="noreferrer"
-                    target="_blank"
+                    size="sm"
+                    external
                   />
                 )
               }}

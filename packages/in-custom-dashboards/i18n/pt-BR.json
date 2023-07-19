@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "Este painel está visível somente para você.",
         "publicDashboard": "Painel público",
         "publicDashboardExplain": "Este painel está visível para todos em sua organização. Somente você tem autorização para fazer mudanças, mas é possível incluir editores.",
-        "done": "Concluído"
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "tooltipCloseAndCancel": "Fechar e cancelar"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "Contagem de entidades de infraestrutura e plataforma"
-      },
-      "entityCountFormComponent": {
-        "query": "Consulta",
-        "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro do mapa de infraestrutura.",
-        "metric": "Métrica",
-        "count": "Contagem",
-        "aggregation": "Agregação",
-        "pleaseSelect": "Selecionar",
-        "pleaseSelectMetric": "Selecionar uma métrica"
-      },
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Selecionar métrica",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "Espaço de tempo contínuo",
         "timeWindowType_fixed": "Espaço de tempo fixo"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "Aplicativo do SLO",
-          "websites": "Website do SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "Nome de SLI",
         "sliType": "Tipo de SLI",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "Pelo menos um fuso horário deve ser configurado.",
       "pleaseSelectATimeZone": "Selecione um fuso horário."
+    },
+    "histogram": {
+      "histogram": "Histograma",
+      "demo": {
+        "title": "Distribuição"
+      },
+      "formComp": {
+        "metrics": "Seleção de métrica",
+        "axisConfiguration": "Configuração do eixo",
+        "formatter": "Formatador (eixo x)"
+      }
     }
   },
   "duplicateDashboardDialog": {

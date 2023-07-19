@@ -3,7 +3,8 @@
   "labelSmartAlerts": "Avvisi smart",
   "labelActivities": "Attività",
   "lists": {
-    "pageTitle": "Processi di business",
+    "pageTitle": "Monitoraggio aziendale",
+    "cardTitle": "Processi di business",
     "activityLabel": "Attività",
     "nameLabel": "Nome",
     "noData": "Nessun dato disponibile",
@@ -11,15 +12,19 @@
     "startLabel": "Avviato"
   },
   "navigation": {
-    "bizOps": "Processi di business"
+    "businessMonitoring": "Monitoraggio aziendale"
   },
   "dashboards": {
-    "analyzeInstancesButton": "Analizza istanze",
+    "analyzeInstances": "Analizza istanze",
     "summary": {
       "pageTitle": "Processo di business",
       "summaryTab": "Riepilogo",
       "widgets": {
         "timeline": "Scala temporale",
+        "topActivities": "Prime attività (conteggio)",
+        "infrastructureIssuesAndChanges": "Problemi dell'infrastruttura e modifiche",
+        "viewAll": "Visualizza tutte le attività",
+        "count": "Conteggio",
         "businessProcessStartedLabel": "{{businessProcessName}} avviato"
       }
     }

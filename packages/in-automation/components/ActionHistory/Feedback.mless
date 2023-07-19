@@ -12,19 +12,20 @@
     padding: 1.5em;
     padding-top: 0;
   }
+  .feedbackError {
+    margin-top: 1em;
+    color: red;
+    display: block;
+  }
   .prompt {
     margin-bottom: 1em;
   }
   .message {
     margin-bottom: 1em;
   }
-  .feedbackLabel {
-    display: block;
+
+  .checkboxLabel {
     color: var(--ids-color-text-primary-on-light);
-  }
-  .feedbackInput {
-    margin-right: 4px;
-    vertical-align: middle;
   }
   .commentLabel {
     margin-top: 2em;

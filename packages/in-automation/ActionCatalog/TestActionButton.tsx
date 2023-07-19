@@ -10,9 +10,9 @@ import React from 'react';
 import { Action } from '@instana/types';
 
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { isDocLink, isManual } from 'in-automation/ActionCatalog/shared';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { isDocLink } from 'in-automation/ActionCatalog/shared';
 import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { NewAction } from 'in-automation/api';
@@ -26,7 +26,7 @@ interface TestActionButtonProps {
 export default function TestActionButton({ action, form, setForm }: TestActionButtonProps) {
   return (
     <>
-      {!isDocLink(action.type) && (
+      {!isDocLink(action.type) && !isManual(action.type) && (
         <Tooltip content={t('in-automation:ActionCatalog.test')} delay={500}>
           <IconButton
             kind="primaryv2"

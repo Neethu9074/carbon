@@ -4,14 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import { businessProcessSummaryPath } from 'in-bizops/navigation/paths';
+import { businessProcessSummaryPath, businessProcessActivityListPath } from 'in-bizops/navigation/paths';
+import Activities from 'in-bizops/dashboards/summary/tabs/activities/Activities';
 import Summary from 'in-bizops/dashboards/summary/tabs/summary/Summary';
+import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
-export default [
-  {
-    label: t('in-bizops:dashboards.summary.summaryTab'),
-    path: `${businessProcessSummaryPath}`,
-    component: Summary
+function enableActivityTab() {
+  let tabs = [
+    {
+      label: t('in-bizops:dashboards.summary.summaryTab'),
+      path: `${businessProcessSummaryPath}`,
+      component: Summary
+    }
+  ];
+  if (bizopsFeatureEnabled) {
+    tabs.push({
+      label: t('in-bizops:dashboards.summary.activitiesTab'),
+      path: `${businessProcessActivityListPath}`,
+      component: Activities
+    });
   }
-].filter(Boolean);
+  return tabs;
+}
+
+export default enableActivityTab().filter(Boolean);

@@ -6,8 +6,8 @@
 
 import { keyBy } from 'lodash';
 
-import { Action, Field } from 'in-types';
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
+import { Action, Field } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (type: string) => {
@@ -17,6 +17,8 @@ export const getType = (type: string) => {
     return t('in-automation:ActionCatalog.script');
   } else if (isWebhook(type)) {
     return t('in-automation:ActionCatalog.http');
+  } else if (isManual(type)) {
+    return t('in-automation:ActionCatalog.manual');
   } else if (isExternal(type)) {
     return t('in-automation:actionHistory.external');
   } else {
@@ -88,11 +90,13 @@ export function getWebhookFields(action: Action | NewAction): WebhookFields {
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
+export const isManual = (type?: string) => type === MANUAL_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
+export const MANUAL_TYPE = 'MANUAL';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';

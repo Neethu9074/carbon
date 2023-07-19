@@ -7,7 +7,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
-import { MobileAppAlertRule, MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
+import { CustomPayloadFieldUnion, MobileAppAlertRule, MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
 
 // import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
@@ -17,10 +17,12 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/mobileApp/hooks/useVerifyCustomPayloadItemsWithTagCatalog';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
 //@ts-expect-error
 import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
@@ -87,7 +89,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
-  const { rule, tagFilterExpression, mobileAppId } = alertConfigWithFormModel;
+  const { rule, tagFilterExpression, mobileAppId, customPayloadFields } = alertConfigWithFormModel;
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
@@ -141,6 +143,11 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     numeratorTagFilterFormModel
   });
 
+  const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(
+    beaconType,
+    customPayloadFields as CustomPayloadFieldUnion[]
+  );
+
   const footer = simpleMode ? (
     <SimpleDialogFooter
       step={step}
@@ -166,6 +173,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     />
   );
 
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, mobileAppId as string);
   return (
     <AlertConfigDialogPresenter
       editMode={editMode}
@@ -185,9 +193,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
-      //@ts-expect-error
-      TagBasedPayloadConfigurator={null}
-      isDynamicCustomPayloadValid
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      isDynamicCustomPayloadValid={hasCustomPayloadValidDynamicTags}
       QueryBuilderComponent={AlertQueryBuilder}
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}

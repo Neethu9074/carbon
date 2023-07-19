@@ -9,4 +9,7 @@
   .italic {
     font-style: italic;
   }
+  .compactLink {
+    line-height: unset;
+  }
 }

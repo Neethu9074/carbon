@@ -28,7 +28,6 @@ const getBusinessProcessList = createResultSubscriptionFactory<
 export default getBusinessProcessList;
 
 interface GetBusinessProcessListDefaultProps {
-  query?: string;
   page?: number;
   pageSize?: number;
   orderBy?: string;
@@ -65,9 +64,6 @@ export function getBusinessProcessListWithDefaults({
     },
     filter: {
       timeConfig
-      //includeInternalCalls: false,
-      //includeSyntheticCalls: false,
-      //useLongTermDataOnly: false
     },
     tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
   });

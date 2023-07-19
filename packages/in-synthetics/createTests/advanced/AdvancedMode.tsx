@@ -39,10 +39,22 @@ const AdvancedMode = ({
   setCustomSlideInHeaderConfig,
   isUpdateConfig,
   scriptDetails,
-  setScriptDetails
+  setScriptDetails,
+  headers,
+  setHeaders,
+  invalidHeader,
+  setInvalidHeader,
+  invalidJSON,
+  setInvalidJSON,
+  customProperties,
+  setCustomProperties,
+  invalidCustomProperty,
+  setInvalidCustomProperty
 }: AdvancedModeProps) => {
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
+    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
+      testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
+    ]
   );
   const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   const configForm = form.get('configuration') as MapForm<any>;
@@ -51,6 +63,8 @@ const AdvancedMode = ({
   const getTestTypeSection = (syntheticType: string) => {
     switch (syntheticType) {
       case 'HTTPScript':
+      case 'BrowserScript':
+      case 'WebpageScript':
         return (
           <ScriptsSection
             form={form}
@@ -60,16 +74,27 @@ const AdvancedMode = ({
             isUpdateConfig={isUpdateConfig}
             scriptDetails={scriptDetails!}
             setScriptDetails={setScriptDetails!}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isBrowser={syntheticType === 'HTTPScript' ? false : true}
           />
         );
       case 'HTTPAction':
-        return <ConfigurationSection form={form} updateForm={updateForm} isUpdateConfig={isUpdateConfig} />;
+        return (
+          <ConfigurationSection
+            form={form}
+            updateForm={updateForm}
+            isUpdateConfig={isUpdateConfig}
+            headers={headers}
+            setHeaders={setHeaders}
+            invalidHeader={invalidHeader}
+            setInvalidHeader={setInvalidHeader}
+            invalidJSON={invalidJSON}
+            setInvalidJSON={setInvalidJSON}
+          />
+        );
       case 'WebpageAction':
         return <BrowserSimpleConfiguration form={form} updateForm={updateForm} />;
-      case 'WebpageScript':
-        return <h1>{`WebpageScript (single) section`}</h1>;
-      case 'BrowserScript':
-        return <h1>BrowserScript Section</h1>;
       default:
         return null;
     }
@@ -138,7 +163,16 @@ const AdvancedMode = ({
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       valid: true,
-      content: <CustomPropertiesSection form={form} updateForm={updateForm} />
+      content: (
+        <CustomPropertiesSection
+          form={form}
+          updateForm={updateForm}
+          customProperties={customProperties}
+          setCustomProperties={setCustomProperties}
+          invalidCustomProperty={invalidCustomProperty}
+          setInvalidCustomProperty={setInvalidCustomProperty}
+        />
+      )
     }
   ];
 

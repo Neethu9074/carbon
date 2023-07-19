@@ -25,7 +25,6 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
@@ -39,6 +38,7 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -146,8 +146,7 @@ function renderButtonLine(props) {
 
   const allowActionButtons = isGlobalAlertConfig ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts;
 
-  const showAlertButton =
-    allowActionButtons && applicationSmartAlertsEnabled && !location.pathname.includes('/application/configuration');
+  const showAlertButton = allowActionButtons && !location.pathname.includes('/application/configuration');
 
   return (
     <>

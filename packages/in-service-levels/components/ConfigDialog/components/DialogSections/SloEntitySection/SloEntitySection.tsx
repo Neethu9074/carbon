@@ -5,25 +5,23 @@
  */
 
 import React, { useState } from 'react';
-import { Item } from 'formalistic';
 
 import { Typography } from '@instana/components';
-import { SloEntityType } from '@instana/types';
 
 import { SloApplicationEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
 import { SloWebsiteEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
-import { SloForm, isApplicationSloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import SloLabel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloLabel';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { t } from 'in-i18n';
 
 interface SloScopeSectionProps {
-  form: SloForm<SloEntityType>;
-  onChange: (path: SloFormPath<SloEntityType>, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
-  const sloSloEntityTypeField = form.get('entityType');
+  const sloSloEntityTypeField = form.getIn(['entity', 'type']);
 
   const [label, setLabel] = useState<string>();
 
@@ -36,13 +34,14 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
         value={sloSloEntityTypeField.value}
         onChange={type => {
           setLabel(t('in-service-levels:general.noSelection'));
-          onChange(['entityType'], () => sloSloEntityTypeField.setValue(type).setTouched(true));
+          onChange(['entity', 'type'], () => sloSloEntityTypeField.setValue(type).setTouched(true));
         }}
       />
       <SloLabel label={label} />
-      {isApplicationSloForm(form) ? (
+      {sloSloEntityTypeField.value === 'application' && (
         <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
-      ) : (
+      )}
+      {sloSloEntityTypeField.value === 'website' && (
         <SloWebsiteEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
       )}
     </>

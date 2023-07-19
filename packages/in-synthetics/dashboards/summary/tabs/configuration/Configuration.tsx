@@ -19,7 +19,6 @@ import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -28,6 +27,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
+import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -43,11 +43,6 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
-
-  const isBrowserScriptTest: boolean =
-    (test.data?.configuration?.syntheticType === 'BrowserScript' ||
-      test.data?.configuration?.syntheticType === 'WebpageScript') &&
-    syntheticBrowserScriptEnabled;
 
   const testLabel: string = test.data?.label;
 
@@ -147,15 +142,19 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const ActionButtons = ({ test }: ActionButtonProps) => {
     return (
       <Stack gap="normal" direction="horizontal">
-        <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationEditAction')} delay={500}>
+          <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+        </Tooltip>
         {/* <SvgIcon type={'lib_actions_copy'} /> */}
-        <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationDeleteAction')} delay={500}>
+          <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+        </Tooltip>
       </Stack>
     );
   };
 
-  const renderActionButton = (isBrowserEnabled: boolean) => {
-    if (isBrowserEnabled || !role?.canConfigureSyntheticTests) {
+  const renderActionButton = () => {
+    if (!role?.canConfigureSyntheticTests) {
       return undefined;
     }
     return <ActionButtons test={test.data} />;
@@ -174,7 +173,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={renderActionButton(isBrowserScriptTest)}
+      rightHeaderContent={renderActionButton()}
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />

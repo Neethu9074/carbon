@@ -22,26 +22,27 @@ import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 //@ts-expect-error TS migration
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-//@ts-expect-error TS migration
-import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-//@ts-expect-error TS migration
-import ListTitle from 'in-components/lists/Title';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
+import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
@@ -56,7 +57,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
     granularity,
     alertChannelIds,
     tagFilterExpression,
-    mobileAppId
+    mobileAppId,
+    customPayloadFields
   } = alertConfig;
 
   const value = (alertConfig.rule as StatusCodeMobileAppAlertRule).value;
@@ -68,6 +70,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, mobileAppId);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -178,6 +181,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
       >
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger={false} />
       </ExpandableLightCard>
+      <GlobalCustomPayloadCard context="MOBILE_APP" />
+      <CustomPayloadCard
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        openByDefault
+      />
     </AlertDetailsCard>
   );
 }

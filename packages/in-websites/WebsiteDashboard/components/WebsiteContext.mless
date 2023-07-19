@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .link {
-    color: @lib__colors__N600Light;
+    font-size: inherit;
+    color: var(--colors-gray-600) !important;
+    // needs important, - else gets overruled by of :visited, or :active styling
   }
 }

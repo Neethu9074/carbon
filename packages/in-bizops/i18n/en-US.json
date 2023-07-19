@@ -3,11 +3,16 @@
   "labelBizOps": "Processes",
   "labelSmartAlerts": "Smart Alerts",
   "labelActivities": "Activities",
+  "components": {
+    "count": "Count"
+  },
   "lists": {
     "pageTitle": "Business Monitoring",
     "cardTitle": "Business Processes",
     "activityLabel": "Activities",
     "nameLabel": "Name",
+    "countLabel": "Count",
+    "durationLabel": "Duration",
     "noData": "No data available",
     "healthLabel": "Health",
     "startLabel": "Started"
@@ -20,14 +25,16 @@
     "summary": {
       "pageTitle": "Business Process",
       "summaryTab": "Summary",
+      "activitiesTab": "Activities",
       "widgets": {
-        "timeline": "Timeline",
         "topActivities": "Top Activities (Count)",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
-        "viewAll": "View all activities",
-        "count": "Count",
-        "businessProcessStartedLabel": "{{businessProcessName}} started"
+        "viewAll": "View all activities"
       }
+    },
+    "activity": {
+      "pageTitle": "Business Activity",
+      "summaryTab": "Summary"
     }
   }
 }

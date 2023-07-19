@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import Applications, {
   getSelectedApplicationConfigsByName,
@@ -117,6 +117,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                     components={{
                       docLink: (
                         <Link
+                          size="sm"
                           href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
                           external
                         />

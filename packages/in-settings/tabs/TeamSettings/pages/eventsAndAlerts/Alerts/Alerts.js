@@ -6,7 +6,7 @@
 import React, { Fragment, useState } from 'react';
 import { get } from 'lodash';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -72,7 +72,7 @@ const columnDefinitions = [
       return (
         <Tooltip content={entity.alertName} align="topLeft" delay={500}>
           <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
+            <Link href={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
               {entity.alertName}
             </Link>
           </WithSubscript>

@@ -31,6 +31,8 @@
       "basicDetails": {
         "title": "What is the name of this API Simple (HTTP Action) test",
         "scriptTitle": "What is the name of this API Script (HTTP Script) test",
+        "webpageActionTitle": "What is the name of this Browser Simple (Webpage Action) test",
+        "browserScriptTitle": "What is the name of this Browser Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
@@ -66,13 +68,29 @@
           }
         },
         "browserSimple": {
+          "name": "Browser Simple",
+          "headline": "Browser Simple (Webpage Action)",
           "whenToUse": {
             "line1": "Use a BrowserScript test to test...."
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: Choose the type of test which you wish to create.",
+            "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
+            "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "browserScript": {
+          "name": "Browser Script",
+          "headline": "Browser Script (BrowserScript)",
           "whenToUse": {
-            "line1": "Use a WebpageScript test to test...."
+            "line1": "Use a Browser Script test to test...."
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: ....",
+            "line2": "Step 2: ....",
+            "line3": "Step 3: ....",
+            "line4": "Step 4: ...."
           }
         }
       },
@@ -163,7 +181,9 @@
           "scriptEditedManuallyMessage": "Script added or modified manually",
           "mainFileNameLabel": "Main File Name",
           "invalidMainFileName": "Main file name not valid",
-          "webpageUrl": "Webpage URL"
+          "webpageUrl": "Webpage URL",
+          "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -518,7 +538,9 @@
         "typingValidationTitle": "Type {{synthetic}} to continue",
         "cancelButton": "Cancel",
         "deleteButton": "Delete"
-      }
+      },
+      "configurationEditAction": "Edit",
+      "configurationDeleteAction": "Delete"
     }
   }
 }

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { Spacer, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   builtInEnumValue,
@@ -274,7 +274,7 @@ function columnDefinitions(hasRowNavigation) {
               <WithSubscript subscript={<Subscript entity={entity} />}>
                 {hasRowNavigation ? (
                   <Link
-                    href$={getEntityIdView(getDetailsPath(entity), entity.id)}
+                    href={getEntityIdView(getDetailsPath(entity), entity.id)}
                     ellipsis
                     onClick={() =>
                       viewEventTracker({

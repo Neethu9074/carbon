@@ -21,9 +21,9 @@ export const centerAlignedLocationPointer =
 export const amCharts = window.AmCharts;
 export const worldLowMap = amCharts.maps.worldLow;
 
-const supportedCoountryDrillDowns = ['us', 'de'];
+const supportedCountryDrillDowns = ['us', 'de', 'pl'];
 export function canDrillDownToMap(code) {
-  return isMapLoadable(code) && supportedCoountryDrillDowns.indexOf(code.toLowerCase()) !== -1;
+  return isMapLoadable(code) && supportedCountryDrillDowns.indexOf(code.toLowerCase()) !== -1;
 }
 
 export function isMapLoadable(code) {

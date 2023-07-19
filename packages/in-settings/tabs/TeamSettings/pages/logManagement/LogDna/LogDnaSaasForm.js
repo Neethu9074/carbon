@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -70,7 +70,11 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
             i18nKey={'in-settings:tabs.mezmoDocumentationReference'}
             components={{
               documentationLink: (
-                <Link href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-mezmo" external />
+                <Link
+                  size="sm"
+                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-mezmo"
+                  external
+                />
               )
             }}
           />
@@ -79,9 +83,9 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
       {!areFieldsInvalid && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
-          <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
+          <Link size="sm" href={logdnaUrl} external>
             {logdnaUrl}
-          </a>
+          </Link>
         </FormGroup>
       )}
     </fieldset>

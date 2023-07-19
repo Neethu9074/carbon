@@ -5,8 +5,8 @@
 
 import { just, Observable } from '@instana/observables';
 
+import { WebsiteBeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { BeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
@@ -16,7 +16,7 @@ import { MetricField } from 'in-analyze/navigation/paths';
 
 interface GetLinkToWebsiteAnalyzeProps {
   websiteId: string;
-  beaconType: BeaconType;
+  beaconType: WebsiteBeaconType;
   timeConfig?: TimeConfig;
   tagCatalog?: TagCatalog;
   filterExpression?: TagFilterExpressionElementUnion;

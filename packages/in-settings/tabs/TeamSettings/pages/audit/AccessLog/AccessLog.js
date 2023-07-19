@@ -75,7 +75,6 @@ export default function AccessLog() {
         getResettingProps={() => ['query']}
         defaultPageSize={PAGE_SIZE}
         columnDefinitions={columnDefinitions}
-        paginationResettingProps={{}}
         rightHeader={({ query, page, pageSize }) => (
           <AuditLogDownloadView
             offset={calcOffset(page, pageSize)}

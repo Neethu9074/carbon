@@ -5,10 +5,12 @@
 
 import React from 'react';
 
+import { zeroDecimalPlaces, millis, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
 import CertificatesTable from './CertificatesTable';
 import DatasourcesTable from './DatasourcesTable';
 import ObjectPoolsTable from './ObjectPoolsTable';
@@ -55,6 +57,76 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleSIB')}>
+        <Columize>
+          <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleSIBMsgFromMsgEng')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesZeroDecimalPlaces,
+                metrics: [
+                  'sib.msgEngReadBytes',
+                  'sib.msgEngWriteBytes'
+                ],
+                labels: [
+                  t('in-forge:plugins.webSphereAppContainer.titleSIBMsgRead'),
+                  t('in-forge:plugins.webSphereAppContainer.titleSIBMsgWrite')
+                ],
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleSIBMsgFromCli')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesZeroDecimalPlaces,
+                metrics: [
+                  'sib.cliMsgReadBytes',
+                  'sib.cliMsgWriteBytes'
+                ],
+                labels: [
+                  t('in-forge:plugins.webSphereAppContainer.titleSIBMsgRead'),
+                  t('in-forge:plugins.webSphereAppContainer.titleSIBMsgWrite')
+                ],
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+        <Columize>
+        <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleSIBQueueProduced')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: snapshot.getIn(['data', 'sib.queueNames'], emptyList)
+                              .toArray()
+                              .map((queue) => 'sib.queues.' + queue + '.msgProduced'),
+              labels: snapshot.getIn(['data', 'sib.queueNames'], emptyList).toArray(),
+              type: 'line'
+            }}
+          />
+          </DashboardSection>
+          <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleSIBQueueConsumed')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: zeroDecimalPlaces,
+                metrics: snapshot.getIn(['data', 'sib.queueNames'], emptyList)
+                                .toArray()
+                                .map((queue) => 'sib.queues.' + queue + '.msgConsumed'),
+                labels: snapshot.getIn(['data', 'sib.queueNames'], emptyList).toArray(),
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
       </DashboardSection>
       <CertificatesTable snapshot={snapshot}/>
     </div>

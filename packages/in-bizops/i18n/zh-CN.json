@@ -3,7 +3,8 @@
   "labelSmartAlerts": "智能警报",
   "labelActivities": "活动",
   "lists": {
-    "pageTitle": "业务流程",
+    "pageTitle": "业务监视",
+    "cardTitle": "业务流程",
     "activityLabel": "活动",
     "nameLabel": "名称",
     "noData": "无可用数据",
@@ -11,15 +12,19 @@
     "startLabel": "开始"
   },
   "navigation": {
-    "bizOps": "业务流程"
+    "businessMonitoring": "业务监视"
   },
   "dashboards": {
-    "analyzeInstancesButton": "分析实例",
+    "analyzeInstances": "分析实例",
     "summary": {
       "pageTitle": "业务流程",
       "summaryTab": "摘要",
       "widgets": {
         "timeline": "时间线",
+        "topActivities": "排名靠前的活动（计数）",
+        "infrastructureIssuesAndChanges": "基础架构问题和更改",
+        "viewAll": "查看所有活动",
+        "count": "计数",
         "businessProcessStartedLabel": "{{businessProcessName}} 已启动"
       }
     }

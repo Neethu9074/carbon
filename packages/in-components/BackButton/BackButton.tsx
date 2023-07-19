@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Observable } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import locals from './BackButton.mless';
 
@@ -36,8 +36,7 @@ export default function BackButton({ label, href, href$, withoutMargin }: BackBu
         [locals.link]: true,
         [locals.withoutMargin]: withoutMargin
       })}
-      href={href}
-      href$={href$}
+      href={href$ ?? href}
     >
       <SvgIcon type="lib_arrow_expand_left" className={locals.icon} />
       {label}

@@ -382,6 +382,14 @@
     "presenterLabelCalls": "Chamadas",
     "latencyRangeLabelFromTimeToTime": "{{from}} a {{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} a {{to}}",
+    "metricLabel": "Medições",
+    "presenterLabelNoDataToDisplay": "Não há dados para exibir",
+    "total": "Total",
+    "min": "Mín.",
+    "max": "Máx."
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "Não localizado"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "Energia IBM",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",

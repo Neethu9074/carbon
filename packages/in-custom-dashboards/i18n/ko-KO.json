@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다.",
         "publicDashboard": "공용 대시보드",
         "publicDashboardExplain": "이 대시보드는 조직의 모든 구성원에게 표시됩니다. 사용자만 변경사항을 작성할 수 있지만 편집자를 추가할 수 있습니다.",
-        "done": "완료"
+        "save": "저장",
+        "cancel": "취소",
+        "tooltipCloseAndCancel": "닫기 및 취소"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "인프라 및 플랫폼 엔티티 수"
-      },
-      "entityCountFormComponent": {
-        "query": "조회",
-        "helpAction": "인프라 맵 내에서 사용하는 DFQ(Dynamic Focus Query)입니다.",
-        "metric": "메트릭",
-        "count": "개수",
-        "aggregation": "집계",
-        "pleaseSelect": "선택하십시오.",
-        "pleaseSelectMetric": "메트릭을 선택하십시오."
-      },
       "metricsFormComponent": {
         "metric": "메트릭",
         "selectMetric": "메트릭 선택",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "롤링 시간 창",
         "timeWindowType_fixed": "고정 시간 창"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "애플리케이션 SLO",
-          "websites": "웹 사이트 SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "SLI 이름",
         "sliType": "SLI 유형",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "하나 이상의 시간대를 구성해야 합니다.",
       "pleaseSelectATimeZone": "시간대를 선택하십시오."
+    },
+    "histogram": {
+      "histogram": "히스토그램",
+      "demo": {
+        "title": "분배"
+      },
+      "formComp": {
+        "metrics": "메트릭 선택사항",
+        "axisConfiguration": "축 구성",
+        "formatter": "포맷터(x축)"
+      }
     }
   },
   "duplicateDashboardDialog": {

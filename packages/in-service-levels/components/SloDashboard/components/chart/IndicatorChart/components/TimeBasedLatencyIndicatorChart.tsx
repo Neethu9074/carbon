@@ -54,7 +54,7 @@ export default function TimeBasedLatencyIndicatorChart({
       [generateStableHash(metricConfiguration)]
     ) ?? pendingResult;
 
-  const metric = (result.data?.[0].values as MetricDataSeries) ?? [];
+  const metric = (result.data?.[0]?.values as MetricDataSeries) ?? [];
 
   return (
     <ResultAwareChart

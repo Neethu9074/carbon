@@ -29,6 +29,7 @@ export interface Role {
   // pre-evaluated permissions from backend
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
+  canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
   canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;

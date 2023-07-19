@@ -8,8 +8,6 @@
   "labelTrace": "Trace",
   "linkDownload": "Herunterladen",
   "labelCalls": "Aufrufe",
-  "labelCallsPerSecondShort": "Aufrufe/s",
-  "labelErroneousCallsPerSecondShort": "Fehlerhafte Aufrufe/s",
   "labelCallsPerSecondFull": "Aufrufe pro Sekunde",
   "labelTraces": "Traces",
   "labelErrorRate": "Fehlerrate",
@@ -130,12 +128,20 @@
   "Rendering": "Wiedergabe",
   "loadingData": "Daten werden geladen",
   "UnexpectedErrorOccurred": "Ein unerwarteter Fehler ist aufgetreten",
+  "callsLiveModeDisabled": "Live-Modus wird für Aufrufe nicht unterstützt",
+  "tracesLiveModeDisabled": "Live-Modus wird für Traces nicht unterstützt",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser unterstützt WebGL nicht",
     "webglNotSupported": "Die Instana-Benutzerschnittstelle enthält 3D-Komponenten, die mit einer Technologie namens WebGL wiedergegeben werden. Leider ist diese Technologie noch nicht auf allen Plattformen verfügbar. Einige Browser, insbesondere Browser in älteren Versionen, unterstützen WebGL nicht. Wir empfehlen die Verwendung der neuesten Generation von Browsern mit automatischer Aktualisierung: Chrome, Firefox, Safari 8 oder MS Edge.\n \nWir versuchen unser Bestes, alle Kombinationen aus Plattform und Browser zu unterstützen.Es kann jedoch sein, dass unsere Verwendung von WebGL Fehler enthält. Sie können einen [Onlinetest] (https: //get.webgl.org/) verwenden, um zu überprüfen, ob Ihre Plattform WebGL unterstützt.\n \nSollte der Online-Test ergeben, dass Ihre Plattform WebGL unterstützt, aber die Instana-3D-Karte noch nicht funktionsfähig ist, [wenden Sie sich an uns] (https: //support.instana.com/hc/en-us/requests/new).\n\nWeitere Fehlerbehebungsinformationen finden Sie in der [WebGL-Kompatibilitätstabelle](http://caniuse.com/#feat=webgl) oder auf der [WebGL-Website](http://webgl.org/).",
     "webglNotInitializedTitle": "WebGL kann nicht initialisiert werden",
     "webglNotInitialized": "Browser unterstützt WebGL, es kann aber nicht initialisiert werden. Einige Browser- und Hardwaregründe können die Ursache dafür sein. Einige mögliche Gründe sind: \n \nzu viele geöffnete Registerkarten \n-Keine dedizierte GPU oder ausgelastete GPU \n-Browser/Hardware-Inkompatibilität \n \nWeitere Fehlerbehebungsinformationen finden Sie auf der [WebGL-Testwebsite] (https: //get.webgl.org/) oder in der [offiziellen WebGL-Dokumentation] (https: //www.khronos.org/webgl/wiki/FAQ).",
-    "tooltipToggleServiceOutside": "Alle Services außerhalb dieser Anwendung ein-/ausschalten"
+    "tooltipToggleServiceOutside": "Auch solche Services anzeigen, die in dieser Anwendung nicht enthalten sind",
+    "tooltipNodeSize": "Wählen Sie eine Metrik aus, die die Größe eines jeden Serviceknotens bestimmt",
+    "tooltipLayoutFlow": "Ablauflayout",
+    "tooltipLayoutForce": "Kompaktes Layout",
+    "tooltipSimulateTraffic": "Datenverkehr simulieren",
+    "tooltipZoomIn": "Vergrößern",
+    "tooltipZoomOut": "Verkleinern"
   },
   "applicationSwitcher": {
     "header": "Sie zeigen diesen Service im<br />Kontext einer Anwendungsperspektive an",

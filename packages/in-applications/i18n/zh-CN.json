@@ -8,8 +8,6 @@
   "labelTrace": "跟踪",
   "linkDownload": "下载",
   "labelCalls": "调用数",
-  "labelCallsPerSecondShort": "调用数/秒",
-  "labelErroneousCallsPerSecondShort": "错误调用数/秒",
   "labelCallsPerSecondFull": "每秒调用数",
   "labelTraces": "跟踪",
   "labelErrorRate": "错误率",
@@ -130,12 +128,20 @@
   "Rendering": "呈现",
   "loadingData": "正在加载数据",
   "UnexpectedErrorOccurred": "发生意外错误",
+  "callsLiveModeDisabled": "调用不支持实时方式",
+  "tracesLiveModeDisabled": "跟踪不支持实时方式",
   "applicationMap": {
     "webglNotSupportedTitle": "浏览器不支持 WebGL",
     "webglNotSupported": "Instana 用户界面包含使用名为 WebGL 的技术呈现的 3D 组件。遗憾的是，此技术尚未在所有平台上提供。某些浏览器（尤其是较低版本的浏览器）不支持 WebGL。我们建议使用最新一代的自动更新浏览器：Chrome、Firefox、Safari 8 或 MS Edge。\n\n我们尽力支持所有平台和浏览器组合。但是，可能是我们对 WebGL 的使用存在错误。您可以使用 [联机测试](https://get.webgl.org/) 来检查平台是否支持 WebGL。如果在线测试表明平台支持 WebGL，但 Instana 3D Map 仍无法运行，[请联系我们](https://support.instana.com/hc/en-us/requests/new)。\n\n有关更多故障诊断信息，请参阅 [WebGL 兼容性表](http://caniuse.com/#feat=webgl) 或 [WebGL Web 站点 ](http://webgl.org/)。",
     "webglNotInitializedTitle": "WebGL 无法初始化",
     "webglNotInitialized": "浏览器支持 WebGL，但无法初始化。这可能出于某些浏览器和硬件原因。可能的原因有：\n\n - 打开的选项卡过多 \n - 缺少专用 GPU 或 GPU 繁忙\n - 浏览器/硬件不兼容性\n\n 有关更多故障诊断信息，请参阅 [WebGL 测试站点](https://get.webgl.org/) 或 [官方 WebGL 文档](https://www.khronos.org/webgl/wiki/FAQ)。",
-    "tooltipToggleServiceOutside": "切换此应用程序外部的所有服务"
+    "tooltipToggleServiceOutside": "还显示未包括在此应用程序中的服务",
+    "tooltipNodeSize": "选择用于确定每个服务节点大小的度量",
+    "tooltipLayoutFlow": "流布局",
+    "tooltipLayoutForce": "精简布局",
+    "tooltipSimulateTraffic": "模拟流量",
+    "tooltipZoomIn": "放大",
+    "tooltipZoomOut": "缩小"
   },
   "applicationSwitcher": {
     "header": "您正在应用程序透视图上下文中<br />查看此服务",

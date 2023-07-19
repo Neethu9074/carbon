@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -105,7 +105,7 @@ function Event({ event, timeConfig }) {
         <Col>
           <Link
             className={locals.title}
-            href$={getEventsViewFilteredBy({
+            href={getEventsViewFilteredBy({
               query: '',
               eventId: event.id
             })}

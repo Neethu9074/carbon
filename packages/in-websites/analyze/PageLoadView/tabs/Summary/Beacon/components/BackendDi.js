@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
@@ -53,7 +53,7 @@ function BackendDi({ traceSummaries }) {
           align="topMiddle"
         >
           <div>
-            <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
+            <Link href={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
               {t('in-websites:analyze.analyzeView.pageLoadView.backendDiLinkLabel', {
                 duration: latencyFixed.compact(summary.duration),
                 callCount: t('in-websites:analyze.analyzeView.pageLoadView.backendDiSummaryCallCount', {

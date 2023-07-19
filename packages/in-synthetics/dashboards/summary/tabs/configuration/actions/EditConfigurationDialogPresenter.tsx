@@ -4,17 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Field, MapForm, createField } from 'formalistic';
 import React, { useState, ReactNode } from 'react';
-import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
 
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { createForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
-import { SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
+import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
@@ -43,7 +44,7 @@ interface Props {
 export default function EditConfigurationDialogPresenter({ test, onClose, setReloadCount }: Props) {
   const testId: string = test.id || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [form, setForm] = useState(() => createForm(test));
+  const [form, setForm] = useState(() => updateForm(test));
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(1);
@@ -57,21 +58,94 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     applicationId: form.get('applicationId').value,
     script: form.get('script')?.value
   });
-  const syntheticType = test.configuration.syntheticType;
+  const isActive: boolean = test.active;
+  const syntheticType: string = test.configuration.syntheticType;
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: {
       simple: syntheticType === 'HTTPAction',
       script: syntheticType === 'HTTPScript'
     },
     browser: {
-      simple: false,
-      script: false
+      simple: syntheticType === 'WebpageAction',
+      script: syntheticType === 'BrowserScript' || syntheticType === 'WebpageScript'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
     title: null,
     onClose: null
   });
+
+  const getDefaultHeaders = (): ConfigItem[] => {
+    const headers = form.get('configuration')?.get('headers')
+      ? (form.get('configuration')?.get('headers') as Field<Record<string, string>>)?.value
+      : {};
+    const headersKeys = Object.keys(headers);
+    if (headersKeys.length) {
+      const headersObject: ConfigItem[] = [];
+      headersKeys.map(key =>
+        headersObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: headers[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return headersObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        }
+      ];
+    }
+  };
+  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
+  const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
+
+  const getDefaultCustomProperties = (): ConfigItem[] => {
+    const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
+    const customPropertyKeys = Object.keys(customProperties);
+    if (customPropertyKeys.length) {
+      const customPropertiesObject: ConfigItem[] = [];
+      customPropertyKeys.map(key =>
+        customPropertiesObject.push({
+          id: generateUniqueShortId(),
+          key: key,
+          value: customProperties[key],
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        })
+      );
+      return customPropertiesObject;
+    } else {
+      return [
+        {
+          id: generateUniqueShortId(),
+          key: '',
+          value: '',
+          error: {
+            name: { invalid: false, message: '' },
+            value: { invalid: false, message: '' }
+          }
+        }
+      ];
+    }
+  };
+  const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
+  const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
+
   const formId = 'create-synthetics-test-form';
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
@@ -85,8 +159,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     setIsSubmitting(true);
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
+    updatedForm = form.put('active', createField({ value: isActive }));
     if (
-      form.get('configuration').get('syntheticType').value !== 'HTTPScript' &&
+      form.get('configuration').get('syntheticType').value === 'HTTPAction' &&
       isEmpty(form.get('configuration').get('headers').value)
     ) {
       updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
@@ -99,7 +174,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       testConfig = {
         id: testId,
         active: true,
-        ...form.toJS()
+        ...updatedForm.toJS()
       } as SyntheticTest;
     }
 
@@ -117,6 +192,55 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     );
   }
 
+  const isProceedDisabledAdvanced = () => {
+    const configForm = form.get('configuration') as MapForm<any>;
+    const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+    const labelField = form.get('label') as Field<string>;
+    const frequencyField = form.get('testFrequency') as Field<number>;
+    if (
+      isSubmitting ||
+      // for HTTPAction and WebpageAction
+      ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
+        configForm.get('url') &&
+        !configForm.get('url').valid) ||
+      (syntheticTypeField.value === 'HTTPAction' &&
+        configForm.get('headers') &&
+        headers.filter(
+          header =>
+            (header.error.name.invalid && !header.error.value.invalid) ||
+            (!header.error.name.invalid && header.error.value.invalid)
+        ).length > 0 ||
+        invalidHeader.invalid ||
+        (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
+        invalidJSON.invalid ||
+        (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
+      ) ||
+      // for HTTPScript, WebpageScript, and BrowserScript
+      ((syntheticTypeField.value === 'HTTPScript' ||
+        syntheticTypeField.value === 'WebpageScript' ||
+        syntheticTypeField.value === 'BrowserScript') &&
+        // Initially there isn't 'script'/ 'scripts' within configuration
+        ((!configForm.get('script') && !configForm.get('scripts')) ||
+          // validating js file if 'script' is present
+          (configForm.get('script') && !configForm.get('script').valid) ||
+          // validating zip file if 'scripts' is present
+          (configForm.get('scripts') &&
+            (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      !syntheticTypeField.valid ||
+      !frequencyField.valid ||
+      !labelField.valid ||
+      customProperties.filter(
+        property =>
+          (property.error.name.invalid && !property.error.value.invalid) ||
+          (!property.error.name.invalid && property.error.value.invalid)
+      ).length > 0 ||
+      invalidCustomProperty.invalid
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   const footer = (
     <FormFooter>
       <CancelButton onClick={() => onClose()} />
@@ -126,7 +250,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         formId={formId}
         form={form}
         isSaving={isSubmitting}
-        disabled={isSubmitting}
+        disabled={isProceedDisabledAdvanced()}
       >
         {t('in-synthetics:dialog.updateTest.buttonSave')}
       </SaveButton>
@@ -173,6 +297,16 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setCommonAttributes={setCommonAttributes}
           setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           isUpdateConfig
+          headers={headers}
+          setHeaders={setHeaders}
+          invalidHeader={invalidHeader}
+          setInvalidHeader={setInvalidHeader}
+          invalidJSON={invalidJSON}
+          setInvalidJSON={setInvalidJSON}
+          customProperties={customProperties}
+          setCustomProperties={setCustomProperties}
+          invalidCustomProperty={invalidCustomProperty}
+          setInvalidCustomProperty={setInvalidCustomProperty}
         />
       </form>
     </DialogWithSlideInView>

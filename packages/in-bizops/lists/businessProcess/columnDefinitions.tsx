@@ -9,8 +9,6 @@ import React from 'react';
 
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
-//import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error Module needs to be translated to TS
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 // @ts-expect-error Could not find declaration type
@@ -18,8 +16,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
-//import { getChartGranularity } from 'in-stores/metric/metric';
-import { t } from 'in-i18n';
+import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -27,6 +24,7 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
 

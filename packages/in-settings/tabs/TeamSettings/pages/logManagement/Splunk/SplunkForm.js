@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -61,9 +63,9 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="splunk-test-link">{t('in-settings:tabs.testYourSplunkLink')}</Label>
-          <a href={splunkUrl} target={'_blank'} rel="noopener noreferrer">
+          <Link size="sm" href={splunkUrl} external>
             {splunkUrl}
-          </a>
+          </Link>
         </FormGroup>
       )}
     </fieldset>

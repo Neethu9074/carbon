@@ -408,6 +408,7 @@ function SloDashboard(props) {
         icon="lib_service_level"
         isActive={matchLocation(isSloView)}
         href={createHrefToPath(serviceLevelsOverview)}
+        isBeta
         {...props}
       />
     )

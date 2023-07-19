@@ -8,8 +8,6 @@
   "labelTrace": "Rastreo",
   "linkDownload": "Descargar",
   "labelCalls": "Llamadas",
-  "labelCallsPerSecondShort": "Llamadas",
-  "labelErroneousCallsPerSecondShort": "Llamadas erróneas",
   "labelCallsPerSecondFull": "Llamadas por segundo",
   "labelTraces": "Rastreos",
   "labelErrorRate": "Tasa de errores",
@@ -130,12 +128,20 @@
   "Rendering": "Representación",
   "loadingData": "Cargando datos",
   "UnexpectedErrorOccurred": "Se ha producido un error inesperado",
+  "callsLiveModeDisabled": "La modalidad en directo no está soportada en las llamadas",
+  "tracesLiveModeDisabled": "La modalidad en directo no está soportada en los rastreos",
   "applicationMap": {
     "webglNotSupportedTitle": "El navegador no soporta WebGL",
     "webglNotSupported": "La interfaz de usuario Instana incluye componentes 3D que se representan utilizando una tecnología denominada WebGL. Desafortunadamente esta tecnología aún no está disponible en todas las plataformas. Algunos navegadores, especialmente los exploradores de versiones antiguas, no soportan WebGL. Se recomienda utilizar la nueva generación de navegadores de actualización automática: Chrome, Firefox, Safari 8 o MS Edge.\n \nS está haciendo todo lo posible para dar soporte a todas las combinaciones de plataformas y navegadores. Sin embargo, es posible que nuestro uso de WebGL contenga errores. Puede utilizar una [prueba en línea](https://get.webgl.org/) para comprobar si su plataforma soporta WebGL.\n \nSi la prueba en línea indica que su plataforma soporta WebGL, pero Instana Map 3D continúa estando no operativo, [contáctenos] (https://support.instana.com/hc/en-us/requests/new).\n \nPara obtener más información sobre la resolución de problemas, consulte la [tabla de compatibilidad de WebGL] (http://caniuse.com/#feat= webgl) o el [sitio web de WebGL] (http://webgl.org/).",
     "webglNotInitializedTitle": "No se puede inicializar WebGL",
     "webglNotInitialized": "Su navegador soporta WebGL, pero no se puede inicializar. Esto puede suceder por algunos motivos de hardware y navegador. Algunas de las razones posibles son:\n\n  - demasiadas pestañas abiertas\n  - falta una GPU dedicada o una GPU ocupada\n  - incompatibilidad del navegador/hardware\n\nPara obtener más información sobre la resolución de problemas del navegador, consulte el [sitio de prueba de WebGL](https://get.webgl.org/) o la [documentación oficial de WebGL](https://www.khronos.org/webgl/wiki/FAQ).",
-    "tooltipToggleServiceOutside": "Conmutar todos los servicios fuera de esta aplicación"
+    "tooltipToggleServiceOutside": "Mostrar también los servicios que no están incluidos en esta aplicación",
+    "tooltipNodeSize": "Seleccione una métrica que determine el tamaño de cada nodo de servicio",
+    "tooltipLayoutFlow": "Diseño de flujo",
+    "tooltipLayoutForce": "Diseño compacto",
+    "tooltipSimulateTraffic": "Simular tráfico",
+    "tooltipZoomIn": "Acercar",
+    "tooltipZoomOut": "Alejar"
   },
   "applicationSwitcher": {
     "header": "Está viendo este servicio en el<br />contexto de una perspectiva de aplicación",

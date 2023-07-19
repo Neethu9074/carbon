@@ -13,7 +13,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './actionInstanceDetail.mless';
+import locals from './ActionInstanceDetail.mless';
 
 function getRowProps() {
   return {

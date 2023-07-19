@@ -1,21 +1,44 @@
 {
   "general": {
     "addButtonLabel": "Aggiungi",
+    "beacon": "Beacon",
+    "boundary": "Limite",
+    "clear": "Cancella",
     "saveButtonLabel": "Salva",
     "cancelButtonLabel": "Annulla",
     "editButtonLabel": "Modifica",
     "copyButtonLabel": "Copia",
     "deleteButtonLabel": "Elimina",
+    "select": "Seleziona $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
+    "noSelection": "Non è stata operata alcuna selezione",
+    "loadMore": "Carica altro",
+    "noData": "Nessun dato disponibile",
     "entityTypes": {
       "label": "Entità sconosciuta",
       "label_application": "Applicazione",
       "label_website": "Sito web"
+    },
+    "selectLabel": "Selezione: {{selectedLabel}}",
+    "serviceLevelObjective": "Obiettivo di livello di servizio (SLO)",
+    "metrics": {
+      "status": "Stato",
+      "remainingBudget": "Budget di errore rimanente",
+      "totalBudget": "Budget di errore",
+      "consumedBudget": "Budget di errore utilizzato"
     }
   },
   "createSloDialog": {
+    "customFilter": "Filtro personalizzato",
     "title": "Crea SLO (Service Level Objective)",
     "selectEntityNavItem": "Seleziona entità",
-    "selectEntityTitle": "Selezionare un'entità a cui aggiungere SLO:"
+    "selectEntityTitle": "Selezionare un'entità a cui aggiungere SLO:",
+    "selectScopeNavItem": "Seleziona ambito",
+    "selectScopeTitle": "Seleziona ambito",
+    "beaconTypes": {
+      "beaconLabel_httpRequest": "Richieste HTTP",
+      "beaconLabel_pageLoad": "Caricamenti pagine di siti web",
+      "beaconLabel_custom": "Eventi personalizzati di siti web"
+    }
   },
   "sloList": {
     "components": {
@@ -28,7 +51,8 @@
       "sloBlueprintColumnContent": {
         "blueprint": "Blueprint sconosciuto",
         "blueprint_latency": "Latenza",
-        "blueprint_availability": "Disponibilità"
+        "blueprint_availability": "Disponibilità",
+        "blueprint_custom": "Personalizzato"
       },
       "entityTypeFilter": {
         "placeholder": "Tipo di entità"
@@ -40,18 +64,19 @@
         "target": "Destinazione {{target}}"
       },
       "errorBudgetInfo": {
-        "budget_timeBased": "{{remaining}} / {{budget}} min",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"contesto\": \"{{entityType}}\", \"conteggio\": {{remaining}} })",
-        "remainingEvent_website": "{{count}} beacon",
-        "remainingEvent_website_plural": "{{count}} beacon",
-        "remainingEvent_website_0": "{{count}} beacon",
-        "remainingEvent_website_1": "{{count}} beacon",
-        "remainingEvent_website_2": "{{count}} beacon",
-        "remainingEvent_application": "{{count}} chiamata",
-        "remainingEvent_application_plural": "{{count}} chiamate",
-        "remainingEvent_application_0": "{{count}} chiamate",
-        "remainingEvent_application_1": "{{count}} chiamata",
-        "remainingEvent_application_2": "{{count}} chiamate",
+        "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
+        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "remainingEvent_website": "{{formatted}} beacon",
+        "remainingEvent_website_plural": "{{formatted}} beacon",
+        "remainingEvent_website_0": "{{formatted}} beacon",
+        "remainingEvent_website_1": "{{formatted}} beacon",
+        "remainingEvent_website_2": "{{formatted}} beacon",
+        "remainingEvent_application": "{{formatted}} chiamata",
+        "remainingEvent_application_plural": "{{formatted}} chiamate",
+        "remainingEvent_application_0": "{{formatted}} chiamate",
+        "remainingEvent_application_1": "{{formatted}} chiamata",
+        "remainingEvent_application_2": "{{formatted}} chiamate",
         "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"contesto\":\"{{durationUnit}}\", \"conteggio\":{{duration}}}), risolti / {{remaining}} rimanenti",
         "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"contesto\":\"{{durationUnit}}\", \"conteggio\":{{duration}}}), in corso",
         "timeWindowSize_month": "{{count}} mese",
@@ -79,6 +104,25 @@
       "errorBudget": "Budget di errore rimanente",
       "status": "Stato/Destinazione",
       "tags": "Tag"
+    }
+  },
+  "analyzeSloEventsButton": {
+    "analyze": "Analizza {{entity}}"
+  },
+  "sloDashboard": {
+    "components": {
+      "errorBudgetKpiCard": {
+        "totalBudget": "Budget: {{value}}"
+      },
+      "sloStatusKpiCard": {
+        "target": "Obiettivo SLO: {{value}}"
+      },
+      "errorBudgetChart": {
+        "title": "Budget di errore",
+        "title_fullWindow": "Budget di errore per l'intera finestra temporale",
+        "optionCompact": "Compatto",
+        "optionFull": "Pieno consumo"
+      }
     }
   }
 }

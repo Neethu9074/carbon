@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -42,9 +44,9 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="coralogix-test-link">{t('in-settings:tabs.testYourCoralogixLink')}</Label>
-          <a href={coralogixUrl} target={'_blank'} rel="noopener noreferrer">
+          <Link size="sm" href={coralogixUrl} external>
             {coralogixUrl}
-          </a>
+          </Link>
         </FormGroup>
       )}
     </fieldset>

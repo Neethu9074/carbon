@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { SvgIcon, toInteractiveElement } from '@instana/components';
 
 import locals from './SortIndicator.mless';
 
@@ -16,13 +15,17 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
   }
 
   const active = index === sortIndex;
-  const onClick = e => {
-    e.preventDefault();
+  const onDefaultInteraction = () => {
     onChangeSort(index, active ? inverseDirection(sortDirection) : 'asc');
   };
 
   return (
-    <Link href="" onClick={onClick} className={active ? locals.tableSortIndicatorActive : locals.tableSortIndicator}>
+    <div
+      {...toInteractiveElement({
+        onDefaultInteraction
+      })}
+      className={active ? locals.tableSortIndicatorActive : locals.tableSortIndicator}
+    >
       {title}
 
       <SvgIcon
@@ -30,7 +33,7 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
         type={sortDirection === 'asc' ? 'lib_arrow_short_up' : 'lib_arrow_short_down'}
         size="xs"
       />
-    </Link>
+    </div>
   );
 }
 

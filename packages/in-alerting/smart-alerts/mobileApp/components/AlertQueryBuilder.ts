@@ -7,17 +7,17 @@
 import { Result, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-//@ts-expect-error Needs TS migration
-import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
+import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 //@ts-expect-error Needs TS migration
 import { getSuggestions } from 'in-mobile-apps/queryBuilder';
-import { CreateQueryBuilderResponse, GetSuggestionsProps } from 'in-components/QueryBuilder';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Nullish, MobileAppMonitoringBeaconType } from 'in-types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
+import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 
 /**
  * Creates a QueryBuilder that is bound to a single mobileApp, use-case and beacon-type.
@@ -52,7 +52,7 @@ export function createBoundedAlertQueryBuilder(
 }
 
 export function getMobileAppTagSuggestions(
-  args: GetSuggestionsProps,
+  args: GetMobileAppSuggestionsProps,
   mobileAppId: string | Nullish,
   beaconType: MobileAppMonitoringBeaconType,
   suggestionTimeConfig?: TimeConfig
@@ -63,7 +63,7 @@ export function getMobileAppTagSuggestions(
   });
 }
 
-function tagSuggestionArgs(args: GetSuggestionsProps, suggestionTimeConfig?: TimeConfig) {
+function tagSuggestionArgs(args: GetMobileAppSuggestionsProps, suggestionTimeConfig?: TimeConfig) {
   return {
     ...args,
     tagName: args.name,
@@ -100,7 +100,7 @@ export function getQueryBuilderForBeaconType(
   return queryBuildersByBeaconTypeStatic[beaconType ?? 'sessionStart'];
 }
 
-function withMobileAppIdFilter(args: GetSuggestionsProps, mobileAppId: string | Nullish) {
+function withMobileAppIdFilter(args: GetMobileAppSuggestionsProps, mobileAppId: string | Nullish) {
   const { tagFilterExpression } = args;
   if (mobileAppId)
     return {

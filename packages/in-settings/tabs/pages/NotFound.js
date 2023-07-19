@@ -5,14 +5,15 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { userSettings, teamSettings } from 'in-settings/navigation/paths';
-import { getView } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function NotFoundPage() {
+  const { createHrefToPath } = useNavigation();
   return (
     <Fragment>
       <Title>{t('in-settings:tabs.notFound')}</Title>
@@ -20,10 +21,14 @@ export default function NotFoundPage() {
       <p>{t('in-settings:tabs.weCouldNotFindTheSettingsPageYouWereLookingFor')}</p>
       <ul>
         <li>
-          <Link href$={getView(teamSettings)}>{t('in-settings:tabs.teamSettings')}</Link>
+          <Link size="sm" href={createHrefToPath(teamSettings)}>
+            {t('in-settings:tabs.teamSettings')}
+          </Link>
         </li>
         <li>
-          <Link href$={getView(userSettings)}>{t('in-settings:tabs.userSettings')}</Link>
+          <Link size="sm" href={createHrefToPath(userSettings)}>
+            {t('in-settings:tabs.userSettings')}
+          </Link>
         </li>
       </ul>
     </Fragment>

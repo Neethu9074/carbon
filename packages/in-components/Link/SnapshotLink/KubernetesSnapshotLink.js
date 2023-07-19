@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import locals from './SnapshotLink.mless';
 
 export default function KubernetesSnapshotLink({ viewEntityDashboardHref, children }) {
   return (
-    <Link href={viewEntityDashboardHref} className={locals.inSnapshotLink}>
+    <Link href={viewEntityDashboardHref} className={locals.inSnapshotLink} size="sm">
       {children}
     </Link>
   );

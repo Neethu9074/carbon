@@ -96,11 +96,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'applicationSmartAlertsEnabled',
-    instanaCtlKey: 'feature.application.smart.alerts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'agentMonitoringIssuesEnabled',
     instanaCtlKey: 'feature.agent.monitoring.issues.enabled',
     defaultValue: false
@@ -213,7 +208,7 @@ module.exports = exports = [
   {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -273,12 +268,7 @@ module.exports = exports = [
   {
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'applicationApdexEnabled',
-    instanaCtlKey: 'feature.apdex.application.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websiteUploadConfigEnabled',
@@ -318,6 +308,11 @@ module.exports = exports = [
   {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsFeatureEnabled',
+    instanaCtlKey: 'feature.bizops.feature.enabled',
     defaultValue: false
   },
   {
@@ -373,6 +368,26 @@ module.exports = exports = [
   {
     uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
     instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertsHubEnabled',
+    instanaCtlKey: 'feature.alerts.hub.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sloEnabled',
+    instanaCtlKey: 'feature.slo.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'syntheticRbacEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'customWidgetEventsTableEnabled',
+    instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: false
   }
 ];

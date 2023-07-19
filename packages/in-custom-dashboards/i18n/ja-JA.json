@@ -32,7 +32,9 @@
         "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。",
         "publicDashboard": "パブリック・ダッシュボード",
         "publicDashboardExplain": "このダッシュボードは、組織内のすべてのユーザーに対して表示されます。 変更できるのは自分のみですが、編集者を追加できます。",
-        "done": "完了"
+        "save": "保存",
+        "cancel": "キャンセル",
+        "tooltipCloseAndCancel": "閉じてキャンセル"
       }
     },
     "widgetEditorDialog": {
@@ -150,18 +152,6 @@
       }
     },
     "srcInfrastructure": {
-      "entityCount": {
-        "infrastructureEntityCount": "インフラストラクチャーとプラットフォームのエンティティー数"
-      },
-      "entityCountFormComponent": {
-        "query": "照会",
-        "helpAction": "インフラストラクチャー・マップ内で使用するダイナミック・フォーカス・クエリー (DFQ)。",
-        "metric": "メトリック",
-        "count": "数",
-        "aggregation": "集約",
-        "pleaseSelect": "選択してください",
-        "pleaseSelectMetric": "メトリックを選択してください"
-      },
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
@@ -547,12 +537,6 @@
         "timeWindowType_rolling": "ローリング時間枠",
         "timeWindowType_fixed": "固定時間枠"
       },
-      "sloEntityInfo": {
-        "tooltip": {
-          "applications": "アプリケーション SLO",
-          "websites": "Web サイト SLO"
-        }
-      },
       "sliConfig": {
         "sliName": "SLI 名",
         "sliType": "SLI タイプ",
@@ -736,6 +720,17 @@
     "timezones": {
       "atLeastOneTimeZoneMustBeConfigured": "少なくとも 1 つのタイム・ゾーンを構成する必要があります。",
       "pleaseSelectATimeZone": "タイム・ゾーンを選択してください。"
+    },
+    "histogram": {
+      "histogram": "ヒストグラム",
+      "demo": {
+        "title": "分布"
+      },
+      "formComp": {
+        "metrics": "メトリックの選択",
+        "axisConfiguration": "軸の構成",
+        "formatter": "フォーマッター (X 軸)"
+      }
     }
   },
   "duplicateDashboardDialog": {

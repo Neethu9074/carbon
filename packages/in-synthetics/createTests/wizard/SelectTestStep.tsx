@@ -7,9 +7,10 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import { blueprintConfig, BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { Error as ScriptError } from 'in-types';
 import Menu from 'in-components/Menu';
@@ -40,7 +41,7 @@ export default function SelectTestStep({
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
-        items={blueprintConfig}
+        items={getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)}
         addRightSeparator
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {

@@ -22,4 +22,8 @@
     padding: 1rem;
     color: @lib__colors__N600Light;
   }
+
+  .disabled {
+    pointer-events: none;
+  }
 }

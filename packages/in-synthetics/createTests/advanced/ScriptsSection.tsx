@@ -33,6 +33,9 @@ interface ScriptProps {
   isUpdateConfig: boolean;
   scriptDetails: Code;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  isBrowser: boolean;
 }
 
 export default function ScriptsSection({
@@ -42,17 +45,29 @@ export default function ScriptsSection({
   setCustomSlideInHeaderConfig,
   isUpdateConfig,
   scriptDetails,
-  setScriptDetails
+  setScriptDetails,
+  commonAttributes,
+  setCommonAttributes,
+  isBrowser
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
+  const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
+  const isSideScript = () => {
+    try {
+      JSON.parse((configForm.get('script') as Field<string>).value);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
   const [script, setScript] = useState(
     isUpdateConfig && !isUpdated
       ? configForm.get('script')
         ? {
             name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
             text: (configForm.get('script') as Field<string>).value,
-            extension: 'js'
+            extension: isSideScript() ? 'side' : 'js'
           }
         : {
             name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
@@ -125,6 +140,12 @@ export default function ScriptsSection({
     }
   ];
 
+  const scriptTestType = (fileExtension: string, syntheticType: string) => {
+    if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
+    if (fileExtension === 'side') return 'WebpageScript';
+    return syntheticType;
+  };
+
   return (
     <List
       getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
@@ -154,6 +175,7 @@ export default function ScriptsSection({
                     setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
                     onSubmit={(scriptContent, zipFile) => {
                       let updatedForm;
+                      let testType = isBrowser ? scriptTestType(scriptContent.extension, syntheticType) : syntheticType;
                       if (scriptContent.extension !== 'zip') {
                         if (!form.get('configuration').get('script')) {
                           updatedForm = form.put(
@@ -171,14 +193,24 @@ export default function ScriptsSection({
                                   )
                                 }).setTouched(true)
                               )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
+                              )
                               .remove('scripts')
                           );
                         } else {
-                          updatedForm = form
-                            .updateIn(['configuration', 'script'], (field: Item) =>
-                              (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                            )
-                            .remove('scripts');
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .updateIn(['script'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
+                              )
+                              .remove('scripts')
+                          );
                         }
                         updateForm(updatedForm);
                       } else {
@@ -190,6 +222,9 @@ export default function ScriptsSection({
                               .put(
                                 'scripts',
                                 createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
                               )
                               .remove('script')
                           );
@@ -203,6 +238,9 @@ export default function ScriptsSection({
                               )
                               .updateIn(['scripts', 'scriptFile'], (field: Item) =>
                                 (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
                               )
                               .remove('script')
                           );
@@ -221,8 +259,12 @@ export default function ScriptsSection({
                           : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
                       );
                       setIsUpdated(true);
+                      if (isBrowser) {
+                        setCommonAttributes({ ...commonAttributes, syntheticType: testType });
+                      }
                     }}
                     setSliderState={setSliderState}
+                    isBrowser={isBrowser}
                   />
                 ),
                 title:

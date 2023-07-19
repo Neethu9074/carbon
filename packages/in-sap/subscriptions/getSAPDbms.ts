@@ -5,11 +5,11 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, SapDbmsItem } from 'in-types';
+import { Result, SapDbItem } from 'in-types';
 
 interface GetDbmsRequest {}
 
-interface GetDbmsResponse extends Result<SapDbmsItem> {}
+interface GetDbmsResponse extends Result<SapDbItem> {}
 
 export default createResultSubscriptionFactory<GetDbmsRequest, GetDbmsResponse>({
   eventId: 'getSAPDbms'

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li, KeyValue, Button, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';

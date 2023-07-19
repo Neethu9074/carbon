@@ -103,6 +103,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
     mobileAppId: form.get(fieldNames.mobileAppId).value,
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value
+    granularity: form.get(fieldNames.granularity).value,
+    customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }

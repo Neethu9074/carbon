@@ -382,6 +382,14 @@
     "presenterLabelCalls": "Llamadas",
     "latencyRangeLabelFromTimeToTime": "{{from}} a las{{to}}"
   },
+  "histogram": {
+    "rangeLabel": "{{from}} a las{{to}}",
+    "metricLabel": "Mediciones",
+    "presenterLabelNoDataToDisplay": "No hay datos para visualizar",
+    "total": "Total",
+    "min": "Mín",
+    "max": "Max"
+  },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "No encontrado"
   },
@@ -414,6 +422,7 @@
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
+    "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",

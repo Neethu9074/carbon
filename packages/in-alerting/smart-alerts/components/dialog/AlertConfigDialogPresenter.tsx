@@ -57,6 +57,7 @@ export interface AlertConfigDialogPresenterProps {
   QueryBuilderComponent: QueryBuilderComponent;
   isTagFilterFormModelValid: boolean;
   TagBasedPayloadConfigurator: React.FunctionComponent<any>;
+  isDynamicCustomPayloadValid: boolean;
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
   timeConfig?: TimeConfig;

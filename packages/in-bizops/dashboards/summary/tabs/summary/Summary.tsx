@@ -8,21 +8,21 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
-import Timeline from 'in-bizops/dashboards/summary/tabs/summary/components/Timeline';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { TimeShift } from 'in-components/Chart/types';
-import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 export default function Summary() {
-  const timeShiftConfig: TimeShift = useTimeShiftConfig();
+  const timeShiftConfig = useTimeShiftConfig();
+  const timeConfig = useTimeConfig();
 
   // Get the business process name from the URL
-  const location: Location = useLocation();
+  const location = useLocation();
   const businessProcessName: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
@@ -34,10 +34,14 @@ export default function Summary() {
     <Fragment>
       <Row>
         <Col xs>
-          <Timeline
+          <BizOpsCountChart
             timeShiftConfig={timeShiftConfig}
+            timeConfig={timeConfig}
             businessProcessName={businessProcessName}
             businessProcessId={businessProcessId}
+            metric={'started_processes'}
+            label={businessProcessName}
+            dataSource={'BUSINESS_PROCESSES'}
           />
         </Col>
         <Col xs>

@@ -3,35 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose } from 'recompose';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
+import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
-import connect from 'in-hoc/connectTo';
 
-export default compose(
-  getResultFromApiPing({
+export default function InstanaOnboardingComponent({ onDialogSkip }) {
+  useDisabledBodyScroll();
+
+  const apiCallSatisfied = useResultFromApiPing({
     url: `/api/infrastructure-monitoring/monitoring-state`,
     // users who ever had something monitoring can skip the dialog. Also engineers
     checkResult: result => checkIfUserCanPass(result.hasEntities)
-  }),
-  connect({ keys: getUnitKeys() })
-)(InstanaOnboardingComponent);
-
-function InstanaOnboardingComponent({
-  onDialogSkip,
-  apiCallSatisfied,
-  keys = '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}'
-}) {
-  useDisabledBodyScroll();
+  });
+  const keys = useObservable(getUnitKeys, []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
 
   return (
     <ErrorBoundary name="Instana onboarding dialog">

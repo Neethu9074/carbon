@@ -49,6 +49,15 @@ export function getMobileAppsWithDefaults({
         metric: 'views',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      crashesAgg: {
+        metric: 'crashFreeSessionRate',
+        aggregation: 'MEAN'
+      },
+      crashes: {
+        metric: 'crashFreeSessionRate',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
       }
     },
     labelFilter: query,

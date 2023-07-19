@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -22,7 +22,7 @@ export const unitColumn = {
     getContent(val, row) {
       return (
         <Link
-          href$={getModifiedUrlStream(params => {
+          href={getModifiedUrlStream(params => {
             params.pathname = '/internal/monitoringUnit/unit';
             setOrDeleteMatrixKey(params, '/unit', 'tenant', row.tenant);
             setOrDeleteMatrixKey(params, '/unit', 'unit', row.unit);

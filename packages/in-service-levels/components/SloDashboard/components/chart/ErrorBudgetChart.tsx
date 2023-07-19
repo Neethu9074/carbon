@@ -149,8 +149,8 @@ function useErrorBudgetChartMetrics(
       consumed: (result.data?.find(r => r.id === 'consumed')?.values ?? []) as MetricDataSeries,
       remaining: (result.data?.find(r => r.id === 'remaining')?.values ?? []) as MetricDataSeries
     },
-    granularity: result.data?.[0].granularity ?? metricConfigs.consumed.granularity,
-    adjustedTimeConfig: applyAdjustedTimeframe(timeConfig, result.data?.[0].adjustedTimeframe)
+    granularity: result.data?.[0]?.granularity ?? metricConfigs.consumed.granularity,
+    adjustedTimeConfig: applyAdjustedTimeframe(timeConfig, result.data?.[0]?.adjustedTimeframe)
   };
 
   return resultToFetchedStateResponse(success(mappedData));

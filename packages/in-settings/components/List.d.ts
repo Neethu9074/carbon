@@ -60,6 +60,8 @@ interface ListProps<ItemType extends Object> {
   }) => ItemType[];
   onRowClick?: (entity: ItemType) => void;
   renderNoDataAvailable?: (message?: string) => React.ReactNode;
+  onCreateNew?: () => void;
+  labelNew?: string;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;
@@ -88,3 +90,5 @@ export declare function CreateNewEntityButton({
 export default ListComponent;
 
 export function reload(): void;
+
+export function defaultHeaderWithCount(title: string): (totalHits: number, filteredHits: number) => string;
