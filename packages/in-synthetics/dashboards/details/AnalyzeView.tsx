@@ -66,6 +66,7 @@ export default function SyntheticAnalyzeView() {
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
+  const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
 
   const formatType: string = isBrowserTest ? 'HAR' : 'SUBTRANSACTIONS';
   const details: ResultDetailsResponse =
@@ -203,7 +204,11 @@ export default function SyntheticAnalyzeView() {
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}
-                    value={get(resultList.data?.items[0], ['metrics', 'response_size', 0, 1], 0)}
+                    value={
+                      responseSize
+                        ? +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0)
+                        : get(resultList.data?.items[0], ['metrics', 'response_size', 0, 1], 0)
+                    }
                     renderValue={bytes.detailed}
                   />
                 </Col>
