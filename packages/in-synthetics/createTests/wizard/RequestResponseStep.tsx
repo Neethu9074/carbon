@@ -123,7 +123,7 @@ export default function RequestResponseStep({
     }
 
     return (
-      <ScrollBox maxHeight="38%">
+      <ScrollBox maxHeight="73.26%" className={locals.scrollBox}>
         {locations.data?.filter(Boolean).map(location => (
           <Li key={location.id}>
             <CheckboxFancy

@@ -98,6 +98,14 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
   const aggregation = aggregationField?.value;
   const formatters = getFormatter(source, metric, aggregation);
 
+  const previousFormatter = form.get('formatter')?.value;
+
+  for (let formatter of formatters) {
+    if (previousFormatter === formatter.id) {
+      return form;
+    }
+  }
+
   return form.updateIn([formatterPath], f =>
     (f as Field<string>).setValue(formatters?.[0].id ?? defaultFormatter).setTouched(true)
   );
@@ -123,8 +131,16 @@ function handleChartAxisFormatterUpdate(axisName: 'y1' | 'y2') {
       };
     });
 
+    const previousFormatter = axis.get('formatter')?.value;
+
     const formatters =
       metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
+
+    for (let formatter of formatters) {
+      if (previousFormatter === formatter.id) {
+        return form;
+      }
+    }
 
     return form.updateIn([axisName, formatterPath], f =>
       (f as Field<string>).setValue(formatters?.[0]?.id ?? defaultFormatter.id).setTouched(true)

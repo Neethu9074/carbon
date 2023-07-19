@@ -16,6 +16,17 @@
     flex: 1;
   }
 
+  .locationContainer {
+    min-height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scrollBox {
+    min-height: 73.26%;
+  }
+
   .subTitle {
     color: @lib__colors__teal800;
     font-size: 1rem;
