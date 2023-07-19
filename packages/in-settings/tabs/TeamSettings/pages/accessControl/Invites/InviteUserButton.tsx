@@ -16,13 +16,13 @@ import InviteUserDialog, {
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { emptyObject } from 'in-services/fixedObjects';
-import { sendInvitation } from 'in-api/users';
+import { sendInvitations } from 'in-api/users';
 import { Response } from 'in-services/http';
 import { t } from 'in-i18n';
 
 const logger = createLogger('InviteUserButton');
 
-type InvitationStatus = 'SUCCESS' | 'INTERNAL_ERROR' | 'FAILURE_USER_ALREADY_EXISTS';
+type InvitationStatus = 'SUCCESS' | 'INTERNAL_ERROR' | 'FAILURE_USER_ALREADY_EXISTS' | 'notSentYet';
 
 interface UserInvitationResult {
   // Replace with generated type
@@ -60,6 +60,8 @@ function mapToUserSentState(invitationStatus: InvitationStatus): UserSentState {
       return 'sentFailureServerError';
     case 'FAILURE_USER_ALREADY_EXISTS':
       return 'sentFailureUserExists';
+    case 'notSentYet':
+      return 'notSentYet';
   }
 }
 
@@ -70,8 +72,8 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
     text: t('in-settings:tabs.sendingInvitation'),
     type: 'success'
   });
-  // @ts-expect-error
-  const invitationResult$: Observable<Response<UserInvitationResult>> = sendInvitation(
+  // @ts-ignore
+  const invitationResult$: Observable<Response<UserInvitationResult>> = sendInvitations(
     invitations.filter(i => i.userSentState === 'notSentYet')
   );
   invitationResult$.once((data: any) => {

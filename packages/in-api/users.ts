@@ -13,49 +13,68 @@ import http from 'in-services/http';
 
 export { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 
-const refreshSignalInvitations = create().emit(true);
+export enum InvitationStatus {
+  SUCCESS = 'SUCCESS',
+  INTERNAL_ERROR = 'INTERNAL_ERROR',
+  FAILURE_USER_ALREADY_EXISTS = 'FAILURE_USER_ALREADY_EXISTS'
+}
 
-// observables
+export interface InvitationResult {
+  readonly userMail: string;
+  readonly invitationStatus: InvitationStatus;
+}
+
+export interface InvitationResponse {
+  readonly invitationResults: InvitationResult[];
+}
+
+export interface Invitation {
+  readonly email: string;
+  readonly groupId: string;
+}
+
+export interface UserResult {
+  readonly id: string;
+  readonly email: string;
+  readonly fullName: string;
+  readonly lastLoggedIn: number | null | undefined;
+  readonly groupCount: number | null | undefined;
+  readonly tfaEnabled: boolean | null | undefined;
+}
+
+/*
+interface UserInvitationResult {
+  // Replace with generated type
+  userEmail: string;
+  invitationStatus: InvitationStatus;
+}
+
+interface UserInvitationResults {
+  // Replace with generated type
+  invitationResults: UserInvitationResult[];
+}
+*/
 
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {
-  return refreshSignalUsers.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/users`
-      })
-    )
-  );
+  return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
 }
-
-export const getInvitations$ = memoize(getInvitationsInternal, () => '', 60000);
-function getInvitationsInternal() {
-  return refreshSignalInvitations.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/invitations`
-      })
-    )
-  );
-}
-
-// regular calls
 
 export function getUsers() {
-  return http({
+  return getUsersInternal().map(response => response.body);
+}
+
+function getUsersInternal() {
+  return http<UserResult[]>({
     method: 'GET',
     maxRetries: 3,
     url: `/api/settings/users`
-  }).map(response => response.body);
+  });
 }
 
 export function getPermissions(userId: string) {
   return createObservable(
-    http({
+    http<string[]>({
       method: 'GET',
       maxRetries: 3,
       url: `/api/permissions/${encodeURIComponent(userId)}`
@@ -64,7 +83,7 @@ export function getPermissions(userId: string) {
 }
 
 export function removeUserFromTenant(userId: string) {
-  return http({
+  return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -75,10 +94,25 @@ export function removeUserFromTenant(userId: string) {
   });
 }
 
-export function sendInvitation(invitations: any) {
-  return http({
+const refreshSignalInvitations = create().emit(true);
+
+export const getInvitations$ = memoize(getInvitationsInternal, () => '', 60000);
+function getInvitationsInternal() {
+  return refreshSignalInvitations.flatMap(() =>
+    createObservable(
+      http<InvitationResponse>({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/invitations`
+      })
+    )
+  );
+}
+
+export function sendInvitations(invitations: Invitation[]) {
+  return http<InvitationResponse>({
     method: 'POST',
-    url: `/api/settings/invitations`,
+    url: '/api/settings/invitations',
     headers: getCsrfHeader(),
     data: invitations
   }).map(v => {
@@ -87,8 +121,20 @@ export function sendInvitation(invitations: any) {
   });
 }
 
+export function sendInvitation(invitation: Invitation) {
+  return http<void>({
+    method: 'POST',
+    url: `/api/settings/invitations`,
+    headers: getCsrfHeader(),
+    data: invitation
+  }).map(v => {
+    refreshSignalInvitations.emit(invitation);
+    return v;
+  });
+}
+
 export function revokeInvitation(email: string) {
-  return http({
+  return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/invitations`,
