@@ -12,10 +12,10 @@ import { Observable, create } from '@instana/observables';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import InviteUserDialog, { UserInvite } from '../Invites/InviteUserDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import { onDoInviteUser } from '../Invites/InviteUserButton';
-import InviteUserDialog from '../Invites/InviteUserDialog';
 import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -46,7 +46,9 @@ export default function Users() {
           track(USER_INVITE, emptyObject);
           // @ts-ignore
           addActiveDialog(
-            <InviteUserDialog onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations)} />
+            <InviteUserDialog
+              onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations, undefined)}
+            />
           );
         }}
         labelNew={t('in-settings:tabs.inviteUser')}
