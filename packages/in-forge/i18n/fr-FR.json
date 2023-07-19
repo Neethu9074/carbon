@@ -269,6 +269,11 @@
   "pluginName_baw_1": "BAW",
   "pluginName_baw_2": "BAW",
   "pluginName_baw": "BAW",
+  "pluginName_jbpm_plural": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_0": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_1": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_2": "Red Hat PAM / jBPM",
+  "pluginName_jbpm": "Red Hat PAM / jBPM",
   "pluginName_beeInstanaNode_plural": "Serveurs BeeInstana",
   "pluginName_beeInstanaNode_0": "Serveur BeeInstana",
   "pluginName_beeInstanaNode_1": "Serveur BeeInstana",
@@ -1584,6 +1589,11 @@
   "tracingTypeName_baw_0": "Appels BAW",
   "tracingTypeName_baw_1": "Appel BAW",
   "tracingTypeName_baw_2": "Appels BAW",
+  "tracingTypeName_jbpm": "Appel Red Hat PAM / jBPM",
+  "tracingTypeName_jbpm_plural": "Appels Red Hat PAM / jBPM",
+  "tracingTypeName_jbpm_0": "Appels Red Hat PAM / jBPM",
+  "tracingTypeName_jbpm_1": "Appel Red Hat PAM / jBPM",
+  "tracingTypeName_jbpm_2": "Appels Red Hat PAM / jBPM",
   "tracingTypeName_cassandra": "Requête Cassandra",
   "tracingTypeName_cassandra_plural": "Requêtes Cassandra",
   "tracingTypeName_cassandra_0": "Requête Cassandra",
@@ -5018,7 +5028,8 @@
     },
     "bpm": {
       "camunda": "Camunda",
-      "baw": "BAW"
+      "baw": "BAW",
+      "jbpm": "Red Hat PAM / jBPM"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",

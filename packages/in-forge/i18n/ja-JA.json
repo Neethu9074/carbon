@@ -269,6 +269,11 @@
   "pluginName_baw_1": "BAW",
   "pluginName_baw_2": "BAW",
   "pluginName_baw": "BAW",
+  "pluginName_jbpm_plural": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_0": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_1": "Red Hat PAM / jBPM",
+  "pluginName_jbpm_2": "Red Hat PAM / jBPM",
+  "pluginName_jbpm": "Red Hat PAM / jBPM",
   "pluginName_beeInstanaNode_plural": "BeeInstana サーバー",
   "pluginName_beeInstanaNode_0": "BeeInstana サーバー",
   "pluginName_beeInstanaNode_1": "BeeInstana サーバー",
@@ -1584,6 +1589,11 @@
   "tracingTypeName_baw_0": "BAW 呼び出し (複数可)",
   "tracingTypeName_baw_1": "BAW 呼び出し",
   "tracingTypeName_baw_2": "BAW 呼び出し (複数可)",
+  "tracingTypeName_jbpm": "Red Hat PAM / jBPM 呼び出し",
+  "tracingTypeName_jbpm_plural": "Red Hat PAM / jBPM 呼び出し (複数可)",
+  "tracingTypeName_jbpm_0": "Red Hat PAM / jBPM 呼び出し (複数可)",
+  "tracingTypeName_jbpm_1": "Red Hat PAM / jBPM 呼び出し",
+  "tracingTypeName_jbpm_2": "Red Hat PAM / jBPM 呼び出し (複数可)",
   "tracingTypeName_cassandra": "Cassandra 照会",
   "tracingTypeName_cassandra_plural": "Cassandra 照会",
   "tracingTypeName_cassandra_0": "Cassandra 照会",
@@ -5018,7 +5028,8 @@
     },
     "bpm": {
       "camunda": "Camunda",
-      "baw": "BAW"
+      "baw": "BAW",
+      "jbpm": "Red Hat PAM / jBPM"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
