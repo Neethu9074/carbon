@@ -9,16 +9,15 @@ import React, { useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getCustomEventSpecificationMutable,
-  saveCustomEventSpecificationWithActions,
-  updateActionsAssignedToBuiltInEvent
-} from 'in-api/eventSpecifications';
-import { getAllActionsWithAISuggestions, getApplicationAlertActionAssociations } from 'in-automation/api';
+  getAllActionsWithAISuggestions,
+  getApplicationAlertActionAssociations,
+  updateApplicationAlertAssociations
+} from 'in-automation/api';
+import { associateActionsTracker, trackAlertActionAssociated } from 'in-automation/tracker';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
-import { associateActionsTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 interface RecommendedActionsCardAlertsProps {
@@ -42,6 +41,7 @@ export default function RecommendedActionsCardAlerts({
   alertConfig
 }: RecommendedActionsCardAlertsProps) {
   const [error, setError] = useState(false);
+
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
 
@@ -114,7 +114,6 @@ export function associateAction({
   alertConfig,
   triggerReload,
   setError,
-  isCustomEvent,
   existingActions
 }: AssociateActionProps) {
   associateActionsTracker({
@@ -122,18 +121,12 @@ export function associateAction({
     actionNames: [action.name]
   });
 
-  const onSave = () => triggerReload();
+  const onSave = () => {
+    trackAlertActionAssociated([action.id], alertConfig.id);
+    triggerReload();
+  };
   const handleErrors = () => setError(true);
-  const updatedActions = [...existingActions, action];
+  const updatedActionIds = [...existingActions, action].map(a => a.id);
 
-  if (isCustomEvent) {
-    getCustomEventSpecificationMutable(alertConfig.id).once(
-      response =>
-        saveCustomEventSpecificationWithActions({ ...response, actions: updatedActions }).once(onSave, handleErrors),
-      handleErrors
-    );
-    return;
-  }
-
-  updateActionsAssignedToBuiltInEvent(updatedActions, alertConfig.id).once(onSave, handleErrors);
+  updateApplicationAlertAssociations({ actions: updatedActionIds, alertId: alertConfig.id }).once(onSave, handleErrors);
 }

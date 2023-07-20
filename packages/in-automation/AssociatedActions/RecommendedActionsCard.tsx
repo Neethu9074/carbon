@@ -121,7 +121,6 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
     </>
   );
 }
-
 interface AssociateActionProps {
   action: Action;
   existingActions: Action[];
@@ -131,7 +130,7 @@ interface AssociateActionProps {
   isCustomEvent: boolean;
 }
 
-export function associateAction({
+function associateAction({
   action,
   event,
   triggerReload,
