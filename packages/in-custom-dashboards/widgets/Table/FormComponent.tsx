@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import TableFromSelector from 'in-custom-dashboards/widgets/Table/TableFormSelector';
+import { useDataSourceFormSideEffects } from 'in-custom-dashboards/widgets/Table/hooks/useFormSideEffects';
+import TableFormSelector from 'in-custom-dashboards/widgets/Table/TableFormSelector';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { dataSources } from 'in-custom-dashboards/widgets/Table';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 export default function TableWidgetFormComponent({ form, onChange }: { form: MapForm<any>; onChange: any }) {
   const sourceField = form?.get('source');
   const source = sourceField.value;
-  const updateForm = useFormatterFormSideEffects(form, updatedForm => {
+  const updateForm = useDataSourceFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
   });
 
@@ -50,7 +50,7 @@ export default function TableWidgetFormComponent({ form, onChange }: { form: Map
         </Sections>
       </Stack>
 
-      <TableFromSelector form={form} onChange={onChange} />
+      <TableFormSelector form={form} onChange={onChange} />
     </Stack>
   );
 }

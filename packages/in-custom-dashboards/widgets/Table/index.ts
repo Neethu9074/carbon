@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { customWidgetTableInfraDataSourceEnabled } from 'in-services/featureFlags';
 import { customWidgetEventsTableEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
@@ -19,14 +20,15 @@ export const type = 'table';
 export const label = 'Table';
 export const minimumWidth = 5;
 export const minimumHeight = 18;
-export const enabled = customWidgetEventsTableEnabled;
+export const enabled = customWidgetEventsTableEnabled || customWidgetTableInfraDataSourceEnabled;
 export const badge = {
   content: 'BETA'
 };
 
-export const dataSources = {
+export const dataSources: { [key: string]: { type: string; label: string } } = {
   EVENTS: {
     type: 'EventsTable',
     label: t('in-custom-dashboards:widgets.table.dataSource.events')
-  }
+  },
+  ...(customWidgetTableInfraDataSourceEnabled && { INFRA: { type: 'Infrastructure', label: 'Infrastructure' } })
 };

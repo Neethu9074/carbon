@@ -33,7 +33,7 @@ import { t } from 'in-i18n';
 import locals from './InfrastructureList.mless';
 
 export default function InfrastructureList({
-  retrievalSize = 20,
+  retrievalSize = 200,
   numSkeletonRows = 3,
   backendQueryModel,
   showHeader = false,
@@ -66,7 +66,7 @@ export default function InfrastructureList({
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, granularity, retrievalSize: 200, backendQueryModel, order, type, metrics, cursor }),
+      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
