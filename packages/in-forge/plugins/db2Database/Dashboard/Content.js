@@ -516,7 +516,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount')}>
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount',{lockAndLongQueryInterval :data.get('lockAndLongQueryInterval')})}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -613,7 +613,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <TopQueriesTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime')}>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime',{lockAndLongQueryInterval :data.get('lockAndLongQueryInterval')})}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
