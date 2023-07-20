@@ -20,7 +20,7 @@ export enum InvitationStatus {
 }
 
 export interface InvitationResult {
-  readonly userMail: string;
+  readonly userEmail: string;
   readonly invitationStatus: InvitationStatus;
 }
 

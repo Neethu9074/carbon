@@ -21,19 +21,11 @@ import { emptyObject } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export default function Users() {
-  const [message, setTextMessage] = useState<string | null>();
-
-  const setMessage = (message?: { text: string }) => {
-    if (message?.text) {
-      setTextMessage(message.text);
-    } else {
-      setTextMessage(null);
-    }
-  };
+  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>();
 
   return (
     <>
-      {message && <Message type="success" withIcon title={message} />}
+      {message && <Message type={message?.type} withIcon title={message?.text} small />}
       <List
         title={t('in-settings:tabs.users')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.users'))}
