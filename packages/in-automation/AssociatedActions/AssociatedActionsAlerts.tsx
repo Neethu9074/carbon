@@ -35,17 +35,20 @@ export default function AssociatedActionsAlerts({
   event,
   volatileId,
   alertConfig,
-  reload: outerReload,
-  setReload: setOuterReload
+  reload: externalReload,
+  setReload: setExternalReload
 }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
 
-  const [innerReload, setInnerReload] = useState(0);
-  const reload = innerReload + (outerReload ?? 0);
+  // internalReload exists to track the reload status within this component, which is necessrary
+  // if the extrernalReload prop isn't passed in. The component's data will be re-fetched
+  // whenever either of the reload states are modified.
+  const [internalReload, setInternalReload] = useState(0);
+  const reload = internalReload + (externalReload ?? 0);
   const triggerReload = () => {
-    setInnerReload(Math.random());
-    if (setOuterReload) {
-      setOuterReload(Math.random());
+    setInternalReload(Math.random());
+    if (setExternalReload) {
+      setExternalReload(Math.random());
     }
   };
 
