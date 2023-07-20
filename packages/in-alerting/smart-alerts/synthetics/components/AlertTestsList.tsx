@@ -11,6 +11,7 @@ import { SvgIcon } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
+import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
 import { Result, SyntheticTest } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
@@ -121,7 +122,7 @@ function columnDefinitions() {
       getContent(entity: SyntheticTest) {
         return (
           <div>
-            <div className={locals.label}>{entity?.configuration?.syntheticType}</div>
+            <div className={locals.label}>{getDisplayType(entity?.configuration?.syntheticType)}</div>
             <span className={locals.secText}>
               {t('in-synthetics:dashboard.testList.frequencySubText', {
                 count: entity?.testFrequency
