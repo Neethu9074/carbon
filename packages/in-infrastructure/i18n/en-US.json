@@ -74,7 +74,7 @@
     "restartCount": "Restart Count",
     "kubernetesLabels": "Kubernetes Labels",
     "podmanAnnotations": "Podman Annotations",
-    "metricExplosion": "This dashboard may not display all metrics as only {{maxMetrics}} were stored"
+    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored"
   },
   "explore": {
     "beta": "Beta",

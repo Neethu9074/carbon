@@ -9,7 +9,6 @@ import { fromPromise, combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
-import MetricExplosionNotification from 'in-infrastructure/Dashboard/components/MetricExplosionNotification';
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DashboardHeader from 'in-infrastructure/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
@@ -116,7 +115,6 @@ export default connectTo(
               </div>
               <div className={locals.content}>
                 <AgentMonitoringIssueNotifications snapshot={snapshot} timeConfig={timeConfig} />
-                <MetricExplosionNotification snapshot={snapshot} />
                 <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
               </div>
             </div>
