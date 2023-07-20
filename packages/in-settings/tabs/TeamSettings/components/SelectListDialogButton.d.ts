@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
 interface SelectListDialogButtonProps {
-  form?: MapForm;
+  form?: MapForm<any>;
   onSubmit: (selectedIds: string[]) => void;
   title: string;
   label: string;

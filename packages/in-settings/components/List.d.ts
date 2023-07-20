@@ -13,7 +13,7 @@ export interface TableActions<ItemType extends Object> {
     deselect: (entity: ItemType) => void;
   };
   delete?: {
-    deleteEntity: (entity: ItemType) => Observable<any> | void;
+    deleteEntity: (entity: ItemType) => Observable<any>;
   };
 }
 

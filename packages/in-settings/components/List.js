@@ -464,7 +464,6 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
 function doDelete(entity, deleteEntity, setErrorMessage) {
   const deletion$ = deleteEntity(entity);
   perCellLoadingIndicator$.emit({ id: entity.id, column: 'deleteAction' });
-  // if (deletion$) {
   deletion$.once(() => {
     reloadEntitiesSignal$.emit(true);
   });
@@ -474,7 +473,6 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
     reloadEntitiesSignal$.emit(true);
     setErrorMessage(errorMessage);
   });
-  // }
 }
 
 function addDeselectAction(columns, actionDefinition) {

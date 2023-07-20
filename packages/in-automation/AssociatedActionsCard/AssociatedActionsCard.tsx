@@ -16,7 +16,6 @@ import {
   saveCustomEventSpecificationWithActions,
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import {
   getScoredActionsForEventOrAlert,
   EventSpecification,
@@ -24,12 +23,11 @@ import {
   getAllActions
 } from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { VolatileId, Action, Event, CustomEventSpecificationWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { deleteActionAssociationTracker } from 'in-automation/tracker';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { associateActionsTracker } from 'in-automation/tracker';
-import { close } from 'in-components/DialogPresenter/store';
+import { VolatileId, Action, Event } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -49,11 +47,11 @@ function getObservables(isCustomEvent: boolean) {
 function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
   const [reload, triggerReload] = useState<number>(0);
   const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-  const actions =
-    useObservable<Action[], [string, number]>(
-      () => getActionsForEventSpecification(eventSpecificationId),
-      [eventSpecificationId, reload]
-    ) ?? [];
+  const actions = useObservable<Action[], [string, number]>(
+    () => getActionsForEventSpecification(eventSpecificationId),
+    [eventSpecificationId, reload],
+    { resetStateOnObservableChange: false }
+  );
 
   const eventSpecification = useObservable<EventSpecification, [string]>(
     () => getEventSpecification(eventSpecificationId),
@@ -69,112 +67,14 @@ const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
 
 export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
-  const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
   const isCustomEvent = getIsCustomEvent(event);
   const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
 
-  const eventSpecificationTest = useObservable<
-    CustomEventSpecificationWithMetadata,
-    [EventSpecification | null | undefined]
-  >(
-    // () => getCustomEventSpecificationMutable(eventSpecification.id),
-    eventSpecification ? getCustomEventSpecificationMutable(eventSpecification.id) : undefined,
-    [eventSpecification]
-  );
-
-  const closeAndReload = () => {
-    close();
-    // This helps to reload the actions table
-    triggerReload();
-  };
-  if (!eventSpecification) {
+  if (!eventSpecification || !actions) {
     return <LoadingIndicator size="xl" />;
   }
 
   const selectedActions = actions.map(action => action.id);
-  const { id: eventId, name: eventName } = eventSpecification;
-  const tableActions = {
-    delete: {
-      deleteEntity: (action: Action) => {
-        deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
-        const newActionsArray = actions.filter(obj => obj.id !== action.id).map(obj => obj.id);
-        const convertedActionsArray = newActionsArray.map(str => {
-          return { id: str };
-        });
-        if (isCustomEvent) {
-          // getCustomEventSpecificationMutable(eventId).once(response =>
-          return saveCustomEventSpecificationWithActions({ ...eventSpecificationTest, actions: convertedActionsArray });
-          // );
-        } else {
-          return updateActionsAssignedToBuiltInEvent(convertedActionsArray, eventId);
-        }
-      }
-    }
-  };
-
-  const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
-    getScoredActionsForEventOrAlert(selectedActions, eventSpecification)
-  );
-
-  function submitActionSelection(selectedIds: string[]) {
-    const actionIds = actions.map(obj => obj.id);
-    const newActionsArray = [...new Set(actionIds)].concat(selectedIds);
-    const convertedActionsArray = newActionsArray.map(str => {
-      return { id: str };
-    });
-    const actionNames = allActions.reduce<string[]>(
-      (acc, action) => [...acc, ...(newActionsArray.includes(action.id) ? [action.name] : [])],
-      []
-    );
-
-    associateActionsTracker({
-      eventName,
-      actionNames
-    });
-    if (isCustomEvent) {
-      // return getCustomEventSpecificationMutable(eventId).once(response =>
-      return saveCustomEventSpecificationWithActions({
-        ...eventSpecificationTest,
-        actions: convertedActionsArray
-      }).once(closeAndReload);
-      // );
-    } else {
-      return updateActionsAssignedToBuiltInEvent(convertedActionsArray, eventId).once(closeAndReload);
-    }
-  }
-
-  function ScoredActionTable({
-    eventSpecification,
-    ...props
-  }: Omit<ActionTableProps, 'loadEntities'> & { eventSpecification: EventSpecification }) {
-    return (
-      <ActionTable
-        {...props}
-        pageSize={5}
-        loadEntities={() =>
-          getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '')
-        }
-        scored
-      />
-    );
-  }
-  const RightHeader = (
-    <SelectListDialogButton
-      onSubmit={(selectedActions: string[]) => submitActionSelection(selectedActions)}
-      title={t('in-settings:tabs.addActions')}
-      label={t('in-settings:tabs.addActions')}
-      listComponent={(props: ActionTableProps) => (
-        <ScoredActionTable {...props} eventSpecification={eventSpecification} />
-      )}
-      hiddenIds={selectedActions}
-      createSubmitLabel={(numberOfItems: number) =>
-        numberOfItems > 0
-          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
-          : t('in-settings:tabs.addActions')
-      }
-      requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
-    />
-  );
 
   return (
     <ActionTable
@@ -183,12 +83,90 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       showActionLink
       getEntityName={action => t('in-automation:actionAssociationWithNameForDelete', { actionName: action.name })}
       event={event}
-      tableActions={tableActions}
-      rightHeader={RightHeader}
+      tableActions={{
+        delete: {
+          deleteEntity: action => {
+            deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
+            const updatedActions = actions.filter(a => a.id !== action.id).map(a => ({ id: a.id }));
+            if (isCustomEvent) {
+              return saveCustomEventSpecificationWithActions({ ...eventSpecification, actions: updatedActions }).map(
+                triggerReload
+              );
+            } else {
+              return updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).map(triggerReload);
+            }
+          }
+        }
+      }}
+      rightHeader={
+        <RightHeader
+          actions={actions}
+          eventSpecification={eventSpecification}
+          triggerReload={triggerReload}
+          isCustomEvent={isCustomEvent}
+        />
+      }
       volatileId={volatileId}
-      loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
+      loadEntities={() => getScoredActionsForEventOrAlert(selectedActions, eventSpecification)}
       scored
       isBeta
+    />
+  );
+}
+
+interface RightHeaderProps {
+  eventSpecification: EventSpecification;
+  triggerReload: () => void;
+  isCustomEvent: boolean;
+  actions: Action[];
+}
+function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
+  const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
+  const associatedActionIds = actions.map(a => a.id);
+
+  function submitActionSelection(selectedIds: string[]) {
+    const updatedActionIds = [...associatedActionIds, ...selectedIds];
+    const updatedActions = updatedActionIds.map(id => ({ id }));
+    const actionNames = allActions.reduce<string[]>(
+      (acc, action) => [...acc, ...(updatedActionIds.includes(action.id) ? [action.name] : [])],
+      []
+    );
+
+    associateActionsTracker({
+      eventName: eventSpecification.name,
+      actionNames
+    });
+    if (isCustomEvent) {
+      saveCustomEventSpecificationWithActions({
+        ...eventSpecification,
+        actions: updatedActions
+      }).once(triggerReload);
+    } else {
+      updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).once(triggerReload);
+    }
+  }
+
+  return (
+    <SelectListDialogButton
+      onSubmit={selectedActions => submitActionSelection(selectedActions)}
+      title={t('in-settings:tabs.addActions')}
+      label={t('in-settings:tabs.addActions')}
+      listComponent={(props: ActionTableProps) => (
+        <ActionTable
+          {...props}
+          loadEntities={() =>
+            getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '')
+          }
+          scored
+        />
+      )}
+      hiddenIds={associatedActionIds}
+      createSubmitLabel={numberOfItems =>
+        numberOfItems > 0
+          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          : t('in-settings:tabs.addActions')
+      }
+      requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
     />
   );
 }
