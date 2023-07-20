@@ -16,7 +16,6 @@ import locals from './ActionBar.mless';
 interface ActionBarProps {
   isSaving: boolean;
   disabled: boolean;
-  saveLabel?: string | null;
 }
 
 /**
@@ -24,14 +23,14 @@ interface ActionBarProps {
  * @param {isSaving: boolean, disabled: boolean} param0 props for component
  * @returns new Component instance
  */
-export default function ActionBar({ isSaving, disabled, saveLabel = null }: ActionBarProps) {
+export default function ActionBar({ isSaving, disabled }: ActionBarProps) {
   return (
     <div className={locals.actionsWrapper}>
       <CancelButton className={locals.button} onClick={close} isSaving={isSaving}>
         {t('in-settings:tabs.cancel')}
       </CancelButton>
       <SaveButton isSaving={isSaving} className={locals.button} disabled={disabled} kind="primary">
-        {saveLabel ?? t('in-settings:termsDialog.save')}
+        {t('in-settings:termsDialog.save')}
       </SaveButton>
     </div>
   );
