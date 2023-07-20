@@ -22,26 +22,14 @@ interface ObjectiveSectionProps {
 }
 
 const contentDefinitions: RowDefinition[] = [
-  { id: 'target', columns: [{ getContent: TargetColumn, verticallyCenter: true }] },
+  { id: 'target', columns: [{ getContent: TargetColumn }] },
   {
     id: 'timeWindowGeneral',
-    columns: [
-      { getContent: TimeWindowTypeColumn, verticallyCenter: true },
-      {
-        getContent: TimeWindowDurationColumn,
-        verticallyCenter: true
-      }
-    ]
+    columns: [{ getContent: TimeWindowTypeColumn }, { getContent: TimeWindowDurationColumn }]
   },
   {
     id: 'timeWindowFixed',
-    columns: [
-      { getContent: FixedStartDateColumn, verticallyCenter: true },
-      {
-        getContent: FixedStartTimeColumn,
-        verticallyCenter: true
-      }
-    ],
+    columns: [{ getContent: FixedStartDateColumn }, { getContent: FixedStartTimeColumn }],
     shouldRender: data => data.configuration.timeWindow.type === 'fixed'
   }
 ];

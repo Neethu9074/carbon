@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, ColumnizedDefinition, Li, Ul } from '@instana/components';
+import { ColumnizedContent, ColumnizedDefinition, Li, Typography, Ul } from '@instana/components';
 
 import { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 
@@ -27,12 +27,20 @@ export default function SloConfigSection({ data, label, contentDefinitions }: Sl
   return (
     <Li
       renderNestedContent={() => (
-        <Ul>
+        <Ul framed={false}>
           {contentDefinitions.map(row => {
             if (row.shouldRender?.(data) ?? true) {
               return (
-                <Li key={row.id}>
-                  <ColumnizedContent columnDefinitions={row.columns} data={data} />
+                <Li key={row.id} noAlternatingBg>
+                  <ColumnizedContent
+                    columnDefinitions={row.columns.map(col => ({
+                      width: '50%',
+                      shrink: false,
+                      verticallyCenter: true,
+                      ...col
+                    }))}
+                    data={data}
+                  />
                 </Li>
               );
             }
@@ -41,8 +49,11 @@ export default function SloConfigSection({ data, label, contentDefinitions }: Sl
         </Ul>
       )}
       initiallyOpen
+      noNestedFrame
     >
-      {label}
+      <Typography component="h2" variant="body-regular" noMargin>
+        {label}
+      </Typography>
     </Li>
   );
 }

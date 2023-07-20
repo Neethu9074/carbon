@@ -13,6 +13,27 @@
     "noSelection": "None selected",
     "loadMore": "Load more",
     "noData": "No data available",
+    "indicator": {
+      "type": "Unknown type",
+      "type_eventBased": "Event Count",
+      "type_timeBased": "Time",
+      "blueprint": "Unknown blueprint",
+      "blueprint_latency": "Latency",
+      "blueprint_availability": "Availability",
+      "blueprint_custom": "Custom",
+      "aggregation": "Unknown",
+      "aggregation_MEAN": "mean",
+      "aggregation_MIN": "min",
+      "aggregation_MAX": "max",
+      "aggregation_SUM": "sum",
+      "aggregation_P25": "25th",
+      "aggregation_P50": "50th",
+      "aggregation_P75": "75th",
+      "aggregation_P90": "90th",
+      "aggregation_P95": "95th",
+      "aggregation_P98": "98th",
+      "aggregation_P99": "99th"
+    },
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
@@ -21,7 +42,7 @@
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "timeWindow": {
-      "type" : "unknown",
+      "type": "unknown",
       "type_fixed": "Fixed",
       "type_rolling": "Rolling",
       "size_month": "{{count}} month",
@@ -93,12 +114,6 @@
           "applications": "Application SLO",
           "websites": "Website SLO"
         }
-      },
-      "sloBlueprintColumnContent": {
-        "blueprint": "Unknown blueprint",
-        "blueprint_latency": "Latency",
-        "blueprint_availability": "Availability",
-        "blueprint_custom": "Custom"
       },
       "entityTypeFilter": {
         "placeholder": "Entity Type"
@@ -188,6 +203,19 @@
         "customFilterLabel": "Custom filter",
         "ariaLabelChecked": "selected",
         "ariaLabelUnchecked": "unselected"
+      },
+      "indicatorSection": {
+        "title": "Indicator",
+        "blueprintLabel": "Blueprint",
+        "typeLabel": "Type",
+        "thresholdLabel": "Threshold (unknown unit)",
+        "thresholdLabel_availability": "Threshold (%)",
+        "thresholdLabel_latency": "Threshold (ms)",
+        "aggregationLabel": "Aggregation",
+        "goodEventsLabel": "Events type (good events)",
+        "goodEventsLabel_application": "Events type (good calls)",
+        "badEventsLabel": "Events type (bad events)",
+        "badEventsLabel_application": "Events type (bad calls)"
       },
       "objectiveSection": {
         "title": "Objective",
