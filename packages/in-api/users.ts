@@ -42,19 +42,6 @@ export interface UserResult {
   readonly tfaEnabled: boolean | null | undefined;
 }
 
-/*
-interface UserInvitationResult {
-  // Replace with generated type
-  userEmail: string;
-  invitationStatus: InvitationStatus;
-}
-
-interface UserInvitationResults {
-  // Replace with generated type
-  invitationResults: UserInvitationResult[];
-}
-*/
-
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {
   return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
