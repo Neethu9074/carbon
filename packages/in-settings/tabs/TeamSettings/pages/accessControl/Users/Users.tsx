@@ -36,7 +36,6 @@ export default function Users() {
         initialOrderBy="fullName"
         onCreateNew={() => {
           track(USER_INVITE, emptyObject);
-          // @ts-ignore
           addActiveDialog(
             <InviteUserDialog
               onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations, undefined)}
