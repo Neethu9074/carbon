@@ -47,7 +47,7 @@ import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter'
 import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
-import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import getPowerVCRegion from 'in-powervc/subscriptions/getPowerVCRegion';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
@@ -70,6 +70,7 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default function PlatformsTopList({ config }) {
+  const getOpenstackRegionDashboard = useOpenstackRegionDashboard();
   const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
 
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');

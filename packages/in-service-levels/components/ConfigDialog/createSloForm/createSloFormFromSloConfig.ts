@@ -6,115 +6,146 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { ApplicationBoundaryScope, SloEntityType } from '@instana/types';
+import {
+  AggregationType,
+  ApplicationBoundaryScope,
+  BlueprintType,
+  DurationUnitType,
+  ServiceLevelObjectiveConfiguration
+} from '@instana/types';
 
 import {
-  getDefaultApplicationEntityFields,
-  getDefaultApplicationScopeFields,
-  getDefaultCommonFields,
-  getDefaultWebsiteEntityFields,
-  getDefaultWebsiteScopeFields
-} from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import {
-  ApplicationEntityFields,
-  ApplicationScopeFields,
-  SloCommonFields,
+  SloEntityFields,
   SloForm,
-  WebsiteEntityFields,
-  WebsiteScopeFields
+  SloIndicatorFields,
+  SloScopeFields,
+  SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloBeaconTypes, SloConfigType } from 'in-service-levels/types';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { SloBeaconTypes } from 'in-service-levels/types';
 
-interface GetFieldsFromSloConfigProps {
-  entityType: SloEntityType;
-  sloConfig: SloConfigType;
-}
-
-export const getCommonFieldsFromSloConfig = ({
-  entityType,
-  sloConfig
-}: GetFieldsFromSloConfigProps): SloCommonFields => {
+export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
   return {
-    entityType: createField<SloEntityType>({ value: sloConfig?.entity?.type ?? entityType })
+    entityId: createField({
+      value: sloConfig.entity.type === 'application' ? sloConfig.entity.applicationId : sloConfig.entity.websiteId
+    }),
+    type: createField({ value: sloConfig.entity.type })
   };
 };
 
-export const getWebsiteEntityFieldsFromSloConfig = (sloConfig: SloConfigType): WebsiteEntityFields => {
-  if (sloConfig.entity?.type === 'website') {
-    return {
-      websiteId: createField({ value: sloConfig.entity.websiteId })
-    };
-  }
-
-  return getDefaultWebsiteEntityFields();
-};
-
-export const getWebsiteScopeFieldsFromSloConfig = (sloConfig: SloConfigType): WebsiteScopeFields => {
-  if (sloConfig.entity?.type === 'website') {
-    return {
-      beaconType: createField({ value: sloConfig.entity.beaconType }) as Field<SloBeaconTypes>,
-      tagFilterExpression: createField<FormModelElement[]>({ value: [] })
-    };
-  }
-
-  return getDefaultWebsiteScopeFields();
-};
-
-export const getApplicationEntityFieldsFromSloConfig = (sloConfig: SloConfigType): ApplicationEntityFields => {
-  if (sloConfig.entity?.type === 'application') {
-    return {
-      applicationId: createField({ value: sloConfig.entity.applicationId })
-    };
-  }
-
-  return getDefaultApplicationEntityFields();
-};
-
-export const getApplicationScopeFieldsFromSloConfig = (sloConfig: SloConfigType): ApplicationScopeFields => {
-  if (sloConfig?.entity?.type === 'application') {
-    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId } = sloConfig.entity;
+export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloScopeFields => {
+  if (sloConfig.entity.type === 'application') {
+    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } =
+      sloConfig.entity;
 
     return {
+      beaconType: createField({ value: 'httpRequest' }),
       boundaryScope: createField<ApplicationBoundaryScope>({ value: boundaryScope }),
       endpointId: createField({ value: endpointId ?? '' }),
       includeInternal: createField({ value: includeInternal ?? false }),
       includeSynthetic: createField({ value: includeSynthetic ?? false }),
       serviceId: createField({ value: serviceId ?? '' }),
-      tagFilterExpression: createField({ value: [] })
+      tagFilterExpression: createField({ value: fromBackendModel(tagFilterExpression) })
     };
   }
 
-  return getDefaultApplicationScopeFields();
+  return {
+    beaconType: createField({ value: sloConfig.entity.beaconType }) as Field<SloBeaconTypes>,
+    boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
+    endpointId: createField({ value: '' }),
+    includeInternal: createField({ value: false }),
+    includeSynthetic: createField({ value: false }),
+    serviceId: createField({ value: '' }),
+    tagFilterExpression: createField({ value: fromBackendModel(sloConfig.entity.tagFilterExpression) })
+  };
 };
 
-export const createSloFormFromSloConfig = <EntityType extends SloEntityType>({
-  entityType,
-  sloConfig
-}: GetFieldsFromSloConfigProps) => {
-  if (entityType === 'application') {
-    return createMapForm({
-      items: {
-        ...getCommonFieldsFromSloConfig({ entityType, sloConfig }),
-        entity: createMapForm({
-          items: getApplicationEntityFieldsFromSloConfig(sloConfig)
-        }),
-        scope: createMapForm({
-          items: getApplicationScopeFieldsFromSloConfig(sloConfig)
-        })
-      }
-    }) as SloForm<EntityType>;
+export const getIndicatorFormFieldsFromSloConfig = (
+  sloConfig: ServiceLevelObjectiveConfiguration
+): SloIndicatorFields => {
+  const indicatorType = sloConfig.indicator?.type;
+
+  if (indicatorType === 'timeBased') {
+    return {
+      aggregation: createField<AggregationType>({ value: sloConfig.indicator.aggregation ?? 'SUM' }),
+      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
+      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
+      badEventsFilter: createField<FormModelElement[]>({
+        value: fromBackendModel(undefined)
+      }),
+      goodEventsFilter: createField<FormModelElement[]>({
+        value: fromBackendModel(undefined)
+      }),
+      type: createField({ value: sloConfig.indicator.type })
+    };
   }
 
+  if (indicatorType === 'eventBased') {
+    return {
+      aggregation: createField<AggregationType>({ value: 'SUM' }),
+      badEventsFilter: createField<FormModelElement[]>({
+        value: fromBackendModel(undefined)
+      }),
+      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
+      goodEventsFilter: createField<FormModelElement[]>({
+        value: fromBackendModel(undefined)
+      }),
+      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
+      type: createField({ value: sloConfig.indicator.type })
+    };
+  }
+
+  return {
+    aggregation: createField<AggregationType>({ value: 'SUM' }),
+    badEventsFilter: createField<FormModelElement[]>({
+      value: fromBackendModel(sloConfig.indicator.badEventsFilter)
+    }),
+    blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
+    goodEventsFilter: createField<FormModelElement[]>({
+      value: fromBackendModel(sloConfig.indicator.goodEventsFilter)
+    }),
+    threshold: createField<number>({ value: sloConfig.indicator?.threshold ?? 0 }),
+    type: createField({ value: sloConfig.indicator.type })
+  };
+};
+
+export const getTimeWindowFormFieldFromSloConfig = (
+  sloConfig: ServiceLevelObjectiveConfiguration
+): SloTimeWindowFields => {
+  const timeWindowType = sloConfig.timeWindow?.type;
+
+  if (timeWindowType === 'fixed') {
+    return {
+      duration: createField({ value: sloConfig.timeWindow.duration }),
+      durationUnit: createField({ value: sloConfig.timeWindow.durationUnit }),
+      startTimestamp: createField({ value: sloConfig.timeWindow.startTimestamp ?? Date.now() }),
+      type: createField({ value: sloConfig.timeWindow.type })
+    };
+  }
+
+  return {
+    duration: createField<number>({ value: sloConfig.timeWindow.duration }),
+    durationUnit: createField<DurationUnitType>({ value: sloConfig.timeWindow.durationUnit }),
+    startTimestamp: createField({ value: Date.now() }),
+    type: createField({ value: sloConfig.timeWindow.type })
+  };
+};
+
+export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloForm => {
   return createMapForm({
     items: {
-      ...getDefaultCommonFields(entityType),
       entity: createMapForm({
-        items: getWebsiteEntityFieldsFromSloConfig(sloConfig)
+        items: getEntityFieldsFromSloConfig(sloConfig)
+      }),
+      indicator: createMapForm({
+        items: getIndicatorFormFieldsFromSloConfig(sloConfig)
       }),
       scope: createMapForm({
-        items: getWebsiteScopeFieldsFromSloConfig(sloConfig)
+        items: getScopeFieldsFromSloConfig(sloConfig)
+      }),
+      timeWindow: createMapForm({
+        items: getTimeWindowFormFieldFromSloConfig(sloConfig)
       })
     }
-  }) as SloForm<EntityType>;
+  });
 };

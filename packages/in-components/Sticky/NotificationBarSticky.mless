@@ -53,9 +53,4 @@
     color: @lib__colors__N900Primary;
     justify-content: flex-start;
   }
-  .link {
-    color: @lib__colors__N900Primary;
-    font-weight: var(--ids-font-weight-option-body-bold);
-    text-decoration: underline;
-  }
 }

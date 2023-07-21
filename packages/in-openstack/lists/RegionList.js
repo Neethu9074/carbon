@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import OpenstackNoDataNotification from 'in-openstack/lists/components/OpenstackNoDataNotification';
 import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
-import { regionList, getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import { regionList, useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -21,12 +21,18 @@ import { t } from 'in-i18n';
 const pathSegment = regionList;
 const matrixPrefix = 'region.';
 
+function LabelContent({ label, id }) {
+  const getOpenstackRegionDashboard = useOpenstackRegionDashboard();
+
+  return <EntityLink label={label} href={getOpenstackRegionDashboard(id)} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-openstack:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getOpenstackRegionDashboard(item.id)} />;
+      return <LabelContent label={item.label} id={item.id} />;
     }
   },
   {

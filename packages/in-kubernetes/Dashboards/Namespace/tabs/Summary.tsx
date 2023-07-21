@@ -92,6 +92,11 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
+  const isPodCountMetric = {
+    type: plugins.kubernetesPod,
+    crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
+  }
+
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id
@@ -230,7 +235,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 metricConfiguration: {
                   metric: 'pods.count',
                   ...defaultBigNumberMetricConfig,
-                  ...isContainerMetric
+                  ...isPodCountMetric
                 },
                 ...comparisonColors
               },
@@ -348,7 +353,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 label: t('in-kubernetes:dashboards.used'),
                 color: pods,
                 ...defaultChartMetricConfig,
-                ...isContainerMetric
+                ...isPodCountMetric
               },
               {
                 metric: 'cap_pods',

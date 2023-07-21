@@ -5,12 +5,11 @@
 
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
-
+import getAceMessageFlowsForIntegrationServer from 'in-forge/plugins/aceIntegrationServer/subscriptions/getAceMessageFlowsForIntegrationServer';
 import { percentageZeroDecimalPlaces, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getSnapshot } from 'in-stores/snapshot';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -53,7 +52,7 @@ const msgflowThreadUtilization_Col = {
     getMetricName() {
       return 'threadUtilization';
     },
-    getContent: function(threadUtilization) {
+    getContent: function (threadUtilization) {
       if (threadUtilization < 0) {
         return missingValue;
       } else {
@@ -75,7 +74,7 @@ const msgflowMaxElapsedTime_Col = {
     getMetricName() {
       return 'maxElapsedTime';
     },
-    getContent: function(maxElapsedTime) {
+    getContent: function (maxElapsedTime) {
       if (maxElapsedTime < 0) {
         return missingValue;
       } else {
@@ -99,11 +98,11 @@ const msgflowHealthIndicator_Col = {
 
 export default connectTo(
   props => ({
-    messageFlows: getClusterMembers(props.snapshotId)
-      // Always start with an empty set to avoid inconsistent view,
-      // displaying running components for a previously selected snapshot.
-      .flatMap(messageFlowIds => combineLatest(messageFlowIds.toArray().map(id => getSnapshot(id))))
-      .throttle(1000)
+    messageFlows: timeConfig$
+      .flatMap(timeConfig =>
+        getAceMessageFlowsForIntegrationServer({ snapshotId: props.snapshot.get('id'), timeConfig })
+      )
+      .flatMap(getSnapshots)
   }),
 
   function MessageFlowTable({ messageFlows, timeConfig, isCloud }) {

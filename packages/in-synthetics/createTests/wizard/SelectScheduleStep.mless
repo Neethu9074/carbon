@@ -6,13 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .locationContainer {
-    min-height: 25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .subTitle {
     color: @lib__colors__teal800;
     font-size: 1rem;

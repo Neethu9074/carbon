@@ -6,99 +6,109 @@
 
 import {
   createDefaultSloForm,
-  getDefaultApplicationEntityFields,
-  getDefaultApplicationScopeFields,
-  getDefaultCommonFields,
-  getDefaultWebsiteEntityFields,
-  getDefaultWebsiteScopeFields
+  getDefaultEntityFields,
+  getDefaultScopeFields,
+  getDefaultIndicatorFields,
+  getDefaultTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
+import { testDate } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 
 describe('in-service-levels/components/SloList/components/DialogSections/createSloForm/createDefaultSloForm', () => {
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(testDate);
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   describe('field getters work properly', () => {
-    it('returns correct values when using getDefaultCommonFields with a website entity type', () => {
+    it('returns correct values when using getDefaultEntityFields with a website entity type', () => {
       // Given
       const websiteEntityType = 'website';
 
       // When
-      const commonFields = getDefaultCommonFields(websiteEntityType);
-      const entityType = commonFields.entityType.value;
+      const entityFields = getDefaultEntityFields(websiteEntityType);
+
+      const entityTypeValue = entityFields.type.value;
+      const entityIdValue = entityFields.entityId.value;
 
       // Then
-      expect(entityType).toEqual('website');
+      expect(entityTypeValue).toEqual('website');
+      expect(entityIdValue).toEqual('');
     });
 
-    it('returns correct values when using getDefaultCommonFields with an application entity type', () => {
+    it('returns correct values when using getDefaultEntityFields with an application entity type', () => {
       // Given
       const applicationEntityType = 'application';
 
       // When
-      const commonFields = getDefaultCommonFields(applicationEntityType);
-      const entityType = commonFields.entityType.value;
+      const entityFields = getDefaultEntityFields(applicationEntityType);
+
+      const entityTypeValue = entityFields.type.value;
+      const entityIdValue = entityFields.entityId.value;
 
       // Then
-      expect(entityType).toEqual('application');
+      expect(entityIdValue).toEqual('');
+      expect(entityTypeValue).toEqual('application');
     });
 
-    it('returns correct default values when using getDefaultCommonFields without params', () => {
+    it('returns correct values when using getDefaultScopeFields ', () => {
       // When
-      const commonFields = getDefaultCommonFields();
+      const scopeFields = getDefaultScopeFields();
 
-      const entityType = commonFields.entityType.value;
+      const beaconTypeValue = scopeFields.beaconType.value;
+      const boundaryScopeValue = scopeFields.boundaryScope.value;
+      const includeInternalValue = scopeFields.includeInternal.value;
+      const includeSyntheticValue = scopeFields.includeSynthetic.value;
+      const endpointIdValue = scopeFields.endpointId.value;
+      const serviceIdValue = scopeFields.serviceId.value;
+      const tagFilterExpressionValue = scopeFields.tagFilterExpression.value;
 
       // Then
-      expect(entityType).toEqual('application');
+      expect(beaconTypeValue).toEqual('httpRequest');
+      expect(boundaryScopeValue).toEqual('ALL');
+      expect(includeInternalValue).toEqual(false);
+      expect(includeSyntheticValue).toEqual(false);
+      expect(endpointIdValue).toEqual('');
+      expect(serviceIdValue).toEqual('');
+      expect(tagFilterExpressionValue).toEqual([]);
     });
 
-    it('returns correct values when using getDefaultWebsiteEntityFields', () => {
+    it('returns correct values when using getDefaultIndicatorFields', () => {
       // When
-      const websiteEntityFields = getDefaultWebsiteEntityFields();
+      const indicatorFields = getDefaultIndicatorFields();
 
-      const websiteId = websiteEntityFields.websiteId.value;
+      const aggregationValue = indicatorFields.aggregation.value;
+      const badEventsFilterValue = indicatorFields.badEventsFilter.value;
+      const blueprintValue = indicatorFields.blueprint.value;
+      const goodEventsFilterValue = indicatorFields.goodEventsFilter.value;
+      const thresholdValue = indicatorFields.threshold.value;
+      const indicatorTypeValue = indicatorFields.type.value;
 
       // Then
-      expect(websiteId).toEqual('');
+      expect(aggregationValue).toEqual('SUM');
+      expect(badEventsFilterValue).toEqual([]);
+      expect(blueprintValue).toEqual('latency');
+      expect(goodEventsFilterValue).toEqual([]);
+      expect(thresholdValue).toEqual(0);
+      expect(indicatorTypeValue).toEqual('timeBased');
     });
 
-    it('returns correct values when using getDefaultWebsiteScopeFields', () => {
+    it('returns correct values when using getDefaultTimeWindowFields', () => {
       // When
-      const websiteScopeFields = getDefaultWebsiteScopeFields();
+      const timeWindowFields = getDefaultTimeWindowFields();
 
-      const beaconType = websiteScopeFields.beaconType.value;
-      const tagFilterExpression = websiteScopeFields.tagFilterExpression.value;
+      const durationValue = timeWindowFields.duration.value;
+      const durationUnitValue = timeWindowFields.durationUnit.value;
+      const startTimestampValue = timeWindowFields.startTimestamp.value;
+      const timeWindowTypeValue = timeWindowFields.type.value;
 
       // Then
-      expect(beaconType).toEqual('httpRequest');
-      expect(tagFilterExpression).toEqual([]);
-    });
-
-    it('returns correct values when using getDefaultApplicationEntityFields', () => {
-      // When
-      const applicationEntityFields = getDefaultApplicationEntityFields();
-
-      const applicationId = applicationEntityFields.applicationId.value;
-
-      // Then
-      expect(applicationId).toEqual('');
-    });
-
-    it('returns correct values when using getDefaultApplicationScopeFields', () => {
-      // When
-      const applicationScopeFields = getDefaultApplicationScopeFields();
-
-      const boundaryScope = applicationScopeFields.boundaryScope.value;
-      const includeInternal = applicationScopeFields.includeInternal.value;
-      const includeSynthetic = applicationScopeFields.includeSynthetic.value;
-      const endpointId = applicationScopeFields.endpointId.value;
-      const serviceId = applicationScopeFields.serviceId.value;
-      const tagFilterExpression = applicationScopeFields.tagFilterExpression.value;
-
-      // Then
-      expect(boundaryScope).toEqual('ALL');
-      expect(includeInternal).toEqual(false);
-      expect(includeSynthetic).toEqual(false);
-      expect(endpointId).toEqual('');
-      expect(serviceId).toEqual('');
-      expect(tagFilterExpression).toEqual([]);
+      expect(durationValue).toEqual(1);
+      expect(durationUnitValue).toEqual('week');
+      expect(startTimestampValue).toEqual(Date.now());
+      expect(timeWindowTypeValue).toEqual('fixed');
     });
   });
 
@@ -110,16 +120,46 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // When
       const websiteForm = createDefaultSloForm(websiteEntityType);
 
-      const entityType = websiteForm.get('entityType').value;
-      const websiteId = websiteForm.getIn(['entity', 'websiteId']).value;
-      const beaconType = websiteForm.getIn(['scope', 'beaconType']).value;
-      const tagFilterExpression = websiteForm.getIn(['scope', 'tagFilterExpression']).value;
+      const entityTypeValue = websiteForm.getIn(['entity', 'type']).value;
+      const entityIdIdValue = websiteForm.getIn(['entity', 'entityId']).value;
+      const beaconTypeValue = websiteForm.getIn(['scope', 'beaconType']).value;
+      const boundaryScopeValue = websiteForm.getIn(['scope', 'boundaryScope']).value;
+      const includeInternalValue = websiteForm.getIn(['scope', 'includeInternal']).value;
+      const includeSyntheticValue = websiteForm.getIn(['scope', 'includeSynthetic']).value;
+      const endpointIdValue = websiteForm.getIn(['scope', 'endpointId']).value;
+      const serviceIdValue = websiteForm.getIn(['scope', 'serviceId']).value;
+      const tagFilterExpressionValue = websiteForm.getIn(['scope', 'tagFilterExpression']).value;
+      const aggregationValue = websiteForm.getIn(['indicator', 'aggregation']).value;
+      const badEventsFilterValue = websiteForm.getIn(['indicator', 'badEventsFilter']).value;
+      const blueprintValue = websiteForm.getIn(['indicator', 'blueprint']).value;
+      const goodEventsFilterValue = websiteForm.getIn(['indicator', 'goodEventsFilter']).value;
+      const thresholdValue = websiteForm.getIn(['indicator', 'threshold']).value;
+      const indicatorTypeValue = websiteForm.getIn(['indicator', 'type']).value;
+      const durationValue = websiteForm.getIn(['timeWindow', 'duration']).value;
+      const durationUnitValue = websiteForm.getIn(['timeWindow', 'durationUnit']).value;
+      const startTimestampValue = websiteForm.getIn(['timeWindow', 'startTimestamp']).value;
+      const timeWindowTypeValue = websiteForm.getIn(['timeWindow', 'type']).value;
 
       // Then
-      expect(entityType).toEqual('website');
-      expect(websiteId).toEqual('');
-      expect(beaconType).toEqual('httpRequest');
-      expect(tagFilterExpression).toEqual([]);
+      expect(entityTypeValue).toEqual('website');
+      expect(entityIdIdValue).toEqual('');
+      expect(beaconTypeValue).toEqual('httpRequest');
+      expect(boundaryScopeValue).toEqual('ALL');
+      expect(includeInternalValue).toEqual(false);
+      expect(includeSyntheticValue).toEqual(false);
+      expect(endpointIdValue).toEqual('');
+      expect(serviceIdValue).toEqual('');
+      expect(tagFilterExpressionValue).toEqual([]);
+      expect(aggregationValue).toEqual('SUM');
+      expect(badEventsFilterValue).toEqual([]);
+      expect(blueprintValue).toEqual('latency');
+      expect(goodEventsFilterValue).toEqual([]);
+      expect(thresholdValue).toEqual(0);
+      expect(indicatorTypeValue).toEqual('timeBased');
+      expect(durationValue).toEqual(1);
+      expect(durationUnitValue).toEqual('week');
+      expect(startTimestampValue).toEqual(Date.now());
+      expect(timeWindowTypeValue).toEqual('fixed');
     });
 
     it('createDefaultSloForm returns correct form data when applicaiton entity type is passed', () => {
@@ -129,24 +169,46 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // When
       const applicationForm = createDefaultSloForm(applicationEntityType);
 
-      const entityType = applicationForm.get('entityType').value;
-      const applicationId = applicationForm.getIn(['entity', 'applicationId']).value;
-      const boundaryScope = applicationForm.getIn(['scope', 'boundaryScope']).value;
-      const includeInternal = applicationForm.getIn(['scope', 'includeInternal']).value;
-      const includeSynthetic = applicationForm.getIn(['scope', 'includeInternal']).value;
-      const endpointId = applicationForm.getIn(['scope', 'endpointId']).value;
-      const serviceId = applicationForm.getIn(['scope', 'serviceId']).value;
-      const tagFilterExpression = applicationForm.getIn(['scope', 'tagFilterExpression']).value;
+      const entityTypeValue = applicationForm.getIn(['entity', 'type']).value;
+      const entityIdIdValue = applicationForm.getIn(['entity', 'entityId']).value;
+      const beaconTypeValue = applicationForm.getIn(['scope', 'beaconType']).value;
+      const boundaryScopeValue = applicationForm.getIn(['scope', 'boundaryScope']).value;
+      const includeInternalValue = applicationForm.getIn(['scope', 'includeInternal']).value;
+      const includeSyntheticValue = applicationForm.getIn(['scope', 'includeSynthetic']).value;
+      const endpointIdValue = applicationForm.getIn(['scope', 'endpointId']).value;
+      const serviceIdValue = applicationForm.getIn(['scope', 'serviceId']).value;
+      const tagFilterExpressionValue = applicationForm.getIn(['scope', 'tagFilterExpression']).value;
+      const aggregationValue = applicationForm.getIn(['indicator', 'aggregation']).value;
+      const badEventsFilterValue = applicationForm.getIn(['indicator', 'badEventsFilter']).value;
+      const blueprintValue = applicationForm.getIn(['indicator', 'blueprint']).value;
+      const goodEventsFilterValue = applicationForm.getIn(['indicator', 'goodEventsFilter']).value;
+      const thresholdValue = applicationForm.getIn(['indicator', 'threshold']).value;
+      const indicatorTypeValue = applicationForm.getIn(['indicator', 'type']).value;
+      const durationValue = applicationForm.getIn(['timeWindow', 'duration']).value;
+      const durationUnitValue = applicationForm.getIn(['timeWindow', 'durationUnit']).value;
+      const startTimestampValue = applicationForm.getIn(['timeWindow', 'startTimestamp']).value;
+      const timeWindowTypeValue = applicationForm.getIn(['timeWindow', 'type']).value;
 
       // Then
-      expect(entityType).toEqual('application');
-      expect(applicationId).toEqual('');
-      expect(boundaryScope).toEqual('ALL');
-      expect(includeInternal).toEqual(false);
-      expect(includeSynthetic).toEqual(false);
-      expect(endpointId).toEqual('');
-      expect(serviceId).toEqual('');
-      expect(tagFilterExpression).toEqual([]);
+      expect(entityTypeValue).toEqual('application');
+      expect(entityIdIdValue).toEqual('');
+      expect(beaconTypeValue).toEqual('httpRequest');
+      expect(boundaryScopeValue).toEqual('ALL');
+      expect(includeInternalValue).toEqual(false);
+      expect(includeSyntheticValue).toEqual(false);
+      expect(endpointIdValue).toEqual('');
+      expect(serviceIdValue).toEqual('');
+      expect(tagFilterExpressionValue).toEqual([]);
+      expect(aggregationValue).toEqual('SUM');
+      expect(badEventsFilterValue).toEqual([]);
+      expect(blueprintValue).toEqual('latency');
+      expect(goodEventsFilterValue).toEqual([]);
+      expect(thresholdValue).toEqual(0);
+      expect(indicatorTypeValue).toEqual('timeBased');
+      expect(durationValue).toEqual(1);
+      expect(durationUnitValue).toEqual('week');
+      expect(startTimestampValue).toEqual(Date.now());
+      expect(timeWindowTypeValue).toEqual('fixed');
     });
   });
 });

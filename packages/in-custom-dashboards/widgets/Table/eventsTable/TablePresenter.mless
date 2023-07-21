@@ -1,0 +1,22 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .heightAuto {
+    height: 18rem !important;
+    // Because the card height cannot be fixed and increases when the Table widget's load more button is clicked, the height is set to auto and the box-shadow is set to none.
+    > div {
+      height: auto !important;
+      box-shadow: none;
+    }
+  }
+}

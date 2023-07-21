@@ -31,6 +31,8 @@
       "basicDetails": {
         "title": "What is the name of this API Simple (HTTP Action) test",
         "scriptTitle": "What is the name of this API Script (HTTP Script) test",
+        "webpageActionTitle": "What is the name of this Browser Simple (Webpage Action) test",
+        "browserScriptTitle": "What is the name of this Browser Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
@@ -69,18 +71,26 @@
           "name": "Browser Simple",
           "headline": "Browser Simple (Webpage Action)",
           "whenToUse": {
-            "line1": "Use a BrowserScript test to test...."
+            "line1": "Use a Browser Simple test when you want to test a single webpage for HTTP errors."
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
-            "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line2": "Step 2: Enter url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
             "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         },
         "browserScript": {
+          "name": "Browser Script",
+          "headline": "Browser Script (BrowserScript)",
           "whenToUse": {
-            "line1": "Use a WebpageScript test to test...."
+            "line1": "Use a Browser Script test when you want to simulate user interactions with your web application using a JavaScript or Selenium IDE script."
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: Choose the type of test which you wish to create.",
+            "line2": "Step 2: Use the Upload the script option to upload a JavaScript or Selenium IDE script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
+            "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         }
       },

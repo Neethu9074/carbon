@@ -16,6 +16,7 @@ import {
   enabledSliBeaconTypes,
   AvailableSliBeaconTypes
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
@@ -108,23 +109,23 @@ export function WebsiteSliForm({
       </Stack>
 
       <Divider />
-
-      <BeaconConfigurator
-        beaconOptions={enabledSliBeaconTypes}
-        QueryBuilder={QueryBuilder}
-        beaconTypeField={beaconTypeField}
-        tagFilterExpressionField={sliEntityForm.get('filterExpression') as Field<FormModelElement[]>}
-        onChangeBeaconType={newBeaconType =>
-          onChange(['sliEntity', 'beaconType'], f => (f as Field<string>).setValue(newBeaconType).setTouched(true))
-        }
-        onChangeTagFilterExpression={newFilterExpression =>
-          onChange(['sliEntity', 'filterExpression'], f =>
-            (f as Field<FormModelElement[]>).setValue(newFilterExpression).setTouched(true)
-          )
-        }
-        withAdditionalFilters={sliTypeField.value === websiteTimeBased}
-      />
-
+      <ConfigDialogTimeConfigContextModification>
+        <BeaconConfigurator
+          beaconOptions={enabledSliBeaconTypes}
+          QueryBuilder={QueryBuilder}
+          beaconTypeField={beaconTypeField}
+          tagFilterExpressionField={sliEntityForm.get('filterExpression') as Field<FormModelElement[]>}
+          onChangeBeaconType={newBeaconType =>
+            onChange(['sliEntity', 'beaconType'], f => (f as Field<string>).setValue(newBeaconType).setTouched(true))
+          }
+          onChangeTagFilterExpression={newFilterExpression =>
+            onChange(['sliEntity', 'filterExpression'], f =>
+              (f as Field<FormModelElement[]>).setValue(newFilterExpression).setTouched(true)
+            )
+          }
+          withAdditionalFilters={sliTypeField.value === websiteTimeBased}
+        />
+      </ConfigDialogTimeConfigContextModification>
       <Divider />
 
       {sliTypeField.value === websiteTimeBased && (
@@ -137,18 +138,20 @@ export function WebsiteSliForm({
       )}
 
       {sliTypeField.value === websiteEventBased && (
-        <GoodBadEventsConfigurator
-          entityType="website"
-          label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
-            websiteLabel: websiteName,
-            beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconLabel', {
-              context: beaconTypeField?.value
-            })
-          })}
-          form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
-          QueryBuilderComponent={QueryBuilder}
-        />
+        <ConfigDialogTimeConfigContextModification>
+          <GoodBadEventsConfigurator
+            entityType="website"
+            label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
+              websiteLabel: websiteName,
+              beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconLabel', {
+                context: beaconTypeField?.value
+              })
+            })}
+            form={sliEntityForm}
+            updateForm={updatedForm => onChange([], f => (f as MapForm<any>).put('sliEntity', updatedForm))}
+            QueryBuilderComponent={QueryBuilder}
+          />
+        </ConfigDialogTimeConfigContextModification>
       )}
     </Stack>
   );

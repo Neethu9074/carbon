@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
-import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -21,11 +21,13 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function RegionBreadcrumb({ region }) {
+    const getOpenstackRegionDashboard = useOpenstackRegionDashboard();
+
     return (
       <>
         {region && (
           <Breadcrumb
-            href$={getOpenstackRegionDashboard(region.id)}
+            href={getOpenstackRegionDashboard(region.id)}
             label={t('in-openstack:breadcrumbs.regions')}
             icon="lib_openstack"
           >

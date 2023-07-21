@@ -6,69 +6,61 @@
 
 import {
   createSloFormFromSloConfig,
-  getApplicationEntityFieldsFromSloConfig,
-  getApplicationScopeFieldsFromSloConfig,
-  getCommonFieldsFromSloConfig,
-  getWebsiteEntityFieldsFromSloConfig,
-  getWebsiteScopeFieldsFromSloConfig
+  getEntityFieldsFromSloConfig,
+  getScopeFieldsFromSloConfig
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import {
   testApplicationSloConfig,
+  testDate,
   testWebsiteSloConfig
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 
 describe('in-service-levels/components/SloList/components/DialogSections/createSloForm/createSloFormFromSloConfig', () => {
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(testDate);
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   describe('field getters work properly', () => {
-    it('returns correct values when using getCommonFieldsFromSloConfig with a website entity type and a website SLO config', () => {
+    it('returns correct values when using getEntityFieldsFromSloConfig with a website SLO config', () => {
       // Given
-      const websiteEntityType = 'website';
       const websiteSloConfig = testWebsiteSloConfig;
 
       // When
-      const commonFields = getCommonFieldsFromSloConfig({ entityType: websiteEntityType, sloConfig: websiteSloConfig });
+      const entityFields = getEntityFieldsFromSloConfig(websiteSloConfig);
 
-      const entityType = commonFields.entityType.value;
+      const entityIdValue = entityFields.entityId.value;
+      const entityTypeValue = entityFields.type.value;
 
       // Then
-      expect(entityType).toEqual('website');
+      expect(entityIdValue).toEqual('websiteIdHere');
+      expect(entityTypeValue).toEqual('website');
     });
 
-    it('returns correct values when using getCommonFieldsFromSloConfig with an application SLO config', () => {
+    it('returns correct values when using getEntityFieldsFromSloConfig with an application SLO config', () => {
       // Given
-      const applicationEntityType = 'application';
       const applicationSloConfig = testApplicationSloConfig;
 
       // When
-      const commonFields = getCommonFieldsFromSloConfig({
-        entityType: applicationEntityType,
-        sloConfig: applicationSloConfig
-      });
+      const entityFields = getEntityFieldsFromSloConfig(applicationSloConfig);
 
-      const entityType = commonFields.entityType.value;
+      const entityIdValue = entityFields.entityId.value;
+      const entityTypeValue = entityFields.type.value;
 
       // Then
-      expect(entityType).toEqual('application');
+      expect(entityIdValue).toEqual('applicationIdHere');
+      expect(entityTypeValue).toEqual('application');
     });
 
-    it('returns correct values when using getWebsiteEntityFieldsFromSloConfig with a website SLO config', () => {
+    it('returns correct values when using getScopeFieldsFromSloConfig with a website SLO config', () => {
       // Given
       const websiteSloConfig = testWebsiteSloConfig;
 
       // When
-      const websiteEntityFields = getWebsiteEntityFieldsFromSloConfig(websiteSloConfig);
-
-      const websiteId = websiteEntityFields.websiteId.value;
-
-      // Then
-      expect(websiteId).toEqual('websiteIdHere');
-    });
-
-    it('returns correct values when using getWebsiteScopeFieldsFromSloConfig with a website SLO config', () => {
-      // Given
-      const websiteSloConfig = testWebsiteSloConfig;
-
-      // When
-      const websiteEntityFields = getWebsiteScopeFieldsFromSloConfig(websiteSloConfig);
+      const websiteEntityFields = getScopeFieldsFromSloConfig(websiteSloConfig);
 
       const beaconType = websiteEntityFields.beaconType.value;
       const tagFilterExpression = websiteEntityFields.tagFilterExpression.value;
@@ -78,24 +70,12 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(tagFilterExpression).toEqual([]);
     });
 
-    it('returns correct values when using getApplicationEntityFieldsFromSloConfig with an application SLO config', () => {
+    it('returns correct values when using getScopeFieldsFromSloConfig with an application SLO config', () => {
       // Given
       const applicationSloConfig = testApplicationSloConfig;
 
       // When
-      const applicationEntityFields = getApplicationEntityFieldsFromSloConfig(applicationSloConfig);
-      const applicationId = applicationEntityFields.applicationId.value;
-
-      // Then
-      expect(applicationId).toEqual('applicationIdHere');
-    });
-
-    it('returns correct values when using getApplicationScopeFieldsFromSloConfig with an application SLO config', () => {
-      // Given
-      const applicationSloConfig = testApplicationSloConfig;
-
-      // When
-      const applicationScopeFields = getApplicationScopeFieldsFromSloConfig(applicationSloConfig);
+      const applicationScopeFields = getScopeFieldsFromSloConfig(applicationSloConfig);
 
       const boundaryScope = applicationScopeFields.boundaryScope.value;
       const includeInternal = applicationScopeFields.includeInternal.value;
@@ -117,56 +97,100 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
   describe('createSloFormFromSloConfig returns correct forms', () => {
     it('returns correct form values when using createSloFormFromSloConfig with a website SLO config', () => {
       // Given
-      const websiteEntityType = 'website';
       const websiteSloConfig = testWebsiteSloConfig;
 
       // When
-      const websiteForm = createSloFormFromSloConfig<'website'>({
-        entityType: websiteEntityType,
-        sloConfig: websiteSloConfig
-      });
+      const websiteForm = createSloFormFromSloConfig(websiteSloConfig);
 
-      const entityType = websiteForm.get('entityType').value;
-      const websiteId = websiteForm.getIn(['entity', 'websiteId']).value;
-      const beaconType = websiteForm.getIn(['scope', 'beaconType']).value;
-      const tagFilterExpression = websiteForm.getIn(['scope', 'tagFilterExpression']).value;
+      const entityTypeValue = websiteForm.getIn(['entity', 'type']).value;
+      const entityIdIdValue = websiteForm.getIn(['entity', 'entityId']).value;
+      const beaconTypeValue = websiteForm.getIn(['scope', 'beaconType']).value;
+      const boundaryScopeValue = websiteForm.getIn(['scope', 'boundaryScope']).value;
+      const includeInternalValue = websiteForm.getIn(['scope', 'includeInternal']).value;
+      const includeSyntheticValue = websiteForm.getIn(['scope', 'includeSynthetic']).value;
+      const endpointIdValue = websiteForm.getIn(['scope', 'endpointId']).value;
+      const serviceIdValue = websiteForm.getIn(['scope', 'serviceId']).value;
+      const tagFilterExpressionValue = websiteForm.getIn(['scope', 'tagFilterExpression']).value;
+      const aggregationValue = websiteForm.getIn(['indicator', 'aggregation']).value;
+      const badEventsFilterValue = websiteForm.getIn(['indicator', 'badEventsFilter']).value;
+      const blueprintValue = websiteForm.getIn(['indicator', 'blueprint']).value;
+      const goodEventsFilterValue = websiteForm.getIn(['indicator', 'goodEventsFilter']).value;
+      const thresholdValue = websiteForm.getIn(['indicator', 'threshold']).value;
+      const indicatorTypeValue = websiteForm.getIn(['indicator', 'type']).value;
+      const durationValue = websiteForm.getIn(['timeWindow', 'duration']).value;
+      const durationUnitValue = websiteForm.getIn(['timeWindow', 'durationUnit']).value;
+      const startTimestampValue = websiteForm.getIn(['timeWindow', 'startTimestamp']).value;
+      const timeWindowTypeValue = websiteForm.getIn(['timeWindow', 'type']).value;
 
       // Then
-      expect(entityType).toEqual('website');
-      expect(websiteId).toEqual('websiteIdHere');
-      expect(beaconType).toEqual('httpRequest');
-      expect(tagFilterExpression).toEqual([]);
+      expect(entityTypeValue).toEqual('website');
+      expect(entityIdIdValue).toEqual('websiteIdHere');
+      expect(beaconTypeValue).toEqual('httpRequest');
+      expect(boundaryScopeValue).toEqual('ALL');
+      expect(includeInternalValue).toEqual(false);
+      expect(includeSyntheticValue).toEqual(false);
+      expect(endpointIdValue).toEqual('');
+      expect(serviceIdValue).toEqual('');
+      expect(tagFilterExpressionValue).toEqual([]);
+      expect(aggregationValue).toEqual('P95');
+      expect(badEventsFilterValue).toEqual([]);
+      expect(blueprintValue).toEqual('latency');
+      expect(goodEventsFilterValue).toEqual([]);
+      expect(thresholdValue).toEqual(50);
+      expect(indicatorTypeValue).toEqual('timeBased');
+      expect(durationValue).toEqual(1);
+      expect(durationUnitValue).toEqual('week');
+      expect(startTimestampValue).toEqual(Date.now());
+      expect(timeWindowTypeValue).toEqual('fixed');
     });
 
     it('returns correct form values when using createSloFormFromSloConfig with an application SLO config', () => {
       // Given
-      const applicationEntityType = 'application';
       const applicationSloConfig = testApplicationSloConfig;
 
       // When
-      const applicationForm = createSloFormFromSloConfig<'application'>({
-        entityType: applicationEntityType,
-        sloConfig: applicationSloConfig
-      });
+      const applicationForm = createSloFormFromSloConfig(applicationSloConfig);
 
-      const entityType = applicationForm.get('entityType').value;
-      const applicationId = applicationForm.getIn(['entity', 'applicationId']).value;
-      const boundaryScope = applicationForm.getIn(['scope', 'boundaryScope']).value;
-      const includeInternal = applicationForm.getIn(['scope', 'includeInternal']).value;
-      const includeSynthetic = applicationForm.getIn(['scope', 'includeSynthetic']).value;
-      const endpointId = applicationForm.getIn(['scope', 'endpointId']).value;
-      const serviceId = applicationForm.getIn(['scope', 'serviceId']).value;
-      const tagFilterExpression = applicationForm.getIn(['scope', 'tagFilterExpression']).value;
+      const entityTypeValue = applicationForm.getIn(['entity', 'type']).value;
+      const entityIdIdValue = applicationForm.getIn(['entity', 'entityId']).value;
+      const beaconTypeValue = applicationForm.getIn(['scope', 'beaconType']).value;
+      const boundaryScopeValue = applicationForm.getIn(['scope', 'boundaryScope']).value;
+      const includeInternalValue = applicationForm.getIn(['scope', 'includeInternal']).value;
+      const includeSyntheticValue = applicationForm.getIn(['scope', 'includeSynthetic']).value;
+      const endpointIdValue = applicationForm.getIn(['scope', 'endpointId']).value;
+      const serviceIdValue = applicationForm.getIn(['scope', 'serviceId']).value;
+      const tagFilterExpressionValue = applicationForm.getIn(['scope', 'tagFilterExpression']).value;
+      const aggregationValue = applicationForm.getIn(['indicator', 'aggregation']).value;
+      const badEventsFilterValue = applicationForm.getIn(['indicator', 'badEventsFilter']).value;
+      const blueprintValue = applicationForm.getIn(['indicator', 'blueprint']).value;
+      const goodEventsFilterValue = applicationForm.getIn(['indicator', 'goodEventsFilter']).value;
+      const thresholdValue = applicationForm.getIn(['indicator', 'threshold']).value;
+      const indicatorTypeValue = applicationForm.getIn(['indicator', 'type']).value;
+      const durationValue = applicationForm.getIn(['timeWindow', 'duration']).value;
+      const durationUnitValue = applicationForm.getIn(['timeWindow', 'durationUnit']).value;
+      const startTimestampValue = applicationForm.getIn(['timeWindow', 'startTimestamp']).value;
+      const timeWindowTypeValue = applicationForm.getIn(['timeWindow', 'type']).value;
 
       // Then
-      expect(entityType).toEqual('application');
-      expect(applicationId).toEqual('applicationIdHere');
-      expect(boundaryScope).toEqual('INBOUND');
-      expect(includeInternal).toEqual(true);
-      expect(includeSynthetic).toEqual(true);
-      expect(endpointId).toEqual('endpointIdHere');
-      expect(serviceId).toEqual('serviceIdHere');
-      expect(tagFilterExpression).toEqual([]);
+      expect(entityTypeValue).toEqual('application');
+      expect(entityIdIdValue).toEqual('applicationIdHere');
+      expect(beaconTypeValue).toEqual('httpRequest');
+      expect(boundaryScopeValue).toEqual('INBOUND');
+      expect(includeInternalValue).toEqual(true);
+      expect(includeSyntheticValue).toEqual(true);
+      expect(endpointIdValue).toEqual('endpointIdHere');
+      expect(serviceIdValue).toEqual('serviceIdHere');
+      expect(tagFilterExpressionValue).toEqual([]);
+      expect(aggregationValue).toEqual('P95');
+      expect(badEventsFilterValue).toEqual([]);
+      expect(blueprintValue).toEqual('latency');
+      expect(goodEventsFilterValue).toEqual([]);
+      expect(thresholdValue).toEqual(50);
+      expect(indicatorTypeValue).toEqual('timeBased');
+      expect(durationValue).toEqual(1);
+      expect(durationUnitValue).toEqual('week');
+      expect(startTimestampValue).toEqual(Date.now());
+      expect(timeWindowTypeValue).toEqual('fixed');
     });
   });
 });

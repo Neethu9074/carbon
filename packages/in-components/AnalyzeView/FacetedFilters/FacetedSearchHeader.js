@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -25,9 +24,9 @@ export default function FacetedSearchHeader({ facets = {}, facetedSearchItems = 
           {t('in-components:analyze.activeFacets', { count: totalActiveCount })}
         </span>
         {totalActiveCount > 0 && (
-          <Link href={resetFacets?.()} className={locals.clearAll}>
+          <Button kind="action" href={resetFacets?.()} className={locals.clearAll}>
             {t('in-components:analyze.clearFacets')}
-          </Link>
+          </Button>
         )}
       </Stack>
     </div>

@@ -18,6 +18,8 @@ import { AnalyticsSection } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
+import { SyntheticMonitoringSection } from './SyntheticMonitoring/SyntheticMonitoringSection';
+import { syntheticRbacEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
   permissionsSet: PermissionSetWithRoles;
@@ -32,6 +34,7 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <ApplicationsSection />
         <PlatformsSection />
         <InfrastructureSection />
+        {syntheticRbacEnabled && <SyntheticMonitoringSection />}
         <AnalyticsSection />
         <EventsAndAlertsSection />
         <GlobalFunctionsSection />

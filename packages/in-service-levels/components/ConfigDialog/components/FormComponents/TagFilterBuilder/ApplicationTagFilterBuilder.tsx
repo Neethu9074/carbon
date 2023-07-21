@@ -4,23 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { ApplicationSloForm, ApplicationSloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 interface SloScopeWebsiteSectionProps {
-  form: ApplicationSloForm;
-  onChange: (path: ApplicationSloFormPath, updater: (i: Item) => Item) => void;
+  form: SloForm;
+  onChange: SloFormOnChange;
 }
 
 export const ApplicationTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteSectionProps) => {
-  const applicationIdField = form.getIn(['entity', 'applicationId']);
+  const applicationIdField = form.getIn(['entity', 'entityId']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
 

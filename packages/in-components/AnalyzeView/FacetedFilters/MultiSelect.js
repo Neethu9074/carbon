@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button, Stack } from '@instana/components';
-import { Link } from '@instana/legacy';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
@@ -105,9 +104,9 @@ export function MultiSelect(props) {
         )}
         <div />
         {selectedValues.length > 0 && (
-          <Link href={resetFacets?.(tag)} className={locals.clearFacet}>
+          <Button kind="action" href={resetFacets?.(tag)} className={locals.clearFacet}>
             {t('in-components:analyze.clearFacet')}
-          </Link>
+          </Button>
         )}
       </div>
     </>
