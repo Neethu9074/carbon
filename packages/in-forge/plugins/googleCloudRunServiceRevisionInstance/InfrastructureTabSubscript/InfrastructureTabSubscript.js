@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getRevisionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRevisionForGoogleCloudRunServiceRevisionInstance';
 import getRegionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRegionForGoogleCloudRunServiceRevisionInstance';
@@ -64,7 +64,7 @@ function InfrastructureTabSubscript({ snapshot, time }) {
 
 function linkIfPossible(snapshotId, label) {
   return snapshotId ? (
-    <Link href$={subscriptLink(snapshotId)} className={locals.entityLink}>
+    <Link href={subscriptLink(snapshotId)} className={locals.entityLink}>
       {label}
     </Link>
   ) : (
