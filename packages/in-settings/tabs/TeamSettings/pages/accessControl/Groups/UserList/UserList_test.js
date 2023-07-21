@@ -8,7 +8,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
+import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
 import { getUsersAsResultObservable } from 'in-api/users';
 import { success } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
