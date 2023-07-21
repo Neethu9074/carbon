@@ -11,6 +11,7 @@ import { Card, Ul } from '@instana/components';
 import { ObjectiveSection } from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
 import { IndicatorSection } from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
+import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';
 import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
@@ -41,6 +42,7 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
       rightHeaderContent={<SloActionButtons configuration={configuration} />}
     >
       <Ul space="medium">
+        <EntitySection data={data} />
         <ScopeSection data={data} />
         <IndicatorSection data={data} />
         <ObjectiveSection data={data} />

@@ -186,6 +186,11 @@
           }
         }
       },
+      "entitySection": {
+        "title": "Entity",
+        "typeLabel": "Type",
+        "nameLabel": "Name"
+      },
       "scopeSection": {
         "title": "Scope",
         "apBoundaryScopeLabel": "Boundary",
