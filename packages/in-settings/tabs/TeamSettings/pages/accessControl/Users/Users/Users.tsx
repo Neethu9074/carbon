@@ -67,7 +67,7 @@ const columnDefinitions = [
   {
     id: 'icon',
     sortable: false,
-    width: 3,
+    width: 6,
     getContent: ({ email }: UserResult) => <Gravatar email={email} />
   },
   {
@@ -93,7 +93,7 @@ const columnDefinitions = [
   {
     id: 'tfaEnabled',
     label: t('in-settings:tabs.tfaEnabledCol'),
-    width: 8,
+    width: 15,
     getContent: ({ tfaEnabled }: UserResult) => {
       if (tfaEnabled === true) {
         return <Typography variant="body-regular">{t('in-settings:tabs.tfaEnabled')}</Typography>;
