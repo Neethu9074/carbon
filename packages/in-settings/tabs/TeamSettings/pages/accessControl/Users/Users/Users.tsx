@@ -11,17 +11,17 @@ import { Observable, create } from '@instana/observables';
 
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
+import InviteUserDialog, { UserInvite } from '../../Invites/InviteUserDialog';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import InviteUserDialog, { UserInvite } from '../Invites/InviteUserDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
-import { onDoInviteUser } from '../Invites/InviteUserButton';
+import { onDoInviteUser } from '../../Invites/InviteUserButton';
 import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export default function Users() {
-  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>();
+  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
 
   return (
     <>
@@ -52,12 +52,12 @@ export default function Users() {
 
 const loadEntities = (): Observable<UserResult[]> => {
   const observer = create<UserResult[]>();
-  getUsersAsResultObservable([]).subscribe(({ progress, data, errors }) => {
-    if (progress?.loading) return;
-    if (data) {
-      observer.emit(data);
-    } else if (errors) {
-      observer.emitError(errors);
+  getUsersAsResultObservable([]).subscribe(next => {
+    if (next.progress?.loading) return;
+    if (next.data) {
+      observer.emit(next.data);
+    } else if (next.errors) {
+      observer.emitError(next.errors);
     }
   });
   return observer;
