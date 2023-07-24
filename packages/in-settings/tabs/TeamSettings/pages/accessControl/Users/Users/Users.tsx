@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 
 import { KeyValue, Link, Message, Typography } from '@instana/components';
-import { formatDateTime, fromNow } from '@instana/format-date';
 import { Observable, create } from '@instana/observables';
 
 import InviteUserDialog, {
@@ -100,18 +99,6 @@ const columnDefinitions = [
       if (tfaEnabled === true) {
         return <Typography variant="body-regular">{t('in-settings:tabs.tfaEnabled')}</Typography>;
       }
-      return <></>;
-    }
-  },
-  {
-    id: 'lastLoggedIn',
-    label: t('in-settings:tabs.lastLoggedInCol'),
-    width: 19,
-    getContent: ({ lastLoggedIn }: UserResult) => {
-      if (lastLoggedIn)
-        return (
-          <Typography variant="body-regular">{`${fromNow(lastLoggedIn)} (${formatDateTime(lastLoggedIn)})`}</Typography>
-        );
       return <></>;
     }
   }
