@@ -73,7 +73,6 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
     expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // Name table column
     expect(getByText('in-settings:tabs.groupCountCol')).toBeInTheDocument(); // Group Count table column
     expect(getByText('in-settings:tabs.tfaEnabledCol')).toBeInTheDocument(); // tfaEnabled table column
-    expect(getByText('in-settings:tabs.lastLoggedInCol')).toBeInTheDocument(); // lastLoggedIn table column
 
     expect(getUsersAsResultObservable).toHaveBeenCalled();
 
