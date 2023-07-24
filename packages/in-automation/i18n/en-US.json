@@ -1,4 +1,5 @@
 {
+  "associatedActions": "Associated Actions",
   "addNumberOfItemsAction_plural": "Add {{count}} Actions",
   "addNumberOfItemsAction_0": "Add {{count}} Actions",
   "addNumberOfItemsAction_1": "Add {{count}} Actions",
