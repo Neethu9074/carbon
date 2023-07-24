@@ -25,6 +25,7 @@ type SloFormFields = {
   indicator: SloIndicatorForm;
   scope: SloScopeForm;
   timeWindow: SloTimeWindowForm;
+  nameTags: SloNameTagsForm;
 };
 
 export type SloForm = MapForm<SloFormFields>;
@@ -35,6 +36,7 @@ export type SloEntityForm = MapForm<SloEntityFields>;
 export type SloScopeForm = MapForm<SloScopeFields>;
 export type SloIndicatorForm = MapForm<SloIndicatorFields>;
 export type SloTimeWindowForm = MapForm<SloTimeWindowFields>;
+export type SloNameTagsForm = MapForm<SloNameTagsFields>;
 
 export type SloEntityFields = {
   entityId: Field<string>;
@@ -65,4 +67,9 @@ export type SloTimeWindowFields = {
   durationUnit: Field<DurationUnitType>;
   startTimestamp: Field<DateAsNumber>;
   type: Field<TimeWindowType>;
+};
+
+export type SloNameTagsFields = {
+  name: Field<string>;
+  tags: Field<string[]>;
 };

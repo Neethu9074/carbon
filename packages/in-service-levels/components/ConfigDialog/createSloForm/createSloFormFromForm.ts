@@ -17,11 +17,20 @@ import {
 import {
   SloEntityFields,
   SloForm,
+  SloNameTagsFields,
   SloIndicatorFields,
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+
+export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
+  const name = form.getIn(['nameTags', 'name']).value;
+  const tags = form.getIn(['nameTags', 'tags']).value;
+
+  return createSloNameTagsFields({ name, tags });
+};
 
 export const getEntityFieldsFromForm = (form: SloForm): SloEntityFields => {
   const entityIdValue = form.getIn(['entity', 'entityId']).value;
@@ -100,6 +109,9 @@ export const createSloFormFromForm = (form: SloForm): SloForm => {
       }),
       timeWindow: createMapForm({
         items: getTimeWindowFormFieldFromForm(form)
+      }),
+      nameTags: createMapForm({
+        items: getNameTagFieldsFromForm(form)
       })
     }
   });

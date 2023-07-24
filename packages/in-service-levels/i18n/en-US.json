@@ -105,7 +105,14 @@
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
       "beaconLabel_custom": "Website Custom Events"
-    }
+    },
+    "nameAndTagsTitle": "Name and Tags",
+    "nameAndTagsNavItem": "Name & Tags",
+    "sloNameLabel": "SLO Name",
+    "sloNamePlaceholder": "Enter name",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Enter tags",
+    "tagsCreateLabel": "Create: {{tag}}"
   },
   "sloList": {
     "components": {
@@ -119,7 +126,8 @@
         "placeholder": "Entity Type"
       },
       "sloTagFilter": {
-        "placeholder": "Tag"
+        "placeholder": "Tag",
+        "noTagsInfo": "No tags available"
       },
       "sloStatusColumnContent": {
         "target": "Target {{target}}"

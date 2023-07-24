@@ -4,13 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
+import { createField, notBlankValidator } from 'formalistic';
+
 import { ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 
 import { createSloFormFromPreviousForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { SloForm, SloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
 
 interface CreateSloFormProps {
   entityType?: SloEntityType;
@@ -29,4 +34,17 @@ export function createSloForm({ entityType, form, previousForm, sloConfig }: Cre
   if (entityType) return createDefaultSloForm(entityType);
 
   throw new Error('You have to pass at least one param to the function');
+}
+
+export function createSloNameTagsFields({
+  name,
+  tags
+}: Pick<ServiceLevelObjectiveConfiguration, 'name' | 'tags'>): SloNameTagsFields {
+  return {
+    name: createField({
+      value: name,
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+    }),
+    tags: createField({ value: tags })
+  };
 }

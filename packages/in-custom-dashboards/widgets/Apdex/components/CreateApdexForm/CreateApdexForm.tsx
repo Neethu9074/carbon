@@ -18,7 +18,6 @@ import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/component
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors';
-import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
@@ -28,6 +27,7 @@ import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from './CreateApdexForm.mless';
+import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 
 export interface CreateApdexFormComponentProps
   extends Omit<CreateApdexFormProps, 'entityType' | 'onClose' | 'onSave' | 'entityId' | 'apdexConfig'> {
@@ -59,7 +59,7 @@ export default function CreateApdexForm({
   onSave
 }: CreateApdexFormProps) {
   const [form, setForm] = useCreateApdexForm(apdexConfig, entityType, entityId);
-  const [{ success, saving, error }, doSubmit] = useCreateConfiguration(createApdexConfiguration);
+  const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
   const track = useApdexWidgetTrackers();
 
@@ -71,7 +71,7 @@ export default function CreateApdexForm({
 
   const onSubmit = (submittedForm: Item) => {
     setForm(form.setTouched(true));
-    doSubmit({ config: toApdexConfigurationInput(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
+    doSubmit({ payload: toApdexConfigurationInput(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
   };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
@@ -120,9 +120,9 @@ export default function CreateApdexForm({
     <div className={locals.formWrapper}>
       <CreateApdexFormComponent
         form={form}
-        wasSuccessful={success}
-        isSaving={saving}
-        hasError={error}
+        wasSuccessful={submitStatus === 'resolved'}
+        isSaving={submitStatus === 'pending'}
+        hasError={submitStatus === 'rejected'}
         onSubmit={onSubmit}
         // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
