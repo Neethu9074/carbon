@@ -12,19 +12,6 @@ import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 
-export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
-function getUsersAsResultObservableInternal() {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: '/api/settings/authentication/2fa/users'
-      })
-    )
-  );
-}
-
 export const getTwoFactorCredentials = memoize(getTwoFactorCredentialsObservableInternal, () => '', 60000);
 function getTwoFactorCredentialsObservableInternal() {
   return refreshSignal.flatMap(() =>

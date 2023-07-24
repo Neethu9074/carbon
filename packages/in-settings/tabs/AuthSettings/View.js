@@ -13,7 +13,6 @@ import {
   ldap,
   groupMapping,
   twoFactorAuth,
-  twoFaUsers,
   changePassword,
   timeouts
 } from 'in-settings/navigation/paths';
@@ -40,11 +39,10 @@ import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangeP
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
-import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
-import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 function getNavigationTree(props) {
@@ -104,11 +102,6 @@ function getNavigationTree(props) {
           path: twoFactorAuth,
           label: t('in-settings:tabs.settings'),
           component: TwoFactorSettings
-        },
-        isOwner && {
-          path: twoFaUsers,
-          label: t('in-settings:tabs.users'),
-          component: Users
         }
       ].filter(Boolean)
     },
