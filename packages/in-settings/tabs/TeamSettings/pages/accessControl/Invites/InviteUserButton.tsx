@@ -78,7 +78,7 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
     const failed = data.body.invitationResults.filter(
       (userInvitationResult: UserInvitationResult): boolean => userInvitationResult.invitationStatus !== 'SUCCESS'
     );
-    if (failed?.length ?? 0 !== 0) {
+    if (failed?.length > 0) {
       const result: UserInvitationResults = data.body;
       const previousResult: UserInvite[] = result.invitationResults.map(
         (userInvitationResult: UserInvitationResult): UserInvite => {
