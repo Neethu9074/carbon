@@ -1045,7 +1045,7 @@
     "deleteUser": "Delete user",
     "userWithName": "user {{name}}",
     "tfaEnabled": "2FA enabled",
-    "groupCountCol": "Number of Groups",
+    "groupCountCol": "Number of groups",
     "tfaEnabledCol": "Authentication",
     "lastLoggedInCol": "Last logged in"
   },
