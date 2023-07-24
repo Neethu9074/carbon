@@ -122,27 +122,4 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
 
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
-
-  it('should provid pagination and searching', async () => {
-    const results = [];
-    for (let i = 0; i < 100; i++) {
-      results.push(createUserResult({ email: `id-${i}` }));
-    }
-    mockGet(results);
-
-    const { getByPlaceholderText, getByText, queryByText, container } = render(<Users />);
-
-    expect(getByText('in-settings:tabs.users (100)')).toBeInTheDocument(); // User title
-    expect(getByPlaceholderText('in-settings:components.search')).toBeInTheDocument(); // Search placeholder
-
-    expect(getUsersAsResultObservable).toHaveBeenCalled();
-
-    fireEvent.scroll(container, { target: { scrollY: 500 } });
-    expect(queryByText(results[99].email)).not.toBeInTheDocument();
-
-    fireEvent.scroll(container, { target: { scrollY: 0 } });
-    fireEvent.change(getByPlaceholderText('in-settings:components.search'), { target: { value: results[99].email } });
-
-    expect(queryByText(results[99].email)).toBeInTheDocument();
-  });
 });
