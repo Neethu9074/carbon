@@ -21,6 +21,8 @@ export const getType = (type: string) => {
     return t('in-automation:ActionCatalog.manual');
   } else if (isExternal(type)) {
     return t('in-automation:actionHistory.external');
+  } else if (isAnsible(type)) {
+    return t('in-automation:ActionCatalog.ansible');
   } else {
     return type;
   }
@@ -49,6 +51,12 @@ export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
 export const getTimeoutFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.timeout ?? { value: '', encoding: 'ascii', name: 'timeout' };
+export const getPlaybookIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.playbookId ?? { value: '', encoding: 'ascii', name: 'playbookId' };
+export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
+export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -89,17 +97,34 @@ export function getWebhookFields(action: Action | NewAction): WebhookFields {
   return { host, method, body, ignoreCertErrors, authen, authenParsed, header, headerParsed };
 }
 
+interface AnsibleFields {
+  playbookId: Field;
+  playbookFileName: Field;
+  ansibleUrl: Field;
+  jobTemplateUrl: string;
+}
+
+export function getAnsibleFields(action: Action | NewAction): AnsibleFields {
+  const playbookId = getPlaybookIdFromFields(action.fields);
+  const playbookFileName = getPlaybookFileNameFromFields(action.fields);
+  const ansibleUrl = getAnsibleUrlFromFields(action.fields);
+  const jobTemplateUrl = `${ansibleUrl.value}/#/templates/job_template/${playbookId.value}`;
+  return { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl };
+}
+
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isManual = (type?: string) => type === MANUAL_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
+export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
+export const ANSIBlE_TYPE = 'ansible';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
@@ -151,4 +176,4 @@ export const parseDynamicParameter = (str?: string) => {
 };
 
 export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
-  (action?.metadata?.builtIn ?? false) && !isCopy;
+  ((action?.metadata?.builtIn ?? false) && !isCopy) || isAnsible(action.type);

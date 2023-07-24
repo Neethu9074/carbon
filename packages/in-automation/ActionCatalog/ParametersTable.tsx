@@ -21,6 +21,7 @@ import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
 import locals from './ActionTable.mless';
+import { isAnsible as isAnsibleFn } from 'in-automation/ActionCatalog/shared';
 
 interface ParametersTableProps {
   form: MapForm<any>;
@@ -36,8 +37,9 @@ export interface MappedParameter {
 const getColumnDefinitions = ({
   form,
   onChange,
-  isNotEditable
-}: Omit<ParametersTableProps, 'setForm'> & { isNotEditable: boolean }) => [
+  isNotEditable,
+  isAnsible
+}: Omit<ParametersTableProps, 'setForm'> & { isNotEditable: boolean; isAnsible: boolean }) => [
   {
     id: 'displayName',
     sortable: true,
@@ -52,7 +54,13 @@ const getColumnDefinitions = ({
             onClick={e => {
               e.preventDefault();
               addActiveDialog(
-                <ParameterDialog idToEdit={item.id} form={form} onChange={onChange} isNotEditable={isNotEditable} />
+                <ParameterDialog
+                  isAnsible={isAnsible}
+                  idToEdit={item.id}
+                  form={form}
+                  onChange={onChange}
+                  isNotEditable={isNotEditable}
+                />
               );
             }}
           >
@@ -100,9 +108,12 @@ const getColumnDefinitions = ({
   }
 ];
 
+// Note: Ansible actions will have extra vars mapped to parameters, we don't want to allow creating new parameters, but we do want to allow editing existing ones (minus the name as this is the key in the extra vars object)
+
 export default function ParametersTable({ form, setForm, onChange }: ParametersTableProps) {
   const isNotEditable = useContext(isNotEditableContext);
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
+  const isAnsible = isAnsibleFn((form.get('type') as Field<string>).value);
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible });
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
   return (
@@ -114,9 +125,15 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       formKey="parameters"
       leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
-      customAddRow={() => {
-        addActiveDialog(<ParameterDialog form={form} onChange={onChange} isNotEditable={isNotEditable} />);
-      }}
+      customAddRow={
+        isAnsible
+          ? undefined
+          : () => {
+              addActiveDialog(
+                <ParameterDialog isAnsible={isAnsible} form={form} onChange={onChange} isNotEditable={isNotEditable} />
+              );
+            }
+      }
       noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
     />
   );

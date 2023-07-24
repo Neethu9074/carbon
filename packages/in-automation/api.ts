@@ -22,7 +22,13 @@ import {
   Result,
   ActionInstance
 } from 'in-types';
-import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
+import {
+  ANSIBlE_TYPE,
+  DOC_LINK_TYPE,
+  HTTP_METHODS_WITH_BODY,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE
+} from 'in-automation/ActionCatalog/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -396,7 +402,7 @@ export function runScriptAction({
   timeout
 }: RunScriptActionParams) {
   return runAction({
-    type: 'SCRIPT',
+    type: SCRIPT_TYPE,
     volatileId,
     event,
     actionName,
@@ -443,7 +449,7 @@ export function runWebhookAction({
   timeout
 }: RunWebhookActionParams) {
   return runAction({
-    type: 'HTTP',
+    type: WEBHOOK_TYPE,
     volatileId,
     event,
     actionName,
@@ -482,6 +488,69 @@ export function runWebhookAction({
         name: 'authen',
         value: authen.value,
         encoding: authen.encoding
+      }
+    ]
+  });
+}
+
+interface RunWebhookActionParams extends RunActionBaseParams {
+  method: Field;
+  host: Field;
+  body: Field;
+  ignoreCertErrors: Field;
+  header: Field;
+  authen: Field;
+}
+
+interface RunAnsibleActionParams extends RunActionBaseParams {
+  playbookId: Field;
+  playbookFileName: Field;
+  ansibleUrl: Field;
+  jobTemplateUrl: string;
+}
+
+export function runAnsibleAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  playbookId,
+  playbookFileName,
+  ansibleUrl,
+  jobTemplateUrl,
+  inputParameters,
+  timeout
+}: RunAnsibleActionParams) {
+  return runAction({
+    type: ANSIBlE_TYPE,
+    volatileId,
+    event,
+    actionName,
+    timeout,
+    actionId,
+    inputParameters,
+    request: [
+      {
+        name: 'playbookId',
+        value: playbookId.value,
+        encoding: playbookId.encoding
+      },
+
+      {
+        name: 'playbookFileName',
+        value: playbookFileName.value,
+        encoding: playbookFileName.encoding
+      },
+
+      {
+        name: 'ansibleUrl',
+        value: ansibleUrl.value,
+        encoding: ansibleUrl.encoding
+      },
+      {
+        name: 'jobTemplateUrl',
+        value: jobTemplateUrl,
+        encoding: 'ascii'
       }
     ]
   });
