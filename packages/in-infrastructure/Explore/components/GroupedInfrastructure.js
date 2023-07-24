@@ -19,7 +19,7 @@ import {
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
-import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
+import { firstValue, getGranularity, getMetricKey, getMetricValue, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -305,7 +305,7 @@ function columns({
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           return (
             <SparkChart
-              horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
+              horizontalMetricValue={getMetricValue(kpi, formatter)}
               percentageMetric={percentageMetric}
               tooltipFormatter={formatter}
               aggregation={aggregation}
