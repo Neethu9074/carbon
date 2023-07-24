@@ -5,10 +5,14 @@
 
 import React from 'react';
 
+import UserList, {
+  iconColumn,
+  labelColumn,
+  idpGroupColumn
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
 import AddUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/AddUserButton';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
-import UserList, { iconColumn, labelColumn, idpGroupColumn } from './UserList';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { find } from 'in-services/arrayUtils';
 

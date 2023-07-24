@@ -7,13 +7,13 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
+import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { setUsersToGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import ActionBar from 'in-settings/components/Dialog/ActionBar';
-import UserList, { iconColumn, labelColumn } from './UserList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { setUsersToGroup } from '../../../api/groups';
 import Dialog from 'in-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
 import { t } from 'in-i18n';

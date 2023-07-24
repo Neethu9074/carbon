@@ -9,13 +9,15 @@ import { KeyValue, Link, Message, Typography } from '@instana/components';
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { Observable, create } from '@instana/observables';
 
+import InviteUserDialog, {
+  UserInvite
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites//InviteUserButton';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
-import InviteUserDialog, { UserInvite } from '../../Invites/InviteUserDialog';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
-import { onDoInviteUser } from '../../Invites/InviteUserButton';
 import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
