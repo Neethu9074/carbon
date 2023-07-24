@@ -8,6 +8,6 @@
 export * from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList/UserList.js';
 
 // @ts-expect-error not typed yet
-import UserList from './UserList';
+import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList/UserList';
 
 export default UserList;
