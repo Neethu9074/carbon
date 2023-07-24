@@ -151,7 +151,15 @@ const scoreColumn = {
   label: t('in-automation:ActionCatalog.confidenceTitle'),
   id: 'color',
   getContent(row: ScoredAction) {
-    return t('in-automation:ActionCatalog.confidence', { context: row.color });
+    return (
+      <Tooltip
+        content={t('in-automation:ActionCatalog.confidenceHelpText', { context: row.color })}
+        align="topRight"
+        delay={500}
+      >
+        <span>{t('in-automation:ActionCatalog.confidence', { context: row.color })}</span>
+      </Tooltip>
+    );
   },
   getValue(row: ScoredAction) {
     return row.score;
