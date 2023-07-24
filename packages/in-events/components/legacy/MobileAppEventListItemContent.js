@@ -1,34 +1,35 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
-import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder.ts';
+import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig.ts';
+import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
+import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
-import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
-import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
 
-export default function WebsiteEventListItemContent({ event }) {
-  const eventEntity = useWebsiteEventEntity(event);
-  const alertConfig = useWebsiteEventAlertConfig(event);
+export default function MobileAppEventListItemContent({ event }) {
+  const eventEntity = useMobileAppEventEntity(event);
+  const alertConfig = useMobileAppEventAlertConfig(event);
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -58,15 +59,15 @@ export default function WebsiteEventListItemContent({ event }) {
     <>
       <ProblemDescription fixSuggestion={fixSuggestion} />
       <DescriptionButtons>
-        <WebsiteAlertConfigButton alertConfig={alertConfig} />
-        <AnalyzeWebsiteEventButton
+        <MobileAppAlertConfigButton alertConfig={alertConfig} />
+        <AnalyzeMobileAppEventButton
           alertConfig={alertConfig}
-          websiteName={eventEntity.websiteName}
+          mobileAppName={eventEntity.mobileAppName}
           timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
         />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>
-        <WebsitesAlertingChartWithErrorMessage
+        <MobileAppAlertingChartWithErrorMessage
           alertConfigWithFormModel={{
             ...alertConfig,
             tagFilterExpression: tagFilterFormModel
@@ -81,7 +82,7 @@ export default function WebsiteEventListItemContent({ event }) {
             <ScopeConfigPresenter
               tagFilterFormModel={tagFilterFormModel}
               queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-              scopePath={<WebsiteScopePath {...eventEntity} />}
+              scopePath={<MobileAppScopePath {...eventEntity} />}
             />
           </div>
         </DescriptionItem>
