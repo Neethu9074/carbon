@@ -11,7 +11,7 @@ import getOpenstackHypervisors from 'in-openstack/subscriptions/getOpenstackHype
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytes, megaBytes, number, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -20,13 +20,20 @@ import { t } from 'in-i18n';
 const pathSegment = '/openstack-hypervisors';
 const matrixPrefix = 'hypervisor.';
 
+function LabelContent({ label, id, regionId }) {
+  const getOpenstackHypervisorDashboard = useOpenstackHypervisorDashboard();
+
+  return <EntityLink label={label} href={getOpenstackHypervisorDashboard(id, { regionId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-openstack:name'),
     getContent(item, props) {
       const regionId = props.regionId;
-      return <EntityLink label={item.label} href$={getOpenstackHypervisorDashboard(item.id, { regionId })} />;
+
+      return <LabelContent label={item.label} id={item.id} regionId={regionId} />;
     }
   },
   {

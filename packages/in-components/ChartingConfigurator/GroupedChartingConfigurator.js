@@ -30,7 +30,7 @@ export default function GroupedChartingConfigurator({
   if (!value && hasOptionsToSelect) {
     return (
       <div className={locals.wrapper}>
-        <ChartSelectorOverlay
+      <ChartSelectorOverlay
           value={value}
           options={options}
           dataSource={dataSource}

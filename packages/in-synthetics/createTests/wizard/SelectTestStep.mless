@@ -9,8 +9,7 @@
   .htmlText {
     font-size: 0.875rem;
     color: currentColor;
-
-    .breakWord();
+    hyphens: none;
     white-space: normal;
   }
 

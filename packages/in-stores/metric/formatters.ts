@@ -89,10 +89,10 @@ export const perSecondDetailed: Formatter = {
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
 export const publicFormatters: Formatter[] = [
-  percentageDetailed,
   numberCompact,
   defaultFormatter,
   percentageCompact,
+  percentageDetailed,
   bytesCompact,
   bytesDetailed,
   millisCompact,

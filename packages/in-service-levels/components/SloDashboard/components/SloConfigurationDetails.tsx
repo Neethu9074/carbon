@@ -6,9 +6,13 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, Ul } from '@instana/components';
 
+import { ObjectiveSection } from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
+import { IndicatorSection } from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
+import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
+import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';
 import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Nullish } from 'in-types';
@@ -17,7 +21,7 @@ interface SloConfigurationDetailsProps {
   data?: SloTabData | Nullish;
 }
 
-interface SloConfigurationDetailsContentProps {
+export interface SloConfigurationDetailsContentProps {
   data: SloTabData;
 }
 
@@ -33,8 +37,16 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
   const { configuration } = data;
 
   return (
-    <Card title={configuration.name} rightHeaderContent={<SloActionButtons configuration={configuration} />}>
-      <SloTagsList tags={configuration.tags} />
+    <Card
+      leftHeaderContent={<SloTagsList tags={configuration.tags} />}
+      rightHeaderContent={<SloActionButtons configuration={configuration} />}
+    >
+      <Ul space="medium">
+        <EntitySection data={data} />
+        <ScopeSection data={data} />
+        <IndicatorSection data={data} />
+        <ObjectiveSection data={data} />
+      </Ul>
     </Card>
   );
 }

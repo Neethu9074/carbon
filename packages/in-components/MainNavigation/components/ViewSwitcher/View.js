@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import SubView from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -74,7 +74,7 @@ export default connectTo(
           onMouseEnter={onMouseEnter}
           onMouseLeave={() => onMouseLeave()} // don't parse the event
         >
-          <Link id={id} className={locals.link} href$={href$} href={href}>
+          <Link id={id} className={locals.link} href={href$ ?? href}>
             {renderContent ? (
               renderContent(sidebarIsExpanded)
             ) : (

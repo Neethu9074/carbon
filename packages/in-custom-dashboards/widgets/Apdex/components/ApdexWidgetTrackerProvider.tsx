@@ -36,7 +36,7 @@ export const defaultTrackers = {
 
 export type ApdexWidgetTrackers = Partial<typeof defaultTrackers>;
 export type ApdexWidgetTrackerPayload<EVENT extends keyof ApdexWidgetTrackers> = Parameters<
-  typeof defaultTrackers[EVENT]
+  (typeof defaultTrackers)[EVENT]
 >;
 
 const trackerContext = createContext<ApdexWidgetTrackers>({});
@@ -52,9 +52,10 @@ export function ApdexWidgetTrackerProvider({ value, children }: PropsWithChildre
 export function useApdexWidgetTrackers() {
   const trackers = useContext(trackerContext);
   return useMemo(
-    () => <EVENT extends keyof ApdexWidgetTrackers>(event: EVENT, ...payload: ApdexWidgetTrackerPayload<EVENT>) =>
-      // @ts-expect-error I currently cant avoid this issue, but the typing to the outside is working as intended so this should not be any issue
-      trackers[event]?.(...payload),
+    () =>
+      <EVENT extends keyof ApdexWidgetTrackers>(event: EVENT, ...payload: ApdexWidgetTrackerPayload<EVENT>) =>
+        // @ts-expect-error I currently cant avoid this issue, but the typing to the outside is working as intended so this should not be any issue
+        trackers[event]?.(...payload),
     [trackers]
   );
 }

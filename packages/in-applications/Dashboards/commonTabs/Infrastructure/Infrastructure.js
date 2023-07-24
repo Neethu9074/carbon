@@ -36,7 +36,7 @@ import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/pa
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
@@ -257,6 +257,8 @@ function WithPowerVcPhysicalContext({ children, region }) {
   );
 }
 function WithOpenstackPhysicalContext({ children, region }) {
+  const getOpenstackRegionDashboard = useOpenstackRegionDashboard();
+
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}

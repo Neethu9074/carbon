@@ -10,6 +10,7 @@ import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/compon
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
+import { ua2ExpandCollapseGroupedListItem } from 'in-applications/tracker';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
@@ -18,6 +19,10 @@ import { collationLanguage } from 'in-i18n';
 const getDataPerDataSource = {
   calls: getCallGroups,
   traces: getTraceGroups
+};
+
+const tracker = {
+  onToggleContentRow: () => ua2ExpandCollapseGroupedListItem({})
 };
 
 export default function GroupedResults(props) {
@@ -29,10 +34,10 @@ export default function GroupedResults(props) {
     Chart = ChartsPresenter
   } = props;
 
-  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }), [
-    hiddenCalls,
-    fastQueryModeEnabled
-  ]);
+  const getData = useCallback(
+    params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }),
+    [hiddenCalls, fastQueryModeEnabled]
+  );
   return (
     <QueryBuilderWorkspace
       {...props}
@@ -52,6 +57,7 @@ export default function GroupedResults(props) {
         getLabel={getLabel}
         UngroupedView={Results}
         customLatencyUiFormatterName={'LATENCY_WITH_DECIMALS'}
+        tracker={tracker}
       />
     </QueryBuilderWorkspace>
   );

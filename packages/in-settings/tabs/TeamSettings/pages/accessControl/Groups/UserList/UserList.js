@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, KeyValue, Li, Ul } from '@instana/components';
+import { ColumnizedContent, KeyValue, Li, Typography, Ul } from '@instana/components';
 
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
@@ -64,6 +64,16 @@ export const groupCount = {
   }
 };
 
+export const tfaStatus = {
+  width: '8rem',
+  getContent({ tfaStatus }) {
+    if (tfaStatus === true) {
+      return <Typography variant="body-small">{t('in-settings:tabs.tfaEnabled')}</Typography>;
+    }
+    return <></>;
+  }
+};
+
 export const deleteColumn = {
   width: '2rem',
   getContent({ user, deleteItem, currentDeletingItemIds }) {
@@ -80,7 +90,7 @@ export const deleteColumn = {
   }
 };
 
-const defaultColumnDefinitions = [iconColumn, labelColumn, groupCount, deleteColumn];
+const defaultColumnDefinitions = [iconColumn, labelColumn, groupCount, tfaStatus, deleteColumn];
 
 function DefaultListRenderer({
   items,
@@ -122,6 +132,7 @@ function DefaultListRenderer({
               groups={user.groupCount}
               deleteItem={remove}
               currentDeletingItemIds={currentDeletingItemIds}
+              tfaStatus={user.tfaEnabled}
             />
           </Li>
         );

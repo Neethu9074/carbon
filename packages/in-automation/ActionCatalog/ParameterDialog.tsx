@@ -51,13 +51,16 @@ export interface ParameterDialogProps {
   onChange: OnEntityChange<ActionFormEntity>;
   idToEdit?: string;
   isNotEditable: boolean;
+  isAnsible: boolean;
 }
 
-export default function ParameterDialog({ form, onChange, idToEdit, isNotEditable }: ParameterDialogProps) {
+export default function ParameterDialog({ form, onChange, idToEdit, isNotEditable, isAnsible }: ParameterDialogProps) {
   const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
     parameter => parameter.id === idToEdit
   );
 
+  // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
+  isNotEditable = isNotEditable && !isAnsible;
   const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
 
   const type = parameterForm.get('type') as Field<string>;
@@ -86,7 +89,7 @@ export default function ParameterDialog({ form, onChange, idToEdit, isNotEditabl
             onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
           }
         >
-          <MetaDataSection {...sectionProps} />
+          <MetaDataSection {...sectionProps} isAnsible={isAnsible} />
           {type.value === 'static' && <StaticSection {...sectionProps} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
@@ -105,7 +108,13 @@ interface SectionProps {
   isNotEditable: boolean;
 }
 
-const MetaDataSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+const MetaDataSection = ({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  isNotEditable,
+  isAnsible
+}: SectionProps & { isAnsible: boolean }) => {
   const name = parameterForm.get('name') as Field<string>;
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
@@ -137,7 +146,8 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm, isNotEdit
         <Input
           id="parameter-name"
           type="text"
-          disabled={isNotEditable}
+          // IMPORTANT: isNotEditable has been overridden for Ansible actions so we need to check isAnsible here to disable the input
+          disabled={isNotEditable || isAnsible}
           value={name.value}
           onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
           hasError={!name.valid && name.touched}
@@ -418,7 +428,7 @@ function onParameterChange<T>({
   });
 }
 
-interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable'> {
+interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible'> {
   parameterForm: MapForm<any>;
   parameter: MappedParameter | undefined;
 }

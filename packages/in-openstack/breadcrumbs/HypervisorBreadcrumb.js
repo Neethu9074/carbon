@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getOpenstackHypervisor from 'in-openstack/subscriptions/getOpenstackHypervisor';
-import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
+import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -22,11 +22,13 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function HypervisorBreadcrumb({ hypervisor }) {
+    const getOpenstackHypervisorDashboard = useOpenstackHypervisorDashboard();
+
     return (
       <>
         {hypervisor && (
           <Breadcrumb
-            href$={getOpenstackHypervisorDashboard(hypervisor.id, { regionId: hypervisor.regionId })}
+            href={getOpenstackHypervisorDashboard(hypervisor.id, { regionId: hypervisor.regionId })}
             label={t('in-openstack:breadcrumbs.hypervisors')}
           >
             {hypervisor.label}

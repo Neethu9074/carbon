@@ -6,37 +6,32 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import { ApplicationBoundaryScope, SloEntityType } from '@instana/types';
+import {
+  AggregationType,
+  ApplicationBoundaryScope,
+  BlueprintType,
+  DurationUnitType,
+  SloEntityType
+} from '@instana/types';
 
 import {
-  ApplicationEntityFields,
-  ApplicationScopeFields,
-  SloCommonFields,
+  SloEntityFields,
   SloForm,
-  WebsiteEntityFields,
-  WebsiteScopeFields
+  SloIndicatorFields,
+  SloScopeFields,
+  SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { SloBeaconTypes } from 'in-service-levels/types';
 
-// Field declarations
-export const getDefaultCommonFields = (entityType?: SloEntityType): SloCommonFields => ({
-  entityType: createField<SloEntityType>({ value: entityType ?? 'application' })
+export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
+  entityId: createField({ value: '' }),
+  type: createField({ value: entityType })
 });
 
-export const getDefaultWebsiteEntityFields = (): WebsiteEntityFields => ({
-  websiteId: createField({ value: '' })
-});
-
-export const getDefaultWebsiteScopeFields = (): WebsiteScopeFields => ({
-  beaconType: createField({ value: 'httpRequest' }),
-  tagFilterExpression: createField<FormModelElement[]>({ value: [] })
-});
-
-export const getDefaultApplicationEntityFields = (): ApplicationEntityFields => ({
-  applicationId: createField({ value: '' })
-});
-
-export const getDefaultApplicationScopeFields = (): ApplicationScopeFields => ({
+export const getDefaultScopeFields = (): SloScopeFields => ({
+  beaconType: createField<SloBeaconTypes>({ value: 'httpRequest' }),
   boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
   endpointId: createField({ value: '' }),
   includeInternal: createField({ value: false }),
@@ -45,30 +40,40 @@ export const getDefaultApplicationScopeFields = (): ApplicationScopeFields => ({
   tagFilterExpression: createField<FormModelElement[]>({ value: [] })
 });
 
-export const createDefaultSloForm = <EntityType extends SloEntityType>(entityType: EntityType) => {
-  if (entityType === 'application') {
-    return createMapForm({
-      items: {
-        ...getDefaultCommonFields(entityType),
-        entity: createMapForm({
-          items: getDefaultApplicationEntityFields()
-        }),
-        scope: createMapForm({
-          items: getDefaultApplicationScopeFields()
-        })
-      }
-    }) as SloForm<EntityType>;
-  }
+export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
+  aggregation: createField<AggregationType>({ value: 'SUM' }),
+  badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+  blueprint: createField<BlueprintType>({ value: 'latency' }),
+  goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+  threshold: createField({ value: 0 }),
+  type: createField({ value: 'timeBased' })
+});
 
+export const getDefaultTimeWindowFields = (): SloTimeWindowFields => ({
+  duration: createField<number>({ value: 1 }),
+  durationUnit: createField<DurationUnitType>({ value: 'week' }),
+  startTimestamp: createField({ value: Date.now() }),
+  type: createField({ value: 'fixed' })
+});
+
+export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
   return createMapForm({
     items: {
-      ...getDefaultCommonFields(entityType),
       entity: createMapForm({
-        items: getDefaultWebsiteEntityFields()
+        items: getDefaultEntityFields(entityType)
       }),
       scope: createMapForm({
-        items: getDefaultWebsiteScopeFields()
+        items: getDefaultScopeFields()
+      }),
+      indicator: createMapForm({
+        items: getDefaultIndicatorFields()
+      }),
+      timeWindow: createMapForm({
+        items: getDefaultTimeWindowFields()
+      }),
+      nameTags: createMapForm({
+        items: createSloNameTagsFields({ name: '', tags: [] })
       })
     }
-  }) as SloForm<EntityType>;
+  });
 };

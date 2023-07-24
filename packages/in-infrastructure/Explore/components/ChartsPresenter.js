@@ -17,8 +17,6 @@ export function ChartsPresenter(props) {
   const {
     chartedMetrics,
     metricMetadatas,
-    dataSource,
-    chartableDataSeries,
     metricCatalog,
     onChartedMetricsChange,
     isGrouped,
@@ -28,7 +26,9 @@ export function ChartsPresenter(props) {
     type
   } = props;
 
-  const options = useMemo(() => getOptions(metricCatalog, metricMetadatas), [metricCatalog, metricMetadatas]);
+  const dataSource = 'infrastructure'
+
+  const chartableMetricCatalog = useMemo(() => getChartableMetricCatalog(metricCatalog, metricMetadatas), [metricCatalog, metricMetadatas]);
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -37,13 +37,15 @@ export function ChartsPresenter(props) {
         isValid={isValid}
         dataSource={dataSource}
         isLoading={isLoading}
-        chartedMetrics={chartedMetrics?.map(chartedMetric => ({
-          metricId: chartedMetric.metric ?? chartedMetric.metricId,
-          aggregationId: chartedMetric.aggregation ?? chartedMetric.aggregationId,
-          rendererId: 'line'
+        chartedMetrics={chartedMetrics
+          ?.filter(chartedMetric => chartableMetricCatalog.find(catalogMetric => chartedMetric.metric === catalogMetric.metricId))
+          .map(chartedMetric => ({
+            metricId: chartedMetric.metric ?? chartedMetric.metricId,
+            aggregationId: chartedMetric.aggregation ?? chartedMetric.aggregationId,
+            rendererId: 'line'
         }))}
         unifiedMetricsSource="INFRASTRUCTURE_METRICS"
-        forceLoadingIndicator={isGrouped && chartableDataSeries == null}
+        forceLoadingIndicator={false}
         disableClose={false}
         hideRenderer
         tracking={{
@@ -66,8 +68,7 @@ export function ChartsPresenter(props) {
           };
         }}
         backendQueryModelWithFacets={tagFilterExpression}
-        chartableMetricCatalog={getChartableMetricCatalog(metricCatalog, metricMetadatas).metrics}
-        processedOptions={options}
+        chartableMetricCatalog={chartableMetricCatalog}
         onChartedMetricsChange={metrics => {
           onChartedMetricsChange(metrics.map(metric => ({ metric: metric.metricId, aggregation: metric.aggregationId })));
         }}
@@ -77,7 +78,7 @@ export function ChartsPresenter(props) {
   );
 }
 
-function getFormatterName(metricMetadatas, name) {
+function getFormatter(metricMetadatas, name) {
   const formatter = metricMetadatas.data ? metricMetadatas.data[name]?.formatter : undefined;
   let formatterName =
     formatter?.detailed?.__instanaFormatterType !== undefined && formatter.detailed.__instanaFormatterType.size > 0
@@ -94,92 +95,29 @@ function getFormatterName(metricMetadatas, name) {
 
 function getChartableMetricCatalog(metricsCatalog, metricMetadatas) {
   let result = [];
-
-  if (!metricsCatalog.progress.loading) {
-    metricsCatalog.data?.tree?.forEach(t => {
-      const oneLevelMetricType = Object.keys(metricsCatalog.data?.metrics);
-      if (
-        oneLevelMetricType.length === 1 &&
-        metricsCatalog.data?.metrics[oneLevelMetricType[0]]?.METRIC &&
-        Object.keys(metricsCatalog.data?.metrics[oneLevelMetricType[0]]?.METRIC).length > 0
-      ) {
-        let formatterName = getFormatterName(metricMetadatas, t.name);
-        result.push({
-          metricId: t.name,
-          label: t.label,
-          description: t.description,
-          aggregations: ['MEAN'],
-          formatter: formatterName
-        });
-      } else {
-        t.children?.forEach(m => {
-          let formatterName = getFormatterName(metricMetadatas, m.name);
-          result.push({
-            metricId: m.name,
-            label: m.label,
-            description: m.description,
-            aggregations: ['MEAN'],
-            formatter: formatterName
-          });
-        });
-      }
-    });
-  }
-  return { metrics: result };
-}
-
-function getOptions(metricCatalog, metricMetadatas) {
-  let result = {};
-  if (!metricCatalog?.progress?.loading) {
-    const oneLevelMetricType = Object.keys(metricCatalog?.data?.metrics);
-    // TODO: fix usage of `metricCatalog.data.metrics` - always use `...tree`
-    if (
-      oneLevelMetricType.length === 1 &&
-      metricCatalog?.data?.metrics[oneLevelMetricType[0]]?.METRIC &&
-      Object.keys(metricCatalog?.data?.metrics[oneLevelMetricType[0]]?.METRIC).length > 0
-    ) {
-      let optionsArr = [];
-
-      // TODO: get rid of usage of metricMetadatas
-      metricCatalog?.data?.tree?.forEach(t => {
-        let formatterName = getFormatterName(metricMetadatas, t.name);
-        optionsArr.push({
-          metricId: t.name,
-          label: t.label,
-          description: t.description,
-          aggregations,
-          formatter: formatterName
-        });
-        result['metrics'] = optionsArr;
-      });
-    } else {
-      metricCatalog?.data?.tree?.forEach(t => {
-        let optionsArr = [];
-
-        t.children?.forEach(m => {
-          let formatterName = getFormatterName(metricMetadatas, m.name);
-          optionsArr.push({
-            metricId: m.name,
-            label: m.label,
-            description: m.description,
-            aggregations,
-            groupLabel: t.label,
-            formatter: formatterName
-          });
-        });
-        // TODO: get rid of magic _
-        result['_' + t.label] = optionsArr;
-      });
-    }
-  }
+  addMetrics(metricsCatalog.data?.tree ?? [], [], metricMetadatas, result);
   return result;
 }
 
-const aggregations = Object.keys(aggregationLabels).map(k => ({
-  id: k,
-  label: aggregationLabels[k],
-  renderers: [{ id: 'line', label: 'Line', renderer: {} }]
-}));
+function addMetrics(metrics, path, metricMetadatas, result) {
+  metrics.forEach(m => {
+    if (m.type === 'METRIC') {
+      let formatter = getFormatter(metricMetadatas, m.name);
+      result.push({
+        metricId: m.name,
+        label: m.label,
+        description: m.description,
+        aggregations,
+        formatter,
+        groupLabel: path.join(' ')
+      })
+    } else {
+      addMetrics(m.children, [...path, m.label], metricMetadatas, result);
+    }
+  });
+}
+
+const aggregations = Object.keys(aggregationLabels);
 
 const defaultProps = {
   refreshFixatedTimeConfig: () => {},

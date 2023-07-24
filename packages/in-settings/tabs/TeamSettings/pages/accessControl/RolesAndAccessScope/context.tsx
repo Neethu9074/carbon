@@ -15,7 +15,8 @@ const defaultValue = {
     kubernetesNamespaceUIDs: [],
     mobileAppIds: [],
     permissions: [],
-    websiteIds: []
+    websiteIds: [],
+    syntheticTestIds: []
   }
 };
 

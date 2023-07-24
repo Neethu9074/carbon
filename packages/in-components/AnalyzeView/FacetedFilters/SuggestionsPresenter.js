@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button, Stack } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';

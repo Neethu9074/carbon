@@ -50,6 +50,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
   const workloadTag = tagEquals('kubernetes.daemonset.name', daemonSet.name);
 
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
+  const tagFilterExpressionPodPhase = (phase: string) =>
+    toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag, tagEquals('kubernetes.pod.phase', phase)));
   const type = plugins.kubernetesDaemonSet;
 
   const defaultConfig = {
@@ -61,7 +63,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
     timeShift
   };
 
-  const isPodMetric = {
+  const isPodSumMetric = {
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'SUM' as AggregationType
   };
@@ -72,13 +74,14 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
 
   const runningPodBigNumberMetricConfig = {
     ...defaultConfig,
-    ...isPodMetric,
+    ...isPodSumMetric,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
 
   const runningPodCountBigNumberMetricConfig = {
     ...defaultConfig,
     ...isPodCountMetric,
+    tagFilterExpression: tagFilterExpressionPodPhase('Running'),
     resultType: 'SINGLE_NUMBER' as ResultType
   };
   const defaultChartMetricConfig = {
@@ -166,7 +169,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'pods.count',
-                ...runningPodCountBigNumberMetricConfig
+                ...runningPodCountBigNumberMetricConfig,
               },
               ...comparisonColors
             }}
@@ -191,14 +194,14 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
                 ...defaultChartMetricConfig,
-                ...isPodMetric
+                ...isPodSumMetric
               },
               {
                 metric: 'cpuLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
                 ...defaultChartMetricConfig,
-                ...isPodMetric
+                ...isPodSumMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
@@ -225,14 +228,14 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
                 ...defaultChartMetricConfig,
-                ...isPodMetric
+                ...isPodSumMetric
               },
               {
                 metric: 'memoryLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
                 ...defaultChartMetricConfig,
-                ...isPodMetric
+                ...isPodSumMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}
@@ -252,6 +255,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 label: t('in-kubernetes:dashboards.allocated'),
                 color: allocated,
                 ...defaultChartMetricConfig,
+                tagFilterExpression: tagFilterExpressionPodPhase('Running'),
                 ...isPodCountMetric
               },
               {
@@ -259,6 +263,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 label: t('in-kubernetes:dashboards.pending'),
                 color: pending,
                 ...defaultChartMetricConfig,
+                tagFilterExpression: tagFilterExpressionPodPhase('Pending'),
                 ...isPodCountMetric
               },
               {
@@ -266,14 +271,12 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
                 ...defaultChartMetricConfig,
-                ...isPodCountMetric
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
                 ...defaultChartMetricConfig,
-                ...isPodCountMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}

@@ -40,8 +40,7 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     .put(
       'description',
       createField({
-        value: parameter?.value?.description ?? '',
-        validator: notBlankValidator
+        value: parameter?.value?.description ?? ''
       })
     )
     .put(

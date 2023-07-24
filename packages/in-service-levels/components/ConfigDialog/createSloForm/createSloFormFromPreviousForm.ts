@@ -4,64 +4,39 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm } from 'formalistic';
-
-import { SloEntityType } from '@instana/types';
+import { createMapForm } from 'formalistic';
 
 import {
-  getDefaultApplicationEntityFields,
-  getDefaultApplicationScopeFields,
-  getDefaultCommonFields,
-  getDefaultWebsiteEntityFields,
-  getDefaultWebsiteScopeFields
+  getIndicatorFieldsFromForm,
+  getNameTagFieldsFromForm,
+  getTimeWindowFormFieldFromForm
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
+import {
+  getDefaultEntityFields,
+  getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import {
-  ApplicationSloForm,
-  SloCommonFields,
-  SloForm,
-  WebsiteSloForm
-} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
-interface GetFieldsFromSloPreviousFormProps<EntityType extends SloEntityType> {
-  entityType: SloEntityType;
-  previousForm: EntityType extends 'application' ? ApplicationSloForm : WebsiteSloForm;
-}
-
-export const getCommonFieldsFromPreviousForm = <EntityType extends SloEntityType>(
-  previousForm: EntityType extends 'application' ? ApplicationSloForm : WebsiteSloForm
-): SloCommonFields => {
-  const entityTypeField = previousForm.get('entityType');
-
-  return { entityType: createField<SloEntityType>({ value: entityTypeField.value }) };
-};
-
-export const createSloFormFromPreviousForm = <EntityType extends SloEntityType>({
-  entityType,
-  previousForm
-}: GetFieldsFromSloPreviousFormProps<EntityType>) => {
-  if (entityType === 'application') {
-    return createMapForm({
-      items: {
-        ...getCommonFieldsFromPreviousForm(previousForm),
-        entity: createMapForm({
-          items: getDefaultApplicationEntityFields()
-        }),
-        scope: createMapForm({
-          items: getDefaultApplicationScopeFields()
-        })
-      }
-    }) as SloForm<EntityType>;
-  }
+export const createSloFormFromPreviousForm = (previousForm: SloForm): SloForm => {
+  const entityType = previousForm.getIn(['entity', 'type']).value;
 
   return createMapForm({
     items: {
-      ...getDefaultCommonFields(entityType),
       entity: createMapForm({
-        items: getDefaultWebsiteEntityFields()
+        items: getDefaultEntityFields(entityType)
+      }),
+      indicator: createMapForm({
+        items: getIndicatorFieldsFromForm(previousForm)
       }),
       scope: createMapForm({
-        items: getDefaultWebsiteScopeFields()
+        items: getDefaultScopeFields()
+      }),
+      timeWindow: createMapForm({
+        items: getTimeWindowFormFieldFromForm(previousForm)
+      }),
+      nameTags: createMapForm({
+        items: getNameTagFieldsFromForm(previousForm)
       })
     }
-  }) as SloForm<EntityType>;
+  });
 };

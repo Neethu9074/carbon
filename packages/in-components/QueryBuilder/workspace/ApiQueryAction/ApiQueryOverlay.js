@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { KeyValue, Toggle } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
@@ -40,7 +40,7 @@ export default function ApiQueryOverlay({
     type,
     metrics,
     order,
-    ...(groupBy != undefined && groupBy[0] != null ? { groupBy: groupBy } : {})
+    ...(groupBy?.length > 0 ? { groupBy } : {})
   };
 
   const jsonString = JSON.stringify(model, 0, 2);

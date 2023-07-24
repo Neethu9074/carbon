@@ -193,7 +193,6 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
-      //@ts-expect-error
       TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       isDynamicCustomPayloadValid={hasCustomPayloadValidDynamicTags}
       QueryBuilderComponent={AlertQueryBuilder}

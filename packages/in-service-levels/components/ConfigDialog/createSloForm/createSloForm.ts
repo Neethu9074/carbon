@@ -4,37 +4,47 @@
  * Copyright IBM Corp. 2023
  */
 
+import { createField, notBlankValidator } from 'formalistic';
+
 import { ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 
 import { createSloFormFromPreviousForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
-import {
-  ApplicationSloForm,
-  SloForm,
-  WebsiteSloForm
-} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
+import { SloForm, SloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
 
-interface CreateSloFormProps<EntityType> {
-  entityType: EntityType;
-  form?: EntityType extends 'application' ? ApplicationSloForm : WebsiteSloForm;
-  previousForm?: EntityType extends 'application' ? ApplicationSloForm : WebsiteSloForm;
-  sloConfig?: Partial<ServiceLevelObjectiveConfiguration>;
+interface CreateSloFormProps {
+  entityType?: SloEntityType;
+  form?: SloForm;
+  previousForm?: SloForm;
+  sloConfig?: ServiceLevelObjectiveConfiguration;
 }
 
-// form creators
-export function createSloForm<EntityType extends SloEntityType>({
-  entityType,
-  form,
-  previousForm,
-  sloConfig
-}: CreateSloFormProps<EntityType>): SloForm<EntityType> {
-  if (sloConfig) return createSloFormFromSloConfig({ entityType, sloConfig });
+export function createSloForm({ entityType, form, previousForm, sloConfig }: CreateSloFormProps): SloForm {
+  if (sloConfig) return createSloFormFromSloConfig(sloConfig);
 
   if (form) return createSloFormFromForm(form);
 
-  if (previousForm) return createSloFormFromPreviousForm({ entityType, previousForm });
+  if (previousForm) return createSloFormFromPreviousForm(previousForm);
 
-  return createDefaultSloForm(entityType);
+  if (entityType) return createDefaultSloForm(entityType);
+
+  throw new Error('You have to pass at least one param to the function');
+}
+
+export function createSloNameTagsFields({
+  name,
+  tags
+}: Pick<ServiceLevelObjectiveConfiguration, 'name' | 'tags'>): SloNameTagsFields {
+  return {
+    name: createField({
+      value: name,
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+    }),
+    tags: createField({ value: tags })
+  };
 }

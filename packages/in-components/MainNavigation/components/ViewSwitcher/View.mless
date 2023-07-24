@@ -26,7 +26,7 @@
   }
 
   .collapsedActive {
-    .link {
+    svg {
       margin: 0 0.5rem 0 0.3125rem;
     }
   }
@@ -83,6 +83,9 @@
   }
 
   .collapsedActiveWithChildren {
+    svg {
+      margin: 0 0.5rem 0 0.3125rem;
+    }
     .wrapper {
       width: ~'calc(100% - 1.5rem)';
       margin: 0 0.75rem;
@@ -100,7 +103,6 @@
 
       .link {
         position: relative;
-        margin: 0 0.5rem 0 0.3125rem;
         padding: 0.3125rem 0;
 
         &::before {

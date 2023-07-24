@@ -1044,7 +1044,13 @@
         "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Unexpectedly Low Number of Views",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Views",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receive an alert when the number of Views is significantly lower than expected compared to the available past data.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Unexpectedly Low Number of Sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously Low Number of Sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receive an alert when the number of Sessions is significantly lower than expected compared to the available past data."
       },
       "alertList": {
         "columns": {

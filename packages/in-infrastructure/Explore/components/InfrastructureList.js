@@ -10,12 +10,11 @@ import { Message } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+import { firstValue, getGranularity, getMetricKey, getMetricValue, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
-import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -33,7 +32,7 @@ import { t } from 'in-i18n';
 import locals from './InfrastructureList.mless';
 
 export default function InfrastructureList({
-  retrievalSize = 20,
+  retrievalSize = 200,
   numSkeletonRows = 3,
   backendQueryModel,
   showHeader = false,
@@ -66,7 +65,7 @@ export default function InfrastructureList({
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, granularity, retrievalSize: 200, backendQueryModel, order, type, metrics, cursor }),
+      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
@@ -107,7 +106,6 @@ export default function InfrastructureList({
         <ChartsPresenter
           chartedMetrics={chartedMetrics}
           metricMetadatas={metricMetadatas}
-          dataSource={'analytics'}
           chartableDataSeries={undefined}
           metricCatalog={metricCatalog}
           isLoading={isLoading}
@@ -340,14 +338,6 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
 
 export function pagesLoaded(offset, itemsPerPage) {
   return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
-}
-
-function getMetricValue(kpi, formatter) {
-  if (kpi !== undefined && kpi !== null) {
-    //checking if kpi is falsy, valid kpi can be 0 as well
-    return formatter ? formatter(kpi) : kpi;
-  }
-  return valueMissingPlaceholder;
 }
 
 function processData(items, columns) {

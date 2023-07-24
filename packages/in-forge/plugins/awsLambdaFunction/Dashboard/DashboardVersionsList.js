@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';

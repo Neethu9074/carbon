@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
+import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
@@ -22,6 +23,7 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
+import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -79,7 +81,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       : t('in-settings:productAreas.title_platforms');
   const platformTitle = hasAPlatformAccess ? platformTitleIfHasOnePlatform() : '';
 
-  const navItems = [
+  let navItems = [
     ...nameItem,
     {
       scrollId: '2-heading-section',
@@ -179,63 +181,148 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           {...slideControlProps}
         />
       )
-    },
-    {
-      scrollId: '8-analytics',
-      label: t('in-settings:productAreas.title_analytics'),
-      title: t('in-settings:productAreas.title_analytics'),
-      valid: true,
-      content: (
-        <PermissionSelection
-          title={t('in-settings:productAreas.title_analytics')}
-          description={t('in-settings:PermissionSection.description_analytics')}
-          productAreas={[ProductArea.ANALYTICS]}
-          icon="lib_analyze"
-          {...formControlProps}
-          {...slideControlProps}
-        />
-      )
-    },
-    {
-      scrollId: '9-eventsAndAlerts',
-      label: t('in-settings:productAreas.title_events_and_alerts'),
-      title: t('in-settings:productAreas.title_events_and_alerts'),
-      valid: true,
-      content: (
-        <PermissionSelection
-          title={t('in-settings:productAreas.title_events_and_alerts')}
-          description={t('in-settings:PermissionSection.description_events_and_alerts')}
-          productAreas={[ProductArea.EVENT]}
-          icon="lib_events_inverted"
-          {...formControlProps}
-          {...slideControlProps}
-        />
-      )
-    },
-    {
-      scrollId: '10-globalFunctions',
-      label: t('in-settings:productAreas.title_global_functions'),
-      title: t('in-settings:productAreas.title_global_functions'),
-      valid: true,
-      content: (
-        <PermissionSelection
-          title={t('in-settings:productAreas.title_global_functions')}
-          productAreas={[
-            ProductArea.MIXED,
-            ProductArea.LOGS,
-            ProductArea.DASHBOARD,
-            ProductArea.SYNTHETICS,
-            ProductArea.AUTOMATION,
-            ProductArea.AGENTS,
-            ProductArea.ACCESS_CONTROL
-          ]}
-          icon="lib_actions_settings"
-          {...formControlProps}
-          {...slideControlProps}
-        />
-      )
     }
   ];
+  navItems = syntheticRbacEnabled
+    ? [
+        ...navItems,
+        {
+          scrollId: '8-synthetics',
+          label: t('in-settings:productAreas.title_syntheticMonitoring'),
+          title: t('in-settings:productAreas.title_syntheticMonitoring'),
+          valid: true,
+          content: (
+            <PermissionSection
+              title={t('in-settings:productAreas.title_syntheticMonitoring')}
+              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_synthetics')}
+              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_synthetics')}
+              addButtonLabel={t('in-settings:PermissionSection.addButton_syntheticTests')}
+              roleTooltipText={t('in-settings:permissionScope.roleTooltip_synthetics')}
+              entityPermissionKey="syntheticTestIds"
+              observable={() => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig })}
+              productArea={ProductArea.SYNTHETICS}
+              icon="lib_synthetic"
+              extractId={({ id }) => id}
+              extractName={({ name }) => name}
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '9-analytics',
+          label: t('in-settings:productAreas.title_analytics'),
+          title: t('in-settings:productAreas.title_analytics'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_analytics')}
+              description={t('in-settings:PermissionSection.description_analytics')}
+              productAreas={[ProductArea.ANALYTICS]}
+              icon="lib_analyze"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '10-eventsAndAlerts',
+          label: t('in-settings:productAreas.title_events_and_alerts'),
+          title: t('in-settings:productAreas.title_events_and_alerts'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_events_and_alerts')}
+              description={t('in-settings:PermissionSection.description_events_and_alerts')}
+              productAreas={[ProductArea.EVENT]}
+              icon="lib_events_inverted"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '11-globalFunctions',
+          label: t('in-settings:productAreas.title_global_functions'),
+          title: t('in-settings:productAreas.title_global_functions'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_global_functions')}
+              productAreas={[
+                ProductArea.MIXED,
+                ProductArea.LOGS,
+                ProductArea.DASHBOARD,
+                ProductArea.SYNTHETICS,
+                ProductArea.AUTOMATION,
+                ProductArea.AGENTS,
+                ProductArea.ACCESS_CONTROL
+              ]}
+              icon="lib_actions_settings"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        }
+      ]
+    : [
+        ...navItems,
+        {
+          scrollId: '8-analytics',
+          label: t('in-settings:productAreas.title_analytics'),
+          title: t('in-settings:productAreas.title_analytics'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_analytics')}
+              description={t('in-settings:PermissionSection.description_analytics')}
+              productAreas={[ProductArea.ANALYTICS]}
+              icon="lib_analyze"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '9-eventsAndAlerts',
+          label: t('in-settings:productAreas.title_events_and_alerts'),
+          title: t('in-settings:productAreas.title_events_and_alerts'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_events_and_alerts')}
+              description={t('in-settings:PermissionSection.description_events_and_alerts')}
+              productAreas={[ProductArea.EVENT]}
+              icon="lib_events_inverted"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '10-globalFunctions',
+          label: t('in-settings:productAreas.title_global_functions'),
+          title: t('in-settings:productAreas.title_global_functions'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:productAreas.title_global_functions')}
+              productAreas={[
+                ProductArea.MIXED,
+                ProductArea.LOGS,
+                ProductArea.DASHBOARD,
+                ProductArea.SYNTHETICS,
+                ProductArea.AUTOMATION,
+                ProductArea.AGENTS,
+                ProductArea.ACCESS_CONTROL
+              ]}
+              icon="lib_actions_settings"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        }
+      ];
 
   return (
     <ConfigDialog

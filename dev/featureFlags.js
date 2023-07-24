@@ -81,5 +81,8 @@ module.exports = {
   userSettingsThemeEnabled: true,
   oneMinuteGranularityForStaticThresholdEnabled: true,
   alertsHubEnabled: false,
-  sloEnabled: true
+  sloEnabled: true,
+  syntheticRbacEnabled: true,
+  customWidgetEventsTableEnabled: true,
+  customWidgetTableInfraDataSourceEnabled: true
 };

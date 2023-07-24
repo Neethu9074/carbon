@@ -33,6 +33,7 @@ import {
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
   groupMatrixParameter,
+  groupByMatrixParameter,
   orderMatrixParameter,
   typeMatrixParameter,
   chartedMetricsMatrixParameter,
@@ -42,11 +43,11 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
-import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
@@ -79,12 +80,14 @@ const urlStateDefinition = {
   bind: [
     tagFilterExpressionMatrixParameter,
     groupMatrixParameter,
+    groupByMatrixParameter,
     metricsMatrixParameter,
     orderMatrixParameter,
     typeMatrixParameter,
     chartedMetricsMatrixParameter
   ],
-  resets: [resetMetricsAndOrderOnTypeChange]
+  resets: [resetMetricsAndOrderOnTypeChange],
+  replaceHistory: false
 };
 
 export default function InfraExploreView() {
@@ -102,6 +105,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
     {
       tagFilterExpression,
       group,
+      groupBy: urlGroupBy,
       metrics: urlMetrics,
       type: urlType,
       order: urlOrder,
@@ -110,6 +114,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
     setUrl
   ] = useUrlState(urlStateDefinition);
   const type = urlType === 'all' ? null : urlType;
+  const groupBy = urlGroupBy ?? [group];
 
   const tagCatalog = useTagCatalog({ ownerType: type });
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
@@ -137,7 +142,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
   const isInitPage =
     !type &&
-    (!group?.groupbyTag || group?.groupbyTag === 'type') &&
+    (!groupBy || groupBy?.length === 0) &&
     (!metrics || metrics?.length === 0) &&
     (!tagFilterExpression || tagFilterExpression?.length === 0);
 
@@ -165,7 +170,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             setUrl={setUrl}
             type={type}
             metrics={metrics}
-            group={group}
+            groupBy={groupBy}
             order={order}
             tagFilterExpression={tagFilterExpression}
             isInitPage={isInitPage}
@@ -189,7 +194,7 @@ function Content({
   setUrl,
   type,
   metrics,
-  group,
+  groupBy,
   order,
   tagFilterExpression,
   isInitPage,
@@ -219,7 +224,7 @@ function Content({
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
-  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
+  const onGroupChange = useCallback(groupBy => setUrl({ groupBy }), [setUrl]);
 
   const backendQueryModel = useMemo(
     () => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION,
@@ -227,14 +232,7 @@ function Content({
   );
   const pagination = { retrievalSize: 20 };
 
-  let groupBy;
-  if (group) {
-    groupBy = group.groupbyTagSecondLevelKey
-      ? [group.groupbyTag + '.' + group.groupbyTagSecondLevelKey]
-      : [group.groupbyTag];
-  } else {
-    groupBy = [];
-  }
+  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
@@ -244,14 +242,13 @@ function Content({
     query: catalogQuery.debouncedValue
   });
 
-  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions, query: catalogQuery.debouncedValue });
 
-  const isGroupByDefined = groupBy[0] != undefined;
   const docLink = `https://instana.github.io/openapi/#operation${
-    isGroupByDefined ? '/getEntityGroups' : '/getEntities'
+    groupBy?.length > 0 ? '/getEntityGroups' : '/getEntities'
   }`;
   const endpointUrl = `https://${config.butlerDomain}/api/infrastructure-monitoring/analyze${
-    isGroupByDefined ? '/entity-groups' : '/entities'
+    groupBy?.length > 0 ? '/entity-groups' : '/entities'
   }`;
 
   const topSection = !isInitPage && (
@@ -271,7 +268,7 @@ function Content({
       />
 
       <GroupingConfiguratorSection
-        value={group}
+        value={groupBy}
         GroupingConfigurator={GroupingConfigurator}
         tagCatalog={tagCatalog}
         tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
@@ -288,7 +285,7 @@ function Content({
             timeFrame={(({ to, windowSize }) => ({ to, windowSize }))(timeConfig)}
             backendQueryModel={backendQueryModel}
             pagination={pagination}
-            groupBy={groupBy}
+            groupBy={backendGroupBy}
             type={type}
             metrics={metrics}
             order={order}
@@ -312,7 +309,8 @@ function Content({
     <List
       type={type}
       metrics={metrics}
-      group={group}
+      groupBy={groupBy}
+      backendGroupBy={backendGroupBy}
       order={order}
       tagFilterExpression={tagFilterExpression}
       isInitPage={isInitPage}
@@ -342,7 +340,8 @@ function Content({
 function List({
   type,
   metrics,
-  group,
+  groupBy,
+  backendGroupBy,
   order,
   tagFilterExpression,
   isInitPage,
@@ -366,7 +365,6 @@ function List({
       <EntityList
         backendQueryModel={backendQueryModel}
         timeConfig={timeConfig}
-        group={group}
         setOrder={order => {
           setUrl({ order });
           sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
@@ -378,7 +376,7 @@ function List({
     );
   }
 
-  if (group?.groupbyTag) {
+  if (groupBy?.length > 0) {
     return (
       <GroupedInfrastructure
         tagFilterExpression={tagFilterExpression}
@@ -392,7 +390,8 @@ function List({
         metrics={metrics}
         metricMetadatas={metricMetadatas}
         type={type}
-        group={group}
+        groupBy={groupBy}
+        backendGroupBy={backendGroupBy}
         order={order}
         tracking={{
           onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),

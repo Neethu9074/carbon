@@ -15,10 +15,12 @@ import { Link } from '@instana/components';
 
 import {
   AUTH_TYPES,
+  getAnsibleFields,
   getInterpreterToUse,
   getScriptFromFields,
   getType,
   getWebhookFields,
+  isAnsible,
   isScript,
   isWebhook
 } from 'in-automation/ActionCatalog/shared';
@@ -129,6 +131,7 @@ export default function RunActionDialogContent({
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
+        {isAnsible(action.type) && <AnsibleActionContent action={action} />}
         <AgentSelection form={form} volatileId={volatileId} setForm={setForm} agentSnapShots={agentSnapShots} />
         <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
       </div>
@@ -453,5 +456,21 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
       )}
       <Spacer vertical="medium" />
     </>
+  );
+}
+
+function AnsibleActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { jobTemplateUrl } = getAnsibleFields(action);
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:jobTemplate')}
+      >
+        <Link external href={jobTemplateUrl}>
+          {action.name}
+        </Link>
+      </DescriptionItem>
+    </DescriptionList>
   );
 }

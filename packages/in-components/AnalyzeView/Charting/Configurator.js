@@ -23,15 +23,14 @@ export default function Configurator({
   unifiedMetricsSource,
   disableClose,
   hideRenderer,
-  tracking,
-  processedOptions
+  tracking
 }) {
   const value = chartedMetricsTemplate ?? chartedMetrics?.[0];
 
-  const options = processedOptions ?? {
+  const options = {
     templates: chartedMetricsTemplates ?? emptyArray,
     metrics:
-      chartableMetricCatalog?.map(({ metricId, label, description, aggregations }) => ({
+      chartableMetricCatalog?.map(({ metricId, label, description, aggregations, groupLabel }) => ({
         metricId,
         label,
         description,
@@ -39,7 +38,8 @@ export default function Configurator({
           id: aggregationId,
           label: aggregationLabels[aggregationId],
           renderers: userSelectableRenderer
-        }))
+        })),
+        groupLabel
       })) ?? emptyArray
   };
 

@@ -8,6 +8,8 @@ import { AggregationType, TimeConfig } from '@instana/types';
 import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { FormatterFn } from 'in-stores/metric/formatters';
 
 interface OldMetricItem {
   metricId?: string
@@ -57,4 +59,12 @@ export function firstValue(metrics?: Number[][]) {
   }
 
   return metrics[0][1];
+}
+
+export function getMetricValue(kpi: number, formatter: FormatterFn) {
+  if (kpi !== undefined && kpi !== null) {
+    //checking if kpi is falsy, valid kpi can be 0 as well
+    return formatter ? formatter(kpi) : kpi;
+  }
+  return valueMissingPlaceholder;
 }

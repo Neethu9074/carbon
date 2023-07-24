@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import {
   ColumnizedContent,
@@ -19,7 +19,7 @@ import {
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
-import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
+import { firstValue, getGranularity, getMetricKey, getMetricValue, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -28,8 +28,8 @@ import { default as MetricLabel } from 'in-infrastructure/Explore/components/Met
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
-import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
+import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { defaultOrder, typeTag } from 'in-infrastructure/Explore/constants';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -47,22 +47,18 @@ import { t } from 'in-i18n';
 import locals from './GroupedInfrastructure.mless';
 
 export default function GroupedInfrastructure(props) {
-  const { backendQueryModel, metrics, group, order, type } = props;
+  const { backendQueryModel, metrics, groupBy, backendGroupBy, order, type } = props;
   const timeConfig = useTimeConfig();
   const retrievalSize = 20;
 
   const granularity = getGranularity(timeConfig);
-  const tagType = group?.tagType;
-  const fullQualifiedGroup = useMemo(() => group.groupbyTagSecondLevelKey
-    ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
-    : group.groupbyTag, [group.groupbyTagSecondLevelKey, group.groupbyTag]);
 
   const cursorPaginatedProps = useCursorPagination(
     ({ cursor }) =>
       getGroups({
         timeConfig,
         backendQueryModel,
-        group: fullQualifiedGroup,
+        groupBy: backendGroupBy,
         order,
         type,
         metrics,
@@ -70,17 +66,17 @@ export default function GroupedInfrastructure(props) {
         cursor,
         retrievalSize
       }),
-    [timeConfig, backendQueryModel, fullQualifiedGroup, order, type, metrics]
+    [timeConfig, backendQueryModel, backendGroupBy, order, type, metrics]
   );
 
   return (
     <Presenter
       backendQueryModel={backendQueryModel}
-      fullQualifiedGroup={fullQualifiedGroup}
+      groupBy={groupBy}
+      backendGroupBy={backendGroupBy}
       retrievalSize={retrievalSize}
       granularity={granularity}
       timeConfig={timeConfig}
-      tagType={tagType}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -91,14 +87,15 @@ function Presenter({
   totalRepresentedItemCount,
   totalRetainedItemCount,
   tagFilterExpression,
-  fullQualifiedGroup,
   backendQueryModel,
+  backendGroupBy,
   canLoadMore,
   granularity,
   timeConfig,
   setMetrics,
   totalHits,
   setOrder,
+  groupBy,
   cursor,
   progress,
   metrics,
@@ -110,8 +107,6 @@ function Presenter({
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
   tracking,
-  tagType,
-  group,
   metricCatalog,
   query,
   onQueryChange
@@ -121,15 +116,15 @@ function Presenter({
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
     item => ({
-      group: emptyObject,
+      groupBy: emptyArray,
       tagFilterExpression: joinExpressions({
-        expressions: [tagFilterExpression, toTagFilters(item.tags, tagType, group)]
+        expressions: [tagFilterExpression, joinExpressions({ expressions: toTagFilters(item.tags, groupBy) })]
       })
     }),
-    [tagFilterExpression, group, tagType]
+    [tagFilterExpression, groupBy]
   );
   const columnDefinitions = columns({
-    groupBy: [fullQualifiedGroup],
+    groupBy: backendGroupBy,
     getParamsForGroup,
     granularity,
     timeConfig,
@@ -139,14 +134,12 @@ function Presenter({
     metricMetadatas,
     getLinkToInfraEntityExplore
   });
-  const groupSortOptions = fullQualifiedGroup
-    ? [
-        {
-          label: fullQualifiedGroup,
-          value: defaultOrder.by
-        }
-      ]
-    : [];
+  const groupSortOptions = [
+    {
+      label: backendGroupBy[0],
+      value: defaultOrder.by
+    }
+  ];
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
       return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
@@ -186,7 +179,7 @@ function Presenter({
         cursor={cursor}
         columns={columnDefinitions}
         granularity={granularity}
-        fullQualifiedGroup={fullQualifiedGroup}
+        groupBy={backendGroupBy}
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -305,7 +298,7 @@ function columns({
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           return (
             <SparkChart
-              horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
+              horizontalMetricValue={getMetricValue(kpi, formatter)}
               percentageMetric={percentageMetric}
               tooltipFormatter={formatter}
               aggregation={aggregation}
@@ -364,16 +357,14 @@ function getErrorMessage(errors) {
   return [t('in-infrastructure:explore.errors.generalError')];
 }
 
-function getColumnWidth(groupBy, index) {
-  if (index !== groupBy.length - 1) {
-    return 50 / groupBy.length + 'rem';
-  }
+function getColumnWidth(groupBy, i) {
+  return 30 / groupBy.length + (i === groupBy.length - 1 ? 3 : 0) + 'rem';
 }
 
 function getGroups({
   timeConfig,
   backendQueryModel,
-  group,
+  groupBy,
   cursor,
   type,
   order,
@@ -392,7 +383,7 @@ function getGroups({
       retrievalSize,
       fullData
     },
-    groupBy: [group],
+    groupBy,
     type,
     metrics: Object.fromEntries(
       metrics
@@ -451,66 +442,41 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-export function toTagFilters(tags, tagType, group) {
-  return Object.entries(tags).map(([name, value]) => ({
+export function toTagFilters(tags, tagType, groupBy) {
+  return Object.entries(tags).map(([tag, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name: getName(name, group),
-    value: getValue(tagType, value),
-    key: getKey(tagType, value, name, group)
+    name: getName(tag, groupBy),
+    key: getKey(tag, groupBy),
+    value
   }));
+}
+
+export function toBackendGroupBy(groupBy) {
+  return groupBy?.filter(g => g?.groupbyTag).map(g => toGroupTag(g));
+}
+
+function toGroupTag(group) {
+  return group?.groupbyTagSecondLevelKey ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey : group.groupbyTag;
 }
 
 const defaultGroupIcon = 'lib_views_tag';
 
-function isTagAndKeyConcat(name, group) {
-  return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
+function getGroupByTag(tag, groupBy) {
+  return groupBy?.find(group => toGroupTag(group) === tag);
 }
 
-function isKeyValueTagType(tagType) {
-  return 'KEY_VALUE_PAIR' === tagType;
+function getName(tag, groupBy) {
+  const group = getGroupByTag(tag, groupBy);
+  return group ? group.groupbyTag : tag;
 }
 
-function isKeyValue(tagType, value) {
-  return tagType !== undefined && isKeyValueTagType(tagType) && value.indexOf('=') > 0;
-}
-
-function getName(name, group) {
-  return isTagAndKeyConcat(name, group) ? group.groupbyTag : name;
-}
-
-function getValue(tagType, value) {
-  return isKeyValue(tagType, value) ? extractValue(value) : isKeyValueTagType(tagType) ? '' : value;
-}
-
-function getKey(tagType, value, name, group) {
-  if (isTagAndKeyConcat(name, group)) {
-    return group.groupbyTagSecondLevelKey;
-  }
-  if (isKeyValue(tagType, value)) {
-    return extractKey(value, name, group);
-  }
-  return isKeyValueTagType(tagType) ? value : undefined;
-}
-
-function extractKey(value) {
-  let index = value.indexOf('=');
-  if (index > 0) {
-    return value.substring(0, index);
-  }
-  return undefined;
-}
-
-function extractValue(str) {
-  let index = str.indexOf('=');
-  if (index > 0) {
-    return str.substring(index + 1);
-  }
-  return str;
+function getKey(tag, groupBy) {
+  return getGroupByTag(tag, groupBy)?.groupbyTagSecondLevelKey;
 }
 
 function getGroupPlugin(group) {
-  const plugin = group.tags[pluginTag];
+  const plugin = group.tags[typeTag];
   return plugin ? getOptionalSnapshotDefinition(plugin) : null;
 }
 
@@ -520,9 +486,9 @@ export function getGroupIcon(group) {
 }
 
 export function getGroupTagValue(group, key) {
-  if (key === pluginTag) {
+  if (key === typeTag) {
     const plugin = getGroupPlugin(group);
-    return plugin ? getPluginName(group.tags[pluginTag]) : group.tags[key];
+    return plugin ? getPluginName(group.tags[typeTag]) : group.tags[key];
   } else {
     return group.tags[key];
   }
@@ -572,14 +538,14 @@ function getHeaderActions(props) {
   const cursor = props.cursor;
   const columns = props.columns;
   const granularity = props.granularity;
-  const fullQualifiedGroup = props.fullQualifiedGroup;
+  const groupBy = props.groupBy;
   const csvFileName = 'group_entites_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
     getGroups({
       timeConfig,
       backendQueryModel,
-      group: fullQualifiedGroup,
+      groupBy,
       order,
       type,
       metrics,

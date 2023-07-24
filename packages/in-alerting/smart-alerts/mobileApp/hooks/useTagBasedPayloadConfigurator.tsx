@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { Observable } from '@instana/observables';
 
@@ -16,7 +16,7 @@ import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 export default function useTagBasedPayloadConfigurator(
   beaconType: MobileAppMonitoringBeaconType,
   mobileAppId: string
-): ReactNode {
+): React.FunctionComponent<any> {
   return useMemo(() => {
     const customPayloadTagCatalog: Observable<Result<TagCatalog>> = getTagCatalog({
       useCase: 'SMART_ALERTS_CUSTOM_PAYLOAD',

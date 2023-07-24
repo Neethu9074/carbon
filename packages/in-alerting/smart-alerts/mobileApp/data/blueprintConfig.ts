@@ -195,6 +195,24 @@ export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object
   statusCodeBlueprintConfig,
   {
     ...throughputBlueprintConfig,
+    subType: 'unexpectedDropViews',
+    name: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsViewsUnexpectedDropName'),
+    headline: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsViewsUnexpectedDropHeadline'),
+    text: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsViewsUnexpectedDropText'),
+    thresholdDefaults: {
+      operator: '<='
+    },
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
+  },
+  {
+    ...throughputBlueprintConfig,
+    defaultMetric: 'sessions',
+    subType: 'unexpectedDropSessions',
+    name: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName'),
+    headline: t(
+      'in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline'
+    ),
+    text: t('in-alerting:smartAlerts.mobileApp.data.simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText'),
     thresholdDefaults: {
       operator: '<='
     },
@@ -213,10 +231,12 @@ export function getBlueprintConfig(alertType: MobileAlertType): BluePrint {
 
 export function getSimpleModeBlueprintConfig(
   alertType: MobileAlertType,
-  alertThreshold: ThresholdConfig
+  alertThreshold: ThresholdConfig,
+  metricName: MetricName
 ): BluePrint | undefined {
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
+    .filter(blueprint => blueprint.defaultMetric === metricName)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 

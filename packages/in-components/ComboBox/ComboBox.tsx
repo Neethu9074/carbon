@@ -16,6 +16,7 @@ import './ComboBox.less';
 export interface Option {
   label: string;
   value: string;
+  isDisabled?: boolean;
 }
 
 export type Options = ReadonlyArray<Option>;

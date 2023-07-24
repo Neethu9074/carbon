@@ -10,6 +10,7 @@ import * as bigNumber from 'in-custom-dashboards/widgets/BigNumber';
 import * as histogram from 'in-custom-dashboards/widgets/Histogram';
 import * as markdown from 'in-custom-dashboards/widgets/Markdown';
 import * as list from 'in-custom-dashboards/widgets/TopList';
+import * as table from 'in-custom-dashboards/widgets/Table';
 import * as chart from 'in-custom-dashboards/widgets/Chart';
 import * as apdex from 'in-custom-dashboards/widgets/Apdex';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -26,7 +27,8 @@ const all = {
   [list.type]: list,
   [pie.type]: pie,
   [applicationHealth.type]: applicationHealth,
-  [histogram.type]: histogram
+  [histogram.type]: histogram,
+  [table.type]: table
 };
 export default all;
 

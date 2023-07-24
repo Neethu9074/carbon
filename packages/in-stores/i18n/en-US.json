@@ -44,7 +44,7 @@
   "permissionCanConfigureGlobalAlertPayloadLabel": "Configuration of global custom payload for alerts",
   "permissionCanConfigureGlobalAlertPayloadDescription": "Permits configuration of global custom payload for alerts.",
   "permissionCanConfigureGlobalAlertPayloadCategory": "Events",
-  "permissionCanConfigureGlobalAlertConfigsLabel": "Configuration of global Smart Alerts",
+  "permissionCanConfigureGlobalAlertConfigsLabel": "Configuration of global Smart Alerts for AP and synthetics",
   "permissionCanConfigureGlobalAlertConfigsDescription": "Permits creation and configuration of global Smart alerts.",
   "permissionCanConfigureGlobalAlertConfigsCategory": "Events",
   "permissionCanConfigureAutomationActionsLabel": "Configuration of automation actions",

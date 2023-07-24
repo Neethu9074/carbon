@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
+import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import {
   APDEX_MANAGEMENT_CREATE_START,
   APDEX_MANAGEMENT_DELETE,
@@ -86,14 +87,16 @@ export default function ApdexManageList({
         // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
         if (!isCreateFormVisible) return <></>;
         return (
-          <CreateApdexForm
-            apdexConfig={editableApdexConfig}
-            entityType={entityType}
-            entityId={entityId}
-            setFooter={setFooter}
-            onClose={onCloseCreateForm}
-            onSave={apdexConfig => onChange(apdexConfig)}
-          />
+          <ConfigDialogTimeConfigContextModification>
+            <CreateApdexForm
+              apdexConfig={editableApdexConfig}
+              entityType={entityType}
+              entityId={entityId}
+              setFooter={setFooter}
+              onClose={onCloseCreateForm}
+              onSave={apdexConfig => onChange(apdexConfig)}
+            />
+          </ConfigDialogTimeConfigContextModification>
         );
       }}
       staticContent={

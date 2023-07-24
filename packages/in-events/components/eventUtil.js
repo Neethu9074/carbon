@@ -45,6 +45,10 @@ export function isEntityCountVerificationEvent(event) {
   return event.hasIn(['metadata', 'entity_count_verification_event']);
 }
 
+export function isMobileAppSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'mobileAppId']);
+}
+
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 

@@ -20,6 +20,8 @@ import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
+import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
@@ -43,6 +45,8 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
+  const isBrowserTest: boolean =
+    isBrowserTestType(test.data.configuration.syntheticType || '') && syntheticBrowserScriptEnabled;
 
   const testLabel: string = test.data?.label;
 
@@ -173,7 +177,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={renderActionButton()}
+      rightHeaderContent={!isBrowserTest ? renderActionButton() : undefined}
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />

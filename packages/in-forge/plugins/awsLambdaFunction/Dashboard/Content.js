@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DashboardVersionsList from './DashboardVersionsList';

@@ -13,6 +13,7 @@ import { t } from 'in-i18n';
 interface SloLabelProps {
   label?: string;
 }
+
 export default function SloLabel({ label }: SloLabelProps) {
   return (
     <Typography variant="heading-100" component="h3">

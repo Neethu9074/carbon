@@ -6,45 +6,111 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import { ApplicationBoundaryScope, SloEntityType } from '@instana/types';
+import {
+  ApplicationBoundaryScope,
+  BlueprintType,
+  ServiceLevelIndicatorType,
+  SloEntityType,
+  TimeWindowType,
+  DateAsNumber,
+  DurationUnitType,
+  AggregationType,
+  ServiceLevelObjectiveConfiguration
+} from '@instana/types';
 
-import { ApplicationSloForm, WebsiteSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloBeaconTypes, SloConfigType } from 'in-service-levels/types';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { SloBeaconTypes } from 'in-service-levels/types';
 
-export const testWebsiteForm: WebsiteSloForm = createMapForm({
+export const testDate = new Date('2020-01-01');
+
+export const testWebsiteForm: SloForm = createMapForm({
   items: {
-    entityType: createField<SloEntityType>({ value: 'website' }),
     entity: createMapForm({
       items: {
-        websiteId: createField({ value: '22222' })
+        entityId: createField<string>({ value: '22222' }),
+        type: createField<SloEntityType>({ value: 'website' })
+      }
+    }),
+    indicator: createMapForm({
+      items: {
+        aggregation: createField<AggregationType>({ value: 'P90' }),
+        badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+        blueprint: createField<BlueprintType>({ value: 'latency' }),
+        goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+        threshold: createField({ value: 0 }),
+        type: createField<ServiceLevelIndicatorType>({ value: 'eventBased' })
       }
     }),
     scope: createMapForm({
       items: {
         beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
-        tagFilterExpression: createField<FormModelElement[]>({ value: [] })
+        boundaryScope: createField<ApplicationBoundaryScope>({ value: 'INBOUND' }),
+        endpointId: createField({ value: '' }),
+        includeInternal: createField({ value: false }),
+        includeSynthetic: createField({ value: false }),
+        serviceId: createField({ value: '' }),
+        tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
+      }
+    }),
+    timeWindow: createMapForm({
+      items: {
+        startTimestamp: createField<DateAsNumber>({ value: testDate.getTime() }),
+        duration: createField<number>({ value: 100 }),
+        durationUnit: createField<DurationUnitType>({ value: 'day' }),
+        type: createField<TimeWindowType>({ value: 'rolling' })
+      }
+    }),
+    nameTags: createMapForm({
+      items: {
+        name: createField<string>({ value: 'Candy Store' }),
+        tags: createField<string[]>({ value: ['sweets', 'soda'] })
       }
     })
   }
 });
 
-export const testApplicationForm: ApplicationSloForm = createMapForm({
+export const testApplicationForm: SloForm = createMapForm({
   items: {
-    entityType: createField<SloEntityType>({ value: 'application' }),
     entity: createMapForm({
       items: {
-        applicationId: createField<string>({ value: '11111' })
+        entityId: createField<string>({ value: '11111' }),
+        type: createField<SloEntityType>({ value: 'application' })
+      }
+    }),
+    indicator: createMapForm({
+      items: {
+        aggregation: createField<AggregationType>({ value: 'MAX' }),
+        badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+        blueprint: createField<BlueprintType>({ value: 'availability' }),
+        goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
+        threshold: createField<number>({ value: 55 }),
+        type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
       }
     }),
     scope: createMapForm({
       items: {
+        beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
         boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
         endpointId: createField<string>({ value: 'endpoindNotEmpty' }),
         includeInternal: createField<boolean>({ value: true }),
         includeSynthetic: createField<boolean>({ value: false }),
         serviceId: createField<string>({ value: '12345' }),
-        tagFilterExpression: createField<FormModelElement[]>({ value: [] })
+        tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
+      }
+    }),
+    timeWindow: createMapForm({
+      items: {
+        duration: createField<number>({ value: 100 }),
+        durationUnit: createField<DurationUnitType>({ value: 'day' }),
+        startTimestamp: createField<DateAsNumber>({ value: testDate.getTime() }),
+        type: createField<TimeWindowType>({ value: 'fixed' })
+      }
+    }),
+    nameTags: createMapForm({
+      items: {
+        name: createField<string>({ value: 'Vending Machine' }),
+        tags: createField<string[]>({ value: ['candies', 'drinks', 'toilet paper'] })
       }
     })
   }
@@ -52,14 +118,24 @@ export const testApplicationForm: ApplicationSloForm = createMapForm({
 
 const sharedSloConfigFields = {
   id: '123456789',
-  indicator: undefined,
+  indicator: {
+    aggregation: 'P95',
+    blueprint: 'latency',
+    threshold: 50,
+    type: 'timeBased'
+  } as const,
   name: 'Random name',
   tags: ['tag1', 'tag2'],
   target: 50,
-  timeWindow: undefined
+  timeWindow: {
+    startTimestamp: testDate.getTime(),
+    duration: 1,
+    durationUnit: 'week',
+    type: 'fixed'
+  } as const
 };
 
-export const testApplicationSloConfig: SloConfigType = {
+export const testApplicationSloConfig: ServiceLevelObjectiveConfiguration = {
   entity: {
     applicationId: 'applicationIdHere',
     boundaryScope: 'INBOUND',
@@ -72,7 +148,7 @@ export const testApplicationSloConfig: SloConfigType = {
   ...sharedSloConfigFields
 };
 
-export const testWebsiteSloConfig: SloConfigType = {
+export const testWebsiteSloConfig: ServiceLevelObjectiveConfiguration = {
   entity: {
     beaconType: 'httpRequest',
     type: 'website',

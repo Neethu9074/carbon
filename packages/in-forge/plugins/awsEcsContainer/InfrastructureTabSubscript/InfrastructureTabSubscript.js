@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
 import getRegionForEcsContainer from 'in-subscription/getRegionForEcsContainer';
@@ -79,7 +79,7 @@ function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version,
         }}
         components={{
           taskIcon: <Icon type={taskIcon} />,
-          taskLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          taskLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />,
           titledTask: <span title={arnFullValue} />,
           versionIcon: <Icon type={versionIcon} />,
           titledDefinition: <span title={definitionFullValue} />
@@ -111,7 +111,7 @@ function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version,
         }}
         components={{
           taskIcon: <Icon type={taskIcon} />,
-          taskLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          taskLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />,
           versionIcon: <Icon type={versionIcon} />,
           titledDefinition: <span title={definitionFullValue} />
         }}
@@ -146,7 +146,7 @@ function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, clo
           clusterIcon: <Icon type={clusterIcon} />,
           titledSpan: <span title={clusterArnFull} />,
           cloudIcon: <Icon type={cloudIcon} />,
-          regionLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />
+          regionLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />
         }}
       />
     ) : (
@@ -173,7 +173,7 @@ function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, clo
         components={{
           clusterIcon: <Icon type={clusterIcon} />,
           cloudIcon: <Icon type={cloudIcon} />,
-          regionLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />
+          regionLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />
         }}
       />
     ) : (

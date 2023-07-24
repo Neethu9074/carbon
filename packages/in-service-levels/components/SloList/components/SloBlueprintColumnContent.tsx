@@ -18,7 +18,7 @@ interface Props {
 export default function SloBlueprintColumnContent({ item }: Props) {
   return (
     <Typography variant="body-regular">
-      {t('in-service-levels:sloList.components.sloBlueprintColumnContent.blueprint', {
+      {t('in-service-levels:general.indicator.blueprint', {
         context: item.configuration.indicator.blueprint ?? 'custom'
       })}
     </Typography>

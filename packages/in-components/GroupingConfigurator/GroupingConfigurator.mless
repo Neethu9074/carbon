@@ -29,8 +29,7 @@
     margin-left: 2px;
   }
 
-  .noActiveGroupingButton {
-    margin-top: 0.125rem;
+  .addGroupingButton {
     margin-left: 0.125rem;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
@@ -112,5 +111,9 @@
       fill: @lib__colors__light-blue800;
       outline: none;
     }
+  }
+
+  .container {
+    display: flex;
   }
 }

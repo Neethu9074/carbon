@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
@@ -13,17 +12,15 @@ import InviteUserDialog, {
   UserInvite,
   UserSentState
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
-// @ts-expect-error this is not yet typescript
-import { sendInvitation } from 'in-api/users';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
+import { InvitationResult, sendInvitations } from 'in-api/users';
 import { emptyObject } from 'in-services/fixedObjects';
-import { Response } from 'in-services/http';
 import { t } from 'in-i18n';
 
 const logger = createLogger('InviteUserButton');
 
-type InvitationStatus = 'SUCCESS' | 'INTERNAL_ERROR' | 'FAILURE_USER_ALREADY_EXISTS';
+type InvitationStatus = 'SUCCESS' | 'INTERNAL_ERROR' | 'FAILURE_USER_ALREADY_EXISTS' | 'notSentYet';
 
 interface UserInvitationResult {
   // Replace with generated type
@@ -61,6 +58,8 @@ function mapToUserSentState(invitationStatus: InvitationStatus): UserSentState {
       return 'sentFailureServerError';
     case 'FAILURE_USER_ALREADY_EXISTS':
       return 'sentFailureUserExists';
+    case 'notSentYet':
+      return 'notSentYet';
   }
 }
 
@@ -71,15 +70,15 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
     text: t('in-settings:tabs.sendingInvitation'),
     type: 'success'
   });
-  const invitationResult$: Observable<Response<UserInvitationResult>> = sendInvitation(
-    invitations.filter(i => i.userSentState === 'notSentYet')
+  // @ts-ignore
+  const invitationResult$ = sendInvitations(
+    invitations.filter(i => i.userSentState === 'notSentYet').map(({ email, groupId }) => ({ email, groupId }))
   );
   invitationResult$.once((data: any) => {
-    const someFailed = data.body.invitationResults.some(
+    const failed = data.body.invitationResults.filter(
       (userInvitationResult: UserInvitationResult): boolean => userInvitationResult.invitationStatus !== 'SUCCESS'
     );
-
-    if (someFailed) {
+    if (failed?.length > 0) {
       const result: UserInvitationResults = data.body;
       const previousResult: UserInvite[] = result.invitationResults.map(
         (userInvitationResult: UserInvitationResult): UserInvite => {
@@ -91,7 +90,12 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
           };
         }
       );
-
+      setMessage({
+        text: t('in-settings:tabs.failedToSendInvitation', {
+          err: failed.map(({ userEmail }: InvitationResult) => userEmail).join(', ')
+        }),
+        type: 'error'
+      });
       addActiveDialog(
         <InviteUserDialog
           previousResult={previousResult}
@@ -107,10 +111,10 @@ export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reloa
       if (reload) {
         reload();
       }
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
     }
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   });
   invitationResult$.errors().once((error: any) => {
     setMessage({

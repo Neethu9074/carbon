@@ -8,7 +8,11 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
-import { isApplicationSmartAlertEvent, isWebsiteSmartAlertEvent } from 'in-events/components/eventUtil';
+import {
+  isApplicationSmartAlertEvent,
+  isWebsiteSmartAlertEvent,
+  isMobileAppSmartAlertEvent
+} from 'in-events/components/eventUtil';
 import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
@@ -68,7 +72,8 @@ export default connectTo(
           role.canConfigureAutomationActions &&
           role.canConfigureCustomAlerts &&
           !isWebsiteSmartAlertEvent(triggerEvent) &&
-          !isApplicationSmartAlertEvent(triggerEvent) && (
+          !isApplicationSmartAlertEvent(triggerEvent) &&
+          !isMobileAppSmartAlertEvent(triggerEvent) && (
             <Row withoutSideMargin>
               <Col xs>
                 <Card>

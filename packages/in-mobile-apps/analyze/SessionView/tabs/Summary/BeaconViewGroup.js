@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 
 import { SvgIcon, toInteractiveElement } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
@@ -35,9 +35,9 @@ export default function BeaconViewGroup({ view, beacons, detailId, earliestTimes
 
           {!view && (
             <Link
-              external
               href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#views"
               className={locals.learnHow}
+              external
             >
               {t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewGuide')}
             </Link>

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
@@ -33,8 +33,7 @@ export const SubViewItem = connectTo(
     return (
       <Link
         id={id}
-        href$={href$}
-        href={href}
+        href={href$ ?? href}
         onClick={onClick}
         external={external}
         className={classNames({

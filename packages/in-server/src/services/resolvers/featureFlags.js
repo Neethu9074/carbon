@@ -379,5 +379,15 @@ module.exports = exports = [
     uiClientKey: 'sloEnabled',
     instanaCtlKey: 'feature.slo.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'syntheticRbacEnabled',
+    instanaCtlKey: 'feature.synthetic.rbac.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'customWidgetEventsTableEnabled',
+    instanaCtlKey: 'feature.custom.widget.events.table.enabled',
+    defaultValue: false
   }
 ];

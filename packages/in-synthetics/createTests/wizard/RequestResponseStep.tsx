@@ -6,6 +6,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
+import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Li, ScrollBox, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -13,6 +14,7 @@ import {
   Code as CodeType,
   apiScriptTest,
   apiSimpleTest,
+  browserScriptTest,
   browserSimpleTest,
   dummyLocations
 } from 'in-synthetics/utils/constants';
@@ -25,10 +27,10 @@ import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { Progress, Error as ScriptError } from 'in-types';
-import { getLocations } from 'in-synthetics/api';
 import Code from 'in-synthetics/packages/Code';
 import { t } from 'in-i18n';
 
@@ -67,12 +69,24 @@ export default function RequestResponseStep({
   setScriptDetails
 }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
+  const syntheticType = configForm.get('syntheticType') as Field<string>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
-  const locations: LocationsResponse = useObservable<any, []>(() => getLocations(), []) || dummyLocations;
+  const locations: LocationsResponse = useObservable<any, []>(
+    () =>
+      getLocationsAsResultObservable(syntheticType.value).map((result: Result<SyntheticLocation[]> | null) => {
+        if (result == null) {
+          return null;
+        }
+        return (result as Result<SyntheticLocation[]>) ?? dummyLocations;
+      }),
+    []
+  );
   const locationsField = form.get('locations') as Field<string[]>;
   const [state, setState] = useState<State>({ loading: false });
   const script = configForm.get('script') as Field<string>;
+  const renderScript: boolean =
+    selectedBlueprint.type === apiScriptTest || selectedBlueprint.type === browserScriptTest;
 
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
@@ -100,7 +114,7 @@ export default function RequestResponseStep({
         </div>
       );
     }
-    if (!locations.data?.filter(Boolean)?.length) {
+    if (!locations?.data?.filter(Boolean)?.length) {
       return (
         <div className={locals.locationContainer}>
           <NoDataAvailable text={t('in-synthetics:dialog.createTest.noLocationFound')} />
@@ -109,7 +123,7 @@ export default function RequestResponseStep({
     }
 
     return (
-      <ScrollBox maxHeight="38%">
+      <ScrollBox maxHeight="73.26%" className={locals.scrollBox}>
         {locations.data?.filter(Boolean).map(location => (
           <Li key={location.id}>
             <CheckboxFancy
@@ -174,7 +188,7 @@ export default function RequestResponseStep({
       <div className={locals.requestContainer}>
         <Stack direction="horizontal" gap="normal">
           <div>
-            {selectedBlueprint.type === apiScriptTest && (
+            {renderScript && (
               <>
                 <SubTitle isUploadScriptSubTitle>
                   {t('in-synthetics:dialog.createTest.requestStep.uploadScriptTitle')}
@@ -187,7 +201,7 @@ export default function RequestResponseStep({
             {renderLocations()}
           </div>
 
-          {selectedBlueprint.type === apiScriptTest && (
+          {renderScript && (
             <div className={locals.scriptUpload}>
               {script.map(field => (
                 <>

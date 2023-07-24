@@ -81,24 +81,31 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value?.templateId);
   let activeMetric = getActiveChartMetric(options, value);
 
-  const getGroupName = (name: string) => {
+  const getGroupName = (name: string, option: ChartMetric | ChartTemplate) => {
     if (name === 'templates') {
       return t('in-components:chart.chartTemplates');
     }
-    if (name.startsWith('_')) {
-      return name.substring(1);
+    const groupLabel = (option as ChartMetric).groupLabel;
+    if (groupLabel) {
+      return groupLabel;
     } else {
       return getEntityNameByType(dataSource);
     }
   };
 
   const optionGroups = Object.getOwnPropertyNames(options);
-  const nonEmptyGroupOptions = optionGroups
-    .map(group => ({
-      value: getGroupName(group),
-      options: options[group]
-    }))
-    .filter(group => group.options?.length > 0);
+  const groups: {value: string, options: (ChartMetric | ChartTemplate)[]}[] = []
+  for (let key of optionGroups) {
+    for (let option of options[key]) {
+      const groupName = getGroupName(key, option);
+      let group = groups.find(g => g.value === groupName);
+      if (!group) {
+        group = { value: groupName, options: [] };
+        groups.push(group);
+      }
+      group.options.push(option);
+    }
+  }
 
   const getProductAreaFromMetricSource = (metricSource: string): ProductArea => {
     switch (metricSource) {
@@ -133,10 +140,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         metricId: input.metricId
       };
 
-      const optionKey = input.groupLabel ? '_' + input.groupLabel : 'metrics';
-      const metricOptions = options[optionKey];
-
-      const metric = (metricOptions as ChartMetric[])?.find(opt => opt.metricId === input.metricId);
+      const metric = options.metrics?.find(opt => opt.metricId === input.metricId);
       let aggregation = metric?.aggregations?.find(opt => opt.id === change.aggregationId);
       if (!aggregation) {
         aggregation = metric?.aggregations?.[0];
@@ -172,7 +176,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
       content={overlayContent}
       props={{
         ...overlayProps,
-        options: nonEmptyGroupOptions,
+        options: groups,
         value: activeMetric?.metricId || activeTemplate?.templateId,
         onChange: (newValue: ChartTemplate | ChartMetric) => {
           overlayOnChange(newValue);
@@ -219,19 +223,14 @@ export function getEmptyChartMetric() {
   };
 }
 
-export function getActiveChartMetric(options: ChartOptions, value: ChartValue) {
-  let activeMetric: ChartValue = getEmptyChartMetric();
-  let keys = Object.getOwnPropertyNames(options);
-  if (keys.find(key => key.startsWith('_'))) {
-    keys.forEach(key =>
-      options[key].forEach(option => {
-        if ((option as ChartValue)?.metricId === value?.metricId) {
-          activeMetric = option;
-        }
-      })
-    );
-  } else {
-    activeMetric = options?.metrics?.find(({ metricId }) => metricId === value?.metricId) || options?.metrics?.[0];
+export function getActiveChartMetric(options: ChartOptions, value: ChartValue): ChartMetric | undefined {
+  for (let key of Object.getOwnPropertyNames(options)) {
+    for (let option of options[key]) {
+      const chartMetric = option as ChartMetric;
+      if (chartMetric.metricId === value?.metricId) {
+        return chartMetric;
+      }
+    }
   }
-  return activeMetric;
+  return undefined;
 }

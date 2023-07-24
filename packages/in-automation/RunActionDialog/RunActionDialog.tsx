@@ -16,17 +16,20 @@ import {
   getScriptFromFields,
   getTimeoutFromFields,
   getWebhookFields,
+  isAnsible,
   isScript,
   isWebhook,
   parseDynamicParameter,
-  parseVaultParameter
+  parseVaultParameter,
+  getAnsibleFields
 } from 'in-automation/ActionCatalog/shared';
 import {
   ActionExecutionParameter,
   ResolvedDynamicParamValue,
   resolveDynamicParameters,
   runScriptAction,
-  runWebhookAction
+  runWebhookAction,
+  runAnsibleAction
 } from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
@@ -124,7 +127,10 @@ const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => 
 
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
-  const query = isScript(action.type) ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
+  let query = '';
+  if (isScript(action.type)) query = 'entity.agent.capability:action-script';
+  else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
+  else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -308,6 +314,20 @@ function onSave({
       ignoreCertErrors,
       header,
       authen,
+      inputParameters: allInputParameters
+    }).once(handleActionResponse);
+  } else if (isAnsible(action.type)) {
+    const { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl } = getAnsibleFields(action);
+    runAnsibleAction({
+      volatileId: selectedVolatileId,
+      event,
+      actionName,
+      timeout,
+      actionId,
+      playbookId,
+      playbookFileName,
+      ansibleUrl,
+      jobTemplateUrl,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   }

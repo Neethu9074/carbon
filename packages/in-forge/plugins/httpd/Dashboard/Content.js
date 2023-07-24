@@ -6,7 +6,7 @@
 import semver from 'semver';
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { bytesZeroDecimalPlaces, number, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
