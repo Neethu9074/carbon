@@ -39,11 +39,11 @@ export default function SimpleAlertConfigDialogStep1({
   selectedChartViewConfigIndex
 }: AlertConfigDialogPresenterProps & MainDialogControl & UpdateForm) {
   const alertType = form.get('rule').get('alertType').value;
+  const metricName = form.get('rule').get('metricName').value;
 
   const alertThreshold = form.get('threshold').toJS();
-  const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
+  const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold, metricName);
   const { headline, text } = blueprintConfig as BluePrint;
-
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-alerting:smartAlerts.mobileApp.simple.simpleAlertConfigDialogStep1Headline')}
@@ -51,7 +51,7 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {
-          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
+          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, item.defaultMetric, true));
         }}
         initialItemSelected={blueprintConfig as MenuItem}
         addRightSeparator

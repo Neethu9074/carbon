@@ -10,9 +10,13 @@ import { ThresholdConfigUnion, MobileAppTimeThresholdUnion } from '@instana/type
 
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
+import {
+  getBlueprintConfig,
+  MetricName,
+  MobileAlertType
+} from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
-import { getBlueprintConfig, MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -24,6 +28,7 @@ export default function createBlueprintForm(
   form: MapForm<any>,
   alertType: MobileAlertType,
   alertThreshold = {},
+  defaultMetric: MetricName,
   isSimpleMode: boolean
 ) {
   const threshold = (form.get('threshold') as MapForm<any>).toJS() as unknown as ThresholdConfigUnion;
@@ -42,7 +47,7 @@ export default function createBlueprintForm(
     alertType
   );
 
-  const metricName = blueprintConfig.defaultMetric;
+  const metricName = defaultMetric ? defaultMetric : blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
     ...((form.get('rule') as MapForm<any>).remove('operator').remove('value').toJS() as unknown as MobileAppAlertRule),
     alertType,
