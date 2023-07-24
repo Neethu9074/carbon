@@ -11,8 +11,8 @@ import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructu
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { setTimeConfig } from 'in-stores/time/config';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const infraExplorePath = '/explore';
 
@@ -24,12 +24,21 @@ export const tagFilterExpressionMatrixParameter = {
   initialState: emptyArray
 };
 
+// deprecated, use groupByMatrixParameter
 export const groupMatrixParameter = {
   path: infraExplorePath,
   name: 'group',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: emptyObject
+};
+
+export const groupByMatrixParameter = {
+  path: infraExplorePath,
+  name: 'groupBy',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: emptyArray
 };
 
 export const chartedMetricsMatrixParameter = {
@@ -59,7 +68,7 @@ export const orderMatrixParameter = {
   name: 'order',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(defaultOrder),
-  initialState: defaultOrder
+  initialState: undefined
 };
 
 export const dataSourcerMatrixParameter = {
@@ -79,7 +88,7 @@ export const resetMetricsAndOrderOnTypeChange = {
     metrics: undefined,
     order: undefined,
     chartedMetrics: undefined,
-    group: undefined,
+    groupBy: emptyArray,
     tagFilterExpression: undefined
   }
 };
@@ -92,7 +101,7 @@ export function useLinkToExplore() {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({ tagFilterExpression, group, type, metrics, order, timeConfig, chartedMetrics }) => {
+    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = infraExplorePath;
@@ -113,6 +122,10 @@ export function useLinkToExplore() {
 
       if (group) {
         setMatrixKey(clonedLocation, groupMatrixParameter, group);
+      }
+
+      if (groupBy) {
+        setMatrixKey(clonedLocation, groupByMatrixParameter, groupBy);
       }
 
       if (type) {

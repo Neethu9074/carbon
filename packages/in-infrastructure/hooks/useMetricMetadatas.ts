@@ -23,7 +23,7 @@ export default function useMetricMetadatas({
 }: {
   type: string;
   kpiDefinitions: KpiDefinition[];
-  query: string;
+  query?: string;
 }): Result<Metadatas> {
   const timeConfig = useTimeConfig();
   return (

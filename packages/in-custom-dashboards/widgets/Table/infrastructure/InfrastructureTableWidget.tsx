@@ -11,11 +11,11 @@ import { Card, Typography } from '@instana/components';
 // @ts-expect-error need ts migration
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
-import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
+import { MetricItem } from 'in-infrastructure/navigation/paths';
 
 interface InfrastructureTableWidgetProps {
   config: {
@@ -37,7 +37,7 @@ export function InfrastructureTableWidget(props: InfrastructureTableWidgetProps)
 
   const kpiDefinitions = [] as KpiDefinition[];
   const metrics = [] as MetricItem[];
-  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
 
   const [order, setOrder] = useState({
     by: 'label',
