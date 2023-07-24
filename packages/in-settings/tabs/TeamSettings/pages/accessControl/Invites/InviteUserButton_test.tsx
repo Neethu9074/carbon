@@ -27,7 +27,7 @@ const apiCallResult = {
 };
 
 jest.mock('in-api/users', () => ({
-  sendInvitation: jest.fn(() => ({
+  sendInvitations: jest.fn(() => ({
     once: (onSuccess: (data: any) => void) => onSuccess(apiCallResult),
     errors: () => ({ once: () => {} })
   }))
