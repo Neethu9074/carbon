@@ -4,73 +4,53 @@
  * Copyright IBM Corp. 2022
  */
 
-import { combineLatest, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { BackendFormatterType, getFormatter } from 'in-services/formatters/backendFormatter';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
-import { hasError, isLoading, mapData, success } from 'in-services/util/result';
+import { AggregationType, MetricMetadata, Result } from 'in-types';
 import { getFormatterType } from 'in-services/formatters/number';
-import { AggregationType, MetricMetadata, Result, TimeConfig } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { mapData } from 'in-services/util/result';
 
 export default function useMetricMetadatas({
   type,
-  metrics,
-  kpiDefinitions
+  kpiDefinitions,
+  query
 }: {
   type: string;
-  metrics: {
-    metric: string;
-    aggregation: string;
-  }[];
   kpiDefinitions: KpiDefinition[];
+  query: string;
 }): Result<Metadatas> {
   const timeConfig = useTimeConfig();
   return (
     useObservable(
       () =>
-        combineLatest(metrics.map(metric => getMetricLabelObservable(timeConfig, type, metric.metric))).map(array => {
-          const error = array.find(result => hasError(result));
-          if (error) {
-            return error;
+        getAvailableMetrics({
+          filter: {
+            timeConfig,
+            tagFilterExpression: EMPTY_EXPRESSION
+          },
+          type,
+          query
+        })
+        .map(result => mapData(result, availableMetrics => {
+          if (!availableMetrics.metrics) {
+            return [];
           }
-          if (array.some(result => isLoading(result))) {
-            return pendingResult;
-          }
-          const kpis: Metadatas = kpiDefinitions
+          const kpis: Metadatas = Object.fromEntries(kpiDefinitions
             .map(createMetadataFromKpi)
-            .reduce((prev, cur) => ({ [cur.metric]: cur, ...prev }), {});
-          return success(
-            array
-              .filter(result => result.data)
-              .map(result => result.data as MetricMetadata)
-              .map(createMetadataFromBackend(kpis))
-              //prefer labels from getAvailableMetrics api than from ui-client metric registry
-              .reduce((prev, cur) => ({ [cur.metric]: cur, ...prev }), kpis)
-          );
-        }),
-      [timeConfig, type, metrics.join('-')]
+            .map(kpi => [kpi.metric, kpi]));
+          return Object.assign(kpis, Object.fromEntries(availableMetrics.metrics
+            ?.map(createMetadataFromBackend(kpis))
+            .map(metric => [metric.metric, metric])));
+        })),
+      [timeConfig, type]
     ) ?? pendingResult
   );
-}
-
-function getMetricLabelObservable(
-  timeConfig: TimeConfig,
-  type: string,
-  metric: string
-): Observable<Result<MetricMetadata | undefined>> {
-  return getAvailableMetrics({
-    filter: {
-      timeConfig,
-      tagFilterExpression: EMPTY_EXPRESSION
-    },
-    type,
-    query: metric
-  }).map(result => mapData(result, data => data.metrics && data.metrics.find(m => m.id === metric)));
 }
 
 function createMetadataFromKpi(kpiDefinition: KpiDefinition): Metadata {

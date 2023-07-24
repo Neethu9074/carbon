@@ -244,7 +244,7 @@ function Content({
     query: catalogQuery.debouncedValue
   });
 
-  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions, query: catalogQuery.debouncedValue });
 
   const isGroupByDefined = groupBy[0] != undefined;
   const docLink = `https://instana.github.io/openapi/#operation${

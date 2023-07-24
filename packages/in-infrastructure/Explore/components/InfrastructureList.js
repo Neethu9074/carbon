@@ -107,7 +107,6 @@ export default function InfrastructureList({
         <ChartsPresenter
           chartedMetrics={chartedMetrics}
           metricMetadatas={metricMetadatas}
-          dataSource={'analytics'}
           chartableDataSeries={undefined}
           metricCatalog={metricCatalog}
           isLoading={isLoading}
