@@ -79,46 +79,6 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           />
         </Col>
         <Col xs>
-          <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
-            metric={'sessions'}
-            aggregation={'SUM'}
-            formatter={number.compact}
-            companionMetric={'uniqueUsers'}
-            companionAggregation={'DISTINCT_COUNT'}
-            companionFormatter={v =>
-              t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
-                formattedCount: number.compact(v),
-                count: v
-              })
-            }
-            comparisonColors={{
-              comparisonDecreaseColor: blue.id,
-              comparisonIncreaseColor: blue.id
-            }}
-            tagFilters={tagFilters}
-            timeConfig={timeConfig}
-            iconAction={{
-              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href:
-                tagCatalogSessionStart &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'sessionStart',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    mobileAppLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogSessionStart
-                  }),
-                  groupBy: {
-                    groupbyTag: 'mobileBeacon.view.name'
-                  }
-                })
-            }}
-          />
-        </Col>
-        <Col xs>
           <MobileAppMetricsKpiCard
             title={t('in-mobile-apps:dashboard.tabs.viewTransitionsTitle')}
             formatter={number.compact}
