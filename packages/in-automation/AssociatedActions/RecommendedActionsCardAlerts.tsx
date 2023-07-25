@@ -15,6 +15,7 @@ import {
 } from 'in-automation/api';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
+import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { associateActionsTracker } from 'in-automation/tracker';
@@ -27,11 +28,6 @@ interface RecommendedActionsCardAlertsProps {
   setReload: (r: number) => void;
   alertConfig?: ApplicationAlertConfigWithMetadata;
 }
-
-const getIsCustomEvent = (event: RecommendedActionsCardAlertsProps['event']) =>
-  (event?.metadata?.custom_issue as boolean) ?? false;
-const getEventSpecificationId = (event: RecommendedActionsCardAlertsProps['event']) =>
-  event?.metadata?.eventSpecificationId as string;
 
 export default function RecommendedActionsCardAlerts({
   event,

@@ -6,16 +6,12 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import {
-  getCustomEventActions,
-  getBuiltinEventActions,
-  getBuiltInEventSpecificationMutable,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecificationWithActions,
   updateActionsAssignedToBuiltInEvent
 } from 'in-api/eventSpecifications';
+import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './shared';
 import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -30,34 +26,6 @@ interface SuggestedActionsCardProps {
   reload: number;
   setReload: (r: number) => void;
 }
-
-function getObservables(isCustomEvent: boolean) {
-  return {
-    getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
-    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
-  };
-}
-
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
-  const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-
-  const actions =
-    useObservable<Action[], [string, number]>(
-      () => getActionsForEventSpecification(eventSpecificationId),
-      [eventSpecificationId, reload]
-    ) ?? null; // fallback to null instead of an empty array so we can recognize the loading state
-
-  const eventSpecification = useObservable<EventSpecification, [string]>(
-    () => getEventSpecification(eventSpecificationId),
-    [eventSpecificationId]
-  );
-  return { actions, eventSpecification };
-}
-
-const getIsCustomEvent = (event: SuggestedActionsCardProps['event']) =>
-  (event?.metadata?.custom_issue as boolean) ?? false;
-const getEventSpecificationId = (event: SuggestedActionsCardProps['event']) =>
-  event?.metadata?.eventSpecificationId as string;
 
 export default function RecommendedActionsCard({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
   const [error, setError] = useState(false);

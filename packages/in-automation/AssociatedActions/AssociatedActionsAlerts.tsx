@@ -17,6 +17,7 @@ import { getApplicationAlertActionAssociations } from 'in-automation/api';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
+import { getEventSpecificationId } from './shared';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -27,9 +28,6 @@ interface AssociatedActionsCardProps {
   reload?: number;
   setReload?: (r: number) => void;
 }
-
-const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
-  event?.metadata?.eventSpecificationId as string;
 
 export default function AssociatedActionsAlerts({
   event,
