@@ -88,7 +88,6 @@ export default function AssociatedActionsCard({
       }
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForEventOrAlert(selectedActions, eventSpecification)}
-      scored
       isBeta
     />
   );

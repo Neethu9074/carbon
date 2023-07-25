@@ -82,7 +82,6 @@ export default function AssociatedActionsAlerts({
       rightHeader={<RightHeader actions={actions} eventSpecification={alertConfig} triggerReload={triggerReload} />}
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForAlertMemoized(selectedActions)}
-      scored
       isBeta
     />
   );
