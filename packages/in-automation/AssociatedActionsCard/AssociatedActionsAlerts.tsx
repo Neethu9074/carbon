@@ -66,7 +66,7 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
         delete: {
           deleteEntity: action => {
             const updatedActions = actions.filter(a => a.id !== action.id).map(obj => obj.id);
-            return updateApplicationAlertAssociations({ actions: updatedActions, alertId: eventSpecificationId }).map(
+            return updateApplicationAlertAssociations({ actions: updatedActions, alertId: eventSpecificationId }).tap(
               reloadActionsTable
             );
           }

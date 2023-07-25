@@ -89,11 +89,11 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
             deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
             const updatedActions = actions.filter(a => a.id !== action.id).map(a => ({ id: a.id }));
             if (isCustomEvent) {
-              return saveCustomEventSpecificationWithActions({ ...eventSpecification, actions: updatedActions }).map(
+              return saveCustomEventSpecificationWithActions({ ...eventSpecification, actions: updatedActions }).tap(
                 triggerReload
               );
             } else {
-              return updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).map(triggerReload);
+              return updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).tap(triggerReload);
             }
           }
         }
