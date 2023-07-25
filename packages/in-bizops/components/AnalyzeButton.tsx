@@ -9,6 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { clickBizopsProcessAnalyzeInstancesTracker } from 'in-bizops/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
@@ -16,9 +17,15 @@ import { t } from 'in-i18n';
 /* This component directs the user to the Analyze page, with filters set
 to the specific Business Process they are currently in*/
 interface AnalyzeButtonProps {
+  businessProcessId: string;
   businessProcessName: string;
+  businessActivityName: string;
 }
-export default function AnalyzeButton({ businessProcessName }: AnalyzeButtonProps) {
+export default function AnalyzeButton({
+  businessProcessId,
+  businessProcessName,
+  businessActivityName
+}: AnalyzeButtonProps) {
   const getLinkToAnalyze = useLinkToAnalyze();
   return (
     <Button
@@ -43,6 +50,13 @@ export default function AnalyzeButton({ businessProcessName }: AnalyzeButtonProp
         },
         fastQueryModeEnabled: true
       })}
+      onClick={() => {
+        clickBizopsProcessAnalyzeInstancesTracker({
+          processId: businessProcessId,
+          processName: businessProcessName,
+          activityName: businessActivityName
+        });
+      }}
     >
       {t('in-bizops:dashboards.analyzeInstances')}
     </Button>

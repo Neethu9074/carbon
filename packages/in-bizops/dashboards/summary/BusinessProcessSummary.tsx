@@ -14,6 +14,7 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
@@ -56,7 +57,13 @@ export default function BusinessProcessDashboard() {
           pageRootName: 'Business Process Dashboard'
         }}
       />
-      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
+      <TabView
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={props}
+        tabChangeTracker={clickBizopsProcessTabsTracker}
+      />
     </>
   );
 }
@@ -78,6 +85,12 @@ interface RenderProps {
 }
 function RenderButtonLine({ label, serviceId }: RenderProps) {
   const timeConfig: TimeConfig = useTimeConfig();
+  const location: Location = useLocation();
+
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -85,7 +98,7 @@ function RenderButtonLine({ label, serviceId }: RenderProps) {
         serviceId={serviceId}
         timeConfig={timeConfig}
       />
-      <AnalyzeButton businessProcessName={label} />
+      <AnalyzeButton businessProcessId={businessProcessId} businessProcessName={label} businessActivityName={''} />
     </>
   );
 }
