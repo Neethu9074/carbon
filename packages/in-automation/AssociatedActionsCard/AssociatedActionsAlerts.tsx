@@ -16,11 +16,11 @@ import {
   getAllActionsWithAISuggestions
 } from 'in-automation/api';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { associateActionsTracker, trackAlertActionAssociated } from 'in-automation/tracker';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -101,10 +101,10 @@ function RightHeader({ eventSpecification, actions, triggerReload }: RightHeader
     );
     associateActionsTracker({
       eventName,
-      actionNames
+      actionNames,
+      type: 'Application alert'
     });
 
-    trackAlertActionAssociated(actionNames, applicationId);
     updateApplicationAlertAssociations({ actions: updatedActionIds, alertId: applicationId }).once(triggerReload);
   }
 

@@ -19,6 +19,7 @@ import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecif
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -34,11 +35,10 @@ import { viewEventTracker } from 'in-settings/tracker';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
 import { getPlainMetricList } from 'in-sdk/metrics';
+import { getAllActions } from 'in-automation/api';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getAllActions } from 'in-automation/api';
-import { goToPath } from 'in-stores/navigation';
 import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import entityForm from 'in-hoc/entityForm';
@@ -56,6 +56,7 @@ const paramCols = [
 ];
 
 export default function BuiltinEvent(props) {
+  const { goToPath } = useNavigation();
   const entityId = props.match.params.id;
   const entityData = useObservable(mergeResultData(), []);
 
@@ -89,7 +90,8 @@ export default function BuiltinEvent(props) {
 
       associateActionsTracker({
         eventName: event.get('name').value,
-        actionNames: actionNames
+        actionNames: actionNames,
+        type: 'Builtin event'
       });
     }
 

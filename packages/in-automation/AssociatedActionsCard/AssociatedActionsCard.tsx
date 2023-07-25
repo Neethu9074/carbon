@@ -134,8 +134,10 @@ function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload
 
     associateActionsTracker({
       eventName: eventSpecification.name,
-      actionNames
+      actionNames,
+      type: isCustomEvent ? 'Custom event' : 'Builtin event'
     });
+
     if (isCustomEvent) {
       saveCustomEventSpecificationWithActions({
         ...eventSpecification,

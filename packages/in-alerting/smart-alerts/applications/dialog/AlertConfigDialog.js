@@ -27,7 +27,7 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { updateApplicationAlertAssociations } from 'in-automation/api';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { trackAlertActionAssociated } from 'in-automation/tracker';
+import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -158,7 +158,7 @@ function createOrSaveAlert({
               onClose(config);
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
               trackAlertUpdated(config);
-              trackAlertActionAssociated(actionIds, form.get('id').value);
+              associateActionsTracker({ actionIds, alertId: form.get('id').value, type: 'Application Alert' });
             },
             err => {
               logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);
@@ -195,7 +195,12 @@ function createOrSaveAlert({
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
               const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
               trackAlertSaved(newConfig, simpleMode);
-              trackAlertActionAssociated(actionIds, config.id);
+
+              associateActionsTracker({
+                actionIds,
+                alertId: config.id,
+                type: 'Application alert'
+              });
             },
             err => {
               logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);

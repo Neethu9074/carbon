@@ -379,4 +379,3 @@ export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
-export const ACTION_SMART_ALERT_ASSOCIATED = 'smartalert.action.associated';
