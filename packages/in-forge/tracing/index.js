@@ -129,6 +129,7 @@ import './rocketmq';
 import './resteasy';
 import './scalatra';
 import './datagrid';
+import './bpm/jbpm';
 import './bpm/baw';
 import './ado.net';
 import './asp.net';
