@@ -230,7 +230,8 @@ function save(event, form, actions) {
     );
     associateActionsTracker({
       eventName: form.get('name').value,
-      actionNames: actionNames
+      actionNames: actionNames,
+      type: 'Custom event'
     });
     return saveCustomEventSpecificationWithActions({
       ...eventSpecification,

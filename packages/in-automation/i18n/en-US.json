@@ -1,6 +1,4 @@
 {
-  "selectActions": "Select Actions",
-  "associateActions": "Associate Actions",
   "associatedActions": "Associated Actions",
   "actionsAssociationsNote": "Note that action associations are saved with the definition of the event.",
   "failedToSaveAssocation": "Failed to save action association.",
@@ -12,7 +10,6 @@
   "addNumberOfItemsAction_0": "Add {{count}} Actions",
   "addNumberOfItemsAction_1": "Add {{count}} Actions",
   "addNumberOfItemsAction_2": "Add {{count}} Actions",
-  "noActionsSelected": "No actions selected",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
@@ -54,6 +51,7 @@
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
   "noRecommendedActionsAvailable": "No recommended actions available",
   "associateActionWithName": "Associate action {{actionName}}",
+  "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",

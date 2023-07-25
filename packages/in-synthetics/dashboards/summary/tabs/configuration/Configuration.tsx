@@ -45,8 +45,7 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
-  const isBrowserTest: boolean =
-    isBrowserTestType(test.data.configuration.syntheticType || '') && syntheticBrowserScriptEnabled;
+  const isBrowserTest: boolean = isBrowserTestType(test.data?.configuration.syntheticType || '');
 
   const testLabel: string = test.data?.label;
 
@@ -177,7 +176,13 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           })}
         </Header>
       }
-      rightHeaderContent={!isBrowserTest ? renderActionButton() : undefined}
+      rightHeaderContent={
+        !isBrowserTest
+          ? renderActionButton()
+          : isBrowserTest && syntheticBrowserScriptEnabled
+          ? renderActionButton()
+          : undefined
+      }
     >
       <TestType test={test.data} />
       <ConfigSection test={test.data} />
