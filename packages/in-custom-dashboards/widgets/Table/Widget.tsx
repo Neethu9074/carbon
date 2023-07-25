@@ -6,10 +6,15 @@
 
 import React from 'react';
 
+import { InfrastructureTableWidget } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
 import TableOverview from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
+import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
 
 interface TableOverviewWidgetProps {
-  config: any;
+  config: {
+    [key: string]: any;
+    source: string;
+  };
   title?: string;
   dragHandle?: React.ReactNode;
   actions?: React.ReactNode;
@@ -23,11 +28,15 @@ export default function TableOverviewWidget({
   dragHandle,
   isPreview
 }: TableOverviewWidgetProps) {
-  config = { ...config, source: 'events' }; // This need to be removed once config is configured
-  if (config.source === 'events') {
+  if (config.source === dataSources.INFRA.type) {
+    return <InfrastructureTableWidget title={title} config={config} actions={actions} dragHandle={dragHandle} />;
+  }
+
+  if (config.source === dataSources.EVENTS.type) {
     return (
       <TableOverview title={title} config={config} actions={actions} dragHandle={dragHandle} isPreview={isPreview} />
     );
   }
-  return <></>;
+
+  return null;
 }

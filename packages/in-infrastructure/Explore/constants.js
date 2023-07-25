@@ -11,9 +11,9 @@ export const allInfrastructureType = {
   name: t('in-infrastructure:explore.allInfrastructure'),
   icon: 'lib_infrastructure'
 };
-export const pluginTag = 'type';
+export const typeTag = 'type';
 export const defaultAllInfraGroup = {
-  groupbyTag: pluginTag,
+  groupbyTag: typeTag,
   // auto-remove if switching away from all infrastructure
   ar: true
 };

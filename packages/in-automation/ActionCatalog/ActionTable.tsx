@@ -18,7 +18,7 @@ import {
   isScript,
   isWebhook,
   getDocLinkFromFields,
-  isManual
+  isAnsible
 } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -100,7 +100,7 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-automation:ActionCatalog.launch')}
         </Button>
       );
-    } else if (isScript(type) || isWebhook(type)) {
+    } else if (isScript(type) || isWebhook(type) || isAnsible(type)) {
       return (
         <Button
           kind="action"
@@ -111,10 +111,8 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-automation:ActionCatalog.run')}
         </Button>
       );
-    } else if (isManual(type)) {
-      return <div />;
     } else {
-      return <div>{t('in-automation:ActionCatalog.run')}</div>;
+      return <div />;
     }
   }
 });

@@ -290,7 +290,6 @@
     "failedToDisableTwoFactorAuth": "Failed to disable two factor auth: ",
     "failedToEnableTwoFactorAuth": "Failed to enable two factor auth: ",
     "enableTwoFactor": "Enable two-factor",
-    "2FA": "2FA",
     "notFound": "Not Found",
     "youCanSelectAtMostLimitItems": "You can select at most {{limit}} items.",
     "add": "Add",
@@ -648,7 +647,6 @@
     "twoFactorTokenSuccessfullyVerified": "Two-factor token successfully verified.",
     "failedToSaveTwoFactorToken": "Failed to save two-factor token: ",
     "pleaseSpecifyAValidToken": "Please specify a valid token.",
-    "2FaIsEnabledForThisUser": "2FA is enabled for this user",
     "change": "Change",
     "identityProviders": "Identity Providers",
     "googleSso": "Google SSO",
@@ -1043,7 +1041,11 @@
     "repeatUntil": "Repeat Until",
     "finishedInTheNextFiveSeconds": "The maintenance window is finished or will be finished in the next 5 seconds",
     "viewMwConfigMessage": "View Maintenance Window Configuration Here",
-    "deleteUser": "Delete user"
+    "deleteUser": "Delete user",
+    "userWithName": "user {{name}}",
+    "tfaEnabled": "2FA enabled",
+    "groupCountCol": "Number of groups",
+    "tfaEnabledCol": "Authentication"
   },
   "languageSelection": {
     "language": "Language",

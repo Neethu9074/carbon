@@ -24,4 +24,7 @@
     height: 100%;
     padding: 0 1.5rem;
   }
+  .widthFitContent {
+    width: fit-content;
+  }
 }

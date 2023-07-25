@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
 import { goToPath } from 'in-stores/navigation';
@@ -33,8 +33,9 @@ export default function Explanation() {
           components={{
             linkToBlog: (
               <Link
-                href="https://www.instana.com/blog/monitoring-microservice-applications-introducing-dynamic-graph/"
+                external
                 className={locals.link}
+                href="https://www.ibm.com/blog/monitoring-microservices-applications-introducing-the-dynamic-graph/"
               />
             )
           }}

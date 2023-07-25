@@ -22,7 +22,8 @@ import {
   getWebhookFields,
   isDocLink,
   isScript,
-  isWebhook
+  isWebhook,
+  isAnsible
 } from 'in-automation/ActionCatalog/shared';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { positiveNumberValidator } from 'in-services/validators/number';
@@ -78,7 +79,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
       'description',
       createField({
         value: action.description ?? '',
-        validator: notBlankValidator
+        validator: isAnsible(action.type) ? undefined : notBlankValidator
       })
     )
     .put(

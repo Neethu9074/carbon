@@ -8,6 +8,7 @@ import { createMapForm } from 'formalistic';
 
 import {
   getIndicatorFieldsFromForm,
+  getNameTagFieldsFromForm,
   getTimeWindowFormFieldFromForm
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import {
@@ -32,6 +33,9 @@ export const createSloFormFromPreviousForm = (previousForm: SloForm): SloForm =>
       }),
       timeWindow: createMapForm({
         items: getTimeWindowFormFieldFromForm(previousForm)
+      }),
+      nameTags: createMapForm({
+        items: getNameTagFieldsFromForm(previousForm)
       })
     }
   });

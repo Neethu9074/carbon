@@ -243,6 +243,7 @@ import './rabbitMq';
 import './tibcoEMS';
 import './phmcLPAR';
 import './phmcVIOS';
+import './bpm/jbpm';
 import './bpm/baw';
 import './zhmcCpc';
 import './ibmIDb2';

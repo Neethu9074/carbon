@@ -378,3 +378,15 @@ export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 export const ACTION_SMART_ALERT_ASSOCIATED = 'smartalert.action.associated';
+
+// Business Monitoring Tracking
+export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';
+export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
+
+export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
+export const BIZOPS_PROCESS_ANALYZEINSTANCES_CLICK = 'bizops.process.analyzeInstances.click';
+export const BIZOPS_PROCESS_ACTIVITIES_ALL_CLICK = 'bizops.process.summary.activities.all.click';
+export const BIZOPS_PROCESS_ACTIVITIES_SELECT = 'bizops.process.summary.activities.select';
+
+export const BIZOPS_PROCESS_ACTIVITY_TABS_CLICK = 'bizops.process.activity.tabs.click';
+export const BIZOPS_PROCESS_ACTIVITY_PROCESS_CONTEXT_CLICK = 'bizops.process.activity.processContext.click';

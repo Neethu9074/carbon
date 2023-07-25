@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 
 export default {
   component: KpiGridRow
@@ -37,5 +38,25 @@ export function Default() {
         <KpiCard title="Foo" value="bar" borderless raw />
       </KpiGridRow>
     </>
+  );
+}
+export function WithoutKpiGrid() {
+  return (
+    <Fragment>
+      <Row>
+        <Col>
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+        </Col>
+        <Col>
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+          <KpiCard title="Foo" value="bar" borderless raw />
+        </Col>
+      </Row>
+    </Fragment>
   );
 }

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import rpt from 'prop-types';
 
 import { Button } from '@instana/components';
@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 import locals from './GroupingConfigurator.mless';
 
 export default function GroupingConfigurator({
-  value: group,
+  value,
   tagFilterExpression,
   tagCatalog,
   getSuggestions,
@@ -29,42 +29,75 @@ export default function GroupingConfigurator({
 }) {
   const autoFocus = useRef();
 
+  const multipleGroupsSupported = Array.isArray(value);
+  const groups = useMemo(
+    () => (multipleGroupsSupported ? value : [value]).filter(g => g?.groupbyTag),
+    [value, multipleGroupsSupported]
+  );
+  const changeGroup = useCallback(
+    (group, index) => {
+      if (multipleGroupsSupported) {
+        const newGroups = groups.slice();
+        newGroups[index] = group;
+        onChange(newGroups.filter(g => g?.groupbyTag));
+      } else {
+        onChange(group);
+      }
+    },
+    [groups, onChange, multipleGroupsSupported]
+  );
+  const addGroup = useCallback(
+    group => {
+      if (multipleGroupsSupported) {
+        const newGroups = groups.slice();
+        newGroups.push(group);
+        onChange(newGroups.filter(g => g?.groupbyTag));
+      } else {
+        onChange(group);
+      }
+    },
+    [groups, onChange, multipleGroupsSupported]
+  );
+
   if (!tagCatalog) {
     return <LoadingIndicator text={loadingLabel} />;
   }
 
+  const maxLength = multipleGroupsSupported ? 5 : 1;
+
   return (
-    <>
-      <Overlay
-        content={TagSelectorOverlay}
-        props={{
-          tagCatalog,
-          onChange: ({ name, tagType }) => {
-            autoFocus.current = Date.now();
-            const selectedGroup = setEntityIfNecessary(name, tagType);
-            tracking?.onGroupAdded?.(selectedGroup);
-            onChange(selectedGroup);
-          }
-        }}
-        align={'bottomLeft'}
-        withoutWrapper
-      >
-        {({ toggle, refSetter }) =>
-          group?.groupbyTag ? (
-            <ActiveGroupingConfiguration
-              onChange={onChange}
-              onGroupRemoved={tracking?.onGroupRemoved}
-              getSuggestions={getSuggestions}
-              group={group}
-              toggle={toggle}
-              ref={refSetter}
-              tagCatalog={tagCatalog}
-              tagFilterExpression={tagFilterExpression}
-              autoFocus={autoFocus.current}
-            />
-          ) : (
+    <div className={locals.container}>
+      {groups.map((group, i) => {
+        const onChange = group => changeGroup(group, i);
+        return (
+          <GroupingOverlay
+            key={i}
+            tagCatalog={tagCatalog}
+            autoFocus={autoFocus}
+            onChange={onChange}
+            tracking={tracking}
+          >
+            {({ toggle, refSetter }) => (
+              <ActiveGroupingConfiguration
+                onChange={onChange}
+                onGroupRemoved={tracking?.onGroupRemoved}
+                getSuggestions={getSuggestions}
+                group={group}
+                toggle={toggle}
+                ref={refSetter}
+                tagCatalog={tagCatalog}
+                tagFilterExpression={tagFilterExpression}
+                autoFocus={autoFocus.current}
+              />
+            )}
+          </GroupingOverlay>
+        );
+      })}
+      {groups.length < maxLength && (
+        <GroupingOverlay tagCatalog={tagCatalog} autoFocus={autoFocus} onChange={addGroup} tracking={tracking}>
+          {({ toggle, refSetter }) => (
             <Button
-              className={locals.noActiveGroupingButton}
+              className={locals.addGroupingButton}
               kind={'subtle'}
               size="compact"
               icon={'lib_openclose_add'}
@@ -73,10 +106,36 @@ export default function GroupingConfigurator({
             >
               {label}
             </Button>
-          )
+          )}
+        </GroupingOverlay>
+      )}
+    </div>
+  );
+}
+
+export const trackingProps = {
+  onGroupAdded: rpt.func,
+  onGroupRemoved: rpt.func
+};
+
+function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }) {
+  return (
+    <Overlay
+      content={TagSelectorOverlay}
+      props={{
+        tagCatalog,
+        onChange: ({ name, tagType }) => {
+          autoFocus.current = Date.now();
+          const selectedGroup = setEntityIfNecessary(name, tagType);
+          tracking?.onGroupAdded?.(selectedGroup);
+          onChange(selectedGroup);
         }
-      </Overlay>
-    </>
+      }}
+      align={'bottomLeft'}
+      withoutWrapper
+    >
+      {children}
+    </Overlay>
   );
 
   function setEntityIfNecessary(groupbyTag, tagType) {
@@ -92,20 +151,13 @@ export default function GroupingConfigurator({
   }
 }
 
-export const trackingProps = {
-  onGroupAdded: rpt.func,
-  onGroupRemoved: rpt.func
-};
-
 GroupingConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
-  value: rpt.object,
+  value: rpt.oneOf(rpt.array, rpt.object),
   tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
-  loadingLabel: rpt.string,
-  name: rpt.string,
-  tagType: rpt.string
+  loadingLabel: rpt.string
 };

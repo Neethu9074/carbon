@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import MessageFlowTable from 'in-forge/plugins/aceIntegrationServer/Dashboard/MessageFlowTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -86,11 +86,7 @@ export default function AceIntegrationServerDashboard({ snapshot, timeConfig }) 
           }}
         />
       </DashboardSection>
-      <MessageFlowTable
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        isCloud={snapshot.getIn(['data', 'cloudNative'])}
-      />
+      <MessageFlowTable snapshot={snapshot} timeConfig={timeConfig} isCloud={snapshot.getIn(['data', 'cloudNative'])} />
     </div>
   );
 }

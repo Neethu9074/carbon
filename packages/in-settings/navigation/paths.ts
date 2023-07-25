@@ -46,7 +46,6 @@ export const ldap = `${authSettings}/ldap`;
 export const groupMapping = `${authSettings}/groupMapping`;
 
 export const twoFactorAuth = `${authSettings}/2fa`;
-export const twoFaUsers = `${twoFactorAuth}/users`;
 
 const session = `${authSettings}/session`;
 export const timeouts = `${session}/timeouts`;

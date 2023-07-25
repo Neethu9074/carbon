@@ -14,7 +14,6 @@ import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-cus
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
-import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
@@ -23,6 +22,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
+import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 
 interface CreateSliFormProps<SLI_TYPE extends SliType> {
   entityType: SLI_TYPE;
@@ -47,12 +47,12 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   filterExpressionValid,
   onSave
 }: CreateSliFormProps<SLI_TYPE>) {
-  const [{ saving }, doSubmit] = useCreateConfiguration(createSliConfiguration);
+  const [submitStatus, doSubmit] = useFormSubmission(createSliConfiguration);
 
   useSetFormFooterEffect({
     formId: 'createSliForm',
     isDisabled: !filterExpressionValid || !form.hierarchyTouched,
-    isSaving: saving,
+    isSaving: submitStatus === 'pending',
     cloneOnly: editMode,
     onCancel: close,
     setFooter
@@ -110,7 +110,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   };
 
   const handleSubmit = (submittedForm: Item) =>
-    doSubmit({ config: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
+    doSubmit({ payload: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
 
   return (
     <Form

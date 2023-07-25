@@ -21,9 +21,12 @@ export interface TableActions<ItemType extends Object> {
   };
 }
 
-interface ColumnDefinition<ItemType extends Object> {
+export interface ColumnDefinition<ItemType extends Object> {
   id: number | string;
-  label: string;
+  label?: string | undefined;
+  sortable?: boolean | undefined;
+  width?: string | undefined | number;
+  ellipsis?: boolean | undefined;
   getContent: (entity: ItemType) => ReactNode;
 }
 

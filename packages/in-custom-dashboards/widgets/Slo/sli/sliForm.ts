@@ -46,12 +46,6 @@ interface EventBasedSliEntity {
   readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
 }
 
-export interface FormSubmitState {
-  success: boolean;
-  saving: boolean;
-  error: boolean;
-}
-
 export interface SliFormData<SLI_TYPE extends SliType> {
   id: string;
   sliName: string;

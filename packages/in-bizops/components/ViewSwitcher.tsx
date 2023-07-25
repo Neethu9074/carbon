@@ -10,6 +10,7 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { clickBizopsProcessesTabsTracker } from 'in-bizops/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
@@ -49,6 +50,9 @@ export default function ViewSwitcher() {
               label={t('in-bizops:labelBizOps')}
               isActive={isProcessesActive && !isActivitiesActive}
               icon={'lib_bizops'}
+              onClick={() => {
+                clickBizopsProcessesTabsTracker({ tab: 'Processes' });
+              }}
             />
           </SecondLevelNavigation>
         </div>

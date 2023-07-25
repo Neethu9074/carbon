@@ -269,6 +269,11 @@
   "pluginName_baw_1": "BAW",
   "pluginName_baw_2": "BAW",
   "pluginName_baw": "BAW",
+  "pluginName_jbpm_plural": "jBPM",
+  "pluginName_jbpm_0": "jBPM",
+  "pluginName_jbpm_1": "jBPM",
+  "pluginName_jbpm_2": "jBPM",
+  "pluginName_jbpm": "jBPM",
   "pluginName_beeInstanaNode_plural": "BeeInstana-Server",
   "pluginName_beeInstanaNode_0": "BeeInstana-Server",
   "pluginName_beeInstanaNode_1": "BeeInstana-Server",
@@ -1584,6 +1589,11 @@
   "tracingTypeName_baw_0": "BAW-Aufrufe",
   "tracingTypeName_baw_1": "BAW-Aufruf",
   "tracingTypeName_baw_2": "BAW-Aufrufe",
+  "tracingTypeName_jbpm": "jBPM-Aufruf",
+  "tracingTypeName_jbpm_plural": "jBPM-Aufrufe",
+  "tracingTypeName_jbpm_0": "jBPM-Aufrufe",
+  "tracingTypeName_jbpm_1": "jBPM-Aufruf",
+  "tracingTypeName_jbpm_2": "jBPM-Aufrufe",
   "tracingTypeName_cassandra": "Cassandra-Abfrage",
   "tracingTypeName_cassandra_plural": "Cassandra-Abfragen",
   "tracingTypeName_cassandra_0": "Cassandra-Abfragen",
@@ -5018,7 +5028,8 @@
     },
     "bpm": {
       "camunda": "Camunda",
-      "baw": "BAW"
+      "baw": "BAW",
+      "jbpm": "jBPM"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",

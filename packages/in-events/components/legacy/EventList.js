@@ -8,8 +8,12 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
+import {
+  isApplicationSmartAlertEvent,
+  isWebsiteSmartAlertEvent,
+  isMobileAppSmartAlertEvent
+} from 'in-events/components/eventUtil';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
-import { isApplicationSmartAlertEvent, isWebsiteSmartAlertEvent } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -68,7 +72,8 @@ export default connectTo(
           role.canConfigureAutomationActions &&
           role.canConfigureCustomAlerts &&
           !isWebsiteSmartAlertEvent(triggerEvent) &&
-          !isApplicationSmartAlertEvent(triggerEvent) && (
+          !isApplicationSmartAlertEvent(triggerEvent) &&
+          !isMobileAppSmartAlertEvent(triggerEvent) && (
             <AssociatedAndRecommendedActions
               associatedActionsTitle={t('in-events:actionsAssociatedForTriggeringEvent')}
               volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}

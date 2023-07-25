@@ -127,30 +127,32 @@ export function SuggestionsList({
       role={menuProps.role}
       ref={menuProps.ref}
     >
-      {filteredOptions.map((item, index) => {
-        const itemProps = getItemProps({
-          index,
-          item
-        });
+      {filteredOptions
+        .filter(item => item !== '')
+        .map((item, index) => {
+          const itemProps = getItemProps({
+            index,
+            item
+          });
 
-        return (
-          <OverlayOption
-            key={index}
-            className={classNames({
-              [locals.option]: true,
-              [locals.highlighted]: highlightedIndex === index
-            })}
-            {...itemProps}
-            onChange={itemProps.onClick}
-            close={close}
-            value={item}
-          >
-            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'} delay={300}>
-              <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
-            </Tooltip>
-          </OverlayOption>
-        );
-      })}
+          return (
+            <OverlayOption
+              key={index}
+              className={classNames({
+                [locals.option]: true,
+                [locals.highlighted]: highlightedIndex === index
+              })}
+              {...itemProps}
+              onChange={itemProps.onClick}
+              close={close}
+              value={item}
+            >
+              <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'} delay={300}>
+                <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
+              </Tooltip>
+            </OverlayOption>
+          );
+        })}
       {totalHits > suggestions.length && (
         <Li className={locals.moreOptionsLabel} size="compact">
           {number.compact(totalHits - suggestions.length)} {t('in-components:queryBuilder.simpleValueSelectorMore')}

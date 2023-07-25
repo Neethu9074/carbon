@@ -14,13 +14,17 @@ import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEvent
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import MobileAppEventListItemContent from 'in-events/components/legacy/MobileAppEventListItemContent';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
+import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
+import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
+import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -171,6 +175,8 @@ function DetailsHeaderEntity({ event, timeConfig }) {
     return <WebsiteDetailsHeaderEntity event={event} />;
   } else if (isApplicationSmartAlertEvent(event)) {
     return <ApplicationDetailsHeaderEntity event={event} />;
+  } else if (isMobileAppSmartAlertEvent(event)) {
+    return <MobileAppDetailsHeaderEntity event={event} />;
   }
 
   return (
@@ -222,11 +228,31 @@ function WebsiteDetailsHeaderEntity({ event }) {
   );
 }
 
+function MobileAppDetailsHeaderEntity({ event }) {
+  const eventEntity = useMobileAppEventEntity(event);
+
+  if (!eventEntity) {
+    return null;
+  }
+
+  return (
+    <MobileAppScopePath
+      {...eventEntity}
+      timeConfig={getTimeConfigFromEvent(event)}
+      iconSize="xs"
+      showDashboardLinks
+      noBottomMargin
+    />
+  );
+}
+
 function ListItemContent({ event, latestSnapshot }) {
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventListItemContent event={event} />;
   } else if (isApplicationSmartAlertEvent(event)) {
     return <ApplicationEventListItemContent event={event} />;
+  } else if (isMobileAppSmartAlertEvent(event)) {
+    return <MobileAppEventListItemContent event={event} />;
   }
   return <EventListItemContent event={event} latestSnapshot={latestSnapshot} />;
 }

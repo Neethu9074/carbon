@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import getRegionForAwsLambdaVersion from 'in-subscription/getRegionForAwsLambdaVersion';
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
@@ -73,15 +73,15 @@ function getSubscriptionText(verLabel, funcName, region, verId, funcId, regionId
 
   if (verId) {
     contextId = 'VerId';
-    components.versionLink = <Link href$={subscriptLink(verId)} className={locals.entityLink} />;
+    components.versionLink = <Link href={subscriptLink(verId)} className={locals.entityLink} />;
   }
   if (funcId) {
     contextId = contextId + 'FuncId';
-    components.functionLink = <Link href$={subscriptLink(funcId)} className={locals.entityLink} />;
+    components.functionLink = <Link href={subscriptLink(funcId)} className={locals.entityLink} />;
   }
   if (regionId) {
     contextId = contextId + 'RegionId';
-    components.regionLink = <Link href$={subscriptLink(regionId)} className={locals.entityLink} />;
+    components.regionLink = <Link href={subscriptLink(regionId)} className={locals.entityLink} />;
   }
 
   return verId || funcId || regionId ? (

@@ -12,4 +12,8 @@
     font-weight: @lib__typography__h400__font-weight;
     margin-bottom: 0.25rem;
   }
+
+  .tracker {
+    display: inline-block;
+  }
 }

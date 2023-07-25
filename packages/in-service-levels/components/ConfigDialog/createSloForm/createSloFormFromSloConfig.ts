@@ -22,6 +22,7 @@ import {
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
@@ -145,6 +146,9 @@ export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfi
       }),
       timeWindow: createMapForm({
         items: getTimeWindowFormFieldFromSloConfig(sloConfig)
+      }),
+      nameTags: createMapForm({
+        items: createSloNameTagsFields(sloConfig)
       })
     }
   });

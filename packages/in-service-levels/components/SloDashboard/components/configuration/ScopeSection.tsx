@@ -37,31 +37,29 @@ interface ScopeSectionProps {
 
 const contentDefinitions: Record<SloEntityType, RowDefinition[]> = {
   application: [
-    { id: 'boundaryScope', columns: [{ getContent: BoundaryScopeColumn, verticallyCenter: true }] },
-    { id: 'hiddenCalls', columns: [{ getContent: HiddenCallsColumn, verticallyCenter: true }] },
+    {
+      id: 'boundaryScope',
+      columns: [{ getContent: BoundaryScopeColumn }]
+    },
+    {
+      id: 'hiddenCalls',
+      columns: [{ getContent: HiddenCallsColumn }]
+    },
     {
       id: 'service-endpoint',
-      columns: [
-        { getContent: ServiceColumn, verticallyCenter: true },
-        { getContent: EndpointColumn, verticallyCenter: true }
-      ]
+      columns: [{ getContent: ServiceColumn }, { getContent: EndpointColumn }]
     },
     {
       id: 'customFilter',
-      columns: [{ getContent: ApplicationCustomFilterColumn, verticallyCenter: true }],
+      columns: [{ getContent: ApplicationCustomFilterColumn }],
       shouldRender: data => Boolean(data.configuration.entity.tagFilterExpression)
     }
   ],
   website: [
-    { id: 'beaconType', columns: [{ getContent: BeaconTypeColumn, verticallyCenter: true }] },
+    { id: 'beaconType', columns: [{ getContent: BeaconTypeColumn }] },
     {
       id: 'customFilter',
-      columns: [
-        {
-          getContent: WebsiteCustomFilterColumn,
-          verticallyCenter: true
-        }
-      ],
+      columns: [{ getContent: WebsiteCustomFilterColumn }],
       shouldRender: data => Boolean(data.configuration.entity.tagFilterExpression)
     }
   ]

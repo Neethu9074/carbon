@@ -24,7 +24,7 @@ import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
-import locals from './WebsiteEventListItemContent.mless';
+import locals from './EventListItemContent.mless';
 
 export default function WebsiteEventListItemContent({ event }) {
   const eventEntity = useWebsiteEventEntity(event);

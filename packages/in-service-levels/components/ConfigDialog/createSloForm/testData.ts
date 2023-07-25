@@ -60,6 +60,12 @@ export const testWebsiteForm: SloForm = createMapForm({
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
         type: createField<TimeWindowType>({ value: 'rolling' })
       }
+    }),
+    nameTags: createMapForm({
+      items: {
+        name: createField<string>({ value: 'Candy Store' }),
+        tags: createField<string[]>({ value: ['sweets', 'soda'] })
+      }
     })
   }
 });
@@ -99,6 +105,12 @@ export const testApplicationForm: SloForm = createMapForm({
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
         startTimestamp: createField<DateAsNumber>({ value: testDate.getTime() }),
         type: createField<TimeWindowType>({ value: 'fixed' })
+      }
+    }),
+    nameTags: createMapForm({
+      items: {
+        name: createField<string>({ value: 'Vending Machine' }),
+        tags: createField<string[]>({ value: ['candies', 'drinks', 'toilet paper'] })
       }
     })
   }

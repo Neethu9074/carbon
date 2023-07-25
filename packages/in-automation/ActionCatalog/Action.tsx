@@ -29,6 +29,7 @@ import {
   API_KEY,
   BASIC_AUTH,
   BEARER_TOKEN,
+  isAnsible,
   isDocLink,
   isNotEditable,
   isScript,
@@ -114,7 +115,8 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       getActionAndAssocations(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
       ),
-    saveEntity: (_: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, eventSpecifications),
+    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) =>
+      save(form, entityId, isCopy, eventSpecifications, entity),
     openEntities: () => goToPath(actionCatalogPath)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
@@ -204,7 +206,7 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
               form={form}
               setForm={setForm}
               action={{
-                ...getActionSpecification(form),
+                ...getActionSpecification(form, entity),
                 id: id // add id to send Action id to run action
               }}
             />
@@ -216,8 +218,14 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
   );
 };
 
-function save(form: MapForm<any>, id: string | null, isCopy: boolean, eventSpecifications: EventSpecificationInfo[]) {
-  const actionSpecification = getActionSpecification(form);
+function save(
+  form: MapForm<any>,
+  id: string | null,
+  isCopy: boolean,
+  eventSpecifications: EventSpecificationInfo[],
+  entity: ActionFormEntity | null
+) {
+  const actionSpecification = getActionSpecification(form, entity);
   const associateResources = (action: Action) =>
     addAssociations({ action_id: action.id, ...getActionAssociations(form, eventSpecifications) });
   const isCreate = !id;
@@ -236,7 +244,7 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean, eventSpeci
   }
 }
 
-export function getActionSpecification(form: MapForm<any>): NewAction {
+function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | null): NewAction {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
@@ -310,6 +318,8 @@ export function getActionSpecification(form: MapForm<any>): NewAction {
         ignoreCertErrors
       })
     );
+  } else if (isAnsible(type)) {
+    fields.push(...(entity?.fields ?? []));
   }
   const inputParameters = isDocLink(type) ? [] : parameters.map((parameter: MappedParameter) => parameter.value);
   return {

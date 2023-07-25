@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import DefaultChartingConfigurator from 'in-components/ChartingConfigurator/ChartingConfigurator';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
@@ -19,7 +18,7 @@ export default function ChartingConfiguratorSection({
   disableClose,
   dataSource,
   unifiedMetricsSource,
-  ChartingConfigurator = DefaultChartingConfigurator,
+  ChartingConfigurator,
   // Option to pass in additional buttons. For example to allow configuration of percentile presentation.
   additionalActions = noAdditionalActions,
   tracking

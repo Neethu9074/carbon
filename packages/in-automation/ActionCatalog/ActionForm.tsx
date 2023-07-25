@@ -7,22 +7,8 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Spacer, Toggle, Typography } from '@instana/components';
+import { Link, Spacer, Toggle, Typography } from '@instana/components';
 
-import {
-  putApiKeyFields,
-  putBasicFields,
-  putBearerField,
-  putDocLinkField,
-  putScriptField,
-  putWebhookFields,
-  removeApiKeyFields,
-  removeBasicFields,
-  removeBearerField,
-  removeDocLinkField,
-  removeScriptField,
-  removeWebhookFields
-} from 'in-automation/ActionCatalog/ActionFormDefinition';
 import {
   API_KEY,
   AUTH_TYPES,
@@ -39,8 +25,24 @@ import {
   WEBHOOK_TYPE,
   getType,
   MANUAL_TYPE,
-  isManual
+  isManual,
+  isAnsible,
+  getAnsibleFields
 } from 'in-automation/ActionCatalog/shared';
+import {
+  putApiKeyFields,
+  putBasicFields,
+  putBearerField,
+  putDocLinkField,
+  putScriptField,
+  putWebhookFields,
+  removeApiKeyFields,
+  removeBasicFields,
+  removeBearerField,
+  removeDocLinkField,
+  removeScriptField,
+  removeWebhookFields
+} from 'in-automation/ActionCatalog/ActionFormDefinition';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
@@ -75,7 +77,7 @@ interface ActionFormProps {
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
   const type = (form.get('type') as Field<string>).value;
-  const showTimeoutSection = isScript(type) || isWebhook(type);
+  const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
   return (
     <fieldset>
       <Row>
@@ -87,9 +89,14 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
           {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
           {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
           {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
+          {isAnsible(type) && <AnsibleSection entity={action} />}
           {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
+            </>
+          )}
+          {!isDocLink(type) && (
+            <>
               <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
               <FormGroup>
                 <ParametersTable form={form} setForm={setForm} onChange={onChange} />
@@ -113,6 +120,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
 const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const timeout = form.get('timeout') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
+  const type = (form.get('type') as Field<string>).value;
   return (
     <>
       {timeout.map(field => (
@@ -123,7 +131,8 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
           <Input
             id="action-timeout"
             type="number"
-            disabled={isNotEditable}
+            // NOTE: Timeout is a special field we want to allow to be editable for Ansible actions
+            disabled={isNotEditable && !isAnsible(type)}
             value={isNaN(parseInt(field.value)) ? '' : field.value}
             onChange={e => onChange('timeout', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -244,7 +253,7 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
         </>
       ) : (
-        <Typography variant="body-small">{getType(action.type)}</Typography>
+        <Typography variant="body-regular">{getType(action.type)}</Typography>
       )}
     </FormGroup>
   ));
@@ -707,5 +716,19 @@ const SecuredInput = ({
         />
       </Tooltip>
     </HorizontalFlexWrapper>
+  );
+};
+
+const AnsibleSection = ({ entity }: Pick<ActionFormProps, 'entity'>) => {
+  const { jobTemplateUrl } = getAnsibleFields(entity);
+  return (
+    <>
+      <FormGroup className={locals.widthFitContent}>
+        <Label>{t('in-automation:jobTemplate')}</Label>
+        <Link external href={jobTemplateUrl}>
+          {entity.name}
+        </Link>
+      </FormGroup>
+    </>
   );
 };

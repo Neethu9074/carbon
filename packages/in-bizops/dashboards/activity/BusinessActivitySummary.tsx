@@ -21,6 +21,7 @@ import DashboardHeader, {
   ContextConfiguration,
   DashboardHeaderProps
 } from 'in-components/DashboardHeader/DashboardHeader';
+import { clickBizopsActivityProcessContextTracker, clickBizopsProcessActivityTabsTracker } from 'in-bizops/tracker';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -66,7 +67,13 @@ export default function BusinessActivitySummary() {
           pageRootName: 'Business Activity Dashboard'
         }}
       />
-      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
+      <TabView
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={props}
+        tabChangeTracker={clickBizopsProcessActivityTabsTracker}
+      />
     </>
   );
 }
@@ -95,6 +102,15 @@ interface RenderProps {
 }
 function RenderButtonLine({ label, serviceId }: RenderProps) {
   const timeConfig: TimeConfig = useTimeConfig();
+  const location: Location = useLocation();
+
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  const businessActivityName: string =
+    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.activity.pageTitle');
+
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -102,7 +118,11 @@ function RenderButtonLine({ label, serviceId }: RenderProps) {
         serviceId={serviceId}
         timeConfig={timeConfig}
       />
-      <AnalyzeButton businessProcessName={label} />
+      <AnalyzeButton
+        businessProcessId={businessProcessId}
+        businessProcessName={label}
+        businessActivityName={businessActivityName}
+      />
     </>
   );
 }
@@ -113,11 +133,26 @@ function RenderBusinessProcessContext() {
   const businessProcessName: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityName: string =
+    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.activity.pageTitle');
+
+  const activityTracking = {
+    processId: businessProcessId,
+    processName: businessProcessName,
+    activityName: businessActivityName
+  };
 
   location.pathname = businessProcessSummaryPath;
 
   return (
-    <Link href={createHref(location)} className={locals.contextLink}>
+    <Link
+      href={createHref(location)}
+      className={locals.contextLink}
+      onClick={() => clickBizopsActivityProcessContextTracker(activityTracking)}
+    >
       {businessProcessName}
     </Link>
   );

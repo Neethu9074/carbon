@@ -22,6 +22,7 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { selectBizopsListProcessTracker } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -49,8 +50,15 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', serviceId);
 
+  const processTracking = {
+    processId: businessProcessId,
+    processName: businessProcessName
+  };
+
   return (
-    <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
+    <div className={locals.tracker} onClick={() => selectBizopsListProcessTracker(processTracking)}>
+      <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
+    </div>
   );
 }
 

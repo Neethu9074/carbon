@@ -5,15 +5,14 @@
 
 import React from 'react';
 
-import {
+import UserList, {
   iconColumn,
   labelColumn,
   idpGroupColumn
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
 import AddUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/AddUserButton';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
-import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { find } from 'in-services/arrayUtils';
 
@@ -27,7 +26,7 @@ export default function Users({ members, addUsers, removeUser, groupId, noDelete
     ...columnDefinition,
     {
       width: '2rem',
-      getContent({ user: { id: userId, fullName }}) {
+      getContent({ user: { id: userId, fullName } }) {
         return <Delete skipDialog doDelete={() => removeUser(userId, fullName)} />;
       }
     }
@@ -47,6 +46,3 @@ export default function Users({ members, addUsers, removeUser, groupId, noDelete
     />
   );
 }
-
-
-

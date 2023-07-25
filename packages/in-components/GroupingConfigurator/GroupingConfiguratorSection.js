@@ -12,7 +12,7 @@ import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 export default function GroupBySection({
-  value: group,
+  value,
   tagFilterExpression,
   GroupingConfigurator,
   tagCatalog,
@@ -35,7 +35,7 @@ export default function GroupBySection({
   return (
     <Section icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
       <GroupingConfigurator
-        value={group}
+        value={value}
         tagFilterExpression={tagFilterExpression}
         onChange={onChange}
         tracking={tracking}
@@ -47,7 +47,7 @@ export default function GroupBySection({
 }
 
 GroupBySection.propTypes = {
-  value: rpt.object,
+  value: rpt.oneOf(rpt.object, rpt.array),
   GroupingConfigurator: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   onChange: rpt.func.isRequired,

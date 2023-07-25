@@ -40,7 +40,7 @@ export default function ApiQueryOverlay({
     type,
     metrics,
     order,
-    ...(groupBy != undefined && groupBy[0] != null ? { groupBy: groupBy } : {})
+    ...(groupBy?.length > 0 ? { groupBy } : {})
   };
 
   const jsonString = JSON.stringify(model, 0, 2);
