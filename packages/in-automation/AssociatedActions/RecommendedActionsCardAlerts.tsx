@@ -13,11 +13,11 @@ import {
   getApplicationAlertActionAssociations,
   updateApplicationAlertAssociations
 } from 'in-automation/api';
-import { associateActionsTracker, trackAlertActionAssociated } from 'in-automation/tracker';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
+import { associateActionsTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 interface RecommendedActionsCardAlertsProps {
@@ -122,7 +122,6 @@ export function associateAction({
   });
 
   const onSave = () => {
-    trackAlertActionAssociated([action.id], alertConfig.id);
     triggerReload();
   };
   const handleErrors = () => setError(true);
