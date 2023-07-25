@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -20,8 +20,8 @@ import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'i
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { getEventSpecificationId, useDualReload } from './shared';
 import { associateActionsTracker } from 'in-automation/tracker';
-import { getEventSpecificationId } from './shared';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -42,17 +42,7 @@ export default function AssociatedActionsAlerts({
 }: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
 
-  // internalReload exists to track the reload status within this component, which is necessrary
-  // if the extrernalReload prop isn't passed in. The component's data will be re-fetched
-  // whenever either of the reload states are modified.
-  const [internalReload, setInternalReload] = useState(0);
-  const reload = internalReload + (externalReload ?? 0);
-  const triggerReload = () => {
-    setInternalReload(Math.random());
-    if (setExternalReload) {
-      setExternalReload(Math.random());
-    }
-  };
+  const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
   const actions =
     useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload], {
@@ -69,7 +59,7 @@ export default function AssociatedActionsAlerts({
   );
   const reloadActionsTable = () => {
     // This helps to reload the actions table
-    triggerReload(Math.random());
+    triggerReload();
   };
 
   return (
