@@ -132,7 +132,7 @@ const nameColumn = (showActionLink: boolean) => ({
   id: 'name',
   getContent(row: Action) {
     return (
-      <Tooltip content={row.name} align="topLeft" delay={500}>
+      <Tooltip content={row.name} delay={500}>
         {showActionLink ? (
           <Link className={locals.block} ellipsis href={getEntityIdView(actionCatalogPath, row.id)}>
             {row.name}
@@ -150,11 +150,7 @@ const scoreColumn = {
   id: 'color',
   getContent(row: ScoredAction) {
     return (
-      <Tooltip
-        content={t('in-automation:ActionCatalog.confidenceHelpText', { context: row.color })}
-        align="topRight"
-        delay={500}
-      >
+      <Tooltip content={t('in-automation:ActionCatalog.confidenceHelpText')} align="topRight" delay={500}>
         <span>{t('in-automation:ActionCatalog.confidence', { context: row.color })}</span>
       </Tooltip>
     );
