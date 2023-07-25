@@ -20,8 +20,8 @@ interface Props {
 }
 
 type SyntheticMapping = {
-  testType: 'API' | 'Browser' | 'Webpage' | 'DNS';
-  subTestType: 'Simple' | 'Script';
+  testType: 'API' | 'Browser' | 'Webpage' | 'DNS' | '';
+  subTestType: 'Simple' | 'Script' | '';
 };
 
 type TypeMap = Record<SyntheticType, SyntheticMapping>;
@@ -36,7 +36,8 @@ const TestTypeSection = ({ test }: Props) => {
       BrowserScript: { testType: 'Browser', subTestType: 'Script' },
       WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
       WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
-      DNSAction: { testType: 'DNS', subTestType: 'Simple' }
+      DNSAction: { testType: 'DNS', subTestType: 'Simple' },
+      NotConfigured: { testType: '', subTestType: '' }
     };
 
     //@ts-expect-error expression of type 'string' can't be used to index type 'TypeMap'.

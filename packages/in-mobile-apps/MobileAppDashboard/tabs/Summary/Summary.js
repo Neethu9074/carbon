@@ -79,46 +79,6 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           />
         </Col>
         <Col xs>
-          <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
-            metric={'sessions'}
-            aggregation={'SUM'}
-            formatter={number.compact}
-            companionMetric={'uniqueUsers'}
-            companionAggregation={'DISTINCT_COUNT'}
-            companionFormatter={v =>
-              t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
-                formattedCount: number.compact(v),
-                count: v
-              })
-            }
-            comparisonColors={{
-              comparisonDecreaseColor: blue.id,
-              comparisonIncreaseColor: blue.id
-            }}
-            tagFilters={tagFilters}
-            timeConfig={timeConfig}
-            iconAction={{
-              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href:
-                tagCatalogSessionStart &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'sessionStart',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    mobileAppLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogSessionStart
-                  }),
-                  groupBy: {
-                    groupbyTag: 'mobileBeacon.view.name'
-                  }
-                })
-            }}
-          />
-        </Col>
-        <Col xs>
           <MobileAppMetricsKpiCard
             title={t('in-mobile-apps:dashboard.tabs.viewTransitionsTitle')}
             formatter={number.compact}
@@ -154,19 +114,25 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         </Col>
         {mobileAppCrashBeaconEnabled && (
           <Col xs>
-            <MobileAppMetricsKpiCard
+            <MobileAppBigNumberCard
               title={t('in-mobile-apps:dashboard.tabs.crashFreeSessionRateTitle')}
+              metric={'crashFreeSessionRate'}
+              aggregation={'MEAN'}
               formatter={percentage.detailed}
-              metricsConfig={{
-                tagFilters,
-                timeConfig,
-                metrics: {
-                  crashes: {
-                    metric: 'crashFreeSessionRate',
-                    aggregation: 'MEAN'
-                  }
-                }
+              companionMetric={'sessions'}
+              companionAggregation={'SUM'}
+              companionFormatter={v =>
+                t('in-mobile-apps:dashboard.tabs.sessionCount', {
+                  formattedCount: number.compact(v),
+                  count: v
+                })
+              }
+              comparisonColors={{
+                comparisonDecreaseColor: blue.id,
+                comparisonIncreaseColor: blue.id
               }}
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
               iconAction={{
                 text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
                 kind: 'subtle',
@@ -190,19 +156,25 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         )}
         {mobileAppCrashBeaconEnabled && (
           <Col xs>
-            <MobileAppMetricsKpiCard
+            <MobileAppBigNumberCard
               title={t('in-mobile-apps:dashboard.tabs.crashFreeUserRateTitle')}
+              metric={'crashFreeUserRate'}
+              aggregation={'MEAN'}
               formatter={percentage.detailed}
-              metricsConfig={{
-                tagFilters,
-                timeConfig,
-                metrics: {
-                  crashes: {
-                    metric: 'crashFreeUserRate',
-                    aggregation: 'MEAN'
-                  }
-                }
+              companionMetric={'uniqueUsers'}
+              companionAggregation={'DISTINCT_COUNT'}
+              companionFormatter={v =>
+                t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
+                  formattedCount: number.compact(v),
+                  count: v
+                })
+              }
+              comparisonColors={{
+                comparisonDecreaseColor: blue.id,
+                comparisonIncreaseColor: blue.id
               }}
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
               iconAction={{
                 text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
                 kind: 'subtle',

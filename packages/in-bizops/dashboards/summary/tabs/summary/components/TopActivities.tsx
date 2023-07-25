@@ -8,20 +8,22 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import {
+  businessProcessActivityListPath,
+  businessActivityPath,
+  businessActivitySummaryPath,
+  businessProcessDashboard
+} from 'in-bizops/navigation/paths';
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import {
-  businessProcessActivityListPath,
-  businessActivityPath,
-  businessActivitySummaryPath
-} from 'in-bizops/navigation/paths';
+import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -68,15 +70,32 @@ interface viewAllProps {
 
 // className styling provided by chart component
 function ViewAll({ className }: viewAllProps) {
-  const location = useNavigation();
+  const { location, createHrefToPath } = useNavigation();
   // <FEATURE FLAG>
   if (!bizopsFeatureEnabled) {
     return '';
   }
   // </FEATURE FLAG>
-  const viewAllPath: string = location.createHrefToPath(businessProcessActivityListPath);
+
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  const processTracking = {
+    processId: businessProcessId,
+    processName: businessProcessName
+  };
+
+  const viewAllPath: string = createHrefToPath(businessProcessActivityListPath);
   return (
-    <Link className={className} href={viewAllPath}>
+    <Link
+      className={className}
+      href={viewAllPath}
+      onClick={() => clickBizopsProcessViewAllActivitiesTracker(processTracking)}
+    >
       {t('in-bizops:dashboards.summary.widgets.viewAll')}
     </Link>
   );
@@ -147,10 +166,27 @@ function Label({ item }: LabelProps) {
   const activityName = item.businessActivity?.activityName;
 
   if (bizopsFeatureEnabled) {
+    const businessProcessId: string =
+      getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+      t('in-bizops:dashboards.summary.pageTitle');
+    const businessProcessName: string =
+      getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+      t('in-bizops:dashboards.summary.pageTitle');
+
+    const activityTracking = {
+      processId: businessProcessId,
+      processName: businessProcessName,
+      activityName: activityName as string
+    };
+
     location.pathname = businessActivitySummaryPath;
     setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
 
-    return <Link href={createHref(location)}>{activityName}</Link>;
+    return (
+      <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>
+        {activityName}
+      </Link>
+    );
   } else {
     return <div>{activityName}</div>;
   }
