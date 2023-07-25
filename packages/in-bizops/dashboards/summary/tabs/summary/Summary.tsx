@@ -33,7 +33,7 @@ export default function Summary() {
   return (
     <Fragment>
       <Row>
-        <Col xs>
+        <Col lg={4}>
           <BizOpsCountChart
             timeShiftConfig={timeShiftConfig}
             timeConfig={timeConfig}
@@ -44,10 +44,10 @@ export default function Summary() {
             dataSource={'BUSINESS_PROCESSES'}
           />
         </Col>
-        <Col xs>
+        <Col lg={4}>
           <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
         </Col>
-        <Col xs>
+        <Col lg={4}>
           <InfrastructureIssuesAndChanges
             businessProcessId={businessProcessId}
             businessProcessName={businessProcessName}
