@@ -23,7 +23,7 @@ function applyLayout({ nodes, edges }) {
   if (nodes.size === 0) {
     return;
   }
-
+  removeSameNodeEdges(edges);
   nodes = transformNodes(nodes, edges);
   edges = transformEdges(edges);
 
@@ -42,6 +42,14 @@ function applyLayout({ nodes, edges }) {
   centerNodesX(N);
   translateNodesY(N, -35);
   applyPosition(N);
+}
+
+function removeSameNodeEdges(edges) {
+  edges.forEach((edge, key) => {
+    if (edge.from.id === edge.to.id) {
+      edges.delete(key);
+    }
+  });
 }
 
 function getCameraPositionByDimensions({ targetCameraSize, minX, minY, maxY }) {
