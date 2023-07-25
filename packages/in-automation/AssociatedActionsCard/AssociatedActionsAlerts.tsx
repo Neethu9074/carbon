@@ -50,7 +50,7 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
     getScoredActionsForEventOrAlert(selectedActions, alertConfig)
   );
-  const Reload = () => {
+  const reloadActionsTable = () => {
     // This helps to reload the actions table
     triggerReload(Math.random());
   };
@@ -67,7 +67,7 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
           deleteEntity: action => {
             const updatedActions = actions.filter(a => a.id !== action.id).map(obj => obj.id);
             return updateApplicationAlertAssociations({ actions: updatedActions, alertId: eventSpecificationId }).map(
-              Reload
+              reloadActionsTable
             );
           }
         }
