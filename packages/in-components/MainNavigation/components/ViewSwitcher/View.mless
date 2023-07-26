@@ -108,7 +108,6 @@
         &::before {
           position: absolute;
           top: 0px;
-          left: -0.3125rem;
           height: 2.625rem;
           width: 2.625rem;
           background: @lib__colors__navy900;
