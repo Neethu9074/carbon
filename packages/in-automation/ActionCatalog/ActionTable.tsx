@@ -151,7 +151,9 @@ const scoreColumn = {
   getContent(row: ScoredAction) {
     return (
       <Tooltip content={t('in-automation:ActionCatalog.confidenceHelpText')} align="topRight" delay={500}>
-        <span>{t('in-automation:ActionCatalog.confidence', { context: row.color })}</span>
+        <span className={locals.cursorPointer}>
+          {t('in-automation:ActionCatalog.confidence', { context: row.color })}
+        </span>
       </Tooltip>
     );
   },
