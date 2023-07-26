@@ -6,14 +6,12 @@
 
 import React from 'react';
 
-import { just } from '@instana/observables';
-
-import { deleteAction, getAllActions, createBuiltInActions } from 'in-automation/api';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { actionDetailsNewPath } from 'in-automation/navigation/paths';
 import { CreateNewEntityButton } from 'in-settings/components/List';
 import { isNotEditable } from 'in-automation/ActionCatalog/shared';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
+import { deleteAction, getAllActions } from 'in-automation/api';
 import { deleteActionTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { Action } from 'in-types';
@@ -29,18 +27,6 @@ const tableActions = {
   }
 };
 
-const checkForBuiltInActions = () => {
-  return getAllActions().flatMap(actions => {
-    if (actions.filter(action => action?.metadata?.builtIn).length === 0) {
-      return createBuiltInActions()
-        .flatMap(() => getAllActions())
-        .errors()
-        .flatMap(() => just(actions));
-    }
-    return just(actions);
-  });
-};
-
 export default function ActionCatalogTab() {
   return (
     <AutomationTabs>
@@ -52,7 +38,7 @@ export default function ActionCatalogTab() {
         rightHeader={
           <CreateNewEntityButton labelNew={t('in-automation:ActionCatalog.newAction')} pathNew={actionDetailsNewPath} />
         }
-        loadEntities={checkForBuiltInActions}
+        loadEntities={getAllActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
         showDuplicateColumn
