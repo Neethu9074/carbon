@@ -104,10 +104,7 @@ export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartA
 
 // Table custom widget
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
-export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled(
-  'customWidgetTableInfraDataSourceEnabled',
-  false
-);
+export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
 
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

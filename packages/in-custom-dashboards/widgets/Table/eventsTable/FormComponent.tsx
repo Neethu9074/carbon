@@ -28,10 +28,8 @@ export default function FormComponent({
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
-  const sourceField = 'childConfiguration';
-  const eventsConfig = form.get(sourceField);
-  const dynamicFocusQuery = eventsConfig.get('dynamicFocusQuery');
-  const columnField = eventsConfig.get('columns') as Field<string[]>;
+  const dynamicFocusQuery = form.get('dynamicFocusQuery');
+  const columnField = form.get('columns') as Field<string[]>;
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -45,9 +43,7 @@ export default function FormComponent({
       selectedColumns.push(columnName);
     }
     updateForm(
-      form.updateIn([sourceField, 'columns'], (field: Item) =>
-        (field as Field<string[]>).setValue(selectedColumns).setTouched(true)
-      )
+      form.updateIn(['columns'], (field: Item) => (field as Field<string[]>).setValue(selectedColumns).setTouched(true))
     );
   }
 
@@ -58,15 +54,15 @@ export default function FormComponent({
           label={t('in-custom-dashboards:widgets.table.form.query')}
           id="metic-configurator-event-dynamic-focus-query"
           type="text"
-          value={dynamicFocusQuery.value}
+          value={dynamicFocusQuery?.value}
           onChange={e =>
             updateForm(
-              form.updateIn([sourceField, 'dynamicFocusQuery'], (field: Item) =>
+              form.updateIn(['dynamicFocusQuery'], (field: Item) =>
                 (field as Field<string>).setValue(e.target.value).setTouched(true)
               )
             )
           }
-          hasError={!dynamicFocusQuery.valid && dynamicFocusQuery.touched}
+          hasError={!dynamicFocusQuery?.valid && dynamicFocusQuery?.touched}
           additionalContent={<TouchedMessages field={dynamicFocusQuery} />}
           actions={<HelpAction>{t('in-custom-dashboards:widgets.table.form.helpAction')}</HelpAction>}
           maxLength={512}

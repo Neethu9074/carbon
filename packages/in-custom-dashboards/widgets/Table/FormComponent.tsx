@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm } from 'formalistic';
+import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack } from '@instana/components';
 
 import { useDataSourceFormSideEffects } from 'in-custom-dashboards/widgets/Table/hooks/useFormSideEffects';
-import TableFormSelector from 'in-custom-dashboards/widgets/Table/TableFormSelector';
+import TableDataSourceFormSelector from 'in-custom-dashboards/widgets/Table/TableDataSourceFormSelector';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { dataSources } from 'in-custom-dashboards/widgets/Table';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -18,12 +18,24 @@ import Sections from 'in-components/workspace/Sections';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-export default function TableWidgetFormComponent({ form, onChange }: { form: MapForm<any>; onChange: any }) {
+interface TableWidgetFormComponentProps {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+}
+
+export default function TableWidgetFormComponent({ form, onChange }: TableWidgetFormComponentProps) {
   const sourceField = form?.get('source');
   const source = sourceField.value;
+
   const updateForm = useDataSourceFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
   });
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateForm(form.updateIn(['source'], field => field.setValue(event.target.value).setTouched(true)));
+  };
+
+  const filteredDataSources = Object.values(dataSources).filter(value => value.isEnabled);
 
   return (
     <Stack gap="normal">
@@ -35,22 +47,20 @@ export default function TableWidgetFormComponent({ form, onChange }: { form: Map
             label={t('in-custom-dashboards:widgets.table.form.dataSource')}
             id="dataSource-selector"
             value={source}
-            onChange={e =>
-              updateForm(form.updateIn(['source'], field => field.setValue(e.target.value).setTouched(true)))
-            }
+            onChange={handleOnChange}
             additionalContent={<TouchedMessages field={sourceField} />}
           >
             <option value="">{t('in-custom-dashboards:widgets.table.form.pleaseSelect')}</option>
-            {Object.entries(dataSources).map(([key, value]) => (
-              <option key={key} value={value.type}>
-                {value.label}
+            {filteredDataSources.map(({ type, label }) => (
+              <option key={type} value={type}>
+                {label}
               </option>
             ))}
           </SelectInSection>
         </Sections>
       </Stack>
 
-      <TableFormSelector form={form} onChange={onChange} />
+      <TableDataSourceFormSelector form={form} onChange={onChange} />
     </Stack>
   );
 }

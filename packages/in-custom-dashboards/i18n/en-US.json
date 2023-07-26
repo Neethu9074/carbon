@@ -745,6 +745,13 @@
         "pleaseSelect": "Please Select",
         "validators": {
           "theValueMustNotBeEmpty": "At least one column needs to be selected"
+        },
+        "infrastructure": {
+          "entityType": "Entity type",
+          "viewTable": "View full table in <analyzeInfraLink>Analyze infrastructure</analyzeInfraLink>.",
+          "tableSize": "Table Size",
+          "tableConfiguration": "Table Configuration",
+          "tableDetails": "Table Details"
         }
       },
       "dataSource": {

@@ -6,55 +6,52 @@
 
 import React, { useState } from 'react';
 
-import { Card, Typography } from '@instana/components';
+import { Card, Link, Spacer, Typography } from '@instana/components';
 
 // @ts-expect-error need ts migration
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { Trans } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
-import { MetricItem } from 'in-infrastructure/navigation/paths';
 
-interface InfrastructureTableWidgetProps {
-  config: {
-    [key: string]: any;
-    type?: string; // Typically the pluginId aka entity type, e.g. kubernetesPod
-    source: string;
-  };
-  title?: string;
-  dragHandle?: React.ReactNode;
-  actions?: React.ReactNode;
-}
+export function InfrastructureTableWidget(props: TableWidgetProps) {
+  const { config, title, actions, dragHandle, isPreview } = props;
 
-export function InfrastructureTableWidget(props: InfrastructureTableWidgetProps) {
-  const { config, title, actions, dragHandle } = props;
-
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const timeConfig = useTimeConfig();
 
-  const { type = 'kubernetesPod' } = config ?? {};
+  const { entityType: type = '', tableSize } = config;
 
   const kpiDefinitions = [] as KpiDefinition[];
   const metrics = [] as MetricItem[];
   const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
-
-  const [order, setOrder] = useState({
-    by: 'label',
-    direction: 'ASC'
-  });
+  const [order, setOrder] = useState(defaultOrder);
 
   return (
     <Card
       className={locals.widgetCard}
+      leftHeaderContent={<Typography variant="heading-300">{title}</Typography>}
       rightHeaderContent={
         <>
           {dragHandle}
           {actions}
         </>
       }
-      leftHeaderContent={<Typography variant="heading-300">{title}</Typography>}
     >
+      {/* TODO: needs to pull items totalHits and items from InfrastructureList to be displayed here*/}
+      {/*<Typography variant="body-bold">Showing 5 of 2000 Results </Typography>*/}
+
+      <Spacer vertical="normal" />
+
       <div className={locals.tableArea}>
         <InfrastructureList
           timeConfig={timeConfig}
@@ -62,18 +59,32 @@ export function InfrastructureTableWidget(props: InfrastructureTableWidgetProps)
           order={order}
           setOrder={setOrder}
           tagFilterExpression={[]}
-          backendQueryModel={{
-            type: 'EXPRESSION',
-            logicalOperator: 'AND',
-            elements: []
-          }}
+          backendQueryModel={EMPTY_EXPRESSION}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
           showHeader={false}
           displayChart={false}
-          retrievalSize={5}
-          numSkeletonRows={5}
+          retrievalSize={tableSize}
+          numSkeletonRows={tableSize}
         />
+
+        <div className={locals.viewFullTableLink}>
+          <Typography variant="body-regular">
+            <Trans
+              i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"
+              components={{
+                analyzeInfraLink: (
+                  // @ts-expect-error
+                  <Link
+                    {...(!isPreview && {
+                      href: getLinkToInfraEntityExplore({ type })
+                    })}
+                  />
+                )
+              }}
+            />
+          </Typography>
+        </div>
       </div>
     </Card>
   );
