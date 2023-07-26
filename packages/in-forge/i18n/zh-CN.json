@@ -269,11 +269,6 @@
   "pluginName_baw_1": "BAW",
   "pluginName_baw_2": "BAW",
   "pluginName_baw": "BAW",
-  "pluginName_jbpm_plural": "jBPM",
-  "pluginName_jbpm_0": "jBPM",
-  "pluginName_jbpm_1": "jBPM",
-  "pluginName_jbpm_2": "jBPM",
-  "pluginName_jbpm": "jBPM",
   "pluginName_beeInstanaNode_plural": "BeehInstana 服务器",
   "pluginName_beeInstanaNode_0": "BeehInstana 服务器",
   "pluginName_beeInstanaNode_1": "BeehInstana 服务器",
@@ -1589,11 +1584,6 @@
   "tracingTypeName_baw_0": "BAW 调用数",
   "tracingTypeName_baw_1": "BAW 调用",
   "tracingTypeName_baw_2": "BAW 调用数",
-  "tracingTypeName_jbpm": "jBPM 调用",
-  "tracingTypeName_jbpm_plural": "jBPM 调用数",
-  "tracingTypeName_jbpm_0": "jBPM 调用数",
-  "tracingTypeName_jbpm_1": "jBPM 调用",
-  "tracingTypeName_jbpm_2": "jBPM 调用数",
   "tracingTypeName_cassandra": "Cassandra 查询",
   "tracingTypeName_cassandra_plural": "Cassandra 查询",
   "tracingTypeName_cassandra_0": "Cassandra 查询",
@@ -5028,8 +5018,7 @@
     },
     "bpm": {
       "camunda": "Camunda",
-      "baw": "BAW",
-      "jbpm": "jBPM"
+      "baw": "BAW"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
