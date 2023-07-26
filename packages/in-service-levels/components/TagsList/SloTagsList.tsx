@@ -34,7 +34,7 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
 
   const { ref, width } = useResizeObserver();
 
-  const { width: tooltipWidth } = useResizeObserver();
+  const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver();
 
   const hasCompletedFirstCalculationRef = useRef(false);
   const hasCompletedSecondCalculationRef = useRef(false);
@@ -93,10 +93,12 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
 
   return (
     <TagLists
-      wrapperClasses={wrapperClasses}
-      displayedTags={displayedTags}
-      hiddenTags={hiddenTags}
-      shouldRenderTooltip={shouldRenderTooltip}
+      tags={tags}
+      className={wrapperClasses}
+      hiddenTags={hiddenTags.map(({ text }) => text)}
+      renderTooltip={shouldRenderTooltip}
+      ref={ref}
+      tooltipRef={tooltipRef}
     />
   );
 };

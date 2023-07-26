@@ -38,7 +38,7 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
 
   return (
     <Card
-      leftHeaderContent={<TagLists displayedTags={configuration.tags} />}
+      leftHeaderContent={<TagLists tags={configuration.tags} />}
       rightHeaderContent={<SloActionButtons configuration={configuration} />}
     >
       <Ul space="medium">
