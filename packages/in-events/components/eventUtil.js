@@ -37,10 +37,6 @@ export function isIbmMqFileTransferIssueEvent(event) {
   return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }
 
-export function isMobileSmartAlertEvent(event) {
-  return event.hasIn(['metadata', 'mobileAppId']);
-}
-
 export function isEntityCountVerificationEvent(event) {
   return event.hasIn(['metadata', 'entity_count_verification_event']);
 }

@@ -20,7 +20,7 @@ import {
   isSyntheticSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent,
-  isMobileSmartAlertEvent,
+  isMobileAppSmartAlertEvent,
   isEntityCountVerificationEvent
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
@@ -122,7 +122,7 @@ const EventContent = connectTo(
       return <SyntheticEventContent event={event} />;
     }
 
-    if (isMobileSmartAlertEvent(event)) {
+    if (isMobileAppSmartAlertEvent(event)) {
       return <MobileEventContent event={event} />;
     }
 
