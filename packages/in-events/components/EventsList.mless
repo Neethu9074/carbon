@@ -8,4 +8,9 @@
     max-width: 18.75rem;
     min-width: 6.25rem;
   }
+  .widgetCard {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+  }
 }

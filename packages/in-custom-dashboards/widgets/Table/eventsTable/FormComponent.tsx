@@ -5,7 +5,8 @@
  */
 
 import { Field, MapForm, Item } from 'formalistic';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
+import { debounce } from 'lodash';
 
 import { Spacer, Stack } from '@instana/components';
 
@@ -28,8 +29,17 @@ export default function FormComponent({
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
-  const dynamicFocusQuery = form.get('dynamicFocusQuery');
   const columnField = form.get('columns') as Field<string[]>;
+
+  const [dynamicFocusQuery, setDynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
+
+  function handleDfqChangeFn(value: string) {
+    updateForm(
+      form.updateIn(['dynamicFocusQuery'], (field: Item) => (field as Field<string>).setValue(value).setTouched(true))
+    );
+  }
+
+  const handleChange = useHandleChange(handleDfqChangeFn, form, setDynamicFocusQuery);
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -54,14 +64,8 @@ export default function FormComponent({
           label={t('in-custom-dashboards:widgets.table.form.query')}
           id="metic-configurator-event-dynamic-focus-query"
           type="text"
-          value={dynamicFocusQuery?.value}
-          onChange={e =>
-            updateForm(
-              form.updateIn(['dynamicFocusQuery'], (field: Item) =>
-                (field as Field<string>).setValue(e.target.value).setTouched(true)
-              )
-            )
-          }
+          value={dynamicFocusQuery}
+          onChange={handleChange}
           hasError={!dynamicFocusQuery?.valid && dynamicFocusQuery?.touched}
           additionalContent={<TouchedMessages field={dynamicFocusQuery} />}
           actions={<HelpAction>{t('in-custom-dashboards:widgets.table.form.helpAction')}</HelpAction>}
@@ -95,4 +99,17 @@ export default function FormComponent({
       <Spacer vertical="medium" />
     </Stack>
   );
+}
+
+function useHandleChange(
+  handleDebounceFn: (arg: string) => void,
+  form: MapForm<any>,
+  setDynamicFocusQuery: (arg: string) => void
+) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceFn = useMemo(() => debounce(handleDebounceFn, 500), [form]);
+  return function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setDynamicFocusQuery(event.target.value);
+    debounceFn(event.target.value);
+  };
 }

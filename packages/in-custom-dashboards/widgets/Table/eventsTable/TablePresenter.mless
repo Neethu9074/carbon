@@ -6,17 +6,15 @@
 
 :local {
   .container {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
     height: 100%;
-    overflow-y: scroll;
   }
   .heightAuto {
-    height: 18rem !important;
-    // Because the card height cannot be fixed and increases when the Table widget's load more button is clicked, the height is set to auto and the box-shadow is set to none.
-    > div {
-      height: auto !important;
-      box-shadow: none;
-    }
+    height: 24rem !important;
+  }
+  .tableContent {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 }

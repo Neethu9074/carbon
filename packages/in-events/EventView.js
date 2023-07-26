@@ -185,7 +185,7 @@ function EventViewComponent(props) {
   );
 }
 
-function concatQueries(userQuery, eventFilter) {
+export function concatQueries(userQuery, eventFilter) {
   const explicitEventFilter = getExplicitEventFilter(eventFilter);
 
   if (userQuery) {
@@ -205,7 +205,7 @@ function getExplicitEventFilter(eventFilter) {
   }
 }
 
-function spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig) {
+export function spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig) {
   timeConfig = staticTimeConfigToUseForTable ?? timeConfig;
   return [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, timeConfig.focusedMoment];
 }

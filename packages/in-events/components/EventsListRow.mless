@@ -33,6 +33,9 @@
     .title {
       max-width: 40rem;
     }
+    .smallColumn {
+      max-width: 25rem;
+    }
   }
 
   .timelineWrapper {
@@ -49,5 +52,9 @@
     bottom: 0;
     background: @lib__colors__N600Light;
     border-radius: 5px;
+  }
+
+  .smallColumn {
+    max-width: 15rem;
   }
 }

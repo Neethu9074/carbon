@@ -78,11 +78,13 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 }
 
 export function fireCallbacksForEventAtFocusedMomentAsStream(event, ifOpen, ifClosed) {
-  const start = event.get('start');
-  const end = event.get('end');
-  const state = event.get('state');
-  const severity = event.getIn(['problem', 'severity'], 0);
-
+  const isImmutableObject = !!event.get;
+  const start = isImmutableObject ? event.get('start') : event.start;
+  const end = isImmutableObject ? event.get('end') : event.end;
+  const state = isImmutableObject ? event.get('state') : event.state;
+  const severity = isImmutableObject
+    ? event.getIn(['problem', 'severity'], 0)
+    : get(event, ['problem', 'problemText'], '');
   return timeConfig$
     .map(timeConfig => {
       if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {

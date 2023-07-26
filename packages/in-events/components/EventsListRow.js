@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Tr, Td } from '@instana/components';
@@ -21,11 +22,12 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
+import { formatDate, formatDateTime } from 'in-services/formatters/date';
 import { isDisplayColumn } from 'in-events/components/EventsList';
+import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
 import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
 import { isNotBlank } from 'in-services/util/string';
@@ -66,6 +68,7 @@ export default function EventRow({
 
   const left = toPercentageString(timeScaleStart);
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
+  const smallColumn = headers?.length > 0 ? true : false;
 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
@@ -74,22 +77,29 @@ export default function EventRow({
       </Td>
       {isDisplayColumn(headers, 'title') && (
         <Td>
-          <div className={locals.title}>{event.title}</div>
+          <div
+            className={classNames({
+              [locals.smallColumn]: smallColumn,
+              [locals.title]: true
+            })}
+          >
+            {event.title}
+          </div>
         </Td>
       )}
       {isDisplayColumn(headers, 'entityLabel') && (
         <Td>
-          <OnEntity rawEvent={event} />
+          <OnEntity rawEvent={event} smallColumn={smallColumn} />
         </Td>
       )}
       {isDisplayColumn(headers, 'started') && (
         <Td>
-          <span className={locals.text}>{formatDateTime(start)}</span>
+          <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
         </Td>
       )}
       {isDisplayColumn(headers, 'ended') && (
         <Td>
-          <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start)}</span>
+          <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
         </Td>
       )}
       {isDisplayColumn(headers, 'timeline') && (
@@ -97,6 +107,13 @@ export default function EventRow({
           <div className={locals.timelineWrapper}>
             <div style={{ left, width }} className={locals.line} />
           </div>
+        </Td>
+      )}
+      {headers && isDisplayColumn(headers, 'duration') && (
+        <Td>
+          <span className={locals.text}>
+            <Duration event={event} listView />
+          </span>
         </Td>
       )}
     </Tr>
@@ -133,13 +150,18 @@ const OnEntity = connectTo(
         .map(entity => getLabel(entityType, entity))
     };
   },
-  function OnEntity({ rawEvent, label }) {
+  function OnEntity({ rawEvent, label, smallColumn }) {
     if (!label) {
       return null;
     }
 
     return (
-      <div className={locals.entityWrapper}>
+      <div
+        className={classNames({
+          [locals.entityWrapper]: true,
+          [locals.smallColumn]: smallColumn
+        })}
+      >
         <PluginIcon className={locals.entityIcon} size="s" plugin={rawEvent.plugin} />
         <div className={locals.title}>{label}</div>
       </div>
@@ -175,12 +197,19 @@ function getLabel(entityType, entityOrSnapshot) {
   return entityOrSnapshot?.data?.label ?? UNKNOWN_LABEL;
 }
 
-function getEndValue(event, isChangeEvent, end, start) {
+function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
     return t('in-events:active');
   }
   if (isChangeEvent) {
-    return formatDateTime(end);
+    return formatDisplayDateTime(end, headers, isPreview);
   }
-  return start !== end ? formatDateTime(end) : valueMissingPlaceholder;
+  return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
+}
+
+function formatDisplayDateTime(timestamp, headers, isPreview) {
+  if (headers?.length > 4 && isPreview) {
+    return formatDate(timestamp);
+  }
+  return formatDateTime(timestamp);
 }

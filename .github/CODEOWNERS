@@ -250,4 +250,4 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli    
 
 # Custom Widget Table
 
-packages/in-custom-dashboards/widgets/Table @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui
+packages/in-custom-dashboards/widgets/Table @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure

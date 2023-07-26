@@ -121,7 +121,7 @@ const Ended = connectTo(
   }
 );
 
-const Duration = connectTo(
+export const Duration = connectTo(
   props => {
     // in theory, changes have a duration but we dont want to show it
     if (getEventType(props.event) === EVENT_TYPES.CHANGE) {
@@ -129,16 +129,16 @@ const Duration = connectTo(
         config: alwaysNull
       };
     }
-
-    const end = props.event.get('end');
+    const isImmutableObject = !!props.event.get;
+    const end = isImmutableObject ? props.event.get('end') : props.event.end;
     return {
       config: serverTime$.flatMap(serverTime =>
         fireCallbacksForEventAtFocusedMomentAsStream(
           props.event,
           ({ timeConfig }) => {
             return {
-              to: timeConfig.focusedMoment ? end : serverTime,
-              end: timeConfig.focusedMoment ? end : null,
+              to: timeConfig?.focusedMoment ? end : serverTime,
+              end: timeConfig?.focusedMoment ? end : null,
               isOpen: true
             };
           },
@@ -153,7 +153,10 @@ const Duration = connectTo(
       )
     };
   },
-  function Duration({ event, config }) {
+  function Duration({ event, config, listView }) {
+    if (listView) {
+      return config ? formatDurationAccurately(config.to - event.start, 1000) : null;
+    }
     return (
       <KpiCard
         title={t('in-events:titleDuration')}

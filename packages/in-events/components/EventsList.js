@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -48,7 +49,11 @@ function List(props) {
     isPresentingHighlightedTimeframe,
     timeConfig,
     headers,
-    isPreview
+    isPreview,
+    title,
+    cardHeader,
+    leftHeaderContent,
+    isCustomDashboard
   } = props;
 
   const isDenseList = !!selectedEventId;
@@ -58,71 +63,86 @@ function List(props) {
 
   if (!progress.loading && rawEventList.length === 0) {
     return (
-      <EmptyEventList
-        eventType={eventType}
-        isDenseList={isDenseList}
-        isPresentingHighlightedTimeframe={isPresentingHighlightedTimeframe}
-        cols={cols}
-      />
+      <Card title={title} header={cardHeader} leftHeaderContent={leftHeaderContent}>
+        <div
+          className={classNames({
+            [locals.widgetCard]: isCustomDashboard
+          })}
+        >
+          <EmptyEventList
+            eventType={eventType}
+            isDenseList={isDenseList}
+            isPresentingHighlightedTimeframe={isPresentingHighlightedTimeframe}
+            cols={cols}
+          />
+        </div>
+      </Card>
     );
   }
 
   if (!isDenseList) {
     return (
-      <Card>
-        <Table>
-          <Thead>
-            <Tr size="compact">
-              <Th />
-              {isDenseList ? (
-                <SortableColumn {...props} technicalName="start">
-                  {t('in-events:headerStarted')}
-                </SortableColumn>
-              ) : (
-                <>
-                  {isDisplayColumn(headers, 'title') && (
-                    <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
-                      {t('in-events:headerTitle')}
-                    </SortableColumn>
-                  )}
-                  {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerOn')}</Th>}
-                  {isDisplayColumn(headers, 'started') && (
-                    <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
-                      {t('in-events:headerStarted')}
-                    </SortableColumn>
-                  )}
-                  {isDisplayColumn(headers, 'ended') && (
-                    <SortableColumn {...props} technicalName="end" sortable={!isPreview}>
-                      {t('in-events:headerEnd')}
-                    </SortableColumn>
-                  )}
-                  {isDisplayColumn(headers, 'timeline') && (
-                    <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
-                  )}
-                </>
-              )}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-            {rawEventList.map(event => (
-              <EventListRow
-                key={event.id}
-                selectedEventId={selectedEventId}
-                onItemClicked={onItemClicked}
-                isDenseList={isDenseList}
-                event={event}
-                timeScale={timeScale}
-                timeConfig={timeConfig}
-                headers={headers}
-                isPreview={isPreview}
-              />
-            ))}
-            {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
-            <TableHorizontalIndicatorRow cols={cols} progress={progress} />
-            {progress.loading && <TableLoadingSkeletonRows cols={cols} />}
-          </Tbody>
-        </Table>
+      <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
+        <div
+          className={classNames({
+            [locals.widgetCard]: isCustomDashboard
+          })}
+        >
+          <Table>
+            <Thead>
+              <Tr size="compact">
+                <Th />
+                {isDenseList ? (
+                  <SortableColumn {...props} technicalName="start">
+                    {t('in-events:headerStarted')}
+                  </SortableColumn>
+                ) : (
+                  <>
+                    {isDisplayColumn(headers, 'title') && (
+                      <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
+                        {t('in-events:headerTitle')}
+                      </SortableColumn>
+                    )}
+                    {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerOn')}</Th>}
+                    {isDisplayColumn(headers, 'started') && (
+                      <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
+                        {t('in-events:headerStarted')}
+                      </SortableColumn>
+                    )}
+                    {isDisplayColumn(headers, 'ended') && (
+                      <SortableColumn {...props} technicalName="end" sortable={!isPreview}>
+                        {t('in-events:headerEnd')}
+                      </SortableColumn>
+                    )}
+                    {isDisplayColumn(headers, 'timeline') && (
+                      <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
+                    )}
+                    {headers && isDisplayColumn(headers, 'duration') && <Th>{t('in-events:titleDuration')}</Th>}
+                  </>
+                )}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
+              {rawEventList.map(event => (
+                <EventListRow
+                  key={event.id}
+                  selectedEventId={selectedEventId}
+                  onItemClicked={onItemClicked}
+                  isDenseList={isDenseList}
+                  event={event}
+                  timeScale={timeScale}
+                  timeConfig={timeConfig}
+                  headers={headers}
+                  isPreview={isPreview}
+                />
+              ))}
+              {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+              <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+              {progress.loading && <TableLoadingSkeletonRows cols={headers ? headers.length + 1 : cols} />}
+            </Tbody>
+          </Table>
+        </div>
       </Card>
     );
   } else {

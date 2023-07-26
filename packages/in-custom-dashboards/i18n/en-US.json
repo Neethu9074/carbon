@@ -734,7 +734,8 @@
     },
     "table": {
       "index": {
-        "tablePreview": "Table Preview"
+        "tablePreview": "Table Preview",
+        "filters": "Filter(s) :"
       },
       "form": {
         "title": "What would you like to show?",

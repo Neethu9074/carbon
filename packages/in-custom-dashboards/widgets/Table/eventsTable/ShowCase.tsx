@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { RawEvent, TimeConfig } from '@instana/types';
 
 import { TablePresenter } from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
+import { finishedProgress } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './ShowCase.mless';
@@ -157,12 +158,14 @@ export default function ShowCase() {
     <div className={locals.wrapper}>
       <TablePresenter
         title={t('in-custom-dashboards:widgets.table.index.tablePreview')}
-        rawEventList={rawEventList}
+        items={rawEventList}
         headers={['title', 'entityLabel', 'started']}
         timeConfig={timeConfig}
         isPreview
+        showCaseView
         loadMoreShowcaseData={() => loadMoreShowcaseData()}
         canLoadMore={canLoadMore}
+        progress={finishedProgress}
       />
     </div>
   );
