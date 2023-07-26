@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
@@ -23,11 +25,14 @@ import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { shorten, isNotBlank } from 'in-services/util/string';
+import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
+import { pendingResult } from 'in-services/fixedObjects';
 import { dataSourceTitles } from 'in-websites/tags';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
+import { seconds } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
@@ -37,7 +42,7 @@ export default function PageLoadView(props) {
   const [urlState, onChange] = useUrlState({
     bind: [pageLoadIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter]
   });
-  const content = renderSplitScreenContent_v2(props);
+
   const beaconType = props.dataSource;
   return (
     <>
@@ -62,7 +67,7 @@ export default function PageLoadView(props) {
           />
         }
       >
-        {content}
+        <Content {...props} />
       </Sticky>
     </>
   );
@@ -82,11 +87,20 @@ function Header(props) {
   );
 }
 
-function renderSplitScreenContent_v2(props) {
+function Content(props) {
   const {
-    detailId: { pageLoadId, beaconTimestamp },
+    detailId: { pageLoadId, beaconTimestamp, beaconId },
     getHrefToDetailId
   } = props;
+
+  const result$ = useRetriableObservable({
+    pageLoadId,
+    beaconTimestamp,
+    beaconId,
+    retries: 3,
+    retryDelay: seconds.toMillis(10)
+  });
+
   return (
     <SplitScreenList
       {...props}
@@ -107,7 +121,7 @@ function renderSplitScreenContent_v2(props) {
         location={location}
         // Todo: use path from props?
         tabs={getTabs({ path: '/websiteMonitoring/analyzeBeacons' })}
-        result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
+        result$={result$}
         withoutBreadcrumb
         withoutPadding
         withProps={({ result }) => ({
@@ -117,6 +131,53 @@ function renderSplitScreenContent_v2(props) {
       />
     </SplitScreenList>
   );
+}
+
+function useRetriableObservable({ pageLoadId, beaconTimestamp, beaconId, retries, retryDelay }) {
+  const [result$, setResult$] = useState(create);
+  const [retry, setRetry] = useState(0);
+
+  const id = pageLoadId + beaconId;
+  const lastIdRef = useRef(id);
+  if (id !== lastIdRef.current) {
+    lastIdRef.current = id;
+    setResult$(create());
+    setRetry(0);
+  }
+
+  const pageLoadResult =
+    useObservable(getWebsiteBeaconsForPageLoadRetriable, [pageLoadId, beaconTimestamp, retry]) ?? pendingResult;
+
+  useEffect(() => {
+    const beaconDataMissing = isBeaconMissing(pageLoadResult, beaconId);
+    const shouldRetry = beaconDataMissing && isAlmostNow(beaconTimestamp) && retry < retries;
+    if (shouldRetry) {
+      const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
+      return () => clearTimeout(timeoutId);
+    }
+    result$.emit(pageLoadResult);
+  }, [retry, result$, pageLoadResult, beaconTimestamp, pageLoadId, beaconId, retries, retryDelay]);
+
+  return result$;
+}
+
+function isAlmostNow(beaconTimestamp) {
+  return beaconTimestamp && beaconTimestamp > Date.now() - seconds.toMillis(60);
+}
+
+function isBeaconMissing(pageLoadResult, beaconId) {
+  return (
+    hasError(pageLoadResult) ||
+    (!isLoading(pageLoadResult) && beaconId && !pageLoadResult.data.some(beacon => beacon.beaconId === beaconId))
+  );
+}
+
+function getWebsiteBeaconsForPageLoadRetriable([pageLoadId, beaconTimestamp, retry]) {
+  return getWebsiteBeaconsForPageLoad({
+    pageLoadId,
+    // for retries, we have to modify the payload to bypass caching
+    beaconTimestamp: beaconTimestamp + retry
+  });
 }
 
 function calculateLabel(result) {

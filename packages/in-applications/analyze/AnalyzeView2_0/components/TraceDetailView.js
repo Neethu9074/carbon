@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
 import { Button, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
 import { Link } from '@instana/legacy';
 
 import {
@@ -35,10 +37,13 @@ import { analyzeTagFilterExpression } from './analyzeTagFilter';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzePath } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getColor } from 'in-applications/endpointTypes';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
@@ -59,6 +64,9 @@ export default function TraceDetailView(props) {
     backendQueryModel
   } = props;
   const isFromSameTrace = analyzeTagFilterExpression(backendQueryModel, traceId);
+
+  const result$ = useRetriableObservable({ traceId, retries: 3, retryDelay: seconds.toMillis(15) });
+
   return (
     <>
       <ViewTrackingMeta
@@ -94,7 +102,7 @@ export default function TraceDetailView(props) {
             HeaderComponent={Header}
             location={location}
             tabs={tabs}
-            result$={getTraceSummary({ id: traceId })}
+            result$={result$}
             withoutBreadcrumb
             withoutPadding
             withProps={({ result }) => {
@@ -121,6 +129,56 @@ export default function TraceDetailView(props) {
       </Sticky>
     </>
   );
+}
+
+function useRetriableObservable({ traceId, retries, retryDelay }) {
+  const [result$, setResult$] = useState(create);
+  const [retry, setRetry] = useState(0);
+
+  const lastTraceIdRef = useRef(traceId);
+  if (traceId !== lastTraceIdRef.current) {
+    lastTraceIdRef.current = traceId;
+    setResult$(create());
+    setRetry(0);
+  }
+
+  const timeConfig = useTimeConfig();
+  const traceSummary = useObservable(getTraceSummaryRetriable, [traceId, retry]) ?? pendingResult;
+
+  useEffect(() => {
+    const traceDataMissing = hasError(traceSummary) || (!isLoading(traceSummary) && traceSummary.data.callCount === 0);
+    const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
+    if (shouldRetry) {
+      const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
+      return () => clearTimeout(timeoutId);
+    }
+    result$.emit(traceSummary);
+  }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
+
+  return result$;
+}
+
+function isAlmostNow(timestamp) {
+  return !timestamp || timestamp > Date.now() - seconds.toMillis(60);
+}
+
+function getTraceSummaryRetriable([traceId, retry]) {
+  return getTraceSummary({
+    id: traceId,
+    // for retries, we have to modify the payload to bypass caching
+    // backend ignores the "filter" field for this query
+    ...(retry > 0 && {
+      filter: {
+        includeInternalCalls: true,
+        includeSyntheticCalls: true,
+        timeConfig: {
+          windowSize: hours.toMillis(retry),
+          autoRefresh: false
+        },
+        useLongTermDataOnly: false
+      }
+    })
+  });
 }
 
 function getColorByEndpoint({ service, endpoint, traceId }) {
