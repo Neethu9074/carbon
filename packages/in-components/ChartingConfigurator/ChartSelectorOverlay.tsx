@@ -95,8 +95,8 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
 
   const optionGroups = Object.getOwnPropertyNames(options);
   const groups: {value: string, options: (ChartMetric | ChartTemplate)[]}[] = []
-  for (let key of optionGroups) {
-    for (let option of options[key]) {
+  optionGroups.forEach(key => {
+    options[key].forEach(option => {
       const groupName = getGroupName(key, option);
       let group = groups.find(g => g.value === groupName);
       if (!group) {
@@ -104,8 +104,8 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         groups.push(group);
       }
       group.options.push(option);
-    }
-  }
+    });
+  });
 
   const getProductAreaFromMetricSource = (metricSource: string): ProductArea => {
     switch (metricSource) {
