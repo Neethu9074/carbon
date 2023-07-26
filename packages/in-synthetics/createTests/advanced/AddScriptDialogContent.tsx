@@ -178,6 +178,7 @@ export default function AddScriptDialogContent({
                       setScript({ ...script });
                     }}
                     hasError={mainFileError.invalid}
+                    disabled={zipFile.files.length === 0 ? true : false}
                   />
                   {mainFileError.invalid && <ValidationBlock>{mainFileError.message}</ValidationBlock>}
                 </FormGroup>
