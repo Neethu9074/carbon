@@ -14,7 +14,7 @@ import SloActionButtons from 'in-service-levels/components/SloDashboard/componen
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
-import TagLists from 'in-service-levels/components/TagsList/TagList';
+import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import { Nullish } from 'in-types';
 
 interface SloConfigurationDetailsProps {
@@ -38,7 +38,7 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
 
   return (
     <Card
-      leftHeaderContent={<TagLists tags={configuration.tags} />}
+      leftHeaderContent={<SloTagList tags={configuration.tags} />}
       rightHeaderContent={<SloActionButtons configuration={configuration} />}
     >
       <Ul space="medium">

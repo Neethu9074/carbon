@@ -5,12 +5,15 @@
  */
 
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import { Typography, useTheme } from '@instana/components';
 import classNames from 'classnames';
 
 import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
 import { tagsCssGap } from 'in-service-levels/components/TagsList/constants';
-import TagLists from 'in-service-levels/components/TagsList/TagList';
+import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import useResizeObserver from 'in-hooks/useResizeObserver';
+import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-components/Pill';
 
 import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
 
@@ -19,11 +22,11 @@ export type TagsType = {
   width: number;
 }[];
 
-interface SloTagsListProps {
+interface SloDynamicTagListProps {
   tags: string[];
 }
 
-export const SloTagsList = ({ tags }: SloTagsListProps) => {
+export const SloDynamicTagList = ({ tags }: SloDynamicTagListProps) => {
   const [displayedTags, setDisplayedTags] = useState<TagsType>(
     tags.map(tag => ({
       text: tag,
@@ -32,12 +35,13 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
   );
   const [hiddenTags, setHiddenTags] = useState<TagsType>([]);
 
-  const { ref, width } = useResizeObserver();
-
-  const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver();
+  const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver<HTMLDivElement>();
 
   const hasCompletedFirstCalculationRef = useRef(false);
   const hasCompletedSecondCalculationRef = useRef(false);
+
+  const theme = useTheme();
 
   useLayoutEffect(() => {
     if (!width || !hasCompletedFirstCalculationRef.current) return;
@@ -92,13 +96,28 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
   const shouldRenderTooltip = hiddenTags.length !== 0;
 
   return (
-    <TagLists
-      tags={tags}
-      className={wrapperClasses}
-      hiddenTags={hiddenTags.map(({ text }) => text)}
-      renderTooltip={shouldRenderTooltip}
-      ref={ref}
-      tooltipRef={tooltipRef}
-    />
+    <div ref={ref} className={wrapperClasses}>
+      <SloTagList tags={displayedTags.map(({ text }) => text)} />
+      <div ref={tooltipRef}>
+        {shouldRenderTooltip && (
+          <Tooltip
+            content={
+              <div className={locals.tooltipWrapper}>
+                {hiddenTags.map(hiddenTag => (
+                  <Typography variant="body-small" onDark key={hiddenTag.text}>
+                    {hiddenTag.text}
+                  </Typography>
+                ))}
+              </div>
+            }
+            delay={500}
+          >
+            <Pill className={locals.singleTag} color={theme.ids.color.option.neutral[400]}>
+              <Typography variant="body-small">+{hiddenTags.length}</Typography>
+            </Pill>
+          </Tooltip>
+        )}
+      </div>
+    </div>
   );
 };
