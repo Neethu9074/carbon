@@ -24,4 +24,8 @@
   .block {
     display: block;
   }
+
+  .cursorPointer {
+    cursor: pointer;
+  }
 }

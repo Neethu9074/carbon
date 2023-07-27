@@ -27,6 +27,7 @@ import EntityCountVerificationEventContent from 'in-events/components/EventConte
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
+import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -34,7 +35,6 @@ import ApplicationEventContent from 'in-events/components/EventContent/Applicati
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
-import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
@@ -217,13 +217,10 @@ const EventContent = connectTo(
           role.canConfigureCustomAlerts &&
           isIssue &&
           hasEventSpec && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <Card>
-                  <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-                </Card>
-              </Col>
-            </Row>
+            <AssociatedAndRecommendedActions
+              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+              event={event?.toJS()}
+            />
           )}
       </>
     );

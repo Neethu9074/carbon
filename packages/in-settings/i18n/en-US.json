@@ -214,7 +214,8 @@
     "failedToRemoveItem": "Failed to remove item",
     "pleaseConfirm": "Please Confirm",
     "createNew": "Create New",
-    "deselect": "Deselect"
+    "deselect": "Deselect",
+    "select": "Select"
   },
   "tabs": {
     "team": {

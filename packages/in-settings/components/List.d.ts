@@ -9,6 +9,10 @@ import { ReactNode, ReactElement } from 'react';
 import { Observable } from '@instana/observables';
 
 export interface TableActions<ItemType extends Object> {
+  select?: {
+    select: (entity: ItemType) => void;
+    title?: (entity: ItemType) => string;
+  };
   deselect?: {
     deselect: (entity: ItemType) => void;
   };

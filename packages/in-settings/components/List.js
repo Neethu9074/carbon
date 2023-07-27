@@ -376,6 +376,9 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
   if (tableActions.deselect) {
     allColumns = addDeselectAction(allColumns, tableActions.deselect);
   }
+  if (tableActions.select) {
+    allColumns = addSelectAction(allColumns, tableActions.select);
+  }
   if (tableActions.selectCheckbox) {
     allColumns = addSelectCheckboxAction(allColumns, tableActions.selectCheckbox);
   }
@@ -472,6 +475,31 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
     logger.error(errorMessage, error);
     reloadEntitiesSignal$.emit(true);
     setErrorMessage(errorMessage);
+  });
+}
+
+function addSelectAction(columns, actionDefinition) {
+  return columns.concat({
+    id: 'selectAction',
+    sortable: false,
+    width: '4rem',
+    widthInAbsoluteUnit: true,
+    getContent(entity) {
+      return (
+        <Tooltip content={actionDefinition.title?.(entity) ?? t('in-settings:components.select')} delay={500}>
+          <IconButton
+            disabled={actionDefinition.disabled?.(entity)}
+            kind="primaryv2"
+            type={'lib_openclose_add_circle_outline'}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              actionDefinition.select(entity);
+            }}
+          />
+        </Tooltip>
+      );
+    }
   });
 }
 

@@ -4,24 +4,21 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  getCustomEventActions,
-  getBuiltinEventActions,
-  getBuiltInEventSpecificationMutable,
-  updateActionsAssignedToBuiltInEvent,
-  saveCustomEventSpecificationWithActions,
-  getCustomEventSpecificationMutable
-} from 'in-api/eventSpecifications';
 import {
   getScoredActionsForEventOrAlert,
   EventSpecification,
   getAllActionsWithAISuggestions,
   getAllActions
 } from 'in-automation/api';
+import {
+  updateActionsAssignedToBuiltInEvent,
+  saveCustomEventSpecificationWithActions
+} from 'in-api/eventSpecifications';
+import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData, useDualReload } from './shared';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { deleteActionAssociationTracker } from 'in-automation/tracker';
@@ -35,46 +32,29 @@ interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
   title?: string;
+  reload?: number;
+  setReload?: (r: number) => void;
 }
 
-function getObservables(isCustomEvent: boolean) {
-  return {
-    getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
-    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
-  };
-}
-
-function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
-  const [reload, triggerReload] = useState<number>(0);
-  const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
-  const actions = useObservable<Action[], [string, number]>(
-    () => getActionsForEventSpecification(eventSpecificationId),
-    [eventSpecificationId, reload],
-    { resetStateOnObservableChange: false }
-  );
-
-  const eventSpecification = useObservable<EventSpecification, [string]>(
-    () => getEventSpecification(eventSpecificationId),
-    [eventSpecificationId]
-  );
-  return { actions, eventSpecification, triggerReload: () => triggerReload(Math.random()) };
-}
-
-const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
-  (event?.metadata?.custom_issue as boolean) ?? false;
-const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
-  event?.metadata?.eventSpecificationId as string;
-
-export default function AssociatedActionsCard({ event, volatileId, title }: AssociatedActionsCardProps) {
+export default function AssociatedActionsCard({
+  event,
+  volatileId,
+  title,
+  reload: externalReload,
+  setReload: setExternalReload
+}: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
-  const { actions, eventSpecification, triggerReload } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
+
+  const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
+
+  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
 
   if (!eventSpecification || !actions) {
     return <LoadingIndicator size="xl" />;
   }
 
-  const selectedActions = actions.map(action => action.id);
+  const selectedActions = (actions ?? []).map(action => action.id);
 
   return (
     <ActionTable
@@ -100,7 +80,7 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       }}
       rightHeader={
         <RightHeader
-          actions={actions}
+          actions={actions ?? []}
           eventSpecification={eventSpecification}
           triggerReload={triggerReload}
           isCustomEvent={isCustomEvent}
@@ -108,7 +88,6 @@ export default function AssociatedActionsCard({ event, volatileId, title }: Asso
       }
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForEventOrAlert(selectedActions, eventSpecification)}
-      scored
       isBeta
     />
   );

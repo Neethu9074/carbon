@@ -13,7 +13,7 @@ import {
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
-import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
+import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -74,17 +74,11 @@ export default connectTo(
           !isWebsiteSmartAlertEvent(triggerEvent) &&
           !isApplicationSmartAlertEvent(triggerEvent) &&
           !isMobileAppSmartAlertEvent(triggerEvent) && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <Card>
-                  <AssociatedActions
-                    title={t('in-events:actionsAssociatedForTriggeringEvent')}
-                    volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-                    event={triggerEvent?.toJS()}
-                  />
-                </Card>
-              </Col>
-            </Row>
+            <AssociatedAndRecommendedActions
+              associatedActionsTitle={t('in-events:actionsAssociatedForTriggeringEvent')}
+              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+              event={triggerEvent?.toJS()}
+            />
           )}
       </>
     );

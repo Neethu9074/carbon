@@ -20,7 +20,7 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import AlertsActionAssociationsViewer from 'in-automation/AssociatedActionsCard/AlertsActionAssicationsViewer';
+import AlertsActionAssociationsViewer from 'in-automation/AssociatedActions/AlertsActionAssicationsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';

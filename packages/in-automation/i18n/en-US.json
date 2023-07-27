@@ -1,9 +1,6 @@
 {
   "associatedActions": "Associated Actions",
-  "addNumberOfItemsAction_plural": "Add {{count}} Actions",
-  "addNumberOfItemsAction_0": "Add {{count}} Actions",
-  "addNumberOfItemsAction_1": "Add {{count}} Actions",
-  "addNumberOfItemsAction_2": "Add {{count}} Actions",
+  "failedToSaveAssocation": "Failed to save action association.",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
@@ -43,6 +40,8 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
+  "noRecommendedActionsAvailable": "No recommended actions available",
+  "associateActionWithName": "Associate action {{actionName}}",
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
   "ActionCatalog": {
@@ -75,6 +74,7 @@
     "confidence_high": "High",
     "bodyDescription": "Data associated with the HTTP request.",
     "confidence": "{{context}}",
+    "confidenceHelpText": "Recommendation by WatsonX AI Recommendation Engine",
     "http": "HTTP",
     "confidenceTitle": "Confidence",
     "run": "Run",

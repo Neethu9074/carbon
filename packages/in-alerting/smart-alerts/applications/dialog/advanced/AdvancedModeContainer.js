@@ -33,7 +33,7 @@ import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/a
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
-import AlertsActionsSelection from 'in-automation/AssociatedActionsCard/AlertsActionsSelection';
+import AlertsActionsSelection from 'in-automation/AssociatedActions/AlertsActionsSelection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -20,6 +20,7 @@ import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'i
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { getEventSpecificationId, useDualReload } from './shared';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -28,14 +29,20 @@ interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
   alertConfig?: ApplicationAlertConfigWithMetadata;
+  reload?: number;
+  setReload?: (r: number) => void;
 }
 
-const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
-  event?.metadata?.eventSpecificationId as string;
-
-export default function AssociatedActionsAlerts({ event, volatileId, alertConfig }: AssociatedActionsCardProps) {
+export default function AssociatedActionsAlerts({
+  event,
+  volatileId,
+  alertConfig,
+  reload: externalReload,
+  setReload: setExternalReload
+}: AssociatedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
-  const [reload, triggerReload] = useState<number>(0);
+
+  const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
   const actions =
     useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload], {
@@ -52,7 +59,7 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
   );
   const reloadActionsTable = () => {
     // This helps to reload the actions table
-    triggerReload(Math.random());
+    triggerReload();
   };
 
   return (
@@ -75,7 +82,6 @@ export default function AssociatedActionsAlerts({ event, volatileId, alertConfig
       rightHeader={<RightHeader actions={actions} eventSpecification={alertConfig} triggerReload={triggerReload} />}
       volatileId={volatileId}
       loadEntities={() => getScoredActionsForAlertMemoized(selectedActions)}
-      scored
       isBeta
     />
   );
