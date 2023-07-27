@@ -51,7 +51,8 @@ import {
   SETTINGS_ALERT_CHANNEL_TEST_CLICK,
   SETTINGS_ALERT_CHANNEL_CLICK,
   SETTINGS_ALERT_CHANNEL_DELETE,
-  SETTINGS_ALERT_CHANNEL_EDIT
+  SETTINGS_ALERT_CHANNEL_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -109,6 +110,8 @@ export const switchToScheduledMaintenanceWindowsTabTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB, e);
 export const switchToExpiredMaintenanceWindowsTabTracker = (e: Object) =>
   track(SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB, e);
+export const maintenanceWindowFeedbackSubmitTracker = (e: Object) =>
+  track(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, e);
 
 export const createActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_CREATE, e);
 export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_EDIT, e);

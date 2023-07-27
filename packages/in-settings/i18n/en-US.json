@@ -1114,7 +1114,24 @@
     "status_unscheduled": "Unscheduled",
     "status_finished": "Finished",
     "status_paused": "Paused",
-    "timezoneDifferenceMessage": "Warning! The timezone in which the current configuration was created in ({{configTimezone}}) and your current timezone ({{userTimezone}}) are different. Saving and/or editing the configuration may have an un-intended outcome on the maintenance window"
+    "timezoneDifferenceMessage": "Warning! The timezone in which the current configuration was created in ({{configTimezone}}) and your current timezone ({{userTimezone}}) are different. Saving and/or editing the configuration may have an un-intended outcome on the maintenance window",
+    "feedback": {
+      "shareFeedback": "Share Your Feedback",
+      "submit": "Submit",
+      "rateYourExperience": "Rate your experience",
+      "satisfiedQuestion": "How satisfied are you with the maintenance window configuration experience?",
+      "firstTimeSatisfiedQuestion": "Great! You just configured your first recurrent maintenance window. How was it?",
+      "problematicStep0Title": "Uh oh!",
+      "problematicStep0Description": "We are sorry you did not have a pleasant experience. Can you help us identify where things went wrong?",
+      "problematicInputStepholder": "What went wrong while scheduling windows?",
+      "problematicEndTitle": "Your feedback helps us improve.",
+      "problematicEndDescription": "Thank you!",
+      "happyEndTitle": "We are glad you had an awesome experience.",
+      "happyEndDescription": "Thank you so much for your feedback!",
+      "awesome": "Awesome!",
+      "meh": "Meh!",
+      "terrible": "Terrible!"
+    }
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",

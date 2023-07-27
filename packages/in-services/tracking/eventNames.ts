@@ -261,6 +261,7 @@ export const SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO = 'settings.maintenance.n
 export const SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB = 'settings.maintenance.tab.active';
 export const SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB = 'settings.maintenance.tab.scheduled';
 export const SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB = 'settings.maintenance.tab.expired';
+export const SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT = 'settings.maintenance.feedback.submit';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';

@@ -21,4 +21,8 @@
     width: 60vw;
     height: fit-content;
   }
+  .shareFeedback {
+    padding: 0;
+    width: fit-content;
+  }
 }

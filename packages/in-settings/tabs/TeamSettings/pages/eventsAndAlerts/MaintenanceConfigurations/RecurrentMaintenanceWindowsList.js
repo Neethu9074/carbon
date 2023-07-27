@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
-import { Link, Stack, SvgIcon, Typography } from '@instana/components';
+import { Button, Link, Stack, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -24,16 +24,21 @@ import {
   resumeMaintenanceConfig,
   getMaintenanceConfigsMutableV2,
   deleteMaintenanceConfigV2
-} from './api';
-import { getEntityIdView, teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api.ts';
+import RecurrentMaintenanceConfigForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
+import FeedbackDialog from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/FeedbackDialog';
+import { getEndAndTimeDurationOfWindow } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import {
+  getEntityIdView,
+  teamSettingsAlertingMaintenanceConfigurations,
+  getEntityHref
+} from 'in-settings/navigation/paths';
+import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import RecurrentMaintenanceConfigForm from './RecurrentMaintenanceConfigForm';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import { getEndAndTimeDurationOfWindow } from './rruleHelpers';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getEntityHref } from 'in-settings/navigation/paths';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
@@ -41,6 +46,8 @@ import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration.mless';
 
 export default function RecurrentMaintenanceWindowsList(props) {
   const getStartAsString = entity => getFormattedDateTimeOccurence(entity, 'start');
@@ -50,6 +57,7 @@ export default function RecurrentMaintenanceWindowsList(props) {
 
   const [mwTypeView, setMwTypeView] = useState('ACTIVE');
   const [numbers, setNumbers] = useState({ active: 0, scheduled: 0, expired: 0 });
+  const [settings, saveSetting] = useSettingsEditor();
 
   useEffect(() => {
     let initialNumState = { active: 0, scheduled: 0, expired: 0 };
@@ -67,8 +75,15 @@ export default function RecurrentMaintenanceWindowsList(props) {
 
   // For when creating new MW config to refresh table
   useEffect(() => {
-    if (saved) setSaved(false);
-  }, [saved]);
+    if (!saved) return;
+    if (settings && !settings['hasConfiguredRMW']) {
+      addActiveDialog(<FeedbackDialog firstTime />);
+      saveSetting('hasConfiguredRMW', true);
+      setSaved(false);
+    } else {
+      setSaved(false);
+    }
+  }, [saved, settings, saveSetting]);
 
   const tableActions = {
     delete: {
@@ -135,14 +150,16 @@ export default function RecurrentMaintenanceWindowsList(props) {
           return (
             <Stack gap="xxsmall">
               <Typography variant="heading-300">{titleWithHits}</Typography>
-              <Link href="https://forms.gle/qNy4ptqHKhJXLbSM7" external>
-                <Stack direction="horizontal" gap="xsmall">
-                  <SvgIcon type="lib_views_external_link" size="s" color={theme.lib.colors.blue800} />
-                  <Typography variant="body-regular" component={'a'}>
-                    {t('in-settings:tabs.shareFeedback')}
-                  </Typography>
-                </Stack>
-              </Link>
+              <Button
+                onClick={() => addActiveDialog(<FeedbackDialog />)}
+                icon="lib_views_external_link"
+                iconSize="s"
+                kind="subtle"
+                size="compact"
+                className={locals.shareFeedback}
+              >
+                {t('in-settings:tabs.shareFeedback')}
+              </Button>
             </Stack>
           );
         }}

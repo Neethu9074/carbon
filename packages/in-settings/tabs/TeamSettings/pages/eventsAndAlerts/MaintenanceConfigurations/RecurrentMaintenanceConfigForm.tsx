@@ -36,7 +36,7 @@ import {
   saveMaintenanceConfigV2
 } from './api';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import useEntityForm, { OnEntityChange, SetFormFunction } from '../../../../../hooks/useEntityForm';
+import useEntityForm, { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { MaintenanceStepConfigObject, stepConfigs } from './components/simpleModeConfig';
 import RecurrentMaintenanceConfigContainer from './RecurrentMaintenanceConfigContainer';
