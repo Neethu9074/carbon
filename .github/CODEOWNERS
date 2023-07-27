@@ -144,7 +144,7 @@ packages/in-forge/plugins/hBase                                 @pr-approval @In
 packages/in-forge/plugins/host                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/httpd                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-tracers-middleware
 packages/in-forge/plugins/ibmOpenStack*                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/jBossAsApplicationContainer           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/jBossAsApplicationContainer           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/jbossDataGrid                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/jenkins                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/jettyApplicationContainer             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure

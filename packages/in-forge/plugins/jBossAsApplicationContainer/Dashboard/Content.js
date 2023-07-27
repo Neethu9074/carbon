@@ -7,6 +7,7 @@ import React from 'react';
 
 import UndertowStatsEnabledNotification from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/UndertowStatsEnabledNotification';
 import SessionStatsDisabledNotification from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/SessionStatsDisabledNotification';
+import ConnectionCountTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectionCountTable';
 import ConnectionPoolsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectionPoolsTable';
 import EjbDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/EjbDeploymentsTable';
 import WebDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/WebDeploymentsTable';
@@ -17,6 +18,7 @@ import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashbo
 export default function JBossAsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
+      <ConnectionCountTable snapshot={snapshot} />
       <UndertowStatsEnabledNotification snapshot={snapshot} />
       <SessionStatsDisabledNotification snapshot={snapshot} />
       <WebDeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />

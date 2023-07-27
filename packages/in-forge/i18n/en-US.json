@@ -10901,7 +10901,11 @@
       "connectionsUsedPercentage": "Connections used percentage",
       "threadPools": "Thread Pools",
       "threadsUsedPercentage": "Threads used percentage",
-      "datasourceJndi": "Datasource JNDI"
+      "datasourceJndi": "Datasource JNDI",
+      "busyWorkerThreadCount": "Busy worker thread count",
+      "workerQueueSize": "Worker queue size",
+      "connectionCount":"Count",
+      "connectionCounts": "Connections ({{len}})"
     },
     "jbossDataGrid": {
       "datagrid": "Data Grid",
