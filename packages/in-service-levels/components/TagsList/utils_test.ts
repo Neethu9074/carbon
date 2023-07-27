@@ -5,7 +5,7 @@
  */
 
 import { getTagsThatFitIntoMaxWidth, getTagsThatFitAfterResize } from 'in-service-levels/components/TagsList/utils';
-import { TagsType } from 'in-service-levels/components/TagsList/SloTagsList';
+import { TagsType } from 'in-service-levels/components/TagsList/SloDynamicTagList';
 
 const mockTags = [
   {

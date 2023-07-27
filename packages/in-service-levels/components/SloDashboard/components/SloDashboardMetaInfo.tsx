@@ -10,7 +10,7 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
-import { SloTagsList } from 'in-service-levels/components/TagsList/SloTagsList';
+import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import { LabeledEntity } from 'in-service-levels/types';
 
 interface SloDashboardMetaInfoProps {
@@ -23,7 +23,7 @@ export default function SloDashboardMetaInfo({ configuration, entity }: SloDashb
   return (
     <Stack direction="horizontal">
       {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} />}
-      <SloTagsList tags={tags} />
+      <SloTagList tags={tags} />
     </Stack>
   );
 }

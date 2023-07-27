@@ -5,12 +5,12 @@
  */
 
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
-
 import { Typography, useTheme } from '@instana/components';
+import classNames from 'classnames';
 
 import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
 import { tagsCssGap } from 'in-service-levels/components/TagsList/constants';
+import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -22,11 +22,11 @@ export type TagsType = {
   width: number;
 }[];
 
-interface SloTagsListProps {
+interface SloDynamicTagListProps {
   tags: string[];
 }
 
-export const SloTagsList = ({ tags }: SloTagsListProps) => {
+export const SloDynamicTagList = ({ tags }: SloDynamicTagListProps) => {
   const [displayedTags, setDisplayedTags] = useState<TagsType>(
     tags.map(tag => ({
       text: tag,
@@ -35,8 +35,8 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
   );
   const [hiddenTags, setHiddenTags] = useState<TagsType>([]);
 
-  const { ref, width } = useResizeObserver();
-  const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver();
+  const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver<HTMLDivElement>();
 
   const hasCompletedFirstCalculationRef = useRef(false);
   const hasCompletedSecondCalculationRef = useRef(false);
@@ -96,15 +96,9 @@ export const SloTagsList = ({ tags }: SloTagsListProps) => {
   const shouldRenderTooltip = hiddenTags.length !== 0;
 
   return (
-    <div ref={ref as React.MutableRefObject<HTMLDivElement>} className={wrapperClasses}>
-      <div className={locals.tagsWrapper}>
-        {displayedTags.map(tag => (
-          <Pill className={locals.singleTag} color={theme.ids.color.option.neutral[400]} key={tag.text}>
-            <Typography variant="body-small">{tag.text}</Typography>
-          </Pill>
-        ))}
-      </div>
-      <div ref={tooltipRef as React.MutableRefObject<HTMLDivElement>}>
+    <div ref={ref} className={wrapperClasses}>
+      <SloTagList tags={displayedTags.map(({ text }) => text)} />
+      <div ref={tooltipRef}>
         {shouldRenderTooltip && (
           <Tooltip
             content={
