@@ -42,8 +42,8 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
 
   useEffect(() => {
     if (height && rowsPerPage === 0) {
-      // 175 is calculated by adding the card header height + Th height + load more button height.
-      setRowsPerPage(Math.floor((height - 175) / 49));
+      // 190 is calculated by adding the height of card header  + Th  + load more button + padding-bottom.
+      setRowsPerPage(Math.floor((height - 190) / 49));
     }
     // eslint cannot statically analyze the following case
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +126,6 @@ export interface TablePresenterProps extends TableOverviewBehaviourProps {
 export const TablePresenter = (props: TablePresenterProps) => {
   const {
     title,
-    isPreview,
     dragHandle,
     actions,
     loadMoreShowcaseData,
@@ -156,7 +155,7 @@ export const TablePresenter = (props: TablePresenterProps) => {
       <div
         className={classNames({
           [locals.container]: true,
-          [locals.heightAuto]: isPreview
+          [locals.heightAuto]: showCaseView
         })}
       >
         <EventsList
