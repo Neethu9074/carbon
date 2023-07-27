@@ -141,7 +141,17 @@ function getDetails(row) {
       <p />
       <label>Request Statement Text :</label>
       <p />
+      {
+      row?.topQuery?.get('REQ_STMT_TEXT') &&
       <Code code={formatSql(row.topQuery.get('REQ_STMT_TEXT'))} lang="sql" softWrap />
+      }
+      <p />
+      <label>Current Running SQL :</label>
+      <p />
+      {
+      row?.topQuery?.get('HLD_CURRENT_STMT_TEXT') &&
+      <Code code={formatSql(row.topQuery.get('HLD_CURRENT_STMT_TEXT'))} lang="sql" softWrap />
+      }
     </div>
   );
 }

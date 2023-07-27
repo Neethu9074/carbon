@@ -37,6 +37,7 @@ import { t } from 'in-i18n';
 
 export default function Db2Dashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
+  const lockAndLongQuery = data.get('lockAndLongQueryInterval', 100);
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
   const statusFormatter = status => {
     switch (status) {
@@ -516,7 +517,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount')}>
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount',{lockAndLongQueryInterval: lockAndLongQuery})}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -613,7 +614,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <TopQueriesTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime')}>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime',{lockAndLongQueryInterval: lockAndLongQuery})}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
