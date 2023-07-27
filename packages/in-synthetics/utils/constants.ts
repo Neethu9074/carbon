@@ -37,6 +37,9 @@ export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
 export const browserScriptTest = 'Browser Script';
+export const expectStatus = 'Expect Status';
+export const expectJson = 'Expect JSON';
+export const expectMatch = 'Expect Match';
 
 export const dummyLocations = {
   data: [],
@@ -410,7 +413,7 @@ interface Field {
   label: string;
 }
 
-export const Placeholders: Record<string, Field> = {
+export const placeholders: Record<string, Field> = {
   'Expect Status': {
     field: 'expectStatus',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.expectStatusPlaceholder')

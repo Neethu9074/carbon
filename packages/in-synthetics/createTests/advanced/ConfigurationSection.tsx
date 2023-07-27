@@ -18,13 +18,13 @@ import {
 } from 'in-synthetics/createTests/validators/configValidators';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { Invalid, Validation, expectJson, expectMatch, expectStatus } from 'in-synthetics/utils/constants';
 import ValidationSection from 'in-synthetics/createTests/advanced/ValidationSection';
 import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { Invalid, Validation } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
 import { ConfigItem } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -66,38 +66,38 @@ export default function ConfigurationSection({
   const followRedirect = configForm.get('followRedirect') as Field<boolean>;
   const body = configForm.get('body') as Field<string>;
   const validationString = configForm.get('validationString') as Field<string>;
-  const expectStatus = configForm.get('expectStatus') as Field<string>;
-  const expectJson = configForm.get('expectJson') as Field<Record<string, string>>;
-  const expectMatch = configForm.get('expectMatch') as Field<string>;
+  const expectStatusField = configForm.get('expectStatus') as Field<string>;
+  const expectJsonField = configForm.get('expectJson') as Field<Record<string, string>>;
+  const expectMatchField = configForm.get('expectMatch') as Field<string>;
   const getDefaultExpectValues = (): Validation[] => {
     const expectedObject: Validation[] = [];
-    if (isNotBlank(expectStatus.value)) {
+    if (isNotBlank(expectStatusField.value)) {
       expectedObject.push({
         id: generateUniqueShortId(),
-        key: 'Expect Status',
-        value: expectStatus.value,
+        key: expectStatus,
+        value: expectStatusField.value,
         fieldName: 'expectStatus'
       });
     }
-    if (Object.keys(expectJson.value).length !== 0) {
+    if (Object.keys(expectJsonField.value).length !== 0) {
       expectedObject.push({
         id: generateUniqueShortId(),
-        key: 'Expect JSON',
-        value: isUpdateConfig ? JSON.stringify(expectJson.value) : expectJson.value,
+        key: expectJson,
+        value: isUpdateConfig ? JSON.stringify(expectJsonField.value) : expectJsonField.value,
         fieldName: 'expectJson'
       });
     }
-    if (isNotBlank(expectMatch.value)) {
+    if (isNotBlank(expectMatchField.value)) {
       expectedObject.push({
         id: generateUniqueShortId(),
-        key: 'Expect Match',
-        value: expectMatch.value,
+        key: expectMatch,
+        value: expectMatchField.value,
         fieldName: 'expectMatch'
       });
     }
     return expectedObject.length > 0
       ? expectedObject
-      : [{ id: generateUniqueShortId(), key: 'Expect Status', value: expectStatus.value, fieldName: 'expectStatus' }];
+      : [{ id: generateUniqueShortId(), key: expectStatus, value: expectStatusField.value, fieldName: 'expectStatus' }];
   };
   const [expectSelections, setExpectSelections] = useState(getDefaultExpectValues());
 

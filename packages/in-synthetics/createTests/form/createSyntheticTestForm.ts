@@ -286,7 +286,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     .put(
       'expectStatus',
       createField({
-        value: savedState?.expectStatus ?? '',
+        value: savedState?.expectStatus ?? '200',
         validator: statusCodeValidator
       })
     )

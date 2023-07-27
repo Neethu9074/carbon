@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 export function statusCodeValidator(code: string): ValidationResult {
   const regExp =
     /(\b10[0-3]\b)|(\b2(0[0-8]|26)\b)|(\b30[0-8]\b)|(\b4(0[0-9]|1[0-8]|2[1-689]|31|44|51|99)\b)|(\b5(0[0-8]|1[0-1]|99)\b)/;
-  if (code.length !== 0 && !regExp.test(code)) {
+  if (code.length !== 0 && (!regExp.test(code) || !+code)) {
     return [
       {
         severity: 'error',

@@ -13,11 +13,11 @@ import { generateUniqueShortId } from '@instana/utils';
 
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { expectJson, expectStatus, placeholders, Validation } from 'in-synthetics/utils/constants';
 import { Validations } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { Placeholders, Validation } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ErrorType } from 'in-synthetics/utils/constants';
@@ -45,8 +45,8 @@ export default function ValidationSection({
   setInvalidJSON
 }: ValidationProps) {
   const configForm = form.get('configuration') as MapForm<any>;
-  const expectStatus = configForm.get('expectStatus') as Field<string>;
-  const expectMatch = configForm.get('expectMatch') as Field<string>;
+  const expectStatusField = configForm.get('expectStatus') as Field<string>;
+  const expectMatchField = configForm.get('expectMatch') as Field<string>;
 
   function addNewValidationRow() {
     setExpectSelections([...expectSelections, { id: generateUniqueShortId(), key: '', value: '', fieldName: '' }]);
@@ -58,15 +58,15 @@ export default function ValidationSection({
       1
     );
     setExpectSelections([...expectSelections]);
-    resetFields(field);
+    resetFields(field, 'delete');
   }
 
-  function resetFields(field: string) {
+  function resetFields(field: string, action: string) {
     switch (field) {
       case 'expectStatus':
         updateForm(
           form.updateIn(['configuration', field], (field: Item) =>
-            (field as Field<string>).setValue('').setTouched(false)
+            (field as Field<string>).setValue(action === 'delete' ? '' : '200').setTouched(false)
           )
         );
         break;
@@ -103,20 +103,61 @@ export default function ValidationSection({
                 onChange={e => {
                   if (e != null && !(e instanceof Array)) {
                     const updatedSelections = expectSelections.slice();
+                    // stores the previous expect option which was selected in the combobox
+                    let previousKey;
                     for (let i = 0; i < updatedSelections.length; i++) {
                       if (updatedSelections[i].id === selection.id) {
+                        previousKey = updatedSelections[i].key;
+                        if (previousKey === expectJson) {
+                          setInvalidJSON({ invalid: false, message: '' });
+                        }
                         updatedSelections[i].key = e.value;
                         updatedSelections[i].value =
-                          selection.key === 'Expect Status'
+                          selection.key === expectStatus
                             ? '200'
-                            : selection.key === 'Expect JSON'
+                            : selection.key === expectJson
                             ? JSON.stringify({})
                             : '';
-                        updatedSelections[i].fieldName = Placeholders[e.value].field;
+                        updatedSelections[i].fieldName = placeholders[e.value].field;
                       }
                     }
+                    // previousKey does not exist if it's a newly added row
+                    if (previousKey) {
+                      if (selection.key == expectStatus) {
+                        updateForm(
+                          form
+                            .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                              (field as Field<string>).setValue('200').setTouched(false)
+                            )
+                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
+                              (field as Field<string>).setValue('').setTouched(false)
+                            )
+                        );
+                      } else if (selection.key == expectJson) {
+                        updateForm(
+                          form
+                            .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                              (field as Field<string>).setValue('').setTouched(false)
+                            )
+                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
+                              (field as Field<string>).setValue('').setTouched(false)
+                            )
+                        );
+                      } else if (selection.key == 'Expect Match') {
+                        updateForm(
+                          form
+                            .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                              (field as Field<string>).setValue('').setTouched(false)
+                            )
+                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
+                              (field as Field<string>).setValue('').setTouched(false)
+                            )
+                        );
+                      }
+                    } else {
+                      resetFields(selection.fieldName, 'add');
+                    }
                     setExpectSelections([...updatedSelections]);
-                    resetFields(selection.fieldName);
                   }
                 }}
                 isOptionDisabled={option =>
@@ -127,16 +168,16 @@ export default function ValidationSection({
             {selection.key !== '' && (
               <FormGroup className={locals.descriptionInput}>
                 <>
-                  {selection.key !== 'Expect JSON' ? (
+                  {selection.key !== expectJson ? (
                     <>
                       <Input
                         name={selection.fieldName}
-                        placeholder={Placeholders[selection.key].label}
+                        placeholder={placeholders[selection.key].label}
                         value={selection.value.toString()}
                         hasError={
-                          selection.key === 'Expect Status'
-                            ? !expectStatus.valid && expectStatus.touched
-                            : !expectMatch.valid && expectMatch.touched
+                          selection.key === expectStatus
+                            ? !expectStatusField.valid && expectStatusField.touched
+                            : !expectMatchField.valid && expectMatchField.touched
                         }
                         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                           const updatedSelections = expectSelections.slice();
@@ -153,16 +194,18 @@ export default function ValidationSection({
                           );
                         }}
                       />
-                      {selection.key === 'Expect Status'
-                        ? !expectStatus.valid && expectStatus.touched && <TouchedMessages field={expectStatus} />
-                        : !expectMatch.valid && expectMatch.touched && <TouchedMessages field={expectMatch} />}
+                      {selection.key === expectStatus
+                        ? !expectStatusField.valid &&
+                          expectStatusField.touched && <TouchedMessages field={expectStatusField} />
+                        : !expectMatchField.valid &&
+                          expectMatchField.touched && <TouchedMessages field={expectMatchField} />}
                     </>
                   ) : (
                     <>
                       <DebouncedTextArea
                         rows={7}
                         name="expectJson"
-                        placeholder={Placeholders[selection.key].label}
+                        placeholder={placeholders[selection.key].label}
                         value={selection.value}
                         hasError={invalidJSON.invalid}
                         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
