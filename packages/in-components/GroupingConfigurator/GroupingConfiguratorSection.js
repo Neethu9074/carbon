@@ -47,7 +47,7 @@ export default function GroupBySection({
 }
 
 GroupBySection.propTypes = {
-  value: rpt.oneOf(rpt.object, rpt.array),
+  value: rpt.oneOfType([rpt.object, rpt.array]),
   GroupingConfigurator: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   onChange: rpt.func.isRequired,

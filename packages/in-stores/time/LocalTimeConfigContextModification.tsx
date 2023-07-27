@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect } from 'react';
-import { isEqual } from 'lodash';
+import React, { useMemo } from 'react';
 
 import { generateStableHash } from '@instana/utils';
 import { TimeConfig } from '@instana/types';
@@ -25,18 +24,9 @@ export default function LocalTimeConfigContextModification({
   valuesToWatch
 }: LocalTimeConfigContextModificationProps) {
   const globalTimeConfig = useTimeConfig();
-  const [state, setState] = useState(() => modification(globalTimeConfig));
 
-  useEffect(() => {
-    const change = modification(globalTimeConfig);
-    setState((current: TimeConfig) => {
-      if (isEqual(current, change)) {
-        return current;
-      }
-      return change;
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generateStableHash(globalTimeConfig), modification, ...(valuesToWatch || emptyArray)]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const timeConfig = useMemo(() => modification(globalTimeConfig), [generateStableHash(globalTimeConfig), modification, ...(valuesToWatch || emptyArray)]);
 
-  return <TimeConfigContext.Provider value={state}>{children}</TimeConfigContext.Provider>;
+  return <TimeConfigContext.Provider value={timeConfig}>{children}</TimeConfigContext.Provider>;
 }

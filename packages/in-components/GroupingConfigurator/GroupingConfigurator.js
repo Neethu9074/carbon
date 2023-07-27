@@ -153,7 +153,7 @@ function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }
 
 GroupingConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
-  value: rpt.oneOf(rpt.array, rpt.object),
+  value: rpt.oneOfType([rpt.array, rpt.object]),
   tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,

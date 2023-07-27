@@ -57,6 +57,7 @@ export function createDynamicQueryBuilder({
   getSuggestions,
   withoutOrConjunction = false,
   withoutBrackets = false,
+  allowEmptyKey = false,
   maxExpressionDepth
 }) {
   return {
@@ -68,6 +69,7 @@ export function createDynamicQueryBuilder({
           withoutOrConjunction={withoutOrConjunction}
           withoutBrackets={withoutBrackets}
           maxExpressionDepth={maxExpressionDepth}
+          allowEmptyKey={allowEmptyKey}
         />
       );
     },
@@ -76,7 +78,7 @@ export function createDynamicQueryBuilder({
       if (!tagCatalog) {
         return pendingResult;
       }
-      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalog, formModel, maxExpressionDepth });
+      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalog, formModel, maxExpressionDepth, allowEmptyKey });
       if (!isValid) {
         return errorWithData(errors, false);
       }

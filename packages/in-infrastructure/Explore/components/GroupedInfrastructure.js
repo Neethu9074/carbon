@@ -16,19 +16,20 @@ import {
   SvgIcon,
   Ul
 } from '@instana/components';
+import { just } from '@instana/observables';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
-import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { firstValue, getGranularity, getMetricKey, getMetricValue, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
+import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { defaultOrder, typeTag } from 'in-infrastructure/Explore/constants';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -259,8 +260,8 @@ function columns({
     }
   ]
     .concat(
-      groupBy.map((groupKey, i) => ({
-        width: getColumnWidth(groupBy, i),
+      groupBy.map((groupKey) => ({
+        width: getColumnWidth(groupBy, metrics),
         getContent({ group }) {
           const value = getGroupTagValue(group, groupKey);
           return <KeyValue label={groupKey} value={value} accentuated />;
@@ -270,6 +271,17 @@ function columns({
         }
       }))
     )
+    .concat([
+      {
+        width: '3rem',
+        getContent() {
+          return <div />
+        },
+        getId() {
+          return 'spacer';
+        }
+      }
+    ])
     .concat([
       {
         width: '8rem',
@@ -357,8 +369,8 @@ function getErrorMessage(errors) {
   return [t('in-infrastructure:explore.errors.generalError')];
 }
 
-function getColumnWidth(groupBy, i) {
-  return 30 / groupBy.length + (i === groupBy.length - 1 ? 3 : 0) + 'rem';
+function getColumnWidth(groupBy, metrics) {
+  return Math.max(1, (5 - metrics.length) / groupBy.length) * 12 + 'rem';
 }
 
 function getGroups({
@@ -373,6 +385,10 @@ function getGroups({
   granularity,
   fullData = false
 }) {
+  if (!backendQueryModel) {
+    return just(pendingResult);
+  }
+
   return createGetGroupsSubscription({
     filter: {
       timeConfig,

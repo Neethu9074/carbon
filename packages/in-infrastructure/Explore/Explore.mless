@@ -6,5 +6,6 @@
 :local {
   .stack {
     padding-bottom: 2rem;
+    min-width: min-content;
   }
 }

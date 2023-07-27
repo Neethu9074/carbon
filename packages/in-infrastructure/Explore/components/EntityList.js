@@ -9,9 +9,8 @@ import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfras
 import { ErroneousResult } from 'in-components/QueryBuilder/components/Header/CountHeader';
 import EntityListPresenter from './EntityListPresenter';
 
-export default function EntityList({ backendQueryModel, timeConfig, order, setOrder }) {
+export default function EntityList({ timeConfig, order, setOrder }) {
   const { onChange, tableResult, query } = useInfrastructureEntities({
-    backendQueryModel,
     timeConfig,
     order,
     setOrder

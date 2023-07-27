@@ -7,7 +7,8 @@ import getTagValueSuggestions from 'in-infrastructure/Explore/services/getTagVal
 import { createDynamicQueryBuilder } from 'in-components/QueryBuilder';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryBuilder({
-  getSuggestions: getTagValueSuggestions
+  getSuggestions: getTagValueSuggestions,
+  allowEmptyKey: true
 });
 
 export default QueryBuilder;

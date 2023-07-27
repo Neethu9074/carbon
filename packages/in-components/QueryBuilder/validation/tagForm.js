@@ -33,7 +33,7 @@ import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
 const allAllowedEntities = [SOURCE, DESTINATION];
 
-export function createTagForm(tagCatalog, tagFormModel) {
+export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
   tagCatalog = enrichTagCatalog(tagCatalog);
 
   const {
@@ -89,7 +89,7 @@ export function createTagForm(tagCatalog, tagFormModel) {
   if (requiresKey) {
     // Special case: For IS_EMPTY, NOT_EMPTY the key is actually optional
     let validator;
-    if (operator === IS_EMPTY || operator === NOT_EMPTY) {
+    if (operator === IS_EMPTY || operator === NOT_EMPTY || allowEmptyKey) {
       validator = composeAndShortCircuitOnError(
         notUndefinedValidator,
         stringValidator,

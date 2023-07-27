@@ -50,8 +50,7 @@ export default function QueryBuilderSection({
   errors: externalErrors,
   tagCatalog,
   getSuggestionsProps = {},
-  getSuggestionLabel,
-  allowEmptyKey
+  getSuggestionLabel
 }: QueryBuilderSectionProps) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -65,6 +64,10 @@ export default function QueryBuilderSection({
       setClearRequested(false);
     }
   }, [clearRequested]);
+
+  useEffect(() => {
+    setInternalError(emptyObject);
+  }, [tagFilterExpression])
 
   return (
     <Section
@@ -102,7 +105,6 @@ export default function QueryBuilderSection({
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
-            allowEmptyKey={allowEmptyKey}
           />
         </div>
         {hasInternalError &&

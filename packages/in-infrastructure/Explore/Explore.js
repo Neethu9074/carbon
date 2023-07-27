@@ -121,7 +121,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validGroupResult.data === false;
+  const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
 
   const order = urlOrder ?? defaultOrder;
 
@@ -227,7 +227,7 @@ function Content({
   const onGroupChange = useCallback(groupBy => setUrl({ groupBy }), [setUrl]);
 
   const backendQueryModel = useMemo(
-    () => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION,
+    () => (isValid ? toBackendQueryModel(tagFilterExpression) : undefined),
     [isValid, tagFilterExpression]
   );
   const pagination = { retrievalSize: 20 };
@@ -264,14 +264,14 @@ function Content({
           onQueryCleared: filtersClearedTracker(getInfraExploreState)
         }}
         hasError={isInvalid}
-        allowEmptyKey
+        useLastValidStateWhenErroneous
       />
 
       <GroupingConfiguratorSection
         value={groupBy}
         GroupingConfigurator={GroupingConfigurator}
         tagCatalog={tagCatalog}
-        tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+        tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
         onChange={onGroupChange}
         tracking={{
           onGroupAdded: groupAddedTracker(getInfraExploreState),
@@ -283,7 +283,7 @@ function Content({
         right={
           <ApiQueryAction
             timeFrame={(({ to, windowSize }) => ({ to, windowSize }))(timeConfig)}
-            backendQueryModel={backendQueryModel}
+            backendQueryModel={backendQueryModel || EMPTY_EXPRESSION}
             pagination={pagination}
             groupBy={backendGroupBy}
             type={type}
@@ -363,7 +363,6 @@ function List({
   if (isInitPage) {
     return (
       <EntityList
-        backendQueryModel={backendQueryModel}
         timeConfig={timeConfig}
         setOrder={order => {
           setUrl({ order });

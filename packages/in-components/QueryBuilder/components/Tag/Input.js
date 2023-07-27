@@ -32,14 +32,17 @@ export function Input({
   valid,
   autoFocus = false,
   tagName,
-  getSuggestionLabel,
-  allowEmptyKey
+  getSuggestionLabel
 }) {
   const locals = useThemedLocals(styleDefs);
   const result = useDebouncedValue(value, onChange, 500);
   const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
 
-  valid = valid || (allowEmptyKey ?? false);
+  const totalSuggestionHits = suggestionsResult?.data?.totalHits ?? 0;
+
+  if (!valid) {
+    valid = totalSuggestionHits === 0;
+  }
 
   return (
     <Typeahead
@@ -54,8 +57,7 @@ export function Input({
         placeholder,
         hideValidityInformationOnFocus: true,
         autoFocus,
-        locals,
-        allowEmptyKey
+        locals
       }}
       suggestionsResult={suggestionsResult}
       getSuggestionLabel={getSuggestionLabel}
@@ -73,11 +75,8 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
     valid,
     hideValidityInformationOnFocus,
     autoFocus,
-    allowEmptyKey,
     ...remainingInputProps
   } = inputProps;
-
-  const validClass = valid || (allowEmptyKey ?? false);
 
   return (
     <>
@@ -90,7 +89,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
             minWidth={32}
             inputClassName={classNames({
               [locals.input]: true,
-              [locals.invalid]: !validClass,
+              [locals.invalid]: !valid,
               [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
             })}
             {...remainingInputProps}

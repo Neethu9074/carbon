@@ -34,8 +34,8 @@ import { isAndOr, isNot } from 'in-components/QueryBuilder/validation/elementIde
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth }) {
-  if (!isFormModelSyntacticallyValid({ tagCatalog, formModel })) {
+export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth, allowEmptyKey = false }) {
+  if (!isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey })) {
     return { isValid: false, errors: emptyArray };
   }
   if (maxExpressionDepth > 0 && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth) {
@@ -48,7 +48,7 @@ export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth })
   return { isValid: true };
 }
 
-function isFormModelSyntacticallyValid({ tagCatalog, formModel }) {
+function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey }) {
   if (!(formModel instanceof Array) || !tagCatalog) {
     return false;
   }
@@ -61,7 +61,7 @@ function isFormModelSyntacticallyValid({ tagCatalog, formModel }) {
     i++;
 
     if (element.type === TAG_TYPE) {
-      const isTagFilterValid = createTagForm(tagCatalog, element).hierarchyValid;
+      const isTagFilterValid = createTagForm(tagCatalog, element, allowEmptyKey).hierarchyValid;
       if (!isTagFilterValid) {
         return false;
       }

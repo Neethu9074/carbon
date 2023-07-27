@@ -7,6 +7,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { Message } from '@instana/components';
+import { just } from '@instana/observables';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -21,6 +22,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { isTechnicalError } from 'in-services/util/error';
+import { pendingResult } from 'in-services/fixedObjects';
 import HealthDot from 'in-components/health/HealthDot';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -203,6 +205,10 @@ function getTableData({
   cursor,
   fullData = false
 }) {
+  if (!backendQueryModel) {
+    return just(pendingResult);
+  }
+
   return getEntities({
     filter: {
       tagFilterExpression: backendQueryModel,

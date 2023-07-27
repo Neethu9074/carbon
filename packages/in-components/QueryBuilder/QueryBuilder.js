@@ -66,7 +66,7 @@ function QueryBuilder({
   maxExpressionDepth,
   autoFocusInput = false,
   getSuggestionLabel,
-  allowEmptyKey
+  allowEmptyKey = false
 }) {
   const [draggedFormModelIndex$] = useState(create());
   const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
@@ -86,7 +86,8 @@ function QueryBuilder({
     const { isValid, errors } = validateFormModel({
       tagCatalog: tagCatalog,
       formModel: _formModel,
-      maxExpressionDepth
+      maxExpressionDepth,
+      allowEmptyKey
     });
     if (isValid) {
       tracking?.onQueryChanged?.(_formModel);

@@ -48,7 +48,7 @@ export default function Tag(props) {
     allowEmptyKey
   } = props;
   const { renderModelIndex, formModelIndex, name: tagName } = element;
-  const form = createTagForm(tagCatalog, element);
+  const form = createTagForm(tagCatalog, element, allowEmptyKey);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
 
   const locals = useThemedLocals(styleDefs);
@@ -72,14 +72,13 @@ export default function Tag(props) {
 
   const draggableElement = useRef(null);
 
-  const invalidClass = !(allowEmptyKey ?? false) && !form.hierarchyValid;
   const tagTreeNode = tagCatalog.tagsByName[tagName];
   return (
     <div
       ref={draggableElement}
       className={classNames({
         [locals.tag]: true,
-        [locals.invalid]: invalidClass
+        [locals.invalid]: !form.hierarchyValid
       })}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
@@ -127,7 +126,6 @@ export default function Tag(props) {
           formModelIndex={formModelIndex}
           autoFocus={autoFocusInput}
           getSuggestionLabel={getSuggestionLabel}
-          allowEmptyKey={allowEmptyKey}
         />
       </SuspendDraggable>
 
@@ -160,7 +158,6 @@ export default function Tag(props) {
           minNumValue={0}
           autoFocus={autoFocusInput && !form.get('key')}
           getSuggestionLabel={getSuggestionLabel}
-          allowEmptyKey={allowEmptyKey}
         />
       </SuspendDraggable>
 
@@ -260,7 +257,6 @@ function KeyInput({
   formModelIndex,
   autoFocus,
   getSuggestionLabel,
-  allowEmptyKey
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
@@ -273,7 +269,6 @@ function KeyInput({
   return (
     <Input
       value={field.value || ''}
-      allowEmptyKey={allowEmptyKey}
       onChange={value => onChange('key', value)}
       placeholder={t('in-components:queryBuilder.components.tagPlaceholderKey')}
       valid={field.valid}
@@ -309,8 +304,7 @@ function ValueInput({
   formModelIndex,
   minNumValue,
   autoFocus,
-  getSuggestionLabel,
-  allowEmptyKey
+  getSuggestionLabel
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -353,7 +347,6 @@ function ValueInput({
     onChange: onValueChange,
     valid: field.valid,
     fieldsToWatch: [tagName, entity, timeConfig, field.value, key],
-    allowEmptyKey,
     tagName,
     getSuggestions: () =>
       getSuggestions({

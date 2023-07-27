@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import { getMetricCatalogOnce, GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { MetricCatalog, Result, TagFilterExpression } from 'in-types';
@@ -27,14 +28,14 @@ export default function useMetricCatalog({
   return (
     useObservable(
       () =>
-        getMetricCatalogOnce(
+        tagFilterExpression ? getMetricCatalogOnce(
           getMetricCatalog,
           type
         )({
           filter: { tagFilterExpression, timeConfig },
           type,
           query
-        }),
+        }) : just(pendingResult),
       [timeConfig, tagFilterExpression, type, query]
     ) || pendingResult
   );
