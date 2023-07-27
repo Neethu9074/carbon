@@ -7,15 +7,14 @@
 import { TagCatalog, TimeConfig } from '@instana/types';
 import { Group } from '@instana/types/typeDefinitions';
 
-import { ChartedMetric, ChartedTemplateMetric } from '../../in-applications/navigation/paths';
+import { ChartedMetric, ChartedTemplateMetric } from 'in-applications/navigation/paths';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { MetricField } from '../../in-analyze/navigation/paths';
+import { MetricField } from 'in-analyze/navigation/paths';
 
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const alertsTab: string;
 export declare const summaryTab: string;
-export function getLinkToCustomEvent();
 
 interface UseLinkToAnalyzeProps {
   beaconType: string;
@@ -87,7 +86,7 @@ export const useGenerateLinkToMobileApp: () => (
     tabParameters,
     viewId,
     timeConfig
-  }: {
+  }?: {
     tabPath?: string;
     tabParameters?: Record<string, string>;
     pageId?: string;

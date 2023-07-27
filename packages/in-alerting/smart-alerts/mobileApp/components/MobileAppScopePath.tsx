@@ -8,11 +8,11 @@ import React from 'react';
 
 import { SvgIconProps } from '@instana/components';
 
-//@ts-expect-error needs migration
-import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import ScopePath, { ScopeEntryType } from 'in-alerting/components/ScopePath';
 
 type Size = SvgIconProps['size'];
+
 interface MobileAppScopePathProps {
   mobileAppId?: string;
   mobileAppName?: string;
@@ -28,13 +28,15 @@ export default function MobileAppScopePath({
   showDashboardLinks,
   noBottomMargin
 }: MobileAppScopePathProps) {
+  const getLinkToMobileApp = useGenerateLinkToMobileApp();
   const entries = [];
+
   if (mobileAppName) {
-    const href$ = showDashboardLinks && mobileAppId ? getLinkToMobileApp(mobileAppId) : undefined;
+    const href = showDashboardLinks && mobileAppId ? getLinkToMobileApp(mobileAppId) : undefined;
     entries.push({
       iconType: 'lib_mobile_app',
       label: mobileAppName,
-      href$
+      href
     } as ScopeEntryType);
   }
 

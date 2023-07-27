@@ -20,11 +20,10 @@ import {
   httpRequestId as httpRequestIdMatrixParameter,
   customEventId as customEventIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
-// eslint-disable-next-line import/no-deprecated
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -90,29 +89,6 @@ export function useLinkToNewMobileApp() {
 }
 
 export const analyzeTwoParameters = createParameters(analyzePath);
-
-export function getLinkToMobileApp(
-  mobileAppId,
-  { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
-) {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
-    setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
-
-    if (viewId !== undefined) {
-      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
-    }
-
-    if (tabPath && tabParameters) {
-      Object.keys(tabParameters).forEach(name => setOrDeleteMatrixKey(params, tabPath, name, tabParameters[name]));
-    }
-
-    if (timeConfig) {
-      setTimeConfig(params, timeConfig);
-    }
-  });
-}
 
 export function useGetLinkToMobileApp(
   mobileAppId,
