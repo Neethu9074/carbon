@@ -13,7 +13,7 @@ VERSION="v0.1.5"
 PROJECT="ci-shared-tools"
 REPO="instana/${PROJECT}"
 ASSET_FILE="ci-shared-tools-${VERSION}.tar.gz"
-GITHUB_API_URL="api.github.ibm.com"
+GITHUB_API_URL="github.ibm.com/api/v3"
 
 echo "-- Downloading ${ASSET_FILE}"
 wget -q --auth-no-challenge \
