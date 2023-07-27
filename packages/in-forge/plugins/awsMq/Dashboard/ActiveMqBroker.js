@@ -98,7 +98,7 @@ export default function ActiveMqBrokerDashboard({ snapshot, timeConfig, type }) 
               metrics: [broker + 'total_message_count'],
               labels: [t('in-forge:plugins.awsMq.dashboard.count')],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -112,7 +112,7 @@ export default function ActiveMqBrokerDashboard({ snapshot, timeConfig, type }) 
               metrics: [broker + 'open_transactions_count'],
               labels: [t('in-forge:plugins.awsMq.dashboard.count')],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

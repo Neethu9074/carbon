@@ -45,9 +45,9 @@ export default function RabbitMqBrokerDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['publish_rate', 'confirm_rate', 'ack_rate'],
             labels: [
-              t('in-forge:plugins.awsMq.dashboard.published'),
-              t('in-forge:plugins.awsMq.dashboard.delivered'),
-              t('in-forge:plugins.awsMq.dashboard.acknowledged')
+              t('in-forge:plugins.awsMq.dashboard.publishedRate'),
+              t('in-forge:plugins.awsMq.dashboard.confirmedRate'),
+              t('in-forge:plugins.awsMq.dashboard.acknowledgedRate')
             ],
             type: 'line',
             formatter: twoDecimalPlaces
