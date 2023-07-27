@@ -760,7 +760,7 @@
       },
       "eventColumns": {
         "title": "Title",
-        "entityLabel": "Entity",
+        "entityLabel": "On (Entity)",
         "startedOn": "Started On",
         "endedOn": "Ended On",
         "duration": "Duration"

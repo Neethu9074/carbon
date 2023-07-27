@@ -24,7 +24,7 @@ export function createForm(form: MapForm<any>, savedState: Partial<TableFormConf
     .put(
       'columns',
       createField<string[]>({
-        value: (savedState?.columns ?? []) as string[],
+        value: (savedState?.columns ?? ['title', 'entityLabel']) as string[],
         validator: composeAndShortCircuitOnError<string[]>(
           notUndefinedValidator,
           arrayValidator,

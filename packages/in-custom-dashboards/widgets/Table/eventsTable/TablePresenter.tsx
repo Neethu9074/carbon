@@ -72,7 +72,7 @@ function TableConfig(props: TableConfigProps) {
   const orderByColumn = config?.columns?.length ? config?.columns[0] : orderByConfig.started;
 
   const [sorting, setSorting] = useState({
-    orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig],
+    orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
     orderDirection: 'ASC'
   });
 
