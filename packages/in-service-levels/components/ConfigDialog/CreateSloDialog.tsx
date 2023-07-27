@@ -7,25 +7,30 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
-import { just } from '@instana/observables';
+import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
 import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import { SloScopeSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
+import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
+import { createSloConfiguration } from 'in-service-levels/api/configuration';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
-import { noop, pendingResult } from 'in-services/fixedObjects';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
+import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 export default function CreateSloDialog() {
   const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
   const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
-  const [, doSubmit] = useFormSubmission(() => just(pendingResult));
+  const [, doSubmit] = useFormSubmission(createSloConfiguration);
 
   const nameField = form.getIn(['nameTags', 'name']);
   const isNameInvalid = !nameField.valid && (nameField.touched || form.touched);
@@ -71,14 +76,67 @@ export default function CreateSloDialog() {
       onClose={close}
       onSave={() => {
         updateForm(form.setTouched(true));
+
+        if (!form.hierarchyValid) return;
+
         doSubmit({
-          payload: {},
-          onError: noop,
-          onSuccess: noop
+          payload: formToSloConfiguration(form),
+          onSuccess,
+          onError
         });
       }}
       noHeader
       noDivider
     />
   );
+}
+
+function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
+  if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
+
+  const { name } = data;
+
+  addMessage({
+    type: 'info',
+    timeout: seconds.toMillis(4),
+    title: t('in-service-levels:createSloDialog.messages.creationSuccessfulTitle'),
+    content: t('in-service-levels:createSloDialog.messages.creationSuccessfulContent', {
+      name
+    })
+  });
+}
+
+const errorMessageHeader = {
+  type: 'danger',
+  title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
+} as const;
+
+function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
+  if (result && result.errors.length !== 0) {
+    return result.errors.forEach(error =>
+      addMessage({
+        ...errorMessageHeader,
+        timeout: seconds.toMillis(6),
+        content: getTranslatedErrorMessage(error)
+      })
+    );
+  }
+
+  if (!result?.data) {
+    return addMessage({
+      ...errorMessageHeader,
+      timeout: seconds.toMillis(6),
+      content: t('in-service-levels:createSloDialog.messages.creationFailedUnexpectedContent')
+    });
+  }
+
+  const { name } = result.data;
+
+  return addMessage({
+    ...errorMessageHeader,
+    timeout: seconds.toMillis(6),
+    content: t('in-service-levels:createSloDialog.messages.creationFailedContent', {
+      name
+    })
+  });
 }

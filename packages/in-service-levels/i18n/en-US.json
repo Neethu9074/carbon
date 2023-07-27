@@ -112,7 +112,14 @@
     "sloNamePlaceholder": "Enter name",
     "tagsLabel": "Tags",
     "tagsPlaceholder": "Enter tags",
-    "tagsCreateLabel": "Create: {{tag}}"
+    "tagsCreateLabel": "Create: {{tag}}",
+    "messages": {
+      "creationSuccessfulTitle": "SLO configuration was created successfully",
+      "creationSuccessfulContent": "SLO configuration \"{{name}}\" has been created.",
+      "creationFailedTitle": "Failed to create the SLO configuration",
+      "creationFailedContent": "There was a problem creating this SLO configuration: \"{{name}}\".",
+      "creationFailedUnexpectedContent": "An unexpected error occured while creating this SLO configuration, please try again later."
+    }
   },
   "sloList": {
     "components": {

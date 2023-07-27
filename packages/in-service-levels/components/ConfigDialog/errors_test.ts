@@ -4,14 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors';
+import { Error } from '@instana/types';
+
+import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors', () => {
   it('returns correct i18n error message if a known server error is provided', () => {
     // Given
-    const error = {
-      code: 'NOT_A_TECHNICAL_ERROR',
+    const error: Error = {
+      code: 'CLIENT',
       message: 'Apdex configuration with this name already exists'
     };
 
@@ -24,8 +26,8 @@ describe('in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors',
 
   it('returns the default message if an unknown error is provided', () => {
     // Given
-    const error = {
-      code: 'NOT_A_TECHNICAL_ERROR',
+    const error: Error = {
+      code: 'CLIENT',
       message: 'Some internal error message'
     };
 
@@ -38,8 +40,8 @@ describe('in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors',
 
   it('returns translated message with context values if an message with variables is provided', () => {
     // Given
-    const error = {
-      code: 'NOT_A_TECHNICAL_ERROR',
+    const error: Error = {
+      code: 'CLIENT',
       message:
         'The maximum number of website apdex configurations (42) has been reached. Please contact Instana support to request an increase for this limit.'
     };

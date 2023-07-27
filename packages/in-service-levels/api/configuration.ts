@@ -83,6 +83,20 @@ export const getSloConfiguration = memoize<string, Result<ServiceLevelObjectiveC
   minutes.toMillis(1)
 );
 
+export function createSloConfiguration(
+  sloConfig: ServiceLevelObjectiveConfiguration
+): Observable<Result<ServiceLevelObjectiveConfiguration>> {
+  return http<ServiceLevelObjectiveConfiguration>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/slo`,
+    headers: getCsrfHeader(),
+    data: sloConfig,
+    treat400AsError: true,
+    mapToResultObject: true
+  }).map(res => res);
+}
+
 export function deleteSloConfiguration(id: string): Observable<true> {
   return http({
     method: 'DELETE',
