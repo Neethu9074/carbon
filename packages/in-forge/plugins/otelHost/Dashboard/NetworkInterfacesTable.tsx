@@ -171,7 +171,15 @@ export default function NetworkInterfacesTable({ snapshot }: { snapshot: Snapsho
     .valueSeq()
     .toArray();
 
-  return <Table cardTitle={'NetWork'} withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
+  return (
+    <Table
+      cardTitle={t('in-forge:plugins.otelHost.dashboard.network')}
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
 }
 
 function getDetails(row: any) {
