@@ -23,8 +23,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureCustomAlerts ||
     role.canConfigureIntegrations ||
     role.canViewAuditLog ||
-    role.canConfigureLogManagement ||
-    role.canConfigureAutomationActions
+    role.canConfigureLogManagement
   );
 }
 
