@@ -68,7 +68,7 @@
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
     "kubernetes": "Kubernetes",
-    "allSynthetics": "All Synthetic tests and locations",
+    "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
     "role": "Custom",
     "role_owner": "Owner",
@@ -83,6 +83,7 @@
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
     "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "permissions": "Permissions",
+    "additionalPermissions": "Additional permissions",
     "permissions_DASHBOARD": "Custom dashboard permissions",
     "permissions_SYNTHETICS": "Synthetic monitoring permissions",
     "permissions_AGENTS": "Agent permissions",
@@ -146,7 +147,7 @@
     "limitedAccessKubernetes_addCluster": "Add Cluster",
     "limitedAccessKubernetes_addNamespace": "Add Namespace",
     "addButton_syntheticTests": "Select Synthetic Tests",
-    "descriptionAccessAll_synthetics": "All Synthetic Tests and Locations can be accessed with the role selected for the product area.",
+    "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the role selected for the product area.",
     "descriptionLimitedAccess_synthetics": "Select the role for the product area and add Synthetic Tests below to grant access."
   },
   "selectItemForm": {

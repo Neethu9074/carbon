@@ -9,7 +9,7 @@ import { create } from '@instana/observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { SyntheticLocation, SyntheticTest } from 'in-types';
+import { Result, SyntheticLocation, SyntheticTest } from 'in-types';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -76,6 +76,16 @@ export function getTestsAsResultObservableInternal() {
       }).map(response => deepFreeze(response))
     ).startWith(null)
   );
+}
+
+//This function is used in Synthetic RBAC Limited Access Scope
+export function getSyntheticTestsAsResult(): Observable<Result<SyntheticTest[]>> {
+  return http<SyntheticTest[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: testsUrl,
+    mapToResultObject: true
+  });
 }
 
 export function getTests(): Observable<unknown> {

@@ -22,7 +22,7 @@ import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/access
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticsEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
+import { syntheticsEnabled, actionAutomationEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
@@ -45,7 +45,7 @@ export const GlobalFunctionsSection = () => {
         capabilities={customDashboardCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
       />
-      {syntheticsEnabled ? (
+      {syntheticsEnabled && !syntheticRbacEnabled ? (
         <CapabilitySubsection
           capabilities={syntheticMonitoringCapabilities}
           headerText={t('in-settings:productAreas.permissions', { context: ProductArea.SYNTHETICS })}

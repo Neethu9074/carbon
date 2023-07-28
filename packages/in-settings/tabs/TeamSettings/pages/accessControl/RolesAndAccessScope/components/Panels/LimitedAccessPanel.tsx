@@ -11,6 +11,7 @@ import { PermissionSetWithRoles, ScopeBinding, Result, OrderDirection } from '@i
 import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
   PermissionSectionProps
@@ -152,6 +153,9 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         defaultRole={AreaRole.VIEWER}
         onChange={onChangeRole}
       />
+      {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+        <SyntheticCommonSection form={form} setForm={setForm} />
+      )}
       <Divider />
       <StackItem>
         <Button

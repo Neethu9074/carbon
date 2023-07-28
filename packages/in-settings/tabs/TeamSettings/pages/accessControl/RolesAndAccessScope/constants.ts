@@ -14,6 +14,7 @@ import {
   LimitedAccessScope,
   LimitedAccessScopeType
 } from 'in-stores/permission';
+import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -81,7 +82,8 @@ export const PermissionAreas = Object.freeze<Array<keyof PermissionSetWithRoles>
   'kubernetesNamespaceUIDs',
   'websiteIds',
   'mobileAppIds',
-  'infraDfqFilter'
+  'infraDfqFilter',
+  'syntheticTestIds'
 ]);
 
 // These are the standard options to select source specific permission types
@@ -98,6 +100,12 @@ export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissio
 const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM_APPLICATIONS];
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
 const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
+
+export const syntheticOtherCapabilities: Array<CapabilityType> = [
+  Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
+  Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+];
 
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
 
@@ -132,10 +140,10 @@ export const customDashboardCapabilities: Array<CapabilityType> = [
 
 export const syntheticMonitoringCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
-  Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
-  Capability.CAN_VIEW_SYNTHETIC_TESTS,
-  Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-  Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
+  ...(syntheticRbacEnabled ? [] : [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS]),
+  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TESTS]),
+  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_LOCATIONS]),
+  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS])
 ];
 
 export const agentsCapabilities: Array<CapabilityType> = [
@@ -163,7 +171,7 @@ export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
   ...logCapabilities,
   ...customDashboardCapabilities,
-  ...syntheticMonitoringCapabilities,
+  ...(syntheticRbacEnabled ? [] : [...syntheticMonitoringCapabilities]),
   ...agentsCapabilities,
   ...accessControlCapabilities,
   ...automationCapabilities

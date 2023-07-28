@@ -22,6 +22,7 @@ import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/a
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import PermissionSectionSyntheticMonitoring from './PermissionSectionSyntheticMonitoring';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -192,15 +193,13 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           title: t('in-settings:productAreas.title_syntheticMonitoring'),
           valid: true,
           content: (
-            <PermissionSection
+            <PermissionSectionSyntheticMonitoring
               title={t('in-settings:productAreas.title_syntheticMonitoring')}
               accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_synthetics')}
               limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_synthetics')}
               addButtonLabel={t('in-settings:PermissionSection.addButton_syntheticTests')}
               roleTooltipText={t('in-settings:permissionScope.roleTooltip_synthetics')}
-              entityPermissionKey="syntheticTestIds"
               observable={() => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig })}
-              productArea={ProductArea.SYNTHETICS}
               icon="lib_synthetic"
               extractId={({ id }) => id}
               extractName={({ name }) => name}
@@ -253,7 +252,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
                 ProductArea.MIXED,
                 ProductArea.LOGS,
                 ProductArea.DASHBOARD,
-                ProductArea.SYNTHETICS,
                 ProductArea.AUTOMATION,
                 ProductArea.AGENTS,
                 ProductArea.ACCESS_CONTROL

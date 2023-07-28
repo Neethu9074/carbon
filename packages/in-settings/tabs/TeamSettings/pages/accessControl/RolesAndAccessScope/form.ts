@@ -13,12 +13,13 @@ import {
   AreaRoleType,
   AreaRoleWithCustomType,
   LimitableProductArea,
+  ProductArea,
   ProductAreaPermissionMap,
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
-import { PermissionsUnion } from 'in-stores/permission';
+import { Capability, PermissionsUnion } from 'in-stores/permission';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
   // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
@@ -161,6 +162,13 @@ function addPermissionsByRoleForProductArea(
   if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     permissions.push(...capabilities);
+  } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
+    const syntheticViewPermissions = [
+      Capability.CAN_VIEW_SYNTHETIC_TESTS,
+      Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+      Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
+    ];
+    permissions.push(...syntheticViewPermissions);
   }
 
   return permissions;
