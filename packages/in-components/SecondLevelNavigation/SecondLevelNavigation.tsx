@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Observable } from '@instana/observables';
+import { LinkProps } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { LinkProps } from '@instana/legacy';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import locals from './SecondLevelNavigation.mless';
 
@@ -49,7 +50,8 @@ export function SecondLevelNavigation({
   );
 }
 
-interface SecondLevelNavigationItemProps extends Pick<LinkProps, 'className' | 'href$' | 'href' | 'onClick'> {
+interface SecondLevelNavigationItemProps extends Pick<LinkProps, 'className' | 'href' | 'onClick'> {
+  href$?: Observable<string>;
   isActive?: boolean;
   isDisabled?: boolean;
   label?: React.ReactNode;
@@ -81,8 +83,7 @@ export function SecondLevelNavigationItem({
         // @ts-expect-error classNames can explicitly handle undefined keys
         [className]: className
       })}
-      href$={href$}
-      href={href}
+      href={href$ ?? href}
       onClick={onClick}
     >
       <div

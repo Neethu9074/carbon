@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
@@ -26,7 +26,7 @@ export function SideNavigation({ title, children }) {
 
 export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitEmptyIcon = false, label, isBeta }) {
   return (
-    <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
+    <Link className={locals.link} href={href$ ?? href} onClick={onClick}>
       <div
         className={classNames({
           [locals.tab]: true,
