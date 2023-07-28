@@ -86,9 +86,14 @@ function AxisConfigurator({
     };
   });
 
-  let availableFormatters = metricConfigurations.flatMap(config =>
-    getFormatter(config.source, config.metric, config.aggregation)
-  );
+  let availableFormatters = []
+  metricConfigurations.forEach(config =>
+    getFormatter(config.source, config.metric, config.aggregation).forEach(formatter => {
+      if (!availableFormatters.find(existingFormatter => existingFormatter.id === formatter.id)) {
+        availableFormatters.push(formatter);
+      }
+    }));
+
   if (availableFormatters.length === 0) {
     availableFormatters = publicFormatters;
   }
