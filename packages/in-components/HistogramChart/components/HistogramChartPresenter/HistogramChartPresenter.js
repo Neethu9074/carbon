@@ -200,7 +200,7 @@ export default function HistogramChartPresenter({
             style={{ bottom: 0 }}
           />
 
-          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} />
+          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} min={min} />
 
           <HorizontalLines
             nbBars={4}

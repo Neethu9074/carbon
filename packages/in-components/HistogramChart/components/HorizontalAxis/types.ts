@@ -9,11 +9,13 @@ import { Bucket } from 'in-components/HistogramChart/components/HistogramChartPr
 export interface HorizontalAxisProps {
   buckets: Bucket[];
   bucketWidth: number;
+  min: number;
 }
 export interface TickProps {
   bucket: Bucket;
   bucketPosition: number;
   bucketWidth: number;
+  min: number;
   isTickVisible?: boolean;
 }
 
