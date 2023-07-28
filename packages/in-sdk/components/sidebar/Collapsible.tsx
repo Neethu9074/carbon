@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-disable react/no-multi-comp, react/prop-types */
 import invariant from 'invariant';
 import rpt from 'prop-types';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -14,24 +13,46 @@ import theme from 'in-themes';
 
 import locals from './Collapsible.mless';
 
-class Collapsible extends React.PureComponent {
+interface CollapsibleProps {
+  children: React.ReactNode[];
+  initiallyOpen?: boolean;
+  onOpen?: () => void;
+}
+
+interface HeaderProps {
+  isOpen: boolean;
+  toggle: () => void;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  className?: string;
+}
+
+interface ContentProps {
+  isOpen: boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+class Collapsible extends React.PureComponent<CollapsibleProps> {
   static propTypes = {
     children: rpt.array.isRequired,
     initiallyOpen: rpt.bool,
     onOpen: rpt.func
   };
 
-  state = {
-    open: this.props.initiallyOpen
+  state: { open: boolean } = {
+    open: this.props.initiallyOpen ?? false
   };
+  static Content: any; // quirk, to support <Collapsible.Content>
+  static Header: any; // quirk, to support <Collapsible.Header>
 
   render() {
     const children = this.props.children;
     invariant(children.length === 2, 'A collapsible must have exactly two child elements: Header and Content');
 
     const isOpen = this.state.open;
-    const header = children[0].props;
-    const contentProps = children[1].props;
+    const header = (children[0] as ReactElement)?.props as HeaderProps;
+    const contentProps = (children[1] as ReactElement)?.props as ContentProps;
     return (
       <div className={isOpen ? locals.collapsibleOpen : locals.collapsibleClosed}>
         <Header className={header.className} style={header.style} toggle={this.toggle} isOpen={isOpen}>
@@ -49,13 +70,13 @@ class Collapsible extends React.PureComponent {
     if (this.props.onOpen && !this.state.open) {
       this.props.onOpen();
     }
-    this.setState({ open: !this.state.open });
+    this.setState((prevState: { open: boolean }) => ({ open: !prevState.open }));
   };
 }
 
 export default Collapsible;
 
-function Header({ isOpen, toggle, style, children }) {
+function Header({ isOpen, toggle, style, children }: HeaderProps) {
   return (
     <div onClick={toggle} className={locals.header} style={style}>
       <span>{children}</span>
@@ -71,7 +92,7 @@ function Header({ isOpen, toggle, style, children }) {
 
 Collapsible.Header = Header;
 
-function Content({ isOpen, children }) {
+function Content({ isOpen, children }: ContentProps) {
   if (!isOpen) {
     return null;
   }
