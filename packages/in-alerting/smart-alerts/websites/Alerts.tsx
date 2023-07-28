@@ -9,7 +9,6 @@ import {
   AggregationType,
   HistoricBaselineConfig,
   ThresholdConfigUnion,
-  WebsiteAlertConfig,
   WebsiteAlertConfigWithMetadata,
   WebsiteAlertRuleUnion
 } from '@instana/types';
@@ -38,7 +37,9 @@ function getColumnDefinitions(websiteLabel: string) {
     {
       id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: (entity: WebsiteAlertConfig) => <ScopeColumn config={entity} websiteLabel={websiteLabel} />
+      getContent: (entity: WebsiteAlertConfigWithMetadata) => (
+        <ScopeColumn config={entity} websiteLabel={websiteLabel} />
+      )
     }
   ];
 }
