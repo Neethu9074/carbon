@@ -97,15 +97,18 @@ function Header(props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'renderButt
 }
 
 interface RenderProps {
-  label: string;
   serviceId: string;
 }
-function RenderButtonLine({ label, serviceId }: RenderProps) {
+function RenderButtonLine({ serviceId }: RenderProps) {
   const timeConfig: TimeConfig = useTimeConfig();
   const location: Location = useLocation();
 
   const businessProcessId: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
 
   const businessActivityName: string =
@@ -120,7 +123,7 @@ function RenderButtonLine({ label, serviceId }: RenderProps) {
       />
       <AnalyzeButton
         businessProcessId={businessProcessId}
-        businessProcessName={label}
+        businessProcessName={businessProcessName}
         businessActivityName={businessActivityName}
       />
     </>

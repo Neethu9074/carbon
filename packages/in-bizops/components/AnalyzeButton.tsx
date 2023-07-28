@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { clickBizopsProcessAnalyzeInstancesTracker } from 'in-bizops/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -15,7 +16,8 @@ import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
 
 /* This component directs the user to the Analyze page, with filters set
-to the specific Business Process they are currently in*/
+to the specific Business Process they are currently in.  Filters also
+include the activity name if not empty */
 interface AnalyzeButtonProps {
   businessProcessId: string;
   businessProcessName: string;
@@ -32,15 +34,7 @@ export default function AnalyzeButton({
       kind="primary"
       icon="lib_application_call"
       href={getLinkToAnalyze({
-        formModel: [
-          tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName),
-          { type: 'CONJUNCTION', logicalOperator: 'AND' },
-          { type: 'OPEN_BRACKET' },
-          tagFilter('call.type', EQUALS, 'BATCH'),
-          { type: 'CONJUNCTION', logicalOperator: 'OR' },
-          tagFilter('call.type', EQUALS, 'INTERNAL'),
-          { type: 'CLOSE_BRACKET' }
-        ],
+        formModel: formModelBuilder(businessProcessName, businessActivityName),
         groupBy: {
           groupbyTag: 'call.bpm.root.process.instance.id'
         },
@@ -61,4 +55,28 @@ export default function AnalyzeButton({
       {t('in-bizops:dashboards.analyzeInstances')}
     </Button>
   );
+}
+
+function formModelBuilder(businessProcessName: string, businessActivityName: string) {
+  let formModel: FormModelElement[] = [tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName)];
+
+  // conditional filters
+  if (businessActivityName) {
+    formModel.push(
+      { type: 'CONJUNCTION', logicalOperator: 'AND' },
+      tagFilter('call.bpm.activity.name', EQUALS, businessActivityName)
+    );
+  }
+
+  // call types
+  formModel.push(
+    { type: 'CONJUNCTION', logicalOperator: 'AND' },
+    { type: 'OPEN_BRACKET' },
+    tagFilter('call.type', EQUALS, 'BATCH'),
+    { type: 'CONJUNCTION', logicalOperator: 'OR' },
+    tagFilter('call.type', EQUALS, 'INTERNAL'),
+    { type: 'CLOSE_BRACKET' }
+  );
+
+  return formModel;
 }
