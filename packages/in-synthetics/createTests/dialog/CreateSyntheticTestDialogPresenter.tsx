@@ -195,7 +195,7 @@ const CreateSyntheticTestDialogPresenter = ({
           stepDisabled = configForm.hierarchyValid && locationsField.value.length !== 0;
         }
         if (syntheticTypeField.value === 'HTTPScript' || syntheticTypeField.value === 'BrowserScript') {
-          stepDisabled = configForm.hierarchyValid && scriptErrors.length === 0;
+          stepDisabled = configForm.hierarchyValid && scriptErrors.length === 0 && locationsField.value.length !== 0;
         }
         return stepDisabled;
       }
@@ -220,12 +220,12 @@ const CreateSyntheticTestDialogPresenter = ({
         configForm.get('url') &&
         !configForm.get('url').valid) ||
       (syntheticTypeField.value === 'HTTPAction' &&
-        configForm.get('headers') &&
+        (configForm.get('headers') &&
         headers.filter(
           header =>
             (header.error.name.invalid && !header.error.value.invalid) ||
             (!header.error.name.invalid && header.error.value.invalid)
-        ).length > 0 ||
+        ).length > 0) ||
         invalidHeader.invalid ||
         (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
         invalidJSON.invalid ||

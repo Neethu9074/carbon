@@ -6,8 +6,8 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
-import { apiScriptTest, apiSimpleTest, browserScriptTest } from 'in-synthetics/utils/constants';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
@@ -35,39 +35,54 @@ export function createForm(
   selectedBlueprint?: BluePrint | AdvancedBluePrint,
   savedState?: Record<string, any>
 ) {
-  // @ts-expect-error testType does not exist in BluePrint type
-  const testType = selectedBlueprint?.testType;
-  const type = selectedBlueprint?.type;
-  const isScript: boolean =
-    type === apiScriptTest || type === browserScriptTest || testType === 'HTTPScript' || testType === 'BrowserScript';
-  const isApiSimpleAdvanced: boolean = testType === 'HTTPAction';
-  const isApiSimpleWizard: boolean = type === apiSimpleTest;
-  const isBrowserScriptWizard: boolean = type === browserScriptTest;
+  // @ts-expect-error testType does not exist in wizardModeBlueprintTestType
+  const advancedModeBlueprintTestType: string = selectedBlueprint?.testType;
+  const wizardModeBlueprintTestType: string | undefined = selectedBlueprint?.type;
+  let config: any;
 
-  /**
-   * "type" is the display name of a testType.
-   * In the advanced mode, "type" is different, it is not the display name of a testType.
-   */
-  const configurationForm = isScript
-    ? !simpleMode && !savedState?.script
-      ? createAdvancedScriptConfigurationForm(savedState ?? {})
-      : createScriptConfigurationForm(savedState ?? {})
-    : !simpleMode
-    ? isApiSimpleAdvanced || isApiSimpleWizard
-      ? createAdvancedActionConfigurationForm(savedState ?? {})
-      : createAdvancedWebpageActionConfigurationForm(savedState ?? {})
-    : simpleMode
-    ? isApiSimpleWizard
-      ? createActionConfigurationForm(savedState ?? {})
-      : isBrowserScriptWizard
-      ? createBrowserScriptConfigurationForm(savedState ?? {})
-      : createWebpageActionConfigurationForm(savedState ?? {})
-    : createActionConfigurationForm(savedState ?? {});
+  if (simpleMode) {
+    switch (wizardModeBlueprintTestType) {
+      case apiScriptTest:
+        config = createScriptConfigurationForm(savedState ?? {});
+        break;
+      case apiSimpleTest:
+        config = createActionConfigurationForm(savedState ?? {});
+        break;
+      case browserSimpleTest:
+        config = createWebpageActionConfigurationForm(savedState ?? {});
+        break;
+      case browserScriptTest:
+        config = createBrowserScriptConfigurationForm(savedState ?? {});
+        break;
+    }
+  } else {
+    switch (advancedModeBlueprintTestType || wizardModeBlueprintTestType) {
+      case 'HTTPAction':
+      case apiSimpleTest:
+        config = createAdvancedActionConfigurationForm(savedState ?? {});
+        break;
+      case 'HTTPScript':
+      case apiScriptTest:
+        config = !savedState?.script
+          ? createAdvancedScriptConfigurationForm(savedState ?? {})
+          : createScriptConfigurationForm(savedState ?? {});
+        break;
+      case 'BrowserScript':
+      case 'WebpageScript':
+      case browserScriptTest:
+        config = createBrowserScriptConfigurationForm(savedState ?? {});
+        break;
+      case 'WebpageAction':
+      case browserSimpleTest:
+        config = createAdvancedWebpageActionConfigurationForm(savedState ?? {});
+        break;
+    }
+  }
 
   return createMapForm({
     validator: syntheticFormValidator
   })
-    .put('configuration', configurationForm)
+    .put('configuration', config)
     .put(
       'locations',
       createField({

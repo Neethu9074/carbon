@@ -14,8 +14,8 @@ import { createLogger } from '@instana/logger';
 
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
@@ -160,6 +160,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
     updatedForm = form.put('active', createField({ value: isActive }));
+    if (test.applicationLabel === '' || test.applicationLabel === undefined) {
+      updatedForm = form.remove('applicationId');
+    }
     if (
       form.get('configuration').get('syntheticType').value === 'HTTPAction' &&
       isEmpty(form.get('configuration').get('headers').value)
@@ -204,17 +207,16 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         configForm.get('url') &&
         !configForm.get('url').valid) ||
       (syntheticTypeField.value === 'HTTPAction' &&
-        configForm.get('headers') &&
+        (configForm.get('headers') &&
         headers.filter(
           header =>
             (header.error.name.invalid && !header.error.value.invalid) ||
             (!header.error.name.invalid && header.error.value.invalid)
-        ).length > 0 ||
-        invalidHeader.invalid ||
-        (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
-        invalidJSON.invalid ||
-        (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
-      ) ||
+        ).length > 0) ||
+      invalidHeader.invalid ||
+      (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
+      invalidJSON.invalid ||
+      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
