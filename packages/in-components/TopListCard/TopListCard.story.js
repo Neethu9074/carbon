@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import React, { Fragment } from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { millis } from 'in-services/formatters/number';
