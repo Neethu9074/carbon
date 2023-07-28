@@ -3,38 +3,48 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {
+  AggregationType,
+  HistoricBaselineConfig,
+  ThresholdConfigUnion,
+  WebsiteAlertConfig,
+  WebsiteAlertConfigWithMetadata,
+  WebsiteAlertRuleUnion
+} from '@instana/types';
 
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function getColumnDefinitions(websiteLabel) {
+function getColumnDefinitions(websiteLabel: string) {
   return [
     {
       id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: entity => <ScopeColumn config={entity} websiteLabel={websiteLabel} />
+      getContent: (entity: WebsiteAlertConfig) => <ScopeColumn config={entity} websiteLabel={websiteLabel} />
     }
   ];
 }
 
-export default function Alerts({ websiteId, websiteLabel }) {
-  const handlers = role.canConfigureCustomAlerts ? actionHandlers : {};
+export default function Alerts({ websiteId, websiteLabel }: { websiteId: string; websiteLabel: string }) {
+  const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
 
   return (
     <>
@@ -43,7 +53,6 @@ export default function Alerts({ websiteId, websiteLabel }) {
         getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
         actionHandlers={handlers}
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
-        noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={alertsTab}
@@ -54,22 +63,19 @@ export default function Alerts({ websiteId, websiteLabel }) {
   );
 }
 
-Alerts.propTypes = {
-  websiteLabel: PropTypes.string.isRequired,
-  websiteId: PropTypes.string.isRequired
-};
-
-function getSubtitle(rule, threshold) {
+function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel(metricName);
+  const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
-  const { operator, seasonality, type, value } = threshold;
+  const { operator, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
-    const metricFormat = blueprintConfig.getMetricFormat(metricName);
-    const formattedValue = (metricFormat.short || metricFormat.compact)(value);
+    const metricFormat = blueprintConfig.getMetricFormat(metricName as MetricName);
+    const formattedValue = (
+      (metricFormat as NumberFormatterObject).short || (metricFormat as NumberFormatterObject).compact
+    )?.(value);
     const humanReadableOperator = humanReadableThresholdOperator(operator);
 
     return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticThreshold', {
@@ -86,16 +92,17 @@ function getSubtitle(rule, threshold) {
   }
 
   if (type === HISTORIC_BASELINE) {
+    const { seasonality } = threshold as HistoricBaselineConfig;
     if (seasonality === DAILY) {
       return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticDailySeasonality', {
         metricLabel: formattedMetricLabel,
-        aggregation: getAggregationText(aggregation)
+        aggregation: getAggregationText(aggregation as AggregationType)
       });
     }
 
     return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticWeeklySeasonality', {
       metricLabel: formattedMetricLabel,
-      aggregation: getAggregationText(aggregation)
+      aggregation: getAggregationText(aggregation as AggregationType)
     });
   }
 
@@ -106,7 +113,7 @@ function getSubtitle(rule, threshold) {
   });
 }
 
-function createRowLinkLocation(config, location) {
+function createRowLinkLocation(config: WebsiteAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
     pathname: alertsTabDetailsFullyQualified
