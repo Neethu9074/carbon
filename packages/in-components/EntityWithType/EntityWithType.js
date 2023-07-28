@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
@@ -29,7 +29,7 @@ const Content = forwardRef(function Content({ label, type, renderType, href$, ad
         <div className={locals.type}>{renderType ? renderType(getPluginName(type, 1)) : getPluginName(type, 1)}</div>
       )}
       {href$ ? (
-        <Link className={locals.link} href$={href$}>
+        <Link className={locals.link} href={href$}>
           <Label label={label} addEllipsis={addEllipsis} />
         </Link>
       ) : (
