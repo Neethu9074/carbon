@@ -46,7 +46,7 @@ interface ActionButtonProps {
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
   const isBrowserTest: boolean =
-    isBrowserTestType(test.data?.configuration?.syntheticType || '') && syntheticBrowserScriptEnabled;
+    isBrowserTestType(test.data.configuration.syntheticType || '') && syntheticBrowserScriptEnabled;
 
   const testLabel: string = test.data?.label;
 
@@ -167,7 +167,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   if (test.progress.loading) {
     return <LoadingSkeleton className={locals.skeleton} />;
   }
-  const testType: string = test.data?.configuration?.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
+  const testType: string = test.data.configuration.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
   return (
     <Card
       leftHeaderContent={
