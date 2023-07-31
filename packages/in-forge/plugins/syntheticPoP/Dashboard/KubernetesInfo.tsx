@@ -19,7 +19,6 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 // @ts-expect-error
 import getKubernetesNamespacesByCluster from 'in-subscription/namespacesForCluster';
 import { useClusterDashboard, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 // @ts-expect-error
 import { getSnapshots, SnapshotData } from 'in-stores/snapshot';
