@@ -166,7 +166,24 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   if (test.progress.loading) {
     return <LoadingSkeleton className={locals.skeleton} />;
   }
-  const testType: string = test.data.configuration.syntheticType === 'HTTPAction' ? 'Simple' : 'Script';
+  let testType = null;
+  switch (test.data?.configuration.syntheticType) {
+    case 'HTTPAction':
+      testType = 'API Simple';
+      break;
+    case 'HTTPScript':
+      testType = 'API Script';
+      break;
+    case 'WebpageAction':
+      testType = 'Webpage Simple';
+      break;
+    case 'BrowserScript':
+      testType = 'Browser Script';
+      break;
+    case 'WebpageScript':
+      testType = 'Webpage Script';
+      break;
+  }
   return (
     <Card
       leftHeaderContent={
