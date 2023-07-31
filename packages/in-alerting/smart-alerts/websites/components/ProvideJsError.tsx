@@ -3,34 +3,45 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
+//@ts-expect-error TS migration
+import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import { ruleJsErrorsOperatorOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import JsErrorsList from 'in-alerting/smart-alerts/websites/components/JsErrorsList';
-import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { SliderState } from 'in-synthetics/utils/constants';
+import ComboBox, { Option } from 'in-components/ComboBox';
 import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
-import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/components/ProvideJsError.mless';
 
-export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }) {
+interface ProvideJsErrorProps {
+  form: MapForm<any>;
+  timeConfig: TimeConfig;
+  onSelectJsError: ({ slideInConfig, isVisible }: SliderState) => void;
+  mode: string;
+  updateForm: (form: MapForm<any>) => void;
+}
+
+export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }: ProvideJsErrorProps) {
   const operatorField = form.get('rule').get('operator');
   const ruleValueField = form.get('rule').get('value');
 
   return (
     <div className={locals.container}>
-      {operatorField.map(field => (
+      {operatorField.map((field: Field<string>) => (
         <FormGroup>
           <div
             className={classNames({
@@ -57,7 +68,9 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                           onJsErrorSelect={message => {
                             updateForm(
                               form
-                                .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
+                                .updateIn(['rule', 'value'], f =>
+                                  (f as Field<string>).setValue(message).setTouched(true)
+                                )
                                 .updateIn(['rule', 'operator'], field =>
                                   field.setValue(operators.EQUALS).setTouched(true)
                                 )
@@ -85,7 +98,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
             options={ruleJsErrorsOperatorOptions}
             onChange={e => {
               const previousOperator = field.value;
-              const newOperator = (e && e.value) || '';
+              const newOperator = (e && (e as Option).value) || '';
               let newRuleValueValue = 'Any';
               if (previousOperator === operators.NOT_EMPTY) {
                 newRuleValueValue = '';
@@ -95,7 +108,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
 
               updateForm(
                 form
-                  .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
+                  .updateIn(['rule', 'operator'], f => (f as Field<string>).setValue(newOperator).setTouched(true))
                   .updateIn(['rule', 'value'], f => f.setValue(newRuleValueValue).setTouched(true))
               );
             }}
@@ -106,15 +119,17 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
         </FormGroup>
       ))}
       {operatorField.value !== operators.NOT_EMPTY &&
-        ruleValueField.map(field => (
+        ruleValueField.map((field: Field<string>) => (
           <FormGroup>
             <DebouncedTextArea
               className={locals.jsErrorTextInput}
               name={'ruleValue'}
               rows="3"
               value={field.value}
-              onValueChange={value => {
-                updateForm(form.updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true)));
+              onValueChange={(value: string) => {
+                updateForm(
+                  form.updateIn(['rule', 'value'], f => (f as Field<string>).setValue(value ?? '').setTouched(true))
+                );
               }}
               hasError={!field.valid && field.touched}
               maxLength={65536}
@@ -125,11 +140,3 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
     </div>
   );
 }
-
-ProvideJsError.propTypes = {
-  form: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  onSelectJsError: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
-};
