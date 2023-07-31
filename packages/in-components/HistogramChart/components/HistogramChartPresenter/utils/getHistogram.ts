@@ -12,7 +12,7 @@ import {
   formatBins,
   getMaxLabelCharsCount,
   groupBinsByFormattedValue
-} from 'in-components/HistogramChart/components/HistogramChartPresenter/hooks/utils';
+} from 'in-components/HistogramChart/components/HistogramChartPresenter/utils/utils';
 import { formatters } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 
 interface Props {
@@ -24,7 +24,7 @@ interface Props {
 const bucketLabelWidth = 5;
 const defaultMaxLabelCharsCount = 15;
 
-export default function useHistogram({ result, chartWidth, formatter }: Props) {
+export default function getHistogram({ result, chartWidth, formatter }: Props) {
   const histogramData = result?.data?.[0];
   const hasError = result.errors.length > 0;
   const isLoading = result.progress.loading;

@@ -16,7 +16,7 @@ import {
 } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 import UnavailableData from 'in-components/HistogramChart/components/HistogramChartPresenter/components/UnavailableData';
 import HorizontalLines from 'in-components/HistogramChart/components/HistogramChartPresenter/components/HorizontalLines';
-import useHistogram from 'in-components/HistogramChart/components/HistogramChartPresenter/hooks/useHistogram';
+import getHistogram from 'in-components/HistogramChart/components/HistogramChartPresenter/utils/getHistogram';
 import HistogramBarChart from 'in-components/HistogramChart/components/HistogramBarChart/HistogramBarChart';
 // @ts-expect-error
 import { HEIGHT as horizontalAxisHeight } from 'in-components/Axis/HorizontalAxis';
@@ -70,7 +70,7 @@ export default function HistogramChartPresenter({
     max,
     formatter,
     formatterY
-  } = useHistogram({
+  } = getHistogram({
     result,
     chartWidth,
     formatter: config?.formatter
@@ -143,6 +143,8 @@ export default function HistogramChartPresenter({
 
   const maxCallCount = Math.max(enabledMetric ? getMaxCallCount(buckets) : 0);
 
+  const formattedMin = formatter(min);
+
   return (
     <>
       {showLegend && <ChartLegend chart={chartConfig} />}
@@ -200,7 +202,13 @@ export default function HistogramChartPresenter({
             style={{ bottom: 0 }}
           />
 
-          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} min={min} />
+          <HorizontalAxis
+            buckets={buckets}
+            bucketWidth={bucketWidth}
+            {...(!isNaN(formattedMin) && {
+              min: formattedMin
+            })}
+          />
 
           <HorizontalLines
             nbBars={4}

@@ -25,15 +25,23 @@ export function createBinsArrayObject({ bins, maxVisibleLabels }: Props) {
 
   const result: Bucket[] = [];
 
+  let isFirstBucketRemoved = false;
+
   for (let i = 0; i < bins.length; i++) {
     const isInfinity = bins[i][0] === null;
     const from = i === 0 ? null : bins[i - 1][0];
     const to = isInfinity ? null : bins[i][0];
     const calls = bins[i][1];
 
+    // Skip adding to the array for the first element and when calls = 0
+    if (i === 0 && calls === 0) {
+      isFirstBucketRemoved = true;
+      continue;
+    }
+
     const isTickVisible = isLabelVisible({
-      bucketIndex: i,
-      totalBuckets: bins.length,
+      bucketIndex: isFirstBucketRemoved ? i - 1 : i,
+      totalBuckets: isFirstBucketRemoved ? bins.length - 1 : bins.length,
       maxVisibleLabels
     });
 
