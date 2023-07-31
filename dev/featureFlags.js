@@ -65,7 +65,6 @@ module.exports = {
   syntheticBrowserScriptEnabled: true,
   syntheticBrowserCreateTestEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  syntheticSmartAlertsEnabled: true,
   syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,

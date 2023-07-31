@@ -251,11 +251,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticSmartAlertsEnabled',
-    instanaCtlKey: 'feature.synthetic.smart.alerts.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'syntheticsKeystoreEnabled',
     instanaCtlKey: 'feature.synthetics.keystore.enabled',
     defaultValue: false
