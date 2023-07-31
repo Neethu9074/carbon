@@ -229,7 +229,7 @@
         "blueprintLabel": "Blueprint",
         "typeLabel": "Type",
         "thresholdLabel": "Threshold (unknown unit)",
-        "thresholdLabel_availability": "Threshold (%)",
+        "thresholdLabel_availability": "Threshold",
         "thresholdLabel_latency": "Threshold (ms)",
         "aggregationLabel": "Aggregation",
         "goodEventsLabel": "Events type (good events)",

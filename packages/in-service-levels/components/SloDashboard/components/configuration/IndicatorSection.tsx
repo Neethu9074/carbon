@@ -16,6 +16,7 @@ import SloConfigSection, {
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import TagFilterQueryBuilder from 'in-service-levels/components/SloDashboard/components/configuration/components/TagFilterQueryBuilder';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
+import { percentage } from 'in-services/formatters/number';
 
 interface IndicatorSectionProps {
   data: SloConfigSectionData;
@@ -75,7 +76,7 @@ function ThresholdColumn({ data }: IndicatorSectionProps) {
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.indicatorSection.thresholdLabel', { context: blueprint })}
-      value={threshold}
+      value={blueprint === 'availability' ? percentage.detailed(threshold) : threshold}
     />
   );
 }
