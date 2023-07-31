@@ -216,18 +216,6 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
           urlValidator
         )
       })
-    )
-    .put(
-      'operation',
-      createField({
-        value: savedState?.method || HTTPMethods[0].value,
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          buildEnumValidator(HTTPMethods.map(method => method.value))
-        )
-      })
     );
 }
 
