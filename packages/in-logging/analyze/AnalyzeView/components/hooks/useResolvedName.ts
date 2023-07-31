@@ -7,21 +7,21 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
+  containerIds,
+  ID_HOST,
+  ID_PROCESS,
+  LOG_CUSTOM,
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_ENDPOINT_NAME,
   LOG_CUSTOM_KEY_ENDPOINT_TYPE,
   LOG_CUSTOM_KEY_MSG_PARAM,
-  LOG_PROCESS_SNAPSHOT_ID,
-  LOG_DOCKER_SNAPSHOT_ID,
-  LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM,
-  LOG_SERVICE_NAME,
-  LOG_STREAM_NAME,
   LOG_KUBERNETES_CLUSTER_NAME,
-  LOG_KUBERNETES_NODE_NAME,
-  LOG_KUBERNETES_NAMESPACE_NAME,
   LOG_KUBERNETES_DEPLOYMENT_NAME,
-  LOG_KUBERNETES_POD_NAME
+  LOG_KUBERNETES_NAMESPACE_NAME,
+  LOG_KUBERNETES_NODE_NAME,
+  LOG_KUBERNETES_POD_NAME,
+  LOG_SERVICE_NAME,
+  LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -29,6 +29,9 @@ import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
+const infraLabelResolver: LinkResolver = tag => resolveInfraLabel(tag.stringValue || '');
+
+const containerTagResolvers: [string, LinkResolver][] = containerIds.map(id => [id, infraLabelResolver]);
 
 const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
@@ -39,9 +42,9 @@ const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_KUBERNETES_DEPLOYMENT_NAME, () => just(t('in-logging:deployment'))],
   [LOG_KUBERNETES_POD_NAME, () => just(t('in-logging:pod'))],
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
-  [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
-  [LOG_DOCKER_SNAPSHOT_ID, _t => just(t('in-logging:container'))],
-  [LOG_HOST_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')]
+  [ID_PROCESS, infraLabelResolver],
+  [ID_HOST, infraLabelResolver],
+  ...containerTagResolvers
 ]);
 
 function getCustomKeyLabel(key: string): string {

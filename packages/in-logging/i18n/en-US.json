@@ -37,7 +37,6 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "No issues",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
-  "container": "Container",
   "endOfInfiniteScroll": "No more logs available",
   "liveModeDisabled": "Live mode is not supported when analysing Logs",
   "logLevels": "Log levels"

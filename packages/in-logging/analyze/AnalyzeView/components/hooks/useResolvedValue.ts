@@ -7,21 +7,26 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  LOG_PROCESS_SNAPSHOT_ID,
-  LOG_DOCKER_SNAPSHOT_ID,
-  LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID,
+  containerIds,
+  ID_HOST,
+  ID_PROCESS,
   LOG_CUSTOM,
+  LOG_CUSTOM_KEY_APPLICATION_ID,
   LOG_CUSTOM_KEY_APPLICATION_IDS
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { getSnapshot } from 'in-stores/snapshot';
 // @ts-ignore
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
+import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
+
+const containerTagResolvers: [string, LinkResolver][] = containerIds.map(id => [
+  id,
+  tag => resolveInfraLabel(tag.stringValue || '')
+]);
 
 const tagValueResolver = new Map<string, LinkResolver>([
   [
@@ -35,9 +40,9 @@ const tagValueResolver = new Map<string, LinkResolver>([
     `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_APPLICATION_IDS}`,
     tag => just(t('in-logging:applicationCounter', { count: (tag.stringValue || '').split(',').length }))
   ],
-  [LOG_PROCESS_SNAPSHOT_ID, tag => resolveInfraLabel(tag.stringValue || '')],
-  [LOG_DOCKER_SNAPSHOT_ID, tag => resolveInfraLabel(tag.stringValue || '')],
-  [LOG_HOST_SNAPSHOT_ID, tag => resolveInfraLabel(tag.stringValue || '')]
+  [ID_PROCESS, tag => resolveInfraLabel(tag.stringValue || '')],
+  [ID_HOST, tag => resolveInfraLabel(tag.stringValue || '')],
+  ...containerTagResolvers
 ]);
 
 function resolveInfraLabel(snapshotId: string): Observable<string> {

@@ -7,10 +7,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TagFilter } from '@instana/types';
-import { Link } from '@instana/components';
 
 import {
   ApplicationProps,
@@ -28,12 +27,8 @@ import {
   trackFilterClick,
   trackGroupClick
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
-import {
-  LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_APPLICATION_IDS,
-  LOG_DOCKER_SNAPSHOT_ID
-} from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
+import { containerIds, LOG_CUSTOM_KEY_APPLICATION_ID, LOG_CUSTOM_KEY_APPLICATION_IDS } from 'in-logging/queryBuilder';
 // @ts-expect-error needs TS migration
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/constants';
@@ -192,7 +187,7 @@ export function TagEntry({
   getHrefToGroupedView
 }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const isContainerTag = tag.name === LOG_DOCKER_SNAPSHOT_ID;
+  const isContainerTag = containerIds.includes(tag.name as string);
 
   return (
     <>

@@ -92,6 +92,12 @@ export const ID_KUBERNETES_NAMESPACE = 'id.kubernetesNamespace';
 export const ID_KUBERNETES_DEPLOYMENT = 'id.kubernetesDeployment';
 export const ID_DOCKER = 'id.docker';
 export const ID_CONTAINERD = 'id.containerd';
+export const ID_HOST = 'id.host';
+export const ID_PROCESS = 'id.process';
+export const ID_CRIO = 'id.crio';
+export const ID_GARDEN = 'id.garden';
+
+export const containerIds = [ID_DOCKER, ID_CRIO, ID_GARDEN, ID_CONTAINERD];
 
 export const kubernetesEntitySnapshotIds = [
   KUBERNETES_CLUSTER_SNAPSHOT_ID,
@@ -126,14 +132,12 @@ export const logTableTags = [
   LOG_TRACE_ID,
   LOG_SPAN_ID,
   LOG_CALL_ID,
-  LOG_PROCESS_SNAPSHOT_ID,
-  LOG_DOCKER_SNAPSHOT_ID,
-  LOG_HOST_SNAPSHOT_ID,
   LOG_EXCEPTION_TYPE,
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE,
-  ID_DOCKER,
-  ID_CONTAINERD,
+  ID_HOST,
+  ID_PROCESS,
+  ...containerIds,
   ...kubernetesTags
 ];
 
@@ -150,7 +154,5 @@ export const restrictedTags = new Set<string>([
   ID_KUBERNETES_NODE,
   ID_KUBERNETES_NAMESPACE,
   ID_KUBERNETES_DEPLOYMENT,
-  ID_DOCKER,
-  ID_CONTAINERD,
   ...kubernetesEntitySnapshotIds
 ]);

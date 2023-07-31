@@ -9,19 +9,19 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
+  containerIds,
+  ID_HOST,
+  ID_PROCESS,
   LOG_CUSTOM,
   LOG_CUSTOM_KEY_APPLICATION_ID,
   LOG_CUSTOM_KEY_ENDPOINT_ID,
   LOG_CUSTOM_KEY_ENDPOINT_NAME,
   LOG_CUSTOM_KEY_SERVICE_ID,
-  LOG_DOCKER_SNAPSHOT_ID,
-  LOG_HOST_SNAPSHOT_ID,
   LOG_KUBERNETES_CLUSTER_NAME,
   LOG_KUBERNETES_DEPLOYMENT_NAME,
   LOG_KUBERNETES_NAMESPACE_NAME,
   LOG_KUBERNETES_NODE_NAME,
   LOG_KUBERNETES_POD_NAME,
-  LOG_PROCESS_SNAPSHOT_ID,
   LOG_SERVICE_NAME,
   LOG_TRACE_ID
 } from 'in-logging/queryBuilder';
@@ -53,20 +53,25 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
+  const containerTagResolvers: [string, LinkResolverObservable][] = containerIds.map(id => [
+    id,
+    (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })
+  ]);
+
   const tagValueObservableLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverObservable>([
         [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t.stringValue)],
-        [LOG_PROCESS_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [LOG_DOCKER_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [ID_PROCESS, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [ID_HOST, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
         [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NAMESPACE_NAME, getKubernetesLink],
-        [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink]
+        [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink],
+        ...containerTagResolvers
       ]),
-    [getLinkToTraceDetail]
+    [containerTagResolvers, getLinkToTraceDetail]
   );
 
   const tagValueStringLinkResolver = useMemo(
