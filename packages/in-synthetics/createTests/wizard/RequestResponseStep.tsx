@@ -3,20 +3,22 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { ChangeEvent, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
+import React, { ChangeEvent } from 'react';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
-import { Li, ScrollBox, Stack } from '@instana/components';
+import { Li, Message, ScrollBox, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
   Code as CodeType,
+  Script,
   apiScriptTest,
   apiSimpleTest,
   browserScriptTest,
   browserSimpleTest,
-  dummyLocations
+  dummyLocations,
+  scriptTestType
 } from 'in-synthetics/utils/constants';
 import BrowserSimpleTestSection from 'in-synthetics/createTests/wizard/BrowserSimpleTestSection';
 import ApiSimpleTestSection from 'in-synthetics/createTests/wizard/ApiSimpleTestSection';
@@ -40,6 +42,8 @@ export interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   selectedBlueprint: BluePrint;
+  script: Script;
+  setScript: React.Dispatch<React.SetStateAction<Script>>;
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   scriptDetails: CodeType;
@@ -53,16 +57,12 @@ export interface LocationsResponse {
   time?: number;
 }
 
-interface State {
-  loading: boolean;
-  script?: string;
-  errorMessage?: string;
-}
-
 export default function RequestResponseStep({
   form,
   updateForm,
   selectedBlueprint,
+  script,
+  setScript,
   scriptErrors,
   setScriptErrors,
   scriptDetails,
@@ -83,10 +83,10 @@ export default function RequestResponseStep({
     []
   );
   const locationsField = form.get('locations') as Field<string[]>;
-  const [state, setState] = useState<State>({ loading: false });
-  const script = configForm.get('script') as Field<string>;
+  const scriptField = configForm.get('script') as Field<string>;
   const renderScript: boolean =
     selectedBlueprint.type === apiScriptTest || selectedBlueprint.type === browserScriptTest;
+  const isBrowser = selectedBlueprint.type === browserScriptTest ? true : false;
 
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
@@ -139,30 +139,41 @@ export default function RequestResponseStep({
 
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files || e.target.files.length === 0) {
-      setState({
-        loading: false
+      setScript({
+        name: '',
+        text: '',
+        extension: ''
       });
       return;
     }
     try {
       const text = await e.target.files[0].text();
-      setScriptDetails({ modified: false, name: e.target.files[0].name });
-      setScriptErrors(validate(text));
-      setState({
-        loading: false,
-        script: text
-      });
+      const extension = e.target.value.substring(e.target.value.lastIndexOf('.') + 1);
+      const testType = isBrowser ? scriptTestType(extension, syntheticType.value) : syntheticType.value;
+      setScriptDetails({ modified: extension === 'side' ? true : false, name: e.target.files[0].name });
+      if (extension === 'js') {
+        setScriptErrors(validate(text));
+      } else {
+        setScriptErrors([] as ScriptError[]);
+      }
+      setScript({ name: e.target.files[0].name, text, extension });
       updateForm(
-        form.updateIn(['configuration', 'script'], (field: Item) =>
-          (field as Field<string>).setValue(text).setTouched(true)
-        )
+        form
+          .updateIn(['configuration', 'script'], (field: Item) =>
+            (field as Field<string>).setValue(text).setTouched(true)
+          )
+          .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+            (field as Field<string>).setValue(testType).setTouched(true)
+          )
       );
     } catch (e) {
-      setState({
-        loading: false,
+      setScript({
+        name: '',
+        text: '',
         errorMessage: t('in-synthetics:dialog.createTest.requestStep.failureToReadFileContent', {
           error: (e as { message: string }).message ?? 'Unknown error'
-        })
+        }),
+        extension: ''
       });
       setScriptDetails({ modified: false, name: '' });
     }
@@ -170,9 +181,10 @@ export default function RequestResponseStep({
 
   function updateCode(text: string) {
     setScriptErrors(validate(text));
-    setState({
-      loading: false,
-      script: text
+    setScript({
+      name: script.name,
+      text,
+      extension: script.extension
     });
     updateForm(
       form.updateIn(['configuration', 'script'], (field: Item) =>
@@ -193,8 +205,8 @@ export default function RequestResponseStep({
                 <SubTitle isUploadScriptSubTitle>
                   {t('in-synthetics:dialog.createTest.requestStep.uploadScriptTitle')}
                 </SubTitle>
-                <FileInputButton accept="text/javascript" onChange={onChange} disabled={state.loading} />
-                {state.errorMessage && <SaveError>{state.errorMessage}</SaveError>}
+                <FileInputButton accept={isBrowser ? 'text/javascript,.side' : 'text/javascript'} onChange={onChange} />
+                {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
               </>
             )}
             <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.popSubTitle')}</SubTitle>
@@ -203,18 +215,26 @@ export default function RequestResponseStep({
 
           {renderScript && (
             <div className={locals.scriptUpload}>
-              {script.map(field => (
-                <>
-                  <Code
-                    value={field.value}
-                    onChange={updateCode}
-                    maxHeight="39vh"
-                    maxWidth="63vw"
-                    placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
-                  />
-                  {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
-                </>
-              ))}
+              {script.extension !== 'side' ? (
+                scriptField.map(field => (
+                  <>
+                    <Code
+                      value={field.value}
+                      onChange={updateCode}
+                      maxHeight="39vh"
+                      maxWidth="63vw"
+                      placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
+                    />
+                    {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
+                  </>
+                ))
+              ) : (
+                <Message
+                  className={locals.message}
+                  withIcon
+                  title={t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage')}
+                />
+              )}
             </div>
           )}
         </Stack>

@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -17,9 +17,9 @@ import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleS
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { Code, Script } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
-import { Code } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
 import { Application, Result } from 'in-types';
 
@@ -77,6 +77,7 @@ const WizardModeContainer = ({
       title: t('in-synthetics:dialog.createTest.titles.step4')
     }
   ]);
+  const [script, setScript] = useState<Script>({ name: '', text: '', extension: 'js' });
 
   return (
     <div className={locals.container}>
@@ -98,6 +99,7 @@ const WizardModeContainer = ({
                   updateForm={updateForm}
                   setScriptErrors={setScriptErrors}
                   simpleMode={simpleMode}
+                  setScript={setScript}
                 />
               );
             case 1:
@@ -106,6 +108,8 @@ const WizardModeContainer = ({
                   selectedBlueprint={selectedBlueprint}
                   form={form}
                   updateForm={updateForm}
+                  script={script}
+                  setScript={setScript}
                   scriptErrors={scriptErrors}
                   setScriptErrors={setScriptErrors}
                   scriptDetails={scriptDetails}

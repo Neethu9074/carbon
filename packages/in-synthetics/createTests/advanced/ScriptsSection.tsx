@@ -11,11 +11,11 @@ import { Button, SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { Code, SlideInHeader, SliderState, Zip, scriptTestType } from 'in-synthetics/utils/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
-import { Code, SlideInHeader, SliderState, Zip } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -139,12 +139,6 @@ export default function ScriptsSection({
       }
     }
   ];
-
-  const scriptTestType = (fileExtension: string, syntheticType: string) => {
-    if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
-    if (fileExtension === 'side') return 'WebpageScript';
-    return syntheticType;
-  };
 
   return (
     <List

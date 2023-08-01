@@ -194,7 +194,11 @@ const CreateSyntheticTestDialogPresenter = ({
         if (syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') {
           stepDisabled = configForm.hierarchyValid && locationsField.value.length !== 0;
         }
-        if (syntheticTypeField.value === 'HTTPScript' || syntheticTypeField.value === 'BrowserScript') {
+        if (
+          syntheticTypeField.value === 'HTTPScript' ||
+          syntheticTypeField.value === 'BrowserScript' ||
+          syntheticTypeField.value === 'WebpageScript'
+        ) {
           stepDisabled = configForm.hierarchyValid && scriptErrors.length === 0 && locationsField.value.length !== 0;
         }
         return stepDisabled;
@@ -230,7 +234,7 @@ const CreateSyntheticTestDialogPresenter = ({
         (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
         invalidJSON.invalid ||
         (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
-      ) ||
+        ) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -323,7 +327,8 @@ const CreateSyntheticTestDialogPresenter = ({
                 }
               }}
               disabled={
-                form.get('configuration').get('syntheticType').value === 'HTTPScript' && scriptErrors.length !== 0
+                ['HTTPScript', 'BrowserScript'].includes(form.get('configuration').get('syntheticType').value) &&
+                scriptErrors.length !== 0
               }
             >
               {t('in-synthetics:dialog.createTest.advancedMode.switchModeButton')}

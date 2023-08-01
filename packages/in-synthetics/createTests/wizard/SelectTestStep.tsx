@@ -12,6 +12,7 @@ import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/Sel
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { Script } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
@@ -22,6 +23,7 @@ export interface Props {
   selectedBlueprint: BluePrint;
   onSelectBluePrint: (item: BluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
+  setScript: React.Dispatch<React.SetStateAction<Script>>;
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
 }
@@ -35,6 +37,7 @@ export default function SelectTestStep({
   selectedBlueprint,
   onSelectBluePrint,
   updateForm,
+  setScript,
   setScriptErrors,
   simpleMode
 }: Props) {
@@ -47,6 +50,7 @@ export default function SelectTestStep({
         onItemClick={item => {
           onSelectBluePrint(item);
           updateForm(createForm(simpleMode, item));
+          setScript({ name: '', text: '', extension: 'js' });
           setScriptErrors([] as ScriptError[]);
         }}
       />

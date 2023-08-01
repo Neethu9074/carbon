@@ -92,6 +92,8 @@ export default function AddScriptDialogContent({
         setScript({ name: e.target.files[0].name, text, extension });
         if (extension === 'js') {
           setScriptErrors(validate(text));
+        } else {
+          setScriptErrors([] as Error[]);
         }
       } else {
         setUploadIcon('lib_views_folder');

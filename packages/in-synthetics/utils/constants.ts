@@ -41,6 +41,12 @@ export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
 
+export const scriptTestType = (fileExtension: string, syntheticType: string) => {
+  if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
+  if (fileExtension === 'side') return 'WebpageScript';
+  return syntheticType;
+};
+
 export const dummyLocations = {
   data: [],
   errors: [],
