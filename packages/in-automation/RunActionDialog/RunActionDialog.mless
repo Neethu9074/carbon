@@ -51,4 +51,11 @@
     border-right: 1px solid @lib__colors__N300;
     padding-right: 1rem;
   }
+  #hostLimit > div {
+    height: auto;
+    min-height: 2rem;
+    > :last-child {
+      height: auto;
+    }
+  }
 }

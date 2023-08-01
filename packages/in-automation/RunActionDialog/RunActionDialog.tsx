@@ -42,6 +42,7 @@ import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
+import { Option } from 'in-components/ComboBox/ComboBox';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -84,6 +85,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
             agentSnapShots={agentSnapShots}
             volatileId={volatileId}
             errorResolvingDynamicParameters={errorResolvingDynamicParameters}
+            resolvedDynamicParameters={resolvedDynamicParameters}
           />
         </div>
         <FormFooter>
@@ -137,18 +139,31 @@ function useAgentSnapShots({ action }: { action: Action }) {
 
 const emptyParametersArray = alwaysEmptyArray as unknown as Observable<ResolvedDynamicParamValue[]>;
 
+const ansibleHostQueries = [
+  {
+    name: 'fqdn',
+    tagName: 'host.fqdn'
+  },
+  {
+    name: 'ip',
+    tagName: 'host.ip'
+  }
+];
 const useResolvedDynamicParameters = ({ action, event }: { action: Action; event?: Event }) => {
   const [errorResolvingDynamicParameters, setErrorResolvingDynamicParameters] = useState(false);
   const resolvedDynamicParameters = useObservable(() => {
     if (!event) return emptyParametersArray;
     const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
-    if (dynamicParameters.length === 0) return emptyParametersArray;
+    if (dynamicParameters.length === 0 && !isAnsible(action.type)) return emptyParametersArray;
     const parsedParameters = dynamicParameters.map(({ value, name }) => ({
       name,
       ...parseDynamicParameter(value)
     }));
     const timestamp: number =
       event.metadata?.triggerTime != null ? Math.min(event.start, event.metadata.triggerTime) : event.start;
+    if (isAnsible(action.type)) {
+      parsedParameters.push(...ansibleHostQueries);
+    }
     return resolveDynamicParameters(event.id, parsedParameters, timestamp).map(result => {
       if (hasError(result)) {
         setErrorResolvingDynamicParameters(true);
@@ -214,7 +229,6 @@ function onSave({
   });
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
-
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.name);
     const name = parameterDefinition?.name ?? '';
@@ -317,6 +331,7 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isAnsible(action.type)) {
+    const hostsLimit = form?.get('hostsLimit') as Field<Option[]>;
     const { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl } = getAnsibleFields(action);
     runAnsibleAction({
       volatileId: selectedVolatileId,
@@ -328,7 +343,8 @@ function onSave({
       playbookFileName,
       ansibleUrl,
       jobTemplateUrl,
-      inputParameters: allInputParameters
+      inputParameters: allInputParameters,
+      hostsLimit: hostsLimit.value.map(host => host.value).join()
     }).once(handleActionResponse);
   }
 }
@@ -431,7 +447,8 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
           };
         }, {})
       })
-    );
+    )
+    .put('hostsLimit', createField({ value: [] }));
 }
 
 const formatResolvedValue = (value: string) => {

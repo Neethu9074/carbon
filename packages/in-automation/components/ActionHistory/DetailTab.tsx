@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { ActionInstanceMetadataEntry } from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
-import { Link } from '@instana/components';
+import { Li, Link, Ul } from '@instana/components';
 
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -18,6 +19,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getEntityIdView } from 'in-settings/navigation/paths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -38,6 +40,8 @@ interface ActionInstanceProperty {
   startDate: DateFormatterInput;
   endDate: DateFormatterInput;
   targetSnapshotId?: string;
+  type: string;
+  metadata: ActionInstanceMetadataEntry[];
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
   const { createHref, location } = useNavigation();
@@ -60,7 +64,9 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     actionId,
     startDate,
     targetSnapshotId,
-    endDate
+    endDate,
+    metadata,
+    type
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -105,6 +111,30 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       ObservableLink: link
     }
   ];
+
+  if (isAnsible(type)) {
+    tableData.push({
+      label: t('in-automation:actionHistory.hostsLimit'),
+      value: (
+        <Ul framed={false}>
+          {(metadata.find(data => data.name === 'hostsLimit')?.value ?? '').split(',').map(host => (
+            <Li key={host}>{host}</Li>
+          ))}
+        </Ul>
+      )
+    });
+    const ansibleUrl = metadata.find(data => data.name === 'ansibleUrl');
+    const ansibleJobId = metadata.find(data => data.name === 'ansibleJobId');
+    if (ansibleUrl && ansibleJobId) {
+      const jobUrl = `${ansibleUrl.value}/#/jobs/playbook/${ansibleJobId.value}`;
+      tableData.push({
+        label: t('in-automation:actionHistory.ansibleJob'),
+        value: ansibleJobId.value ?? '',
+        isLink: true,
+        stringLink: jobUrl
+      });
+    }
+  }
 
   if (errorMessage) {
     tableData.push({ label: t('in-automation:actionHistory.errorMessage'), value: errorMessage });

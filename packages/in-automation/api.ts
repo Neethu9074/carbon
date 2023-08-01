@@ -321,6 +321,7 @@ interface RunActionBaseParams {
   actionId: string;
   inputParameters: ActionExecutionParameter[];
   timeout: string;
+  hostsLimit?: string;
 }
 
 interface RunActionRequest {
@@ -348,7 +349,8 @@ function runAction({
   request,
   inputParameters,
   actionId,
-  timeout
+  timeout,
+  hostsLimit
 }: RunActionParams) {
   return combineLatest(
     [
@@ -367,6 +369,7 @@ function runAction({
         target: volatileId,
         args: {
           type,
+          hostsLimit,
           inputParameters,
           async: 'true',
           event: JSON.stringify(event),
@@ -498,6 +501,7 @@ interface RunAnsibleActionParams extends RunActionBaseParams {
   playbookFileName: Field;
   ansibleUrl: Field;
   jobTemplateUrl: string;
+  hostsLimit: string;
 }
 
 export function runAnsibleAction({
@@ -510,7 +514,8 @@ export function runAnsibleAction({
   ansibleUrl,
   jobTemplateUrl,
   inputParameters,
-  timeout
+  timeout,
+  hostsLimit
 }: RunAnsibleActionParams) {
   return runAction({
     type: ANSIBlE_TYPE,
@@ -520,6 +525,7 @@ export function runAnsibleAction({
     timeout,
     actionId,
     inputParameters,
+    hostsLimit,
     request: [
       {
         name: 'playbookId',

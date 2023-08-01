@@ -10,7 +10,6 @@
   "targetAgent": "Target Agent",
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
-  "pleaseSelect": "Please select",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
@@ -44,6 +43,7 @@
   "associateActionWithName": "Associate action {{actionName}}",
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
+  "hostsLimit": "Hosts Limit (optional)",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -186,6 +186,8 @@
     "feedbackNotSelectedError": "Please select an option before submitting.",
     "feedbackSuccessTitle": "Feedback Submitted.",
     "feedbackSuccessMessage": "Thank you for your feedback!",
-    "saveButton": "Save"
+    "saveButton": "Save",
+    "ansibleJob": "Ansible Job",
+    "hostsLimit": "Hosts Limit"
   }
 }
