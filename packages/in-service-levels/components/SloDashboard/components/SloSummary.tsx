@@ -42,13 +42,13 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   return (
     <>
       <Row>
-        <Col xs>
+        <Col xs={4}>
           <SloStatusKpiCard configuration={configuration} timeConfig={fullWindowTimeConfig} />
         </Col>
-        <Col xs>
+        <Col xs={4}>
           <ErrorBudgetKpiCard configuration={configuration} timeConfig={fullWindowTimeConfig} />
         </Col>
-        <Col xs>
+        <Col xs={4}>
           <TrafficKpiCard configuration={configuration} timeConfig={selectedTimeConfig} />
         </Col>
       </Row>

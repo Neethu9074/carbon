@@ -21,7 +21,7 @@ interface SloDashboardMetaInfoProps {
 export default function SloDashboardMetaInfo({ configuration, entity }: SloDashboardMetaInfoProps) {
   const { tags, entity: sloEntity } = configuration;
   return (
-    <Stack direction="horizontal">
+    <Stack direction="horizontal" align="center" distribution="start" wrap>
       {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} />}
       <SloTagList tags={tags} />
     </Stack>
