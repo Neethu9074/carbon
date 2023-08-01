@@ -234,33 +234,39 @@ describe('in-service-levels/hooks/useSloWindowTimeConfig', () => {
       );
     });
 
-    // This needs some additional clarification which
-    it.skip('creates a timeConfig with a window size of 30 days ending 30 days from the start date for a duration of 30 days starting now', () => {
-      // Given
-      const timeConfig: TimeConfig = {
-        to: Date.now(),
-        windowSize: days.toMillis(1),
-        autoRefresh: false
-      };
-      const timeWindow: FixedTimeWindow = {
-        type: 'fixed',
-        duration: 1,
-        durationUnit: 'month',
-        startTimestamp: Date.now()
-      };
-      useTimeConfig.mockReturnValue(timeConfig);
+    it.each([
+      [28, '2023-02-15T12:00:00Z'],
+      [30, '2023-04-15T12:00:00Z']
+    ])(
+      'creates a timeConfig with a window size of %d days for a duration of 1 month starting now when now is %s',
+      (expectedDays, now) => {
+        // Given
+        jest.setSystemTime(new Date(now));
+        const timeConfig: TimeConfig = {
+          to: Date.now(),
+          windowSize: days.toMillis(1),
+          autoRefresh: false
+        };
+        const timeWindow: FixedTimeWindow = {
+          type: 'fixed',
+          duration: 1,
+          durationUnit: 'month',
+          startTimestamp: Date.now()
+        };
+        useTimeConfig.mockReturnValue(timeConfig);
 
-      // When
-      const { result } = renderHook(() => useSloWindowTimeConfig(timeWindow));
+        // When
+        const { result } = renderHook(() => useSloWindowTimeConfig(timeWindow));
 
-      // Then
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          to: addDays(Date.now(), 30).getTime(),
-          windowSize: days.toMillis(30)
-        })
-      );
-    });
+        // Then
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            to: addDays(Date.now(), expectedDays).getTime(),
+            windowSize: days.toMillis(expectedDays)
+          })
+        );
+      }
+    );
 
     it('calculates the to timestamp of the timeConfig in a tumbling fashion from the startTimestamp if the startTimestamp is further in the past than one time window', () => {
       // Given
