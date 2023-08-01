@@ -12,7 +12,7 @@ import Tick from 'in-components/HistogramChart/components/HorizontalAxis/Tick';
 import locals from 'in-components/HistogramChart/components/HorizontalAxis/HorizontalAxis.mless';
 
 export default function HorizontalAxis(props: HorizontalAxisProps) {
-  const { buckets, bucketWidth, min } = props;
+  const { buckets, bucketWidth } = props;
 
   return (
     <div className={locals.horizontalAxis} style={{ width: bucketWidth * buckets.length }}>
@@ -22,7 +22,6 @@ export default function HorizontalAxis(props: HorizontalAxisProps) {
           bucket={bucket}
           bucketPosition={bucketWidth * index}
           bucketWidth={bucketWidth}
-          min={min}
           isTickVisible={bucket.tickMark}
         />
       ))}

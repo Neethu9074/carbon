@@ -143,8 +143,6 @@ export default function HistogramChartPresenter({
 
   const maxCallCount = Math.max(enabledMetric ? getMaxCallCount(buckets) : 0);
 
-  const formattedMin = formatter(min);
-
   return (
     <>
       {showLegend && <ChartLegend chart={chartConfig} />}
@@ -202,13 +200,7 @@ export default function HistogramChartPresenter({
             style={{ bottom: 0 }}
           />
 
-          <HorizontalAxis
-            buckets={buckets}
-            bucketWidth={bucketWidth}
-            {...(!isNaN(formattedMin) && {
-              min: formattedMin
-            })}
-          />
+          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} />
 
           <HorizontalLines
             nbBars={4}

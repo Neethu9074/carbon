@@ -79,7 +79,7 @@ describe('createBinsArrayObject', () => {
 
     const result = createBinsArrayObject({ bins, maxVisibleLabels });
 
-    expect(result).toEqual([{ from: null, to: 0, calls: 10, tickMark: true }]);
+    expect(result).toEqual([{ from: null, to: 0, calls: 10, tickMark: false }]);
   });
 
   it('with multiple bins', () => {
@@ -95,7 +95,7 @@ describe('createBinsArrayObject', () => {
     const result = createBinsArrayObject({ bins, maxVisibleLabels });
 
     expect(result).toEqual([
-      { calls: 1, from: null, tickMark: true, to: '0%' },
+      { calls: 1, from: null, tickMark: false, to: '0%' },
       { calls: 1, from: '0%', tickMark: true, to: '10,000%' },
       { calls: 1, from: '10,000%', tickMark: true, to: '15,000%' },
       { calls: 1, from: '15,000%', tickMark: true, to: '20,000%' },
@@ -113,7 +113,7 @@ describe('createBinsArrayObject', () => {
     const result = createBinsArrayObject({ bins, maxVisibleLabels });
 
     expect(result).toEqual([
-      { calls: 10, from: null, tickMark: true, to: 0 },
+      { calls: 10, from: null, tickMark: false, to: 0 },
       { calls: 20, from: 0, tickMark: true, to: null }
     ]);
   });
@@ -124,8 +124,8 @@ describe('createBinsArrayObject', () => {
     const result = createBinsArrayObject({ bins: aggregatedBins, maxVisibleLabels });
 
     expect(result).toEqual([
-      { calls: 108989, from: null, tickMark: true, to: 0 },
-      { calls: 0, from: 0, tickMark: false, to: 0.0093 },
+      { calls: 108989, from: null, tickMark: false, to: 0 },
+      { calls: 0, from: 0, tickMark: true, to: 0.0093 },
       { calls: 116840, from: 0.0093, tickMark: false, to: 0.0103 },
       { calls: 0, from: 0.0103, tickMark: false, to: 0.0182 },
       { calls: 77694, from: 0.0182, tickMark: false, to: 0.02 },
@@ -507,7 +507,7 @@ describe('groupBinsByFormattedValue', () => {
 
 describe('isLabelVisible', () => {
   it('maxVisibleLabels having 0 as value', () => {
-    const expected = [true, false, false, false, false, false, false, false, false, true];
+    const expected = [false, true, false, false, false, false, false, false, false, true];
     const result = [];
     const totalBuckets = 10;
     const maxVisibleLabels = 0;
@@ -520,7 +520,7 @@ describe('isLabelVisible', () => {
   });
 
   it('maxVisibleLabels having 1 as value', () => {
-    const expected = [true, false, false, false, false, false, false, false, false, true];
+    const expected = [false, true, false, false, false, false, false, false, false, true];
     const result = [];
     const totalBuckets = 10;
     const maxVisibleLabels = 1;
@@ -533,7 +533,7 @@ describe('isLabelVisible', () => {
   });
 
   it('maxVisibleLabels having 5 as value', () => {
-    const expected = [true, false, true, false, true, false, true, false, true, true];
+    const expected = [false, true, true, false, true, false, true, false, true, true];
     const result = [];
     const totalBuckets = 10;
     const maxVisibleLabels = 5;
@@ -546,7 +546,7 @@ describe('isLabelVisible', () => {
   });
 
   it('maxVisibleLabels greater than or equal to totalBuckets', () => {
-    const expected = [true, true, true, true, true];
+    const expected = [false, true, true, true, true];
     const result = [];
     const totalBuckets = 5;
     const maxVisibleLabels = 7;

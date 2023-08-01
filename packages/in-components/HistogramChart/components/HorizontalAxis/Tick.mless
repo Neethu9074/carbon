@@ -30,15 +30,6 @@
     white-space: nowrap;
   }
 
-  .tickContainer:first-child .tick {
-    border-right: 1px solid @lib__colors__N800Dark;
-    border-left: 0;
-  }
-
-  .tickContainer:nth-child(2) .tick {
-    border-left: 0;
-  }
-
   .tickContainer:last-child .tickValues {
     left: 0;
   }

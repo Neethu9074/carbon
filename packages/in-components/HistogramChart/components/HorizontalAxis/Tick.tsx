@@ -11,12 +11,12 @@ import { TickProps } from 'in-components/HistogramChart/components/HorizontalAxi
 import locals from 'in-components/HistogramChart/components/HorizontalAxis/Tick.mless';
 
 export default function Tick(props: TickProps) {
-  const { bucket, bucketPosition, bucketWidth, min, isTickVisible } = props;
+  const { bucket, bucketPosition, bucketWidth, isTickVisible } = props;
 
   let label = bucket.from;
 
   if (bucket.from === null) {
-    label = min || '< ' + bucket.to;
+    label = '< ' + bucket.to;
   } else if (bucket.to === null) {
     label = '> ' + bucket.from;
   }
