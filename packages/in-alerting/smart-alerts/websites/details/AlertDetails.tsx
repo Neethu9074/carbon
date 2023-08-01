@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { TimeConfig, WebsiteAlertConfigWithMetadata } from '@instana/types';
+
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -19,17 +21,27 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
 } from 'in-websites/navigation/paths';
-import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+//@ts-expect-error TS migration
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
+//@ts-expect-error TS migration
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
+//@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { Nullish } from 'in-types';
 
 const endpointConfig = { asObservable: true };
 
-export default function AlertDetails(props) {
+interface AlertDetailsProps {
+  timeConfig: TimeConfig;
+  websiteId: string;
+  websiteLabel: string;
+}
+
+export default function AlertDetails(props: AlertDetailsProps) {
   return (
     <Alert
       {...props}
@@ -39,27 +51,50 @@ export default function AlertDetails(props) {
         alertsTabSegment
       }}
       matrix={{ alertIdParam, alertCreatedParam }}
-      getConfig={(id, created) =>
+      getConfig={(id: string, created: number) =>
         created ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig) : getLatestAlertConfig(id, endpointConfig)
       }
-      getConfigVersions={id => getAllVersionsOfAlertConfig(id, endpointConfig)}
+      getConfigVersions={(id: string) => getAllVersionsOfAlertConfig(id, endpointConfig)}
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} />}
-      renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
+      renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
+      renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteAlertConfigWithMetadata }) => (
+        <AlertConfiguration alertConfig={alertConfig} />
+      )}
     />
   );
 }
 
-function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
+interface SmartAlertDialogWrapperProps {
+  close: () => void;
+  alertConfig: WebsiteAlertConfigWithMetadata;
+  setRevision: (arg: string | Nullish) => void;
+  isCopy: boolean;
+  detailsPath: string;
+  alertConfigId: string;
+}
+
+interface CloseProps {
+  id?: string;
+  created?: number;
+}
+
+function SmartAlertDialogWrapper({
+  close,
+  alertConfig,
+  setRevision,
+  isCopy,
+  detailsPath,
+  alertConfigId
+}: SmartAlertDialogWrapperProps) {
   const { location, navigate } = useNavigation();
 
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id, created } = {}) => {
+      onClose={({ id, created }: CloseProps = {}) => {
         close();
         setRevision(null);
         if (isCopy) {
