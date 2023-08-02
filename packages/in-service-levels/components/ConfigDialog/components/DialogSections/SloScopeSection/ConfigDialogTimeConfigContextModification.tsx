@@ -4,24 +4,23 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
+
+import { TimeConfig } from '@instana/types';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
 import { days } from 'in-services/time/time';
 
-export default function ConfigDialogTimeConfigContextModification({ children }: any) {
-  const timeWindowSizeForSevenDays = days.toMillis(7);
-
+export default function ConfigDialogTimeConfigContextModification({ children }: PropsWithChildren<{}>) {
   return (
-    <LocalTimeConfigContextModification modification={() => modifyTimeConfig(timeWindowSizeForSevenDays)}>
-      {children}
-    </LocalTimeConfigContextModification>
+    <LocalTimeConfigContextModification modification={modifyTimeConfig}>{children}</LocalTimeConfigContextModification>
   );
 }
 
-function modifyTimeConfig(windowSize: number) {
+function modifyTimeConfig(timeConfig: TimeConfig) {
   return {
-    windowSize: windowSize,
+    ...timeConfig,
+    windowSize: days.toMillis(7),
     autoRefresh: false
   };
 }
