@@ -29,8 +29,6 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Nullish } from 'in-types';
 
 const endpointConfig = { asObservable: true };
@@ -72,37 +70,15 @@ interface SmartAlertDialogWrapperProps {
   alertConfig: WebsiteAlertConfigWithMetadata;
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
-  detailsPath: string;
-  alertConfigId: string;
 }
 
-interface CloseProps {
-  id?: string;
-  created?: number;
-}
-
-function SmartAlertDialogWrapper({
-  close,
-  alertConfig,
-  setRevision,
-  isCopy,
-  detailsPath,
-  alertConfigId
-}: SmartAlertDialogWrapperProps) {
-  const { location, navigate } = useNavigation();
-
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id, created }: CloseProps = {}) => {
+      onClose={() => {
         close();
         setRevision(null);
-        if (isCopy) {
-          const onCloseTargetLocation = { ...location, pathname: detailsPath };
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertIdParam, id ?? alertConfigId);
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertCreatedParam, created); // if not set, use the latest
-          navigate(onCloseTargetLocation);
-        }
       }}
       editMode={!isCopy}
     />
