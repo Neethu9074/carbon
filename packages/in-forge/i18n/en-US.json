@@ -10066,6 +10066,8 @@
       "commandLevel": "Command Level",
       "repo": "Repo",
       "maxHandles": "Max Handles",
+      "runningNode": "Running Node",
+      "standbyNode": "Standby Nodes",
       "connections": "Connections",
       "messagesIn": "Messages In",
       "messagesOut": "Messages Out",

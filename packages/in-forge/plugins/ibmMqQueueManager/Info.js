@@ -34,6 +34,12 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.maxHandles')}>
         {data.get('maxHandles')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.runningNode')}>
+        {data.get('runningNode')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNode')}>
+        {data.get('standbyNode')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
