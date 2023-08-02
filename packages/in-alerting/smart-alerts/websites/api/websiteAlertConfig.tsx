@@ -34,15 +34,15 @@ export function updateAlertConfig(data: WebsiteAlertConfig, id: string): Observa
 
 export function getAllAlertConfigs(
   websiteId: string,
-  config: { asObservable: true }
+  config: { asObservable: boolean }
 ): Observable<Result<WebsiteAlertConfigWithMetadata[]>>;
 export function getAllAlertConfigs(
   websiteId?: string,
-  config?: { asObservable: false }
+  config?: { asObservable: boolean }
 ): Observable<WebsiteAlertConfigWithMetadata[]>;
 export function getAllAlertConfigs(
   websiteId?: string,
-  config = { asObservable: false }
+  config: { asObservable: boolean } = { asObservable: false }
 ): Observable<Result<WebsiteAlertConfigWithMetadata[]>> | Observable<WebsiteAlertConfigWithMetadata[]> {
   const request = http<WebsiteAlertConfigWithMetadata[]>({
     method: 'GET',
@@ -58,12 +58,12 @@ export function getAllAlertConfigs(
 
 export function getAllVersionsOfAlertConfig(
   id: string,
-  config: { asObservable: true }
+  config: { asObservable: boolean }
 ): Observable<Result<ConfigVersion[]>>;
 export function getAllVersionsOfAlertConfig(id: string, config?: { asObservable: false }): Observable<ConfigVersion[]>;
 export function getAllVersionsOfAlertConfig(
   id: string,
-  config = { asObservable: false }
+  config: { asObservable: boolean } = { asObservable: false }
 ): Observable<Result<ConfigVersion[]>> | Observable<ConfigVersion[]> {
   const request = http<ConfigVersion[]>({
     method: 'GET',
@@ -77,15 +77,15 @@ export function getAllVersionsOfAlertConfig(
 
 export function getLatestAlertConfig(
   id: string,
-  config: { asObservable: true }
+  config: { asObservable: boolean }
 ): Observable<Result<WebsiteAlertConfigWithMetadata>>;
 export function getLatestAlertConfig(
   id: string,
-  config?: { asObservable: false }
+  config?: { asObservable: boolean }
 ): Observable<WebsiteAlertConfigWithMetadata>;
 export function getLatestAlertConfig(
   id: string,
-  config = { asObservable: false }
+  config: { asObservable: boolean } = { asObservable: false }
 ): Observable<Result<WebsiteAlertConfigWithMetadata>> | Observable<WebsiteAlertConfigWithMetadata> {
   const request = http<WebsiteAlertConfigWithMetadata>({
     method: 'GET',
@@ -100,17 +100,17 @@ export function getLatestAlertConfig(
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
-  config: { asObservable: true }
+  config: { asObservable: boolean }
 ): Observable<Result<WebsiteAlertConfigWithMetadata>>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
-  config?: { asObservable: false }
+  config?: { asObservable: boolean }
 ): Observable<WebsiteAlertConfigWithMetadata>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
-  config = { asObservable: false }
+  config: { asObservable: boolean } = { asObservable: false }
 ): Observable<Result<WebsiteAlertConfigWithMetadata>> | Observable<WebsiteAlertConfigWithMetadata> {
   const request = http<WebsiteAlertConfigWithMetadata>({
     method: 'GET',
