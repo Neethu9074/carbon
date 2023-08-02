@@ -23,9 +23,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
 
@@ -53,21 +51,13 @@ export default function AlertDetails(props) {
   );
 }
 
-function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
-  const { location, navigate } = useNavigation();
-
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }) {
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id, created } = {}) => {
+      onClose={() => {
         close();
         setRevision(null);
-        if (isCopy) {
-          const onCloseTargetLocation = { ...location, pathname: detailsPath };
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertIdParam, id ?? alertConfigId);
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertCreatedParam, created); // if not set, use the latest
-          navigate(onCloseTargetLocation);
-        }
       }}
       editMode={!isCopy}
     />
