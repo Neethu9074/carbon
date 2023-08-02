@@ -12,7 +12,7 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
 import { percentage, number } from 'in-services/formatters/number';
-import { getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import getSystems from 'in-phmc/subscriptions/getSystems';
@@ -21,12 +21,18 @@ import { t } from 'in-i18n';
 const pathSegment = '/phmc-system';
 const matrixPrefix = 'system.';
 
+function EntityLinkLabel({ item }) {
+  const getIbmpSystemDashboard = useIbmpSystemDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
+      return <EntityLinkLabel item={item} />;
     }
   },
   {

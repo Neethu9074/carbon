@@ -6,9 +6,11 @@
 
 import React from 'react';
 
-import { getIbmpLparDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpLparDashboard } from 'in-phmc/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcLparDashboard({ snapshot, timeConfig }) {
-  return <RedirectWithHash to$={getIbmpLparDashboard(snapshot.get('id'), { timeConfig })} />;
+  const getIbmpLparDashboard = useIbmpLparDashboard();
+
+  return <RedirectWithHash to={getIbmpLparDashboard(snapshot.get('id'), { timeConfig })} />;
 }

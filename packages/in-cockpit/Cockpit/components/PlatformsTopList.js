@@ -58,7 +58,7 @@ import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
-import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { add, remove } from 'in-cockpit/starredItems';
@@ -72,10 +72,9 @@ import { t } from 'in-i18n';
 export default function PlatformsTopList({ config }) {
   const getOpenstackRegionDashboard = useOpenstackRegionDashboard();
   const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
-
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
-
   const getPowervcRegionDashboard = usePowervcRegionDashboard('region');
+  const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
 
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,

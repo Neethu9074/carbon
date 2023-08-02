@@ -10,7 +10,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
 import { percentage, number } from 'in-services/formatters/number';
-import { getIbmpLparDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpLparDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import getLpars from 'in-phmc/subscriptions/getLpars';
@@ -19,6 +19,12 @@ import { t } from 'in-i18n';
 const pathSegment = '/lpar';
 const matrixPrefix = 'lpar.';
 
+function EntityLinkLabel({ item, systemId, consoleId }) {
+  const getIbmpLparDashboard = useIbmpLparDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpLparDashboard(item.id, { systemId, consoleId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
@@ -26,7 +32,8 @@ const columnDefinitions = [
     getContent(item, props) {
       const systemId = props.systemId;
       const consoleId = props.consoleId;
-      return <EntityLink label={item.label} href$={getIbmpLparDashboard(item.id, { systemId, consoleId })} />;
+
+      return <EntityLinkLabel item={item} systemId={systemId} consoleId={consoleId} />;
     }
   },
   {

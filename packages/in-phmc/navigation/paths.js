@@ -3,13 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useCallback } from 'react';
+
 import { sharedProcessorPoolId as matrixSharedProcessorPoolId } from 'in-phmc/navigation/matrix';
 import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { systemId as matrixSystemId } from 'in-phmc/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { viosId as matrixViosId } from 'in-phmc/navigation/matrix';
 import { lparId as matrixLparId } from 'in-phmc/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -30,106 +33,67 @@ export const lparDashboardFullyQualified = `${ibmp}${lparDashboard}`;
 export const sppDashboard = `/sharedProcessorPool`;
 export const sppDashboardFullyQualified = `${ibmp}${sppDashboard}`;
 
-export function getIbmpPhmcDashboard(consoleId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard({
-    base: phmcDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: phmcDashboard,
-    matrixParam: matrixConsoleId,
-    id: consoleId
-  });
+export function useIbmpPhmcDashboard() {
+  return useDashboard(phmcDashboardFullyQualified, phmcDashboard, matrixConsoleId);
 }
 
-export function getIbmpSystemDashboard(systemId, { tab, tabMatrix, timeConfig, consoleId } = emptyObject) {
-  return getDashboard({
-    base: systemDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: systemDashboard,
-    matrixParam: matrixSystemId,
-    id: systemId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, systemDashboard, matrixConsoleId, consoleId);
-    }
-  });
+export function useIbmpSystemDashboard() {
+  const paramsCallback = (params, consoleId) => {
+    setOrDeleteMatrixKey(params, systemDashboard, matrixConsoleId, consoleId);
+  };
+
+  return useDashboard(systemDashboardFullyQualified, systemDashboard, matrixSystemId, paramsCallback);
 }
 
-export function getIbmpViosDashboard(viosId, { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject) {
-  return getDashboard({
-    base: viosDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: viosDashboard,
-    matrixParam: matrixViosId,
-    id: viosId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, viosDashboard, matrixConsoleId, consoleId);
-      setOrDeleteMatrixKey(params, viosDashboard, matrixSystemId, systemId);
-    }
-  });
+export function useIbmpViosDashboard() {
+  const paramsCallback = (params, consoleId, systemId) => {
+    setOrDeleteMatrixKey(params, viosDashboard, matrixConsoleId, consoleId);
+    setOrDeleteMatrixKey(params, viosDashboard, matrixSystemId, systemId);
+  };
+
+  return useDashboard(viosDashboardFullyQualified, viosDashboard, matrixViosId, paramsCallback);
 }
 
-export function getIbmpLparDashboard(lparId, { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject) {
-  return getDashboard({
-    base: lparDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: lparDashboard,
-    matrixParam: matrixLparId,
-    id: lparId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, lparDashboard, matrixConsoleId, consoleId);
-      setOrDeleteMatrixKey(params, lparDashboard, matrixSystemId, systemId);
-    }
-  });
-}
-export function getIbmpSppDashboard(
-  sharedProcessorPoolId,
-  { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject
-) {
-  return getDashboard({
-    base: sppDashboardFullyQualified,
-    tab,
-    tabMatrix,
-    timeConfig,
-    matrixSegment: sppDashboard,
-    matrixParam: matrixSharedProcessorPoolId,
-    id: sharedProcessorPoolId,
-    paramsCallback: params => {
-      setOrDeleteMatrixKey(params, sppDashboard, matrixConsoleId, consoleId);
-      setOrDeleteMatrixKey(params, sppDashboard, matrixSystemId, systemId);
-    }
-  });
+export function useIbmpLparDashboard() {
+  const paramsCallback = (params, consoleId, systemId) => {
+    setOrDeleteMatrixKey(params, lparDashboard, matrixConsoleId, consoleId);
+    setOrDeleteMatrixKey(params, lparDashboard, matrixSystemId, systemId);
+  };
+
+  return useDashboard(lparDashboardFullyQualified, lparDashboard, matrixLparId, paramsCallback);
 }
 
-function getDashboard({
-  base,
-  tab = '/summary',
-  tabMatrix = {},
-  timeConfig,
-  matrixSegment,
-  matrixParam,
-  id,
-  paramsCallback
-}) {
-  return getModifiedUrlStream(params => {
-    params.pathname = `${base}${tab}`;
+export function useIbmpSppDashboard() {
+  const paramsCallback = (params, consoleId, systemId) => {
+    setOrDeleteMatrixKey(params, sppDashboard, matrixConsoleId, consoleId);
+    setOrDeleteMatrixKey(params, sppDashboard, matrixSystemId, systemId);
+  };
 
-    setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
+  return useDashboard(sppDashboardFullyQualified, sppDashboard, matrixSharedProcessorPoolId, paramsCallback);
+}
 
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
+function useDashboard(base, matrixSegment, matrixParam, paramsCallback) {
+  const { location, createHref } = useNavigation();
 
-    params.matrix[tab] = tabMatrix;
+  return useCallback(
+    (id, { tab = '/summary', tabMatrix = {}, timeConfig, consoleId, systemId } = emptyObject) => {
+      const clonedLocation = cloneLocation(location);
+      clonedLocation.pathname = `${base}${tab}`;
 
-    if (paramsCallback) {
-      paramsCallback(params);
-    }
-  });
+      setOrDeleteMatrixKey(clonedLocation, matrixSegment, matrixParam, id);
+
+      if (timeConfig != null) {
+        setTimeConfig(clonedLocation, timeConfig);
+      }
+
+      clonedLocation.matrix[tab] = tabMatrix;
+
+      if (paramsCallback) {
+        paramsCallback(clonedLocation, consoleId, systemId);
+      }
+
+      return createHref(clonedLocation);
+    },
+    [base, matrixSegment, matrixParam, paramsCallback, location, createHref]
+  );
 }

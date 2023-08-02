@@ -6,9 +6,11 @@
 
 import React from 'react';
 
-import { getIbmpSppDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpSppDashboard } from 'in-phmc/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcSharedProcessorPoolDashboard({ snapshot, timeConfig }) {
-  return <RedirectWithHash to$={getIbmpSppDashboard(snapshot.get('id'), { timeConfig })} />;
+  const getIbmpSppDashboard = useIbmpSppDashboard();
+
+  return <RedirectWithHash to={getIbmpSppDashboard(snapshot.get('id'), { timeConfig })} />;
 }

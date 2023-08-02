@@ -42,7 +42,7 @@ import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
-import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -284,6 +284,8 @@ function WithOpenstackPhysicalContext({ children, region }) {
 }
 
 function WithPhmcPhysicalContext({ children, phmc }) {
+  const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
+
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}

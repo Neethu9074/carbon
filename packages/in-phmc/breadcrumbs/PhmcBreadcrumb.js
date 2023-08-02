@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import connectTo from 'in-hoc/connectTo';
@@ -21,10 +21,12 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function PhmcBreadcrumb({ phmc }) {
+    const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
+
     return (
       <>
         {phmc && (
-          <Breadcrumb href$={getIbmpPhmcDashboard(phmc.id)} label={t('in-phmc:breadcrumbs.phmc')}>
+          <Breadcrumb href={getIbmpPhmcDashboard(phmc.id)} label={t('in-phmc:breadcrumbs.phmc')}>
             {phmc.label}
           </Breadcrumb>
         )}
