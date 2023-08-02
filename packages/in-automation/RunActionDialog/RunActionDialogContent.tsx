@@ -10,6 +10,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { Typography, Spacer } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
@@ -27,23 +28,25 @@ import {
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
-import { Action, Parameter, VolatileId, DynamicFieldValue, AgentSnapshot } from 'in-types';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { ResolvedDynamicParamValue } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
-import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -65,6 +68,7 @@ interface RunActionDialogContentProps {
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
   errorResolvingDynamicParameters: boolean;
+  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
 }
 
 export default function RunActionDialogContent({
@@ -75,7 +79,8 @@ export default function RunActionDialogContent({
   setForm,
   volatileId,
   agentSnapShots,
-  errorResolvingDynamicParameters
+  errorResolvingDynamicParameters,
+  resolvedDynamicParameters
 }: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
   const { createHref, location } = useNavigation();
@@ -131,7 +136,14 @@ export default function RunActionDialogContent({
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
-        {isAnsible(action.type) && <AnsibleActionContent action={action} />}
+        {isAnsible(action.type) && (
+          <AnsibleActionContent
+            form={form}
+            setForm={setForm}
+            action={action}
+            resolvedDynamicParameters={resolvedDynamicParameters}
+          />
+        )}
         <AgentSelection form={form} volatileId={volatileId} setForm={setForm} agentSnapShots={agentSnapShots} />
         <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
       </div>
@@ -162,6 +174,30 @@ function AgentSelection({
   volatileId
 }: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
+  const hostSnapshots = useObservable(() => {
+    const getHostSnapshotIds = (agentSnapShots?.data?.online || []).map(agent =>
+      getHostSnapshotId(fromJS(agent)).map(id => ({ id, agent }))
+    );
+    return combineLatest(getHostSnapshotIds).flatMap(hostData =>
+      combineLatest(
+        hostData.map(({ id, agent }) =>
+          getSnapshot(id).map(hostSnapshot => ({
+            hostSnapshot,
+            agent
+          }))
+        )
+      )
+    );
+  }, [agentSnapShots?.data?.online]);
+  const options =
+    hostSnapshots?.map(({ hostSnapshot, agent }) => {
+      const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
+      const hostname = hostSnapshot?.get('label');
+      return {
+        label: isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname,
+        value: agent.volatileId?.host_id ?? ''
+      };
+    }) ?? [];
   return (
     <>
       {targetAgent?.map(field => (
@@ -169,30 +205,18 @@ function AgentSelection({
           <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
             {t('in-automation:targetAgent')}
           </Label>
-          <Select
+          <ComboBox
+            options={options}
             id="target-agent"
             value={field.value}
-            onChange={e => {
+            isClearable={false}
+            onChange={o => {
               const updatedForm = form?.updateIn(['targetAgent'], field =>
-                (field as Field<string>).setValue(e.target.value).setTouched(true)
+                (field as Field<string>).setValue((o as Option).value).setTouched(true)
               );
               setForm(updatedForm);
             }}
-            hasError={!field.valid && field.touched}
-          >
-            <>
-              <option hidden value="">
-                {t('in-automation:pleaseSelect')}
-              </option>
-              {agentSnapShots?.data?.online?.map(agent => (
-                <AgentOption
-                  key={agent.id}
-                  agent={agent}
-                  isTriggeringAgent={agent.volatileId?.host_id === volatileId.host_id}
-                />
-              ))}
-            </>
-          </Select>
+          />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
         </FormGroup>
@@ -200,17 +224,6 @@ function AgentSelection({
     </>
   );
 }
-
-const AgentOption = ({ agent, isTriggeringAgent }: { agent: AgentSnapshot; isTriggeringAgent: boolean }) => {
-  const hostSnapshot = useObservable(() => getHostSnapshotId(fromJS(agent)).flatMap(id => getSnapshot(id)), [agent]);
-  const hostname = hostSnapshot?.get('label');
-  const label = isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname;
-  return (
-    <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
-      {label}
-    </option>
-  );
-};
 
 function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
@@ -412,17 +425,19 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
   );
 }
 
+const safeJsonParse = (raw: string) => {
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    return {};
+  }
+};
+
 function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParams) {
   const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
   const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
-  const parsedDynamicValue: DynamicFieldValue = (raw => {
-    try {
-      return JSON.parse(raw);
-    } catch (e) {
-      return {};
-    }
-  })(parameter.value ?? '{}');
+  const parsedDynamicValue: DynamicFieldValue = safeJsonParse(parameter.value ?? '{}');
   return (
     <>
       {parameterField && (
@@ -459,18 +474,46 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
   );
 }
 
-function AnsibleActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+function AnsibleActionContent({
+  action,
+  resolvedDynamicParameters,
+  form,
+  setForm
+}: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm'>) {
   const { jobTemplateUrl } = getAnsibleFields(action);
+  const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
+  const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
+  const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue;
+  const parsedFqdn: string[] = safeJsonParse(fqdn ? fqdn : '[]');
+  const options = [...parsedIp, ...parsedFqdn].map(host => ({ label: host, value: host }));
+  const hostLimitField = form?.getIn(['hostsLimit']) as Field<Option[]> | undefined;
   return (
-    <DescriptionList>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:jobTemplate')}
-      >
-        <Link external href={jobTemplateUrl}>
-          {action.name}
-        </Link>
-      </DescriptionItem>
-    </DescriptionList>
+    <>
+      <DescriptionList>
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:jobTemplate')}
+        >
+          <Link external href={jobTemplateUrl}>
+            {action.name}
+          </Link>
+        </DescriptionItem>
+      </DescriptionList>
+      <FormGroup key="hostLimit">
+        <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
+        <CreatableComboBox
+          id={locals.hostLimit}
+          isMulti
+          options={options}
+          value={hostLimitField?.value ?? []}
+          onChange={(value: Option[]) => {
+            const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
+              field.setValue(value).setTouched(true)
+            );
+            setForm(updatedForm);
+          }}
+        />
+      </FormGroup>
+    </>
   );
 }

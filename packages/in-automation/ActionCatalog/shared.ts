@@ -124,7 +124,7 @@ export const MANUAL_TYPE = 'MANUAL';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
-export const ANSIBlE_TYPE = 'ansible';
+export const ANSIBlE_TYPE = 'ANSIBLE';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
