@@ -405,7 +405,7 @@ function save(
       rrule: rruleWithoutInvalidRules
         ? RRule.optionsToString(rruleWithoutInvalidRules.options)?.split('RRULE:')[1]
         : '',
-      timezoneId: getSingle('formatTimestampsAsUtc') ? '' : new Intl.DateTimeFormat().resolvedOptions().timeZone //If format as UTC then we send an empty string
+      timezoneId: getSingle('formatTimestampsAsUtc') ? 'UTC' : new Intl.DateTimeFormat().resolvedOptions().timeZone //If format as UTC then we send an empty string
     } as RecurrentMaintenanceWindow;
   } else {
     scheduling = {
