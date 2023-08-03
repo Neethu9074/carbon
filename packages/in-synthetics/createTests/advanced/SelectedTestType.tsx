@@ -7,6 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -14,7 +15,7 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/Dangero
 import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScriptOption';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { Code, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -22,6 +23,7 @@ import locals from 'in-synthetics/createTests/advanced/SelectedTestType.mless';
 
 interface SelectedTestTypeProps {
   selectedBlueprint: AdvancedBluePrint;
+  form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: TestTypeSelected;
   setTestTypeSelected: (t: TestTypeSelected) => void;
@@ -30,6 +32,7 @@ interface SelectedTestTypeProps {
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
 }
 
 const pingAPIDescription = (
@@ -62,6 +65,7 @@ const scriptBrowserDescription = (
 
 const SelectedTestType = ({
   selectedBlueprint,
+  form,
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
@@ -69,8 +73,22 @@ const SelectedTestType = ({
   commonAttributes,
   setCommonAttributes,
   isUpdateConfig,
-  setScriptDetails
+  setScriptDetails,
+  setHeaders
 }: SelectedTestTypeProps) => {
+  const populateCommonAttributes = (form: MapForm<any>) => {
+    commonAttributes['url'] = '';
+    commonAttributes['testFrequency'] = form.get('testFrequency').value;
+    commonAttributes['locations'] = form.get('locations').value;
+    commonAttributes['label'] = form.get('label').value;
+    commonAttributes['description'] = form.get('description').value;
+    commonAttributes['applicationId'] = form.get('applicationId').value;
+    commonAttributes['script'] = '';
+    commonAttributes['customProperties'] = form.get('customProperties').value;
+    setCommonAttributes(commonAttributes);
+    updateForm(createForm(false, selectedBlueprint, commonAttributes));
+  };
+
   return (
     <div className={locals.container}>
       <div>
@@ -110,8 +128,19 @@ const SelectedTestType = ({
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
-            updateForm(createForm(false, selectedBlueprint, commonAttributes));
+            populateCommonAttributes(form);
             setRenderSectionsCounter(v => v + 1);
+            setHeaders([
+              {
+                id: generateUniqueShortId(),
+                key: '',
+                value: '',
+                error: {
+                  name: { invalid: false, message: '' },
+                  value: { invalid: false, message: '' }
+                }
+              }
+            ]);
           }}
           disabled={isBlank(commonAttributes.syntheticType)}
         >

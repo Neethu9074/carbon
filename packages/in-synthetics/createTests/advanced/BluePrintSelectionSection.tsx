@@ -8,13 +8,14 @@ import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
+import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
-import { Code, TestTypeSelected } from 'in-synthetics/utils/constants';
 import Menu from 'in-components/Menu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
@@ -22,6 +23,7 @@ import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection
 interface BluePrintSelectionSectionProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
+  form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: TestTypeSelected;
   setTestTypeSelected: (t: TestTypeSelected) => void;
@@ -30,11 +32,13 @@ interface BluePrintSelectionSectionProps {
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
 }
 
 const BluePrintSelectionSection = ({
   selectedBlueprint,
   setSelectedBlueprint,
+  form,
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
@@ -42,7 +46,8 @@ const BluePrintSelectionSection = ({
   commonAttributes,
   setCommonAttributes,
   isUpdateConfig,
-  setScriptDetails
+  setScriptDetails,
+  setHeaders
 }: BluePrintSelectionSectionProps) => {
   return (
     <ExpandableLightCard
@@ -55,6 +60,7 @@ const BluePrintSelectionSection = ({
       <SelectionMenu
         selectedBlueprint={selectedBlueprint}
         setSelectedBlueprint={setSelectedBlueprint}
+        form={form}
         updateForm={updateForm}
         testTypeSelected={testTypeSelected}
         setTestTypeSelected={setTestTypeSelected}
@@ -63,6 +69,7 @@ const BluePrintSelectionSection = ({
         setCommonAttributes={setCommonAttributes}
         isUpdateConfig={isUpdateConfig}
         setScriptDetails={setScriptDetails}
+        setHeaders={setHeaders}
       />
     </ExpandableLightCard>
   );
@@ -71,6 +78,7 @@ const BluePrintSelectionSection = ({
 interface SelectionMenuProps {
   selectedBlueprint: AdvancedBluePrint;
   setSelectedBlueprint: (item: AdvancedBluePrint) => void;
+  form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   testTypeSelected: TestTypeSelected;
   setTestTypeSelected: (t: TestTypeSelected) => void;
@@ -79,11 +87,13 @@ interface SelectionMenuProps {
   setCommonAttributes: (type: Record<string, any>) => void;
   isUpdateConfig: boolean;
   setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+  setHeaders: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
 }
 
 const SelectionMenu = ({
   selectedBlueprint,
   setSelectedBlueprint,
+  form,
   updateForm,
   testTypeSelected,
   setTestTypeSelected,
@@ -91,7 +101,8 @@ const SelectionMenu = ({
   commonAttributes,
   setCommonAttributes,
   isUpdateConfig,
-  setScriptDetails
+  setScriptDetails,
+  setHeaders
 }: SelectionMenuProps) => {
   return (
     <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
@@ -106,12 +117,24 @@ const SelectionMenu = ({
             return { ...prevState, api: { simple: false, script: false }, browser: { simple: false, script: false } };
           });
           setRenderSectionsCounter(0);
+          setHeaders([
+            {
+              id: generateUniqueShortId(),
+              key: '',
+              value: '',
+              error: {
+                name: { invalid: false, message: '' },
+                value: { invalid: false, message: '' }
+              }
+            }
+          ]);
         }}
         initialItemSelected={selectedBlueprint}
       />
       <div className={locals.spanTwoColumns}>
         <SelectedTestType
           selectedBlueprint={selectedBlueprint}
+          form={form}
           updateForm={updateForm}
           testTypeSelected={testTypeSelected}
           setTestTypeSelected={setTestTypeSelected}
@@ -120,6 +143,7 @@ const SelectionMenu = ({
           setCommonAttributes={setCommonAttributes}
           isUpdateConfig={isUpdateConfig}
           setScriptDetails={setScriptDetails}
+          setHeaders={setHeaders}
         />
       </div>
     </div>

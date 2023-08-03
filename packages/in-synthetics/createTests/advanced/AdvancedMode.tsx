@@ -111,12 +111,14 @@ const AdvancedMode = ({
         setSelectedBlueprint={setSelectedBlueprint}
         testTypeSelected={testTypeSelected}
         setTestTypeSelected={setTestTypeSelected}
+        form={form}
         updateForm={updateForm}
         setRenderSectionsCounter={setRenderSectionsCounter}
         commonAttributes={commonAttributes}
         setCommonAttributes={setCommonAttributes}
         isUpdateConfig={isUpdateConfig}
         setScriptDetails={setScriptDetails!}
+        setHeaders={setHeaders}
       />
     )
   };
