@@ -16,7 +16,7 @@ import {
   trackAlertPaused,
   trackAlertResumed
 } from 'in-alerting/smart-alerts/components/tracker';
-import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -54,7 +54,8 @@ export default function Alert({
   renderSmartAlertDialog,
   renderAlertConfiguration,
   tracking = {},
-  showActionButton = true
+  showActionButton = true,
+  getAllowedPlaceholders = () => []
 }) {
   const { location, navigate } = useNavigation();
 
@@ -148,10 +149,7 @@ export default function Alert({
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
                 <div>
-                  <AlertTitleWithPlaceholderHighlighting
-                    configName={alertConfig.name}
-                    evaluationType={alertConfig.evaluationType}
-                  />
+                  {replacePlaceholdersWithMarkup(getAllowedPlaceholders(alertConfig.evaluationType), alertConfig.name)}
                 </div>
                 <BuiltInIndicator builtIn={alertConfig.builtIn} />
               </HorizontalFlexWrapper>
@@ -221,5 +219,6 @@ Alert.propTypes = {
     alertIdParam: PropTypes.string.isRequired,
     alertCreatedParam: PropTypes.string.isRequired
   }).isRequired,
-  showActionButton: PropTypes.bool
+  showActionButton: PropTypes.bool,
+  getAllowedPlaceholders: PropTypes.func
 };

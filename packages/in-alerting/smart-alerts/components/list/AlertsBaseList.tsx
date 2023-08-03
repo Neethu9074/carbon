@@ -38,6 +38,7 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
   alertsTab: string;
+  renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode);
 }
 
 export interface AlertConfigType {
@@ -63,9 +64,10 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   createRowLinkLocation,
   sortOptions = [],
   actionHandlers,
-  alertsTab
+  alertsTab,
+  renderName
 }: AlertBaseListProps<AlertConfig>) {
-  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle);
+  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle, renderName);
 
   return (
     <Card size="l">
@@ -89,13 +91,16 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
 function createColumnDefinition<AlertConfig extends AlertConfigType>(
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
   actionHandlers: ActionHandlers<AlertConfig> | undefined,
-  getSubtitle?: (config: AlertConfig) => string
+  getSubtitle?: (config: AlertConfig) => string,
+  renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode)
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
     width: '35%',
     label: t('in-alerting:smartAlerts.list.columns.name'),
-    getContent: config => <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} />
+    getContent: config => (
+      <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} renderName={renderName} />
+    )
   };
 
   if (actionHandlers) {

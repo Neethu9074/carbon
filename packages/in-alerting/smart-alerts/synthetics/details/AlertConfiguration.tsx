@@ -9,6 +9,7 @@ import React, { useMemo } from 'react';
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 import { Message } from '@instana/components';
 
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 //@ts-expect-error needs migration
@@ -119,7 +120,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
+        <AlertPropertyInfos
+          alertConfig={alertConfig}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig.name)}
+          disableTrigger
+        />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="SYNTHETIC" />
       <CustomPayloadCard

@@ -37,6 +37,7 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
+import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
@@ -79,6 +80,7 @@ function GlobalAlertDetails(props) {
       restoreConfig={restoreGlobalAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
+      getAllowedPlaceholders={evaluationType => placeholdersByEvaluationType[evaluationType]}
       isGlobalSmartAlert
     />
   );

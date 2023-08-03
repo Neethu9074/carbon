@@ -6,12 +6,14 @@
 
 import { MapForm, Item } from 'formalistic';
 
+import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+
 export default function AlertPropertiesTitleRow(props: AlertPropertiesTitleRowProps);
 
 interface AlertPropertiesTitleRowProps {
-  form: MapForm;
+  form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
-  getTitlePlaceholder: (form: MapForm) => string;
-  placeholders: string[];
+  getTitlePlaceholder: (form: MapForm<any>) => string;
+  placeholders: ReadonlyArray<Readonly<Placeholder>>;
   trackAlertingAdditionalPropsTitleChanged?: () => void;
 }

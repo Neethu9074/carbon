@@ -7,6 +7,8 @@
 import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+
 interface AlertPreviewProps {
   form: MapForm;
   renderHeadline: () => ReactNode;
@@ -28,7 +30,7 @@ export function AlertPreview({
 }: AlertPreviewProps);
 
 interface AlertPreviewHeadlineProps {
-  title: string;
+  title: string | HighlightedPlaceholders;
 }
 
 export function AlertPreviewHeadline({ title }: AlertPreviewHeadlineProps);

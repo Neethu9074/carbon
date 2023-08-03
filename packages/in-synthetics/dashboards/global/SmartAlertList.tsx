@@ -10,6 +10,7 @@ import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
@@ -53,6 +54,7 @@ export default function SmartAlertList() {
           createRowLinkLocation={createRowLinkLocation}
           sortOptions={sortOptions}
           alertsTab={syntheticSmartAlertsPath}
+          renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
         />
       </LeftRightPadding>
       <Footer />
