@@ -41,9 +41,10 @@ export default function LogStackTraceGroup({ log }: StackTraceProps) {
 
   const snapshotId = getProcessSnapshotId(log.tags);
   const snapshot =
-    useObservable(() => (snapshotId ? getSnapshot(snapshotId, getTimeConfigAtMoment(null)) : just(null)), [
-      snapshotId
-    ]) || null; // passing NULL, to get the snapshot from cache.
+    useObservable(
+      () => (snapshotId ? getSnapshot(snapshotId, getTimeConfigAtMoment(null)) : just(null)),
+      [snapshotId]
+    ) || null; // passing NULL, to get the snapshot from cache.
 
   const isSnapshotOnline =
     useObservable(() => (snapshotId ? isEntityOnline(snapshotId) : just(false)), [snapshotId]) || false;

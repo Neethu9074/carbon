@@ -6,11 +6,11 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
+import LogMessagesTable from 'in-components/Logging/Dashboards/components/LogMessagesTable';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import Footer from 'in-components/Footer/Footer';
+import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

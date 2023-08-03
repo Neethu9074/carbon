@@ -26,7 +26,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
-import locals from './Logs.mless';
+import locals from 'in-components/Logging/TraceDetails/components/Logs.mless';
 
 const columnDefinitions = [
   logLevelColumn,

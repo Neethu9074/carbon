@@ -5,10 +5,9 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Button, Card, Message } from '@instana/components';
+import { Button, Card, Link, Message } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
@@ -20,15 +19,15 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails/components/ServiceEndpointList';
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
-import LogDetails from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogDetails';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
+import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import Logs from 'in-applications/analyze/components/TraceDetails/components/Logs';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import Logs from 'in-components/Logging/TraceDetails/components/Logs';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';

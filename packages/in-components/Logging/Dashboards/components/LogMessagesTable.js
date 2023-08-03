@@ -24,7 +24,7 @@ import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 import Pill from 'in-components/Pill';
 
-import locals from './MessagesTable.mless';
+import locals from 'in-components/Logging/Dashboards/components/MessagesTable.mless';
 
 const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';

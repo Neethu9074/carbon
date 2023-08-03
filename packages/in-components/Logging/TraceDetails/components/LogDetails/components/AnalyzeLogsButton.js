@@ -5,16 +5,15 @@
 
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
-import { Li, Ul } from '@instana/components';
+import { Button, Li, SvgIcon, Ul } from '@instana/components';
 
-import { LOG_CUSTOM, LOG_MESSAGE, getValueMatchTagFilter } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
-import locals from './AnalyzeLogsButton.mless';
+import locals from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
 
 export default function AnalyzeLogsButton({ log }) {
   const serviceId = getServiceId(log.tags);

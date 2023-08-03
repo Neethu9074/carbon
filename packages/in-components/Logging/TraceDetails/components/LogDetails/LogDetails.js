@@ -8,10 +8,10 @@ import React from 'react';
 import { Card, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import AnalyzeLogsButton from 'in-applications/analyze/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/LoadingCallDetails';
-import LogStackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogStackTrace';
+import AnalyzeLogsButton from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
+import LogStackTrace from 'in-components/Logging/TraceDetails/components/LogDetails/LogStackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { getSpanIdTagFilter, logTableTags } from 'in-logging/queryBuilder';
@@ -23,7 +23,7 @@ import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './LogDetails.mless';
+import locals from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails.mless';
 
 export default function LogDetailsSwitch(props) {
   return role.canViewLogs ? <LogDetails {...props} /> : <LogDetailsWithNoAccess {...props} />;

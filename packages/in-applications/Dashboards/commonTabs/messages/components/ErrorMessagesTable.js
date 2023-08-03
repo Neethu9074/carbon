@@ -20,7 +20,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
 import { number } from 'in-services/formatters/number';
-import { t, collationLanguage } from 'in-i18n';
+import { collationLanguage, t } from 'in-i18n';
 
 import locals from './MessagesTable.mless';
 
