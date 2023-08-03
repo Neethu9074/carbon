@@ -13,4 +13,8 @@
       margin-top: 0.125rem;
     }
   }
+
+  .icon {
+    vertical-align: middle;
+  }
 }

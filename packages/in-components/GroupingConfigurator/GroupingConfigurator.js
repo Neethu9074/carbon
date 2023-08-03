@@ -98,9 +98,9 @@ export default function GroupingConfigurator({
           {({ toggle, refSetter }) => (
             <Button
               className={locals.addGroupingButton}
-              kind={'subtle'}
+              kind="subtle"
               size="compact"
-              icon={'lib_openclose_add'}
+              icon="lib_openclose_add"
               refSetter={refSetter}
               onClick={toggle}
             >
@@ -156,7 +156,7 @@ GroupingConfigurator.propTypes = {
   value: rpt.oneOfType([rpt.array, rpt.object]),
   tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
-  tagFilterExpression: rpt.object.isRequired,
+  tagFilterExpression: rpt.oneOfType([rpt.array, rpt.object]),
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
   loadingLabel: rpt.string

@@ -752,7 +752,8 @@
           "viewTable": "View full table in <analyzeInfraLink>Analyze infrastructure</analyzeInfraLink>.",
           "tableSize": "Table Size",
           "tableConfiguration": "Table Configuration",
-          "tableDetails": "Table Details"
+          "tableDetails": "Table Details",
+          "showResult": "Showing {{loadedItems}} of {{totalItems}} Results"
         }
       },
       "dataSource": {

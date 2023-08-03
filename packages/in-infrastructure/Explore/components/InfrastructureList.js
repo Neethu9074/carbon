@@ -3,15 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { Message } from '@instana/components';
 import { just } from '@instana/observables';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
-import { firstValue, getGranularity, getMetricKey, getMetricValue, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
+import {
+  firstValue,
+  getGranularity,
+  getMetricKey,
+  getMetricValue,
+  getSeriesKey
+} from 'in-infrastructure/Explore/services/metrics';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -40,6 +46,8 @@ export default function InfrastructureList({
   showHeader = false,
   setMetrics,
   setOrder = noop,
+  getTotalItems,
+  isLoadMoreEnabled = true,
   type,
   metrics,
   metricMetadatas,
@@ -62,6 +70,7 @@ export default function InfrastructureList({
     totalRetainedItemCount,
     loadMore: cursorPaginationDefaultLoadMore,
     cursor,
+    canLoadMore,
     errors,
     progress,
     ...tableProps
@@ -73,6 +82,9 @@ export default function InfrastructureList({
 
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
+
+  // Send totalHits
+  useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
 
   const columnDefinitions = [
     {
@@ -162,6 +174,7 @@ export default function InfrastructureList({
         }}
         progress={progress}
         {...tableProps}
+        canLoadMore={canLoadMore && isLoadMoreEnabled}
         items={items}
         fixedLayout
         orderBy={order.by}
@@ -276,6 +289,8 @@ InfrastructureList.propTypes = {
     onNavigateToEntity: rpt.func,
     ...metricConfiguratorTrackingProps
   }),
+  getTotalItems: rpt.func,
+  isLoadMoreEnabled: rpt.bool,
   query: rpt.string,
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,

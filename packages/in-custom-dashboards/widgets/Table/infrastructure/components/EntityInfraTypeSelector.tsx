@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import { FormConfig } from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableSizeConfigurator';
 import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { OrderBy } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -23,6 +24,7 @@ interface EntityInfraTypeSelectorProps extends FormConfig {
   backendQueryModel: TagFilterExpression;
   setOrder: (order: OrderBy) => void | null;
   order: Order;
+  setTagFilterExpression: React.Dispatch<React.SetStateAction<FormModelElement[]>>;
 }
 
 export default function EntityInfraTypeSelector({
@@ -31,7 +33,8 @@ export default function EntityInfraTypeSelector({
   timeConfig,
   backendQueryModel,
   order,
-  setOrder
+  setOrder,
+  setTagFilterExpression
 }: EntityInfraTypeSelectorProps) {
   const { tableResult } = useInfrastructureEntities({
     backendQueryModel,
@@ -41,7 +44,14 @@ export default function EntityInfraTypeSelector({
   });
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateForm(form.updateIn([entityType], field => field.setValue(event.target.value).setTouched(true)));
+    updateForm(
+      form
+        .updateIn(['tagFilterExpression'], field => field.setValue([]).setTouched(true))
+        .updateIn(['grouping'], field => field.setValue([]).setTouched(true))
+        .updateIn([entityType], field => field.setValue(event.target.value).setTouched(true))
+    );
+
+    setTagFilterExpression([]);
   };
 
   const entityItems = tableResult?.data?.items;

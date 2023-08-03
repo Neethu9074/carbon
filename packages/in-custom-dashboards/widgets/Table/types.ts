@@ -4,12 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { Group, TagFilterExpressionElementUnion } from 'in-types';
+
+export interface Grouping extends Group {
+  tagType: string;
+}
+
 export interface TableFormConfiguration {
   source: string;
   dynamicFocusQuery?: string;
   columns?: string[];
   tableSize?: number;
   entityType?: string;
+  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
+  grouping?: Partial<Grouping[]>;
 }
 
 export interface TableWidgetProps {
