@@ -10,6 +10,7 @@ import {
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET, TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { isUnaryOperator } from 'in-components/QueryBuilder/tagFilter/operators';
 
 /**
  * Creates a tagFilterExpression to query the tag suggestions API endpoint.
@@ -36,7 +37,8 @@ export function getSuggestionsTagFilterExpression(formModel, formModelIndex) {
 }
 
 /**
- * Recursive function to go through a form model, removing empty elements.
+ * Recursive function to go through a form model, removing empty elements, i.e., tag filters with
+ * missing values, which are considered invalid.
  * Finds the first element to be empty, removes it (and potentially one operator), and tries again.
  * Returns a clean model if no empty elements are found.
  * @param {object} formModel The form model to be cleaned from empty elements.
@@ -44,8 +46,7 @@ export function getSuggestionsTagFilterExpression(formModel, formModelIndex) {
 function removeEmptyFormModelElements(formModel) {
   const emptyElementIndex = formModel.findIndex(
     element =>
-      element.type === TAG &&
-      (!('value' in element) || element.value === '' || ('key' in element && element.key === ''))
+      element.type === TAG && !isUnaryOperator(element.operator) && (hasMissingValue(element) || hasEmptyKey(element))
   );
   if (emptyElementIndex === -1) {
     return formModel;
@@ -53,6 +54,14 @@ function removeEmptyFormModelElements(formModel) {
     const newModel = checkAndRemoveEmptyElement(formModel, emptyElementIndex);
     return removeEmptyFormModelElements(newModel);
   }
+}
+
+function hasMissingValue(element) {
+  return !('value' in element) || element.value === '' || element.value == null;
+}
+
+function hasEmptyKey(element) {
+  return 'key' in element && element.key === '';
 }
 
 /**

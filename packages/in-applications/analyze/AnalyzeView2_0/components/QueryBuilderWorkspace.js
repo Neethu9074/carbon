@@ -60,7 +60,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     groupBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
-    CustomAction
+    CustomAction,
+    hiddenCalls
   } = props;
 
   const { hasError, errors } = validate(formModel);
@@ -103,6 +104,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               getSuggestionLabel={({ item, tagName }) =>
                 tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
               }
+              getSuggestionsProps={hiddenCalls}
               hasError={hasError}
               errors={errors}
             />
