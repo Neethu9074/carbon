@@ -41,7 +41,7 @@ export default function SharedProcessorPoolDashboard({ location }) {
       <Breadcrumbs items={SharedProcessorPoolBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Power',
+          productArea: 'IBM Power HMC',
           pageRootName: t('in-phmc:dashboards.sharedProcessorPool')
         }}
       />

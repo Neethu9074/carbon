@@ -38,7 +38,7 @@ export default function LparDashboard({ location }) {
       <Breadcrumbs items={LparBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Power',
+          productArea: 'IBM Power HMC',
           pageRootName: t('in-phmc:dashboards.logicalPartition')
         }}
       />

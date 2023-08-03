@@ -39,11 +39,12 @@ const cols = [
   },
   {
     title: t('in-phmc:ports'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.fiberChannelAdapter.get('numOfPorts');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -107,11 +108,12 @@ const cols = [
   },
   {
     title: t('in-phmc:runningSpeed'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.fiberChannelAdapter.get('runningSpeed');
-      }
+      },
+      getContent: number.compact
     }
   }
 ];
