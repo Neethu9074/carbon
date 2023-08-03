@@ -6,13 +6,18 @@
 
 import React, { Fragment } from 'react';
 
-import { ResultsFilterSectionProps, failureValue, TestResponse, successValue } from 'in-synthetics/utils/constants';
+import { ResultsFilterSectionProps, failureValue, successValue } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 import locals from './ResultFilters.mless';
 
-export default function ResultFilters({ setFilter, result, status, locationLabels }: ResultsFilterSectionProps) {
+export default function ResultFilters({
+  setFilter,
+  status,
+  locationLabels,
+  locationsDisplayLabels
+}: ResultsFilterSectionProps) {
   return (
     <Fragment>
       <ComboBox
@@ -28,7 +33,7 @@ export default function ResultFilters({ setFilter, result, status, locationLabel
         onChange={t => Array.isArray(t) && setFilter({ locationLabels: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.resultsListPage.locationLabel')}
         isMulti
-        options={getLocationLabels(result)}
+        options={getDisplayLabels(locationsDisplayLabels)}
         className={locals.filter}
       />
     </Fragment>
@@ -55,18 +60,16 @@ function getStatusOptions() {
   return statusOptions;
 }
 
-function getLocationLabels(result: TestResponse) {
+function getDisplayLabels(labels: string[]) {
   let locationLabelOptions: Option[] = [];
 
-  if (!result?.progress?.loading) {
-    result?.data?.locationDisplayLabels?.forEach((locationDisplayLabel: string) => {
-      locationLabelOptions.push({
-        label: locationDisplayLabel,
-        value: locationDisplayLabel
-      });
+  labels.map((locationDisplayLabel: string) => {
+    locationLabelOptions.push({
+      label: locationDisplayLabel,
+      value: locationDisplayLabel
     });
-  }
+  });
 
-  // return location display labels;
   return locationLabelOptions;
 }
+

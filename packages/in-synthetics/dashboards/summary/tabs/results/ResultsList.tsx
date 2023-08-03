@@ -148,11 +148,18 @@ export default function ResultsList({ test }: ResultListProps) {
   const location = useLocation();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
+  const locationDisplayLabels: string[] =
+    getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
 
   const [{ status, locationLabels }, setFilter] = useUrlState(urlStateDefinition);
 
   const rightHeader = (
-    <ResultFilters result={test} setFilter={setFilter} status={status} locationLabels={locationLabels} />
+    <ResultFilters
+      setFilter={setFilter}
+      status={status}
+      locationLabels={locationLabels}
+      locationsDisplayLabels={locationDisplayLabels}
+    />
   );
 
   return (
