@@ -100,7 +100,7 @@ export default function AddScriptDialogContent({
         setMainFileError({ invalid: false, message: '' });
         const file = e.target.files[0];
         zipToBase64(file, (file, result) => {
-          text = result.replace('data:application/zip;base64,', '');
+          text = result.replace(/^data:application\/[a-z-]+;base64,/, '');
           setScript({ name: file.name, text, scriptFile: '', extension });
         });
       }
