@@ -172,6 +172,9 @@
     &:hover {
       text-decoration: none;
     }
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   .icon {

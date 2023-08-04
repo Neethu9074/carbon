@@ -383,7 +383,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticRbacEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'customWidgetEventsTableEnabled',
