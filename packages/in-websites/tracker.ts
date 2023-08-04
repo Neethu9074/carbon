@@ -33,7 +33,8 @@ import {
   ANALYZE_UA2_GROUP_CHANGED,
   ANALYZE_UA2_CHART_CHANGED,
   ANALYZE_UA2_API_QUERY_PRESSED,
-  ANALYZE_UA2_NESTING_DEPTH
+  ANALYZE_UA2_NESTING_DEPTH,
+  ANALYZE_FILTER_REMOVED
 } from 'in-services/tracking/tracking';
 
 // website entry point
@@ -85,3 +86,4 @@ export const ua2GroupChangedTracker = (e?: Object) => track(ANALYZE_UA2_GROUP_CH
 export const ua2ChartChangedTracker = (e?: Object) => track(ANALYZE_UA2_CHART_CHANGED, e);
 export const ua2ApiQueryPressedTracker = (e?: Object) => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
 export const ua2NestingDepthTracker = (e?: Object) => track(ANALYZE_UA2_NESTING_DEPTH, e);
+export const ua2FilterRemoved = (e?: Object) => track(ANALYZE_FILTER_REMOVED, e);

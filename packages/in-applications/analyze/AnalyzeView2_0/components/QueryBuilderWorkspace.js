@@ -30,6 +30,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
+import { ua2FilterRemoved } from 'in-websites/tracker';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -99,7 +100,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                   ua2NestingDepthTracker({
                     dataSource,
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
-                  })
+                  }),
+                onTagRemoved: tagFilter => ua2FilterRemoved({ dataSource, tagName: tagFilter.name })
               }}
               getSuggestionLabel={({ item, tagName }) =>
                 tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
