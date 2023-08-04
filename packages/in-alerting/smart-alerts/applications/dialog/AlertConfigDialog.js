@@ -45,7 +45,7 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const { id: alertId } = alertConfig;
+  const duplicateFrom = alertConfig?.duplicateFrom;
   const [form, setForm] = useState(() =>
     createSmartAlertForm(fromAlertConfig({ actionIds: [], ...alertConfig }), editMode, isGlobalSmartAlert)
   );
@@ -54,7 +54,9 @@ export default function AlertConfigDialog({
   //Get associations call and add actionIds to alertConfig.
   useEffect(() => {
     if (showActionscondition) {
-      getApplicationAlertActionAssociations(alertId).subscribe(actions => {
+      // To get associations, we need app alert id. If it is duplicate/clone dialog, we can get it from duplicateFrom.
+      const alertId = duplicateFrom ?? alertConfig?.id;
+      getApplicationAlertActionAssociations(alertId).once(actions => {
         const selectedActions = actions.map(action => action.id);
         const updatedForm = createSmartAlertForm(
           fromAlertConfig({ actionIds: selectedActions, ...alertConfig }),
@@ -64,14 +66,12 @@ export default function AlertConfigDialog({
         setForm(updatedForm);
       });
     }
-  }, [alertId, alertConfig, editMode, isGlobalSmartAlert, showActionscondition]);
-
+  }, [alertConfig, editMode, isGlobalSmartAlert, showActionscondition, duplicateFrom]);
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
-  const duplicateFrom = alertConfig?.duplicateFrom;
 
   useEffect(() => {
     if (migrationMode) {
