@@ -261,6 +261,7 @@
       "occurrencesLabel": "Occurrences",
       "affectedUsersLabel": "Affected Users",
       "crashErrorGroupsTitle": "Crash Error Groups",
+      "crashErrorGroupsHelpInfo": "Displays data collected for identified affected users only",
       "analyzeCrashesLink": "Analyze Crashes",
       "configurationTitle": "Configuration",
       "optionsLabel": "Options",

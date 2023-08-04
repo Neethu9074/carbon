@@ -187,6 +187,55 @@ export function WithApproximateData() {
   );
 }
 
+export function WithAdditionalHelpIcon() {
+  return (
+    <TopListCardPresenter
+      title="Top Crash Error Groups"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [
+            {
+              label: 'productdb',
+              metrics: {
+                metric: [[0, 234]]
+              }
+            },
+            {
+              label: 'shop',
+              metrics: {
+                metric: [[0, 128]]
+              }
+            },
+            {
+              label: 'recommendations',
+              metrics: {
+                metric: [[0, 64]]
+              }
+            }
+          ],
+          page: 1,
+          pageSize: 5,
+          totalHits: 3
+        }
+      }}
+      metrics={metrics}
+      labels={labels}
+      onChangeMetric={onChangeMetric}
+      selectedMetric="selfLatency"
+      selectedMetricFormatter={millis.compact}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
+      config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
+      helpInfo="Only display data with identified users"
+    />
+  );
+}
+
 function TopListItem({ title = 'Top Something', result, renderHistoricDataIndicator }) {
   return (
     <TopListCardPresenter

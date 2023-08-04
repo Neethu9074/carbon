@@ -32,7 +32,7 @@
     height: 1rem;
     margin-bottom: 1.9375rem;
   }
-  .liveModeIcon {
+  .infoIconWithoutPadding {
     padding: 0;
   }
   .disabledWidget {

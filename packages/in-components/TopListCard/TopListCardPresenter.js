@@ -32,7 +32,8 @@ export default function TopListCard(props) {
     useMaxAvailableHeight,
     renderHistoricDataIndicator = false,
     hasApproximateData = false,
-    renderWidgetNotSupportedIndicator = false
+    renderWidgetNotSupportedIndicator = false,
+    helpInfo
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
@@ -80,7 +81,12 @@ export default function TopListCard(props) {
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+          </Tooltip>
+        )}
+        {helpInfo && (
+          <Tooltip content={helpInfo}>
+            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
           </Tooltip>
         )}
       </>
