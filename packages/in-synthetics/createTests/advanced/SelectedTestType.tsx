@@ -16,6 +16,7 @@ import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScr
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -250,6 +251,7 @@ const RenderBrowser = ({
     commonAttributes.syntheticType === 'BrowserScript' || commonAttributes.syntheticType === 'WebpageScript'
       ? true
       : false;
+  const isBrowserTest: boolean = selectedBlueprint.type === 'Browser' && syntheticBrowserScriptEnabled;
   return (
     <>
       <h3 className={locals.headline}>
@@ -276,6 +278,7 @@ const RenderBrowser = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
+            isBrowserTest={isBrowserTest}
           />
         </Col>
         <Col lg={6} className={locals.column}>
@@ -297,6 +300,7 @@ const RenderBrowser = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
+            isBrowserTest={isBrowserTest}
           />
         </Col>
       </Row>

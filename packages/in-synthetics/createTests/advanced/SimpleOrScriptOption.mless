@@ -27,6 +27,9 @@
     color: @lib__colors__teal800;
     font-size: 1rem;
     font-weight: 600;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
   }
 
   .description {
