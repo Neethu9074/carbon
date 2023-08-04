@@ -10,23 +10,23 @@ import { Button } from '@instana/components';
 
 import {
   availableGroupings,
-  viewGroupingShort$,
   defaultGrouping,
-  humanReadableDescriptions
+  humanReadableDescriptions,
+  viewGroupingShort$
 } from 'in-infrastructure/perspectives/viewGrouping';
 import {
-  getLinkToCurrentViewWithViewGrouping,
+  containerPath,
   physicalPath,
-  containerPath
+  useGetLinkToCurrentViewWithViewGrouping
 } from 'in-stores/navigation/paths/mainPaths';
 import CustomContainerGroupingDialog from 'in-map/components/MapOverlayControls/components/CustomContainerGroupingDialog';
 import CustomHostGroupingDialog from 'in-map/components/MapOverlayControls/components/CustomHostGroupingDialog';
 import MapButtonGroup from 'in-map/components/MapOverlayControls/components/MapButtonGroup';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
-import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
+import { MAP_GROUPING_CHANGED, track } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { view$, types } from 'in-infrastructure/perspectives';
+import { types, view$ } from 'in-infrastructure/perspectives';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -119,27 +119,22 @@ const MenuContent = connectTo(
   }
 );
 
-const GroupingButton = connectTo(
-  props => {
-    return {
-      href: getLinkToCurrentViewWithViewGrouping(props.view === types.container ? 'vg-c' : 'vg-i', props.grouping)
-    };
-  },
-  function GroupingButton({ href, grouping, activeGrouping }) {
-    return (
-      <Button
-        kind={activeGrouping === grouping ? 'primaryv2' : 'info'}
-        size="compact"
-        href={href}
-        className={`${block}__button`}
-        onClick={() => {
-          if (activeGrouping !== grouping) {
-            track(MAP_GROUPING_CHANGED);
-          }
-        }}
-      >
-        {humanReadableDescriptions[grouping]}
-      </Button>
-    );
-  }
-);
+function GroupingButton({ grouping, activeGrouping, view }) {
+  const href = useGetLinkToCurrentViewWithViewGrouping(view === types.container ? 'vg-c' : 'vg-i', grouping);
+
+  return (
+    <Button
+      kind={activeGrouping === grouping ? 'primaryv2' : 'info'}
+      size="compact"
+      href={href}
+      className={`${block}__button`}
+      onClick={() => {
+        if (activeGrouping !== grouping) {
+          track(MAP_GROUPING_CHANGED);
+        }
+      }}
+    >
+      {humanReadableDescriptions[grouping]}
+    </Button>
+  );
+}
