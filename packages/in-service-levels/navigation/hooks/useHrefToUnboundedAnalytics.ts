@@ -18,7 +18,8 @@ import {
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
   SloEntityUnion,
-  TagFilterExpressionElementUnion
+  TagFilterExpressionElementUnion,
+  isCustomEventBasedSli
 } from '@instana/types';
 
 import {
@@ -93,7 +94,7 @@ function getLocationToUnboundedAnalytics({
   timeConfig,
   tagFilterExpression
 }: UseLocationToUnboundedAnalyticsProps): Location {
-  const { blueprint } = indicator;
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
 
   if (isApplicationSloEntity(entity)) {
     return getApplicationEntityHref({
@@ -130,7 +131,7 @@ interface BaseGenerateHrefProps extends NavigationType {
 }
 
 interface GetApplicationSloHrefProps extends BaseGenerateHrefProps {
-  blueprint: BlueprintType;
+  blueprint?: BlueprintType;
   entity: ApplicationSloEntity;
 }
 
@@ -166,7 +167,7 @@ function getWebsiteEntityHref({
   tagFilterExpression
 }: GetWebsiteSloHrefProps): Location {
   const { beaconType } = entity;
-  const { blueprint } = indicator;
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
   const aggregation = isTimeBasedSli(indicator) ? indicator.aggregation : undefined;
   const analyzeParameters = createParameters(websiteAnalyzePath);
 
@@ -196,7 +197,7 @@ const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Objec
 interface UpdateLocationForEntityProps {
   location: Location;
   timeConfig?: TimeConfig;
-  blueprint: BlueprintType;
+  blueprint?: BlueprintType;
   tagFilterExpression: TagFilterExpression;
   analyzeParameters: ReturnType<typeof createParameters>;
 }
