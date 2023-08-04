@@ -68,6 +68,7 @@ module.exports = {
   syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
+  sloV2CreationEnabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
