@@ -5,13 +5,15 @@
 
 import React from 'react';
 
+import { TimeConfig, TagFilter, TimeShift, Group, BoundaryScope, EndpointType } from '@instana/types';
+
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { AdditionChartContentProps, ChartedMetricsConfig } from 'in-components/Chart/types';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
@@ -22,6 +24,23 @@ import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+interface Props {
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  tagFilters: TagFilter[];
+  timeConfig: TimeConfig;
+  timeShiftConfig: TimeShift;
+  timeShiftMetric: string;
+  syntheticCalls: string;
+  groupBy: Group;
+  boundaryScope?: BoundaryScope;
+  cardTitle: string;
+  renderPostChartContent: (props: AdditionChartContentProps) => React.ReactNode;
+  rightHeaderContent: React.ReactElement;
+  endpointTypes?: EndpointType[];
+}
 
 export default function CallsErrorsChart({
   applicationId,
@@ -38,11 +57,9 @@ export default function CallsErrorsChart({
   renderPostChartContent,
   rightHeaderContent,
   endpointTypes
-}) {
+}: Props) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const granularity = getChartGranularity(timeConfig);
-  const throughputBlueprintConfig = getBlueprintConfig('throughput');
-  const errorsBlueprintConfig = getBlueprintConfig('errors');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
   const aggregation = 'SUM';
@@ -58,7 +75,7 @@ export default function CallsErrorsChart({
     timeConfig: timeConfig,
     timeShift: 0,
     ...hiddenCalls
-  };
+  } as const;
 
   const chartMetrics = [
     {
@@ -122,6 +139,7 @@ export default function CallsErrorsChart({
       label: m.label,
       ...m.config
     }));
+
     colors = chartMetrics.map(m => m.color);
     renderer = barOverlapping.id;
   }
@@ -140,24 +158,24 @@ export default function CallsErrorsChart({
           alertRules: {
             throughputHigh: {
               rule: {
-                alertType: throughputBlueprintConfig.type,
-                aggregation: throughputBlueprintConfig.getAggregation(),
-                metricName: throughputBlueprintConfig.getMetricName()
+                alertType: 'throughput',
+                aggregation: aggregation,
+                metricName: 'calls'
               },
               seasonality: DAILY
             },
             throughputLow: {
               rule: {
-                alertType: throughputBlueprintConfig.type,
-                aggregation: throughputBlueprintConfig.getAggregation(),
-                metricName: throughputBlueprintConfig.getMetricName()
+                alertType: 'throughput',
+                aggregation: aggregation,
+                metricName: 'calls'
               },
               seasonality: DAILY,
               operator: '<='
             },
             errorCount: {
               rule: {
-                alertType: errorsBlueprintConfig.type,
+                alertType: 'errors',
                 aggregation: 'MEAN',
                 metricName: 'errors'
               }
@@ -166,8 +184,8 @@ export default function CallsErrorsChart({
         })
       }
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
-      reverseTooltipOrder={timeShiftConfig.offset}
+      reverseLegendOrder={timeShiftConfig.offset > 0}
+      reverseTooltipOrder={timeShiftConfig.offset > 0}
       config={{
         y1: {
           metrics: metricConfigs,
@@ -187,7 +205,7 @@ export default function CallsErrorsChart({
             name: 'analyze',
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
-            getHref$: (highlightedTime, config) =>
+            getHref$: (highlightedTime: TimeConfig, config: ChartedMetricsConfig | undefined) =>
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -197,12 +215,12 @@ export default function CallsErrorsChart({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointType(endpointTypes)
+                      ...filterByEndpointType(endpointTypes ? endpointTypes : [])
                     ]
                   }),
                   hiddenCalls,
                   fields: [createMetricField('erroneousCalls', aggregation), createMetricField('latency', 'MEAN')],
-                  chartedMetrics: getChartedMetrics(config, aggregation)
+                  chartedMetrics: getChartedMetrics(aggregation, config)
                 },
                 getLinkToApplicationAnalyze
               )
@@ -213,8 +231,8 @@ export default function CallsErrorsChart({
   );
 }
 
-function getChartedMetrics(config, aggregation) {
+function getChartedMetrics(aggregation: string, config?: ChartedMetricsConfig) {
   return [
-    createChartedMetric(config.renderedMetrics[0] === 'erroneousCalls' ? 'erroneousCalls' : 'calls', aggregation)
+    createChartedMetric(config?.renderedMetrics[0] === 'erroneousCalls' ? 'erroneousCalls' : 'calls', aggregation)
   ];
 }
