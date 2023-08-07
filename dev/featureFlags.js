@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+const { truncate } = require("lodash");
+
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {
@@ -70,7 +72,7 @@ module.exports = {
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
-  playwithEnabled: false,
+  playwithEnabled: true,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
@@ -83,5 +85,6 @@ module.exports = {
   sloEnabled: true,
   syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
-  customWidgetTableInfraDataSourceEnabled: true
+  customWidgetTableInfraDataSourceEnabled: true,
+  playwithTestEnabled: false
 };

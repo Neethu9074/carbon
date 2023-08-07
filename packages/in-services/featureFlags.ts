@@ -175,3 +175,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 );
 
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
+export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
+
+

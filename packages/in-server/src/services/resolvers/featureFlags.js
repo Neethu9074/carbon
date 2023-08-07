@@ -389,5 +389,11 @@ module.exports = exports = [
     uiClientKey: 'customWidgetTableInfraDataSourceEnabled',
     instanaCtlKey: 'feature.custom.widget.infrastructure.table.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'playwithTestEnabled',
+    instanaCtlKey: 'feature.playwithTestEnabled.enabled',
+    defaultValue: false
   }
+
 ];
