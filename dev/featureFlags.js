@@ -73,7 +73,7 @@ module.exports = {
   sloV2CreationEnabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
-  playwithEnabled: true,
+  playwithEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
