@@ -22,7 +22,6 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { websiteUploadConfigEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { isNotBlank } from 'in-services/util/string';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -154,15 +153,11 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
           )}
         >
           <HelpParagraph>
-            {websiteUploadConfigEnabled ? (
-              <Trans
-                i18nKey={
-                  'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanationWithUploadFeature'
-                }
-              />
-            ) : (
-              <Trans i18nKey={'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation'} />
-            )}
+            <Trans
+              i18nKey={
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanationWithUploadFeature'
+              }
+            />
           </HelpParagraph>
 
           <Stack direction="horizontal">
@@ -184,16 +179,8 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
               title={t(
                 'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
               )}
-              getHeader={
-                websiteUploadConfigEnabled
-                  ? null
-                  : defaultHeaderWithCount(
-                      t(
-                        'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileDownloadConfigurations'
-                      )
-                    )
-              }
-              getCustomHeader={websiteUploadConfigEnabled ? buttonGroup : null}
+              getHeader={null}
+              getCustomHeader={buttonGroup}
               getEntityName={getDownloadEntityName}
               columnDefinitions={columnDefinitionsDownload}
               tableActions={{
@@ -233,7 +220,7 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
               }}
             />
           )}
-          {websiteUploadConfigEnabled && fileConfigType === fileConfigTypes.upload && (
+          {fileConfigType === fileConfigTypes.upload && (
             <List
               title={t(
                 'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
@@ -342,8 +329,9 @@ function toDownloadLabel(config) {
       if (isNotBlank(rule.pathEquality)) {
         label = `${label}${rule.pathEquality.startsWith('/') ? '' : '/'}${rule.pathEquality}`;
       } else {
-        label = `${label}${rule.pathPrefix.startsWith('/') ? '' : '/'}${rule.pathPrefix || ''}*${rule.pathSuffix ||
-          ''}`;
+        label = `${label}${rule.pathPrefix.startsWith('/') ? '' : '/'}${rule.pathPrefix || ''}*${
+          rule.pathSuffix || ''
+        }`;
       }
 
       return label;

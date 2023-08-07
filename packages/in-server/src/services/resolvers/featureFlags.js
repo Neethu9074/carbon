@@ -266,11 +266,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'websiteUploadConfigEnabled',
-    instanaCtlKey: 'feature.website.upload.config.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true

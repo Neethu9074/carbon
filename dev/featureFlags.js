@@ -59,7 +59,6 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,
   actionAutomationEnabled: true,
-  websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   syntheticBrowserScriptEnabled: true,

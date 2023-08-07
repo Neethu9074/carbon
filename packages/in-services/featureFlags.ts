@@ -72,7 +72,6 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', tru
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 export const sloV2CreationEnabled = isFeatureFlagEnabled('sloV2CreationEnabled', false);
 
-export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 // EUM beacon query optimization
