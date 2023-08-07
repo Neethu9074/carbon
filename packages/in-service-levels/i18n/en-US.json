@@ -16,6 +16,7 @@
     "indicator": {
       "type": "Unknown type",
       "type_eventBased": "Event Count",
+      "type_customEventBased": "Event Count",
       "type_timeBased": "Time",
       "blueprint": "Unknown blueprint",
       "blueprint_latency": "Latency",

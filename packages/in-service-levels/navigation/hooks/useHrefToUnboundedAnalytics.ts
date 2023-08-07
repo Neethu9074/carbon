@@ -18,7 +18,8 @@ import {
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
   SloEntityUnion,
-  TagFilterExpressionElementUnion
+  TagFilterExpressionElementUnion,
+  isCustomEventBasedSli
 } from '@instana/types';
 
 import {
@@ -93,7 +94,7 @@ function getLocationToUnboundedAnalytics({
   timeConfig,
   tagFilterExpression
 }: UseLocationToUnboundedAnalyticsProps): Location {
-  const { blueprint } = indicator;
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
 
   if (isApplicationSloEntity(entity)) {
     return getApplicationEntityHref({
@@ -109,7 +110,6 @@ function getLocationToUnboundedAnalytics({
     return getWebsiteEntityHref({
       entity,
       indicator,
-      blueprint,
       timeConfig,
       tagFilterExpression,
       location
@@ -127,11 +127,11 @@ interface NavigationType {
 
 interface BaseGenerateHrefProps extends NavigationType {
   tagFilterExpression: TagFilterExpression;
-  blueprint: BlueprintType;
   timeConfig: TimeConfig;
 }
 
 interface GetApplicationSloHrefProps extends BaseGenerateHrefProps {
+  blueprint?: BlueprintType;
   entity: ApplicationSloEntity;
 }
 
@@ -163,12 +163,12 @@ function getWebsiteEntityHref({
   location,
   entity,
   indicator,
-  blueprint,
   timeConfig,
   tagFilterExpression
 }: GetWebsiteSloHrefProps): Location {
   const { beaconType } = entity;
-  const aggregation = isTimeBasedSli(indicator) ? indicator.aggregation : 'MEAN';
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
+  const aggregation = isTimeBasedSli(indicator) ? indicator.aggregation : undefined;
   const analyzeParameters = createParameters(websiteAnalyzePath);
 
   return updateLocationForWebsiteEntity({
@@ -182,15 +182,22 @@ function getWebsiteEntityHref({
   });
 }
 
-const applicationChartMetrics: Record<BlueprintType, [string, string]> = Object.freeze({
+type MetricAggregationTuple = [string, AggregationType];
+
+const applicationChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['latency', 'DISTRIBUTION'],
   availability: ['calls', 'SUM']
+});
+
+const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
+  latency: ['beaconDuration', 'MEAN'],
+  availability: ['beaconErrorRate', 'MEAN']
 });
 
 interface UpdateLocationForEntityProps {
   location: Location;
   timeConfig?: TimeConfig;
-  blueprint: BlueprintType;
+  blueprint?: BlueprintType;
   tagFilterExpression: TagFilterExpression;
   analyzeParameters: ReturnType<typeof createParameters>;
 }
@@ -212,7 +219,7 @@ function updateLocationForApplicationEntity({
   const hasEndpoint = endpointId !== undefined;
   const groupbyTag = hasEndpoint ? 'endpoint.name' : 'service.name';
   const groupBy = createGroupBy(groupbyTag, entityTypes.DESTINATION);
-  const chartedMetrics = [createChartedMetric(...applicationChartMetrics[blueprint])];
+  const chartedMetrics = [createChartedMetric(...getApplicationMetric(blueprint))];
 
   const newLocation = setDefaultMatrixParameter({
     location,
@@ -229,7 +236,7 @@ function updateLocationForApplicationEntity({
 }
 
 interface UpdateLocationForWebsiteEntityProps extends UpdateLocationForEntityProps {
-  aggregation: AggregationType;
+  aggregation?: AggregationType;
   beaconType: WebsiteBeaconType;
 }
 
@@ -242,10 +249,10 @@ function updateLocationForWebsiteEntity({
   tagFilterExpression,
   analyzeParameters
 }: UpdateLocationForWebsiteEntityProps): Location {
-  const isLatencyBlueprint = blueprint === 'latency';
-  const metricId = isLatencyBlueprint ? 'beaconDuration' : 'beaconErrorRate';
-  const chartedMetrics = [createChartedMetric(metricId, aggregation)];
-  const fields = [createMetricField(metricId, aggregation)];
+  const [metricId, defaultAggregation] = getWebsiteMetric(blueprint);
+  const chartedAggregation = aggregation ?? defaultAggregation;
+  const chartedMetrics = [createChartedMetric(metricId, chartedAggregation)];
+  const fields = [createMetricField(metricId, chartedAggregation)];
   const groupBy = createGroupBy('beacon.location.url');
 
   const newLocation = setDefaultMatrixParameter({
@@ -300,4 +307,20 @@ function setDefaultMatrixParameter({
   );
 
   return newLocation;
+}
+
+function getApplicationMetric(blueprint?: BlueprintType): MetricAggregationTuple {
+  if (!blueprint || !Object.keys(applicationChartMetrics).includes(blueprint ?? '')) {
+    // Fall back to plain calls in case of an unsupported blueprint type
+    return applicationChartMetrics['availability'];
+  }
+  return applicationChartMetrics[blueprint];
+}
+
+function getWebsiteMetric(blueprint?: BlueprintType): MetricAggregationTuple {
+  if (!blueprint || !Object.keys(websiteChartMetrics).includes(blueprint ?? '')) {
+    // Fall back to plain beaconCount in case of an unsupported blueprint type
+    return ['beaconCount', 'SUM'];
+  }
+  return websiteChartMetrics[blueprint];
 }

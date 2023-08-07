@@ -11,8 +11,10 @@ import {
   ApplicationBoundaryScope,
   BlueprintType,
   DurationUnitType,
+  isTimeBasedSli,
   ServiceLevelObjectiveConfiguration
 } from '@instana/types';
+import { isEventBasedSli } from '@instana/types/typeDefinitions';
 
 import {
   SloEntityFields,
@@ -21,8 +23,8 @@ import {
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
@@ -64,49 +66,49 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
 export const getIndicatorFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
 ): SloIndicatorFields => {
-  const indicatorType = sloConfig.indicator?.type;
+  const { indicator } = sloConfig;
 
-  if (indicatorType === 'timeBased') {
+  if (isTimeBasedSli(indicator)) {
     return {
-      aggregation: createField<AggregationType>({ value: sloConfig.indicator.aggregation ?? 'SUM' }),
-      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
-      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
+      aggregation: createField<AggregationType>({ value: indicator.aggregation ?? 'SUM' }),
+      blueprint: createField<BlueprintType>({ value: indicator.blueprint ?? 'availability' }),
+      threshold: createField<number>({ value: indicator.threshold ?? 0 }),
       badEventsFilter: createField<FormModelElement[]>({
         value: fromBackendModel(undefined)
       }),
       goodEventsFilter: createField<FormModelElement[]>({
         value: fromBackendModel(undefined)
       }),
-      type: createField({ value: sloConfig.indicator.type })
+      type: createField({ value: indicator.type })
     };
   }
 
-  if (indicatorType === 'eventBased') {
+  if (isEventBasedSli(indicator)) {
     return {
       aggregation: createField<AggregationType>({ value: 'SUM' }),
       badEventsFilter: createField<FormModelElement[]>({
         value: fromBackendModel(undefined)
       }),
-      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
+      blueprint: createField<BlueprintType>({ value: indicator.blueprint ?? 'availability' }),
       goodEventsFilter: createField<FormModelElement[]>({
         value: fromBackendModel(undefined)
       }),
-      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
-      type: createField({ value: sloConfig.indicator.type })
+      threshold: createField<number>({ value: indicator.threshold ?? 0 }),
+      type: createField({ value: indicator.type })
     };
   }
 
   return {
     aggregation: createField<AggregationType>({ value: 'SUM' }),
     badEventsFilter: createField<FormModelElement[]>({
-      value: fromBackendModel(sloConfig.indicator.badEventsFilter)
+      value: fromBackendModel(indicator.badEventsFilter)
     }),
-    blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
+    blueprint: createField<BlueprintType>({ value: 'availability' }),
     goodEventsFilter: createField<FormModelElement[]>({
-      value: fromBackendModel(sloConfig.indicator.goodEventsFilter)
+      value: fromBackendModel(indicator.goodEventsFilter)
     }),
-    threshold: createField<number>({ value: sloConfig.indicator?.threshold ?? 0 }),
-    type: createField({ value: sloConfig.indicator.type })
+    threshold: createField<number>({ value: indicator.threshold ?? 0 }),
+    type: createField({ value: indicator.type })
   };
 };
 

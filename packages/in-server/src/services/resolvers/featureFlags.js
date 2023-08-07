@@ -301,6 +301,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'sloV2CreationEnabled',
+    instanaCtlKey: 'feature.sloV2.creation.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
     defaultValue: false
@@ -378,7 +383,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticRbacEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'customWidgetEventsTableEnabled',

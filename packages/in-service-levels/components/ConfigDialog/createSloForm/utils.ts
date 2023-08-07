@@ -10,8 +10,8 @@ import {
   ServiceLevelObjectiveConfiguration,
   WebsiteSloEntity
 } from '@instana/types';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
@@ -66,7 +66,6 @@ function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
     return {
       goodEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'goodEventsFilter']).value),
       badEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'badEventsFilter']).value),
-      blueprint: form.getIn(['indicator', 'blueprint']).value,
       threshold: form.getIn(['indicator', 'threshold']).value,
       type: 'customEventBased'
     };

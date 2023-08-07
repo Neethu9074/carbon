@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
+import { useSetCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
@@ -30,6 +30,8 @@ const initialForm = createMapForm().put(
 
 export default function CustomHostGroupingDialog() {
   const [form, setForm] = useState(initialForm);
+
+  const setCurrentViewWithViewGrouping = useSetCurrentViewWithViewGrouping();
 
   function onChange(fieldName, value) {
     setForm(form.updateIn([fieldName], field => field.setValue(value).setTouched(true)));

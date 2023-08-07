@@ -13,6 +13,7 @@ import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloBut
 import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
+import { sloV2CreationEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
 import Sticky from 'in-components/Sticky';
 
@@ -35,7 +36,7 @@ export default function ServiceLevelsOverview() {
       <LeftRightPadding>
         <SloList pathSegment={serviceLevelsOverview} />
       </LeftRightPadding>
-      <FloatingAddSloButton />
+      {sloV2CreationEnabled && <FloatingAddSloButton />}
     </Sticky>
   );
 }

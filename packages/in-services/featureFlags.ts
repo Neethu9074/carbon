@@ -65,10 +65,12 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 
+export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
+export const sloV2CreationEnabled = isFeatureFlagEnabled('sloV2CreationEnabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', true);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
@@ -143,7 +145,7 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
-export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', true);
+export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
@@ -173,8 +175,4 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
   'oneMinuteGranularityForStaticThresholdEnabled',
   false
 );
-
-export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
-
-

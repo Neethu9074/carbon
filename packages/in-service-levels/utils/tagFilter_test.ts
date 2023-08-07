@@ -42,7 +42,6 @@ describe('in-service-levels/utils/tagFilter', () => {
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter configuration is missing', () => {
     // Given
     const indicator: CustomEventBasedSli = {
-      blueprint: 'latency',
       threshold: 0.9,
       type: 'customEventBased',
       goodEventsFilter: tagFilter('beacon.http.status', 'EQUALS', 200)
@@ -65,7 +64,6 @@ describe('in-service-levels/utils/tagFilter', () => {
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter is configured', () => {
     // Given
     const indicator: CustomEventBasedSli = {
-      blueprint: 'latency',
       threshold: 0.9,
       type: 'customEventBased',
       goodEventsFilter: tagFilter('beacon.http.status', 'EQUALS', 200),

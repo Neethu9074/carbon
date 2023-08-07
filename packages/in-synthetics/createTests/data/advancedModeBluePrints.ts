@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface AdvancedBluePrint {
@@ -12,6 +13,7 @@ export interface AdvancedBluePrint {
   label?: string;
   description: { headline: string; text: string };
   testType?: string;
+  isBeta?: boolean;
 }
 
 const apiBlueprint: AdvancedBluePrint = {
@@ -32,7 +34,8 @@ const browserBlueprint: AdvancedBluePrint = {
   description: {
     headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.browserTypeHeadline'),
     text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.browserTypeText')
-  }
+  },
+  isBeta: syntheticBrowserScriptEnabled
 };
 
 // const internetServicesBlueprint: AdvancedBluePrint = {
