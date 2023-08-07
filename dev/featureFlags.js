@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-const { truncate } = require("lodash");
-
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {
