@@ -16,7 +16,7 @@ import ReadOnlyBuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alert
 import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/BuiltInSmartAlertsSelectionBaseList';
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertEnabledStateColumn from 'in-alerting/smart-alerts/applications/apCreation/AlertEnabledStateColumn';
-import { getLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
+import { useLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
 import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -57,73 +57,17 @@ export default function ConfigTabBuiltInSmartAlertsSelectionList({
   );
 }
 
-const columnDefinitions = [
-  {
-    id: 'id1',
-    verticallyCenter: true,
-    getContent({ config, onItemSelect, alertIds, applicationId }) {
-      const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
-      return (
-        <MainColumn
-          {...config}
-          alertIds={alertIds}
-          onItemSelect={selected => onItemSelect(selected, config.id)}
-          customLabel={() => (
-            <Stack gap="xxsmall">
-              <Link
-                href={getLinkToAlertDetails(config)}
-                aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
-                  name: config.name
-                })}
-                external
-              >
-                {config.name}
-              </Link>
-              {isPartiallySelected && (
-                <LabelText asSubText>
-                  {t('in-alerting:smartAlerts.applications.apCreation.notAllEnitiesSelected')}
-                </LabelText>
-              )}
-            </Stack>
-          )}
-          isIndeterminate={isPartiallySelected}
-          disabled={isPartiallySelected}
-        />
-      );
-    }
-  },
-  {
-    id: 'id2',
-    width: 'max-content',
-    verticallyCenter: true,
-    getContent({ config }) {
-      return <AlertEnabledStateColumn {...config} />;
-    }
-  }
-];
+function MainColumnContent({ config, applicationId, alertIds, onItemSelect }) {
+  const getLinkToAlertDetails = useLinkToAlertDetails();
+  const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
 
-const readOnlyColumnDefinitions = [
-  {
-    id: 'id1',
-    verticallyCenter: true,
-    getContent({ config, applicationId }) {
-      const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
-      const isWarning = config.severity <= 5;
-      return (
-        <Stack gap="xsmall" direction="horizontal" align="center">
-          <SvgIcon
-            className={classNames({
-              [locals.iconWarning]: isWarning,
-              [locals.iconCritical]: !isWarning
-            })}
-            type={isWarning ? 'lib_events_warning' : 'lib_events_critical'}
-            aria-label={
-              isWarning
-                ? t('in-alerting:smartAlerts.applications.apCreation.eventsWarningIcon')
-                : t('in-alerting:smartAlerts.applications.apCreation.eventsCriticalIcon')
-            }
-          />
-          <div className={locals.labelTextWrapper}>{config.customLabel?.() ?? <LabelText>{name}</LabelText>}</div>
+  return (
+    <MainColumn
+      {...config}
+      alertIds={alertIds}
+      onItemSelect={selected => onItemSelect(selected, config.id)}
+      customLabel={() => (
+        <Stack gap="xxsmall">
           <Link
             href={getLinkToAlertDetails(config)}
             aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
@@ -139,7 +83,80 @@ const readOnlyColumnDefinitions = [
             </LabelText>
           )}
         </Stack>
+      )}
+      isIndeterminate={isPartiallySelected}
+      disabled={isPartiallySelected}
+    />
+  );
+}
+
+const columnDefinitions = [
+  {
+    id: 'id1',
+    verticallyCenter: true,
+    getContent({ config, onItemSelect, alertIds, applicationId }) {
+      return (
+        <MainColumnContent
+          config={config}
+          applicationId={applicationId}
+          alertIds={alertIds}
+          onItemSelect={onItemSelect}
+        />
       );
+    }
+  },
+  {
+    id: 'id2',
+    width: 'max-content',
+    verticallyCenter: true,
+    getContent({ config }) {
+      return <AlertEnabledStateColumn {...config} />;
+    }
+  }
+];
+
+function ReadOnlyMainColumnContent({ config, applicationId }) {
+  const getLinkToAlertDetails = useLinkToAlertDetails();
+  const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
+  const isWarning = config.severity <= 5;
+
+  return (
+    <Stack gap="xsmall" direction="horizontal" align="center">
+      <SvgIcon
+        className={classNames({
+          [locals.iconWarning]: isWarning,
+          [locals.iconCritical]: !isWarning
+        })}
+        type={isWarning ? 'lib_events_warning' : 'lib_events_critical'}
+        aria-label={
+          isWarning
+            ? t('in-alerting:smartAlerts.applications.apCreation.eventsWarningIcon')
+            : t('in-alerting:smartAlerts.applications.apCreation.eventsCriticalIcon')
+        }
+      />
+      <div className={locals.labelTextWrapper}>{config.customLabel?.() ?? <LabelText>{name}</LabelText>}</div>
+      <Link
+        href={getLinkToAlertDetails(config)}
+        aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {
+          name: config.name
+        })}
+        external
+      >
+        {config.name}
+      </Link>
+      {isPartiallySelected && (
+        <LabelText asSubText>{t('in-alerting:smartAlerts.applications.apCreation.notAllEnitiesSelected')}</LabelText>
+      )}
+    </Stack>
+  );
+}
+
+const readOnlyColumnDefinitions = [
+  {
+    id: 'id1',
+    verticallyCenter: true,
+    getContent({ config, applicationId }) {
+      return <ReadOnlyMainColumnContent config={config} applicationId={applicationId} />;
     }
   },
   {

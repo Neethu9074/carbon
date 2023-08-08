@@ -1,22 +1,32 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
+import { useCallback } from 'react';
+
 import { alertCreated, alertId, alertsCategory } from 'in-applications/navigation/matrix';
-// eslint-disable-next-line
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { alertsList, globalAlertDetails } from 'in-applications/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
-export function getLinkToAlertDetails({ created, id }) {
-  // eslint-disable-next-line
-  return getModifiedUrlStream(_location => {
-    _location.pathname = globalAlertDetails;
-    setOrDeleteMatrixKey(_location, alertsList, alertsCategory, categoryGlobal);
-    setOrDeleteMatrixKey(_location, alertsList, alertCreated, created);
-    setOrDeleteMatrixKey(_location, alertsList, alertId, id);
-    return _location;
-  });
+export function useLinkToAlertDetails(): ({ created, id }: { created: number; id: string }) => string {
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    ({ created, id }: { created: number; id: string }) => {
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = globalAlertDetails;
+      setOrDeleteMatrixKey(clonedLocation, alertsList, alertsCategory, categoryGlobal);
+      setOrDeleteMatrixKey(clonedLocation, alertsList, alertCreated, created);
+      setOrDeleteMatrixKey(clonedLocation, alertsList, alertId, id);
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
