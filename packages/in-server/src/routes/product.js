@@ -174,7 +174,7 @@ router.get('/', async (req, res) => {
     //Adding play-with-user
     const customerEmail = { email: req.cookies['customer-email'] };
     const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
-    clientConfig.WalkmeUuid = loggedUser;
+    clientConfig.walkmeUuid = loggedUser;
     res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     res.send(
