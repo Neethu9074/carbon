@@ -72,6 +72,7 @@ module.exports = {
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
+  playwithTestEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,
@@ -84,6 +85,5 @@ module.exports = {
   sloEnabled: true,
   syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
-  customWidgetTableInfraDataSourceEnabled: true,
-  playwithTestEnabled: false
+  customWidgetTableInfraDataSourceEnabled: true
 };
