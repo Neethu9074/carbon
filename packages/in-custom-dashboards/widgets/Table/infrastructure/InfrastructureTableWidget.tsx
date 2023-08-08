@@ -19,6 +19,7 @@ import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { Group, MetricCatalog, TagFilterExpressionElementUnion } from 'in-types';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Trans, t } from 'in-i18n';
@@ -30,6 +31,7 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
 
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const timeConfig = useTimeConfig();
+  const { goToPath } = useNavigation();
   const { entityType: type = '', tableSize = 5, tagFilterExpression, grouping: groupBy } = config;
 
   const kpiDefinitions = [] as KpiDefinition[];
@@ -44,6 +46,14 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
   const loadedItemsCount = totalItemsCount && Math.min(totalItemsCount, tableSize);
   const isShowResultsVisible = loadedItemsCount && totalItemsCount;
   const isGroup = groupBy && groupBy?.length > 0;
+
+  const onItemClicked = (href: string) => {
+    if (isPreview) {
+      return;
+    }
+
+    goToPath(href);
+  };
 
   return (
     <Card
@@ -77,6 +87,7 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
           isHeaderVisible={false}
           isLoadMoreEnabled={false}
           isTableMode
+          onItemClicked={onItemClicked}
           metricCatalog={metricCatalog}
           metrics={metrics}
           metricMetadatas={metricMetadatas}

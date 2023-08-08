@@ -11,7 +11,7 @@ import React from 'react';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Grouping, TagCatalog } from 'in-types';
+import { Group, TagCatalog } from 'in-types';
 
 interface GroupConfiguratorProps {
   form: MapForm<any>;
@@ -28,8 +28,13 @@ export default function GroupConfigurator({
 }: GroupConfiguratorProps) {
   const grouping = form.get('grouping')?.value;
 
-  const onChange = (group: Grouping) =>
-    updateForm(form.updateIn(['grouping'], field => field.setValue(group).setTouched(true)));
+  const onChange = (groups: Group[]) => {
+    const filteredGroups = groups.filter(
+      (group: Group, index: number) => index === groups.findIndex((item: Group) => group.groupbyTag === item.groupbyTag)
+    );
+
+    updateForm(form.updateIn(['grouping'], field => field.setValue(filteredGroups).setTouched(true)));
+  };
 
   return (
     <GroupingConfiguratorSection

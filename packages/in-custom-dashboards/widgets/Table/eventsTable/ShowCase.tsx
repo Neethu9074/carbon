@@ -23,25 +23,11 @@ const timeConfig: TimeConfig = {
 
 const data: ShowcaseProps[] = [
   {
-    end: 1689067312312,
-    entityLabel: 'shop-ratings',
-    entityTimestamp: 1689066600000,
-    entityType: 'Service20',
-    id: '1',
-    plugin: 'service',
-    severity: 10,
-    smartAlert: true,
-    start: 1689066982312,
-    state: 'open',
-    title: 'Erroneous call rate for shop-ratings is high',
-    type: 'incident'
-  },
-  {
     end: 1689064995000,
     entityLabel: 'nginx-web',
     entityTimestamp: 1689062510000,
     entityType: 'Service20',
-    id: '2',
+    id: '1',
     plugin: 'service',
     severity: 5,
     smartAlert: false,
@@ -62,7 +48,21 @@ const data: ShowcaseProps[] = [
     state: 'open',
     title: 'All Calls of k8s-demo > 88',
     type: 'incident',
-    id: '3'
+    id: '2'
+  },
+  {
+    end: 1689067312312,
+    entityLabel: 'shop-ratings',
+    entityTimestamp: 1689066600000,
+    entityType: 'Service20',
+    id: '3',
+    plugin: 'service',
+    severity: 10,
+    smartAlert: true,
+    start: 1689066982312,
+    state: 'open',
+    title: 'Erroneous call rate for shop-ratings is high',
+    type: 'incident'
   },
   {
     end: 1689061036318,

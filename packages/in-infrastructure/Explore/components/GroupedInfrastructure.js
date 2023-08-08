@@ -66,7 +66,8 @@ export default function GroupedInfrastructure(props) {
     isTableMode = false,
     isLoadMoreEnabled = true,
     retrievalSize = 20,
-    getTotalItems
+    getTotalItems,
+    onItemClicked
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -102,6 +103,7 @@ export default function GroupedInfrastructure(props) {
       timeConfig={timeConfig}
       isHeaderVisible={isHeaderVisible}
       isTableMode={isTableMode}
+      onItemClicked={onItemClicked}
       isLoadMoreEnabled={isLoadMoreEnabled}
       totalHits={totalHits}
       {...cursorPaginatedProps}
@@ -127,6 +129,7 @@ function Presenter({
   isHeaderVisible,
   isTableMode,
   isLoadMoreEnabled,
+  onItemClicked,
   progress,
   metrics,
   metricMetadatas,
@@ -158,6 +161,7 @@ function Presenter({
     groupBy: backendGroupBy,
     getParamsForGroup,
     isTableMode,
+    onItemClicked,
     granularity,
     timeConfig,
     metrics,
@@ -232,9 +236,10 @@ function Presenter({
           isSearchable={false}
           defaultPageSize={retrievalSize}
           defaultOrderDirection={order.direction}
-          onRowClick={item =>
-            (window.location.href = getLinkToInfraEntityExplore({ type, ...getParamsForGroup(item) }))
-          }
+          onRowClick={item => {
+            const href = getLinkToInfraEntityExplore({ type, ...getParamsForGroup(item) }).slice(2);
+            onItemClicked(href);
+          }}
           size="compact"
         />
       ) : (
