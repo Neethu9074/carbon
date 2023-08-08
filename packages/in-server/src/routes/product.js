@@ -192,7 +192,7 @@ router.get('/', async (req, res) => {
         permissions: permissions,
         config: JSON.stringify(clientConfig),
         playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
-        playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled && clientConfig.featureFlags.playwithTestEnabled,
+        playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
@@ -202,7 +202,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacySettings,
         termsAndPrivacyAccepted,
         reportingData,
-        starredItems,
+        starredItems
       })
     );
   } catch (err) {
