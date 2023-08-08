@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import { TagCatalog, TagFilter, TimeConfig } from '@instana/types';
+
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
+//@ts-expect-error TS migartion needed
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -22,15 +24,21 @@ import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
-import { propTypeTimeConfig } from 'in-stores/time/config';
-import { propTypeLocation } from 'in-stores/navigation';
 import useWebsite from 'in-websites/hooks/useWebsite';
+import { Location } from 'in-stores/navigation/types';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 const implicitTagFilters = ['beacon.website.id'];
 
-export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }) {
+interface CreateSmartAlertProps {
+  location: Location;
+  websiteId: string;
+  tagFilters: TagFilter[];
+  timeConfig: TimeConfig;
+}
+
+export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }: CreateSmartAlertProps) {
   const errorId = getMatrixParameter(location, '/details', 'errorId');
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
@@ -43,7 +51,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
   const [website, websiteStatus] = useWebsite(websiteId);
 
-  const websiteError = useWebsiteError(websiteId, errorId, timeConfig);
+  const websiteError = useWebsiteError(websiteId, errorId as string, timeConfig);
 
   if (!tagCatalog || websiteStatus !== 'resolved') {
     return null;
@@ -52,8 +60,8 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
   const alertConfig = generateAlertConfig(
     websiteId,
     tagFilters,
-    tagCatalog,
     blueprintConfig,
+    tagCatalog,
     websiteError?.data?.message,
     customEventName
   );
@@ -85,7 +93,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
   );
 }
 
-function deriveAlertType(errorId, customEventName) {
+function deriveAlertType(errorId?: string | null, customEventName?: string | null) {
   if (isNotBlank(errorId)) {
     return 'specificJsError';
   }
@@ -95,16 +103,16 @@ function deriveAlertType(errorId, customEventName) {
   return 'slowness';
 }
 
-CreateSmartAlert.propTypes = {
-  location: propTypeLocation.isRequired,
-  tagFilters: PropTypes.array.isRequired,
-  websiteId: PropTypes.string.isRequired,
-  timeConfig: propTypeTimeConfig
-};
-
-function generateAlertConfig(websiteId, tagFilters, tagCatalog, blueprintConfig, errorMessage, customEventName) {
+function generateAlertConfig(
+  websiteId: string,
+  tagFilters: TagFilter[],
+  blueprintConfig: BluePrint,
+  tagCatalog?: TagCatalog,
+  errorMessage?: string,
+  customEventName?: string | null
+) {
   const tagFiltersWithoutImplicitFilters = tagFilters.filter(({ name }) => !implicitTagFilters.includes(name));
-  const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog);
+  const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog as TagCatalog);
   const alertType = blueprintConfig.type;
   const metricName = blueprintConfig.defaultMetric;
   const useBaseline = blueprintConfig.baselineEnabled;

@@ -460,8 +460,7 @@
         "filter_plural": "filters",
         "moreFiltersWithCount": "+{{count}} more filter",
         "moreFiltersWithCount_plural": "+{{count}} more filters",
-        "alertsLabelFilters": "Filters",
-        "alertsNoDataMessage": "No alert configured."
+        "alertsLabelFilters": "Filters"
       },
       "configuration": {
         "configurationRemoveTitle": "Remove Website",
