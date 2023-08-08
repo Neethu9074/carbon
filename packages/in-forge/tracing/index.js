@@ -120,6 +120,7 @@ import './wcfclient';
 import './wordpress';
 import './dynamodb';
 import './hangfire';
+import './ims.exit';
 import './memcache';
 import './net-http';
 import './play2.ws';

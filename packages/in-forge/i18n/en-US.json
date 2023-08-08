@@ -1903,6 +1903,8 @@
   "tracingTypeName_ibmdb2_2": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Calls",
   "tracingTypeName_ibmmq": "IBM MQ",
   "tracingTypeName_imsdb": "IMS DB Call",
+  "tracingTypeName_imsexit": "IMS Exit Call",
+  "tracingTypeName_imsexit_plural": "IMS Exit Calls",
   "tracingTypeName_imsrpcentry": "IMS RPC Call",
   "tracingTypeName_imsrpcexit": "IMS RPC Call",
   "tracingTypeName_jaeger": "Call",
@@ -13962,7 +13964,11 @@
       "titleEventKey": "IMS Event Key",
       "titleComponent": "IMS Component",
       "titleDestination": "Destination",
-      "titleUnknown": "unknown"
+      "titleUnknown": "unknown",
+      "titleInteractionVerb": "Interaction Verb",
+      "titleDSN": "DSN",
+      "titleHostname": "Hostname",
+      "titlePort": "Port"
     },
     "jaeger": {
       "titleService": "Service",
