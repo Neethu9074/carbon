@@ -7,6 +7,9 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import { create, just, interval } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+
 //@ts-expect-error TS migration
 import { concatQueries, spreadTimeConfig } from 'in-events/EventView';
 import TableConfigInfo from 'in-custom-dashboards/widgets/Table/eventsTable/TableConfigInfo';
@@ -21,7 +24,9 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Cursor, Cursorific, TimeConfig } from 'in-types';
+import { timeConfig$ } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { seconds } from 'in-services/time';
 
 import locals from './TablePresenter.mless';
 
@@ -54,20 +59,50 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
     setRowsPerPage(4);
   }
 
+  const [mouseMoveSignal$] = useState(create());
+  const [modifiedTimeConfig$] = useState(
+    timeConfig$
+      .flatMap(timeConfig =>
+        timeConfig.autoRefresh && !isPreview
+          ? mouseMoveSignal$
+              .startWith(true)
+              .throttle(1000)
+              .flatMap(() => interval(seconds.toMillis(10)))
+              .map(() => timeConfig)
+              .startWith(timeConfig)
+          : just(timeConfig)
+      )
+      .startWith(timeConfig$)
+      .map(timeConfig => {
+        // make sure, the event view is not updating any data automatically
+        const to = (timeConfig as TimeConfig).to || Date.now();
+        return {
+          to,
+          focusedMoment: to,
+          autoRefresh: false,
+          windowSize: (timeConfig as TimeConfig).windowSize
+        };
+      })
+  );
+
+  // because in live mode we don't want the table to refresh automatically
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const timeConfig = useObservable(modifiedTimeConfig$, []) ?? useTimeConfig();
+
   return (
     <div className={locals.tableContent} ref={ref as React.RefObject<HTMLDivElement>}>
-      {rowsPerPage > 0 && <TableConfig {...props} rowsPerPage={rowsPerPage} />}
+      {rowsPerPage > 0 && <TableConfig {...props} rowsPerPage={rowsPerPage} timeConfig={timeConfig} />}
     </div>
   );
 }
 
 interface TableConfigProps extends TableOverviewBehaviourProps {
   rowsPerPage: number;
+  timeConfig: TimeConfig | undefined | null;
 }
 
 function TableConfig(props: TableConfigProps) {
-  const timeConfig = useTimeConfig();
-  const { config, rowsPerPage } = props;
+  const { config, rowsPerPage, timeConfig } = props;
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
   const orderByColumn = config?.columns?.length ? config?.columns[0] : orderByConfig.started;
 
@@ -114,7 +149,7 @@ function TableConfig(props: TableConfigProps) {
 export interface TablePresenterProps extends TableOverviewBehaviourProps {
   items: Cursorific<Cursor>[] | ShowcaseProps[];
   headers?: string[];
-  timeConfig: TimeConfig;
+  timeConfig: TimeConfig | null | undefined;
   loadMoreShowcaseData?: VoidFunction;
   canLoadMore?: boolean;
   progress: { loading: boolean };
