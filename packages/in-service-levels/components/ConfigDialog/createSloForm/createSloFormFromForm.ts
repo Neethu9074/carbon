@@ -7,23 +7,15 @@
 import { createField, createMapForm } from 'formalistic';
 
 import {
-  AggregationType,
-  ApplicationBoundaryScope,
-  BlueprintType,
-  DateAsNumber,
-  DurationUnitType
-} from '@instana/types';
-
-import {
   SloEntityFields,
   SloForm,
-  SloNameTagsFields,
   SloIndicatorFields,
+  SloNameTagsFields,
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validationLogic';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
   const name = form.getIn(['nameTags', 'name']).value;
@@ -50,7 +42,7 @@ export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
 
   return {
     beaconType: createField({ value: beaconTypeValue }),
-    boundaryScope: createField<ApplicationBoundaryScope>({ value: boundaryScopeValue }),
+    boundaryScope: createField({ value: boundaryScopeValue }),
     endpointId: createField({ value: endpointIdValue }),
     includeInternal: createField({ value: includeInternalValue }),
     includeSynthetic: createField({ value: includeSyntheticValue }),
@@ -68,15 +60,15 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
   const indicatorTypeValue = form.getIn(['indicator', 'type']).value;
 
   return {
-    aggregation: createField<AggregationType>({ value: aggregationFieldValue }),
-    badEventsFilter: createField<FormModelElement[]>({
+    aggregation: createField({ value: aggregationFieldValue }),
+    badEventsFilter: createField({
       value: badEventsFilterFieldValue
     }),
-    blueprint: createField<BlueprintType>({ value: blueprintFieldValue }),
-    goodEventsFilter: createField<FormModelElement[]>({
+    blueprint: createField({ value: blueprintFieldValue }),
+    goodEventsFilter: createField({
       value: goodEventsFilterFieldValue
     }),
-    threshold: createField<number>({ value: thresholdFieldValue }),
+    threshold: createField({ value: thresholdFieldValue, validator: thresholdFieldValidator }),
     type: createField({ value: indicatorTypeValue })
   };
 };
@@ -88,9 +80,9 @@ export const getTimeWindowFormFieldFromForm = (form: SloForm): SloTimeWindowFiel
   const timeWindowType = form.getIn(['timeWindow', 'type']).value;
 
   return {
-    duration: createField<number>({ value: durationFieldValue }),
-    durationUnit: createField<DurationUnitType>({ value: durationUnitFieldValue }),
-    startTimestamp: createField<DateAsNumber>({ value: startTimestampFieldValue }),
+    duration: createField({ value: durationFieldValue }),
+    durationUnit: createField({ value: durationUnitFieldValue }),
+    startTimestamp: createField({ value: startTimestampFieldValue }),
     type: createField({ value: timeWindowType })
   };
 };

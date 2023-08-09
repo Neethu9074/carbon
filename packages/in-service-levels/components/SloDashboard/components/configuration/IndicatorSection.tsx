@@ -108,7 +108,7 @@ function GoodEventsColumn({ data }: IndicatorSectionProps) {
       label={t('in-service-levels:sloDashboard.components.indicatorSection.goodEventsLabel', {
         context: entity.type
       })}
-      value={<TagFilterQueryBuilder entity={data.configuration.entity} tagFilterExpression={good} />}
+      value={<TagFilterQueryBuilder entity={entity} tagFilterExpression={good} />}
     />
   );
 }
@@ -122,7 +122,7 @@ function BadEventsColumn({ data }: IndicatorSectionProps) {
       label={t('in-service-levels:sloDashboard.components.indicatorSection.badEventsLabel', {
         context: entity.type
       })}
-      value={<TagFilterQueryBuilder entity={data.configuration.entity} tagFilterExpression={bad} />}
+      value={<TagFilterQueryBuilder entity={entity} tagFilterExpression={bad} />}
     />
   );
 }

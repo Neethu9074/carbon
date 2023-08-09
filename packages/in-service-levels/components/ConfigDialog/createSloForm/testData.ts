@@ -8,7 +8,6 @@ import { createField, createMapForm } from 'formalistic';
 
 import {
   ApplicationBoundaryScope,
-  BlueprintType,
   ServiceLevelIndicatorType,
   SloEntityType,
   TimeWindowType,
@@ -19,6 +18,7 @@ import {
 } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
@@ -36,9 +36,9 @@ export const testWebsiteForm: SloForm = createMapForm({
       items: {
         aggregation: createField<AggregationType>({ value: 'P90' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: 'latency' }),
+        blueprint: createField<CustomBlueprintType>({ value: 'latency' }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        threshold: createField({ value: 0 }),
+        threshold: createField<number | undefined>({ value: 55 }),
         type: createField<ServiceLevelIndicatorType>({ value: 'eventBased' })
       }
     }),
@@ -82,9 +82,9 @@ export const testApplicationForm: SloForm = createMapForm({
       items: {
         aggregation: createField<AggregationType>({ value: 'MAX' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: 'availability' }),
+        blueprint: createField<CustomBlueprintType>({ value: 'availability' }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        threshold: createField<number>({ value: 55 }),
+        threshold: createField<number | undefined>({ value: 66 }),
         type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
       }
     }),

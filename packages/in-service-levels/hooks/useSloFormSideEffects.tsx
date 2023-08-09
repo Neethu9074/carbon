@@ -23,10 +23,30 @@ const resetScopes = (form: SloForm) => {
   }
 };
 
+const resetIndicatorEventType = (form: SloForm) => {
+  const typeField = form.getIn(['indicator', 'type']);
+  const blueprintField = form.getIn(['indicator', 'blueprint']);
+
+  const isIndicatorCustomEventBased = typeField.value === 'customEventBased';
+  const isIndicatorCustomBased = blueprintField.value === 'custom';
+
+  if (isIndicatorCustomBased && !isIndicatorCustomEventBased)
+    return form.updateIn(['indicator', 'type'], () => typeField.setValue('customEventBased'));
+
+  if (!isIndicatorCustomBased && isIndicatorCustomEventBased)
+    return form.updateIn(['indicator', 'type'], () => typeField.setValue('timeBased'));
+
+  return form;
+};
+
 const formSideEffects = [
   {
     path: ['entity', 'type'],
     effects: [resetScopes as EffectFunction]
+  },
+  {
+    path: ['indicator', 'blueprint'],
+    effects: [resetIndicatorEventType as EffectFunction]
   }
 ];
 

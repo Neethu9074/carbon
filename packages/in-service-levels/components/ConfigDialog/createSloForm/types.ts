@@ -28,6 +28,8 @@ type SloFormFields = {
   nameTags: SloNameTagsForm;
 };
 
+export type CustomBlueprintType = BlueprintType | 'custom' | undefined;
+
 export type SloForm = MapForm<SloFormFields>;
 export type SloFormPath = MapPath<SloFormFields>;
 export type SloFormOnChange = (path: SloFormPath, updater: (i: Item) => Item) => void;
@@ -56,9 +58,9 @@ export type SloScopeFields = {
 export type SloIndicatorFields = {
   aggregation: Field<AggregationType>;
   badEventsFilter: Field<FormModelElement[]>;
-  blueprint: Field<BlueprintType>;
+  blueprint: Field<CustomBlueprintType>;
   goodEventsFilter: Field<FormModelElement[]>;
-  threshold: Field<number>;
+  threshold: Field<number | undefined>;
   type: Field<ServiceLevelIndicatorType>;
 };
 

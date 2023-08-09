@@ -1,9 +1,12 @@
 {
   "general": {
     "addButtonLabel": "Add",
+    "aggregation": "Aggregation",
+    "availability": "Availability",
     "beacon": "Beacon",
     "boundary": "Boundary",
     "clear": "Clear",
+    "custom": "Custom",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
@@ -35,11 +38,14 @@
       "aggregation_P98": "98th",
       "aggregation_P99": "99th"
     },
+    "latency": "Latency",
+    "time": "Time",
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
       "label_website": "Website"
     },
+    "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
     "timeWindow": {
@@ -98,6 +104,7 @@
   "createSloDialog": {
     "customFilter": "Custom Filter",
     "title": "Create Service Level Objective (SLO)",
+    "selectIndicator": "Select Indicator",
     "selectEntityNavItem": "Select Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
     "selectScopeNavItem": "Select Scope",
@@ -120,6 +127,20 @@
       "creationFailedTitle": "Failed to create the SLO configuration",
       "creationFailedContent": "There was a problem creating this SLO configuration: \"{{name}}\".",
       "creationFailedUnexpectedContent": "An unexpected error occured while creating this SLO configuration, please try again later."
+    },
+    "indicatorSection": {
+      "description_custom": "This should be updated later as it is missing in the designs",
+      "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms",
+      "description_availability": "Measures how often a service responds appropriately. For example, how often your checkout-service responds with HTTP calls >400",
+      "timeTypeExplanation": "Good vs bad calls grouped aggregated by minute",
+      "eventTypeExplanation": "Total count of good vs bad calls",
+      "eventCount": "Event Count",
+      "eventType": "Event Type",
+      "thresholdLabel": "Unknown type",
+      "thresholdLabel_latency": "Threshold (ms)",
+      "thresholdLabel_availability": "Error rate %",
+      "setGoodCall": "Set the good calls to a service",
+      "setBadCall": "Set the bad calls to a service (Optional)"
     }
   },
   "sloList": {

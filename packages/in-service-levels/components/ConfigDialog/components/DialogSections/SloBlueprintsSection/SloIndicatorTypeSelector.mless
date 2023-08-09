@@ -1,0 +1,14 @@
+:local {
+  .containerGrid {
+    display: grid;
+    column-gap: 2rem;
+  }
+
+  .oneColumnGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .twoColumnGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

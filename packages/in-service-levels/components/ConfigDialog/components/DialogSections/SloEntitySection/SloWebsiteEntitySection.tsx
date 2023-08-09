@@ -4,25 +4,24 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Card } from '@instana/components';
 
 import SloEntityTable, {
   EntityData
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { t } from 'in-i18n';
 
 interface SloWebsiteEntitySectionProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
   onLabelChange: (label: string) => void;
 }
 
-export const SloWebsiteEntitySection = ({ form, onChange, onLabelChange }: SloWebsiteEntitySectionProps) => {
+export const SloWebsiteEntitySection = ({ onLabelChange }: SloWebsiteEntitySectionProps) => {
+  const { form, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
 
   const entityTypeField = form.getIn(['entity', 'type']);
@@ -40,7 +39,7 @@ export const SloWebsiteEntitySection = ({ form, onChange, onLabelChange }: SloWe
       title={t('in-service-levels:general.select', { entity: entityTypeField.value })}
       rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
     >
-      <SloEntityTable form={form} entityList={entityList} onChange={onEntityChange} progress={progress} query={query} />
+      <SloEntityTable entityList={entityList} onChange={onEntityChange} progress={progress} query={query} />
     </Card>
   );
 };

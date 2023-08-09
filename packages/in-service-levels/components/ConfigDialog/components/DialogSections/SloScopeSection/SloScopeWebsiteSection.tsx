@@ -4,23 +4,20 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Typography } from '@instana/components';
 
 import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
 import { BeaconSelector } from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-interface SloScopeWebsiteSectionProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-}
+export const SloScopeWebsiteSection = () => {
+  const { form, onChange } = useContext(SloFormContext);
 
-export const SloScopeWebsiteSection = ({ form, onChange }: SloScopeWebsiteSectionProps) => {
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
 
   return (

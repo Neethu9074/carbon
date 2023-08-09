@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Application, Progress, Website } from '@instana/types';
 import { Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SloEntityTableSkeleton from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTableSkeleton';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { noop } from 'in-services/fixedObjects';
 
@@ -25,15 +25,15 @@ export interface EntityData {
 
 interface SloEntityTableProps {
   entityList?: Application[] | Website[];
-  form: SloForm;
+  onChange: (entityData: EntityData) => void;
   progress: Progress;
   query: string;
-  onChange: (entityData: EntityData) => void;
 }
 
 const dataPerRow = 6;
 
-export default function SloEntityTable({ form, entityList, onChange, progress, query }: SloEntityTableProps) {
+export default function SloEntityTable({ entityList, onChange, progress, query }: SloEntityTableProps) {
+  const { form } = useContext(SloFormContext);
   const [next, setNext] = useState(dataPerRow);
 
   const entityId = form.getIn(['entity', 'entityId']);

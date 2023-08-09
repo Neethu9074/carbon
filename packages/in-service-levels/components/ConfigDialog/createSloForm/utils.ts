@@ -6,6 +6,7 @@
 
 import {
   ApplicationSloEntity,
+  BlueprintType,
   ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
   WebsiteSloEntity
@@ -66,15 +67,15 @@ function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
     return {
       goodEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'goodEventsFilter']).value),
       badEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'badEventsFilter']).value),
-      threshold: form.getIn(['indicator', 'threshold']).value,
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
       type: 'customEventBased'
     };
   }
 
   if (indicatorType === 'eventBased') {
     return {
-      blueprint: form.getIn(['indicator', 'blueprint']).value,
-      threshold: form.getIn(['indicator', 'threshold']).value,
+      blueprint: form.getIn(['indicator', 'blueprint']).value as BlueprintType,
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
       type: 'eventBased'
     };
   }
@@ -82,8 +83,8 @@ function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   if (indicatorType === 'timeBased') {
     return {
       aggregation: form.getIn(['indicator', 'aggregation']).value,
-      blueprint: form.getIn(['indicator', 'blueprint']).value,
-      threshold: form.getIn(['indicator', 'threshold']).value,
+      blueprint: form.getIn(['indicator', 'blueprint']).value as BlueprintType,
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
       type: 'timeBased'
     };
   }
