@@ -36,17 +36,18 @@ export default function SelectorOverlay({
   withIcons = true,
   query,
   onQueryChange,
-  disabled
+  disabled,
+  strict = false
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
   const [showFocusedNode, setShowFocusedNode] = useState(false);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      const results = search(options, query);
+      const results = search(options, query, !strict);
       return results.filter(node => !node.disabled);
     }
     return options;
-  }, [options, query]);
+  }, [options, query, strict]);
   useEffect(() => {
     setShowFocusedNode(false);
   }, [options]);
@@ -191,5 +192,6 @@ SelectorOverlay.propTypes = {
   withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  strict: PropTypes.bool
 };
