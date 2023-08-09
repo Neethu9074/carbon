@@ -8,20 +8,28 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
+import useInfraEventEntity from 'in-events/hooks/useInfraEventEntity';
+import { InfraAlertConfig, TagCatalog, TimeConfig } from 'in-types';
+import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getFormatterId } from 'in-stores/metric/formatters';
-import { InfraAlertConfig, TimeConfig } from 'in-types';
 import { EventMap, EventOrMap } from 'in-events/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -36,7 +44,12 @@ interface Props {
 }
 
 export default function InfraEventContent({ event }: Props) {
+  const eventEntity = useInfraEventEntity(event);
   const alertConfig = useInfraEventAlertConfig(event);
+
+  const entityType = alertConfig?.rule?.entityType;
+  const type = entityType ?? 'all';
+  const tagCatalog = useTagCatalog({ ownerType: type });
 
   if (!alertConfig) {
     return null;
@@ -44,7 +57,10 @@ export default function InfraEventContent({ event }: Props) {
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const entityName = event.getIn(['metadata', 'entityName'], '');
-  const entityType = alertConfig.rule.entityType;
+
+  const tagFilterExpression = alertConfig.tagFilterExpression;
+  const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
@@ -57,7 +73,7 @@ export default function InfraEventContent({ event }: Props) {
         <Col xs>
           <Card title={t('in-events:titleDescription')}>
             <HorizontalFlexWrapper>
-              <PluginIcon className={locals.icon} size="s" plugin={entityType} />
+              <PluginIcon className={locals.icon} size="s" plugin={entityType as string} />
               {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
             </HorizontalFlexWrapper>
 
@@ -80,6 +96,22 @@ export default function InfraEventContent({ event }: Props) {
           <Chart alertConfig={alertConfig} timeConfig={timeConfig} />
         </Col>
       </Row>
+      {infraSmartAlertsEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title={t('in-events:titleScope')}>
+              <div className={locals.alertFiltersWrapper}>
+                <ScopeConfigPresenter
+                  tagFilterFormModel={tagFilterFormModel}
+                  //@ts-expect-error type error for querybuilder
+                  queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                  scopePath={<InfraScopePath {...eventEntity} iconName={getInfraIconType(entityType as string)} />}
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
     </>
   );
 }

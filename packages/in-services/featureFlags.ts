@@ -110,6 +110,9 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
+// Infra Smart Alerts
+export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
