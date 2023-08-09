@@ -48,6 +48,7 @@ export default function InfrastructureList({
   setOrder = noop,
   getTotalItems,
   isLoadMoreEnabled = true,
+  isPreview = false,
   type,
   metrics,
   metricMetadatas,
@@ -110,7 +111,7 @@ export default function InfrastructureList({
         );
       }
     },
-    getLabelColumn(tracking?.onNavigateToEntity),
+    getLabelColumn(tracking?.onNavigateToEntity, isPreview),
     ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
   ];
 
@@ -249,7 +250,7 @@ function getTableData({
   });
 }
 
-function getLabelColumn(onNavigateToEntity) {
+function getLabelColumn(onNavigateToEntity, isPreview) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
@@ -260,8 +261,14 @@ function getLabelColumn(onNavigateToEntity) {
           <EntityLink
             label={item.label}
             plugin={item.plugin}
-            href$={getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
-            onClick={() => onNavigateToEntity?.(item.plugin)}
+            href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
+            onClick={
+              isPreview
+                ? noop
+                : () => {
+                    onNavigateToEntity?.(item.plugin);
+                  }
+            }
           />
         </div>
       );
@@ -291,6 +298,7 @@ InfrastructureList.propTypes = {
   }),
   getTotalItems: rpt.func,
   isLoadMoreEnabled: rpt.bool,
+  isPreview: rpt.bool,
   query: rpt.string,
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,

@@ -55,6 +55,13 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
     goToPath(href);
   };
 
+  const viewFullTableHref = getLinkToInfraEntityExplore({
+    type,
+    group: {} as Group,
+    groupBy,
+    tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion)
+  });
+
   return (
     <Card
       className={locals.widgetCard}
@@ -104,6 +111,7 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
           displayChart={false}
           getTotalItems={setTotalItemsCount}
           isLoadMoreEnabled={false}
+          isPreview={isPreview}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
           numSkeletonRows={tableSize}
@@ -117,28 +125,21 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
         />
       )}
 
-      <div className={locals.viewFullTableLink}>
-        <Typography variant="body-regular">
-          <Trans
-            i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"
-            components={{
-              analyzeInfraLink: (
-                // @ts-expect-error
-                <Link
-                  {...(!isPreview && {
-                    href: getLinkToInfraEntityExplore({
-                      type,
-                      group: {} as Group,
-                      groupBy,
-                      tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion)
-                    })
-                  })}
-                />
-              )
-            }}
-          />
-        </Typography>
-      </div>
+      {viewFullTableHref && (
+        <div className={locals.viewFullTableLink}>
+          <Typography variant="body-regular">
+            <Trans
+              i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"
+              components={{
+                analyzeInfraLink: (
+                  // @ts-expect-error
+                  <Link href={isPreview ? undefined : viewFullTableHref} />
+                )
+              }}
+            />
+          </Typography>
+        </div>
+      )}
     </Card>
   );
 }

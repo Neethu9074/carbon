@@ -753,7 +753,8 @@
           "tableSize": "Table Size",
           "tableConfiguration": "Table Configuration",
           "tableDetails": "Table Details",
-          "showResult": "Showing {{loadedItems}} of {{totalItems}} Results"
+          "showResult": "Showing {{loadedItems}} of {{totalItems}} Results",
+          "loadingEntities": "Loading Entities"
         }
       },
       "dataSource": {
