@@ -16,7 +16,7 @@ export default function ImsExitDetailView({ span }) {
       <Dl>
         <Di title={t('in-forge:tracing.ims.titleHostname')}>{span.getIn(['data', 'imsexit', 'host'])}</Di>
         <Di title={t('in-forge:tracing.ims.titlePort')}>{span.getIn(['data', 'imsexit', 'port'])}</Di>
-        <Di title={t('in-forge:tracing.ims.titleDSN')}>{span.getIn(['data', 'imsexit', 'dsn'])}</Di>
+        <Di title={t('in-forge:tracing.ims.titleDatastore')}>{span.getIn(['data', 'imsexit', 'dsn'])}</Di>
         <Di title={t('in-forge:tracing.ims.titleInteractionVerb')}>{span.getIn(['data', 'imsexit', 'iVerb'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'imsexit', 'error'])} />
       </Dl>

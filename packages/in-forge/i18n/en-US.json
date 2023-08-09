@@ -13966,7 +13966,7 @@
       "titleDestination": "Destination",
       "titleUnknown": "unknown",
       "titleInteractionVerb": "Interaction Verb",
-      "titleDSN": "DSN",
+      "titleDatastore": "Datastore",
       "titleHostname": "Hostname",
       "titlePort": "Port"
     },
