@@ -127,7 +127,7 @@ function TableConfig(props: TableConfigProps) {
 export interface TablePresenterProps extends TableOverviewBehaviourProps {
   items: Cursorific<Cursor>[] | ShowcaseProps[];
   headers?: string[];
-  timeConfig: TimeConfig | null | undefined;
+  timeConfig: TimeConfig;
   loadMoreShowcaseData?: VoidFunction;
   canLoadMore?: boolean;
   progress: { loading: boolean };
