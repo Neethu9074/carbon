@@ -7,7 +7,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { create, just, interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error TS migration
@@ -18,15 +17,14 @@ import EventsList from 'in-events/components/EventsList';
 //@ts-expect-error TS migration
 import getRawEvents from 'in-subscription/getRawEvents';
 import { ShowcaseProps } from 'in-custom-dashboards/widgets/Table/eventsTable/ShowCase';
+import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Cursor, Cursorific, TimeConfig } from 'in-types';
-import { timeConfig$ } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { seconds } from 'in-services/time';
 
 import locals from './TablePresenter.mless';
 
@@ -54,38 +52,14 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height]);
 
-  //incase of preview load only 4 events initially
+  // incase of preview load only 4 events initially
   if (!rowsPerPage && isPreview) {
     setRowsPerPage(4);
   }
+  // Observable to update the timeConfig at regular intervals in live mode
+  const { modifiedTimeConfig$ } = useModifiedTimeConfig(isPreview);
 
-  const [mouseMoveSignal$] = useState(create());
-  const [modifiedTimeConfig$] = useState(
-    timeConfig$
-      .flatMap(timeConfig =>
-        timeConfig.autoRefresh && !isPreview
-          ? mouseMoveSignal$
-              .startWith(true)
-              .throttle(1000)
-              .flatMap(() => interval(seconds.toMillis(10)))
-              .map(() => timeConfig)
-              .startWith(timeConfig)
-          : just(timeConfig)
-      )
-      .startWith(timeConfig$)
-      .map(timeConfig => {
-        // make sure, the event view is not updating any data automatically
-        const to = (timeConfig as TimeConfig).to || Date.now();
-        return {
-          to,
-          focusedMoment: to,
-          autoRefresh: false,
-          windowSize: (timeConfig as TimeConfig).windowSize
-        };
-      })
-  );
-
-  // because in live mode we don't want the table to refresh automatically
+  // because in preview mode we don't want the table to refresh automatically
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const timeConfig = useObservable(modifiedTimeConfig$, []) ?? useTimeConfig();
 
@@ -98,17 +72,17 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
 
 interface TableConfigProps extends TableOverviewBehaviourProps {
   rowsPerPage: number;
-  timeConfig: TimeConfig | undefined | null;
+  timeConfig: TimeConfig;
 }
 
 function TableConfig(props: TableConfigProps) {
   const { config, rowsPerPage, timeConfig } = props;
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-  const orderByColumn = config?.columns?.length ? config?.columns[0] : orderByConfig.started;
+  const orderByColumn = config?.columns?.length ? getOrderByColumn(config?.columns) : orderByConfig.started;
 
   const [sorting, setSorting] = useState({
     orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
-    orderDirection: 'ASC'
+    orderDirection: 'DESC'
   });
 
   const tableProps = useCursorPagination(
@@ -214,3 +188,10 @@ export const TablePresenter = (props: TablePresenterProps) => {
     </>
   );
 };
+
+function getOrderByColumn(columns: string[]) {
+  if (columns.includes('started')) {
+    return orderByConfig.started;
+  }
+  return columns[0];
+}
