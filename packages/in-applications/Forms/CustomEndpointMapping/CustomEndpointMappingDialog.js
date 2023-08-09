@@ -102,7 +102,7 @@ export default function CustomEndpointMappingDialog({ location }) {
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <BasicForm
         title={t('in-applications:forms.titleConfigureEndpointExtraction')}
-        saveButtonLabel={isNewConfig ? t('in-applications:buttonAdd') : t('in-applications:buttonSave')}
+        saveButtonLabel={t('in-applications:buttonSave')}
         onCancelHref={createHrefToPath(`${serviceDashboard}/endpoints`)}
         getOnSavePath={() => `${serviceDashboard}/endpoints`}
         getEntity={() => {
