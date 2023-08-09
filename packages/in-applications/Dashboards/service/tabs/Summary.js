@@ -27,6 +27,7 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -82,18 +83,11 @@ export default connectTo(
 
     return (
       <>
-        <Row>
-          <Col xs>
-            <CallsBigNumberCard {...bigNumberCardConfiguration} />
-          </Col>
-          <Col xs>
-            <ErroneousCallsBigNumberCard {...bigNumberCardConfiguration} />
-          </Col>
-          <Col xs>
-            <LatencyBigNumberCard {...bigNumberCardConfiguration} />
-          </Col>
-        </Row>
-
+        <KpiGridRow sizes={[4, 4, 4]}>
+          <CallsBigNumberCard {...bigNumberCardConfiguration} />
+          <ErroneousCallsBigNumberCard {...bigNumberCardConfiguration} />
+          <LatencyBigNumberCard {...bigNumberCardConfiguration} />
+        </KpiGridRow>
         <Row>
           <Col lg={4}>
             <CallsAndHttp

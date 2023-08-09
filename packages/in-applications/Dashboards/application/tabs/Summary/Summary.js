@@ -25,6 +25,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
@@ -76,17 +77,11 @@ export default function Summary({
 
   return (
     <Fragment>
-      <Row>
-        <Col xs>
-          <CallsBigNumberCard {...bigNumberCardConfiguration} />
-        </Col>
-        <Col xs>
-          <ErroneousCallsBigNumberCard {...bigNumberCardConfiguration} />
-        </Col>
-        <Col xs>
-          <LatencyBigNumberCard {...bigNumberCardConfiguration} />
-        </Col>
-      </Row>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <CallsBigNumberCard {...bigNumberCardConfiguration} />
+        <ErroneousCallsBigNumberCard {...bigNumberCardConfiguration} />
+        <LatencyBigNumberCard {...bigNumberCardConfiguration} />
+      </KpiGridRow>
       <Row>
         <Col lg={4}>
           <CallsAndHttp
