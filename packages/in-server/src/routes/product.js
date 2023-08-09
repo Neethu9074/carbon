@@ -174,6 +174,7 @@ router.get('/', async (req, res) => {
     //Adding play-with-user
     const customerEmail = { email: req.cookies['customer-email'] };
     const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
+    clientConfig.walkmeUuid = loggedUser;
     res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     res.send(
@@ -191,6 +192,7 @@ router.get('/', async (req, res) => {
         permissions: permissions,
         config: JSON.stringify(clientConfig),
         playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
+        playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
