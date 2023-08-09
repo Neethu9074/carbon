@@ -72,7 +72,7 @@ class BasicDialog extends React.Component {
 
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
-            {t('in-applications:buttonSave')}
+            {t('in-applications:buttonAdd')}
           </Button>
           {onRemove && (
             <Button
