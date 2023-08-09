@@ -3,20 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
-import { create, just, interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import RedirectWithHash from 'in-components/RedirectWithHash';
@@ -26,10 +25,10 @@ import EventsChart from 'in-events/components/EventsChart';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
+import { getTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
-import { seconds } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
@@ -59,31 +58,7 @@ const urlSettingsConfig = {
 };
 
 function EventView(props) {
-  const [mouseMoveSignal$] = useState(create());
-  const [modifiedTimeConfig$] = useState(
-    timeConfig$
-      .flatMap(timeConfig =>
-        timeConfig.autoRefresh
-          ? mouseMoveSignal$
-              .startWith(true)
-              .throttle(1000)
-              .flatMap(() => interval(seconds.toMillis(10)))
-              .map(() => timeConfig)
-              .startWith(timeConfig)
-          : just(timeConfig)
-      )
-      .startWith(timeConfig$)
-      .map(timeConfig => {
-        // make sure, the event view is not updating any data automatically
-        const to = timeConfig.to || Date.now();
-        return {
-          to,
-          focusedMoment: to,
-          autoRefresh: false,
-          windowSize: timeConfig.windowSize
-        };
-      })
-  );
+  const { mouseMoveSignal$, modifiedTimeConfig$ } = useModifiedTimeConfig();
 
   const timeConfig = useObservable(modifiedTimeConfig$, []);
   const highlightedTimeframe = useObservable(highlightedTimeframe$.debounce(500), []);
