@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
-
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { AggregationType, BoundaryScope, Group, Order } from 'in-types';
 import { EntityType } from 'in-analyze/applicationFilter';
@@ -40,4 +38,4 @@ export function useLinkToAnalyzeDeprecated();
 export function useLinkToTraceDetail(): (
   traceId?: string,
   { callId, formModel }?: { callId?: string; formModel: FormModelElement[] }
-) => Observable<string>;
+) => string;

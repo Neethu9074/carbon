@@ -40,7 +40,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
       <Button
         className={locals.button}
         kind="primaryv2"
-        href$={getLinkToTraceDetail(traces[0].traceId, { callId: 'ROOT' })}
+        href={getLinkToTraceDetail(traces[0].traceId, { callId: 'ROOT' })}
         onClick={e => {
           e.stopPropagation();
           navigateToBackendTraceFromPageLoad();
@@ -56,7 +56,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
         {traces.map(({ traceId }) => (
           <MoreMenuButton
             key={traceId}
-            href$={getLinkToTraceDetail(traceId, { callId: 'ROOT' })}
+            href={getLinkToTraceDetail(traceId, { callId: 'ROOT' })}
             onClick={() => {
               navigateToBackendTraceFromPageLoad();
             }}

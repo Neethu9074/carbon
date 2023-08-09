@@ -4,6 +4,7 @@
  */
 
 import { partition, range, uniq } from 'lodash';
+import { useCallback } from 'react';
 import invariant from 'invariant';
 
 // eslint-disable-next-line no-restricted-imports
@@ -51,8 +52,9 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { toNewOrderBy } from 'in-components/QueryBuilder/transformation/orderBy';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -94,49 +96,52 @@ function getTagFilter(name, value, entity, operator = operators.EQUALS) {
 }
 
 export function useLinkToAnalyzeDeprecated() {
-  return ({
-    applicationName,
-    serviceName,
-    endpointName,
-    boundaryScope = boundaryScopes.inbound,
-    dataSource = 'calls',
-    // when passing filters, make sure to pass also the tagCatalog which is needed
-    // in order to properly convert some tagFilters
-    filters,
-    // tag catalog for filtering
-    tagCatalog,
-    groupByTag, // use an empty object to prevent default grouping
-    orderBy,
-    orderDirection,
-    timeConfig,
-    metrics,
-    // ignore the 'showGraph' flag, in UA2 (closed beta) charts should always be enabled
-    // showGraph = true,
-    focusedMetric,
-    jumpToSource,
-    fastQueryModeEnabled
-  } = emptyObject) => {
-    if (__DEV__) {
-      invariant(
-        tagCatalog != null ||
-          filters == null ||
-          filters.filter(f => f.name !== 'include_internal' && f.name !== 'include_synthetic').length === 0,
-        'The tagCatalog param is required when the filters param is not empty, excluding filters with "include_internal" or "include_synthetic" tags.'
-      );
-    }
+  const { location, createHref } = useNavigation();
 
-    return getModifiedUrlStream(location => {
-      location.pathname = analyze;
+  return useCallback(
+    ({
+      applicationName,
+      serviceName,
+      endpointName,
+      boundaryScope = boundaryScopes.inbound,
+      dataSource = 'calls',
+      // when passing filters, make sure to pass also the tagCatalog which is needed
+      // in order to properly convert some tagFilters
+      filters,
+      // tag catalog for filtering
+      tagCatalog,
+      groupByTag, // use an empty object to prevent default grouping
+      orderBy,
+      orderDirection,
+      timeConfig,
+      metrics,
+      // ignore the 'showGraph' flag, in UA2 (closed beta) charts should always be enabled
+      // showGraph = true,
+      focusedMetric,
+      jumpToSource,
+      fastQueryModeEnabled
+    } = emptyObject) => {
+      if (__DEV__) {
+        invariant(
+          tagCatalog != null ||
+            filters == null ||
+            filters.filter(f => f.name !== 'include_internal' && f.name !== 'include_synthetic').length === 0,
+          'The tagCatalog param is required when the filters param is not empty, excluding filters with "include_internal" or "include_synthetic" tags.'
+        );
+      }
 
-      setDataSourceMatrixParam(location, dataSource);
-      setGroupByMatrixParam(location, groupByTag);
-      setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource);
-      setMetricsMatrixParam(location, dataSource, metrics);
-      setChartsMatrixParam(location, dataSource, focusedMetric);
-      setFastQueryModeEnabledMatrixParam(location, fastQueryModeEnabled);
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = analyze;
+      setDataSourceMatrixParam(clonedLocation, dataSource);
+      setGroupByMatrixParam(clonedLocation, groupByTag);
+      setOrderByMatrixParam(clonedLocation, orderBy, orderDirection, groupByTag, dataSource);
+      setMetricsMatrixParam(clonedLocation, dataSource, metrics);
+      setChartsMatrixParam(clonedLocation, dataSource, focusedMetric);
+      setFastQueryModeEnabledMatrixParam(clonedLocation, fastQueryModeEnabled);
 
       if (timeConfig) {
-        setTimeConfig(location, timeConfig);
+        setTimeConfig(clonedLocation, timeConfig);
       }
 
       let tagFilterExpression = [];
@@ -167,9 +172,12 @@ export function useLinkToAnalyzeDeprecated() {
         }
       }
 
-      setTagFilterExpressionAndHiddenCalls(location, tagCatalog, filters, tagFilterExpression);
-    });
-  };
+      setTagFilterExpressionAndHiddenCalls(clonedLocation, tagCatalog, filters, tagFilterExpression);
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
 
 export function setDataSourceMatrixParam(location, dataSource) {
@@ -417,19 +425,27 @@ const analyzeTwoParameters = createParameters(analyze);
 
 // TODO: move to the in-applications package, once all UA1 related code is removed
 export function useLinkToTraceDetail() {
-  return (traceId, { callId, formModel } = emptyObject) =>
-    getModifiedUrlStream(location => {
-      location.pathname = analyze;
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    (traceId, { callId, formModel } = emptyObject) => {
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = analyze;
       const detailId = {
         traceId,
         ...(callId && { callId })
       };
-      setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
+      setOrDeleteMatrixParameter(clonedLocation, analyzeTwoParameters.detailId, detailId);
 
       if (formModel) {
-        setOrDeleteMatrixParameter(location, analyzeTwoParameters.tagFilterExpression, formModel);
+        setOrDeleteMatrixParameter(clonedLocation, analyzeTwoParameters.tagFilterExpression, formModel);
       }
       // make sure that there is no grouping as otherwise the trace cannot be loaded.
-      setGroupByMatrixParam(location, null);
-    });
+      setGroupByMatrixParam(clonedLocation, null);
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
