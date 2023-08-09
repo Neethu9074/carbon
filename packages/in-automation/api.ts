@@ -603,7 +603,8 @@ export function getApplicationAlertActionAssociations(id: string) {
   return http<Action[]>({
     method: 'GET',
     maxRetries: 3,
-    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`,
+    // updating url to get 401 error
+    url: `${automationAPIBase}/settings/actions-associationstest?application_alert_id=${encodeURIComponent(id)}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }

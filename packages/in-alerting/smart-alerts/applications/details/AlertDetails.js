@@ -47,6 +47,7 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { hasError, isLoading } from 'in-services/util/result';
 import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
@@ -86,6 +87,35 @@ function GlobalAlertDetails(props) {
   );
 }
 const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
+// function mergeResultData(id, endpointConfig, created) {
+//   const alertDetails$ = created
+//     ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig)
+//     : getLatestAlertConfig(id, endpointConfig);
+
+//   // calling Get Alert and Get action associations call and combining results
+//   if (hasAutomationActions) {
+//     const actionDetails$ = getApplicationAlertActionAssociations(id);
+//     return combineLatest([alertDetails$, actionDetails$])
+//     // .map(([alertResponse, actionResponse]) => ({
+//     //   ...alertResponse,
+//     //   actionIds: actionResponse?.map(action => action.id) ?? []
+//     // }));
+//     .map(e => (e.some(resp => isLoading(resp) || hasError(resp)) ? null : e))
+//     .map(e => {
+//       if (e === null) {
+//         return e;
+//       }
+
+//       const [alertResponse, actionResponse] = e;
+//       return {
+//         ...alertResponse,
+//         actionIds: actionResponse?.map(action => action.id) ?? []
+//       }
+//     });
+//   }
+
+//  }
+
 function mergeResultData(id, endpointConfig, created) {
   const alertDetails$ = created
     ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig)
@@ -94,13 +124,34 @@ function mergeResultData(id, endpointConfig, created) {
   // calling Get Alert and Get action associations call and combining results
   if (hasAutomationActions) {
     const actionDetails$ = getApplicationAlertActionAssociations(id);
-    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) => ({
-      ...alertResponse,
-      actionIds: actionResponse?.map(action => action.id) ?? []
-    }));
+    // console.log("innnn",actionDetails$);
+    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse$, actionResponse$]) =>
+      combineResults(alertResponse$, actionResponse$)
+    );
   }
 
   return alertDetails$;
+}
+
+function combineResults(alertResponse, actionResponse) {
+  // console.log("inn",alertResponse, actionResponse)
+  if (isLoading(alertResponse) || hasError(alertResponse)) {
+    // console.log("testt",alertResponse)
+    return alertResponse;
+  }
+
+  // actionResponse.errors().once(error => {
+  // });
+
+  if (isLoading(actionResponse) || hasError(actionResponse)) {
+    // console.log("actionResponse---->",actionResponse);
+    return actionResponse;
+  }
+
+  return {
+    ...alertResponse,
+    actionIds: actionResponse?.map(action => action.id) ?? []
+  };
 }
 
 function IndividualAlertDetails(props) {
@@ -113,6 +164,9 @@ function IndividualAlertDetails(props) {
         alertsTabSegment
       }}
       matrix={{ alertIdParam, alertCreatedParam }}
+      // getConfig={(id, created) => created
+      //   ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig)
+      //   : getLatestAlertConfig(id, endpointConfig)}
       getConfig={(id, created) => mergeResultData(id, endpointConfig, created)}
       getConfigVersions={id => getAllVersionsOfAlertConfig(id, endpointConfig)}
       enableConfig={enableAlertConfig}
