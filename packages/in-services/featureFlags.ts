@@ -99,14 +99,13 @@ export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled')
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
+export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertsAdaptiveBaselineEnabled'
+);
 
 // Table custom widget
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
-
-export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
-  'mobileAppSmartAlertsAdaptiveBaselineEnabled'
-);
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 

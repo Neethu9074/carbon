@@ -343,12 +343,12 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppSmartAlertsEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'systemRuleEntityCountEnabled',
@@ -395,5 +395,4 @@ module.exports = exports = [
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',
     defaultValue: false
   }
-
 ];
