@@ -6,13 +6,16 @@
 
 import { useState } from 'react';
 
-import { create, just, interval } from '@instana/observables';
+import { create, just, interval, Observable, Subject } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
 import { timeConfig$ } from 'in-stores/time/config';
 import { seconds } from 'in-services/time';
 
-export function useModifiedTimeConfig(isPreview?: boolean) {
+export function useModifiedTimeConfig(isPreview?: boolean): {
+  mouseMoveSignal$: Subject<unknown>;
+  modifiedTimeConfig$: Observable<TimeConfig>;
+} {
   const [mouseMoveSignal$] = useState(create());
   const [modifiedTimeConfig$] = useState(
     timeConfig$

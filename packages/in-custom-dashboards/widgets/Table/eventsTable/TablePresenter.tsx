@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+import { Disposable, on, Subject } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error TS migration
@@ -57,15 +58,17 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
     setRowsPerPage(4);
   }
   // Observable to update the timeConfig at regular intervals in live mode
-  const { modifiedTimeConfig$ } = useModifiedTimeConfig(isPreview);
+  const { modifiedTimeConfig$, mouseMoveSignal$ } = useModifiedTimeConfig(isPreview);
 
   // because in preview mode we don't want the table to refresh automatically
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const timeConfig = useObservable(modifiedTimeConfig$, []) ?? useTimeConfig();
+  const timeConfig: TimeConfig = useObservable(modifiedTimeConfig$, []) ?? useTimeConfig();
 
   return (
     <div className={locals.tableContent} ref={ref as React.RefObject<HTMLDivElement>}>
-      {rowsPerPage > 0 && <TableConfig {...props} rowsPerPage={rowsPerPage} timeConfig={timeConfig} />}
+      {rowsPerPage > 0 && (
+        <TableConfig {...props} rowsPerPage={rowsPerPage} timeConfig={timeConfig} mouseMoveSignal$={mouseMoveSignal$} />
+      )}
     </div>
   );
 }
@@ -73,6 +76,7 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
 interface TableConfigProps extends TableOverviewBehaviourProps {
   rowsPerPage: number;
   timeConfig: TimeConfig;
+  mouseMoveSignal$: Subject<unknown>;
 }
 
 function TableConfig(props: TableConfigProps) {
@@ -130,9 +134,12 @@ export interface TablePresenterProps extends TableOverviewBehaviourProps {
   loadMoreData?: VoidFunction;
   setSorting?: any;
   showCaseView?: boolean;
+  mouseMoveSignal$?: Subject<unknown>;
 }
 
 export const TablePresenter = (props: TablePresenterProps) => {
+  const tableRef: React.MutableRefObject<EventTarget | undefined> = useRef();
+  const onMouseMoveSubscriptionRef: React.MutableRefObject<Disposable | undefined | null> = useRef();
   const {
     title,
     dragHandle,
@@ -141,12 +148,36 @@ export const TablePresenter = (props: TablePresenterProps) => {
     loadMoreData,
     setSorting,
     showCaseView = false,
-    config
+    config,
+    mouseMoveSignal$
   } = props;
 
   const { location, navigate } = useNavigation();
   const eventsPath = '/events';
   const dynamicFocusQuery = config?.dynamicFocusQuery;
+
+  const setupSubscriptions = useCallback(() => {
+    if (!tableRef.current) {
+      return;
+    }
+
+    onMouseMoveSubscriptionRef.current = on(tableRef.current!, 'mousemove').subscribe(() =>
+      mouseMoveSignal$?.emit(Date.now())
+    );
+  }, [mouseMoveSignal$]);
+
+  useEffect(() => {
+    setupSubscriptions();
+
+    return function cleanUp() {
+      disposeSubscriptions();
+    };
+  }, [setupSubscriptions]);
+
+  useEffect(() => {
+    disposeSubscriptions();
+    setupSubscriptions();
+  });
 
   // function to navigate to events list page
   function onItemClicked(eventId: string) {
@@ -159,9 +190,17 @@ export const TablePresenter = (props: TablePresenterProps) => {
     setSorting({ orderBy: item.orderBy, orderDirection: item.orderDirection });
   }
 
+  function disposeSubscriptions() {
+    if (onMouseMoveSubscriptionRef.current) {
+      onMouseMoveSubscriptionRef.current?.dispose();
+      onMouseMoveSubscriptionRef.current = null;
+    }
+  }
+
   return (
     <>
       <div
+        ref={table => (tableRef.current = table as EventTarget)}
         className={classNames({
           [locals.container]: true,
           [locals.heightAuto]: showCaseView
