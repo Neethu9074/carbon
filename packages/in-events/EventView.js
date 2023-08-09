@@ -6,13 +6,10 @@
 import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
-// import { create, just, interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-// import { seconds } from 'in-services/time';
-import Sticky from 'in-components/Sticky';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
@@ -32,6 +29,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
+import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 export default function LegacyEventViewMigration(props) {
@@ -60,32 +58,6 @@ const urlSettingsConfig = {
 };
 
 function EventView(props) {
-  // const [mouseMoveSignal$] = useState(create());
-  // const [modifiedTimeConfig$] = useState(
-  //   timeConfig$
-  //     .flatMap(timeConfig =>
-  //       timeConfig.autoRefresh
-  //         ? mouseMoveSignal$
-  //             .startWith(true)
-  //             .throttle(1000)
-  //             .flatMap(() => interval(seconds.toMillis(10)))
-  //             .map(() => timeConfig)
-  //             .startWith(timeConfig)
-  //         : just(timeConfig)
-  //     )
-  //     .startWith(timeConfig$)
-  //     .map(timeConfig => {
-  //       // make sure, the event view is not updating any data automatically
-  //       const to = timeConfig.to || Date.now();
-  //       return {
-  //         to,
-  //         focusedMoment: to,
-  //         autoRefresh: false,
-  //         windowSize: timeConfig.windowSize
-  //       };
-  //     })
-  // );
-
   const { mouseMoveSignal$, modifiedTimeConfig$ } = useModifiedTimeConfig();
 
   const timeConfig = useObservable(modifiedTimeConfig$, []);
