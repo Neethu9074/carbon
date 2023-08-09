@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
+// This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+// eslint-disable-next-line import/no-deprecated
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -12,6 +14,8 @@ import { setTimeConfig } from 'in-stores/time/config';
 import { TimeConfig } from 'in-types';
 
 export function focusEvent(eventId: string) {
+  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+  // eslint-disable-next-line import/no-deprecated
   mutateUrl(params => {
     const match = params.pathname.match(/\/(logical|physical)/i);
     if (match) {
@@ -28,6 +32,8 @@ export function focusEvent(eventId: string) {
 }
 
 export function clearSelectedEvent() {
+  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+  // eslint-disable-next-line import/no-deprecated
   mutateUrl(navParams => {
     delete navParams.query.eventId;
     return navParams;
@@ -35,6 +41,8 @@ export function clearSelectedEvent() {
 }
 
 export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
+  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     const query = `entity.id:"${entityId}"`;
     params.pathname = eventsPath;
@@ -53,7 +61,7 @@ export interface GetEventsViewProps {
   resolvedEndpointId?: string;
   snapshotId?: string;
   eventId?: string;
-  eventTypeFilter: string;
+  eventTypeFilter?: string;
   timeConfig: TimeConfig;
   additionalDFQFilter?: string;
 }
@@ -87,6 +95,8 @@ export function getEventsViewFilteredBy({
   }
   query = query.trim();
 
+  // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(params => {
     // While tackling QA-finding https://instana.kanbanize.com/ctrl_board/37/cards/69751
     // we figured out, that the DFQ as part of the URL query
