@@ -23,7 +23,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import useInfraEventEntity from 'in-events/hooks/useInfraEventEntity';
 import { InfraAlertConfig, TagCatalog, TimeConfig } from 'in-types';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
@@ -44,12 +43,10 @@ interface Props {
 }
 
 export default function InfraEventContent({ event }: Props) {
-  const eventEntity = useInfraEventEntity(event);
   const alertConfig = useInfraEventAlertConfig(event);
 
-  const entityType = alertConfig?.rule?.entityType;
-  const type = entityType ?? 'all';
-  const tagCatalog = useTagCatalog({ ownerType: type });
+  const entityType = alertConfig?.rule?.entityType ?? 'all';
+  const tagCatalog = useTagCatalog({ ownerType: entityType });
 
   if (!alertConfig) {
     return null;
@@ -57,6 +54,7 @@ export default function InfraEventContent({ event }: Props) {
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const entityName = event.getIn(['metadata', 'entityName'], '');
+  const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
 
   const tagFilterExpression = alertConfig.tagFilterExpression;
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
@@ -105,7 +103,9 @@ export default function InfraEventContent({ event }: Props) {
                   tagFilterFormModel={tagFilterFormModel}
                   //@ts-expect-error type error for querybuilder
                   queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                  scopePath={<InfraScopePath {...eventEntity} iconName={getInfraIconType(entityType as string)} />}
+                  scopePath={
+                    <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
+                  }
                 />
               </div>
             </Card>
