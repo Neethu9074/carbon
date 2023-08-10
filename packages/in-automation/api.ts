@@ -604,7 +604,7 @@ export function getApplicationAlertActionAssociations(id: string): Observable<Re
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${automationAPIBase}/settings/actions-affssociatnnnions?application_alert_id=${encodeURIComponent(id)}`
+    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`
   });
 
   return createObservable(request);
@@ -662,61 +662,3 @@ export function updateApplicationAlertAssociations({ actions, alertId }: { actio
     data: actions
   }).map(response => fromJS(response.body));
 }
-
-// export function getCustomEventSpecificationWithActions(eventSpecificationId:string) {
-//   return http({
-//     method: 'GET',
-//     maxRetries: 3,
-//     url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}`,
-//     treat400AsError: false
-//   }).map(response => fromJS(response.body));
-// }
-
-// export function getBuiltinEventActions(eventSpecificationId:string) {
-//   return createObservable(
-//      http({
-//     method: 'GET',
-//     maxRetries: 3,
-//     url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
-//     treat400AsError: false
-//   })
-//   );
-// }
-
-// function getAssociationsRequest(eventSpecificationId:string) {
-//   return http<Action[]>({
-//     method: 'GET',
-//     maxRetries: 3,
-//     url: `/api/events/settings/beta/event-specificatihhhons/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
-//     treat400AsError: false
-//   })
-// }
-
-// export function getBuiltinEventActions(eventSpecificationId: string): Observable<Action[]> {
-//   const request = getAssociationsRequest(eventSpecificationId);
-//   return request.map(response => response.body);
-// }
-
-// export function getBuiltinEventActionsWithResult(eventSpecificationId:string): Observable<Result<Action[]>> {
-//   const request = getAssociationsRequest(eventSpecificationId);
-//   return createObservable(request);
-// }
-
-// function getCustomAssociationsRequest(eventSpecificationId:string) {
-//   return http<Action[]>({
-//     method: 'GET',
-//     maxRetries: 3,
-//     url: `/api/events/settings/beta/ejjjvent-specifications/custom/${encodeURIComponent(eventSpecificationId)}`,
-//     treat400AsError: false
-//   })
-// }
-
-// export function getCustomEventSpecificationWithActions(eventSpecificationId: string): Observable<Action[]> {
-//   const request = getCustomAssociationsRequest(eventSpecificationId);
-//   return request.map(response => response.body);
-// }
-
-// export function getCustomEventSpecificationWithActionsWithResult(eventSpecificationId:string): Observable<Result<Action[]>> {
-//   const request = getCustomAssociationsRequest(eventSpecificationId);
-//   return createObservable(request);
-// }

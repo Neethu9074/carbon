@@ -280,9 +280,7 @@ export function getBuiltinEventActions(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/bessta/event-specifications/built-in/${encodeURIComponent(
-      eventSpecificationId
-    )}/actions`,
+    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
   }).map(response => response.body);
 }
@@ -291,7 +289,7 @@ export function getCustomEventActions(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/betssa/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
   }).map(response => response.body);
 }
