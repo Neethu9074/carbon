@@ -604,7 +604,7 @@ export function getApplicationAlertActionAssociations(id: string): Observable<Re
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${automationAPIBase}/settings/actions-associatnnnions?application_alert_id=${encodeURIComponent(id)}`
+    url: `${automationAPIBase}/settings/actions-affssociatnnnions?application_alert_id=${encodeURIComponent(id)}`
   });
 
   return createObservable(request);

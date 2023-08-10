@@ -41,19 +41,21 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
   );
   const triggerReload = () => setReload(Math.random());
   let actionError = null;
-  let selectedActionsSet = [] as unknown as Set<string>;
+
+  // Memoize the creation of selectedActionsSet
+  const selectedActionsSet = useMemo(() => {
+    if (existingActions && Array.isArray(existingActions)) {
+      return new Set((existingActions ?? []).map(action => action.id));
+    }
+    return new Set();
+  }, [existingActions]);
+
   if (existingActions && 'message' in existingActions) {
     actionError = existingActions.message;
   }
 
   const getUnusedSuggestedActions = useMemo(() => {
     if (!eventSpecification) return null;
-
-    if (existingActions && Array.isArray(existingActions)) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
-    }
-
     return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
       allActions => {
         if (!existingActions) return [];
@@ -63,7 +65,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
           .sort((a, b) => b.score - a.score);
       }
     );
-  }, [eventSpecification, existingActions]);
+  }, [eventSpecification, existingActions, selectedActionsSet]);
 
   if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
