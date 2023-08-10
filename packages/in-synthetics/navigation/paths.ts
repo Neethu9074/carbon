@@ -3,17 +3,16 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
+import { useCallback } from 'react';
 
 import {
   testId as testIdMatrixParam,
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
-// eslint-disable-next-line import/no-deprecated
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
@@ -54,53 +53,56 @@ export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticSmartAlertsPath
 );
 
-export function getSyntheticTestDashboard(testId: string, timeConfig?: TimeConfig): Observable<string> {
-  return getDashboard(syntheticsDashboard, testId, summaryTab, timeConfig);
+export function useSyntheticTestDashboard() {
+  return useDashboard(syntheticsDashboard, summaryTab);
 }
 
-export function getSyntheticTestResultDashboard(
-  testId: string,
-  timeConfig?: TimeConfig,
-  failedStatusFilter?: boolean,
-  locationLabelFilters?: string[]
-): Observable<string> {
-  return getDashboard(syntheticsDashboard, testId, resultsTab, timeConfig, failedStatusFilter, locationLabelFilters);
+export function useSyntheticTestResultDashboard() {
+  return useDashboard(syntheticsDashboard, resultsTab);
 }
 
-function getDashboard(
-  basePath: string,
-  testId: string,
-  tab: string,
-  timeConfig?: TimeConfig,
-  failedStatusFilter?: boolean,
-  locationLabelFilters?: string[]
-): Observable<string> {
-  // eslint-disable-next-line import/no-deprecated
-  return getModifiedUrlStream(params => {
-    params.pathname = `${basePath}${tab}`;
-    setOrDeleteMatrixKey(params, basePath, matrixTestId, testId);
+function useDashboard(basePath: string, tab: string) {
+  const { location, createHref } = useNavigation();
 
-    if (timeConfig != null) {
-      setTimeConfig(params, timeConfig);
-    }
+  return useCallback(
+    (testId: string, timeConfig?: TimeConfig, failedStatusFilter?: boolean, locationLabelFilters?: string[]) => {
+      const clonedLocation = cloneLocation(location);
 
-    if (failedStatusFilter != null) {
-      setOrDeleteMatrixKey(params, tab, matrixStatus, stringify(['0']));
-    }
+      clonedLocation.pathname = `${basePath}${tab}`;
+      setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestId, testId);
 
-    if (locationLabelFilters != null && locationLabelFilters.length > 0) {
-      setOrDeleteMatrixKey(params, tab, matrixLocationLabels, stringify(locationLabelFilters));
-    }
-  });
+      if (timeConfig != null) {
+        setTimeConfig(clonedLocation, timeConfig);
+      }
+
+      if (failedStatusFilter != null) {
+        setOrDeleteMatrixKey(clonedLocation, tab, matrixStatus, stringify(['0']));
+      }
+
+      if (locationLabelFilters != null && locationLabelFilters.length > 0) {
+        setOrDeleteMatrixKey(clonedLocation, tab, matrixLocationLabels, stringify(locationLabelFilters));
+      }
+
+      return createHref(clonedLocation);
+    },
+    [location, basePath, tab, createHref]
+  );
 }
 
 export const useGetAlertConfigLink = () => {
   const { createHref, location } = useNavigation();
-  return (alertConfigId: string, testId: string, alertConfigVersion?: number) => {
-    location.pathname = dashboardTestAlertsTabDetailsFullyQualified;
-    fillAlertTabSpecificValues(location, alertConfigId, alertsTab, alertConfigVersion, testId);
-    return createHref(location);
-  };
+
+  return useCallback(
+    (alertConfigId: string, testId: string, alertConfigVersion?: number) => {
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = dashboardTestAlertsTabDetailsFullyQualified;
+      fillAlertTabSpecificValues(clonedLocation, alertConfigId, alertsTab, alertConfigVersion, testId);
+
+      return createHref(clonedLocation);
+    },
+    [createHref, location]
+  );
 };
 
 function fillAlertTabSpecificValues(
@@ -118,10 +120,15 @@ function fillAlertTabSpecificValues(
 export function useLinkToGlobalAlertConfigWithoutDashboard() {
   const { location, createHref } = useNavigation();
 
-  return (alertConfigId: string) => {
-    location.pathname = alertsTabDetailsFullyQualified;
-    fillAlertTabSpecificValues(location, alertConfigId, syntheticSmartAlertsPath, undefined, undefined);
+  return useCallback(
+    (alertConfigId: string) => {
+      const clonedLocation = cloneLocation(location);
 
-    return createHref(location);
-  };
+      clonedLocation.pathname = alertsTabDetailsFullyQualified;
+      fillAlertTabSpecificValues(clonedLocation, alertConfigId, syntheticSmartAlertsPath, undefined, undefined);
+
+      return createHref(clonedLocation);
+    },
+    [location, createHref]
+  );
 }
