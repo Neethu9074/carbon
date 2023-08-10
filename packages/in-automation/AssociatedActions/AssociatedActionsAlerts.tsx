@@ -18,6 +18,7 @@ import {
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getEventSpecificationId, useDualReload } from './shared';
@@ -44,16 +45,36 @@ export default function AssociatedActionsAlerts({
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
-  const actions =
-    useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload], {
+  const result = useObservable(
+    () => getApplicationAlertActionAssociations(eventSpecificationId),
+    [eventSpecificationId, reload],
+    {
       resetStateOnObservableChange: false
-    }) ?? [];
-  const selectedActions = actions.map((action: Action) => action.id);
+    }
+  ) ?? { data: [], errors: [] };
 
+  const actions = result?.data ?? [];
+  const Associationserror = result?.errors ?? [];
+  const selectedActions = actions.length > 0 ? actions?.map((action: Action) => action.id) : [];
+  // actionIds: actionResponse?.data?.map(action => action.id) ?? []
   if (!alertConfig) {
     return <LoadingIndicator size="xl" />;
   }
 
+  if (Associationserror.length) {
+    return <ErroneousResultPresenter errors={[...Associationserror]} />;
+  }
+
+  // function useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload) {
+  //   const result =
+  //     useObservable(() => getConfig(alertConfigId, alertConfigCreated), [alertConfigId, alertConfigCreated, reload]) ??
+  //     {};
+  //   if (role.canConfigureAutomationActions && actionAutomationEnabled && result.data) {
+  //     return { alertConfig: { actionIds: result.actionIds, ...result.data }, alertConfigErrors: result.errors ,actionAssociationsErrors:result.actionAssociationsErrors};
+  //   } else {
+  //     return { alertConfig: result.data, alertConfigErrors: result.errors };
+  //   }
+  // }
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
     getScoredActionsForEventOrAlert(selectedActions, alertConfig)
   );

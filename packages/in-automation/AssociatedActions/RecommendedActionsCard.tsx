@@ -6,6 +6,8 @@
 
 import React, { useMemo, useState } from 'react';
 
+import { Message } from '@instana/components';
+
 import {
   getCustomEventSpecificationMutable,
   saveCustomEventSpecificationWithActions,
@@ -38,11 +40,19 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
     reload
   );
   const triggerReload = () => setReload(Math.random());
+  let actionError = null;
+  let selectedActionsSet = [] as unknown as Set<string>;
+  if (existingActions && 'message' in existingActions) {
+    actionError = existingActions.message;
+  }
 
   const getUnusedSuggestedActions = useMemo(() => {
     if (!eventSpecification) return null;
 
-    const selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
+    if (existingActions && Array.isArray(existingActions)) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
+    }
 
     return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
       allActions => {
@@ -62,6 +72,11 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
   return (
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
+      {actionError && (
+        <Message type="error" small withIcon>
+          {actionError}
+        </Message>
+      )}
       <ActionTable
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
@@ -91,7 +106,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
 }
 interface AssociateActionProps {
   action: Action;
-  existingActions: Action[];
+  existingActions: Action[] | { code: string; message: string };
   event: EventSpecification;
   triggerReload: () => void;
   setError: (e: boolean) => void;
@@ -113,7 +128,7 @@ function associateAction({
 
   const onSave = () => triggerReload();
   const handleErrors = () => setError(true);
-  const updatedActions = [...existingActions, action];
+  const updatedActions = 'message' in existingActions ? [action] : [...existingActions, action];
 
   if (isCustomEvent) {
     getCustomEventSpecificationMutable(event.id).once(
