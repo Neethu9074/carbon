@@ -56,7 +56,7 @@ const cols = [
   }
 ];
 
-export default function OperationsTable({ snapshot, timeConfig }) {
+export default function OperationsTablev2({ snapshot, timeConfig }) {
   const ops = ['gets', 'sets', 'create', 'delete', 'update', 'compare_and_swap', 'compare_and_delete'];
 
   const rows = ops.map(key => {
