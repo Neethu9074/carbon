@@ -10,7 +10,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const cols = [
+const instCols = [
   {
     title: t('in-forge:plugins.oracleDB.sqlId'),
     type: 'string',
@@ -85,6 +85,21 @@ const cols = [
   }
 ];
 
+const instIdCol = [
+  {
+    title: t('in-forge:plugins.oracleDB.instanceID'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.instId;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
 export default connectTo(
   props => {
     return {
@@ -92,13 +107,26 @@ export default connectTo(
     };
   },
 
-  function T({ data }) {
+  function ListOfQueriesNotUsingBindVeriableInCodeTable(props) {
+    const { data, snapshot } = props;
+    if (!data || !data.get('raw_payload') || !snapshot || !snapshot.get('data')) {
+      return null;
+    }
     if (!data || !data.get('raw_payload')) {
       return null;
     }
     const queriesNotUsingBindVariableInCodePayload = data.get('raw_payload');
     if (queriesNotUsingBindVariableInCodePayload.size === 0) {
       return null;
+    }
+
+    const snapshotData = snapshot.get('data');
+    const racEnabled = snapshotData.get('enableRacMonitoring');
+    let cols = instCols;
+    let initialSortColumn = 5;
+    if (racEnabled) {
+      cols = instIdCol.concat(cols);
+      initialSortColumn = 6;
     }
 
     const rows = queriesNotUsingBindVariableInCodePayload.toJS().map(query => {
@@ -109,7 +137,8 @@ export default connectTo(
         userName: query.userName,
         copies: query.copies,
         executions: query.executions,
-        sharableMemInMB: query.sharableMemInMB
+        sharableMemInMB: query.sharableMemInMB,
+        instId: query.instId
       };
     });
     return (
@@ -119,7 +148,7 @@ export default connectTo(
         cols={cols}
         rows={rows}
         maxItemsPerPage={5}
-        initialSortColumn={5}
+        initialSortColumn={initialSortColumn}
         initialSortDirection="desc"
         getRowDetails={getDetails}
       />

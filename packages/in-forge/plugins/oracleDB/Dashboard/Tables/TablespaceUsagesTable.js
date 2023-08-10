@@ -8,6 +8,7 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, percentage } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -110,30 +111,32 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
 function getRowDetails(row) {
   return (
     <div>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          formatter: bytes.detailed,
-          metrics: ['stats.tablespaceStats.' + row.key + '.usedSpace'],
-          labels: [t('in-forge:plugins.oracleDB.usedSpace')],
-          type: 'area'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          max: 1,
-          formatter: percentage.detailed,
-          metrics: ['stats.tablespaceStats.' + row.key + '.usedPercent'],
-          labels: [t('in-forge:plugins.oracleDB.usedPercent')],
-          type: 'area'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
+      <Columize>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: bytes.detailed,
+            metrics: ['stats.tablespaceStats.' + row.key + '.usedSpace'],
+            labels: [t('in-forge:plugins.oracleDB.usedSpace')],
+            type: 'area'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            max: 1,
+            formatter: percentage.detailed,
+            metrics: ['stats.tablespaceStats.' + row.key + '.usedPercent'],
+            labels: [t('in-forge:plugins.oracleDB.usedPercent')],
+            type: 'area'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </Columize>
     </div>
   );
 }

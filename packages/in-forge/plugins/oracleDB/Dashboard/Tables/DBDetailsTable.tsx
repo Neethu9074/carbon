@@ -13,7 +13,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 // @ts-expect-error Module needs to be translated to TS
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number, micros, percentage, hitRateTwoDecimalPlaces } from 'in-services/formatters/number';
+import { micros, percentage, hitRateTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -52,7 +52,7 @@ const cols = [
       getMetricName(row: Row) {
         return `stats.systemTimeModelStats.${row.key}.dbTime`;
       },
-      getContent: number.compact,
+      getContent: micros.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -68,7 +68,7 @@ const cols = [
       getMetricName(row: Row) {
         return `stats.systemTimeModelStats.${row.key}.cpuTime`;
       },
-      getContent: number.compact,
+      getContent: micros.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -84,7 +84,7 @@ const cols = [
       getMetricName(row: Row) {
         return `stats.systemTimeModelStats.${row.key}.sqlExecuteTime`;
       },
-      getContent: number.compact,
+      getContent: micros.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -100,7 +100,7 @@ const cols = [
       getMetricName(row: Row) {
         return `stats.systemTimeModelStats.${row.key}.parseTime`;
       },
-      getContent: number.compact,
+      getContent: micros.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
