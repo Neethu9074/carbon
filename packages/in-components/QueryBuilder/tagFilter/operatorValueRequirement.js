@@ -14,6 +14,8 @@ export const KEY_VALUE_PAIR_NOT_BLANK = false;
 
 export const STRING_NOT_EMPTY = false;
 export const STRING_IS_EMPTY = false;
+export const STRING_NOT_BLANK = false;
+export const STRING_IS_BLANK = false;
 
 export const NUMBER_NOT_EMPTY = false;
 export const NUMBER_IS_EMPTY = false;
