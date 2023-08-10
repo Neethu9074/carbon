@@ -65,16 +65,6 @@ export default function AssociatedActionsAlerts({
     return <ErroneousResultPresenter errors={[...Associationserror]} />;
   }
 
-  // function useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload) {
-  //   const result =
-  //     useObservable(() => getConfig(alertConfigId, alertConfigCreated), [alertConfigId, alertConfigCreated, reload]) ??
-  //     {};
-  //   if (role.canConfigureAutomationActions && actionAutomationEnabled && result.data) {
-  //     return { alertConfig: { actionIds: result.actionIds, ...result.data }, alertConfigErrors: result.errors ,actionAssociationsErrors:result.actionAssociationsErrors};
-  //   } else {
-  //     return { alertConfig: result.data, alertConfigErrors: result.errors };
-  //   }
-  // }
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
     getScoredActionsForEventOrAlert(selectedActions, alertConfig)
   );
