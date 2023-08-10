@@ -15,8 +15,8 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+import { number, millis } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
@@ -41,7 +41,7 @@ const averageResponseTimeCol = {
     getMetricName() {
       return `avgResTime`;
     },
-    getContent: number.compact,
+    getContent: millis.detailed,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -164,7 +164,7 @@ function getRowDetails(row: any) {
           metrics: [`avgResTime`],
           labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.avgResTime')],
           type: 'line',
-          formatter: number.compact
+          formatter: millis.detailed
         }}
       />
       <Chart
