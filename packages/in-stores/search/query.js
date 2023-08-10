@@ -68,6 +68,10 @@ unvalidatedQuery$
   .debounce(500)
   .subscribe(query => {
     mutateUrl(navParams => {
+      if (query?.notAlterURL) {
+        return navParams;
+      }
+
       if (!query || !query.query || query.query.length === 1) {
         // remove empty `q` query-param from URL
         delete navParams.query.q;
@@ -128,10 +132,11 @@ unvalidatedQuery$
     }
   });
 
-export function setQueryInput(query, context) {
+export function setQueryInput(query, context, notAlterURL) {
   const contextQuery = {
     query: query,
-    searchContext: context
+    searchContext: context,
+    notAlterURL
   };
 
   unvalidatedQueryStore.mutateTo(contextQuery);

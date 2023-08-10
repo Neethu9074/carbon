@@ -17,6 +17,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
+import { trim } from 'in-components/SearchBar/Input';
 import Input from 'in-components/SearchBar/Input';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -49,6 +50,7 @@ export default connectTo(
             ['in-searchbar']: true,
             [`in-searchbar-${theme}`]: true,
             [locals.wrapper]: true,
+            [locals.wrapperWithPadding]: true,
             [locals[`wrapper${theme}`]]: theme
           })}
         >
@@ -125,12 +127,12 @@ function save(query) {
   addActiveDialog(<SaveDialog />);
 }
 
-const ClearQueryButton = connectTo(
+export const ClearQueryButton = connectTo(
   {
     query: unvalidatedQuery$
   },
   function ClearQueryButton({ query, buttonClass }) {
-    if (!query || !query.query || query.query.length === 0) {
+    if (!query || !trim(query.query) || query.query.length === 0) {
       return null;
     }
     return (

@@ -133,10 +133,52 @@ const data: ShowcaseProps[] = [
     title: 'You will run out of disk space in about 59 minutes',
     type: 'incident',
     id: '8'
+  },
+  {
+    end: 1689067312312,
+    entityLabel: 'shop-ratings',
+    entityTimestamp: 1689066600000,
+    entityType: 'Service20',
+    id: '9',
+    plugin: 'service',
+    severity: 10,
+    smartAlert: true,
+    start: 1689066982312,
+    state: 'open',
+    title: 'Erroneous call rate for shop-ratings is high',
+    type: 'incident'
+  },
+  {
+    end: 1689064995000,
+    entityLabel: 'nginx-web',
+    entityTimestamp: 1689062510000,
+    entityType: 'Service20',
+    id: '10',
+    plugin: 'service',
+    severity: 5,
+    smartAlert: false,
+    start: 1689064310000,
+    state: 'closed',
+    title: 'Sudden increase in latency for a fraction of requests',
+    type: 'incident'
+  },
+  {
+    end: 1689064995000,
+    entityLabel: 'k8s-demo',
+    entityTimestamp: 1689060886000,
+    entityType: 'App20',
+    plugin: 'application',
+    severity: 5,
+    smartAlert: false,
+    start: 1689060916000,
+    state: 'open',
+    title: 'All Calls of k8s-demo > 88',
+    type: 'incident',
+    id: '11'
   }
 ];
 
-const rowsPerPage = 3;
+const rowsPerPage = 4;
 
 export default function ShowCase() {
   const [lastIndex, setLastIndex] = useState(rowsPerPage);
