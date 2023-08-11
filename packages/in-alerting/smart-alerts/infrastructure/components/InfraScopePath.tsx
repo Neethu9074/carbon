@@ -6,11 +6,9 @@
 
 import React from 'react';
 
-import { SvgIconProps } from '@instana/components';
+import { Size } from '@instana/components/types/components/SvgIcon/types';
 
 import ScopePath, { ScopeEntryType } from 'in-alerting/components/ScopePath';
-
-type Size = SvgIconProps['size'];
 
 interface InfraScopePathProps {
   infraName?: string;

@@ -24,7 +24,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { InfraAlertConfig, TagCatalog, TimeConfig } from 'in-types';
-import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
@@ -94,24 +93,21 @@ export default function InfraEventContent({ event }: Props) {
           <Chart alertConfig={alertConfig} timeConfig={timeConfig} />
         </Col>
       </Row>
-      {infraSmartAlertsEnabled && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card title={t('in-events:titleScope')}>
-              <div className={locals.alertFiltersWrapper}>
-                <ScopeConfigPresenter
-                  tagFilterFormModel={tagFilterFormModel}
-                  //@ts-expect-error type error for querybuilder
-                  queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                  scopePath={
-                    <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
-                  }
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      )}
+
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card title={t('in-events:titleScope')}>
+            <div className={locals.alertFiltersWrapper}>
+              <ScopeConfigPresenter
+                tagFilterFormModel={tagFilterFormModel}
+                //@ts-expect-error type error for querybuilder
+                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
+              />
+            </div>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 }
