@@ -394,10 +394,5 @@ module.exports = exports = [
     uiClientKey: 'playwithTestEnabled',
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'infraSmartAlertsEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.enabled',
-    defaultValue: false
   }
 ];
