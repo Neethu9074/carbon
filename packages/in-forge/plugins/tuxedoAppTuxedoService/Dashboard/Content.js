@@ -7,7 +7,7 @@
 import React from 'react';
 
 import TuxedoServerTable from 'in-forge/plugins/tuxedoAppTuxedoService/Dashboard/TuxedoServerTable';
-import { number, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { number, zeroDecimalPlaces, twoDecimalPlaces, millis } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -27,7 +27,7 @@ export default function TuxedoServiceDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.tuxedoAppTuxedoService.avgResTime')}>
-          <MetricValue snapshotId={snapshotId} metric="avgResTime" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="avgResTime" formatter={millis.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.tuxedoAppTuxedoService.throughput')}>
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={number.detailed} />
@@ -42,7 +42,7 @@ export default function TuxedoServiceDashboard({ snapshot, timeConfig }) {
               metrics: ['avgResTime'],
               labels: [t('in-forge:plugins.tuxedoAppTuxedoService.avgResTime')],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -52,7 +52,7 @@ export default function TuxedoServiceDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['throughput'],
-              labels: [t('in-forge:plugins.tuxedoAppTuxedoService.throughput')],
+              labels: [t('in-forge:plugins.tuxedoAppTuxedoService.throughputOpsSec')],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
