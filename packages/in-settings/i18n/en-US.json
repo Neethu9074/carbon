@@ -91,9 +91,9 @@
     "permissions_AUTOMATION": "Automation permissions",
     "permissions_LOGS": "Log permissions",
     "permissions_PCF": "Cloud Foundry",
-    "permissions_PHMC": "IBM Power",
+    "permissions_PHMC": "IBM Power HMC",
     "permissions_POWERVC": "IBM PowerVC",
-    "permissions_ZHMC": "IBM Z",
+    "permissions_ZHMC": "IBM Z HMC",
     "permissions_KUBERNETES": "Kubernetes",
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
@@ -1116,7 +1116,10 @@
     "status_unscheduled": "Unscheduled",
     "status_finished": "Finished",
     "status_paused": "Paused",
-    "timezoneDifferenceMessage": "Warning! The timezone in which the current configuration was created in ({{configTimezone}}) and your current timezone ({{userTimezone}}) are different. Saving and/or editing the configuration may have an un-intended outcome on the maintenance window",
+    "timezone": {
+      "currentTimezoneMessage": "Your current time zone is UTC{{utc_offset}}. You can change this to UTC in the",
+      "differenceMessage": "This window was originally created in the UTC{{configTimezone}} time zone. Your current timezone is UTC{{userTimezone}}. You can change this to UTC in the"
+    },
     "feedback": {
       "shareFeedback": "Share Your Feedback",
       "submit": "Submit",

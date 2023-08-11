@@ -6,13 +6,7 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import {
-  AggregationType,
-  ApplicationBoundaryScope,
-  BlueprintType,
-  DurationUnitType,
-  SloEntityType
-} from '@instana/types';
+import { SloEntityType } from '@instana/types';
 
 import {
   SloEntityFields,
@@ -21,9 +15,9 @@ import {
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validationLogic';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { SloBeaconTypes } from 'in-service-levels/types';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
   entityId: createField({ value: '' }),
@@ -31,27 +25,27 @@ export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFiel
 });
 
 export const getDefaultScopeFields = (): SloScopeFields => ({
-  beaconType: createField<SloBeaconTypes>({ value: 'httpRequest' }),
-  boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
+  beaconType: createField({ value: 'httpRequest' }),
+  boundaryScope: createField({ value: 'ALL' }),
   endpointId: createField({ value: '' }),
   includeInternal: createField({ value: false }),
   includeSynthetic: createField({ value: false }),
   serviceId: createField({ value: '' }),
-  tagFilterExpression: createField<FormModelElement[]>({ value: [] })
+  tagFilterExpression: createField({ value: [] })
 });
 
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
-  aggregation: createField<AggregationType>({ value: 'SUM' }),
-  badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-  blueprint: createField<BlueprintType>({ value: 'latency' }),
-  goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-  threshold: createField({ value: 0 }),
+  aggregation: createField({ value: 'SUM' }),
+  badEventsFilter: createField({ value: fromBackendModel(undefined) }),
+  blueprint: createField({ value: 'latency' }),
+  goodEventsFilter: createField({ value: fromBackendModel(undefined) }),
+  threshold: createField({ value: undefined, validator: thresholdFieldValidator }),
   type: createField({ value: 'timeBased' })
 });
 
 export const getDefaultTimeWindowFields = (): SloTimeWindowFields => ({
-  duration: createField<number>({ value: 1 }),
-  durationUnit: createField<DurationUnitType>({ value: 'week' }),
+  duration: createField({ value: 1 }),
+  durationUnit: createField({ value: 'week' }),
   startTimestamp: createField({ value: Date.now() }),
   type: createField({ value: 'fixed' })
 });

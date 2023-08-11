@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
@@ -13,17 +13,14 @@ import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-interface SloScopeSectionProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-}
+export const SloScopeApplicationSection = () => {
+  const { form, onChange } = useContext(SloFormContext);
 
-export const SloScopeApplicationSection = ({ form, onChange }: SloScopeSectionProps) => {
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const endpointIdField = form.getIn(['scope', 'endpointId']);
   const boundaryField = form.getIn(['scope', 'boundaryScope']);

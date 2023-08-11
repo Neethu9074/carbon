@@ -10,9 +10,11 @@ import { Item } from 'formalistic';
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
+import { SloBlueprintsSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
 import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import { SloScopeSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
@@ -33,11 +35,14 @@ export default function CreateSloDialog() {
   const [, doSubmit] = useFormSubmission(createSloConfiguration);
 
   const nameField = form.getIn(['nameTags', 'name']);
+  const thresholdField = form.getIn(['indicator', 'threshold']);
+
   const isNameInvalid = !nameField.valid && (nameField.touched || form.touched);
+  const isThresholdInvalid = !thresholdField.valid && (thresholdField.touched || form.touched);
 
   const navItems: Array<NavItem> = [
     {
-      content: <SloEntitySection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />,
+      content: <SloEntitySection />,
       label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       scrollId: '1-select-entity',
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
@@ -46,13 +51,20 @@ export default function CreateSloDialog() {
     {
       content: (
         <ConfigDialogTimeConfigContextModification>
-          <SloScopeSection form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} />
+          <SloScopeSection />
         </ConfigDialogTimeConfigContextModification>
       ),
       label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
       scrollId: '2-select-scope',
       title: t('in-service-levels:createSloDialog.selectScopeNavItem'),
       valid: true
+    },
+    {
+      content: <SloBlueprintsSection />,
+      label: t('in-service-levels:createSloDialog.selectIndicator'),
+      scrollId: '3-select-indicator',
+      title: t('in-service-levels:createSloDialog.selectIndicator'),
+      valid: !isThresholdInvalid
     },
     {
       content: (
@@ -63,31 +75,33 @@ export default function CreateSloDialog() {
         />
       ),
       label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
-      scrollId: '3-name-and-tags',
+      scrollId: '4-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
       valid: !isNameInvalid
     }
   ];
 
   return (
-    <ConfigDialog
-      title={t('in-service-levels:createSloDialog.title')}
-      navItems={navItems}
-      onClose={close}
-      onSave={() => {
-        updateForm(form.setTouched(true));
+    <SloFormContext.Provider value={{ form, onChange: (path, fn) => updateForm(form.updateIn(path, fn)) }}>
+      <ConfigDialog
+        title={t('in-service-levels:createSloDialog.title')}
+        navItems={navItems}
+        onClose={close}
+        noHeader
+        noDivider
+        onSave={() => {
+          updateForm(form.setTouched(true));
 
-        if (!form.hierarchyValid) return;
+          if (!form.hierarchyValid) return;
 
-        doSubmit({
-          payload: formToSloConfiguration(form),
-          onSuccess,
-          onError
-        });
-      }}
-      noHeader
-      noDivider
-    />
+          doSubmit({
+            payload: formToSloConfiguration(form),
+            onSuccess,
+            onError
+          });
+        }}
+      />
+    </SloFormContext.Provider>
   );
 }
 

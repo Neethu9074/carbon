@@ -8,7 +8,7 @@ import { Field, Item, MapForm } from 'formalistic';
 import { useState } from 'react';
 import React from 'react';
 
-import { Application, Result } from '@instana/types';
+import { GroupPermissionEntity, Result } from '@instana/types';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -27,7 +27,7 @@ import locals from 'in-synthetics/createTests/advanced/IdentifySection.mless';
 export interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  applications: Result<Application[]>;
+  applications: Result<GroupPermissionEntity[]>;
 }
 
 export default function IdentifySection({ form, updateForm, applications }: Props) {
@@ -37,8 +37,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
 
   const [searchInput, setSearchInput] = useState('');
 
-  const filteredApplications: Application[] | undefined = applications.data?.filter((app: Application | undefined) =>
-    app?.label.toLowerCase().includes(searchInput.toLowerCase())
+  const filteredApplications: GroupPermissionEntity[] | undefined = applications.data?.filter(
+    (app: GroupPermissionEntity | undefined) => app?.name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   const [visibleItems, setVisibleItems] = useState(10);
@@ -86,7 +86,7 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
                   <div key={app.id} className={locals.item}>
                     <CheckboxFancy
                       key={app.id}
-                      label={app.label}
+                      label={app.name}
                       checked={applicationsField?.value === app.id}
                       onChange={() => {
                         let selectedApplication: string = applicationsField.value;

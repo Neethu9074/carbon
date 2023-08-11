@@ -83,7 +83,7 @@
     "addUser": "Add User",
     "platforms": "Platforms",
     "cloudFoundry": "Cloud Foundry",
-    "ibmz": "IBM Z",
+    "ibmz": "IBM Z HMC",
     "ibmp": "IBM Power HMC",
     "powervcRegion":"PowerVC Region",
     "vsphere": "vSphere",

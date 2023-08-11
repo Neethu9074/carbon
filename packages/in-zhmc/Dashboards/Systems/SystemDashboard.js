@@ -37,7 +37,7 @@ export default function SystemDashboard({ location }) {
       <Breadcrumbs items={SystemBreadcrumb(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Z',
+          productArea: 'IBM Z HMC',
           pageRootName: t('in-zhmc:dashboards.systems')
         }}
       />

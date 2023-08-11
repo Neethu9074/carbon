@@ -6,16 +6,19 @@
 
 import React, { useEffect, useState } from 'react';
 import { Field, Item, MapForm } from 'formalistic';
+import { getTimezoneOffset } from 'date-fns-tz';
 import { RRule } from 'rrule';
 
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
-import { Message, Stack } from '@instana/components';
+import { Link, Message, Stack } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   createRRuleFreq,
   setPartsToUTCDate,
   setRRuleDtstart
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -62,19 +65,40 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
       ? 'UTC'
       : new Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    const settingsHref = useObservable(getEntityIdView(userSettingsGeneral, ''), []);
+
+    const utcOffset = (timezoneID: string) => {
+      if (timezoneID === 'UTC') return '+00:00';
+      const pad = (val: number) => (val < 10 ? '0' + val : val);
+      const offsetInMinutes = getTimezoneOffset(timezoneID) / 60000;
+      const sign = offsetInMinutes >= 0 ? '+' : '-';
+      const offset = Math.abs(offsetInMinutes);
+      const hours = pad(Math.floor(offset / 60));
+      const minutes = pad(offset % 60);
+
+      return sign + hours + ':' + minutes;
+    };
+
     const message =
       timezoneIdFromEntity && currentTimezoneId && timezoneIdFromEntity !== currentTimezoneId
-        ? t('in-settings:maintenanceWindow.timezoneDifferenceMessage', {
-            configTimezone: timezoneIdFromEntity,
-            userTimezone: currentTimezoneId
-          })
+        ? t('in-settings:maintenanceWindow.timezone.differenceMessage', {
+            configTimezone: utcOffset(timezoneIdFromEntity),
+            userTimezone: utcOffset(currentTimezoneId)
+          }) + ' '
+        : currentTimezoneId !== 'UTC'
+        ? t('in-settings:maintenanceWindow.timezone.currentTimezoneMessage', {
+            utc_offset: utcOffset(currentTimezoneId)
+          }) + ' '
         : null;
 
     return (
-      <div>
+      <div className={locals.timezoneMessage}>
         {message && (
           <Message withIcon small>
-            <div>{message}</div>
+            <div>
+              {message}
+              <Link href={settingsHref || ''}>{t('in-settings:tabs.userSettings')}</Link>
+            </div>
           </Message>
         )}
       </div>
@@ -189,13 +213,14 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
               setForm={setForm}
               isRecurring={recurrentType !== -1}
             />
+            <TimezoneMessage />
           </Stack>
         </div>
         {recurrentType !== -1 && (
           <ScheduleRange form={form} setValue={setValue} setFormRRule={setFormRRule} rrule={rrule} />
         )}
       </HorizontalFlexWrapper>
-      <TimezoneMessage />
+
       <TouchedMessages field={form.get('window')} />
     </FormGroup>
   );

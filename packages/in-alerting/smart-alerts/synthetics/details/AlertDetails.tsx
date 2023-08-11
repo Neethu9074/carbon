@@ -26,6 +26,7 @@ import {
   getAllVersionsOfAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
+import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
@@ -80,6 +81,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       renderAlertConfiguration={({ alertConfig }: { alertConfig: SyntheticAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
+      getAllowedPlaceholders={() => allowedPlaceholders}
     />
   );
 }

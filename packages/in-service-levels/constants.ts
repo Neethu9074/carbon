@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { SloEntityType } from '@instana/types';
+import { AggregationType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { deepFreeze } from 'in-services/util/object';
@@ -37,3 +37,21 @@ export const ServiceLevelErrors = Object.freeze({
   UNHANDLED_SLI_TYPE: 'unhandled SLI type',
   UNEXPECTED_SLO_CREATION_ERROR: 'unexpected SLO creation error'
 });
+
+type TimeAggregationOptions = {
+  value: AggregationType;
+  label: string;
+}[];
+
+export const timeAggregationOptions: TimeAggregationOptions = deepFreeze([
+  { value: 'MEAN', label: t('in-service-levels:general.indicator.aggregation_MEAN') },
+  { value: 'MIN', label: t('in-service-levels:general.indicator.aggregation_MIN') },
+  { value: 'P25', label: t('in-service-levels:general.indicator.aggregation_P25') },
+  { value: 'P50', label: t('in-service-levels:general.indicator.aggregation_P50') },
+  { value: 'P75', label: t('in-service-levels:general.indicator.aggregation_P75') },
+  { value: 'P90', label: t('in-service-levels:general.indicator.aggregation_P90') },
+  { value: 'P95', label: t('in-service-levels:general.indicator.aggregation_P95') },
+  { value: 'P98', label: t('in-service-levels:general.indicator.aggregation_P98') },
+  { value: 'P99', label: t('in-service-levels:general.indicator.aggregation_P99') },
+  { value: 'MAX', label: t('in-service-levels:general.indicator.aggregation_MAX') }
+]);

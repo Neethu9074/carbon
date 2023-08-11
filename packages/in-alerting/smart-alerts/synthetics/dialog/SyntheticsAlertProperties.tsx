@@ -15,8 +15,10 @@ import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
+import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { t } from 'in-i18n';
 
 interface AlertPropertiesProp {
@@ -39,13 +41,13 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
               form={form}
               onChange={onChange}
               getTitlePlaceholder={getTitlePlaceholder}
-              placeholders={[]}
+              placeholders={allowedPlaceholders}
             />
           )}
         />
       )}
       renderAlertPreview={() => {
-        const renderHeadline = () => <AlertPreviewHeadline title={nameField?.value || getTitlePlaceholder()} />;
+        const renderHeadline = () => <AlertPreviewHeadline title={getAlertTitle(nameField)} />;
         return (
           <AlertPreview
             form={form}
@@ -60,4 +62,10 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
       }}
     />
   );
+}
+
+function getAlertTitle(nameField: Field<string>) {
+  return nameField?.value
+    ? replacePlaceholdersWithMarkup(allowedPlaceholders, nameField?.value ?? '', ({ name }) => name)
+    : getTitlePlaceholder();
 }

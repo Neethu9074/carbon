@@ -86,6 +86,7 @@ interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<Pr
   events: EventType[];
   TooltipContent?: React.JSXElementConstructor<EventType>;
   label?: string;
+  iconConfigForMultipleAlertTypes?: {};
   chartContentPosition: ChartContentPostition;
   LaneItem: React.JSXElementConstructor<LaneItemProps<EventType>>;
   HoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;
@@ -156,7 +157,6 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
   const [hoveredEventData, setHoveredEventData] = useState<MarkerLaneEvent | Nullish>(null);
 
   const clusterAreaWidth = xScale?.getRangeArea(clusterSizeMillis) ?? 0;
-
   return (
     <>
       <span className={locals.hoverAreaContainer}>

@@ -42,16 +42,17 @@ export interface TabSelectItemProps<VALUE_TYPE> extends TabSelectBaseItemProps<V
 }
 
 export function TabSelectItem<VALUE_TYPE>({
-  forId,
-  children,
-  value,
   ariaLabel,
-  withRadioButton,
-  disabled
+  children,
+  disabled,
+  forId,
+  value,
+  withRadioButton
 }: PropsWithChildren<TabSelectItemProps<VALUE_TYPE>>) {
   const { activePanelId, setActivePanelId } = useContext(TabSelectContext);
 
   const isActive = activePanelId === forId;
+
   const onClickHandler = () => !disabled && !isUndefined(forId) && setActivePanelId(forId, value);
 
   return (

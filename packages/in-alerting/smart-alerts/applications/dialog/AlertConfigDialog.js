@@ -25,6 +25,7 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { getApplicationAlertActionAssociations } from 'in-automation/api';
 import { updateApplicationAlertAssociations } from 'in-automation/api';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { associateActionsTracker } from 'in-automation/tracker';
@@ -44,16 +45,33 @@ export default function AlertConfigDialog({
   startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const duplicateFrom = alertConfig?.duplicateFrom;
   const [form, setForm] = useState(() =>
-    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
+    createSmartAlertForm(fromAlertConfig({ actionIds: [], ...alertConfig }), editMode, isGlobalSmartAlert)
   );
-
+  //condition to call get action associations api
+  const showActionscondition = !isGlobalSmartAlert && role.canConfigureAutomationActions && actionAutomationEnabled;
+  //Get associations call and add actionIds to alertConfig.
+  useEffect(() => {
+    if (showActionscondition) {
+      // To get associations, we need app alert id. If it is duplicate/clone dialog, we can get it from duplicateFrom.
+      const alertId = duplicateFrom ?? alertConfig?.id;
+      getApplicationAlertActionAssociations(alertId).once(actions => {
+        const selectedActions = actions.map(action => action.id);
+        const updatedForm = createSmartAlertForm(
+          fromAlertConfig({ actionIds: selectedActions, ...alertConfig }),
+          editMode,
+          isGlobalSmartAlert
+        );
+        setForm(updatedForm);
+      });
+    }
+  }, [alertConfig, editMode, isGlobalSmartAlert, showActionscondition, duplicateFrom]);
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
-  const duplicateFrom = alertConfig?.duplicateFrom;
 
   useEffect(() => {
     if (migrationMode) {
@@ -298,6 +316,7 @@ AlertConfigDialog.propTypes = {
   alertConfig: PropTypes.shape({
     applications: PropTypes.object,
     actionIds: PropTypes.arrayOf(PropTypes.string),
+    id: PropTypes.string,
     threshold: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,

@@ -51,7 +51,7 @@ export default function AlertPropertiesTitleRow({
                 </Button>
               )}
             >
-              {placeholders.map(template => {
+              {placeholders.map(({ template }) => {
                 return (
                   <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
                     {template}

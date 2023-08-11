@@ -10,6 +10,7 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
@@ -50,6 +51,7 @@ export default function Alerts({ testId }: AlertsProps) {
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={alertsTab}
+        renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
       />
     </>
   );

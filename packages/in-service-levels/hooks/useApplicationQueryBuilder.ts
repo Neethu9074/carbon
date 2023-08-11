@@ -30,7 +30,7 @@ import { CALLS } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 
-interface UseApplicationQueryBuilderProps {
+export interface UseApplicationQueryBuilderProps {
   applicationId?: string;
   boundaryScope?: BoundaryScope;
 }

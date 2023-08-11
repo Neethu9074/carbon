@@ -6,7 +6,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
-import { Application, Result } from '@instana/types';
+import { GroupPermissionEntity, Result } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -30,7 +30,7 @@ export interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   selectedBlueprint: BluePrint;
-  applications: Result<Application[]>;
+  applications: Result<GroupPermissionEntity[]>;
 }
 
 export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, applications }: Props) {
@@ -41,15 +41,15 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
   const [searchInput, setSearchInput] = useState('');
 
   const filterApplications = useCallback(
-    (applications: Result<Application[]> | undefined) => {
-      return applications?.data?.filter((app: Application | undefined) =>
-        app?.label.toLowerCase().includes(searchInput.toLowerCase())
+    (applications: Result<GroupPermissionEntity[]> | undefined) => {
+      return applications?.data?.filter((app: GroupPermissionEntity | undefined) =>
+        app?.name.toLowerCase().includes(searchInput.toLowerCase())
       );
     },
     [searchInput]
   );
 
-  const filteredApplications: Application[] | undefined = useMemo(
+  const filteredApplications: GroupPermissionEntity[] | undefined = useMemo(
     () => filterApplications(applications),
     [applications, filterApplications]
   );
@@ -88,7 +88,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
               <div key={app.id} className={locals.item}>
                 <CheckboxFancy
                   key={app.id}
-                  label={app.label}
+                  label={app.name}
                   checked={applicationsField?.value === app.id}
                   onChange={() => {
                     let selectedApplication: string = applicationsField.value;

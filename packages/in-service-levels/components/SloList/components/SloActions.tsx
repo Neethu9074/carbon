@@ -22,8 +22,12 @@ export default function SloActions({ item }: Props) {
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit">{t('in-service-levels:general.editButtonLabel')}</MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy">{t('in-service-levels:general.copyButtonLabel')}</MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_edit" disabled>
+          {t('in-service-levels:general.editButtonLabel')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_copy" disabled>
+          {t('in-service-levels:general.copyButtonLabel')}
+        </MoreMenuButton>
         <DeleteSloMoreMenuButton configuration={item.configuration} />
       </MoreMenu>
     </Stack>

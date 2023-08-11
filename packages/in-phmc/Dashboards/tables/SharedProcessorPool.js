@@ -11,13 +11,19 @@ import getSharedProcessorPools from 'in-phmc/subscriptions/getSharedProcessorPoo
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
 import { number, percentage } from 'in-services/formatters/number';
-import { getIbmpSppDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpSppDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
 const pathSegment = '/spp';
 const matrixPrefix = 'spp.';
+
+function EntityLinkLabel({ item, systemId, consoleId }) {
+  const getIbmpSppDashboard = useIbmpSppDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpSppDashboard(item.id, { systemId, consoleId })} />;
+}
 
 const columnDefinitions = [
   {
@@ -26,7 +32,8 @@ const columnDefinitions = [
     getContent(item, props) {
       const systemId = props.systemId;
       const consoleId = props.consoleId;
-      return <EntityLink label={item.label} href$={getIbmpSppDashboard(item.id, { systemId, consoleId })} />;
+
+      return <EntityLinkLabel item={item} systemId={systemId} consoleId={consoleId} />;
     }
   },
   {

@@ -35,6 +35,7 @@ type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
   formatter?: string;
   renderer?: string;
   colorMapper?: (id: string, label: string) => string | null;
+  reverseOrder?: boolean;
 };
 
 type MetricParams = 'metric' | 'source' | 'aggregation';

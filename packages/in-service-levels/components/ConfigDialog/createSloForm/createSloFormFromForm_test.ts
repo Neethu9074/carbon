@@ -147,7 +147,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         expect(badEventsFilterValue).toEqual([]);
         expect(blueprintValue).toEqual('latency');
         expect(goodEventsFilterValue).toEqual([]);
-        expect(thresholdValue).toEqual(0);
+        expect(thresholdValue).toEqual(55);
         expect(indicatorTypeValue).toEqual('eventBased');
         expect(durationValue).toEqual(100);
         expect(durationUnitValue).toEqual('day');
@@ -196,7 +196,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         expect(badEventsFilterValue).toEqual([]);
         expect(blueprintValue).toEqual('availability');
         expect(goodEventsFilterValue).toEqual([]);
-        expect(thresholdValue).toEqual(55);
+        expect(thresholdValue).toEqual(66);
         expect(indicatorTypeValue).toEqual('timeBased');
         expect(durationValue).toEqual(100);
         expect(durationUnitValue).toEqual('day');

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
 
 import { Link } from '@instana/legacy';
 
@@ -14,15 +15,25 @@ import { track } from 'in-services/tracking/tracking';
 import './UserFilterLink.less';
 
 const block = 'in-search-use-filter-link';
+const pointer = 'in-search-filter-item';
 
-export default function UserFilterLink({ filter, onClick }) {
+export default function UserFilterLink({ filter, onClick, setFilter }) {
   const { location, createHref } = useNavigation();
+
+  const hasSetFilterCallback = Boolean(setFilter);
+
+  const onClickHandler = () => hasSetFilterCallback
+    ? setFilter(filter.get('definition'))
+    : onFilterSelected(filter, onClick);
 
   return (
     <Link
-      href={createHref(applyFilter(filter.get('definition'), location))}
-      onClick={onFilterSelected(filter, onClick)}
-      className={block}
+      href={hasSetFilterCallback ? null : createHref(applyFilter(filter.get('definition'), location))}
+      onClick={onClickHandler}
+      className={classnames({
+        [block]: true,
+        [pointer]: hasSetFilterCallback
+      })}
     >
       {filter.get('name')}
     </Link>
@@ -30,10 +41,8 @@ export default function UserFilterLink({ filter, onClick }) {
 }
 
 function onFilterSelected(filter, callback) {
-  return () => {
-    track(DFQ_FILTER_SELECTED, { name: filter.get('name'), query: filter.get('definition') });
-    callback();
-  };
+  track(DFQ_FILTER_SELECTED, { name: filter.get('name'), query: filter.get('definition') });
+  callback();
 }
 
 function applyFilter(filter, location) {

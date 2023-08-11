@@ -6,8 +6,14 @@
 
 import { MapForm, createField, createMapForm } from 'formalistic';
 
-import { createForm as createInfraFormFields } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
-import { createForm as createEventFormFields } from 'in-custom-dashboards/widgets/Table/eventsTable/form';
+// @ts-expect-error needs ts migration
+import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import {
+  createEntityField,
+  createGroupField,
+  createTableSizeField
+} from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+import { createColumnsField, createDynamicFocusQueryField } from 'in-custom-dashboards/widgets/Table/eventsTable/form';
 import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
@@ -22,16 +28,21 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
       source: createField<string>({
         value: source,
         validator: composeAndShortCircuitOnError(stringValidator, notBlankValidator)
+      }),
+      ...(source === dataSources.EVENTS.type && {
+        dynamicFocusQuery: createDynamicFocusQueryField(savedState),
+        columns: createColumnsField(savedState)
+      }),
+      ...(source === dataSources.INFRA.type && {
+        grouping: createGroupField(savedState),
+        entityType: createEntityField(savedState),
+        tableSize: createTableSizeField(savedState)
       })
     }
   });
 
-  if (source === dataSources.EVENTS.type) {
-    form = createEventFormFields(form, savedState);
-  }
-
   if (source === dataSources.INFRA.type) {
-    form = createInfraFormFields(form, savedState);
+    form = addTagFilterExpressionField(form, savedState);
   }
 
   return form;

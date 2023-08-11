@@ -10,7 +10,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
 import { number, percentage } from 'in-services/formatters/number';
-import { getIbmpViosDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpViosDashboard } from 'in-phmc/navigation/paths';
 import getVIOServers from 'in-phmc/subscriptions/getVIOServers';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -19,6 +19,12 @@ import { t } from 'in-i18n';
 const pathSegment = '/vios';
 const matrixPrefix = 'vios.';
 
+function EntityLinkLabel({ item, systemId, consoleId }) {
+  const getIbmpViosDashboard = useIbmpViosDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpViosDashboard(item.id, { systemId, consoleId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
@@ -26,7 +32,8 @@ const columnDefinitions = [
     getContent(item, props) {
       const systemId = props.systemId;
       const consoleId = props.consoleId;
-      return <EntityLink label={item.label} href$={getIbmpViosDashboard(item.id, { systemId, consoleId })} />;
+
+      return <EntityLinkLabel item={item} systemId={systemId} consoleId={consoleId} />;
     }
   },
   {

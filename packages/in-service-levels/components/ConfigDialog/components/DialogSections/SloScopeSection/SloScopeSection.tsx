@@ -4,21 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { SloScopeApplicationSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeApplicationSection';
 import { SloScopeWebsiteSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeWebsiteSection';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-interface SloScopeSectionProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-}
+export const SloScopeSection = () => {
+  const { form } = useContext(SloFormContext);
 
-export const SloScopeSection = ({ form, onChange }: SloScopeSectionProps) => {
   const entityType = form.getIn(['entity', 'type']).value;
 
-  if (entityType === 'application') return <SloScopeApplicationSection form={form} onChange={onChange} />;
+  if (entityType === 'application') return <SloScopeApplicationSection />;
 
-  return <SloScopeWebsiteSection form={form} onChange={onChange} />;
+  return <SloScopeWebsiteSection />;
 };

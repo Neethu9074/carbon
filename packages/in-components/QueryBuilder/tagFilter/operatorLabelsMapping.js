@@ -17,6 +17,8 @@ export const STRING_STARTS_WITH = t('in-components:queryBuilder.string.startsWit
 export const STRING_ENDS_WITH = t('in-components:queryBuilder.string.endsWith');
 export const STRING_NOT_STARTS_WITH = t('in-components:queryBuilder.string.doesNotStartWith');
 export const STRING_NOT_ENDS_WITH = t('in-components:queryBuilder.string.doesNotEndWith');
+export const STRING_IS_BLANK = t('in-components:queryBuilder.string.isBlank');
+export const STRING_NOT_BLANK = t('in-components:queryBuilder.string.notBlank');
 
 export const STRING_EQUALS_DESCRIPTION = t('in-components:queryBuilder.string.equals');
 export const STRING_NOT_EQUAL_DESCRIPTION = t('in-components:queryBuilder.string.doesNotEqual');
@@ -31,6 +33,8 @@ export const STRING_SET_STARTS_WITH = STRING_STARTS_WITH;
 export const STRING_SET_ENDS_WITH = STRING_ENDS_WITH;
 export const STRING_SET_NOT_STARTS_WITH = STRING_NOT_STARTS_WITH;
 export const STRING_SET_NOT_ENDS_WITH = STRING_NOT_ENDS_WITH;
+export const STRING_SET_IS_BLANK = STRING_IS_BLANK;
+export const STRING_SET_NOT_BLANK = STRING_NOT_BLANK;
 
 export const STRING_SET_EQUALS_DESCRIPTION = STRING_EQUALS_DESCRIPTION;
 export const STRING_SET_NOT_EQUAL_DESCRIPTION = STRING_NOT_EQUAL_DESCRIPTION;
@@ -45,6 +49,8 @@ export const STRING_LIST_STARTS_WITH = STRING_SET_STARTS_WITH;
 export const STRING_LIST_ENDS_WITH = STRING_SET_ENDS_WITH;
 export const STRING_LIST_NOT_STARTS_WITH = STRING_SET_NOT_STARTS_WITH;
 export const STRING_LIST_NOT_ENDS_WITH = STRING_SET_NOT_ENDS_WITH;
+export const STRING_LIST_IS_BLANK = STRING_IS_BLANK;
+export const STRING_LIST_NOT_BLANK = STRING_NOT_BLANK;
 
 export const STRING_LIST_EQUALS_DESCRIPTION = STRING_EQUALS_DESCRIPTION;
 export const STRING_LIST_NOT_EQUAL_DESCRIPTION = STRING_NOT_EQUAL_DESCRIPTION;
@@ -73,7 +79,7 @@ export const KEY_VALUE_PAIR_CONTAINS = t('in-components:queryBuilder.keyValuePai
 export const KEY_VALUE_PAIR_NOT_CONTAIN = t('in-components:queryBuilder.keyValuePair.doesNotContain');
 export const KEY_VALUE_PAIR_NOT_EMPTY = t('in-components:queryBuilder.keyValuePair.isPresent');
 export const KEY_VALUE_PAIR_IS_EMPTY = t('in-components:queryBuilder.keyValuePair.isNotPresent');
-export const KEY_VALUE_PAIR_IS_BLANK = t('in-components:queryBuilder.keyValuePair.doesNotHaveValue');
-export const KEY_VALUE_PAIR_NOT_BLANK = t('in-components:queryBuilder.keyValuePair.hasValue');
+export const KEY_VALUE_PAIR_IS_BLANK = t('in-components:queryBuilder.keyValuePair.isBlank');
+export const KEY_VALUE_PAIR_NOT_BLANK = t('in-components:queryBuilder.keyValuePair.notBlank');
 export const KEY_VALUE_PAIR_STARTS_WITH = t('in-components:queryBuilder.keyValuePair.startsWith');
 export const KEY_VALUE_PAIR_ENDS_WITH = t('in-components:queryBuilder.keyValuePair.endsWith');

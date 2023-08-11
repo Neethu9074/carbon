@@ -42,6 +42,7 @@ export default function MetricSelectorOverlay({
       query={query}
       onQueryChange={onQueryChange}
       disabled={disabled}
+      strict
     />
   );
 }

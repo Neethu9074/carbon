@@ -9,7 +9,7 @@ export const MESSAGE_CHUNK: MessageChunkType = 'm';
 type ParameterChunkType = 'p';
 type MessageChunkType = 'm';
 
-interface Chunk {
+export interface Chunk {
   type: ParameterChunkType | MessageChunkType;
   value: string;
 }

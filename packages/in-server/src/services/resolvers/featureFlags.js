@@ -266,11 +266,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'websiteUploadConfigEnabled',
-    instanaCtlKey: 'feature.website.upload.config.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -301,6 +296,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'sloV2CreationEnabled',
+    instanaCtlKey: 'feature.sloV2.creation.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
     defaultValue: false
@@ -313,7 +313,7 @@ module.exports = exports = [
   {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -343,12 +343,12 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppSmartAlertsEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'systemRuleEntityCountEnabled',
@@ -378,11 +378,21 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticRbacEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'customWidgetTableInfraDataSourceEnabled',
+    instanaCtlKey: 'feature.custom.widget.infrastructure.table.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'playwithTestEnabled',
+    instanaCtlKey: 'feature.playwithTestEnabled.enabled',
     defaultValue: false
   }
 ];

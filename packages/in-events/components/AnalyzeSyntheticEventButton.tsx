@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
-import { getSyntheticTestResultDashboard } from 'in-synthetics/navigation/paths';
+import { useSyntheticTestResultDashboard } from 'in-synthetics/navigation/paths';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -20,12 +20,12 @@ interface Props {
 }
 
 export default function AnalyzeSyntheticEventButton({ testId, locationLabel, timeConfig }: Props) {
-  const linkToUA = getSyntheticTestResultDashboard(testId, timeConfig, true, [locationLabel]).map(
-    urlWithoutQueryParameter
-  );
+  const getSyntheticTestResultDashboard = useSyntheticTestResultDashboard();
+
+  const linkToUA = urlWithoutQueryParameter(getSyntheticTestResultDashboard(testId, timeConfig, true, [locationLabel]));
 
   return (
-    <Button kind="primary" icon="lib_synthetic" href$={linkToUA}>
+    <Button kind="primary" icon="lib_synthetic" href={linkToUA}>
       {t('in-events:titleViewRelatedTestResults')}
     </Button>
   );

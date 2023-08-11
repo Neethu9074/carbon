@@ -10,6 +10,7 @@ import { MapForm } from 'formalistic';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestResponseStep';
@@ -17,11 +18,11 @@ import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleS
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { GroupPermissionEntity, Error as ScriptError } from 'in-types';
 import { Code, Script } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getApplicationsList } from 'in-synthetics/api';
-import { Error as ScriptError } from 'in-types';
-import { Application, Result } from 'in-types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { Result } from 'in-types';
 
 import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
 
@@ -62,7 +63,10 @@ const WizardModeContainer = ({
   selectedBlueprint,
   setSelectedBlueprint
 }: WizardModeContainerProps) => {
-  const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
+  const timeConfig = useTimeConfig();
+  const applications: Result<GroupPermissionEntity[]> =
+    useObservable<any, []>(() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }), []) ?? pendingResult;
+
   const stepConfigs = Object.freeze([
     {
       title: t('in-synthetics:dialog.createTest.titles.step1')

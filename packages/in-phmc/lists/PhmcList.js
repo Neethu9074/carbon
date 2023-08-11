@@ -11,7 +11,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import PhmcNoDataNotification from 'in-phmc/lists/components/PhmcNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { phmcList, getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
+import { phmcList, useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -23,12 +23,18 @@ import { t } from 'in-i18n';
 const pathSegment = phmcList;
 const matrixPrefix = 'phmc.';
 
+function EntityLinkLabel({ item }) {
+  const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpPhmcDashboard(item.id)} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:hostname'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpPhmcDashboard(item.id)} />;
+      return <EntityLinkLabel item={item} />;
     }
   },
   {

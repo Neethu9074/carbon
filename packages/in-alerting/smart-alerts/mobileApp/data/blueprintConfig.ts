@@ -17,6 +17,7 @@ import {
 } from '@instana/types';
 
 import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
+import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricAlertsPreview';
 //@ts-expect-error needs TS migration
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
@@ -60,7 +61,7 @@ interface BluePrintBase {
     alertConfig: MobileAppAlertConfig,
     timeConfig: FixedTimeConfig
   ) => FormModelElement[];
-  readonly getAlertsPreviewRequest: () => undefined;
+  readonly getAlertsPreviewRequest: (metricName: MetricName) => typeof getMobileAppMetricAlertsPreview;
   readonly getThresholdSuggestionRequest: (metricName: MetricName) => typeof getMobileAppMetricThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
@@ -107,7 +108,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   thresholdDefaults: {
     operator: '>=' as ThresholdOperator
   },
-  getAlertsPreviewRequest: () => undefined,
+  getAlertsPreviewRequest: () => getMobileAppMetricAlertsPreview,
   getThresholdSuggestionRequest: () => getMobileAppMetricThresholdSuggestion
 });
 

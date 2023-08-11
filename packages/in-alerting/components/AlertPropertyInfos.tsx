@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Toggle, Spacer } from '@instana/components';
 
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import AlertSection from 'in-alerting/components/AlertSection';
 import Sections from 'in-components/workspace/Sections';
 import Label from 'in-components/form/Label';
@@ -40,7 +41,7 @@ const propertiesBySeverity: Readonly<Record<number, PropertiesBySeverityProps>> 
 
 interface AlertPropertyInfosProps {
   alertConfig: AlertConfigProps;
-  renderCustomTitle?: () => string;
+  renderCustomTitle?: () => HighlightedPlaceholders;
   disableTrigger: boolean;
 }
 

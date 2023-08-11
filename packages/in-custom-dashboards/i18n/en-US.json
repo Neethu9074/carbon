@@ -735,7 +735,7 @@
     "table": {
       "index": {
         "tablePreview": "Table Preview",
-        "filters": "Filter(s) :"
+        "filters": "Filter(s):"
       },
       "form": {
         "title": "What would you like to show?",
@@ -752,7 +752,9 @@
           "viewTable": "View full table in <analyzeInfraLink>Analyze infrastructure</analyzeInfraLink>.",
           "tableSize": "Table Size",
           "tableConfiguration": "Table Configuration",
-          "tableDetails": "Table Details"
+          "tableDetails": "Table Details",
+          "showResult": "Showing {{loadedItems}} of {{totalItems}} Results",
+          "loadingEntities": "Loading Entities"
         }
       },
       "dataSource": {

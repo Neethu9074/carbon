@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { Location } from 'in-stores/navigation/types';
 
 export const homePath = '/';
 export const agentsPath = '/agents';
@@ -18,20 +18,24 @@ export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 export const eventsPath = '/events';
 
-export function getLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
-  return getModifiedUrlStream(params => (params.query[view] = vg));
+export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
+  const { createHref, location } = useNavigation();
+
+  location.query[view] = vg;
+
+  return createHref(location);
 }
 
-export function setCurrentViewWithViewGrouping(view: string, vg: string) {
-  mutateUrl(params => {
-    delete params.query[view];
-    params.query[view] = vg;
-    return params;
-  });
-}
+export function useSetCurrentViewWithViewGrouping() {
+  const { navigate, location } = useNavigation();
 
-export function getActiveView(location: Location) {
-  return location.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
+  const setView = (view: string, vg: string) => {
+    delete location.query[view];
+    location.query[view] = vg;
+    navigate(location);
+  };
+
+  return setView;
 }
 
 export function isTableView(type: string) {

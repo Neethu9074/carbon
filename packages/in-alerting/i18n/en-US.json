@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "Alert Configuration",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
@@ -996,7 +995,9 @@
         "propertiesTitle": "What should alert notification include?",
         "failureThreshold": "Time Threshold",
         "failureThresholdLabel": "Time Threshold",
-        "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
+        "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?",
+        "syntheticTestNamePlaceholder": "synthetic-test",
+        "syntheticLocationLabelPlaceholder": "synthetic-location"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Add synthetic tests",

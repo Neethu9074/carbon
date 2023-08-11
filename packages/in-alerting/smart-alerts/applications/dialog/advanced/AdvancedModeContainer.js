@@ -9,7 +9,6 @@ import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/appl
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
-import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPropertiesTitleRow';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/AlertEvaluationControl';
 import {
@@ -28,6 +27,8 @@ import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/di
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
+import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
@@ -213,7 +214,12 @@ export default function AdvancedModeContainer(props) {
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               getPreviewTitlePlaceholder={getTitlePlaceholder}
               renderAlertPropertiesTitleRow={() => (
-                <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
+                <AlertPropertiesTitleRow
+                  form={form}
+                  onChange={onChange}
+                  placeholders={placeholdersByEvaluationType[evaluationType]}
+                  getTitlePlaceholder={getTitlePlaceholder}
+                />
               )}
             />
           )}

@@ -421,12 +421,12 @@
     "viewSwitcherLabelMobileApps": "Mobile Apps",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelzhmc": "IBM Z",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherButtonSignOut": "Sign Out",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
@@ -732,7 +732,9 @@
       "doesNotStartWith": "does not start with",
       "doesNotEndWith": "does not end with",
       "equals": "equals",
-      "doesNotEqual": "does not equal"
+      "doesNotEqual": "does not equal",
+      "isBlank": "has blank value",
+      "notBlank": "has non-blank value"
     },
     "number": {
       "isPresent": "is present",
@@ -752,8 +754,8 @@
       "doesNotContain": "does not contain",
       "isPresent": "is present",
       "isNotPresent": "is not present",
-      "doesNotHaveValue": "does not have value",
-      "hasValue": "has value",
+      "isBlank": "has blank value",
+      "notBlank": "has non-blank value",
       "startsWith": "starts with",
       "endsWith": "ends with"
     }

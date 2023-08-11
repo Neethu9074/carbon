@@ -66,7 +66,7 @@ export default class extends React.Component {
     const scrollElement = document.querySelector('.in-search-suggestions');
 
     return (
-      <div className={block} style={{ left }}>
+      <div className={block} style={searchbarWidth ? { left } : {}}>
         <ul className={`${block}__list`}>
           {availableChildren.map((child, i) => (
             <li

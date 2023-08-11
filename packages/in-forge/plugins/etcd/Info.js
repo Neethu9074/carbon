@@ -17,6 +17,9 @@ export default function EtcdInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.etcd.processId')}>{data.get('pid')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.etcd.clusterVersion')}>{data.get('version_cluster')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.etcd.serverVersion')}>{data.get('version_server')}</DescriptionItem>
+      {data.get('apiVersion') >= 3 ? (
+        <DescriptionItem title={t('in-forge:plugins.etcd.apiVersion')}>{data.get('apiVersion')}</DescriptionItem>
+      ) : undefined}
       <DescriptionItem title={t('in-forge:plugins.etcd.id')}>{data.get('id')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.etcd.name')}>{data.get('name')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.etcd.leaderId')}>{data.get('leader_id')}</DescriptionItem>

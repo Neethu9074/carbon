@@ -6,6 +6,7 @@
 import { expect } from 'chai';
 
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 const createTagFilter = (name, value) => {
   return {
@@ -69,6 +70,42 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
       elements: [createTagFilter('service.name', 'ui-backend'), createTagFilter('endpoint.name', '/GET')]
     };
     const result = getSuggestionsTagFilterExpression(formModel, 2);
+    expect(result).to.deep.equal(expected);
+  });
+
+  it('must retain filters with missing values and single argument operators', () => {
+    const formModel = [
+      tagFilter('call.type', 'NOT_EMPTY'),
+      CONJUNCTION_AND,
+      tagFilter('technology', 'IS_EMPTY'),
+      CONJUNCTION_AND,
+      tagFilter('call.type', undefined)
+    ];
+    const expected = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: [tagFilter('technology', 'IS_EMPTY'), tagFilter('call.type', 'NOT_EMPTY')]
+    };
+    const result = getSuggestionsTagFilterExpression(formModel, 4);
+    expect(result).to.deep.equal(expected);
+  });
+
+  it('must ignore filters with missing values or keys', () => {
+    const formModel = [
+      createTagFilter('technology', undefined),
+      CONJUNCTION_AND,
+      createTagFilter('service.name', undefined),
+      CONJUNCTION_AND,
+      createTagFilter('endpoint.name', null),
+      CONJUNCTION_AND,
+      createTagFilter('call.name', ''),
+      CONJUNCTION_AND,
+      tagFilter('call.tag', 'EQUALS', 'address', ''),
+      CONJUNCTION_AND,
+      tagFilter('call.erroneous', 'EQUALS', 'true')
+    ];
+    const expected = tagFilter('call.erroneous', 'EQUALS', 'true');
+    const result = getSuggestionsTagFilterExpression(formModel, 0);
     expect(result).to.deep.equal(expected);
   });
 

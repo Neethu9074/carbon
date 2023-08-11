@@ -19,7 +19,7 @@ import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Result, TimeConfig } from 'in-types';
 
-interface CreateBoundedQueryBuilderProps {
+export interface UseWebsiteQueryBuilderProps {
   websiteId?: string;
   beaconType?: string;
 }
@@ -27,7 +27,7 @@ interface CreateBoundedQueryBuilderProps {
 function createBoundedQueryBuilder({
   websiteId,
   beaconType
-}: CreateBoundedQueryBuilderProps = {}): CreateQueryBuilderResponse {
+}: UseWebsiteQueryBuilderProps = {}): CreateQueryBuilderResponse {
   return createQueryBuilder({
     maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SLI_MANAGEMENT' }),
@@ -43,7 +43,7 @@ function createBoundedQueryBuilder({
 export function useWebsiteQueryBuilder({
   beaconType,
   websiteId
-}: CreateBoundedQueryBuilderProps): CreateQueryBuilderResponse {
+}: UseWebsiteQueryBuilderProps): CreateQueryBuilderResponse {
   return useMemo(() => createBoundedQueryBuilder({ websiteId, beaconType }), [websiteId, beaconType]);
 }
 

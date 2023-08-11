@@ -72,7 +72,7 @@ export default connectTo(
         <Title title={t('in-zhmc:ibmzZhmcs')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'IBM Z',
+            productArea: 'IBM Z HMC',
             pageRootName: t('in-zhmc:ibmzZhmcs')
           }}
         />

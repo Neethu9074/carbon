@@ -4,22 +4,25 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
-// @ts-expect-error need ts migration
+// @ts-expect-error
+import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { MetricItem, useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+// @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
-import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import { Group, MetricCatalog, TagFilterExpressionElementUnion } from 'in-types';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
-import { MetricItem } from 'in-infrastructure/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Trans } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
 
@@ -28,13 +31,36 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
 
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const timeConfig = useTimeConfig();
-
-  const { entityType: type = '', tableSize } = config;
+  const { goToPath } = useNavigation();
+  const { entityType: type = '', tableSize = 5, tagFilterExpression, grouping: groupBy } = config;
 
   const kpiDefinitions = [] as KpiDefinition[];
   const metrics = [] as MetricItem[];
   const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
   const [order, setOrder] = useState(defaultOrder);
+  const [totalItemsCount, setTotalItemsCount] = useState();
+
+  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
+  const metricCatalog = [] as MetricCatalog;
+
+  const loadedItemsCount = totalItemsCount && Math.min(totalItemsCount, tableSize);
+  const isShowResultsVisible = loadedItemsCount && totalItemsCount;
+  const isGroup = groupBy && groupBy?.length > 0;
+
+  const onItemClicked = (href: string) => {
+    if (isPreview) {
+      return;
+    }
+
+    goToPath(href);
+  };
+
+  const viewFullTableHref = getLinkToInfraEntityExplore({
+    type,
+    group: {} as Group,
+    groupBy,
+    tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion)
+  });
 
   return (
     <Card
@@ -46,28 +72,60 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
           {actions}
         </>
       }
+      isScrollable
     >
-      {/* TODO: needs to pull items totalHits and items from InfrastructureList to be displayed here*/}
-      {/*<Typography variant="body-bold">Showing 5 of 2000 Results </Typography>*/}
+      {isShowResultsVisible && (
+        <Typography variant="body-bold">
+          {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
+            loadedItems: loadedItemsCount,
+            totalItems: totalItemsCount
+          })}
+        </Typography>
+      )}
 
       <Spacer vertical="normal" />
 
-      <div className={locals.tableArea}>
-        <InfrastructureList
-          timeConfig={timeConfig}
-          type={type}
+      {isGroup ? (
+        <GroupedInfrastructure
+          backendQueryModel={tagFilterExpression}
+          backendGroupBy={backendGroupBy}
+          getTotalItems={setTotalItemsCount}
+          groupBy={groupBy}
+          isHeaderVisible={false}
+          isLoadMoreEnabled={false}
+          isTableMode
+          onItemClicked={onItemClicked}
+          metricCatalog={metricCatalog}
+          metrics={metrics}
+          metricMetadatas={metricMetadatas}
+          retrievalSize={tableSize}
           order={order}
           setOrder={setOrder}
           tagFilterExpression={[]}
-          backendQueryModel={EMPTY_EXPRESSION}
+          timeConfig={timeConfig}
+          type={type}
+        />
+      ) : (
+        <InfrastructureList
+          backendQueryModel={tagFilterExpression}
+          displayChart={false}
+          getTotalItems={setTotalItemsCount}
+          isLoadMoreEnabled={false}
+          isPreview={isPreview}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
-          showHeader={false}
-          displayChart={false}
-          retrievalSize={tableSize}
           numSkeletonRows={tableSize}
+          order={order}
+          retrievalSize={tableSize}
+          setOrder={setOrder}
+          showHeader={false}
+          tagFilterExpression={tagFilterExpression}
+          timeConfig={timeConfig}
+          type={type}
         />
+      )}
 
+      {viewFullTableHref && (
         <div className={locals.viewFullTableLink}>
           <Typography variant="body-regular">
             <Trans
@@ -75,17 +133,13 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
               components={{
                 analyzeInfraLink: (
                   // @ts-expect-error
-                  <Link
-                    {...(!isPreview && {
-                      href: getLinkToInfraEntityExplore({ type })
-                    })}
-                  />
+                  <Link href={isPreview ? undefined : viewFullTableHref} />
                 )
               }}
             />
           </Typography>
         </div>
-      </div>
+      )}
     </Card>
   );
 }

@@ -80,7 +80,7 @@ export default function CursorPaginatedTable(props) {
           {hasItems &&
             items.map((item, i) => (
               <Row
-                key={item.id || i}
+                key={`${item.id}_${i}`}
                 item={item}
                 size={size}
                 columnDefinitions={visibleColumns}

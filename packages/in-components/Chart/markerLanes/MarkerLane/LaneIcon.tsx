@@ -68,8 +68,8 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
                     clearActiveTooltip();
                   }
             }
-            type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}
-            color={iconConfig.color}
+            type={showIconForCluster ? iconConfig.typeCluster : iconConfig?.type}
+            color={iconConfig?.color}
             ref={ref as MutableRefObject<SVGSVGElement> | undefined}
           />
         );

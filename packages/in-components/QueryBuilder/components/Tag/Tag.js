@@ -119,7 +119,6 @@ export default function Tag(props) {
         <KeyInput
           form={form}
           onChange={onChange}
-          tagType={tagType}
           getSuggestions={getSuggestions}
           getSuggestionsProps={getSuggestionsProps}
           formModel={formModel}
@@ -250,13 +249,12 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
 function KeyInput({
   form,
   onChange,
-  tagType,
   getSuggestions,
   getSuggestionsProps,
   formModel,
   formModelIndex,
   autoFocus,
-  getSuggestionLabel,
+  getSuggestionLabel
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
@@ -265,6 +263,7 @@ function KeyInput({
   }
 
   const entity = form.get('entity')?.value;
+  const name = form.get('name')?.value;
 
   return (
     <Input
@@ -273,12 +272,12 @@ function KeyInput({
       placeholder={t('in-components:queryBuilder.components.tagPlaceholderKey')}
       valid={field.valid}
       hideValidityInformationOnFocus
-      fieldsToWatch={[tagType, entity, timeConfig]}
+      fieldsToWatch={[name, entity, timeConfig, field.value, formModel, formModelIndex, getSuggestionsProps]}
       getSuggestions={() =>
         getSuggestions({
           tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
-          name: form.get('name').value,
-          tagName: form.get('name').value,
+          name: name,
+          tagName: name,
           entity,
           key: field.value,
           timeConfig,
@@ -340,22 +339,22 @@ function ValueInput({
 
   const entity = form.get('entity')?.value;
   const key = form.get('key')?.value;
-  const tagName = form.get('name')?.value;
+  const name = form.get('name')?.value;
 
   const inputProps = {
     placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
     valid: field.valid,
-    fieldsToWatch: [tagName, entity, timeConfig, field.value, key],
-    tagName,
+    fieldsToWatch: [name, entity, timeConfig, field.value, key, formModel, formModelIndex, getSuggestionsProps],
+    tagName: name,
     getSuggestions: () =>
       getSuggestions({
         tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
         key,
         value: field.value,
         entity,
-        name: tagName,
-        tagName: tagName,
+        name: name,
+        tagName: name,
         timeConfig,
         propose: 'VALUES',
         ...getSuggestionsProps

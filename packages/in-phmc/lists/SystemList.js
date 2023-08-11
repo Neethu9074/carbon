@@ -11,7 +11,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import PhmcNoDataNotification from 'in-phmc/lists/components/PhmcNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { systemList, getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
+import { systemList, useIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getSystemsSubscribeEvent } from 'in-phmc/subscriptions/getSystems';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { percentage, number } from 'in-services/formatters/number';
@@ -24,12 +24,19 @@ import { t } from 'in-i18n';
 
 const pathSegment = systemList;
 const matrixPrefix = 'system.';
+
+function EntityLinkLabel({ item }) {
+  const getIbmpSystemDashboard = useIbmpSystemDashboard();
+
+  return <EntityLink label={item.label} href={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
+      return <EntityLinkLabel item={item} />;
     }
   },
   {
@@ -153,9 +160,11 @@ export default connectTo(
     );
   }
 );
+
 function getTableData(params) {
   return getSystemsSubscribeEvent(params);
 }
+
 function getHasDataToRender() {
   return timeConfig$
     .flatMap(timeConfig => getSystemsSubscribeEvent({ timeConfig }))

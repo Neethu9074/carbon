@@ -1,0 +1,68 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import { Button, Li, SvgIcon, Ul } from '@instana/components';
+
+import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import Overlay from 'in-components/overlays/Overlay';
+import { t } from 'in-i18n';
+
+import locals from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
+
+export default function AnalyzeLogsButton({ log }) {
+  const serviceId = getServiceId(log.tags);
+
+  return (
+    <Overlay
+      align="bottomLeft"
+      content={() => (
+        <Ul>
+          <Li
+            href$={getLinkToTagFilterExpression({ name: LOG_MESSAGE, value: log.message })}
+            onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}
+          >
+            {t('in-analyze:logDetails.similarLogs')}
+          </Li>
+          {serviceId && (
+            <Li
+              href$={getLinkToTagFilterExpression({
+                name: LOG_CUSTOM,
+                key: 'service_id',
+                value: serviceId
+              })}
+              onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar services' })}
+            >
+              {t('in-analyze:logDetails.similarServiceLogs')}
+            </Li>
+          )}
+        </Ul>
+      )}
+      withoutWrapper
+    >
+      {({ toggle, refSetter, isOpen }) => (
+        <Button kind="primary" icon="lib_analyze" onClick={toggle} refSetter={refSetter}>
+          {t('in-analyze:logDetails.analyzeLogsLabel')}
+          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
+        </Button>
+      )}
+    </Overlay>
+  );
+}
+
+function getLinkToTagFilterExpression(tagFilterExpression) {
+  return getLinkToAnalyze({
+    tagFilterExpression: [getValueMatchTagFilter(tagFilterExpression)]
+  });
+}
+
+function getServiceId(tags) {
+  return tags
+    .filter(({ name, key }) => name === LOG_CUSTOM && key === 'service_id')
+    .map(({ stringValue }) => stringValue)[0];
+}

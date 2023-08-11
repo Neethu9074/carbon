@@ -26,8 +26,10 @@ export default function Summary({ timeConfig, data: hypervisor }) {
         <KpiCard title={t('in-powervc:cpuArch')} value={hypervisor.powervcItem.architecture} raw borderless />
         <KpiCard title={t('in-powervc:cpuModel')} value={hypervisor.powervcItem.model} raw borderless />
         <KpiCard title={t('in-powervc:cpuVendor')} value={hypervisor.powervcItem.vendor} raw borderless />
-        <KpiCard title={t('in-powervc:cpuCores')} value={hypervisor.powervcItem.cores} raw borderless />
         <KpiCard title={t('in-powervc:status')} value={hypervisor.powervcItem.status} raw borderless />
+        {hypervisor.powervcItem.cores != 0 ? (
+          <KpiCard title={t('in-powervc:cpuCores')} value={hypervisor.powervcItem.cores} raw borderless />
+        ) : null}
       </KpiGridRow>
       <KpiGridRow sizes={[2, 2, 2, 2]}>
         <KpiCard title={t('in-powervc:state')} value={hypervisor.powervcItem.state} raw borderless />

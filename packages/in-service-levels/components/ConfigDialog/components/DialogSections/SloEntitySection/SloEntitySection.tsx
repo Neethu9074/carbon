@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Typography } from '@instana/components';
 
@@ -12,18 +12,14 @@ import { SloApplicationEntitySection } from 'in-service-levels/components/Config
 import { SloWebsiteEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
 import SloLabel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloLabel';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
-interface SloScopeSectionProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-}
-
-export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
-  const sloSloEntityTypeField = form.getIn(['entity', 'type']);
-
+export const SloEntitySection = () => {
+  const { form, onChange } = useContext(SloFormContext);
   const [label, setLabel] = useState<string>();
+
+  const sloSloEntityTypeField = form.getIn(['entity', 'type']);
 
   return (
     <>
@@ -38,12 +34,8 @@ export const SloEntitySection = ({ form, onChange }: SloScopeSectionProps) => {
         }}
       />
       <SloLabel label={label} />
-      {sloSloEntityTypeField.value === 'application' && (
-        <SloApplicationEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
-      )}
-      {sloSloEntityTypeField.value === 'website' && (
-        <SloWebsiteEntitySection form={form} onChange={onChange} onLabelChange={setLabel} />
-      )}
+      {sloSloEntityTypeField.value === 'application' && <SloApplicationEntitySection onLabelChange={setLabel} />}
+      {sloSloEntityTypeField.value === 'website' && <SloWebsiteEntitySection onLabelChange={setLabel} />}
     </>
   );
 };

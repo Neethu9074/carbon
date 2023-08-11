@@ -32,7 +32,7 @@ export default function ZhmcDashboard({ location }) {
       <Breadcrumbs items={ZhmcBreadcrumb(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Z',
+          productArea: 'IBM Z HMC',
           pageRootName: t('in-zhmc:dashboards.zhmc')
         }}
       />

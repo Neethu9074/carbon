@@ -6,9 +6,11 @@
 
 import React from 'react';
 
-import { getIbmpViosDashboard } from 'in-phmc/navigation/paths';
+import { useIbmpViosDashboard } from 'in-phmc/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcViosDashboard({ snapshot, timeConfig }) {
-  return <RedirectWithHash to$={getIbmpViosDashboard(snapshot.get('id'), { timeConfig })} />;
+  const getIbmpViosDashboard = useIbmpViosDashboard();
+
+  return <RedirectWithHash to={getIbmpViosDashboard(snapshot.get('id'), { timeConfig })} />;
 }

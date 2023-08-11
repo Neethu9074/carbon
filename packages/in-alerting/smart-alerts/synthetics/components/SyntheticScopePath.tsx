@@ -8,36 +8,35 @@ import React from 'react';
 
 import { SvgIconSizes } from '@instana/components';
 
-import { getSyntheticTestDashboard } from 'in-synthetics/navigation/paths';
-import { TimeConfig } from 'in-types';
-
+import { useSyntheticTestDashboard } from 'in-synthetics/navigation/paths';
 import ScopePath from 'in-alerting/components/ScopePath';
+import { TimeConfig } from 'in-types';
 
 interface Props {
   syntheticTestId?: string;
   syntheticTestLabel: string;
   locationLabel: string;
   timeConfig?: TimeConfig;
-  iconSize?: keyof typeof SvgIconSizes
+  iconSize?: keyof typeof SvgIconSizes;
   noBottomMargin?: boolean;
 }
 
 export default function SyntheticScopePath({
-                                             syntheticTestId,
-                                             syntheticTestLabel,
-                                             locationLabel,
-                                             timeConfig,
-                                             iconSize,
-                                             noBottomMargin
-                                           }: Props) {
+  syntheticTestId,
+  syntheticTestLabel,
+  locationLabel,
+  timeConfig,
+  iconSize,
+  noBottomMargin
+}: Props) {
+  const getSyntheticTestDashboard = useSyntheticTestDashboard();
   const entries = [];
 
   if (syntheticTestLabel) {
     entries.push({
       iconType: 'lib_synthetic',
       label: syntheticTestLabel,
-      href$: syntheticTestId != null ?
-        getSyntheticTestDashboard(syntheticTestId, timeConfig) : undefined
+      href: syntheticTestId != null ? getSyntheticTestDashboard(syntheticTestId, timeConfig) : undefined
     });
   }
 

@@ -44,43 +44,50 @@ function getColumnDefinitions({
       id: 'name',
       label: t('in-service-levels:sloList.columnLabels.name'),
       getContent: item => <SloNameColumnContent item={item} />,
-      width: 23
+      width: 23,
+      sortable: true
     },
     {
-      id: 'entity',
+      id: 'entityType',
       label: t('in-service-levels:sloList.columnLabels.entity'),
       getContent: item => <SloEntityColumnContent item={item} />,
-      width: 18.5
+      width: 18.5,
+      sortable: true
     },
     {
       id: 'blueprint',
       label: t('in-service-levels:sloList.columnLabels.blueprint'),
       getContent: item => <SloBlueprintColumnContent item={item} />,
-      width: 8
+      width: 8,
+      sortable: false
     },
     {
       id: 'errorBudget',
       label: t('in-service-levels:sloList.columnLabels.errorBudget'),
       getContent: item => <SloErrorBudgetColumnContent item={item} showSparkChart={isMediumWidth} />,
-      width: 18.5
+      width: 18.5,
+      sortable: false
     },
     {
       id: 'status',
       label: t('in-service-levels:sloList.columnLabels.status'),
       getContent: item => <SloStatusColumnContent item={item} />,
-      width: 12
+      width: 12,
+      sortable: false
     },
     {
       id: 'tags',
       label: t('in-service-levels:sloList.columnLabels.tags'),
       getContent: item => <SloTagsColumnContent item={item} />,
-      width: 15
+      width: 15,
+      sortable: false
     },
     {
       id: 'actions',
       label: '',
       getContent: item => <SloActions item={item} />,
-      width: 5
+      width: 5,
+      sortable: false
     }
   ];
 

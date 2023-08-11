@@ -148,7 +148,7 @@ export function changeName(tagCatalog, formalisticTagForm, newName) {
   const previousTagDefinition = tagCatalog.tagsByName[previousName];
   const tagDefinition = tagCatalog.tagsByName[newName];
   if (tagDefinition) {
-    const supportsConfiguredOperator = getAllowedOperators(tagDefinition).indexOf(tagForm.operator) >= 0;
+    const supportsConfiguredOperator = getAllowedOperators(tagDefinition, tagCatalog.source).indexOf(tagForm.operator) >= 0;
     if (!supportsConfiguredOperator) {
       tagForm.operator = undefined;
     }
@@ -212,7 +212,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   }
 
   result.type = tagDefinition.type;
-  result.allowedOperators = getAllowedOperators(tagDefinition);
+  result.allowedOperators = getAllowedOperators(tagDefinition, tagCatalog.source);
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
   result.canApplyToDestination = tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;

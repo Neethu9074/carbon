@@ -4,8 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+
+import { Disposable, on, Subject } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error TS migration
 import { concatQueries, spreadTimeConfig } from 'in-events/EventView';
@@ -15,6 +18,7 @@ import EventsList from 'in-events/components/EventsList';
 //@ts-expect-error TS migration
 import getRawEvents from 'in-subscription/getRawEvents';
 import { ShowcaseProps } from 'in-custom-dashboards/widgets/Table/eventsTable/ShowCase';
+import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -49,31 +53,40 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height]);
 
-  //incase of preview load only 4 events initially
+  // incase of preview load only 4 events initially
   if (!rowsPerPage && isPreview) {
     setRowsPerPage(4);
   }
+  // Observable to update the timeConfig at regular intervals in live mode
+  const { modifiedTimeConfig$, mouseMoveSignal$ } = useModifiedTimeConfig(isPreview);
+
+  // because in preview mode we don't want the table to refresh automatically
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const timeConfig: TimeConfig = useObservable(modifiedTimeConfig$, []) ?? useTimeConfig();
 
   return (
     <div className={locals.tableContent} ref={ref as React.RefObject<HTMLDivElement>}>
-      {rowsPerPage > 0 && <TableConfig {...props} rowsPerPage={rowsPerPage} />}
+      {rowsPerPage > 0 && (
+        <TableConfig {...props} rowsPerPage={rowsPerPage} timeConfig={timeConfig} mouseMoveSignal$={mouseMoveSignal$} />
+      )}
     </div>
   );
 }
 
 interface TableConfigProps extends TableOverviewBehaviourProps {
   rowsPerPage: number;
+  timeConfig: TimeConfig;
+  mouseMoveSignal$: Subject<unknown>;
 }
 
 function TableConfig(props: TableConfigProps) {
-  const timeConfig = useTimeConfig();
-  const { config, rowsPerPage } = props;
+  const { config, rowsPerPage, timeConfig } = props;
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-  const orderByColumn = config?.columns?.length ? config?.columns[0] : orderByConfig.started;
+  const orderByColumn = config?.columns?.length ? getOrderByColumn(config?.columns) : orderByConfig.started;
 
   const [sorting, setSorting] = useState({
     orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
-    orderDirection: 'ASC'
+    orderDirection: 'DESC'
   });
 
   const tableProps = useCursorPagination(
@@ -121,9 +134,12 @@ export interface TablePresenterProps extends TableOverviewBehaviourProps {
   loadMoreData?: VoidFunction;
   setSorting?: any;
   showCaseView?: boolean;
+  mouseMoveSignal$?: Subject<unknown>;
 }
 
 export const TablePresenter = (props: TablePresenterProps) => {
+  const tableRef: React.MutableRefObject<EventTarget | undefined> = useRef();
+  const onMouseMoveSubscriptionRef: React.MutableRefObject<Disposable | undefined | null> = useRef();
   const {
     title,
     dragHandle,
@@ -132,12 +148,36 @@ export const TablePresenter = (props: TablePresenterProps) => {
     loadMoreData,
     setSorting,
     showCaseView = false,
-    config
+    config,
+    mouseMoveSignal$
   } = props;
 
   const { location, navigate } = useNavigation();
   const eventsPath = '/events';
   const dynamicFocusQuery = config?.dynamicFocusQuery;
+
+  const setupSubscriptions = useCallback(() => {
+    if (!tableRef.current) {
+      return;
+    }
+
+    onMouseMoveSubscriptionRef.current = on(tableRef.current!, 'mousemove').subscribe(() =>
+      mouseMoveSignal$?.emit(Date.now())
+    );
+  }, [mouseMoveSignal$]);
+
+  useEffect(() => {
+    setupSubscriptions();
+
+    return function cleanUp() {
+      disposeSubscriptions();
+    };
+  }, [setupSubscriptions]);
+
+  useEffect(() => {
+    disposeSubscriptions();
+    setupSubscriptions();
+  });
 
   // function to navigate to events list page
   function onItemClicked(eventId: string) {
@@ -150,9 +190,17 @@ export const TablePresenter = (props: TablePresenterProps) => {
     setSorting({ orderBy: item.orderBy, orderDirection: item.orderDirection });
   }
 
+  function disposeSubscriptions() {
+    if (onMouseMoveSubscriptionRef.current) {
+      onMouseMoveSubscriptionRef.current?.dispose();
+      onMouseMoveSubscriptionRef.current = null;
+    }
+  }
+
   return (
     <>
       <div
+        ref={table => (tableRef.current = table as EventTarget)}
         className={classNames({
           [locals.container]: true,
           [locals.heightAuto]: showCaseView
@@ -179,3 +227,10 @@ export const TablePresenter = (props: TablePresenterProps) => {
     </>
   );
 };
+
+function getOrderByColumn(columns: string[]) {
+  if (columns.includes('started')) {
+    return orderByConfig.started;
+  }
+  return columns[0];
+}

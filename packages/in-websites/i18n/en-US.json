@@ -460,8 +460,7 @@
         "filter_plural": "filters",
         "moreFiltersWithCount": "+{{count}} more filter",
         "moreFiltersWithCount_plural": "+{{count}} more filters",
-        "alertsLabelFilters": "Filters",
-        "alertsNoDataMessage": "No alert configured."
+        "alertsLabelFilters": "Filters"
       },
       "configuration": {
         "configurationRemoveTitle": "Remove Website",
@@ -542,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "Files",
         "stackTraceTranslationLabelTotalSize": "Total Size",
         "stackTraceTranslationLabelLastModified": "Last Modified",
-        "stackTraceTranslationExplanation": "To make JavaScript stack traces more readable, e.g. to show references to non minified files and lines, Instana needs to access JavaScript and source map files. Adding a configuration here allows Instana's server to authenticate and download these files in order to provide more insights into JavaScript errors.",
         "stackTraceTranslationExplanationWithUploadFeature": "To make JavaScript stack traces more readable, e.g. to show references to non minified files and lines, Instana needs to access JavaScript and source map files. Adding a download configuration here allows Instana's server to authenticate and download these files in order to provide more insights into JavaScript errors. If your files are hosted privately and cannot be accessed by Instana, then an upload configuration could be used in this scenario by uploading your files manually through our Web REST API.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript Stack Trace Translation",
         "stackTraceTranslationLearnMoreLabel": "Learn more about JavaScript Stack Trace Translation",

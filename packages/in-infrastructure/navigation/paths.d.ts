@@ -6,6 +6,7 @@
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { AggregationType, Group, Order, TimeConfig } from 'in-types';
+import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
 
 export interface MetricItem {
   metric: string;
@@ -13,12 +14,13 @@ export interface MetricItem {
 }
 
 interface GetLinkToExploreProps {
-  tagFilterExpression?: FormModelElement[];
+  tagFilterExpression?: FormModelElement[] | TagFilterExpressionElementUnion;
   group?: Group;
   type?: string;
   metrics?: Array<MetricItem>;
   order?: Order;
   timeConfig?: TimeConfig;
+  groupBy?: Partial<Grouping[]>;
   chartedMetrics?: Array<MetricItem>;
 }
 

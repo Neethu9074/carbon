@@ -9,6 +9,7 @@ import { Group } from '@instana/types';
 interface GroupingConfiguratorSectionProps {
   value: unknown;
   tagFilterExpression: unknown;
+  tagCatalog?: TagCatalog;
   GroupingConfigurator: unknown;
   onChange: unknown;
   tracking: Record<string, (group: Group) => void>;

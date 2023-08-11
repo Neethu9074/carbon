@@ -48,6 +48,7 @@ import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tag
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
@@ -113,9 +114,10 @@ export function useLinkToAnalyze() {
       setOnClickNotificationMessage,
       resetUndefinedParams
     }) => {
-      location.pathname = analyzePath;
+      const clonedLocation = cloneLocation(location);
+      clonedLocation.pathname = analyzePath;
 
-      updateLocationToAnalyze(location, {
+      updateLocationToAnalyze(clonedLocation, {
         applicationName,
         serviceName,
         endpointName,
@@ -138,7 +140,7 @@ export function useLinkToAnalyze() {
         resetUndefinedParams
       });
 
-      return createHref(location);
+      return createHref(clonedLocation);
     },
     [location, createHref]
   );
@@ -341,18 +343,20 @@ function useLinkToList(pathName, keyPrefix) {
 
   return useCallback(
     ({ timeConfig, applicationId, serviceId, endpointId, contextScope, tagFilters, snapshotId, plugin }) => {
-      location.pathname = pathName;
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = pathName;
       let tagFilter = null;
 
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixApplicationId, applicationId);
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixServiceId, serviceId);
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixEndpointId, endpointId);
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixContextScope, contextScope);
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixSnapshotId, snapshotId);
-      setOrDeleteMatrixKey(location, pathName, keyPrefix + matrixPlugin, plugin);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixApplicationId, applicationId);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixServiceId, serviceId);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixEndpointId, endpointId);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixContextScope, contextScope);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixSnapshotId, snapshotId);
+      setOrDeleteMatrixKey(clonedLocation, pathName, keyPrefix + matrixPlugin, plugin);
 
       if (timeConfig != null) {
-        setTimeConfig(location, timeConfig);
+        setTimeConfig(clonedLocation, timeConfig);
       }
 
       if (tagFilters) {
@@ -361,10 +365,15 @@ function useLinkToList(pathName, keyPrefix) {
       }
 
       if (tagFilter != null) {
-        setOrDeleteMatrixKey(location, pathName, keyPrefix + tagFiltersMatrixParam, getTagFilterToUrlString(tagFilter));
+        setOrDeleteMatrixKey(
+          clonedLocation,
+          pathName,
+          keyPrefix + tagFiltersMatrixParam,
+          getTagFilterToUrlString(tagFilter)
+        );
       }
 
-      return createHref(location);
+      return createHref(clonedLocation);
     },
     [location, createHref, pathName, keyPrefix]
   );
@@ -404,23 +413,25 @@ function useDashboard(base) {
       tabMatrix = {},
       timeConfig
     }) => {
-      location.pathname = `${base}${tab}`;
-      setOrDeleteMatrixKey(location, base, matrixApplicationId, applicationId);
-      setOrDeleteMatrixKey(location, base, matrixServiceId, serviceId);
-      setOrDeleteMatrixKey(location, base, matrixEndpointId, endpointId);
-      setOrDeleteMatrixKey(location, base, matrixBoundaryScope, boundaryScope);
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = `${base}${tab}`;
+      setOrDeleteMatrixKey(clonedLocation, base, matrixApplicationId, applicationId);
+      setOrDeleteMatrixKey(clonedLocation, base, matrixServiceId, serviceId);
+      setOrDeleteMatrixKey(clonedLocation, base, matrixEndpointId, endpointId);
+      setOrDeleteMatrixKey(clonedLocation, base, matrixBoundaryScope, boundaryScope);
 
       if (syntheticCallsEnabled) {
-        setOrDeleteMatrixKey(location, base, matrixSyntheticCalls, syntheticCalls);
+        setOrDeleteMatrixKey(clonedLocation, base, matrixSyntheticCalls, syntheticCalls);
       }
 
       if (timeConfig != null) {
-        setTimeConfig(location, timeConfig);
+        setTimeConfig(clonedLocation, timeConfig);
       }
 
-      location.matrix[tab] = tabMatrix;
+      clonedLocation.matrix[tab] = tabMatrix;
 
-      return createHref(location);
+      return createHref(clonedLocation);
     },
     [base, location, createHref]
   );

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { isTimeBasedSli } from '@instana/types';
+import { isCustomEventBasedSli, isTimeBasedSli } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -53,10 +53,12 @@ export function IndicatorSection({ data }: IndicatorSectionProps) {
 }
 
 function BlueprintColumn({ data }: IndicatorSectionProps) {
+  const { indicator } = data.configuration;
+  const blueprint = isCustomEventBasedSli(indicator) ? 'custom' : indicator.blueprint;
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.indicatorSection.blueprintLabel')}
-      value={t('in-service-levels:general.indicator.blueprint', { context: data.configuration.indicator.blueprint })}
+      value={t('in-service-levels:general.indicator.blueprint', { context: blueprint })}
     />
   );
 }
@@ -71,7 +73,10 @@ function IndicatorTypeColumn({ data }: IndicatorSectionProps) {
 }
 
 function ThresholdColumn({ data }: IndicatorSectionProps) {
-  const { threshold, blueprint } = data.configuration.indicator;
+  const { indicator } = data.configuration;
+  if (isCustomEventBasedSli(indicator)) return null;
+
+  const { threshold, blueprint } = indicator;
 
   return (
     <KeyValue
@@ -103,7 +108,7 @@ function GoodEventsColumn({ data }: IndicatorSectionProps) {
       label={t('in-service-levels:sloDashboard.components.indicatorSection.goodEventsLabel', {
         context: entity.type
       })}
-      value={<TagFilterQueryBuilder entity={data.configuration.entity} tagFilterExpression={good} />}
+      value={<TagFilterQueryBuilder entity={entity} tagFilterExpression={good} />}
     />
   );
 }
@@ -117,7 +122,7 @@ function BadEventsColumn({ data }: IndicatorSectionProps) {
       label={t('in-service-levels:sloDashboard.components.indicatorSection.badEventsLabel', {
         context: entity.type
       })}
-      value={<TagFilterQueryBuilder entity={data.configuration.entity} tagFilterExpression={bad} />}
+      value={<TagFilterQueryBuilder entity={entity} tagFilterExpression={bad} />}
     />
   );
 }

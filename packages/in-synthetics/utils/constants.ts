@@ -335,7 +335,7 @@ export interface ResultsFilterState {
 
 export interface ResultsFilterSectionProps extends ResultsFilterState {
   setFilter: (x: Object) => void;
-  result: TestResponse;
+  locationsDisplayLabels: string[];
 }
 
 export type ResultsCurrentState = {

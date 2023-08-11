@@ -30,7 +30,6 @@ export const ApplicationTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteS
 
   return (
     <Section
-      title={t('in-service-levels:createSloDialog.customFilter')}
       actions={
         tagFilterExpressionField.value.length ? (
           <Button
@@ -45,6 +44,7 @@ export const ApplicationTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteS
           </Button>
         ) : null
       }
+      title={t('in-service-levels:createSloDialog.customFilter')}
     >
       <QueryBuilder
         onChange={newFilterExpression =>

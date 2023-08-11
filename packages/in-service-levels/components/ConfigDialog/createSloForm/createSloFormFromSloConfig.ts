@@ -6,13 +6,8 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import {
-  AggregationType,
-  ApplicationBoundaryScope,
-  BlueprintType,
-  DurationUnitType,
-  ServiceLevelObjectiveConfiguration
-} from '@instana/types';
+import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isEventBasedSli } from '@instana/types/typeDefinitions';
 
 import {
   SloEntityFields,
@@ -21,8 +16,9 @@ import {
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validationLogic';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
@@ -41,7 +37,7 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
 
     return {
       beaconType: createField({ value: 'httpRequest' }),
-      boundaryScope: createField<ApplicationBoundaryScope>({ value: boundaryScope }),
+      boundaryScope: createField({ value: boundaryScope }),
       endpointId: createField({ value: endpointId ?? '' }),
       includeInternal: createField({ value: includeInternal ?? false }),
       includeSynthetic: createField({ value: includeSynthetic ?? false }),
@@ -52,7 +48,7 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
 
   return {
     beaconType: createField({ value: sloConfig.entity.beaconType }) as Field<SloBeaconTypes>,
-    boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
+    boundaryScope: createField({ value: 'ALL' }),
     endpointId: createField({ value: '' }),
     includeInternal: createField({ value: false }),
     includeSynthetic: createField({ value: false }),
@@ -64,49 +60,49 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
 export const getIndicatorFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
 ): SloIndicatorFields => {
-  const indicatorType = sloConfig.indicator?.type;
+  const { indicator } = sloConfig;
 
-  if (indicatorType === 'timeBased') {
+  if (isTimeBasedSli(indicator)) {
     return {
-      aggregation: createField<AggregationType>({ value: sloConfig.indicator.aggregation ?? 'SUM' }),
-      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
-      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
-      badEventsFilter: createField<FormModelElement[]>({
+      aggregation: createField({ value: indicator.aggregation ?? 'SUM' }),
+      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
+      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
+      badEventsFilter: createField({
         value: fromBackendModel(undefined)
       }),
-      goodEventsFilter: createField<FormModelElement[]>({
+      goodEventsFilter: createField({
         value: fromBackendModel(undefined)
       }),
-      type: createField({ value: sloConfig.indicator.type })
+      type: createField({ value: indicator.type })
     };
   }
 
-  if (indicatorType === 'eventBased') {
+  if (isEventBasedSli(indicator)) {
     return {
-      aggregation: createField<AggregationType>({ value: 'SUM' }),
-      badEventsFilter: createField<FormModelElement[]>({
+      aggregation: createField({ value: 'SUM' }),
+      badEventsFilter: createField({
         value: fromBackendModel(undefined)
       }),
-      blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
-      goodEventsFilter: createField<FormModelElement[]>({
+      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
+      goodEventsFilter: createField({
         value: fromBackendModel(undefined)
       }),
-      threshold: createField<number>({ value: sloConfig.indicator.threshold ?? 0 }),
-      type: createField({ value: sloConfig.indicator.type })
+      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
+      type: createField({ value: indicator.type })
     };
   }
 
   return {
-    aggregation: createField<AggregationType>({ value: 'SUM' }),
-    badEventsFilter: createField<FormModelElement[]>({
-      value: fromBackendModel(sloConfig.indicator.badEventsFilter)
+    aggregation: createField({ value: 'SUM' }),
+    badEventsFilter: createField({
+      value: fromBackendModel(indicator.badEventsFilter)
     }),
-    blueprint: createField<BlueprintType>({ value: sloConfig.indicator.blueprint ?? 'availability' }),
-    goodEventsFilter: createField<FormModelElement[]>({
-      value: fromBackendModel(sloConfig.indicator.goodEventsFilter)
+    blueprint: createField({ value: 'availability' }),
+    goodEventsFilter: createField({
+      value: fromBackendModel(indicator.goodEventsFilter)
     }),
-    threshold: createField<number>({ value: sloConfig.indicator?.threshold ?? 0 }),
-    type: createField({ value: sloConfig.indicator.type })
+    threshold: createField({ value: indicator.threshold ?? 0 }),
+    type: createField({ value: indicator.type })
   };
 };
 
@@ -125,8 +121,8 @@ export const getTimeWindowFormFieldFromSloConfig = (
   }
 
   return {
-    duration: createField<number>({ value: sloConfig.timeWindow.duration }),
-    durationUnit: createField<DurationUnitType>({ value: sloConfig.timeWindow.durationUnit }),
+    duration: createField({ value: sloConfig.timeWindow.duration }),
+    durationUnit: createField({ value: sloConfig.timeWindow.durationUnit }),
     startTimestamp: createField({ value: Date.now() }),
     type: createField({ value: sloConfig.timeWindow.type })
   };

@@ -10,7 +10,7 @@
     height: 100%;
   }
   .heightAuto {
-    height: 24rem !important;
+    height: 26rem !important;
   }
   .tableContent {
     position: relative;

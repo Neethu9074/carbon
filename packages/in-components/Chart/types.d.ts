@@ -6,8 +6,9 @@
 import { Property } from 'csstype';
 import React from 'react';
 
+import { AggregationType, BoundaryScope, FilterInterface, TimeConfig } from '@instana/types';
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
-import { AggregationType, FilterInterface, TimeConfig } from '@instana/types';
+import { ThresholdOperator } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
 import { Renderer } from 'in-components/Chart/renderer/types';
@@ -34,7 +35,12 @@ export interface Metric {
   aggregation?: AggregationType;
 }
 
-export type TimeConfigAwareHref$Creator = (tc: TimeConfig) => Observable<string> | undefined;
+export interface ChartedMetricsConfig {
+  renderedMetrics: string[];
+  chartMetrics: Set<string>;
+}
+
+export type TimeConfigAwareHref$Creator = (tc: TimeConfig, c?: ChartedMetricsConfig) => Observable<string> | undefined;
 
 export interface ContextMenuButton {
   name: string;
@@ -188,6 +194,39 @@ export interface AdditionChartContentProps {
   timeAxisHeight?: number;
   markerPaneHeight?: number;
   chartContentPosition: ChartContentPostition;
+  boundaryScope?: BoundaryScope;
+  chartName?: string;
+  alertRules?: AlertRule;
+}
+
+interface AlertRule {
+  throughputHigh: ThroughputHigh;
+  throughputLow: ThroughputLow;
+  errorCount: ErrorCount;
+}
+
+type Seasonality = 'DAILY' | 'WEEKLY';
+
+interface ThroughputHigh {
+  rule: Rule;
+  seasonality?: Seasonality;
+}
+
+interface ThroughputLow {
+  rule: Rule;
+  seasonality?: Seasonality;
+  operator?: ThresholdOperator;
+}
+
+interface ErrorCount {
+  rule: Rule;
+  seasonality?: Seasonality;
+}
+
+interface Rule {
+  alertType: throughputBlueprintConfig.type;
+  aggregation: AggregationType;
+  metricName: string;
 }
 
 export interface Axis extends Omit<AxisConfiguration, 'colors100' | 'colors50' | 'colors' | 'formatter'> {

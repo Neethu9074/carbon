@@ -69,6 +69,7 @@ export default function CrashTopList({
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
+      helpInfo={t('in-mobile-apps:dashboard.tabs.crashErrorGroupsHelpInfo')}
     />
   );
 }
