@@ -8,9 +8,9 @@ import React from 'react';
 
 import ServiceBrokerProjectTable from 'in-forge/plugins/tuxedoAppApplication/Dashboard/ServiceBrokerProjectTable';
 import TuxedoServiceTable from 'in-forge/plugins/tuxedoAppApplication/Dashboard/TuxedoServiceTable';
-import { number, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, twoDecimalPlaces, millis } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -43,7 +43,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
               metrics: ['ts_avgResTime'],
               labels: [t('in-forge:plugins.tuxedoAppApplication.ts_avgResTime')],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -53,7 +53,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['ts_throughput'],
-              labels: [t('in-forge:plugins.tuxedoAppApplication.ts_throughput')],
+              labels: [t('in-forge:plugins.tuxedoAppApplication.ts_throughputOpsSec')],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
@@ -70,7 +70,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
               metrics: ['sbp_avgResTime'],
               labels: [t('in-forge:plugins.tuxedoAppApplication.sbp_avgResTime')],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -80,7 +80,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['sbp_throughput'],
-              labels: [t('in-forge:plugins.tuxedoAppApplication.sbp_throughput')],
+              labels: [t('in-forge:plugins.tuxedoAppApplication.sbp_throughputOpsSec')],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
@@ -113,7 +113,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
                 t('in-forge:plugins.tuxedoAppApplication.sbp_postCallTime')
               ],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
