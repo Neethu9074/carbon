@@ -11,7 +11,6 @@ import { successObservable } from 'in-services/util/result';
 
 /**
  * Creates a QueryBuilder that is bound to a single Infrastructure.
- * Consequently, the suggestions shown are only part of that limited scope.
  *
  * @returns A QueryBuilder
  */
