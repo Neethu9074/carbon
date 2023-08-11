@@ -7,9 +7,9 @@
 import React from 'react';
 
 import ServiceBrokerTable from 'in-forge/plugins/tuxedoAppServiceBrokerProject/Dashboard/ServiceBrokerTable';
-import { number, zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, millis, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -27,7 +27,7 @@ export default function ServiceBrokerProjectDashboard({ snapshot, timeConfig }) 
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.tuxedoAppServiceBrokerProject.avgResTime')}>
-          <MetricValue snapshotId={snapshotId} metric="avgResTime" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="avgResTime" formatter={millis.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.tuxedoAppServiceBrokerProject.throughput')}>
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={number.detailed} />
@@ -42,7 +42,7 @@ export default function ServiceBrokerProjectDashboard({ snapshot, timeConfig }) 
               metrics: ['avgResTime'],
               labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.avgResTime')],
               type: 'line',
-              formatter: zeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -52,7 +52,7 @@ export default function ServiceBrokerProjectDashboard({ snapshot, timeConfig }) 
             timeConfig={timeConfig}
             y1={{
               metrics: ['throughput'],
-              labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.throughput')],
+              labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.throughputOpsSec')],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
@@ -71,7 +71,7 @@ export default function ServiceBrokerProjectDashboard({ snapshot, timeConfig }) 
               t('in-forge:plugins.tuxedoAppServiceBrokerProject.postCallTime')
             ],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: millis.detailed
           }}
         />
       </DashboardSection>

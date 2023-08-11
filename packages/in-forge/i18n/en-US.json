@@ -11495,6 +11495,7 @@
       "numOfTuxSvcs": "Tuxedo Service",
       "ts_avgResTime": "TS Average Response Time",
       "ts_throughput": "TS Throughput",
+      "ts_throughputOpsSec": "TS Throughput (ops/sec)",
       "tsName": "Tuxedo Service Name",
       "sbpName": "Service Broker Project Name",
       "tuxedoServiceWithCount": "Tuxedo Service List ({{len}})",
@@ -11505,6 +11506,7 @@
       "sbp_callTime": "Call Processing Time",
       "sbp_timeBreakdown": "SBP Processing Time Breakdown",
       "sbp_throughput": "SBP Throughput",
+      "sbp_throughputOpsSec": "SBP Throughput (ops/sec)",
       "sbp_errors": "SBP Errors"
     },
     "tuxedoAppServiceBrokerProject": {
@@ -11518,6 +11520,7 @@
       "timeBreakdown": "Processing Time Breakdown",
       "callTime": "Call Processing Time",
       "throughput": "Throughput",
+      "throughputOpsSec": "Throughput (ops/sec)",
       "errors": "Errors",
       "rsfu": "Response Payload Size",
       "rqfu": "Request Payload Size"
@@ -11531,6 +11534,7 @@
       "tuxedoServerWithCount": "Tuxedo Server List ({{len}})",
       "avgResTime": "Average Response Time",
       "throughput": "Throughput",
+      "throughputOpsSec": "Throughput (ops/sec)",
       "transactionAndCallTime": "Transactions and Call Time",
       "countLessHalf": "<0.5s",
       "countHalfAndOneHalf": "0.5s - 1.5s",
