@@ -104,16 +104,13 @@ function mergeResultData(id, endpointConfig, created) {
 }
 
 function combineResults(alertResponse, actionResponse) {
-  if (isLoading(alertResponse) || hasError(alertResponse)) {
-    return alertResponse;
-  }
-  if (isLoading(actionResponse)) {
+  if (isLoading(alertResponse) || hasError(alertResponse) || isLoading(actionResponse)) {
     return alertResponse;
   }
   if (hasError(actionResponse)) {
     return {
       ...alertResponse,
-      actionAssociationsErrors: actionResponse?.errors
+      actionAssociationsErrors: actionResponse.errors
     };
   }
   return {
