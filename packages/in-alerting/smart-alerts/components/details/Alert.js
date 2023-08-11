@@ -193,7 +193,7 @@ function useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload) {
     return {
       alertConfig: { actionIds: result.actionIds, ...result.data },
       alertConfigErrors: result.errors,
-      actionAssociationsErrors: result.actionAssociationsErrors
+      actionAssociationsErrors: result.actionAssociationsErrors ?? null
     };
   } else {
     return { alertConfig: result.data, alertConfigErrors: result.errors };

@@ -108,7 +108,7 @@ function combineResults(alertResponse, actionResponse) {
     return alertResponse;
   }
   if (isLoading(actionResponse)) {
-    return actionResponse;
+    return alertResponse;
   }
   if (hasError(actionResponse)) {
     return {

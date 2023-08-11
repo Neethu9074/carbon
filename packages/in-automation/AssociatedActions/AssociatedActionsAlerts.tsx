@@ -54,15 +54,14 @@ export default function AssociatedActionsAlerts({
   ) ?? { data: [], errors: [] };
 
   const actions = result?.data ?? [];
-  const Associationserror = result?.errors ?? [];
+  const associationsError = result?.errors ?? [];
   const selectedActions = actions.length > 0 ? actions?.map((action: Action) => action.id) : [];
-  // actionIds: actionResponse?.data?.map(action => action.id) ?? []
   if (!alertConfig) {
     return <LoadingIndicator size="xl" />;
   }
 
-  if (Associationserror.length) {
-    return <ErroneousResultPresenter errors={[...Associationserror]} />;
+  if (associationsError.length) {
+    return <ErroneousResultPresenter errors={[...associationsError]} />;
   }
 
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
