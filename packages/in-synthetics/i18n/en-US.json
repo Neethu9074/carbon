@@ -44,7 +44,7 @@
           "name": "API Simple",
           "headline": "API Simple (HTTP Action)",
           "whenToUse": {
-            "line1": "Use an API Simple (HTTP Action) test to test a single Rest API"
+            "line1": "Use an API Simple (HTTP Action) test to test a single REST API"
           },
           "tipsForUsing": {
             "title": "Tips for using",
@@ -58,7 +58,7 @@
           "name": "API Script",
           "headline": "API Script (HTTP Script)",
           "whenToUse": {
-            "line1": "Use an API Script (HTTP Script) test and Node.js based script to test the sequence of multiple Rest APIs"
+            "line1": "Use an API Script (HTTP Script) test and Node.js based script to test the sequence of multiple REST APIs"
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
