@@ -1,4 +1,5 @@
 {
+  "associatedActions": "Associated Actions",
   "recommendedActions": "Recommended Actions",
   "failedToSaveAssocation": "Failed to save action association.",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
