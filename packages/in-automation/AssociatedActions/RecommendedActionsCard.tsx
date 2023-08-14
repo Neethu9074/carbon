@@ -72,7 +72,6 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
         pageSize={5}
         isSearchable={false}
         loadEntities={() => getUnusedSuggestedActions}
-        rightHeader={<></>} // required to get the title of the card to show with the beta badge
         scored
         tableActions={{
           select: {
