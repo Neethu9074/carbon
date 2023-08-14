@@ -10,7 +10,7 @@ import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/Qu
 import { successObservable } from 'in-services/util/result';
 
 /**
- * Creates a QueryBuilder that is bound to a single Infrastructure.
+ * Creates a QueryBuilder that is bound to an infrastructure entity.
  *
  * @returns A QueryBuilder
  */
