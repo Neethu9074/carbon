@@ -210,7 +210,7 @@ interface ResultData {
 
 type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
 
-function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
+export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
   const metrics: UnifiedMetricsConfigObject = {};
   const companionMetrics: UnifiedMetricsConfigObject = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)
@@ -243,7 +243,7 @@ function useResultData(config: Config, granularity: number, timeConfig: TimeConf
   };
 }
 
-function addUnifiedMetricsConfigForMetrics(
+export function addUnifiedMetricsConfigForMetrics(
   axisName: AxisName,
   metricConfig: Config,
   resultType: ResultType,
@@ -263,7 +263,7 @@ function addUnifiedMetricsConfigForMetrics(
   );
 }
 
-function addUnifiedMetricsConfigForCompanionMetrics(
+export function addUnifiedMetricsConfigForCompanionMetrics(
   axisName: AxisName,
   metricConfig: Config,
   resultType: ResultType,

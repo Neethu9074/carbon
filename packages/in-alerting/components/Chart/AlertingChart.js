@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 
 const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
 
-const legendColors = [
+export const legendColors = [
   theme.lib.colors.lightBlue800,
   theme.lib.colors.red800,
   getColorWithTransparency(theme.lib.colors.red800).c50
@@ -179,7 +179,7 @@ function isValidTimeThreshold(timeThreshold) {
   return true;
 }
 
-function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
+export function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
   switch (threshold.type) {
     case STATIC_THRESHOLD:
       return createLineWithThreshold(threshold.operator, threshold.value);
@@ -236,7 +236,7 @@ function shouldRequestAlertsPreview(threshold) {
   return threshold.baseline;
 }
 
-function enhanceLabels(label, highlight) {
+export function enhanceLabels(label, highlight) {
   const labels = [
     label,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
@@ -250,7 +250,7 @@ function enhanceLabels(label, highlight) {
   return labels;
 }
 
-function enhanceNonToggleableSeries(metricName, highlight) {
+export function enhanceNonToggleableSeries(metricName, highlight) {
   const labels = new Map([
     ['threshold', null],
     ['alerts', null],

@@ -46,6 +46,7 @@ export default connectTo(
     };
   },
   function AlertingChartWrapper(props) {
+    // console.log(props);
     return (
       <ChartWrapper
         showNoDataInfoWhenEmpty={false}
@@ -66,7 +67,7 @@ function extendMetricConfiguration(props) {
   };
 }
 
-function getThreshold(y1, thresholdType, metricData, timeConfig) {
+export function getThreshold(y1, thresholdType, metricData, timeConfig) {
   const {
     threshold: thresholdValue,
     baseline,
@@ -102,7 +103,6 @@ function getThreshold(y1, thresholdType, metricData, timeConfig) {
     });
   }
 }
-
 function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop, timeConfig }) {
   if (result.errors.length > 0 || result.progress.loading) {
     return result;
