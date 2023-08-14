@@ -63,6 +63,8 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
       <ActionTable
+        title={t('in-automation:associatedActions')}
+        isBeta
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
         event={event}
@@ -70,6 +72,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
         pageSize={5}
         isSearchable={false}
         loadEntities={() => getUnusedSuggestedActions}
+        rightHeader={<></>}
         scored
         tableActions={{
           select: {
