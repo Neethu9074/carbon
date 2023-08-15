@@ -12,6 +12,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import TabPane from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/TabPane';
 import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/Tabs';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
@@ -67,34 +68,37 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
   if (cachedActionInstanceDetail.progress?.loading) {
     return <LoadingIndicator size="l" />;
   }
+  const { errors, data } = cachedActionInstanceDetail;
+
+  const handleTabChange = (from: number, _: number) => {
+    // fetch the data again only if we navigate away from the feedback tab
+    if (from === 2 && hasStaleFeedback) {
+      setHasStaleFeedback(false);
+      setReload(Math.random());
+    }
+  };
 
   return (
     <div className={locals.detailDialog}>
       <Dialog title={title} onClose={close} withoutBodyPadding>
-        <>
-          <Tabs
-            onTabChange={(from, _) => {
-              // fetch the data again only if we navigate away from the feedback tab
-              if (from == 2 && hasStaleFeedback) {
-                setHasStaleFeedback(false);
-                setReload(Math.random());
-              }
-            }}
-          >
+        {errors.length > 0 ? (
+          <ErroneousResultPresenter errors={[...errors]} />
+        ) : (
+          <Tabs onTabChange={handleTabChange}>
             <TabPane title={t('in-automation:actionHistory.properties')}>
               <DashboardHeaderShadowModule />
-              <DetailTab id={id} properties={cachedActionInstanceDetail.data} />
+              <DetailTab id={id} properties={data} />
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />
-              <DetailParamsTab inputParameters={cachedActionInstanceDetail?.data?.inputParameters} />
+              <DetailParamsTab inputParameters={data?.inputParameters} />
             </TabPane>
             <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
               <DashboardHeaderShadowModule />
               <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
             </TabPane>
           </Tabs>
-        </>
+        )}
       </Dialog>
     </div>
   );
