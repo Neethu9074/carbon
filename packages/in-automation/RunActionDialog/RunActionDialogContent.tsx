@@ -190,14 +190,16 @@ function AgentSelection({
     );
   }, [agentSnapShots?.data?.online]);
   const options =
-    hostSnapshots?.map(({ hostSnapshot, agent }) => {
-      const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
-      const hostname = hostSnapshot?.get('label');
-      return {
-        label: isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname,
-        value: agent.volatileId?.host_id ?? ''
-      };
-    }) ?? [];
+    hostSnapshots
+      ?.map(({ hostSnapshot, agent }) => {
+        const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
+        const hostname = hostSnapshot?.get('label');
+        return {
+          label: isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname,
+          value: agent.volatileId?.host_id ?? ''
+        };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
   return (
     <>
       {targetAgent?.map(field => (
@@ -485,7 +487,9 @@ function AnsibleActionContent({
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
   const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue;
   const parsedFqdn: string[] = safeJsonParse(fqdn ? fqdn : '[]');
-  const options = [...parsedIp, ...parsedFqdn].map(host => ({ label: host, value: host }));
+  const options = [...parsedIp, ...parsedFqdn]
+    .map(host => ({ label: host, value: host }))
+    .sort((a, b) => a.label.localeCompare(b.label));
   const hostLimitField = form?.getIn(['hostsLimit']) as Field<Option[]> | undefined;
   return (
     <>
