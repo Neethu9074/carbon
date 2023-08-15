@@ -218,7 +218,7 @@ export default function ServerTablePresenter<
 
   return (
     <Fragment>
-      {header && (
+      {(leftHeader || header) && (
         <div className={classNames(locals.header, headerClassName)}>
           {leftHeader || <span>&nbsp;</span>}
           {header}
