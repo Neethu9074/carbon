@@ -278,6 +278,9 @@ function sortBy(orderBy, orderDirection) {
     if (orderBy === 'created') {
       return orderDirection === 'ASC' ? a.created - b.created : b.created - a.created;
     }
+    if (orderBy === 'initialCreated') {
+      return orderDirection === 'ASC' ? a.initialCreated - b.initialCreated : b.initialCreated - a.initialCreated;
+    }
     if (orderBy === 'enabled') {
       return orderDirection === 'ASC' ? b.enabled - a.enabled : a.enabled - b.enabled;
     }
