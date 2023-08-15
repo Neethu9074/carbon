@@ -84,7 +84,7 @@ const columnDefinitions = [
     label: t('in-applications:labelTechnologies'),
     noWrap: true,
     getContent(item) {
-      return <TechnologyIndicatorList technologies={item.service.technologies} />;
+      return <TechnologyIndicatorList technologies={item.service.technologies} limit={3} />;
     }
   },
   {

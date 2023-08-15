@@ -7,12 +7,13 @@ import React, { useState, useEffect } from 'react';
 import { uniqBy } from 'lodash';
 
 import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
+import MultipleTechnologiesIcon from 'in-components/MultipleTechnologiesIcon';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { getLabel } from 'in-applications/technologyRegistry';
 
 import locals from './TechnologyIndicatorList.mless';
 
-export default function TechnologyIndicatorList({ technologies, getHref$, responsive }) {
+export default function TechnologyIndicatorList({ technologies, getHref$, responsive, limit }) {
   const [showTechnologyLabel, setShowTechnologyLabel] = useState(true);
   const { width, ref } = useResizeObserverCustom();
 
@@ -31,10 +32,16 @@ export default function TechnologyIndicatorList({ technologies, getHref$, respon
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, responsive]);
 
+  const uniqTech = uniqBy(technologies, getLabel);
+  const limitRequired = limit && uniqTech.length > limit;
+
+  const techToDisplay = limitRequired ? uniqTech.slice(0, limit) : uniqTech;
+  const remainingTech = limitRequired ? uniqTech.slice(limit) : [];
+  let remainder = limitRequired ? <MultipleTechnologiesIcon technologies={remainingTech} /> : null;
   return (
     <ul className={locals.list} ref={ref}>
       {technologies?.length > 0 &&
-        uniqBy(technologies, getLabel).map(pluginOrGroupType => (
+        techToDisplay.map(pluginOrGroupType => (
           <TechnologyIndicator
             getHref$={getHref$}
             key={pluginOrGroupType}
@@ -42,6 +49,7 @@ export default function TechnologyIndicatorList({ technologies, getHref$, respon
             showTechnologyLabel={showTechnologyLabel}
           />
         ))}
+      {remainder}
     </ul>
   );
   // }
