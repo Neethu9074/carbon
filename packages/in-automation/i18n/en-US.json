@@ -122,7 +122,6 @@
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
-    "valueOptional": "Value (optional)",
     "defaultValue": "Default Value",
     "defaultValueOptional": "Default Value (optional)",
     "parameters": "Parameters",
