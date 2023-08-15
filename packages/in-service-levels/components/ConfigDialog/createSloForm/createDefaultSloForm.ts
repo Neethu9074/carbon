@@ -15,8 +15,8 @@ import {
   SloScopeFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validationLogic';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validation';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({

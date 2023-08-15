@@ -67,13 +67,7 @@ export default function CreateSloDialog() {
       valid: !isThresholdInvalid
     },
     {
-      content: (
-        <SloNameAndTagsSection
-          form={form}
-          onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
-          hasError={isNameInvalid}
-        />
-      ),
+      content: <SloNameAndTagsSection />,
       label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
       scrollId: '4-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
