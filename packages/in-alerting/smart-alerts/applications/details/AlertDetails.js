@@ -95,7 +95,7 @@ function mergeResultData(id, endpointConfig, created) {
   // calling Get Alert and Get action associations call and combining results
   if (hasAutomationActions) {
     const actionDetails$ = getApplicationAlertActionAssociations(id);
-    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse$, actionResponse$]) =>
+    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) =>
       combineResults(alertResponse$, actionResponse$)
     );
   }
