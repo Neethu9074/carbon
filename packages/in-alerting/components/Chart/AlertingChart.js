@@ -23,7 +23,7 @@ import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
+export const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
 
 export const legendColors = [
   theme.lib.colors.lightBlue800,
@@ -87,7 +87,16 @@ export default function AlertingChart({
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
-      metricsConfiguration={getMetricsConfiguration()}
+      metricsConfiguration={getMetricsConfiguration(
+        enrichedTagFilterExpression,
+        includeInternal,
+        includeSynthetic,
+        viewConfig,
+        metricName,
+        metricChartGranularity,
+        aggregation,
+        numeratorTagFilterExpression
+      )}
       y1={getY1()}
       canReload={canReload}
       nonInteractive
@@ -149,23 +158,32 @@ export default function AlertingChart({
       fromTime
     });
   }
+}
 
-  function getMetricsConfiguration() {
-    return {
-      tagFilterExpression: enrichedTagFilterExpression,
-      includeInternal,
-      includeSynthetic,
-      timeConfig: viewConfig.timeConfig,
-      metrics: {
-        [metricName]: {
-          metric: metricName,
-          granularity: metricChartGranularity,
-          aggregation,
-          numeratorTagFilterExpression
-        }
+export function getMetricsConfiguration(
+  enrichedTagFilterExpression,
+  includeInternal,
+  includeSynthetic,
+  viewConfig,
+  metricName,
+  metricChartGranularity,
+  aggregation,
+  numeratorTagFilterExpression
+) {
+  return {
+    tagFilterExpression: enrichedTagFilterExpression,
+    includeInternal,
+    includeSynthetic,
+    timeConfig: viewConfig.timeConfig,
+    metrics: {
+      [metricName]: {
+        metric: metricName,
+        granularity: metricChartGranularity,
+        aggregation,
+        numeratorTagFilterExpression
       }
-    };
-  }
+    }
+  };
 }
 
 function isValidTimeThreshold(timeThreshold) {

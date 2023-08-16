@@ -46,7 +46,6 @@ export default connectTo(
     };
   },
   function AlertingChartWrapper(props) {
-    // console.log(props);
     return (
       <ChartWrapper
         showNoDataInfoWhenEmpty={false}
@@ -57,7 +56,7 @@ export default connectTo(
   }
 );
 
-function extendMetricConfiguration(props) {
+export function extendMetricConfiguration(props) {
   return {
     ...props.metricsConfiguration,
     metrics: {
