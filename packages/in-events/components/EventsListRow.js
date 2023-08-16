@@ -68,7 +68,7 @@ export default function EventRow({
 
   const left = toPercentageString(timeScaleStart);
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
-  const smallColumn = headers?.length > 0 ? true : false;
+  const smallColumn = isPreview && headers?.length > 2 ? true : false;
 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
