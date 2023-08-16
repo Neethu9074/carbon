@@ -377,11 +377,10 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
 
 const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
   const value = parameterForm.get('value') as Field<DynamicFieldValue>;
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
   return (
     <FormGroup>
       <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
-        {hidden.value ? t('in-automation:ActionCatalog.value') : t('in-automation:ActionCatalog.valueOptional')}
+        {t('in-automation:ActionCatalog.value')}
       </Label>
       <div>
         <TagBasedPayloadConfigurator
