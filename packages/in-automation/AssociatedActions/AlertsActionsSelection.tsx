@@ -57,7 +57,7 @@ function submitActionSelection(
 
 const convertedData = (data: ScoredAction[] | undefined) =>
   data?.map((item: any) => {
-    return { ...item.action, color: item.color, score: item.score };
+    return { ...item.action, confidence: item.confidence, score: item.score };
   });
 
 interface ActionsSelectionProps {

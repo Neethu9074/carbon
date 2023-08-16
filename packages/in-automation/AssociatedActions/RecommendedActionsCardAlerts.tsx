@@ -55,7 +55,7 @@ export default function RecommendedActionsCardAlerts({
     return getAllActionsWithAISuggestions(alertConfig.name, alertConfig.description ?? '').map(allActions => {
       if (!existingActions) return [];
       return allActions
-        .filter(action => action.color != 'low' && !selectedActionsSet.has(action.id))
+        .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
         .slice(0, 5)
         .sort((a, b) => b.score - a.score);
     });

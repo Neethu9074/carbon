@@ -52,7 +52,8 @@ export function getAllActions(): Observable<Action[]> {
 
 export interface ScoredAction extends Action {
   score: number;
-  color: string;
+  confidence: string;
+  aiEngine: string;
 }
 
 export const getAllActionsObservable = memoize(getAllActionsInternal, () => '', 1000);
@@ -79,7 +80,9 @@ export function getAllActionsWithAISuggestions(
       description: eventDescription
     },
     headers: getCsrfHeader()
-  }).map(response => response.body.map(({ action, score, color }) => ({ ...action, score, color })));
+  }).map(response =>
+    response.body.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
+  );
 }
 
 export function getAction(actionId: string): Observable<Action> {

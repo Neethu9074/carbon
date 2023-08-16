@@ -147,12 +147,16 @@ const nameColumn = (showActionLink: boolean) => ({
 
 const scoreColumn = {
   label: t('in-automation:ActionCatalog.confidenceTitle'),
-  id: 'color',
+  id: 'confidence',
   getContent(row: ScoredAction) {
     return (
-      <Tooltip content={t('in-automation:ActionCatalog.confidenceHelpText')} align="topRight" delay={500}>
+      <Tooltip
+        content={t('in-automation:ActionCatalog.confidenceHelpText', { source: row.aiEngine })}
+        align="topRight"
+        delay={500}
+      >
         <span className={locals.cursorPointer}>
-          {t('in-automation:ActionCatalog.confidence', { context: row.color })}
+          {t('in-automation:ActionCatalog.confidence', { context: row.confidence })}
         </span>
       </Tooltip>
     );
@@ -235,7 +239,7 @@ export default function ActionTable({
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initalOrderDir={scored ? 'DESC' : 'ASC'}
-      initialOrderBy={scored ? 'color' : 'name'}
+      initialOrderBy={scored ? 'confidence' : 'name'}
       isSearchable={isSearchable}
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
@@ -275,7 +279,7 @@ function sortEntities({
 }) {
   const caseInsensitiveSortIteratee = (entity: ScoredAction) => {
     let value = entity[orderByState];
-    if (orderByState === 'color') {
+    if (orderByState === 'confidence') {
       let sortValue;
       if (value == 'low') sortValue = 0;
       else if (value == 'medium') sortValue = 1;
