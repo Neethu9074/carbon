@@ -55,6 +55,6 @@
   }
 
   .smallColumn {
-    max-width: 15rem;
+    max-width: 18rem;
   }
 }
