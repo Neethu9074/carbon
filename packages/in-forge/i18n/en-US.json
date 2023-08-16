@@ -6652,7 +6652,17 @@
       "maximumNumberOfFileDescriptors": "Maximum number of file descriptors",
       "numberOfProposalsApplied": "Number of proposals applied",
       "numberOfProposalsPending": "Number of proposals pending",
-      "numberOfProposalsFailed": "Number of proposals failed"
+      "numberOfProposalsFailed": "Number of proposals failed",
+      "compareAndDelete": "Compare and delete",
+      "compareAndSwap": "Compare and swap",
+      "compareAndUpdate": "Compare and update",
+      "create": "Create",
+      "get": "Get",
+      "getRecursive": "Get recursive",
+      "delete": "Delete",
+      "set": "Set",
+      "update": "Update"
+
     },
     "f5": {
       "dashboard": {
