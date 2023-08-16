@@ -109,6 +109,12 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   setOrDeleteMatrixKey(
     location,
     syntheticsDashboard,
+    'testLabel',
+    item?.testResultCommonProperties?.testCommonProperties?.label
+  );
+  setOrDeleteMatrixKey(
+    location,
+    syntheticsDashboard,
     'type',
     getSyntheticType(item?.testResultCommonProperties?.testCommonProperties?.type ?? '')
   );

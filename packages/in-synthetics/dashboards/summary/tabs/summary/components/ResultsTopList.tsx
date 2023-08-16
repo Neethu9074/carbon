@@ -156,9 +156,13 @@ type LabelProps = {
 function Label({ item, selectedMetric }: LabelProps) {
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
+  const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
+  const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
+  const locationDisplayLabels: string =
+    getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   const resultId = item.testResultCommonProperties.id;
   const testLocation = item.testResultCommonProperties.locationDisplayLabel ?? '';
-
+  const resultsLabel = testLocation + AdditionalLabel({ item, selectedMetric });
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
@@ -177,8 +181,11 @@ function Label({ item, selectedMetric }: LabelProps) {
     'responseTime',
     get(item, ['metrics', 'response_time', 0, 1], 0)
   );
-
-  return <Link href={createHref(location)}>{testLocation + AdditionalLabel({ item, selectedMetric })}</Link>;
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testLabel', testLabel);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationDisplayLabels', locationDisplayLabels);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'resultsLabel', resultsLabel);
+  return <Link href={createHref(location)}>{resultsLabel}</Link>;
 }
 
 interface AdditionalLabelProps {

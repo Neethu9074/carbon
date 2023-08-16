@@ -47,7 +47,11 @@ let testType: string;
 
 function StartTimeColumnContent(item: TestResultListItem) {
   const { location, createHref } = useNavigation();
-
+  testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
+  const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
+  const locationDisplayLabels: string =
+    getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
@@ -67,6 +71,15 @@ function StartTimeColumnContent(item: TestResultListItem) {
     get(item, ['metrics', 'response_size', 0, 1], 0)
   );
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'type', testType);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testLabel', testLabel);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationDisplayLabels', locationDisplayLabels);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
+  setOrDeleteMatrixKey(
+    location,
+    syntheticDetailsPath,
+    'resultsLabel',
+    item.testResultCommonProperties.locationDisplayLabel + ', ' + getRelativeTime(item)
+  );
 
   return (
     <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
