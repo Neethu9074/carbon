@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-export { TagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
-export { ApplicationTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/ApplicationTagFilterQueryBuilder';
-export { WebsiteTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/WebsiteTagFilterQueryBuilder';
+export { default as TagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
+export { default as ApplicationTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/ApplicationTagFilterQueryBuilder';
+export { default as WebsiteTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/WebsiteTagFilterQueryBuilder';

@@ -9,14 +9,14 @@ import React from 'react';
 import { WebsiteQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 
-export const WebsiteTagFilterQueryBuilder = ({
+export default function WebsiteTagFilterQueryBuilder({
   websiteId,
   beaconType,
   readOnly,
   onChange,
   value
-}: WebsiteQueryProps) => {
+}: WebsiteQueryProps) {
   const { QueryBuilder } = useWebsiteQueryBuilder({ websiteId, beaconType });
 
   return <QueryBuilder value={value} readOnly={readOnly} onChange={onChange} />;
-};
+}

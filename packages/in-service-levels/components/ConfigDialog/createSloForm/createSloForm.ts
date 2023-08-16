@@ -8,7 +8,7 @@ import { createField, notBlankValidator } from 'formalistic';
 
 import { ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 
-import { createSloFormFromPreviousForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
+import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';

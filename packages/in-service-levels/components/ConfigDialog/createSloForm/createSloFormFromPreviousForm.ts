@@ -17,7 +17,7 @@ import {
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
-export const createSloFormFromPreviousForm = (previousForm: SloForm): SloForm => {
+export default function createSloFormFromPreviousForm(previousForm: SloForm): SloForm {
   const entityType = previousForm.getIn(['entity', 'type']).value;
 
   return createMapForm({
@@ -39,4 +39,4 @@ export const createSloFormFromPreviousForm = (previousForm: SloForm): SloForm =>
       })
     }
   });
-};
+}

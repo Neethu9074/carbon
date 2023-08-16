@@ -6,11 +6,11 @@
 
 import React, { useContext } from 'react';
 
-import { IndicatorApplicationCustomFilters } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorApplicationCustomFilters';
-import { IndicatorWebsiteCustomFilters } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorWebsiteCustomFilters';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import IndicatorApplicationCustomFilters from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorApplicationCustomFilters';
+import IndicatorWebsiteCustomFilters from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorWebsiteCustomFilters';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-export const CustomFiltersFormSection = () => {
+export default function CustomFiltersFormSection() {
   const { form } = useContext(SloFormContext);
 
   const entityTypeField = form.getIn(['entity', 'type']);
@@ -18,4 +18,4 @@ export const CustomFiltersFormSection = () => {
   if (entityTypeField.value === 'application') return <IndicatorApplicationCustomFilters />;
 
   return <IndicatorWebsiteCustomFilters />;
-};
+}

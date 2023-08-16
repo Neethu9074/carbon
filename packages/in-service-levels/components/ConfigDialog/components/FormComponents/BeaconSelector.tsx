@@ -18,7 +18,7 @@ interface BeaconSelectorProps {
   value: SloBeaconTypes;
 }
 
-export const BeaconSelector = ({ disabled, hasError, onChange, value }: BeaconSelectorProps) => {
+export default function BeaconSelector({ disabled, hasError, onChange, value }: BeaconSelectorProps) {
   return (
     <Select
       disabled={disabled}
@@ -33,4 +33,4 @@ export const BeaconSelector = ({ disabled, hasError, onChange, value }: BeaconSe
       ))}
     </Select>
   );
-};
+}

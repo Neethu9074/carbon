@@ -8,11 +8,11 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { SloIndicatorTypeSelectorFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
-import { CustomFiltersFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/CustomFiltersFormSection';
-import { HeadlineFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
+import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
+import CustomFiltersFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/CustomFiltersFormSection';
+import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 
-export const SloIndicatorCustomForm = () => {
+export default function SloIndicatorCustomForm() {
   return (
     <Stack gap="medium">
       <HeadlineFormSection />
@@ -20,4 +20,4 @@ export const SloIndicatorCustomForm = () => {
       <CustomFiltersFormSection />
     </Stack>
   );
-};
+}

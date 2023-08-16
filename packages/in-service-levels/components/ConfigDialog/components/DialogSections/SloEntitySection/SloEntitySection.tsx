@@ -8,14 +8,14 @@ import React, { useContext, useState } from 'react';
 
 import { Typography } from '@instana/components';
 
-import { SloApplicationEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
-import { SloWebsiteEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
+import SloApplicationEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
+import SloWebsiteEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
 import SloLabel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloLabel';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
-export const SloEntitySection = () => {
+export default function SloEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
   const [label, setLabel] = useState<string>();
 
@@ -38,4 +38,4 @@ export const SloEntitySection = () => {
       {sloSloEntityTypeField.value === 'website' && <SloWebsiteEntitySection onLabelChange={setLabel} />}
     </>
   );
-};
+}

@@ -11,8 +11,8 @@ import { Card } from '@instana/components';
 import SloEntityTable, {
   EntityData
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { useEntityConfigurations } from 'in-service-levels/hooks/useEntityConfigurations';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import useEntityConfigurations from 'in-service-levels/hooks/useEntityConfigurations';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { t } from 'in-i18n';
 
@@ -20,7 +20,7 @@ interface SloApplicationEntitySectionProps {
   onLabelChange: (label: string) => void;
 }
 
-export const SloApplicationEntitySection = ({ onLabelChange }: SloApplicationEntitySectionProps) => {
+export default function SloApplicationEntitySection({ onLabelChange }: SloApplicationEntitySectionProps) {
   const { form, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
 
@@ -42,4 +42,4 @@ export const SloApplicationEntitySection = ({ onLabelChange }: SloApplicationEnt
       <SloEntityTable entityList={entityList} onChange={onEntityChange} progress={progress} query={query} />
     </Card>
   );
-};
+}

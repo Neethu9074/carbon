@@ -8,11 +8,11 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { SloIndicatorTypeSelectorFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
-import { AggregationAndThresholdFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/AggregationAndThresholdFormSection';
-import { HeadlineFormSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
+import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
+import AggregationAndThresholdFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/AggregationAndThresholdFormSection';
+import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 
-export const SloIndicatorAvailabilityForm = () => {
+export default function SloIndicatorAvailabilityForm() {
   return (
     <Stack gap="medium">
       <HeadlineFormSection />
@@ -20,4 +20,4 @@ export const SloIndicatorAvailabilityForm = () => {
       <AggregationAndThresholdFormSection />
     </Stack>
   );
-};
+}

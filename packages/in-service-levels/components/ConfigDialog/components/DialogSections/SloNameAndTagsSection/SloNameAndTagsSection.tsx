@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import { Stack, Typography } from '@instana/components';
 
 import CreatableTagSelect from 'in-service-levels/components/ConfigDialog/components/FormComponents/CreatableTagSelect';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';

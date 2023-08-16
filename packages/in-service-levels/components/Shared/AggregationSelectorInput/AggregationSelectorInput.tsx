@@ -17,7 +17,11 @@ interface AggregationSelectorInputProps {
   value: AggregationType;
 }
 
-export const AggregationSelectorInput = ({ value, handleChange, hasError = false }: AggregationSelectorInputProps) => {
+export default function AggregationSelectorInput({
+  value,
+  handleChange,
+  hasError = false
+}: AggregationSelectorInputProps) {
   return (
     <Select onChange={handleChange} value={value} hasError={hasError}>
       {timeAggregationOptions.map(({ label, value }) => (
@@ -27,4 +31,4 @@ export const AggregationSelectorInput = ({ value, handleChange, hasError = false
       ))}
     </Select>
   );
-};
+}

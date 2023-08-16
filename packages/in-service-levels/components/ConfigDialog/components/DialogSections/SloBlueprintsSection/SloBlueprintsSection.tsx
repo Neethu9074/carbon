@@ -8,9 +8,9 @@ import React, { useContext } from 'react';
 
 import { Typography } from '@instana/components';
 
-import { SloIndicatorAvailabilityForm } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
-import { SloIndicatorLatencyForm } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';
-import { SloIndicatorCustomForm } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorCustomForm';
+import SloIndicatorAvailabilityForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
+import SloIndicatorLatencyForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';
+import SloIndicatorCustomForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorCustomForm';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -18,11 +18,11 @@ import TabSelect, {
   TabSelectPanels,
   TabSelectPanel
 } from 'in-components/TabSelect';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { t } from 'in-i18n';
 
-export const SloBlueprintsSection = () => {
+export default function SloBlueprintsSection() {
   const { form, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
@@ -63,4 +63,4 @@ export const SloBlueprintsSection = () => {
       </TabSelectPanels>
     </TabSelect>
   );
-};
+}

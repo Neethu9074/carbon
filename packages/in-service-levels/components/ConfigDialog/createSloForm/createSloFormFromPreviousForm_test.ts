@@ -9,7 +9,7 @@ import {
   testDate,
   testWebsiteForm
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
-import { createSloFormFromPreviousForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
+import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
 
 describe('in-service-levels/components/SloList/components/DialogSections/createSloForm/createSloFormFromPreviousForm', () => {
   beforeAll(() => {

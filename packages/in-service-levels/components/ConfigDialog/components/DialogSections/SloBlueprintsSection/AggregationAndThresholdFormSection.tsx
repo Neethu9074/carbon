@@ -9,15 +9,15 @@ import React, { useContext } from 'react';
 import { Stack, Typography } from '@instana/components';
 import { AggregationType } from '@instana/types';
 
-import { AggregationSelectorInput } from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { ThresholdInput } from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
+import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/AggregationAndThresholdFormSection.mless';
 
-export const AggregationAndThresholdFormSection = () => {
+export default function AggregationAndThresholdFormSection() {
   const { form, onChange } = useContext(SloFormContext);
 
   const aggregationField = form.getIn(['indicator', 'aggregation']);
@@ -67,4 +67,4 @@ export const AggregationAndThresholdFormSection = () => {
       </Stack>
     </div>
   );
-};
+}

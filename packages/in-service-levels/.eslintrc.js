@@ -9,6 +9,7 @@
 const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
 
 module.exports = {
+  plugins: ['react', 'import'],
   rules: {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
@@ -27,6 +28,15 @@ module.exports = {
         'in-websites',
         'in-service-levels'
       ]
-    })
+    }),
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function'
+      }
+    ],
+    'react/no-multi-comp': ['error', { ignoreStateless: true }],
+    'import/prefer-default-export': ['error', { target: 'single' }]
   }
 };

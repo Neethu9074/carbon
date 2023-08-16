@@ -16,7 +16,9 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 import { deepCopy } from 'in-services/util/object';
 
-export const useEntityConfigurations = (monitoringSource?: SloEntityType): FetchedState<Website[] | Application[]> => {
+export default function useEntityConfigurations(
+  monitoringSource?: SloEntityType
+): FetchedState<Website[] | Application[]> {
   const getEntityConfiguration =
     monitoringSource == 'application' ? getApplicationConfigsAsResult : getWebsiteConfigurations;
 
@@ -38,4 +40,4 @@ export const useEntityConfigurations = (monitoringSource?: SloEntityType): Fetch
     });
   }, [getEntityConfiguration]);
   return resultToFetchedStateResponse(result);
-};
+}

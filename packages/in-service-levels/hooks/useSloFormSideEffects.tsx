@@ -50,14 +50,14 @@ const formSideEffects = [
   }
 ];
 
-export const useSloFormSideEffects = (
+export default function useSloFormSideEffects(
   form: Item,
   setForm: (field: Item) => void
-): ReturnType<typeof useFormSideEffects> => {
+): ReturnType<typeof useFormSideEffects> {
   return useFormSideEffects({
     form,
     setForm,
     effects: formSideEffects,
     changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE, CHANGE_TYPES.INSERT]
   });
-};
+}
