@@ -12,7 +12,7 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-  const standbyNodes = snapshot.getIn(['data', 'standbyNode'], emptyList);
+  const standbyNodes = snapshot.getIn(['data', 'standbyNodes'], emptyList);
 
   return (
     <DescriptionList>
@@ -41,7 +41,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.runningNode')}>
         {data.get('runningNode')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNode')}>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNodes')}>
         {standbyNodes.map((item, index) => (
           <List.Item key={index}>{item}</List.Item>
         ))}

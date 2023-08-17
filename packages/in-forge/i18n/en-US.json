@@ -10079,7 +10079,7 @@
       "repo": "Repo",
       "maxHandles": "Max Handles",
       "runningNode": "Running Node",
-      "standbyNode": "Standby Nodes",
+      "standbyNodes": "Standby Nodes",
       "haType": "HA Type",
       "connections": "Connections",
       "messagesIn": "Messages In",
