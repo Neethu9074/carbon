@@ -42,7 +42,7 @@ const contentDefinitions: RowDefinition[] = [
   }
 ];
 
-export function IndicatorSection({ data }: IndicatorSectionProps) {
+export default function IndicatorSection({ data }: IndicatorSectionProps) {
   return (
     <SloConfigSection
       data={data}

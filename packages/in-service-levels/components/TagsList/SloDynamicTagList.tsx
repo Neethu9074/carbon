@@ -5,17 +5,19 @@
  */
 
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { Typography, useTheme } from '@instana/components';
 import classNames from 'classnames';
 
+import { Typography, useTheme } from '@instana/components';
+
 import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
-import { tagsCssGap } from 'in-service-levels/components/TagsList/constants';
 import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 
 import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
+
+export const tagsCssGap = 8;
 
 export type TagsType = {
   text: string;
@@ -26,7 +28,7 @@ interface SloDynamicTagListProps {
   tags: string[];
 }
 
-export const SloDynamicTagList = ({ tags }: SloDynamicTagListProps) => {
+export function SloDynamicTagList({ tags }: SloDynamicTagListProps) {
   const [displayedTags, setDisplayedTags] = useState<TagsType>(
     tags.map(tag => ({
       text: tag,
@@ -120,4 +122,4 @@ export const SloDynamicTagList = ({ tags }: SloDynamicTagListProps) => {
       </div>
     </div>
   );
-};
+}

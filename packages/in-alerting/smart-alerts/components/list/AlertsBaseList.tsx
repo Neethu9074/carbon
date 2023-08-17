@@ -48,6 +48,7 @@ export interface AlertConfigType {
   enabled: boolean;
   id: string;
   created: number;
+  initialCreated: number;
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {

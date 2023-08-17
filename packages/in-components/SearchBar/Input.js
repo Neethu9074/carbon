@@ -28,7 +28,6 @@ const { isSpace, isCtrl, isReturn, isTab, isArrowUp, isArrowDown, isArrowLeft, i
 const blockEndClass = 'cm-custom-block--end';
 const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';
-
 const SearchBarInput = connectTo(
   {
     contextQuery: unvalidatedQuery$
@@ -42,6 +41,8 @@ const SearchBarInput = connectTo(
         scrollbarStyle: null,
         searchContext: this.props.contextQuery.searchContext
       }));
+
+      this.editor.setValue(this.props.dfqEntry ?? '');
 
       let autocompleteShownForCursorPosition = null;
       this.isFocused = false;
@@ -168,11 +169,12 @@ const SearchBarInput = connectTo(
 
       editor.on('change', (editor, change) => {
         const query = editor.getValue();
-        this.updateQuery(query);
+        this.updateQuery(trim(query));
 
         if (
-          !this.isFocused ||
-          (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue')
+          !this.props.dfqInsideCustomWidget &&
+          (!this.isFocused ||
+            (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue'))
         ) {
           return;
         }
@@ -182,6 +184,7 @@ const SearchBarInput = connectTo(
 
       const onChange = () => {
         const query = editor.getValue();
+        if (this.props.dfqInsideCustomWidget) this.props.dfqHandleChange(query);
         const { ch } = editor.getCursor();
         const cursor = ch - 1;
         const tokens = lex(query);
@@ -314,8 +317,7 @@ const SearchBarInput = connectTo(
       if (this.editor.getValue() !== newQuery) {
         this.editor.setValue(newQuery);
       }
-
-      setQueryInput(newQuery, this.props.contextQuery.searchContext);
+      setQueryInput(newQuery, this.props.contextQuery.searchContext, this.props.dfqInsideCustomWidget);
     };
 
     removeBlockFromQuery = blockId => {
@@ -409,7 +411,7 @@ function removeAllHighlightedClasses() {
   }
 }
 
-function trim(str) {
+export function trim(str) {
   return str.trimLeft().replace(/\s\s+/g, ' ');
 }
 

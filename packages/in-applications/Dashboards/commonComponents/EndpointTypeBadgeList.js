@@ -8,6 +8,6 @@ import React from 'react';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getColor } from 'in-applications/endpointTypes';
 
-export default function EndpointTypeBadgeList({ type, types }) {
-  return <BadgeList type={type} types={types} getColor={getColor} />;
+export default function EndpointTypeBadgeList({ type, types, limit }) {
+  return <BadgeList type={type} types={types} getColor={getColor} limit={limit} />;
 }

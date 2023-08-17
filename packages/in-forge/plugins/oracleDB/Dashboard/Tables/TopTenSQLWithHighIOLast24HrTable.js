@@ -11,7 +11,7 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const cols = [
+const instCols = [
   {
     title: t('in-forge:plugins.oracleDB.sqlId'),
     type: 'string',
@@ -38,6 +38,21 @@ const cols = [
   }
 ];
 
+const instIdCol = [
+  {
+    title: t('in-forge:plugins.oracleDB.instanceID'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.instId;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
 export default connectTo(
   props => {
     return {
@@ -45,7 +60,11 @@ export default connectTo(
     };
   },
 
-  function T({ data }) {
+  function TopTenSQLWithHighIOLast24HrTable(props) {
+    const { data, snapshot } = props;
+    if (!data || !data.get('raw_payload') || !snapshot || !snapshot.get('data')) {
+      return null;
+    }
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -54,10 +73,20 @@ export default connectTo(
       return null;
     }
 
+    const snapshotData = snapshot.get('data');
+    const racEnabled = snapshotData.get('enableRacMonitoring');
+    let cols = instCols;
+    let initialSortColumn = 1;
+    if (racEnabled) {
+      cols = instIdCol.concat(cols);
+      initialSortColumn = 2;
+    }
+
     const rows = TopTenSQLWithHighIOLast24HrPayload.toJS().map(sql => {
       return {
         key: sql.sqlId,
-        sec: sql.sec
+        sec: sql.sec,
+        instId: sql.instId
       };
     });
     return (
@@ -67,7 +96,7 @@ export default connectTo(
         cols={cols}
         rows={rows}
         maxItemsPerPage={5}
-        initialSortColumn={1}
+        initialSortColumn={initialSortColumn}
         initialSortDirection="desc"
       />
     );

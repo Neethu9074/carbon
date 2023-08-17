@@ -23,12 +23,13 @@ export interface EnrichedTagCatalog extends TagCatalog {
   __enriched: true;
   tagsByName: TagsByName;
   allTagNames: string[];
+  source?: string;
 }
 
 // We frequently need to access the tag catalog in ways that would be unoptimized
 // given its native structure. We therefore index it in a variety of different
 // ways in order to allow faster execution within the components.
-export function enrichTagCatalog(tagCatalog: TagCatalog): EnrichedTagCatalog {
+export function enrichTagCatalog(tagCatalog: TagCatalog, source?: string): EnrichedTagCatalog {
   // @ts-expect-error We allow users to pass in an enriched tag catalog as well
   // in which case we skip the enrichment phase.
   if (tagCatalog.__enriched) {
@@ -47,7 +48,8 @@ export function enrichTagCatalog(tagCatalog: TagCatalog): EnrichedTagCatalog {
     ...tagCatalog,
     __enriched: true,
     tagsByName,
-    allTagNames: Object.keys(tagsByName)
+    allTagNames: Object.keys(tagsByName),
+    source,
   };
 }
 
@@ -78,13 +80,14 @@ function resolveNode(node: TagTreeNodeUnion, lut: ResolvedTagPaths, parents: Tag
 
 export function getTagCatalogOnce<ARGS>(
   originalGetTagCatalog: (args: ARGS) => Observable<Result<TagCatalog>>,
-  withFullTimePrecision: boolean = false
+  withFullTimePrecision: boolean = false,
+  source?: string
 ): (args: ARGS) => Observable<Result<TagCatalog>> {
   return memoize<ARGS, Result<TagCatalog>>(
     (args: ARGS) =>
       originalGetTagCatalog(args).map(result => {
         if (result.data) {
-          return success(enrichTagCatalog(result.data));
+          return success(enrichTagCatalog(result.data, source));
         }
         return result;
       }),

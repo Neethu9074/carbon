@@ -15,6 +15,7 @@ import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
 interface SloTagListProps {
   tags: string[];
 }
+
 export default function SloTagList({ tags }: SloTagListProps) {
   const theme = useTheme();
   return (

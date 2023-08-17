@@ -10,15 +10,15 @@ import { Item } from 'formalistic';
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
-import { SloBlueprintsSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
-import { SloEntitySection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
-import { SloScopeSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
+import SloEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
+import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import { useSloFormSideEffects } from 'in-service-levels/hooks/useSloFormSideEffects';
+import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
 import { createSloConfiguration } from 'in-service-levels/api/configuration';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -67,13 +67,7 @@ export default function CreateSloDialog() {
       valid: !isThresholdInvalid
     },
     {
-      content: (
-        <SloNameAndTagsSection
-          form={form}
-          onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
-          hasError={isNameInvalid}
-        />
-      ),
+      content: <SloNameAndTagsSection />,
       label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
       scrollId: '4-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),

@@ -7,7 +7,6 @@
 import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import RecommendedActionsCard from './RecommendedActionsCard';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
@@ -44,7 +43,7 @@ export default function AssociatedAndRecommendedActions({
       </Row>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:recommendedActions')}>
+          <Card>
             <RecommendedActionsCard volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
           </Card>
         </Col>

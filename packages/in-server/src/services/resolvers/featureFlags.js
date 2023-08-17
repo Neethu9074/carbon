@@ -383,7 +383,7 @@ module.exports = exports = [
   {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customWidgetTableInfraDataSourceEnabled',

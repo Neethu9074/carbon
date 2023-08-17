@@ -83,7 +83,7 @@ function LogDetails({ logFiles, timestamp, isBrowserTestType }: LogDetailsProps)
           timestamp={timestamp}
         />
       </Li>
-      {isBrowserTestType && (
+      {isBrowserTestType && logFiles['browser.json'] && (
         <Li key={timestamp} className={locals.selectedRow}>
           <ColumnizedContent
             columnDefinitions={columnDefinitions}

@@ -10,8 +10,7 @@ import React from 'react';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
-import WebsiteAdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/WebsiteAdaptiveBaselineModel';
-import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/ApplicationAdaptiveBaselineModel';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import SyntheticsHealthProcessor from 'in-internal/monitoringUnit/synthetics/SyntheticsHealthProcessor';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
@@ -320,14 +319,9 @@ export default function Internal() {
       children={wrapInInternalView(WsApiTester)}
     />,
     <Route
-      key="internalApplicationAdaptiveBaselineMode"
-      path="/internal/thisUnit/applicationAdaptiveBaselineModel"
+      key="internalAdaptiveBaselineMode"
+      path="/internal/thisUnit/adaptiveBaselineModel"
       children={wrapInInternalView(AdaptiveBaselineModel)}
-    />,
-    <Route
-      key="internalWebsiteAdaptiveBaselineMode"
-      path="/internal/thisUnit/websiteAdaptiveBaselineModel"
-      children={wrapInInternalView(WebsiteAdaptiveBaselineModel)}
     />,
     <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
     <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />

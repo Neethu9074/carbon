@@ -32,7 +32,7 @@ export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConf
   };
 }
 
-function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity {
+export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity {
   const entityType = form.getIn(['entity', 'type']).value;
 
   if (entityType === 'application') {
@@ -60,7 +60,7 @@ function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity {
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 }
 
-function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
+export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   const indicatorType = form.getIn(['indicator', 'type']).value;
 
   if (indicatorType === 'customEventBased') {

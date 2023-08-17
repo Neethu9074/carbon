@@ -76,7 +76,7 @@ const columnDefinitions = [
     label: t('in-applications:labelTypes'),
     noWrap: true,
     getContent(item) {
-      return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
+      return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} limit={3} />;
     }
   },
   {
@@ -84,7 +84,7 @@ const columnDefinitions = [
     label: t('in-applications:labelTechnologies'),
     noWrap: true,
     getContent(item) {
-      return <TechnologyIndicatorList technologies={item.service.technologies} />;
+      return <TechnologyIndicatorList technologies={item.service.technologies} limit={3} />;
     }
   },
   {

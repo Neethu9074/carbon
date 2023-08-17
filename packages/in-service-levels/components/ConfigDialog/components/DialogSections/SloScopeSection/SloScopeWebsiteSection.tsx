@@ -8,14 +8,14 @@ import React, { useContext } from 'react';
 
 import { Typography } from '@instana/components';
 
-import { WebsiteTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
-import { BeaconSelector } from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import WebsiteTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
+import BeaconSelector from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-export const SloScopeWebsiteSection = () => {
+export default function SloScopeWebsiteSection() {
   const { form, onChange } = useContext(SloFormContext);
 
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
@@ -38,4 +38,4 @@ export const SloScopeWebsiteSection = () => {
       </Sections>
     </section>
   );
-};
+}

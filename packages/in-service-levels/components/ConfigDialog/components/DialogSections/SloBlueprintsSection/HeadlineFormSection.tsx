@@ -8,10 +8,10 @@ import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
-export const HeadlineFormSection = () => {
+export default function HeadlineFormSection() {
   const { form } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
@@ -26,4 +26,4 @@ export const HeadlineFormSection = () => {
       </Typography>
     </Stack>
   );
-};
+}

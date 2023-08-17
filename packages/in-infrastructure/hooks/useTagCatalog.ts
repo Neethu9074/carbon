@@ -11,7 +11,7 @@ import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCat
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-const getTagCatalog = getTagCatalogOnce(getTagCatalogSubscription, true);
+const getTagCatalog = getTagCatalogOnce(getTagCatalogSubscription, true, 'infrastructure');
 
 interface UseTagCatalogProps {
   metric?: string;

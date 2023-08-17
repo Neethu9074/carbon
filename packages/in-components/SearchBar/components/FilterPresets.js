@@ -19,6 +19,7 @@ import { t } from 'in-i18n';
 import './FilterPresets.less';
 
 const block = 'in-search-presets';
+const wgtDropdown = 'widget-dropdown-position';
 
 export default connectTo(
   {
@@ -46,9 +47,12 @@ export default connectTo(
     }
 
     render() {
-      const { filters } = this.props;
+      const { filters, dfqInsideCustomWidget, setFilter } = this.props;
       return (
-        <section className={block} ref={menu => (this.menu = menu)}>
+        <section
+          className={!dfqInsideCustomWidget ? block : `${block} ${wgtDropdown}`}
+          ref={menu => (this.menu = menu)}
+        >
           <MenuHeading className={`${block}__heading`}>
             {t('in-components:searchBar.filterPresetsMenuHeading')}
           </MenuHeading>
@@ -60,30 +64,32 @@ export default connectTo(
             ) : null}
             {filters.toArray().map(filter => (
               <li key={filter.get('id')} className={`${block}__preset-item`}>
-                <UserFilterLink onClick={togglePresets} filter={filter} />
+                <UserFilterLink onClick={togglePresets} filter={filter} setFilter={setFilter} />
 
-                <div className={`${block}__item-actions`}>
-                  <a
-                    href=""
-                    onClick={e => {
-                      e.preventDefault();
-                      edit(filter);
-                    }}
-                    className={`${block}__edit`}
-                  >
-                    {t('in-components:searchBar.filterPresetsEditFilter')}
-                  </a>
-                  <a
-                    href=""
-                    onClick={e => {
-                      e.preventDefault();
-                      remove(filter.get('id'), filter.get('name'), filter.get('definition'));
-                    }}
-                    className={`${block}__remove`}
-                  >
-                    {t('in-components:searchBar.filterPresetsRemoveFilter')}
-                  </a>
-                </div>
+                {!dfqInsideCustomWidget && (
+                  <div className={`${block}__item-actions`}>
+                    <a
+                      href=""
+                      onClick={e => {
+                        e.preventDefault();
+                        edit(filter);
+                      }}
+                      className={`${block}__edit`}
+                    >
+                      {t('in-components:searchBar.filterPresetsEditFilter')}
+                    </a>
+                    <a
+                      href=""
+                      onClick={e => {
+                        e.preventDefault();
+                        remove(filter.get('id'), filter.get('name'), filter.get('definition'));
+                      }}
+                      className={`${block}__remove`}
+                    >
+                      {t('in-components:searchBar.filterPresetsRemoveFilter')}
+                    </a>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

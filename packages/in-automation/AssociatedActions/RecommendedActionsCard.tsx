@@ -63,6 +63,8 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
       <ActionTable
+        title={t('in-automation:recommendedActions')}
+        isBeta
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
         event={event}

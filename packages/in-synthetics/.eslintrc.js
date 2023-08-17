@@ -23,7 +23,8 @@ module.exports = {
         'in-stores',
         'in-subscription',
         'in-synthetics',
-        'in-themes'
+        'in-themes',
+        'in-bizops'
       ]
     })
   }

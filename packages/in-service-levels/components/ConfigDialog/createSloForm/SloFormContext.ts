@@ -21,4 +21,6 @@ const defaultContext: SloFormContextProps = {
   onChange: defaultForm.updateIn
 };
 
-export const SloFormContext = createContext<SloFormContextProps>(defaultContext);
+const SloFormContext = createContext<SloFormContextProps>(defaultContext);
+
+export default SloFormContext;

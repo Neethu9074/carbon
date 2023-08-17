@@ -8,17 +8,17 @@ import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-import { ApplicationTagFilterBuilder } from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
+import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-export const SloScopeApplicationSection = () => {
+export default function SloScopeApplicationSection() {
   const { form, onChange } = useContext(SloFormContext);
 
   const applicationIdField = form.getIn(['entity', 'entityId']);
@@ -83,4 +83,4 @@ export const SloScopeApplicationSection = () => {
       </Stack>
     </section>
   );
-};
+}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ApiTag, TagFilterOperator } from '@instana/types';
 import {
   EQUALS,
   CONTAINS,
@@ -67,7 +68,26 @@ export const KEY_VALUE_PAIR = [
   IS_BLANK
 ];
 
-export function getAllowedOperators({ type, idTag = false }: { type: string; idTag?: boolean }): Readonly<string[]> {
+const ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE: { [source: string]: { [type: string]: TagFilterOperator[]}} = {
+  'infrastructure': {
+    'STRING': [NOT_BLANK, IS_BLANK],
+    'STRING_SET': [NOT_BLANK, IS_BLANK],
+    'STRING_LIST': [NOT_BLANK, IS_BLANK]
+  }
+}
+
+export function getAllowedOperators(tagDefinition: ApiTag, source?: string): Readonly<string[]> {
+  return [...getDefaultOperators(tagDefinition), ...getAdditionalAllowedOperatorsBySource(tagDefinition, source)];
+}
+
+export function getAdditionalAllowedOperatorsBySource({ type }: { type: string; }, source?: string): Readonly<string[]> {
+  if (!source) {
+    return [];
+  }
+  return ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE[source]?.[type] ?? []
+}
+
+export function getDefaultOperators({ type, idTag = false }: { type: string; idTag?: boolean }): Readonly<string[]> {
   if (idTag) {
     return ID;
   }

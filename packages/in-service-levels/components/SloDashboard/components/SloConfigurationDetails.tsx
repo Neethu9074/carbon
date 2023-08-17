@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Card, Ul } from '@instana/components';
 
-import { ObjectiveSection } from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
-import { IndicatorSection } from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
+import ObjectiveSection from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
+import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection';

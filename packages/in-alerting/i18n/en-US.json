@@ -918,7 +918,8 @@
       "enabled": "Enabled",
       "disabled": "Disabled",
       "severity": "Severity",
-      "created": "Date created",
+      "initialCreated": "Date created",
+      "created": "Date changed",
       "type": "Type"
     },
     "migration": {

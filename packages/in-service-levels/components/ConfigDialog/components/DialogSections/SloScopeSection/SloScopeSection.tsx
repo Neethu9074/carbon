@@ -6,11 +6,11 @@
 
 import React, { useContext } from 'react';
 
-import { SloScopeApplicationSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeApplicationSection';
-import { SloScopeWebsiteSection } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeWebsiteSection';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloScopeApplicationSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeApplicationSection';
+import SloScopeWebsiteSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeWebsiteSection';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-export const SloScopeSection = () => {
+export default function SloScopeSection() {
   const { form } = useContext(SloFormContext);
 
   const entityType = form.getIn(['entity', 'type']).value;
@@ -18,4 +18,4 @@ export const SloScopeSection = () => {
   if (entityType === 'application') return <SloScopeApplicationSection />;
 
   return <SloScopeWebsiteSection />;
-};
+}

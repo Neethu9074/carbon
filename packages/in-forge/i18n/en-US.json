@@ -6612,12 +6612,14 @@
         "operation": "Operation",
         "success": "Success",
         "fail": "Fail",
+        "count": "Count",
         "operationsWithCount": "Operations ({{len}})",
         "etcd": "Etcd"
       },
       "processId": "Process ID",
       "clusterVersion": "Cluster version",
       "serverVersion": "Server version",
+      "apiVersion": "Api version",
       "id": "Id",
       "name": "Name",
       "leaderId": "Leader id",
@@ -6650,7 +6652,17 @@
       "maximumNumberOfFileDescriptors": "Maximum number of file descriptors",
       "numberOfProposalsApplied": "Number of proposals applied",
       "numberOfProposalsPending": "Number of proposals pending",
-      "numberOfProposalsFailed": "Number of proposals failed"
+      "numberOfProposalsFailed": "Number of proposals failed",
+      "compareAndDelete": "Compare and delete",
+      "compareAndSwap": "Compare and swap",
+      "compareAndUpdate": "Compare and update",
+      "create": "Create",
+      "get": "Get",
+      "getRecursive": "Get recursive",
+      "delete": "Delete",
+      "set": "Set",
+      "update": "Update"
+
     },
     "f5": {
       "dashboard": {
@@ -11490,6 +11502,7 @@
       "numOfTuxSvcs": "Tuxedo Service",
       "ts_avgResTime": "TS Average Response Time",
       "ts_throughput": "TS Throughput",
+      "ts_throughputOpsSec": "TS Throughput (ops/sec)",
       "tsName": "Tuxedo Service Name",
       "sbpName": "Service Broker Project Name",
       "tuxedoServiceWithCount": "Tuxedo Service List ({{len}})",
@@ -11500,6 +11513,7 @@
       "sbp_callTime": "Call Processing Time",
       "sbp_timeBreakdown": "SBP Processing Time Breakdown",
       "sbp_throughput": "SBP Throughput",
+      "sbp_throughputOpsSec": "SBP Throughput (ops/sec)",
       "sbp_errors": "SBP Errors"
     },
     "tuxedoAppServiceBrokerProject": {
@@ -11513,6 +11527,7 @@
       "timeBreakdown": "Processing Time Breakdown",
       "callTime": "Call Processing Time",
       "throughput": "Throughput",
+      "throughputOpsSec": "Throughput (ops/sec)",
       "errors": "Errors",
       "rsfu": "Response Payload Size",
       "rqfu": "Request Payload Size"
@@ -11526,6 +11541,7 @@
       "tuxedoServerWithCount": "Tuxedo Server List ({{len}})",
       "avgResTime": "Average Response Time",
       "throughput": "Throughput",
+      "throughputOpsSec": "Throughput (ops/sec)",
       "transactionAndCallTime": "Transactions and Call Time",
       "countLessHalf": "<0.5s",
       "countHalfAndOneHalf": "0.5s - 1.5s",

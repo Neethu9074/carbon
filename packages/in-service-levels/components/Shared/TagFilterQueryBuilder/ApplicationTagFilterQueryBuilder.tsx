@@ -9,17 +9,17 @@ import React from 'react';
 import { ApplicationQueryProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 
-export const ApplicationTagFilterQueryBuilder = ({
+export default function ApplicationTagFilterQueryBuilder({
   applicationId,
   boundaryScope,
   readOnly,
   onChange,
   value
-}: ApplicationQueryProps) => {
+}: ApplicationQueryProps) {
   const { QueryBuilder } = useApplicationQueryBuilder({
     applicationId,
     boundaryScope
   });
 
   return <QueryBuilder value={value} readOnly={readOnly} onChange={onChange} />;
-};
+}

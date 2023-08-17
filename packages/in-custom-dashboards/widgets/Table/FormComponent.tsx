@@ -12,6 +12,7 @@ import { Stack } from '@instana/components';
 import { useDataSourceFormSideEffects } from 'in-custom-dashboards/widgets/Table/hooks/useFormSideEffects';
 import TableDataSourceFormSelector from 'in-custom-dashboards/widgets/Table/TableDataSourceFormSelector';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { dataSources } from 'in-custom-dashboards/widgets/Table';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
@@ -35,7 +36,12 @@ export default function TableWidgetFormComponent({ form, onChange }: TableWidget
     updateForm(form.updateIn(['source'], field => field.setValue(event.target.value).setTouched(true)));
   };
 
-  const filteredDataSources = Object.values(dataSources).filter(value => value.isEnabled);
+  let filteredDataSources = Object.values(dataSources).filter(value => value.isEnabled);
+
+  // Handle if user doesn't have analyze infrastructure permission
+  if (!hasInfrastructureAnalyzeAccess) {
+    filteredDataSources = filteredDataSources.filter(value => value.type !== 'INFRASTRUCTURE_METRICS');
+  }
 
   return (
     <Stack gap="normal">

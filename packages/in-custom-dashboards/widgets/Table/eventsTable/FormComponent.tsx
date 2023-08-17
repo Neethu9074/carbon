@@ -4,23 +4,23 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm, Item } from 'formalistic';
-import React, { useState, useMemo } from 'react';
-import { debounce } from 'lodash';
+import { Field, Item, MapForm } from 'formalistic';
+import React, { useState } from 'react';
 
 import { Spacer, Stack } from '@instana/components';
 
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+//@ts-expect-error
+import SearchBarDfq from 'in-custom-dashboards/widgets/Table/eventsTable/SearchBarDfq';
 import { eventColumns } from 'in-custom-dashboards/widgets/Table/eventsTable/EventColumns';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import InputInSection from 'in-components/form/Input/InputInSection';
+//@ts-expect-error
+import { trim } from 'in-components/SearchBar/Input';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
-
-import locals from 'in-custom-dashboards/widgets/Table/eventsTable/FormComponent.mless';
 
 export default function FormComponent({
   form,
@@ -31,15 +31,15 @@ export default function FormComponent({
 }) {
   const columnField = form.get('columns') as Field<string[]>;
 
-  const [dynamicFocusQuery, setDynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
+  const [dynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
 
   function handleDfqChangeFn(value: string) {
     updateForm(
-      form.updateIn(['dynamicFocusQuery'], (field: Item) => (field as Field<string>).setValue(value).setTouched(true))
+      form.updateIn(['dynamicFocusQuery'], (field: Item) =>
+        (field as Field<string>).setValue(trim(value)).setTouched(true)
+      )
     );
   }
-
-  const handleChange = useHandleChange(handleDfqChangeFn, form, setDynamicFocusQuery);
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -60,56 +60,35 @@ export default function FormComponent({
   return (
     <Stack gap="normal">
       <Sections>
-        <InputInSection
-          label={t('in-custom-dashboards:widgets.table.form.query')}
-          id="metic-configurator-event-dynamic-focus-query"
-          type="text"
-          value={dynamicFocusQuery}
-          onChange={handleChange}
-          hasError={!dynamicFocusQuery?.valid && dynamicFocusQuery?.touched}
-          additionalContent={<TouchedMessages field={dynamicFocusQuery} />}
-          actions={<HelpAction>{t('in-custom-dashboards:widgets.table.form.helpAction')}</HelpAction>}
-          maxLength={512}
-        />
+        <Section title={t('in-custom-dashboards:widgets.table.form.query')}>
+          <Stack direction="horizontal" align="center" distribution="stretch" gap="normal">
+            <SearchBarDfq
+              theme="light"
+              dfqHandleChange={handleDfqChangeFn}
+              dfqEntry={dynamicFocusQuery}
+              dfqInsideCustomWidget
+              saveFilterDisabled
+            />
+            <HelpAction>{t('in-custom-dashboards:widgets.table.form.helpAction')}</HelpAction>
+          </Stack>
+        </Section>
       </Sections>
-
       <Sections>
-        <Row className={locals.checkBoxField}>
-          <Col md={2} key="titleCheckbox">
-            <span className={locals.textTitle}>{t('in-custom-dashboards:widgets.table.form.columns')}</span>
-          </Col>
-          {Object.entries(eventColumns).map(([key, columnName]) => (
-            <Col md={2} key={key}>
+        <Section title={t('in-custom-dashboards:widgets.table.form.columns')}>
+          <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
+            {Object.entries(eventColumns).map(([key, columnName]) => (
               <CheckboxFancy
                 label={columnName}
                 checked={columnField?.value?.includes(key)}
                 onChange={() => onColumnSelect(key)}
+                key={key}
               />
-            </Col>
-          ))}
-        </Row>
-        <div>
-          <Col mdOffset={2} md={10} key="errorCheckbox">
-            <span className={locals.textTitle}>
-              <TouchedMessages field={columnField} />
-            </span>
-          </Col>
-        </div>
+            ))}
+          </Stack>
+          <TouchedMessages field={columnField} />
+        </Section>
       </Sections>
       <Spacer vertical="medium" />
     </Stack>
   );
-}
-
-function useHandleChange(
-  handleDebounceFn: (arg: string) => void,
-  form: MapForm<any>,
-  setDynamicFocusQuery: (arg: string) => void
-) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = useMemo(() => debounce(handleDebounceFn, 500), [form]);
-  return function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setDynamicFocusQuery(event.target.value);
-    debounceFn(event.target.value);
-  };
 }

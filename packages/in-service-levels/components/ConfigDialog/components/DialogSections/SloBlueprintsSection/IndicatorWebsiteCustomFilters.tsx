@@ -8,11 +8,11 @@ import React, { useContext } from 'react';
 
 import { Stack, StackItem, Typography } from '@instana/components';
 
-import { TagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import TagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
-export const IndicatorWebsiteCustomFilters = () => {
+export default function IndicatorWebsiteCustomFilters() {
   const { form, onChange } = useContext(SloFormContext);
 
   const entityIdField = form.getIn(['entity', 'entityId']);
@@ -63,4 +63,4 @@ export const IndicatorWebsiteCustomFilters = () => {
       </Stack>
     </Stack>
   );
-};
+}

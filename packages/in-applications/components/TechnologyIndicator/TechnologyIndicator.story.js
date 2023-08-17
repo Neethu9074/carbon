@@ -17,10 +17,21 @@ export default {
   component: TechnologyIndicatorList
 };
 
+const technologies = Object.keys(registry);
+
 export function Expanded() {
-  return <TechnologyIndicatorList technologies={Object.keys(registry)} responsive={false} />;
+  return <TechnologyIndicatorList technologies={technologies} responsive={false} />;
 }
 
 export function Responsive() {
-  return <TechnologyIndicatorList technologies={Object.keys(registry)} responsive />;
+  return <TechnologyIndicatorList technologies={technologies} responsive />;
+}
+export function Just10Total3ShownExpanded() {
+  return <TechnologyIndicatorList technologies={technologies.slice(0, 10)} responsive={false} limit={3} />;
+}
+export function AllTech15ShownExpanded() {
+  return <TechnologyIndicatorList technologies={technologies} responsive={false} limit={15} />;
+}
+export function EmptyList() {
+  return <TechnologyIndicatorList technologies={[]} responsive={false} limit={15} />;
 }

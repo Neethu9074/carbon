@@ -11,7 +11,7 @@ import { Li, Stack, Ul } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SloEntityTableSkeleton from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTableSkeleton';
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { noop } from 'in-services/fixedObjects';

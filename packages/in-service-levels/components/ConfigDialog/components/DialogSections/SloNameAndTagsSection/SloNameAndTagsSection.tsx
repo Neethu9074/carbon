@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item } from 'formalistic';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
 import CreatableTagSelect from 'in-service-levels/components/ConfigDialog/components/FormComponents/CreatableTagSelect';
-import { SloForm, SloFormPath } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
@@ -20,18 +19,15 @@ import { t } from 'in-i18n';
 
 import locals from './SloNameAndTagsSection.mless';
 
-interface SloNameAndTagsSectionProps {
-  hasError?: boolean;
-  form: SloForm;
-  onChange: (path: SloFormPath, updater: (i: Item) => Item) => void;
-}
-
-export default function SloNameAndTagsSection({ hasError, form, onChange }: SloNameAndTagsSectionProps) {
+export default function SloNameAndTagsSection() {
+  const { form, onChange } = useContext(SloFormContext);
   const [availableTags, status] = useSloTags();
   const isLoading = status === 'pending';
 
   const nameField = form.getIn(['nameTags', 'name']);
   const tagField = form.getIn(['nameTags', 'tags']);
+
+  const isNameInvalid = !nameField.valid && (nameField.touched || form.touched);
 
   return (
     <section>
@@ -43,7 +39,7 @@ export default function SloNameAndTagsSection({ hasError, form, onChange }: SloN
           <Section
             title={t('in-service-levels:createSloDialog.sloNameLabel')}
             titleHtmlFor="slo-name-input"
-            hasError={hasError}
+            hasError={isNameInvalid}
           >
             <Input
               id="slo-name-input"
@@ -56,7 +52,7 @@ export default function SloNameAndTagsSection({ hasError, form, onChange }: SloN
                 onChange(['nameTags', 'name'], () => nameField.setValue(e.currentTarget.value).setTouched(true))
               }
             />
-            {hasError &&
+            {isNameInvalid &&
               nameField.messages.map(({ message }, index) => (
                 <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
               ))}

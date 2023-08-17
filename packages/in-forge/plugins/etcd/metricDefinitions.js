@@ -127,5 +127,68 @@ export default [
     metric: 'health.server_proposals_failed',
     label: t('in-forge:plugins.etcd.numberOfProposalsFailed'),
     formatter: number
+  },
+  {
+    metric: 'health.compare_and_delete_v3',
+    label: t('in-forge:plugins.etcd.compareAndDelete'),
+    formatter: number
+  },
+  {
+    metric: 'health.compare_and_swap_v3',
+    label: t('in-forge:plugins.etcd.compareAndSwap'),
+    formatter: number
+  },
+  {
+    metric: 'health.compare_and_update_v3',
+    label: t('in-forge:plugins.etcd.compareAndUpdate'),
+    formatter: number
+  },
+  {
+    metric: 'health.create_v3',
+    label: t('in-forge:plugins.etcd.create'),
+    formatter: number
+  },
+  {
+    metric: 'health.get_v3',
+    label: t('in-forge:plugins.etcd.get'),
+    formatter: number
+  },
+  {
+    metric: 'health.getRecursive_v3',
+    label: t('in-forge:plugins.etcd.getRecursive'),
+    formatter: number
+  },
+  {
+    metric: 'health.set_v3',
+    label: t('in-forge:plugins.etcd.set'),
+    formatter: number
+  },
+  {
+    metric: 'health.update_v3',
+    label: t('in-forge:plugins.etcd.update'),
+    formatter: number
+  },
+  {
+    metric: 'health.delete_v3',
+    label: t('in-forge:plugins.etcd.delete'),
+    formatter: number
+  },
+  {
+    metrics: ['health.expire_count_v3'],
+    labels: [t('in-forge:plugins.etcd.expireCount')],
+    min: 0,
+    formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['health.watchers_v3'],
+    labels: [t('in-forge:plugins.etcd.watchers')],
+    min: 0,
+    formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['grpc_sent_bytes_total', 'grpc_received_bytes_total'],
+    labels: [t('in-forge:plugins.etcd.sent'), t('in-forge:plugins.etcd.received')],
+    min: 0,
+    formatter: bytesZeroDecimalPlaces
   }
 ];

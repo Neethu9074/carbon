@@ -53,7 +53,8 @@ export default function SyntheticSummaryDashboard() {
       <ViewTrackingMeta
         data={{
           productArea: 'EUM: Synthetics',
-          pageRootName: 'Synthetics Test'
+          pageRootName: 'Synthetics Test',
+          pagePath: location?.pathname
         }}
       />
 

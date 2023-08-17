@@ -34,7 +34,7 @@ const contentDefinitions: RowDefinition[] = [
   }
 ];
 
-export function ObjectiveSection({ data }: ObjectiveSectionProps) {
+export default function ObjectiveSection({ data }: ObjectiveSectionProps) {
   return (
     <SloConfigSection
       data={data}

@@ -10,46 +10,48 @@ import { get, head } from 'lodash';
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
   dummyResultDetails,
   dummyResultMetadata,
-  dummyTest,
   dummyTestResultList,
   ResultDetailsResponse,
-  ResultMetadataResponse,
-  TestResponse
+  ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
+import DashboardHeader, { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
+import { syntheticDetailsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
-import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
-import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { bytes, meanLatency } from 'in-services/formatters/number';
-import { getTest, getTestResultMetadata } from 'in-synthetics/api';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { getTestResultMetadata } from 'in-synthetics/api';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
+
+import locals from 'in-bizops/dashboards/activity/BusinessActivitySummary.mless';
 
 export default function SyntheticAnalyzeView() {
   const location = useLocation();
@@ -62,11 +64,11 @@ export default function SyntheticAnalyzeView() {
   const status: number = +(getMatrixParameter(location, syntheticDetailsPath, 'status') ?? 0);
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
   const finishTime: number = startTime + responseTime;
-  const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
+  const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
 
   const formatType: string = isBrowserTest ? 'HAR' : 'SUBTRANSACTIONS';
   const details: ResultDetailsResponse =
@@ -125,17 +127,24 @@ export default function SyntheticAnalyzeView() {
   const renderMetaInformation = () => {
     return isBrowserTest ? <BetaBadge /> : null;
   };
+
+  const contextConfigurations: ContextConfiguration[] = [];
+  contextConfigurations.push({
+    renderContext: RenderTestSummaryContext,
+    contextIcon: 'lib_synthetic'
+  });
+
   return (
     <>
       <Sticky
         header={
           <>
             <DashboardHeader
-              icon={'lib_synthetic'}
               title={t('in-synthetics:dashboard.testList.mainLabel')}
-              label={get(test, ['data', 'label'])}
+              label={resultsLabel}
               withBorderBottom
               renderMetaInformation={renderMetaInformation}
+              contextConfigurations={contextConfigurations}
             />
             <DashboardHeaderShadowModule />
           </>
@@ -148,7 +157,8 @@ export default function SyntheticAnalyzeView() {
             <ViewTrackingMeta
               data={{
                 productArea: 'EUM: Synthetics',
-                pageRootName: 'Synthetics Test'
+                pageRootName: 'Synthetics Test',
+                pagePath: location?.pathname
               }}
             />
             <Fragment>
@@ -251,5 +261,26 @@ export default function SyntheticAnalyzeView() {
         )}
       </Sticky>
     </>
+  );
+}
+
+function RenderTestSummaryContext() {
+  const { location, createHref } = useNavigation();
+  const testId: string = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
+  const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
+  const testLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'testLabel') ?? '';
+  const locationDisplayLabels: string =
+    getMatrixParameter(location, syntheticDetailsPath, 'locationDisplayLabels') ?? '';
+  const locationIds: string = getMatrixParameter(location, syntheticDetailsPath, 'locationIds') ?? '';
+  location.pathname = syntheticsDashboard;
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', testId);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'testLabel', testLabel);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'type', testType);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
+  return (
+    <Link href={createHref(location)} className={locals.contextLink}>
+      {testLabel}
+    </Link>
   );
 }

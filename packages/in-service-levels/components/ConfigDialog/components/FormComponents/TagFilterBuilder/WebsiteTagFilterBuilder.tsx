@@ -18,7 +18,7 @@ interface SloScopeWebsiteSectionProps {
   onChange: SloFormOnChange;
 }
 
-export const WebsiteTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteSectionProps) => {
+export default function WebsiteTagFilterBuilder({ form, onChange }: SloScopeWebsiteSectionProps) {
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
   const websiteIdField = form.getIn(['entity', 'entityId']);
@@ -56,4 +56,4 @@ export const WebsiteTagFilterBuilder = ({ form, onChange }: SloScopeWebsiteSecti
       />
     </Section>
   );
-};
+}

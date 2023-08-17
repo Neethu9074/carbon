@@ -9,13 +9,13 @@ import classNames from 'classnames';
 
 import { Stack, Typography } from '@instana/components';
 
-import { SloFormContext } from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelector.mless';
 
-export const SloIndicatorTypeSelectorFormSection = () => {
+export default function SloIndicatorTypeSelectorFormSection() {
   const { form, onChange } = useContext(SloFormContext);
 
   const typeField = form.getIn(['indicator', 'type']);
@@ -76,4 +76,4 @@ export const SloIndicatorTypeSelectorFormSection = () => {
       </div>
     </Stack>
   );
-};
+}

@@ -48,7 +48,7 @@ const result = success({
   totalHits: data.length
 });
 
-export const SloListColumnContent = () => {
+export function SloListColumnContent() {
   const columnDefinitions = [
     {
       id: 'name',
@@ -81,4 +81,4 @@ export const SloListColumnContent = () => {
       result={result}
     />
   );
-};
+}
