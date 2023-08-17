@@ -280,11 +280,8 @@ function sortEntities({
   const caseInsensitiveSortIteratee = (entity: ScoredAction) => {
     let value = entity[orderByState];
     if (orderByState === 'confidence') {
-      let sortValue;
-      if (value == 'low') sortValue = 0;
-      else if (value == 'medium') sortValue = 1;
-      else if (value == 'high') sortValue = 2;
-      return [sortValue, entity.name.trim().toLowerCase()];
+      // order confidence by score
+      return [entity.score, entity.name.trim().toLowerCase()];
     }
     return typeof value === 'string' ? value.trim().toLowerCase() : value;
   };
