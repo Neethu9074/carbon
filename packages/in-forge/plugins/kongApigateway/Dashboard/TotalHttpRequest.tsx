@@ -6,22 +6,32 @@
 
 import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-let snapshotMap = {};
+interface TotalHttpRequestProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
+}
+
+interface Row {
+  key: string;
+  totalHttpRequest: Map<string, any>;
+}
 
 const cols = [
   {
     title: t('in-forge:plugins.kongApigateway.service'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('service');
       }
     }
@@ -30,7 +40,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.route'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('route');
       }
     }
@@ -39,7 +49,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.code'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('code');
       }
     }
@@ -48,7 +58,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.source'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('source');
       }
     }
@@ -57,7 +67,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.consumer'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('consumer');
       }
     }
@@ -66,7 +76,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.totalHttpRequest.get('requests');
       },
       getContent: number.compact
@@ -74,63 +84,55 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    snapshotMap = props;
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongHttpRequestsTotal')
-    };
-  },
-  function TotalHttpRequest({ data }) {
-    if (!data) {
-      return null;
-    }
-    const { snapshotId, timeConfig } = snapshotMap;
-    const kongHttpRequestsTotal = data.get('raw_payload');
-    const rows = kongHttpRequestsTotal
-      .keySeq()
-      .toArray()
-      .map(key => {
-        const totalHttpRequest = kongHttpRequestsTotal.get(key);
-        return {
-          key: String(key),
-          snapshotId,
-          timeConfig,
-          totalHttpRequest
-        };
-      });
-    if (rows.length === 0) {
-      return null;
-    }
-    const getDetails = row => {
-      if (!snapshotMap?.timeConfig) {
-        return;
-      }
-      return (
-        <div>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['kongHttpRequestsTotal.' + row.key + '.requests'],
-              labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-      );
-    };
+const TotalHttpRequest = ({ snapshotId, timeConfig }: TotalHttpRequestProps) => {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'kongHttpRequestsTotal'), [snapshotId]);
+
+  if (!data) {
+    return null;
+  }
+  // @ts-expect-error
+  const kongHttpRequestsTotal = data?.get('raw_payload');
+  const rows: Row[] = kongHttpRequestsTotal
+    .keySeq()
+    .toArray()
+    .map((key: string) => {
+      const totalHttpRequest = kongHttpRequestsTotal.get(key);
+      return {
+        key: String(key),
+        snapshotId,
+        timeConfig,
+        totalHttpRequest
+      };
+    });
+  if (rows.length === 0) {
+    return null;
+  }
+  function getDetails(row: Row) {
     return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
+      <div>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: ['kongHttpRequestsTotal.' + row.key + '.requests'],
+            labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
+            type: 'line'
+          }}
+        />
+      </div>
     );
   }
-);
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
+};
+
+export default TotalHttpRequest;

@@ -6,26 +6,29 @@
 
 import React from 'react';
 
-import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDictionary';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+// @ts-expect-error needs TS migration
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error needs TS migration
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
 import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
-import KongUpstreamLatencyRoute from './KongUpstreamLatencyRoute';
-import KongRequestLatencyRoute from './KongRequestLatencyRoute';
-import KongKongLatencyRoute from './KongKongLatencyRoute';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
-import KongUpstreamLatency from './KongUpstreamLatency';
 import { number } from 'in-services/formatters/number';
-import KongRequestLatency from './KongRequestLatency';
-import KongKongLatency from './KongKongLatency';
 import { t } from 'in-i18n';
 
-export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
+interface KongApiGatewayDashboardProps {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}
+
+const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
 
@@ -39,23 +42,26 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
           {data.get('totalNumberofDB')}
         </KpiKeyValue>
+      </KpiSection>
+
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
           {data.get('kongDbEntitiesTotal')}
         </KpiKeyValue>
-      </KpiSection>
-      <KpiSection>
+
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
           {data.get('kongNgnixMetricErrors')}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>{data.get('errorsInLic')}</KpiKeyValue>
+      </KpiSection>
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
           {yesOrNo(data.get('prometheusEnabled'))}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerConsistency')}>
           {data.get('workerConsistency')}
         </KpiKeyValue>
-      </KpiSection>
-      <KpiSection>
+
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.workerStateUpdateFrequency')}>
           {data.get('workerStateUpdateFrequency')}
         </KpiKeyValue>
@@ -98,17 +104,12 @@ export default function KongApiGatewayDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
-      <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
+
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
+      <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
-      <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongKongLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongRequestLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongUpstreamLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongUpstreamLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
-}
+};
+
+export default KongApiGatewayDashboard;
