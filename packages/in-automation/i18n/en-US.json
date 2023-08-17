@@ -75,7 +75,7 @@
     "confidence_high": "High",
     "bodyDescription": "Data associated with the HTTP request.",
     "confidence": "{{context}}",
-    "confidenceHelpText": "Recommendation by WatsonX AI Recommendation Engine",
+    "confidenceHelpText": "This action was recommended based on: {{source}}",
     "http": "HTTP",
     "confidenceTitle": "Confidence",
     "run": "Run",

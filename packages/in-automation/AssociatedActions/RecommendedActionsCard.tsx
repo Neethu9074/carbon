@@ -48,7 +48,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
       allActions => {
         if (!existingActions) return [];
         return allActions
-          .filter(action => action.color != 'low' && !selectedActionsSet.has(action.id))
+          .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
           .slice(0, 5)
           .sort((a, b) => b.score - a.score);
       }
