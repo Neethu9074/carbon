@@ -33,7 +33,6 @@ import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -175,28 +174,24 @@ export default function ActionHistoryTable() {
 export function getStatus(status: string) {
   if (status === 'SUCCESS' || status === 'FAILED') {
     return (
-      <Tooltip content={status} themeStyle="light">
-        <div
-          className={classNames({
-            [locals.statusIndicator]: true,
-            [locals.statusIndicator__success]: status === 'SUCCESS',
-            [locals.statusIndicator__fail]: status === 'FAILED'
-          })}
-        >
-          {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
-        </div>
-      </Tooltip>
+      <div
+        className={classNames({
+          [locals.statusIndicator]: true,
+          [locals.statusIndicator__success]: status === 'SUCCESS',
+          [locals.statusIndicator__fail]: status === 'FAILED'
+        })}
+      >
+        {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
+      </div>
     );
   }
   if (status === 'IN_PROGRESS') {
     return (
-      <Tooltip themeStyle="light" content={status}>
-        <HorizontalFlexWrapper>
-          <LoadingIndicator width={0} size={'s'} />
-          <Spacer horizontal="small" />
-          {t('in-automation:actionHistory.inProgress')}
-        </HorizontalFlexWrapper>
-      </Tooltip>
+      <HorizontalFlexWrapper>
+        <LoadingIndicator width={0} size={'s'} />
+        <Spacer horizontal="small" />
+        {t('in-automation:actionHistory.inProgress')}
+      </HorizontalFlexWrapper>
     );
   }
   return <span>{t('in-automation:actionHistory.unknown')}</span>;
