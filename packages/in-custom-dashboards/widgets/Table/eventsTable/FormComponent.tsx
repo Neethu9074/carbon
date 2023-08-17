@@ -5,8 +5,7 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import React, { useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import React, { useState } from 'react';
 
 import { Spacer, Stack } from '@instana/components';
 
@@ -32,7 +31,7 @@ export default function FormComponent({
 }) {
   const columnField = form.get('columns') as Field<string[]>;
 
-  const [dynamicFocusQuery, setDynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
+  const [dynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
 
   function handleDfqChangeFn(value: string) {
     updateForm(
@@ -41,8 +40,6 @@ export default function FormComponent({
       )
     );
   }
-
-  const handleChange = useHandleChange(handleDfqChangeFn, form, setDynamicFocusQuery);
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -67,7 +64,7 @@ export default function FormComponent({
           <Stack direction="horizontal" align="center" distribution="stretch" gap="normal">
             <SearchBarDfq
               theme="light"
-              dfqHandleChange={handleChange}
+              dfqHandleChange={handleDfqChangeFn}
               dfqEntry={dynamicFocusQuery}
               dfqInsideCustomWidget
               saveFilterDisabled
@@ -84,6 +81,7 @@ export default function FormComponent({
                 label={columnName}
                 checked={columnField?.value?.includes(key)}
                 onChange={() => onColumnSelect(key)}
+                key={key}
               />
             ))}
           </Stack>
@@ -93,17 +91,4 @@ export default function FormComponent({
       <Spacer vertical="medium" />
     </Stack>
   );
-}
-
-function useHandleChange(
-  handleDebounceFn: (arg: string) => void,
-  form: MapForm<any>,
-  setDynamicFocusQuery: (arg: string) => void
-) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = useMemo(() => debounce(handleDebounceFn, 500), [form]);
-  return function handleChange(dfQuery: string) {
-    setDynamicFocusQuery(trim(dfQuery));
-    debounceFn(trim(dfQuery));
-  };
 }

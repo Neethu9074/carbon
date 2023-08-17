@@ -5,6 +5,7 @@
  */
 
 import classNames from 'classnames';
+import { debounce } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -15,6 +16,7 @@ import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import { ClearQueryButton } from 'in-components/SearchBar/SearchBar';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { setQueryInput } from 'in-stores/search/query';
+import { trim } from 'in-components/SearchBar/Input';
 import Input from 'in-components/SearchBar/Input';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
@@ -80,7 +82,7 @@ export default connectTo(
             <Input
               dfqInsideCustomWidget={dfqInsideCustomWidget}
               saveFilterDisabled={saveFilterDisabled}
-              dfqHandleChange={dfqHandleChange}
+              dfqHandleChange={handleChangeWithDebounce(dfqHandleChange)}
               dfqEntry={dfqEntry}
             />
           </div>
@@ -101,3 +103,10 @@ export default connectTo(
     }
   }
 );
+
+function handleChangeWithDebounce(dfqHandleChange) {
+  const debounceFn = debounce(dfqHandleChange, 500);
+  return function handleChange(dfQuery) {
+    debounceFn(trim(dfQuery));
+  };
+}

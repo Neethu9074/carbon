@@ -11,6 +11,7 @@
   }
   .heightAuto {
     height: 26rem !important;
+    margin: 1.5rem 0rem;
   }
   .tableContent {
     position: relative;
