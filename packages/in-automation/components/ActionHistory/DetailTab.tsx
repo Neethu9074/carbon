@@ -21,6 +21,7 @@ import { getEntityIdView } from 'in-settings/navigation/paths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
+import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -39,7 +40,7 @@ interface ActionInstanceProperty {
   actionId: string;
   startDate: DateFormatterInput;
   endDate: DateFormatterInput;
-  targetSnapshotId?: string;
+  targetSnapshotId: string;
   type: string;
   metadata: ActionInstanceMetadataEntry[];
 }
@@ -75,7 +76,13 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
   const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   const tableData = [
-    { label: t('in-automation:actionHistory.actionInstanceId'), value: id },
+    { label: t('in-automation:actionHistory.status'), value: getStatus(status) },
+    { label: t('in-automation:actionHistory.startTime'), value: formatDateTime(startDate) },
+    {
+      label: t('in-automation:actionHistory.endTime'),
+      value: endDate ? formatDateTime(endDate) : formatDateTime(null)
+    },
+    { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
     {
       label: t('in-automation:actionHistory.eventId'),
@@ -83,13 +90,32 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       isLink: true,
       stringLink: getLinkToEventDetails(eventId)
     },
-    { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
-    { label: t('in-automation:actionHistory.startTime'), value: formatDateTime(startDate) },
     {
-      label: t('in-automation:actionHistory.endTime'),
-      value: endDate ? formatDateTime(endDate) : formatDateTime(null)
+      label: t('in-automation:actionHistory.hostSnapshotId'),
+      value: hostSnapshotId,
+      isLink: true,
+      isObservable: true,
+      showCondition: hostSnapshotId,
+      ObservableLink: getDashboardLink(hostSnapshotId, { pathname: `${agentsPath}/dashboard` })
     },
-    { label: t('in-automation:actionHistory.status'), value: getStatus(status) },
+    {
+      label: t('in-automation:actionHistory.targetSnapshotId'),
+      value: targetSnapshotId,
+      showCondition: targetSnapshotId,
+      isLink: true,
+      isObservable: true,
+      ObservableLink: getDashboardLink(targetSnapshotId, { pathname: '/physical/dashboard' })
+    },
+    {
+      label: t('in-automation:actionHistory.log'),
+      value: t('in-automation:actionHistory.viewLog'),
+      isLink: true,
+      ObservableLink: link
+    },
+    {
+      label: t('in-automation:titleActionType'),
+      value: getType(type)
+    },
     {
       label: t('in-automation:actionHistory.actionContent'),
       value: actionName,
@@ -97,19 +123,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       isObservable: true,
       ObservableLink: getEntityIdView(actionCatalogPath, actionId)
     },
-    {
-      label: t('in-automation:actionHistory.hostSnapshotId'),
-      value: hostSnapshotId,
-      isLink: true,
-      isObservable: true,
-      ObservableLink: getDashboardLink(hostSnapshotId, { pathname: `${agentsPath}/dashboard` })
-    },
-    {
-      label: t('in-automation:actionHistory.log'),
-      value: t('in-automation:actionHistory.viewLog'),
-      isLink: true,
-      ObservableLink: link
-    }
+    { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
   ];
 
   if (isAnsible(type)) {
@@ -140,16 +154,6 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     tableData.push({ label: t('in-automation:actionHistory.errorMessage'), value: errorMessage });
   }
 
-  if (targetSnapshotId) {
-    tableData.push({
-      label: t('in-automation:actionHistory.targetSnapshotId'),
-      value: targetSnapshotId,
-      isLink: true,
-      isObservable: true,
-      ObservableLink: getDashboardLink(targetSnapshotId, { pathname: '/physical/dashboard' })
-    });
-  }
-
   return (
     <table className={locals.ActionInstanceDetailsTable}>
       <thead className={locals.headerRow}>
@@ -159,20 +163,25 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
         </tr>
       </thead>
       <tbody>
-        {tableData.map(({ label, value, isLink, ObservableLink, stringLink }) => (
-          <tr key={label}>
-            <td>{label}</td>
-            <td>
-              {isLink ? (
-                <Link target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-                  {value}
-                </Link>
-              ) : (
-                value
-              )}
-            </td>
-          </tr>
-        ))}
+        {tableData.map(({ label, value, isLink, ObservableLink, stringLink, showCondition = true }) => {
+          if (showCondition) {
+            return (
+              <tr key={label}>
+                <td>{label}</td>
+                <td>
+                  {isLink ? (
+                    <Link target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+                      {value}
+                    </Link>
+                  ) : (
+                    value
+                  )}
+                </td>
+              </tr>
+            );
+          }
+          return null; // If condition is false, don't render anything.
+        })}
       </tbody>
     </table>
   );
