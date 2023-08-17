@@ -243,7 +243,7 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
   };
 }
 
-export function addUnifiedMetricsConfigForMetrics(
+function addUnifiedMetricsConfigForMetrics(
   axisName: AxisName,
   metricConfig: Config,
   resultType: ResultType,
@@ -263,7 +263,7 @@ export function addUnifiedMetricsConfigForMetrics(
   );
 }
 
-export function addUnifiedMetricsConfigForCompanionMetrics(
+function addUnifiedMetricsConfigForCompanionMetrics(
   axisName: AxisName,
   metricConfig: Config,
   resultType: ResultType,

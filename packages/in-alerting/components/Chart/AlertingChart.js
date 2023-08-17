@@ -23,9 +23,9 @@ import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
+const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
 
-export const legendColors = [
+const legendColors = [
   theme.lib.colors.lightBlue800,
   theme.lib.colors.red800,
   getColorWithTransparency(theme.lib.colors.red800).c50
@@ -87,17 +87,18 @@ export default function AlertingChart({
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
-      metricsConfiguration={getMetricsConfiguration(
-        enrichedTagFilterExpression,
-        includeInternal,
-        includeSynthetic,
-        viewConfig,
+      metricsConfiguration={getMetricsConfiguration()}
+      y1={getY1(
         metricName,
-        metricChartGranularity,
-        aggregation,
-        numeratorTagFilterExpression
+        highlight,
+        metricLabel,
+        formatter,
+        renderer,
+        granularity,
+        threshold,
+        eventBasedAdaptiveBaseline,
+        viewConfig
       )}
-      y1={getY1()}
       canReload={canReload}
       nonInteractive
       setMetricResultPrecision={setMetricResultPrecision}
@@ -105,85 +106,86 @@ export default function AlertingChart({
     />
   );
 
-  function getY1() {
+  function getMetricsConfiguration() {
     return {
-      colors: chartColors,
-      metricIds: [metricName, 'threshold'],
-      // i18n: Violations does not need to be translated, it is an internal name
-      excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
-      nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
-      labels: enhanceLabels(metricLabel, highlight),
-      tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
-      formatter: value => formatter.detailed(value),
-      renderer,
-      icons: {
-        types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-        colors: [...legendColors, highlight?.color[0]].filter(Boolean)
-      },
-      thresholdGranularity: granularity,
-      lineWidth: 1.75,
-
-      // used as additional data:
-
-      threshold: threshold.value,
-      operator: threshold.operator,
-      sensitivity: threshold.deviationFactor,
-      baseline: threshold.baseline,
-      eventBasedAdaptiveBaseline,
-      getMax: computeMax
+      tagFilterExpression: enrichedTagFilterExpression,
+      includeInternal,
+      includeSynthetic,
+      timeConfig: viewConfig.timeConfig,
+      metrics: {
+        [metricName]: {
+          metric: metricName,
+          granularity: metricChartGranularity,
+          aggregation,
+          numeratorTagFilterExpression
+        }
+      }
     };
-  }
-
-  function computeMax(metricsMaxValue) {
-    const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
-    if (threshold.type === STATIC_THRESHOLD) {
-      return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
-    } else if (threshold.type === ADAPTIVE_BASELINE) {
-      return getMaxForAdaptiveBaselineChart({
-        metricsMaxValue,
-        operator: threshold.operator,
-        fromTime,
-        baseline: threshold.baseline,
-        baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
-        sensitivity: threshold.deviationFactor
-      });
-    }
-
-    // Fallback to HISTORIC_BASELINE
-    return getMaxForBaselineChart({
-      metricsMaxValue,
-      operator: threshold.operator,
-      baseline: threshold.baseline,
-      sensitivity: threshold.deviationFactor,
-      fromTime
-    });
   }
 }
 
-export function getMetricsConfiguration(
-  enrichedTagFilterExpression,
-  includeInternal,
-  includeSynthetic,
-  viewConfig,
+export function getY1(
   metricName,
-  metricChartGranularity,
-  aggregation,
-  numeratorTagFilterExpression
+  highlight,
+  metricLabel,
+  formatter,
+  renderer,
+  granularity,
+  threshold,
+  eventBasedAdaptiveBaseline,
+  viewConfig
 ) {
   return {
-    tagFilterExpression: enrichedTagFilterExpression,
-    includeInternal,
-    includeSynthetic,
-    timeConfig: viewConfig.timeConfig,
-    metrics: {
-      [metricName]: {
-        metric: metricName,
-        granularity: metricChartGranularity,
-        aggregation,
-        numeratorTagFilterExpression
-      }
-    }
+    colors: chartColors,
+    metricIds: [metricName, 'threshold'],
+    // i18n: Violations does not need to be translated, it is an internal name
+    excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
+    nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
+    labels: enhanceLabels(metricLabel, highlight),
+    tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
+    formatter: value => formatter.detailed(value),
+    renderer,
+    icons: {
+      types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+      colors: [...legendColors, highlight?.color[0]].filter(Boolean)
+    },
+    thresholdGranularity: granularity,
+    lineWidth: 1.75,
+
+    // used as additional data:
+
+    threshold: threshold.value,
+    operator: threshold.operator,
+    sensitivity: threshold.deviationFactor,
+    baseline: threshold.baseline,
+    eventBasedAdaptiveBaseline,
+    getMax: metricsMaxValue => computeMax(metricsMaxValue, viewConfig, threshold, eventBasedAdaptiveBaseline)
   };
+}
+
+function computeMax(metricsMaxValue, viewConfig, threshold, eventBasedAdaptiveBaseline) {
+  const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
+  if (threshold.type === STATIC_THRESHOLD) {
+    return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
+  } else if (threshold.type === ADAPTIVE_BASELINE) {
+    return getMaxForAdaptiveBaselineChart({
+      metricsMaxValue,
+      operator: threshold.operator,
+      fromTime,
+      baseline: threshold.baseline,
+      baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
+      sensitivity: threshold.deviationFactor
+    });
+  }
+
+  // Fallback to HISTORIC_BASELINE
+  return getMaxForBaselineChart({
+    metricsMaxValue,
+    operator: threshold.operator,
+    baseline: threshold.baseline,
+    sensitivity: threshold.deviationFactor,
+    fromTime
+  });
 }
 
 function isValidTimeThreshold(timeThreshold) {
@@ -254,7 +256,7 @@ function shouldRequestAlertsPreview(threshold) {
   return threshold.baseline;
 }
 
-export function enhanceLabels(label, highlight) {
+function enhanceLabels(label, highlight) {
   const labels = [
     label,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
@@ -268,7 +270,7 @@ export function enhanceLabels(label, highlight) {
   return labels;
 }
 
-export function enhanceNonToggleableSeries(metricName, highlight) {
+function enhanceNonToggleableSeries(metricName, highlight) {
   const labels = new Map([
     ['threshold', null],
     ['alerts', null],

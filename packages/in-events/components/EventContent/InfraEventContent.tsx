@@ -27,10 +27,10 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { InfraAlertConfig, TagCatalog, TimeConfig } from 'in-types';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
+import { TagCatalog, TimeConfig } from 'in-types';
 import PluginIcon from 'in-components/PluginIcon';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
@@ -113,9 +113,4 @@ export default function InfraEventContent({ event }: Props) {
       </Row>
     </>
   );
-}
-
-export interface ChartProps {
-  alertConfig: InfraAlertConfig;
-  timeConfig: TimeConfig;
 }

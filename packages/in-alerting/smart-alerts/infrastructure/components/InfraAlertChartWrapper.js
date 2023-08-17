@@ -8,27 +8,21 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  enhanceNonToggleableSeries,
-  enhanceLabels,
-  getRendererBasedOnThresholdType,
-  legendColors,
-  getMetricsConfiguration,
-  chartColors
-} from 'in-alerting/components/Chart/AlertingChart';
 // eslint-disable-next-line no-restricted-imports
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import {
+  getUnifiedMetricConfig,
+  getChartConfig
+} from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 // eslint-disable-next-line no-restricted-imports
 import { getMetricDefinition } from 'in-sdk/metrics';
+import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
-import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { number, percentage } from 'in-services/formatters/number';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { number } from 'in-services/formatters/number';
 import { line } from 'in-stores/metric/renderer';
 
 export default function InfraAlertChartWrapper(props) {
@@ -44,116 +38,64 @@ export default function InfraAlertChartWrapper(props) {
   // function to that ID, just that it's internally mapped back to the function once again.
   const metricFormatterId = getFormatterId(metricDefinition.formatter.detailed);
 
+  const highlight = undefined;
+  const formatter = isCustomRateMetric(metricName) ? percentage : number.forcedCompact;
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const chartConfig = {
-    type: 'TIME_SERIES',
-    granularity: alertConfig.granularity,
-    y1: {
-      formatter: metricFormatterId,
-      min: 0,
-      renderer: line.id,
-      metrics: [
-        {
-          aggregation: aggregation,
-          label: metricLabel,
-          metric: metricName,
-          source: 'INFRASTRUCTURE_METRICS',
-          tagFilterExpression: alertConfig.tagFilterExpression,
-          timeShift: 0,
-          type: entityType
-        }
-      ]
-    }
-  };
+  // config to get unified metric data
+  const unifiedMetricConfig = getUnifiedMetricConfig({
+    alertConfig,
+    metricFormatterId,
+    line,
+    aggregation,
+    metricLabel,
+    metricName,
+    entityType
+  });
 
-  // only apply zero filling to count metrics
-  const requiresZeroFilling = aggregation === 'SUM';
+  // WS hook to get unified metric results
+  const unifiedMetricData = useResultData(unifiedMetricConfig, alertConfig.granularity, timeConfig);
+  const metricResult = unifiedMetricData.metricResult;
 
+  let metricResults = {};
+
+  // chartProps to render the metric values and threshold to the chart
   const chartProps = {
-    canReload: undefined,
-    customHeight: 182,
-    getMetric: () => {},
-    granularity: alertConfig.granularity,
-    nonInteractive: true,
-    postProcessMetric: requiresZeroFilling && zeroFillAndClipMetric,
-    thresholdType: 'staticThreshold',
-    timeConfig: timeConfig,
-    metricsConfiguration: getMetricsConfiguration(
-      { elements: [], logicalOperator: 'AND', type: 'EXPRESSION' }, // TBC
-      undefined,
-      undefined,
-      chartViewConfig.timeConfig,
+    ...getChartConfig({
+      threshold,
+      timeConfig,
+      chartViewConfig,
       metricName,
       granularity,
-      aggregation,
-      null // TBC
-    ),
-    y1: getY1({})
+      aggregation
+    }),
+    y1: getY1(metricName, highlight, metricLabel, formatter, renderer, granularity, threshold, [], chartViewConfig)
   };
 
-  const resultData = useResultData(chartConfig, alertConfig.granularity, timeConfig);
-  const result = resultData.metricResult;
-  let resultItem = {};
-
-  if (result.errors.length > 0 || result.progress.loading) {
-    resultItem = {
+  if (metricResult.errors.length > 0 || metricResult.progress.loading) {
+    metricResults = {
       time: 0,
       progress: indeterminateProgress,
-      errors: result.errors,
+      errors: metricResult.errors,
       data: {}
     };
   } else {
-    const resultValues = result?.data[0]?.values;
+    const metricValues = metricResult?.data[0]?.values;
 
-    resultItem = {
+    metricResults = {
       progress: finishedProgress,
       errors: {},
-      time: result.time,
+      time: metricResult.time,
       data: {
-        [metricName]: resultValues,
-        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, resultValues, timeConfig)
+        [metricName]: metricValues,
+        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig)
       }
     };
   }
 
-  function getY1(highlight) {
-    const metricDefinition = getMetricDefinition(entityType, metricName);
-
-    const metricLabel = metricDefinition.getLabel();
-    const formatter = number.forcedCompact;
-    const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
-    return {
-      colors: chartColors,
-      metricIds: [metricName, 'threshold'],
-      // i18n: Violations does not need to be translated, it is an internal name
-      excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
-      nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
-      labels: enhanceLabels(metricLabel),
-      tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
-      formatter: value => formatter.detailed(value),
-      renderer,
-      icons: {
-        types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-        colors: [...legendColors, highlight?.length > 0 ? highlight?.color[0] : undefined].filter(Boolean)
-      },
-      thresholdGranularity: granularity,
-      lineWidth: 1.75,
-      threshold: threshold.value,
-      operator: threshold.operator,
-      sensitivity: threshold.deviationFactor,
-      baseline: threshold.baseline,
-      eventBasedAdaptiveBaseline: [],
-      getMax: computeMax
-    };
-  }
-
-  function computeMax(metricsMaxValue) {
-    if (threshold.type === STATIC_THRESHOLD) {
-      return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
-    }
-  }
-  const metricChartProps = { ...chartProps, result: resultItem };
+  const metricChartProps = { ...chartProps, result: metricResults };
 
   return (
     <Card title="Metrics">
@@ -164,4 +106,8 @@ export default function InfraAlertChartWrapper(props) {
       />
     </Card>
   );
+}
+
+function isCustomRateMetric(metricName) {
+  return metricName === 'cpu.used';
 }
