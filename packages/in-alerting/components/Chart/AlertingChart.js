@@ -159,33 +159,33 @@ export function getY1(
     sensitivity: threshold.deviationFactor,
     baseline: threshold.baseline,
     eventBasedAdaptiveBaseline,
-    getMax: metricsMaxValue => computeMax(metricsMaxValue, viewConfig, threshold, eventBasedAdaptiveBaseline)
+    getMax: computeMax
   };
-}
 
-function computeMax(metricsMaxValue, viewConfig, threshold, eventBasedAdaptiveBaseline) {
-  const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
-  if (threshold.type === STATIC_THRESHOLD) {
-    return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
-  } else if (threshold.type === ADAPTIVE_BASELINE) {
-    return getMaxForAdaptiveBaselineChart({
+  function computeMax(metricsMaxValue) {
+    const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
+    if (threshold.type === STATIC_THRESHOLD) {
+      return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
+    } else if (threshold.type === ADAPTIVE_BASELINE) {
+      return getMaxForAdaptiveBaselineChart({
+        metricsMaxValue,
+        operator: threshold.operator,
+        fromTime,
+        baseline: threshold.baseline,
+        baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
+        sensitivity: threshold.deviationFactor
+      });
+    }
+
+    // Fallback to HISTORIC_BASELINE
+    return getMaxForBaselineChart({
       metricsMaxValue,
       operator: threshold.operator,
-      fromTime,
       baseline: threshold.baseline,
-      baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
-      sensitivity: threshold.deviationFactor
+      sensitivity: threshold.deviationFactor,
+      fromTime
     });
   }
-
-  // Fallback to HISTORIC_BASELINE
-  return getMaxForBaselineChart({
-    metricsMaxValue,
-    operator: threshold.operator,
-    baseline: threshold.baseline,
-    sensitivity: threshold.deviationFactor,
-    fromTime
-  });
 }
 
 function isValidTimeThreshold(timeThreshold) {

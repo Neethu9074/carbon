@@ -20,7 +20,6 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
-import { number, percentage } from 'in-services/formatters/number';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 
 export default function InfraAlertChartWrapper(props) {
@@ -30,9 +29,9 @@ export default function InfraAlertChartWrapper(props) {
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
+  const formatter = metricDefinition.formatter;
 
   const highlight = undefined;
-  const formatter = isCustomRateMetric(metricName) ? percentage : number.forcedCompact;
   const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
@@ -89,8 +88,4 @@ export default function InfraAlertChartWrapper(props) {
       />
     </Card>
   );
-}
-
-function isCustomRateMetric(metricName) {
-  return metricName === 'cpu.used';
 }
