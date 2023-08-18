@@ -21,6 +21,7 @@ import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/C
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { t } from 'in-i18n';
 
 export default function InfraAlertChartWrapper(props) {
   const { alertConfig, timeConfig } = props;
@@ -80,7 +81,7 @@ export default function InfraAlertChartWrapper(props) {
   const metricChartProps = { ...chartProps, result: metricResults };
 
   return (
-    <Card title="Metrics">
+    <Card title={t('in-events:titleMetrics')}>
       <ChartWrapper
         showNoDataInfoWhenEmpty={false}
         {...metricChartProps}
