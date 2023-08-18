@@ -134,15 +134,12 @@ export function addDynamicFields({ parameter, form }: AddFieldsParams) {
 
   return form
     .remove('value')
+    .updateIn(['hidden'], f => f.setValue(false))
     .put(
       'value',
       createField({
         value: parsedDynamicValue,
-        validator:
-          getValidator(
-            form,
-            composeAndShortCircuitOnError(emptyObjectValidator, needsTagAndSecondKeyMayNotBeMissingValidator)
-          ) ?? needsTagAndSecondKeyMayNotBeMissingValidator,
+        validator: needsTagAndSecondKeyMayNotBeMissingValidator,
         touched: form.touched
       })
     )

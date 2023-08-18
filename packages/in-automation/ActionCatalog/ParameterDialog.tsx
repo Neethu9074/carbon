@@ -93,7 +93,7 @@ export default function ParameterDialog({ form, onChange, idToEdit, isNotEditabl
           {type.value === 'static' && <StaticSection {...sectionProps} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
-          <HiddenSection {...sectionProps} />
+          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
           <SaveCancel hasSaveButton={!isNotEditable} form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
