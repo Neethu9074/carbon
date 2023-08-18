@@ -16,6 +16,12 @@
     position: absolute;
     top: 0;
   }
+  .stackedBar {
+    position: absolute;
+    bottom: 1px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
 
   .bar {
     position: absolute;

@@ -6,6 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { millis, number, latency } from 'in-services/formatters/number';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -13,21 +14,31 @@ import { t } from 'in-i18n';
 
 import locals from './Tooltip.mless';
 
-export default function Tooltip({ metricBuckets, percentileBuckets, config, style }) {
-  const metrics = metricBuckets
+export default function Tooltip({ metricBuckets, percentileBuckets, config, style, isGrouped }) {
+  let metrics = metricBuckets
+    .flat(2)
     .map((buckets, i) => {
       return config.isFiltered('y1', i)
         ? null
         : {
-            label: config.y1.labels[i],
+            label: buckets.group || config.y1.labels[i],
             aggregation: 'SUM',
-            timeShift: config.y1.timeShifts[i],
+            timeShift: config.y1.timeShifts[i] ?? { offset: 0 },
             color: config.y1.colors100[i],
-            sum: buckets.map(b => b.calls).reduce(sumReducer, 0)
+            sum: buckets.calls
           };
     })
     .filter(Boolean);
 
+  if (isGrouped) {
+    metrics = Object.values(
+      metrics.reduce((c, { label, sum, ...rest }) => {
+        c[label] = c[label] || { label, sum: 0, ...rest };
+        c[label].sum += sum;
+        return c;
+      }, {})
+    );
+  }
   function generateLabel(p) {
     return t('in-components:metricConfigurator.aggregation', {
       context: `p${p.percentile}`.toUpperCase().replace(/_/g, '')
@@ -36,7 +47,7 @@ export default function Tooltip({ metricBuckets, percentileBuckets, config, styl
 
   return (
     <div className={locals.tooltipContent} style={style}>
-      <div className={locals.header}>{latencyRangeLabel(metricBuckets[0])}</div>
+      <div className={locals.header}>{latencyRangeLabel(isGrouped ? metricBuckets : metricBuckets[0], isGrouped)}</div>
 
       <ul className={locals.entries}>
         {metrics.map((metric, i) => (
@@ -53,18 +64,24 @@ export default function Tooltip({ metricBuckets, percentileBuckets, config, styl
                 <AggregationSymbol aggregation={metric.aggregation} />
               </span>
             )}
-            <span className={locals.value}>{number.forcedCompact.detailed(metric.sum)}</span>
+            <span className={locals.value}>
+              {number.forcedCompact.detailed(metric.sum) !== '0'
+                ? number.forcedCompact.detailed(metric.sum)
+                : valueMissingPlaceholder}
+            </span>
           </li>
         ))}
 
-        {// show the percentiles only if the main metric is enabled
-        !config.isFiltered('y1', 0) &&
-          percentileBuckets.reduce(arrayConcatReducer, []).map(p => (
-            <li key={p.percentile} className={locals.entry}>
-              <span className={locals.label}>{generateLabel(p)}</span>
-              <span className={locals.value}>{latency.detailed(p.latency)}</span>
-            </li>
-          ))}
+        {
+          // show the percentiles only if the main metric is enabled
+          !config.isFiltered('y1', 0) &&
+            percentileBuckets.reduce(arrayConcatReducer, []).map(p => (
+              <li key={p.percentile} className={locals.entry}>
+                <span className={locals.label}>{generateLabel(p)}</span>
+                <span className={locals.value}>{latency.detailed(p.latency)}</span>
+              </li>
+            ))
+        }
       </ul>
     </div>
   );
@@ -94,13 +111,19 @@ Tooltip.propTypes = {
     }),
     isFiltered: PropTypes.func.isRequired
   }).isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
+  isGrouped: PropTypes.bool
 };
 
-function latencyRangeLabel(buckets) {
+function latencyRangeLabel(buckets, isGrouped) {
+  let flattenedBuckets = isGrouped ? buckets.flat() : buckets;
+
   const formatTime = millis.forcedCompactOnMs.detailed;
-  const from = buckets[0].from && formatTime(buckets[0].from);
-  const to = buckets[buckets.length - 1].to && formatTime(buckets[buckets.length - 1].to);
+  const from = flattenedBuckets.length && flattenedBuckets[0].from && formatTime(flattenedBuckets[0].from);
+  const to =
+    flattenedBuckets.length &&
+    flattenedBuckets[flattenedBuckets.length - 1].to &&
+    formatTime(flattenedBuckets[flattenedBuckets.length - 1].to);
   let latencyRangeLabel;
   if (to == null) {
     latencyRangeLabel = `> ${from}`;
@@ -114,11 +137,6 @@ function latencyRangeLabel(buckets) {
   }
   return latencyRangeLabel;
 }
-
-function sumReducer(a, v) {
-  return a + v;
-}
-
 function arrayConcatReducer(a, v) {
   return a.concat(v);
 }

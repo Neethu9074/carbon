@@ -97,9 +97,7 @@ export default function GroupedView(props) {
   const fields = [...fixedFields, ...selectableFields];
 
   const getColor = props.getColor ?? defaultColorFunction;
-  const showChartGroupMarkers =
-    !withoutChartGroupMarkers && chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
-
+  const showChartGroupMarkers = !withoutChartGroupMarkers;
   const groupIcon =
     useMemo(() => {
       if (groupingTagCatalog != null) {
@@ -185,8 +183,9 @@ export default function GroupedView(props) {
       onChartableDataSeriesChange([]);
     } else {
       onChartableDataSeriesChange(
-        items.slice(0, 5).map(item => ({
+        items.slice(0, 5).map((item, idx) => ({
           label: getLabel(item),
+          color: getColor(item, idx),
           formModel: addGroupingCriteriaToFormModel(
             groupBy,
             getLabel(item),
@@ -207,7 +206,9 @@ export default function GroupedView(props) {
     groupBy,
     dataSource,
     groupingTagCatalog,
-    getCustomGroupingTagFilter
+    getCustomGroupingTagFilter,
+    getColor,
+    chartedMetrics
   ]);
 
   const sortOptions = fields
@@ -418,6 +419,7 @@ function labelColumns({
             getContent({ item }) {
               const groupIdx = i++;
               const color = getColor(item, groupIdx);
+
               if (!color) {
                 return null;
               }

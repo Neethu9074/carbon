@@ -50,6 +50,7 @@ import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import { GROUP_COLORS } from 'in-components/AnalyzeView/utils.ts';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { analyzePath } from 'in-applications/navigation/paths';
@@ -190,6 +191,7 @@ export default function ApplicationsAnalyzeView() {
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
             getCustomGroupingTagFilter={getCustomGroupingTagFilter}
+            getColor={opts.chartedMetrics.length && opts.chartedMetrics[0]?.metricId === 'latency' ? getColor : null}
           />
         ) : (
           <Results
@@ -533,4 +535,12 @@ function getFacetedSearchSuggestions({
     },
     removeRequestedTagFromFilters: false
   });
+}
+
+function getColor(_, index) {
+  if (GROUP_COLORS[index]) {
+    return GROUP_COLORS[index];
+  } else {
+    return '#716A6A';
+  }
 }

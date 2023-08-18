@@ -12,6 +12,7 @@ export interface Bucket {
   to: number | string | Nullish;
   calls: number;
   tickMark?: boolean;
+  group?: string;
 }
 
 export interface Formatter {

@@ -47,7 +47,7 @@ export default function getLatencyDistribution(
       const { grouping, ...ungrouped } = params;
       observables.push(getLatencyDistributionBase10Internal(ungrouped));
     }
-    return combineLatest(observables).map(mergeResults);
+    return combineLatest(observables, true).map(mergeResults);
   }
   return getLatencyDistributionBase10Internal(params);
 }

@@ -52,8 +52,9 @@ interface GetHrefToGroupedViewParams {
   secondLevelKey?: string;
 }
 
-type ChartableDataSeries = {
+export type ChartableDataSeries = {
   label: string;
+  color?: string;
   formModel: FormModelElement;
 }[];
 

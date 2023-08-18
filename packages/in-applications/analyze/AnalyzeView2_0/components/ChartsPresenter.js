@@ -104,6 +104,7 @@ export function ChartsPresenter(props) {
                   tagFilterExpression={toBackendQueryModel(chartProps.facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
                   updateFilter={chartProps.onFacetedSearchSelectionChange}
                   chartedMetrics={[metricConfig]}
+                  chartableDataSeries={chartableDataSeries}
                   showHeader
                 />
               </div>

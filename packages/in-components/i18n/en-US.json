@@ -382,7 +382,8 @@
     "presenterLabelNoDataToDisplay": "No data to display",
     "presenterLabelTraces": "Traces",
     "presenterLabelCalls": "Calls",
-    "latencyRangeLabelFromTimeToTime": "{{from}} to {{to}}"
+    "latencyRangeLabelFromTimeToTime": "{{from}} to {{to}}",
+    "others":"Others"
   },
   "histogram": {
     "rangeLabel": "{{from}} to {{to}}",

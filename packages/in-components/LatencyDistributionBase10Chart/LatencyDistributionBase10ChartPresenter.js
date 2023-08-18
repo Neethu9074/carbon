@@ -25,6 +25,8 @@ import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
 import { defaultTimeShift } from 'in-stores/time/shifting';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/fixedObjects';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -54,6 +56,8 @@ export default function LatencyDistributionBase10ChartPresenter({
   showHeader,
   fastQueryModeEnabled,
   renderWidgetNotSupportedIndicator,
+  chartableDataSeries,
+  isGrouped,
   setApproximateData = noop
 }) {
   // which metrics to hide on the chart
@@ -62,30 +66,67 @@ export default function LatencyDistributionBase10ChartPresenter({
   const [filteredDataSeries, setFilteredDataSeries] = useState(new Set([]));
 
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
+  const [cachedResult, setCachedResult] = useState(pendingResult);
 
-  const subscriptionResult = useObservable(subscription, [subscription]);
+  const subscriptionResult = useObservable(subscription, [subscription]) ?? pendingResult;
+  const loading = isLoading(subscriptionResult);
+
+  useEffect(() => {
+    if (!isLoading(subscriptionResult)) {
+      setCachedResult(subscriptionResult);
+    }
+  }, [subscriptionResult]);
+
   const timeShiftSubscriptionResult = useObservable(timeShiftSubscription, [timeShiftSubscription]);
 
-  const hasApproximateData = subscriptionResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
-
+  const hasApproximateData = cachedResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
   useEffect(() => {
     setApproximateData(hasApproximateData);
   }, [hasApproximateData, setApproximateData]);
 
   const timeShiftEnabled = !!timeShiftConfig.offset;
 
-  if (!width || !subscriptionResult || (timeShiftSubscription && !timeShiftSubscriptionResult)) {
+  if (!width || !cachedResult || (timeShiftSubscription && !timeShiftSubscriptionResult)) {
     // observable results are not available yet
     return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
 
   const chartWidth = customWidth || width;
   const chartHeight = (customHeight || height) - horizontalAxisHeight;
+  const data = cachedResult.data || { buckets: [] };
+  const resultArray = data.groups && !loading ? data.groups : data.buckets;
+  let bucketArray = [];
+  if (isGrouped && !loading) {
+    resultArray.map(bcktGrp => {
+      bcktGrp.buckets?.map((bucket, index) => {
+        bucket = {
+          ...bucket,
+          group: bcktGrp.group
+        };
+        bucketArray[index] = bucketArray[index] ? [...bucketArray[index], bucket] : [bucket];
+      });
+    });
+  } else {
+    bucketArray = resultArray;
+  }
+  if (isGrouped && !loading) {
+    bucketArray.forEach((bucket, index) => {
+      let totalCallsInABucket = bucket.reduce((a, b) => {
+        return a + b.calls;
+      }, 0);
+      bucket.push({
+        ...bucket[bucket.length - 1],
+        group: t('in-components:latencyDistributionBase10Chart.others'),
+        calls: data.buckets[index].calls > totalCallsInABucket ? data.buckets[index].calls - totalCallsInABucket : 0
+      });
+    });
+  }
 
-  if (
-    subscriptionResult.errors.length > 0 ||
-    (timeShiftSubscription && timeShiftSubscriptionResult.errors.length > 0)
-  ) {
+  let totalNumberOfCalls = bucketArray.flat().reduce((a, b) => {
+    return a + b.calls;
+  }, 0);
+
+  if (cachedResult.errors.length > 0 || (timeShiftSubscription && timeShiftSubscriptionResult.errors.length > 0)) {
     return (
       <div className={locals.container}>
         <Message
@@ -96,10 +137,7 @@ export default function LatencyDistributionBase10ChartPresenter({
         />
       </div>
     );
-  } else if (
-    subscriptionResult.progress.loading ||
-    (timeShiftSubscription && timeShiftSubscriptionResult.progress.loading)
-  ) {
+  } else if (cachedResult.progress.loading || (timeShiftSubscription && timeShiftSubscriptionResult.progress.loading)) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     return (
       <div className={locals.container}>
@@ -108,7 +146,7 @@ export default function LatencyDistributionBase10ChartPresenter({
     );
   } else if (
     // all buckets are empty (have 0 calls)
-    subscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0 &&
+    totalNumberOfCalls === 0 &&
     (!timeShiftSubscription ||
       timeShiftSubscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0)
   ) {
@@ -168,14 +206,16 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
   // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
-  const data = subscriptionResult.data || { buckets: [] };
-  const buckets = data.buckets;
-  const timeShiftBuckets = timeShiftSubscriptionResult?.data?.buckets;
-  const percentileBuckets = createPercentileBuckets(buckets, data.percentiles);
 
+  const timeShiftBuckets = timeShiftSubscriptionResult?.data?.buckets;
+  const percentileBuckets = createPercentileBuckets(
+    isGrouped && !loading ? resultArray[0]?.buckets : resultArray,
+    data.percentiles
+  );
+  const bucketLength = bucketArray.length;
   // Buckets should be at least 4 pixels wide. At least 1 pixel will be used for a
   // gap between bars.
-  const bucketWidth = Math.max(4, chartWidth / buckets.length);
+  const bucketWidth = Math.max(4, chartWidth / bucketLength);
   // Round the bucket center downward to its nearest integer to avoid positioning
   // issues related to decimal pixel values.
   const bucketCenter = Math.floor(bucketWidth / 2);
@@ -183,10 +223,9 @@ export default function LatencyDistributionBase10ChartPresenter({
   // hight of the percentile marker strip which sits directly above the chart
   const percentileStripHeight = Math.floor(0.725 * 16 + 20);
   const maxCallCount = Math.max(
-    enabledMetric ? getMaxCallCount(buckets) : 0,
+    enabledMetric ? getMaxCallCount(bucketArray, isGrouped, loading) : 0,
     enabledTimeShiftMetric ? getMaxCallCount(timeShiftBuckets) : 0
   );
-
   const header = (showHeader || showPercentileMenu) && (
     <div className={locals.header}>
       {showHeader && (
@@ -216,7 +255,6 @@ export default function LatencyDistributionBase10ChartPresenter({
       )}
     </div>
   );
-
   return (
     <>
       {header}
@@ -240,7 +278,7 @@ export default function LatencyDistributionBase10ChartPresenter({
         }
         <div style={{ height: chartHeight }}>
           <HistogramChartOverlay
-            buckets={buckets}
+            buckets={isGrouped && !loading ? bucketArray : bucketArray.map(bucket => [bucket])}
             bucketWidth={bucketWidth}
             bucketCenter={bucketCenter}
             height={chartHeight - percentileStripHeight}
@@ -252,12 +290,26 @@ export default function LatencyDistributionBase10ChartPresenter({
             renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
             tooltipRenderer={{
               render: function TooltipRenderer({ from, to, style }) {
-                return (
+                let metricBuckets = getMetricBuckets(
+                  isGrouped,
+                  loading,
+                  bucketArray,
+                  timeShiftBuckets,
+                  from,
+                  to,
+                  selection
+                );
+                if (isGrouped) {
+                  updateChartConfig(chartConfig, chartableDataSeries, metricBuckets);
+                }
+
+                return isGrouped && !chartableDataSeries ? null : (
                   <Tooltip
-                    metricBuckets={[buckets.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)}
-                    percentileBuckets={percentileBuckets.slice(from, to)}
+                    metricBuckets={metricBuckets}
+                    percentileBuckets={percentileBuckets?.slice(from, to)}
                     config={chartConfig.config}
                     style={style}
+                    isGrouped={isGrouped}
                   />
                 );
               }
@@ -265,7 +317,7 @@ export default function LatencyDistributionBase10ChartPresenter({
           />
           {timeShiftEnabled ? (
             <LineChart
-              metricBuckets={[buckets, timeShiftBuckets].filter(Boolean)}
+              metricBuckets={[bucketArray, timeShiftBuckets].filter(Boolean)}
               config={chartConfig.config}
               bucketWidth={bucketWidth}
               maxCallCount={maxCallCount}
@@ -276,13 +328,15 @@ export default function LatencyDistributionBase10ChartPresenter({
             />
           ) : (
             <HistogramBarChart
-              buckets={buckets}
+              buckets={formatLatencyBuckets(bucketArray, selection, isGrouped, loading)}
               config={chartConfig.config}
               bucketWidth={bucketWidth}
-              maxCallCount={maxCallCount}
+              maxValue={maxCallCount}
               // 1 pixel less for the horizontal axis
               height={chartHeight - percentileStripHeight - 1}
               style={{ bottom: 0 }}
+              chartableDataSeries={chartableDataSeries}
+              isGrouped={isGrouped}
             />
           )}
           {
@@ -297,11 +351,15 @@ export default function LatencyDistributionBase10ChartPresenter({
               />
             )
           }
-          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} bucketCenter={bucketCenter} />
+          <HorizontalAxis
+            buckets={resultArray.length ? (isGrouped && !loading ? resultArray[0]?.buckets : resultArray) : []}
+            bucketWidth={bucketWidth}
+            bucketCenter={bucketCenter}
+          />
           <HorizontalLines
             nbBars={4}
             height={chartHeight - percentileStripHeight}
-            width={bucketWidth * buckets.length}
+            width={bucketWidth * bucketLength}
             style={{ marginTop: percentileStripHeight }}
           />
         </div>
@@ -322,11 +380,22 @@ function HorizontalLines({ nbBars, height, width, style }) {
   );
 }
 
-function getMaxCallCount(buckets) {
+function getMaxCallCount(buckets, isGrouped, loading) {
   let max = 0;
   for (let i = 0; i < buckets.length; i++) {
-    if (buckets[i].calls > max) {
-      max = buckets[i].calls;
+    let sumOfCalls = 0;
+    if (isGrouped && !loading) {
+      sumOfCalls = 0;
+      buckets[i].forEach(bucket => {
+        sumOfCalls = sumOfCalls + bucket.calls;
+      });
+      if (sumOfCalls > max) {
+        max = sumOfCalls;
+      }
+    } else {
+      if (buckets[i].calls > max) {
+        max = buckets[i].calls;
+      }
     }
   }
   return max;
@@ -353,3 +422,54 @@ function createPercentileBuckets(buckets, percentiles) {
     )
   );
 }
+
+function getMetricBuckets(isGrouped, loading, bucketArray, timeShiftBuckets, from, to, selection) {
+  let metricBuckets =
+    isGrouped && !loading
+      ? [...bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)
+      : [bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean);
+
+  if (
+    !isGrouped ||
+    (isGrouped &&
+      Object.keys(selection).length &&
+      (metricBuckets[0][0].from < selection.from || metricBuckets[0][0].from >= selection.to))
+  ) {
+    metricBuckets = [
+      [
+        metricBuckets[0].reduce(
+          (obj, item) => ({ ...item, calls: obj.calls ? obj.calls + item.calls : item.calls, group: null }),
+          {}
+        )
+      ]
+    ];
+  }
+  return metricBuckets;
+}
+
+const formatLatencyBuckets = (bucketArray, selection, isGrouped, loading) => {
+  let formattedBucketArray = [];
+  if (isGrouped && !loading) {
+    bucketArray.forEach(buckets => {
+      if (selection && (buckets[0].from < selection.from || buckets[0].from >= selection.to)) {
+        buckets = buckets.reduce((obj, item) => {
+          return { ...item, calls: obj.calls ? obj.calls + item.calls : item.calls };
+        }, {});
+        formattedBucketArray.push(buckets);
+      } else {
+        formattedBucketArray.push(buckets);
+      }
+    });
+  } else {
+    formattedBucketArray = bucketArray;
+  }
+  return formattedBucketArray;
+};
+
+const updateChartConfig = (chartConfig, chartableDataSeries, metricBuckets) => {
+  chartConfig.config['y1'].colors100 = metricBuckets.flat(1).some(bucket => {
+    return !bucket.group;
+  })
+    ? [`var(--ids-color-option-neutral-300`]
+    : [...chartableDataSeries?.map(data => data.color), `var(--ids-color-option-neutral-600`];
+};

@@ -24,7 +24,6 @@ export default function PercentileMarkers({
     <div className={locals.wrapperContainer}>
       {percentileBuckets.map((percentileBucket, i) => {
         const percentiles = percentileBucket.map(p => p.percentile).filter(p => percentilesShown.includes(p));
-
         let percentileOffset;
         // Center the percentile marker by moving it 50% to the left (50% means half the width of the percentile marker).
         // Additionally, move the markers on the first/last two buckets if the bucket width is smaller than the width of

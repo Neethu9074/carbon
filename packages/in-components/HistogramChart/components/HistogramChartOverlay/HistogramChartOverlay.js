@@ -8,12 +8,14 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
+// This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+// eslint-disable-next-line import/no-deprecated
+import { mutateUrl } from 'in-stores/navigation';
 import HistogramChartContextMenu from 'in-components/HistogramChart/components/HistogramChartOverlay/components/HistogramChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { mutateUrl } from 'in-stores/navigation';
 import cursors from 'in-components/cursors';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -61,9 +63,9 @@ export default function HistogramChartOverlay({
     if (latency == null) {
       return null;
     }
-    const bucketIndex = buckets.findIndex(
-      bucket => (bucket.from == null || bucket.from <= latency) && (bucket.to == null || latency < bucket.to)
-    );
+    const bucketIndex = buckets.findIndex(bucket => {
+      return (bucket[0].from == null || bucket[0].from <= latency) && (bucket[0].to == null || latency < bucket[0].to);
+    });
     return bucketIndex === -1 ? null : bucketIndex;
   };
 
@@ -118,6 +120,8 @@ export default function HistogramChartOverlay({
     if (!isEqual(selectedBuckets, newSelectedBuckets)) {
       setSelectedBuckets(newSelectedBuckets);
     }
+    // only track updates for selection changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection]);
 
   // Fixate time config when latency selection is made. This is necessary because the latency chart won't
@@ -125,8 +129,12 @@ export default function HistogramChartOverlay({
   // be fixated, the chart and the table would show data for different time frames.
   useEffect(() => {
     if ((selection?.from || selection?.to) && timeConfig.to == null) {
+      // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+      // eslint-disable-next-line import/no-deprecated
       mutateUrl(location => setTimeConfig(location, fixateTimeConfig(timeConfig)), true);
     }
+    // only track updates for selection changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection]);
 
   const selectionStartX = selectedBuckets ? selectedBuckets.fromIndex * bucketWidth : 0;
@@ -365,16 +373,15 @@ export default function HistogramChartOverlay({
         // instead of "snapping" to the start of the first selected bucket
         fromLatency = selection.from;
       } else if (fromBucketIndex != null) {
-        fromLatency = buckets[fromBucketIndex].from;
+        fromLatency = buckets[fromBucketIndex][0]?.from;
       }
-
       let toLatency = null;
       if (mouseState?.resizingLeft && selection?.to != null) {
         // after resizing the selection leftwards, keep the original "to" value,
         // instead of "snapping" to the end of the last selected bucket
         toLatency = selection.to;
       } else if (toBucketIndex != null) {
-        toLatency = buckets[toBucketIndex].to;
+        toLatency = buckets[toBucketIndex][0]?.to;
       }
 
       if (fromLatency) {
