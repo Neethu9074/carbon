@@ -24,14 +24,14 @@ export default function GroupBySection({
   withOptionalMarker,
   hasError
 }) {
-  let title = t('in-components:groupingConfigurator.titleGroup');
-  if (withOptionalMarker) {
-    title = (
-      <SectionLabelWithSubtext subtext={t('in-components:groupingConfigurator.optional')}>
-        {title}
-      </SectionLabelWithSubtext>
-    );
-  }
+  const title = withOptionalMarker ? (
+    <SectionLabelWithSubtext subtext={t('in-components:groupingConfigurator.optional')}>
+      {t('in-components:groupingConfigurator.titleGroup')}
+    </SectionLabelWithSubtext>
+  ) : (
+    t('in-components:groupingConfigurator.titleGroup')
+  );
+
   return (
     <Section icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
       <GroupingConfigurator

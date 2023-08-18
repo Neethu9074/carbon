@@ -11,14 +11,15 @@ import { Spacer, Stack } from '@instana/components';
 
 //@ts-expect-error
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import EntityInfraTypeSelector, {
-  entityType
-} from 'in-custom-dashboards/widgets/Table/infrastructure/components/EntityInfraTypeSelector';
 import TableConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator';
+import EntityInfraTypeSelector from 'in-custom-dashboards/widgets/Table/infrastructure/components/EntityInfraTypeSelector';
+import DatasetsConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/DatasetsConfigurator';
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-//@ts-expect-error
+import { entityType, source as sourceFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+// @ts-expect-error needs ts migration
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
@@ -32,6 +33,7 @@ interface Props {
 
 export function InfrastructureTableForm({ form, onChange }: Props) {
   const type = form.get(entityType)?.value;
+  const source = form.get(sourceFieldName)?.value;
   const timeConfig = useTimeConfig();
   const tagCatalog = useTagCatalog({ ownerType: type });
 
@@ -45,19 +47,40 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
     onChange
   });
 
+  const { tableResult } = useInfrastructureEntities({
+    backendQueryModel: EMPTY_EXPRESSION,
+    timeConfig,
+    order: defaultOrder,
+    setOrder: () => null
+  });
+
+  const entityItems = tableResult?.data?.items;
+  const entityLabel = findEntityLabelByType(type, entityItems);
+
   return (
     <Stack gap="normal">
       <Sections>
         <EntityInfraTypeSelector
-          backendQueryModel={EMPTY_EXPRESSION}
+          entityItems={entityItems}
           form={form}
-          order={defaultOrder}
-          setOrder={() => null}
-          timeConfig={timeConfig}
           setTagFilterExpression={setTagFilterExpression}
           updateForm={updateForm}
         />
       </Sections>
+
+      {type && (
+        <>
+          <Spacer vertical="medium" />
+          <DatasetsConfigurator
+            form={form}
+            onChange={onChange}
+            updateForm={updateForm}
+            entityType={type}
+            source={source}
+            maxLength={4}
+          />
+        </>
+      )}
 
       <Spacer vertical="medium" />
 
@@ -68,7 +91,17 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
         tagFilterExpression={tagFilterExpression}
         setTagFilterExpression={setTagFilterExpression}
         tagCatalog={tagCatalog}
+        entityLabel={entityLabel}
       />
     </Stack>
   );
+}
+
+function findEntityLabelByType(
+  type: string,
+  items: Array<{ type: string; label: string; count: number }>
+): string | null {
+  const foundEntity = items?.find(entity => entity.type === type);
+
+  return foundEntity?.label || null;
 }

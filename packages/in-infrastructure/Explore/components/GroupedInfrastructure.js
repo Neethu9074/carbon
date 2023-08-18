@@ -29,6 +29,7 @@ import {
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatters/backendFormatter';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
@@ -62,6 +63,7 @@ export default function GroupedInfrastructure(props) {
     backendGroupBy,
     order,
     type,
+    isPreview = false,
     isHeaderVisible = true,
     isTableMode = false,
     isLoadMoreEnabled = true,
@@ -71,8 +73,8 @@ export default function GroupedInfrastructure(props) {
   } = props;
 
   const timeConfig = useTimeConfig();
-
   const granularity = getGranularity(timeConfig);
+  const metricsDependency = !isPreview ? [metrics] : [];
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -87,7 +89,7 @@ export default function GroupedInfrastructure(props) {
         cursor,
         retrievalSize
       }),
-    [timeConfig, backendQueryModel, backendGroupBy, order, type, metrics]
+    [timeConfig, backendQueryModel, backendGroupBy, order, type, ...metricsDependency]
   );
 
   // Send totalHits
@@ -222,7 +224,7 @@ function Presenter({
         />
       )}
 
-      {isTableMode && items.length > 0 ? (
+      {isTableMode ? (
         <CursorPaginatedTable
           columnDefinitions={columnDefinitions}
           numSkeletonRows={retrievalSize}
@@ -237,7 +239,7 @@ function Presenter({
           defaultPageSize={retrievalSize}
           defaultOrderDirection={order.direction}
           onRowClick={item => {
-            const href = getLinkToInfraEntityExplore({ type, ...getParamsForGroup(item) }).slice(2);
+            const href = getLinkToInfraEntityExplore({ type, group: {}, metrics, ...getParamsForGroup(item) }).slice(2);
             onItemClicked(href);
           }}
           size="compact"
@@ -313,10 +315,8 @@ function columns({
 
   const iconColumn = {
     width: '3rem',
+    id: 'icon',
     verticallyCenter: true,
-    getId() {
-      return 'icon';
-    },
     ...(isTableMode
       ? {
           getContent(item) {
@@ -337,9 +337,9 @@ function columns({
 
     return {
       width: getColumnWidth(groupBy, metrics),
+      id: groupKey,
       ...(isTableMode
         ? {
-            key: isFirstItem ? 'label' : groupKey,
             id: isFirstItem ? 'label' : groupKey,
             sortable: isFirstItem,
             label: groupKey,
@@ -352,9 +352,6 @@ function columns({
               const value = getGroupTagValue(group, groupKey);
 
               return <KeyValue label={groupKey} value={value} accentuated />;
-            },
-            getId() {
-              return groupKey;
             }
           })
     };
@@ -362,11 +359,9 @@ function columns({
 
   const spacerColumn = {
     width: '3rem',
+    id: 'space',
     getContent() {
       return <div />;
-    },
-    getId() {
-      return 'spacer';
     }
   };
 
@@ -382,57 +377,16 @@ function columns({
 
   const countLabelColumn = {
     width: '8rem',
+    id: countLabel,
     getContent({ group }) {
       return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
-    },
-    getId() {
-      return countLabel;
     },
     getType() {
       return 'count';
     }
   };
 
-  const metricsColumn = metrics.map(({ metric, aggregation, crossSeriesAggregation }) => ({
-    width: '12rem',
-    getContent({ group }) {
-      const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-      const metadata = mapData(metricMetadatas, data => data[metric]);
-      const label = mapData(metadata, data => data?.label);
-      const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-      const formatter = mapData(metadata, data => data?.formatter).data;
-      const kpi = firstValue(group.metrics[id]);
-      const series = group.metrics[getSeriesKey(id)];
-      const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-      return (
-        <SparkChart
-          horizontalMetricValue={getMetricValue(kpi, formatter)}
-          percentageMetric={percentageMetric}
-          tooltipFormatter={formatter}
-          aggregation={aggregation}
-          timeConfig={timeConfig}
-          label={renderedLabel}
-          rollup={granularity}
-          metrics={series}
-        />
-      );
-    },
-    getId() {
-      return getMetricKey(metric, aggregation);
-    },
-    getColumnLabel() {
-      const metadata = mapData(metricMetadatas, data => data[metric]);
-      const label = mapData(metadata, data => data?.label);
-      const formatter = mapData(metadata, data => data?.formatter).data;
-      return formatCsvColumnName(label['data'], aggregation, formatter);
-    },
-    getFormatter() {
-      const metadata = mapData(metricMetadatas, data => data[metric]);
-      const formatter = mapData(metadata, data => data?.formatter).data;
-      return formatter;
-    },
-    exported: true
-  }));
+  const metricsColumn = getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode });
 
   const focusGroupColumn = {
     width: '3rem',
@@ -452,12 +406,9 @@ function columns({
     }
   };
 
-  const cols = [
-    iconColumn,
-    ...groupsColumn,
-    spacerColumn,
-    ...(!isTableMode ? [countLabelColumn, ...metricsColumn, focusGroupColumn] : [countLabelColumnTable])
-  ];
+  const cols = isTableMode
+    ? [iconColumn, ...groupsColumn, spacerColumn, countLabelColumnTable, ...metricsColumn]
+    : [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
 
   return cols;
 }
@@ -684,4 +635,84 @@ function getHeaderActions(props) {
       <MetricCatalogAndSortingConfigurator {...props} />
     </>
   );
+}
+
+function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
+  return metrics.map(({ metric, aggregation, crossSeriesAggregation, formatterId }) => {
+    const metadata = mapData(metricMetadatas, data => data[metric]);
+    const label = mapData(metadata, data => data?.label);
+    const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+
+    const sharedProps = { id, timeConfig, granularity, metadata, label, aggregation, formatterId };
+    const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
+
+    return {
+      width: '12rem',
+      id,
+      label: label?.data,
+      ...metricsColumns,
+      getId() {
+        return getMetricKey(metric, aggregation);
+      },
+      getColumnLabel() {
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const label = mapData(metadata, data => data?.label);
+        const formatter = mapData(metadata, data => data?.formatter).data;
+        return formatCsvColumnName(label['data'], aggregation, formatter);
+      },
+      getFormatter() {
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const formatter = mapData(metadata, data => data?.formatter).data;
+        return formatter;
+      },
+      exported: true
+    };
+  });
+}
+
+function generateMetric({ item, id, metadata, label, aggregation, timeConfig, granularity, formatterId }) {
+  const { metrics } = item;
+
+  const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+  const formatter = formatterId
+    ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
+    : mapData(metadata, data => data?.formatter).data;
+  const kpi = firstValue(metrics[id]);
+  const series = metrics[getSeriesKey(id)];
+  const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+
+  return (
+    <SparkChart
+      horizontalMetricValue={getMetricValue(kpi, formatter)}
+      percentageMetric={percentageMetric}
+      tooltipFormatter={formatter}
+      aggregation={aggregation}
+      timeConfig={timeConfig}
+      label={renderedLabel}
+      rollup={granularity}
+      metrics={series}
+    />
+  );
+}
+
+function getMetricsColumns(isTableMode, sharedProps) {
+  if (isTableMode) {
+    return {
+      getContent(item) {
+        return generateMetric({
+          item,
+          ...sharedProps
+        });
+      }
+    };
+  }
+
+  return {
+    getContent({ group }) {
+      return generateMetric({
+        item: group,
+        ...sharedProps
+      });
+    }
+  };
 }

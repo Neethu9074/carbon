@@ -19,8 +19,10 @@ import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfig
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
+import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -30,6 +32,7 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import Section from 'in-components/workspace/Section';
 import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
@@ -46,6 +49,7 @@ export default function FormComponent({
   formatterSection,
   timeShiftConfiguration,
   withGrouping = true,
+  withFiltering = true,
   withAggregationInMetrics = true,
   maxGrouping = 50
 }) {
@@ -81,8 +85,16 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression:
       tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
+    type,
     query: catalogQuery.debouncedValue
   });
+
+  const kpiDefinitions = getKpiDefinitions(type);
+  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions })?.data;
+  const isMetricAndMetadatas = metric && metricMetadatas;
+  const formatterBackendType = isMetricAndMetadatas && metricMetadatas[metric]?.formatterType;
+  const metricDefaultFormatter = getUiMetricsValueByBackendType(formatterBackendType);
+
   useEffect(() => {
     if (metricCatalog.data) {
       const metadata = getMetricInCatalog({
@@ -95,6 +107,9 @@ export default function FormComponent({
           var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
           if (f.containsKey('metricLabel')) {
             f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
+          }
+          if (f.containsKey('formatter')) {
+            f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
           }
           return f;
         });
@@ -113,7 +128,8 @@ export default function FormComponent({
 
   return (
     <Stack gap="xsmall">
-      <Sections>{dataSourceSection}</Sections>
+      {dataSourceSection && <Sections>{dataSourceSection}</Sections>}
+
       <Sections>
         <Section title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}>
           <TypeAndMetricConfigurator
@@ -140,6 +156,9 @@ export default function FormComponent({
                 if (f.containsKey('metricLabel')) {
                   f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
                 }
+                if (f.containsKey('formatter')) {
+                  f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
+                }
                 return f;
               });
             }}
@@ -149,6 +168,7 @@ export default function FormComponent({
           />
           <TouchedMessages field={metricField} />
         </Section>
+
         {withAggregationInMetrics && (
           <SelectInSection
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
@@ -228,15 +248,18 @@ export default function FormComponent({
         {formatterSection}
       </Sections>
 
-      <Sections>
-        <QueryBuilderSection
-          value={tagFilterExpression}
-          onChange={setTagFilterExpression}
-          QueryBuilder={QueryBuilder}
-          tagCatalog={tagCatalog}
-          withoutIcon
-        />
-      </Sections>
+      {withFiltering && (
+        <Sections>
+          <QueryBuilderSection
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
+            QueryBuilder={QueryBuilder}
+            tagCatalog={tagCatalog}
+            withoutIcon
+          />
+        </Sections>
+      )}
+
       <GroupingConfiguration
         withGrouping={withGrouping}
         grouping={grouping}

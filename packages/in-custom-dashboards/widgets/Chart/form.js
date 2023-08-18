@@ -13,6 +13,7 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { validatePotentialProblemsConstraints } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { notDuplicatedMetricValues } from 'in-custom-dashboards/widgets/Table/infrastructure/validators/validator';
 import { allRendererIds, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { allFormatterIds, defaultFormatter } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -52,14 +53,16 @@ export function createForm(savedState) {
     );
 }
 
-function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
+export function createAxisForm(savedState, requiresAtLeastOneMetric = false, metricsMustBeUnique = false, options) {
   let metricsForm = createListForm({
-    validator: requiresAtLeastOneMetric && composeAndShortCircuitOnError(arrayValidator, atLeastOneMetricValidator)
+    validator:
+      (requiresAtLeastOneMetric && composeAndShortCircuitOnError(arrayValidator, atLeastOneMetricValidator)) ||
+      (metricsMustBeUnique && composeAndShortCircuitOnError(notDuplicatedMetricValues))
   });
 
   if (savedState && savedState.metrics instanceof Array) {
     savedState.metrics.forEach(metricSavedState => {
-      metricsForm = metricsForm.push(createMetricForm(metricSavedState));
+      metricsForm = metricsForm.push(createMetricForm(metricSavedState, options));
     });
   }
 
@@ -105,13 +108,17 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
     .put('metrics', metricsForm);
 }
 
-export function createMetricForm(savedState) {
-  return createMetricConfigurationForm(savedState, {
+export function createMetricForm(
+  savedState,
+  options = {
     withLabelConfiguration: true,
     withCompareToTimeShifted: true,
     withEnablePotentialProblems: true,
-    withColorConfiguration: true
-  });
+    withColorConfiguration: true,
+    withMetricFormatter: false
+  }
+) {
+  return createMetricConfigurationForm(savedState, options);
 }
 
 function getOptNumber(v) {

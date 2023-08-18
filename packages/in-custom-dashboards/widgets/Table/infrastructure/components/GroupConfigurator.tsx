@@ -10,6 +10,7 @@ import React from 'react';
 // @ts-expect-error
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { grouping as groupingFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { Group, TagCatalog } from 'in-types';
 
@@ -26,14 +27,14 @@ export default function GroupConfigurator({
   tagFilterExpression,
   tagCatalog
 }: GroupConfiguratorProps) {
-  const grouping = form.get('grouping')?.value;
+  const grouping = form.get(groupingFieldName)?.value;
 
   const onChange = (groups: Group[]) => {
     const filteredGroups = groups.filter(
       (group: Group, index: number) => index === groups.findIndex((item: Group) => group.groupbyTag === item.groupbyTag)
     );
 
-    updateForm(form.updateIn(['grouping'], field => field.setValue(filteredGroups).setTouched(true)));
+    updateForm(form.updateIn([groupingFieldName], field => field.setValue(filteredGroups).setTouched(true)));
   };
 
   return (

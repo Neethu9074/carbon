@@ -4,51 +4,93 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
 // @ts-expect-error
 import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
-import { MetricItem, useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+// @ts-expect-error
+import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-// @ts-expect-error
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
-import { Group, MetricCatalog, TagFilterExpressionElementUnion } from 'in-types';
+import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { KpiDefinition } from 'in-sdk/metrics/kpis';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import { Group, TagFilterExpressionElementUnion } from 'in-types';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import { noop } from 'in-services/util/function';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
 
-export function InfrastructureTableWidget(props: TableWidgetProps) {
-  const { config, title, actions, dragHandle, isPreview } = props;
+interface MetricItem {
+  aggregation: string;
+  metric: string;
+  formatter: string;
+  crossSeriesAggregation: string;
+}
 
+export default function InfrastructureTableWidget(props: TableWidgetProps) {
+  return (
+    <FixatedTimeConfigContextModification>
+      {() => <InfrastructureTable {...props} />}
+    </FixatedTimeConfigContextModification>
+  );
+}
+
+function InfrastructureTable(props: TableWidgetProps) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-  const timeConfig = useTimeConfig();
   const { goToPath } = useNavigation();
-  const { entityType: type = '', tableSize = 5, tagFilterExpression, grouping: groupBy } = config;
-
-  const kpiDefinitions = [] as KpiDefinition[];
-  const metrics = [] as MetricItem[];
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
-  const [order, setOrder] = useState(defaultOrder);
   const [totalItemsCount, setTotalItemsCount] = useState();
 
-  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
-  const metricCatalog = [] as MetricCatalog;
+  const { config, title, actions, dragHandle, isPreview } = props;
+
+  const { entityType: type = '', grouping: groupBy, datasets, sorting, tableSize = 5, tagFilterExpression } = config;
+
+  const isGroup = groupBy && groupBy?.length > 0;
 
   const loadedItemsCount = totalItemsCount && Math.min(totalItemsCount, tableSize);
   const isShowResultsVisible = loadedItemsCount && totalItemsCount;
-  const isGroup = groupBy && groupBy?.length > 0;
 
-  const onItemClicked = (href: string) => {
-    if (isPreview) {
+  const kpiDefinitions = getKpiDefinitions(type);
+  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
+
+  const [order, setOrder] = useState(sorting);
+
+  // Update order and  total items count in case it gets changed
+  useEffect(() => {
+    setOrder(sorting);
+    setTotalItemsCount(undefined);
+  }, [sorting, tagFilterExpression]);
+
+  const metricsArray = datasets?.metrics ?? [];
+
+  const metrics = metricsArray.map(({ aggregation, metric, formatter }: MetricItem) => ({
+    aggregation,
+    formatterId: formatter,
+    metric
+  }));
+
+  const catalogQuery = useDebouncedValue('', noop, 800);
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    // @ts-expect-error
+    tagFilterExpression,
+    type,
+    query: catalogQuery.debouncedValue
+  });
+
+  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
+
+  const handleItemClick = (href: string) => {
+    if (isPreview || !href) {
       return;
     }
 
@@ -57,6 +99,7 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
 
   const viewFullTableHref = getLinkToInfraEntityExplore({
     type,
+    metrics,
     group: {} as Group,
     groupBy,
     tagFilterExpression: fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion)
@@ -94,19 +137,22 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
           isHeaderVisible={false}
           isLoadMoreEnabled={false}
           isTableMode
-          onItemClicked={onItemClicked}
-          metricCatalog={metricCatalog}
+          isPreview={isPreview}
+          onItemClicked={handleItemClick}
+          metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
           retrievalSize={tableSize}
           order={order}
           setOrder={setOrder}
           tagFilterExpression={[]}
-          timeConfig={timeConfig}
           type={type}
+          query={catalogQuery.value}
+          onQueryChange={catalogQuery.onChange}
         />
       ) : (
         <InfrastructureList
+          tagFilterExpression={[tagFilterExpression]}
           backendQueryModel={tagFilterExpression}
           displayChart={false}
           getTotalItems={setTotalItemsCount}
@@ -114,14 +160,18 @@ export function InfrastructureTableWidget(props: TableWidgetProps) {
           isPreview={isPreview}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
-          numSkeletonRows={tableSize}
-          order={order}
-          retrievalSize={tableSize}
-          setOrder={setOrder}
           showHeader={false}
-          tagFilterExpression={tagFilterExpression}
-          timeConfig={timeConfig}
+          order={order}
+          setOrder={setOrder}
           type={type}
+          sortableMetrics
+          retrievalSize={tableSize}
+          numSkeletonRows={tableSize}
+          fixedLayout={false}
+          chartedMetrics={[]}
+          metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+          query={catalogQuery.value}
+          onQueryChange={catalogQuery.onChange}
         />
       )}
 

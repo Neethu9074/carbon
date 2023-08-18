@@ -30,7 +30,7 @@ export default function FilterConfigurator({
       tagCatalog={tagCatalog}
       onChange={setTagFilterExpression}
       withoutIcon
-      allowEmptyKey
+      withOptionalMarker
     />
   );
 }

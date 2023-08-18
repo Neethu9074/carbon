@@ -7,36 +7,72 @@
 import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Li, Stack } from '@instana/components';
+import { Li, Spacer, Stack } from '@instana/components';
 
+import {
+  datasets,
+  tagFilterExpression as tagFilterExpressionFieldName,
+  metric as metricFieldName,
+  metricLabel,
+  aggregation as aggregationFieldName,
+  grouping
+} from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+// @ts-expect-error
+import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import TableSizeConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableSizeConfigurator';
+import SortingConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/SortingConfigurator';
+// @ts-expect-error
+import { Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import FilterConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/FilterConfigurator';
+import { getShortMetricKey } from 'in-custom-dashboards/widgets/Table/infrastructure/components/DatasetsColumn';
 import GroupConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/GroupConfigurator';
+import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Header from 'in-components/workspace/Header';
-import { TagCatalog } from 'in-types';
+import { Group, TagCatalog } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator.mless';
 
-export interface FormConfig {
+const DEFAULT_SORTING_VALUE = 'label';
+const DEFAULT_SORTING_LABEL_SUFFIX = t('in-custom-dashboards:widgets.table.form.infrastructure.defaultSortingSuffix');
+
+export interface Metric {
+  value: string;
+  label: string;
+}
+
+interface TableConfiguratorProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   setTagFilterExpression: React.Dispatch<React.SetStateAction<FormModelElement[]>>;
   tagFilterExpression: FormModelElement[];
   tagCatalog?: TagCatalog;
+  entityLabel: string | null;
 }
 
 export default function TableConfigurator({
   form,
+  onChange,
   updateForm,
   setTagFilterExpression,
   tagFilterExpression,
-  tagCatalog
-}: FormConfig) {
-  const tagFilterExpressionFieldValue = form.get('tagFilterExpression')?.value;
+  tagCatalog,
+  entityLabel
+}: TableConfiguratorProps) {
+  const tagFilterExpressionFieldValue = form.get(tagFilterExpressionFieldName)?.value;
+  const datasetsColumnsField = form.get(datasets);
+  const metricsSize = datasetsColumnsField.get(metricsPath).size;
+  const groups = form.get(grouping).value;
+
+  const isMetricsEnabled = metricsSize > 0;
+
+  const metrics = getMetrics(datasetsColumnsField.get(metricsPath));
+
+  const sortingOptions: Metric[] = getSortingOptions(entityLabel, metrics, groups);
+  const isSortingEnabled = sortingOptions.length > 0;
 
   return (
     <Stack gap="normal">
@@ -65,9 +101,67 @@ export default function TableConfigurator({
             <Sections>
               <TableSizeConfigurator form={form} updateForm={updateForm} />
             </Sections>
+
+            {isMetricsEnabled && (
+              <>
+                <Spacer vertical="normal" />
+                <Reorderer form={form} onChange={onChange}>
+                  <MetricsForColumns
+                    form={form}
+                    onChange={onChange}
+                    axisName={datasets}
+                    startIndex={0}
+                    getShortMetricKey={(_: string, index: number) => getShortMetricKey('C', index)}
+                    isColorConfiguratorEnabled={false}
+                  />
+                </Reorderer>
+              </>
+            )}
+
+            {isSortingEnabled && (
+              <Sections>
+                <SortingConfigurator form={form} updateForm={updateForm} sortingOptions={sortingOptions} />
+              </Sections>
+            )}
           </Stack>
         </Li>
       </Sections>
     </Stack>
   );
+}
+
+function getMetrics(metrics: Metric[]) {
+  if (metrics.length === 0) {
+    return [];
+  }
+
+  return metrics.reduce((output: Metric[], field: any) => {
+    const metric = field.get(metricFieldName).value;
+    const label = field.get(metricLabel).value;
+    const aggregation = field.get(aggregationFieldName).value;
+
+    if (metric !== '') {
+      output.push({ value: `${metric}.${aggregation}`, label: label });
+    }
+
+    return output;
+  }, []);
+}
+
+function getSortingOptions(entityLabel: string | null, metrics: Metric[], groups: Group[]) {
+  if (!entityLabel) {
+    return [];
+  }
+
+  const sortingOptions = [getDefaultSortingOption(entityLabel, groups), ...metrics];
+
+  return sortingOptions;
+}
+
+function getDefaultSortingOption(entityLabel: string | null, groups: Group[]): { value: string; label: string } {
+  if (groups.length > 0) {
+    return { value: DEFAULT_SORTING_VALUE, label: groups[0].groupbyTag };
+  }
+
+  return { value: DEFAULT_SORTING_VALUE, label: `${entityLabel || ''} ${DEFAULT_SORTING_LABEL_SUFFIX}` };
 }

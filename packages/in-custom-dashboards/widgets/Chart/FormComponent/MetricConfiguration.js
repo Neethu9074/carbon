@@ -91,7 +91,20 @@ export const columnDefinitions = [
 ];
 
 export default function MetricConfiguration(props) {
-  const { axisName, index, indexInAxis, onChange, metricForm, form } = props;
+  const {
+    axisName,
+    index,
+    indexInAxis,
+    onChange,
+    metricForm,
+    form,
+    type,
+    dataSource,
+    formatterSection,
+    withFiltering = true,
+    withGrouping = true,
+    withTimeShift = true
+  } = props;
 
   const updateForm = useChartFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
@@ -124,19 +137,26 @@ export default function MetricConfiguration(props) {
                 )
               }
               timeShiftConfiguration={
-                <TimeShiftingForm
-                  axisName={axisName}
-                  index={index}
-                  indexInAxis={indexInAxis}
-                  onChange={onChange}
-                  metricForm={metricForm}
-                />
+                withTimeShift ? (
+                  <TimeShiftingForm
+                    axisName={axisName}
+                    index={index}
+                    indexInAxis={indexInAxis}
+                    onChange={onChange}
+                    metricForm={metricForm}
+                  />
+                ) : undefined
               }
+              formatterSection={formatterSection}
               disabledDataSources={[source]}
               axisForm={form}
               axisName={axisName}
               withLabelConfiguration
               withPotentialProblemsConfiguration
+              withFiltering={withFiltering}
+              withGrouping={withGrouping}
+              dataSource={dataSource}
+              type={type}
             />
           )}
         >

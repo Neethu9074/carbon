@@ -383,7 +383,7 @@
     "presenterLabelTraces": "Traces",
     "presenterLabelCalls": "Calls",
     "latencyRangeLabelFromTimeToTime": "{{from}} to {{to}}",
-    "others":"Others"
+    "others": "Others"
   },
   "histogram": {
     "rangeLabel": "{{from}} to {{to}}",
@@ -759,7 +759,8 @@
       "notBlank": "has non-blank value",
       "startsWith": "starts with",
       "endsWith": "ends with"
-    }
+    },
+    "optional": "Optional"
   },
   "applicationHealthOverview": {
     "indicatorBar": {

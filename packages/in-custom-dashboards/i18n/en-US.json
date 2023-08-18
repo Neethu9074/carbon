@@ -754,7 +754,14 @@
           "tableConfiguration": "Table Configuration",
           "tableDetails": "Table Details",
           "showResult": "Showing {{loadedItems}} of {{totalItems}} Results",
-          "loadingEntities": "Loading Entities"
+          "loadingEntities": "Loading Entities",
+          "datasets": "Datasets",
+          "defaultSorting": "Default Sort",
+          "defaultSortingSuffix": "Name",
+          "validators": {
+            "theValueMustBeUnique": "This metric has already been selected. Please select another one."
+          },
+          "formatter": "Formatter"
         }
       },
       "dataSource": {

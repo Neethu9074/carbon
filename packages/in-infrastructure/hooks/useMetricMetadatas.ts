@@ -36,18 +36,22 @@ export default function useMetricMetadatas({
           },
           type,
           query
-        })
-        .map(result => mapData(result, availableMetrics => {
-          if (!availableMetrics.metrics) {
-            return [];
-          }
-          const kpis: Metadatas = Object.fromEntries(kpiDefinitions
-            .map(createMetadataFromKpi)
-            .map(kpi => [kpi.metric, kpi]));
-          return Object.assign(kpis, Object.fromEntries(availableMetrics.metrics
-            ?.map(createMetadataFromBackend(kpis))
-            .map(metric => [metric.metric, metric])));
-        })),
+        }).map(result =>
+          mapData(result, availableMetrics => {
+            if (!availableMetrics.metrics) {
+              return [];
+            }
+            const kpis: Metadatas = Object.fromEntries(
+              kpiDefinitions.map(createMetadataFromKpi).map(kpi => [kpi.metric, kpi])
+            );
+            return Object.assign(
+              kpis,
+              Object.fromEntries(
+                availableMetrics.metrics?.map(createMetadataFromBackend(kpis)).map(metric => [metric.metric, metric])
+              )
+            );
+          })
+        ),
       [timeConfig, type]
     ) ?? pendingResult
   );
@@ -65,6 +69,7 @@ export interface Metadata {
   metric: string;
   label: string;
   formatter: (num: number) => string;
+  formatterType?: string;
   percentageMetric: boolean;
   isKpi?: boolean;
   crossSeriesAggregations?: AggregationType[];
@@ -78,6 +83,7 @@ function createMetadataFromBackend(kpis: Metadatas): (metric: MetricMetadata) =>
       label: metric.label,
       metric: metric.id,
       isKpi: Object.prototype.hasOwnProperty.call(kpis, metric.id as PropertyKey),
+      formatterType: metric.format,
       percentageMetric: metric.format === 'PERCENTAGE',
       formatter: getFormatter(metric.format as BackendFormatterType),
       crossSeriesAggregations: metric.crossSeriesAggregations

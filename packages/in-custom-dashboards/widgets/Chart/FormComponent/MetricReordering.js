@@ -114,12 +114,14 @@ export function MetricsForAxis({
   axisName,
   startIndex,
   getShortMetricKey,
+  isColorConfiguratorEnabled = true,
   helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get(metricsPath);
 
   const showHelpText = metricsForm.size === 0;
+  const columnsDefinitions = isColorConfiguratorEnabled ? columnDefinitions : columnDefinitions.slice(0, -1);
 
   return (
     <Stack gap="normal">
@@ -141,9 +143,9 @@ export function MetricsForAxis({
               >
                 {provided => (
                   <Ul ref={provided.innerRef} {...provided.draggableProps}>
-                    <Li noAlternatingBg>
+                    <Li noAlternatingBg className={locals.draggableItem}>
                       <ColumnizedContent
-                        columnDefinitions={columnDefinitions}
+                        columnDefinitions={columnsDefinitions}
                         axisName={axisName}
                         metricForm={metricForm}
                         form={form}

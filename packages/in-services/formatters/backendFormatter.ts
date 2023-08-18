@@ -88,3 +88,38 @@ const mappingsToUiInternalNames: {
 export function getUiInternalFormatterName(backendType: InternalFormatterTypes): string {
   return mappingsToUiInternalNames[backendType] || 'number.detailed';
 }
+
+export const mappingsBackendTypesToUiMetrics = {
+  NUMBER: 'number.compact',
+  RATE: 'perSecond.detailed',
+  PERCENTAGE: 'percentage.detailed',
+  BYTES: 'bytes.detailed',
+  BYTE_RATE: 'perSecond.detailed',
+  LATENCY: 'latency.detailed',
+  MILLIS: 'millis.compact',
+  MICROS: 'millis.compact',
+  SECONDS: 'seconds.fixedCompact',
+  LATENCY_WITH_DECIMALS: 'millis.compact'
+} as const;
+
+export function getBackendTypeKeyByUiMetric(value?: string): string {
+  if (!value) {
+    return 'NUMBER';
+  }
+
+  const item = Object.entries(mappingsBackendTypesToUiMetrics).find(([_key, val]) => val === value);
+
+  if (!item) {
+    return value?.split('.')[0].toUpperCase();
+  }
+
+  return item[0];
+}
+
+export function getUiMetricsValueByBackendType(backendType?: BackendFormatterType): string {
+  if (!backendType) {
+    return 'number.detailed';
+  }
+
+  return mappingsBackendTypesToUiMetrics[backendType] || 'number.detailed';
+}

@@ -5,18 +5,18 @@
 
 import { AggregationType, TimeConfig } from '@instana/types';
 
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import { KpiDefinition } from 'in-sdk/metrics/kpis';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { KpiDefinition } from 'in-sdk/metrics/kpis';
 
 interface OldMetricItem {
-  metricId?: string
-  aggregationId?: AggregationType
+  metricId?: string;
+  aggregationId?: AggregationType;
 }
 
-type BackwardsCompatibleItem = MetricItem & OldMetricItem
+type BackwardsCompatibleItem = MetricItem & OldMetricItem;
 
 export function fromUrlMetrics({
   urlMetrics,
@@ -29,14 +29,14 @@ export function fromUrlMetrics({
     return kpiDefinitions.map(kpiDefinition => ({
       metric: kpiDefinition.metric,
       aggregation: 'MEAN'
-    }))
+    }));
   }
   return urlMetrics
     .map(m => ({
       metric: m.metric ?? m.metricId,
       aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN'
     }))
-    .filter(m => Boolean(m.metric))
+    .filter(m => Boolean(m.metric));
 }
 
 export function getGranularity(timeConfig: TimeConfig) {

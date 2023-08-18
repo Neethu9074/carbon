@@ -4,62 +4,66 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm } from 'formalistic';
+import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
-import { TimeConfig, TagFilterExpression, Order } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import {
+  entityType,
+  grouping,
+  metricLabel,
+  datasets,
+  metric as metricFieldName,
+  tagFilterExpression
+} from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
+import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { OrderBy } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import Section from 'in-components/workspace/Section/Section';
 
 import locals from 'in-components/GroupingConfigurator/LoadingIndicator.mless';
 
-export const entityType = 'entityType';
+interface EntityItem {
+  type: string;
+  label: string;
+  count: number;
+}
 
 interface EntityInfraTypeSelectorProps {
-  timeConfig: TimeConfig;
-  backendQueryModel: TagFilterExpression;
-  setOrder: (order: OrderBy) => void | null;
-  order: Order;
   setTagFilterExpression: React.Dispatch<React.SetStateAction<FormModelElement[]>>;
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  entityItems: EntityItem[];
 }
 
 export default function EntityInfraTypeSelector({
   form,
   updateForm,
-  timeConfig,
-  backendQueryModel,
-  order,
-  setOrder,
-  setTagFilterExpression
+  setTagFilterExpression,
+  entityItems
 }: EntityInfraTypeSelectorProps) {
-  const { tableResult } = useInfrastructureEntities({
-    backendQueryModel,
-    timeConfig,
-    order,
-    setOrder
-  });
+  const metricsForm = form.get(datasets).get(metricsPath);
+  const metricsFormSize = metricsForm.size;
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateForm(
-      form
-        .updateIn(['tagFilterExpression'], field => field.setValue([]).setTouched(true))
-        .updateIn(['grouping'], field => field.setValue([]).setTouched(true))
-        .updateIn([entityType], field => field.setValue(event.target.value).setTouched(true))
-    );
+    // Update metrics fields and clear values in case entity type has changed
+    if (metricsFormSize > 0) {
+      let updatedForm = updateMetricsFields(form, metricsFormSize, metricFieldName, '');
+
+      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, metricLabel, '');
+      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, 'type', event.target.value);
+
+      updateEntityInfraType(updatedForm, event.target.value, updateForm);
+    } else {
+      updateEntityInfraType(form, event.target.value, updateForm);
+    }
 
     setTagFilterExpression([]);
   };
 
-  const entityItems = tableResult?.data?.items;
   const entityTypeField = form.get(entityType);
   const entityLabel = t('in-custom-dashboards:widgets.table.form.infrastructure.entityType');
 
@@ -94,4 +98,31 @@ export default function EntityInfraTypeSelector({
       ))}
     </SelectInSection>
   ));
+}
+
+export function updateMetricsFields(
+  form: MapForm<any>,
+  metricsFormSize: number,
+  fieldToUpdate: string,
+  newValue: string
+) {
+  let updatedForm = form;
+
+  for (let i = 0; i < metricsFormSize; i++) {
+    // @ts-expect-error
+    updatedForm = updatedForm.updateIn([datasets, metricsPath, `${i}`, fieldToUpdate], (field: Item) =>
+      (field as Field<string>).setValue(newValue).setTouched(true)
+    );
+  }
+
+  return updatedForm;
+}
+
+function updateEntityInfraType(form: MapForm<any>, newEntityValue: string, updateForm: (form: MapForm<any>) => void) {
+  updateForm(
+    form
+      .updateIn([tagFilterExpression], (field: Item) => (field as Field<string[]>).setValue([]).setTouched(true))
+      .updateIn([grouping], (field: Item) => (field as Field<string[]>).setValue([]).setTouched(true))
+      .updateIn([entityType], (field: Item) => (field as Field<string>).setValue(newEntityValue).setTouched(true))
+  );
 }

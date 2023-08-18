@@ -7,10 +7,10 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { tableSize as tableSizeFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { t } from 'in-i18n';
 
-export const tableSizeFieldName = 'tableSize';
 export const tableSizes = [5, 10, 20];
 export const defaultTableSize = 5;
 

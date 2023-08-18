@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { InfrastructureTableWidget } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
+import InfrastructureTableWidget from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
 import TableOverview from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { dataSources } from 'in-custom-dashboards/widgets/Table/index';

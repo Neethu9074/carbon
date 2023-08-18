@@ -19,6 +19,7 @@ import {
   getSeriesKey
 } from 'in-infrastructure/Explore/services/metrics';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
+import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatters/backendFormatter';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
@@ -45,10 +46,12 @@ export default function InfrastructureList({
   backendQueryModel,
   showHeader = false,
   setMetrics,
+  sortableMetrics = false,
   setOrder = noop,
   getTotalItems,
   isLoadMoreEnabled = true,
   isPreview = false,
+  fixedLayout = true,
   type,
   metrics,
   metricMetadatas,
@@ -64,6 +67,8 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
+  const metricsDependency = !isPreview ? [metrics] : [];
+
   const {
     items,
     totalHits,
@@ -78,7 +83,7 @@ export default function InfrastructureList({
   } = useCursorPagination(
     ({ cursor }) =>
       getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
-    [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
+    [timeConfig, retrievalSize, backendQueryModel, type, order, ...metricsDependency]
   );
 
   const hasErrors = errors?.length > 0;
@@ -112,7 +117,7 @@ export default function InfrastructureList({
       }
     },
     getLabelColumn(tracking?.onNavigateToEntity, isPreview),
-    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
+    ...getMetricColumns({ metrics, sortable: showHeader || sortableMetrics, metricMetadatas, timeConfig, granularity })
   ];
 
   return (
@@ -177,7 +182,7 @@ export default function InfrastructureList({
         {...tableProps}
         canLoadMore={canLoadMore && isLoadMoreEnabled}
         items={items}
-        fixedLayout
+        fixedLayout={fixedLayout}
         orderBy={order.by}
         orderDirection={order.direction}
       />
@@ -281,7 +286,9 @@ InfrastructureList.propTypes = {
   numSkeletonRows: rpt.number,
   backendQueryModel: rpt.object,
   showHeader: rpt.bool,
+  sortableMetrics: rpt.bool,
   setMetrics: rpt.func,
+  fixedLayout: rpt.bool,
   onChartedMetricsChange: rpt.func,
   setOrder: rpt.func,
   metrics: rpt.array,
@@ -310,7 +317,7 @@ InfrastructureList.propTypes = {
 function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
   return metrics
     .filter(m => !m.removeFromTable)
-    .map(({ metric, aggregation, crossSeriesAggregation }) => {
+    .map(({ metric, aggregation, crossSeriesAggregation, formatterId }) => {
       const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = mapData(metadata, data => data?.label);
@@ -330,9 +337,11 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         getContent(item) {
           const id = getMetricKey(metric, aggregation);
           const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = formatterId
+            ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
+            : mapData(metadata, data => data?.formatter).data;
           const label = mapData(metadata, data => data?.label);
           const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-          const formatter = mapData(metadata, data => data?.formatter).data;
           const kpi = firstValue(item.metrics[id]);
           const series = item.metrics[getSeriesKey(id)];
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;

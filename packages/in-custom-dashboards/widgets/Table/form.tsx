@@ -11,8 +11,11 @@ import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_share
 import {
   createEntityField,
   createGroupField,
+  createSortingField,
   createTableSizeField
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+// @ts-expect-error needs ts migration
+import { createAxisForm as createColumnForm } from 'in-custom-dashboards/widgets/Chart/form';
 import { createColumnsField, createDynamicFocusQueryField } from 'in-custom-dashboards/widgets/Table/eventsTable/form';
 import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -36,7 +39,15 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
       ...(source === dataSources.INFRA.type && {
         grouping: createGroupField(savedState),
         entityType: createEntityField(savedState),
-        tableSize: createTableSizeField(savedState)
+        tableSize: createTableSizeField(savedState),
+        datasets: createColumnForm(savedState && savedState.datasets, false, true, {
+          withLabelConfiguration: true,
+          withCompareToTimeShifted: true,
+          withEnablePotentialProblems: true,
+          withColorConfiguration: true,
+          withMetricFormatter: true
+        }),
+        sorting: createSortingField(savedState)
       })
     }
   });

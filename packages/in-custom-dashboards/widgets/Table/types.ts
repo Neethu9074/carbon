@@ -5,7 +5,7 @@
  */
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Group, TagFilterExpressionElementUnion } from 'in-types';
+import { Group, Order, TagFilterExpressionElementUnion } from 'in-types';
 
 export interface Grouping extends Group {
   tagType: string;
@@ -19,6 +19,8 @@ export interface TableFormConfiguration {
   entityType?: string;
   tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
   grouping?: Partial<Grouping[]>;
+  datasets?: any;
+  sorting?: Order;
 }
 
 export interface TableWidgetProps {
@@ -27,4 +29,5 @@ export interface TableWidgetProps {
   dragHandle?: React.ReactNode;
   actions?: React.ReactNode;
   isPreview: boolean;
+  refreshFixatedTimeConfig: () => void;
 }

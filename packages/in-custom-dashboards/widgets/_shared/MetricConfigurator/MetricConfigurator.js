@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
@@ -20,22 +20,42 @@ export default function MetricConfigurator({
   form,
   onChange,
   onChangeSource,
-  withLabelConfiguration,
-  withPotentialProblemsConfiguration,
   formatterSection,
   timeShiftConfiguration,
-  withAggregationInMetrics = true,
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
   withGrouping = true,
+  withFiltering = true,
+  withAggregationInMetrics = true,
+  withLabelConfiguration,
+  withPotentialProblemsConfiguration,
+  dataSource,
+  type,
   maxGrouping
 }) {
   const sourceField = form.get('source');
 
+  // If datasource is defined, makes the selection
+  useEffect(() => {
+    if (dataSource) {
+      onChangeSource(dataSource);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // If datasource is defined, makes the selection by default
+  useEffect(() => {
+    if (sourceField.value && type) {
+      onChange(['type'], field => field.setValue(type).setTouched(true));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type, sourceField.value]);
+
   const dataSourceSection = (
     <SelectInSection
-      id="metic-configurator-source"
+      id="metric-configurator-source"
       label={t('in-custom-dashboards:widgets.metricConfigurator.ds')}
       value={sourceField.value}
       onChange={e => onChangeSource(e.target.value)}
@@ -67,7 +87,7 @@ export default function MetricConfigurator({
               {t('in-custom-dashboards:widgets.metricConfigurator.name')}
             </SectionLabelWithSubtext>
           }
-          id="metic-configurator-label"
+          id="metric-configurator-label"
           type="text"
           value={field.value}
           placeholder={getMetricLabel(form.toJS())}
@@ -86,7 +106,6 @@ export default function MetricConfigurator({
       <FormComponent
         form={form}
         onChange={onChange}
-        dataSourceSection={dataSourceSection}
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}
@@ -94,8 +113,10 @@ export default function MetricConfigurator({
         axisName={axisName}
         withGrouping={withGrouping}
         withAggregationInMetrics={withAggregationInMetrics}
+        withFiltering={withFiltering}
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
+        dataSourceSection={dataSource ? undefined : dataSourceSection}
       />
     );
   }

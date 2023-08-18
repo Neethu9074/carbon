@@ -9,6 +9,7 @@ import { Button, Message, Stack } from '@instana/components';
 import { TagCatalog } from '@instana/types';
 
 import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { FormModelElement } from '../transformation/formModel';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -27,15 +28,14 @@ interface QueryBuilderSectionProps {
   tagCatalog?: TagCatalog;
 
   useLastValidStateWhenErroneous?: boolean;
-  // Allows to limit the depth of expression nesting. It is unlimited by default.
-  maxExpressionDepth?: number;
+
+  withOptionalMarker?: boolean;
 
   hasError?: boolean;
   errors?: string[];
 
   actions?: ReactNode;
   withoutIcon?: boolean;
-  allowEmptyKey?: boolean;
 }
 
 export default function QueryBuilderSection({
@@ -46,6 +46,7 @@ export default function QueryBuilderSection({
   withoutIcon,
   actions,
   useLastValidStateWhenErroneous = false,
+  withOptionalMarker = false,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
@@ -67,12 +68,20 @@ export default function QueryBuilderSection({
 
   useEffect(() => {
     setInternalError(emptyObject);
-  }, [tagFilterExpression])
+  }, [tagFilterExpression]);
+
+  const title = withOptionalMarker ? (
+    <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>
+      {t('in-components:queryBuilder.workspaceTitleFilter')}
+    </SectionLabelWithSubtext>
+  ) : (
+    t('in-components:queryBuilder.workspaceTitleFilter')
+  );
 
   return (
     <Section
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
-      title={t('in-components:queryBuilder.workspaceTitleFilter')}
+      title={title}
       actions={
         <HorizontalFlexWrapper>
           {(tagFilterExpression.length > 0 || hasInternalError) && (

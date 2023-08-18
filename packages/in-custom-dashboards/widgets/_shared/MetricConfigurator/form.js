@@ -17,6 +17,7 @@ import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { allFormatterIds } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
@@ -28,7 +29,8 @@ export function createForm(
     withCompareToTimeShifted = false,
     withEnablePotentialProblems = false,
     withColorConfiguration = false,
-    withMandatoryGrouping = false
+    withMandatoryGrouping = false,
+    withMetricFormatter = false
   } = {}
 ) {
   let form = createMapForm(
@@ -105,6 +107,21 @@ export function createForm(
       );
   }
 
+  if (withMetricFormatter) {
+    form = form.put(
+      'formatter',
+      createField({
+        value: (savedState && savedState.formatter) || '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(allFormatterIds)
+        )
+      })
+    );
+  }
+
   if (withColorConfiguration) {
     form = form.put(
       'color',
@@ -164,12 +181,15 @@ function getConfigFromExistingForm(form) {
   const compareToTimeShiftedField = form.get('compareToTimeShifted');
   const colorField = form.get('color');
   const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
+  const formatter = form.get('formatter');
+
   return {
     withLabelConfiguration: !!labelField,
     withCompareToTimeShifted: !!compareToTimeShiftedField,
     withColorConfiguration: !!colorField,
     withEnablePotentialProblems: isPotentialProblemValidator,
-    withMandatoryGrouping: isRequiringGroupingConfiguration(form)
+    withMandatoryGrouping: isRequiringGroupingConfiguration(form),
+    withMetricFormatter: !!formatter
   };
 }
 
