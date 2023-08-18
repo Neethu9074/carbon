@@ -640,7 +640,7 @@ export function updateActionInstanceFeedback({ id, feedback, to, windowSize, com
     maxRetries: 3,
     url: `${automationAPIBase}/actioninstances/${encodeURIComponent(id)}/feedback`,
     data: {
-      feedback,
+      feedback: feedback + '',
       comment: comment || ''
     },
     headers: getCsrfHeader(),
