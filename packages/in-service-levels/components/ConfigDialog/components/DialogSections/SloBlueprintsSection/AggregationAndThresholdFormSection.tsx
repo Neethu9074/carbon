@@ -12,6 +12,7 @@ import { AggregationType } from '@instana/types';
 import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
 
@@ -24,8 +25,8 @@ export default function AggregationAndThresholdFormSection() {
   const blueprintField = form.getIn(['indicator', 'blueprint']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
 
-  const doesAggregationHaveError = !aggregationField.valid && (aggregationField.touched || form.touched);
-  const doesThresholdHaveError = !thresholdField.valid && (thresholdField.touched || form.touched);
+  const isAggregationValid = isFieldValid(aggregationField);
+  const isThresholdValid = isFieldValid(thresholdField);
 
   return (
     <div className={locals.grid}>
@@ -35,14 +36,14 @@ export default function AggregationAndThresholdFormSection() {
         </Typography>
         <AggregationSelectorInput
           value={aggregationField.value}
-          hasError={doesAggregationHaveError}
+          hasError={!isAggregationValid}
           handleChange={({ target }) =>
             onChange(['indicator', 'aggregation'], () =>
               aggregationField.setValue(target.value as AggregationType).setTouched(true)
             )
           }
         />
-        {doesAggregationHaveError &&
+        {!isAggregationValid &&
           aggregationField.messages.map(({ message }, index) => (
             <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
           ))}
@@ -55,12 +56,12 @@ export default function AggregationAndThresholdFormSection() {
         </Typography>
         <ThresholdInput
           value={thresholdField.value}
-          hasError={doesThresholdHaveError}
+          hasError={!isThresholdValid}
           handleChange={value =>
             onChange(['indicator', 'threshold'], () => thresholdField.setValue(value).setTouched(true))
           }
         />
-        {doesThresholdHaveError &&
+        {!isThresholdValid &&
           thresholdField.messages.map(({ message }, index) => (
             <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
           ))}

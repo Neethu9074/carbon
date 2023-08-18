@@ -37,7 +37,7 @@ const regExpErrors: Array<[RegExp, TranslateCallback]> = [
 
 /*
   Iterates over the regExpErrors array and matches every element against the corresponding expression.
-  It'll imediatelty return the translated string if there is a match.
+  It'll immediately return the translated string if there is a match.
 
   RegExp groups are passed as parameters array to the translate function so that they can be used
   within the translated message.

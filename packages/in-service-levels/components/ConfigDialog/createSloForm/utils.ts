@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Field } from 'formalistic';
+
 import {
   ApplicationSloEntity,
   BlueprintType,
@@ -15,6 +17,10 @@ import {
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+
+export function isFieldValid<VALUE_TYPE>(field: Field<VALUE_TYPE>) {
+  return field.valid || !field.touched;
+}
 
 export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConfiguration {
   return {

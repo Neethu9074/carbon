@@ -15,7 +15,7 @@ import {
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validation';
+import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 
 export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
   const name = form.getIn(['nameTags', 'name']).value;

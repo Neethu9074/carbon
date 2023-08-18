@@ -10,6 +10,7 @@ import { Stack, Typography } from '@instana/components';
 
 import CreatableTagSelect from 'in-service-levels/components/ConfigDialog/components/FormComponents/CreatableTagSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
@@ -24,10 +25,10 @@ export default function SloNameAndTagsSection() {
   const [availableTags, status] = useSloTags();
   const isLoading = status === 'pending';
 
-  const nameField = form.getIn(['nameTags', 'name']);
   const tagField = form.getIn(['nameTags', 'tags']);
+  const nameField = form.getIn(['nameTags', 'name']);
 
-  const isNameInvalid = !nameField.valid && (nameField.touched || form.touched);
+  const isNameValid = isFieldValid(nameField);
 
   return (
     <section>
@@ -39,7 +40,7 @@ export default function SloNameAndTagsSection() {
           <Section
             title={t('in-service-levels:createSloDialog.sloNameLabel')}
             titleHtmlFor="slo-name-input"
-            hasError={isNameInvalid}
+            hasError={!isNameValid}
           >
             <Input
               id="slo-name-input"
@@ -52,7 +53,7 @@ export default function SloNameAndTagsSection() {
                 onChange(['nameTags', 'name'], () => nameField.setValue(e.currentTarget.value).setTouched(true))
               }
             />
-            {isNameInvalid &&
+            {!isNameValid &&
               nameField.messages.map(({ message }, index) => (
                 <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
               ))}

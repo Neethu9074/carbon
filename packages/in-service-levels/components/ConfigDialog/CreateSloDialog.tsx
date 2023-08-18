@@ -14,7 +14,7 @@ import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/com
 import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
 import SloEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
-import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import { formToSloConfiguration, isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
@@ -37,8 +37,8 @@ export default function CreateSloDialog() {
   const nameField = form.getIn(['nameTags', 'name']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
 
-  const isNameInvalid = !nameField.valid && (nameField.touched || form.touched);
-  const isThresholdInvalid = !thresholdField.valid && (thresholdField.touched || form.touched);
+  const isNameValid = isFieldValid(nameField);
+  const isThresholdValid = isFieldValid(thresholdField);
 
   const navItems: Array<NavItem> = [
     {
@@ -64,14 +64,14 @@ export default function CreateSloDialog() {
       label: t('in-service-levels:createSloDialog.selectIndicator'),
       scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicator'),
-      valid: !isThresholdInvalid
+      valid: isNameValid
     },
     {
       content: <SloNameAndTagsSection />,
       label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
       scrollId: '4-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
-      valid: !isNameInvalid
+      valid: isThresholdValid
     }
   ];
 
@@ -84,7 +84,7 @@ export default function CreateSloDialog() {
         noHeader
         noDivider
         onSave={() => {
-          updateForm(form.setTouched(true));
+          updateForm(form.setTouched(true, { recurse: true }));
 
           if (!form.hierarchyValid) return;
 
