@@ -9,6 +9,7 @@ import React from 'react';
 import { ActionInstanceMetadataEntry } from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
 import { Li, Link, Ul } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -24,6 +25,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
@@ -88,6 +90,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       label: t('in-automation:actionHistory.eventId'),
       value: eventId,
       isLink: true,
+      showCondition: eventId,
       stringLink: getLinkToEventDetails(eventId)
     },
     {
@@ -145,7 +148,8 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
         label: t('in-automation:actionHistory.ansibleJob'),
         value: ansibleJobId.value ?? '',
         isLink: true,
-        stringLink: jobUrl
+        stringLink: jobUrl,
+        showCondition: ansibleJobId.value && ansibleUrl.value ? ansibleUrl.value : ''
       });
     }
   }
@@ -170,8 +174,12 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
                 <td>{label}</td>
                 <td>
                   {isLink ? (
-                    <Link target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-                      {value}
+                    <Link
+                      className={locals.detailsLink}
+                      target="_blank"
+                      href={ObservableLink ?? stringLink ?? undefined}
+                    >
+                      {value} <SvgIcon type="lib_views_external_link" color={theme.lib.colors.blue800} />
                     </Link>
                   ) : (
                     value

@@ -62,5 +62,9 @@
       max-width: 60vw;
       min-width: 40vw;
     }
+    .detailsLink {
+      display: flex;
+      align-items: center;
+    }
   }
 }
