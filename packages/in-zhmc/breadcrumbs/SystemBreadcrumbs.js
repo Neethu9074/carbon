@@ -27,7 +27,7 @@ export default connectTo(
     return (
       <>
         {cpc && (
-          <Breadcrumb href$={getIbmzCpcDashboard(cpc?.id)} label={t('in-zhmc:breadcrumbs.systems')}>
+          <Breadcrumb href={getIbmzCpcDashboard(cpc?.id)} label={t('in-zhmc:breadcrumbs.systems')}>
             {cpc.label}
           </Breadcrumb>
         )}

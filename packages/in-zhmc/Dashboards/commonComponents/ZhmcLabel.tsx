@@ -18,7 +18,7 @@ export type ZhmcItem = {
 const ZhmcLabel = ({ item }: { item: ZhmcItem }) => {
   const getIbmzZmhcDashboard = useIbmzZhmcDashboard();
 
-  return <EntityLink label={item.label} href$={getIbmzZmhcDashboard(item.id)} />;
+  return <EntityLink label={item.label} href={getIbmzZmhcDashboard(item.id)} />;
 };
 
 export default ZhmcLabel;

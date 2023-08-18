@@ -8,7 +8,6 @@ import React from 'react';
 import HomeViewBreadcrumb from 'in-zhmc/breadcrumbs/HomeViewBreadcrumb';
 import SystemBreadcrumbs from 'in-zhmc/breadcrumbs/SystemBreadcrumbs';
 import ZhmcBreadcrumbs from 'in-zhmc/breadcrumbs/ZhmcBreadcrumbs';
-import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 
 export function ZhmcBreadcrumb(props) {
   const { consoleId } = props;
@@ -17,11 +16,10 @@ export function ZhmcBreadcrumb(props) {
 
 export function SystemBreadcrumb(props) {
   const { cpcId, consoleId } = props;
-  const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
 
   return [
     <HomeViewBreadcrumb />,
-    consoleId && <ZhmcBreadcrumbs {...props} href$={getIbmzZhmcDashboard(consoleId)} />,
+    consoleId && <ZhmcBreadcrumbs {...props} />,
     cpcId && <SystemBreadcrumbs {...props} />
   ];
 }

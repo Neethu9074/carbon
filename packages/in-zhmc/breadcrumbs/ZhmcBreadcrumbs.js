@@ -26,11 +26,7 @@ export default connectTo(
     return (
       <>
         {zhmc && (
-          <Breadcrumb
-            href$={getIbmzZhmcDashboard(zhmc.id)}
-            label={t('in-zhmc:breadcrumbs.zhmc')}
-            icon="lib_zhmcConsole"
-          >
+          <Breadcrumb href={getIbmzZhmcDashboard(zhmc.id)} label={t('in-zhmc:breadcrumbs.zhmc')} icon="lib_zhmcConsole">
             {zhmc.label}
           </Breadcrumb>
         )}

@@ -14,7 +14,7 @@ const ZhmcCpcLabel = ({ item }: { item: ZhmcItem }) => {
   const consoleId = item.consoleId;
   const getIbmzCpcDashboard = useIbmzCpcDashboard(consoleId);
 
-  return <EntityLink label={item.label} href$={getIbmzCpcDashboard(item.id)} />;
+  return <EntityLink label={item.label} href={getIbmzCpcDashboard(item.id)} />;
 };
 
 export default ZhmcCpcLabel;

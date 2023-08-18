@@ -11,5 +11,5 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 export default function SystemDashboard({ snapshot }) {
   const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
 
-  return <RedirectWithHash to$={getIbmzZhmcDashboard(snapshot.get('id'))} />;
+  return <RedirectWithHash to={getIbmzZhmcDashboard(snapshot.get('id'))} />;
 }

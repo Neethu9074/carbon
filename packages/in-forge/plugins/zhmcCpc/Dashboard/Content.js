@@ -11,5 +11,5 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 export default function CpcDashboard({ snapshot }) {
   const getIbmzCpcDashboard = useIbmzCpcDashboard();
 
-  return <RedirectWithHash to$={getIbmzCpcDashboard(snapshot.get('id'))} />;
+  return <RedirectWithHash to={getIbmzCpcDashboard(snapshot.get('id'))} />;
 }

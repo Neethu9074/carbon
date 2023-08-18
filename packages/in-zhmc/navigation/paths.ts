@@ -3,9 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getModifiedUrlStream, LocationMutator } from 'in-stores/navigation/navigation';
+import { useCallback } from 'react';
+
 import { consoleId as matrixconsoleId } from 'in-zhmc/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { LocationMutator } from 'in-stores/navigation/navigation';
 import { cpcId as matrixCpcId } from 'in-zhmc/navigation/matrix';
 
 export const ibmz = '/ibmz';
@@ -48,12 +52,21 @@ export function useIbmzCpcDashboard(consoleId?: string) {
 }
 
 function useNavigateToDashboard({ base, matrixSegment, matrixParam, paramsCallback }: NavigateToDashboardProps) {
-  return (id: string) =>
-    getModifiedUrlStream(params => {
-      params.pathname = `${base}/summary`;
-      setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    (id: string) => {
+      const clonedLocation = cloneLocation(location);
+
+      clonedLocation.pathname = `${base}/summary`;
+      setOrDeleteMatrixKey(clonedLocation, matrixSegment, matrixParam, id);
+
       if (paramsCallback) {
-        paramsCallback(params);
+        paramsCallback(clonedLocation);
       }
-    });
+
+      return createHref(clonedLocation);
+    },
+    [location, base, matrixSegment, matrixParam, paramsCallback, createHref]
+  );
 }
