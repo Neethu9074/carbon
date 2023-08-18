@@ -12805,11 +12805,6 @@ react-click-away-listener@^2.0.0:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-click-away-listener/-/react-click-away-listener-2.0.5.tgz#451193f5957cebeb02face700391dd99951f2526"
   integrity "sha1-RRGT9ZV86+sC+s5wA5HdmZUfJSY= sha512-sFFuuQ52ABwkrKxnYE5FbpA1zBjvJsOYmKXNg9XCTRU+iWc9bk/vpWBJQN0qEohlnmQpDQZk14ygPMTnXAnlEA=="
 
-react-codemirror2@^6.0.0:
-  version "6.0.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-codemirror2/-/react-codemirror2-6.0.1.tgz#7daba40795eb2a52637926b6fe0b73a6e9090723"
-  integrity sha1-faukB5XrKlJjeSa2/gtzpukJByM=
-
 react-csv@^2.2.2:
   version "2.2.2"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-csv/-/react-csv-2.2.2.tgz#5bbf0d72a846412221a14880f294da9d6def9bfb"
