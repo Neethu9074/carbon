@@ -51,9 +51,11 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
 
   const feedback = useMemo(
     () =>
-      cachedActionInstanceDetail?.data?.metadata.find(
-        (data: { name: string; value: string }) => data.name === 'feedback'
-      )?.value ?? 0,
+      parseInt(
+        cachedActionInstanceDetail?.data?.metadata.find(
+          (data: { name: string; value: string }) => data.name === 'feedback'
+        )?.value ?? '0'
+      ),
     [cachedActionInstanceDetail]
   );
 

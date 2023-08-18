@@ -306,7 +306,7 @@ function ParameterInput({
   errorResolvingDynamicParameters
 }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters'>) {
   const { inputParameters } = action;
-  if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
+  if (!inputParameters || inputParameters.filter(parameter => !shouldHideParameter(parameter)).length === 0) {
     return (
       <NoDataAvailable
         height={200}
@@ -322,7 +322,7 @@ function ParameterInput({
       )}
       <Spacer vertical="normal" />
       {inputParameters?.map(parameter => {
-        if (parameter.hidden) return;
+        if (shouldHideParameter(parameter)) return;
         if (parameter.type === 'vault') {
           return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
         } else if (parameter.type === 'dynamic') {
@@ -521,3 +521,6 @@ function AnsibleActionContent({
     </>
   );
 }
+
+// This is to support backwards compatability of old actions created before hidden was removed from dynamic parameters
+export const shouldHideParameter = (parameter: Parameter) => parameter.hidden && parameter.type !== 'dynamic';

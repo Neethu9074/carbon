@@ -31,8 +31,8 @@ import {
   runWebhookAction,
   runAnsibleAction
 } from 'in-automation/api';
+import RunActionContent, { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -104,8 +104,7 @@ export default function RunActionDialog({ action, volatileId, event, test }: Run
                 agentSnapShots,
                 setError,
                 setActionInstanceId,
-                event,
-                resolvedDynamicParameters
+                event
               })
             }
           />
@@ -204,7 +203,6 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
-  resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
 }
 
 function onSave({
@@ -215,8 +213,7 @@ function onSave({
   agentSnapShots,
   setError,
   setActionInstanceId,
-  event,
-  resolvedDynamicParameters
+  event
 }: OnSaveParams) {
   if (!form?.hierarchyValid) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -259,7 +256,7 @@ function onSave({
     return acc;
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
-    if (parameter.hidden) {
+    if (shouldHideParameter(parameter)) {
       if (parameter.type === 'vault') {
         const { secretKey, secretPath } = parseVaultParameter(parameter.value);
         return [
@@ -274,9 +271,6 @@ function onSave({
             })
           }
         ];
-      } else if (parameter.type === 'dynamic') {
-        const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
-        return [...acc, { name: parameter.name, value: resolvedValue, type: 'dynamic', label: parameter.label }];
       }
       return [...acc, { name: parameter.name, value: parameter.value ?? '', type: 'static', label: parameter.label }];
     }
@@ -395,7 +389,7 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
       'parameters',
       createMapForm({
         items: action.inputParameters?.reduce((acc, parameter) => {
-          if (parameter.hidden) {
+          if (shouldHideParameter(parameter)) {
             return acc;
           }
           if (parameter.type === 'vault') {
