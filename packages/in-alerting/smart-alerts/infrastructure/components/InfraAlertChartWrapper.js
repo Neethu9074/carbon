@@ -21,22 +21,15 @@ import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/C
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import { number, percentage } from 'in-services/formatters/number';
-import { getFormatterId } from 'in-stores/metric/formatters';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { line } from 'in-stores/metric/renderer';
 
 export default function InfraAlertChartWrapper(props) {
   const { alertConfig, timeConfig } = props;
-  const { entityType, metricName, aggregation } = alertConfig.rule;
+  const { entityType, metricName } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
-
   const metricLabel = metricDefinition.getLabel();
-  // Because the chart config for UnifiedMetricsChart requires a string formatterId (e.g. 'percentage.compact'),
-  // which is then internally mapped to the formatter function, we need to do a tiny workaround here and map the formatter
-  // function to that ID, just that it's internally mapped back to the function once again.
-  const metricFormatterId = getFormatterId(metricDefinition.formatter.detailed);
 
   const highlight = undefined;
   const formatter = isCustomRateMetric(metricName) ? percentage : number.forcedCompact;
@@ -46,33 +39,23 @@ export default function InfraAlertChartWrapper(props) {
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
-    alertConfig,
-    metricFormatterId,
-    line,
-    aggregation,
-    metricLabel,
-    metricName,
-    entityType
+    alertConfig
   });
+
+  // chartProps to render the metric values and threshold to the chart
+  const chartProps = {
+    ...getChartConfig({
+      alertConfig,
+      timeConfig
+    }),
+    y1: getY1(metricName, highlight, metricLabel, formatter, renderer, granularity, threshold, [], chartViewConfig)
+  };
 
   // WS hook to get unified metric results
   const unifiedMetricData = useResultData(unifiedMetricConfig, alertConfig.granularity, timeConfig);
   const metricResult = unifiedMetricData.metricResult;
 
   let metricResults = {};
-
-  // chartProps to render the metric values and threshold to the chart
-  const chartProps = {
-    ...getChartConfig({
-      threshold,
-      timeConfig,
-      chartViewConfig,
-      metricName,
-      granularity,
-      aggregation
-    }),
-    y1: getY1(metricName, highlight, metricLabel, formatter, renderer, granularity, threshold, [], chartViewConfig)
-  };
 
   if (metricResult.errors.length > 0 || metricResult.progress.loading) {
     metricResults = {
