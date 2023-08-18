@@ -60,6 +60,7 @@
     section {
       width: auto;
       max-width: 60vw;
+      min-width: 40vw;
     }
   }
 }
