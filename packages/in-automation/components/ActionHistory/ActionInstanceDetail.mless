@@ -57,10 +57,10 @@
   }
 
   .detailDialog {
-    max-width: 50vw;
-
     section {
-      width: 50vw;
+      width: auto;
+      max-width: 60vw;
+      min-width: 40vw;
     }
   }
 }
