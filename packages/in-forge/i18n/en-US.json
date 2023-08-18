@@ -13968,7 +13968,8 @@
       "titleInteractionVerb": "Interaction Verb",
       "titleDatastore": "Datastore",
       "titleHostname": "Hostname",
-      "titlePort": "Port"
+      "titlePort": "Port",
+      "titleImsExit": "IMS Exit"
     },
     "jaeger": {
       "titleService": "Service",

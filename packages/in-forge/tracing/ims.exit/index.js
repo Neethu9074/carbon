@@ -16,7 +16,7 @@ registerSpanDefinition({
   getLabel(span) {
     const exec = span.getIn(['data', 'imsexit', 'exec']);
     if (exec == null) {
-      return 'IMS Exit';
+      return t('in-forge:tracing.ims.titleImsExit');
     }
     return exec;
   }
