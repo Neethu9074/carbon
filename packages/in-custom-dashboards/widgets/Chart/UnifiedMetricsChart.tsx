@@ -210,7 +210,7 @@ interface ResultData {
 
 type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
 
-function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
+export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
   const metrics: UnifiedMetricsConfigObject = {};
   const companionMetrics: UnifiedMetricsConfigObject = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)

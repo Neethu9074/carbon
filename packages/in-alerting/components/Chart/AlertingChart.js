@@ -88,7 +88,17 @@ export default function AlertingChart({
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
       metricsConfiguration={getMetricsConfiguration()}
-      y1={getY1()}
+      y1={getY1(
+        metricName,
+        highlight,
+        metricLabel,
+        formatter,
+        renderer,
+        granularity,
+        threshold,
+        eventBasedAdaptiveBaseline,
+        viewConfig
+      )}
       canReload={canReload}
       nonInteractive
       setMetricResultPrecision={setMetricResultPrecision}
@@ -96,34 +106,61 @@ export default function AlertingChart({
     />
   );
 
-  function getY1() {
+  function getMetricsConfiguration() {
     return {
-      colors: chartColors,
-      metricIds: [metricName, 'threshold'],
-      // i18n: Violations does not need to be translated, it is an internal name
-      excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
-      nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
-      labels: enhanceLabels(metricLabel, highlight),
-      tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
-      formatter: value => formatter.detailed(value),
-      renderer,
-      icons: {
-        types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-        colors: [...legendColors, highlight?.color[0]].filter(Boolean)
-      },
-      thresholdGranularity: granularity,
-      lineWidth: 1.75,
-
-      // used as additional data:
-
-      threshold: threshold.value,
-      operator: threshold.operator,
-      sensitivity: threshold.deviationFactor,
-      baseline: threshold.baseline,
-      eventBasedAdaptiveBaseline,
-      getMax: computeMax
+      tagFilterExpression: enrichedTagFilterExpression,
+      includeInternal,
+      includeSynthetic,
+      timeConfig: viewConfig.timeConfig,
+      metrics: {
+        [metricName]: {
+          metric: metricName,
+          granularity: metricChartGranularity,
+          aggregation,
+          numeratorTagFilterExpression
+        }
+      }
     };
   }
+}
+
+export function getY1(
+  metricName,
+  highlight,
+  metricLabel,
+  formatter,
+  renderer,
+  granularity,
+  threshold,
+  eventBasedAdaptiveBaseline,
+  viewConfig
+) {
+  return {
+    colors: chartColors,
+    metricIds: [metricName, 'threshold'],
+    // i18n: Violations does not need to be translated, it is an internal name
+    excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
+    nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
+    labels: enhanceLabels(metricLabel, highlight),
+    tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
+    formatter: value => formatter.detailed(value),
+    renderer,
+    icons: {
+      types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+      colors: [...legendColors, highlight?.color[0]].filter(Boolean)
+    },
+    thresholdGranularity: granularity,
+    lineWidth: 1.75,
+
+    // used as additional data:
+
+    threshold: threshold.value,
+    operator: threshold.operator,
+    sensitivity: threshold.deviationFactor,
+    baseline: threshold.baseline,
+    eventBasedAdaptiveBaseline,
+    getMax: computeMax
+  };
 
   function computeMax(metricsMaxValue) {
     const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
@@ -149,23 +186,6 @@ export default function AlertingChart({
       fromTime
     });
   }
-
-  function getMetricsConfiguration() {
-    return {
-      tagFilterExpression: enrichedTagFilterExpression,
-      includeInternal,
-      includeSynthetic,
-      timeConfig: viewConfig.timeConfig,
-      metrics: {
-        [metricName]: {
-          metric: metricName,
-          granularity: metricChartGranularity,
-          aggregation,
-          numeratorTagFilterExpression
-        }
-      }
-    };
-  }
 }
 
 function isValidTimeThreshold(timeThreshold) {
@@ -179,7 +199,7 @@ function isValidTimeThreshold(timeThreshold) {
   return true;
 }
 
-function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
+export function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
   switch (threshold.type) {
     case STATIC_THRESHOLD:
       return createLineWithThreshold(threshold.operator, threshold.value);

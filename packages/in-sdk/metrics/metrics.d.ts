@@ -19,7 +19,7 @@ export type DynamicMetricPattern = {
   lockedMatchingOperator: boolean;
 };
 
-interface MetricDefinition {
+export interface MetricDefinition {
   label: string;
   metric: string | RegExp;
   metricPattern?: DynamicMetricPattern;
