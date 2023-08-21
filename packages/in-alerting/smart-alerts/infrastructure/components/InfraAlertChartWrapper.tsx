@@ -96,6 +96,7 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
         showNoDataInfoWhenEmpty={false}
         {...metricChartProps}
         metricsConfiguration={extendMetricConfiguration(chartProps)}
+        granularity={granularity}
       />
     </Card>
   );
