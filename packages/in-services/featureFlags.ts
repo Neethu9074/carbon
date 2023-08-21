@@ -107,6 +107,9 @@ export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
 export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidgetEventsTableEnabled');
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
 
+// Infrastructure Smart Alerts
+export const infraSmartAlertEnabled = isFeatureFlagEnabled('infraSmartAlertEnabled');
+
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
 // ########################################################################################

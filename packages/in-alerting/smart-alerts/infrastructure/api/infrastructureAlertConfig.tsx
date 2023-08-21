@@ -1,0 +1,68 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import { Observable } from '@instana/observables';
+
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import { InfraAlertConfigWithMetadata, Result } from 'in-types';
+import http from 'in-services/http';
+
+const baseUrl = '/api/events/settings/infra-alert-configs';
+
+function getRequest(id: string, timestamp: number) {
+  return http<InfraAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    queryParams: {
+      validOn: timestamp
+    }
+  });
+}
+
+export function getAllAlertConfigs(id: string, timestamp: number): Observable<InfraAlertConfigWithMetadata> {
+  const request = getRequest(id, timestamp);
+  return request.map(response => response.body);
+}
+
+export function getAllAlertConfigsWithResult(): Observable<Result<InfraAlertConfigWithMetadata[]>> {
+  const request = http<InfraAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl
+  });
+  return createObservable(request);
+}
+
+export function enableAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/enable`
+  }).map(response => response.body);
+}
+
+export function disableAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/disable`
+  }).map(response => response.body);
+}
+
+export function deleteAlertConfig(id: string): Observable<void> {
+  return http<void>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  }).map(response => response.body);
+}

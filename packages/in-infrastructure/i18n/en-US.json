@@ -125,6 +125,10 @@
     "collapseAll": "Collapse All",
     "map": "Map",
     "comparisonTable": "Comparison Table",
-    "infrastructureComparisonTable": "Infrastructure Comparison Table"
+    "infrastructureComparisonTable": "Infrastructure Comparison Table",
+    "smartAlerts": "Smart Alerts"
+  },
+  "smartAlertView": {
+    "smartAlertTab": "Infrastructure Smart Alerts"
   }
 }

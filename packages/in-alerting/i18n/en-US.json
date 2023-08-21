@@ -1182,6 +1182,16 @@
         "thresholdLowerOperatorText": "The number of {{metricLabel}} lower than expected.",
         "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected."
       }
+    },
+    "infrastructure": {
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "Aggregation: {{aggregation}}, Metric Name: {{metricName}}",
+            "subtitleForStaticThreshold": "Static Threshold, Occurrences {{operator}} {{value}}"
+          }
+        }
+      }
     }
   }
 }

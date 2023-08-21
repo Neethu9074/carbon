@@ -84,5 +84,6 @@ module.exports = {
   sloEnabled: true,
   syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
-  customWidgetTableInfraDataSourceEnabled: true
+  customWidgetTableInfraDataSourceEnabled: true,
+  infraSmartAlertEnabled: true
 };

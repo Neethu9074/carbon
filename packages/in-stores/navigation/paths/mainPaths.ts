@@ -17,6 +17,7 @@ export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 export const eventsPath = '/events';
+export const infraSmartAlerts = '/infraAlerts';
 
 export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   const { createHref, location } = useNavigation();
@@ -43,7 +44,12 @@ export function isTableView(type: string) {
 }
 
 export function isInfrastructurePath(path: string) {
-  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
+  return (
+    path.indexOf(physicalPath) === 0 ||
+    path.indexOf(infraSmartAlerts) === 0 ||
+    path.indexOf(tablePath) === 0 ||
+    path.indexOf(containerPath) === 0
+  );
 }
 
 export function isEventsPath(path: string) {
