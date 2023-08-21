@@ -85,6 +85,14 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
 
   const icons = axis.icons;
 
+  const toggleOthers = thisLabel => {
+    labels.map(label => {
+      if (label !== thisLabel && label.isToggleable) {
+        label.onToggle();
+      }
+    });
+  };
+
   return (
     <ul className={locals.metricList} ref={ref}>
       {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
@@ -100,6 +108,9 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
               [locals.toggleable]: isToggleable
             })}
             onClick={onToggle}
+            onDoubleClick={() => {
+              toggleOthers(labels[i]);
+            }}
           >
             {icons ? (
               <SvgIcon
