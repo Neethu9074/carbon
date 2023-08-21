@@ -47,6 +47,7 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { hasError, isLoading } from 'in-services/util/result';
 import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
@@ -94,13 +95,28 @@ function mergeResultData(id, endpointConfig, created) {
   // calling Get Alert and Get action associations call and combining results
   if (hasAutomationActions) {
     const actionDetails$ = getApplicationAlertActionAssociations(id);
-    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) => ({
-      ...alertResponse,
-      actionIds: actionResponse?.map(action => action.id) ?? []
-    }));
+    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) =>
+      combineResults(alertResponse, actionResponse)
+    );
   }
 
   return alertDetails$;
+}
+
+function combineResults(alertResponse, actionResponse) {
+  if (isLoading(alertResponse) || hasError(alertResponse) || isLoading(actionResponse)) {
+    return alertResponse;
+  }
+  if (hasError(actionResponse)) {
+    return {
+      ...alertResponse,
+      actionAssociationsErrors: actionResponse.errors
+    };
+  }
+  return {
+    ...alertResponse,
+    actionIds: actionResponse?.data?.map(action => action.id) ?? []
+  };
 }
 
 function IndividualAlertDetails(props) {
@@ -147,8 +163,14 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlo
   );
 }
 
-function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
-  return <AlertConfiguration alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />;
+function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert, actionAssociationsErrors }) {
+  return (
+    <AlertConfiguration
+      alertConfig={alertConfig}
+      isGlobalSmartAlert={isGlobalSmartAlert}
+      actionAssociationsErrors={actionAssociationsErrors}
+    />
+  );
 }
 
 AlertDetails.propTypes = {

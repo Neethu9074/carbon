@@ -64,7 +64,12 @@ export default function Alert({
   const alertConfigId = getMatrixParameter(location, alertsTabSegment, alertIdParam);
   const alertConfigCreated = getMatrixParameter(location, alertsTabSegment, alertCreatedParam);
 
-  const { alertConfig, alertConfigErrors } = useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload);
+  const { alertConfig, alertConfigErrors, actionAssociationsErrors } = useAlertConfig(
+    getConfig,
+    alertConfigId,
+    alertConfigCreated,
+    reload
+  );
   const { alertConfigVersions, alertConfigVersionsErrors } = useAlertConfigVersions(
     getConfigVersions,
     alertConfigId,
@@ -163,7 +168,7 @@ export default function Alert({
         />
 
         <Row>
-          <Col xs={6}>{renderAlertConfiguration({ alertConfig, isGlobalSmartAlert })}</Col>
+          <Col xs={6}>{renderAlertConfiguration({ alertConfig, isGlobalSmartAlert, actionAssociationsErrors })}</Col>
           <Col xs={6}>
             <AlertHistoryList alertConfigId={alertConfig.id} timeConfig={timeConfig} />
           </Col>
@@ -185,7 +190,11 @@ function useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload) {
     useObservable(() => getConfig(alertConfigId, alertConfigCreated), [alertConfigId, alertConfigCreated, reload]) ??
     {};
   if (role.canConfigureAutomationActions && actionAutomationEnabled && result.data) {
-    return { alertConfig: { actionIds: result.actionIds, ...result.data }, alertConfigErrors: result.errors };
+    return {
+      alertConfig: { actionIds: result.actionIds, ...result.data },
+      alertConfigErrors: result.errors,
+      actionAssociationsErrors: result.actionAssociationsErrors ?? null
+    };
   } else {
     return { alertConfig: result.data, alertConfigErrors: result.errors };
   }

@@ -6,6 +6,8 @@
 
 import React, { useMemo, useState } from 'react';
 
+import { Message } from '@instana/components';
+
 import {
   getCustomEventSpecificationMutable,
   saveCustomEventSpecificationWithActions,
@@ -38,12 +40,22 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
     reload
   );
   const triggerReload = () => setReload(Math.random());
+  let actionError = null;
+
+  // Memoize the creation of selectedActionsSet
+  const selectedActionsSet = useMemo(() => {
+    if (existingActions && Array.isArray(existingActions)) {
+      return new Set((existingActions ?? []).map(action => action.id));
+    }
+    return new Set();
+  }, [existingActions]);
+
+  if (existingActions && 'message' in existingActions) {
+    actionError = existingActions.message;
+  }
 
   const getUnusedSuggestedActions = useMemo(() => {
     if (!eventSpecification) return null;
-
-    const selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
-
     return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
       allActions => {
         if (!existingActions) return [];
@@ -53,7 +65,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
           .sort((a, b) => b.score - a.score);
       }
     );
-  }, [eventSpecification, existingActions]);
+  }, [eventSpecification, existingActions, selectedActionsSet]);
 
   if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
@@ -62,6 +74,11 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
   return (
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
+      {actionError && (
+        <Message type="error" small withIcon>
+          {actionError}
+        </Message>
+      )}
       <ActionTable
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
@@ -91,7 +108,7 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
 }
 interface AssociateActionProps {
   action: Action;
-  existingActions: Action[];
+  existingActions: Action[] | { code: string; message: string };
   event: EventSpecification;
   triggerReload: () => void;
   setError: (e: boolean) => void;
@@ -113,7 +130,7 @@ function associateAction({
 
   const onSave = () => triggerReload();
   const handleErrors = () => setError(true);
-  const updatedActions = [...existingActions, action];
+  const updatedActions = 'message' in existingActions ? [action] : [...existingActions, action];
 
   if (isCustomEvent) {
     getCustomEventSpecificationMutable(event.id).once(

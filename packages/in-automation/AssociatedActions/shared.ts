@@ -46,7 +46,7 @@ export function useAssociatedActionsData(eventSpecificationId: string, isCustomE
   const { getEventSpecification, getActionsForEventSpecification } = getEventObservables(isCustomEvent);
 
   const actions =
-    useObservable<Action[], [string, number]>(
+    useObservable<Action[] | { code: string; message: string }, [string, number]>(
       () => getActionsForEventSpecification(eventSpecificationId),
       [eventSpecificationId, reload]
     ) ?? null; // fallback to null instead of an empty array so we can recognize the loading state
