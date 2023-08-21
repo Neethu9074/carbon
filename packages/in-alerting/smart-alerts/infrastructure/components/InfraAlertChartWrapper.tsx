@@ -6,24 +6,34 @@
 
 import React from 'react';
 
+import { InfraAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
+//@ts-expect-error TS migration
+import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 // eslint-disable-next-line no-restricted-imports
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+//@ts-expect-error TS migration
+import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import {
   getUnifiedMetricConfig,
   getChartConfig
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
+// eslint-disable-next-line no-restricted-imports
+import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 // eslint-disable-next-line no-restricted-imports
 import { getMetricDefinition } from 'in-sdk/metrics';
-import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { t } from 'in-i18n';
 
-export default function InfraAlertChartWrapper(props) {
+interface InfraAlertChartWrapperProps {
+  alertConfig: InfraAlertConfigWithMetadata;
+  timeConfig: TimeConfig;
+}
+
+export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
   const { alertConfig, timeConfig } = props;
   const { entityType, metricName } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
@@ -52,7 +62,7 @@ export default function InfraAlertChartWrapper(props) {
   };
 
   // WS hook to get unified metric results
-  const unifiedMetricData = useResultData(unifiedMetricConfig, alertConfig.granularity, timeConfig);
+  const unifiedMetricData = useResultData(unifiedMetricConfig as Config, alertConfig.granularity, timeConfig);
   const metricResult = unifiedMetricData.metricResult;
 
   let metricResults = {};
@@ -65,12 +75,12 @@ export default function InfraAlertChartWrapper(props) {
       data: {}
     };
   } else {
-    const metricValues = metricResult?.data[0]?.values;
+    const metricValues = metricResult?.data ? metricResult?.data[0]?.values : [];
 
     metricResults = {
       progress: finishedProgress,
       errors: {},
-      time: metricResult.time,
+      time: metricResult?.time,
       data: {
         [metricName]: metricValues,
         threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig)
@@ -78,7 +88,7 @@ export default function InfraAlertChartWrapper(props) {
     };
   }
 
-  const metricChartProps = { ...chartProps, result: metricResults };
+  const metricChartProps = { ...chartProps, result: metricResults as Result<MetricData> };
 
   return (
     <Card title={t('in-events:titleMetrics')}>

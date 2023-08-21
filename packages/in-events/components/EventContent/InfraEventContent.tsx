@@ -12,7 +12,6 @@ import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
-//@ts-expect-error
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
