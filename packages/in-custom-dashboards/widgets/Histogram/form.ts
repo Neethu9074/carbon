@@ -15,11 +15,11 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
-import { UnifiedMetricConfigurationUnion } from 'in-types';
+import { UnifiedMetricConfiguration } from 'in-types';
 
 export interface HistogramConfig {
   [formatterPath]: string;
-  [metricConfigurationPath]?: UnifiedMetricConfigurationUnion;
+  [metricConfigurationPath]?: UnifiedMetricConfiguration;
 }
 
 export function createForm(savedState: Partial<HistogramConfig>) {

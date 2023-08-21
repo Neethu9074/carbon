@@ -11,7 +11,7 @@ import {
   ConfigWithCompanionMetric,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
+import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -21,7 +21,7 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface BigNumberKpiCardProps {
-  config: Config | ConfigWithCompanionMetric;
+  config: Config<UnifiedMetricConfiguration> | ConfigWithCompanionMetric<UnifiedMetricConfiguration>;
 }
 
 export function GetBigNumberKpiCardResult({ config }: BigNumberKpiCardProps) {
@@ -35,7 +35,7 @@ export function GetBigNumberKpiCardResult({ config }: BigNumberKpiCardProps) {
     resultType: 'SINGLE_NUMBER'
   } as const;
 
-  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
+  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       ...config.metricConfiguration,
       ...config.tagFilters,

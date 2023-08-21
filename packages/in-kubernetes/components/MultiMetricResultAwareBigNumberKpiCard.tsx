@@ -7,8 +7,8 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import MultiMetricKpiCard, { KpiCardIconAction } from 'in-kubernetes/components/MultiMetricKpiCard';
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
 import MultiMetricResultAwareKpiCard from 'in-kubernetes/components/MultiMetricResultAwareKpiCard';
 import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
@@ -24,7 +24,7 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface Config {
-  metricConfiguration: UnifiedMetricConfigurationUnion;
+  metricConfiguration: UnifiedMetricConfiguration;
   formatter?: string;
   tagFilters?: TagFilter[];
   comparisonIncreaseColor: string;
@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export interface ConfigWithCompanionMetric extends Config {
-  companionMetricConfiguration: UnifiedMetricConfigurationUnion;
+  companionMetricConfiguration: UnifiedMetricConfiguration;
 }
 
 export interface MultiResultAwareBigNumberKpiCardProps {
@@ -79,9 +79,7 @@ export default function MultiMetricResultAwareBigNumberKpiCard({
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       renderKpiCard={result =>
         renderKpiCard(
@@ -155,9 +153,7 @@ export function renderKpiCard(
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       companionValue={companionValue}
       iconAction={iconAction}

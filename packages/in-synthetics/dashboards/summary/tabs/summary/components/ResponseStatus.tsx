@@ -6,10 +6,17 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  MetricResult,
+  Result,
+  SyntheticUnifiedMetricConfiguration,
+  TimeConfig,
+  TimeShift,
+  UnifiedMetricConfiguration
+} from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { MetricResult, Result, TimeConfig, TimeShift, UnifiedMetricConfigurationUnion } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -65,7 +72,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
   const metricKey = 'responseStatus';
   const id = get(test, ['data', 'id']);
 
-  const config: Config = {
+  const config: Config<SyntheticUnifiedMetricConfiguration> = {
     metricConfiguration: {
       aggregation: 'DISTINCT_COUNT',
       metric: 'id',
@@ -92,7 +99,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
     comparisonIncreaseColor: 'greenish'
   };
 
-  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
+  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       ...config.metricConfiguration,
       ...config.tagFilters

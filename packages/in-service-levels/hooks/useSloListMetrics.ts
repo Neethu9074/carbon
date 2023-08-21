@@ -11,7 +11,7 @@ import {
   Result,
   ServiceLevelObjectiveConfiguration,
   TimeConfig,
-  UnifiedMetricConfigurationUnion
+  UnifiedMetricConfiguration
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -51,8 +51,8 @@ export default function useSloListMetrics(
 function getMetricConfig(
   configurations: ServiceLevelObjectiveConfiguration[],
   timeConfig: TimeConfig
-): Record<string, UnifiedMetricConfigurationUnion> {
-  return configurations.reduce<Record<string, UnifiedMetricConfigurationUnion>>((metricConfig, sloConfig) => {
+): Record<string, UnifiedMetricConfiguration> {
+  return configurations.reduce<Record<string, UnifiedMetricConfiguration>>((metricConfig, sloConfig) => {
     const sloTimeConfig = calculateTimeConfigForSloTimeWindow(timeConfig, sloConfig.timeWindow);
 
     metricConfig[`${sloConfig.id}-status`] = sloMetrics.status.singleNumber({

@@ -6,8 +6,9 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { MetricResult, Nullish, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -16,14 +17,15 @@ import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
-export interface Config {
-  metricConfiguration: UnifiedMetricConfigurationUnion;
+export interface Config<METRIC_CONFIG extends UnifiedMetricConfiguration> {
+  metricConfiguration: METRIC_CONFIG;
   formatter?: string;
   tagFilters?: TagFilter[];
   getColor?: (metricValue: number | Nullish) => string | undefined;
@@ -31,36 +33,42 @@ export interface Config {
   comparisonDecreaseColor?: string;
 }
 
-export interface ConfigWithCompanionMetric extends Config {
-  companionMetricConfiguration: UnifiedMetricConfigurationUnion;
+export interface ConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfiguration>
+  extends Config<METRIC_CONFIG> {
+  companionMetricConfiguration: UnifiedMetricConfiguration;
 }
 
-export interface ConfigWithStaticCompanion extends Config {
+export interface ConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfiguration>
+  extends Config<METRIC_CONFIG> {
   staticCompanionValue: ReactNode;
 }
 
-export interface ResultAwareBigNumberKpiCardProps {
+export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedMetricConfiguration> {
   title: string;
   formatter: FormatterFn;
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion;
+  config: Config<METRIC_CONFIG> | ConfigWithCompanionMetric<METRIC_CONFIG> | ConfigWithStaticCompanion<METRIC_CONFIG>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
   raw?: boolean;
 }
 
-export function isConfigWithCompanionMetric(config: Config): config is ConfigWithCompanionMetric {
-  return (config as ConfigWithCompanionMetric).companionMetricConfiguration != null;
+export function isConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+  config: Config<METRIC_CONFIG>
+): config is ConfigWithCompanionMetric<METRIC_CONFIG> {
+  return (config as ConfigWithCompanionMetric<METRIC_CONFIG>).companionMetricConfiguration != null;
 }
 
-export function isConfigWithStaticCompanion(config: Config): config is ConfigWithStaticCompanion {
+export function isConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+  config: Config<METRIC_CONFIG>
+): config is ConfigWithStaticCompanion<METRIC_CONFIG> {
   return 'staticCompanionValue' in config;
 }
 
-export default function ResultAwareBigNumberKpiCard({
+export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>({
   title,
   formatter,
   companionFormatter,
@@ -71,7 +79,7 @@ export default function ResultAwareBigNumberKpiCard({
   dragHandle,
   result,
   raw
-}: ResultAwareBigNumberKpiCardProps) {
+}: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
 
   return (
@@ -106,9 +114,9 @@ export default function ResultAwareBigNumberKpiCard({
   );
 }
 
-export function renderKpiCard(
+export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   result: Result<MetricResult[]>,
-  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion,
+  config: Config<METRIC_CONFIG> | ConfigWithCompanionMetric<METRIC_CONFIG> | ConfigWithStaticCompanion<METRIC_CONFIG>,
   formatter: FormatterFn,
   title: string,
   timeConfig: TimeConfig,
@@ -169,8 +177,8 @@ function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter
   return null;
 }
 
-function renderTimeShiftValue(
-  config: Config | ConfigWithCompanionMetric,
+function renderTimeShiftValue<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+  config: Config<METRIC_CONFIG> | ConfigWithCompanionMetric<METRIC_CONFIG>,
   result: Result<MetricResult[]>,
   formatter: FormatterFn,
   value: number | null,

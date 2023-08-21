@@ -14,7 +14,7 @@ import ResultAwareBigNumberKpiCard, {
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
+import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -31,7 +31,10 @@ export interface BigNumberKpiCardProps {
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config | ConfigWithCompanionMetric | ConfigWithStaticCompanion;
+  config:
+    | Config<UnifiedMetricConfiguration>
+    | ConfigWithCompanionMetric<UnifiedMetricConfiguration>
+    | ConfigWithStaticCompanion<UnifiedMetricConfiguration>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
@@ -57,7 +60,7 @@ export default function BigNumberKpiCard({
     resultType: 'SINGLE_NUMBER'
   } as const;
 
-  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
+  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
       timeConfig,

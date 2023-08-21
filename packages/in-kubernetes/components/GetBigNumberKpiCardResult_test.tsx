@@ -42,7 +42,7 @@ describe('GetBigNumberKpiCardResult', () => {
   beforeEach(jest.clearAllMocks);
 
   it('getUnifiedMetrics to be called with config with timeshift present', () => {
-    const config: Config = {
+    const config: Config<any> = {
       metricConfiguration: {
         metric: 'cpuLimits',
         source,

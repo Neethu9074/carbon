@@ -16,7 +16,7 @@ import {
   ResultType,
   TimeConfig,
   TimeShift,
-  UnifiedMetricConfigurationUnion
+  UnifiedMetricConfiguration
 } from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -37,7 +37,7 @@ interface MetricBaseConfig {
 }
 
 interface UnifiedMetricConfigurations {
-  [index: string]: UnifiedMetricConfigurationUnion;
+  [index: string]: UnifiedMetricConfiguration;
 }
 
 const getMetrics = (metricBaseConfig: MetricBaseConfig, granularity: number): UnifiedMetricConfigurations => {

@@ -5,6 +5,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { ResultType } from '@instana/types';
 
@@ -29,7 +30,6 @@ import {
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -208,7 +208,7 @@ interface ResultData {
   companionMetricResult: Result<UnifiedMetricsResult[]>;
 }
 
-type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
+type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfiguration };
 
 export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
   const metrics: UnifiedMetricsConfigObject = {};
@@ -259,7 +259,7 @@ function addUnifiedMetricsConfigForMetrics(
         granularity: adjustedGranularity,
         timeConfig: timeConfig,
         timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfigurationUnion)
+      } as UnifiedMetricConfiguration)
   );
 }
 
@@ -279,7 +279,7 @@ function addUnifiedMetricsConfigForCompanionMetrics(
         granularity: adjustedGranularity,
         timeConfig: timeConfig,
         timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfigurationUnion)
+      } as UnifiedMetricConfiguration)
   );
 }
 

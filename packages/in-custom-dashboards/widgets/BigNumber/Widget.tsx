@@ -5,6 +5,8 @@
 
 import React, { ReactNode } from 'react';
 
+import { UnifiedMetricConfiguration } from '@instana/types';
+
 import { Config, ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getFormatter } from 'in-stores/metric/formatters';
@@ -12,7 +14,7 @@ import { getFormatter } from 'in-stores/metric/formatters';
 export interface BigNumberProps {
   title: string;
   useMaxAvailableHeight?: boolean;
-  config: Config | ConfigWithCompanionMetric;
+  config: Config<UnifiedMetricConfiguration> | ConfigWithCompanionMetric<UnifiedMetricConfiguration>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   isPreview?: boolean;

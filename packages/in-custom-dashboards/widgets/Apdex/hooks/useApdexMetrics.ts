@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MetricResult, Result, TimeConfig, GetUnifiedMetricsQuery } from '@instana/types';
+import { MetricResult, Result, TimeConfig, GetUnifiedMetricsQuery, ApdexMetricConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -22,7 +22,11 @@ interface UseApdexMetricsProps {
   isPreview?: boolean;
 }
 
-function getQuery({ id, timeConfig, isPreview = false }: UseApdexMetricsProps): GetUnifiedMetricsQuery {
+interface ApdexUnifiedMetricsQuery extends Omit<GetUnifiedMetricsQuery, 'metrics'> {
+  readonly metrics: { [index: string]: ApdexMetricConfiguration };
+}
+
+function getQuery({ id, timeConfig, isPreview = false }: UseApdexMetricsProps): ApdexUnifiedMetricsQuery {
   return {
     metrics: {
       apdex: {

@@ -12,7 +12,7 @@ import {
   Result,
   SloEntityUnion,
   TimeConfig,
-  UnifiedMetricConfigurationUnion
+  UnifiedMetricConfiguration
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useTheme } from '@instana/components';
@@ -86,7 +86,7 @@ function useMetricConfiguration(
   indicator: TimeBasedAvailabilityBlueprintIndicator,
   granularity: number,
   timeConfig: TimeConfig
-): UnifiedMetricConfigurationUnion {
+): UnifiedMetricConfiguration {
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.errorRate.timeSeries({
