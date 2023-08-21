@@ -13,7 +13,7 @@ import {
   getApplicationAlertActionAssociations,
   updateApplicationAlertAssociations
 } from 'in-automation/api';
-import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
+import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -50,7 +50,7 @@ export default function RecommendedActionsCardAlerts({
   const getUnusedSuggestedActions = useMemo(() => {
     if (!alertConfig) return null;
 
-    const selectedActionsSet = new Set((existingActions ?? []).map(action => action.id));
+    const selectedActionsSet = new Set((existingActions?.data ?? []).map(action => action.id));
 
     return getAllActionsWithAISuggestions(alertConfig.name, alertConfig.description ?? '').map(allActions => {
       if (!existingActions) return [];
@@ -100,7 +100,7 @@ export default function RecommendedActionsCardAlerts({
 
 interface AssociateActionProps {
   action: Action;
-  existingActions: Action[];
+  existingActions: Result<Action[]>;
   alertConfig: ApplicationAlertConfigWithMetadata;
   triggerReload: () => void;
   setError: (e: boolean) => void;
@@ -119,11 +119,12 @@ export function associateAction({
     actionNames: [action.name]
   });
 
+  const selectedActionsSet = new Set(existingActions?.data ?? []);
   const onSave = () => {
     triggerReload();
   };
   const handleErrors = () => setError(true);
-  const updatedActionIds = [...existingActions, action].map(a => a.id);
+  const updatedActionIds = [...selectedActionsSet, action].map(a => a.id);
 
   updateApplicationAlertAssociations({ actions: updatedActionIds, alertId: alertConfig.id }).once(onSave, handleErrors);
 }

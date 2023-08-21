@@ -31,6 +31,7 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -52,9 +53,8 @@ import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/Ale
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
+export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert, actionAssociationsErrors }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-
   const {
     name,
     rule: { operator, alertType, message, level, aggregation, metricName },
@@ -191,8 +191,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
-
-      {role?.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert && (
+      {role?.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert ? (
         <ExpandableLightCard
           title={
             <div>
@@ -204,11 +203,15 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           openByDefault
           darkFrame
         >
-          <div className={locals.alertChannelsWrapper}>
-            <AlertsActionAssociationsViewer actionIds={actionIds} />
-          </div>
+          {actionAssociationsErrors?.length ? (
+            <ErroneousResultPresenter errors={[...actionAssociationsErrors]} />
+          ) : (
+            <div className={locals.alertChannelsWrapper}>
+              <AlertsActionAssociationsViewer actionIds={actionIds} />
+            </div>
+          )}
         </ExpandableLightCard>
-      )}
+      ) : null}
     </AlertDetailsCard>
   );
 }
@@ -280,7 +283,13 @@ function AdditionalFiltersCard({ tagFilterFormModel, alertType, thresholdType })
 
 AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  isGlobalSmartAlert: PropTypes.bool
+  isGlobalSmartAlert: PropTypes.bool,
+  actionAssociationsErrors: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired
+    })
+  )
 };
 
 function getDescription(operator, message) {

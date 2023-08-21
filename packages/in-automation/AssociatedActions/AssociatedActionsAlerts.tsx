@@ -18,6 +18,7 @@ import {
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { getScoredActionsForEventOrAlert } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getEventSpecificationId, useDualReload } from './shared';
@@ -44,14 +45,23 @@ export default function AssociatedActionsAlerts({
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
-  const actions =
-    useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload], {
+  const result = useObservable(
+    () => getApplicationAlertActionAssociations(eventSpecificationId),
+    [eventSpecificationId, reload],
+    {
       resetStateOnObservableChange: false
-    }) ?? [];
-  const selectedActions = actions.map((action: Action) => action.id);
+    }
+  ) ?? { data: [], errors: [] };
 
+  const actions = result?.data ?? [];
+  const associationsError = result?.errors ?? [];
+  const selectedActions = actions.length > 0 ? actions?.map((action: Action) => action.id) : [];
   if (!alertConfig) {
     return <LoadingIndicator size="xl" />;
+  }
+
+  if (associationsError.length) {
+    return <ErroneousResultPresenter errors={[...associationsError]} />;
   }
 
   const getScoredActionsForAlertMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>

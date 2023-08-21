@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
 import {
   getScoredActionsForEventOrAlert,
@@ -53,9 +54,21 @@ export default function AssociatedActionsCard({
   if (!eventSpecification || !actions) {
     return <LoadingIndicator size="xl" />;
   }
+  let actionError = null;
+  let selectedActions = [] as string[];
+  if ('message' in actions) {
+    actionError = actions.message;
+  } else {
+    selectedActions = (actions ?? []).map(action => action.id);
+  }
 
-  const selectedActions = (actions ?? []).map(action => action.id);
-
+  if (actionError) {
+    return (
+      <Message type="error" small withIcon>
+        {actionError}
+      </Message>
+    );
+  }
   return (
     <ActionTable
       title={title ?? t('in-automation:associatedActions')}
@@ -67,7 +80,9 @@ export default function AssociatedActionsCard({
         delete: {
           deleteEntity: action => {
             deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
-            const updatedActions = actions.filter(a => a.id !== action.id).map(a => ({ id: a.id }));
+            const updatedActions = Array.isArray(actions)
+              ? actions.filter(a => a.id !== action.id).map(a => ({ id: a.id }))
+              : ({} as { id: string }[]);
             if (isCustomEvent) {
               return saveCustomEventSpecificationWithActions({ ...eventSpecification, actions: updatedActions }).tap(
                 triggerReload
@@ -80,7 +95,7 @@ export default function AssociatedActionsCard({
       }}
       rightHeader={
         <RightHeader
-          actions={actions ?? []}
+          actions={Array.isArray(actions) ? actions : []}
           eventSpecification={eventSpecification}
           triggerReload={triggerReload}
           isCustomEvent={isCustomEvent}

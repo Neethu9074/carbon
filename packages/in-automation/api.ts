@@ -602,13 +602,15 @@ export function saveNewAssociation(data: NewActionAssociation) {
     data: data
   }).map(response => response.body);
 }
-export function getApplicationAlertActionAssociations(id: string) {
-  return http<Action[]>({
+export function getApplicationAlertActionAssociations(id: string): Observable<Result<Action[]>> {
+  const request = http<Action[]>({
     method: 'GET',
     maxRetries: 3,
-    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`,
-    headers: getCsrfHeader()
-  }).map(response => response.body);
+    headers: getCsrfHeader(),
+    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`
+  });
+
+  return createObservable(request);
 }
 
 export function getAssociations(actionId: string) {
