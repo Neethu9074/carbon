@@ -74,7 +74,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
         })}
         {
           //@ts-expect-error
-          canLoadMore && <LiLoadMore loadMore={loadMore} label={''} />
+          canLoadMore && <LiLoadMore loadMore={loadMore} />
         }
         {loading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
         {!loading && !items?.length && (
