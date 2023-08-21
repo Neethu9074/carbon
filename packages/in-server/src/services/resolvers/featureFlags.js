@@ -348,7 +348,7 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'systemRuleEntityCountEnabled',
