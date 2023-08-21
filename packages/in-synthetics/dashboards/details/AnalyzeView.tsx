@@ -145,6 +145,8 @@ export default function SyntheticAnalyzeView() {
               withBorderBottom
               renderMetaInformation={renderMetaInformation}
               contextConfigurations={contextConfigurations}
+              liveModeDisabled
+              liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}
             />
             <DashboardHeaderShadowModule />
           </>

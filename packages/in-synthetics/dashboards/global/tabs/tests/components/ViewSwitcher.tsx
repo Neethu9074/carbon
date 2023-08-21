@@ -35,7 +35,9 @@ export default function ViewSwitcher() {
     icon: 'lib_synthetic',
     label: t('in-synthetics:dashboard.testList.mainLabel'),
     title: t('in-synthetics:dashboard.testList.mainLabel'),
-    showHistoricDataWarning: false
+    showHistoricDataWarning: false,
+    liveModeDisabled: isLocationsActive && true,
+    liveModeDisabledTooltip: t('in-synthetics:dashboard.locationList.locationLiveModeDisabled')
   };
 
   return (

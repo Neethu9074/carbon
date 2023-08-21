@@ -286,6 +286,7 @@
       "na": "N/A"
     },
     "locationList": {
+      "locationLiveModeDisabled": "Live Mode is not applicable in Synthetic Locations page",
       "locationLabel": "Location Name",
       "locationDisplayLabel": "Display Name",
       "status": "Status",
@@ -365,6 +366,7 @@
       "success": "Success"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
       "timeLineWidget": "Timeline",
       "responseTimeChart": "Response Time",
       "subtransactionStatus": "Status",
