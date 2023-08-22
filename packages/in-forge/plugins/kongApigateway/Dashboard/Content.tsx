@@ -14,10 +14,14 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import KongKongLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatencyRoute';
+import KongRequestLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongRequestLatency';
 import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
 import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
+import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatency';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
+import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
@@ -108,6 +112,10 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongKongLatency snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />
+      <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 };
