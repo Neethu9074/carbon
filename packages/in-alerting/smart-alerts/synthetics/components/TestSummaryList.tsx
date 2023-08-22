@@ -9,6 +9,7 @@ import { noop } from 'lodash';
 
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { TrProps } from '@instana/components';
 
 import {
   columnDefinitions,
@@ -30,7 +31,7 @@ import { getTests } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList.mless';
+import locals from 'in-settings/components/List.mless';
 
 export interface StateProps {
   query: string;
@@ -139,40 +140,40 @@ export function SummaryList({
   }
 
   return (
-    <div className={locals.noBorder}>
-      <ServerTablePresenter<TestResultListItem, TestListProps>
-        timeConfig={timeConfig}
-        onChange={({ page, query, orderBy, orderDirection }) => {
-          const updatedState = { ...state, ...{ page, query, orderBy, orderDirection } };
-          setState(updatedState);
-        }}
-        columnDefinitions={addTableActions({
-          columnDefinitions,
-          tableActions
-        })}
-        query={state.query}
-        page={state.page}
-        orderBy={state.orderBy}
-        orderDirection={state.orderDirection}
-        result={listData}
-        noDataMessage={''}
-        pageSize={pageSize}
-        rightHeader={
-          <Filters
-            result={syntheticTests}
-            setFilter={setFilters}
-            syntheticTypes={state.syntheticTypes}
-            locationIds={state.locationIds}
-            applicationIds={state.applicationIds}
-          />
-        }
-        isSearchable
-        searchPlaceholder={t('in-settings:tabs.filter')}
-        cardTitle={t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
-        allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
-        setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
-      />
-    </div>
+    <ServerTablePresenter<TestResultListItem, TestListProps>
+      timeConfig={timeConfig}
+      onChange={({ page, query, orderBy, orderDirection }) => {
+        const updatedState = { ...state, ...{ page, query, orderBy, orderDirection } };
+        setState(updatedState);
+      }}
+      columnDefinitions={addTableActions({
+        columnDefinitions,
+        tableActions
+      })}
+      getRowProps={getRowProps}
+      query={state.query}
+      page={state.page}
+      orderBy={state.orderBy}
+      orderDirection={state.orderDirection}
+      result={listData}
+      noDataMessage={''}
+      pageSize={pageSize}
+      rightHeader={
+        <Filters
+          result={syntheticTests}
+          setFilter={setFilters}
+          syntheticTypes={state.syntheticTypes}
+          locationIds={state.locationIds}
+          applicationIds={state.applicationIds}
+        />
+      }
+      isSearchable
+      searchPlaceholder={t('in-settings:tabs.filter')}
+      cardTitle={t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
+      allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
+      setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
+      shadowless
+    />
   );
 }
 
@@ -296,4 +297,11 @@ function addIdToLists(list: Result<PaginatedResult<TestResultListItem>>) {
     return { ...items, id: items?.testResultCommonProperties?.testId };
   });
   return { ...list, data: { ...list.data, items: itemsList } };
+}
+
+function getRowProps(): TrProps {
+  return {
+    className: locals.row,
+    size: 'compact'
+  };
 }

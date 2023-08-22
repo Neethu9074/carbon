@@ -6,8 +6,8 @@
 
 import React, { ReactNode } from 'react';
 
+import { SvgIcon, TrProps } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
@@ -81,6 +81,7 @@ export default function AlertTestsList({
       extraFilters={createFilters(hiddenIds ?? [])}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
+      getRowProps={getRowProps}
     />
   );
 }
@@ -191,4 +192,11 @@ function createFilters(
     ];
   }
   return [];
+}
+
+function getRowProps(): TrProps {
+  return {
+    className: locals.row,
+    size: 'compact'
+  };
 }
