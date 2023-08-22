@@ -6,23 +6,34 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-let snapshotMap = {};
+interface LatencyRow {
+  key: string;
+  snapshotId: string;
+  latency: Map<string, number>;
+}
+
+interface WorkerLuaVMProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
+}
 
 const cols = [
   {
     title: t('in-forge:plugins.kongApigateway.pid'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
-        return row.workersLuaVm.get('pid');
+      getValue(row: LatencyRow) {
+        return row.latency.get('pid');
       }
     }
   },
@@ -30,8 +41,8 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.subsystem'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
-        return row.workersLuaVm.get('subsystem');
+      getValue(row: LatencyRow) {
+        return row.latency.get('subsystem');
       }
     }
   },
@@ -39,71 +50,75 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.allocatedBytes'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
-        return row.workersLuaVm.get('bytes');
+      getValue(row: LatencyRow) {
+        return row.latency.get('bytes');
       },
       getContent: bytesTwoDecimalPlaces
     }
   }
 ];
 
-export default connectTo(
-  props => {
-    snapshotMap = props;
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'memoryWorkersLuaVmsBytes')
-    };
-  },
-  function WorkerLuaVM({ data }) {
-    if (!data) {
-      return null;
-    }
-    const { snapshotId, timeConfig } = snapshotMap;
-    const memoryWorkersLuaVmsByte = data.get('raw_payload');
-    const rows = memoryWorkersLuaVmsByte
-      .keySeq()
-      .toArray()
-      .map(key => {
-        const workersLuaVm = memoryWorkersLuaVmsByte.get(key);
-        return {
-          key: String(key),
-          snapshotId,
-          timeConfig,
-          workersLuaVm
-        };
-      });
-    if (rows.length === 0) {
-      return null;
-    }
-    const getDetails = row => {
-      if (!snapshotMap?.timeConfig) {
-        return;
-      }
-      return (
-        <div>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytesTwoDecimalPlaces,
-              metrics: ['memoryWorkersLuaVmsBytes.' + row.key + '.bytes'],
-              labels: [t('in-forge:plugins.kongApigateway.allocatedBytes')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-      );
-    };
+const WorkerLuaVM = function KongWorkerLuaVM({ snapshotId, timeConfig }: WorkerLuaVMProps) {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'memoryWorkersLuaVmsBytes'), [snapshotId]);
+
+  if (!data) {
+    return null;
+  }
+
+  const memoryWorkersLuaVmsBytes = (data as SnapshotData).get('raw_payload');
+  const rows: LatencyRow[] = memoryWorkersLuaVmsBytes
+    .keySeq()
+    .toArray()
+    .map((key: string) => {
+      const latency = memoryWorkersLuaVmsBytes.get(key);
+      return {
+        key,
+        snapshotId,
+        timeConfig,
+        latency
+      };
+    });
+
+  if (rows.length === 0) {
+    return null;
+  }
+  function getDetails(row: LatencyRow) {
     return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.workerLua')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
+      <div>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: bytesTwoDecimalPlaces,
+            metrics: [
+              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyFiftyPercentile`,
+              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyPercentile`,
+              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyfivePercentile`,
+              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyninePercentile`
+            ],
+            labels: [
+              t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+              t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+              t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+              t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+            ],
+            type: 'line'
+          }}
+        />
+      </div>
     );
   }
-);
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.kongApigateway.dashboard.workerLua')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
+};
+
+export default WorkerLuaVM;
