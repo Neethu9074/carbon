@@ -6,13 +6,12 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { emptyList } from 'in-services/fixedImmutables';
 import List from 'in-sdk/components/sidebar/List';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-  const standbyNodes = snapshot.getIn(['data', 'standbyNodes'], emptyList);
+  const standbyNodes = snapshot.getIn(['data', 'standbyNodes']);
 
   return (
     <DescriptionList>
@@ -41,11 +40,13 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.runningNode')}>
         {data.get('runningNode')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNodes')}>
-        {standbyNodes.map((item, index) => (
-          <List.Item key={index}>{item}</List.Item>
-        ))}
-      </DescriptionItem>
+      {standbyNodes && (
+        <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNodes')}>
+          {standbyNodes.map((item, index) => (
+            <List.Item key={index}>{item}</List.Item>
+          ))}
+        </DescriptionItem>
+      )}
     </DescriptionList>
   );
 }
