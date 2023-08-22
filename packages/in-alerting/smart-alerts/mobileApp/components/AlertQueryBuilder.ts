@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Result, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+import { Result, TagFilterExpressionElementUnion, ThresholdType, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -12,6 +12,7 @@ import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/TeamSettings/page
 import { getSuggestions } from 'in-mobile-apps/queryBuilder';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -41,14 +42,23 @@ export interface Suggestions {
 export function createBoundedAlertQueryBuilder(
   mobileAppId: string | undefined,
   beaconType: MobileAppMonitoringBeaconType = 'sessionStart',
+  thresholdType?: ThresholdType,
   suggestionTimeConfig?: TimeConfig
 ): CreateQueryBuilderResponse {
   return createQueryBuilder({
-    getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
+    getTagCatalog: () => getTagCatalog({ beaconType, useCase: getUseCase(thresholdType) }),
     getSuggestions: (args: any) => {
       return getMobileAppTagSuggestions(args, mobileAppId, beaconType, suggestionTimeConfig);
     }
   });
+}
+
+function getUseCase(thresholdType?: ThresholdType) {
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return 'SMART_ALERTS_ADAPTIVE_BASELINE';
+  } else {
+    return 'SMART_ALERTS';
+  }
 }
 
 export function getMobileAppTagSuggestions(
@@ -72,8 +82,8 @@ function tagSuggestionArgs(args: GetMobileAppSuggestionsProps, suggestionTimeCon
   };
 }
 
-function create(beaconType: MobileAppMonitoringBeaconType) {
-  return createBoundedAlertQueryBuilder(undefined, beaconType);
+function create(beaconType: MobileAppMonitoringBeaconType, thresholdType?: ThresholdType) {
+  return createBoundedAlertQueryBuilder(undefined, beaconType, thresholdType);
 }
 
 const queryBuildersByBeaconTypeStatic = {
@@ -82,6 +92,14 @@ const queryBuildersByBeaconTypeStatic = {
   crash: create('crash'),
   custom: create('custom'),
   viewChange: create('viewChange')
+};
+
+const queryBuildersByBeaconTypeAdaptive = {
+  sessionStart: create('sessionStart', ADAPTIVE_BASELINE),
+  httpRequest: create('httpRequest', ADAPTIVE_BASELINE),
+  crash: create('crash', ADAPTIVE_BASELINE),
+  custom: create('custom', ADAPTIVE_BASELINE),
+  viewChange: create('viewChange', ADAPTIVE_BASELINE)
 };
 
 /** helper, to create a query-builder dependent query validator */
@@ -95,8 +113,12 @@ export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
 };
 
 export function getQueryBuilderForBeaconType(
-  beaconType: MobileAppMonitoringBeaconType | Nullish
+  beaconType: MobileAppMonitoringBeaconType | Nullish,
+  thresholdType?: ThresholdType
 ): CreateQueryBuilderResponse {
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return queryBuildersByBeaconTypeAdaptive[beaconType ?? 'sessionStart'];
+  }
   return queryBuildersByBeaconTypeStatic[beaconType ?? 'sessionStart'];
 }
 
