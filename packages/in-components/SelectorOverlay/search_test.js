@@ -39,7 +39,8 @@ const nodes = [
             children: [
               {
                 label: 'Third Level Leaf',
-                description: 'Some description'
+                description: 'Some description',
+                keywords: 'fobar'
               }
             ]
           }
@@ -58,7 +59,8 @@ describe('in-components/SelectorOverlay/search', () => {
     expect(search(nodes, 'third')).to.deep.equal([
       {
         label: 'Third Level Leaf',
-        description: 'Some description'
+        description: 'Some description',
+        keywords: 'fobar'
       }
     ]);
   });
@@ -69,6 +71,16 @@ describe('in-components/SelectorOverlay/search', () => {
         label: 'Root Level Leaf',
         description: 'Funky root leaf',
         icon: 'plugin:host'
+      }
+    ]);
+  });
+
+  it('should only return exact matches if fuzzy is false', () => {
+    expect(search(nodes, 'fobar', false)).to.deep.equal([
+      {
+        label: 'Third Level Leaf',
+        description: 'Some description',
+        keywords: 'fobar'
       }
     ]);
   });
