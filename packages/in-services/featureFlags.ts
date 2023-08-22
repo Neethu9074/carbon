@@ -52,6 +52,8 @@ export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
+export const tagCatalogSmallQueryWindowEnabled = isFeatureFlagEnabled('tagCatalogSmallQueryWindowEnabled');
+
 // SmartAlerts & AP Alert Migration related feature flags
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
   'builtInGlobalApplicationSmartAlertsEnabled'

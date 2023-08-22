@@ -399,5 +399,10 @@ module.exports = exports = [
     uiClientKey: 'infraSmartAlertEnabled',
     instanaCtlKey: 'feature.infrastructure.smart.alerts.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'tagCatalogSmallQueryWindowEnabled',
+    instanaCtlKey: 'feature.custom.widget.infrastructure.smallquerywindow.enabled',
+    defaultValue: false
   }
 ];

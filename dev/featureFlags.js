@@ -85,5 +85,6 @@ module.exports = {
   syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
-  infraSmartAlertEnabled: true
+  infraSmartAlertEnabled: true,
+  tagCatalogSmallQueryWindowEnabled: true
 };
