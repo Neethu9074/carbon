@@ -34,6 +34,7 @@ export default function UserFilterLink({ filter, onClick, setFilter }) {
         [block]: true,
         [pointer]: hasSetFilterCallback
       })}
+      size="sm"
     >
       {filter.get('name')}
     </Link>
