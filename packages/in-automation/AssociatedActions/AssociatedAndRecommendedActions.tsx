@@ -10,8 +10,10 @@ import { Card } from '@instana/components';
 
 import RecommendedActionsCard from './RecommendedActionsCard';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import AssociatedActions from './AssociatedActionsCard';
 import { Event, VolatileId } from 'in-types';
+import { t } from 'in-i18n';
 
 interface AssociatedAndRecommendedActionsProps {
   volatileId: VolatileId;
@@ -43,7 +45,7 @@ export default function AssociatedAndRecommendedActions({
       </Row>
       <Row withoutSideMargin>
         <Col xs>
-          <Card>
+          <Card title={t('in-automation:recommendedActions')} leftHeaderContent={<BetaBadge />}>
             <RecommendedActionsCard volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
           </Card>
         </Col>

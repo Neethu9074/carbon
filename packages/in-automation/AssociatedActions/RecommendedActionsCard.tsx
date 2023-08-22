@@ -80,8 +80,6 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
         </Message>
       )}
       <ActionTable
-        title={t('in-automation:recommendedActions')}
-        isBeta
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
         event={event}

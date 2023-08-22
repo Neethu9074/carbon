@@ -13,6 +13,7 @@ import { ApplicationAlertConfigWithMetadata, Event, VolatileId } from 'in-types'
 import RecommendedActionsCardAlerts from './RecommendedActionsCardAlerts';
 import AssociatedActionsAlerts from './AssociatedActionsAlerts';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
 interface AssociatedAndRecommendedActionsAlertsProps {
   volatileId: VolatileId;
@@ -44,7 +45,7 @@ export default function AssociatedAndRecommendedActionsAlerts({
       </Row>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:recommendedActions')}>
+          <Card title={t('in-automation:recommendedActions')} leftHeaderContent={<BetaBadge />}>
             <RecommendedActionsCardAlerts
               volatileId={volatileId}
               event={event}
