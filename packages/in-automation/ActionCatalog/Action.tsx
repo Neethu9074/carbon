@@ -226,8 +226,8 @@ function save(
   entity: ActionFormEntity | null
 ) {
   const actionSpecification = getActionSpecification(form, entity);
-  const associateResources = (action: Action) =>
-    addAssociations({ action_id: action.id, ...getActionAssociations(form, eventSpecifications) });
+  const associateResources = ({ id }: { id: string }) =>
+    addAssociations({ action_id: id, ...getActionAssociations(form, eventSpecifications) });
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({
@@ -240,6 +240,9 @@ function save(
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
+    if (entity?.metadata?.builtIn) {
+      return associateResources({ id });
+    }
     return saveAction(actionSpecification, id).flatMap(associateResources);
   }
 }
