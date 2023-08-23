@@ -11,7 +11,7 @@
     padding: 0.25rem 0.5rem;
     border-radius: @lib__shapes__radius_medium;
 
-    color: @lib__colors__N500;
+    color: @lib__colors__N500 !important;
     text-decoration: none;
     cursor: pointer;
     .ellipsis();
@@ -24,7 +24,7 @@
   .clickable {
     &:hover {
       background: @lib__colors__N700Medium;
-      color: @lib__colors__N050;
+      color: @lib__colors__N050 !important;
 
       text-decoration: none;
 

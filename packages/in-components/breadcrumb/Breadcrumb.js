@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
@@ -54,7 +54,7 @@ export default function Breadcrumb({
   }
   if (href || href$) {
     return (
-      <Link href={href} href$={href$} className={breadcrumbClassName} onClick={() => track(NAVIGATION_BREADCRUMB)}>
+      <Link href={href$ ?? href} className={breadcrumbClassName} onClick={() => track(NAVIGATION_BREADCRUMB)}>
         {crumbContent}
       </Link>
     );
