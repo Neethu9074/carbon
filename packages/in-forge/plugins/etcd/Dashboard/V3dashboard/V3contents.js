@@ -6,16 +6,16 @@
 
 import React from 'react';
 
+import OperationsTablev3 from 'in-forge/plugins/etcd/Dashboard/V3dashboard/OperationsTablev3';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import OperationsTablev3 from 'in-forge/plugins/etcd/Dashboard/V3dashboard/OperationsTablev3';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
+
 export default function EtcdDashboard2({ snapshot, timeConfig }) {
- 
   const snapshotId = snapshot.get('id');
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
@@ -23,20 +23,6 @@ export default function EtcdDashboard2({ snapshot, timeConfig }) {
   }
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.etcd.dashboard.requests')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['requests_received', 'requests_sent'],
-            labels: [t('in-forge:plugins.etcd.dashboard.received'), t('in-forge:plugins.etcd.dashboard.sent')],
-            formatter: zeroDecimalPlaces,
-            type: 'stackedBar',
-            aggregation: 'sum'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
       <DashboardSection title={t('in-forge:plugins.etcd.dashboard.traffic')}>
         <Chart
           snapshotId={snapshotId}
