@@ -49,9 +49,11 @@ import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/Grou
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
 import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
+import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
@@ -68,6 +70,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
@@ -251,6 +254,8 @@ function Content({
     groupBy?.length > 0 ? '/entity-groups' : '/entities'
   }`;
 
+  const uniqueMetrics = getUniqueMetricsAndLabels(metrics, metricMetadatas);
+
   const topSection = !isInitPage && (
     <Sections>
       <QueryBuilderSection
@@ -287,7 +292,7 @@ function Content({
             pagination={pagination}
             groupBy={backendGroupBy}
             type={type}
-            metrics={metrics}
+            metrics={uniqueMetrics}
             order={order}
             endpointUrl={endpointUrl}
             docsLink={docLink}
@@ -308,7 +313,7 @@ function Content({
   ) : (
     <List
       type={type}
-      metrics={metrics}
+      metrics={uniqueMetrics}
       groupBy={groupBy}
       backendGroupBy={backendGroupBy}
       order={order}
@@ -430,7 +435,27 @@ function List({
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
+      fixedLayout={false}
       setUrl={setUrl}
     />
   );
+}
+
+function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
+  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
+    ({ metric, aggregation }) => ({
+      metric,
+      aggregation,
+      label: mapData(metricMetadatas, data => data[metric]?.label)?.data
+    })
+  );
+
+  const uniqueMetricsLabels = getUniqueMetricsLabels(uniqueMetrics);
+
+  const uniqueMetricsWithLabels = uniqueMetrics.map((item, index) => ({
+    ...item,
+    label: uniqueMetricsLabels[index] || ''
+  }));
+
+  return uniqueMetricsWithLabels;
 }

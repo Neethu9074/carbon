@@ -79,20 +79,20 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
             source={source}
             maxLength={4}
           />
+
+          <Spacer vertical="medium" />
+
+          <TableConfigurator
+            form={form}
+            updateForm={updateForm}
+            onChange={onChange}
+            tagFilterExpression={tagFilterExpression}
+            setTagFilterExpression={setTagFilterExpression}
+            tagCatalog={tagCatalog}
+            entityLabel={entityLabel}
+          />
         </>
       )}
-
-      <Spacer vertical="medium" />
-
-      <TableConfigurator
-        form={form}
-        updateForm={updateForm}
-        onChange={onChange}
-        tagFilterExpression={tagFilterExpression}
-        setTagFilterExpression={setTagFilterExpression}
-        tagCatalog={tagCatalog}
-        entityLabel={entityLabel}
-      />
     </Stack>
   );
 }

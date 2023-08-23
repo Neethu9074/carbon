@@ -8,22 +8,30 @@ import { ValidationResult } from 'formalistic';
 
 import { t } from 'in-i18n';
 
+interface Metric {
+  value: string;
+  label: string;
+  aggregation: string;
+}
+
 export function notDuplicatedMetricValues(fieldsArray: any): ValidationResult {
   if (!Array.isArray(fieldsArray) || fieldsArray.length === 0) {
     return null;
   }
 
-  const metricsArray = fieldsArray?.map((field: any) => {
+  const metrics: Metric[] = fieldsArray?.map(field => {
     const metric = field?.get('metric')?.value;
     const metricLabel = field?.get('metricLabel')?.value;
+    const aggregation = field?.get('aggregation')?.value;
 
     return {
       value: metric,
-      label: metricLabel
+      label: metricLabel,
+      aggregation
     };
   });
 
-  const hasDuplicates = hasDuplicatesByProperty(metricsArray, 'value');
+  const hasDuplicates = hasDuplicatesByProperties(metrics, ['value', 'aggregation']);
 
   if (hasDuplicates) {
     return [
@@ -37,18 +45,18 @@ export function notDuplicatedMetricValues(fieldsArray: any): ValidationResult {
   return null;
 }
 
-function hasDuplicatesByProperty<T>(arr: any, property: keyof T): boolean {
-  const valuesSet = new Set<T[keyof T]>();
+function hasDuplicatesByProperties(array: Metric[], properties: Array<keyof Metric>): boolean {
+  const compositeKeysSet = new Set<string>();
 
-  for (const object of arr) {
-    const value = object[property];
+  for (const object of array) {
+    if (Object.values(object).some(value => value !== '')) {
+      const compositeKey = properties.map(property => String(object[property])).join('_');
 
-    if (value !== '') {
-      if (valuesSet.has(value)) {
+      if (compositeKeysSet.has(compositeKey)) {
         return true;
       }
 
-      valuesSet.add(value);
+      compositeKeysSet.add(compositeKey);
     }
   }
 

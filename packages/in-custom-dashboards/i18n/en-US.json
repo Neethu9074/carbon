@@ -759,7 +759,7 @@
           "defaultSorting": "Default Sort",
           "defaultSortingSuffix": "Name",
           "validators": {
-            "theValueMustBeUnique": "This metric has already been selected. Please select another one."
+            "theValueMustBeUnique": "The selected metric with the same aggregation value has already been added. Please select a different metric or adjust the aggregation value to proceed."
           },
           "formatter": "Formatter"
         }

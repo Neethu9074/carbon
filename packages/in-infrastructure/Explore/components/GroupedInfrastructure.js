@@ -74,7 +74,7 @@ export default function GroupedInfrastructure(props) {
 
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const metricsDependency = !isPreview ? [metrics] : [];
+  const dependencies = isPreview ? [retrievalSize] : [metrics];
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -89,7 +89,7 @@ export default function GroupedInfrastructure(props) {
         cursor,
         retrievalSize
       }),
-    [timeConfig, backendQueryModel, backendGroupBy, order, type, ...metricsDependency]
+    [timeConfig, backendQueryModel, backendGroupBy, order, type, ...dependencies]
   );
 
   // Send totalHits
@@ -224,7 +224,7 @@ function Presenter({
         />
       )}
 
-      {isTableMode ? (
+      {isTableMode && !hasErrors ? (
         <CursorPaginatedTable
           columnDefinitions={columnDefinitions}
           numSkeletonRows={retrievalSize}
@@ -638,18 +638,17 @@ function getHeaderActions(props) {
 }
 
 function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
-  return metrics.map(({ metric, aggregation, crossSeriesAggregation, formatterId }) => {
+  return metrics.map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
     const metadata = mapData(metricMetadatas, data => data[metric]);
-    const label = mapData(metadata, data => data?.label);
+    const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
     const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-
     const sharedProps = { id, timeConfig, granularity, metadata, label, aggregation, formatterId };
     const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
     return {
       width: '12rem',
       id,
-      label: label?.data,
+      label: metricLabel,
       ...metricsColumns,
       getId() {
         return getMetricKey(metric, aggregation);

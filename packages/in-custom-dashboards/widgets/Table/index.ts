@@ -24,7 +24,7 @@ interface DataSourceProps {
 
 export const type = 'table';
 export const label = 'Table';
-export const minimumWidth = 5;
+export const minimumWidth = 7;
 export const minimumHeight = 18;
 export const enabled = customWidgetEventsTableEnabled || customWidgetTableInfraDataSourceEnabled;
 export const badge = {

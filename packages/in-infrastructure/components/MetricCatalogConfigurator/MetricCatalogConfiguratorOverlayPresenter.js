@@ -8,6 +8,7 @@ import React from 'react';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
+import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { mapData } from 'in-services/util/result';
@@ -35,6 +36,14 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   query,
   onQueryChange
 }) {
+  const metrics = form.items.map(field => ({
+    label: mapData(metricMetadatas, data => data[field.get('metric').value]?.label)?.data,
+    metric: mapData(metricMetadatas, data => data[field.get('metric').value]?.metric)?.data,
+    aggregation: field.get('aggregation')?.value
+  }));
+
+  const uniqueMetricsLabels = getUniqueMetricsLabels(metrics);
+
   return (
     <DraggableItemSelector
       getPossibleAggregationsForMetric={getPossibleAggregationsForMetric}
@@ -44,6 +53,8 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       metricMetadatas={metricMetadatas}
       Content={Content}
       onSwap={onSwap}
+      metrics={metrics}
+      uniqueMetricsLabels={uniqueMetricsLabels}
       onRemove={onRemoveItem}
       disabled={form.items.length >= maximumNumberOfMetrics}
       SlideInContent={({ onShowSlideInContentChange, disabled }) => (
@@ -74,8 +85,14 @@ function metricEventPayload(formMetric) {
   return { metric: formMetric.get('metric').value, aggregation: formMetric.get('aggregation').value };
 }
 
-function Content({ i, item: metric, onChangeAggregation, onChange, MetricCatalogConfiguratorHint, metricMetadatas }) {
-  const label = mapData(metricMetadatas, data => data[metric.get('metric').value]?.label);
+function Content({
+  i,
+  item: metric,
+  onChangeAggregation,
+  onChange,
+  MetricCatalogConfiguratorHint,
+  uniqueMetricsLabels
+}) {
   return (
     <>
       <Col xs={7}>
@@ -85,7 +102,7 @@ function Content({ i, item: metric, onChangeAggregation, onChange, MetricCatalog
             hasError={!field.valid && field.touched}
             className={locals.label}
           >
-            <MetricLabel label={label} />
+            <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
           </Label>
         ))}
       </Col>

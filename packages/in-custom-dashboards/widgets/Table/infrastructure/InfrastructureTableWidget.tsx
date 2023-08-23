@@ -15,13 +15,15 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { AggregationType, Group, TagFilterExpressionElementUnion } from 'in-types';
+import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
-import { Group, TagFilterExpressionElementUnion } from 'in-types';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
@@ -31,10 +33,11 @@ import { Trans, t } from 'in-i18n';
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
 
 interface MetricItem {
-  aggregation: string;
+  aggregation: AggregationType;
   metric: string;
   formatter: string;
   crossSeriesAggregation: string;
+  metricLabel: string;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -71,12 +74,7 @@ function InfrastructureTable(props: TableWidgetProps) {
   }, [sorting, tagFilterExpression]);
 
   const metricsArray = datasets?.metrics ?? [];
-
-  const metrics = metricsArray.map(({ aggregation, metric, formatter }: MetricItem) => ({
-    aggregation,
-    formatterId: formatter,
-    metric
-  }));
+  const metrics = getUniqueMetricsAndLabels(metricsArray);
 
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
@@ -192,4 +190,25 @@ function InfrastructureTable(props: TableWidgetProps) {
       )}
     </Card>
   );
+}
+
+function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
+  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
+    ({ aggregation, metric, formatter, metricLabel }) => ({
+      aggregation,
+      formatterId: formatter,
+      label: metricLabel,
+      metricLabel,
+      metric
+    })
+  );
+
+  const uniqueMetricsLabels = getUniqueMetricsLabels(uniqueMetrics);
+
+  const uniqueMetricsWithLabels = uniqueMetrics.map((item, index) => ({
+    ...item,
+    label: uniqueMetricsLabels[index] || ''
+  }));
+
+  return uniqueMetricsWithLabels;
 }

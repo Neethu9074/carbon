@@ -67,7 +67,7 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const metricsDependency = !isPreview ? [metrics] : [];
+  const dependencies = isPreview ? [retrievalSize] : [metrics];
 
   const {
     items,
@@ -83,7 +83,7 @@ export default function InfrastructureList({
   } = useCursorPagination(
     ({ cursor }) =>
       getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
-    [timeConfig, retrievalSize, backendQueryModel, type, order, ...metricsDependency]
+    [timeConfig, retrievalSize, backendQueryModel, type, order, ...dependencies]
   );
 
   const hasErrors = errors?.length > 0;
@@ -317,11 +317,12 @@ InfrastructureList.propTypes = {
 function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
   return metrics
     .filter(m => !m.removeFromTable)
-    .map(({ metric, aggregation, crossSeriesAggregation, formatterId }) => {
+    .map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
       const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
       const metadata = mapData(metricMetadatas, data => data[metric]);
-      const label = mapData(metadata, data => data?.label);
+      const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
       const isKpi = mapData(metadata, data => data?.isKpi).data || false;
+
       return {
         id,
         metric,
@@ -340,7 +341,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
           const formatter = formatterId
             ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
             : mapData(metadata, data => data?.formatter).data;
-          const label = mapData(metadata, data => data?.label);
+
           const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
           const kpi = firstValue(item.metrics[id]);
           const series = item.metrics[getSeriesKey(id)];
