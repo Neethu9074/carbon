@@ -6,22 +6,34 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-let snapshotMap = {};
+interface Row {
+  key: string;
+  snapshotId: string;
+  timeConfig: string;
+  sharedDictionary: Map<string, unknown>;
+}
+
+interface SharedDictionaryProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
+}
 
 const cols = [
   {
     title: t('in-forge:plugins.kongApigateway.sharedDictionary'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.sharedDictionary.get('sharedDict');
       }
     }
@@ -30,7 +42,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.subsystem'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.sharedDictionary.get('subsystem');
       }
     }
@@ -39,7 +51,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.totalCapacity'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.sharedDictionary.get('totalBytes');
       },
       getContent: bytesTwoDecimalPlaces
@@ -49,7 +61,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.allocatedBytes'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.sharedDictionary.get('allocatedBytes');
       },
       getContent: bytesTwoDecimalPlaces
@@ -59,7 +71,7 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.allocatedBytesPercent'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.sharedDictionary.get('percentage');
       },
       getContent: percentage.compact
@@ -67,63 +79,53 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    snapshotMap = props;
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'memoryLuaSharedDictBytes')
-    };
-  },
-  function SharedDictionary({ data }) {
-    if (!data) {
-      return null;
-    }
-    const { snapshotId, timeConfig } = snapshotMap;
-    const memoryLuaSharedDictByte = data.get('raw_payload');
-    const rows = memoryLuaSharedDictByte
-      .keySeq()
-      .toArray()
-      .map(key => {
-        const sharedDictionary = memoryLuaSharedDictByte.get(key);
-        return {
-          key: String(key),
-          snapshotId,
-          timeConfig,
-          sharedDictionary
-        };
-      });
-    if (rows.length === 0) {
-      return null;
-    }
-    const getDetails = row => {
-      if (!snapshotMap?.timeConfig) {
-        return;
-      }
-      return (
-        <div>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: percentage.detailed,
-              metrics: ['memoryLuaSharedDictBytes.' + row.key + '.percentage'],
-              labels: [t('in-forge:plugins.kongApigateway.allocatedBytesPercent')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-      );
-    };
+const SharedDictionary = ({ snapshotId, timeConfig }: SharedDictionaryProps) => {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'memoryLuaSharedDictBytes'), [snapshotId]);
+
+  if (!data) {
+    return null;
+  }
+
+  const memoryLuaSharedDictByte = (data as SnapshotData).get('raw_payload');
+  const rows: Row[] = memoryLuaSharedDictByte
+    .keySeq()
+    .toArray()
+    .map((key: string) => ({
+      key,
+      snapshotId,
+      timeConfig,
+      sharedDictionary: memoryLuaSharedDictByte.get(key)
+    }));
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  function getDetails(row: Row) {
     return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.dashboard.sharedDictionaryAllocated')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          min: 0,
+          formatter: percentage.detailed,
+          metrics: [`memoryLuaSharedDictBytes.${row.key}.percentage`],
+          labels: [t('in-forge:plugins.kongApigateway.allocatedBytesPercent')],
+          type: 'line'
+        }}
       />
     );
   }
-);
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.kongApigateway.dashboard.sharedDictionaryAllocated')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
+};
+
+export default SharedDictionary;

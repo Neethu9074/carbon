@@ -14,10 +14,13 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatencyRoute';
 import KongKongLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatencyRoute';
+import KongUpstreamLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatency';
 import KongRequestLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongRequestLatency';
 import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
 import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
+import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDictionary';
 import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatency';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
@@ -108,7 +111,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
+      <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
@@ -116,6 +119,8 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
       <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
       <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />
       <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongUpstreamLatency snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongUpstreamLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 };
