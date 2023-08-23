@@ -632,6 +632,11 @@
   "pluginName_httpd_1": "Apache HTTPds",
   "pluginName_httpd_2": "Apache HTTPds",
   "pluginName_httpd": "Apache HTTPd",
+  "pluginName_ibmApiConnect_plural": "IBM API Connects",
+  "pluginName_ibmApiConnect_0": "IBM API Connects",
+  "pluginName_ibmApiConnect_1": "IBM API Connects",
+  "pluginName_ibmApiConnect_2": "IBM API Connects",
+  "pluginName_ibmApiConnect": "IBM API Connect",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
   "pluginName_ibmCtg": "IBM CTG",
@@ -8965,6 +8970,16 @@
       "trafficPerRequest": "Traffic per request",
       "busyWorkers": "Busy workers",
       "httpd": "HTTPd"
+    },
+    "ibmApiConnect":{
+      "ibmApic":"IBM API Connect",
+      "orgName":"APIC Provider Organization",
+      "apicVersion":"APIC Product Version",
+      "catalogs":"Catalogs",
+      "name":"Name",
+      "totalApiCalls":"Total API Calls",
+      "totalErrors":"Total Errors",
+      "maxApiResponse":"Maximum API Response(ms)"
     },
     "ibmCloudClinicalData": {
       "labelApiCalls": "API Calls",

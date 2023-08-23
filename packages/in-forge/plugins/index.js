@@ -155,6 +155,7 @@ import './pCFApplication';
 import './rocketMqBroker';
 import './ibmMqttChannel';
 import './kongApigateway';
+import './ibmApiConnect';
 import './tibcoEMSQueue';
 import './tibcoEMSTopic';
 import './sapJavaSystem';
