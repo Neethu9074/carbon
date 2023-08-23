@@ -236,15 +236,17 @@
         "apBoundaryScope_INBOUND": "In-bound calls",
         "apHiddenCallsLabel": "Hidden calls",
         "apHiddenCallsInternal": "Includes internal calls",
+        "apHiddenCallsInternal_true": "Does include internal calls",
+        "apHiddenCallsInternal_false": "Does not include internal calls",
         "apHiddenCallsSynthetic": "Includes synthetic calls",
+        "apHiddenCallsSynthetic_true": "Does includes synthetic calls",
+        "apHiddenCallsSynthetic_false": "Does not includes synthetic calls",
         "apServiceLabel": "Service",
         "apAllServices": "All Services",
         "apEndpointLabel": "Endpoint",
         "apAllEndpoints": "All Endpoints",
         "eumBeaconTypeLabel": "Beacon type",
-        "customFilterLabel": "Custom filter",
-        "ariaLabelChecked": "selected",
-        "ariaLabelUnchecked": "unselected"
+        "customFilterLabel": "Custom filter"
       },
       "indicatorSection": {
         "title": "Indicator",

@@ -1,0 +1,14 @@
+:local {
+  .listUnstyled {
+    list-style: none;
+    padding: 0;
+  }
+
+  .listUnstyled li {
+    padding-bottom: var(--ids-border-radius-option-medium);
+  }
+
+  .listUnstyled li:last-child {
+    padding: 0;
+  }
+}

@@ -14,7 +14,7 @@ import {
   SloEntityType,
   WebsiteSloEntity
 } from '@instana/types';
-import { KeyValue, Spacer, Stack, SvgIcon } from '@instana/components';
+import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SloConfigSection, {
@@ -30,6 +30,8 @@ import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicati
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+
+import locals from './ScopeSection.mless';
 
 interface ScopeSectionProps {
   data: SloTabData | ApplicationSloTabData;
@@ -100,33 +102,25 @@ function HiddenCallsColumn({ data }: ScopeSectionProps) {
 
   if (!isApplicationSloEntity(entity)) return null;
 
+  const doesIncludeInternalCalls: boolean = entity.includeInternal ?? false;
+  const doesIncludeSyntheticCalls: boolean = entity.includeSynthetic ?? false;
+
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsLabel')}
       value={
-        <Stack direction="horizontal" distribution="start" align="center" gap="xxsmall">
-          <SvgIcon
-            type={entity.includeInternal ? 'lib_check' : 'lib_openclose_cancel'}
-            size="s"
-            aria-label={
-              entity.includeInternal
-                ? t('in-service-levels:sloDashboard.components.scopeSection.ariaLabelChecked')
-                : t('in-service-levels:sloDashboard.components.scopeSection.ariaLabelUnchecked')
-            }
-          />
-          {t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsInternal')}
-          <Spacer size="small" />
-          <SvgIcon
-            type={entity.includeSynthetic ? 'lib_check' : 'lib_openclose_cancel'}
-            size="s"
-            aria-label={
-              entity.includeSynthetic
-                ? t('in-service-levels:sloDashboard.components.scopeSection.ariaLabelChecked')
-                : t('in-service-levels:sloDashboard.components.scopeSection.ariaLabelUnchecked')
-            }
-          />
-          {t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsSynthetic')}
-        </Stack>
+        <ul className={locals.listUnstyled}>
+          <li>
+            {t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsInternal', {
+              context: String(doesIncludeInternalCalls)
+            })}
+          </li>
+          <li>
+            {t('in-service-levels:sloDashboard.components.scopeSection.apHiddenCallsSynthetic', {
+              context: String(doesIncludeSyntheticCalls)
+            })}
+          </li>
+        </ul>
       }
     />
   );
