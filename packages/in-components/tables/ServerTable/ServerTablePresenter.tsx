@@ -48,6 +48,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   searchMaxWidth?: string | number;
   scopeNotification?: React.ReactNode;
   resultPrecision?: ResultPrecision;
+  shadowless?: boolean;
 }
 
 export default function ServerTablePresenter<
@@ -87,6 +88,7 @@ export default function ServerTablePresenter<
     renderNoDataAvailable,
     scopeNotification,
     resultPrecision,
+    shadowless,
 
     // events
     onChange = noop,
@@ -208,7 +210,14 @@ export default function ServerTablePresenter<
       );
     }
     return (
-      <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={header}>
+      <Card
+        title={cardTitle}
+        leftHeaderContent={leftHeaderContent}
+        rightHeaderContent={header}
+        className={classNames({
+          [locals.shadowless]: shadowless
+        })}
+      >
         {scopeNotification}
         {tableElement}
         {pagination}
