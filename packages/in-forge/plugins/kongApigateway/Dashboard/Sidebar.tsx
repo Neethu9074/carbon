@@ -10,7 +10,11 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/kongApigateway/Info';
 import { t } from 'in-i18n';
 
-export default function KongSidebar({ snapshot }) {
+interface KongSidebarProps {
+  snapshot: any;
+}
+
+const KongSidebar: React.FC<KongSidebarProps> = ({ snapshot }) => {
   return (
     <div>
       <Collapsible initiallyOpen>
@@ -21,4 +25,6 @@ export default function KongSidebar({ snapshot }) {
       </Collapsible>
     </div>
   );
-}
+};
+
+export default KongSidebar;

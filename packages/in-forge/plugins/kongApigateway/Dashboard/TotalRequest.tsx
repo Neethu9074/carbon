@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -56,15 +56,14 @@ const TotalRequest = ({ snapshotId, timeConfig }: SnapshotMapProps) => {
     return null;
   }
 
-  // @ts-expect-error
-  const kongNginxRequestsTotal = data?.get('raw_payload');
+  const kongNginxRequestsTotal = (data as SnapshotData).get('raw_payload');
   const rows: Row[] = kongNginxRequestsTotal
     .keySeq()
     .toArray()
     .map((key: string) => {
       const totalRequests = kongNginxRequestsTotal.get(key);
       return {
-        key: String(key),
+        key,
         snapshotId,
         timeConfig,
         totalRequests
@@ -77,19 +76,17 @@ const TotalRequest = ({ snapshotId, timeConfig }: SnapshotMapProps) => {
 
   function getDetails(row: Row) {
     return (
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`kongNginxRequestsTotal.${row.key}.requests`],
-            labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
-            type: 'line'
-          }}
-        />
-      </div>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.compact,
+          metrics: [`kongNginxRequestsTotal.${row.key}.requests`],
+          labels: [t('in-forge:plugins.kongApigateway.totalNumberofRequests')],
+          type: 'line'
+        }}
+      />
     );
   }
 

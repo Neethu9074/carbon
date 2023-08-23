@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -25,8 +25,7 @@ interface TotalConnectionRow {
   key: string;
   snapshotId: string;
   timeConfig: string;
-  totalConnection: any;
-  margins: any;
+  totalConnection: Map<string, number>;
 }
 
 const cols = [
@@ -66,8 +65,8 @@ const TotalConnections: React.FC<TotalConnectionsProps> = ({ snapshotId, timeCon
   if (!data) {
     return null;
   }
-  // @ts-expect-error
-  const nginxHttpCurrentConnection = data.get('raw_payload');
+
+  const nginxHttpCurrentConnection = (data as SnapshotData).get('raw_payload');
 
   const rows: TotalConnectionRow[] = nginxHttpCurrentConnection
     .keySeq()
@@ -88,19 +87,17 @@ const TotalConnections: React.FC<TotalConnectionsProps> = ({ snapshotId, timeCon
 
   function getDetails(row: TotalConnectionRow) {
     return (
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`nginxHttpCurrentConnections.${row.key}.connections`],
-            labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
-            type: 'line'
-          }}
-        />
-      </div>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.compact,
+          metrics: [`nginxHttpCurrentConnections.${row.key}.connections`],
+          labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
+          type: 'line'
+        }}
+      />
     );
   }
 
