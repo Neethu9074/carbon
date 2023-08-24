@@ -31,6 +31,7 @@ export const sapHanaDashboard = `/saphana`;
 export const sapJavaSystemDashboard = `/sapjavasystem`;
 export const sapHanaSystemDashboard = `/saphanasystem`;
 export const sapWebDispatcherDashboard = `/sapwebdispatcher`;
+export const sapAbapSensorDashboard = `/sapabap`;
 export const sapJavaInstanceDashboard = `/sapjavainstance`;
 export const sapJavaCentralInstanceDashboard = `/sapjavacentralinstance`;
 export const sapDbInstanceDashboard = `/sapdbinstance`;
@@ -43,6 +44,7 @@ export const sapHanaDashboardFullyQualified = `${sap}${sapHanaDashboard}`;
 export const sapJavaSystemDashboardFullyQualified = `${sap}${sapJavaSystemDashboard}`;
 export const sapHanaSystemDashboardFullyQualified = `${sap}${sapHanaSystemDashboard}`;
 export const sapWebDispatcherDashboardFullyQualified = `${sap}${sapWebDispatcherDashboard}`;
+export const sapAbapSensorDashboardFullyQualified = `${sap}${sapAbapSensorDashboard}`;
 export const sapJavaInstanceDashboardFullyQualified = `${sap}${sapJavaInstanceDashboard}`;
 export const sapDbTenantDashboardFullyQualified = `${sap}${sapDbTenantDashboard}`;
 export const sapDbInstanceDashboardFullyQualified = `${sap}${sapDbInstanceDashboard}`;
@@ -301,6 +303,27 @@ export function getSapDbInstanceDashboard(
   });
 }
 
+export function getSapAbapSensorDashboard(
+  hostId,
+  matrixPrefix,
+  systemSnapshotId,
+  { tab, tabMatrix, timeConfig } = emptyObject
+) {
+  return getDashboard({
+    base: sapAbapSensorDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sapAbapSensorDashboard,
+    matrixParam: matrixHostId,
+    id: hostId,
+    prefix: matrixPrefix,
+    systemPrefix: systemPrefix,
+    prefixSnapshot: systemSnapshotId,
+    systemSnapShotPrefix: systemSnapShotPrefix
+  });
+}
+
 export function getDashboardForEntity(snapshotId, plugin, label) {
   switch (plugin) {
     case plugins.abapInstance:
@@ -325,6 +348,8 @@ export function getDashboardForEntity(snapshotId, plugin, label) {
       return getSapDbTenantDashboard(snapshotId);
     case plugins.sapDbInstance:
       return getSapDbInstanceDashboard(snapshotId);
+    case plugins.sapAbapSensor:
+      return getSapAbapSensorDashboard(snapshotId);
   }
 }
 

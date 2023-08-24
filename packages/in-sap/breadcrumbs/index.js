@@ -10,14 +10,15 @@ import SapDbInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceHom
 import AbapInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceHomeViewBreadcrumb';
 import AbapSystemHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapSystemHomeViewBreadcrumb';
 import RelatedResourcesBreadcrumbs from 'in-sap/breadcrumbs/RelatedResourcesBreadcrumbs';
+import SapWebDispatcherBreadcrumb from 'in-sap/breadcrumbs/SapWebDispatcherBreadcrumb';
 import SapDbInstanceBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceBreadcrumb';
+import SapHanaSystemBreadcrumb from 'in-sap/breadcrumbs/SapHanaSystemBreadcrumb';
+import SapAbapSensorBreadcrumb from 'in-sap/breadcrumbs/SapAbapSensorBreadcrumb';
 import JavaInstanceBreadcrumb from 'in-sap/breadcrumbs/JavaInstanceBreadcrumb';
 import AbapInstanceBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceBreadcrumb';
 import SapDbTenantBreadcrumb from 'in-sap/breadcrumbs/SapDbTenantBreadcrumb';
 import AbapSystemBreadcrumb from 'in-sap/breadcrumbs/AbapSystemBreadcrumb';
 import JavaSystemBreadcrumb from 'in-sap/breadcrumbs/JavaSystemBreadcrumb';
-import SapHanaSystemBreadcrumb from 'in-sap/breadcrumbs/SapHanaSystemBreadcrumb';
-import SapWebDispatcherBreadcrumb from 'in-sap/breadcrumbs/SapWebDispatcherBreadcrumb';
 import SapDbmsBreadcrumb from 'in-sap/breadcrumbs/SapDbmsBreadcrumb';
 import HanaBreadcrumb from 'in-sap/breadcrumbs/HanaBreadcrumb';
 
@@ -73,6 +74,15 @@ export function SapWebDispatcherBreadcrumbs(props) {
     return RelatedResourcesBreadcrumbs(props);
   } else {
     return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapWebDispatcherBreadcrumb {...props} />];
+  }
+}
+
+export function SapAbapSensorBreadcrumbs(props) {
+  const { hostId, systemPrefix } = props;
+  if (systemPrefix) {
+    return RelatedResourcesBreadcrumbs(props);
+  } else {
+    return [<AbapInstanceHomeViewBreadcrumb />, hostId && <SapAbapSensorBreadcrumb {...props} />];
   }
 }
 

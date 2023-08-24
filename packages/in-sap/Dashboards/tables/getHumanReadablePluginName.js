@@ -7,6 +7,7 @@
 export const getHumanReadablePluginName = function (value) {
   switch (value.pluginName) {
     case 'abapInstance':
+    case 'sapAbapSensor':
       return 'ABAP Instance';
     case 'sapDbInstance':
       return 'DB Instance';
@@ -24,6 +25,8 @@ export const getHumanReadablePluginName = function (value) {
       return 'Hana System';
     case 'sapWebDispatcher':
       return 'Web Dispatcher';
+    case 'sapAbap':
+      return 'SAP ABAP Sensor';
     default:
       return 'ABAP System';
   }

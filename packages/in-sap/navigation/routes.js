@@ -18,6 +18,7 @@ import SapDbTenantDashboard from 'promise-loader?global,sap!in-sap/Dashboards/Sa
 import AbapSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapSystem/AbapSystemDashboard';
 import SapDbmsDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbms/SapDbmsDashboard';
 import SapHanaDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHana/SapHanaDashboard';
+import SapAbapSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSensor/SapAbapSensorDashboard';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -34,7 +35,8 @@ import {
   sapJavaInstanceDashboardFullyQualified,
   sapJavaCentralInstanceDashboardFullyQualified,
   sapDbTenantDashboardFullyQualified,
-  sapDbInstanceDashboardFullyQualified
+  sapDbInstanceDashboardFullyQualified,
+  sapAbapSensorDashboardFullyQualified
 } from 'in-sap/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -99,5 +101,10 @@ export default [
     path={sapDbInstanceDashboardFullyQualified}
     component={createAsyncViewComponent(SapDbInstanceDashboard)}
   />,
+    <Route
+      key="sapAbapSensorDashboard"
+      path={sapAbapSensorDashboardFullyQualified}
+      component={createAsyncViewComponent(SapAbapSensorDashboard)}
+    />,
   <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
 ];

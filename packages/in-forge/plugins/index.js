@@ -187,6 +187,7 @@ import './azureFunction';
 import './tuxedoMachine';
 import './sapHanaSystem';
 import './sapDbInstance';
+import './sapAbapSensor';
 import './powervcRegion';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';
