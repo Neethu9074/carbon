@@ -19,9 +19,11 @@
     background: @lib__colors__N200;
     border-radius: @lib__shapes__radius_large;
     cursor: pointer;
+    color: @lib__colors__N600Light !important; // Temporary this component will be replaced with IconButtons in the future
 
     &:hover {
       text-decoration: none;
+      color: @lib__colors__N800Dark !important; // Temporary this component will be replaced with IconButtons in the future
 
       .icon {
         fill: @lib__colors__N800Dark;
@@ -31,12 +33,14 @@
 
   .dark {
     background: @lib__colors__N900Primary;
+    color: @lib__colors__N400 !important;
 
     .icon {
       fill: @lib__colors__N400;
     }
 
     &:hover {
+      color: @lib__colors__N500 !important;
       .icon {
         fill: @lib__colors__N500;
       }
