@@ -139,8 +139,8 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
               tagFilters,
               timeConfig,
               metrics: {
-                uniqueUsers: {
-                  metric: 'uniqueUsers',
+                uniqueUsersOrSessions: {
+                  metric: 'uniqueUsersOrSessions',
                   aggregation: 'DISTINCT_COUNT'
                 }
               }
@@ -163,14 +163,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
                   },
                   fields: [
                     {
-                      metricId: 'uniqueUsers',
+                      metricId: 'uniqueUsersOrSessions',
                       aggregationId: 'DISTINCT_COUNT',
                       type: metricType
                     }
                   ],
                   chartedMetrics: [
                     {
-                      metricId: 'uniqueUsers',
+                      metricId: 'uniqueUsersOrSessions',
                       aggregationId: 'DISTINCT_COUNT'
                     }
                   ]
@@ -225,14 +225,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
               renderer: Renderer.bar,
               formatter: affectedUsersChart,
               labels: [t('in-mobile-apps:dashboard.tabs.customEvents.customEventLabelUsers')],
-              metricIds: ['uniqueUsers']
+              metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters,
               metrics: {
-                uniqueUsers: {
-                  metric: 'uniqueUsers',
+                uniqueUsersOrSessions: {
+                  metric: 'uniqueUsersOrSessions',
                   granularity,
                   aggregation: 'DISTINCT_COUNT',
                   beaconType: 'custom'

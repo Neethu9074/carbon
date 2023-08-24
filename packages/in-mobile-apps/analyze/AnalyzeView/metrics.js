@@ -18,13 +18,13 @@ export function buildOrderByCriteria(metric, aggregation) {
 }
 
 export const defaultMetrics = {
-  sessionStart: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
-  viewChange: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
+  sessionStart: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
+  viewChange: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
   httpRequest: [
     { metric: 'beaconDuration', aggregation: 'MEAN' },
     { metric: 'beaconErrorRate', aggregation: 'MEAN' }
   ],
-  custom: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
+  custom: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }]
 };
 
 const resourceSizeMetrics = [
@@ -60,8 +60,8 @@ const resourceSizeMetrics = [
   )
 ];
 
-const uniqueUsers = {
-  metric: 'uniqueUsers',
+const uniqueUsersOrSessions = {
+  metric: 'uniqueUsersOrSessions',
   label: t('in-mobile-apps:analyzeView.uniqueUsers'),
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
@@ -88,14 +88,14 @@ export const availableMetrics = {
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.sessionStartBeaconCountLabel')
     }),
-    uniqueUsers
+    uniqueUsersOrSessions
   ],
   viewChange: [
     newNumberMetric({
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.viewChangeBeaconCountLabel')
     }),
-    uniqueUsers
+    uniqueUsersOrSessions
   ],
   httpRequest: [
     newNumberMetric({
@@ -117,7 +117,7 @@ export const availableMetrics = {
       }
     ),
     errorRate,
-    uniqueUsers,
+    uniqueUsersOrSessions,
     ...resourceSizeMetrics,
     withRawDataField(
       newNumberMetric({
@@ -244,13 +244,13 @@ export const availableMetrics = {
         tag: 'mobileBeacon.duration'
       }
     ),
-    uniqueUsers
+    uniqueUsersOrSessions
   ],
   crash: [
     newNumberMetric({
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.crashBeaconCountLabel')
     }),
-    uniqueUsers
+    uniqueUsersOrSessions
   ]
 };

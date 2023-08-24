@@ -13,19 +13,19 @@ export const metricRenderers = {
   sessionStart: {
     beaconCount: 'stackedBar',
     sessions: 'stackedBar',
-    uniqueUsers: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar'
   },
   viewChange: {
     beaconCount: 'stackedBar',
     views: 'stackedBar',
-    uniqueUsers: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar'
   },
   httpRequest: {
     beaconCount: 'stackedBar',
     beaconErrorCount: 'stackedBar',
     beaconDuration: 'stackedArea',
     beaconErrorRate: 'stackedBar',
-    uniqueUsers: 'stackedBar',
+    uniqueUsersOrSessions: 'stackedBar',
     ...resourceSizeMetrics,
     http1xx: 'stackedBar',
     http2xx: 'stackedBar',
@@ -40,11 +40,11 @@ export const metricRenderers = {
   custom: {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
-    uniqueUsers: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar'
   },
   crash: {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
-    uniqueUsers: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar'
   }
 };

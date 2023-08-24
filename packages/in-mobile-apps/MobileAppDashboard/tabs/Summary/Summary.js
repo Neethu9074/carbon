@@ -44,7 +44,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             metric={'sessions'}
             aggregation={'SUM'}
             formatter={number.compact}
-            companionMetric={'uniqueUsers'}
+            companionMetric={'uniqueUsersOrSessions'}
             companionAggregation={'DISTINCT_COUNT'}
             companionFormatter={v =>
               t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
@@ -161,7 +161,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               metric={'crashFreeUserRate'}
               aggregation={'MEAN'}
               formatter={percentage.detailed}
-              companionMetric={'uniqueUsers'}
+              companionMetric={'uniqueUsersOrSessions'}
               companionAggregation={'DISTINCT_COUNT'}
               companionFormatter={v =>
                 t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
@@ -193,14 +193,14 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                     },
                     fields: [
                       {
-                        metricId: 'uniqueUsers',
+                        metricId: 'uniqueUsersOrSessions',
                         aggregationId: 'DISTINCT_COUNT',
                         type: metricType
                       }
                     ],
                     chartedMetrics: [
                       {
-                        metricId: 'uniqueUsers',
+                        metricId: 'uniqueUsersOrSessions',
                         aggregationId: 'DISTINCT_COUNT'
                       }
                     ]

@@ -17,7 +17,7 @@ import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
-const metrics = ['beaconCount', 'uniqueUsers'];
+const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.customEvents.platformTopListLabelOccurrences'),
   t('in-mobile-apps:dashboard.tabs.customEvents.platformTopListLabelUsers')

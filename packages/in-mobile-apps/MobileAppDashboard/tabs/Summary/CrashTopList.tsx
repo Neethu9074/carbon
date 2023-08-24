@@ -26,7 +26,7 @@ import { number } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = ['beaconCount', 'uniqueUsers'];
+const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
   t('in-mobile-apps:dashboard.tabs.affectedUsersLabel')
@@ -140,14 +140,14 @@ function ViewAll({ mobileAppLabel, tagFilters, className }: ViewAllProps) {
           },
           fields: [
             {
-              metricId: 'uniqueUsers',
+              metricId: 'uniqueUsersOrSessions',
               aggregationId: 'DISTINCT_COUNT',
               type: metricType
             }
           ],
           chartedMetrics: [
             {
-              metricId: 'uniqueUsers',
+              metricId: 'uniqueUsersOrSessions',
               aggregationId: 'DISTINCT_COUNT'
             },
             {
@@ -204,14 +204,14 @@ function Label({ item, mobileAppLabel, tagFilters }: LabelProps) {
           groupBy: {},
           fields: [
             {
-              metricId: 'uniqueUsers',
+              metricId: 'uniqueUsersOrSessions',
               aggregationId: 'DISTINCT_COUNT',
               type: metricType
             }
           ],
           chartedMetrics: [
             {
-              metricId: 'uniqueUsers',
+              metricId: 'uniqueUsersOrSessions',
               aggregationId: 'DISTINCT_COUNT'
             },
             {
