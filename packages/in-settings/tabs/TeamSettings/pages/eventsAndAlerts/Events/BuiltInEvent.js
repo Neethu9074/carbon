@@ -209,7 +209,7 @@ const Form = entityForm(function DetailsForm(props) {
             form={form}
             setForm={setForm}
             name={entity.get('name')}
-            descrption={entity.get('description')}
+            description={entity.get('description')}
           />
         </>
       )}
