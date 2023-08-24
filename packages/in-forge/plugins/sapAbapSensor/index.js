@@ -11,7 +11,7 @@ import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
-  plugin: plugins.sapAbap,
+  plugin: plugins.sapAbapSensor,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
