@@ -6,7 +6,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
@@ -34,6 +34,7 @@ export default function UserFilterLink({ filter, onClick, setFilter }) {
         [block]: true,
         [pointer]: hasSetFilterCallback
       })}
+      size="sm"
     >
       {filter.get('name')}
     </Link>
