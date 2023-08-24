@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Card } from '@instana/components';
+import { Button, Card } from '@instana/components';
 
 import {
   isApplicationSmartAlertEvent,
@@ -28,6 +28,10 @@ import 'in-events/components/legacy/EventList.less';
 
 const block = 'in-event-view-incident-event-list';
 
+const rcaEvents = {
+  'P7eIvb_i1AX-iOQ7Z9UQLezDx-Y': ['dSmKQZCbQ5CHfJGycCyu9A', 'sWhc3jGwQ1CIM7Toe6JzBQ', 'Wn9dKYJsRLG1XbMqMQfXpA']
+};
+
 export default connectTo(
   ({ incident }) => ({
     events: combineLatest(incident.get('recentEvents', emptyList).toArray().map(getEvent))
@@ -40,20 +44,45 @@ export default connectTo(
               incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
           )
       )
-      .throttle(250)
+      .throttle(250),
+    testRCA: combineLatest(rcaEvents['P7eIvb_i1AX-iOQ7Z9UQLezDx-Y'].map(getEvent)).map(events =>
+      events.filter(e => e && !e.isEmpty())
+    )
   }),
-  function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
+  function IncidentEventList({ events, incident, latestSnapshot, snapshot, testRCA }) {
+    const [currentRCAEvent, setCurrentRCAEvent] = useState(0);
+    //const [currentRCAEntity, setCurrentRCAEntity] = useState('P7eIvb_i1AX-iOQ7Z9UQLezDx-Y');
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
-
     const triggeringProblemId = incident.getIn(['problem', 'id']);
 
     const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
     const triggerEvent = events.find(isTriggeringEvent);
 
+    // Entity ID : [snapshot_id_1, shapshot_id_2, snapshot_id_3]
+
+    const RegenerateButtonOnClick = () => {
+      if (currentRCAEvent === testRCA.length - 1) {
+        setCurrentRCAEvent(0);
+      } else {
+        setCurrentRCAEvent(currentRCAEvent + 1);
+      }
+    };
+
     return (
       <>
+        {testRCA && (
+          <ListRow
+            title={'Probable Root Cause'}
+            events={[testRCA[currentRCAEvent]]}
+            triggeringProblemId={testRCA[currentRCAEvent]}
+            latestSnapshot={latestSnapshot}
+            regenerateEventEnabled
+            RegenerateComponentOnClick={RegenerateButtonOnClick}
+          />
+        )}
+
         <ListRow
           title={t('in-events:titleTriggerEvent')}
           events={events.filter(isTriggeringEvent)}
@@ -85,11 +114,23 @@ export default connectTo(
   }
 );
 
-function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
+function ListRow({
+  title,
+  events,
+  triggeringProblemId,
+  latestSnapshot,
+  regenerateEventEnabled,
+  RegenerateComponentOnClick
+}) {
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <Card title={title}>
+        <Card
+          title={title}
+          rightHeaderContent={
+            regenerateEventEnabled && <Button onClick={RegenerateComponentOnClick}>{'Regenerate'}</Button>
+          }
+        >
           <div className={`${block}__timeline`}>
             {!events && <LoadingIndicator />}
             {events?.map(_event => (
