@@ -1,7 +1,9 @@
+/* @jest-environment node */
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+/* eslint-disable header/header */
 
 /* eslint-env node, jest */
 
@@ -136,7 +138,9 @@ function getAllI18nKeys() {
        * To achieve this we need to transpile the tsx files to Js before scanning them
        * Reference: https://github.com/nucleartux/i18next-scanner-typescript/blob/master/src/index.js
        */
-      if (['.tsx'].includes(ext) && !base.includes('.d.ts')) {
+      if (['.tsx'].includes(ext)
+      //  && !base.includes('.d.ts')
+      ) {
         try {
           const { outputText } = typescript.transpileModule(content, {
             compilerOptions: {
