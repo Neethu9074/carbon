@@ -47,6 +47,18 @@
         window._walkmeConfig = {smartLoad:true}; })();
     </script>
 {{/if}}
+{{#if licenceType  }}
+    <script type="text/javascript" nonce="{{nonce}}">
+    (function() {
+      var walkme = document.createElement('script'); 
+      walkme.type = 'text/javascript'; 
+      walkme.async = true; 
+      walkme.src = 'https://cdn.walkme.com/users/3597fbbe066c47b1b7a2b617e4e62c6b/test/walkme_3597fbbe066c47b1b7a2b617e4e62c6b_https.js'; 
+      var s = document.getElementsByTagName('script')[0]; 
+      s.parentNode.insertBefore(walkme, s); 
+      window._walkmeConfig = {smartLoad:true}; })();
+    </script>
+{{/if}}
  {{#if playwithTestEnabled }}
     <script type="text/javascript" nonce="{{nonce}}">
       (function() {
