@@ -11,6 +11,7 @@ import { DynamicFieldValue } from '@instana/types';
 
 import * as tagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { CustomPayloadCardProps } from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/details/CustomPayloadViewer.mless';
@@ -29,7 +30,10 @@ export default function CustomPayloadViewer({
       </Li>
       {customPayloadFields.map(({ key, value }) => (
         <Li key={key} className={classNames(locals.listItem, locals.valueItem)} noAlternatingBg={!alternatingBg}>
-          <KeyValue className={locals.keyCell} label={key} />
+          <Tooltip align="mousePosition" content={key}>
+            <KeyValue className={locals.keyCell} label={key} />
+          </Tooltip>
+
           <ValueCell value={value} />
         </Li>
       ))}
@@ -38,7 +42,11 @@ export default function CustomPayloadViewer({
 
   function ValueCell({ value }: { value: string | DynamicFieldValue }) {
     if (typeof value === 'string') {
-      return <KeyValue className={locals.valueCell} label={value} />;
+      return (
+        <Tooltip align="mousePosition" content={value}>
+          <KeyValue className={locals.valueCell} label={value} />
+        </Tooltip>
+      );
     }
 
     if (!TagBasedPayloadConfigurator) return null;
