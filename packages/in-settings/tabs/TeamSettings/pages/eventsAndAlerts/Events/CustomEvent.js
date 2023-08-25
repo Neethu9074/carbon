@@ -17,7 +17,7 @@ import {
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
-  saveCustomEventSpecificationWithActions,
+  updateActionsAssignedToCustomEvent,
   createCustomSystemRuleBasedEventSpecificationForEntityCountVerification
 } from 'in-api/eventSpecifications';
 import {
@@ -233,10 +233,12 @@ function save(event, form, actions) {
       actionNames: actionNames,
       type: 'Custom event'
     });
-    return saveCustomEventSpecificationWithActions({
-      ...eventSpecification,
-      actions: actionIds?.map(value => ({ id: value }))
-    });
+    return saveCustomEventSpecification(eventSpecification).flatMap(() =>
+      updateActionsAssignedToCustomEvent(
+        actionIds?.map(value => ({ id: value })),
+        event.id
+      )
+    );
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

@@ -276,11 +276,21 @@ export function updateActionsAssignedToBuiltInEvent(actions, eventId) {
   }).map(response => fromJS(response.body));
 }
 
+export function updateActionsAssignedToCustomEvent(actions, eventId) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventId)}/actions`,
+    headers: getCsrfHeader(),
+    data: actions
+  }).map(response => fromJS(response.body));
+}
+
 export function getBuiltinEventActions(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
+    url: `/api/automation/settings/actions-associations?builtin_event_id=${encodeURIComponent(eventSpecificationId)}`,
     treat400AsError: false
   }).map(response => response.body);
 }
@@ -289,7 +299,7 @@ export function getCustomEventActions(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    url: `/api/automation/settings/actions-associations?custom_event_id=${encodeURIComponent(eventSpecificationId)}`,
     treat400AsError: false
   }).map(response => response.body);
 }
