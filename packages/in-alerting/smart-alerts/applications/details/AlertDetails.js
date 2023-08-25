@@ -42,7 +42,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
-import { getApplicationAlertActionAssociations } from 'in-automation/api';
+import { getApplicationAlertActionAssociationsWithResult } from 'in-automation/api';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
@@ -94,7 +94,7 @@ function mergeResultData(id, endpointConfig, created) {
 
   // calling Get Alert and Get action associations call and combining results
   if (hasAutomationActions) {
-    const actionDetails$ = getApplicationAlertActionAssociations(id);
+    const actionDetails$ = getApplicationAlertActionAssociationsWithResult(id);
     return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) =>
       combineResults(alertResponse, actionResponse)
     );
