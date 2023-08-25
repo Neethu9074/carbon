@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { Link, Message } from '@instana/components';
+
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -23,8 +25,8 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './AlertChannelModificationForm.mless';
 
@@ -72,6 +74,20 @@ function AlertChannelModificationForm(props) {
           </div>
         )}
       </HorizontalFlexWrapper>
+      {fullyQualifiedAlertChannel?.referencesDocumentation && (
+        <Message className={locals.documentation} withIcon iconType="lib_help_error_info_circle" bold>
+          <Trans
+            i18nKey="in-settings:tabs.alertChannelDocumentationMessage"
+            components={{
+              documentationLink: (
+                <Link href={fullyQualifiedAlertChannel?.documentationLink} external>
+                  &nbsp;
+                </Link>
+              )
+            }}
+          />
+        </Message>
+      )}
       <SectionLine />
       {message ? (
         <Section className={locals.messageSection}>

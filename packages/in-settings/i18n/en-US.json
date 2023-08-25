@@ -1046,7 +1046,12 @@
     "userWithName": "user {{name}}",
     "tfaEnabled": "2FA enabled",
     "groupCountCol": "Number of groups",
-    "tfaEnabledCol": "Authentication"
+    "tfaEnabledCol": "Authentication",
+    "consumerKey": "Consumer Key",
+    "consumerSecret": "Consumer Secret",
+    "salesforceChannel": "Salesforce",
+    "salesforceUrl": "Salesforce Organization URL",
+    "alertChannelDocumentationMessage": "For more details on setting up this alert channel, <documentationLink>check out our documentation</documentationLink>"
   },
   "languageSelection": {
     "language": "Language",
