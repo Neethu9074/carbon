@@ -14,6 +14,7 @@ import {
 } from 'in-alerting/components/constants';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import { InfraAlertConfigWithMetadata, TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
@@ -25,11 +26,12 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
-import { TagCatalog, TimeConfig } from 'in-types';
+import { deepCopy } from 'in-services/util/object';
 import PluginIcon from 'in-components/PluginIcon';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
@@ -44,7 +46,6 @@ export default function InfraEventContent({ event }: Props) {
   const alertConfig = useInfraEventAlertConfig(event);
 
   const entityType = alertConfig?.rule?.entityType ?? 'all';
-  const tagCatalog = useTagCatalog({ ownerType: entityType });
 
   if (!alertConfig) {
     return null;
@@ -53,10 +54,6 @@ export default function InfraEventContent({ event }: Props) {
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const entityName = event.getIn(['metadata', 'entityName'], '');
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
-
-  const tagFilterExpression = alertConfig.tagFilterExpression;
-  const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
-  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
@@ -100,16 +97,50 @@ export default function InfraEventContent({ event }: Props) {
         <Col xs>
           <Card title={t('in-events:titleScope')}>
             <div className={locals.alertFiltersWrapper}>
-              <ScopeConfigPresenter
-                tagFilterFormModel={tagFilterFormModel}
-                //@ts-expect-error type error for querybuilder
-                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
-              />
+              <FilterGrouping alertConfig={alertConfig} entityLabel={entityLabel} entityType={entityType} />
             </div>
           </Card>
         </Col>
       </Row>
     </>
+  );
+}
+
+function FilterGrouping({
+  alertConfig,
+  entityLabel,
+  entityType
+}: {
+  alertConfig: InfraAlertConfigWithMetadata;
+  entityLabel: string;
+  entityType: string;
+}) {
+  const filterExpression = deepCopy(alertConfig.tagFilterExpression);
+
+  // replace with grouping information from the alertConfig and event
+  (filterExpression as TagFilterExpression).elements.push(
+    {
+      value: '',
+      //@ts-expect-error
+      operator: '',
+      name: 'dfq.selftype',
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    },
+    { value: '', operator: '', name: 'dfq.type', entity: NOT_APPLICABLE, type: 'TAG_FILTER' },
+    { value: '', operator: '', name: 'aws.accountId', entity: NOT_APPLICABLE, type: 'TAG_FILTER' }
+  );
+
+  const tagFilterFormModel = fromBackendModel(filterExpression);
+
+  const tagCatalog = useTagCatalog({ ownerType: entityType });
+  const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  return (
+    <ScopeConfigPresenter
+      tagFilterFormModel={tagFilterFormModel}
+      //@ts-expect-error type error for querybuilder
+      queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+      scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
+    />
   );
 }
