@@ -277,7 +277,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'pluginMetricStatisticsEnabled',
-    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    instanaCtlKey: 'feature.plugin.metric.statistics.enabled',
     defaultValue: false
   },
   {
