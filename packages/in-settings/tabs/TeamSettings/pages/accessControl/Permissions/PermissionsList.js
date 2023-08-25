@@ -32,13 +32,13 @@ const defaultColumnDefinitions = [
   {
     id: 'permission',
     label: t('in-settings:tabs.permission'),
-    width: 35,
     getContent({ label }) {
       return label;
     }
   },
   {
     id: 'category',
+    width: 24,
     label: t('in-settings:tabs.category'),
     getContent({ category }) {
       return category;
