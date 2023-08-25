@@ -85,7 +85,6 @@ export default function GroupedView(props) {
     withResultsInGroups,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
-    chartedMetrics,
     groupingTagCatalog,
     Chart,
     customLatencyUiFormatterName,
@@ -207,8 +206,7 @@ export default function GroupedView(props) {
     dataSource,
     groupingTagCatalog,
     getCustomGroupingTagFilter,
-    getColor,
-    chartedMetrics
+    getColor
   ]);
 
   const sortOptions = fields
