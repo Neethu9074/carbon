@@ -12811,7 +12811,14 @@
       "cpuLimits": "CPU Limits"
     },
     "openTelemetry": {
-      "openTelemetry": "OpenTelemetry"
+      "openTelemetry": "OpenTelemetry",
+      "hostName": "Host Name",
+      "pid": "Pid",
+      "serviceName": "Service Name",
+      "remote": "ID",
+      "containerId": "Container ID",
+      "containerPid": "Container Pid",
+      "kind": "Kind"
     },
     "oracleDB": {
       "dbTimePerSecond": "DB Time per Second",

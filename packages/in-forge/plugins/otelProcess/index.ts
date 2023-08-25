@@ -20,5 +20,8 @@ registerSnapshotDefinition({
     return Map({
       Environment: snapshot.getIn(['data', 'env'])
     });
+  },
+  getIconType() {
+    return plugins.process;
   }
 });
