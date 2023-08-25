@@ -57,7 +57,7 @@ export default function HotspotList({
   size,
   profile,
   hotspots,
-  getHref$,
+  getHref,
   renderNestedContent,
   hotspotAutoExpandRowConfig
 }) {
@@ -70,7 +70,7 @@ export default function HotspotList({
         <Li
           key={i}
           size={size}
-          href$={getHref$ ? getHref$(profile) : undefined}
+          href={getHref?.(profile)}
           initiallyOpen={shouldAutoOpen(profile, hotspotAutoExpandRowConfig)}
           renderNestedContent={renderNestedContent ? () => renderNestedContent(profile) : undefined}
         >

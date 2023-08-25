@@ -15,7 +15,7 @@ import ResultForTimeSelectionIndicator from 'in-components/ResultForTimeSelectio
 import StackTrace from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/StackTrace';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
+import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import HotspotList from 'in-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import { serializeLine } from 'in-components/StackTrace/serializer';
@@ -63,6 +63,10 @@ export default function HotspotView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+  const linkToProfiles = subPath => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useLinkToProfiles({ subPath: subPath });
+  };
 
   return (
     <div className={locals.wrapper}>
@@ -105,7 +109,7 @@ export default function HotspotView({
           title={t('in-profiling:cpu')}
           profile={profiles.cpuProfile}
           getColorFn={cpuColorMapper}
-          viewAllHref$={getLinkToProfiles({ subPath: 'cpu' })}
+          viewAllHref={linkToProfiles('cpu')}
           hotspotAutoExpandRowConfig={hotspotAutoExpandRowConfig}
           isLoadingProfilesForHighlightedTimeframe={isLoadingProfilesForHighlightedTimeframe}
           profileForHighlightedTimeframe={profilesForHighlightedTimeframeResult?.data?.cpuProfile}
@@ -114,7 +118,7 @@ export default function HotspotView({
           title={t('in-profiling:memory')}
           profile={profiles.memoryProfile}
           getColorFn={memColorMapper}
-          viewAllHref$={getLinkToProfiles({ subPath: 'memory' })}
+          viewAllHref={linkToProfiles('memory')}
           hotspotAutoExpandRowConfig={hotspotAutoExpandRowConfig}
           isLoadingProfilesForHighlightedTimeframe={isLoadingProfilesForHighlightedTimeframe}
           profileForHighlightedTimeframe={profilesForHighlightedTimeframeResult?.data?.memoryProfile}
@@ -123,7 +127,7 @@ export default function HotspotView({
           title={t('in-profiling:waitTime')}
           profile={profiles.timeProfile}
           getColorFn={timeColorMapper}
-          viewAllHref$={getLinkToProfiles({ subPath: 'time' })}
+          viewAllHref={linkToProfiles('time')}
           hotspotAutoExpandRowConfig={hotspotAutoExpandRowConfig}
           isLoadingProfilesForHighlightedTimeframe={isLoadingProfilesForHighlightedTimeframe}
           profileForHighlightedTimeframe={profilesForHighlightedTimeframeResult?.data?.timeProfile}
@@ -136,7 +140,7 @@ export default function HotspotView({
 function Hotspot({
   title,
   profile,
-  viewAllHref$,
+  viewAllHref,
   hotspotAutoExpandRowConfig,
   getColorFn,
   isLoadingProfilesForHighlightedTimeframe,
@@ -168,7 +172,7 @@ function Hotspot({
               hotspotAutoExpandRowConfig={hotspotAutoExpandRowConfig}
               renderNestedContent={_profile => <StackTrace profile={_profile} />}
             />
-            <ViewAllWrapper ViewAll={ViewAll} viewAllHref$={viewAllHref$} />
+            <ViewAllWrapper ViewAll={ViewAll} viewAllHref={viewAllHref} />
           </div>
         )}
       </Card>
@@ -213,9 +217,9 @@ function renderSelfTimeComponents(profilesWithSelfTimes, getColorFn) {
   );
 }
 
-function ViewAll({ viewAllHref$, className }) {
+function ViewAll({ viewAllHref, className }) {
   return (
-    <Link className={className} href$={viewAllHref$}>
+    <Link className={className} href={viewAllHref}>
       {t('in-profiling:viewAll')}
     </Link>
   );

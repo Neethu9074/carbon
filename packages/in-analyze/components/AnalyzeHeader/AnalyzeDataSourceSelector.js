@@ -25,7 +25,7 @@ import {
 } from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
-import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
+import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
@@ -72,6 +72,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   const getAnalyzeHref = useGenerateLinkToAnalyze();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
+  const linkToProfileAnalyze = useLinkToProfileAnalyze();
   const productAreas = [
     {
       productArea: 'logs',
@@ -266,7 +267,9 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'profiles',
-          getHref$: getLinkToProfilesAnalyze
+          getHref: () => {
+            return linkToProfileAnalyze;
+          }
         }
       ]
     }

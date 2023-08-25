@@ -10,7 +10,7 @@ import { just } from '@instana/observables';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVersionDialog';
-import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
+import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
@@ -46,6 +46,7 @@ export default connectTo(
       profilesAvailable
     } = props;
 
+    const linkToProfiles = useLinkToProfiles({ processSnapshotId });
     return (
       <MoreMenuCollapser
         items={[
@@ -59,7 +60,7 @@ export default connectTo(
           profilesAvailable && {
             label: t('in-infrastructure:dashboard.analyzeProfiles'),
             icon: 'lib_profiling',
-            href$: getLinkToProfiles({ processSnapshotId })
+            href: linkToProfiles
           }
         ].filter(Boolean)}
         snapshot={snapshot}
