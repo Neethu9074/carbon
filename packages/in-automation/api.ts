@@ -660,7 +660,7 @@ export function updateApplicationAlertAssociations({ actions, alertId }: { actio
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/application-alert-configs/${encodeURIComponent(alertId)}/actions`,
+    url: `/api/automation/associations/v1/application-alert-configs/${encodeURIComponent(alertId)}/actions`,
     headers: getCsrfHeader(),
     data: actions
   }).map(response => fromJS(response.body));

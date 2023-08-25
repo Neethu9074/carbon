@@ -81,7 +81,6 @@ export default function BuiltinEvent(props) {
 
   function save(event, form) {
     const actionIds = form.get('actionIds')?.value ?? [];
-    const mappedActionIds = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
     if (hasAutomationActions) {
       const actionNames = actions.reduce(
         (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
@@ -95,7 +94,7 @@ export default function BuiltinEvent(props) {
       });
     }
 
-    return updateActionsAssignedToBuiltInEvent(mappedActionIds, entityId);
+    return updateActionsAssignedToBuiltInEvent(actionIds, entityId);
   }
 
   return (

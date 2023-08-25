@@ -234,10 +234,7 @@ function save(event, form, actions) {
       type: 'Custom event'
     });
     return saveCustomEventSpecification(eventSpecification).flatMap(() =>
-      updateActionsAssignedToCustomEvent(
-        actionIds?.map(value => ({ id: value })),
-        event.id
-      )
+      updateActionsAssignedToCustomEvent(actionIds, event.id)
     );
   } else {
     return saveCustomEventSpecification(eventSpecification);

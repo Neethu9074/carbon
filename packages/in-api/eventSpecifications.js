@@ -270,7 +270,7 @@ export function updateActionsAssignedToBuiltInEvent(actions, eventId) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventId)}/actions`,
+    url: `/api/automation/associations/v1/builtin-events/${encodeURIComponent(eventId)}/actions`,
     headers: getCsrfHeader(),
     data: actions
   }).map(response => fromJS(response.body));
@@ -280,7 +280,7 @@ export function updateActionsAssignedToCustomEvent(actions, eventId) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventId)}/actions`,
+    url: `/api/automation/associations/v1/custom-events/${encodeURIComponent(eventId)}/actions`,
     headers: getCsrfHeader(),
     data: actions
   }).map(response => fromJS(response.body));
