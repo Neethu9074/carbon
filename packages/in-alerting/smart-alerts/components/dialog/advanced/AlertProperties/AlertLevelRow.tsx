@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
+import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
 import AlertSection from 'in-alerting/components/AlertSection';
@@ -24,7 +24,12 @@ const severitySelectOptions = {
   }
 };
 
-export default function AlertLevelRow({ form, onChange, trackAlertLevelChanged }) {
+interface AlertLevelRowProps {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+}
+
+export default function AlertLevelRow({ form, onChange }: AlertLevelRowProps) {
   const severity = Number(form.get('severity').value);
 
   return (
@@ -37,10 +42,11 @@ export default function AlertLevelRow({ form, onChange, trackAlertLevelChanged }
         name="severity"
         id="severity"
         onChange={e => {
-          onChange(['severity'], field => field.setValue(Number(e.target.value)).setTouched(true));
-          trackAlertLevelChanged?.();
+          onChange(['severity'], (field: Item) => {
+            return (field as Field<number>).setValue(Number(e.target.value)).setTouched(true);
+          });
         }}
-        defaultValue={severitySelectOptions[severity].value}
+        defaultValue={severitySelectOptions[severity as keyof typeof severitySelectOptions].value}
       >
         {Object.values(severitySelectOptions).map(({ value, label }) => (
           <option key={value} value={value}>
@@ -51,9 +57,3 @@ export default function AlertLevelRow({ form, onChange, trackAlertLevelChanged }
     </AlertSection>
   );
 }
-
-AlertLevelRow.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  trackAlertLevelChanged: PropTypes.func
-};

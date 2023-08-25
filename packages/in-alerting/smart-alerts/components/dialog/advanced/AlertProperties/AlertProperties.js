@@ -15,22 +15,15 @@ export default function AlertProperties({
   form,
   getDescriptionPlaceholder,
   onChange,
-  trackAlertLevelChanged,
-  trackDescriptionChanged,
   trackTriggerChanged,
   renderAlertPropertiesTitleRow
 }) {
   return (
     <Sections>
       {renderAlertPropertiesTitleRow()}
-      <AlertLevelRow onChange={onChange} trackAlertLevelChanged={trackAlertLevelChanged} form={form} />
+      <AlertLevelRow onChange={onChange} form={form} />
       <TriggersIncidentRow form={form} onChange={onChange} trackTriggerChanged={trackTriggerChanged} />
-      <AlertDescriptionRow
-        form={form}
-        getDescriptionPlaceholder={getDescriptionPlaceholder}
-        onChange={onChange}
-        trackDescriptionChanged={trackDescriptionChanged}
-      />
+      <AlertDescriptionRow form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} onChange={onChange} />
     </Sections>
   );
 }
@@ -39,8 +32,6 @@ AlertProperties.propTypes = {
   form: PropTypes.object.isRequired,
   getDescriptionPlaceholder: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  trackAlertLevelChanged: PropTypes.func,
-  trackDescriptionChanged: PropTypes.func,
   trackTriggerChanged: PropTypes.func,
   /**
    * The title row has different capabilities in teh different areas

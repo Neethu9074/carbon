@@ -3,14 +3,21 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
+import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
+//@ts-expect-error
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
 
-export default function AlertDescriptionRow({ form, onChange, trackDescriptionChanged, getDescriptionPlaceholder }) {
+interface AlertDescriptionRowProps {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+}
+
+export default function AlertDescriptionRow({ form, onChange, getDescriptionPlaceholder }: AlertDescriptionRowProps) {
   return (
     <AlertSection
       titleHtmlFor="description"
@@ -21,9 +28,10 @@ export default function AlertDescriptionRow({ form, onChange, trackDescriptionCh
         name="description"
         id="description"
         rows="3"
-        onChange={e => {
-          onChange(['description'], field => field.setValue(e.target.value || '').setTouched(true));
-          trackDescriptionChanged?.();
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChange(['description'], (field: Item) => {
+            return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
+          });
         }}
         placeholder={getDescriptionPlaceholder(form)}
         formField={form.get('description')}
@@ -31,10 +39,3 @@ export default function AlertDescriptionRow({ form, onChange, trackDescriptionCh
     </AlertSection>
   );
 }
-
-AlertDescriptionRow.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  getDescriptionPlaceholder: PropTypes.func.isRequired,
-  trackDescriptionChanged: PropTypes.func
-};
