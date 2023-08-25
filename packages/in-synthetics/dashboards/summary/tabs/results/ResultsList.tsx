@@ -47,14 +47,18 @@ let testType: string;
 
 function StartTimeColumnContent(item: TestResultListItem) {
   const { location, createHref } = useNavigation();
+  location.pathname = syntheticDetailsPath;
+
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+
+  const resultId = item.testResultCommonProperties.id || '';
   const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
-  location.pathname = syntheticDetailsPath;
+
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
-  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'startTime', get(item, ['metrics', 'start_time', 0, 1]));
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'finishTime', get(item, ['metrics', 'start_time', 0, 0]));
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'status', get(item, ['metrics', 'status', 0, 1], 0));

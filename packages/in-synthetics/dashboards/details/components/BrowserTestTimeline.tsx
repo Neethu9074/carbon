@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { isEmpty } from 'lodash';
 
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -54,7 +55,7 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
   const { data } = details;
 
   /* Avoid edge case were the data property could be null or undefined. */
-  if (data === undefined || data === null) {
+  if (data === undefined || data === null || isEmpty(data)) {
     return (
       <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
         <NoDataAvailable
@@ -154,21 +155,23 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
   return (
     // @ts-expect-error RefObject is not assignable to type LegacyRef element
     <div ref={ref}>
-      {// @ts-expect-error Entries are possibly undefined
-      width && entries.length > 0 && (
-        <HorizontalAxis
-          align="top"
-          width={width}
-          formatter={millis.forcedCompactOnMs}
-          detailedFormatting
-          tickLength={8}
-          tickColor={theme.lib.colors.N800Dark}
-          tickLabelColor={theme.lib.colors.N800Dark}
-          // @ts-expect-error endTimestamp and earliestTimestamp are possibly undefined
-          scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
-          fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
-        />
-      )}
+      {
+        // @ts-expect-error Entries are possibly undefined
+        width && entries.length > 0 && (
+          <HorizontalAxis
+            align="top"
+            width={width}
+            formatter={millis.forcedCompactOnMs}
+            detailedFormatting
+            tickLength={8}
+            tickColor={theme.lib.colors.N800Dark}
+            tickLabelColor={theme.lib.colors.N800Dark}
+            // @ts-expect-error endTimestamp and earliestTimestamp are possibly undefined
+            scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
+            fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
+          />
+        )
+      }
 
       <div className={locals.entries} style={{ height: `${chartHeight}px` }}>
         {subStacked?.map(({ entry, depth }: any) => {

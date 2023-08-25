@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { ResultMetadataResponse } from 'in-synthetics/utils/constants';
+import { IMGFormatType, RECORDINGFormatType } from 'in-synthetics/utils/getValidFormat';
 import { Col } from 'in-components/layout/Grid/Grid';
 import download from 'in-synthetics/utils/download';
 
@@ -19,17 +18,19 @@ import locals from 'in-synthetics/dashboards/details/components/DownloadButton.m
 interface DownloadButtonProps {
   testId: string;
   resultId: string;
-  testResultMetadata: ResultMetadataResponse;
+  metadata: string;
 }
 
-export default function DownloadButton({ testId, resultId, testResultMetadata }: DownloadButtonProps) {
-  const harRef: string = `/api/synthetics/results/${testId}/${resultId}/file?type=HAR`;
-  const logRef: string = `/api/synthetics/results/${testId}/${resultId}/file?type=LOGS`;
-  const imageRef: string = `/api/synthetics/results/${testId}/${resultId}/file?type=IMAGES`;
-  const videoRef: string = `/api/synthetics/results/${testId}/${resultId}/file?type=VIDEOS`;
+export default function DownloadButton({ testId, resultId, metadata }: DownloadButtonProps) {
+  const resultMetadata = metadata.split(',');
+  const resultsApiPath = '/api/synthetics/results/';
+  const harRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=HAR`;
+  const logRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=LOGS`;
+  const imageRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=IMAGES`;
+  const videoRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=VIDEOS`;
 
-  const isScreenshotAvailable: boolean = get(testResultMetadata.data?.metadata, ['images.tar']) ? true : false;
-  const isRecordingAvailable: boolean = get(testResultMetadata.data?.metadata, ['recordings.tar']) ? true : false;
+  const isScreenshotAvailable: boolean = resultMetadata.includes(IMGFormatType);
+  const isRecordingAvailable: boolean = resultMetadata.includes(RECORDINGFormatType);
 
   return (
     <Col xs>
