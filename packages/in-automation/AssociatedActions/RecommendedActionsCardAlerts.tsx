@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import {
   getAllActionsWithAISuggestions,
   getApplicationAlertActionAssociations,
-  updateApplicationAlertAssociations
+  updateApplicationAlertActionAssociations
 } from 'in-automation/api';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
@@ -124,5 +124,5 @@ export function associateAction({
   const handleErrors = () => setError(true);
   const updatedActionIds = [...selectedActionsSet, action].map(a => a.id);
 
-  updateApplicationAlertAssociations({ actions: updatedActionIds, alertId: alertConfig.id }).once(onSave, handleErrors);
+  updateApplicationAlertActionAssociations(updatedActionIds, alertConfig.id).once(onSave, handleErrors);
 }

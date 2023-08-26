@@ -8,16 +8,13 @@ import React, { useEffect } from 'react';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import {
-  getBuiltinEventActions,
-  updateActionsAssignedToBuiltInEvent,
-  getBuiltInEventSpecification
-} from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
+import { updateBuiltinEventActionAssociations, getBuiltinEventActionAssociations } from 'in-automation/api';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecificationsHelpers';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
@@ -68,8 +65,7 @@ export default function BuiltinEvent(props) {
   const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
-    const actionDetails$ = getBuiltinEventActions(entityId);
-    // calling Get Event and Get action associations call and combining results
+    const actionDetails$ = getBuiltinEventActionAssociations(entityId);
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
       eventResponse.set(
         'actionIds',
@@ -94,7 +90,7 @@ export default function BuiltinEvent(props) {
       });
     }
 
-    return updateActionsAssignedToBuiltInEvent(actionIds, entityId);
+    return updateBuiltinEventActionAssociations(actionIds, entityId);
   }
 
   return (

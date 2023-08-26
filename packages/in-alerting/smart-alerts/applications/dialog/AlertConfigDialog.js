@@ -25,8 +25,8 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { updateApplicationAlertActionAssociations } from 'in-automation/api';
 import { getApplicationAlertActionAssociations } from 'in-automation/api';
-import { updateApplicationAlertAssociations } from 'in-automation/api';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
@@ -171,7 +171,7 @@ function createOrSaveAlert({
       config => {
         // add action associations
         if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          updateApplicationAlertAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
+          updateApplicationAlertActionAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
             () => {
               onClose(config);
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
@@ -206,7 +206,7 @@ function createOrSaveAlert({
           !isEffectivelyGlobalSmartAlert &&
           actionIds.length > 0
         ) {
-          updateApplicationAlertAssociations({ actions: actionIds, alertId: config.id }).once(
+          updateApplicationAlertActionAssociations(actionIds, config.id).once(
             () => {
               onClose(config);
               const href = getLinkToAlertConfig(config.id, null, config.applicationId);
