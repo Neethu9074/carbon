@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   getAllActionsWithAISuggestions,
-  getApplicationAlertActionAssociations,
+  getApplicationAlertActionAssociationsWithResult,
   updateApplicationAlertAssociations
 } from 'in-automation/api';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
@@ -42,8 +42,10 @@ export default function RecommendedActionsCardAlerts({
   const isCustomEvent = getIsCustomEvent(event);
 
   const existingActions =
-    useObservable(() => getApplicationAlertActionAssociations(eventSpecificationId), [eventSpecificationId, reload]) ??
-    null;
+    useObservable(
+      () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
+      [eventSpecificationId, reload]
+    ) ?? null;
 
   const triggerReload = () => setReload(Math.random());
 
