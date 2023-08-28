@@ -7,11 +7,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption,
-  isSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
 import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -40,7 +35,6 @@ export default function TechnologyBreakdownPresenter({
   endpointId,
   timeConfig,
   boundaryScope,
-  syntheticCalls,
   renderPostChartContent,
   renderHistoricDataIndicator,
   renderWidgetNotSupportedIndicator,
@@ -59,8 +53,7 @@ export default function TechnologyBreakdownPresenter({
           service: serviceId,
           endpoint: endpointId,
           applicationBoundaryScope: boundaryScope,
-          timeConfig: extendWindowSizeOnLiveMode(timeConfig, true),
-          includeSyntheticCalls: isSyntheticOption(syntheticCalls)
+          timeConfig: extendWindowSizeOnLiveMode(timeConfig, true)
         },
         breakdownType: 'PROCESSING_TIME',
         granularity: getChartGranularity(timeConfig)
@@ -122,13 +115,7 @@ export default function TechnologyBreakdownPresenter({
                 boundaryScope,
                 timeConfig: highlightedTime,
                 jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
-                formModel: joinExpressions({
-                  expressions: [
-                    createFormModelFromSyntheticOption(syntheticCalls),
-                    formModelBasedOnMetrics(labels, config)
-                  ]
-                }),
-                hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                formModel: formModelBasedOnMetrics(labels, config),
                 groupBy: createGroupBy('call.type'),
                 orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
                 chartedMetrics: [createChartedMetric('latency', 'MEAN')]

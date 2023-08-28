@@ -5,16 +5,10 @@
 
 import React from 'react';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption,
-  isSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -31,7 +25,6 @@ export default function Errors({
   tagFilters,
   boundaryScope,
   cardTitle,
-  syntheticCalls,
   endpointTypes,
   groupBy,
   renderPostChartContent
@@ -48,7 +41,6 @@ export default function Errors({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    includeSynthetic: isSyntheticOption(syntheticCalls),
     granularity,
     timeShift: 0,
     color: theme.lib.colors.failure
@@ -123,14 +115,8 @@ export default function Errors({
                   boundaryScope,
                   groupBy,
                   orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
-                  formModel: joinExpressions({
-                    expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointType(endpointTypes)
-                    ]
-                  }),
+                  formModel: filterByEndpointType(endpointTypes),
                   facets: { 'call.erroneous': [true] },
-                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
                   chartedMetrics: [createChartedMetric('errors', 'MEAN')]
                 },

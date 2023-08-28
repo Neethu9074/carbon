@@ -11,18 +11,15 @@ import { useObservable } from '@instana/hooks';
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
-import { errorMessagesTab, logMessagesTab, serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
-import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
+import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -32,13 +29,13 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
@@ -49,13 +46,12 @@ const urlStateDefinition = {
   bind: [
     serviceDashboardUrlParameters.applicationId,
     serviceDashboardUrlParameters.serviceId,
-    serviceDashboardUrlParameters.boundaryScope,
-    serviceDashboardUrlParameters.syntheticCalls
+    serviceDashboardUrlParameters.boundaryScope
   ]
 };
 
 export default function ServiceDashboard({ location }) {
-  const [{ appId, serviceId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ appId, serviceId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
@@ -67,10 +63,7 @@ export default function ServiceDashboard({ location }) {
     onChange: setUrlState,
     timeConfig,
     location,
-    onBoundaryStateChange: setUrlState,
-    syntheticCallsOption: syntheticCalls,
-    onSyntheticCallsStateChange: setUrlState,
-    includeSyntheticCalls: isSyntheticOption(syntheticCalls)
+    onBoundaryStateChange: setUrlState
   };
 
   const missingBoundaryScope = props.applicationId && !props.boundaryScope;
@@ -81,9 +74,6 @@ export default function ServiceDashboard({ location }) {
   if (missingBoundaryScope) {
     // as long as the boundaryScope is not loaded use the default scope
     props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;
-  }
-  if (!props.syntheticCalls) {
-    props.syntheticCalls = syntheticCalls || syntheticCallsOptions.default;
   }
 
   const showAlertButton = role.canConfigureCustomAlerts;
@@ -120,7 +110,6 @@ export default function ServiceDashboard({ location }) {
             applicationId={props.applicationId}
             location={location}
             boundaryScope={props.boundaryScope}
-            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
           />
         </FloatingActionButtons>
       )}
@@ -154,7 +143,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig, result, syntheticCalls }) {
+function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig, result }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -169,7 +158,6 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         applicationId={applicationId}
         boundaryScope={boundaryScope}
         serviceId={serviceId}
-        syntheticCalls={syntheticCalls}
         productArea="service"
       />
       <AnalyzeCallsButton
@@ -179,7 +167,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         timeConfig={timeConfig}
         groupBy={createGroupBy('endpoint.name', DESTINATION)}
         formModel={filterByType(result.data.types)}
-        syntheticCalls={syntheticCalls}
+        includeSynthetic={get(result, ['data', 'synthetic'])}
       />
     </>
   );
@@ -192,9 +180,7 @@ function renderButtonLineSecondary({
   currentTab,
   boundaryScope,
   onBoundaryStateChange,
-  location,
-  syntheticCallsOption,
-  onSyntheticCallsStateChange
+  location
 }) {
   return (
     <>
@@ -219,13 +205,6 @@ function renderButtonLineSecondary({
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
           disabled={location.pathname === '/service/flowMap'}
-        />
-      )}
-      {syntheticCallsEnabled && (
-        <IncludeSyntheticCallsDropdown
-          syntheticCalls={syntheticCallsOption}
-          onSyntheticCallsStateChange={onSyntheticCallsStateChange}
-          disabled={currentTab === errorMessagesTab || currentTab === logMessagesTab}
         />
       )}
     </>

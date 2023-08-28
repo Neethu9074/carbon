@@ -23,7 +23,6 @@ import {
   serviceId as matrixServiceId,
   serviceListPrefix as serviceListMatrixPrefix,
   snapshotId as matrixSnapshotId,
-  syntheticCalls as matrixSyntheticCalls,
   tagFilters as tagFiltersMatrixParam
 } from 'in-applications/navigation/matrix';
 import {
@@ -50,7 +49,6 @@ import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyArray } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -408,7 +406,6 @@ function useDashboard(base) {
       serviceId,
       endpointId,
       boundaryScope,
-      syntheticCalls,
       tab = summaryTab,
       tabMatrix = {},
       timeConfig
@@ -420,10 +417,6 @@ function useDashboard(base) {
       setOrDeleteMatrixKey(clonedLocation, base, matrixServiceId, serviceId);
       setOrDeleteMatrixKey(clonedLocation, base, matrixEndpointId, endpointId);
       setOrDeleteMatrixKey(clonedLocation, base, matrixBoundaryScope, boundaryScope);
-
-      if (syntheticCallsEnabled) {
-        setOrDeleteMatrixKey(clonedLocation, base, matrixSyntheticCalls, syntheticCalls);
-      }
 
       if (timeConfig != null) {
         setTimeConfig(clonedLocation, timeConfig);

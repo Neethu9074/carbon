@@ -7,15 +7,10 @@ import React from 'react';
 
 import { TimeConfig, TagFilter, TimeShift, Group, BoundaryScope, EndpointType } from '@instana/types';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { AdditionChartContentProps, ChartedMetricsConfig } from 'in-components/Chart/types';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -33,7 +28,6 @@ interface Props {
   timeConfig: TimeConfig;
   timeShiftConfig: TimeShift;
   timeShiftMetric: string;
-  syntheticCalls: string;
   groupBy: Group;
   boundaryScope?: BoundaryScope;
   cardTitle: string;
@@ -50,7 +44,6 @@ export default function CallsErrorsChart({
   timeConfig,
   timeShiftConfig,
   timeShiftMetric,
-  syntheticCalls,
   groupBy,
   boundaryScope,
   cardTitle,
@@ -60,7 +53,6 @@ export default function CallsErrorsChart({
 }: Props) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const granularity = getChartGranularity(timeConfig);
-  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
   const aggregation = 'SUM';
   const formatter = 'number.compact';
@@ -73,8 +65,7 @@ export default function CallsErrorsChart({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    timeShift: 0,
-    ...hiddenCalls
+    timeShift: 0
   } as const;
 
   const chartMetrics = [
@@ -212,13 +203,7 @@ export default function CallsErrorsChart({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupBy,
-                  formModel: joinExpressions({
-                    expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointType(endpointTypes ? endpointTypes : [])
-                    ]
-                  }),
-                  hiddenCalls,
+                  formModel: filterByEndpointType(endpointTypes ? endpointTypes : []),
                   fields: [createMetricField('erroneousCalls', aggregation), createMetricField('latency', 'MEAN')],
                   chartedMetrics: getChartedMetrics(aggregation, config)
                 },

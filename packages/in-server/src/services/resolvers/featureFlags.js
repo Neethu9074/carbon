@@ -181,11 +181,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCallsEnabled',
-    instanaCtlKey: 'feature.synthetic.calls.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
     defaultValue: false

@@ -5,10 +5,6 @@
 
 import React from 'react';
 
-import {
-  getTagFiltersForSyntheticOption,
-  isSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import ErroneousCallsBigNumberCard from 'in-applications/Dashboards/commonComponents/ErroneousCallsBigNumberCard';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
@@ -22,13 +18,12 @@ import { hasHttpAndOtherEndpoints, hasHttpEndpoints } from 'in-applications/endp
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Col, Row } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
@@ -39,16 +34,13 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function Summary(props) {
-    const { timeConfig, applicationId, serviceId, boundaryScope, data, syntheticCalls: urlSyntheticCalls } = props;
+    const { timeConfig, applicationId, serviceId, boundaryScope, data } = props;
     const endpointTypes = data.types;
-    const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
-    const includeSyntheticCalls = isSyntheticOption(urlSyntheticCalls);
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, serviceId });
     const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
       applicationId,
       serviceId,
-      includeSyntheticCalls,
       showPotentialProblemsLane: true
     });
 
@@ -65,14 +57,10 @@ export default connectTo(
         });
       }
     }
-    if (syntheticCallsEnabled) {
-      tagFilters.push(...getTagFiltersForSyntheticOption(syntheticCalls));
-    }
 
     const bigNumberCardConfiguration = {
       tagFilters,
       endpointTypes,
-      syntheticCallsOption: syntheticCalls,
       timeConfig,
       boundaryScope,
       jumpToAnalyze: {
@@ -103,7 +91,6 @@ export default connectTo(
               showHttp={hasHttpEndpoints(endpointTypes)}
               hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(endpointTypes)}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
-              syntheticCalls={syntheticCalls}
               endpointTypes={endpointTypes}
             />
           </Col>
@@ -117,7 +104,6 @@ export default connectTo(
               tagFilters={tagFilters}
               groupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
-              syntheticCalls={syntheticCalls}
               endpointTypes={endpointTypes}
             />
           </Col>
@@ -131,7 +117,6 @@ export default connectTo(
               tagFilters={tagFilters}
               percentileGroupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
-              syntheticCalls={syntheticCalls}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
               endpointTypes={endpointTypes}
               renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
@@ -154,7 +139,6 @@ export default connectTo(
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'endpointsTab' }}
-              syntheticCalls={syntheticCalls}
               renderHistoricDataIndicator
               renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
             />
@@ -175,7 +159,6 @@ export default connectTo(
                 serviceId={serviceId}
                 timeConfig={timeConfig}
                 renderPostChartContent={MarkerLanes}
-                syntheticCalls={syntheticCalls}
                 renderHistoricDataIndicator
                 renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
                 disableChartInLive={timeConfig.autoRefresh}

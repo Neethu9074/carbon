@@ -5,17 +5,12 @@
 
 import React from 'react';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsGood
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
 import { number } from 'in-services/formatters/number';
@@ -24,9 +19,9 @@ import { t } from 'in-i18n';
 export default function CallsBigNumberCard({
   tagFilters,
   endpointTypes,
-  syntheticCallsOption,
   timeConfig,
   boundaryScope,
+  includeSynthetic,
   jumpToAnalyze
 }: BigNumberCardProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
@@ -37,10 +32,8 @@ export default function CallsBigNumberCard({
       timeConfig: timeConfig,
       boundaryScope: boundaryScope,
       groupBy: jumpToAnalyze.groupBy,
-      formModel: joinExpressions({
-        expressions: [createFormModelFromSyntheticOption(syntheticCallsOption), ...filterByEndpointType(endpointTypes)]
-      }),
-      hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
+      formModel: filterByEndpointType(endpointTypes),
+      hiddenCalls: { includeSynthetic: includeSynthetic },
       fields: [createMetricField('calls', 'PER_SECOND'), createMetricField('latency', 'MEAN')],
       orderByGroups: createOrderBy('calls_PER_SECOND', 'DESC'),
       chartedMetrics: [createChartedMetric('calls', 'PER_SECOND')]
@@ -64,7 +57,7 @@ export default function CallsBigNumberCard({
       comparisonColors={increaseIsGood}
       jumpToAnalyzeHref={jumpToAnalyzeHref}
       tagFilters={tagFilters}
-      syntheticCallsOption={syntheticCallsOption}
+      includeSynthetic={includeSynthetic}
       timeConfig={timeConfig}
     />
   );

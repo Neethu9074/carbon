@@ -41,7 +41,6 @@ module.exports = {
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
   pseudoLanguageEnabled: true,
-  syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
   deprecateAppDataLegacyEventsEnabled: true,

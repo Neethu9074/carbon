@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "Erroneous call without error message",
     "noLogMessage": "No log message available",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetic Calls: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "No services available",
       "servicesDescription": "There were no services retrieved for the selected time range.",
@@ -556,14 +555,6 @@
     "self": "Self",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "Exclude",
-    "syntheticCallsAreExcludedFromTheMetrics": "Synthetic calls are excluded from the metrics.",
-    "include": "Include",
-    "syntheticCallsAreIncludedInTheMetrics": "Synthetic calls are included in the metrics.",
-    "only": "Only",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
   },
   "traceDetail": {
     "beta": "BETA",

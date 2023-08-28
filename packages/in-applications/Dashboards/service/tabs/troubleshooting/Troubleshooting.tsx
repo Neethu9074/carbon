@@ -40,7 +40,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
-import { syntheticCallsOptions } from 'in-applications/constants';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import TroubleShootingChart from './TroubleShootingChart';
@@ -52,16 +51,14 @@ import { t } from 'in-i18n';
 interface TroubleShootingProps {
   timeConfig: TimeConfig;
   serviceId: string;
-  syntheticCalls: string;
   boundaryScope: string;
   data: Service;
 }
 
 export default function Troubleshooting(props: TroubleShootingProps) {
   const timeShiftConfig = useTimeShiftConfig();
-  const { timeConfig, serviceId, syntheticCalls: urlSyntheticCalls, boundaryScope, data } = props;
+  const { timeConfig, serviceId, boundaryScope, data } = props;
   const endpointTypes = data.types;
-  const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   return (
     <>
@@ -73,7 +70,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             timeConfig={timeConfig}
             timeShiftConfig={timeShiftConfig}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             serviceId={serviceId}
             tagFilters={[
               tagFilter('host.name', NOT_EMPTY, '', null, DESTINATION),
@@ -90,7 +86,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             timeConfig={timeConfig}
             timeShiftConfig={timeShiftConfig}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             serviceId={serviceId}
             tagFilters={filterByEndpointType(endpointTypes)}
             groupByTag={'call.http.host'}
@@ -103,7 +98,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             timeConfig={timeConfig}
             timeShiftConfig={timeShiftConfig}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             serviceId={serviceId}
             groupByTag={'call.meta_tags'}
             groupByTagSecondLevel={'destination_infra_reference'}
@@ -120,7 +114,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getServiceMappingMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByServiceMappingOutcome}
             colorMapper={serviceMappingColorMapper}
           />
@@ -135,7 +128,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getInfraLinkingMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByInfraLinkingOutcome}
             colorMapper={infraLinkingColorMapper}
           />
@@ -150,7 +142,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getGroupByServiceRuleId(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByServiceRuleId}
           />
         </Col>
@@ -164,7 +155,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getInfraReferenceTypeMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByInfraReferenceType}
             colorMapper={infraReferenceColorMapper}
           />
@@ -178,7 +168,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getGroupByHostnameConfig(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByHostname}
           />
         </Col>
@@ -191,7 +180,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getGroupByHttpHostConfig(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByHttpHost}
           />
         </Col>
@@ -204,7 +192,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getGroupBySpanType(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupBySpanType}
           />
         </Col>
@@ -217,7 +204,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             metricConfigs={[getGroupByProcessUptime(serviceId)]}
             boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
             groupBy={groupByProcessUptime}
           />
         </Col>

@@ -12,7 +12,6 @@ import { Link } from '@instana/components';
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 // @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { percentage, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
@@ -41,7 +40,6 @@ interface EndpointTopListProps {
   boundaryScope: BoundaryScope;
   timeConfig: TimeConfig;
   urlMatrixParamConfig: UrlMatrixParamConfig;
-  syntheticCalls: string;
   renderHistoricDataIndicator: boolean;
   renderWidgetNotSupportedIndicator: boolean;
 }
@@ -58,7 +56,6 @@ export default function EndpointTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  syntheticCalls,
   renderHistoricDataIndicator,
   renderWidgetNotSupportedIndicator
 }: EndpointTopListProps) {
@@ -84,7 +81,6 @@ export default function EndpointTopList({
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      syntheticCalls={syntheticCalls}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
       renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
     />
@@ -100,7 +96,6 @@ interface GetListProps {
   selectedMetricAggregation: AggregationType;
   selectedCompanionMetric: string;
   selectedCompanionMetricAggregation: AggregationType;
-  syntheticCalls: string;
 }
 
 function getList({
@@ -111,8 +106,7 @@ function getList({
   selectedMetric,
   selectedMetricAggregation,
   selectedCompanionMetric,
-  selectedCompanionMetricAggregation,
-  syntheticCalls
+  selectedCompanionMetricAggregation
 }: GetListProps) {
   const metrics = {
     [selectedMetric]: {
@@ -139,10 +133,10 @@ function getList({
     filter: {
       application: applicationId,
       service: serviceId,
-      includeSyntheticCalls: isSyntheticOption(syntheticCalls),
       applicationBoundaryScope: boundaryScope,
       timeConfig,
       includeInternalCalls: false,
+      includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
     supportedOrderByCriteria: false
@@ -154,11 +148,10 @@ interface ViewAllProps {
   serviceId: string;
   boundaryScope: BoundaryScope;
   selectedMetric: string;
-  syntheticCalls: string;
   className: string;
 }
 
-function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, syntheticCalls, className }: ViewAllProps) {
+function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, className }: ViewAllProps) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
 
   return (
@@ -168,7 +161,6 @@ function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, synt
         applicationId,
         serviceId,
         boundaryScope,
-        syntheticCalls,
         tab: '/endpoints',
         tabMatrix: {
           'endpoint.orderBy': `${selectedMetric}Agg`,
@@ -186,11 +178,10 @@ interface LabelProps {
   applicationId: string;
   serviceId: string;
   boundaryScope: BoundaryScope;
-  syntheticCalls: string;
   className: string;
 }
 
-function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, className }: LabelProps) {
+function Label({ item, applicationId, serviceId, boundaryScope, className }: LabelProps) {
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
   return (
@@ -200,8 +191,7 @@ function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, 
         applicationId,
         serviceId,
         endpointId: item.endpoint.id,
-        boundaryScope,
-        syntheticCalls
+        boundaryScope
       })}
       onClick={() => trackTopListNavigation()}
     >
