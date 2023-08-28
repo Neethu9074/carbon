@@ -20,6 +20,7 @@ export interface Message {
   isLicenseUsageMsg?: boolean;
   timeout?: number;
   activeLicense?: string;
+  remainingDays?: number;
 }
 
 export interface MessageWithId extends Message {
@@ -47,11 +48,12 @@ export function addMessage(messageParam: Message, id: MessageId = idCounter++) {
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
     isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg,
-    activeLicense: messageParam.activeLicense
+    activeLicense: messageParam.activeLicense,
+    remainingDays: messageParam.remainingDays
   };
 
   messagesStore.applyStateMutation(messages => {
-    messages = messages || ((emptyArray as any) as MessageWithId[]);
+    messages = messages || (emptyArray as any as MessageWithId[]);
     messages = messages.slice();
     const i = getIndexOfMessage(messages, id);
     if (i !== -1) {

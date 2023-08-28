@@ -6,19 +6,20 @@
 
 import React from 'react';
 
+import { Link, Spacer, SvgIcon, Button, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
 
-import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
+import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
+import HorizontalFlexWrapper from '../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
+import IconButton from 'in-components/IconButton/IconButton';
 import Sticky from 'in-components/Sticky';
-import { t, Trans } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './NotificationBarSticky.mless';
 
@@ -54,17 +55,28 @@ export default function NotificationBarSticky() {
     </>
   );
 }
+
 function Content({ message }) {
   const location = useLocation();
 
   return (
     <Sticky
       header={
-        <div className={locals.section}>
-          <div className={locals.leftContent}>
-            <span className={locals.description}>{message.content}</span>
-          </div>
+        <HorizontalFlexWrapper className={locals.section}>
+          <Typography className={locals.title} noMargin onDark variant="heading-200">
+            {t('in-components:notificationBarSticky.freeTrialBannerTitle')}
+          </Typography>
           <div className={locals.rightContent}>
+            <span className={locals.description}>{message.content}</span>
+            {message.activeLicense == 'selfService' && (
+              <>
+                <Spacer horizontal="small" />
+                <IconForRemainingDays remainingDays={message.remainingDays} />
+                <Spacer horizontal="small" />
+              </>
+            )}
+            <div className={locals.verticalLine} />
+            <Spacer horizontal="small" />
             {onPremLicenseInformationEnabled && (
               <div className={locals.subText}>
                 <Trans
@@ -72,12 +84,14 @@ function Content({ message }) {
                   components={{
                     linkToDocker: (
                       <Link
+                        className={locals.bannerLink}
                         external
                         href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
                       />
                     ),
                     linkToKubernetes: (
                       <Link
+                        className={locals.bannerLink}
                         external
                         href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
                       />
@@ -91,11 +105,11 @@ function Content({ message }) {
                 {message.activeLicense == 'selfService' && (
                   <Button
                     className={locals.button}
-                    kind="secondary"
+                    kind="primaryv2"
                     target="_blank"
                     href="https://aws.amazon.com/marketplace/pp/prodview-hnqy5e3t3fzda"
                     rel="noopener noreferrer"
-                    onClick={track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
+                    onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
                   >
                     {t('in-components:messageFlyout.buyNowBtn')}
                   </Button>
@@ -112,11 +126,28 @@ function Content({ message }) {
                 >
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
+                {message.activeLicense == 'selfService' && (
+                  <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" />
+                )}
               </>
             )}
           </div>
-        </div>
+        </HorizontalFlexWrapper>
       }
     />
   );
 }
+const IconForRemainingDays = remainingDays => {
+  /**
+   * Days remaining for the free trial to end are converted into hours.
+   */
+  if (remainingDays >= 6 && remainingDays <= 14) {
+    return <SvgIcon type={'lib_uncheck'} color={'var(--ids-color-option-green-500'} />;
+  } else if (remainingDays >= 4 && remainingDays <= 5) {
+    return <SvgIcon type={'ib_help_error_warning'} color={'var(--ids-color-option-yellow-500)'} />;
+  } else if (remainingDays >= 0 && remainingDays <= 3) {
+    return <SvgIcon type={'lib_help_error_info_circle'} color={'var(--ids-color-option-red-500)'} />;
+  } else {
+    return <SvgIcon type={'lib_help_error_info_circle'} color={'var(--ids-color-option-red-500)'} />;
+  }
+};
