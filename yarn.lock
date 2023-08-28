@@ -1305,12 +1305,12 @@
   dependencies:
     "@carbon/layout" "^11.13.0"
 
-"@carbon/grid@^11.19.0":
-  version "11.19.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/grid/-/grid-11.19.0.tgz#a0af90b4625fd60bb9ad947b7f8360af09488e3f"
-  integrity sha512-Ie8C0yifTPOF58rhkeRhINJ6KPiTVbdJwPCE+aEWTpUrwGSnuqIYZ8zQBlYQtNGQX72TSfnGY0qijPmpnIwNsg==
+"@carbon/grid@^11.18.0":
+  version "11.18.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/grid/-/grid-11.18.0.tgz#144e51afbf93841b9145b222ba495be5e9a5e1a4"
+  integrity sha512-WntZneDoxBUtP4DkxpkxxNUYjkZSql9NBqAEyI2kW7iwl8UbfCwidtyHExoJtpIVoiRVEX0IQZfgXwL41c2SlA==
   dependencies:
-    "@carbon/layout" "^11.19.0"
+    "@carbon/layout" "^11.18.0"
 
 "@carbon/icon-helpers@^10.39.0":
   version "10.39.0"
@@ -1331,10 +1331,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/layout/-/layout-11.13.0.tgz#ba16018727e0846c1289a79b3d7af3e3f0ea880f"
   integrity sha512-MWVyk9NdWEpvfMSqEy1aBS9QA0Km3ADyEWW7D5c8r8+ZMrhPpJnmuCRMbBOkJYtZDfs4+7EuuKcacJ/kY51x7w==
 
-"@carbon/layout@^11.19.0":
-  version "11.19.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/layout/-/layout-11.19.0.tgz#cd0f97457a91058792d13b09293281270d2b7d91"
-  integrity sha512-BI9ct+yVKrgL90l4nijMhj8dokXGBJu1Xtve9fz/lcveTyxxn7YvRu8mosGhCyw77KSU6vN2yRLJnQwqwqrLJQ==
+"@carbon/layout@^11.18.0":
+  version "11.18.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/layout/-/layout-11.18.0.tgz#252d4a69f71cd7bcaf9cafd1c79c8227aa67a475"
+  integrity sha512-Xryaw94vaOUJdAp+WgWD0SZumxqImc9CCEYMnnXpbRwEtxQ9BzfWHr/sBWg0pB1IkR+8zE2vfxaez473TZtjXQ==
 
 "@carbon/motion@^11.10.0":
   version "11.10.0"
@@ -1406,12 +1406,12 @@
     "@carbon/layout" "^11.13.0"
 
 "@carbon/type@^11.19.0":
-  version "11.23.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/type/-/type-11.23.0.tgz#144c8106e9dc1d6d6a461f91d516d867c89d340b"
-  integrity sha512-bp3D2q7Su03B2Re5CHt0OdNNmAbTOJaBgKgRKKdLP97F+M27y/kk9iOAFctC0pCgmQ2qSndWRTSb3zVg5TmiEw==
+  version "11.22.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/type/-/type-11.22.0.tgz#a0944e18b9153d79888778c05f8cfcb034c90423"
+  integrity sha512-CGX6gC4mGv/ekOzZ442f/O+1tl0XJWZ0oib3qIpu4dw70vFe3D7JP0d1Wd+5SLKAVzHCQOyAddMn0p15ay3StQ==
   dependencies:
-    "@carbon/grid" "^11.19.0"
-    "@carbon/layout" "^11.19.0"
+    "@carbon/grid" "^11.18.0"
+    "@carbon/layout" "^11.18.0"
 
 "@codemirror/autocomplete@^6.0.0":
   version "6.3.4"
@@ -1966,19 +1966,19 @@
     prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
-"@instana/design-tokens@1.17.1", "@instana/design-tokens@^1.17.1":
-  version "1.17.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.17.1.tgz#32e38bafe6b20e8aae0f401a4eb34fb0687f78f2"
-  integrity sha512-gnm0gYnuwSlK4vHRhO/9CQG/HThyj9ENEMCjJdBD+NKqH6r/oc2JJLZiCZIN1Ek97ZHiRBDPj8AKHnNMkINzJw==
+"@instana/design-tokens@1.19.0", "@instana/design-tokens@^1.19.0":
+  version "1.19.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.19.0.tgz#8324077b5b950df7a940c447887231a27763266d"
+  integrity sha512-fJK1N8xeMxLCmF+OIODRjdnjWMs4SWDspeEmAf+yWBi5PJEC9adBZUpYE1dDD6W4xSevhb9tPrxuQ9fF/C1ifQ==
   dependencies:
     ts-node "^10.9.1"
     tslib "^2.4.1"
     typescript "^4.8.4"
 
-"@instana/design-tokens@^1.19.0":
-  version "1.19.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.19.0.tgz#8324077b5b950df7a940c447887231a27763266d"
-  integrity sha512-fJK1N8xeMxLCmF+OIODRjdnjWMs4SWDspeEmAf+yWBi5PJEC9adBZUpYE1dDD6W4xSevhb9tPrxuQ9fF/C1ifQ==
+"@instana/design-tokens@^1.17.1":
+  version "1.17.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.17.1.tgz#32e38bafe6b20e8aae0f401a4eb34fb0687f78f2"
+  integrity sha512-gnm0gYnuwSlK4vHRhO/9CQG/HThyj9ENEMCjJdBD+NKqH6r/oc2JJLZiCZIN1Ek97ZHiRBDPj8AKHnNMkINzJw==
   dependencies:
     ts-node "^10.9.1"
     tslib "^2.4.1"

@@ -1,6 +1,6 @@
 # Code Style
 
-Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should [configure your IDE/Editor](#running-prettier-on-save) to run prettier on all files when saving the file.
+Most code style rules are checked by linters. Code formatting is applied via prettier. Linters and prettier run automatically triggered by pre-commit hook on all files which have staged changes. If possible, you should [configure your IDE/Editor](#running-prettier-on-save) to run prettier on all files when saving the file.
 
 _CAUTION:_ If you use `git add --patch` to only commit a portion of a file's changes while excluding other changes in the same file from the commit by not adding them, the pre-commit hook will still add the whole file with all changes, so that won't work.
 
@@ -10,7 +10,7 @@ There is one style rule that is not automatically enforced or taken care of (yet
 
 1. Third party imports (React, Lodash, ...) first, then
 2. Instana imports (everything from one of the packages in `ui-client/packages/`, and finally
-3. CSS/LESS imports (all `*.less` and `*.mless` files).
+3. CSS/LESS file imports (all `*.less` and `*.mless` files).
 
 These blocks are separated by a new line. The first import block usually starts at the first line of the file (that is, there is nothing else above the imports).
 
@@ -20,8 +20,7 @@ Basically, this is our (totally arbitrary, but at least consistent) rule for sor
 
 Here is an example of some imports, correctly simon-sorted:
 
-```
-import { get } from 'lodash';
+```javascript
 import React from 'react';
 
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
@@ -34,7 +33,7 @@ import createScale from 'in-services/scale';
 import locals from './CallTree.mless';
 
 export default function CallTree({
-  ...
+}) {}
 ```
 
 ## Running Code Formatting On Save
@@ -100,7 +99,7 @@ The UI engineer needs to take the lead here. This is nothing a UI engineer shoul
 ```javascript
 export default createResultSubscriptionFactory({
   eventId: 'getReleases'
-}
+})
 ```
 
 Derived from the backend:
@@ -132,8 +131,10 @@ export default getReleases;
 We use Less as CSS preprocessor. Every Less (CSS)-Module has the file extension .mless.
 Example:
 
-```javascript
+```less
 /* less module file */
+
+@import '~in-themes/active.less';
 
 :local {
   .button {
@@ -142,13 +143,15 @@ Example:
     ...;
   }
 }
+```
 
+```javascript
 /* React component */
 
 import locals from './Button.mless';
 
 function Button() {
-  ...
+  /// ...
   return(
     <button className={locals.button}> {children} </button>
   )
@@ -160,7 +163,7 @@ function Button() {
 We have a Less file for global styles. For example colors, borders, typography stuff, etc. Please use this variables instead defining your own values over and over again. To use this variables import active.less at the top of your Less module.
 Example:
 
-```javascript
+```less
 /* less module file */
 
 @import '~in-themes/active.less';
@@ -179,7 +182,7 @@ Styling child elements should almost always be done with CSS class name selector
 
 Bad:
 
-```javascript
+```less
 /* less module file */
 
 :local {
@@ -197,7 +200,7 @@ Bad:
 
 Good:
 
-```javascript
+```less
 /* less module file */
 
 :local {
@@ -221,7 +224,7 @@ We use **named functions**, so it will show up in react dev tools with its name 
 ```javascript
 /* Function/Class components */
 export default function Button() {
-  ...
+  /// ...
 }
 
 /* Composed components (HOCs) */
@@ -235,17 +238,17 @@ Bad:
 ```javascript
 /* React component */
 function MyComponent() {
-  ...
+  /// ...
   return( <SvgIcon type={'lib_actions_star'} /> )
 }
 ```
 
 Good:
 
-```javascript
+```jsx
 /* React component */
 function MyComponent() {
-  ...
-  return( <SvgIcon type="lib_actions_star" /> )
+  ///...
+  return (<SvgIcon type="lib_actions_star"/>)
 }
 ```
