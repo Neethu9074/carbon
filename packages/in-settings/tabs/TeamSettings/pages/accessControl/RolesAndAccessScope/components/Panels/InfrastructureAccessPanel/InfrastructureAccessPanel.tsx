@@ -24,9 +24,9 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { getInfrastructurePermissions } from 'in-stores/permission';
 import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
-import { AreaPermission } from 'in-stores/permission';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
@@ -47,16 +47,10 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
 }: InfrastructureAccessPanelProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
-  const label = t('in-stores:permissionAccessInfrastructureAnalyzeLabel');
+
   const area = {
     header: productArea,
-    capabilities: [
-      {
-        keyForGroupApi: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
-        label: label,
-        description: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })
-      }
-    ]
+    capabilities: getInfrastructurePermissions()
   };
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
@@ -122,11 +116,11 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
         </Typography>
         {area.capabilities.map(productPermission => (
           <CheckboxFancy
-            key={productPermission.keyForGroupApi}
+            key={productPermission.key}
             size="large"
             className={locales.clickable}
-            checked={permissionSet?.permissions.includes(productPermission.keyForGroupApi) || false}
-            onChange={() => updatePermission(productPermission.keyForGroupApi)}
+            checked={permissionSet?.permissions.includes(productPermission.key) || false}
+            onChange={() => updatePermission(productPermission.key)}
             label={
               <Stack gap="xsmall" direction="horizontal" align="start">
                 <span>{productPermission.label}</span>

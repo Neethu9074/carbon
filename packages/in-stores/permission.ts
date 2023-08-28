@@ -105,6 +105,12 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS'
 } as const);
 
+export const InfrastructureCapability = Object.freeze({
+  [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
+  CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
+} as const);
+
 export type CapabilityType = keyof typeof Capability;
 export const Capabilities = Object.freeze(Object.values(Capability));
 
@@ -174,6 +180,11 @@ export const hasAPlatformAccess =
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess;
+
+export const hasCanCreateHeapDump =
+  hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);
+export const hasCanCreateThreadDump =
+  hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_THREAD_DUMP);
 
 export const amountPlatformAccesses = (() => {
   if (!hasAPlatformAccess) return 0;
@@ -664,6 +675,27 @@ export function getProductPermissions(): Array<ProductPermission> {
 
   return permissions;
 }
+export const getInfrastructurePermissions = (): {
+  readonly key: string;
+  readonly label: string;
+  readonly description: string;
+}[] => [
+  {
+    key: InfrastructureCapability.ACCESS_INFRASTRUCTURE_ANALYZE,
+    label: t('in-stores:permissionAccessInfrastructureAnalyzeLabel'),
+    description: t('in-stores:permissionAccessInfrastructureAnalyzeDescription')
+  },
+  {
+    key: InfrastructureCapability.CAN_CREATE_HEAP_DUMP,
+    label: t('in-stores:permissionCanCreateHeapDumpLabel'),
+    description: t('in-stores:permissionCanCreateHeapDumpDescription')
+  },
+  {
+    key: InfrastructureCapability.CAN_CREATE_THREAD_DUMP,
+    label: t('in-stores:permissionCanCreateThreadDumpLabel'),
+    description: t('in-stores:permissionCanCreateThreadDumpDescription')
+  }
+];
 
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();

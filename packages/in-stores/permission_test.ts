@@ -9,7 +9,9 @@ import {
   productPermissionsObject,
   LimitedAccessScope,
   Capability,
-  AreaPermission
+  AreaPermission,
+  getInfrastructurePermissions,
+  InfrastructureCapability
 } from 'in-stores/permission';
 import { InstanaGlobals } from 'in-types';
 
@@ -173,6 +175,35 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_ACTIVITIES]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BIZOPS_ALERTS]);
+    });
+  });
+
+  describe('getInfrastructurePermissions', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('should provide an array including all infrastructure permissions and their details', () => {
+      const permissions = getInfrastructurePermissions();
+      expect(permissions).toHaveLength(3);
+      expect(permissions);
+      expect(permissions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            key: InfrastructureCapability.ACCESS_INFRASTRUCTURE_ANALYZE
+          }),
+          expect.objectContaining({
+            key: InfrastructureCapability.CAN_CREATE_HEAP_DUMP
+          }),
+          expect.objectContaining({
+            key: InfrastructureCapability.CAN_CREATE_THREAD_DUMP
+          })
+        ])
+      );
+    });
+    it('should provide an array including all infrastructure permissions', () => {
+      expect(InfrastructureCapability).toHaveProperty('ACCESS_INFRASTRUCTURE_ANALYZE');
+      expect(InfrastructureCapability).toHaveProperty('CAN_CREATE_HEAP_DUMP');
+      expect(InfrastructureCapability).toHaveProperty('CAN_CREATE_THREAD_DUMP');
     });
   });
 
