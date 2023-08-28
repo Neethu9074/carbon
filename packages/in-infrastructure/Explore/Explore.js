@@ -435,7 +435,6 @@ function List({
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
-      fixedLayout={false}
       setUrl={setUrl}
     />
   );

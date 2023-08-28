@@ -67,6 +67,7 @@ export default function GroupedInfrastructure(props) {
     isHeaderVisible = true,
     isTableMode = false,
     isLoadMoreEnabled = true,
+    fixedLayout = true,
     retrievalSize = 20,
     getTotalItems,
     onItemClicked
@@ -108,6 +109,7 @@ export default function GroupedInfrastructure(props) {
       onItemClicked={onItemClicked}
       isLoadMoreEnabled={isLoadMoreEnabled}
       totalHits={totalHits}
+      fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -131,6 +133,7 @@ function Presenter({
   isHeaderVisible,
   isTableMode,
   isLoadMoreEnabled,
+  fixedLayout,
   onItemClicked,
   progress,
   metrics,
@@ -184,7 +187,7 @@ function Presenter({
     mapData(metricMetadatas, metadatas => {
       return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
         return {
-          label: `${metadatas[metric].label} (${aggregation})`,
+          label: `${metadatas[metric]?.label} (${aggregation})`,
           value: getMetricKey(metric, aggregation, crossSeriesAggregation)
         };
       });
@@ -224,7 +227,7 @@ function Presenter({
         />
       )}
 
-      {isTableMode && !hasErrors ? (
+      {isTableMode && !hasErrors && items.length > 0 ? (
         <CursorPaginatedTable
           columnDefinitions={columnDefinitions}
           numSkeletonRows={retrievalSize}
@@ -242,6 +245,7 @@ function Presenter({
             const href = getLinkToInfraEntityExplore({ type, group: {}, metrics, ...getParamsForGroup(item) }).slice(2);
             onItemClicked(href);
           }}
+          fixedLayout={fixedLayout}
           size="compact"
         />
       ) : (
@@ -316,6 +320,8 @@ function columns({
   const iconColumn = {
     width: '3rem',
     id: 'icon',
+    widthInAbsoluteUnit: true,
+    sortable: false,
     verticallyCenter: true,
     ...(isTableMode
       ? {
@@ -336,8 +342,12 @@ function columns({
     const isFirstItem = index === 0;
 
     return {
-      width: getColumnWidth(groupBy, metrics),
+      width: getColumnWidth(groupBy, metrics, isTableMode),
       id: groupKey,
+      cellClassName: locals.wordBreak,
+      headCellProps: {
+        className: locals.wordBreak
+      },
       ...(isTableMode
         ? {
             id: isFirstItem ? 'label' : groupKey,
@@ -366,7 +376,7 @@ function columns({
   };
 
   const countLabelColumnTable = {
-    width: '8rem',
+    width: '6rem',
     id: countLabel,
     label: countLabel,
     sortable: false,
@@ -407,7 +417,7 @@ function columns({
   };
 
   const cols = isTableMode
-    ? [iconColumn, ...groupsColumn, spacerColumn, countLabelColumnTable, ...metricsColumn]
+    ? [iconColumn, ...groupsColumn, countLabelColumnTable, ...metricsColumn]
     : [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
 
   return cols;
@@ -421,8 +431,9 @@ function getErrorMessage(errors) {
   return [t('in-infrastructure:explore.errors.generalError')];
 }
 
-function getColumnWidth(groupBy, metrics) {
-  return Math.max(1, (5 - metrics.length) / groupBy.length) * 12 + 'rem';
+function getColumnWidth(groupBy, metrics, isTableMode) {
+  const totalMetrics = isTableMode ? 4 : 5;
+  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 12 + 'rem';
 }
 
 export function getGroups({
@@ -648,7 +659,10 @@ function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, i
     return {
       width: '12rem',
       id,
-      label: metricLabel,
+      label,
+      headCellProps: { className: locals.metricLabel },
+      aggregation,
+      renderLabel: MetricLabel,
       ...metricsColumns,
       getId() {
         return getMetricKey(metric, aggregation);

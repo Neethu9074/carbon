@@ -17,4 +17,12 @@
   .icon {
     vertical-align: middle;
   }
+
+  .metricLabel {
+    padding-right: 2rem !important;
+  }
+
+  .wordBreak {
+    word-break: break-all;
+  }
 }
