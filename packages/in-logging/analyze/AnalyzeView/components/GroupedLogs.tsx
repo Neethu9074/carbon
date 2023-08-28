@@ -65,7 +65,10 @@ export default function GroupedLogs(props: GroupedLogsProps) {
   const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
-  const getColor = (item: LogGroupItem, index: number) => getLogGroupColor(item, index, groupBy);
+  const getColor = useMemo(
+    () => (item: LogGroupItem, index: number) => getLogGroupColor(item, index, groupBy),
+    [groupBy]
+  );
 
   return (
     <QueryBuilderWorkspace {...props}>
