@@ -26,6 +26,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracker';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -86,7 +87,11 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 
   return (
-    <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    <div
+      onClick={() => clickSyntheticMonitoringResultsListDetailTracker({ detail: 'Results details from Results list' })}
+    >
+      <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    </div>
   );
 }
 

@@ -23,6 +23,7 @@ import {
   browserScriptTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
+import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
@@ -230,11 +231,11 @@ const CreateSyntheticTestDialogPresenter = ({
             (header.error.name.invalid && !header.error.value.invalid) ||
             (!header.error.name.invalid && header.error.value.invalid)
         ).length > 0) ||
-        invalidHeader.invalid ||
-        (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
-        invalidJSON.invalid ||
-        (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
-        ) ||
+      invalidHeader.invalid ||
+      (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
+      invalidJSON.invalid ||
+      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
+      ) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -272,7 +273,11 @@ const CreateSyntheticTestDialogPresenter = ({
         form={form}
         isSaving={isSaving}
         disabled={isProceedDisabledAdvanced()}
-        onClick={() => onCreate()}
+        onClick={() => {
+          // Tracker
+          syntheticAdvancedCreateButtonClick({ detail: `Create a test using advanced mode` });
+          onCreate();
+        }}
       >
         {t('in-components:blueprintFormMultistep.buttonCreate')}
       </SaveButton>
@@ -300,6 +305,8 @@ const CreateSyntheticTestDialogPresenter = ({
             <Button
               kind="action"
               onClick={() => {
+                // Track
+                syntheticCreateAdvancedButtonClick({ detail: 'Switch to advanced mode' });
                 //@ts-expect-error
                 setTestTypeSelected((prevState: SetStateAction<any>) => {
                   if (selectedBlueprint.type === apiSimpleTest)

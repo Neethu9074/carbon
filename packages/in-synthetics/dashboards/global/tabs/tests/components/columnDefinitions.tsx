@@ -19,6 +19,7 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
+import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
@@ -123,7 +124,10 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
 
   return (
     <div>
-      <Link href={createHref(location)}>
+      <Link
+        href={createHref(location)}
+        onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
+      >
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>

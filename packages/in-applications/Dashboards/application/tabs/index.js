@@ -55,7 +55,7 @@ export default [
   },
   hasSyntheticsAccess &&
     !playwithEnabled && {
-      label: t('in-synthetics:dashboard.testList.mainLabel'),
+      label: t('in-applications:labelSyntheticMonitoring'),
       path: `${applicationDashboard}/synthetics`,
       component: SyntheticsList
     },

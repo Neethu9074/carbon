@@ -16,6 +16,7 @@ import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetic
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracker';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
 
@@ -94,6 +95,7 @@ const createSyntheticTest = (
   let testConfig: SyntheticTest;
   let updatedForm: MapForm<any>;
   if (simpleMode) {
+    syntheticWizardCreateButtonClick({ detail: `Create a test using wizard mode` });
     testConfig = {
       active: true,
       ...form.toJS()

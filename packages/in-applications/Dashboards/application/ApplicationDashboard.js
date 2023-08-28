@@ -27,6 +27,7 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
@@ -109,6 +110,13 @@ export default function ApplicationDashboard({ location }) {
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
+        tabChangeTracker={props =>
+          props.tab === t('in-applications:labelSyntheticMonitoring')
+            ? clickSyntheticMonitoringTabInApplicationsTracker({
+                detail: 'Synthetic Monitoring tab in Applications section'
+              })
+            : null
+        }
       />
     </>
   );

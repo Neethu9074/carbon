@@ -11,6 +11,10 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  clickSyntheticMonitoringConfigurationTabTracker,
+  clickSyntheticMonitoringResultsTabTracker
+} from 'in-synthetics/tracker';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
@@ -48,6 +52,18 @@ export default function SyntheticSummaryDashboard() {
     test,
     setReloadCount
   };
+
+  function trackSyntheticTabChange(tab: string) {
+    switch (tab) {
+      case t('in-synthetics:dashboard.summary.resultsTab'):
+        clickSyntheticMonitoringResultsTabTracker({ detail: 'Results tab from synthetic Test Dashboard' });
+        break;
+      case t('in-synthetics:dashboard.summary.configurationTab'):
+        clickSyntheticMonitoringConfigurationTabTracker({ detail: 'Configuration tab from synthetic Test Dashboard' });
+        break;
+    }
+  }
+
   return (
     <>
       <ViewTrackingMeta
@@ -68,6 +84,7 @@ export default function SyntheticSummaryDashboard() {
         withProps={result => ({
           testName: get(result, ['data', 'label'])
         })}
+        tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
       <FloatingActionButtons>
