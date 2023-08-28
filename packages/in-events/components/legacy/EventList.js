@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { Button, Card } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   isApplicationSmartAlertEvent,
@@ -29,7 +30,8 @@ import 'in-events/components/legacy/EventList.less';
 const block = 'in-event-view-incident-event-list';
 
 const rcaEvents = {
-  'P7eIvb_i1AX-iOQ7Z9UQLezDx-Y': ['dSmKQZCbQ5CHfJGycCyu9A', 'sWhc3jGwQ1CIM7Toe6JzBQ', 'Wn9dKYJsRLG1XbMqMQfXpA']
+  'P7eIvb_i1AX-iOQ7Z9UQLezDx-Y': ['dSmKQZCbQ5CHfJGycCyu9A', 'sWhc3jGwQ1CIM7Toe6JzBQ', 'Wn9dKYJsRLG1XbMqMQfXpA'],
+  'coI3Ea8t-zHGLNMpFeY-YGTWJDg': ['oErCrEfwSYuf7vf3xhrM9A', 'uLCTOxICQ4GhITvP9x_d6A']
 };
 
 export default connectTo(
@@ -44,13 +46,18 @@ export default connectTo(
               incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
           )
       )
-      .throttle(250),
-    testRCA: combineLatest(rcaEvents['P7eIvb_i1AX-iOQ7Z9UQLezDx-Y'].map(getEvent)).map(events =>
-      events.filter(e => e && !e.isEmpty())
-    )
+      .throttle(250)
   }),
-  function IncidentEventList({ events, incident, latestSnapshot, snapshot, testRCA }) {
-    const [currentRCAEvent, setCurrentRCAEvent] = useState(0);
+  function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
+    const [currentRCAEntity, setCurrentRCAEntity] = useState(Object.keys(rcaEvents)[0]);
+    const [observablesList, setObservablesList] = useState(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
+
+    const eventTests = useObservable(observablesList, [currentRCAEntity]) ?? [];
+
+    useEffect(() => {
+      setObservablesList(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
+    }, [currentRCAEntity]);
+
     //const [currentRCAEntity, setCurrentRCAEntity] = useState('P7eIvb_i1AX-iOQ7Z9UQLezDx-Y');
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
@@ -63,20 +70,21 @@ export default connectTo(
     // Entity ID : [snapshot_id_1, shapshot_id_2, snapshot_id_3]
 
     const RegenerateButtonOnClick = () => {
-      if (currentRCAEvent === testRCA.length - 1) {
-        setCurrentRCAEvent(0);
-      } else {
-        setCurrentRCAEvent(currentRCAEvent + 1);
-      }
+      const rca_keys = Object.keys(rcaEvents);
+      let nextKey = rca_keys.findIndex(snapshotIDs => snapshotIDs === currentRCAEntity) + 1;
+
+      if (nextKey === rca_keys.length) nextKey = 0;
+
+      setCurrentRCAEntity(Object.keys(rcaEvents)[nextKey]);
     };
 
     return (
       <>
-        {testRCA && (
+        {eventTests && eventTests.length > 0 && (
           <ListRow
             title={'Probable Root Cause'}
-            events={[testRCA[currentRCAEvent]]}
-            triggeringProblemId={testRCA[currentRCAEvent]}
+            events={eventTests}
+            triggeringProblemId={eventTests[0].get('id')}
             latestSnapshot={latestSnapshot}
             regenerateEventEnabled
             RegenerateComponentOnClick={RegenerateButtonOnClick}
