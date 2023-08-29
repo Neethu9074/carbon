@@ -67,15 +67,18 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
         setIsDeleting(false);
         setReasonInputvalue('');
         setValidationInputValue('');
+        close();
         setNotification({
           show: true,
           message: t('in-synthetics:dashboard.locationList.deletionSuccess'),
           variant: 'success'
         });
+        window.location.reload();
       });
 
       action$.errors().once(error => {
         setIsDeleting(false);
+        close();
         setNotification({ show: true, message: error.message, variant: 'failure' });
       });
     };
