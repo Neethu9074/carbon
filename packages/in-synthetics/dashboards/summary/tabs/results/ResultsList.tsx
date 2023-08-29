@@ -25,6 +25,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 // @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
+import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracker';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
@@ -107,7 +108,11 @@ const columnDefinitions = [
     id: 'location_label',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
-      return <span className={locals.metricLabel}>{item?.testResultCommonProperties?.locationDisplayLabel ?? ''}</span>;
+      const displayLabel = massageLocationDisplayLabel(
+        item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+        item?.testResultCommonProperties?.locationId ?? ''
+      );
+      return <span className={locals.metricLabel}>{displayLabel}</span>;
     }
   },
   {
