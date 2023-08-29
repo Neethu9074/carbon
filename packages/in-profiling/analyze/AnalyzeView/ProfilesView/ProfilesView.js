@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 // eslint-disable-next-line import/no-deprecated
