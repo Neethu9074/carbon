@@ -12,6 +12,8 @@ import { Card, Link, Spacer, Typography } from '@instana/components';
 import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
+// @ts-expect-error needs to be ts migrated
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
@@ -55,7 +57,16 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const { config, title, actions, dragHandle, isPreview } = props;
 
-  const { entityType: type = '', grouping: groupBy, datasets, sorting, tableSize = 5, tagFilterExpression } = config;
+  const widgetWidth = (actions as any)?.props?.widget?.width;
+
+  const {
+    entityType: type = '',
+    grouping: groupBy,
+    datasets,
+    sorting = defaultOrder,
+    tableSize = 5,
+    tagFilterExpression
+  } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
 
@@ -165,11 +176,12 @@ function InfrastructureTable(props: TableWidgetProps) {
           sortableMetrics
           retrievalSize={tableSize}
           numSkeletonRows={tableSize}
-          fixedLayout={false}
           chartedMetrics={[]}
           metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
           query={catalogQuery.value}
           onQueryChange={catalogQuery.onChange}
+          widgetWidth={widgetWidth}
+          isWidget
         />
       )}
 

@@ -8,13 +8,13 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import {
-  getApplicationAlertActionAssociations,
+  getApplicationAlertActionAssociationsWithResult,
   getAllActions,
   updateApplicationAlertAssociations,
   getAllActionsWithAISuggestions
 } from 'in-automation/api';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
@@ -46,7 +46,7 @@ export default function AssociatedActionsAlerts({
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
   const result = useObservable(
-    () => getApplicationAlertActionAssociations(eventSpecificationId),
+    () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
     [eventSpecificationId, reload],
     {
       resetStateOnObservableChange: false
