@@ -75,7 +75,7 @@ export default function GroupedInfrastructure(props) {
 
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : [metrics];
+  const dependencies = isPreview ? [retrievalSize] : isTableMode ? [] : [metrics];
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>

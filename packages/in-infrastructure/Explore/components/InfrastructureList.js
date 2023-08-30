@@ -52,8 +52,8 @@ export default function InfrastructureList({
   isLoadMoreEnabled = true,
   isPreview = false,
   isWidget = false,
-  widgetWidth,
   fixedLayout = true,
+  isSearchable = false,
   type,
   metrics,
   metricMetadatas,
@@ -69,7 +69,7 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : [metrics];
+  const dependencies = isPreview ? [retrievalSize] : isSearchable ? [] : [metrics];
 
   const {
     items,
@@ -125,8 +125,7 @@ export default function InfrastructureList({
       metricMetadatas,
       timeConfig,
       granularity,
-      isWidget,
-      widgetWidth
+      isWidget
     })
   ];
 
@@ -316,7 +315,7 @@ InfrastructureList.propTypes = {
   isLoadMoreEnabled: rpt.bool,
   isPreview: rpt.bool,
   isWidget: rpt.bool,
-  widgetWidth: rpt.number,
+  isSearchable: rpt.bool,
   query: rpt.string,
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,
@@ -325,7 +324,7 @@ InfrastructureList.propTypes = {
   displayChart: rpt.bool
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget, widgetWidth }) {
+function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
   return metrics
     .filter(m => !m.removeFromTable)
     .map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
@@ -334,10 +333,6 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
       const isKpi = mapData(metadata, data => data?.isKpi).data || false;
 
-      const totalMetrics = metrics.length;
-      const columnsWidths = getMetricColumnWidthFromWidgetSize(widgetWidth);
-      const metricWidth = isWidget ? columnsWidths[totalMetrics - 1] : '15rem';
-
       return {
         id,
         metric,
@@ -345,7 +340,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         aggregation: aggregation,
         renderLabel: MetricLabel,
         sortable,
-        width: metricWidth,
+        width: isWidget ? 'auto' : '15rem',
         widthInAbsoluteUnit: true,
         optional: true,
         defaultDisabled: !isKpi,
@@ -459,22 +454,4 @@ function getHeaderActions(props) {
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
   );
-}
-
-/**
- * Function that will adjust an array of widths values based on a given widget size.
- * If user resizes the widget, it will calculate the new width based on the new widget size.
- * By default, it considers the widget with the base value as 6.
- * This function is necessary to render the columns in an optimal width based on the size of the widget.
- * @param {number} currentWidgetSize - The current size of the widget for which widths need to be adjusted.
- * @returns {string[]} An array of adjusted width values based on the provided widget sizes.
- */
-function getMetricColumnWidthFromWidgetSize(currentWidgetSize = 6) {
-  // Mapping values that represents the column width. These are base values. If one metric, then first item will be rendered. If two metrics, second item will be rendered, etc.
-  const mappingsWidth = [30, 20, 13, 10];
-  const baseWidgetWidth = 6;
-  const scalingFactor = currentWidgetSize / baseWidgetWidth;
-  const adjustedWidths = mappingsWidth.map(width => `${parseInt(width) * scalingFactor}rem`);
-
-  return adjustedWidths;
 }
