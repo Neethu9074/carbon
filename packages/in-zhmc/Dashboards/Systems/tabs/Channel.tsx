@@ -5,19 +5,33 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error Module needs to be translated to TS
 import FlashMemoryUsageTable from '../../tables/FlashMemoryUsageTable';
+// @ts-expect-error Module needs to be translated to TS
 import ChannelUsageTable from '../../tables/ChannelUsageTable';
+// @ts-expect-error Module needs to be translated to TS
 import CryptoUsageTable from '../../tables/CryptoUsageTable';
+// @ts-expect-error Module needs to be translated to TS
+import NoData from '../../commonComponents/NoData';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import NoData from '../../commonComponents/NoData';
 import { t } from 'in-i18n';
 
-export default function Channel({ timeConfig, data: cpc }) {
+interface ChannelProps {
+  timeConfig: TimeConfig;
+  data: {
+    id: string;
+    dpmEnabled: string;
+  };
+}
+
+const Channel: React.FC<ChannelProps> = ({ timeConfig, data: cpc }) => {
   const snapshotId = cpc.id;
   if (cpc.dpmEnabled === 'false') {
     return (
@@ -49,4 +63,6 @@ export default function Channel({ timeConfig, data: cpc }) {
   } else {
     return <NoData />;
   }
-}
+};
+
+export default Channel;

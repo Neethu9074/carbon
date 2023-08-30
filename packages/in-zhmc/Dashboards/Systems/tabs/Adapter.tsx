@@ -5,17 +5,29 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+// @ts-expect-error Module needs to be translated to TS
 import AdpaterUsageTable from 'in-zhmc/Dashboards/tables/AdapterUsageTable';
+// @ts-expect-error Module needs to be translated to TS
 import RoceAdapter from 'in-zhmc/Dashboards/tables/RoceAdapter';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function Adapter({ timeConfig, data: cpc }) {
+interface AdapterProps {
+  timeConfig: TimeConfig;
+  data: {
+    id: string;
+    dpmEnabled: string;
+  };
+}
+
+const Adapter: React.FC<AdapterProps> = ({ timeConfig, data: cpc }) => {
   const snapshotId = cpc.id;
   if (cpc.dpmEnabled === 'true') {
     return (
@@ -92,6 +104,8 @@ export default function Adapter({ timeConfig, data: cpc }) {
       </Fragment>
     );
   } else {
-    return <RoceAdapter snapshotId={cpc.id}/>;
+    return <RoceAdapter snapshotId={cpc.id} />;
   }
-}
+};
+
+export default Adapter;

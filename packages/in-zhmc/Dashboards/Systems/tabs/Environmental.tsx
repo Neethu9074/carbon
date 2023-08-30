@@ -5,15 +5,25 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function Environmental({ timeConfig, data: cpc }) {
+interface EnvironmentalProps {
+  timeConfig: TimeConfig;
+  data: {
+    id: string;
+    dpmEnabled: string;
+  };
+}
+
+const Environmental: React.FC<EnvironmentalProps> = ({ timeConfig, data: cpc }) => {
   const snapshotId = cpc.id;
   return (
     <Fragment>
@@ -114,4 +124,6 @@ export default function Environmental({ timeConfig, data: cpc }) {
       </Row>
     </Fragment>
   );
-}
+};
+
+export default Environmental;
