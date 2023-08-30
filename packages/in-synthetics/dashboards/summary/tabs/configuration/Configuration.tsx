@@ -74,7 +74,6 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
     const doDeleteAction = (testId: string) => {
       setIsDeleting(true);
-      close();
 
       const action$ = removeTest(testId);
 
@@ -82,12 +81,14 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
         setIsDeleting(false);
         showDeleteSuccessMessage();
         setReloadCount(count => ++count);
+        close();
         goToPath(syntheticsPath);
       });
 
       action$.errors().once(error => {
         setIsDeleting(false);
         showDeleteErrorMessage(error);
+        close();
       });
     };
 
