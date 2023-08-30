@@ -57,8 +57,6 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const { config, title, actions, dragHandle, isPreview } = props;
 
-  const widgetWidth = (actions as any)?.props?.widget?.width;
-
   const {
     entityType: type = '',
     grouping: groupBy,
@@ -180,7 +178,6 @@ function InfrastructureTable(props: TableWidgetProps) {
           metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
           query={catalogQuery.value}
           onQueryChange={catalogQuery.onChange}
-          widgetWidth={widgetWidth}
           isWidget
         />
       )}
