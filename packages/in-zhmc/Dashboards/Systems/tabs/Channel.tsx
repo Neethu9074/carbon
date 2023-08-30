@@ -9,15 +9,15 @@ import { TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
+import FlashMemoryUsageTable from 'in-zhmc/Dashboards/tables/FlashMemoryUsageTable';
+// @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error Module needs to be translated to TS
-import FlashMemoryUsageTable from '../../tables/FlashMemoryUsageTable';
+import ChannelUsageTable from 'in-zhmc/Dashboards/tables/ChannelUsageTable';
 // @ts-expect-error Module needs to be translated to TS
-import ChannelUsageTable from '../../tables/ChannelUsageTable';
+import CryptoUsageTable from 'in-zhmc/Dashboards/tables/CryptoUsageTable';
 // @ts-expect-error Module needs to be translated to TS
-import CryptoUsageTable from '../../tables/CryptoUsageTable';
-// @ts-expect-error Module needs to be translated to TS
-import NoData from '../../commonComponents/NoData';
+import NoData from 'in-zhmc/Dashboards/commonComponents/NoData';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -31,7 +31,7 @@ interface ChannelProps {
   };
 }
 
-const Channel: React.FC<ChannelProps> = ({ timeConfig, data: cpc }) => {
+export default function Channel({ timeConfig, data: cpc }: ChannelProps): JSX.Element {
   const snapshotId = cpc.id;
   if (cpc.dpmEnabled === 'false') {
     return (
@@ -63,6 +63,4 @@ const Channel: React.FC<ChannelProps> = ({ timeConfig, data: cpc }) => {
   } else {
     return <NoData />;
   }
-};
-
-export default Channel;
+}

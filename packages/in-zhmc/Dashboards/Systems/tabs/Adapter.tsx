@@ -26,8 +26,7 @@ interface AdapterProps {
     dpmEnabled: string;
   };
 }
-
-const Adapter: React.FC<AdapterProps> = ({ timeConfig, data: cpc }) => {
+export default function Adapter({ timeConfig, data: cpc }: AdapterProps): JSX.Element {
   const snapshotId = cpc.id;
   if (cpc.dpmEnabled === 'true') {
     return (
@@ -106,6 +105,4 @@ const Adapter: React.FC<AdapterProps> = ({ timeConfig, data: cpc }) => {
   } else {
     return <RoceAdapter snapshotId={cpc.id} />;
   }
-};
-
-export default Adapter;
+}

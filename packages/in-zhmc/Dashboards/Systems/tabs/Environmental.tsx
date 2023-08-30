@@ -23,7 +23,7 @@ interface EnvironmentalProps {
   };
 }
 
-const Environmental: React.FC<EnvironmentalProps> = ({ timeConfig, data: cpc }) => {
+export default function Environmental({ timeConfig, data: cpc }: EnvironmentalProps): JSX.Element {
   const snapshotId = cpc.id;
   return (
     <Fragment>
@@ -124,6 +124,4 @@ const Environmental: React.FC<EnvironmentalProps> = ({ timeConfig, data: cpc }) 
       </Row>
     </Fragment>
   );
-};
-
-export default Environmental;
+}
