@@ -34,7 +34,7 @@ PieLegend.propTypes = {
   y1: rpt.object.isRequired,
   y2: rpt.object,
   reverseLegendOrder: rpt.bool,
-  metricsConfiguration: rpt.object.isRequired
+  metricsConfiguration: rpt.object
 };
 
 /**
@@ -47,7 +47,7 @@ function getLabelsFromAxis(axis, list = [], updateList, metricsConfiguration, ax
   return (
     axis?.labels?.map((label, i) => {
       let defaultName = label;
-      if (!label?.trim()) {
+      if (!label?.trim() && metricsConfiguration) {
         // If no label is present use the metric name as default
         defaultName = getMetricLabel(metricsConfiguration.metrics[`${axisName}-${i}`]);
       }
