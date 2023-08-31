@@ -10107,6 +10107,7 @@
       "maxHandles": "Max Handles",
       "runningNode": "Running Node",
       "standbyNodes": "Standby Nodes",
+      "elsewhereNodes": "Elsewhere Nodes",
       "haType": "HA Type",
       "connections": "Connections",
       "messagesIn": "Messages In",
