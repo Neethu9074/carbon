@@ -34,9 +34,8 @@ module.exports = {
     tooltips: ++zIndex
   },
   fontColor: '#222627',
-  fontFamilySansSerif:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-  fontFamilyMonospace: 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  fontFamilySansSerif: 'var(--typography-font-family-sans-serif)',
+  fontFamilyMonospace: 'var(--typography-font-family-monospace)',
   links: {
     decoration: 'none',
     hover: {

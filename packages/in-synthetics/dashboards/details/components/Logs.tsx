@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { Card, ColumnizedContent, Li, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
@@ -16,6 +18,7 @@ import { logLevelColumn, timestampColumn } from 'in-synthetics/utils/logsColumnU
 import { dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { LOGSFormatType } from 'in-synthetics/utils/getValidFormat';
 
 import locals from './Logs.mless';
 
@@ -24,6 +27,7 @@ interface LogsProps {
   resultId: string;
   timestamp: number;
   isBrowserTestType: boolean;
+  metadata: string;
 }
 
 const columnDefinitions = [
@@ -35,17 +39,19 @@ const columnDefinitions = [
   }
 ];
 
-export default function Logs({ testId, resultId, timestamp, isBrowserTestType }: LogsProps) {
+export default function Logs({ testId, resultId, timestamp, isBrowserTestType, metadata }: LogsProps) {
   const { data, progress }: TestResultLog =
-    useObservable<any, [number]>(
-      () =>
-        getTestResultDetailData({
+    useObservable<any, [number]>(() => {
+      if (metadata.split(',').includes(LOGSFormatType)) {
+        return getTestResultDetailData({
           testId: testId,
           testResultId: resultId,
           type: 'LOGS'
-        }),
-      [0]
-    ) || dummyTestResultLogs;
+        });
+      } else {
+        return just({ ...dummyTestResultLogs, progress: { loading: false } });
+      }
+    }, [0]) || dummyTestResultLogs;
 
   if (progress?.loading) {
     return <LoadingList numSkeletonRows={3} />;
@@ -53,7 +59,7 @@ export default function Logs({ testId, resultId, timestamp, isBrowserTestType }:
 
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.logs')}>
-      {data != undefined && data != null ? (
+      {data != undefined && data != null && !isEmpty(data) ? (
         <LogDetails logFiles={data?.logFiles} timestamp={timestamp} isBrowserTestType={isBrowserTestType} />
       ) : (
         <NoDataAvailable

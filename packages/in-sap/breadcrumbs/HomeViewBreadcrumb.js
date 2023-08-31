@@ -37,6 +37,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'abapsystems.':
     case 'saphanasystems.':
     case 'sapwebdispatchers.':
+    case 'sapabap.':
       return (
         <Breadcrumb href$={getView(sapSystemListFullyQualified)} icon="lib_sap_host">
           {t('in-sap:breadcrumbs.abapSystems')}

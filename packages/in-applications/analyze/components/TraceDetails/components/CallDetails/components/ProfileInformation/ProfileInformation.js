@@ -15,7 +15,7 @@ import getProcessSnapshotId from 'in-infrastructure/subscriptions/getProcessSnap
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
+import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import HotspotList from 'in-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
@@ -103,7 +103,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
     }).distinct(),
     [processSnapshotId, to, windowSize]
   );
-
+  const linkToProfiles = useLinkToProfiles({ processSnapshotId, start: to - windowSize, end: to, time });
   if (!result || isLoading(result)) {
     return <LoadingIndicator text={t('in-analyze:traceDetail.components.callDetails.loadingProfile')} />;
   }
@@ -144,11 +144,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
         time={time}
         cpuProfile={cpuProfile}
       />
-
-      <ViewAllWrapper
-        ViewAll={ViewAll}
-        viewAllHref$={getLinkToProfiles({ processSnapshotId, start: to - windowSize, end: to, time })}
-      />
+      <ViewAllWrapper ViewAll={ViewAll} viewAllHref={linkToProfiles} />
     </div>
   );
 }
@@ -162,8 +158,19 @@ function getChartTimeConfig(windowSize, to) {
   };
 }
 
+const GetLinkToProfiles = (_profile, processSnapshotId, to, windowSize, time) => {
+  return useLinkToProfiles({
+    hotspotAutoExpandRowId: createProfileSignature(_profile),
+    processSnapshotId,
+    start: to - windowSize,
+    end: to,
+    time
+  });
+};
+
 function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time }) {
   const { enrichedProfilesWithSelfTimes } = getTopSelfTimeList(cpuProfile);
+
   return (
     <>
       <h3 className={locals.hotspotHeading}>{t('in-analyze:traceDetail.components.callDetails.cpuHotspots')}</h3>
@@ -171,23 +178,15 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
         size="compact"
         profile={cpuProfile}
         hotspots={enrichedProfilesWithSelfTimes}
-        getHref$={_profile =>
-          getLinkToProfiles({
-            hotspotAutoExpandRowId: createProfileSignature(_profile),
-            processSnapshotId,
-            start: to - windowSize,
-            end: to,
-            time
-          })
-        }
+        getHref={_profile => GetLinkToProfiles(_profile, processSnapshotId, to, windowSize, time)}
       />
     </>
   );
 }
 
-function ViewAll({ viewAllHref$, className }) {
+function ViewAll({ viewAllHref, className }) {
   return (
-    <Link className={className} href={viewAllHref$}>
+    <Link className={className} href={viewAllHref}>
       {t('in-analyze:traceDetail.components.callDetails.analyzeProfiles')}
     </Link>
   );

@@ -5,10 +5,12 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { BackendFormatterType, getFormatter } from 'in-services/formatters/backendFormatter';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
+import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { AggregationType, MetricMetadata, Result } from 'in-types';
 import { getFormatterType } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -26,12 +28,21 @@ export default function useMetricMetadatas({
   query?: string;
 }): Result<Metadatas> {
   const timeConfig = useTimeConfig();
+
+  // Creating a copy of TimeConfig and setting the window size to 1 minute.
+  const modifiedTimeConfig = {
+    ...timeConfig,
+    windowSize: 60000
+  } as TimeConfig;
+
+  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
+
   return (
     useObservable(
       () =>
         getAvailableMetrics({
           filter: {
-            timeConfig,
+            timeConfig: config,
             tagFilterExpression: EMPTY_EXPRESSION
           },
           type,

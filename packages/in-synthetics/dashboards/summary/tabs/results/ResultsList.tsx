@@ -25,7 +25,9 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 // @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
+import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracker';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -47,14 +49,18 @@ let testType: string;
 
 function StartTimeColumnContent(item: TestResultListItem) {
   const { location, createHref } = useNavigation();
+  location.pathname = syntheticDetailsPath;
+
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+
+  const resultId = item.testResultCommonProperties.id || '';
   const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
-  location.pathname = syntheticDetailsPath;
+
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
-  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'startTime', get(item, ['metrics', 'start_time', 0, 1]));
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'finishTime', get(item, ['metrics', 'start_time', 0, 0]));
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'status', get(item, ['metrics', 'status', 0, 1], 0));
@@ -82,7 +88,11 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 
   return (
-    <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    <div
+      onClick={() => clickSyntheticMonitoringResultsListDetailTracker({ detail: 'Results details from Results list' })}
+    >
+      <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    </div>
   );
 }
 
@@ -98,7 +108,11 @@ const columnDefinitions = [
     id: 'location_label',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
-      return <span className={locals.metricLabel}>{item?.testResultCommonProperties?.locationDisplayLabel ?? ''}</span>;
+      const displayLabel = massageLocationDisplayLabel(
+        item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+        item?.testResultCommonProperties?.locationId ?? ''
+      );
+      return <span className={locals.metricLabel}>{displayLabel}</span>;
     }
   },
   {

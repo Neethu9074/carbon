@@ -7,15 +7,10 @@ import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
@@ -37,7 +32,6 @@ export default function LatencyDistributionHistogram({
   serviceId,
   endpointId,
   boundaryScope,
-  syntheticCalls,
   endpointTypes,
   rightHeaderContent,
   cardTitle,
@@ -50,14 +44,11 @@ export default function LatencyDistributionHistogram({
   const [hasApproximateData, setApproximateData] = useState(false);
   const timeShiftConfig = useTimeShiftConfig();
 
-  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
-
   const latencyFacet =
     !selectedLatencyRange.from && !selectedLatencyRange.to ? emptyObject : { 'call.latency': [selectedLatencyRange] };
 
   const latencyDistRequest = {
     includePercentiles: true,
-    ...hiddenCalls,
     filter: {
       timeConfig: {
         ...timeConfig,
@@ -135,14 +126,8 @@ export default function LatencyDistributionHistogram({
                 {
                   timeConfig: fixateTimeConfig(timeConfig),
                   boundaryScope,
-                  formModel: joinExpressions({
-                    expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointType(endpointTypes)
-                    ]
-                  }),
+                  formModel: filterByEndpointType(endpointTypes),
                   facets: latencyFacet,
-                  hiddenCalls,
                   chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
                   orderBy: createOrderBy('latency', 'DESC')
                 },

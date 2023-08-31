@@ -8,13 +8,11 @@
 // @ts-expect-error migrate to TS
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 // @ts-expect-error migrate to TS
-import { dataSource as dataSourceTypeMatrixParameter } from 'in-components/Profiling/navigation/matrix';
-// @ts-expect-error migrate to TS
 import { beaconType as mobileAppBeaconTypeMatrixParameter } from 'in-mobile-apps/navigation/matrix';
-import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
-// @ts-expect-error migrate to TS
-import { analyzePath as profilingAnalyzePath } from 'in-components/Profiling/navigation/paths';
+import { dataSource as dataSourceTypeMatrixParameter } from 'in-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
+import { analyzePath as profilingAnalyzePath } from 'in-components/Profiling/navigation/paths';
 import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navigation/matrix';
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import { DataSourceMatrix } from 'in-analyze/components/AnalyzeHeader/types';

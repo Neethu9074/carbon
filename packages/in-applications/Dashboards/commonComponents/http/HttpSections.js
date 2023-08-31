@@ -5,10 +5,6 @@
 
 import React from 'react';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
@@ -35,7 +31,6 @@ export default function HttpSections({
   endpointId,
   tagFilters,
   boundaryScope,
-  syntheticCalls,
   groupBy,
   renderPostChartContentHttpStatus,
   timeShiftConfig,
@@ -48,7 +43,6 @@ export default function HttpSections({
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorsBlueprintConfig = getBlueprintConfig('errors');
-  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const defaultMetricConfig = {
@@ -57,8 +51,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    timeShift: 0,
-    ...hiddenCalls
+    timeShift: 0
   };
 
   const otherCallsMetricConfig = {
@@ -67,8 +60,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
-    timeShift: 0,
-    ...hiddenCalls
+    timeShift: 0
   };
 
   const chartMetrics = [
@@ -265,12 +257,10 @@ export default function HttpSections({
                   dataSource: 'calls',
                   formModel: joinExpressions({
                     expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
                       selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
                       filterByEndpointType(endpointTypes)
                     ]
                   }),
-                  hiddenCalls,
                   groupBy,
                   timeConfig: highlightedTime,
                   chartedMetrics: [createChartedMetric('calls', 'SUM')]

@@ -242,6 +242,7 @@
     "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
+    "deleted": "{{id}}-deleted",
     "testList": {
       "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {

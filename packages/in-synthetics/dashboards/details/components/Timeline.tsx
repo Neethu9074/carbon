@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { isEmpty } from 'lodash';
 
 import { TestResultSubtransaction } from '@instana/types/typeDefinitions';
 import { Card } from '@instana/components';
@@ -64,18 +65,20 @@ export default function Timeline({ details, startTime, finishTime }: TimelinePro
 
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
-      {data != undefined && data != null ? (
+      {data != undefined && data != null && !isEmpty(data) ? (
         <>
           <Filter setFilter={setFilter} filter={filter} />
           <div className={locals.overviewChartContainer}>
-            {// @ts-expect-error Object is possibly undefined
-            data.subtransactions?.length > 0 && data?.subtransactions[0].properties != null && (
-              <OverviewChart
-                subtransactions={filteredSubtransactions}
-                earliestTimestamp={startTime}
-                endTimestamp={finishTime}
-              />
-            )}
+            {
+              // @ts-expect-error Object is possibly undefined
+              data.subtransactions?.length > 0 && data?.subtransactions[0].properties != null && (
+                <OverviewChart
+                  subtransactions={filteredSubtransactions}
+                  earliestTimestamp={startTime}
+                  endTimestamp={finishTime}
+                />
+              )
+            }
           </div>
           <SubtransactionsList subtransactions={filteredSubtransactions} />
         </>
@@ -108,21 +111,23 @@ function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: Sub
   return (
     // @ts-expect-error
     <div ref={ref}>
-      {// @ts-expect-error
-      width && subtransactions.length > 0 && (
-        <HorizontalAxis
-          align="top"
-          width={width}
-          formatter={millis.forcedCompactOnMs}
-          detailedFormatting
-          tickLength={8}
-          tickColor={theme.lib.colors.N800Dark}
-          tickLabelColor={theme.lib.colors.N800Dark}
-          // @ts-expect-error
-          scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
-          fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
-        />
-      )}
+      {
+        // @ts-expect-error
+        width && subtransactions.length > 0 && (
+          <HorizontalAxis
+            align="top"
+            width={width}
+            formatter={millis.forcedCompactOnMs}
+            detailedFormatting
+            tickLength={8}
+            tickColor={theme.lib.colors.N800Dark}
+            tickLabelColor={theme.lib.colors.N800Dark}
+            // @ts-expect-error
+            scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
+            fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
+          />
+        )
+      }
 
       <div className={locals.subtransactions} style={{ height: `${chartHeight}px` }}>
         {subStacked?.map(({ sub, depth }: any) => {

@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import React, { Fragment } from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { millis } from 'in-services/formatters/number';
@@ -232,6 +232,36 @@ export function WithAdditionalHelpIcon() {
       Metric={Metric}
       config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
       helpInfo="Only display data with identified users"
+    />
+  );
+}
+
+export function WithNoDataMessage() {
+  return (
+    <TopListCardPresenter
+      title="Top Crash Error Groups"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [],
+          page: 1,
+          pageSize: 5,
+          totalHits: 0
+        }
+      }}
+      metrics={metrics}
+      labels={labels}
+      onChangeMetric={onChangeMetric}
+      selectedMetric="selfLatency"
+      selectedMetricFormatter={millis.compact}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
+      config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
+      noDataMessage="No Crashes during this period"
     />
   );
 }

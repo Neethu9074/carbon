@@ -6,11 +6,11 @@
     gap: 0 1.5rem;
 
     .keyCell {
-      width: 30%;
+      width: 40%;
     }
 
     .valueCell {
-      width: 70%;
+      width: 60%;
     }
   }
 

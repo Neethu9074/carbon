@@ -43,18 +43,19 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
-import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
+import { getDefaultOrder, getUpdatedOrder, toBackendGroupBy } from 'in-infrastructure/Explore/utils';
+import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
-import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import { fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
@@ -62,7 +63,6 @@ import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import { ActionSection } from 'in-components/workspace/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityExploreHeader from '../components/EntityExploreHeader';
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -117,7 +117,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
     setUrl
   ] = useUrlState(urlStateDefinition);
   const type = urlType === 'all' ? null : urlType;
-  const groupBy = urlGroupBy ?? [group];
+  const groupBy = useMemo(() => urlGroupBy ?? [group], [urlGroupBy, group]);
 
   const tagCatalog = useTagCatalog({ ownerType: type });
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
@@ -126,15 +126,17 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
 
-  const order = urlOrder ?? defaultOrder;
+  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
+
+  const order = urlOrder ?? getDefaultOrder(backendGroupBy);
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
   const chartedMetrics = fromUrlMetrics({ urlMetrics: urlChartedMetrics, kpiDefinitions: kpiDefinitions.slice(0, 1) });
 
-  const getInfraExploreState = () => {
+  const getInfraExploreState = useCallback(() => {
     return { type, tagFilterExpression, group, metrics, order };
-  };
+  }, [type, tagFilterExpression, group, metrics, order]);
 
   const infrastructureListTrackingConfig = {
     onNavigateToEntity: navigateToEntityTracker(getInfraExploreState),
@@ -186,6 +188,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             tagCatalog={tagCatalog}
             refreshFixatedTimeConfig={() => {}}
             chartedMetrics={chartedMetrics}
+            backendGroupBy={backendGroupBy}
           />
         </Stack>
       </LeftRightPadding>
@@ -208,34 +211,23 @@ function Content({
   getInfraExploreState,
   kpiDefinitions,
   tagCatalog,
-  chartedMetrics
+  chartedMetrics,
+  backendGroupBy
 }) {
   const setMetrics = useCallback(
-    metrics => {
-      const sortedMetric = metrics.find(metric => order.by.startsWith(metric.metric));
-      const newOrder =
-        (sortedMetric && {
-          by: getMetricKey(sortedMetric.metric, sortedMetric.aggregation),
-          direction: order.direction
-        }) ??
-        defaultOrder;
-      setUrl({ metrics, order: newOrder });
-    },
-    [setUrl, order.by, order.direction]
+    metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }), [setUrl, order, backendGroupBy]
   );
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
-  const onGroupChange = useCallback(groupBy => setUrl({ groupBy }), [setUrl]);
+  const onGroupChange = useCallback(groupBy => setUrl({ groupBy, order: getUpdatedOrder(order, metrics, toBackendGroupBy(groupBy))}), [setUrl, order, metrics]);
 
   const backendQueryModel = useMemo(
     () => (isValid ? toBackendQueryModel(tagFilterExpression) : undefined),
     [isValid, tagFilterExpression]
   );
   const pagination = { retrievalSize: 20 };
-
-  const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
@@ -435,7 +427,6 @@ function List({
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
-      fixedLayout={false}
       setUrl={setUrl}
     />
   );

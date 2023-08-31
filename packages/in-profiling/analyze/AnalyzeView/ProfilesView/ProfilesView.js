@@ -7,10 +7,12 @@ import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
-import { closeProfilesViewLink } from 'in-components/Profiling/navigation/paths';
+// eslint-disable-next-line import/no-deprecated
+import { mutateUrl } from 'in-stores/navigation';
+import { useCloseProfilesViewLink } from 'in-components/Profiling/navigation/paths';
 import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
@@ -22,7 +24,6 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isEntityOnline } from 'in-stores/snapshot';
-import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
@@ -50,6 +51,8 @@ function TimeFixater(props) {
   // Fixate time config when a highlight is made.
   useEffect(() => {
     if (highlightedTimeframe && timeConfig.to == null) {
+      // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
+      // eslint-disable-next-line import/no-deprecated
       mutateUrl(location => setTimeConfig(location, fixateTimeConfig(timeConfig)), true);
     }
   }, [highlightedTimeframe, timeConfig]);
@@ -145,6 +148,7 @@ function Header(props) {
   const label = t('in-profiling:profilesOfProcessDeepestTechSnapshot', {
     deepestTechSnapshot: props.deepestTechSnapshot ? getLabel(props.deepestTechSnapshot) : ''
   });
+  const closeProfilesViewLink = useCloseProfilesViewLink();
 
   return (
     <DashboardHeader
@@ -154,6 +158,7 @@ function Header(props) {
       title={t('in-profiling:profiles')}
       labelForTitle=""
       renderButtonLine={renderButtonLine}
+      closeProfilesViewLink={closeProfilesViewLink}
       contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
     />
   );
@@ -177,9 +182,9 @@ function renderButtonLine({ processId, timeConfig }) {
   );
 }
 
-function renderContext() {
+function renderContext({ closeProfilesViewLink }) {
   return (
-    <Link className={locals.contextLink} href$={closeProfilesViewLink}>
+    <Link className={locals.contextLink} href={closeProfilesViewLink}>
       {t('in-profiling:analyzeProfiles')}
     </Link>
   );

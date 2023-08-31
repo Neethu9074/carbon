@@ -8,17 +8,11 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { syntheticCallsOptions } from 'in-applications/constants';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -44,19 +38,12 @@ function AnalyzeCallsButton({
   serviceLabel,
   endpointLabel,
   boundaryScope,
-  syntheticType,
-  syntheticCalls,
   formModel = emptyArray,
+  includeSynthetic,
   groupBy
 }) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
-  let syntheticOption = syntheticCallsOptions.exclude;
-  if (syntheticCallsEnabled) {
-    syntheticOption = syntheticCalls;
-  } else if (syntheticType === 'SYNTHETIC') {
-    syntheticOption = syntheticCallsOptions.only;
-  }
   return (
     <Button
       kind="primary"
@@ -67,8 +54,8 @@ function AnalyzeCallsButton({
         endpointName: endpointLabel,
         boundaryScope: boundaryScope || applicationBoundaryScope,
         dataSource: 'calls',
-        formModel: joinExpressions({ expressions: [formModel, createFormModelFromSyntheticOption(syntheticOption)] }),
-        hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticOption),
+        formModel: joinExpressions({ expressions: [formModel] }),
+        hiddenCalls: { includeSynthetic: includeSynthetic },
         groupBy
       })}
     >

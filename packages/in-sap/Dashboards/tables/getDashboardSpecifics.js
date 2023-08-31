@@ -18,7 +18,8 @@ import {
   getAbapSystemDashboard,
   getSapJavaSystemDashboard,
   getSapHanaSystemDashboard,
-  getSapWebDispatcherDashboard
+  getSapWebDispatcherDashboard,
+  getSapAbapSensorDashboard
 } from 'in-sap/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
@@ -122,6 +123,14 @@ export const getSpecificDashboard = function (value, matrixPrefix, systemSnapsho
         <EntityLink
           label={value.label}
           href$={getAbapSystemDashboard(value.id, matrixPrefix, systemSnapshotId)}
+          icon={getIconType(value.pluginName)}
+        />
+      );
+    case plugins.sapAbap:
+      return (
+        <EntityLink
+          label={value.label}
+          href$={getSapAbapSensorDashboard(value.id, matrixPrefix, systemSnapshotId)}
           icon={getIconType(value.pluginName)}
         />
       );

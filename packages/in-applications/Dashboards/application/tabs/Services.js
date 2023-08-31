@@ -15,7 +15,6 @@ import {
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -28,7 +27,6 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-applications/subscriptions/getServices';
-import { syntheticCallsOptions } from 'in-applications/constants';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
@@ -43,7 +41,7 @@ const matrixPrefix = 'service.';
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
 
-function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId, syntheticCalls }) {
+function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId }) {
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
 
@@ -56,8 +54,7 @@ function ServiceLabelContent({ item, applicationId, boundaryScope, endpointId, s
         applicationId,
         serviceId: item.service.id,
         boundaryScope,
-        endpointId,
-        syntheticCalls
+        endpointId
       })}
     />
   );
@@ -67,14 +64,13 @@ const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
-    getContent(item, { applicationId, endpointId, boundaryScope, syntheticCalls }) {
+    getContent(item, { applicationId, endpointId, boundaryScope }) {
       return (
         <ServiceLabelContent
           item={item}
           applicationId={applicationId}
           boundaryScope={boundaryScope}
           endpointId={endpointId}
-          syntheticCalls={syntheticCalls}
         />
       );
     }
@@ -248,14 +244,12 @@ export default function ServiceList(props) {
     endpointId,
     data: application,
     boundaryScope: urlBoundaryScope,
-    syntheticCalls: urlSyntheticCalls,
     applicationName
   } = props;
 
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   const rightHeader = ({ query }) => (
     <Filters
@@ -282,7 +276,6 @@ export default function ServiceList(props) {
         rightHeader={rightHeader}
         endpointTypes={endpointTypes}
         technologies={technologies}
-        syntheticCalls={syntheticCalls}
         cardTitle={t('in-applications:viewLists.services')}
       />
       <Footer />
@@ -302,8 +295,7 @@ function getTableData({
   boundaryScope,
   endpointTypes = [],
   technologies = [],
-  timeConfig,
-  syntheticCalls
+  timeConfig
 }) {
   const granularity = getSparkChartGranularity(timeConfig);
   return getServices({
@@ -371,7 +363,6 @@ function getTableData({
       service: serviceId,
       endpoint: endpointId,
       applicationBoundaryScope: boundaryScope,
-      includeSyntheticCalls: isSyntheticOption(syntheticCalls),
       endpointTypes,
       technologies,
       timeConfig

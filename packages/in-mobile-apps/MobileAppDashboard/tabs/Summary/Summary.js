@@ -24,6 +24,7 @@ import { number, percentage } from 'in-services/formatters/number';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -37,17 +38,88 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
 
   return (
     <Fragment>
-      <Row>
-        <Col xs>
+      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [3, 3, 3, 3] : [6, 6]}>
+        <MobileAppBigNumberCard
+          title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
+          metric={'sessions'}
+          aggregation={'SUM'}
+          formatter={number.compact}
+          companionMetric={'uniqueUsersOrSessions'}
+          companionAggregation={'DISTINCT_COUNT'}
+          companionFormatter={v =>
+            t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
+              formattedCount: number.compact(v),
+              count: v
+            })
+          }
+          comparisonColors={{
+            comparisonDecreaseColor: blue.id,
+            comparisonIncreaseColor: blue.id
+          }}
+          tagFilters={tagFilters}
+          timeConfig={timeConfig}
+          iconAction={{
+            text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href:
+              tagCatalogSessionStart &&
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessionStart',
+                formModel: translateDemocratisationTagFiltersToFormModel({
+                  mobileAppLabel,
+                  tagFilters,
+                  tagCatalog: tagCatalogSessionStart
+                }),
+                groupBy: {
+                  groupbyTag: 'mobileBeacon.view.name'
+                }
+              })
+          }}
+        />
+
+        <MobileAppMetricsKpiCard
+          title={t('in-mobile-apps:dashboard.tabs.viewTransitionsTitle')}
+          formatter={number.compact}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              sessions: {
+                metric: 'views',
+                aggregation: 'SUM'
+              }
+            }
+          }}
+          iconAction={{
+            text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href:
+              tagCatalogViewChange &&
+              getLinkToMobileAppAnalyze({
+                beaconType: 'viewChange',
+                formModel: translateDemocratisationTagFiltersToFormModel({
+                  mobileAppLabel,
+                  tagFilters,
+                  tagCatalog: tagCatalogViewChange
+                }),
+                groupBy: {
+                  groupbyTag: 'mobileBeacon.view.name'
+                }
+              })
+          }}
+        />
+        {mobileAppCrashBeaconEnabled && (
           <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
-            metric={'sessions'}
-            aggregation={'SUM'}
-            formatter={number.compact}
-            companionMetric={'uniqueUsers'}
-            companionAggregation={'DISTINCT_COUNT'}
+            title={t('in-mobile-apps:dashboard.tabs.crashFreeSessionRateTitle')}
+            metric={'crashFreeSessionRate'}
+            aggregation={'MEAN'}
+            formatter={percentage.detailed}
+            companionMetric={'sessions'}
+            companionAggregation={'SUM'}
             companionFormatter={v =>
-              t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
+              t('in-mobile-apps:dashboard.tabs.sessionCount', {
                 formattedCount: number.compact(v),
                 count: v
               })
@@ -63,96 +135,20 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               kind: 'subtle',
               icon: 'lib_analyze',
               href:
-                tagCatalogSessionStart &&
+                tagCatalogCrash &&
                 getLinkToMobileAppAnalyze({
-                  beaconType: 'sessionStart',
+                  beaconType: 'crash',
                   formModel: translateDemocratisationTagFiltersToFormModel({
                     mobileAppLabel,
                     tagFilters,
-                    tagCatalog: tagCatalogSessionStart
+                    tagCatalog: tagCatalogCrash
                   }),
                   groupBy: {
-                    groupbyTag: 'mobileBeacon.view.name'
+                    groupbyTag: 'mobileBeacon.error.message'
                   }
                 })
             }}
           />
-        </Col>
-        <Col xs>
-          <MobileAppMetricsKpiCard
-            title={t('in-mobile-apps:dashboard.tabs.viewTransitionsTitle')}
-            formatter={number.compact}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                sessions: {
-                  metric: 'views',
-                  aggregation: 'SUM'
-                }
-              }
-            }}
-            iconAction={{
-              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href:
-                tagCatalogViewChange &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'viewChange',
-                  formModel: translateDemocratisationTagFiltersToFormModel({
-                    mobileAppLabel,
-                    tagFilters,
-                    tagCatalog: tagCatalogViewChange
-                  }),
-                  groupBy: {
-                    groupbyTag: 'mobileBeacon.view.name'
-                  }
-                })
-            }}
-          />
-        </Col>
-        {mobileAppCrashBeaconEnabled && (
-          <Col xs>
-            <MobileAppBigNumberCard
-              title={t('in-mobile-apps:dashboard.tabs.crashFreeSessionRateTitle')}
-              metric={'crashFreeSessionRate'}
-              aggregation={'MEAN'}
-              formatter={percentage.detailed}
-              companionMetric={'sessions'}
-              companionAggregation={'SUM'}
-              companionFormatter={v =>
-                t('in-mobile-apps:dashboard.tabs.sessionCount', {
-                  formattedCount: number.compact(v),
-                  count: v
-                })
-              }
-              comparisonColors={{
-                comparisonDecreaseColor: blue.id,
-                comparisonIncreaseColor: blue.id
-              }}
-              tagFilters={tagFilters}
-              timeConfig={timeConfig}
-              iconAction={{
-                text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-                kind: 'subtle',
-                icon: 'lib_analyze',
-                href:
-                  tagCatalogCrash &&
-                  getLinkToMobileAppAnalyze({
-                    beaconType: 'crash',
-                    formModel: translateDemocratisationTagFiltersToFormModel({
-                      mobileAppLabel,
-                      tagFilters,
-                      tagCatalog: tagCatalogCrash
-                    }),
-                    groupBy: {
-                      groupbyTag: 'mobileBeacon.error.message'
-                    }
-                  })
-              }}
-            />
-          </Col>
         )}
         {mobileAppCrashBeaconEnabled && (
           <Col xs>
@@ -161,7 +157,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               metric={'crashFreeUserRate'}
               aggregation={'MEAN'}
               formatter={percentage.detailed}
-              companionMetric={'uniqueUsers'}
+              companionMetric={'uniqueUsersOrSessions'}
               companionAggregation={'DISTINCT_COUNT'}
               companionFormatter={v =>
                 t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
@@ -193,14 +189,14 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                     },
                     fields: [
                       {
-                        metricId: 'uniqueUsers',
+                        metricId: 'uniqueUsersOrSessions',
                         aggregationId: 'DISTINCT_COUNT',
                         type: metricType
                       }
                     ],
                     chartedMetrics: [
                       {
-                        metricId: 'uniqueUsers',
+                        metricId: 'uniqueUsersOrSessions',
                         aggregationId: 'DISTINCT_COUNT'
                       }
                     ]
@@ -209,7 +205,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             />
           </Col>
         )}
-      </Row>
+      </KpiGridRow>
 
       <Row>
         <Col lg={mobileAppCrashBeaconEnabled ? 8 : 12}>

@@ -273,6 +273,9 @@
     "urlShortenerLabelLive": "{{timeConfig}} (Live)",
     "copy": "Copy"
   },
+  "notificationBarSticky": {
+    "freeTrialBannerTitle": "IBM Instana"
+  },
   "delayed": {
     "displayNameDelayed": "Delayed"
   },

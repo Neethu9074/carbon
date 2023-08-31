@@ -20,6 +20,7 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags'
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { summaryTab, useLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -171,118 +172,108 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
 
   return (
     <Fragment>
-      <Row>
-        <Col xs>
-          <WebsiteMetricsKpiCard
-            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageLoads')}
-            formatter={number.compact}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                pageLoads: {
-                  metric: 'pageLoads',
-                  aggregation: 'SUM'
-                }
+      <KpiGridRow sizes={[true, true, true, true, true]}>
+        <WebsiteMetricsKpiCard
+          title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageLoads')}
+          formatter={number.compact}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              pageLoads: {
+                metric: 'pageLoads',
+                aggregation: 'SUM'
               }
-            }}
-            iconAction={{
-              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href: pageLoadsAnalyzeHref
-            }}
-          />
-        </Col>
-        <Col xs>
-          <WebsiteMetricsKpiCard
-            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageTransitions')}
-            formatter={number.compact}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                pageTransitions: {
-                  metric: 'pageTransitions',
-                  aggregation: 'SUM'
-                }
+            }
+          }}
+          iconAction={{
+            text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href: pageLoadsAnalyzeHref
+          }}
+        />
+        <WebsiteMetricsKpiCard
+          title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageTransitions')}
+          formatter={number.compact}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              pageTransitions: {
+                metric: 'pageTransitions',
+                aggregation: 'SUM'
               }
-            }}
-            iconAction={{
-              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href: pageTransitionsAnalyzeHref
-            }}
-          />
-        </Col>
-        <Col xs>
-          <WebsiteMetricsKpiCard
-            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTimeMean')}
-            formatter={meanLatency.detailed}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                meanOnLoadTime: {
-                  metric: 'onLoadTime',
-                  aggregation: 'MEAN'
-                }
+            }
+          }}
+          iconAction={{
+            text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href: pageTransitionsAnalyzeHref
+          }}
+        />
+        <WebsiteMetricsKpiCard
+          title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTimeMean')}
+          formatter={meanLatency.detailed}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              meanOnLoadTime: {
+                metric: 'onLoadTime',
+                aggregation: 'MEAN'
               }
-            }}
-            iconAction={{
-              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href: meanOnLoadTimeAnalyzeHref
-            }}
-          />
-        </Col>
-        <Col xs>
-          <WebsiteMetricsKpiCard
-            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime90th')}
-            formatter={latency.detailed}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                p90OnLoadTime: {
-                  metric: 'onLoadTime',
-                  aggregation: 'P90'
-                }
+            }
+          }}
+          iconAction={{
+            text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href: meanOnLoadTimeAnalyzeHref
+          }}
+        />
+        <WebsiteMetricsKpiCard
+          title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime90th')}
+          formatter={latency.detailed}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              p90OnLoadTime: {
+                metric: 'onLoadTime',
+                aggregation: 'P90'
               }
-            }}
-            iconAction={{
-              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href: topTenPercOnLoadTimeAnalyzeHref
-            }}
-          />
-        </Col>
-        <Col xs>
-          <WebsiteMetricsKpiCard
-            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime95th')}
-            formatter={latency.detailed}
-            metricsConfig={{
-              tagFilters,
-              timeConfig,
-              metrics: {
-                p05OnLoadTime: {
-                  metric: 'onLoadTime',
-                  aggregation: 'P95'
-                }
+            }
+          }}
+          iconAction={{
+            text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href: topTenPercOnLoadTimeAnalyzeHref
+          }}
+        />
+        <WebsiteMetricsKpiCard
+          title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime95th')}
+          formatter={latency.detailed}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              p05OnLoadTime: {
+                metric: 'onLoadTime',
+                aggregation: 'P95'
               }
-            }}
-            iconAction={{
-              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href: topFivePercOnLoadTimeAnalyzeHref
-            }}
-          />
-        </Col>
-      </Row>
+            }
+          }}
+          iconAction={{
+            text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href: topFivePercOnLoadTimeAnalyzeHref
+          }}
+        />
+      </KpiGridRow>
 
       <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} websiteLabel={websiteLabel} />
 

@@ -16,9 +16,11 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
+import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
@@ -96,6 +98,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
   if (locations != undefined && locations != null && locations.length > 0) {
     locations.forEach((aLocation: LocationStatus) => {
       let tempLabel = aLocation.locationDisplayLabel ?? '';
+      tempLabel = massageLocationDisplayLabel(tempLabel, aLocation.locationId);
       locationDisplayLabels = locationDisplayLabels.length === 0 ? tempLabel : locationDisplayLabels + ',' + tempLabel;
       locationIds = locationIds.length === 0 ? aLocation.locationId : locationIds + ',' + aLocation.locationId;
     });
@@ -123,7 +126,10 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
 
   return (
     <div>
-      <Link href={createHref(location)}>
+      <Link
+        href={createHref(location)}
+        onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
+      >
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>

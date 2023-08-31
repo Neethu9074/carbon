@@ -48,7 +48,14 @@ export default function TopDeploymentsList(props) {
       getItems={_props =>
         selectedTab === tabDeployments ? getKubernetesDeployments(_props) : getOpenShiftDeploymentConfigs(_props)
       }
-      Label={item => <Label {...item} clusterId={clusterId} namespaceId={namespaceId} />}
+      Label={item => (
+        <Label
+          {...item}
+          clusterId={clusterId}
+          namespaceId={namespaceId}
+          entityNameKey={selectedTab === tabDeployments ? 'deployment' : 'deploymentConfig'}
+        />
+      )}
       allItemsHref={props.allItemsHrefs[selectedTab]}
       getItemLabel={item => get(item, ['deployment'], get(item, ['deploymentConfig'])).name}
     />
@@ -77,7 +84,7 @@ function header({ showDeploymentConfigs, selectedTab, setSelectedTab }) {
   );
 }
 
-function Label({ item, clusterId, namespaceId, getItemLabel, className }) {
+function Label({ item, clusterId, namespaceId, getItemLabel, className, entityNameKey }) {
   const deploymentHref = useDeploymentDashboard(item.deployment.id, {
     clusterId,
     namespaceId
@@ -91,7 +98,7 @@ function Label({ item, clusterId, namespaceId, getItemLabel, className }) {
   return (
     <Link
       className={className}
-      href={get(item, ['deployment']) ? deploymentHref : deploymentConfigHref}
+      href={entityNameKey === 'deployment' ? deploymentHref : deploymentConfigHref}
       onClick={() => trackTopListNavigation()}
     >
       {getItemLabel(item)}

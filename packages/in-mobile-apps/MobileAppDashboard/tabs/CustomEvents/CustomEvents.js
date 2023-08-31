@@ -193,11 +193,11 @@ function getTableData({
         granularity: getSparkChartGranularity(timeConfig)
       },
       usersAgg: {
-        metric: 'uniqueUsers',
+        metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT'
       },
       users: {
-        metric: 'uniqueUsers',
+        metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT',
         granularity: getSparkChartGranularity(timeConfig)
       }

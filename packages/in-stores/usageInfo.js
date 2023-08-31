@@ -52,7 +52,8 @@ export function init() {
         content: <DangerousHtmlPresenter html={toHtml(filterContentIfNotOnprem(usageInfo.note))} />,
         onClick: hideUsageInfo,
         isLicenseUsageMsg: true,
-        activeLicense: usageInfo.activeLicenseType
+        activeLicense: usageInfo.activeLicenseType,
+        remainingDays: usageInfo.remainingDays
       },
       messageId
     );

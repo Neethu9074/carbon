@@ -12,7 +12,6 @@ import {
   LiHorizontalIndicator,
   LiLoadingSkeleton,
   LiLoadMore,
-  Message,
   SvgIcon,
   Ul
 } from '@instana/components';
@@ -38,12 +37,14 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { defaultOrder, typeTag } from 'in-infrastructure/Explore/constants';
+import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { typeTag } from 'in-infrastructure/Explore/constants';
+import { toGroupTag } from 'in-infrastructure/Explore/utils';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
@@ -67,6 +68,7 @@ export default function GroupedInfrastructure(props) {
     isHeaderVisible = true,
     isTableMode = false,
     isLoadMoreEnabled = true,
+    fixedLayout = true,
     retrievalSize = 20,
     getTotalItems,
     onItemClicked
@@ -74,7 +76,7 @@ export default function GroupedInfrastructure(props) {
 
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : [metrics];
+  const dependencies = isPreview ? [retrievalSize] : isTableMode ? [] : [metrics];
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -108,6 +110,7 @@ export default function GroupedInfrastructure(props) {
       onItemClicked={onItemClicked}
       isLoadMoreEnabled={isLoadMoreEnabled}
       totalHits={totalHits}
+      fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -131,6 +134,7 @@ function Presenter({
   isHeaderVisible,
   isTableMode,
   isLoadMoreEnabled,
+  fixedLayout,
   onItemClicked,
   progress,
   metrics,
@@ -173,18 +177,17 @@ function Presenter({
     getLinkToInfraEntityExplore
   });
 
-  const groupSortOptions = [
+  const groupSortOptions = backendGroupBy.map(groupBy => (
     {
-      label: backendGroupBy[0],
-      value: defaultOrder.by
-    }
-  ];
+      label: groupBy,
+      value: groupBy
+    }));
 
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
       return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
         return {
-          label: `${metadatas[metric].label} (${aggregation})`,
+          label: `${metadatas[metric]?.label} (${aggregation})`,
           value: getMetricKey(metric, aggregation, crossSeriesAggregation)
         };
       });
@@ -224,7 +227,7 @@ function Presenter({
         />
       )}
 
-      {isTableMode && !hasErrors ? (
+      {isTableMode && !hasErrors && items.length > 0 ? (
         <CursorPaginatedTable
           columnDefinitions={columnDefinitions}
           numSkeletonRows={retrievalSize}
@@ -242,6 +245,7 @@ function Presenter({
             const href = getLinkToInfraEntityExplore({ type, group: {}, metrics, ...getParamsForGroup(item) }).slice(2);
             onItemClicked(href);
           }}
+          fixedLayout={fixedLayout}
           size="compact"
         />
       ) : (
@@ -275,14 +279,7 @@ function Presenter({
           ))}
           {isLoading && <LiHorizontalIndicator progress={indeterminateProgress} />}
           {isLoading && <LiLoadingSkeleton />}
-          {hasErrors &&
-            getErrorMessage(errors).map(error => (
-              <Li key={error}>
-                <Message className={locals.message} type="error" small>
-                  {error}
-                </Message>
-              </Li>
-            ))}
+          {hasErrors && <LiErrorList errors={errors} />}
           {canLoadMore && isLoadMoreEnabled && (
             <LiLoadMore
               loadMore={() => {
@@ -316,6 +313,8 @@ function columns({
   const iconColumn = {
     width: '3rem',
     id: 'icon',
+    widthInAbsoluteUnit: true,
+    sortable: false,
     verticallyCenter: true,
     ...(isTableMode
       ? {
@@ -332,16 +331,17 @@ function columns({
         })
   };
 
-  const groupsColumn = groupBy.map((groupKey, index) => {
-    const isFirstItem = index === 0;
-
+  const groupsColumn = groupBy.map((groupKey) => {
     return {
-      width: getColumnWidth(groupBy, metrics),
+      width: getColumnWidth(groupBy, metrics, isTableMode),
       id: groupKey,
+      cellClassName: locals.wordBreak,
+      headCellProps: {
+        className: locals.wordBreak
+      },
       ...(isTableMode
         ? {
-            id: isFirstItem ? 'label' : groupKey,
-            sortable: isFirstItem,
+            sortable: true,
             label: groupKey,
             getContent(item) {
               return getGroupTagValue(item, groupKey);
@@ -366,7 +366,7 @@ function columns({
   };
 
   const countLabelColumnTable = {
-    width: '8rem',
+    width: '6rem',
     id: countLabel,
     label: countLabel,
     sortable: false,
@@ -407,22 +407,15 @@ function columns({
   };
 
   const cols = isTableMode
-    ? [iconColumn, ...groupsColumn, spacerColumn, countLabelColumnTable, ...metricsColumn]
+    ? [iconColumn, ...groupsColumn, countLabelColumnTable, ...metricsColumn]
     : [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
 
   return cols;
 }
 
-function getErrorMessage(errors) {
-  if (errors[0].message?.includes('more than the maximum number of groups')) {
-    return [t('in-infrastructure:explore.errors.maximumNumberOfGroups')];
-  }
-
-  return [t('in-infrastructure:explore.errors.generalError')];
-}
-
-function getColumnWidth(groupBy, metrics) {
-  return Math.max(1, (5 - metrics.length) / groupBy.length) * 12 + 'rem';
+function getColumnWidth(groupBy, metrics, isTableMode) {
+  const totalMetrics = isTableMode ? 4 : 5;
+  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 12 + 'rem';
 }
 
 export function getGroups({
@@ -518,14 +511,6 @@ export function toTagFilters(tags, tagType, groupBy) {
     key: getKey(tag, groupBy),
     value
   }));
-}
-
-export function toBackendGroupBy(groupBy) {
-  return groupBy?.filter(g => g?.groupbyTag).map(g => toGroupTag(g));
-}
-
-function toGroupTag(group) {
-  return group?.groupbyTagSecondLevelKey ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey : group.groupbyTag;
 }
 
 const defaultGroupIcon = 'lib_views_tag';
@@ -648,10 +633,13 @@ function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, i
     return {
       width: '12rem',
       id,
-      label: metricLabel,
+      label,
+      headCellProps: { className: locals.metricLabel },
+      aggregation,
+      renderLabel: MetricLabel,
       ...metricsColumns,
       getId() {
-        return getMetricKey(metric, aggregation);
+        return getMetricKey(metric, aggregation, crossSeriesAggregation);
       },
       getColumnLabel() {
         const metadata = mapData(metricMetadatas, data => data[metric]);

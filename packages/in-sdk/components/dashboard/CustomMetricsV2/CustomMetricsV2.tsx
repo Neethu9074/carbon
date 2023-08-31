@@ -515,6 +515,17 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
+  },
+  SUM: {
+    prefix: 'metrics.sums.',
+    type: 'sum',
+    color: '#2274A5',
+    metrics: [
+      {
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
   }
 };
 
@@ -524,5 +535,6 @@ export const DEFAULT_SPECS = [
   AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
   AVAILABLE_SPECS.METER,
   AVAILABLE_SPECS.EXPANDED_TIMER,
-  AVAILABLE_SPECS.SUMMARY
+  AVAILABLE_SPECS.SUMMARY,
+  AVAILABLE_SPECS.SUM
 ];

@@ -71,7 +71,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, mobileAppId);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, threshold.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 

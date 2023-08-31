@@ -4,13 +4,22 @@
  */
 
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
+import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { mapData } from 'in-services/util/result';
 
 export default ({ name, key, timeConfig, value, propose }) => {
   const fetchKeySuggestions = propose === 'KEYS';
+
+  // Creating a copy of TimeConfig and setting the window size to 1 minute.
+  const modifiedTimeConfig = {
+    ...timeConfig,
+    windowSize: 60000
+  };
+  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
+
   return getTagValueSearchSuggestions({
     tagName: key !== undefined ? name + '.' + key : name,
-    timeConfig: timeConfig,
+    timeConfig: config,
     partialTagValue: value,
     valueCount: fetchKeySuggestions ? 1000 : 10,
     fetchKeySuggestions

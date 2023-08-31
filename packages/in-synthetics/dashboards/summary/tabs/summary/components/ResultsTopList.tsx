@@ -16,6 +16,8 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
+import { clickSyntheticMonitoringResultsWidgetDetailTracker } from 'in-synthetics/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
@@ -161,7 +163,11 @@ function Label({ item, selectedMetric }: LabelProps) {
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   const resultId = item.testResultCommonProperties.id;
-  const testLocation = item.testResultCommonProperties.locationDisplayLabel ?? '';
+  //If a location is deleted, then the default value of its display label is locationId + '-deleted'
+  const testLocation = massageLocationDisplayLabel(
+    item.testResultCommonProperties?.locationDisplayLabel ?? '',
+    item.testResultCommonProperties?.locationId ?? ''
+  );
   const resultsLabel = testLocation + AdditionalLabel({ item, selectedMetric });
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
@@ -185,7 +191,18 @@ function Label({ item, selectedMetric }: LabelProps) {
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationDisplayLabels', locationDisplayLabels);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'resultsLabel', resultsLabel);
-  return <Link href={createHref(location)}>{resultsLabel}</Link>;
+  return (
+    <Link
+      href={createHref(location)}
+      onClick={() =>
+        clickSyntheticMonitoringResultsWidgetDetailTracker({
+          detail: 'Results details from Results widget'
+        })
+      }
+    >
+      {resultsLabel}
+    </Link>
+  );
 }
 
 interface AdditionalLabelProps {

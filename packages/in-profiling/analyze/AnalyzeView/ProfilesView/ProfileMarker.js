@@ -5,13 +5,13 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 
 export default function ProfileMarker({ getHref$, eventData, ...remainingProps }) {
   return (
-    <Link href$={getHref$(eventData)}>
+    <Link href={getHref$(eventData)}>
       <LaneIcon {...remainingProps} eventData={eventData} />
     </Link>
   );

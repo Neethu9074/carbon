@@ -11,6 +11,7 @@ import { t } from '@instana/i18n-react';
 
 import CreateSyntheticTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { syntheticCreateButtonClick } from 'in-synthetics/tracker';
 
 interface CreateSyntheticTestProps {
   onClose: () => void;
@@ -18,6 +19,8 @@ interface CreateSyntheticTestProps {
 
 const CreateSyntheticTest = ({ onClose }: CreateSyntheticTestProps) => {
   const handleClick = () => {
+    // Tracker
+    syntheticCreateButtonClick({ detail: `Create a Synthetic test` });
     addActiveDialog(<CreateSyntheticTestDialog onClose={onClose} />);
   };
 

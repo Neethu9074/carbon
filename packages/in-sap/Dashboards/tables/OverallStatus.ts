@@ -6,6 +6,8 @@
 
 export function getOverallStatus(rating: string): string {
   switch (rating) {
+    case 'ACTIVE':
+      return 'ACTIVE';
     case 'Red':
       return 'Critical';
     case 'Green':

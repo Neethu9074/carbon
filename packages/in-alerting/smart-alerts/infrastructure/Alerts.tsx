@@ -11,11 +11,17 @@ import { InfraAlertConfigWithMetadata, ThresholdConfigUnion, InfraAlertRuleUnion
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
+// @ts-ignore-error
+import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { infraSmartAlerts } from 'in-stores/navigation/paths/mainPaths';
+import { getPluginName } from 'in-sdk/pluginName';
+import WithIcon from 'in-components/WithIcon';
+import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Alerts() {
@@ -23,7 +29,7 @@ export default function Alerts() {
   return (
     <>
       <AlertBaseList<InfraAlertConfigWithMetadata>
-        extraColumnDefinitions={[]}
+        extraColumnDefinitions={getColumnDefinitions()}
         actionHandlers={handlers}
         getAlertConfigs={() => getAllAlertConfigsWithResult()}
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
@@ -34,20 +40,44 @@ export default function Alerts() {
   );
 }
 
+function getColumnDefinitions() {
+  return [
+    {
+      id: 'entityType',
+      label: '', // not relevant because we don't show the column header according to our designs
+      getContent: (config: InfraAlertConfigWithMetadata) => {
+        const {
+          rule: { entityType }
+        } = config;
+        if (entityType === 'any') {
+          return '';
+        }
+        return (
+          <Tooltip content={getPluginName(entityType, 1)} align="topLeft" delay={500}>
+            <WithIcon plugin={entityType} iconColor={theme.lib.colors.N700Medium}>
+              {getPluginName(entityType, 1)}
+            </WithIcon>
+          </Tooltip>
+        );
+      }
+    }
+  ];
+}
+
 function getSubtitle(rule: InfraAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
   const { type, operator, value } = threshold;
+  const { entityType, metricName } = rule;
 
   if (type === STATIC_THRESHOLD) {
     const humanReadableOperator = humanReadableThresholdOperator(operator);
+    const metricDefinition = getMetricDefinition(entityType, metricName);
 
     return t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold', {
+      metricName: metricDefinition.getLabel(),
       operator: humanReadableOperator,
-      value: value
+      value
     });
   }
 
-  return t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle', {
-    aggregation: rule.aggregation,
-    metricName: rule.metricName
-  });
+  throw new Error('Not yet supported threshold type: ' + type);
 }

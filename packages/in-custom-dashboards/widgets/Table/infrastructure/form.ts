@@ -7,11 +7,10 @@
 import { createField, notBlankValidator } from 'formalistic';
 
 import { defaultTableSize } from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableSizeConfigurator';
-// @ts-expect-error
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { arrayValidator } from 'in-services/validators/jsonType';
 
 export const aggregation = 'aggregation';

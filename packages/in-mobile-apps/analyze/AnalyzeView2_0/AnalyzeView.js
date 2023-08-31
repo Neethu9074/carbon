@@ -147,7 +147,7 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metricId: 'uniqueUsers',
+        metricId: 'uniqueUsersOrSessions',
         aggregationId: 'DISTINCT_COUNT'
       }
     ],
@@ -162,7 +162,7 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metricId: 'uniqueUsers',
+        metricId: 'uniqueUsersOrSessions',
         aggregationId: 'DISTINCT_COUNT'
       }
     ],

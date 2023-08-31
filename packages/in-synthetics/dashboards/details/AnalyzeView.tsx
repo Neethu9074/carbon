@@ -10,6 +10,7 @@ import { get, head } from 'lodash';
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -41,11 +42,12 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
+import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { bytes, meanLatency } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { getTestResultMetadata } from 'in-synthetics/api';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import { getTestResultMetadata } from 'in-synthetics/api';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -70,16 +72,27 @@ export default function SyntheticAnalyzeView() {
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
 
-  const formatType: string = isBrowserTest ? 'HAR' : 'SUBTRANSACTIONS';
-  const details: ResultDetailsResponse =
-    useObservable<any, [number]>(
-      () =>
-        getTestResultDetailData({
-          testId: testId,
-          testResultId: resultId,
-          type: formatType
-        }),
-      [0]
+  const testResultMetadata: ResultMetadataResponse =
+    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
+  const formatType = testResultMetadata.progress.loading ? '' : getValidFormat(testResultMetadata);
+  const metadata = testResultMetadata.progress.loading
+    ? ''
+    : Object.keys(testResultMetadata.data?.metadata || {}).toString();
+
+  const timelineDetails: ResultDetailsResponse =
+    useObservable<any, [any]>(
+      formatType => {
+        if (formatType[0] != undefined && formatType[0] != '') {
+          return getTestResultDetailData({
+            testId: testId,
+            testResultId: resultId,
+            type: formatType[0]
+          });
+        } else {
+          return just({ ...dummyResultDetails, progress: { loading: false } });
+        }
+      },
+      [formatType]
     ) || dummyResultDetails;
 
   const tagFilters = [
@@ -121,9 +134,6 @@ export default function SyntheticAnalyzeView() {
       [0]
     ) || dummyTestResultList;
 
-  const testResultMetadata: ResultMetadataResponse =
-    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
-
   const renderMetaInformation = () => {
     return isBrowserTest ? <BetaBadge /> : null;
   };
@@ -152,21 +162,21 @@ export default function SyntheticAnalyzeView() {
           </>
         }
       >
-        {details.progress.loading || resultList.progress.loading || testResultMetadata.progress.loading ? (
+        {timelineDetails.progress.loading || resultList.progress.loading || testResultMetadata.progress.loading ? (
           <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
         ) : (
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'EUM: Synthetics',
-                pageRootName: 'Synthetics Test',
+                productArea: 'Synthetic Monitoring',
+                pageRootName: 'Synthetic Test Result Detail',
                 pagePath: location?.pathname
               }}
             />
             <Fragment>
               {isBrowserTest && (
                 <Row>
-                  <DownloadButton testId={testId} resultId={resultId} testResultMetadata={testResultMetadata} />
+                  <DownloadButton testId={testId} resultId={resultId} metadata={metadata} />
                 </Row>
               )}
               <Row>
@@ -202,13 +212,15 @@ export default function SyntheticAnalyzeView() {
                 <Col
                   xs
                   style={{
-                    display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
+                    display: get(timelineDetails, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
                   }}
                 >
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
                     value={
-                      isBrowserTest ? details.data?.har?.log.entries.length : details.data?.subtransactions?.length
+                      isBrowserTest
+                        ? timelineDetails.data?.har?.log.entries.length
+                        : timelineDetails.data?.subtransactions?.length
                     }
                   />
                 </Col>
@@ -236,13 +248,13 @@ export default function SyntheticAnalyzeView() {
                 <Col lg={12}>
                   {isBrowserTest ? (
                     <BrowserTestTimeline
-                      details={details}
+                      details={timelineDetails}
                       startTime={startTime}
                       finishTime={finishTime}
                       isBrowserType={isBrowserTest}
                     />
                   ) : (
-                    <Timeline details={details} startTime={startTime} finishTime={finishTime} />
+                    <Timeline details={timelineDetails} startTime={startTime} finishTime={finishTime} />
                   )}
                 </Col>
               </Row>
@@ -252,8 +264,9 @@ export default function SyntheticAnalyzeView() {
                     <Logs
                       testId={testId}
                       resultId={resultId}
-                      timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
+                      timestamp={get(head(get(timelineDetails, ['data', 'subtransactions'])), 'properties.startTime')}
                       isBrowserTestType={isBrowserTest}
+                      metadata={metadata}
                     />
                   </Col>
                 </Row>

@@ -12,7 +12,13 @@ module.exports = {
   globalSetup: '<rootDir>/packages/in-test/globalSetup.js',
   setupFilesAfterEnv: ['<rootDir>/packages/in-test/setup.js'],
   testMatch: ['**/*_test.js', '**/*_test.ts', '**/*_test.tsx'],
-
+  fakeTimers: {
+    enableGlobally: false,
+  },
+  snapshotFormat: {
+     escapeString: true,
+     printBasicPrototype: true
+  },
   transformIgnorePatterns: [
     '.jest/register-context.js',
     'node_modules/jest-runner/build/runTest.js',

@@ -6,8 +6,8 @@
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 
-import { Message } from '@instana/components';
 import { just } from '@instana/observables';
+import { Ul } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -24,11 +24,11 @@ import { default as MetricLabel } from 'in-infrastructure/Explore/components/Met
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { isTechnicalError } from 'in-services/util/error';
 import { pendingResult } from 'in-services/fixedObjects';
 import HealthDot from 'in-components/health/HealthDot';
 import CsvExporter from 'in-components/CsvExporter';
@@ -51,7 +51,9 @@ export default function InfrastructureList({
   getTotalItems,
   isLoadMoreEnabled = true,
   isPreview = false,
+  isWidget = false,
   fixedLayout = true,
+  isSearchable = false,
   type,
   metrics,
   metricMetadatas,
@@ -67,7 +69,7 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : [metrics];
+  const dependencies = isPreview ? [retrievalSize] : isSearchable ? [] : [metrics];
 
   const {
     items,
@@ -117,7 +119,14 @@ export default function InfrastructureList({
       }
     },
     getLabelColumn(tracking?.onNavigateToEntity, isPreview),
-    ...getMetricColumns({ metrics, sortable: showHeader || sortableMetrics, metricMetadatas, timeConfig, granularity })
+    ...getMetricColumns({
+      metrics,
+      sortable: showHeader || sortableMetrics,
+      metricMetadatas,
+      timeConfig,
+      granularity,
+      isWidget
+    })
   ];
 
   return (
@@ -163,11 +172,7 @@ export default function InfrastructureList({
         />
       )}
 
-      {hasErrors && (
-        <Message type="error" withIcon small>
-          {getErrorMessage(errors[0])}
-        </Message>
-      )}
+      {hasErrors && <Ul><LiErrorList errors={errors} /></Ul>}
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
@@ -199,18 +204,6 @@ function getAllIssues(issues, maxSeverity, defaultMsg) {
     return openIssues;
   }
   return defaultMsg;
-}
-
-function getErrorMessage(err) {
-  if (err.message?.includes('more than the maximum number of groups')) {
-    return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
-  }
-
-  if (isTechnicalError(err.code) && !__DEV__) {
-    return t('in-components:error.erroneousResultPresenterMessage');
-  }
-
-  return t('in-infrastructure:explore.errors.generalError');
 }
 
 function getTableData({
@@ -259,7 +252,6 @@ function getLabelColumn(onNavigateToEntity, isPreview) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
-
     getContent(item) {
       return (
         <div className={locals.entityLink}>
@@ -306,6 +298,8 @@ InfrastructureList.propTypes = {
   getTotalItems: rpt.func,
   isLoadMoreEnabled: rpt.bool,
   isPreview: rpt.bool,
+  isWidget: rpt.bool,
+  isSearchable: rpt.bool,
   query: rpt.string,
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,
@@ -314,7 +308,7 @@ InfrastructureList.propTypes = {
   displayChart: rpt.bool
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
+function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
   return metrics
     .filter(m => !m.removeFromTable)
     .map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
@@ -330,7 +324,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         aggregation: aggregation,
         renderLabel: MetricLabel,
         sortable,
-        width: '15rem',
+        width: isWidget ? 'auto' : '15rem',
         widthInAbsoluteUnit: true,
         optional: true,
         defaultDisabled: !isKpi,

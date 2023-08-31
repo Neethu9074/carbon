@@ -6,12 +6,15 @@
 
 import React, { ReactNode } from 'react';
 
-import { SvgIcon, TrProps } from '@instana/components';
+import { SvgIcon, TrProps, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
 import { Result, SyntheticTest } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
@@ -37,6 +40,7 @@ export interface AlertTestsListProps {
     entitiesBeforePagination: number
   ) => ReactNode;
   displayApplicationLabel?: boolean;
+  hasRowNavigation?: boolean;
 }
 
 export default function AlertTestsList({
@@ -51,7 +55,8 @@ export default function AlertTestsList({
   isSearchable = true,
   onRowClick,
   inSelectListDialog = false,
-  displayApplicationLabel = true
+  displayApplicationLabel = true,
+  hasRowNavigation = false
 }: AlertTestsListProps): JSX.Element {
   const syntheticTests = getTestsAsResultObservable('')
     .map((result: Result<SyntheticTest[]> | null) => {
@@ -67,7 +72,11 @@ export default function AlertTestsList({
       title={setTitle ? t('in-alerting:smartAlerts.synthetics.selectTests.alertTests') : null}
       getHeader={setTitle ? defaultGetHeader(inSelectListDialog, tableActions) : () => null}
       getEntityName={getEntityName}
-      columnDefinitions={displayApplicationLabel ? [...columnDefinitions(), applicationLabel()] : columnDefinitions()}
+      columnDefinitions={
+        displayApplicationLabel
+          ? [...columnDefinitions(hasRowNavigation), applicationLabel()]
+          : columnDefinitions(hasRowNavigation)
+      }
       tableActions={tableActions}
       //@ts-expect-error
       loadEntities={loadEntities ? loadEntities : () => syntheticTests}
@@ -86,7 +95,22 @@ export default function AlertTestsList({
   );
 }
 
-function columnDefinitions() {
+function TestLabelContent({ item }: { item: SyntheticTest }) {
+  const { location, createHref } = useNavigation();
+  location.pathname = syntheticsSummaryPath;
+  const locationDisplayLabels = item?.locationDisplayLabels ? item?.locationDisplayLabels.join(',') : '';
+  let locationIds = item?.locations ? item?.locations.join(',') : '';
+
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', item?.id);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'testLabel', item?.label);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'type', item?.configuration?.syntheticType);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationDisplayLabels', locationDisplayLabels);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'locationIds', locationIds);
+
+  return <Link href={createHref(location)}>{item?.label}</Link>;
+}
+
+function columnDefinitions(hasRowNavigation: boolean) {
   return [
     {
       id: 'test_name',
@@ -95,7 +119,11 @@ function columnDefinitions() {
       getContent(entity: SyntheticTest) {
         return (
           <Tooltip content={entity.label} align="topLeft" delay={500}>
-            <span className={locals.label}>{entity.label}</span>
+            {hasRowNavigation ? (
+              <TestLabelContent item={entity} />
+            ) : (
+              <span className={locals.label}>{entity.label}</span>
+            )}
           </Tooltip>
         );
       },

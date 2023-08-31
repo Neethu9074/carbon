@@ -7,9 +7,9 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Observable } from '@instana/observables';
+import { LinkProps } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { LinkProps } from '@instana/legacy';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import locals from './Button.mless';
 
@@ -58,8 +58,7 @@ export default forwardRef<HTMLAnchorElement, Props>(function Button(
         [className]: className
       })}
       onClick={onClick}
-      href$={href$}
-      href={href}
+      href={href$ ?? href}
       ref={ref}
     >
       {icon && (

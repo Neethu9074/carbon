@@ -602,14 +602,23 @@ export function saveNewAssociation(data: NewActionAssociation) {
     data: data
   }).map(response => response.body);
 }
-export function getApplicationAlertActionAssociations(id: string): Observable<Result<Action[]>> {
-  const request = http<Action[]>({
+
+function getApplicationAlertActionAssociationsRequest(id: string) {
+  return http<Action[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`
   });
+}
 
+export function getApplicationAlertActionAssociations(id: string): Observable<Action[]> {
+  const request = getApplicationAlertActionAssociationsRequest(id);
+  return request.map(response => response.body);
+}
+
+export function getApplicationAlertActionAssociationsWithResult(id: string): Observable<Result<Action[]>> {
+  const request = getApplicationAlertActionAssociationsRequest(id);
   return createObservable(request);
 }
 

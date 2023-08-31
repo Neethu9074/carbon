@@ -9,13 +9,14 @@ import { useObservable } from '@instana/hooks';
 import { Tr, Td } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
+import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 
 export default function Row({ item }) {
   const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;
+  const linkToProfiles = useLinkToProfiles({ processSnapshotId, time });
   if (entityLabel === null) {
     return <RowLabelResolver item={item} />;
   }
@@ -23,7 +24,7 @@ export default function Row({ item }) {
   return (
     <Tr size="compact">
       <Td ellipsis="50vw">
-        <EntityLink href$={getLinkToProfiles({ processSnapshotId, time })} plugin={entityPlugin} label={entityLabel} />
+        <EntityLink href={linkToProfiles} plugin={entityPlugin} label={entityLabel} />
       </Td>
 
       <Td noWrap>

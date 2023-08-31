@@ -33,7 +33,8 @@ export default function TopListCard(props) {
     renderHistoricDataIndicator = false,
     hasApproximateData = false,
     renderWidgetNotSupportedIndicator = false,
-    helpInfo
+    helpInfo,
+    noDataMessage
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
@@ -67,7 +68,7 @@ export default function TopListCard(props) {
     content = <QueryFailed errors={result.errors} />;
     withoutPadding = true;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
-    content = <NoDataAvailable height={height} />;
+    content = <NoDataAvailable text={noDataMessage} height={height} />;
     withoutPadding = true;
   } else {
     content = <ListRenderer {...props} />;

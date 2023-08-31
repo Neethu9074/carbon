@@ -41,7 +41,6 @@ module.exports = {
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
   pseudoLanguageEnabled: true,
-  syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
   deprecateAppDataLegacyEventsEnabled: true,
@@ -85,6 +84,6 @@ module.exports = {
   syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
-  infraSmartAlertEnabled: true,
+  infraSmartAlertsEnabled: true,
   tagCatalogSmallQueryWindowEnabled: true
 };

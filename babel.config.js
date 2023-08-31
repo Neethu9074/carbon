@@ -18,7 +18,8 @@ module.exports = {
     [
       '@babel/plugin-transform-block-scoping',
       {
-        throwIfClosureRequired: true
+        // enabled only if we do not build storybook
+        throwIfClosureRequired: process.env.STORYBOOK !== 'true'
       }
     ],
     ['transform-class-properties', { spec: false }],

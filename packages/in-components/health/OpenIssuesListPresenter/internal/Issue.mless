@@ -26,6 +26,12 @@
     text-decoration: none;
     color: inherit;
   }
+  // Changed the visited color and active:hover:visited to override carbonised link styling
+  .link:visited,
+  .link:active:hover:visited,
+  .link:visited:hover {
+    color: inherit !important; // important was needed to override in Instana theme
+  }
 
   .clickable:hover {
     cursor: pointer;

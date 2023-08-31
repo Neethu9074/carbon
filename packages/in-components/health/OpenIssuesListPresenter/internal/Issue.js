@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
@@ -55,7 +55,7 @@ export default function Issue({ issue, getIssueLink }) {
 
   if (getIssueLink) {
     content = (
-      <Link href$={getIssueLink(issue.id)} className={locals.link}>
+      <Link href={getIssueLink(issue.id)} className={locals.link}>
         {content}
       </Link>
     );

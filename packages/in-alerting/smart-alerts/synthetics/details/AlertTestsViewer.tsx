@@ -44,6 +44,7 @@ export default function AlertTestsViewer({ alertTestIds = [], setTitle }: AlertT
       getHeader={() => null}
       rightHeader={null}
       displayApplicationLabel={false}
+      hasRowNavigation
     />
   );
 }

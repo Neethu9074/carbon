@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { Button, ButtonKinds, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
@@ -145,7 +145,7 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$} href={iconAction.href} onClick={iconAction.onClick}>
+              <Link href={iconAction.href$ ?? iconAction.href} onClick={iconAction.onClick}>
                 <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>

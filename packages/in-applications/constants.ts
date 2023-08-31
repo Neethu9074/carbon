@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from 'in-i18n';
 import { ApplicationBoundaryScope } from 'in-types';
+import { t } from 'in-i18n';
 
 export const boundaryScopes = {
   default: 'INBOUND',
@@ -30,25 +30,3 @@ export const boundaryScopes = {
 export const switchScope = (boundaryScope: ApplicationBoundaryScope): ApplicationBoundaryScope => {
   return boundaryScope === boundaryScopes.all ? boundaryScopes.inbound : boundaryScopes.all;
 };
-
-export const syntheticCallsOptions = {
-  default: 'EXCLUDE',
-  exclude: 'EXCLUDE',
-  include: 'INCLUDE',
-  only: 'ONLY',
-
-  info: {
-    EXCLUDE: {
-      label: t('in-applications:constants.exclude'),
-      description: t('in-applications:constants.syntheticCallsAreExcludedFromTheMetrics')
-    },
-    INCLUDE: {
-      label: t('in-applications:constants.include'),
-      description: t('in-applications:constants.syntheticCallsAreIncludedInTheMetrics')
-    },
-    ONLY: {
-      label: t('in-applications:constants.only'),
-      description: t('in-applications:constants.onlySyntheticCallsAreShownAndIncludedInTheMetrics')
-    }
-  }
-} as const;

@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "Erroneous call without error message",
     "noLogMessage": "No log message available",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetic Calls: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "No services available",
       "servicesDescription": "There were no services retrieved for the selected time range.",
@@ -557,14 +556,6 @@
     "sdk": "SDK",
     "otel": "OpenTelemetry"
   },
-  "constants": {
-    "exclude": "Exclude",
-    "syntheticCallsAreExcludedFromTheMetrics": "Synthetic calls are excluded from the metrics.",
-    "include": "Include",
-    "syntheticCallsAreIncludedInTheMetrics": "Synthetic calls are included in the metrics.",
-    "only": "Only",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
-  },
   "traceDetail": {
     "beta": "BETA",
     "foreignRootCall": "Not monitored by Instana",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>Is it ok to see alternative services?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
-  }
+  },
+  "labelSyntheticMonitoring": "Synthetic Monitoring"
 }

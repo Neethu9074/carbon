@@ -262,6 +262,7 @@
       "affectedUsersLabel": "Affected Users",
       "crashErrorGroupsTitle": "Crash Error Groups",
       "crashErrorGroupsHelpInfo": "Displays data collected for identified affected users only",
+      "crashErrorGroupsNoDataMessage": "No crashes for this period",
       "analyzeCrashesLink": "Analyze Crashes",
       "configurationTitle": "Configuration",
       "optionsLabel": "Options",

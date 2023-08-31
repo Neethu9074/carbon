@@ -1187,8 +1187,7 @@
       "list": {
         "columns": {
           "name": {
-            "subtitle": "Aggregation: {{aggregation}}, Metric Name: {{metricName}}",
-            "subtitleForStaticThreshold": "Static Threshold, Occurrences {{operator}} {{value}}"
+            "subtitleForStaticThreshold": "Static Threshold, {{metricName}} {{operator}} {{value}}"
           }
         }
       }

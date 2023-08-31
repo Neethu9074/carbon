@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useMemo, useRef } from 'react';
+import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { Button } from '@instana/components';
@@ -31,15 +32,20 @@ export default function GroupingConfigurator({
 
   const multipleGroupsSupported = Array.isArray(value);
   const groups = useMemo(
-    () => (multipleGroupsSupported ? value : [value]).filter(g => g?.groupbyTag),
+    () => (multipleGroupsSupported ? value : [value]).filter(group => group?.groupbyTag),
     [value, multipleGroupsSupported]
   );
   const changeGroup = useCallback(
     (group, index) => {
       if (multipleGroupsSupported) {
+        const prevIndex = groups.findIndex(existingGroup => isEqual(existingGroup, group));
         const newGroups = groups.slice();
+        const oldGroup = newGroups[index];
         newGroups[index] = group;
-        onChange(newGroups.filter(g => g?.groupbyTag));
+        if (prevIndex >= 0) {
+          newGroups[prevIndex] = oldGroup; // swap groups if this group was already there
+        }
+        onChange(newGroups.filter(existingGroup => existingGroup?.groupbyTag));
       } else {
         onChange(group);
       }
@@ -49,9 +55,9 @@ export default function GroupingConfigurator({
   const addGroup = useCallback(
     group => {
       if (multipleGroupsSupported) {
-        const newGroups = groups.slice();
+        const newGroups = groups.filter(existingGroup => !isEqual(existingGroup, group)); // remove the group if it's already selected
         newGroups.push(group);
-        onChange(newGroups.filter(g => g?.groupbyTag));
+        onChange(newGroups.filter(existingGroup => existingGroup?.groupbyTag));
       } else {
         onChange(group);
       }

@@ -130,6 +130,16 @@ export default connectTo(
             {name}
           </Breadcrumb>
         );
+      case 'sapabap.':
+        return (
+          <Breadcrumb
+            label={label}
+            icon={getIconType(plugins.sapAbap)}
+            href$={getDashboardForEntity(id, plugins.sapAbap, label)}
+          >
+            {name}
+          </Breadcrumb>
+        );
     }
   }
 );

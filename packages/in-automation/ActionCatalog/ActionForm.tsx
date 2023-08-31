@@ -95,7 +95,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               <TimeoutSection form={form} onChange={onChange} />
             </>
           )}
-          {!isDocLink(type) && (
+          {!isDocLink(type) && !isManual(type) && (
             <>
               <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
               <FormGroup>

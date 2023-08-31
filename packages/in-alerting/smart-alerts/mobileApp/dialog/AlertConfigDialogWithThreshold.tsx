@@ -7,7 +7,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
-import { CustomPayloadFieldUnion, MobileAppAlertRule, MobileAppAlertRuleUnion, TimeConfig } from '@instana/types';
+import {
+  CustomPayloadFieldUnion,
+  MobileAppAlertRule,
+  MobileAppAlertRuleUnion,
+  ThresholdConfig,
+  TimeConfig
+} from '@instana/types';
 
 // import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
@@ -89,8 +95,9 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
-  const { rule, tagFilterExpression, mobileAppId, customPayloadFields } = alertConfigWithFormModel;
+  const { rule, tagFilterExpression, mobileAppId, customPayloadFields, threshold } = alertConfigWithFormModel;
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
+  const thresholdType = (threshold as ThresholdConfig)?.type;
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
@@ -99,8 +106,14 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     QueryBuilder: AlertQueryBuilder,
     isQueryValid
   } = useMemo(
-    () => createBoundedAlertQueryBuilder(mobileAppId as string | undefined, beaconType, tagSuggestionTimeConfig),
-    [mobileAppId, beaconType]
+    () =>
+      createBoundedAlertQueryBuilder(
+        mobileAppId as string | undefined,
+        beaconType,
+        thresholdType,
+        tagSuggestionTimeConfig
+      ),
+    [mobileAppId, beaconType, thresholdType]
   );
 
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);

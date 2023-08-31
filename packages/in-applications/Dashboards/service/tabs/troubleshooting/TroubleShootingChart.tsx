@@ -7,10 +7,6 @@ import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -28,7 +24,6 @@ export interface TroubleShootingChartProps {
   metricConfigs: Metric[];
   groupBy: Group;
   boundaryScope: string;
-  syntheticCalls: string;
   colorMapper?: (id: string, label: string) => string | null;
 }
 
@@ -40,10 +35,8 @@ export default function TroubleShootingChart({
   serviceId,
   metricConfigs,
   boundaryScope,
-  syntheticCalls,
   colorMapper
 }: TroubleShootingChartProps) {
-  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -75,8 +68,6 @@ export default function TroubleShootingChart({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupBy: groupBy,
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
-                  hiddenCalls,
                   fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')]
                 },
                 getLinkToApplicationAnalyze

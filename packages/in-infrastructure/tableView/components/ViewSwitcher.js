@@ -17,7 +17,7 @@ import {
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { infraSmartAlertEnabled } from 'in-services/featureFlags';
+import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import SearchBar from 'in-components/SearchBar';
 import { t } from 'in-i18n';
 
@@ -44,7 +44,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
           label={t('in-infrastructure:tableView.comparisonTable')}
           isActive={isTableActive}
         />
-        {infraSmartAlertEnabled && (
+        {infraSmartAlertsEnabled && (
           <SecondLevelNavigationItem
             href={createHrefToPath(infraSmartAlerts)}
             label={t('in-infrastructure:tableView.smartAlerts')}

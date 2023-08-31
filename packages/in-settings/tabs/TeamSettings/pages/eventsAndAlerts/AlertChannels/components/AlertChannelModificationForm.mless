@@ -15,4 +15,12 @@
     margin-left: auto;
     align-self: flex-start;
   }
+  .documentation {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .documentation a {
+    font-weight: bold;
+  }
 }

@@ -5,7 +5,7 @@
 
 :local {
   .log {
-    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: var(--typography-font-family-monospace);
     line-height: 1.4;
     font-size: 0.688rem;
 

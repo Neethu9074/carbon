@@ -20,6 +20,7 @@ import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
+import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTree/lazyCallTree';
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
@@ -86,7 +87,8 @@ export default function Summary({
     lazyLoading
   });
 
-  const effectiveCallId = callId === 'ROOT' ? callTreeResult.data?.id : callId;
+  const nonFakeRootCallId = callTreeResult.data?.id !== FAKE_ROOT_CALL_ID ? callTreeResult.data?.id : undefined;
+  const effectiveCallId = callId === 'ROOT' ? nonFakeRootCallId : callId;
 
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);

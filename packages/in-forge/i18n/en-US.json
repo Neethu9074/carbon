@@ -429,6 +429,11 @@
   "pluginName_sapHost_1": "SAP Host",
   "pluginName_sapHost_2": "SAP Host",
   "pluginName_sapHost": "SAP Host",
+  "pluginName_sapAbapSensor_plural": "SAP ABAP Instances",
+  "pluginName_sapAbapSensor_0": "SAP ABAP Instances",
+  "pluginName_sapAbapSensor_1": "SAP ABAP Instances",
+  "pluginName_sapAbapSensor_2": "SAP ABAP Instances",
+  "pluginName_sapAbapSensor": "SAP ABAP Instance",
   "pluginName_db2Database_plural": "DB2s",
   "pluginName_db2Database_0": "DB2s",
   "pluginName_db2Database_1": "DB2s",
@@ -12807,7 +12812,14 @@
       "cpuLimits": "CPU Limits"
     },
     "openTelemetry": {
-      "openTelemetry": "OpenTelemetry"
+      "openTelemetry": "OpenTelemetry",
+      "hostName": "Host Name",
+      "pid": "Pid",
+      "serviceName": "Service Name",
+      "remote": "ID",
+      "containerId": "Container ID",
+      "containerPid": "Container Pid",
+      "kind": "Kind"
     },
     "oracleDB": {
       "dbTimePerSecond": "DB Time per Second",
@@ -13486,6 +13498,27 @@
       "systemAvailability": "System Availability",
       "webDispatcherAvailability": "Web Dispatcher Availability",
       "recieveStatusFromHost": "Recieve Status From Host"
+    },
+    "sapAbapSensor": {
+      "label": "SAP ABAP Instance",
+      "hostName": "Host Name",
+      "instanceName": "Instance Name",
+      "workProcessRowCount": "Total Work Process Count",
+      "dbConnectionCount": "Total DB Connections",
+      "totalDumpsCount": "Short Dumps History",
+      "onHold": "Process on Hold",
+      "running": "Running Process",
+      "waiting": "Process in waiting",
+      "totalRFCCalls": "Total RFC Calls",
+      "totalMemory": "Total Memory Used",
+      "numberOfDialogProcess": "Number Of Dialog Process",
+      "numberOfSpoolProcess": "Number Of Spool Process",
+      "numberOfBackgroundProcess": "Number Of Background Process",
+      "numberOfBatchProcess": "Number Of Batch Process",
+      "numberOfEnqueueProcess": "Number Of Enqueue Process",
+      "numberOfUpdateProcess": "Number Of Update Process",
+      "numberOfUpdate2Process": "Number Of Update2 Process",
+      "connectionStatus": "Status"
     },
     "syntheticPoP": {
       "redisTLSNotEnabled": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",
