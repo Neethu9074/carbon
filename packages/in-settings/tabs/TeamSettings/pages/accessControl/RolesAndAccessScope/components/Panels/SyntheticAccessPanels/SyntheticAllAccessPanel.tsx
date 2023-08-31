@@ -22,7 +22,7 @@ import { t } from 'in-i18n';
 interface SyntheticAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   entityPermissionKey?: string;
   role?: AreaRoleWithCustomType;
-  roleTooltipText?: string;
+  roleTooltipText?: string | React.ReactElement;
   description: string;
   onChangeRole?: (role: AreaRoleType) => void;
 }

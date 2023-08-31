@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 interface AccessAllPanelProps {
   entityPermissionKey?: string;
   role?: AreaRoleWithCustomType;
-  roleTooltipText?: string;
+  roleTooltipText?: string | React.ReactElement;
   description: string;
   title?: string;
   onChangeRole?: (role: AreaRoleType) => void;

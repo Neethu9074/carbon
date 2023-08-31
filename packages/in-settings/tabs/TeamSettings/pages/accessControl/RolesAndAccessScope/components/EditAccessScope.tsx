@@ -27,7 +27,7 @@ import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialo
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 interface EditAccessScopeDialogProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   editMode?: boolean;
@@ -103,7 +103,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_websites')}
           limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_websites')}
           addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
-          roleTooltipText={t('in-settings:permissionScope.roleTooltip_websites')}
+          roleTooltipText={<Trans i18nKey="in-settings:permissionScope.roleTooltip_websites" />}
           entityPermissionKey="websiteIds"
           observable={() => getAllWebsitesForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.WEBSITE}
@@ -126,7 +126,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_mobileApps')}
           limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_mobileApps')}
           addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
-          roleTooltipText={t('in-settings:permissionScope.roleTooltip_mobileApps')}
+          roleTooltipText={<Trans i18nKey="in-settings:permissionScope.roleTooltip_mobileApps" />}
           entityPermissionKey="mobileAppIds"
           observable={() => getAllMobileAppsForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.MOBILE_APP}
@@ -149,7 +149,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_applications')}
           limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_applications')}
           addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
-          roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
+          roleTooltipText={<Trans i18nKey="in-settings:permissionScope.roleTooltip_applications" />}
           entityPermissionKey="applicationIds"
           observable={() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig })}
           productArea={ProductArea.APPLICATION}
@@ -198,7 +198,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_synthetics')}
               limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_synthetics')}
               addButtonLabel={t('in-settings:PermissionSection.addButton_syntheticTests')}
-              roleTooltipText={t('in-settings:permissionScope.roleTooltip_synthetics')}
+              roleTooltipText={<Trans i18nKey="in-settings:permissionScope.roleTooltip_synthetics" />}
               observable={() => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig })}
               icon="lib_synthetic"
               extractId={({ id }) => id}
