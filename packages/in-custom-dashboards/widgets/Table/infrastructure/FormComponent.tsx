@@ -26,6 +26,8 @@ import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 
+const MAX_DATASETS = 5;
+
 interface Props {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
@@ -77,7 +79,7 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
             updateForm={updateForm}
             entityType={type}
             source={source}
-            maxLength={4}
+            maxLength={MAX_DATASETS}
           />
 
           <Spacer vertical="medium" />
