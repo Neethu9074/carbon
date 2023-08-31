@@ -10,8 +10,6 @@ import React from 'react';
 import { Order } from '@instana/types';
 
 import { Metric } from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator';
-// @ts-expect-error needs ts migration
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { sorting as sortingFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { t } from 'in-i18n';
@@ -30,7 +28,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions }
       form.updateIn([sortingFieldName], (field: Field<Order>) =>
         field
           .setValue({
-            ...defaultOrder,
+            direction: event.target.value === 'label' ? 'ASC' : 'DESC',
             by: event.target.value
           })
           .setTouched(true)
