@@ -70,6 +70,7 @@ export default function CrashTopList({
       urlMatrixParamConfig={urlMatrixParamConfig}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
       helpInfo={t('in-mobile-apps:dashboard.tabs.crashErrorGroupsHelpInfo')}
+      noDataMessage={t('in-mobile-apps:dashboard.tabs.crashErrorGroupsNoDataMessage')}
     />
   );
 }
