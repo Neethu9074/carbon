@@ -18,7 +18,7 @@ export interface TableFormConfiguration {
   tableSize?: number;
   entityType?: string;
   tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
-  grouping?: Partial<Grouping[]>;
+  grouping?: Grouping[];
   datasets?: any;
   sorting?: Order;
 }

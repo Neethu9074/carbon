@@ -15,8 +15,6 @@ import {
 } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
-// @ts-expect-error
-import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import {
   FormModelElement,
   fromBackendModel,
@@ -24,8 +22,8 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-// @ts-expect-error needs to be ts migrated
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
+// @ts-expect-error
+import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
@@ -39,6 +37,8 @@ import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';

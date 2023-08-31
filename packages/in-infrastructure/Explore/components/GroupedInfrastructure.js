@@ -12,7 +12,6 @@ import {
   LiHorizontalIndicator,
   LiLoadingSkeleton,
   LiLoadMore,
-  Message,
   SvgIcon,
   Ul
 } from '@instana/components';
@@ -38,12 +37,14 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { defaultOrder, typeTag } from 'in-infrastructure/Explore/constants';
+import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { typeTag } from 'in-infrastructure/Explore/constants';
+import { toGroupTag } from 'in-infrastructure/Explore/utils';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
@@ -176,12 +177,11 @@ function Presenter({
     getLinkToInfraEntityExplore
   });
 
-  const groupSortOptions = [
+  const groupSortOptions = backendGroupBy.map(groupBy => (
     {
-      label: backendGroupBy[0],
-      value: defaultOrder.by
-    }
-  ];
+      label: groupBy,
+      value: groupBy
+    }));
 
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
@@ -279,14 +279,7 @@ function Presenter({
           ))}
           {isLoading && <LiHorizontalIndicator progress={indeterminateProgress} />}
           {isLoading && <LiLoadingSkeleton />}
-          {hasErrors &&
-            getErrorMessage(errors).map(error => (
-              <Li key={error}>
-                <Message className={locals.message} type="error" small>
-                  {error}
-                </Message>
-              </Li>
-            ))}
+          {hasErrors && <LiErrorList errors={errors} />}
           {canLoadMore && isLoadMoreEnabled && (
             <LiLoadMore
               loadMore={() => {
@@ -338,9 +331,7 @@ function columns({
         })
   };
 
-  const groupsColumn = groupBy.map((groupKey, index) => {
-    const isFirstItem = index === 0;
-
+  const groupsColumn = groupBy.map((groupKey) => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
       id: groupKey,
@@ -350,8 +341,7 @@ function columns({
       },
       ...(isTableMode
         ? {
-            id: isFirstItem ? 'label' : groupKey,
-            sortable: isFirstItem,
+            sortable: true,
             label: groupKey,
             getContent(item) {
               return getGroupTagValue(item, groupKey);
@@ -421,14 +411,6 @@ function columns({
     : [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
 
   return cols;
-}
-
-function getErrorMessage(errors) {
-  if (errors[0].message?.includes('more than the maximum number of groups')) {
-    return [t('in-infrastructure:explore.errors.maximumNumberOfGroups')];
-  }
-
-  return [t('in-infrastructure:explore.errors.generalError')];
 }
 
 function getColumnWidth(groupBy, metrics, isTableMode) {
@@ -529,14 +511,6 @@ export function toTagFilters(tags, tagType, groupBy) {
     key: getKey(tag, groupBy),
     value
   }));
-}
-
-export function toBackendGroupBy(groupBy) {
-  return groupBy?.filter(g => g?.groupbyTag).map(g => toGroupTag(g));
-}
-
-function toGroupTag(group) {
-  return group?.groupbyTagSecondLevelKey ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey : group.groupbyTag;
 }
 
 const defaultGroupIcon = 'lib_views_tag';
@@ -665,7 +639,7 @@ function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, i
       renderLabel: MetricLabel,
       ...metricsColumns,
       getId() {
-        return getMetricKey(metric, aggregation);
+        return getMetricKey(metric, aggregation, crossSeriesAggregation);
       },
       getColumnLabel() {
         const metadata = mapData(metricMetadatas, data => data[metric]);

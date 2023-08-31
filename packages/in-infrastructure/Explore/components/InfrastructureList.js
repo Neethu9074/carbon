@@ -6,8 +6,8 @@
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 
-import { Message } from '@instana/components';
 import { just } from '@instana/observables';
+import { Ul } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -24,11 +24,11 @@ import { default as MetricLabel } from 'in-infrastructure/Explore/components/Met
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { isTechnicalError } from 'in-services/util/error';
 import { pendingResult } from 'in-services/fixedObjects';
 import HealthDot from 'in-components/health/HealthDot';
 import CsvExporter from 'in-components/CsvExporter';
@@ -172,11 +172,7 @@ export default function InfrastructureList({
         />
       )}
 
-      {hasErrors && (
-        <Message type="error" withIcon small>
-          {getErrorMessage(errors[0])}
-        </Message>
-      )}
+      {hasErrors && <Ul><LiErrorList errors={errors} /></Ul>}
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
@@ -208,18 +204,6 @@ function getAllIssues(issues, maxSeverity, defaultMsg) {
     return openIssues;
   }
   return defaultMsg;
-}
-
-function getErrorMessage(err) {
-  if (err.message?.includes('more than the maximum number of groups')) {
-    return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
-  }
-
-  if (isTechnicalError(err.code) && !__DEV__) {
-    return t('in-components:error.erroneousResultPresenterMessage');
-  }
-
-  return t('in-infrastructure:explore.errors.generalError');
 }
 
 function getTableData({

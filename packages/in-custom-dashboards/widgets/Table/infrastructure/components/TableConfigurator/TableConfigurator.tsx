@@ -28,15 +28,13 @@ import { getShortMetricKey } from 'in-custom-dashboards/widgets/Table/infrastruc
 import GroupConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/GroupConfigurator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Header from 'in-components/workspace/Header';
 import { Group, TagCatalog } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator.mless';
-
-const DEFAULT_SORTING_VALUE = 'label';
-const DEFAULT_SORTING_LABEL_SUFFIX = t('in-custom-dashboards:widgets.table.form.infrastructure.defaultSortingSuffix');
 
 export interface Metric {
   value: string;
@@ -153,15 +151,11 @@ function getSortingOptions(entityLabel: string | null, metrics: Metric[], groups
     return [];
   }
 
-  const sortingOptions = [getDefaultSortingOption(entityLabel, groups), ...metrics];
+  const sortingOptions = [...getGroupsSortingOptions(groups), ...metrics];
 
   return sortingOptions;
 }
 
-function getDefaultSortingOption(entityLabel: string | null, groups: Group[]): { value: string; label: string } {
-  if (groups.length > 0) {
-    return { value: DEFAULT_SORTING_VALUE, label: groups[0].groupbyTag };
-  }
-
-  return { value: DEFAULT_SORTING_VALUE, label: `${entityLabel || ''} ${DEFAULT_SORTING_LABEL_SUFFIX}` };
+function getGroupsSortingOptions(groups: Group[]): { value: string, label: string }[] {
+  return toBackendGroupBy(groups).map(g => ({ value: g, label: g}));
 }

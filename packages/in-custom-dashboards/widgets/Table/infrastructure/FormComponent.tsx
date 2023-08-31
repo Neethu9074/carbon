@@ -16,10 +16,9 @@ import EntityInfraTypeSelector from 'in-custom-dashboards/widgets/Table/infrastr
 import DatasetsConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/DatasetsConfigurator';
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { entityType, source as sourceFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
-// @ts-expect-error needs ts migration
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
