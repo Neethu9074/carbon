@@ -26,15 +26,17 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
 interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  event: EventOrMap;
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const { alertConfig, timeConfig } = props;
+  const { alertConfig, timeConfig, event } = props;
   const { entityType, metricName } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
@@ -49,7 +51,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
-    alertConfig
+    alertConfig,
+    event
   });
 
   // chartProps to render the metric values and threshold to the chart

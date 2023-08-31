@@ -11,16 +11,19 @@ import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { deepCopy } from 'in-services/util/object';
 import { line } from 'in-stores/metric/renderer';
 import { TagFilterExpression } from 'in-types';
+import { EventOrMap } from 'in-events/types';
 
 interface UnifiedMetricConfigProps {
   alertConfig: InfraAlertConfigWithMetadata;
+  event: EventOrMap;
 }
 
-export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps) {
+export function getUnifiedMetricConfig({ alertConfig, event }: UnifiedMetricConfigProps) {
   const { entityType, metricName, aggregation } = alertConfig.rule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
@@ -46,8 +49,7 @@ export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps
           label: metricLabel,
           metric: metricName,
           source: 'INFRASTRUCTURE_METRICS',
-          // tagFilterExpression: alertConfig.tagFilterExpression,
-          tagFilterExpression: getFilterGroupExpression(alertConfig),
+          tagFilterExpression: getFilterGroupExpression(alertConfig, event),
           timeShift: 0,
           type: entityType
         }
@@ -84,22 +86,19 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
   };
 }
 
-export function getFilterGroupExpression(alertConfig: InfraAlertConfigWithMetadata) {
+export function getFilterGroupExpression(alertConfig: InfraAlertConfigWithMetadata, event: EventOrMap) {
   const filterExpression = deepCopy(alertConfig.tagFilterExpression);
+  const groupingTags = event.getIn(['metadata', 'groupingTags'], []);
 
-  // replace with grouping information from the alertConfig and event
-  (filterExpression as TagFilterExpression).elements.push(
-    {
-      value: '',
-      //@ts-expect-error
-      operator: '',
-      name: 'dfq.selftype',
+  groupingTags?.forEach((tagValue: string, tagKey: string) => {
+    (filterExpression as TagFilterExpression).elements.push({
+      name: tagKey,
       entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    },
-    { value: '', operator: '', name: 'dfq.type', entity: NOT_APPLICABLE, type: 'TAG_FILTER' },
-    { value: '', operator: '', name: 'aws.accountId', entity: NOT_APPLICABLE, type: 'TAG_FILTER' }
-  );
+      type: 'TAG_FILTER',
+      operator: EQUALS,
+      value: tagValue
+    });
+  });
 
   return filterExpression;
 }

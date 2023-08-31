@@ -88,7 +88,7 @@ export default function InfraEventContent({ event }: Props) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={timeConfig} />
+          <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={timeConfig} event={event} />
         </Col>
       </Row>
 
@@ -96,7 +96,12 @@ export default function InfraEventContent({ event }: Props) {
         <Col xs>
           <Card title={t('in-events:titleScope')}>
             <div className={locals.alertFiltersWrapper}>
-              <FilterGrouping alertConfig={alertConfig} entityLabel={entityLabel} entityType={entityType} />
+              <FilterGrouping
+                alertConfig={alertConfig}
+                entityLabel={entityLabel}
+                entityType={entityType}
+                event={event}
+              />
             </div>
           </Card>
         </Col>
@@ -108,13 +113,15 @@ export default function InfraEventContent({ event }: Props) {
 function FilterGrouping({
   alertConfig,
   entityLabel,
-  entityType
+  entityType,
+  event
 }: {
   alertConfig: InfraAlertConfigWithMetadata;
   entityLabel: string;
   entityType: string;
+  event: EventOrMap;
 }) {
-  const filterExpression = getFilterGroupExpression(alertConfig);
+  const filterExpression = getFilterGroupExpression(alertConfig, event);
   const tagFilterFormModel = fromBackendModel(filterExpression);
 
   const tagCatalog = useTagCatalog({ ownerType: entityType });
