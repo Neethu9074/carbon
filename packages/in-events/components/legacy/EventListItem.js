@@ -58,7 +58,8 @@ export default connectTo(
       /**
        * The latestSnapshot is present only for entityVerification or HostAvailability event
        */
-      latestSnapshot: irpt.map
+      latestSnapshot: irpt.map,
+      isRCA: rpt.bool
     };
 
     state = {
@@ -68,7 +69,7 @@ export default connectTo(
     render() {
       const triggeringProblemId = this.props.triggeringProblemId;
       const isExpanded = this.state.isExpanded;
-      const background = this.props.background;
+      const background = this.props.isRCA ? '#8257D9' : this.props.background;
       const event = this.props.event;
       const latestSnapshot = this.props.latestSnapshot;
       const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
@@ -107,6 +108,7 @@ export default connectTo(
                 background={background}
                 timeConfig={timeConfigFromEvent}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
+                isRCA={this.props.isRCA}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
               {isExpanded ? (
@@ -141,7 +143,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   );
 }
 
-function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
+function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
   const className = `${block}__heading`;
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
@@ -152,6 +154,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
+            color={isRCA ? '#ffff' : undefined}
           />
         </div>
 

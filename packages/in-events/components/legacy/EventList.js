@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { Button, Card, Message, Stack } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Button, Card } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -25,14 +25,7 @@ import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import 'in-events/components/legacy/EventList.less';
-
-const block = 'in-event-view-incident-event-list';
-
-const rcaEvents = {
-  'P7eIvb_i1AX-iOQ7Z9UQLezDx-Y': ['dSmKQZCbQ5CHfJGycCyu9A', 'sWhc3jGwQ1CIM7Toe6JzBQ', 'Wn9dKYJsRLG1XbMqMQfXpA'],
-  'coI3Ea8t-zHGLNMpFeY-YGTWJDg': ['oErCrEfwSYuf7vf3xhrM9A', 'uLCTOxICQ4GhITvP9x_d6A']
-};
+import locals from 'in-events/components/legacy/EventList.mless';
 
 export default connectTo(
   ({ incident }) => ({
@@ -49,16 +42,21 @@ export default connectTo(
       .throttle(250)
   }),
   function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
-    const [currentRCAEntity, setCurrentRCAEntity] = useState(Object.keys(rcaEvents)[0]);
-    const [observablesList, setObservablesList] = useState(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
+    const rcaEvents = useMemo(() => incident.get('metadata').get('probableRootCause')?.toJS() || {}, [incident]);
+
+    const [currentRCAEntity, setCurrentRCAEntity] = useState(
+      Object.keys(rcaEvents).length > 0 ? Object.keys(rcaEvents)[0] : null
+    );
+    const [observablesList, setObservablesList] = useState(
+      currentRCAEntity ? combineLatest(rcaEvents[currentRCAEntity].map(getEvent)) : null
+    );
 
     const eventTests = useObservable(observablesList, [currentRCAEntity]) ?? [];
 
     useEffect(() => {
-      setObservablesList(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
-    }, [currentRCAEntity]);
+      if (currentRCAEntity) setObservablesList(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
+    }, [currentRCAEntity, rcaEvents]);
 
-    //const [currentRCAEntity, setCurrentRCAEntity] = useState('P7eIvb_i1AX-iOQ7Z9UQLezDx-Y');
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
@@ -80,14 +78,15 @@ export default connectTo(
 
     return (
       <>
-        {eventTests && eventTests.length > 0 && (
+        {eventTests && currentRCAEntity && (
           <ListRow
             title={'Probable Root Cause'}
             events={eventTests}
-            triggeringProblemId={eventTests[0].get('id')}
+            triggeringProblemId={eventTests.length > 0 && eventTests[0].get('id')}
             latestSnapshot={latestSnapshot}
-            regenerateEventEnabled
+            regenerateEventEnabled={currentRCAEntity !== null}
             RegenerateComponentOnClick={RegenerateButtonOnClick}
+            currentSnapshot={currentRCAEntity}
           />
         )}
 
@@ -128,7 +127,8 @@ function ListRow({
   triggeringProblemId,
   latestSnapshot,
   regenerateEventEnabled,
-  RegenerateComponentOnClick
+  RegenerateComponentOnClick,
+  currentSnapshot
 }) {
   return (
     <Row withoutSideMargin>
@@ -136,10 +136,18 @@ function ListRow({
         <Card
           title={title}
           rightHeaderContent={
-            regenerateEventEnabled && <Button onClick={RegenerateComponentOnClick}>{'Regenerate'}</Button>
+            regenerateEventEnabled && (
+              <Stack direction="horizontal" gap="small">
+                <Button size="compact" kind="subtle" onClick={RegenerateComponentOnClick}>
+                  {'Regenerate'}
+                </Button>
+                <Message className={locals.rcaAIMessage} description="AI Generated" bold />
+              </Stack>
+            )
           }
         >
-          <div className={`${block}__timeline`}>
+          {currentSnapshot && <Message description={'Root Cause Entity: ' + currentSnapshot} />}
+          <div className={locals.timeline}>
             {!events && <LoadingIndicator />}
             {events?.map(_event => (
               <EventListItem
@@ -147,6 +155,7 @@ function ListRow({
                 triggeringProblemId={triggeringProblemId}
                 event={_event}
                 latestSnapshot={latestSnapshot}
+                isRCA={regenerateEventEnabled}
               />
             ))}
           </div>
