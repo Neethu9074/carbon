@@ -153,7 +153,7 @@ function FilterGrouping({
       scopePath={
         <>
           <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
-          <AlertQueryBuilder value={groupByExpressionModel} readOnly />
+          {groupByExpressionModel.length > 0 && <AlertQueryBuilder value={groupByExpressionModel} readOnly />}
         </>
       }
     />
