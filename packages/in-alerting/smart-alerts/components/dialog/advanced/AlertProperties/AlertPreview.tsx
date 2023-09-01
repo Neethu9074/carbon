@@ -85,13 +85,13 @@ export function AlertPreview({
   );
 }
 
-function getIconType(severity: number, triggering: false) {
+function getIconType(severity: number, triggering: false): string {
   if (triggering) {
     return 'lib_events_incident';
   }
   return severity <= 5 ? 'lib_events_warning' : 'lib_events_critical';
 }
 
-export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }) {
+export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }): JSX.Element {
   return <h3 className={locals.alertPreviewHeadline}>{title}</h3>;
 }
