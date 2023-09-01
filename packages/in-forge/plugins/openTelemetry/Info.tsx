@@ -14,18 +14,18 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.hostName')}>
-        {data.get('metrics.resource.hostname')}
+        {data.get('resource.hostname')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.remote')}>{data.get('remote')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.pid')}>{data.get('pid')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.containerPid')}>
-        {data.get('metrics.resource.containerPid')}
+        {data.get('containerPid')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.containerId')}>
-        {data.get('metrics.resource.container.id')}
+        {data.get('resource.container.id')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.serviceName')}>
-        {data.get('metrics.resource.service.name')}
+        {data.get('resource.service.name')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.openTelemetry.kind')}>{data.get('kind')}</DescriptionItem>
     </DescriptionList>
