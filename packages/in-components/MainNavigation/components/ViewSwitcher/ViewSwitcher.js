@@ -484,7 +484,7 @@ function Analyze(props) {
           hasMobileAppsAccess &&
             just(
               getLinkToMobileAppAnalyze({
-                beaconType: 'sessions',
+                beaconType: 'sessionStart',
                 groupBy: {}
               })
             ),

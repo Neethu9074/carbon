@@ -52,10 +52,11 @@ export const getCapabilitiesSectionData = ({ area, permissionsSet }: getCapabili
   if (area === ProductArea.ANALYTICS || area === ProductArea.EVENT) {
     const groupConfig = getKubernetesData(permissionsSet);
 
-    // If no access for Websites, Applications, Platforms, Infrastructure
+    // If no access for Websites, Mobile Apps, Applications, Platforms, Infrastructure
     // => display "No access"
     if (
       getScopeFromProductArea(ProductArea.APPLICATION, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
+      getScopeFromProductArea(ProductArea.MOBILE_APP, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
       getScopeFromProductArea(ProductArea.INFRASTRUCTURE, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
       getScopeFromProductArea(ProductArea.WEBSITE, permissionsSet) === ScopedPermissionItem.NO_ACCESS &&
       groupConfig.kubernetesAccess === ScopedPermissionItem.NO_ACCESS &&
