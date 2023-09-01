@@ -13,6 +13,9 @@
   .rcaAIMessage {
     color: @lib__colors__deep-purple800;
     background-color: #e6ddf7; //Above colour tinted to 20% opactiy
-    padding: 0 0.5rem 0.25rem 0.5rem;
+    padding: 0 0.25rem;
+  }
+  .rcaRegenerate {
+    height: fit-content;
   }
 }

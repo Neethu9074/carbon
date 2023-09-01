@@ -20,6 +20,7 @@ import EventListItem from 'in-events/components/legacy/EventListItem';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
+import Pagination from 'in-components/Pagination';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -42,20 +43,31 @@ export default connectTo(
       .throttle(250)
   }),
   function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
-    const rcaEvents = useMemo(() => incident.get('metadata').get('probableRootCause')?.toJS() || {}, [incident]);
+    const rcaEvents = useMemo(() => incident.get('metadata').get('probableRootCause') || new Map(), [incident]); // Holds map of snapshot_ID: [event_id, event_id]
+    const snapshots = Array.from(rcaEvents.keys()); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
 
-    const [currentRCAEntity, setCurrentRCAEntity] = useState(
-      Object.keys(rcaEvents).length > 0 ? Object.keys(rcaEvents)[0] : null
-    );
+    const [currentRCAEntity, setCurrentRCAEntity] = useState(rcaEvents.size > 0 ? snapshots[0] : null); // Selects a given snapshot ID
+    const [pageNum, setPageNum] = useState(1); // Pagination
     const [observablesList, setObservablesList] = useState(
-      currentRCAEntity ? combineLatest(rcaEvents[currentRCAEntity].map(getEvent)) : null
-    );
+      currentRCAEntity ? combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)) : null
+    ); // Gets an array of event Observable requests based on the selected rca entity
 
-    const eventTests = useObservable(observablesList, [currentRCAEntity]) ?? [];
+    const eventTests = useObservable(observablesList, [currentRCAEntity, observablesList]) ?? []; // generates a list of event information based on Observables
 
     useEffect(() => {
-      if (currentRCAEntity) setObservablesList(combineLatest(rcaEvents[currentRCAEntity].map(getEvent)));
+      if (currentRCAEntity) {
+        const rcaEventList = rcaEvents.get(currentRCAEntity);
+        if (rcaEventList.size > 0) {
+          setObservablesList(combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)));
+        } else {
+          setObservablesList(null);
+        }
+      }
     }, [currentRCAEntity, rcaEvents]);
+
+    useEffect(() => {
+      setCurrentRCAEntity(snapshots[pageNum - 1]);
+    }, [pageNum, snapshots]);
 
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
@@ -65,15 +77,8 @@ export default connectTo(
     const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
     const triggerEvent = events.find(isTriggeringEvent);
 
-    // Entity ID : [snapshot_id_1, shapshot_id_2, snapshot_id_3]
-
     const RegenerateButtonOnClick = () => {
-      const rca_keys = Object.keys(rcaEvents);
-      let nextKey = rca_keys.findIndex(snapshotIDs => snapshotIDs === currentRCAEntity) + 1;
-
-      if (nextKey === rca_keys.length) nextKey = 0;
-
-      setCurrentRCAEntity(Object.keys(rcaEvents)[nextKey]);
+      setPageNum(pageNum);
     };
 
     return (
@@ -84,9 +89,11 @@ export default connectTo(
             events={eventTests}
             triggeringProblemId={eventTests.length > 0 && eventTests[0].get('id')}
             latestSnapshot={latestSnapshot}
-            regenerateEventEnabled={currentRCAEntity !== null}
+            isRCA={currentRCAEntity !== null}
             RegenerateComponentOnClick={RegenerateButtonOnClick}
-            currentSnapshot={currentRCAEntity}
+            pageNum={pageNum}
+            totalPages={Array.from(rcaEvents.keys()).length}
+            setPageNum={setPageNum}
           />
         )}
 
@@ -126,9 +133,11 @@ function ListRow({
   events,
   triggeringProblemId,
   latestSnapshot,
-  regenerateEventEnabled,
+  isRCA,
   RegenerateComponentOnClick,
-  currentSnapshot
+  pageNum,
+  totalPages,
+  setPageNum
 }) {
   return (
     <Row withoutSideMargin>
@@ -136,17 +145,13 @@ function ListRow({
         <Card
           title={title}
           rightHeaderContent={
-            regenerateEventEnabled && (
+            isRCA && (
               <Stack direction="horizontal" gap="small">
-                <Button size="compact" kind="subtle" onClick={RegenerateComponentOnClick}>
-                  {'Regenerate'}
-                </Button>
-                <Message className={locals.rcaAIMessage} description="AI Generated" bold />
+                <Message className={locals.rcaAIMessage} title="AI Generated" />
               </Stack>
             )
           }
         >
-          {currentSnapshot && <Message description={'Root Cause Entity: ' + currentSnapshot} />}
           <div className={locals.timeline}>
             {!events && <LoadingIndicator />}
             {events?.map(_event => (
@@ -155,10 +160,25 @@ function ListRow({
                 triggeringProblemId={triggeringProblemId}
                 event={_event}
                 latestSnapshot={latestSnapshot}
-                isRCA={regenerateEventEnabled}
+                isRCA={isRCA}
               />
             ))}
           </div>
+          {isRCA && (
+            <Stack direction="horizontal" gap="normal" distribution="end" align="center">
+              <Pagination currentPage={pageNum} numPages={totalPages} onChange={setPageNum} />
+              <Button
+                icon="lib_actions_sync"
+                size="compact"
+                kind="secondary"
+                onClick={RegenerateComponentOnClick}
+                disabled
+                className={locals.rcaRegenerate}
+              >
+                {'Regenerate'}
+              </Button>
+            </Stack>
+          )}
         </Card>
       </Col>
     </Row>
