@@ -178,6 +178,7 @@ router.get('/', async (req, res) => {
     clientConfig.walkmeUuid = loggedUser;
     res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
+    const licenceType = JSON.parse(getLicenseInfo)?.type === 'selfService';
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -204,7 +205,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        getLicenseInfo
+        licenceType
       })
     );
   } catch (err) {
