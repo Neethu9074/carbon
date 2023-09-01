@@ -6,13 +6,10 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import List from 'in-sdk/components/sidebar/List';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-  const standbyNodes = snapshot.getIn(['data', 'standbyNodes']);
-  const elsewhereNodes = snapshot.getIn(['data', 'elsewhereNodes']);
 
   return (
     <DescriptionList>
@@ -37,24 +34,6 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.maxHandles')}>
         {data.get('maxHandles')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.haType')}>{data.get('haType')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.runningNode')}>
-        {data.get('runningNode')}
-      </DescriptionItem>
-      {standbyNodes && (
-        <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.standbyNodes')}>
-          {standbyNodes.map((item, index) => (
-            <List.Item key={index}>{item}</List.Item>
-          ))}
-        </DescriptionItem>
-      )}
-      {elsewhereNodes && (
-        <DescriptionItem title={t('in-forge:plugins.ibmMqQueueManager.elsewhereNodes')}>
-          {elsewhereNodes.map((item, index) => (
-            <List.Item key={index}>{item}</List.Item>
-          ))}
-        </DescriptionItem>
-      )}
     </DescriptionList>
   );
 }
