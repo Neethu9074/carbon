@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState, useEffect } from 'react';
@@ -11,6 +12,7 @@ import { Link } from '@instana/components';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import ConfigureIdPInfoMessage from 'in-settings/tabs/AuthSettings/pages/indentityProviders/ConfigureIdPInfoMessage';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
@@ -94,6 +96,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
     <>
       <Title title={t('in-settings:tabs.configureSaml')} />
       <SubViewHeader>{t('in-settings:tabs.samlConfiguration')}</SubViewHeader>
+      <ConfigureIdPInfoMessage />
 
       {isAnotherIdpActivated([result.ldapConfig?.base, result.oidcConfig?.activated]) ? (
         <h2>{t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive')}</h2>

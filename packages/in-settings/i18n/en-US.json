@@ -597,6 +597,8 @@
     "downloadTheConfigurationMetadataViaTheLinkAbove": "Download the Configuration Metadata via the link above.",
     "uploadTheInstanaMetadataFileToYourIdP": "Upload the Instana metadata file to your IdP.",
     "downloadTheIdPMetadataIssuedFromYourIdP": "Download the IdP-metadata issued from your IdP.",
+    "configureIdPCanBeDeletedThroughAPI": "Identity provider configuration can be deleted through API using a token with enough permissions. See <supportLink>{{authenticationDocLink}}</supportLink> for details.",
+    "configuringAuthenticationLink": "configuring authentication",
     "manualSetup": "Manual setup",
     "acsUrl": "ACS URL",
     "logoutUrl": "Logout URL",

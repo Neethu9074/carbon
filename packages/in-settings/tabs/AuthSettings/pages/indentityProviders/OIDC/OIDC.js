@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { createField } from 'formalistic';
 import { Button } from '@instana/components';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import ConfigureIdPInfoMessage from 'in-settings/tabs/AuthSettings/pages/indentityProviders/ConfigureIdPInfoMessage';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -57,7 +59,7 @@ export default function OIDC() {
         if (file) {
           const reader = new FileReader();
           reader.readAsText(file, 'UTF-8');
-          reader.onload = function(evt) {
+          reader.onload = function (evt) {
             if (evt.target.result.length > 2000000) {
               setMessage({
                 text: t('in-settings:tabs.failedToSaveConfig', {
@@ -332,6 +334,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
     <>
       <Title title={t('in-settings:tabs.configureOpenIDConnect')} />
       <SubViewHeader>{t('in-settings:tabs.oidcConfiguration')}</SubViewHeader>
+      <ConfigureIdPInfoMessage />
       {isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated])
         ? cantBeActivated
         : result?.config.activated
