@@ -29,7 +29,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions }
       form.updateIn([sortingFieldName], (field: Field<Order>) =>
         field
           .setValue({
-            ...defaultOrder,
+            direction: event.target.value === 'label' ? 'ASC' : 'DESC',
             by: event.target.value
           })
           .setTouched(true)
