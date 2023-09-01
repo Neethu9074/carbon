@@ -27,6 +27,7 @@ export default function MetricConfigurator({
   axisName,
   withGrouping = true,
   withFiltering = true,
+  isTypePrefilled = false,
   withAggregationInMetrics = true,
   withLabelConfiguration,
   withPotentialProblemsConfiguration,
@@ -114,6 +115,7 @@ export default function MetricConfigurator({
         withGrouping={withGrouping}
         withAggregationInMetrics={withAggregationInMetrics}
         withFiltering={withFiltering}
+        isTypePrefilled={isTypePrefilled}
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
         dataSourceSection={dataSource ? undefined : dataSourceSection}
