@@ -86,7 +86,7 @@ export default connectTo(
 
     return (
       <>
-        {eventTests && currentRCAEntity && (
+        {eventTests && currentRCAEntity && rcaUIEnabled && (
           <ListRow
             title={'Probable Root Cause'}
             events={eventTests}
