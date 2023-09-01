@@ -9,7 +9,7 @@ import { InfraAlertConfigWithMetadata, TimeConfig } from '@instana/types';
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getFormatterId } from 'in-stores/metric/formatters';
@@ -87,17 +87,12 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
 }
 
 export function getFilterGroupExpression(alertConfig: InfraAlertConfigWithMetadata, event: EventOrMap) {
-  const filterExpression = deepCopy(alertConfig.tagFilterExpression);
+  const filterExpression = deepCopy(alertConfig.tagFilterExpression) as TagFilterExpression;
   const groupingTags = event.getIn(['metadata', 'groupingTags'], []);
 
-  groupingTags?.forEach((tagValue: string, tagKey: string) => {
-    (filterExpression as TagFilterExpression).elements.push({
-      name: tagKey,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER',
-      operator: EQUALS,
-      value: tagValue
-    });
+  groupingTags?.map((tagValue: string, tagKey: string) => {
+    const groupExpression = tagFilter(tagKey, EQUALS, tagValue);
+    filterExpression.elements.push(groupExpression);
   });
 
   return filterExpression;
