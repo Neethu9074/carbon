@@ -376,6 +376,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCustomDashboardEnabled',
+    instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
