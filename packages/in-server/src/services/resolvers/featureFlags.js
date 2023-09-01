@@ -419,5 +419,10 @@ module.exports = exports = [
     uiClientKey: 'infraSmartAlertsDetailsPageEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.details.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'rcaUIEnabled',
+    instanaCtlKey: 'feature.rca.ui.enabled',
+    defaultValue: false
   }
 ];
