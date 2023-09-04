@@ -84,10 +84,11 @@ function TableConfig(props: TableConfigProps) {
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
   const orderByColumn = config?.columns?.length ? getOrderByColumn(config?.columns) : orderByConfig.started;
 
-  const [sorting, setSorting] = useState({
-    orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
-    orderDirection: 'DESC'
-  });
+  const [sorting, setSorting] = useState(setListSorting(orderByColumn));
+
+  useEffect(() => {
+    setSorting(setListSorting(orderByColumn));
+  }, [orderByColumn]);
 
   const tableProps = useCursorPagination(
     ({ cursor }) =>
@@ -233,4 +234,11 @@ function getOrderByColumn(columns: string[]) {
     return orderByConfig.started;
   }
   return columns[0];
+}
+
+function setListSorting(orderByColumn: string) {
+  return {
+    orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
+    orderDirection: 'DESC'
+  };
 }
