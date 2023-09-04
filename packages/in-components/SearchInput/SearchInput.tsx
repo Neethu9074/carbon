@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './SearchInput.mless';
 
-const { isReturn, isArrowDown } = keyCodes;
+const { isReturn, isArrowDown, isArrowRight, isArrowUp, isArrowLeft } = keyCodes;
 
 export interface SearchInputProps {
   className?: string;
@@ -31,7 +31,10 @@ export interface SearchInputProps {
   onFocus?: () => void;
   onBlur?: () => void;
   withoutIcon?: boolean;
+  onArrowUp?: (e: React.KeyboardEvent) => void;
   onArrowDown?: (e: React.KeyboardEvent) => void;
+  onArrowRight?: (e: React.KeyboardEvent) => void;
+  onArrowLeft?: (e: React.KeyboardEvent) => void;
   id?: string;
   name?: string;
   inputRef?: React.MutableRefObject<HTMLInputElement>;
@@ -52,7 +55,10 @@ export default function SearchInput({
   onFocus,
   onBlur,
   withoutIcon = false,
+  onArrowUp,
   onArrowDown,
+  onArrowRight,
+  onArrowLeft,
   id,
   name,
   inputRef
@@ -95,9 +101,25 @@ export default function SearchInput({
           if (onReturn && isReturn(e)) {
             onReturn(e);
           }
+
+          if (onArrowUp && isArrowUp(e)) {
+            stopPropagationAndPreventDefault(e);
+            onArrowUp(e);
+          }
+
           if (onArrowDown && isArrowDown(e)) {
             stopPropagationAndPreventDefault(e);
             onArrowDown(e);
+          }
+
+          if (onArrowRight && isArrowRight(e)) {
+            stopPropagationAndPreventDefault(e);
+            onArrowRight(e);
+          }
+
+          if (onArrowLeft && isArrowLeft(e)) {
+            stopPropagationAndPreventDefault(e);
+            onArrowLeft(e);
           }
         }}
         onFocus={() => {
