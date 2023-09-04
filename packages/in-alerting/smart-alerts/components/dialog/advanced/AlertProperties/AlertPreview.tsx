@@ -3,13 +3,25 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { ReactNode } from 'react';
+import { MapForm } from 'formalistic';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { HighlightedPlaceholders } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview.mless';
+
+interface AlertPreviewProps {
+  form: MapForm<any>;
+  renderHeadline: () => ReactNode;
+  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  entityLabel?: string;
+  entityIconType: string;
+  entityLabel2?: string;
+  entityIconType2?: string;
+}
 
 export function AlertPreview({
   form,
@@ -19,7 +31,7 @@ export function AlertPreview({
   entityIconType,
   entityLabel2,
   entityIconType2
-}) {
+}: AlertPreviewProps) {
   const description = form.get('description')?.value;
   const severity = Number(form.get('severity')?.value);
   const triggering = form.get('triggering')?.value;
@@ -62,7 +74,7 @@ export function AlertPreview({
               })}
             >
               <SvgIcon className={locals.filterIcon} size="s" type="lib_arrow_expand_right" />
-              <SvgIcon className={locals.filterIcon} size="s" type={entityIconType2} />
+              {entityIconType2 && <SvgIcon className={locals.filterIcon} size="s" type={entityIconType2} />}
               {entityLabel2}
             </span>
           )}
@@ -73,23 +85,13 @@ export function AlertPreview({
   );
 }
 
-function getIconType(severity, triggering) {
+function getIconType(severity: number, triggering: false): string {
   if (triggering) {
     return 'lib_events_incident';
   }
   return severity <= 5 ? 'lib_events_warning' : 'lib_events_critical';
 }
 
-export function AlertPreviewHeadline({ title }) {
+export function AlertPreviewHeadline({ title }: { title: string | HighlightedPlaceholders }): JSX.Element {
   return <h3 className={locals.alertPreviewHeadline}>{title}</h3>;
 }
-
-AlertPreview.propTypes = {
-  form: PropTypes.object.isRequired,
-  renderHeadline: PropTypes.func.isRequired,
-  getDescriptionPlaceholder: PropTypes.func.isRequired,
-  entityIconType: PropTypes.string.isRequired,
-  entityLabel: PropTypes.string,
-  entityIconType2: PropTypes.string,
-  entityLabel2: PropTypes.string
-};

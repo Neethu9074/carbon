@@ -11,7 +11,7 @@ import { Toggle } from '@instana/components';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
 
-export default function TriggersIncidentRow({ form, trackTriggerChanged, onChange }) {
+export default function TriggersIncidentRow({ form, onChange }) {
   if (form.get('triggering')) {
     return (
       <AlertSection
@@ -22,7 +22,6 @@ export default function TriggersIncidentRow({ form, trackTriggerChanged, onChang
           checked={Boolean(form.get('triggering')?.value)}
           onChange={e => {
             onChange(['triggering'], field => field.setValue(e.target.checked || false).setTouched(true));
-            trackTriggerChanged?.();
           }}
         />
       </AlertSection>
@@ -33,6 +32,5 @@ export default function TriggersIncidentRow({ form, trackTriggerChanged, onChang
 
 TriggersIncidentRow.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  trackTriggerChanged: PropTypes.func
+  onChange: PropTypes.func.isRequired
 };
