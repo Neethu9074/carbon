@@ -184,7 +184,7 @@ function getRowDetails(row: any) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['svcBrokers.' + row.key + `.errors`],
+            metrics: [`errors`],
             labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.errors')],
             type: 'line',
             formatter: number.detailed
@@ -194,13 +194,13 @@ function getRowDetails(row: any) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['svcBrokers.' + row.key + `.rsfu`],
+            metrics: [`rsfu`],
             labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.rsfu')],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
-            metrics: ['svcBrokers.' + row.key + `.rqfu`],
+            metrics: [`rqfu`],
             labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.rqfu')],
             type: 'line',
             formatter: number.compact
