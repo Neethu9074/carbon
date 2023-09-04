@@ -7,7 +7,7 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
+import { positiveNumber } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -17,11 +17,23 @@ import locals from './RawTableFormat.mless';
 
 const cols = [
   {
-    title: t('in-forge:plugins.db2Database.tabName'),
+    title: t('in-forge:plugins.db2Database.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('TABNAME');
+        return row.backupDetail.get('TYPE');
+      },
+      getContent(args) {
+         return <Args args={shorten(args, 128)} />;
+       }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.startTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.backupDetail.get('START_TIME');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -29,11 +41,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.schema'),
+    title: t('in-forge:plugins.db2Database.endTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('SCHEMA');
+        return row.backupDetail.get('END_TIME');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -41,50 +53,15 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.statsTime'),
+    title: t('in-forge:plugins.db2Database.backupDuration'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('STATS_TIME');
+        return row.backupDetail.get('DUR_TOTAL');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
       }
-    }
-  },
-
-  {
-    title: t('in-forge:plugins.db2Database.volatile'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('VOLATILE');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.compression'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('COMPRESSION');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.card'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('CARD');
-      },
-      getContent: number.compact
     }
   }
 ];
@@ -92,23 +69,23 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'syscatTables')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'backupDetails')
     };
   },
-  function SysCatTable({ snapshot, data }) {
+  function BackupDetailsTable({ data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
 
-    const topQueries = data.get('raw_payload');
-    if (topQueries.size === 0) {
+    const backupDetails = data.get('raw_payload');
+    if (backupDetails.size === 0) {
       return null;
     }
 
-    const rows = topQueries.toArray().map((topQuery, idx) => {
+    const rows = backupDetails.toArray().map((backupDetail, idx) => {
       return {
         key: String(idx),
-        topQuery
+        backupDetail
       };
     });
 
@@ -117,23 +94,20 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={
-              t('in-forge:plugins.db2Database.dashboard.sysCatTables') +
-              '( ' +
-              snapshot.get('data').get('tabschema') +
-              ' )'
-            }
+            title={t('in-forge:plugins.db2Database.dashboard.backupDetails')}
             timestamp={data.get('timestamp')}
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={2}
-        initialSortDirection="asc"
+        initialSortColumn={0}
+        initialSortDirection="desc"
       />
     );
   }
 );
+
+
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;

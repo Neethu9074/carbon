@@ -6008,7 +6008,8 @@
         "vmonlockStatsValue": "Lock Statistics (Memory)",
         "vmonlockStats": "Lock Statistics",
         "databaseVmondeltaStats": "Transaction Performance (Incremental Value)",
-        "standbyId": "Standby ID"
+        "standbyId": "Standby ID",
+        "backupDetails": "Incremental Backup"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6151,6 +6152,7 @@
       "reorg": "REORG",
       "tablesizes": "Table Sizes",
       "tableName": "Table Name",
+      "schema": "Schema",
       "cardTab": "Card",
       "tabSizeKB": "Table Size KB",
       "tabSizeMB": "Table Size MB",
@@ -6226,7 +6228,11 @@
       "troubleshootingDocs": "Troubleshooting docs",
       "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format.",
       "autoResize": "Auto Resize",
-      "hadrLogGap": "HADR Log Gap"
+      "hadrLogGap": "HADR Log Gap",
+      "type": "Backup type",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "backupDuration": "Backup duration"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
