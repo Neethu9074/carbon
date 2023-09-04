@@ -12,21 +12,15 @@ import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
-import {
-  CLOSE_BRACKET,
-  FormModelElement,
-  OPEN_BRACKET,
-  fromBackendModel
-} from 'in-components/QueryBuilder/transformation/formModel';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import { InfraGrouping } from 'in-alerting/smart-alerts/infrastructure/components/InfraGrouping';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
-import { InfraAlertConfigWithMetadata, TagCatalog, TimeConfig } from 'in-types';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -34,9 +28,11 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import PluginIcon from 'in-components/PluginIcon';
@@ -52,6 +48,7 @@ interface Props {
 export default function InfraEventContent({ event }: Props) {
   const alertConfig = useInfraEventAlertConfig(event);
   const entityType = alertConfig?.rule?.entityType ?? 'all';
+  const tagCatalog = useTagCatalog({ ownerType: entityType });
 
   if (!alertConfig) {
     return null;
@@ -60,6 +57,18 @@ export default function InfraEventContent({ event }: Props) {
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const entityName = event.getIn(['metadata', 'entityName'], '');
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
+  const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
+
+  const tagFilterExpression = alertConfig.tagFilterExpression;
+  const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const alertConfigWithGroupingExpression = {
+    ...alertConfig,
+    tagFilterExpression: {
+      ...getFilterGroupExpression(deepCopy(tagFilterExpression) as TagFilterExpression, groupingTags)
+    }
+  };
 
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
@@ -84,7 +93,7 @@ export default function InfraEventContent({ event }: Props) {
             {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>
                 <AnalyzeInfraEventButton
-                  alertConfig={alertConfig}
+                  alertConfig={alertConfigWithGroupingExpression}
                   timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
                 />
               </DescriptionButtons>
@@ -95,7 +104,7 @@ export default function InfraEventContent({ event }: Props) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={timeConfig} event={event} />
+          <InfraAlertChartWrapper alertConfig={alertConfigWithGroupingExpression} timeConfig={timeConfig} />
         </Col>
       </Row>
 
@@ -103,11 +112,16 @@ export default function InfraEventContent({ event }: Props) {
         <Col xs>
           <Card title={t('in-events:titleScope')}>
             <div className={locals.alertFiltersWrapper}>
-              <FilterGrouping
-                alertConfig={alertConfig}
-                entityLabel={entityLabel}
-                entityType={entityType}
-                event={event}
+              <ScopeConfigPresenter
+                tagFilterFormModel={tagFilterFormModel}
+                //@ts-expect-error type error for querybuilder
+                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                scopePath={
+                  <>
+                    <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
+                    <InfraGrouping AlertQueryBuilder={AlertQueryBuilder} groupingTags={groupingTags} />
+                  </>
+                }
               />
             </div>
           </Card>
@@ -117,57 +131,21 @@ export default function InfraEventContent({ event }: Props) {
   );
 }
 
-function FilterGrouping({
-  alertConfig,
-  entityLabel,
-  entityType,
-  event
-}: {
-  alertConfig: InfraAlertConfigWithMetadata;
-  entityLabel: string;
-  entityType: string;
-  event: EventOrMap;
-}) {
-  const tagFilterExpression = alertConfig.tagFilterExpression;
-  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
-
-  const tagCatalog = useTagCatalog({ ownerType: entityType });
-  const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
-
-  // get the groupingTags info from the events, and create a TagFilter expression to generate QB
-  const groupingTags = event.getIn(['metadata', 'groupingTags'], []);
-  const groupByExpression = deepCopy(EMPTY_EXPRESSION);
-
-  groupingTags?.map((tagValue: string, tagKey: string) => {
-    const groups = tagFilter(tagKey, EQUALS, tagValue);
-    groupByExpression.elements.push(groups);
-  });
-
-  const groupByExpressionModel = removeOpenCloseBrackets(fromBackendModel(groupByExpression));
-
-  return (
-    <ScopeConfigPresenter
-      tagFilterFormModel={tagFilterFormModel}
-      //@ts-expect-error type error for querybuilder
-      queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-      scopePath={
-        <>
-          <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
-          {groupByExpressionModel.length > 0 && <AlertQueryBuilder value={groupByExpressionModel} readOnly />}
-        </>
-      }
-    />
-  );
+export interface groupExpressionProps {
+  [key: string]: string;
 }
 
-// If there is only one element for the groupby after passing it to the fromBackendModel function, OPEN_BRACKET and CLOSE_BRACKET are added to the grouping, so this function removes those brackets.
-
-function removeOpenCloseBrackets(groupByExpression: FormModelElement[]): FormModelElement[] {
-  const expression: FormModelElement[] = [];
-  groupByExpression.map((element: FormModelElement) => {
-    if (element.type != OPEN_BRACKET && element.type != CLOSE_BRACKET) {
-      expression.push(element);
-    }
+export function getFilterGroupExpression(
+  tagFilterExpression: TagFilterExpression,
+  groupingTags: groupExpressionProps[]
+) {
+  const groupingKeys = Object.keys(groupingTags);
+  if (!groupingKeys.length) {
+    return tagFilterExpression;
+  }
+  groupingKeys.map(key => {
+    const groupExpression = tagFilter(key, EQUALS, groupingTags[key as keyof typeof groupingTags]);
+    tagFilterExpression.elements.push(groupExpression);
   });
-  return expression;
+  return tagFilterExpression;
 }
