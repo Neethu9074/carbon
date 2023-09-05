@@ -100,7 +100,7 @@ export default connectTo(
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={0}
+        initialSortColumn={1}
         initialSortDirection="desc"
       />
     );
