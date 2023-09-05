@@ -6,23 +6,35 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs TS migration
+import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-let snapshotMap = {};
+interface LatencyRow {
+  key: string;
+  snapshotId: string;
+  latency: Map<string, number>;
+}
+
+interface KongLatencyProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
+}
 
 const cols = [
   {
     title: t('in-forge:plugins.kongApigateway.service'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
-        return row.bandWidth.get('service');
+      getValue(row: LatencyRow) {
+        return row.latency.get('service');
       }
     }
   },
@@ -30,8 +42,8 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.route'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
-        return row.bandWidth.get('route');
+      getValue(row: LatencyRow) {
+        return row.latency.get('route');
       }
     }
   },
@@ -39,8 +51,8 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.consumer'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
-        return row.bandWidth.get('consumer');
+      getValue(row: LatencyRow) {
+        return row.latency.get('consumer');
       }
     }
   },
@@ -48,8 +60,8 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.ingressBytes'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
-        return row.bandWidth.get('ingressBytes');
+      getValue(row: LatencyRow) {
+        return row.latency.get('ingressBytes');
       },
       getContent: bytes.compact
     }
@@ -58,74 +70,65 @@ const cols = [
     title: t('in-forge:plugins.kongApigateway.egressBytes'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
-        return row.bandWidth.get('egressBytes');
+      getValue(row: LatencyRow) {
+        return row.latency.get('egressBytes');
       },
       getContent: bytes.compact
     }
   }
 ];
 
-export default connectTo(
-  props => {
-    snapshotMap = props;
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'kongBandwidthBytes')
-    };
-  },
-  function BandWidth({ data }) {
-    if (!data) {
-      return null;
-    }
-    const { snapshotId, timeConfig } = snapshotMap;
-    const kongBandwidthBytes = data.get('raw_payload');
-    const rows = kongBandwidthBytes
-      .keySeq()
-      .toArray()
-      .map(key => {
-        const bandWidth = kongBandwidthBytes.get(key);
-        return {
-          key: String(key),
-          snapshotId,
-          timeConfig,
-          bandWidth
-        };
-      });
-    if (rows.length === 0) {
-      return null;
-    }
-    const getDetails = row => {
-      if (!snapshotMap?.timeConfig) {
-        return;
-      }
-      return (
-        <div>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'kongBandwidthBytes.' + row.key + '.ingressBytes',
-                'kongBandwidthBytes.' + row.key + '.egressBytes'
-              ],
-              labels: [t('in-forge:plugins.kongApigateway.ingress'), t('in-forge:plugins.kongApigateway.egress')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-      );
-    };
+const BandWidth = function KongKongLatency({ snapshotId, timeConfig }: KongLatencyProps) {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'kongBandwidthBytes'), [snapshotId]);
+
+  if (!data) {
+    return null;
+  }
+
+  const kongBandwidthBytes = (data as SnapshotData).get('raw_payload');
+  const rows: LatencyRow[] = kongBandwidthBytes
+    .keySeq()
+    .toArray()
+    .map((key: string) => {
+      const latency = kongBandwidthBytes.get(key);
+      return {
+        key,
+        snapshotId,
+        timeConfig,
+        latency
+      };
+    });
+
+  if (rows.length === 0) {
+    return null;
+  }
+  function getDetails(row: LatencyRow) {
     return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
+      <div>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: timeByMillisZeroDecimalPlaces,
+            metrics: [`kongBandwidthBytes.${row.key}.ingressBytes`, `kongBandwidthBytes.${row.key}.egressBytes`],
+            labels: [t('in-forge:plugins.kongApigateway.ingress'), t('in-forge:plugins.kongApigateway.egress')],
+            type: 'line'
+          }}
+        />
+      </div>
     );
   }
-);
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.kongApigateway.kongBandwidth')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
+};
+
+export default BandWidth;

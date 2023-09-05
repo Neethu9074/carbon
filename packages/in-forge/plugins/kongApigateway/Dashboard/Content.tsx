@@ -25,6 +25,7 @@ import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongL
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
+import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
@@ -111,6 +112,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
       <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
