@@ -8,7 +8,7 @@ import React from 'react';
 
 import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
@@ -228,7 +228,7 @@ function Context(props: ContextProps) {
         ) : (
           <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
         )}
-        <Link href$={props.headerHref$} onClick={props.onHeaderClick}>
+        <Link href={props.headerHref$} onClick={props.onHeaderClick}>
           <span className={locals.headerLink}>{renderContext(props)}</span>
         </Link>
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
