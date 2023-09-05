@@ -5,9 +5,8 @@
 
 // @ts-expect-error will migrate in future commit
 import ConnectionsServiceLocator from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsServiceLocator';
-// @ts-expect-error will migrate in future commit
-import NodesServiceLocator from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/NodesServiceLocator';
 import EventBusServiceLocator from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusServiceLocator';
+import NodesServiceLocator from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/NodesServiceLocator';
 import SceneServiceLocator from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/SceneServiceLocator';
 
 const locatorMap = new Map();

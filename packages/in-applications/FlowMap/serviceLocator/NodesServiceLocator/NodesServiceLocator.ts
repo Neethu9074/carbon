@@ -3,28 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-// there is no null service needed, so always use the default implementation
+import {
+  ServiceNullService,
+  Node,
+  NodesCollection
+} from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
 import createNullService from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/NodesService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 
-export default class NodeServiceLocator extends BaseServiceLocator {
+export default class NodeServiceLocator extends BaseServiceLocator<ServiceNullService> {
   constructor() {
     super(createNullService);
   }
 
-  addNode(id, node) {
-    return this.service.addNode(id, node);
+  addNode(id: string, node: Node): void {
+    this.service.addNode(id, node);
   }
 
-  getNodes() {
+  getNodes(): NodesCollection {
     return this.service.getNodes();
   }
 
-  getNode(id) {
+  getNode(id: string): Node | undefined {
     return this.service.getNode(id);
   }
 
-  removeNode(id) {
-    return this.service.removeNode(id);
+  removeNode(id: string): void {
+    this.service.removeNode(id);
   }
 }

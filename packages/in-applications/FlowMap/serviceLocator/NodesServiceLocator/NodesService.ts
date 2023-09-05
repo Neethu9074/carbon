@@ -5,7 +5,7 @@
 
 // @ts-expect-error will migrate in future commit
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import { Node } from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
+import { Node, NodesCollection } from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
 
 export default function createNodesService() {
   const nodes = createCollection();
@@ -17,11 +17,11 @@ export default function createNodesService() {
     nodes.remove(id);
   }
 
-  function getNodes() {
+  function getNodes(): NodesCollection {
     return nodes;
   }
 
-  function getNode(id: string) {
+  function getNode(id: string): Node {
     return nodes.objects.get(id);
   }
 
