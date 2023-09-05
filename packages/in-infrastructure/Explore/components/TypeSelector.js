@@ -21,12 +21,12 @@ import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/back
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getIconType } from '../../infrastructureIconType';
 import SearchInput from 'in-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
