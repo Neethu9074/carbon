@@ -29,6 +29,18 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.db2Database.schema'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('SCHEMA');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.db2Database.cardTab'),
     type: 'number',
     typeArgs: {
