@@ -189,6 +189,10 @@
     "feedbackSuccessMessage": "Thank you for your feedback!",
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
-    "hostsLimit": "Hosts Limit"
+    "hostsLimit": "Hosts Limit",
+    "user": "User",
+    "policy": "Policy",
+    "apiToken": "API Token",
+    "actor": "Actor"
   }
 }

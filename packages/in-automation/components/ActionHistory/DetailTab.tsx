@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ActionInstanceMetadataEntry } from '@instana/types';
+import { ActionInstanceMetadataEntry, ActorType } from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
 import { Li, Link, Ul } from '@instana/components';
 import { SvgIcon } from '@instana/components';
@@ -45,6 +45,8 @@ interface ActionInstanceProperty {
   targetSnapshotId: string;
   type: string;
   metadata: ActionInstanceMetadataEntry[];
+  actorType?: ActorType;
+  actorName?: string;
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
   const { createHref, location } = useNavigation();
@@ -69,7 +71,9 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     targetSnapshotId,
     endDate,
     metadata,
-    type
+    type,
+    actorType,
+    actorName
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -86,6 +90,8 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
+    { label: t('in-automation:actionHistory.actor'), value: getActorType(actorType), showCondition: actorType },
+    { label: t('in-automation:actionHistory.name'), value: actorName, showCondition: actorName },
     {
       label: t('in-automation:actionHistory.eventId'),
       value: eventId,
@@ -193,4 +199,19 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       </tbody>
     </table>
   );
+}
+
+function getActorType(actorType?: ActorType) {
+  switch (actorType) {
+    case 'ACTOR_UNKNOWN':
+      return t('in-automation:actionHistory.unknown');
+    case 'USER':
+      return t('in-automation:actionHistory.user');
+    case 'APITOKEN':
+      return t('in-automation:actionHistory.apiToken');
+    case 'POLICY':
+      return t('in-automation:actionHistory.policy');
+    default:
+      return null;
+  }
 }
