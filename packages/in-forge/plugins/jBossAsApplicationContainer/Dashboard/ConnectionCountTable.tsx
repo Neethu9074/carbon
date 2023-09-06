@@ -26,6 +26,38 @@ const cols = [
         return row.key;
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'metrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'metrics.workerThreadMetrics.' + row.key + '.workerQueueSize';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
