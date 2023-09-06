@@ -33,6 +33,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import HadrTakeOverInfo from './HadrTakeOverInfo';
+import BackupDetailsTable from './BackupDetailsTable'
 import { t } from 'in-i18n';
 
 export default function Db2Dashboard({ snapshot, timeConfig }) {
@@ -96,6 +97,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <BackupDetailsTable snapshotId={snapshotId}/>
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (

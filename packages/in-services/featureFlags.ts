@@ -98,6 +98,9 @@ export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystor
 // Synthetic RBAC feature flag
 export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled');
 
+// Synthetic Custom Dashboard feature flag
+export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCustomDashboardEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(

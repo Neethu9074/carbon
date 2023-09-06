@@ -211,6 +211,11 @@
         "websitesBeacons": "Websites (Beacons)"
       }
     },
+    "srcSyntheticMonitoring": {
+      "index": {
+        "syntheticMonitoring": "Synthetic Monitoring"
+      }
+    },
     "metricConfigurator": {
       "ds": "Data Source",
       "pleaseSelect": "Please select",

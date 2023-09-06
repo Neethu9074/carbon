@@ -8,7 +8,7 @@ import React from 'react';
 import { percentage, bytes, kiloBytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { isWindows } from 'in-forge/plugins/host/hostUtils';
+import { isLinux, isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -114,9 +114,30 @@ const iNodeUsageColumn = {
   }
 };
 
+const totalUtilizationColumn = {
+  title: t('in-forge:plugins.host.dashboard.totalUtilization'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `fs.${row.key}.totalUtilization`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    },
+    getFallbackContent() {
+      return 'N/A';
+    }
+  }
+};
+
 export default function FilesystemsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const windows = isWindows(snapshot);
+  const linux = isLinux(snapshot);
   const rows = snapshot
     .getIn(['data', 'filesystems'], emptyMap)
     .map((filesystem, name) => {
@@ -126,7 +147,8 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
         timeConfig,
         snapshotId,
         snapshot,
-        windows
+        windows,
+        linux
       };
     })
     .valueSeq()
@@ -141,6 +163,10 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
   if (!windows) {
     cols.splice(1, 0, mountColumn);
     cols.push(iNodeUsageColumn);
+  }
+
+  if (linux) {
+    cols.push(totalUtilizationColumn);
   }
 
   return (
@@ -231,6 +257,31 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
+      {row.linux && (
+        <Columize>
+          <Chart
+            snapshotId={row.snapshotId}
+            timeConfig={row.timeConfig}
+            y1={{
+              metrics: [
+                'fs.' + row.key + '.totalUtilization',
+                'fs.' + row.key + '.readUtilization',
+                'fs.' + row.key + '.writeUtilization'
+              ],
+              labels: [
+                t('in-forge:plugins.host.dashboard.totalUtilization'),
+                t('in-forge:plugins.host.dashboard.readUtilization'),
+                t('in-forge:plugins.host.dashboard.writeUtilization')
+              ],
+              type: 'line',
+              min: 0,
+              formatter: percentage,
+              tooltipFormatter: percentage.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </Columize>
+      )}
     </>
   );
 }

@@ -26,17 +26,18 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
 
   const migrationResult =
     useObservable(() => isMigrating && widgets[widget.type].migrate(widget.config), [widget]) ?? pendingResult;
+
   useEffect(() => {
     if (migrationResult?.data && state.isMigrating) {
       const form = getInitialFormState({
         ...widget,
         config: migrationResult.data
       });
-      setState({
-        ...state,
+      setState(prevState => ({
+        ...prevState,
         form,
         isMigrating: false
-      });
+      }));
     }
   }, [state, migrationResult, widget]);
 
@@ -90,35 +91,37 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
   );
 
   function setShowWidgetSelector(showWidgetSelector) {
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       showWidgetSelector
-    });
+    }));
   }
 
   function handleCancelAndResetFormDirtyState() {
-    const form = state.form.setTouched(false, { recurse: true });
-    const showWidgetSelector = true;
+    setState(prevState => {
+      const form = prevState.form.setTouched(false, { recurse: true });
+      const showWidgetSelector = true;
 
-    setState({
-      ...state,
-      form,
-      showWidgetSelector
+      return {
+        ...prevState,
+        form,
+        showWidgetSelector
+      };
     });
   }
 
   function setForm(form) {
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       form
-    });
+    }));
   }
 
   function setSlideInView(slideInView) {
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       slideInView
-    });
+    }));
   }
 }
 

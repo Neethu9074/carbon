@@ -4,8 +4,8 @@
  */
 
 import React, { useCallback, useMemo, useState, useRef } from 'react';
-import { isEmpty, isEqual } from 'lodash';
 import classNames from 'classnames';
+import { isEqual } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -20,8 +20,8 @@ import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infras
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
-import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
@@ -134,18 +134,11 @@ function getType(type) {
   if (type === allTypes) {
     return allInfrastructureType;
   }
-  const snapshotDefinition = getOptionalSnapshotDefinition(type);
-  return snapshotDefinition && !isEmpty(snapshotDefinition)
-    ? {
-        plugin: type,
-        icon: `lib_infra_${type}`,
-        name: getPluginName(type, 2)
-      }
-    : {
-        plugin: type,
-        icon: `lib_infra_unknownIcon`,
-        name: type
-      };
+  return {
+    plugin: type,
+    icon: getIconType(type),
+    name: getPluginName(type, 2)
+  };
 }
 
 function updatedGroup(group, type) {

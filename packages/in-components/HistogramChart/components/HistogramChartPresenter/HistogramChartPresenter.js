@@ -195,7 +195,7 @@ export default function HistogramChartPresenter({
             buckets={buckets}
             config={chartConfig.config}
             bucketWidth={bucketWidth}
-            maxCallCount={maxCallCount}
+            maxValue={maxCallCount}
             height={chartHeight - percentileStripHeight - 1}
             style={{ bottom: 0 }}
           />

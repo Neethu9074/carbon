@@ -13,8 +13,6 @@ import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 //@ts-expect-error needs TS migration
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
-//@ts-expect-error needs TS migration
-import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 //@ts-expect-error
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -36,6 +34,7 @@ import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/com
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
@@ -209,7 +208,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                   form={form}
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  getPreviewTitlePlaceholder={getTitlePlaceholder}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}

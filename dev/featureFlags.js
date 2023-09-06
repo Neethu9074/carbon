@@ -85,5 +85,6 @@ module.exports = {
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
-  tagCatalogSmallQueryWindowEnabled: true
+  tagCatalogSmallQueryWindowEnabled: true,
+  syntheticCustomDashboardEnabled: true
 };

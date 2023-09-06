@@ -5,11 +5,10 @@
 :local {
   .inSnapshotLink {
     cursor: pointer;
-    color: #4a90e2;
     text-decoration: underline;
 
     &:hover {
-      color: #1e66b8;
+      color: #1e66b8 !important; //This is an unsual color, only used here for hovering. Need to update this.
     }
   }
 }

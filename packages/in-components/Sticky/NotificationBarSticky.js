@@ -17,7 +17,6 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
-import IconButton from 'in-components/IconButton/IconButton';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
@@ -68,9 +67,9 @@ function Content({ message }) {
           </Typography>
           <div className={locals.rightContent}>
             <span className={locals.description}>{message.content}</span>
+            <Spacer horizontal="small" />
             {message.activeLicense == 'selfService' && (
               <>
-                <Spacer horizontal="small" />
                 <IconForRemainingDays remainingDays={message.remainingDays} />
                 <Spacer horizontal="small" />
               </>
@@ -127,7 +126,10 @@ function Content({ message }) {
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
                 {message.activeLicense == 'selfService' && (
-                  <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" />
+                  <>
+                    {/* Space dedicated for walkme guided tour button  */}
+                    <div className={locals.walkmeButton} />
+                  </>
                 )}
               </>
             )}
@@ -137,7 +139,7 @@ function Content({ message }) {
     />
   );
 }
-const IconForRemainingDays = remainingDays => {
+const IconForRemainingDays = ({ remainingDays }) => {
   /**
    * Days remaining for the free trial to end are converted into hours.
    */

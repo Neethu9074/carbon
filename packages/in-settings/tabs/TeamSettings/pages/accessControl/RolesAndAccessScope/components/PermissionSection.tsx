@@ -53,7 +53,7 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   accessAllDescription: string;
   limitedAccessDescription: string;
   addButtonLabel: string;
-  roleTooltipText: string;
+  roleTooltipText: string | React.ReactElement;
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;

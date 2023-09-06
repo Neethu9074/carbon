@@ -58,6 +58,7 @@ export default function DatasetsColumn({
             withFiltering={false}
             withGrouping={false}
             withTimeShift={false}
+            isTypePrefilled
             getShortMetricKey={(_: string, index: number) => getShortMetricKey('C', index)}
             formatterSection={
               <SelectInSection

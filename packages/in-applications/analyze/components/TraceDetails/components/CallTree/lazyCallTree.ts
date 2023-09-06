@@ -43,6 +43,7 @@ export const FAKE_PARENT_CALL_FOREIGN: CallDetails = {
   type: 'UNDEFINED',
   batchCount: 1,
   hasChildren: true,
+  isOrphan: false,
   endpoint: {
     id: 'UNKNOWN',
     label: 'Unspecified',

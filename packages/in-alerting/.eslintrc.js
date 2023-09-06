@@ -37,6 +37,7 @@ module.exports = {
         'in-mobile-apps',
         'in-sdk',
         'in-services',
+        'in-service-levels',
         'in-settings',
         'in-stores',
         'in-subscription',

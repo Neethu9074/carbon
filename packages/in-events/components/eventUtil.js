@@ -45,6 +45,10 @@ export function isMobileAppSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'mobileAppId']);
 }
 
+export function isSloSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'sloId']);
+}
+
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 

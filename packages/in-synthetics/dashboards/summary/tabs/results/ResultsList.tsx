@@ -10,18 +10,16 @@ import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, Tim
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
-import {
-  ResultsCurrentState,
-  ResultsFilterState,
-  resultsFilterUrlStateDefinition,
-  resultsMatrixPrefix,
-  resultsPathSegment,
-  TestResponse
-} from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import {
+  ResultsCurrentState,
+  ResultsFilterState,
+  resultsFilterUrlStateDefinition,
+  TestResponse
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -43,6 +41,8 @@ import useUrlState from 'in-hooks/useUrlState';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
+const pathSegment = '/results';
+const matrixPrefix = 'result.';
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 let testId = '';
 let testType: string;
@@ -158,12 +158,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
   columnDefinitions,
   defaultOrderBy: 'response_time',
   defaultOrderDirection: 'DESC',
-  resultsPathSegment,
-  resultsMatrixPrefix
+  pathSegment,
+  matrixPrefix
 });
 
 interface ResultListProps {

@@ -22,7 +22,7 @@ import locals from './RoleFormGroup.mless';
 interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
   defaultRole: AreaRoleType;
   htmlFor: string;
-  tooltipText: string;
+  tooltipText: string | React.ReactElement;
 }
 
 export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole, onChange }: RoleFormGroupProps) {
