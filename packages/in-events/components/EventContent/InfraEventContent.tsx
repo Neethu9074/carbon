@@ -138,14 +138,18 @@ export interface groupExpressionProps {
 export function getFilterGroupExpression(
   tagFilterExpression: TagFilterExpression,
   groupingTags: groupExpressionProps[]
-) {
+): TagFilterExpression {
   const groupingKeys = Object.keys(groupingTags);
   if (!groupingKeys.length) {
     return tagFilterExpression;
   }
+
+  const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
+
   groupingKeys.map(key => {
     const groupExpression = tagFilter(key, EQUALS, groupingTags[key as keyof typeof groupingTags]);
-    tagFilterExpression.elements.push(groupExpression);
+    groupingTFE.elements.push(groupExpression);
   });
-  return tagFilterExpression;
+
+  return { type: 'EXPRESSION', logicalOperator: 'AND', elements: [tagFilterExpression, groupingTFE] };
 }
