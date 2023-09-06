@@ -96,7 +96,6 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
-    // { label: t('in-automation:actionHistory.actor'), value: getActorType(actorType), showCondition: actorType },
     {
       label: t('in-automation:actionHistory.actor'),
       value: actorName,
@@ -212,21 +211,6 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     </table>
   );
 }
-
-// function getActorType(actorType?: ActorType) {
-//   switch (actorType) {
-//     case 'ACTOR_UNKNOWN':
-//       return t('in-automation:actionHistory.unknown');
-//     case 'USER':
-//       return t('in-automation:actionHistory.user');
-//     case 'APITOKEN':
-//       return t('in-automation:actionHistory.apiToken');
-//     case 'POLICY':
-//       return t('in-automation:actionHistory.policy');
-//     default:
-//       return null;
-//   }
-// }
 
 function getActorLInk(actorType?: ActorType, actorId?: string) {
   switch (actorType) {

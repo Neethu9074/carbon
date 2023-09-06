@@ -190,10 +190,6 @@
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
     "hostsLimit": "Hosts Limit",
-    "user": "User",
-    "policy": "Policy",
-    "apiToken": "API Token",
-    "actor": "Actor",
-    "actionInitiator": "Actor Details"
+    "actor": "Actor"
   }
 }
