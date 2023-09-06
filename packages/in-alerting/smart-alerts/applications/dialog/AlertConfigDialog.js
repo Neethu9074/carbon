@@ -171,7 +171,7 @@ function createOrSaveAlert({
       config => {
         // add action associations
         if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          updateApplicationAlertActionAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
+          updateApplicationAlertActionAssociations(actionIds, form.get('id').value).once(
             () => {
               onClose(config);
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
