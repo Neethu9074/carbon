@@ -35,7 +35,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'metrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount';
+        return 'workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -51,7 +51,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'metrics.workerThreadMetrics.' + row.key + '.workerQueueSize';
+        return 'workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -105,7 +105,7 @@ function getRowDetails(row: any) {
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
-            metrics: ['metrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount'],
+            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount'],
             labels: [t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount')],
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -115,7 +115,7 @@ function getRowDetails(row: any) {
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
-            metrics: ['metrics.workerThreadMetrics.' + row.key + '.workerQueueSize'],
+            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize'],
             labels: [t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')],
             type: 'line',
             formatter: zeroDecimalPlaces

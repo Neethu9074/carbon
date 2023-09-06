@@ -29,7 +29,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'metrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount';
+        return 'workerMetrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -80,7 +80,7 @@ function getRowDetails(row: any) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          metrics: ['metrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount'],
+          metrics: ['workerMetrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount'],
           labels: [t('in-forge:plugins.jBossAsApplicationContainer.connectionCount')],
           type: 'line',
           formatter: zeroDecimalPlaces
