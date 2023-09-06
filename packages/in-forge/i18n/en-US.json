@@ -10087,7 +10087,7 @@
         "user": "User",
         "queuesUsageWithCount": "Queue Usage by application ({{len}})",
         "ibmMqQueueManager": "IBM MQ Queue Manager",
-        "haInfo": "HA Information",
+        "haInfo": "High Availability Information",
         "subsWithCount": "Subscriptions ({{len}})",
         "topicString": "Topic String",
         "subType": "Type",
