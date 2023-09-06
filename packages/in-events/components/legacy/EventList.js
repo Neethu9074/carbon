@@ -151,7 +151,7 @@ function ListRow({
       <Col xs>
         <Card
           title={title}
-          leftHeaderContent={<BetaBadge />}
+          leftHeaderContent={isRCA ? <BetaBadge /> : undefined}
           rightHeaderContent={
             isRCA && (
               <Stack direction="horizontal" gap="small">
