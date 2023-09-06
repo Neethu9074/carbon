@@ -39,7 +39,7 @@ const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea(
   );
 });
 
-function hasFieldError(field: Field<string>) {
+function hasFieldError(field: Field<string>): boolean {
   return field && !field?.valid && field?.touched;
 }
 
