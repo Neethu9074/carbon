@@ -36,6 +36,15 @@ export default {
       }
     },
     {
+      title: t('in-forge:plugins.syntheticPoP.locationDisplayName'),
+      type: 'string',
+      typeArgs: {
+        getValue(row: Row) {
+          return row.snapshot.getIn(['data', 'properties.locationDisplayName']);
+        }
+      }
+    },
+    {
       title: t('in-forge:plugins.syntheticPoP.version'),
       type: 'string',
       typeArgs: {
