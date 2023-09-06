@@ -18,6 +18,7 @@ import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/Ass
 import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import Pagination from 'in-components/Pagination';
@@ -43,16 +44,17 @@ export default connectTo(
       .throttle(250)
   }),
   function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
+    const incidentHasRCAProperty = useMemo(() => incident.get('metadata').has('probableRootCause'), [incident]);
     const rcaEvents = useMemo(
-      () => (rcaUIEnabled ? incident.get('metadata').get('probableRootCause') || new Map() : new Map()),
-      [incident]
+      () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
+      [incident, incidentHasRCAProperty]
     ); // Holds map of snapshot_ID: [event_id, event_id]
-    const snapshots = Array.from(rcaEvents.keys()); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
+    const snapshots = useMemo(() => (rcaEvents ? Array.from(rcaEvents.keys()) : []), [rcaEvents]); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
 
-    const [currentRCAEntity, setCurrentRCAEntity] = useState(rcaEvents.size > 0 ? snapshots[0] : null); // Selects a given snapshot ID
+    const [currentRCAEntity, setCurrentRCAEntity] = useState(rcaEvents && rcaEvents.size > 0 ? snapshots[0] : null); // Selects a given snapshot ID
     const [pageNum, setPageNum] = useState(1); // Pagination
     const [observablesList, setObservablesList] = useState(
-      currentRCAEntity ? combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)) : null
+      currentRCAEntity ? combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)).throttle(250) : null
     ); // Gets an array of event Observable requests based on the selected rca entity
 
     const eventTests = useObservable(observablesList, [currentRCAEntity, observablesList]) ?? []; // generates a list of event information based on Observables
@@ -86,17 +88,17 @@ export default connectTo(
 
     return (
       <>
-        {eventTests && currentRCAEntity && rcaUIEnabled && (
+        {eventTests && incidentHasRCAProperty && rcaUIEnabled && (
           <ListRow
-            title={'Probable Root Cause'}
-            events={eventTests}
-            triggeringProblemId={eventTests.length > 0 && eventTests[0].get('id')}
+            title={'Probable Root Cause Events'}
+            events={Array.isArray(eventTests) ? eventTests.sort((a, b) => a.get('start') - b.get('start')) : []}
+            triggeringProblemId={eventTests.length > 0 && eventTests[0] && eventTests[0].get('id')}
             latestSnapshot={latestSnapshot}
-            isRCA={currentRCAEntity !== null}
+            isRCA={incidentHasRCAProperty}
             rcaSnapshotID={currentRCAEntity}
             RegenerateComponentOnClick={RegenerateButtonOnClick}
             pageNum={pageNum}
-            totalPages={Array.from(rcaEvents.keys()).length}
+            totalPages={rcaEvents ? Array.from(rcaEvents.keys()).length : null}
             setPageNum={setPageNum}
           />
         )}
@@ -149,6 +151,7 @@ function ListRow({
       <Col xs>
         <Card
           title={title}
+          leftHeaderContent={<BetaBadge />}
           rightHeaderContent={
             isRCA && (
               <Stack direction="horizontal" gap="small">
@@ -168,14 +171,22 @@ function ListRow({
                 isRCA={isRCA}
               />
             ))}
-            {isRCA && events.length === 0 && (
+            {isRCA && rcaSnapshotID && events.length === 0 && (
               <Message
                 title="No Events Found"
-                description={`An entity was found as the root cause but no related events could be attributed to it. Snapshot ID for reference: ${rcaSnapshotID}`}
+                description={`An entity was found as the root cause but no related events could be attributed to it`}
+              />
+            )}
+            {isRCA && !rcaSnapshotID && (
+              <Message
+                title="No Probable Root Cause Found"
+                description={
+                  "This is an experimental feature and in some cases a probable root cause may not be found. We've logged this occurence for future improvements"
+                }
               />
             )}
           </div>
-          {isRCA && (
+          {isRCA && rcaSnapshotID && (
             <Stack direction="horizontal" gap="normal" distribution="end" align="center">
               <Pagination currentPage={pageNum} numPages={totalPages} onChange={setPageNum} />
               <Button
