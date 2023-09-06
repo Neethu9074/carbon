@@ -10945,6 +10945,8 @@
       "webDeploymentsWithCount": "Web Deployments ({{len}})",
       "jBoss": "JBoss",
       "version": "Version",
+      "workerName": "Worker Name",
+      "workers": "Workers ({{len}})",
       "server": "Server",
       "node": "Node",
       "home": "Home",

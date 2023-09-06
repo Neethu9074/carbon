@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-// @ts-expect-error
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ServersTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServersTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+// @ts-expect-error
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -18,7 +19,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.jBossAsApplicationContainer.server'),
+    title: t('in-forge:plugins.jBossAsApplicationContainer.workerName'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -27,14 +28,30 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.jBossAsApplicationContainer.connectionCount'),
+    title: t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: any) {
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'serverMXBeans.' + row.key + '.connCount';
+        return 'workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -45,54 +62,33 @@ const cols = [
 ];
 
 export default function ConnectionCountTable({ snapshot }: { snapshot: SnapshotData }) {
-  const deployments = snapshot.getIn(['data', 'servers'], emptyMap);
+  const deployments = snapshot.getIn(['data'], emptyMap);
   const timeConfig = useTimeConfig();
+  const snapshotId = snapshot.get('id') as string;
 
   if (deployments.size === 0) {
     return null;
   }
 
-  const rows = deployments.toArray().map((key: any) => {
-    const deployment = deployments.get(key);
-    return {
-      key: key,
-      timeConfig,
-      snapshotId: snapshot.get('id'),
-      snapshot: snapshot,
-      deployment
-    };
-  });
+  const rows = snapshot
+    .getIn(['data', 'servers'], emptyMap)
+    .map((serverMXBeans: Map<string, any>, name: string) => {
+      return {
+        key: name,
+        serverMXBeans,
+        timeConfig,
+        snapshotId
+      };
+    })
+    .valueSeq()
+    .toArray()
+    .filter(Boolean);
 
-  const snapshotId = snapshot.get('id');
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['busyWorkerThreadCount'],
-            labels: [t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount')],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['workerQueueSize'],
-            labels: [t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.connectionCounts', { len: rows.length })}
+        cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.workers', { len: rows.length })}
         cols={cols}
         rows={rows}
         getRowDetails={getRowDetails}
@@ -104,16 +100,29 @@ export default function ConnectionCountTable({ snapshot }: { snapshot: SnapshotD
 function getRowDetails(row: any) {
   return (
     <div>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          metrics: ['serverMXBeans.' + row.key + '.connCount'],
-          labels: [t('in-forge:plugins.jBossAsApplicationContainer.connectionCount')],
-          type: 'line',
-          formatter: zeroDecimalPlaces
-        }}
-      />
+      <Columize>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount'],
+            labels: [t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount')],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize'],
+            labels: [t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </Columize>
+      <ServersTable deploymentContext={row} />
     </div>
   );
 }
