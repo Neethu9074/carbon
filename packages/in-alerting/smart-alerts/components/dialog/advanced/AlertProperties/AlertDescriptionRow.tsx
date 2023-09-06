@@ -6,7 +6,6 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
-//@ts-expect-error
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
