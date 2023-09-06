@@ -193,6 +193,7 @@
     "user": "User",
     "policy": "Policy",
     "apiToken": "API Token",
-    "actor": "Actor"
+    "actor": "Actor",
+    "actionInitiator": "Actor Details"
   }
 }

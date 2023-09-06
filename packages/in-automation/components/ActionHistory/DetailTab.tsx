@@ -11,6 +11,11 @@ import { DateFormatterInput } from '@instana/format-date';
 import { Li, Link, Ul } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
+import {
+  getEntityIdView,
+  teamSettingsAccessControlUsers,
+  teamSettingsAccessControlApiTokens
+} from 'in-settings/navigation/paths';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -18,7 +23,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { getEntityIdView } from 'in-settings/navigation/paths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -46,6 +50,7 @@ interface ActionInstanceProperty {
   type: string;
   metadata: ActionInstanceMetadataEntry[];
   actorType?: ActorType;
+  actorId?: string;
   actorName?: string;
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
@@ -73,7 +78,8 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     metadata,
     type,
     actorType,
-    actorName
+    actorName,
+    actorId
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -90,8 +96,14 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
-    { label: t('in-automation:actionHistory.actor'), value: getActorType(actorType), showCondition: actorType },
-    { label: t('in-automation:actionHistory.name'), value: actorName, showCondition: actorName },
+    // { label: t('in-automation:actionHistory.actor'), value: getActorType(actorType), showCondition: actorType },
+    {
+      label: t('in-automation:actionHistory.actor'),
+      value: actorName,
+      isLink: true,
+      showCondition: actorName && actorType !== 'ACTOR_UNKNOWN',
+      ObservableLink: getActorLInk(actorType, actorId)
+    },
     {
       label: t('in-automation:actionHistory.eventId'),
       value: eventId,
@@ -201,16 +213,27 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
   );
 }
 
-function getActorType(actorType?: ActorType) {
+// function getActorType(actorType?: ActorType) {
+//   switch (actorType) {
+//     case 'ACTOR_UNKNOWN':
+//       return t('in-automation:actionHistory.unknown');
+//     case 'USER':
+//       return t('in-automation:actionHistory.user');
+//     case 'APITOKEN':
+//       return t('in-automation:actionHistory.apiToken');
+//     case 'POLICY':
+//       return t('in-automation:actionHistory.policy');
+//     default:
+//       return null;
+//   }
+// }
+
+function getActorLInk(actorType?: ActorType, actorId?: string) {
   switch (actorType) {
-    case 'ACTOR_UNKNOWN':
-      return t('in-automation:actionHistory.unknown');
     case 'USER':
-      return t('in-automation:actionHistory.user');
+      return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
     case 'APITOKEN':
-      return t('in-automation:actionHistory.apiToken');
-    case 'POLICY':
-      return t('in-automation:actionHistory.policy');
+      return getEntityIdView(teamSettingsAccessControlApiTokens, actorId ?? '');
     default:
       return null;
   }
