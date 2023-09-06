@@ -116,8 +116,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             metric={'crashFreeSessionRate'}
             aggregation={'MEAN'}
             formatter={percentage.detailed}
-            companionMetric={'sessions'}
-            companionAggregation={'SUM'}
+            companionMetric={'crashFreeSessionCount'}
+            companionAggregation={'DISTINCT_COUNT'}
             companionFormatter={v =>
               t('in-mobile-apps:dashboard.tabs.sessionCount', {
                 formattedCount: number.compact(v),
@@ -157,7 +157,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               metric={'crashFreeUserRate'}
               aggregation={'MEAN'}
               formatter={percentage.detailed}
-              companionMetric={'uniqueUsersOrSessions'}
+              companionMetric={'crashFreeUserCount'}
               companionAggregation={'DISTINCT_COUNT'}
               companionFormatter={v =>
                 t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
