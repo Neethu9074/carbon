@@ -5,6 +5,7 @@
  */
 
 import { number, bytes, percentage } from 'in-services/formatters/number';
+// @ts-expect-error needs TS migration
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
