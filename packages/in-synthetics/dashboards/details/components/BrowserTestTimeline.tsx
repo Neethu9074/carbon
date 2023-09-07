@@ -83,12 +83,12 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
     return true;
   });
 
-  const entriesToRender: TestResultEntry[] = filteredEntries.filter((entry: TestResultEntry) => {
+  const entriesToRender: TestResultEntry[] = filteredEntries?.filter((entry: TestResultEntry) => {
     return entry.pageref === pageRefExpanded ? entry : null;
   });
 
   let indexArr: string[] = [];
-  filteredEntries.forEach((entry: TestResultEntry) => {
+  filteredEntries?.forEach((entry: TestResultEntry) => {
     if (!indexArr.includes(entry.pageref)) indexArr.push(entry.pageref);
   });
 
@@ -116,7 +116,7 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
         <>
           <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} />
           <div className={locals.overviewChartContainer}>
-            {filteredEntries.length >= 0 && (
+            {filteredEntries?.length >= 0 && (
               <OverviewChart entries={entriesToRender} earliestTimestamp={startTime} endTimestamp={finishTime} />
             )}
           </div>
