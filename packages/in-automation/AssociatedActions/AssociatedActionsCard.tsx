@@ -127,7 +127,7 @@ function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload
     const updateActionAssociations = isCustomEvent
       ? updateCustomEventActionAssociations
       : updateBuiltinEventActionAssociations;
-    return updateActionAssociations(updatedActions, eventSpecification.id).tap(triggerReload);
+    return updateActionAssociations(updatedActions, eventSpecification.id).once(triggerReload);
   }
 
   return (
