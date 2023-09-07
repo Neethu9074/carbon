@@ -92,7 +92,7 @@ function InfrastructureTable(props: TableWidgetProps) {
   const [order, setOrder] = useState(sorting);
   const [query, setQuery] = useState('');
 
-  // Update order and  total items count in case it gets changed
+  // Update order and total items count in case it gets changed
   useEffect(() => {
     setOrder(sorting);
     setTotalItemsCount(undefined);

@@ -172,7 +172,11 @@ export default function InfrastructureList({
         />
       )}
 
-      {hasErrors && <Ul><LiErrorList errors={errors} /></Ul>}
+      {hasErrors && (
+        <Ul>
+          <LiErrorList errors={errors} />
+        </Ul>
+      )}
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}

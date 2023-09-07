@@ -66,7 +66,6 @@ export default function TableConfigurator({
   const groups = form.get(grouping).value;
 
   const isMetricsEnabled = metricsSize > 0;
-
   const metrics = getMetrics(datasetsColumnsField.get(metricsPath));
 
   const sortingOptions: Metric[] = getSortingOptions(entityLabel, metrics, groups);
@@ -118,7 +117,12 @@ export default function TableConfigurator({
 
             {isSortingEnabled && (
               <Sections>
-                <SortingConfigurator form={form} updateForm={updateForm} sortingOptions={sortingOptions} />
+                <SortingConfigurator
+                  form={form}
+                  updateForm={updateForm}
+                  sortingOptions={sortingOptions}
+                  hasGroups={groups.length > 0}
+                />
               </Sections>
             )}
           </Stack>
@@ -151,11 +155,19 @@ function getSortingOptions(entityLabel: string | null, metrics: Metric[], groups
     return [];
   }
 
-  const sortingOptions = [...getGroupsSortingOptions(groups), ...metrics];
+  const hasGroups = groups.length > 0;
+  const entityNameOption = [
+    {
+      value: 'label',
+      label: `${entityLabel || ''} ${t('in-custom-dashboards:widgets.table.form.infrastructure.defaultSortingSuffix')}`
+    }
+  ];
 
-  return sortingOptions;
+  const sortingOptions = hasGroups ? getGroupsSortingOptions(groups) : entityNameOption;
+
+  return [...sortingOptions, ...metrics];
 }
 
-function getGroupsSortingOptions(groups: Group[]): { value: string, label: string }[] {
-  return toBackendGroupBy(groups).map(g => ({ value: g, label: g}));
+function getGroupsSortingOptions(groups: Group[]): { value: string; label: string }[] {
+  return toBackendGroupBy(groups).map(g => ({ value: g, label: g }));
 }
