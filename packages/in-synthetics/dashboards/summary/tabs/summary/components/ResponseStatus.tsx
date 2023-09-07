@@ -150,7 +150,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
 
   return (
     <ResultAwareChart
-      result={constructResult(null, false)}
+      result={result}
       config={{
         title: t('in-synthetics:dashboard.summary.widgets.responseStatus'),
         timeConfig: timeConfig,
@@ -165,15 +165,6 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
       }}
     />
   );
-}
-
-function constructResult(error: null, isLoading: boolean) {
-  return {
-    errors: error == null ? [] : [error],
-    progress: {
-      loading: isLoading
-    }
-  };
 }
 
 /* metrics data in ResultAwareChart PieChart is a 3-d array, like

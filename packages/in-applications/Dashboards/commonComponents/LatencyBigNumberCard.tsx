@@ -5,16 +5,11 @@
 
 import React from 'react';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsBad
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
 import { meanLatency } from 'in-services/formatters/number';
@@ -24,9 +19,9 @@ import { t } from 'in-i18n';
 export default function LatencyBigNumberCard({
   tagFilters,
   endpointTypes,
-  syntheticCallsOption,
   timeConfig,
   boundaryScope,
+  includeSynthetic,
   jumpToAnalyze
 }: BigNumberCardProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
@@ -51,19 +46,14 @@ export default function LatencyBigNumberCard({
           timeConfig,
           boundaryScope,
           groupBy: jumpToAnalyze.groupBy,
-          formModel: joinExpressions({
-            expressions: [
-              createFormModelFromSyntheticOption(syntheticCallsOption),
-              ...filterByEndpointType(endpointTypes)
-            ]
-          }),
-          hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
+          formModel: filterByEndpointType(endpointTypes),
+          hiddenCalls: { includeSynthetic: includeSynthetic },
           orderByGroups: createOrderBy('latency_MEAN', 'DESC')
         },
         getLinkToApplicationAnalyze
       )}
       tagFilters={tagFilters}
-      syntheticCallsOption={syntheticCallsOption}
+      includeSynthetic={includeSynthetic}
       timeConfig={timeConfig}
     />
   );

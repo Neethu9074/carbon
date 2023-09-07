@@ -8,49 +8,52 @@
 @import '~in-themes/mixins.less';
 :local {
   .section {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1.5rem 0.5rem 5.5rem;
-    background: @lib__colors__yellow800;
+    padding: 0.5rem 0.5rem 0.5rem 5.5rem;
+    background: @lib__colors__navy900;
     height: 46px;
   }
-
   .leftContent {
     display: flex;
     align-items: center;
   }
-
+  .title {
+    color: @lib__colors__white;
+    font-size: var(--cds-body-02-font-size);
+    font-family: var(--cds-body-01-font-family);
+    line-height: 1.12rem;
+  }
   .rightContent {
     display: flex;
     align-items: center;
   }
-
   .icon {
-    margin-right: 0.75rem;
     fill: @lib__colors__white;
   }
-
   .description {
-    margin-right: 2rem;
-    font-size: 14px;
-    color: @lib__colors__N900Primary;
-    white-space: nowrap;
   }
   .description p {
-    margin-top: 13px;
-    font-weight: var(--ids-font-weight-option-body-bold);
+    color: @lib__colors__white;
+    font-size: var(--cds-body-01-font-size);
+    margin: auto;
+    line-height: 1.25rem;
   }
-
+  .verticalLine {
+    width: 0.06rem;
+    height: 1.5rem;
+    background: var(--ids-color-option-neutral-600);
+  }
+  .bannerLink {
+    color: var(--ids-color-option-blue-400);
+    text-decoration: underline;
+  }
   .subText {
     margin-right: 0.75rem;
     font-size: 13px;
     font-weight: 500;
-    color: @lib__colors__N900Primary;
+    color: @lib__colors__white;
   }
-
-  .button {
-    color: @lib__colors__N900Primary;
-    justify-content: flex-start;
+  .walkmeButton {
+    width: 6.75rem;
   }
 }

@@ -21,6 +21,7 @@ import {
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent,
   isMobileAppSmartAlertEvent,
+  isSloSmartAlertEvent,
   isEntityCountVerificationEvent
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
@@ -40,6 +41,7 @@ import EventSpecificationLink from 'in-events/components/legacy/EventSpecificati
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -124,6 +126,10 @@ const EventContent = connectTo(
 
     if (isMobileAppSmartAlertEvent(event)) {
       return <MobileEventContent event={event} />;
+    }
+
+    if (isSloSmartAlertEvent(event)) {
+      return <SloEventContent event={event} />;
     }
 
     if (isEntityCountVerificationEvent(event)) {

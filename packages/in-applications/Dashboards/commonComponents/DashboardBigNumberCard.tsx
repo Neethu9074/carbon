@@ -9,7 +9,6 @@ import { Observable } from '@instana/observables';
 import { EndpointType } from '@instana/types';
 
 import { AggregationType, ApplicationMetricConfiguration, Group, TagFilter, TimeConfig } from 'in-types';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { GetLabelsProps } from 'in-applications/components/getJumpToAnalyzeHref';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -26,8 +25,8 @@ interface DashboardBigNumberCardProps {
   companionFormatter?: FormatterFn;
   comparisonColors: ComparisonColors;
   tagFilters: TagFilter[];
-  syntheticCallsOption: string;
   timeConfig: TimeConfig;
+  includeSynthetic: boolean;
   jumpToAnalyzeHref: Observable<string>;
 }
 
@@ -56,11 +55,11 @@ export default function DashboardBigNumberCard({
   companionFormatter,
   comparisonColors,
   tagFilters,
-  syntheticCallsOption,
+  includeSynthetic,
   timeConfig,
   jumpToAnalyzeHref
 }: DashboardBigNumberCardProps) {
-  const includeSyntheticCalls = isSyntheticOption(syntheticCallsOption);
+  //const includeSyntheticCalls = isSyntheticOption(syntheticCallsOption);
   const timeShift = useTimeShiftConfig();
 
   const metricConfiguration: ApplicationMetricConfiguration = {
@@ -68,7 +67,7 @@ export default function DashboardBigNumberCard({
     timeConfig: timeConfig,
     dataSource: 'CALLS',
     includeInternal: false,
-    includeSynthetic: includeSyntheticCalls,
+    includeSynthetic: includeSynthetic,
     source: 'APPLICATION',
     tagFilters: tagFilters,
     metric: metric,
@@ -87,7 +86,7 @@ export default function DashboardBigNumberCard({
         aggregation: companionAggregation,
         source: 'APPLICATION',
         tagFilters: tagFilters,
-        includeSynthetic: includeSyntheticCalls
+        includeSynthetic: includeSynthetic
       }
     })
   };
@@ -116,7 +115,7 @@ export interface JumpToAnalyzeConfig {
 export interface BigNumberCardProps {
   tagFilters: TagFilter[];
   endpointTypes: EndpointType[];
-  syntheticCallsOption: string;
+  includeSynthetic: boolean;
   timeConfig: TimeConfig;
   boundaryScope: string;
   jumpToAnalyze: JumpToAnalyzeConfig;

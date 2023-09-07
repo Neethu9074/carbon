@@ -181,11 +181,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCallsEnabled',
-    instanaCtlKey: 'feature.synthetic.calls.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
     defaultValue: false
@@ -277,7 +272,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'pluginMetricStatisticsEnabled',
-    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    instanaCtlKey: 'feature.plugin.metric.statistics.enabled',
     defaultValue: false
   },
   {
@@ -381,6 +376,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCustomDashboardEnabled',
+    instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -396,8 +396,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertEnabled',
-    instanaCtlKey: 'feature.infrastructure.smart.alerts.enabled',
+    uiClientKey: 'infraSmartAlertsEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.enabled',
     defaultValue: false
   },
   {

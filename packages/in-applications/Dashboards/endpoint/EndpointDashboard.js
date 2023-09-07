@@ -9,19 +9,17 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import { endpointDashboard, summaryTab, errorMessagesTab, logMessagesTab } from 'in-applications/navigation/paths';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
-import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
@@ -31,7 +29,6 @@ import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -48,14 +45,12 @@ const urlStateDefinition = {
     endpointDashboardUrlParameters.applicationId,
     endpointDashboardUrlParameters.serviceId,
     endpointDashboardUrlParameters.endpointId,
-    endpointDashboardUrlParameters.boundaryScope,
-    endpointDashboardUrlParameters.syntheticCalls
+    endpointDashboardUrlParameters.boundaryScope
   ]
 };
 
 export default function EndpointDashboard({ location }) {
-  const [{ appId, serviceId, endpointId, boundaryScope, syntheticCalls }, setUrlState] =
-    useUrlState(urlStateDefinition);
+  const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
@@ -68,8 +63,6 @@ export default function EndpointDashboard({ location }) {
     onChange: setUrlState,
     timeConfig,
     onBoundaryStateChange: setUrlState,
-    syntheticCalls,
-    onSyntheticCallsStateChange: setUrlState,
     location
   };
 
@@ -133,7 +126,6 @@ export default function EndpointDashboard({ location }) {
             applicationId={props.applicationId}
             location={location}
             boundaryScope={props.boundaryScope}
-            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
           />
         </FloatingActionButtons>
       )}
@@ -173,7 +165,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result, syntheticCalls }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -191,7 +183,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         boundaryScope={boundaryScope}
         serviceId={serviceId}
         endpointId={endpointId}
-        syntheticCalls={syntheticCalls}
         productArea="endpoint"
       />
       <AnalyzeCallsButton
@@ -202,21 +193,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         syntheticType={get(result, ['data', 'syntheticType'])}
         timeConfig={timeConfig}
         groupBy={createGroupBy('call.name')}
-        syntheticCalls={syntheticCalls}
+        includeSynthetic={get(result, ['data', 'synthetic'])}
       />
     </>
   );
 }
 
-function renderButtonLineSecondary({
-  currentTab,
-  applicationId,
-  boundaryScope,
-  onBoundaryStateChange,
-  syntheticCalls,
-  onSyntheticCallsStateChange,
-  timeConfig
-}) {
+function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
   return (
     <>
       <TimeShiftDropdown
@@ -235,13 +218,6 @@ function renderButtonLineSecondary({
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
           disabled={location.pathname === '/endpoint/flowMap'}
-        />
-      )}
-      {syntheticCallsEnabled && (
-        <IncludeSyntheticCallsDropdown
-          syntheticCalls={syntheticCalls}
-          onSyntheticCallsStateChange={onSyntheticCallsStateChange}
-          disabled={currentTab === errorMessagesTab || currentTab === logMessagesTab}
         />
       )}
     </>

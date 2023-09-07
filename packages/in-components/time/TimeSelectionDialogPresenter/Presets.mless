@@ -24,7 +24,11 @@
 
     color: @lib__colors__N900Primary;
     &:hover {
+      color: inherit;
       text-decoration: none;
+    }
+    &:visited {
+      color: inherit !important;
     }
 
     font-weight: 500;

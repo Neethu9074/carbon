@@ -68,23 +68,22 @@ interface SortItem {
 }
 
 function sortItems(items: any, orderBy: string, orderDirection: OrderDirectionType) {
-  if (orderBy === 'label') {
-    return items.sort((a: SortItem, b: SortItem) => {
-      if (a.label < b.label) {
-        return orderDirection === 'DESC' ? 1 : -1;
-      }
-      if (a.label > b.label) {
-        return orderDirection === 'DESC' ? -1 : 1;
-      }
-      return 0;
-    });
-  }
   if (orderBy === 'count') {
     return items.sort((a: SortItem, b: SortItem) => {
       if (a.count < b.count) {
         return orderDirection === 'DESC' ? 1 : -1;
       }
       if (a.count > b.count) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  } else {
+    return items.sort((a: SortItem, b: SortItem) => {
+      if (a.label < b.label) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.label > b.label) {
         return orderDirection === 'DESC' ? -1 : 1;
       }
       return 0;

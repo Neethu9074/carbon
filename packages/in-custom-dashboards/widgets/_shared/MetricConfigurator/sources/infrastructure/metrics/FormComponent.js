@@ -50,6 +50,7 @@ export default function FormComponent({
   timeShiftConfiguration,
   withGrouping = true,
   withFiltering = true,
+  isTypePrefilled = false,
   withAggregationInMetrics = true,
   maxGrouping = 50
 }) {
@@ -85,7 +86,7 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression:
       tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
-    type,
+    type: isTypePrefilled ? type : undefined,
     query: catalogQuery.debouncedValue
   });
 

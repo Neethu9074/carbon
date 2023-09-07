@@ -242,6 +242,7 @@
     "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
+    "deleted": "{{id}}-deleted",
     "testList": {
       "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
@@ -415,8 +416,9 @@
       "downloadLog": "Download Logs",
       "downloadImages": "Download Screenshot",
       "downloadVideo": "Download Recording",
-      "consoleLogs": "CONSOLE",
-      "browserLogs": "BROWSER",
+      "consoleLogsLevel": "CONSOLE",
+      "consoleLogs": "Console",
+      "browserLogs": "Browser",
       "browserDetails": {
         "page": {
           "request": "Request",

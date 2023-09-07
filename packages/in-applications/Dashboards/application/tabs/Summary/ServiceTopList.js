@@ -8,7 +8,6 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import { useLinkToApplicationDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
@@ -76,8 +75,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
-  selectedCompanionMetricAlias,
-  syntheticCalls
+  selectedCompanionMetricAlias
 }) {
   const metrics = {
     [selectedMetric]: {
@@ -110,8 +108,7 @@ function getList({
     metrics: metrics,
     applicationBoundaryScope: boundaryScope,
     applicationId,
-    timeConfig,
-    includeSynthetic: isSyntheticOption(syntheticCalls)
+    timeConfig
   });
 }
 

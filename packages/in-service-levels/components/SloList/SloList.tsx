@@ -52,7 +52,7 @@ function getColumnDefinitions({
       label: t('in-service-levels:sloList.columnLabels.entity'),
       getContent: item => <SloEntityColumnContent item={item} />,
       width: 18.5,
-      sortable: true
+      sortable: false
     },
     {
       id: 'blueprint',

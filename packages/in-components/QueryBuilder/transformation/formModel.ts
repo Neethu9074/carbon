@@ -136,7 +136,7 @@ export function removeTopLevelFilters(expression: FormModelElement[], ...filters
   return filters.reduce((acc, filter) => removeSingleTopLevelFilter(acc, filter), expression);
 }
 
-function removeSurroundingBrackets(expression: FormModelElement[]): FormModelElement[] {
+export function removeSurroundingBrackets(expression: FormModelElement[]): FormModelElement[] {
   if (
     expression.length > 2 &&
     expression[0].type === OPEN_BRACKET &&

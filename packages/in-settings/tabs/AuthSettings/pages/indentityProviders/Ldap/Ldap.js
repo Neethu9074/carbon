@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { createField, createMapForm } from 'formalistic';
@@ -21,7 +22,6 @@ import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { notBlankValidator } from 'in-services/validators/string.ts';
-import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -95,24 +95,24 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
         <h2>LDAP is not configurable as long as you have another active identity provider configuration.</h2>
       ) : (
         <>
-          <h2>
+          <p>
             <Trans
               i18nKey="in-settings:tabs.ldapHelpDoc"
               components={{
                 docLink: (
                   <Link
                     external
-                    size="lg"
+                    size="sm"
                     href="https://www.ibm.com/docs/en/obi/current?topic=installer-configuring-ldap"
                   />
                 )
               }}
             />
-          </h2>
+          </p>
 
           <form>
             <Section restrictWidth="50rem">
-              <SectionHeading withoutTopSpacing>{t('in-settings:tabs.requiredSettings')}</SectionHeading>
+              <h2>{t('in-settings:tabs.requiredSettings')}</h2>
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   <FormInput
@@ -342,7 +342,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               )}
             </Section>
             <Section restrictWidth="50rem">
-              <SectionHeading withoutTopSpacing>{t('in-settings:tabs.optionalSettings')}</SectionHeading>
+              <h2>{t('in-settings:tabs.optionalSettings')}</h2>
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput

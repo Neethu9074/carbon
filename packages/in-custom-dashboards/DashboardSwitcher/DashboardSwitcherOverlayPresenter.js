@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import rpt from 'prop-types';
 
 import { LiHorizontalIndicator } from '@instana/components';
 import { LiLoadingSkeleton } from '@instana/components';
+import { keyCodes } from '@instana/components';
 import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
@@ -16,6 +17,7 @@ import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/
 import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { useCockpitLink } from 'in-cockpit/navigation/paths';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -27,6 +29,10 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
+
+const { isArrowUp, isArrowDown, isArrowLeft, isReturn, isTab } = keyCodes;
+
+const SEARCH_INPUT_INDEX = -1;
 
 export default connectTo({
   activeLandingPageConfiguration: getActiveConfiguration$()
@@ -40,23 +46,89 @@ function DashboardSwitcherOverlayPresenter({
   activeLandingPageConfiguration
 }) {
   const [query, setQuery] = useState('');
+  const [itemsRefs, setItemsRefs] = useState();
+  const [cursor, setCursor] = useState(SEARCH_INPUT_INDEX);
+  const searchInputRef = useRef();
+  const createDashboardButtonRef = useRef();
+
+  const moveToItem = itemIndex => {
+    if (!itemsRefs.current[itemIndex]) {
+      return;
+    }
+
+    itemsRefs?.current[itemIndex]?.querySelector('a').focus();
+  };
+
+  const handleOnArrowUp = event => {
+    stopPropagationAndPreventDefault(event);
+
+    const isUp = isArrowUp(event);
+
+    if (isUp) {
+      const totalItems = itemsRefs.current.length - 1;
+      moveToItem(totalItems);
+      setCursor(totalItems);
+      return;
+    }
+  };
+
+  const handleOnArrowDown = event => {
+    stopPropagationAndPreventDefault(event);
+
+    const isDown = isArrowDown(event);
+
+    if (isDown) {
+      moveToItem(0);
+      setCursor(prevState => prevState + 1);
+      return;
+    }
+  };
+
+  const handleButtonKeyDown = event => {
+    const isLeft = isArrowLeft(event);
+    const isEnter = isReturn(event);
+    const isTabPressed = isTab(event);
+
+    handleOnArrowDown(event);
+    handleOnArrowUp(event);
+
+    if (isEnter) {
+      createDashboardButtonRef.current.click();
+    }
+
+    if (isTabPressed) {
+      moveToItem(0);
+    }
+
+    if (isLeft) {
+      searchInputRef.current.focus();
+    }
+  };
 
   return (
     <div className={locals.overlay}>
       <Ul>
         <Li className={locals.actions}>
           <SearchInput
+            inputRef={searchInputRef}
             placeholder={t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.search')}
             query={query}
-            onChange={q => setQuery(q)}
+            onChange={q => {
+              setQuery(q);
+              setCursor(SEARCH_INPUT_INDEX);
+            }}
+            onArrowUp={handleOnArrowUp}
+            onArrowDown={handleOnArrowDown}
             autoFocus
           />
 
           <Button
+            ref={createDashboardButtonRef}
             disabled={playwithEnabled}
             kind="action"
             icon="lib_openclose_add_circle_outline"
             className={locals.addDashboard}
+            onKeyDown={handleButtonKeyDown}
             onClick={() => {
               onCreateNewDashboard();
               close();
@@ -65,10 +137,14 @@ function DashboardSwitcherOverlayPresenter({
             {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.createDashboard')}
           </Button>
         </Li>
-
         <DashboardList
+          searchInputRef={searchInputRef}
           customDashboards={playwithEnabled ? [] : customDashboards}
           query={query}
+          cursor={cursor}
+          moveToItem={moveToItem}
+          getItemsRefs={setItemsRefs}
+          setCursor={setCursor}
           activeLandingPageConfiguration={activeLandingPageConfiguration}
         />
         {isLoadingMore && <LiHorizontalIndicator progress={indeterminateProgress} />}
@@ -93,8 +169,18 @@ DashboardSwitcherOverlayPresenter.propTypes = {
   )
 };
 
-function DashboardList({ customDashboards, query, activeLandingPageConfiguration }) {
+function DashboardList({
+  customDashboards,
+  query,
+  activeLandingPageConfiguration,
+  getItemsRefs,
+  searchInputRef,
+  cursor,
+  setCursor,
+  moveToItem
+}) {
   const cockpitLink = useCockpitLink();
+  const itemsRefs = React.useRef([]);
 
   let items = (customDashboards || [])
     .map(({ id, title }) => ({
@@ -125,10 +211,55 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
     items = items.filter(({ title }) => containsIgnoreCase(title, query));
   }
 
+  // Updates itemsRefs after filtering
+  useEffect(() => {
+    itemsRefs.current = itemsRefs.current.slice(0, items.length);
+  }, [items]);
+
+  useEffect(() => {
+    if (cursor === SEARCH_INPUT_INDEX) {
+      searchInputRef.current.focus();
+      return;
+    }
+
+    moveToItem(cursor);
+  }, [cursor, moveToItem, searchInputRef]);
+
+  // Send itemsRefs to parent component
+  useEffect(() => {
+    getItemsRefs(itemsRefs);
+  }, [getItemsRefs, itemsRefs]);
+
+  const handleOnKeyDown = event => {
+    stopPropagationAndPreventDefault(event);
+
+    const isUp = isArrowUp(event);
+    const isDown = isArrowDown(event);
+    const isEnter = isReturn(event);
+    const totalItems = items.length - 1;
+
+    if (isEnter) {
+      const linkElement = itemsRefs?.current[cursor]?.querySelector('a');
+      linkElement?.click();
+    }
+
+    if (isUp || isDown) {
+      setCursor(prevCursor => setCursorIndex(isDown, prevCursor, totalItems));
+    }
+  };
+
   return (
     <>
-      {items.map(({ id, title, titleElement, href, href$, isDefault }) => (
-        <Li key={id} href={href} href$={href$} noAlternatingBg>
+      {items.map(({ id, title, titleElement, href, href$, isDefault }, index) => (
+        <Li
+          key={id}
+          href={href}
+          href$={href$}
+          noAlternatingBg
+          onKeyDown={handleOnKeyDown}
+          ref={element => itemsRefs.current.splice(index, 1, element)}
+          tabIndex={0}
+        >
           <div className={locals.itemContent}>
             {titleElement || title}
             {isDefault && (
@@ -141,4 +272,19 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
       ))}
     </>
   );
+}
+
+function setCursorIndex(isDown, prevCursor, totalItems) {
+  if (isDown) {
+    if (prevCursor < totalItems) {
+      return prevCursor + 1;
+    }
+    return SEARCH_INPUT_INDEX;
+  }
+
+  if (prevCursor > SEARCH_INPUT_INDEX) {
+    return prevCursor - 1;
+  }
+
+  return totalItems;
 }

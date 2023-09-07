@@ -236,6 +236,36 @@ export function WithAdditionalHelpIcon() {
   );
 }
 
+export function WithNoDataMessage() {
+  return (
+    <TopListCardPresenter
+      title="Top Crash Error Groups"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [],
+          page: 1,
+          pageSize: 5,
+          totalHits: 0
+        }
+      }}
+      metrics={metrics}
+      labels={labels}
+      onChangeMetric={onChangeMetric}
+      selectedMetric="selfLatency"
+      selectedMetricFormatter={millis.compact}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
+      config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
+      noDataMessage="No Crashes during this period"
+    />
+  );
+}
+
 function TopListItem({ title = 'Top Something', result, renderHistoricDataIndicator }) {
   return (
     <TopListCardPresenter

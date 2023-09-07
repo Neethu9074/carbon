@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { OrderDirection } from '@instana/types';
+
 import { t } from 'in-i18n';
 
 export const allTypes = 'all';
@@ -20,5 +22,5 @@ export const defaultAllInfraGroup = {
 export const defaultType = allTypes;
 export const defaultOrder = {
   by: 'label',
-  direction: 'ASC'
+  direction: 'ASC' as OrderDirection
 };

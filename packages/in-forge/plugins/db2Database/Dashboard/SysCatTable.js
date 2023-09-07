@@ -29,6 +29,18 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.db2Database.schema'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('SCHEMA');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.db2Database.statsTime'),
     type: 'string',
     typeArgs: {
@@ -116,7 +128,7 @@ export default connectTo(
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={1}
+        initialSortColumn={2}
         initialSortDirection="asc"
       />
     );

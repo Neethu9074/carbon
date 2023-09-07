@@ -53,7 +53,7 @@ export default function EntityListPresenter({ order, result, onChange, query }) 
   ];
 
   function getCsvItems() {
-    return result?.data?.items.map(item => ({ name: item.label, count: item.count })) || [];
+    return result?.data?.items?.map(item => ({ name: item.label, count: item.count })) || [];
   }
 
   return (

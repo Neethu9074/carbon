@@ -8,10 +8,6 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import {
   ApplicationMetricConfiguration,
   Group,
   MetricResult,
@@ -26,9 +22,7 @@ import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { createServiceIdTagFilter, createTagFilterExpression } from './metricConfigs';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { syntheticCallsOptions } from 'in-applications/constants';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
@@ -44,7 +38,6 @@ export interface GroupBasedBigNumberKpiCardProps {
   groupByTagSecondLevel?: string;
   groupByTagEntity?: TagFilterEntity;
   tagFilters?: TagFilter[];
-  syntheticCalls: string;
   boundaryScope: string;
 }
 
@@ -75,7 +68,6 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
     timeConfig,
     timeShiftConfig,
     serviceId,
-    syntheticCalls: urlSyntheticCalls,
     resultMapper,
     boundaryScope,
     groupByTag,
@@ -83,7 +75,6 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
     groupByTagEntity,
     tagFilters = []
   } = props;
-  const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   const serviceFilter = createServiceIdTagFilter(serviceId);
   const groupBy = {
@@ -110,9 +101,9 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
           cursor: undefined,
           retrievalSize: 200
         },
-        includeSynthetic: false,
         includeOthers: false,
         includeInternal: false,
+        includeSynthetic: false,
         removeUnmatchedGroup: false,
         timeShift: timeShiftConfig,
         tagFilterExpressionElement: createTagFilterExpression(serviceId, ...tagFilters)
@@ -136,7 +127,6 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
           timeShift: timeShiftConfig,
           resultType: 'SINGLE_NUMBER',
           dataSource: 'CALLS',
-          includeSynthetic: false,
           includeInternal: false
         } as ApplicationMetricConfiguration
       }}
@@ -150,10 +140,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             timeConfig,
             boundaryScope,
             groupBy,
-            formModel: joinExpressions({
-              expressions: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters]
-            }),
-            hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+            formModel: tagFilters,
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
             chartedMetrics: [createChartedMetric('calls', 'SUM')]
           },

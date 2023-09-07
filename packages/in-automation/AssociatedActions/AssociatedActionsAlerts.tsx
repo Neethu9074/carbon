@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  getApplicationAlertActionAssociations,
+  getApplicationAlertActionAssociationsWithResult,
   getAllActions,
   updateApplicationAlertActionAssociations,
   getAllActionsWithAISuggestions
@@ -46,7 +46,7 @@ export default function AssociatedActionsAlerts({
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
   const result = useObservable(
-    () => getApplicationAlertActionAssociations(eventSpecificationId),
+    () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
     [eventSpecificationId, reload],
     {
       resetStateOnObservableChange: false

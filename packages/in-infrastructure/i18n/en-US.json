@@ -88,8 +88,9 @@
     "noIssues": "No Issues",
     "count": "Count",
     "errors": {
-      "maximumNumberOfGroups": "This query has too many results. Please narrow down using a more restrictive filter or broader groups",
-      "generalError": "An unexpected error occurred. Please narrow down using a more restrictive filter and try again"
+      "maximumNumberOfGroups": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
+      "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
+      "generalError": "An unexpected error occurred."
     },
     "entityTypes": "Entity types {{count, parenthesis}}"
   },

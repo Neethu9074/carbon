@@ -393,3 +393,18 @@ export const BIZOPS_PROCESS_ACTIVITIES_SELECT = 'bizops.process.summary.activiti
 
 export const BIZOPS_PROCESS_ACTIVITY_TABS_CLICK = 'bizops.process.activity.tabs.click';
 export const BIZOPS_PROCESS_ACTIVITY_PROCESS_CONTEXT_CLICK = 'bizops.process.activity.processContext.click';
+
+// Synthetic Monitoring Tracking
+export const SYNTHETIC_NAV_CLICK = 'synthetic.monitoring.nav.click';
+export const SYNTHETIC_TEST_CLICK = 'synthetic.monitoring.test.click';
+export const SYNTHETIC_TAB_INAPP_CLICK = 'synthetic.monitoring.application.test.click';
+
+export const SYNTHETIC_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.create.click';
+export const SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK = 'synthetic.monitoring.test.create.advanced.click';
+export const SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.advanced.create.click';
+export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.wizard.create.click';
+
+export const SYNTHETIC_RESULTS_TAB_CLICK = 'synthetic.monitoring.results.tab.click';
+export const SYNTHETIC_CONFIGURATION_TAB_CLICK = 'synthetic.monitoring.configuration.tab.click';
+export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
+export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';

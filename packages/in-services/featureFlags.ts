@@ -46,7 +46,6 @@ export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
-export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 
@@ -99,6 +98,9 @@ export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystor
 // Synthetic RBAC feature flag
 export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled');
 
+// Synthetic Custom Dashboard feature flag
+export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCustomDashboardEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -110,7 +112,7 @@ export const customWidgetEventsTableEnabled = isFeatureFlagEnabled('customWidget
 export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('customWidgetTableInfraDataSourceEnabled');
 
 // Infrastructure Smart Alerts
-export const infraSmartAlertEnabled = isFeatureFlagEnabled('infraSmartAlertEnabled');
+export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 

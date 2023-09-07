@@ -31,6 +31,7 @@ import locals from './columnDefinitions.mless';
 
 interface locationListProps extends ServerTablePresenterProps<LocationListItem> {
   timeConfig: TimeConfig;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function LocationLabelContent({ item }: { item: LocationListItem }) {

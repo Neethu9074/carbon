@@ -6,24 +6,40 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+import {
+  AggregationType,
+  Group,
+  TagFilterExpressionElementUnion,
+  TagFilter,
+  TagFilterExpression
+} from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
-// @ts-expect-error
-import GroupedInfrastructure, { toBackendGroupBy } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import {
+  FormModelElement,
+  fromBackendModel,
+  joinExpressions
+} from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
+import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+// @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { AggregationType, Group, TagFilterExpressionElementUnion } from 'in-types';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
+import SearchInput from 'in-components/SearchInput/SearchInput';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
@@ -55,19 +71,28 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const { config, title, actions, dragHandle, isPreview } = props;
 
-  const { entityType: type = '', grouping: groupBy, datasets, sorting, tableSize = 5, tagFilterExpression } = config;
+  const {
+    entityType: type = '',
+    grouping: groupBy,
+    datasets,
+    sorting = defaultOrder,
+    tableSize = 5,
+    tagFilterExpression: baseTagFilterExpression
+  } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
 
-  const loadedItemsCount = totalItemsCount && Math.min(totalItemsCount, tableSize);
-  const isShowResultsVisible = loadedItemsCount && totalItemsCount;
+  const [loadedItems, setLoadedItems] = useState(tableSize);
+  const [tagFilterExpression, setTagFilterExpression] = useState(baseTagFilterExpression);
+  const isShowResultsVisible = loadedItems > 0 && totalItemsCount;
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
 
   const [order, setOrder] = useState(sorting);
+  const [query, setQuery] = useState('');
 
-  // Update order and  total items count in case it gets changed
+  // Update order and total items count in case it gets changed
   useEffect(() => {
     setOrder(sorting);
     setTotalItemsCount(undefined);
@@ -76,7 +101,20 @@ function InfrastructureTable(props: TableWidgetProps) {
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
 
+  const handleQuery = (query: string) => {
+    setQuery(query);
+
+    getTagFilterExpressionFromQuery({
+      query,
+      backendGroupBy,
+      tagFilterExpression: baseTagFilterExpression,
+      setTagFilterExpression
+    });
+  };
+
   const catalogQuery = useDebouncedValue('', noop, 800);
+  const debouncedQuery = useDebouncedValue(query, handleQuery, 800);
+
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     // @ts-expect-error
@@ -115,79 +153,96 @@ function InfrastructureTable(props: TableWidgetProps) {
       }
       isScrollable
     >
-      {isShowResultsVisible && (
-        <Typography variant="body-bold">
-          {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
-            loadedItems: loadedItemsCount,
-            totalItems: totalItemsCount
-          })}
-        </Typography>
-      )}
+      <div className={locals.wrapper}>
+        <div className={locals.header}>
+          <div>
+            {isShowResultsVisible && (
+              <Typography variant="body-bold">
+                {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
+                  loadedItems: Math.min(loadedItems, totalItemsCount),
+                  totalItems: totalItemsCount
+                })}
+              </Typography>
+            )}
+          </div>
 
-      <Spacer vertical="normal" />
-
-      {isGroup ? (
-        <GroupedInfrastructure
-          backendQueryModel={tagFilterExpression}
-          backendGroupBy={backendGroupBy}
-          getTotalItems={setTotalItemsCount}
-          groupBy={groupBy}
-          isHeaderVisible={false}
-          isLoadMoreEnabled={false}
-          isTableMode
-          isPreview={isPreview}
-          onItemClicked={handleItemClick}
-          metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-          metrics={metrics}
-          metricMetadatas={metricMetadatas}
-          retrievalSize={tableSize}
-          order={order}
-          setOrder={setOrder}
-          tagFilterExpression={[]}
-          type={type}
-          query={catalogQuery.value}
-          onQueryChange={catalogQuery.onChange}
-        />
-      ) : (
-        <InfrastructureList
-          tagFilterExpression={[tagFilterExpression]}
-          backendQueryModel={tagFilterExpression}
-          displayChart={false}
-          getTotalItems={setTotalItemsCount}
-          isLoadMoreEnabled={false}
-          isPreview={isPreview}
-          metrics={metrics}
-          metricMetadatas={metricMetadatas}
-          showHeader={false}
-          order={order}
-          setOrder={setOrder}
-          type={type}
-          sortableMetrics
-          retrievalSize={tableSize}
-          numSkeletonRows={tableSize}
-          fixedLayout={false}
-          chartedMetrics={[]}
-          metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-          query={catalogQuery.value}
-          onQueryChange={catalogQuery.onChange}
-        />
-      )}
-
-      {viewFullTableHref && (
-        <div className={locals.viewFullTableLink}>
-          <Typography variant="body-regular">
-            <Trans
-              i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"
-              components={{
-                analyzeInfraLink: (
-                  // @ts-expect-error
-                  <Link href={isPreview ? undefined : viewFullTableHref} />
-                )
-              }}
+          {!isPreview && (
+            <SearchInput
+              placeholder={t('in-custom-dashboards:widgets.table.form.infrastructure.searchPlaceholder')}
+              onChange={debouncedQuery.onChange}
+              query={debouncedQuery.value}
             />
-          </Typography>
+          )}
         </div>
-      )}
+
+        <Spacer vertical="normal" />
+
+        {isGroup ? (
+          <GroupedInfrastructure
+            backendQueryModel={tagFilterExpression}
+            backendGroupBy={backendGroupBy}
+            getTotalItems={setTotalItemsCount}
+            getLoadedItems={setLoadedItems}
+            groupBy={groupBy}
+            isHeaderVisible={false}
+            isLoadMoreEnabled={false}
+            isTableMode
+            isPreview={isPreview}
+            onItemClicked={handleItemClick}
+            metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+            metrics={metrics}
+            metricMetadatas={metricMetadatas}
+            retrievalSize={tableSize}
+            order={order}
+            setOrder={setOrder}
+            tagFilterExpression={[]}
+            type={type}
+            query={debouncedQuery.value}
+            onQueryChange={debouncedQuery.onChange}
+          />
+        ) : (
+          <InfrastructureList
+            tagFilterExpression={[tagFilterExpression]}
+            backendQueryModel={tagFilterExpression}
+            displayChart={false}
+            getTotalItems={setTotalItemsCount}
+            getLoadedItems={setLoadedItems}
+            isLoadMoreEnabled={false}
+            isPreview={isPreview}
+            isSearchable
+            metrics={metrics}
+            metricMetadatas={metricMetadatas}
+            showHeader={false}
+            order={order}
+            setOrder={setOrder}
+            type={type}
+            sortableMetrics
+            retrievalSize={tableSize}
+            numSkeletonRows={tableSize}
+            chartedMetrics={[]}
+            metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+            query={debouncedQuery.value}
+            onQueryChange={debouncedQuery.onChange}
+            isWidget
+          />
+        )}
+
+        {viewFullTableHref && (
+          <div className={locals.viewFullTableLink}>
+            <Typography variant="body-regular">
+              <Trans
+                i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"
+                components={{
+                  analyzeInfraLink: (
+                    // @ts-expect-error
+                    <Link href={isPreview ? undefined : viewFullTableHref} />
+                  )
+                }}
+              />
+            </Typography>
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
@@ -211,4 +266,30 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   }));
 
   return uniqueMetricsWithLabels;
+}
+
+function getTagFilterExpressionFromQuery({
+  backendGroupBy,
+  query,
+  tagFilterExpression,
+  setTagFilterExpression
+}: {
+  backendGroupBy: string[];
+  query: string;
+  setTagFilterExpression: React.Dispatch<React.SetStateAction<TagFilter | FormModelElement[] | TagFilterExpression>>;
+  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
+}) {
+  if (query.trim() !== '') {
+    const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);
+    const tagFiltersFromGroups = backendGroupBy.map((group: string) => tagFilter(group, 'CONTAINS', query));
+    const updatedTagFilterExpression = toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: or,
+        expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
+      })
+    );
+    setTagFilterExpression(updatedTagFilterExpression);
+  } else {
+    setTagFilterExpression(tagFilterExpression);
+  }
 }

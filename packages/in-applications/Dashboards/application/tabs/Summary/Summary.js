@@ -5,10 +5,6 @@
 
 import React, { Fragment } from 'react';
 
-import {
-  getTagFiltersForSyntheticOption,
-  isSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import ErroneousCallsBigNumberCard from 'in-applications/Dashboards/commonComponents/ErroneousCallsBigNumberCard';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
@@ -20,13 +16,12 @@ import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilte
 import { hasHttpAndOtherEndpoints, hasHttpEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import { t } from 'in-i18n';
@@ -36,12 +31,9 @@ export default function Summary({
   applicationId,
   data: application,
   boundaryScope: urlBoundaryScope,
-  syntheticCalls: urlIncludeSyntheticCalls,
   endpointTypes: types
 }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const syntheticCalls = urlIncludeSyntheticCalls || syntheticCallsOptions.default;
-  const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
 
   let tagFilters = [
     boundaryScope === boundaryScopes.all
@@ -53,20 +45,15 @@ export default function Summary({
           operator: EQUALS
         }
   ];
-  if (syntheticCallsEnabled) {
-    tagFilters.push(...getTagFiltersForSyntheticOption(syntheticCalls));
-  }
 
   const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId });
   const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
     applicationId,
-    includeSyntheticCalls,
     showPotentialProblemsLane: true
   });
 
   const bigNumberCardConfiguration = {
     tagFilters,
-    syntheticCallsOption: syntheticCalls,
     timeConfig,
     boundaryScope,
     jumpToAnalyze: {
@@ -97,7 +84,6 @@ export default function Summary({
             showHttp={!types || hasHttpEndpoints(types)}
             hasHttpAndOtherEndpoints={!types || hasHttpAndOtherEndpoints(types)}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
-            syntheticCalls={syntheticCalls}
           />
         </Col>
         <Col lg={4}>
@@ -109,7 +95,6 @@ export default function Summary({
             tagFilters={tagFilters}
             groupBy={createGroupBy('service.name', DESTINATION)}
             renderPostChartContent={withPotentialProblemsLane}
-            syntheticCalls={syntheticCalls}
           />
         </Col>
         <Col lg={4}>
@@ -121,7 +106,6 @@ export default function Summary({
             tagFilters={tagFilters}
             percentileGroupBy={createGroupBy('service.name', DESTINATION)}
             renderPostChartContent={withPotentialProblemsLane}
-            syntheticCalls={syntheticCalls}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
             renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
           />
@@ -137,7 +121,6 @@ export default function Summary({
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
-            syntheticCalls={syntheticCalls}
             renderHistoricDataIndicator
             renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
           />
@@ -148,7 +131,6 @@ export default function Summary({
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
             renderPostChartContent={MarkerLanes}
-            syntheticCalls={syntheticCalls}
             renderHistoricDataIndicator
             renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
             disableChartInLive={timeConfig.autoRefresh}

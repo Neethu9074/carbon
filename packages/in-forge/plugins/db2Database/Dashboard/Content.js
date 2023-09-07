@@ -31,6 +31,7 @@ import TableSizes from 'in-forge/plugins/db2Database/Dashboard/TableSizes';
 import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
+import BackupDetailsTable from './BackupDetailsTable';
 import MetricValue from 'in-components/MetricValue';
 import HadrTakeOverInfo from './HadrTakeOverInfo';
 import { t } from 'in-i18n';
@@ -96,6 +97,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <BackupDetailsTable snapshotId={snapshotId} />
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
@@ -517,7 +519,11 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount',{lockAndLongQueryInterval: lockAndLongQuery})}>
+        <DashboardSection
+          title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount', {
+            lockAndLongQueryInterval: lockAndLongQuery
+          })}
+        >
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -614,7 +620,11 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <TopQueriesTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime',{lockAndLongQueryInterval: lockAndLongQuery})}>
+      <DashboardSection
+        title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime', {
+          lockAndLongQueryInterval: lockAndLongQuery
+        })}
+      >
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

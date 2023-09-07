@@ -16,7 +16,7 @@ export default function IPs({ resource: node }) {
     <Card title={t('in-kubernetes:dashboards.iPs')}>
       <Dl>
         <Di title={t('in-kubernetes:dashboards.internalIp')}>{node.internalIp || valueMissingPlaceholder}</Di>
-        <Di title={t('in-kubernetes:dashboards.exnternalIp')}>{node.externalIp || valueMissingPlaceholder}</Di>
+        <Di title={t('in-kubernetes:dashboards.externalIp')}>{node.externalIp || valueMissingPlaceholder}</Di>
       </Dl>
     </Card>
   );

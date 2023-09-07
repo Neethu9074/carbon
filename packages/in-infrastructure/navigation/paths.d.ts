@@ -11,6 +11,7 @@ import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
 export interface MetricItem {
   metric: string;
   aggregation: AggregationType;
+  crossSeriesAggregation?: AggregationType;
 }
 
 interface GetLinkToExploreProps {

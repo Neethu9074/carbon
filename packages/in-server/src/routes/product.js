@@ -205,7 +205,6 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        getLicenseInfo,
         licenceType
       })
     );

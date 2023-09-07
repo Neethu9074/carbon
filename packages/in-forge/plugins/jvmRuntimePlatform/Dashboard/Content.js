@@ -18,6 +18,7 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
+import { hasCanCreateHeapDump, hasCanCreateThreadDump } from 'in-stores/permission';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -82,8 +83,12 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
         title={t('in-forge:plugins.jvmRuntimePlatform.threads')}
         button={
           <span>
-            <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
-            <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />
+            {hasCanCreateThreadDump && (
+              <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
+            )}
+            {hasCanCreateHeapDump && (
+              <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />
+            )}
           </span>
         }
       >

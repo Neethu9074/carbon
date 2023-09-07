@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import { useVspehereEntityLink, VsphereEntities } from 'in-vsphere/navigation/paths';
 
@@ -22,7 +22,7 @@ export default function VsphereSnapshotLink({ vsphereEntityType, snapshotId, chi
   const getVsphereViewEntityDashboard = useVspehereEntityLink(vsphereEntityType, parameters as any);
 
   return (
-    <Link href$={getVsphereViewEntityDashboard(snapshotId)} className={locals.inSnapshotLink}>
+    <Link href={getVsphereViewEntityDashboard(snapshotId)} className={locals.inSnapshotLink}>
       {children}
     </Link>
   );

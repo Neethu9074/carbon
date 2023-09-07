@@ -9,7 +9,8 @@
     display: block;
     white-space: nowrap;
     overflow: hidden;
-    .ellipsisLeft();
+    .ellipsis();
+    .alignLeft();
     align-items: center;
   }
 

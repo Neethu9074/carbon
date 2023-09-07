@@ -10,22 +10,22 @@ import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, Tim
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
-import {
-  ResultsCurrentState,
-  ResultsFilterState,
-  resultsFilterUrlStateDefinition,
-  resultsMatrixPrefix,
-  resultsPathSegment,
-  TestResponse
-} from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import {
+  ResultsCurrentState,
+  ResultsFilterState,
+  resultsFilterUrlStateDefinition,
+  TestResponse
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
+import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracker';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -41,6 +41,8 @@ import useUrlState from 'in-hooks/useUrlState';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
+const pathSegment = '/results';
+const matrixPrefix = 'result.';
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 let testId = '';
 let testType: string;
@@ -86,7 +88,11 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 
   return (
-    <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    <div
+      onClick={() => clickSyntheticMonitoringResultsListDetailTracker({ detail: 'Results details from Results list' })}
+    >
+      <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
+    </div>
   );
 }
 
@@ -102,7 +108,11 @@ const columnDefinitions = [
     id: 'location_label',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
-      return <span className={locals.metricLabel}>{item?.testResultCommonProperties?.locationDisplayLabel ?? ''}</span>;
+      const displayLabel = massageLocationDisplayLabel(
+        item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+        item?.testResultCommonProperties?.locationId ?? ''
+      );
+      return <span className={locals.metricLabel}>{displayLabel}</span>;
     }
   },
   {
@@ -148,12 +158,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
   columnDefinitions,
   defaultOrderBy: 'response_time',
   defaultOrderDirection: 'DESC',
-  resultsPathSegment,
-  resultsMatrixPrefix
+  pathSegment,
+  matrixPrefix
 });
 
 interface ResultListProps {

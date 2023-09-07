@@ -6,10 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import {
-  getTagFiltersForSyntheticOption,
-  isSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import ErroneousCallsBigNumberCard from 'in-applications/Dashboards/commonComponents/ErroneousCallsBigNumberCard';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
@@ -21,13 +17,12 @@ import CallsBigNumberCard from 'in-applications/Dashboards/commonComponents/Call
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import { Col, Row } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -36,29 +31,16 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({
-    timeConfig,
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    data,
-    syntheticCalls: urlIncludeSyntheticCalls
-  }) {
-    const isSyntheticEndpoint = get(data, ['syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC';
-    const syntheticCalls =
-      isSyntheticEndpoint && !syntheticCallsEnabled
-        ? syntheticCallsOptions.include
-        : urlIncludeSyntheticCalls || syntheticCallsOptions.default;
-    const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
     const type = data.type;
+    const isSyntheticEndpoint = get(data, ['syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC';
+    const includeSyntheticCalls = get(data, 'synthetic', false);
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
     const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
       applicationId,
       endpointId,
       serviceId,
-      includeSyntheticCalls,
       showPotentialProblemsLane: true
     });
 
@@ -80,15 +62,16 @@ export default connectTo(
         });
       }
     }
-    if (syntheticCallsEnabled) {
-      tagFilters.push(...getTagFiltersForSyntheticOption(syntheticCalls));
+
+    if (isSyntheticEndpoint && includeSyntheticCalls) {
+      tagFilters.push({ booleanValue: true, name: 'include_synthetic', entity: NOT_APPLICABLE, operator: EQUALS });
     }
 
     const bigNumberCardConfiguration = {
       tagFilters,
-      syntheticCallsOption: syntheticCalls,
       timeConfig,
       boundaryScope,
+      includeSynthetic: isSyntheticEndpoint && includeSyntheticCalls,
       jumpToAnalyze: {
         ids: { applicationId, serviceId, endpointId },
         groupBy: createGroupBy('call.name')
@@ -111,7 +94,6 @@ export default connectTo(
               endpointId={endpointId}
               tagFilters={tagFilters}
               boundaryScope={boundaryScope}
-              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               callGroupBy={createGroupBy('call.name')}
               renderPostChartContent={withPotentialProblemsLane}
@@ -127,7 +109,6 @@ export default connectTo(
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
               groupBy={createGroupBy('call.name')}
@@ -141,7 +122,6 @@ export default connectTo(
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
               percentileGroupBy={createGroupBy('call.name')}
@@ -181,7 +161,6 @@ export default connectTo(
                     endpointId={endpointId}
                     timeConfig={timeConfig}
                     renderPostChartContent={MarkerLanes}
-                    syntheticCalls={syntheticCalls}
                     renderHistoricDataIndicator
                     renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
                     disableChartInLive={timeConfig.autoRefresh}

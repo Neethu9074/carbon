@@ -14,4 +14,14 @@
   .viewFullTableLink {
     margin: 1rem 0 0.875rem 0;
   }
+
+  .wrapper {
+    padding: 0.125rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

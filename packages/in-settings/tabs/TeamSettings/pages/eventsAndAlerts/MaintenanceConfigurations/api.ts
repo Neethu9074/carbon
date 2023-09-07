@@ -131,14 +131,16 @@ export function createMaintenanceConfigV2(
   paused?: boolean,
   name: string = '',
   query: string = '',
-  scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule()
+  scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule(),
+  tagFilterExpressionEnabled: boolean = false
 ): MaintenanceConfigV2 {
   return {
     id: id || generateUniqueShortId(),
     name,
     query,
     paused: paused || false,
-    scheduling
+    scheduling,
+    tagFilterExpressionEnabled
   };
 }
 

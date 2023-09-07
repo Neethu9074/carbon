@@ -5,16 +5,11 @@
 
 import React from 'react';
 
-import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption
-} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -31,7 +26,6 @@ export default function Latency({
   serviceId,
   boundaryScope,
   cardTitle,
-  syntheticCalls,
   endpointTypes,
   timeShiftAggregation,
   tagFilters,
@@ -56,15 +50,12 @@ export default function Latency({
     };
   }
 
-  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
-
   const defaultMetricConfig = {
     granularity,
     metric: 'latency',
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    ...hiddenCalls,
     timeShift: 0
   };
 
@@ -187,13 +178,7 @@ export default function Latency({
                   boundaryScope,
                   groupBy,
                   orderByGroups: createOrderBy('latency_P50', 'DESC'),
-                  formModel: joinExpressions({
-                    expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointType(endpointTypes)
-                    ]
-                  }),
-                  hiddenCalls,
+                  formModel: filterByEndpointType(endpointTypes),
                   fields: getFields(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
                   chartedMetrics: getChartedMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
                 },

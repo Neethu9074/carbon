@@ -74,6 +74,7 @@ import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureF
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
+import { clickSyntheticMonitoringNavigationTracker } from 'in-synthetics/tracker';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
@@ -350,6 +351,10 @@ function Synthetics(props) {
         isActive={matchLocation(isSyntheticMonitoringView)}
         href={createHrefToPath(syntheticsPath)}
         {...props}
+        onClick={e => {
+          clickSyntheticMonitoringNavigationTracker({ detail: 'Synthetic Monitoring from Main Navigation' });
+          props.onClick?.(e);
+        }}
       />
     )
   );
@@ -479,7 +484,7 @@ function Analyze(props) {
           hasMobileAppsAccess &&
             just(
               getLinkToMobileAppAnalyze({
-                beaconType: 'sessions',
+                beaconType: 'sessionStart',
                 groupBy: {}
               })
             ),
