@@ -10963,7 +10963,9 @@
       "busyWorkerThreadCount": "Busy worker thread count",
       "workerQueueSize": "Worker queue size",
       "connectionCount":"Count",
-      "connectionCounts": "Connections ({{len}})"
+      "connectionCounts": "Connections ({{len}})",
+      "workersCategory": "Workers",
+      "connCount": "Connection Count"
     },
     "jbossDataGrid": {
       "datagrid": "Data Grid",
