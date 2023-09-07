@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -186,11 +187,11 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
             <Tooltip
               themeStyle="light"
               content={<OverviewChartToolTip entry={entry} type={type} />}
-              key={entry.serverIPAddress + Math.random()}
+              key={generateUniqueShortId()}
             >
               <div
                 className={locals.entry}
-                key={entry.startedDateTime + Math.random()}
+                key={generateUniqueShortId()}
                 style={{
                   backgroundColor: typeDefinition.color,
                   // @ts-expect-error left-hand side of the operation is not a number, bigint or any type.
