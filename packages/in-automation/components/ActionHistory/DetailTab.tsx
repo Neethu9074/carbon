@@ -98,7 +98,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
     {
-      label: t('in-automation:actionHistory.actor'),
+      label: t('in-automation:actionHistory.initiator'),
       value: actorName,
       isLink: true,
       showCondition:
