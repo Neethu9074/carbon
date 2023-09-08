@@ -5,23 +5,20 @@
  */
 
 import { createMapForm, createField, notBlankValidator, Field, MapForm, MapFormItems } from 'formalistic';
-import React, { useState } from 'react';
 import { List } from 'immutable';
+import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Link, Stack } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
+import { Link } from '@instana/components';
 
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import IconButton from 'in-components/IconButton/IconButton';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
-
-import locals from './ChannelForm.mless';
 
 const block = 'in-alert-channel-config-form';
 
@@ -155,7 +152,6 @@ export default {
 };
 
 function Form({ form, onChange }: FormProps) {
-  const [showToken, setShowToken] = useState(false);
   return (
     <fieldset>
       {form.get('name').map((field: Field<string>) => (
@@ -208,32 +204,12 @@ function Form({ form, onChange }: FormProps) {
           <Label htmlFor="token" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.token')}
           </Label>
-          <Stack direction="horizontal" gap="small" align="center">
-            <Input
-              id="token"
-              className={locals.input}
-              type={showToken ? 'text' : 'password'}
-              placeholder="*******************"
-              value={field.value}
-              onChange={e => onChange('bearerAuthToken', e.target.value)}
-            />
-            <Tooltip
-              content={
-                showToken ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-              }
-            >
-              <IconButton
-                kind="info"
-                type={showToken ? 'lib_views_hide' : 'lib_views_show'}
-                onClick={e => {
-                  e.preventDefault();
-                  setShowToken(!showToken);
-                }}
-                iconSize="xs"
-                alignment="right"
-              />
-            </Tooltip>
-          </Stack>
+          <ShowHideInputField
+            placeholder="*******************"
+            value={field.value}
+            onChange={e => onChange('bearerAuthToken', e.target.value)}
+            id="token"
+          />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}

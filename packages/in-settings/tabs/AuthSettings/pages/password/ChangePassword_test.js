@@ -145,4 +145,15 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
       cleanup();
     }
   });
+
+  it('when unmask button is clicked, it should show the password as text', async () => {
+    const { container } = render(<ChangePassword />);
+    const oldPassInput = screen.getByLabelText(t('in-settings:tabs.password'));
+
+    fireEvent.change(oldPassInput, { target: { value: 'Not important' } });
+    fireEvent.click(container.querySelector('.local-css-iconButton'));
+
+    const input = await screen.findByRole('textbox', { name: /Password/i });
+    expect(input).toHaveValue('Not important');
+  });
 });

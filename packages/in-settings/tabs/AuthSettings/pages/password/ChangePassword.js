@@ -7,6 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import zxcvbn from 'zxcvbn';
 import React from 'react';
 
+import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
 import { changePassword } from 'in-settings/tabs/AuthSettings/api/changePassword';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -20,7 +21,6 @@ import Section from 'in-settings/components/Section';
 import HelpText from 'in-components/form/HelpText';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 import locals from './ChangePassword.mless';
@@ -76,8 +76,7 @@ function InputField({ label, fieldName, autoFocus, form, setForm }) {
       <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
         {label}
       </Label>
-      <Input
-        type="password"
+      <ShowHideInputField
         id={fieldName}
         value={field.value}
         onChange={e =>
