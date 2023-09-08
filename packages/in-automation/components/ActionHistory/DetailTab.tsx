@@ -66,7 +66,6 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     hostSnapshotId,
     actionId,
     startDate,
-    targetSnapshotId,
     endDate,
     metadata,
     type
@@ -100,14 +99,6 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       isObservable: true,
       showCondition: hostSnapshotId,
       ObservableLink: getDashboardLink(hostSnapshotId, { pathname: `${agentsPath}/dashboard` })
-    },
-    {
-      label: t('in-automation:actionHistory.targetSnapshotId'),
-      value: targetSnapshotId,
-      showCondition: targetSnapshotId,
-      isLink: true,
-      isObservable: true,
-      ObservableLink: getDashboardLink(targetSnapshotId, { pathname: '/physical/dashboard' })
     },
     {
       label: t('in-automation:actionHistory.log'),

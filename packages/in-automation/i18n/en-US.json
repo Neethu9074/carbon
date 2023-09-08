@@ -161,9 +161,7 @@
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
     "actionContent": "Action Content",
-
     "hostSnapshotId": "Host Snapshot Id",
-    "targetSnapshotId": "Target Snapshot Id",
     "log": "Log",
     "success": "Success",
     "failed": "Failed",
