@@ -34,9 +34,9 @@ import {
 import RunActionContent, { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
+import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
-import { AgentResponse } from 'in-subscription/agentResponse';
 import { hasError, isLoading } from 'in-services/util/result';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';

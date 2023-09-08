@@ -6,11 +6,16 @@
 
 import React from 'react';
 
-import { ActionInstanceMetadataEntry } from '@instana/types';
+import { ActionInstanceMetadataEntry, ActorType } from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
 import { Li, Link, Ul } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
+import {
+  getEntityIdView,
+  teamSettingsAccessControlUsers,
+  teamSettingsAccessControlApiTokens
+} from 'in-settings/navigation/paths';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -18,13 +23,13 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { getEntityIdView } from 'in-settings/navigation/paths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -45,6 +50,9 @@ interface ActionInstanceProperty {
   targetSnapshotId: string;
   type: string;
   metadata: ActionInstanceMetadataEntry[];
+  actorType?: ActorType;
+  actorId?: string;
+  actorName?: string;
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
   const { createHref, location } = useNavigation();
@@ -68,7 +76,10 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     startDate,
     endDate,
     metadata,
-    type
+    type,
+    actorType,
+    actorName,
+    actorId
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -85,6 +96,17 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
     { label: t('in-automation:actionHistory.eventName'), value: problemText },
+    {
+      label: t('in-automation:actionHistory.initiator'),
+      value: actorName,
+      isLink: true,
+      showCondition:
+        actorName &&
+        actorType !== 'ACTOR_UNKNOWN' &&
+        ((actorType === 'USER' && role?.canConfigureUsers) ||
+          (actorType === 'APITOKEN' && role?.canConfigureApiTokens)),
+      ObservableLink: getActorLink(actorType, actorId)
+    },
     {
       label: t('in-automation:actionHistory.eventId'),
       value: eventId,
@@ -184,4 +206,15 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       </tbody>
     </table>
   );
+}
+
+function getActorLink(actorType?: ActorType, actorId?: string) {
+  switch (actorType) {
+    case 'USER':
+      return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
+    case 'APITOKEN':
+      return getEntityIdView(teamSettingsAccessControlApiTokens, actorId ?? '');
+    default:
+      return null;
+  }
 }

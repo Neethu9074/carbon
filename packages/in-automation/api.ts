@@ -29,7 +29,7 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-automation/ActionCatalog/shared';
-import createAgentResponseObservable from 'in-subscription/agentResponse';
+import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -368,7 +368,7 @@ function runAction({
           ])
         )
       ),
-      createAgentResponseObservable({
+      submitActionExecution({
         action: 'action.run',
         target: volatileId,
         args: {
