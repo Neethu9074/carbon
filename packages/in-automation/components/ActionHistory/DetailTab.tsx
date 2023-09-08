@@ -106,7 +106,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens)),
-      ObservableLink: getActorLInk(actorType, actorId)
+      ObservableLink: getActorLink(actorType, actorId)
     },
     {
       label: t('in-automation:actionHistory.eventId'),
@@ -217,7 +217,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
   );
 }
 
-function getActorLInk(actorType?: ActorType, actorId?: string) {
+function getActorLink(actorType?: ActorType, actorId?: string) {
   switch (actorType) {
     case 'USER':
       return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
