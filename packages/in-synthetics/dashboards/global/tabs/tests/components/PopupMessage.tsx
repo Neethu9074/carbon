@@ -12,7 +12,7 @@ import { Link } from '@instana/components';
 import locals from './PopupMessage.mless';
 
 export default function PoPMessage() {
-  const popDocsUrl = 'https://www.ibm.com/docs/SSE1JP5_current/src/pages/synthetic_monitoring/synmon_permissions.html';
+  const popDocsUrl = 'https://ibm.biz/synmon_permissions';
   const docLinkComponent = (
     <Trans
       i18nKey="in-synthetics:dashboard.testList.popDialog.popUpDialog"
