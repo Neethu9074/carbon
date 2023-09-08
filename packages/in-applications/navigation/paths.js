@@ -401,15 +401,7 @@ function useDashboard(base) {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({
-      applicationId,
-      serviceId,
-      endpointId,
-      boundaryScope,
-      tab = summaryTab,
-      tabMatrix = {},
-      timeConfig
-    }) => {
+    ({ applicationId, serviceId, endpointId, boundaryScope, tab = summaryTab, tabMatrix = {}, timeConfig }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${base}${tab}`;

@@ -225,7 +225,7 @@ const CreateSyntheticTestDialogPresenter = ({
         configForm.get('url') &&
         !configForm.get('url').valid) ||
       (syntheticTypeField.value === 'HTTPAction' &&
-        (configForm.get('headers') &&
+        configForm.get('headers') &&
         headers.filter(
           header =>
             (header.error.name.invalid && !header.error.value.invalid) ||
@@ -234,8 +234,7 @@ const CreateSyntheticTestDialogPresenter = ({
       invalidHeader.invalid ||
       (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
       invalidJSON.invalid ||
-      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
-      ) ||
+      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||

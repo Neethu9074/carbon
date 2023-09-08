@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import Environmental from 'in-zhmc/Dashboards/Systems/tabs/Environmental';
 // @ts-expect-error Module needs to be translated to TS
 import NetworkPorts from 'in-zhmc/Dashboards/Systems/tabs/NetworkPorts';
-import { cpcDashboardFullyQualified } from 'in-zhmc/navigation/paths';
 // @ts-expect-error Module needs to be translated to TS
 import Partitions from 'in-zhmc/Dashboards/Systems/tabs/Partitions';
 // @ts-expect-error Module needs to be translated to TS
 import Summary from 'in-zhmc/Dashboards/Systems/tabs/Summary';
+import Environmental from 'in-zhmc/Dashboards/Systems/tabs/Environmental';
+import { cpcDashboardFullyQualified } from 'in-zhmc/navigation/paths';
 import Channel from 'in-zhmc/Dashboards/Systems/tabs/Channel';
 import Adapter from 'in-zhmc/Dashboards/Systems/tabs/Adapter';
 import { t } from 'in-i18n';
@@ -55,4 +55,3 @@ const tabs: Tab[] = [
 ];
 
 export default tabs;
-

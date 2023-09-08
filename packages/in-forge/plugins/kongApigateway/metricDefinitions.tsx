@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { number, bytes, percentage } from 'in-services/formatters/number';
 // @ts-expect-error needs TS migration
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number, bytes, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [

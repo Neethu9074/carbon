@@ -13,12 +13,10 @@ import {
   getScoredActionsForEventOrAlert,
   EventSpecification,
   getAllActionsWithAISuggestions,
-  getAllActions
+  getAllActions,
+  updateBuiltinEventActionAssociations,
+  updateCustomEventActionAssociations
 } from 'in-automation/api';
-import {
-  updateActionsAssignedToBuiltInEvent,
-  saveCustomEventSpecificationWithActions
-} from 'in-api/eventSpecifications';
 import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData, useDualReload } from './shared';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
@@ -80,16 +78,11 @@ export default function AssociatedActionsCard({
         delete: {
           deleteEntity: action => {
             deleteActionAssociationTracker({ actionName: action.name, actionType: action.type });
-            const updatedActions = Array.isArray(actions)
-              ? actions.filter(a => a.id !== action.id).map(a => ({ id: a.id }))
-              : ({} as { id: string }[]);
-            if (isCustomEvent) {
-              return saveCustomEventSpecificationWithActions({ ...eventSpecification, actions: updatedActions }).tap(
-                triggerReload
-              );
-            } else {
-              return updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).tap(triggerReload);
-            }
+            const updatedActions = (actions as Action[]).filter(a => a.id !== action.id).map(({ id }) => id);
+            const updateActionAssociations = isCustomEvent
+              ? updateCustomEventActionAssociations
+              : updateBuiltinEventActionAssociations;
+            return updateActionAssociations(updatedActions, eventSpecificationId).tap(triggerReload);
           }
         }
       }}
@@ -119,10 +112,9 @@ function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload
   const associatedActionIds = actions.map(a => a.id);
 
   function submitActionSelection(selectedIds: string[]) {
-    const updatedActionIds = [...associatedActionIds, ...selectedIds];
-    const updatedActions = updatedActionIds.map(id => ({ id }));
+    const updatedActions = [...associatedActionIds, ...selectedIds];
     const actionNames = allActions.reduce<string[]>(
-      (acc, action) => [...acc, ...(updatedActionIds.includes(action.id) ? [action.name] : [])],
+      (acc, action) => [...acc, ...(updatedActions.includes(action.id) ? [action.name] : [])],
       []
     );
 
@@ -132,14 +124,10 @@ function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload
       type: isCustomEvent ? 'Custom event' : 'Builtin event'
     });
 
-    if (isCustomEvent) {
-      saveCustomEventSpecificationWithActions({
-        ...eventSpecification,
-        actions: updatedActions
-      }).once(triggerReload);
-    } else {
-      updateActionsAssignedToBuiltInEvent(updatedActions, eventSpecification.id).once(triggerReload);
-    }
+    const updateActionAssociations = isCustomEvent
+      ? updateCustomEventActionAssociations
+      : updateBuiltinEventActionAssociations;
+    return updateActionAssociations(updatedActions, eventSpecification.id).once(triggerReload);
   }
 
   return (
