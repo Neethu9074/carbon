@@ -190,6 +190,6 @@
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
     "hostsLimit": "Hosts Limit",
-    "actor": "Actor"
+    "initiator": "Initiator"
   }
 }
