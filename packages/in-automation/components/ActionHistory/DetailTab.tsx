@@ -29,6 +29,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -100,7 +101,11 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
       label: t('in-automation:actionHistory.actor'),
       value: actorName,
       isLink: true,
-      showCondition: actorName && actorType !== 'ACTOR_UNKNOWN',
+      showCondition:
+        actorName &&
+        actorType !== 'ACTOR_UNKNOWN' &&
+        ((actorType === 'USER' && role?.canConfigureUsers) ||
+          (actorType === 'APITOKEN' && role?.canConfigureApiTokens)),
       ObservableLink: getActorLInk(actorType, actorId)
     },
     {
