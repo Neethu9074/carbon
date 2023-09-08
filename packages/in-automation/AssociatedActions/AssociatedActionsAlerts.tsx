@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import {
   getApplicationAlertActionAssociationsWithResult,
   getAllActions,
-  updateApplicationAlertAssociations,
+  updateApplicationAlertActionAssociations,
   getAllActionsWithAISuggestions
 } from 'in-automation/api';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
@@ -83,7 +83,7 @@ export default function AssociatedActionsAlerts({
         delete: {
           deleteEntity: action => {
             const updatedActions = actions.filter(a => a.id !== action.id).map(obj => obj.id);
-            return updateApplicationAlertAssociations({ actions: updatedActions, alertId: eventSpecificationId }).tap(
+            return updateApplicationAlertActionAssociations(updatedActions, eventSpecificationId).tap(
               reloadActionsTable
             );
           }
@@ -107,7 +107,7 @@ function RightHeader({ eventSpecification, actions, triggerReload }: RightHeader
   const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
   const associatedActionIds = actions.map(a => a.id);
 
-  const { id: applicationId, name: eventName } = eventSpecification;
+  const { id: applicationAlertId, name: eventName } = eventSpecification;
   function submitActionSelection(selectedIds: string[]) {
     const updatedActionIds = [...associatedActionIds, ...selectedIds];
 
@@ -121,7 +121,7 @@ function RightHeader({ eventSpecification, actions, triggerReload }: RightHeader
       type: 'Application alert'
     });
 
-    updateApplicationAlertAssociations({ actions: updatedActionIds, alertId: applicationId }).once(triggerReload);
+    updateApplicationAlertActionAssociations(updatedActionIds, applicationAlertId).once(triggerReload);
   }
 
   return (

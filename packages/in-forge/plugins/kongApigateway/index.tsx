@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+// @ts-expect-error needs TS migration
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/kongApigateway/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/kongApigateway/kpiDefinitions';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 

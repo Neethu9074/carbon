@@ -177,11 +177,10 @@ function Presenter({
     getLinkToInfraEntityExplore
   });
 
-  const groupSortOptions = backendGroupBy.map(groupBy => (
-    {
-      label: groupBy,
-      value: groupBy
-    }));
+  const groupSortOptions = backendGroupBy.map(groupBy => ({
+    label: groupBy,
+    value: groupBy
+  }));
 
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
@@ -331,7 +330,7 @@ function columns({
         })
   };
 
-  const groupsColumn = groupBy.map((groupKey) => {
+  const groupsColumn = groupBy.map(groupKey => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
       id: groupKey,

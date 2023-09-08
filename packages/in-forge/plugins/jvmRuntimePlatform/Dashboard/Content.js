@@ -18,8 +18,8 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { hasCanCreateHeapDump, hasCanCreateThreadDump } from 'in-stores/permission';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
