@@ -5,7 +5,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button, Card, Message, Stack } from '@instana/components';
+import { Button, Card, Message, Stack, Typography } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -14,6 +14,11 @@ import {
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
+import {
+  expandedRCAEventCardTracker,
+  helpfulRCASuggestionTracker,
+  unhelpfulRCASuggestionTracker
+} from 'in-events/tracker';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -89,7 +94,7 @@ export default connectTo(
     return (
       <>
         {eventTests && incidentHasRCAProperty && rcaUIEnabled && (
-          <ListRow
+          <AIEventListRow
             title={'Probable Root Cause Events'}
             events={Array.isArray(eventTests) ? eventTests.sort((a, b) => a.get('start') - b.get('start')) : []}
             triggeringProblemId={eventTests.length > 0 && eventTests[0] && eventTests[0].get('id')}
@@ -134,7 +139,27 @@ export default connectTo(
   }
 );
 
-function ListRow({
+function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card title={title}>
+          {!events && <LoadingIndicator />}
+          {events?.map(_event => (
+            <EventListItem
+              key={_event.get('id')}
+              triggeringProblemId={triggeringProblemId}
+              event={_event}
+              latestSnapshot={latestSnapshot}
+            />
+          ))}
+        </Card>
+      </Col>
+    </Row>
+  );
+}
+
+function AIEventListRow({
   title,
   events,
   triggeringProblemId,
@@ -151,33 +176,33 @@ function ListRow({
       <Col xs>
         <Card
           title={title}
-          leftHeaderContent={isRCA ? <BetaBadge /> : undefined}
+          leftHeaderContent={<BetaBadge />}
           rightHeaderContent={
-            isRCA && (
-              <Stack direction="horizontal" gap="small">
-                <Message className={locals.rcaAIMessage} title="AI Generated" />
-              </Stack>
-            )
+            <Stack direction="horizontal" gap="small">
+              <Message className={locals.rcaAIMessage} title="AI Generated" />
+            </Stack>
           }
         >
           <div className={locals.timeline}>
             {!events && <LoadingIndicator />}
             {events?.map(_event => (
-              <EventListItem
-                key={_event.get('id')}
-                triggeringProblemId={triggeringProblemId}
-                event={_event}
-                latestSnapshot={latestSnapshot}
-                isRCA={isRCA}
-              />
+              <div onClick={expandedRCAEventCardTracker}>
+                <EventListItem
+                  key={_event.get('id')}
+                  triggeringProblemId={triggeringProblemId}
+                  event={_event}
+                  latestSnapshot={latestSnapshot}
+                  isRCA={isRCA}
+                />
+              </div>
             ))}
-            {isRCA && rcaSnapshotID && events.length === 0 && (
+            {rcaSnapshotID && events.length === 0 && (
               <Message
                 title="No Events Found"
                 description={`An entity was found as the root cause but no related events could be attributed to it`}
               />
             )}
-            {isRCA && !rcaSnapshotID && (
+            {!rcaSnapshotID && (
               <Message
                 title="No Probable Root Cause Found"
                 description={
@@ -186,7 +211,7 @@ function ListRow({
               />
             )}
           </div>
-          {isRCA && rcaSnapshotID && (
+          {rcaSnapshotID && (
             <Stack direction="horizontal" gap="normal" distribution="end" align="center">
               <Pagination currentPage={pageNum} numPages={totalPages} onChange={setPageNum} />
               <Button
@@ -201,6 +226,11 @@ function ListRow({
               </Button>
             </Stack>
           )}
+          <Stack direction="horizontal" gap="normal" align="center">
+            <Typography variant="body-small">{'Was this suggestion helpful? '}</Typography>
+            <Button kind="subtle" size="compact" icon="lib_flame" onClick={helpfulRCASuggestionTracker} />
+            <Button kind="subtle" size="compact" icon="lib_openclose_cancel" onClick={unhelpfulRCASuggestionTracker} />
+          </Stack>
         </Card>
       </Col>
     </Row>

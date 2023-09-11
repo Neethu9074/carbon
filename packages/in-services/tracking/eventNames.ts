@@ -408,3 +408,8 @@ export const SYNTHETIC_RESULTS_TAB_CLICK = 'synthetic.monitoring.results.tab.cli
 export const SYNTHETIC_CONFIGURATION_TAB_CLICK = 'synthetic.monitoring.configuration.tab.click';
 export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
 export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';
+
+// Events Page RCA Tracking
+export const EVENT_RCA_SUGGESTION_HELPFUL = 'event.rca.suggestion.helpful';
+export const EVENT_RCA_SUGGESTION_UNHELPFUL = 'event.rca.suggestion.unhelpful';
+export const EVENT_RCA_EXPANDED_CARD = 'event.rca.expanded.card';
