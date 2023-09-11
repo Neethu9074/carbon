@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.0",
+    "@carbon/colors": "^11.19.0",
     "@codemirror/autocomplete": "^6.0.0",
     "@codemirror/commands": "^6.0.0",
     "@codemirror/lang-javascript": "^6.1.2",

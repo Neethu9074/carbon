@@ -44,8 +44,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               formatter: millis.forcedFixedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelOnLoadTime')],
               metricIds: ['onLoadTime'],
-              // opposite color on the color wheel for max contrast
-              colors: ['#e65c17']
+              colors: [theme.lib.carbonCategorical.purple70]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -82,6 +81,13 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
+              colors: [
+                theme.lib.carbonCategorical.cyan50,
+                theme.lib.carbonCategorical.magenta70,
+                theme.lib.carbonCategorical.green60,
+                theme.lib.carbonCategorical.red50,
+                theme.lib.carbonCategorical.purple70
+              ],
               labels: [
                 t('in-websites:websiteDashboard.tabs.speedLabel50th'),
                 t('in-websites:websiteDashboard.tabs.speedLabel90th'),
@@ -95,6 +101,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
+              colors: [theme.lib.carbonCategorical.red90],
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelMean')],
               defaultDisabledMetrics: ['onLoadTimeMean'],
               metricIds: ['onLoadTimeMean']

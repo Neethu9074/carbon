@@ -64,38 +64,38 @@ export default function Latency({
       config: defaultMetricConfig,
       aggregation: 'P50',
       label: t('in-mobile-apps:dashboard.tabs.50thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[0]
+      color: theme.lib.carbonCategorical.cyan50
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P90',
       label: t('in-mobile-apps:dashboard.tabs.90thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[1]
+      color: theme.lib.carbonCategorical.magenta70
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P95',
       label: t('in-mobile-apps:dashboard.tabs.95thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[2]
+      color: theme.lib.carbonCategorical.green60
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P99',
       label: t('in-mobile-apps:dashboard.tabs.99thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[3]
+      color: theme.lib.carbonCategorical.red50
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MAX',
       label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
-      color: theme.lib.colors.chart.strokeColors25[4],
+      color: theme.lib.carbonCategorical.purple70,
       defaultDisabled: !timeShiftConfig.offset
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MEAN',
       label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-      color: theme.lib.colors.chart.strokeColors25[5],
+      color: theme.lib.carbonCategorical.red90,
       defaultDisabled: !timeShiftConfig.offset
     }
   ];

@@ -53,6 +53,7 @@ export default function EventsChart({ timeConfig, query, eventType }) {
           cardTitle={t('in-events:titleOpenEvents')}
           timeConfig={timeConfig}
           granularity={granularity}
+          outlineForColor={theme.lib.outlineForColor}
           includeFirstDataPoint
           y1={{
             renderer: Renderer.stackedBar,
@@ -76,7 +77,7 @@ export default function EventsChart({ timeConfig, query, eventType }) {
 function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push(t('in-events:labelIncidents'));
   metrics.push('incidents');
-  colors.push(theme.lib.colors.orange800);
+  colors.push(theme.lib.carbonAlert.orange40);
   metricsConfiguration.incidents = {
     query: getQueryWithEventTypeFilter('event.type:incident', query),
     granularity
@@ -86,7 +87,7 @@ function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granu
 function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push(t('in-events:labelCritical'), t('in-events:labelWarning'));
   metrics.push('critical', 'warning');
-  colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
+  colors.push(theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30);
   metricsConfiguration.critical = {
     query: getQueryWithEventTypeFilter('event.type:critical', query),
     granularity
@@ -100,7 +101,7 @@ function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granular
 function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push(t('in-events:labelOffline'), t('in-events:labelOnline'), t('in-events:labelChanges'));
   metrics.push('offline', 'online', 'changes');
-  colors.push('#9aa5a9', '#99e1e1', '#cdbcf0');
+  colors.push(theme.lib.carbonAlert.gray60, theme.lib.carbonAlert.blue70, theme.lib.carbonAlert.purple50);
   metricsConfiguration.offline = {
     query: getQueryWithEventTypeFilter('event.type:offline', query),
     granularity
@@ -118,7 +119,7 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
 function getAgentMonitoringConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push(t('in-events:labelCritical'), t('in-events:labelWarning'));
   metrics.push('agent_monitoring_issue_critical', 'agent_monitoring_issue_warning');
-  colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
+  colors.push(theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30);
   metricsConfiguration.agent_monitoring_issue_critical = {
     query: getQueryWithEventTypeFilter('event.type:agent_monitoring_issue event.severity:10', query),
     granularity

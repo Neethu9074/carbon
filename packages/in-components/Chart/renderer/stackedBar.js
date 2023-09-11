@@ -14,6 +14,7 @@ export default {
     if (!axis.calculateStackDifferences) {
       metricMap = calculateMetricMap(metrics);
     }
+    const outlineForColor = config.outlineForColor ?? {};
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
     const width =
       config.xScaleBackBuffer.getRange(config.xScaleBackBuffer.getDomainTo()) -
@@ -27,7 +28,9 @@ export default {
         : rangeRight(metrics.length);
     metricIndexes.map(iMetric => {
       const isLastSeries = iMetric === metrics.length - 1;
-      renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric], isLastSeries);
+      const color = colors100[iMetric];
+      const outlineColor = outlineForColor[color] ?? null;
+      renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, color, outlineColor, isLastSeries);
     });
   },
 
@@ -38,15 +41,15 @@ export default {
   }
 };
 
-export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color, isLastSeries) {
+export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color, outlineColor, isLastSeries) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
-    drawBlock(metricMap, config, scale, block, barWidth, color, isLastSeries);
+    drawBlock(metricMap, config, scale, block, barWidth, color, outlineColor, isLastSeries);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSeries) {
+function drawBlock(metricMap, config, scale, block, barWidth, color, outlineColor, isLastSeries) {
   const chartHeight = scale.getRangeFrom();
 
   config.backBufferCtx.globalAlpha = 1.0;
@@ -73,6 +76,18 @@ function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSerie
 
     config.backBufferCtx.fillStyle = color;
     config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth, barHeight);
+
+    if (outlineColor) {
+      // negative weight for inset border
+      const weight = -1;
+      config.backBufferCtx.strokeStyle = outlineColor;
+      config.backBufferCtx.strokeRect(
+        xPos - weight,
+        chartHeight - barHeight - weight,
+        barWidth + weight * 2,
+        barHeight + weight * 2
+      );
+    }
 
     if (!isLastSeries) {
       config.backBufferCtx.fillStyle = '#fff';

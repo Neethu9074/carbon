@@ -20,7 +20,7 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import { useTheme } from 'in-themes';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function AlertingChart({
@@ -35,7 +35,6 @@ export default function AlertingChart({
   highlight,
   setMetricResultPrecision
 }) {
-  const theme = useTheme();
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
@@ -90,8 +89,7 @@ export default function AlertingChart({
         granularity,
         threshold,
         eventBasedAdaptiveBaseline,
-        viewConfig,
-        theme
+        viewConfig
       )}
       canReload={canReload}
       nonInteractive
@@ -127,15 +125,14 @@ export function getY1(
   granularity,
   threshold,
   eventBasedAdaptiveBaseline,
-  viewConfig,
-  theme
+  viewConfig
 ) {
-  const chartColors = [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']];
+  const chartColors = [theme.lib.carbonCategorical.cyan50, theme.lib.carbonAlert.red60];
 
   const legendColors = [
-    theme.ids.color.option.blue['400'],
-    theme.ids.color.option.red['500'],
-    getColorWithTransparency(theme.ids.color.option.red['500']).c50
+    theme.lib.carbonCategorical.cyan50,
+    theme.lib.carbonAlert.red60,
+    getColorWithTransparency(theme.lib.carbonAlert.red60).c50
   ];
 
   return {
