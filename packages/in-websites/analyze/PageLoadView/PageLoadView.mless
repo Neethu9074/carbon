@@ -19,5 +19,10 @@
 
   .analyticsLink {
     color: @lib__colors__N600Light;
+
+    &:hover {
+      color: @lib__colors__N600Light;
+      text-decoration: none;
+    }
   }
 }
