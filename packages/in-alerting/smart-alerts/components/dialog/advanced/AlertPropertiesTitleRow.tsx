@@ -4,28 +4,36 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm, Item, Field } from 'formalistic';
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+//@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { stopPropagation } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow.mless';
 
+export interface AlertPropertiesTitleRowProps {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  getTitlePlaceholder: (form: MapForm<any>) => string;
+  placeholders: ReadonlyArray<Readonly<Placeholder>>;
+}
 export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
-  placeholders,
-  trackAlertingAdditionalPropsTitleChanged
-}) {
+  placeholders
+}: AlertPropertiesTitleRowProps) {
   const titleTextareaRef = useRef(null);
 
   return (
@@ -37,7 +45,7 @@ export default function AlertPropertiesTitleRow({
         {placeholders.length > 0 && (
           <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
             <MoreMenu
-              renderInteractiveElement={({ ref, toggle }) => (
+              renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
                 <Button
                   kind="action"
                   className={locals.placeholderMenu}
@@ -65,9 +73,8 @@ export default function AlertPropertiesTitleRow({
           ref={titleTextareaRef}
           name="name"
           id="name"
-          onChange={e => {
-            onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
-            trackAlertingAdditionalPropsTitleChanged?.();
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChange(['name'], field => (field as Field<string>).setValue(e.target.value || '').setTouched(true));
           }}
           placeholder={getTitlePlaceholder(form)}
           formField={form.get('name')}
@@ -77,7 +84,11 @@ export default function AlertPropertiesTitleRow({
   );
 }
 
-function insertPlaceholderText(titleTextareaRef, placeholderString, onChange) {
+function insertPlaceholderText(
+  titleTextareaRef: React.MutableRefObject<HTMLTextAreaElement | null>,
+  placeholderString: string,
+  onChange: (path: string[], updater: (item: Item) => Item) => void
+) {
   return () => {
     const textarea = titleTextareaRef.current;
 
@@ -98,14 +109,6 @@ function insertPlaceholderText(titleTextareaRef, placeholderString, onChange) {
     textarea.setSelectionRange(newCursorPosition, newCursorPosition);
     textarea.focus();
 
-    onChange(['name'], field => field.setValue(newValue).setTouched(true));
+    onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
   };
 }
-
-AlertPropertiesTitleRow.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func,
-  getTitlePlaceholder: PropTypes.func.isRequired,
-  placeholders: PropTypes.array.isRequired,
-  trackAlertingAdditionalPropsTitleChanged: PropTypes.func
-};

@@ -18,7 +18,6 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   percentageMetric = false,
   hasSmallInputField,
   isGlobalSmartAlert,
-  trackChange,
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue')
 }) {
   return (
@@ -27,7 +26,6 @@ export default function ThresholdValueFormGroupForStaticThreshold({
         max={maxValue}
         form={form}
         updateForm={updateForm}
-        trackChange={trackChange}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
         isSmall={hasSmallInputField}
