@@ -12,7 +12,6 @@ import { Stack } from '@instana/components';
 
 //@ts-expect-error TS migrate
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import { AlertPropertiesProp } from 'in-alerting/smart-alerts/synthetics/dialog/SyntheticsAlertProperties';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -24,7 +23,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow.mless';
 
-interface AlertPropertiesTitleRowProps extends AlertPropertiesProp {
+export interface AlertPropertiesTitleRowProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;

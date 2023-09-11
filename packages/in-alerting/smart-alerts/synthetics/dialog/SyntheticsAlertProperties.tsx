@@ -19,7 +19,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { t } from 'in-i18n';
 
-export interface AlertPropertiesProp {
+interface AlertPropertiesProp {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }
