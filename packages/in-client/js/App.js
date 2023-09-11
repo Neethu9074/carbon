@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { ThemeProvider } from '@instana/components';
+import { ThemeProvider, getThemeOverride } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
@@ -29,6 +29,7 @@ import 'in-themes/foundation.less';
 import locals from './App.mless';
 
 export default function App() {
+  const currentTheme = getThemeOverride() ?? 'g10';
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -40,7 +41,7 @@ export default function App() {
           // TODO investigate for usages and decide if it can be completely be removed.
         }
         <GlobalTheme>
-          <ThemeProvider theme="default">
+          <ThemeProvider theme={currentTheme}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <NotificationBarSticky />
