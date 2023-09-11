@@ -7,13 +7,12 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-//@ts-expect-error
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueInput';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
 
-interface ThresholdValueInputWithValidationMessageProps {
+export interface ThresholdValueInputWithValidationMessageProps {
   max: number;
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;

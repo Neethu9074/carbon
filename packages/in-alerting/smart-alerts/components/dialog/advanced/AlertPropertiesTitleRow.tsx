@@ -10,7 +10,6 @@ import React, { useRef } from 'react';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
-//@ts-expect-error TS migrate
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error TS migrate
