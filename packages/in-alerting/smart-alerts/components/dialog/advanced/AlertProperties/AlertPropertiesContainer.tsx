@@ -3,13 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import TwoColumnContainer from 'in-alerting/smart-alerts/components/dialog/TwoColumnContainer';
 import { t } from 'in-i18n';
 
-export default function AlertPropertiesContainer({ renderAlertPreview, renderAlertProperties }) {
+interface AlertPropertiesContainerProps {
+  renderAlertPreview: () => ReactNode;
+  renderAlertProperties: () => ReactNode;
+}
+
+export default function AlertPropertiesContainer({
+  renderAlertPreview,
+  renderAlertProperties
+}: AlertPropertiesContainerProps): JSX.Element {
   return (
     <TwoColumnContainer
       mainContentHeadline={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertProperties')}
@@ -19,8 +26,3 @@ export default function AlertPropertiesContainer({ renderAlertPreview, renderAle
     />
   );
 }
-
-AlertPropertiesContainer.propTypes = {
-  renderAlertPreview: PropTypes.func.isRequired,
-  renderAlertProperties: PropTypes.func.isRequired
-};
