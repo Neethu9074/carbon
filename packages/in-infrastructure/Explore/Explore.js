@@ -215,13 +215,17 @@ function Content({
   backendGroupBy
 }) {
   const setMetrics = useCallback(
-    metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }), [setUrl, order, backendGroupBy]
+    metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
+    [setUrl, order, backendGroupBy]
   );
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
-  const onGroupChange = useCallback(groupBy => setUrl({ groupBy, order: getUpdatedOrder(order, metrics, toBackendGroupBy(groupBy))}), [setUrl, order, metrics]);
+  const onGroupChange = useCallback(
+    groupBy => setUrl({ groupBy, order: getUpdatedOrder(order, metrics, toBackendGroupBy(groupBy)) }),
+    [setUrl, order, metrics]
+  );
 
   const backendQueryModel = useMemo(
     () => (isValid ? toBackendQueryModel(tagFilterExpression) : undefined),

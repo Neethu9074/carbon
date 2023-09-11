@@ -23,8 +23,8 @@ const cols = [
         return row.backupDetail.get('TYPE');
       },
       getContent(args) {
-         return <Args args={shorten(args, 128)} />;
-       }
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
@@ -105,8 +105,6 @@ export default connectTo(
     );
   }
 );
-
-
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;

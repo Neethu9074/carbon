@@ -16,8 +16,6 @@ import {
   createCustomSystemRuleBasedEventSpecificationForEntityCount,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
-  getCustomEventActions,
-  saveCustomEventSpecificationWithActions,
   createCustomSystemRuleBasedEventSpecificationForEntityCountVerification
 } from 'in-api/eventSpecifications';
 import {
@@ -44,6 +42,7 @@ import {
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { getCustomEventActionAssociations, updateCustomEventActionAssociations } from 'in-automation/api';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
@@ -76,7 +75,7 @@ export default function CustomEvent(props) {
   const entityId = props.match.params.id;
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecificationMutable(entityId);
-    const actionDetails$ = getCustomEventActions(entityId);
+    const actionDetails$ = getCustomEventActionAssociations(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) => ({
       ...eventResponse,
@@ -233,10 +232,9 @@ function save(event, form, actions) {
       actionNames: actionNames,
       type: 'Custom event'
     });
-    return saveCustomEventSpecificationWithActions({
-      ...eventSpecification,
-      actions: actionIds?.map(value => ({ id: value }))
-    });
+    return saveCustomEventSpecification(eventSpecification).flatMap(() =>
+      updateCustomEventActionAssociations(actionIds, event.id)
+    );
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

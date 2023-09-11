@@ -161,9 +161,7 @@
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
     "actionContent": "Action Content",
-
     "hostSnapshotId": "Host Snapshot Id",
-    "targetSnapshotId": "Target Snapshot Id",
     "log": "Log",
     "success": "Success",
     "failed": "Failed",
@@ -189,6 +187,7 @@
     "feedbackSuccessMessage": "Thank you for your feedback!",
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
-    "hostsLimit": "Hosts Limit"
+    "hostsLimit": "Hosts Limit",
+    "initiator": "Initiator"
   }
 }
