@@ -4736,17 +4736,7 @@ browserslist@^4.16.6, browserslist@^4.17.6:
     node-releases "^2.0.1"
     picocolors "^1.0.0"
 
-browserslist@^4.21.4:
-  version "4.21.4"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/browserslist/-/browserslist-4.21.4.tgz#e7496bbc67b9e39dd0f98565feccdcb0d4ff6987"
-  integrity sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==
-  dependencies:
-    caniuse-lite "^1.0.30001400"
-    electron-to-chromium "^1.4.251"
-    node-releases "^2.0.6"
-    update-browserslist-db "^1.0.9"
-
-browserslist@^4.21.9:
+browserslist@^4.21.4, browserslist@^4.21.9:
   version "4.21.10"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/browserslist/-/browserslist-4.21.10.tgz#dbbac576628c13d3b2231332cb2ec5a46e015bb0"
   integrity sha512-bipEBdZfVH5/pwrvqc+Ub0kUPVfGUhlKxbvfD+z1BDnPEO/X98ruXGA1WP5ASpAFKan7Qr6j736IacbZQuAlKQ==
@@ -4958,10 +4948,15 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-db/-/caniuse-db-1.0.30001278.tgz#93faad7b20164754cc1302dac5dc36dfa44e2758"
   integrity "sha1-k/qteyAWR1TMEwLaxdw236ROJ1g= sha512-5lzq/7B9e3Fj4puD8CnFpS/YleAmLsSvreMF/1KLvi4r71x3fPi4BtbPfDC3yE45sR2jYpTXUCIbphk2SKWrlg=="
 
-caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001517:
-  version "1.0.30001524"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001524.tgz"
-  integrity sha512-Jj917pJtYg9HSJBF95HVX3Cdr89JUyLT4IZ8SvM5aDRni95swKgYi3TgYLH5hnGfPE/U1dg6IfZ50UsIlLkwSA==
+caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280:
+  version "1.0.30001527"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001527.tgz"
+  integrity sha512-YkJi7RwPgWtXVSgK4lG9AHH57nSzvvOp9MesgXmw4Q7n0C3H04L0foHqfxcmSAm5AcWb8dW9AYj2tR7/5GnddQ==
+
+caniuse-lite@^1.0.30001517:
+  version "1.0.30001532"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001532.tgz#c6a4d5d2da6d2b967f0ee5e12e7f680db6ad2fca"
+  integrity sha512-FbDFnNat3nMnrROzqrsg314zhqN5LGQ1kyyMk2opcrwGbVGpHRhgCWtAgD5YJUqNAiQ+dklreil/c3Qf1dfCTw==
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
@@ -6503,15 +6498,10 @@ electron-to-chromium@^1.3.896:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/electron-to-chromium/-/electron-to-chromium-1.4.15.tgz#4bd144d9d13f8b375c65e1a593e7f4a90bd01b90"
   integrity "sha1-S9FE2dE/izdcZeGlk+f0qQvQG5A= sha512-WDw2IUL3k4QpbzInV3JZK+Zd1NjWJPDZ28oUSchWb/kf6AVj7/niaAlgcJlvojFa1d7pJSyQ/KSZsEtq5W7aGQ=="
 
-electron-to-chromium@^1.4.251:
-  version "1.4.284"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz#61046d1e4cab3a25238f6bf7413795270f125592"
-  integrity sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==
-
 electron-to-chromium@^1.4.477:
-  version "1.4.500"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/electron-to-chromium/-/electron-to-chromium-1.4.500.tgz#7dd05fdfbe02ed34b9f6099cfe01407b473d5af7"
-  integrity sha512-P38NO8eOuWOKY1sQk5yE0crNtrjgjJj6r3NrbIKtG18KzCHmHE2Bt+aQA7/y0w3uYsHWxDa6icOohzjLJ4vJ4A==
+  version "1.4.513"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/electron-to-chromium/-/electron-to-chromium-1.4.513.tgz#41a50bf749aa7d8058ffbf7a131fc3327a7b1675"
+  integrity sha512-cOB0xcInjm+E5qIssHeXJ29BaUyWpMyFKT5RB3bsLENDheCja0wMkHJyiPl0NBE/VzDI7JDuNEQWhe6RitEUcw==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -6991,7 +6981,7 @@ esbuild@^0.15.6:
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
-  integrity sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA=
+  integrity sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -11486,11 +11476,6 @@ node-releases@^2.0.13:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/node-releases/-/node-releases-2.0.13.tgz#d5ed1627c23e3461e819b02e57b75e4899b1c81d"
   integrity sha512-uYr7J37ae/ORWdZeQ1xxMJe3NtdmqMC/JZK+geofDrkLUApKRHPd18/TxtBOJ4A0/+uUIliorNrfYV6s1b02eQ==
 
-node-releases@^2.0.6:
-  version "2.0.8"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/node-releases/-/node-releases-2.0.8.tgz#0f349cdc8fcfa39a92ac0be9bc48b7706292b9ae"
-  integrity sha512-dFSmB8fFHEH/s81Xi+Y/15DQY6VHW81nXRj86EMSL3lmuTmK1e+aT4wrFCkTbm+gSwkw4KpX+rT/pMM2c1mF+A==
-
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4:
   version "2.5.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/normalize-package-data/-/normalize-package-data-2.5.0.tgz#e66db1838b200c1dfc233225d12cb36520e234a8"
@@ -12203,7 +12188,7 @@ performance-now@^2.1.0:
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
-  integrity sha1-y1vcdP8/UYkiNur3nWi8RFZKuBw=
+  integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
   version "2.3.0"
@@ -15423,14 +15408,6 @@ update-browserslist-db@^1.0.11:
   version "1.0.11"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/update-browserslist-db/-/update-browserslist-db-1.0.11.tgz#9a2a641ad2907ae7b3616506f4b977851db5b940"
   integrity sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==
-  dependencies:
-    escalade "^3.1.1"
-    picocolors "^1.0.0"
-
-update-browserslist-db@^1.0.9:
-  version "1.0.10"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz#0f54b876545726f17d00cd9a2561e6dade943ff3"
-  integrity sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
