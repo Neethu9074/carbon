@@ -7,13 +7,6 @@
 import React from 'react';
 
 import {
-  trackAlertEdit,
-  trackAlertPaused,
-  trackAlertResumed,
-  trackAlertDeleteConfirm,
-  trackAlertCloneTrigger
-} from 'in-alerting/smart-alerts/components/tracker';
-import {
   deleteGlobalAlertConfig,
   disableGlobalAlertConfig,
   enableGlobalAlertConfig
@@ -26,6 +19,7 @@ import {
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
@@ -70,9 +64,6 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
 
   (enabled ? disableConfig(id) : enableConfig(id)).once(
     () => {
-      (enabled ? trackAlertPaused : trackAlertResumed)({
-        alertConfigId: id
-      });
       refreshSmartAlertConfigsList();
     },
     () => {
@@ -83,12 +74,10 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
 
 function handleClone(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
-  trackAlertCloneTrigger(config);
 }
 
 function handleEdit(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig);
-  trackAlertEdit(config);
 }
 
 function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {

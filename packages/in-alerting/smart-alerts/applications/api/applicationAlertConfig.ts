@@ -6,11 +6,12 @@
 import { Observable } from '@instana/observables';
 
 import { ApplicationAlertConfig, ApplicationAlertConfigWithMetadata, ConfigVersion, Result } from 'in-types';
+import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
-const baseUrl = 'api/events/settings/application-alert-configs';
+const baseUrl = apiEndpoint.APPLICATION;
 
 export function createAlertConfig(data: ApplicationAlertConfig): Observable<ApplicationAlertConfigWithMetadata> {
   return http<ApplicationAlertConfigWithMetadata>({

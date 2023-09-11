@@ -6,79 +6,19 @@
 
 import React from 'react';
 
-import {
-  trackAlertEdit,
-  trackAlertCloneTrigger,
-  trackAlertPaused,
-  trackAlertResumed,
-  trackAlertDeleteConfirm
-} from 'in-alerting/smart-alerts/components/tracker';
-import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig
-} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
+import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { t, Trans } from 'in-i18n';
-
-function handleDelete(id, setIsSaving, configName) {
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.applications.inventory.labelConfirm')}
-      description={
-        <span>
-          <Trans
-            i18nKey="in-alerting:smartAlerts.applications.inventory.labelConfirmRemoveConfig"
-            values={{ configName }}
-          />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.applications.inventory.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        deleteAlertConfig(id).once(
-          () => {
-            trackAlertDeleteConfirm(id);
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-}
-
-function handleToggleEnabled(enabled, id, setIsSaving) {
-  setIsSaving(true);
-
-  (enabled ? disableAlertConfig(id) : enableAlertConfig(id)).once(
-    () => {
-      (enabled ? trackAlertPaused : trackAlertResumed)({
-        alertConfigId: id
-      });
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-}
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
-  trackAlertCloneTrigger(config);
 }
 
 function handleEdit(config) {
   openSmartAlertDialog(config);
-  trackAlertEdit(config);
 }
 
 function openSmartAlertDialog(config, isCopy = false) {
@@ -97,7 +37,7 @@ function openSmartAlertDialog(config, isCopy = false) {
 
 export const actionHandlers = {
   handleClone: config => handleClone(config),
-  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName),
+  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE),
   handleEdit: config => handleEdit(config),
-  handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving)
+  handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
 };

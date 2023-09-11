@@ -11,11 +11,12 @@ import {
   GlobalApplicationsAlertConfig,
   Result
 } from 'in-types';
+import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
-const baseUrl = '/api/events/settings/global-alert-configs/applications';
+const baseUrl = apiEndpoint.APPLICATION_GLOBAL;
 
 export function createGlobalAlertConfig(
   data: GlobalApplicationsAlertConfig

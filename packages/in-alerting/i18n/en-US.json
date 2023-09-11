@@ -794,6 +794,11 @@
         "aggregationTextP95": "95th",
         "aggregationTextP98": "98th",
         "aggregationTextP99": "99th"
+      },
+      "list":{
+        "labelConfirm": "Please Confirm",
+        "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
+        "labelRemove": "Remove"
       }
     },
     "websites": {
@@ -1133,11 +1138,6 @@
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom Payloads"
       }
-    },
-    "inventory": {
-      "labelConfirm": "Please Confirm",
-      "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
-      "labelRemove": "Remove"
     },
     "eum": {
       "customEvent": {
