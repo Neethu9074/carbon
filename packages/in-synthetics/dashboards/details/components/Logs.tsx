@@ -8,38 +8,43 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { Card, ColumnizedContent, Li, Ul } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
+import { logLevelColumn, logMessageColum, timestampColumn } from 'in-synthetics/utils/browserLogsColumnDefinitions';
+import { BrowserMessage, dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
-import { logLevelColumn, timestampColumn } from 'in-synthetics/utils/logsColumnUtils';
-import { dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
+import { consoleLogLevelColumn } from 'in-synthetics/utils/consoleLogsColumnDefinitions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { LOGSFormatType } from 'in-synthetics/utils/getValidFormat';
 
-import locals from './Logs.mless';
+import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 
-interface LogsProps {
-  testId: string;
-  resultId: string;
-  timestamp: number;
-  isBrowserTestType: boolean;
-  metadata: string;
-}
-
-const columnDefinitions = [
-  logLevelColumn,
-  timestampColumn,
+const browserColumnDefinitions = [logLevelColumn, timestampColumn, logMessageColum];
+const consoleColumnDefinitions = [
+  consoleLogLevelColumn,
   {
-    id: 'log',
+    id: 'consoleLogMessage',
+    useMaxHeight: true,
+    widthInAbsoluteUnit: true,
     getContent: LogMessageColumn
   }
 ];
 
-export default function Logs({ testId, resultId, timestamp, isBrowserTestType, metadata }: LogsProps) {
+interface LogsProps {
+  testId: string;
+  resultId: string;
+  isBrowserTestType: boolean;
+  metadata: string;
+  timestamp: number;
+}
+
+export default function Logs({ testId, resultId, isBrowserTestType, metadata, timestamp }: LogsProps) {
   const { data, progress }: TestResultLog =
     useObservable<any, [number]>(() => {
       if (metadata.split(',').includes(LOGSFormatType)) {
@@ -60,7 +65,16 @@ export default function Logs({ testId, resultId, timestamp, isBrowserTestType, m
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.logs')}>
       {data != undefined && data != null && !isEmpty(data) ? (
-        <LogDetails logFiles={data?.logFiles} timestamp={timestamp} isBrowserTestType={isBrowserTestType} />
+        <>
+          <div>
+            <ConsoleLogDetails logFiles={data?.logFiles} timestamp={timestamp} />
+          </div>
+          {isBrowserTestType && data?.logFiles['browser.json'] && (
+            <div>
+              <BrowserLogDetails logFiles={data?.logFiles} />
+            </div>
+          )}
+        </>
       ) : (
         <NoDataAvailable
           type="lib_synthetic"
@@ -72,33 +86,57 @@ export default function Logs({ testId, resultId, timestamp, isBrowserTestType, m
   );
 }
 
-interface LogDetailsProps {
+interface ConsoleLogDetailsProps {
   logFiles: { [index: string]: any };
   timestamp: number;
-  isBrowserTestType: boolean;
 }
 
-function LogDetails({ logFiles, timestamp, isBrowserTestType }: LogDetailsProps) {
+function ConsoleLogDetails({ logFiles, timestamp }: ConsoleLogDetailsProps) {
   return (
-    <Ul space="disabled">
-      <Li key={timestamp} className={locals.selectedRow}>
-        <ColumnizedContent
-          columnDefinitions={columnDefinitions}
-          name={t('in-synthetics:dashboard.detailsPage.consoleLogs')}
-          logs={logFiles['console.log']}
-          timestamp={timestamp}
-        />
-      </Li>
-      {isBrowserTestType && logFiles['browser.json'] && (
-        <Li key={timestamp} className={locals.selectedRow}>
+    <ExpandableLightCard
+      framed
+      title={t('in-synthetics:dashboard.detailsPage.consoleLogs')}
+      darkFrame
+      useMaxAvailableHeight
+      className={locals.expandableCard}
+    >
+      <Ul space="disabled">
+        <Li key={generateUniqueShortId()} className={locals.selectedRow}>
           <ColumnizedContent
-            columnDefinitions={columnDefinitions}
-            name={t('in-synthetics:dashboard.detailsPage.browserLogs')}
-            logs={logFiles['browser.json']}
+            columnDefinitions={consoleColumnDefinitions}
+            name={t('in-synthetics:dashboard.detailsPage.consoleLogsLevel')}
+            logs={logFiles['console.log']}
             timestamp={timestamp}
           />
         </Li>
-      )}
-    </Ul>
+      </Ul>
+    </ExpandableLightCard>
+  );
+}
+
+interface BrowserLogDetailsProps {
+  logFiles: { [index: string]: any };
+}
+
+function BrowserLogDetails({ logFiles }: BrowserLogDetailsProps) {
+  const browserLogs: BrowserMessage[] = JSON.parse(logFiles['browser.json']) || [];
+
+  return (
+    <ExpandableLightCard
+      title={t('in-synthetics:dashboard.detailsPage.browserLogs')}
+      darkFrame
+      useMaxAvailableHeight
+      className={locals.expandableCard}
+    >
+      <Ul space="disabled">
+        {browserLogs.map((item: BrowserMessage) => {
+          return (
+            <Li className={locals.listItem} href={undefined} size="compact" key={generateUniqueShortId()}>
+              <ColumnizedContent columnDefinitions={browserColumnDefinitions} item={item} timestamp={item.timestamp} />
+            </Li>
+          );
+        })}
+      </Ul>
+    </ExpandableLightCard>
   );
 }

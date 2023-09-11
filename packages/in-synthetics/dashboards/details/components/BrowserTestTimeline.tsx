@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -82,12 +83,12 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
     return true;
   });
 
-  const entriesToRender: TestResultEntry[] = filteredEntries.filter((entry: TestResultEntry) => {
+  const entriesToRender: TestResultEntry[] = filteredEntries?.filter((entry: TestResultEntry) => {
     return entry.pageref === pageRefExpanded ? entry : null;
   });
 
   let indexArr: string[] = [];
-  filteredEntries.forEach((entry: TestResultEntry) => {
+  filteredEntries?.forEach((entry: TestResultEntry) => {
     if (!indexArr.includes(entry.pageref)) indexArr.push(entry.pageref);
   });
 
@@ -115,7 +116,7 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
         <>
           <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} />
           <div className={locals.overviewChartContainer}>
-            {filteredEntries.length >= 0 && (
+            {filteredEntries?.length >= 0 && (
               <OverviewChart entries={entriesToRender} earliestTimestamp={startTime} endTimestamp={finishTime} />
             )}
           </div>
@@ -186,11 +187,11 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
             <Tooltip
               themeStyle="light"
               content={<OverviewChartToolTip entry={entry} type={type} />}
-              key={entry.serverIPAddress + Math.random()}
+              key={generateUniqueShortId()}
             >
               <div
                 className={locals.entry}
-                key={entry.startedDateTime + Math.random()}
+                key={generateUniqueShortId()}
                 style={{
                   backgroundColor: typeDefinition.color,
                   // @ts-expect-error left-hand side of the operation is not a number, bigint or any type.

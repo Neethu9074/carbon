@@ -26,14 +26,14 @@ interface EntriesListProps {
 
 export default function EntriesList({ entries, pages, pageRefExpanded, setPageRefExpanded }: EntriesListProps) {
   const render: JSX.Element[] = [];
-  const groupByPageRef = entries.reduce((group: any, entry: TestResultEntry) => {
+  const groupByPageRef = entries?.reduce((group: any, entry: TestResultEntry) => {
     const { pageref } = entry;
     group[pageref] = group[pageref] ?? [];
     group[pageref].push(entry);
     return group;
   }, {});
 
-  if (entries.length === 0) {
+  if (entries?.length === 0) {
     return (
       <NoDataAvailable
         type="lib_synthetic"

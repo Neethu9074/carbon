@@ -14,25 +14,38 @@ export default {
       Component: function redisTLSNotEnabled() {
         return (
           <span>
-            <Trans i18nKey="in-forge:plugins.syntheticPoP.redisTLSNotEnabled" />
+            <Trans i18nKey="in-forge:plugins.syntheticPoP.redisTLSNotEnabledIssueDescription" />
           </span>
         );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop-open-beta#redis-tls-not-enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#redis-tls-not-enabled`
   },
   tls_not_configured: {
     issueDescription: {
       Component: function tlsNotConfigured() {
         return (
           <span>
-            <Trans i18nKey="in-forge:plugins.syntheticPoP.tlsNotConfigured" />
+            <Trans i18nKey="in-forge:plugins.syntheticPoP.tlsNotConfiguredIssueDescription" />
           </span>
         );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop-open-beta#tls-not-configured`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#tls-not-configured`
+  },
+  call_pop_health_api_failed: {
+    issueDescription: {
+      Component: function popHealthAPIFailed() {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.syntheticPoP.popHealthAPIFailedIssueDescription" />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#tls-not-configured`
   }
 };

@@ -29,13 +29,18 @@ export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAcc
     // Refreshes permissionsSet initially or when triggered by removing or adding groups for a user
     setLoading(true);
     const groupsObservable = getGroupsOfASingleUserAsResult(email);
-    groupsObservable.once(result => {
+    const groupsDisposable = groupsObservable.subscribe(result => {
       if (result?.data) {
         // Groups have been fetched
         setPermissionsSet(mergeGroupsAndMapToPermissionSet(result.data));
         setLoading(false);
       }
     });
+
+    return () => {
+      // Clean up
+      groupsDisposable.dispose();
+    };
   }, [email, refresh]);
 
   if (loading) {

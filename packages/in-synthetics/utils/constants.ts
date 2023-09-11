@@ -488,3 +488,10 @@ export interface Invalid {
   invalid: boolean;
   message: string;
 }
+
+export interface BrowserMessage {
+  level: string;
+  message: string;
+  timestamp: number;
+  type: string;
+}
