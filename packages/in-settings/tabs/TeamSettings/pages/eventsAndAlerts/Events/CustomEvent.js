@@ -96,7 +96,7 @@ export default function CustomEvent(props) {
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
 
-  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange, setSaveEnabled } =
+  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm(entityFormParam);
   useEffect(() => {
     if (entityId && entity) viewEventTracker({ entity, type: 'CUSTOM' });
@@ -181,8 +181,6 @@ export default function CustomEvent(props) {
           form={form}
           setForm={setForm}
           onChange={onChange}
-          entity={entity}
-          setSaveEnabled={setSaveEnabled}
           // when we already show an information above, we need to hide another message inside the form
           hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
         />

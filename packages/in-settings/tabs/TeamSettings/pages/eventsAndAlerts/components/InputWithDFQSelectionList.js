@@ -16,7 +16,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './InputWithDFQSelectionList.mless';
 
-export default connectTo({ filters: getAllFilters() })(InputWithSelectionList);
+export default connectTo({ filters: getAllFilters() })(InputWithSelectionList); // TODO replace all uses of this with DfqSearchBar
 
 function InputWithSelectionList({ id, placeholder, hasError, disabled, filters, positionAbove, onChange, value }) {
   const [listVisible, setListVisible] = useState(false);
