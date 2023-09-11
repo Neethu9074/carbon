@@ -14,6 +14,7 @@ import { Link } from '@instana/components';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { isAnsible as isAnsibleFn } from 'in-automation/ActionCatalog/shared';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -21,7 +22,6 @@ import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
 import locals from './ActionTable.mless';
-import { isAnsible as isAnsibleFn } from 'in-automation/ActionCatalog/shared';
 
 interface ParametersTableProps {
   form: MapForm<any>;
@@ -93,7 +93,7 @@ const getColumnDefinitions = ({
   {
     id: 'type',
     sortable: true,
-    width: '8',
+    width: '16',
     label: t('in-automation:ActionCatalog.type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
