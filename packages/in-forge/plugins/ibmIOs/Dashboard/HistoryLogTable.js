@@ -9,7 +9,6 @@ import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpd
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { MessageTypeEnum } from './MessageTypeConst';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -21,6 +20,25 @@ const cols = [
       getValue(row) {
         return row.historyLogRawData.get('messageId');
       }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.historyLogRawData.get('messageType');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.severity'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.historyLogRawData.get('severity');
+      },
+      getContent: number.compact
     }
   },
   {
@@ -47,38 +65,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.historyLogRawData.get('fromProgram');
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageType'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `historyLogMetrics.${row.key}.messageType`;
-      },
-      getContent: MessageTypeEnum,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.severity'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `historyLogMetrics.${row.key}.severity`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
       }
     }
   },
