@@ -9717,17 +9717,17 @@
           "spinningDiskType": {
             "name": "Hardware Disk Drives (HDD) Info",
             "resourceName": "Resource Name",
-            "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
             "diskType": "Disk Type",
+            "diskModel": "Disk Model",
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
-            "raidType": "Raid Type",
+            "unitStorageCapacity": "Storage Capacity",
             "protectionStatus": "Protection Status",
             "unitMediaCapacityGb": "Media Capacity(GB)",
+            "elapsedIORequests": "Elapsed IO Req",
+            "elapsedRequestSize": "Elapsed Req Size",
             "charts": {
-              "elapsedIoRequests": "Elapsed IO Requests",
-              "elapsedRequestSize": "Elapsed Request Size",
               "elapsedPercentBusy": "Elapsed Percent Busy"
             }
           },
