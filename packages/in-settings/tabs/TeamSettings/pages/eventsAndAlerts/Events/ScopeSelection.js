@@ -72,6 +72,8 @@ export default function ScopeSelection({ form, selectedApplicationIds, disabled,
                   {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
                 <DfqSearchBar
+                  id="event-query"
+                  disabled={disabled}
                   theme="light"
                   onQueryValueChange={value => {
                     onChange('query', value);

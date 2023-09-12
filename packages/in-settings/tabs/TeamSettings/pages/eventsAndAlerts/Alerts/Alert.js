@@ -19,7 +19,6 @@ import {
   serializeQuery
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -258,32 +257,17 @@ export function putSelectedSmartAlertsField(form, selectedApplicationAlertIds) {
 }
 
 export function putQueryFields(form, query) {
-  return form
-    .put(
-      'query',
-      createField({
-        value: query,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'validationResult',
-      createField({
-        value: valid(),
-        validator: queryValidationResultValidator
-      })
-    )
-    .put(
-      'queryValidationInProgress',
-      createField({
-        value: false,
-        validator: queryValidationInProgressValidator
-      })
-    );
+  return form.put(
+    'query',
+    createField({
+      value: query,
+      validator: notBlankValidator
+    })
+  );
 }
 
 export function removeQueryFields(form) {
-  return form.remove('query').remove('validationResult').remove('queryValidationInProgress');
+  return form.remove('query');
 }
 
 export function putApplicationField(form, applicationName) {

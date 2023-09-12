@@ -29,7 +29,6 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
-import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { getFormatterType } from 'in-services/formatters/number';
 import { isBlank } from 'in-services/util/string';
@@ -782,25 +781,17 @@ function notBlankOrDeprecatedValidator(entityType) {
 }
 
 export function putQueryFields(form, eventSpec) {
-  return form
-    .put(
-      'query',
-      createField({
-        value: eventSpec.query ?? '',
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'validationResult',
-      createField({
-        value: valid(),
-        validator: queryValidationResultValidator
-      })
-    );
+  return form.put(
+    'query',
+    createField({
+      value: eventSpec.query ?? '',
+      validator: notBlankValidator
+    })
+  );
 }
 
 export function removeQueryFields(form) {
-  return form.remove('query').remove('validationResult');
+  return form.remove('query');
 }
 
 export function getDataSourceFromEventSpecification(entityType, ruleAttributes) {
