@@ -730,32 +730,6 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'systemDiskStatusMetrics',
-        'unitNumber',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber')],
-    min: 0,
-    formatter: number.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'systemDiskStatusMetrics',
-        'aspNumber',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.aspNumber')],
-    min: 0,
-    formatter: number.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'systemDiskStatusMetrics',
         'percentUsed',
         t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
       )
@@ -801,7 +775,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedPercentBusy')],
     min: 0,
-    formatter: percentage.detailed,
+    formatter: percentage.compact,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
   }
 ];

@@ -45,26 +45,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.elapsedIORequests'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.spinningDiskTypeRawData.get('elapsedIORequests');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.elapsedRequestSize'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.spinningDiskTypeRawData.get('elapsedRequestSize');
-      },
-      getContent: number.compact
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.diskType'),
     type: 'string',
     typeArgs: {
@@ -92,7 +72,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSpinningDiskTypeMetrics.${row.key}.unitMediaCapacityGb`;
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

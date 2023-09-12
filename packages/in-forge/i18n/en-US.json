@@ -9749,15 +9749,12 @@
           "systemDiskStatus": {
             "name": "System Overall Disk Information",
             "resourceName": "Resource Name",
-            "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
             "diskType": "Disk Type",
             "unitNumber": "Unit Number",
-            "serialNumber": "Serial Number",
             "aspNumber": "ASP Number",
+            "typeOfDiskUnit": "Type of Disk Unit",
             "raidType": "Raid Type",
-            "protectionStatus": "Protection Status",
-            "multiplePathUnit": "Multiple Path Unit",
             "charts": {
               "elapsedIORequests": "Elapsed IO Requests",
               "elapsedRequestSize": "Elapsed Request Size",
