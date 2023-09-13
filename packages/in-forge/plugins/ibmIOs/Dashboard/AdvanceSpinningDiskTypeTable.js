@@ -88,7 +88,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSpinningDiskTypeMetrics.${row.key}.percentUsed`;
       },
-      getContent: percentage.detailed,
+      getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

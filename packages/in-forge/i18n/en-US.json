@@ -9754,10 +9754,7 @@
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
             "typeOfDiskUnit": "Type of Disk Unit",
-            "raidType": "Raid Type",
             "charts": {
-              "elapsedIORequests": "Elapsed IO Requests",
-              "elapsedRequestSize": "Elapsed Request Size",
               "elapsedPercentBusy": "Elapsed Percent Busy"
             }
           },

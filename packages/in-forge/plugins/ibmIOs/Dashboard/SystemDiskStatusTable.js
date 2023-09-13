@@ -9,7 +9,7 @@ import React from 'react';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage, bytes } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -120,7 +120,7 @@ export default connectTo(
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={6}
+        initialSortColumn={4}
         initialSortDirection="desc"
         getRowDetails={getRowDetails}
       />
@@ -134,30 +134,6 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: number.compact,
-          metrics: ['systemDiskStatusMetrics.' + row.key + '.elapsedIORequests'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedIORequests')],
-          min: 0,
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: bytes.detailed,
-          metrics: ['systemDiskStatusMetrics.' + row.key + '.elapsedRequestSize'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedRequestSize')],
-          min: 0,
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
       <Chart
         snapshotId={snapshotId}
         timeConfig={timeConfig}

@@ -411,7 +411,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.percentUsed')],
     min: 0,
-    formatter: percentage.detailed,
+    formatter: percentage.compact,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
   },
   {
@@ -737,32 +737,6 @@ export default [
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.percentUsed')],
     min: 0,
     formatter: percentage.detailed,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'systemDiskStatusMetrics',
-        'elapsedIORequests',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedIORequests')],
-    min: 0,
-    formatter: number.compact,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'systemDiskStatusMetrics',
-        'elapsedRequestSize',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedRequestSize')],
-    min: 0,
-    formatter: bytes.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
   },
   {
