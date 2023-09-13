@@ -25,9 +25,8 @@ interface LogMessageProps {
   message: string;
   isExpanded: boolean;
   isHovered: boolean;
-  isOverflowing: boolean;
-  setIsExpanded?: (v: boolean) => void;
-  setIsHovered?: (v: boolean) => void;
+  setIsExpanded?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
   getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
   getHrefToGroupedView?: GetHrefToGroupedView;
 }
@@ -37,14 +36,8 @@ export default function LogMessage({
   message,
   getHrefWithAdditionalTagFilter,
   getHrefToGroupedView,
-  setIsExpanded,
-  isExpanded,
-  isOverflowing,
-  setIsHovered,
-  isHovered
+  setIsHovered
 }: LogMessageProps) {
-  const providesMessageExpanding = !isExpanded && isOverflowing && isHovered;
-
   return useMemo(() => {
     const paramTags = tags
       .filter(({ key }) => key && key.indexOf('_msg_param') === 0)
@@ -54,13 +47,7 @@ export default function LogMessage({
       <>
         {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
           type === MESSAGE_CHUNK ? (
-            <MessageTag
-              key={i}
-              message={value}
-              providesMessageExpanding={providesMessageExpanding}
-              setIsHovered={setIsHovered}
-              setIsExpanded={setIsExpanded}
-            />
+            <MessageTag key={i} message={value} setIsHovered={setIsHovered} />
           ) : (
             <ParamTag
               key={i}
@@ -72,7 +59,7 @@ export default function LogMessage({
         )}
       </>
     );
-  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView, providesMessageExpanding]);
+  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView, setIsHovered]);
 }
 
 function getTagExpressionWithTag(name: string, key?: string, value?: string): TagFilter {
@@ -88,21 +75,17 @@ function getTagExpressionWithTag(name: string, key?: string, value?: string): Ta
 
 interface MessageTagProps {
   message: string;
-  setIsExpanded?: (v: boolean) => void;
   setIsHovered?: (v: boolean) => void;
-  providesMessageExpanding: boolean;
 }
 
-function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpanding }: MessageTagProps) {
+function MessageTag({ message, setIsHovered }: MessageTagProps) {
   return (
     <span
       className={classNames({
-        [locals.message]: true,
-        [locals.hovered]: providesMessageExpanding
+        [locals.message]: true
       })}
       onMouseEnter={() => setIsHovered?.(true)}
       onMouseLeave={() => setIsHovered?.(false)}
-      onClick={() => providesMessageExpanding && setIsExpanded && setIsExpanded(true)}
     >
       {message}
     </span>

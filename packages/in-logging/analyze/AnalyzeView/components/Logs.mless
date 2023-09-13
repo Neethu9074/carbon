@@ -11,6 +11,15 @@
 
   .listItem {
     align-items: stretch;
+    :global .li-actions {
+      padding: 0.125rem 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      svg {
+        margin: 0.25rem 0.3125rem;
+      }
+    }
   }
 
   .dateTime {
@@ -29,7 +38,7 @@
   }
 
   .centeredCopyButtonWrapper {
-    align-items: center;
+    align-items: flex-start;
 
     height: 100%;
   }
