@@ -88,7 +88,6 @@ function InfrastructureTable(props: TableWidgetProps) {
   const isShowResultsVisible = loadedItems > 0 && totalItemsCount;
 
   const kpiDefinitions = getKpiDefinitions(type);
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
 
   const [order, setOrder] = useState(sorting);
   const [query, setQuery] = useState('');
@@ -101,6 +100,9 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
+  const metricsIds = metrics.map(metric => metric.metric);
+
+  const metricMetadatas = useMetricMetadatas({ type, queries: metricsIds, kpiDefinitions });
 
   const handleQuery = (query: string) => {
     setQuery(query);

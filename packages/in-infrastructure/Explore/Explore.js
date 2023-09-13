@@ -234,6 +234,7 @@ function Content({
   const pagination = { retrievalSize: 20 };
 
   const catalogQuery = useDebouncedValue('', noop, 800);
+
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
@@ -241,7 +242,18 @@ function Content({
     query: catalogQuery.debouncedValue
   });
 
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions, query: catalogQuery.debouncedValue });
+  const metricsIds = metrics.map(metric => metric.metric);
+  const queries = [...metricsIds];
+
+  if (catalogQuery.debouncedValue !== '') {
+    queries.push(catalogQuery.debouncedValue);
+  }
+
+  const metricMetadatas = useMetricMetadatas({
+    type,
+    kpiDefinitions,
+    queries
+  });
 
   const docLink = `https://instana.github.io/openapi/#operation${
     groupBy?.length > 0 ? '/getEntityGroups' : '/getEntities'
@@ -449,7 +461,7 @@ function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
 
   const uniqueMetricsWithLabels = uniqueMetrics.map((item, index) => ({
     ...item,
-    label: uniqueMetricsLabels[index] || ''
+    label: uniqueMetricsLabels[index]
   }));
 
   return uniqueMetricsWithLabels;

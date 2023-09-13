@@ -91,7 +91,7 @@ export default function FormComponent({
   });
 
   const kpiDefinitions = getKpiDefinitions(type);
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions })?.data;
+  const metricMetadatas = useMetricMetadatas({ type, queries: [metric], kpiDefinitions })?.data;
   const isMetricAndMetadatas = metric && metricMetadatas;
   const formatterBackendType = isMetricAndMetadatas && metricMetadatas[metric]?.formatterType;
   const metricDefaultFormatter = getUiMetricsValueByBackendType(formatterBackendType);

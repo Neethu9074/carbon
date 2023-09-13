@@ -28,6 +28,7 @@ export default function MetricCatalogConfiguratorOverlay({
   type,
   metricMetadatas
 }) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialForm = useMemo(() => getInitialForm(values, maximumNumberOfMetrics), [values, maximumNumberOfMetrics]);
   const [form, setForm] = useState(initialForm);
 
@@ -35,12 +36,14 @@ export default function MetricCatalogConfiguratorOverlay({
     if (initialForm !== form) {
       onChangeExternal(form.toJS());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
   useEffect(() => {
     if (form.size === 0 && values.length !== 0) {
       setForm(getInitialForm(values, maximumNumberOfMetrics));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
   return (

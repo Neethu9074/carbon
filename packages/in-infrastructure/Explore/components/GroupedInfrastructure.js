@@ -186,7 +186,7 @@ function Presenter({
     mapData(metricMetadatas, metadatas => {
       return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
         return {
-          label: `${metadatas[metric]?.label} (${aggregation})`,
+          label: `${metadatas[metric].label} (${aggregation})`,
           value: getMetricKey(metric, aggregation, crossSeriesAggregation)
         };
       });
