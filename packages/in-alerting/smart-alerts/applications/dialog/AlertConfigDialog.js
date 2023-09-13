@@ -53,7 +53,8 @@ export default function AlertConfigDialog({
   const showActionscondition = !isGlobalSmartAlert && role.canConfigureAutomationActions && actionAutomationEnabled;
   //Get associations call and add actionIds to alertConfig.
   useEffect(() => {
-    if (showActionscondition) {
+    //when we migrate deprecated event to alert, we already have actionIds in alertConfig.
+    if (showActionscondition && !alertConfig.actionIds) {
       // To get associations, we need app alert id. If it is duplicate/clone dialog, we can get it from duplicateFrom.
       const alertId = duplicateFrom ?? alertConfig?.id;
       getApplicationAlertActionAssociations(alertId).once(actions => {
