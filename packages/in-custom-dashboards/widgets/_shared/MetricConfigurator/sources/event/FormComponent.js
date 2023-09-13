@@ -8,8 +8,9 @@ import React from 'react';
 import { Stack, Spacer, Toggle } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+//@ts-expect-error
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -39,17 +40,20 @@ export default function FormComponent({
       <Sections>{dataSourceSection}</Sections>
 
       <Sections>
-        <InputInSection
-          label={t('in-custom-dashboards:widgets.srcEvent.formComponent.query')}
-          id="metic-configurator-event-dynamic-focus-query"
-          type="text"
-          value={dynamicFocusQueryField.value}
-          onChange={e => onChange(['dynamicFocusQuery'], field => field.setValue(e.target.value).setTouched(true))}
-          hasError={!dynamicFocusQueryField.valid && dynamicFocusQueryField.touched}
-          additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
-          actions={<HelpAction>{t('in-custom-dashboards:widgets.srcEvent.formComponent.helpAction')}</HelpAction>}
-          maxLength={512}
-        />
+        <Section title={t('in-custom-dashboards:widgets.srcEvent.formComponent.query')}>
+          <Stack direction="horizontal" align="center" distribution="stretch" gap="normal">
+            <DfqSearchBar
+              id="metic-configurator-event-dynamic-focus-query"
+              theme="light"
+              onQueryValueChange={value =>
+                onChange(['dynamicFocusQuery'], field => field.setValue(value).setTouched(true))
+              }
+              queryValue={dynamicFocusQueryField.value}
+              manageFiltersDisabled
+            />
+            <HelpAction>{t('in-custom-dashboards:widgets.srcEvent.formComponent.helpAction')}</HelpAction>
+          </Stack>
+        </Section>
         <Section useAlternateBg>
           <HorizontalFlexWrapper>
             <Toggle
