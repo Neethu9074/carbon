@@ -145,6 +145,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
   const className = `${block}__heading`;
+  if (isRCA) background = background + '80'; //50% opacity of background colour
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>

@@ -18,4 +18,7 @@
   .rcaRegenerate {
     height: fit-content;
   }
+  .errorMessageContainer {
+    width: 17rem;
+  }
 }
