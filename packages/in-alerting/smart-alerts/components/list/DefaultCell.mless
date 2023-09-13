@@ -17,8 +17,8 @@
     line-height: 1.25rem;
   }
   .nameSubtext {
-    color: @lib__colors__N600Light;
-    font-size: @lib__typography__body-small__font-size;
+    color: var(--ids-color-option-neutral-600);
+    font-size: var(--ids-font-size-option-body-small);
     line-height: 1rem;
   }
 }

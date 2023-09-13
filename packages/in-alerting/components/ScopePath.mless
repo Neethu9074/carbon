@@ -17,17 +17,17 @@
 
   .icon {
     margin: 0 0.25rem 0 0;
-    fill: @lib__colors__N900Primary;
+    fill: var(--ids-color-option-neutral-900);
   }
 
   .separator {
     margin: 0 0.25rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .link {
     white-space: normal;
     word-break: break-word;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 }

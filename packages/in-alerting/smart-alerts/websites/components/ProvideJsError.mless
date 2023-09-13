@@ -11,7 +11,7 @@
   }
 
   .jsErrorTextInput {
-    background-color: @lib__colors__N100;
+    background-color: var(--ids-color-option-neutral-100);
   }
 
   .errorMessageSelectWrapper {

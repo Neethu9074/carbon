@@ -19,6 +19,6 @@
 
   .bluePrintText {
     padding: 1rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

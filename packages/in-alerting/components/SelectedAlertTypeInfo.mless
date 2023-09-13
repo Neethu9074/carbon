@@ -10,8 +10,8 @@
   .outerWrapper {
     padding: 1rem;
 
-    background: @lib__colors__N100;
-    border: 1px solid @lib__colors__N300;
+    background: var(--ids-color-option-neutral-100);
+    border: 1px solid var(--ids-color-option-neutral-300);
     margin: 0 0 1rem 0;
   }
 
@@ -20,8 +20,8 @@
 
     padding: 1rem;
 
-    background: @lib__colors__white;
-    border: 1px solid @lib__colors__N300;
+    background: var(--ids-color-option-white);
+    border: 1px solid var(--ids-color-option-neutral-300);
 
     .breakWord();
   }
@@ -31,7 +31,7 @@
   }
 
   .heading {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     line-height: 1.5rem;
   }
 

@@ -8,11 +8,11 @@
 :local {
   .label {
     font-size: 0.875rem;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 
   .subLabel {
     font-size: 0.8125rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

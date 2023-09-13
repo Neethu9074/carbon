@@ -12,8 +12,8 @@
     align-items: center;
     justify-content: center;
 
-    background-color: @lib__colors__N200;
-    color: @lib__colors__N600Light;
+    background-color: var(--ids-color-option-neutral-200);
+    color: var(--ids-color-option-neutral-600);
     height: 14.375rem;
     width: 100%;
     padding: 0 0.5rem 0.5rem;
@@ -23,7 +23,7 @@
     }
 
     > svg {
-      fill: @lib__colors__N600Light;
+      fill: var(--ids-color-option-neutral-600);
     }
   }
 }

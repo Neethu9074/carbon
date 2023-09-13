@@ -36,6 +36,6 @@
   }
 
   .singleChartViewConfig {
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
   }
 }

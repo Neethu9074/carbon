@@ -16,7 +16,7 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     &.columns4 {
       grid-template-columns: 10% 20% repeat(2, auto);
     }
@@ -33,7 +33,7 @@
 
   .icon {
     justify-self: center;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .alertThresholdConfigContainer {
@@ -51,15 +51,15 @@
   }
 
   .operatorLabel {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-size: 0.875rem;
     font-weight: normal;
     margin-left: 0.625rem;
   }
 
   .thresholdTypeSelection {
-    border-bottom: 1px solid @lib__colors__N300;
-    color: @lib__colors__N700Medium;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    color: var(--ids-color-option-neutral-700);
     padding: 0.5rem 0.5rem 0.5rem 0.25rem;
   }
 
@@ -80,12 +80,12 @@
 
   .checkboxDisabled {
     align-items: flex-start; // align top, even when text broken up in lines
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .checked {
     font-weight: bold;
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
   }
 
   .configureImpactControlsWrapper {

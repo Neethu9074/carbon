@@ -13,7 +13,7 @@
 
   .createButton {
     margin-right: 0.5rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 
   .createAlertTestButton {

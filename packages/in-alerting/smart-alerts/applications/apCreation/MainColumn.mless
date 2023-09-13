@@ -7,11 +7,11 @@
 
 :local {
   .iconWarning {
-    fill: @lib__colors__warning;
+    fill: var(--ids-color-option-yellow-500);
   }
 
   .iconCritical {
-    fill: @lib__colors__failure;
+    fill: var(--ids-color-option-red-500);
   }
 
   .labelTextWrapper {

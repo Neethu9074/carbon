@@ -38,6 +38,6 @@
     margin: 0 -1.5rem; // to fill the whole width of the dialog without any padding
     grid-area: errors;
     height: max-content;
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
   }
 }

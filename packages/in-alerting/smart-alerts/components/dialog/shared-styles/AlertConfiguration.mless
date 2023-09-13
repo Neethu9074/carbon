@@ -15,12 +15,12 @@
   }
 
   .evaluationType {
-    border-radius: @lib__shapes__radius_small;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-radius: var(--ids-border-radius-small);
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .lightCardHeader {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }

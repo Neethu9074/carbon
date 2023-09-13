@@ -10,7 +10,7 @@
 :local {
   .secText {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .ellipsis {
@@ -20,7 +20,7 @@
   }
 
   .okayIcon {
-    fill: @lib__colors__success;
+    fill: var(--ids-color-option-green-500);
   }
 
   .icon {

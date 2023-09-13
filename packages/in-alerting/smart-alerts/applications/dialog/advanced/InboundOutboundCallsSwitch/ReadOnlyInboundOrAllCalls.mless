@@ -7,7 +7,7 @@
 
 :local {
   .icon {
-    fill: @lib__colors__teal800;
+    fill: var(--ids-color-option-teal-500);
     margin: 0 4px;
   }
 
@@ -16,18 +16,18 @@
   }
 
   .title {
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     font-size: 0.75rem;
   }
 
   .container {
     display: flex;
     align-items: center;
-    color: @lib__colors__N900Primary;
-    font-size: @lib__typography__body__font-size;
+    color: var(--ids-color-option-neutral-900);
+    font-size: var(--ids-font-size-option-body-regular);
     line-height: 1.25rem;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_medium;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-medium);
     padding: 0.5rem;
   }
 }

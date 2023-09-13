@@ -15,9 +15,9 @@
   }
 
   .headline {
-    color: @lib__colors__N600Light;
-    font-size: @lib__typography__h500__font-size;
-    font-weight: @lib__typography__h500__font-weight;
+    color: var(--ids-color-option-neutral-600);
+    font-size: var(--ids-font-size-option-heading-500);
+    font-weight: var(--ids-font-weight-option-heading-500);
     line-height: 2rem;
     margin-bottom: 1rem;
   }
@@ -27,7 +27,7 @@
     align-items: center;
     font-size: 0.75rem;
     font-weight: 300;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     margin: 0 0 0.25rem -0.125rem;
 
     svg {
@@ -38,7 +38,7 @@
   .duration {
     display: flex;
     align-items: center;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     line-height: 1.25rem;
     font-size: 0.875rem;
     margin-bottom: 1.5rem;
@@ -54,7 +54,7 @@
 
   .description {
     font-size: 0.875rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     margin-bottom: 4rem;
   }
 

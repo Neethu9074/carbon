@@ -12,8 +12,8 @@
     top: 0;
     bottom: 0;
 
-    background-color: rgba(130, 87, 217, 0.1); // @lib__colors__deep-purple800;
-    border: 1px solid rgba(130, 87, 217, 0.5); // @lib__colors__deep-purple800;;
+    background-color: rgba(130, 87, 217, 0.1); // var(--ids-color-option-deep-purple-500);
+    border: 1px solid rgba(130, 87, 217, 0.5); // var(--ids-color-option-deep-purple-500);;
     border-top: none;
     border-bottom: none;
 
