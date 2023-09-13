@@ -135,7 +135,6 @@
     "deleteButton": "Remove {{name}} from list",
     "infrastructureAccessScope": "Access scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
-    "infrastructureDfqExample": "e.g. entity.zone:\"production\" AND NOT event.text:\"TCP*\"",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
     "infrastructureDfqMore": "Learn more.",
     "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms.",
