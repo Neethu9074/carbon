@@ -63,6 +63,7 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -103,14 +104,18 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </FormGroup>
             </>
           )}
-          <SectionHeading>
-            {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
-          </SectionHeading>
-          <EventsSelection form={form} setForm={setForm} />
-          <SectionHeading>
-            {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}
-          </SectionHeading>
-          <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
+          {role?.canConfigureCustomAlerts && (
+            <>
+              <SectionHeading>
+                {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
+              </SectionHeading>
+              <EventsSelection form={form} setForm={setForm} />
+              <SectionHeading>
+                {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}
+              </SectionHeading>
+              <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
+            </>
+          )}
         </Col>
       </Row>
     </fieldset>
