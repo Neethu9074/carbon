@@ -27,8 +27,6 @@ import {
   setPartsToUTCDate,
   subtractDurationFromGivenTime
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
-//@ts-ignore-next-line
-import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import {
   createMaintenanceConfigV2,
   createMaintenanceWindowV2,
@@ -555,30 +553,13 @@ function putApplicationIdFields(form: MapForm<any>, applicationIds: Array<string
 }
 
 function putQueryFields(form: MapForm<any>, query: string) {
-  let updatedForm = form.put(
+  return form.put(
     'query',
     createField({
       value: query,
       validator: notBlankValidator
     })
   );
-  //@ts-ignore-next-line
-  updatedForm = updatedForm.put(
-    'validationResult',
-    createField({
-      value: valid(),
-      validator: queryValidationResultValidator
-    })
-  );
-  //@ts-ignore-next-line
-  updatedForm = updatedForm.put(
-    'queryValidationInProgress',
-    createField({
-      value: false,
-      validator: queryValidationInProgressValidator
-    })
-  );
-  return updatedForm;
 }
 
 function getQueryFromFormField(form: MapForm<any>): string {

@@ -14,12 +14,10 @@ import Applications, {
   submitApplicationSelection,
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
-import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
@@ -72,22 +70,15 @@ export default function MaintenanceScopeStep(props) {
               <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
                 {t('in-settings:tabs.dynamicFocusQuery')}
               </Label>
-              <InputWithDFQSelectionList
+              <DfqSearchBar
                 id="maintenance-query"
-                type="text"
-                placeholder={t('in-settings:tabs.formatExample', {
-                  format: 'entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'
-                })}
-                value={field.value}
-                onChange={value => onChange('query', value)}
-                hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
-                maxLength={2048}
+                theme="light"
+                onQueryValueChange={value => {
+                  onChange('query', value);
+                }}
+                queryValue={field.value || ''}
+                manageFiltersDisabled
               />
-              {form.get('queryValidationInProgress').value && (
-                <LoadingIndicator className={locals.queryLoading} inline />
-              )}
-              <BackendValidationMessages validationResult={form.get('validationResult').value} />
-              <TouchedMessages field={field} />
               <DescriptionText>
                 <Trans
                   i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesTheMatchingAlerts"

@@ -11,7 +11,6 @@ import { SvgIcon } from '@instana/components';
 
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import { createMaintenanceConfig, createMaintenanceWindow, getMaintenanceConfig, saveMaintenanceConfig } from './api';
-import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
@@ -216,28 +215,13 @@ function putApplicationIdFields(form, applicationIds) {
 }
 
 function putQueryFields(form, query) {
-  let updatedForm = form.put(
+  return form.put(
     'query',
     createField({
       value: query,
       validator: notBlankValidator
     })
   );
-  updatedForm = updatedForm.put(
-    'validationResult',
-    createField({
-      value: valid(),
-      validator: queryValidationResultValidator
-    })
-  );
-  updatedForm = updatedForm.put(
-    'queryValidationInProgress',
-    createField({
-      value: false,
-      validator: queryValidationInProgressValidator
-    })
-  );
-  return updatedForm;
 }
 
 function getQueryFromFormField(form) {
