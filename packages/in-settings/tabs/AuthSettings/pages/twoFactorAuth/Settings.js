@@ -14,6 +14,7 @@ import {
   verifyTwoFactorToken
 } from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
@@ -88,16 +89,20 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
       />
       <p>{t('in-settings:tabs.enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration')}</p>
       {form.get('2faToken').map(field => (
-        <Input
-          className={locals.input}
-          type="text"
-          id="2faToken_input"
-          value={field.value || ''}
-          onChange={e =>
-            setForm(form.updateIn(['2faToken'], field => field.setValue(parseInt(e.target.value)).setTouched(true)))
-          }
-          autoComplete="off"
-        />
+        <>
+          <Input
+            className={locals.input}
+            type="text"
+            id="2faToken_input"
+            value={field.value || ''}
+            hasError={!field.valid && field.touched}
+            onChange={e => {
+              setForm(form.updateIn(['2faToken'], field => field.setValue(e.target.value).setTouched(true)));
+            }}
+            autoComplete="off"
+          />
+          <TouchedMessages field={field} />
+        </>
       ))}
     </>
   );
@@ -208,7 +213,7 @@ function enrichForm(form, { setCanSaveItem, setCanDeleteItem, setSaveLabel, resu
 }
 
 function tokenValidator(token) {
-  if (isNaN(token)) {
+  if (isNaN(token) || token.length === 0) {
     return [
       {
         severity: 'error',
