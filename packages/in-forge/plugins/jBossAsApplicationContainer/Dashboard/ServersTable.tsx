@@ -29,7 +29,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'workerMetrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount';
+        return 'workers.connCountInfo.' + row.workerName + '-' + row.key + '.connCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -40,15 +40,15 @@ const cols = [
 ];
 
 export default function ServersTable({ deploymentContext }: any) {
-  const serverMXBeans = deploymentContext.serverMXBeans;
+  const addresses = deploymentContext.addresses;
   const timeConfig = deploymentContext.timeConfig;
   const snapshotId = deploymentContext.snapshotId;
 
-  const rows = serverMXBeans
-    .map((server: Map<string, any>) => {
-      if (typeof server === 'string' && server !== '0') {
+  const rows = addresses
+    .map((address: Map<string, any>) => {
+      if (typeof address === 'string' && address !== '0') {
         return {
-          key: server,
+          key: address,
           workerName: deploymentContext.key,
           timeConfig,
           snapshotId
@@ -80,7 +80,7 @@ function getRowDetails(row: any) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          metrics: ['workerMetrics.connCountMetrics.' + row.workerName + '-' + row.key + '.connCount'],
+          metrics: ['workers.connCountInfo.' + row.workerName + '-' + row.key + '.connCount'],
           labels: [t('in-forge:plugins.jBossAsApplicationContainer.connectionCount')],
           type: 'line',
           formatter: zeroDecimalPlaces
