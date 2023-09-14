@@ -37,6 +37,14 @@ import {
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
 import {
+  agentsPath,
+  containerPath,
+  isTableView,
+  physicalPath,
+  infraSmartAlerts,
+  settingsPath
+} from 'in-stores/navigation/paths/mainPaths';
+import {
   applicationsList,
   isApplicationsView,
   useLinkToAnalyze as useLinkToApplicationAnalyze
@@ -45,13 +53,6 @@ import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
-import {
-  agentsPath,
-  containerPath,
-  isTableView,
-  physicalPath,
-  settingsPath
-} from 'in-stores/navigation/paths/mainPaths';
 import {
   isAnalyzeView as isWebsiteAnalyzeView,
   useLinkToAnalyze,
@@ -322,7 +323,7 @@ function Infrastructure(props) {
     return null;
   }
 
-  const isActive = matchLocation(physicalPath, containerPath) || isTableViewActive;
+  const isActive = matchLocation(physicalPath, containerPath) || isTableViewActive || infraSmartAlerts;
 
   return (
     <View
