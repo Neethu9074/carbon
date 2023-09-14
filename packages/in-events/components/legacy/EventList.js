@@ -208,31 +208,32 @@ function AIEventListRow({
                 />
               )}
             </div>
-            <Stack direction="horizontal" distribution="spaceBetween">
-              <Stack direction="horizontal" gap="small" align="center">
-                <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
-                <Button
-                  kind="subtle"
-                  size="compact"
-                  onClick={() => {
-                    setFeedbackState({ thumbsDown: false, thumbsUp: true });
-                    helpfulRCASuggestionTracker();
-                  }}
-                >
-                  {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
-                </Button>
-                <Button
-                  kind="subtle"
-                  size="compact"
-                  onClick={() => {
-                    setFeedbackState({ thumbsDown: true, thumbsUp: false });
-                    unhelpfulRCASuggestionTracker();
-                  }}
-                >
-                  {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
-                </Button>
-              </Stack>
-              {rcaSnapshotID && (
+            {rcaSnapshotID && (
+              <Stack direction="horizontal" distribution="spaceBetween">
+                <Stack direction="horizontal" gap="small" align="center">
+                  <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+                  <Button
+                    kind="subtle"
+                    size="compact"
+                    onClick={() => {
+                      setFeedbackState({ thumbsDown: false, thumbsUp: true });
+                      helpfulRCASuggestionTracker();
+                    }}
+                  >
+                    {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
+                  </Button>
+                  <Button
+                    kind="subtle"
+                    size="compact"
+                    onClick={() => {
+                      setFeedbackState({ thumbsDown: true, thumbsUp: false });
+                      unhelpfulRCASuggestionTracker();
+                    }}
+                  >
+                    {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
+                  </Button>
+                </Stack>
+
                 <Stack direction="horizontal" gap="normal" distribution="end" align="center">
                   <EventListPagination pageNum={pageNum} numPages={totalPages} setPageNum={setPageNum} />
                   <Button
@@ -246,8 +247,8 @@ function AIEventListRow({
                     {'Regenerate'}
                   </Button>
                 </Stack>
-              )}
-            </Stack>
+              </Stack>
+            )}
           </Stack>
         </Card>
       </Col>
