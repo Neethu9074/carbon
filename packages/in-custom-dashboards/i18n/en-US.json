@@ -768,7 +768,8 @@
             "theValueMustBeUnique": "The selected metric with the same aggregation value has already been added. Please select a different metric or adjust the aggregation value to proceed."
           },
           "formatter": "Formatter",
-          "searchPlaceholder": "Search"
+          "searchPlaceholder": "Search",
+          "countGroup": "Show group count"
         }
       },
       "dataSource": {

@@ -78,7 +78,8 @@ function InfrastructureTable(props: TableWidgetProps) {
     datasets,
     sorting = defaultOrder,
     tableSize = 5,
-    tagFilterExpression: baseTagFilterExpression
+    tagFilterExpression: baseTagFilterExpression,
+    countGroup: isCounterVisible = true
   } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
@@ -190,6 +191,7 @@ function InfrastructureTable(props: TableWidgetProps) {
             isHeaderVisible={false}
             isLoadMoreEnabled={false}
             isTableMode
+            isCounterVisible={isCounterVisible}
             isPreview={isPreview}
             onItemClicked={handleItemClick}
             metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}

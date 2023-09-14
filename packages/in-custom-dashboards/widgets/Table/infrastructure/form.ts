@@ -23,6 +23,7 @@ export const sorting = 'sorting';
 export const source = 'source';
 export const tableSize = 'tableSize';
 export const tagFilterExpression = 'tagFilterExpression';
+export const countGroup = 'countGroup';
 
 export function createGroupField(savedState: Partial<TableFormConfiguration>) {
   return createField({
@@ -48,6 +49,13 @@ export function createTableSizeField(savedState: Partial<TableFormConfiguration>
 export function createSortingField(savedState: Partial<TableFormConfiguration>) {
   return createField({
     value: (savedState && savedState.sorting) || defaultOrder,
+    validator: composeAndShortCircuitOnError(notUndefinedValidator)
+  });
+}
+
+export function createCountGroupField(savedState: Partial<TableFormConfiguration>) {
+  return createField({
+    value: Boolean(savedState.countGroup ?? true),
     validator: composeAndShortCircuitOnError(notUndefinedValidator)
   });
 }

@@ -15,7 +15,8 @@ import {
   metric as metricFieldName,
   metricLabel,
   aggregation as aggregationFieldName,
-  grouping
+  grouping,
+  countGroup
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -28,8 +29,10 @@ import { getShortMetricKey } from 'in-custom-dashboards/widgets/Table/infrastruc
 import GroupConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/GroupConfigurator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import Sections from 'in-components/workspace/Sections/Sections';
+import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 import { Group, TagCatalog } from 'in-types';
 import { t } from 'in-i18n';
@@ -61,6 +64,7 @@ export default function TableConfigurator({
   entityLabel
 }: TableConfiguratorProps) {
   const tagFilterExpressionFieldValue = form.get(tagFilterExpressionFieldName)?.value;
+  const counterField = form.get(countGroup)?.value;
   const datasetsColumnsField = form.get(datasets);
   const metricsSize = datasetsColumnsField.get(metricsPath).size;
   const groups = form.get(grouping).value;
@@ -70,6 +74,8 @@ export default function TableConfigurator({
 
   const sortingOptions: Metric[] = getSortingOptions(entityLabel, metrics, groups);
   const isSortingEnabled = sortingOptions.length > 0;
+
+  const isGroup = groups && groups?.length > 0;
 
   return (
     <Stack gap="normal">
@@ -94,6 +100,23 @@ export default function TableConfigurator({
                 tagCatalog={tagCatalog}
               />
             </Sections>
+
+            {isGroup && (
+              <Sections>
+                <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.countGroup')}>
+                  <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
+                    <CheckboxFancy
+                      checked={counterField}
+                      onChange={({ target }) =>
+                        updateForm(
+                          form.updateIn([countGroup], field => field.setValue(target.checked).setTouched(true))
+                        )
+                      }
+                    />
+                  </Stack>
+                </Section>
+              </Sections>
+            )}
 
             <Sections>
               <TableSizeConfigurator form={form} updateForm={updateForm} />

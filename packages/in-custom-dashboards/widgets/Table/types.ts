@@ -21,6 +21,7 @@ export interface TableFormConfiguration {
   grouping?: Grouping[];
   datasets?: any;
   sorting?: Order;
+  countGroup?: boolean;
 }
 
 export interface TableWidgetProps {

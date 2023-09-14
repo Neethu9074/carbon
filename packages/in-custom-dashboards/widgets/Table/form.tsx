@@ -6,14 +6,15 @@
 
 import { MapForm, createField, createMapForm } from 'formalistic';
 
-// @ts-expect-error needs ts migration
-import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import {
   createEntityField,
   createGroupField,
   createSortingField,
-  createTableSizeField
+  createTableSizeField,
+  createCountGroupField
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+// @ts-expect-error needs ts migration
+import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 // @ts-expect-error needs ts migration
 import { createAxisForm as createColumnForm } from 'in-custom-dashboards/widgets/Chart/form';
 import { createColumnsField, createDynamicFocusQueryField } from 'in-custom-dashboards/widgets/Table/eventsTable/form';
@@ -47,7 +48,8 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
           withColorConfiguration: true,
           withMetricFormatter: true
         }),
-        sorting: createSortingField(savedState)
+        sorting: createSortingField(savedState),
+        countGroup: createCountGroupField(savedState)
       })
     }
   });

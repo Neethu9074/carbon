@@ -68,6 +68,7 @@ export default function GroupedInfrastructure(props) {
     isHeaderVisible = true,
     isTableMode = false,
     isLoadMoreEnabled = true,
+    isCounterVisible = true,
     fixedLayout = true,
     retrievalSize = 20,
     getTotalItems,
@@ -76,7 +77,7 @@ export default function GroupedInfrastructure(props) {
 
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : isTableMode ? [] : [metrics];
+  const dependencies = isPreview ? [retrievalSize, isCounterVisible] : isTableMode ? [isCounterVisible] : [metrics];
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -109,6 +110,7 @@ export default function GroupedInfrastructure(props) {
       isTableMode={isTableMode}
       onItemClicked={onItemClicked}
       isLoadMoreEnabled={isLoadMoreEnabled}
+      isCounterVisible={isCounterVisible}
       totalHits={totalHits}
       fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
@@ -134,6 +136,7 @@ function Presenter({
   isHeaderVisible,
   isTableMode,
   isLoadMoreEnabled,
+  isCounterVisible,
   fixedLayout,
   onItemClicked,
   progress,
@@ -167,6 +170,7 @@ function Presenter({
     groupBy: backendGroupBy,
     getParamsForGroup,
     isTableMode,
+    isCounterVisible,
     onItemClicked,
     granularity,
     timeConfig,
@@ -299,6 +303,7 @@ function columns({
   type,
   getParamsForGroup,
   isTableMode,
+  isCounterVisible,
   metrics,
   timeConfig,
   granularity,
@@ -405,11 +410,13 @@ function columns({
     }
   };
 
-  const cols = isTableMode
-    ? [iconColumn, ...groupsColumn, countLabelColumnTable, ...metricsColumn]
-    : [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
+  if (isTableMode) {
+    const tableColumns = isCounterVisible ? [countLabelColumnTable] : [];
 
-  return cols;
+    return [iconColumn, ...groupsColumn, ...tableColumns, ...metricsColumn];
+  }
+
+  return [iconColumn, ...groupsColumn, spacerColumn, countLabelColumn, ...metricsColumn, focusGroupColumn];
 }
 
 function getColumnWidth(groupBy, metrics, isTableMode) {
