@@ -736,7 +736,7 @@ export default [
     ],
     labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.percentUsed')],
     min: 0,
-    formatter: percentage.detailed,
+    formatter: percentage.compact,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')]
   },
   {
