@@ -3,18 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
+import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import {
   getValueRoundedToDecimals,
   getThresholdValueForPercentageMetric
 } from 'in-alerting/smart-alerts/components/utils/formatUtils';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
+//@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
 import { isNotBlank } from 'in-services/util/string';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
 
+interface ThresholdValueInputProps extends ThresholdValueInputWithValidationMessageProps {
+  delay?: number;
+  id?: string;
+  type?: string;
+  min?: string;
+  step?: string;
+  name?: string;
+}
 /*
  * input field can represent a percentage or normal number field
  */
@@ -27,30 +37,21 @@ export default function ThresholdValueInput({
   step = '1',
   name = 'thresholdValue',
   form,
-  onChange,
   updateForm,
-  trackChange,
   percentageMetric,
   metricUnitPostfix,
   isSmall,
   ...props
-}) {
-  const onValueChange = targetValue => {
-    const value =
-      targetValue !== '' ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
-    if (value > max) {
+}: ThresholdValueInputProps) {
+  const onValueChange = (targetValue: number | undefined) => {
+    const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
+    if (!value || value > max) {
       return;
     }
 
-    if (!updateForm) {
-      onChange?.(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+    if (updateForm) {
+      updateForm?.(form.updateIn(['threshold', 'value'], f => (f as Field<number>).setValue(value).setTouched(true)));
     }
-
-    if (!onChange) {
-      updateForm?.(form.updateIn(['threshold', 'value'], f => f.setValue(value).setTouched(true)));
-    }
-
-    trackChange?.(getTrackingObject(form, { value }));
   };
 
   const thresholdField = form.get('threshold').get('value');

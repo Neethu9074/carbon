@@ -6,12 +6,13 @@
 
 import { Observable } from '@instana/observables';
 
+import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import { InfraAlertConfigWithMetadata, Result } from 'in-types';
 import http from 'in-services/http';
 
-const baseUrl = '/api/events/settings/infra-alert-configs';
+const baseUrl = apiEndpoint.INFRA;
 
 function getRequest(id: string, timestamp: number) {
   return http<InfraAlertConfigWithMetadata>({
@@ -38,31 +39,4 @@ export function getAllAlertConfigsWithResult(): Observable<Result<InfraAlertConf
     url: baseUrl
   });
   return createObservable(request);
-}
-
-export function enableAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'PUT',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}/enable`
-  }).map(response => response.body);
-}
-
-export function disableAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'PUT',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}/disable`
-  }).map(response => response.body);
-}
-
-export function deleteAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'DELETE',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}`
-  }).map(response => response.body);
 }

@@ -17,11 +17,8 @@ import {
   modeEventTypes,
   modeSelectedEvents
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
-import { combinedValidationResults, valid } from 'in-settings/validation';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { isBlank } from 'in-services/util/string';
-import { validate } from 'in-api/search';
 import { days } from 'in-services/time';
 
 export default class FormDataEnrichment extends React.Component {
@@ -39,13 +36,11 @@ export default class FormDataEnrichment extends React.Component {
   applicationIdsInput = create();
 
   matchingEntitesSubscription = null;
-  validationResultSubscription = null;
 
   componentDidMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
     this.emitAllInputs(this.props.form);
     this.setUpMatchingEntitesSubscription(debouncedQuery);
-    this.setUpQueryValidationSubscription(debouncedQuery);
   }
 
   emitAllInputs(form) {
@@ -103,15 +98,6 @@ export default class FormDataEnrichment extends React.Component {
       });
   }
 
-  setUpQueryValidationSubscription(debouncedQuery) {
-    this.validationResultSubscription = debouncedQuery.flatMap(validate).subscribe(validationResponse20 => {
-      // We need to ensure whether the field is available before we update. If the current selected scope is not
-      // 'dfq', the validation result field is not available.
-      this.tryOnChange('validationResult', combinedValidationResults(validationResponse20.body));
-      this.tryOnChange('queryValidationInProgress', false);
-    });
-  }
-
   tryOnChange = (field, value) => {
     if (this.props.form.containsKey(field)) {
       this.props.onChange(field, value);
@@ -143,7 +129,6 @@ export default class FormDataEnrichment extends React.Component {
   }
 
   componentDidUpdate() {
-    startValidationInProgress(this.props.setForm, this.props.form);
     this.emitAllInputs(this.props.form);
   }
 
@@ -151,10 +136,6 @@ export default class FormDataEnrichment extends React.Component {
     if (this.matchingEntitesSubscription) {
       this.matchingEntitesSubscription.dispose();
       this.matchingEntitesSubscription = null;
-    }
-    if (this.validationResultSubscription) {
-      this.validationResultSubscription.dispose();
-      this.validationResultSubscription = null;
     }
   }
 
@@ -212,17 +193,4 @@ function search(timeOpened, query, additionalQueryPart) {
 
 function getValueOrDefault(form, key, fallback) {
   return form.containsKey(key) ? form.get(key).value : fallback;
-}
-
-function startValidationInProgress(setForm, form) {
-  const applyOn = getValueOrDefault(form, 'applyOn', null);
-  const query = getValueOrDefault(form, 'query', '');
-  if (applyOn !== scopeDfq && isBlank(query)) {
-    return;
-  }
-  // hide previous error message
-  let updatedForm = form.updateIn(['validationResult'], field => field.setValue(valid()).setTouched(false));
-  // show progress indicator
-  updatedForm = updatedForm.updateIn(['queryValidationInProgress'], field => field.setValue(true).setTouched(false));
-  setForm(updatedForm);
 }

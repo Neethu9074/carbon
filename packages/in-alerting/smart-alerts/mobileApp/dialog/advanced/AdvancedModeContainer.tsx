@@ -10,8 +10,6 @@ import React from 'react';
 import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana/types';
 
 //@ts-expect-error needs TS migration
-import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
-//@ts-expect-error needs TS migration
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 //@ts-expect-error
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
@@ -26,6 +24,7 @@ import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid

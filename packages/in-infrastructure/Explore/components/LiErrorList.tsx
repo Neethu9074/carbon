@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from "react";
+import React from 'react';
 
-import { Li, Message } from "@instana/components";
-import { t } from "@instana/i18n-react";
-import { Error } from "@instana/types";
+import { Li, Message } from '@instana/components';
+import { t } from '@instana/i18n-react';
+import { Error } from '@instana/types';
 
-import { isTechnicalError } from "in-services/util/error";
+import { isTechnicalError } from 'in-services/util/error';
 
 interface Props {
   errors: Error[];
@@ -23,7 +23,7 @@ export default function LiErrorList({ errors }: Props) {
         {getErrorMessage(error)}
       </Message>
     </Li>
-  ))
+  ));
 }
 
 export function getErrorMessage(err: Error): string {

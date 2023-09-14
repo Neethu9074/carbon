@@ -6,63 +6,14 @@
 
 import React from 'react';
 
-import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig
-} from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, VersionedConfig } from 'in-types';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
+import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { t, Trans } from 'in-i18n';
-
-function handleDelete(id: string, setIsSaving: (saving: boolean) => void, configName: string) {
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.applications.inventory.labelConfirm')}
-      description={
-        <span>
-          <Trans
-            i18nKey="in-alerting:smartAlerts.applications.inventory.labelConfirmRemoveConfig"
-            values={{ configName }}
-          />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.applications.inventory.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        trackAlertDeleteConfirm(id);
-        deleteAlertConfig(id).once(
-          () => {
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-}
-
-function handleToggleEnabled(enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) {
-  setIsSaving(true);
-
-  (enabled ? disableAlertConfig(id) : enableAlertConfig(id)).once(
-    () => {
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-}
 
 function handleClone(config: SyntheticAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
@@ -88,7 +39,7 @@ function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, is
 
 export const actionHandlers: ActionHandlers<SyntheticAlertConfigWithMetadata> = {
   handleClone: config => handleClone(config),
-  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName),
+  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName, baseUrl.SYNTHETICS),
   handleEdit: config => handleEdit(config),
-  handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving)
+  handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.SYNTHETICS)
 };

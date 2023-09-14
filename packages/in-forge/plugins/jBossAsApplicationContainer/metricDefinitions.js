@@ -180,5 +180,39 @@ export default [
     category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: percentage
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'workerMetrics.workerThreadMetrics',
+        'busyWorkerThreadCount',
+        t('in-forge:plugins.jBossAsApplicationContainer.workerName')
+      ),
+      getDynamicMetricMatch(
+        'workerMetrics.workerThreadMetrics',
+        'workerQueueSize',
+        t('in-forge:plugins.jBossAsApplicationContainer.workerName')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount'),
+      t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')
+    ],
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.workersCategory')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'workerMetrics.connCountMetrics',
+        'connCount',
+        t('in-forge:plugins.jBossAsApplicationContainer.server')
+      )
+    ],
+    labels: [t('in-forge:plugins.jBossAsApplicationContainer.connCount')],
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.workersCategory')],
+    min: 0,
+    formatter: number
   }
 ];

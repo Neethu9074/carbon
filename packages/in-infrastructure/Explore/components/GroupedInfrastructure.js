@@ -177,17 +177,16 @@ function Presenter({
     getLinkToInfraEntityExplore
   });
 
-  const groupSortOptions = backendGroupBy.map(groupBy => (
-    {
-      label: groupBy,
-      value: groupBy
-    }));
+  const groupSortOptions = backendGroupBy.map(groupBy => ({
+    label: groupBy,
+    value: groupBy
+  }));
 
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
       return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
         return {
-          label: `${metadatas[metric]?.label} (${aggregation})`,
+          label: `${metadatas[metric].label} (${aggregation})`,
           value: getMetricKey(metric, aggregation, crossSeriesAggregation)
         };
       });
@@ -331,7 +330,7 @@ function columns({
         })
   };
 
-  const groupsColumn = groupBy.map((groupKey) => {
+  const groupsColumn = groupBy.map(groupKey => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
       id: groupKey,

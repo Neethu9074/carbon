@@ -23,11 +23,11 @@ import {
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+//@ts-ignore
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getInfrastructurePermissions } from 'in-stores/permission';
-import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -107,7 +107,6 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
         <FormGroup>
           <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
           <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
-          <DescriptionText>{t('in-settings:PermissionSection.infrastructureDfqExample')}</DescriptionText>
         </FormGroup>
       </StackItem>
       <StackItem>
@@ -142,5 +141,13 @@ export interface InfraDfqProps {
 }
 
 export function InfraDfq({ infraDfqFilter, update }: InfraDfqProps) {
-  return <Input id="infra-dfq-filter" value={infraDfqFilter} onChange={e => update(e.target.value)} />;
+  return (
+    <DfqSearchBar
+      id="infra-dfq-filter"
+      theme="light"
+      onQueryValueChange={update}
+      queryValue={infraDfqFilter}
+      manageFiltersDisabled
+    />
+  );
 }

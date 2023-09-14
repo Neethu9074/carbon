@@ -42,7 +42,7 @@ const SearchBarInput = connectTo(
         searchContext: this.props.contextQuery.searchContext
       }));
 
-      this.editor.setValue(this.props.dfqEntry ?? '');
+      this.editor.setValue(this.props.queryValue ?? '');
 
       let autocompleteShownForCursorPosition = null;
       this.isFocused = false;
@@ -172,7 +172,7 @@ const SearchBarInput = connectTo(
         this.updateQuery(trim(query));
 
         if (
-          !this.props.dfqInsideCustomWidget &&
+          !this.props.manageFiltersDisabled &&
           (!this.isFocused ||
             (change.origin !== '+input' && change.origin !== '+delete' && change.origin !== 'setValue'))
         ) {
@@ -184,7 +184,9 @@ const SearchBarInput = connectTo(
 
       const onChange = () => {
         const query = editor.getValue();
-        if (this.props.dfqInsideCustomWidget) this.props.dfqHandleChange(query);
+        if (this.props.manageFiltersDisabled) {
+          this.props.onQueryValueChange(query);
+        }
         const { ch } = editor.getCursor();
         const cursor = ch - 1;
         const tokens = lex(query);
@@ -317,7 +319,7 @@ const SearchBarInput = connectTo(
       if (this.editor.getValue() !== newQuery) {
         this.editor.setValue(newQuery);
       }
-      setQueryInput(newQuery, this.props.contextQuery.searchContext, this.props.dfqInsideCustomWidget);
+      setQueryInput(newQuery, this.props.contextQuery.searchContext, this.props.manageFiltersDisabled);
     };
 
     removeBlockFromQuery = blockId => {

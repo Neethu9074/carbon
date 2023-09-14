@@ -54,6 +54,7 @@ interface MetricItem {
   formatter: string;
   crossSeriesAggregation: string;
   metricLabel: string;
+  label: string;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -87,7 +88,6 @@ function InfrastructureTable(props: TableWidgetProps) {
   const isShowResultsVisible = loadedItems > 0 && totalItemsCount;
 
   const kpiDefinitions = getKpiDefinitions(type);
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions });
 
   const [order, setOrder] = useState(sorting);
   const [query, setQuery] = useState('');
@@ -100,6 +100,9 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
+  const metricsIds = metrics.map(metric => metric.metric);
+
+  const metricMetadatas = useMetricMetadatas({ type, queries: metricsIds, kpiDefinitions });
 
   const handleQuery = (query: string) => {
     setQuery(query);
@@ -249,10 +252,10 @@ function InfrastructureTable(props: TableWidgetProps) {
 
 function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ aggregation, metric, formatter, metricLabel }) => ({
+    ({ aggregation, metric, formatter, label, metricLabel }) => ({
       aggregation,
       formatterId: formatter,
-      label: metricLabel,
+      label: label !== '' ? label : metricLabel,
       metricLabel,
       metric
     })

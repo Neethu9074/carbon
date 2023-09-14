@@ -10,9 +10,9 @@ import React, { useState } from 'react';
 import { Spacer, Stack } from '@instana/components';
 
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-//@ts-expect-error
-import SearchBarDfq from 'in-custom-dashboards/widgets/Table/eventsTable/SearchBarDfq';
 import { eventColumns } from 'in-custom-dashboards/widgets/Table/eventsTable/EventColumns';
+//@ts-expect-error
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 //@ts-expect-error
 import { trim } from 'in-components/SearchBar/Input';
@@ -33,7 +33,7 @@ export default function FormComponent({
 
   const [dynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
 
-  function handleDfqChangeFn(value: string) {
+  function handleDfqChange(value: string) {
     updateForm(
       form.updateIn(['dynamicFocusQuery'], (field: Item) =>
         (field as Field<string>).setValue(trim(value)).setTouched(true)
@@ -62,12 +62,11 @@ export default function FormComponent({
       <Sections>
         <Section title={t('in-custom-dashboards:widgets.table.form.query')}>
           <Stack direction="horizontal" align="center" distribution="stretch" gap="normal">
-            <SearchBarDfq
+            <DfqSearchBar
               theme="light"
-              dfqHandleChange={handleDfqChangeFn}
-              dfqEntry={dynamicFocusQuery}
-              dfqInsideCustomWidget
-              saveFilterDisabled
+              onQueryValueChange={handleDfqChange}
+              queryValue={dynamicFocusQuery}
+              manageFiltersDisabled
             />
             <HelpAction>{t('in-custom-dashboards:widgets.table.form.helpAction')}</HelpAction>
           </Stack>

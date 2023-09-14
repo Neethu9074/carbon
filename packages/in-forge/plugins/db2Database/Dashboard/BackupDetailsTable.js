@@ -7,7 +7,6 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { positiveNumber } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -24,8 +23,8 @@ const cols = [
         return row.backupDetail.get('TYPE');
       },
       getContent(args) {
-         return <Args args={shorten(args, 128)} />;
-       }
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
@@ -106,8 +105,6 @@ export default connectTo(
     );
   }
 );
-
-
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;

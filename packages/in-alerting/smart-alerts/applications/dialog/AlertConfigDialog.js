@@ -25,8 +25,8 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { updateApplicationAlertActionAssociations } from 'in-automation/api';
 import { getApplicationAlertActionAssociations } from 'in-automation/api';
-import { updateApplicationAlertAssociations } from 'in-automation/api';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
@@ -53,7 +53,8 @@ export default function AlertConfigDialog({
   const showActionscondition = !isGlobalSmartAlert && role.canConfigureAutomationActions && actionAutomationEnabled;
   //Get associations call and add actionIds to alertConfig.
   useEffect(() => {
-    if (showActionscondition) {
+    //when we migrate deprecated event to alert, we already have actionIds in alertConfig.
+    if (showActionscondition && !alertConfig.actionIds) {
       // To get associations, we need app alert id. If it is duplicate/clone dialog, we can get it from duplicateFrom.
       const alertId = duplicateFrom ?? alertConfig?.id;
       getApplicationAlertActionAssociations(alertId).once(actions => {
@@ -171,7 +172,7 @@ function createOrSaveAlert({
       config => {
         // add action associations
         if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          updateApplicationAlertAssociations({ actions: actionIds, alertId: form.get('id').value }).once(
+          updateApplicationAlertActionAssociations(actionIds, form.get('id').value).once(
             () => {
               onClose(config);
               showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
@@ -206,7 +207,7 @@ function createOrSaveAlert({
           !isEffectivelyGlobalSmartAlert &&
           actionIds.length > 0
         ) {
-          updateApplicationAlertAssociations({ actions: actionIds, alertId: config.id }).once(
+          updateApplicationAlertActionAssociations(actionIds, config.id).once(
             () => {
               onClose(config);
               const href = getLinkToAlertConfig(config.id, null, config.applicationId);

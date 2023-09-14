@@ -8,11 +8,7 @@ import React, { useMemo, useState } from 'react';
 
 import { Message } from '@instana/components';
 
-import {
-  getCustomEventSpecificationMutable,
-  saveCustomEventSpecificationWithActions,
-  updateActionsAssignedToBuiltInEvent
-} from 'in-api/eventSpecifications';
+import { updateCustomEventActionAssociations, updateBuiltinEventActionAssociations } from 'in-automation/api';
 import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './shared';
 import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
 import NotificationComponent from 'in-components/form/Notification/Notification';
@@ -132,14 +128,12 @@ function associateAction({
   const handleErrors = () => setError(true);
   const updatedActions = 'message' in existingActions ? [action] : [...existingActions, action];
 
-  if (isCustomEvent) {
-    getCustomEventSpecificationMutable(event.id).once(
-      response =>
-        saveCustomEventSpecificationWithActions({ ...response, actions: updatedActions }).once(onSave, handleErrors),
-      handleErrors
-    );
-    return;
-  }
+  const updateActionAssociations = isCustomEvent
+    ? updateCustomEventActionAssociations
+    : updateBuiltinEventActionAssociations;
 
-  updateActionsAssignedToBuiltInEvent(updatedActions, event.id).once(onSave, handleErrors);
+  updateActionAssociations(
+    updatedActions.map(({ id }) => id),
+    event.id
+  ).once(onSave, handleErrors);
 }

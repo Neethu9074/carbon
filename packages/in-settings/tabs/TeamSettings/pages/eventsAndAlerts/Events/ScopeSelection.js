@@ -26,32 +26,18 @@ import {
   onChangeApplyOn,
   isHostAvailabilitySystemRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeSelection.mless';
-
-export default function ScopeSelection({
-  form,
-  selectedApplicationIds,
-  disabled,
-  onChange,
-  queryValidationInProgress,
-  setQueryValidationInProgress,
-  startQueryValidation,
-  setSaveEnabled,
-  setForm
-}) {
+export default function ScopeSelection({ form, selectedApplicationIds, disabled, onChange, setForm }) {
   return (
     <>
       <Row>
@@ -85,30 +71,16 @@ export default function ScopeSelection({
                 <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
                   {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
-                <InputWithDFQSelectionList
+                <DfqSearchBar
+                  id="event-query"
                   disabled={disabled}
-                  id={'event-query'}
-                  placeholder={t('in-settings:tabs.formatExample', {
-                    format: 'entity.zone:"prod" AND entity.service.name:"Shop"'
-                  })}
-                  value={field.value || ''}
-                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
-                  onChange={value => {
-                    onChange('query', value, updatedForm => {
-                      return startQueryValidation(
-                        value,
-                        updatedForm,
-                        onChange,
-                        setQueryValidationInProgress,
-                        setSaveEnabled
-                      );
-                    });
+                  theme="light"
+                  onQueryValueChange={value => {
+                    onChange('query', value);
                   }}
-                  positionAbove
+                  queryValue={field.value || ''}
+                  manageFiltersDisabled
                 />
-                {queryValidationInProgress && <LoadingIndicator className={locals.queryLoading} inline />}
-                <BackendValidationMessages validationResult={form.get('validationResult').value} />
-                <TouchedMessages field={field} />
                 <DescriptionText>
                   <Trans
                     i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied"

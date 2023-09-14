@@ -20,14 +20,13 @@ import {
   scopeEverything,
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import { modeSelectedSmartAlerts } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { isBlank } from 'in-services/util/string';
@@ -97,20 +96,15 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                 <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
                   {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
-                <InputWithDFQSelectionList
+                <DfqSearchBar
                   id="config-query"
-                  placeholder={t('in-settings:tabs.formatExample', {
-                    format: 'entity.zone:"production" AND NOT event.text:"TCP*"'
-                  })}
-                  value={field.value}
-                  onChange={value => onChange('query', value)}
-                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+                  theme="light"
+                  onQueryValueChange={value => {
+                    onChange('query', value);
+                  }}
+                  queryValue={field.value || ''}
+                  manageFiltersDisabled
                 />
-                {form.get('queryValidationInProgress').value && (
-                  <LoadingIndicator className={locals.queryLoading} inline />
-                )}
-                <BackendValidationMessages validationResult={form.get('validationResult').value} />
-                <TouchedMessages field={field} />
                 <DescriptionText>
                   <Trans
                     i18nKey="in-settings:tabs.dfqFormDesc"

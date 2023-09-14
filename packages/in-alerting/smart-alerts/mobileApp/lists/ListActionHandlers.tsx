@@ -8,58 +8,12 @@ import React from 'react';
 
 import { MobileAppAlertConfigWithMetadata } from '@instana/types';
 
-import {
-  disableAlertConfig,
-  enableAlertConfig,
-  deleteAlertConfig
-} from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
+import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { t, Trans } from 'in-i18n';
-
-function handleDelete(id: string, setIsSaving: (saving: boolean) => void, configName: string) {
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.inventory.labelConfirm')}
-      description={
-        <span>
-          <Trans i18nKey="in-alerting:smartAlerts.inventory.labelConfirmRemoveConfig" values={{ configName }} />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.inventory.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        deleteAlertConfig(id).once(
-          () => {
-            trackAlertDeleteConfirm(id);
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-}
-
-function handleToggleEnabled(enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) {
-  setIsSaving(true);
-
-  (enabled ? disableAlertConfig(id) : enableAlertConfig(id)).once(
-    () => {
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-}
+import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 
 function handleEdit(config: MobileAppAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
@@ -82,10 +36,10 @@ function openSmartAlertDialog(config: MobileAppAlertConfigWithMetadata, isCopy =
 export const actionHandlers = {
   handleClone: (config: MobileAppAlertConfigWithMetadata) => handleClone(config),
   handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
-    handleDelete(id, setIsSaving, configName),
+    handleDelete(id, setIsSaving, configName, baseUrl.MOBILEAPP),
   handleEdit: (config: MobileAppAlertConfigWithMetadata) => handleEdit(config),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
-    handleToggleEnabled(enabled, id, setIsSaving)
+    handleToggleEnabled(enabled, id, setIsSaving, baseUrl.MOBILEAPP)
 };
 
 function handleClone(config: MobileAppAlertConfigWithMetadata) {

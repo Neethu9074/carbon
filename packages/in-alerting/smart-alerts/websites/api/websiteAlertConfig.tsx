@@ -5,12 +5,18 @@
 
 import { Observable } from '@instana/observables';
 
+import {
+  deleteAlertConfig as deleteAlertConfigApi,
+  disableAlertConfig as disableAlertConfigApi,
+  enableAlertConfig as enableAlertConfigApi
+} from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
 import { WebsiteAlertConfigWithMetadata, ConfigVersion, Result, WebsiteAlertConfig } from 'in-types';
+import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
-const baseUrl = 'api/events/settings/website-alert-configs';
+const baseUrl = apiEndpoint.WEBSITE;
 
 export function createAlertConfig(data: WebsiteAlertConfig): Observable<WebsiteAlertConfigWithMetadata> {
   return http<WebsiteAlertConfigWithMetadata>({
@@ -126,30 +132,15 @@ export function getAlertConfigByIdAndTimestamp(
 }
 
 export function enableAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'PUT',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}/enable`
-  }).map(response => response.body);
+  return enableAlertConfigApi(id, baseUrl);
 }
 
 export function disableAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'PUT',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}/disable`
-  }).map(response => response.body);
+  return disableAlertConfigApi(id, baseUrl);
 }
 
 export function deleteAlertConfig(id: string): Observable<void> {
-  return http<void>({
-    method: 'DELETE',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}`
-  }).map(response => response.body);
+  return deleteAlertConfigApi(id, baseUrl);
 }
 
 export function restoreAlertConfigVersion(id: string, created: number): Observable<WebsiteAlertConfigWithMetadata> {

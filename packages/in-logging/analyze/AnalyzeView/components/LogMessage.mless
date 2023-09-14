@@ -8,10 +8,10 @@
 :local {
   .message {
     color: @lib__colors__N900Primary;
+    user-select: all;
   }
 
   .hovered {
-    text-decoration: underline;
     cursor: pointer;
   }
 

@@ -28,10 +28,10 @@ export default connectTo(
     presetsVisible: presetsVisible$,
     query: query$.distinct().startWith('')
   },
-  class SearchBarDfq extends React.Component {
+  class DfqSearchBar extends React.Component {
     componentDidMount() {
       refresh();
-      setQueryInput(this.props.dfqEntry, '', true);
+      setQueryInput(this.props.queryValue, '', true);
     }
 
     componentWillUnmount() {
@@ -41,11 +41,11 @@ export default connectTo(
     render() {
       const {
         theme = 'light',
-        dfqInsideCustomWidget,
-        saveFilterDisabled,
+        withPadding,
+        manageFiltersDisabled,
         presetsVisible,
-        dfqHandleChange,
-        dfqEntry
+        onQueryValueChange,
+        queryValue
       } = this.props;
       const buttonClass = classNames({
         [locals.button]: true,
@@ -53,7 +53,7 @@ export default connectTo(
       });
 
       function setFilter(value) {
-        dfqHandleChange(value);
+        onQueryValueChange(value);
         setQueryInput(value, '', true);
         togglePresets();
       }
@@ -64,26 +64,25 @@ export default connectTo(
             ['in-searchbar']: true,
             [`in-searchbar-${theme}`]: true,
             [locals.wrapper]: true,
-            [locals.wrapperWithPadding]: !dfqInsideCustomWidget,
+            [locals.wrapperWithPadding]: withPadding,
             [locals[`wrapper${theme}`]]: theme
           })}
         >
           {presetsVisible ? (
-            <FilterPresets dfqInsideCustomWidget={dfqInsideCustomWidget} setFilter={setFilter} />
+            <FilterPresets manageFiltersDisabled={manageFiltersDisabled} setFilter={setFilter} />
           ) : null}
 
           <div
             className={classNames({
               [locals.inputWrapper]: true,
-              [locals.withoutSaveFilter]: saveFilterDisabled,
+              [locals.withoutSaveFilter]: manageFiltersDisabled,
               [locals[`inputWrapper${theme}`]]: theme
             })}
           >
             <Input
-              dfqInsideCustomWidget={dfqInsideCustomWidget}
-              saveFilterDisabled={saveFilterDisabled}
-              dfqHandleChange={handleChangeWithDebounce(dfqHandleChange)}
-              dfqEntry={dfqEntry}
+              manageFiltersDisabled={manageFiltersDisabled}
+              onQueryValueChange={handleChangeWithDebounce(onQueryValueChange)}
+              queryValue={queryValue}
             />
           </div>
           <ClearQueryButton buttonClass={buttonClass} />
@@ -104,8 +103,8 @@ export default connectTo(
   }
 );
 
-function handleChangeWithDebounce(dfqHandleChange) {
-  const debounceFn = debounce(dfqHandleChange, 500);
+function handleChangeWithDebounce(dfqChangeHandler) {
+  const debounceFn = debounce(dfqChangeHandler, 500);
   return function handleChange(dfQuery) {
     debounceFn(trim(dfQuery));
   };

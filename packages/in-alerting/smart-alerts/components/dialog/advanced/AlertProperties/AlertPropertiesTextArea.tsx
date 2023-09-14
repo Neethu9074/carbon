@@ -4,7 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
+import { Field } from 'formalistic';
 
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -12,28 +12,34 @@ import TextArea from 'in-components/form/TextArea/TextArea';
 
 import locals from './AlertPropertiesTextArea.mless';
 
-const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea({ formField, ...reaminingProps }, ref) {
+interface AlertPropertiesTextareaProps {
+  name: string;
+  id: string;
+  rows?: string;
+  onChange: (arg: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder: string;
+  formField: Field<string>;
+}
+
+const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea(
+  { formField, ...remainingProps }: AlertPropertiesTextareaProps,
+  ref
+) {
   return (
     <FormGroup>
       <TextArea
-        {...reaminingProps}
+        {...remainingProps}
         hasError={hasFieldError(formField)}
         className={locals.textArea}
         value={formField?.value}
-        ref={ref}
+        ref={ref as React.MutableRefObject<HTMLTextAreaElement>}
       />
       <TouchedMessages field={formField} />
     </FormGroup>
   );
 });
 
-AlertPropertiesTextarea.propTypes = {
-  formField: PropTypes.shape({
-    value: PropTypes.string
-  })
-};
-
-function hasFieldError(field) {
+function hasFieldError(field: Field<string>): boolean {
   return field && !field?.valid && field?.touched;
 }
 

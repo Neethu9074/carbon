@@ -16,8 +16,6 @@ import {
   createCustomSystemRuleBasedEventSpecificationForEntityCount,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
-  getCustomEventActions,
-  saveCustomEventSpecificationWithActions,
   createCustomSystemRuleBasedEventSpecificationForEntityCountVerification
 } from 'in-api/eventSpecifications';
 import {
@@ -44,6 +42,7 @@ import {
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { getCustomEventActionAssociations, updateCustomEventActionAssociations } from 'in-automation/api';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
@@ -76,7 +75,7 @@ export default function CustomEvent(props) {
   const entityId = props.match.params.id;
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecificationMutable(entityId);
-    const actionDetails$ = getCustomEventActions(entityId);
+    const actionDetails$ = getCustomEventActionAssociations(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) => ({
       ...eventResponse,
@@ -97,7 +96,7 @@ export default function CustomEvent(props) {
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
 
-  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange, setSaveEnabled } =
+  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm(entityFormParam);
   useEffect(() => {
     if (entityId && entity) viewEventTracker({ entity, type: 'CUSTOM' });
@@ -182,8 +181,6 @@ export default function CustomEvent(props) {
           form={form}
           setForm={setForm}
           onChange={onChange}
-          entity={entity}
-          setSaveEnabled={setSaveEnabled}
           // when we already show an information above, we need to hide another message inside the form
           hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
         />
@@ -233,10 +230,9 @@ function save(event, form, actions) {
       actionNames: actionNames,
       type: 'Custom event'
     });
-    return saveCustomEventSpecificationWithActions({
-      ...eventSpecification,
-      actions: actionIds?.map(value => ({ id: value }))
-    });
+    return saveCustomEventSpecification(eventSpecification).flatMap(() =>
+      updateCustomEventActionAssociations(actionIds, event.id)
+    );
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

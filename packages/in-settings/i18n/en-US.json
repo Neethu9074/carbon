@@ -135,7 +135,6 @@
     "deleteButton": "Remove {{name}} from list",
     "infrastructureAccessScope": "Access scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
-    "infrastructureDfqExample": "e.g. entity.zone:\"production\" AND NOT event.text:\"TCP*\"",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
     "infrastructureDfqMore": "Learn more.",
     "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms.",
@@ -316,7 +315,6 @@
     "newPersonalApiToken": "New Personal API Token",
     "apiTokenEntityName": "API token {{entityName}}",
     "personalApiTokenEntityName": "Personal API token {{entityName}}",
-    "formatExample": "e.g. {{format}}",
     "addUser": "Add User",
     "permitsAccessToLabelMonitoringFunctionality": "Permits access to {{label}} monitoring functionality.",
     "failedToSaveGroup": "Failed to save group: {{err}}",
@@ -438,7 +436,6 @@
     "monitoringIssues": "Monitoring Issues",
     "applicationPerspectives": " Application Perspectives",
     "applicationPerspectiveEntityLabel": "Application Perspective {{entityLabel}}",
-    "saveFiltersForEasyAccessHere": "Save filters for easy access here",
     "keyEquals": "key equals",
     "selectTag": "Select Tag",
     "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation</docLink> for more details.",
@@ -813,7 +810,6 @@
     "pleaseSelectAtLeastOneAlertChannel": "Please select at least one alert channel.",
     "5CustomPayloadsOptional": "5. Custom Payloads (Optional)",
     "CustomPayloadDescriptionText": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification.",
-    "savedFilters": "Saved Filters",
     "configureCustomPayloadForAlerts": "Configure Custom Payload for Alerts",
     "configureCustomPayload": "Configure Custom Payload",
     "youAreNotPermittedToEditCustomPayloads": "You are not permitted to edit custom payloads.",
@@ -1147,7 +1143,6 @@
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",
-    "dynamicFocusQueryIsNotValid": "Dynamic Focus query is not valid: {{err}}",
     "category": "Category",
     "name": "Name",
     "purpose": "Purpose",
@@ -1172,7 +1167,5 @@
     "newMaintenanceWindowDefaultName": "New Maintenance Configuration"
   },
   "settings": "Settings",
-  "pleaseDefineAValidQuery": "Please define a valid query",
-  "queryValidationStillInProgress": "Query validation still in progress",
   "testAlertChannelSuccess": "Test Alert sent to {{channel}} Alert Channel"
 }

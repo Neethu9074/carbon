@@ -22,8 +22,8 @@ import {
   saveNewAction,
   getAction,
   createAction,
-  getAssociations,
-  addAssociations
+  updateActionResourceAssociations,
+  getActionResourceAssociations
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -71,16 +71,16 @@ interface MatchParams {
 
 function getActionAndAssocations(id: string) {
   const actionDetails$ = getAction(id);
-  const associationsDetails$ = getAssociations(id);
+  const associationsDetails$ = getActionResourceAssociations(id);
   // calling Get Action and Get action associations call and combining results
-  return combineLatest([actionDetails$, associationsDetails$]).map(([actionDetails, associationsDetails]) => ({
-    ...actionDetails,
-    applicationAlertConfigIds: associationsDetails
+  return combineLatest([actionDetails$, associationsDetails$]).map(([action, associations]) => ({
+    ...action,
+    applicationAlertConfigIds: associations
       .map(action => action?.application_alert?.id)
       .filter(id => id !== undefined) as string[],
-    selectedEvents: associationsDetails
+    selectedEvents: associations
       ?.map(action => action.custom_event?.id)
-      .concat(associationsDetails?.map(action => action.builtin_event_id))
+      .concat(associations?.map(action => action.builtin_event_id))
       .filter(id => id !== undefined) as string[]
   }));
 }
@@ -227,7 +227,7 @@ function save(
 ) {
   const actionSpecification = getActionSpecification(form, entity);
   const associateResources = ({ id }: { id: string }) =>
-    addAssociations({ action_id: id, ...getActionAssociations(form, eventSpecifications) });
+    updateActionResourceAssociations({ action_id: id, ...getActionAssociations(form, eventSpecifications) });
   const isCreate = !id;
   if (isCreate || isCopy) {
     createActionTracker({

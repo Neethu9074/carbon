@@ -8,12 +8,8 @@ import { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  getCustomEventActions,
-  getBuiltinEventActions,
-  getBuiltInEventSpecificationMutable,
-  getCustomEventSpecificationMutable
-} from 'in-api/eventSpecifications';
+import { getBuiltInEventSpecificationMutable, getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
+import { getCustomEventActionAssociations, getBuiltinEventActionAssociations } from 'in-automation/api';
 import { EventSpecification } from 'in-automation/api';
 import { Action, Event } from 'in-types';
 
@@ -38,7 +34,9 @@ export const getEventSpecificationId = (event: Event) => event?.metadata?.eventS
 export function getEventObservables(isCustomEvent: boolean) {
   return {
     getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
-    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
+    getActionsForEventSpecification: isCustomEvent
+      ? getCustomEventActionAssociations
+      : getBuiltinEventActionAssociations
   };
 }
 

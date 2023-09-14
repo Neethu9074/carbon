@@ -215,13 +215,17 @@ function Content({
   backendGroupBy
 }) {
   const setMetrics = useCallback(
-    metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }), [setUrl, order, backendGroupBy]
+    metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
+    [setUrl, order, backendGroupBy]
   );
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
-  const onGroupChange = useCallback(groupBy => setUrl({ groupBy, order: getUpdatedOrder(order, metrics, toBackendGroupBy(groupBy))}), [setUrl, order, metrics]);
+  const onGroupChange = useCallback(
+    groupBy => setUrl({ groupBy, order: getUpdatedOrder(order, metrics, toBackendGroupBy(groupBy)) }),
+    [setUrl, order, metrics]
+  );
 
   const backendQueryModel = useMemo(
     () => (isValid ? toBackendQueryModel(tagFilterExpression) : undefined),
@@ -230,6 +234,7 @@ function Content({
   const pagination = { retrievalSize: 20 };
 
   const catalogQuery = useDebouncedValue('', noop, 800);
+
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
@@ -237,7 +242,18 @@ function Content({
     query: catalogQuery.debouncedValue
   });
 
-  const metricMetadatas = useMetricMetadatas({ type, kpiDefinitions, query: catalogQuery.debouncedValue });
+  const metricsIds = metrics.map(metric => metric.metric);
+  const queries = [...metricsIds];
+
+  if (catalogQuery.debouncedValue !== '') {
+    queries.push(catalogQuery.debouncedValue);
+  }
+
+  const metricMetadatas = useMetricMetadatas({
+    type,
+    kpiDefinitions,
+    queries
+  });
 
   const docLink = `https://instana.github.io/openapi/#operation${
     groupBy?.length > 0 ? '/getEntityGroups' : '/getEntities'
@@ -445,7 +461,7 @@ function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
 
   const uniqueMetricsWithLabels = uniqueMetrics.map((item, index) => ({
     ...item,
-    label: uniqueMetricsLabels[index] || ''
+    label: uniqueMetricsLabels[index]
   }));
 
   return uniqueMetricsWithLabels;

@@ -38,7 +38,8 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
 }) {
   const metrics = form.items.map(field => ({
     label: mapData(metricMetadatas, data => data[field.get('metric').value]?.label)?.data,
-    metric: mapData(metricMetadatas, data => data[field.get('metric').value]?.metric)?.data,
+    metric:
+      mapData(metricMetadatas, data => data[field.get('metric').value]?.metric)?.data ?? field.get('metric')?.value,
     aggregation: field.get('aggregation')?.value
   }));
 

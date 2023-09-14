@@ -32,7 +32,7 @@ export default function UiConfigGeneralPage() {
     return null;
   }
 
-  const currentTheme = getThemeOverride() ?? 'default';
+  const currentTheme = getThemeOverride() ?? 'g10';
   // eslint-disable-next-line no-console
   console.log('currentTheme', currentTheme);
 

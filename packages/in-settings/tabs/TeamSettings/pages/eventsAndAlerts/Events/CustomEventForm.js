@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
-import { isEqual } from 'lodash';
+import React from 'react';
 
-import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -28,45 +26,17 @@ import { EventDetailsSection } from 'in-settings/tabs/TeamSettings/pages/eventsA
 import { ConditionsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ConditionsSection';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import ScopeSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeSelection';
-import { combinedValidationResults, valid } from 'in-settings/validation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { isBlank, isNotBlank } from 'in-services/util/string';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { containsMetricInList } from 'in-sdk/metrics';
-import { validate } from 'in-api/search';
+import { isBlank } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
 
-const queryIsValid = just([true, true]);
-
-// We use two observables to manage the various query validation aspects:
-// 1. queryInput emits when the query is changed (the user is editing the query input field). When this happens we also
-// start showing the progress indicator for the query validation and prohibit saving the form as long as the query
-// validation is in progress.
-const queryInput = create();
-// 2. queryValidationFinished emits when the subscription doing the validation has produced a new result, thus we now
-// can stop the progress indicator for the query validation and enable saving the form again.
-const queryValidationFinished = create();
-
-export default function CustomEventForm({
-  form,
-  setForm,
-  onChange,
-  setSaveEnabled,
-  hideLegacyAppDataEventDeprecationInfo,
-  disabled,
-  entity
-}) {
-  useEffect(() => {
-    if (isNotBlank(entity.query)) {
-      queryInput.emit(entity.query);
-    }
-    // Triggers the query once the component got mounted
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export default function CustomEventForm({ form, setForm, onChange, hideLegacyAppDataEventDeprecationInfo, disabled }) {
   const entityType = form.get('entityType')?.value;
   const pluginsWithCustomMetrics = useObservable(() => {
     if (isCustomDataSourceSelected(form)) {
@@ -80,21 +50,6 @@ export default function CustomEventForm({
     }
   }, [entityType]);
 
-  const queryValidationResult = useObservable(
-    queryInput
-      .distinct()
-      .debounce(1000)
-      .flatMap(query => {
-        if (isNotBlank(query)) {
-          return validate(query);
-        } else {
-          return queryIsValid;
-        }
-      })
-      .tap(() => queryValidationFinished.emit(true)),
-    []
-  );
-  const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
   const selectedApplicationName = form.get('application') ? form.get('application').value : '';
 
   const existingApplication = useObservable(() => {
@@ -108,8 +63,6 @@ export default function CustomEventForm({
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
   addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
-
-  applyQueryValidationResult(queryValidationResult, form, onChange);
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
@@ -153,10 +106,6 @@ export default function CustomEventForm({
             disabled={disabled}
             setForm={setForm}
             onChange={onChange}
-            setSaveEnabled={setSaveEnabled}
-            queryValidationInProgress={queryValidationInProgress}
-            setQueryValidationInProgress={setQueryValidationInProgress}
-            startQueryValidation={startQueryValidation}
           />
         </>
       )}
@@ -197,50 +146,6 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
         const metricItem = createCustomMetricListItem(metricName, undefinedMetricFormatter, metricName, entityType);
         customMetricsList.push(metricItem);
       }
-    }
-  }
-}
-
-function startQueryValidation(query, form, onChange, setQueryValidationInProgress, setSaveEnabled) {
-  if (isBlank(query)) {
-    onChange('validationResult', valid());
-    setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
-    return form;
-  }
-
-  // The query has changed and it is not an empty string.
-
-  // 1. First we hide any previous error message that might still be shown.
-  let updatedForm = form.updateIn(['validationResult'], field =>
-    field.setValue({ valid: true, error: null }).setTouched(false)
-  );
-
-  // 2. Next we show progress indicator and disable saving the form.
-  // but do nothing if old and new query have the same value, this prevents us having an unlimited
-  // loading spinner if same value got pasted again
-  queryInput.once(previousQuery => {
-    if (previousQuery !== query) {
-      setQueryValidationProgressState(true, setQueryValidationInProgress, setSaveEnabled);
-    }
-  });
-
-  // 3. Finally we start the actual query validation.
-  queryInput.emit(query);
-
-  return updatedForm;
-}
-
-function setQueryValidationProgressState(queryValidationInProgress, setQueryValidationInProgress, setSaveEnabled) {
-  setQueryValidationInProgress(queryValidationInProgress);
-  setSaveEnabled(!queryValidationInProgress);
-}
-
-function applyQueryValidationResult(queryValidationResult, form, onChange) {
-  if (queryValidationResult && form.containsKey('validationResult')) {
-    const combined = combinedValidationResults(queryValidationResult.body);
-    if (!isEqual(combined, form.get('validationResult').value)) {
-      // A little dirty trick to circumvents React's warning to not call setState during render. Sorry, not sorry.
-      setTimeout(() => onChange('validationResult', combined), 0);
     }
   }
 }

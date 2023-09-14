@@ -219,6 +219,7 @@ import './vsphereHost';
 import './sapDbTenant';
 import './bpm/camunda';
 import './otelProcess';
+import './azureMySql';
 import './phmcSystem';
 import './azureQueue';
 import './awsEcsTask';

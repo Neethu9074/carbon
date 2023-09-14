@@ -47,10 +47,10 @@ export default connectTo(
     }
 
     render() {
-      const { filters, dfqInsideCustomWidget, setFilter } = this.props;
+      const { filters, manageFiltersDisabled, setFilter } = this.props;
       return (
         <section
-          className={!dfqInsideCustomWidget ? block : `${block} ${wgtDropdown}`}
+          className={!manageFiltersDisabled ? block : `${block} ${wgtDropdown}`}
           ref={menu => (this.menu = menu)}
         >
           <MenuHeading className={`${block}__heading`}>
@@ -66,7 +66,7 @@ export default connectTo(
               <li key={filter.get('id')} className={`${block}__preset-item`}>
                 <UserFilterLink onClick={togglePresets} filter={filter} setFilter={setFilter} />
 
-                {!dfqInsideCustomWidget && (
+                {!manageFiltersDisabled && (
                   <div className={`${block}__item-actions`}>
                     <a
                       href=""

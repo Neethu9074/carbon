@@ -25,6 +25,7 @@ import {
   isWebhook,
   isAnsible
 } from 'in-automation/ActionCatalog/shared';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
@@ -46,6 +47,19 @@ function mimeValidator(str: string): ValidationResult {
   return null;
 }
 
+function isValidUrl(string: string): ValidationResult {
+  try {
+    new URL(string);
+    return null;
+  } catch (err) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-automation:ActionCatalog.validUrl')
+      }
+    ];
+  }
+}
 function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResult {
   const hasBlankAdditionalHeaders = additionalHeaders.reduce(
     (hasBlank, additionalHeader) => hasBlank || additionalHeader.value.includes(''),
@@ -149,7 +163,7 @@ export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): M
     'docLink',
     createField({
       value: value,
-      validator: notBlankValidator
+      validator: composeAndShortCircuitOnError(notBlankValidator, isValidUrl)
     })
   );
 }

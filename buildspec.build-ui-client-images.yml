@@ -26,12 +26,13 @@ phases:
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       - docker run --rm --privileged delivery.instana.io/int-docker-private-virtual/tonistiigi/binfmt --install ppc64le
       - docker run --rm --privileged delivery.instana.io/int-docker-private-virtual/tonistiigi/binfmt --install s390x
+      - docker run --rm --privileged delivery.instana.io/int-docker-private-virtual/tonistiigi/binfmt --install arm64
       # Install docker buildx
       - wget https://github.com/docker/buildx/releases/download/v0.2.0/buildx-v0.2.0.linux-amd64
       - chmod +x buildx-v0.2.0.linux-amd64
       - mkdir -p ~/.docker/cli-plugins
       - mv buildx-v0.2.0.linux-amd64 ~/.docker/cli-plugins/docker-buildx
-      - docker buildx create --name multi-arch --platform=linux/ppc64le,linux/s390x --use
+      - docker buildx create --name multi-arch --platform=linux/ppc64le,linux/s390x,linux/arm64 --use
       - docker buildx inspect --bootstrap
   build:
     commands:
