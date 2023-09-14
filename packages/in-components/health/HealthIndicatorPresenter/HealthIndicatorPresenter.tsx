@@ -19,10 +19,18 @@ interface Props {
   active: boolean;
   refSetter?: LegacyRef<HTMLAnchorElement>;
   onClick?: () => void;
+  tooltipLabel?: string;
 }
 
-export default function HealthIndicatorPresenter({ openIssues, maxSeverity, active, refSetter, onClick }: Props) {
-  const tooltipLabel = getTooltipLabel(openIssues, maxSeverity);
+export default function HealthIndicatorPresenter({
+  openIssues,
+  maxSeverity,
+  active,
+  refSetter,
+  onClick,
+  tooltipLabel: explanation
+}: Props) {
+  const tooltipLabel = explanation ?? getTooltipLabel(openIssues, maxSeverity);
 
   if (openIssues === 0) {
     return (

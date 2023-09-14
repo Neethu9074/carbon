@@ -6,8 +6,8 @@
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 
+import { SeverityIndicatorCellContentWrapper, Ul } from '@instana/components';
 import { just } from '@instana/observables';
-import { Ul } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -23,6 +23,7 @@ import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatter
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -30,7 +31,6 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { pendingResult } from 'in-services/fixedObjects';
-import HealthDot from 'in-components/health/HealthDot';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -95,29 +95,6 @@ export default function InfrastructureList({
   useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
 
   const columnDefinitions = [
-    {
-      id: 'Health',
-      label: <div className={locals.dot} />,
-      width: '3rem',
-      widthInAbsoluteUnit: true,
-      sortable: false,
-      getContent(item) {
-        const problems = getAllIssues(
-          item.entityHealthInfo?.openIssues,
-          item.entityHealthInfo?.maxSeverity,
-          t('in-infrastructure:explore.noIssues')
-        );
-
-        return (
-          <HealthDot
-            className={locals.dot}
-            severity={item.entityHealthInfo?.maxSeverity}
-            explanation={problems}
-            iconSize={10}
-          />
-        );
-      }
-    },
     getLabelColumn(tracking?.onNavigateToEntity, isPreview),
     ...getMetricColumns({
       metrics,
@@ -126,7 +103,24 @@ export default function InfrastructureList({
       timeConfig,
       granularity,
       isWidget
-    })
+    }),
+    {
+      id: 'Health',
+      label: t('in-infrastructure:explore.health'),
+      width: '5rem',
+      widthInAbsoluteUnit: true,
+      sortable: false,
+      getContent(item) {
+        const problems = getAllIssues(
+          item.entityHealthInfo?.openIssues,
+          item.entityHealthInfo?.maxSeverity,
+          t('in-infrastructure:explore.noIssues')
+        );
+        const openIssues = item.entityHealthInfo?.openIssues?.length ?? 0;
+        const maxSeverity = item.entityHealthInfo?.maxSeverity ?? 0;
+        return <HealthIndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} tooltipLabel={problems} />;
+      }
+    }
   ];
 
   return (
@@ -259,18 +253,20 @@ function getLabelColumn(onNavigateToEntity, isPreview) {
     getContent(item) {
       return (
         <div className={locals.entityLink}>
-          <EntityLink
-            label={item.label}
-            plugin={item.plugin}
-            href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
-            onClick={
-              isPreview
-                ? noop
-                : () => {
-                    onNavigateToEntity?.(item.plugin);
-                  }
-            }
-          />
+          <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+            <EntityLink
+              label={item.label}
+              plugin={item.plugin}
+              href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
+              onClick={
+                isPreview
+                  ? noop
+                  : () => {
+                      onNavigateToEntity?.(item.plugin);
+                    }
+              }
+            />
+          </SeverityIndicatorCellContentWrapper>
         </div>
       );
     }
