@@ -25,6 +25,7 @@ import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
+import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { t } from 'in-i18n';
 
@@ -64,7 +65,6 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
   // WS hook to get unified metric results
   const unifiedMetricData = useResultData(unifiedMetricConfig as Config, alertConfig.granularity, timeConfig);
   const metricResult = unifiedMetricData.metricResult;
-
   let metricResults = {};
 
   if (metricResult.errors.length > 0 || metricResult.progress.loading) {
@@ -75,8 +75,7 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       data: {}
     };
   } else {
-    const metricValues = metricResult?.data ? metricResult?.data[0]?.values : [];
-
+    const metricValues = getMetricValues(metricResult);
     metricResults = {
       progress: finishedProgress,
       errors: {},
@@ -100,4 +99,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       />
     </Card>
   );
+}
+
+function getMetricValues(metricResult: Result<UnifiedMetricsResult[]>) {
+  return metricResult?.data && metricResult?.data.length > 0 ? metricResult?.data[0]?.values : [];
 }
