@@ -8,11 +8,12 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
+    metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage', 'cpu.total_normalized_usage_percentage'],
     labels: [
       t('in-forge:plugins.containerd.totalTime'),
       t('in-forge:plugins.containerd.kernelTime'),
-      t('in-forge:plugins.containerd.userTime')
+      t('in-forge:plugins.containerd.userTime'),
+      t('in-forge:plugins.containerd.totalNormalized')
     ],
     min: 0,
     category: [t('in-forge:plugins.containerd.cpu')],
@@ -41,7 +42,8 @@ export default [
       'memory.active_anon',
       'memory.active_file',
       'memory.inactive_anon',
-      'memory.inactive_file'
+      'memory.inactive_file',
+      'memory.working_set_usage_percentage'
     ],
     labels: [
       t('in-forge:plugins.containerd.labelUsage'),
@@ -51,7 +53,8 @@ export default [
       t('in-forge:plugins.containerd.labelActiveAnonymous'),
       t('in-forge:plugins.containerd.labelActiveCache'),
       t('in-forge:plugins.containerd.labelInactiveAnonymous'),
-      t('in-forge:plugins.containerd.labelInactiveCache')
+      t('in-forge:plugins.containerd.labelInactiveCache'),
+      t('in-forge:plugins.containerd.labelMemoryWorkingSet')
     ],
     min: 0,
     category: [t('in-forge:plugins.containerd.memory')],
