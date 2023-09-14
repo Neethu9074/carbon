@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { useTheme } from '@instana/components';
+
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
@@ -20,16 +22,7 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
-
-const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
-
-const legendColors = [
-  theme.lib.colors.lightBlue800,
-  theme.lib.colors.red800,
-  getColorWithTransparency(theme.lib.colors.red800).c50
-];
 
 export default function AlertingChart({
   alertConfigWithFormModel,
@@ -43,6 +36,7 @@ export default function AlertingChart({
   highlight,
   setMetricResultPrecision
 }) {
+  const theme = useTheme();
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
@@ -97,7 +91,8 @@ export default function AlertingChart({
         granularity,
         threshold,
         eventBasedAdaptiveBaseline,
-        viewConfig
+        viewConfig,
+        theme
       )}
       canReload={canReload}
       nonInteractive
@@ -133,8 +128,17 @@ export function getY1(
   granularity,
   threshold,
   eventBasedAdaptiveBaseline,
-  viewConfig
+  viewConfig,
+  theme
 ) {
+  const chartColors = [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']];
+
+  const legendColors = [
+    theme.ids.color.option.blue['400'],
+    theme.ids.color.option.red['500'],
+    getColorWithTransparency(theme.ids.color.option.red['500']).c50
+  ];
+
   return {
     colors: chartColors,
     metricIds: [metricName, 'threshold'],

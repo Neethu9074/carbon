@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message, useTheme } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -21,70 +21,9 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';
-
-const columnDefinitions = [
-  {
-    width: '2.5rem',
-    getContent({ checked, indeterminate, onChange, virtuallyChecked, viewOnly }) {
-      return (
-        <CheckboxFancy
-          onChange={viewOnly ? noop : onChange}
-          checked={checked}
-          indeterminate={indeterminate}
-          disabled={viewOnly}
-          size="large"
-          className={classNames({
-            [locals.viewOnly]: viewOnly,
-            [locals.greyCheckbox]: virtuallyChecked
-          })}
-        />
-      );
-    }
-  },
-  {
-    getContent({ label, tooltipSettings, isStaleItem, touched }) {
-      return (
-        <Tooltip
-          align="topLeft"
-          content={
-            isStaleItem ? (
-              <span>
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.sharedListTooltip', {
-                  typeName: tooltipSettings.name
-                })}
-              </span>
-            ) : null
-          }
-        >
-          <div
-            className={classNames({
-              [locals.iconLabelTouched]: touched
-            })}
-          >
-            <IconLabel
-              text={label}
-              type={tooltipSettings.iconType}
-              width="100%"
-              color={isStaleItem ? theme.lib.colors.N400 : undefined}
-              noBottomMargin
-              ellipsis
-            />
-          </div>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    width: 'max-content',
-    getContent({ BadgeElement }) {
-      return BadgeElement;
-    }
-  }
-];
 
 export default function SharedList({
   listData,
@@ -113,6 +52,66 @@ export default function SharedList({
   isFramed = true,
   viewOnly
 }) {
+  const theme = useTheme();
+  const columnDefinitions = [
+    {
+      width: '2.5rem',
+      getContent({ checked, indeterminate, onChange, virtuallyChecked, viewOnly }) {
+        return (
+          <CheckboxFancy
+            onChange={viewOnly ? noop : onChange}
+            checked={checked}
+            indeterminate={indeterminate}
+            disabled={viewOnly}
+            size="large"
+            className={classNames({
+              [locals.viewOnly]: viewOnly,
+              [locals.greyCheckbox]: virtuallyChecked
+            })}
+          />
+        );
+      }
+    },
+    {
+      getContent({ label, tooltipSettings, isStaleItem, touched }) {
+        return (
+          <Tooltip
+            align="topLeft"
+            content={
+              isStaleItem ? (
+                <span>
+                  {t('in-alerting:smartAlerts.components.smartAlertDialog.sharedListTooltip', {
+                    typeName: tooltipSettings.name
+                  })}
+                </span>
+              ) : null
+            }
+          >
+            <div
+              className={classNames({
+                [locals.iconLabelTouched]: touched
+              })}
+            >
+              <IconLabel
+                text={label}
+                type={tooltipSettings.iconType}
+                width="100%"
+                color={isStaleItem ? theme.ids.color.option.neutral['400'] : undefined}
+                noBottomMargin
+                ellipsis
+              />
+            </div>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      width: 'max-content',
+      getContent({ BadgeElement }) {
+        return BadgeElement;
+      }
+    }
+  ];
   const { dispatch } = stateManagement;
 
   return (

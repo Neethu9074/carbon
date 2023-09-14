@@ -6,17 +6,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { useTheme } from '@instana/components';
+
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertsPreviewLanePresenter.mless';
 
 export default function AlertsPreviewLanePresenter({ alerts, isLoading, ...remainingProps }) {
+  const theme = useTheme();
+
   const alertsPreviewLaneLabel = getLaneLabel(alerts, isLoading);
   return (
     <MarkerLane
@@ -28,9 +31,9 @@ export default function AlertsPreviewLanePresenter({ alerts, isLoading, ...remai
       iconConfig={{
         type: 'lib_events_critical',
         typeCluster: 'lib_alerts_multiple_alerts',
-        color: theme.lib.colors.red800
+        color: theme.ids.color.option.red['500']
       }}
-      color={theme.lib.colors.red800}
+      color={theme.ids.color.option.red['500']}
       TooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
           <div>

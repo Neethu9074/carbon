@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { useTheme } from '@instana/components';
+
 import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
-import theme from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation.mless';
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP, isGlobalSmartAlert }: Props) {
+  const theme = useTheme();
   const { description, globalDescription } = alertEvaluationTypes[evaluationType];
 
   return (
@@ -27,7 +29,7 @@ export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP, isGlo
       <IconLabel
         type="lib_alerts_multiple_alerts"
         text={isGlobalSmartAlert ? globalDescription : description}
-        color={theme.lib.colors.N600Light}
+        color={theme.ids.color.option.neutral['600']}
         noBottomMargin
       />
     </div>

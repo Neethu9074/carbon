@@ -6,14 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Link, useTheme } from '@instana/components';
 
 import { useLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function GoToAlertDetailsColumn({ id, name, created }) {
+  const theme = useTheme();
   const getLinkToAlertDetails = useLinkToAlertDetails();
 
   return (
@@ -24,7 +23,12 @@ export default function GoToAlertDetailsColumn({ id, name, created }) {
       aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', { name })}
       external
     >
-      <SvgIcon color={theme.lib.colors.N800Dark} type="lib_views_external_link" aria-hidden="true" focusable="false" />
+      <SvgIcon
+        color={theme.ids.color.option.neutral['800']}
+        type="lib_views_external_link"
+        aria-hidden="true"
+        focusable="false"
+      />
     </Link>
   );
 }

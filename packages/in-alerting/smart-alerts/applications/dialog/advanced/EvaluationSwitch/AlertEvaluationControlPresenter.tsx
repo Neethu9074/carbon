@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { useTheme } from '@instana/components';
+
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/AlertEvaluationControl.mless';
@@ -31,6 +32,7 @@ export function AlertEvaluationControlPresenter({
   isGlobalSmartAlert,
   setEvaluationType
 }: Props) {
+  const theme = useTheme();
   if (isBuiltIn) {
     return (
       <div className={locals.readOnlyAlertEvaluationContainer}>
@@ -58,7 +60,7 @@ export function AlertEvaluationControlPresenter({
         type="lib_alerts_multiple_alerts"
         text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
         noBottomMargin
-        color={theme.lib.colors.N600Light}
+        color={theme.ids.color.option.neutral['600']}
       />
 
       <div className={locals.options}>
