@@ -13590,7 +13590,7 @@
       "connectionStatus": "Status"
     },
     "syntheticPoP": {
-      "redisTLSNotEnabledIssueDescription": "Redis TLS is not enabled, it is recommended that Redis TLS should be enabled in production environment",
+      "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in Synthetic PoP sensor.",
       "tlsNotConfiguredIssueDescription": "TLS key and certificate files should be configured in sensor configuration to access the PoP controller health HTTPS API",
       "popHealthAPIFailedIssueDescription": "Agent cannot get health data of Synthetic PoP. It is usually because of HTTPS communication error when TLS is enabled in PoP. Please check Instana agent logs for more information.",
       "troubleshootingDocs": "Troubleshooting docs",

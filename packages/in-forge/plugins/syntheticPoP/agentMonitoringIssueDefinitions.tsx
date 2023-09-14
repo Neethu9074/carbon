@@ -20,7 +20,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#redis-tls-not-enabled`
+    explanationLinkHref: `https://ibm.biz/insta-synthpoptlsnotenabled`
   },
   tls_not_configured: {
     issueDescription: {
@@ -33,7 +33,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#tls-not-configured`
+    explanationLinkHref: `https://ibm.biz/insta-synthpoptlsnotconfig`
   },
   call_pop_health_api_failed: {
     issueDescription: {
@@ -46,6 +46,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.syntheticPoP.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-synthetic-pop#tls-not-configured`
+    explanationLinkHref: `https://ibm.biz/pop-health-failed`
   }
 };
