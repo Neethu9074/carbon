@@ -51,30 +51,34 @@ export default connectTo(
   }),
   function IncidentEventList({ events, incident, latestSnapshot, snapshot }) {
     const incidentHasRCAProperty = useMemo(() => incident.get('metadata').has('probableRootCause'), [incident]);
-    const rcaEvents = useMemo(
+
+    const rcaSnapshotMap = useMemo(
       () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
       [incident, incidentHasRCAProperty]
     ); // Holds map of snapshot_ID: [event_id, event_id]
-    const snapshots = useMemo(() => (rcaEvents ? Array.from(rcaEvents.keys()) : []), [rcaEvents]); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
 
-    const [currentRCAEntity, setCurrentRCAEntity] = useState(rcaEvents && rcaEvents.size > 0 ? snapshots[0] : null); // Selects a given snapshot ID
+    const snapshots = useMemo(() => (rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()) : []), [rcaSnapshotMap]); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
+
+    const [currentRCAEntity, setCurrentRCAEntity] = useState(
+      rcaSnapshotMap && rcaSnapshotMap.size > 0 ? snapshots[0] : null
+    ); // Selects a given snapshot ID
     const [pageNum, setPageNum] = useState(1); // Pagination
     const [observablesList, setObservablesList] = useState(
-      currentRCAEntity ? combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)).throttle(250) : null
+      currentRCAEntity ? combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)).throttle(250) : null
     ); // Gets an array of event Observable requests based on the selected rca entity
 
     const eventTests = useObservable(observablesList, [currentRCAEntity, observablesList]) ?? []; // generates a list of event information based on Observables
 
     useEffect(() => {
       if (currentRCAEntity) {
-        const rcaEventList = rcaEvents.get(currentRCAEntity);
+        const rcaEventList = rcaSnapshotMap.get(currentRCAEntity);
         if (rcaEventList.size > 0) {
-          setObservablesList(combineLatest(rcaEvents.get(currentRCAEntity).map(getEvent)));
+          setObservablesList(combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)));
         } else {
           setObservablesList(null);
         }
       }
-    }, [currentRCAEntity, rcaEvents]);
+    }, [currentRCAEntity, rcaSnapshotMap]);
 
     useEffect(() => {
       setCurrentRCAEntity(snapshots[pageNum - 1]);
@@ -104,7 +108,7 @@ export default connectTo(
             rcaSnapshotID={currentRCAEntity}
             RegenerateComponentOnClick={RegenerateButtonOnClick}
             pageNum={pageNum}
-            totalPages={rcaEvents ? Array.from(rcaEvents.keys()).length : null}
+            totalPages={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
             setPageNum={setPageNum}
           />
         )}
