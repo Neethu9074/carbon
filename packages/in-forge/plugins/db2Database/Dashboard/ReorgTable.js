@@ -76,11 +76,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.reorgEnd'),
+    title: t('in-forge:plugins.db2Database.durationSec'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('REORG_END');
+        return row.topQuery.get('DURATION');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
