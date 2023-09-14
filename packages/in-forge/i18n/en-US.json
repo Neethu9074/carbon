@@ -9775,10 +9775,7 @@
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
             "unitStorageCapacity": "Storage Capacity",
-            "protectionStatus": "Protection Status",
             "unitMediaCapacityGb": "Media Capacity(GB)",
-            "elapsedIORequests": "Elapsed IO Req",
-            "elapsedRequestSize": "Elapsed Req Size",
             "charts": {
               "elapsedPercentBusy": "Elapsed Percent Busy"
             }
