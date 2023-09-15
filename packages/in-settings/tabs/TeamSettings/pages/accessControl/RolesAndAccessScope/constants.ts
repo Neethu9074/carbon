@@ -120,14 +120,12 @@ export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
-  /* Partially implementing this permission breaks tests so once this is fully implemented on the BE
-  uncomment all usages of CAN_DELETE_LOGS and canDelete logs in the project */
-  //Capability.CAN_DELETE_LOGS,
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
+  Capability.CAN_DELETE_LOGS
 ];
 
 export const logCapabilities: Array<CapabilityType> = [
-  //Capability.CAN_DELETE_LOGS,
+  Capability.CAN_DELETE_LOGS,
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT
 ];

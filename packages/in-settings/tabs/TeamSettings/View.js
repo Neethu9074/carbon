@@ -257,46 +257,50 @@ function navigationTreeForRole(role) {
     });
   }
 
-  if (role.canConfigureLogManagement) {
-    const pages = [
-      {
-        path: teamSettingsLogManagementCoralogix,
-        label: t('in-settings:tabs.coralogix'),
-        component: CoralogixPage
-      },
-      {
-        path: teamSettingsLogManagementElk,
-        label: t('in-settings:tabs.elk'),
-        component: ElkPage
-      },
-      {
-        path: teamSettingsLogManagementHumio,
-        label: t('in-settings:tabs.humio'),
-        component: HumioPage
-      },
-      {
-        path: teamSettingsLogManagementLogDna,
-        label: t('in-settings:tabs.mezmo'),
-        component: LogDnaPage
-      },
-      {
-        path: teamSettingsLogManagementSplunk,
-        label: t('in-settings:tabs.splunk'),
-        component: SplunkPage
-      }
-    ];
+  const logManagementPages = [
+    {
+      path: teamSettingsLogManagementCoralogix,
+      label: t('in-settings:tabs.coralogix'),
+      component: CoralogixPage
+    },
+    {
+      path: teamSettingsLogManagementElk,
+      label: t('in-settings:tabs.elk'),
+      component: ElkPage
+    },
+    {
+      path: teamSettingsLogManagementHumio,
+      label: t('in-settings:tabs.humio'),
+      component: HumioPage
+    },
+    {
+      path: teamSettingsLogManagementLogDna,
+      label: t('in-settings:tabs.mezmo'),
+      component: LogDnaPage
+    },
+    {
+      path: teamSettingsLogManagementSplunk,
+      label: t('in-settings:tabs.splunk'),
+      component: SplunkPage
+    }
+  ];
 
-    /**
-     TODO: change this when implemented on BE
-     Also add the permissions settings in
-     in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants.ts
-     **/
-    if (__DEV__)
-      pages.push({
-        path: teamSettingsLogManagementDeleteLogs,
-        label: t('in-settings:tabs.deleteLogs.deleteLogs'),
-        component: DeleteLogsPage
-      });
+  const deleteLogsPage = {
+    path: teamSettingsLogManagementDeleteLogs,
+    label: t('in-settings:tabs.deleteLogs.deleteLogs'),
+    component: DeleteLogsPage
+  };
+
+  if (role.canDeleteLogs || role.canConfigureLogManagement) {
+    let pages = [];
+
+    if (role.canConfigureLogManagement) {
+      pages = logManagementPages;
+    }
+
+    if (role.canDeleteLogs) {
+      pages.push(deleteLogsPage);
+    }
 
     navigationTree.push({
       title: t('in-settings:tabs.logManagement'),

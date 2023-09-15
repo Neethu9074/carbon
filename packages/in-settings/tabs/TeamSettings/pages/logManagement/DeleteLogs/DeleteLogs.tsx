@@ -6,17 +6,23 @@
 
 import React, { useState } from 'react';
 
+import { DeleteLogsHistoryResult } from '@instana/types/typeDefinitions';
 import { Button, SvgIcon, Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/ModalNotification';
 import { DeletionTable } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
+import getDeleteLogsHistory from 'in-logging/subscriptions/getDeleteLogsHistory';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import Dialog from 'in-components/Dialog/Dialog';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
+import { user } from 'in-stores/user';
+import http from 'in-services/http';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -26,9 +32,15 @@ export default function DeleteLogs() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [validationInputValue, setValidationInputValue] = useState('');
-  const [reasonInputValue, setReasonInputvalue] = useState('');
+  const [reasonInputValue, setReasonInputValue] = useState('');
   const [notification, setNotification] = useState<NotificationState>({ show: false });
-  const closeConfirmationDialog = () => setShowConfirmation(false);
+
+  const deletionHistory = useObservable(() => getDeleteLogsHistory(null), [isDeleting]);
+
+  const closeConfirmationDialog = () => {
+    setShowConfirmation(false);
+    setNotification({ show: false });
+  };
   const openConfirmationDialog = () => setShowConfirmation(true);
 
   const localisationStrings = {
@@ -48,15 +60,21 @@ export default function DeleteLogs() {
   const isDeleteDisabled = notConfirmed || noReason;
 
   const handleSubmit = () => {
-    setNotification({ show: false });
-    setReasonInputvalue('');
-    setValidationInputValue('');
+    const deleteLogs$ = deleteLogs({ reason: reasonInputValue, triggeredByUser: user?.email!, upToTime: Date.now() });
+
     setIsDeleting(true);
-    //mock request
-    setTimeout(() => {
+    setReasonInputValue('');
+    setValidationInputValue('');
+
+    deleteLogs$.once(() => {
       setNotification({ show: true, variant: 'success' });
       setIsDeleting(false);
-    }, 5000);
+    });
+
+    deleteLogs$.errors().once(() => {
+      setNotification({ show: true, variant: 'failure' });
+      setIsDeleting(false);
+    });
   };
 
   const ConfirmationButtons = (
@@ -69,7 +87,7 @@ export default function DeleteLogs() {
   );
 
   const LoadingButton = (
-    <Button kind="danger" className={locals.loadingButton}>
+    <Button disabled kind="danger" className={locals.loadingButton}>
       <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />
       {localisationStrings.deleteLogs}
     </Button>
@@ -83,7 +101,7 @@ export default function DeleteLogs() {
           {localisationStrings.deletionReason}
           <Input
             value={reasonInputValue}
-            onChange={e => setReasonInputvalue(e.target.value)}
+            onChange={e => setReasonInputValue(e.target.value)}
             disabled={isDeleting}
             name="reason"
           />
@@ -119,10 +137,25 @@ export default function DeleteLogs() {
         </section>
         <main>
           <Typography variant={'body-small'}>{localisationStrings.info}</Typography>
-          <DeletionTable />
+          <DeletionTable errors={deletionHistory?.errors} data={deletionHistory?.data?.deletions} />
         </main>
       </SettingsDetailPage>
       {showConfirmation && ConfirmationDialog}
     </>
   );
+}
+
+interface DeleteLogsRequest {
+  triggeredByUser: string;
+  reason: string;
+  upToTime: number;
+}
+export function deleteLogs(params: DeleteLogsRequest) {
+  return http<DeleteLogsHistoryResult>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/logging/logs`,
+    queryParams: { ...params }
+  });
 }
