@@ -122,16 +122,16 @@
   },
   "PermissionSection": {
     "addButton_websites": "Select websites",
-    "descriptionLimitedAccess_websites": "Select the role for the product area and add websites below to grant access.",
-    "descriptionAccessAll_websites": "All websites can be accessed with the role selected for the product area.",
+    "descriptionLimitedAccess_websites": "Select the role and add websites below to grant access.",
+    "descriptionAccessAll_websites": "All websites can be accessed with the selected role.",
     "addButton_mobileApps": "Select mobile apps",
-    "descriptionLimitedAccess_mobileApps": "Select the role for the product area and add mobile apps below to grant access.",
-    "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the role selected for the product area.",
+    "descriptionLimitedAccess_mobileApps": "Select the role and add mobile apps below to grant access.",
+    "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the selected role.",
     "description_analytics": "Content is defined by access granted to website, mobile app and application dashboards.",
     "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",
     "addButton_applications": "Select applications",
-    "descriptionLimitedAccess_applications": "Select the role for the product area and add applications below to grant access.",
-    "descriptionAccessAll_applications": "All applications can be accessed with the role selected for the product area.",
+    "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
+    "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
     "deleteButton": "Remove {{name}} from list",
     "infrastructureAccessScope": "Access scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
@@ -146,8 +146,8 @@
     "limitedAccessKubernetes_addCluster": "Add Cluster",
     "limitedAccessKubernetes_addNamespace": "Add Namespace",
     "addButton_syntheticTests": "Select Synthetic Tests",
-    "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the role selected for the product area.",
-    "descriptionLimitedAccess_synthetics": "Select the role for the product area and add Synthetic Tests below to grant access."
+    "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
+    "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access."
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -158,7 +158,7 @@
   "permissionScope": {
     "selection": "Not available",
     "selection_access_all": "Access all",
-    "selection_limited_access": "Limited access scope",
+    "selection_limited_access": "Limited access",
     "selection_no_access": "No access",
     "selection_viewer_access": "Viewer access",
     "description_no_access": "Can't use this area at all",
