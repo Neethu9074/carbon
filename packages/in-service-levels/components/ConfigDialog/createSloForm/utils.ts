@@ -17,6 +17,7 @@ import {
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { parseDateTime } from 'in-services/formatters/date';
 
 export function isFieldValid<VALUE_TYPE>(field: Field<VALUE_TYPE>) {
   return field.valid || !field.touched;
@@ -29,10 +30,13 @@ export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConf
     entity: formToEntity(form),
     indicator: formToIndicator(form),
     timeWindow: {
-      duration: form.getIn(['timeWindow', 'duration']).value,
-      durationUnit: form.getIn(['timeWindow', 'durationUnit']).value,
-      startTimestamp: form.getIn(['timeWindow', 'startTimestamp']).value,
-      type: form.getIn(['timeWindow', 'type']).value
+      duration: form.getIn(['objective', 'duration']).value,
+      durationUnit: form.getIn(['objective', 'durationUnit']).value,
+      startTimestamp: parseDateTime(
+        form.getIn(['objective', 'startTimestamp', 'date']).value +
+          form.getIn(['objective', 'startTimestamp', 'time']).value
+      ).getTime(),
+      type: form.getIn(['objective', 'type']).value
     },
     target: 0
   };

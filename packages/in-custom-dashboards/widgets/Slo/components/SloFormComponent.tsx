@@ -35,11 +35,11 @@ import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEd
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
-import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelector from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import { isWebsiteSloEnabled } from 'in-custom-dashboards/widgets/Slo/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';

@@ -1,0 +1,42 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { useContext } from 'react';
+
+import { Typography } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
+import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
+import Section from 'in-components/workspace/Section';
+
+export default function TargetSection() {
+  const { form, onChange } = useContext(SloFormContext);
+  const sloTargetField = form.getIn(['objective', 'target']);
+  const isTargetFieldvalid = isFieldValid(sloTargetField);
+
+  return (
+    <Section title={t('in-service-levels:createSloDialog.sloTarget')}>
+      <PercentageInput
+        id={'target'}
+        value={sloTargetField.value}
+        onChange={target => {
+          onChange(['objective', 'target'], () => sloTargetField.setValue(target).setTouched(true));
+        }}
+        hasError={!sloTargetField.valid && sloTargetField.touched}
+        decimalPrecision={SLO_TARGET_DECIMAL_PRECISION}
+      />
+      <Typography variant="body-regular"> %</Typography>
+      {!isTargetFieldvalid &&
+        sloTargetField.messages.map(({ message }, index) => (
+          <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+        ))}
+    </Section>
+  );
+}

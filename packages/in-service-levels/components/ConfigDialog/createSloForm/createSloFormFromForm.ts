@@ -6,16 +6,21 @@
 
 import { createField, createMapForm } from 'formalistic';
 
+import { DurationUnitType } from '@instana/types';
+
 import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
   SloNameTagsFields,
-  SloScopeFields,
-  SloTimeWindowFields
+  SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import {
+  dateFieldValidator,
+  thresholdFieldValidator,
+  timeFieldValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 
 export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
   const name = form.getIn(['nameTags', 'name']).value;
@@ -73,20 +78,33 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
   };
 };
 
-export const getTimeWindowFormFieldFromForm = (form: SloForm): SloTimeWindowFields => {
-  const durationFieldValue = form.getIn(['timeWindow', 'duration']).value;
-  const durationUnitFieldValue = form.getIn(['timeWindow', 'durationUnit']).value;
-  const startTimestampFieldValue = form.getIn(['timeWindow', 'startTimestamp']).value;
-  const timeWindowType = form.getIn(['timeWindow', 'type']).value;
+export const getTimeFields = (form: SloForm) => {
+  const dateFieldValue = form.getIn(['objective', 'startTimestamp', 'date']).value;
+  const timeFieldValue = form.getIn(['objective', 'startTimestamp', 'time']).value;
 
   return {
-    duration: createField({ value: durationFieldValue }),
-    durationUnit: createField({ value: durationUnitFieldValue }),
-    startTimestamp: createField({ value: startTimestampFieldValue }),
-    type: createField({ value: timeWindowType })
+    date: createField<string>({ value: dateFieldValue, validator: dateFieldValidator }),
+    time: createField({
+      value: timeFieldValue,
+      validator: timeFieldValidator
+    })
   };
 };
 
+export const getObjectiveFieldsFromForm = (form: SloForm) => {
+  const targetFieldValue = form.getIn(['objective', 'target']).value;
+  const durationFieldValue = form.getIn(['objective', 'duration']).value;
+  const durationUnitFieldValue = form.getIn(['objective', 'durationUnit']).value;
+  const timeWindowType = form.getIn(['objective', 'type']).value;
+
+  return {
+    target: createField<number | undefined>({ value: targetFieldValue }),
+    duration: createField<number>({ value: durationFieldValue }),
+    durationUnit: createField<DurationUnitType>({ value: durationUnitFieldValue }),
+    startTimestamp: createMapForm({ items: getTimeFields(form) }),
+    type: createField({ value: timeWindowType })
+  };
+};
 export const createSloFormFromForm = (form: SloForm): SloForm => {
   return createMapForm({
     items: {
@@ -99,8 +117,8 @@ export const createSloFormFromForm = (form: SloForm): SloForm => {
       scope: createMapForm({
         items: getScopeFieldsFromForm(form)
       }),
-      timeWindow: createMapForm({
-        items: getTimeWindowFormFieldFromForm(form)
+      objective: createMapForm({
+        items: getObjectiveFieldsFromForm(form)
       }),
       nameTags: createMapForm({
         items: getNameTagFieldsFromForm(form)

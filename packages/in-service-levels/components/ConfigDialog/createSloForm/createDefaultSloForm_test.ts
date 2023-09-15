@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
+import { formatDate } from '@instana/format-date';
 import {
   createDefaultSloForm,
   getDefaultEntityFields,
   getDefaultScopeFields,
   getDefaultIndicatorFields,
-  getDefaultTimeWindowFields
+  getDefaultObjectiveFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
 import { testDate } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 
@@ -95,19 +96,18 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(indicatorTypeValue).toEqual('timeBased');
     });
 
-    it('returns correct values when using getDefaultTimeWindowFields', () => {
+    it('returns correct values when using getDefaultObjectiveFields', () => {
       // When
-      const timeWindowFields = getDefaultTimeWindowFields();
-
+      const timeWindowFields = getDefaultObjectiveFields();
       const durationValue = timeWindowFields.duration.value;
       const durationUnitValue = timeWindowFields.durationUnit.value;
-      const startTimestampValue = timeWindowFields.startTimestamp.value;
+      const startTimestampValue = timeWindowFields.startTimestamp.toJS().date;
       const timeWindowTypeValue = timeWindowFields.type.value;
-
+      const timeStamp = formatDate(new Date().setHours(0, 0, 0, 0));
       // Then
       expect(durationValue).toEqual(1);
       expect(durationUnitValue).toEqual('week');
-      expect(startTimestampValue).toEqual(Date.now());
+      expect(startTimestampValue).toEqual(timeStamp);
       expect(timeWindowTypeValue).toEqual('fixed');
     });
   });
@@ -135,10 +135,11 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const goodEventsFilterValue = websiteForm.getIn(['indicator', 'goodEventsFilter']).value;
       const thresholdValue = websiteForm.getIn(['indicator', 'threshold']).value;
       const indicatorTypeValue = websiteForm.getIn(['indicator', 'type']).value;
-      const durationValue = websiteForm.getIn(['timeWindow', 'duration']).value;
-      const durationUnitValue = websiteForm.getIn(['timeWindow', 'durationUnit']).value;
-      const startTimestampValue = websiteForm.getIn(['timeWindow', 'startTimestamp']).value;
-      const timeWindowTypeValue = websiteForm.getIn(['timeWindow', 'type']).value;
+      const durationValue = websiteForm.getIn(['objective', 'duration']).value;
+      const durationUnitValue = websiteForm.getIn(['objective', 'durationUnit']).value;
+      const startTimestampValue = websiteForm.getIn(['objective', 'startTimestamp', 'date']).value;
+      const timeWindowTypeValue = websiteForm.getIn(['objective', 'type']).value;
+      const timeStamp = formatDate(new Date().setHours(0, 0, 0, 0));
 
       // Then
       expect(entityTypeValue).toEqual('website');
@@ -158,7 +159,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(indicatorTypeValue).toEqual('timeBased');
       expect(durationValue).toEqual(1);
       expect(durationUnitValue).toEqual('week');
-      expect(startTimestampValue).toEqual(Date.now());
+      expect(startTimestampValue).toEqual(timeStamp);
       expect(timeWindowTypeValue).toEqual('fixed');
     });
 
@@ -184,10 +185,11 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const goodEventsFilterValue = applicationForm.getIn(['indicator', 'goodEventsFilter']).value;
       const thresholdValue = applicationForm.getIn(['indicator', 'threshold']).value;
       const indicatorTypeValue = applicationForm.getIn(['indicator', 'type']).value;
-      const durationValue = applicationForm.getIn(['timeWindow', 'duration']).value;
-      const durationUnitValue = applicationForm.getIn(['timeWindow', 'durationUnit']).value;
-      const startTimestampValue = applicationForm.getIn(['timeWindow', 'startTimestamp']).value;
-      const timeWindowTypeValue = applicationForm.getIn(['timeWindow', 'type']).value;
+      const durationValue = applicationForm.getIn(['objective', 'duration']).value;
+      const durationUnitValue = applicationForm.getIn(['objective', 'durationUnit']).value;
+      const startTimestampValue = applicationForm.getIn(['objective', 'startTimestamp', 'date']).value;
+      const timeWindowTypeValue = applicationForm.getIn(['objective', 'type']).value;
+      const timeStamp = formatDate(new Date().setHours(0, 0, 0, 0));
 
       // Then
       expect(entityTypeValue).toEqual('application');
@@ -207,7 +209,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(indicatorTypeValue).toEqual('timeBased');
       expect(durationValue).toEqual(1);
       expect(durationUnitValue).toEqual('week');
-      expect(startTimestampValue).toEqual(Date.now());
+      expect(startTimestampValue).toEqual(timeStamp);
       expect(timeWindowTypeValue).toEqual('fixed');
     });
   });

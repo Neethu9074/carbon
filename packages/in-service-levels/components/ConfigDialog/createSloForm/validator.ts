@@ -6,8 +6,11 @@
 
 import { ValidationResult } from 'formalistic';
 
+import { SloTimeWindowFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, numericValidator } from 'in-services/validators/number';
+import { dateValidator, timeValidator } from 'in-services/validators/date';
+import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 export const inputNotUndefinedValidator = (v: any): ValidationResult => {
@@ -25,3 +28,32 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
 export const thresholdFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator, v =>
   minValidator(1)(Number(v))
 );
+
+export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationResult {
+  const { duration, durationUnit } = timeWindow;
+  if (!duration || !durationUnit || !duration.valid || !durationUnit.valid) {
+    return null;
+  }
+  if (durationUnit.value === 'day' && duration.value > 31) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorTimeWindowDay')
+      }
+    ];
+  } else if (durationUnit.value === 'week' && duration.value > 4) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorTimeWindowWeek')
+      }
+    ];
+  }
+  return null;
+}
+
+export const targetFieldValidator = composeAndShortCircuitOnError(notBlankValidator);
+export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, notBlankValidator);
+export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
+
+export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);

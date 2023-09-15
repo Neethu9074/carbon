@@ -8,9 +8,9 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import { getMetricOptions as gMO, MetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
-import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { notBlankValidator } from 'in-services/validators/string';
 import { noop } from 'in-services/util/function';
 import Input from 'in-components/form/Input';

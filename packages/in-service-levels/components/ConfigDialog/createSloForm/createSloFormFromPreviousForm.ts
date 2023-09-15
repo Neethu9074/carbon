@@ -7,14 +7,14 @@
 import { createMapForm } from 'formalistic';
 
 import {
-  getIndicatorFieldsFromForm,
-  getNameTagFieldsFromForm,
-  getTimeWindowFormFieldFromForm
-} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
-import {
   getDefaultEntityFields,
+  getDefaultObjectiveFields,
   getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
+import {
+  getIndicatorFieldsFromForm,
+  getNameTagFieldsFromForm
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
 export default function createSloFormFromPreviousForm(previousForm: SloForm): SloForm {
@@ -31,8 +31,8 @@ export default function createSloFormFromPreviousForm(previousForm: SloForm): Sl
       scope: createMapForm({
         items: getDefaultScopeFields()
       }),
-      timeWindow: createMapForm({
-        items: getTimeWindowFormFieldFromForm(previousForm)
+      objective: createMapForm({
+        items: getDefaultObjectiveFields()
       }),
       nameTags: createMapForm({
         items: getNameTagFieldsFromForm(previousForm)

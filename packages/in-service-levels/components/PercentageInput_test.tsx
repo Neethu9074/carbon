@@ -1,12 +1,12 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import PercentageInput from './PercentageInput';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { noop } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input';
 

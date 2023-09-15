@@ -7,19 +7,26 @@
 import { createField, createMapForm, Field } from 'formalistic';
 
 import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { isEventBasedSli } from '@instana/types/typeDefinitions';
+import { DurationUnitType, isEventBasedSli } from '@instana/types';
 
 import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
+  SloObjectiveFields,
   SloScopeFields,
-  SloTimeWindowFields
+  TimeStamp
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import {
+  dateFieldValidator,
+  targetFieldValidator,
+  thresholdFieldValidator,
+  timeFieldValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloBeaconTypes } from 'in-service-levels/types';
+import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
   return {
@@ -105,26 +112,44 @@ export const getIndicatorFormFieldsFromSloConfig = (
     type: createField({ value: indicator.type })
   };
 };
-
-export const getTimeWindowFormFieldFromSloConfig = (
+export const getObjectiveFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
-): SloTimeWindowFields => {
-  const timeWindowType = sloConfig.timeWindow?.type;
+): SloObjectiveFields => {
+  return {
+    target: createField<number | undefined>({
+      value: undefined,
+      validator: targetFieldValidator
+    }),
+    duration: createField({ value: sloConfig.timeWindow.duration }),
+    durationUnit: createField<DurationUnitType>({ value: sloConfig.timeWindow.durationUnit }),
+    startTimestamp: createMapForm<TimeStamp>({
+      items: getDefaultTimestampField(sloConfig)
+    }),
+    type: createField({ value: sloConfig.timeWindow.type })
+  };
+};
 
+export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfiguration) => {
+  const timeWindowType = sloConfig.timeWindow?.type;
+  const timeStamp = new Date().setHours(0, 0, 0, 0);
   if (timeWindowType === 'fixed') {
     return {
-      duration: createField({ value: sloConfig.timeWindow.duration }),
-      durationUnit: createField({ value: sloConfig.timeWindow.durationUnit }),
-      startTimestamp: createField({ value: sloConfig.timeWindow.startTimestamp ?? Date.now() }),
-      type: createField({ value: sloConfig.timeWindow.type })
+      date: createField<string>({
+        value: formatDate(sloConfig.timeWindow.startTimestamp) ?? formatDate(timeStamp)!,
+        validator: dateFieldValidator
+      }),
+      time: createField<string>({
+        value: formatDate(timeStamp)!,
+        validator: timeFieldValidator
+      })
     };
   }
-
   return {
-    duration: createField({ value: sloConfig.timeWindow.duration }),
-    durationUnit: createField({ value: sloConfig.timeWindow.durationUnit }),
-    startTimestamp: createField({ value: Date.now() }),
-    type: createField({ value: sloConfig.timeWindow.type })
+    date: createField<string>({ value: formatDate(timeStamp)!, validator: dateFieldValidator }),
+    time: createField<string>({
+      value: formatDate(timeStamp)!,
+      validator: timeFieldValidator
+    })
   };
 };
 
@@ -140,8 +165,8 @@ export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfi
       scope: createMapForm({
         items: getScopeFieldsFromSloConfig(sloConfig)
       }),
-      timeWindow: createMapForm({
-        items: getTimeWindowFormFieldFromSloConfig(sloConfig)
+      objective: createMapForm({
+        items: getObjectiveFormFieldsFromSloConfig(sloConfig)
       }),
       nameTags: createMapForm({
         items: createSloNameTagsFields(sloConfig)

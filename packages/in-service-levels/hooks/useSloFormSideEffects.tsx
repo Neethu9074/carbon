@@ -6,6 +6,7 @@
 
 import { Item } from 'formalistic';
 
+import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 // eslint-disable-next-line
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { createSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
@@ -38,6 +39,17 @@ const resetIndicatorEventType = (form: SloForm) => {
 
   return form;
 };
+function clampTimeWindowDuration(form: SloForm): Item {
+  const unit = form.getIn(['objective', 'durationUnit']).value;
+
+  const oldDuration = form.getIn(['objective', 'duration']);
+
+  const maxDurationForThisUnit = getMaxTimeWindowDurationValue(unit);
+
+  return form.updateIn(['objective', 'duration'], () =>
+    oldDuration.setValue(Math.min(oldDuration.value, maxDurationForThisUnit))
+  );
+}
 
 const formSideEffects = [
   {
@@ -47,6 +59,10 @@ const formSideEffects = [
   {
     path: ['indicator', 'blueprint'],
     effects: [resetIndicatorEventType as EffectFunction]
+  },
+  {
+    path: ['objective', 'durationUnit'],
+    effects: [clampTimeWindowDuration as EffectFunction]
   }
 ];
 

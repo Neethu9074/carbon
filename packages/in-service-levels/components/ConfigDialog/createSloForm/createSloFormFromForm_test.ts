@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { formatDate } from '@instana/format-date';
 import {
   createSloFormFromForm,
   getEntityFieldsFromForm,
@@ -128,10 +129,10 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         const goodEventsFilterValue = websiteForm.getIn(['indicator', 'goodEventsFilter']).value;
         const thresholdValue = websiteForm.getIn(['indicator', 'threshold']).value;
         const indicatorTypeValue = websiteForm.getIn(['indicator', 'type']).value;
-        const durationValue = websiteForm.getIn(['timeWindow', 'duration']).value;
-        const durationUnitValue = websiteForm.getIn(['timeWindow', 'durationUnit']).value;
-        const startTimestampValue = websiteForm.getIn(['timeWindow', 'startTimestamp']).value;
-        const timeWindowTypeValue = websiteForm.getIn(['timeWindow', 'type']).value;
+        const durationValue = websiteForm.getIn(['objective', 'duration']).value;
+        const durationUnitValue = websiteForm.getIn(['objective', 'durationUnit']).value;
+        const startTimestampValue = websiteForm.getIn(['objective', 'startTimestamp', 'date']).value;
+        const timeWindowTypeValue = websiteForm.getIn(['objective', 'type']).value;
 
         // Then
         expect(entityTypeValue).toEqual('website');
@@ -151,7 +152,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         expect(indicatorTypeValue).toEqual('eventBased');
         expect(durationValue).toEqual(100);
         expect(durationUnitValue).toEqual('day');
-        expect(startTimestampValue).toEqual(Date.now());
+        expect(startTimestampValue).toEqual(formatDate(new Date().setHours(0, 0, 0, 0)));
         expect(timeWindowTypeValue).toEqual('rolling');
       });
 
@@ -177,10 +178,10 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         const goodEventsFilterValue = applicationForm.getIn(['indicator', 'goodEventsFilter']).value;
         const thresholdValue = applicationForm.getIn(['indicator', 'threshold']).value;
         const indicatorTypeValue = applicationForm.getIn(['indicator', 'type']).value;
-        const durationValue = applicationForm.getIn(['timeWindow', 'duration']).value;
-        const durationUnitValue = applicationForm.getIn(['timeWindow', 'durationUnit']).value;
-        const startTimestampValue = applicationForm.getIn(['timeWindow', 'startTimestamp']).value;
-        const timeWindowTypeValue = applicationForm.getIn(['timeWindow', 'type']).value;
+        const durationValue = applicationForm.getIn(['objective', 'duration']).value;
+        const durationUnitValue = applicationForm.getIn(['objective', 'durationUnit']).value;
+        const startTimestampValue = applicationForm.getIn(['objective', 'startTimestamp', 'date']).value;
+        const timeWindowTypeValue = applicationForm.getIn(['objective', 'type']).value;
 
         // Then
         expect(entityTypeValue).toEqual('application');
@@ -200,7 +201,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         expect(indicatorTypeValue).toEqual('timeBased');
         expect(durationValue).toEqual(100);
         expect(durationUnitValue).toEqual('day');
-        expect(startTimestampValue).toEqual(Date.now());
+        expect(startTimestampValue).toEqual(formatDate(new Date().setHours(0, 0, 0, 0)));
         expect(timeWindowTypeValue).toEqual('fixed');
       });
     });

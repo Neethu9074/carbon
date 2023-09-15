@@ -12,6 +12,7 @@ import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
 import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
+import SloObjectiveSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/SloObjectiveSection';
 import SloEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
 import { formToSloConfiguration, isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -35,10 +36,16 @@ export default function CreateSloDialog() {
   const [, doSubmit] = useFormSubmission(createSloConfiguration);
 
   const nameField = form.getIn(['nameTags', 'name']);
+  const targetField = form.getIn(['objective', 'target']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
+  const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
+  const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
 
   const isNameValid = isFieldValid(nameField);
+  const isTargetFieldValid = isFieldValid(targetField);
   const isThresholdValid = isFieldValid(thresholdField);
+  const isDateFieldValid = isFieldValid(dateField);
+  const isTimeFieldValid = isFieldValid(timeField);
 
   const navItems: Array<NavItem> = [
     {
@@ -65,6 +72,17 @@ export default function CreateSloDialog() {
       scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicator'),
       valid: isNameValid
+    },
+    {
+      content: (
+        <ConfigDialogTimeConfigContextModification>
+          <SloObjectiveSection />
+        </ConfigDialogTimeConfigContextModification>
+      ),
+      label: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
+      scrollId: '3-select-objective',
+      title: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
+      valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
     },
     {
       content: <SloNameAndTagsSection />,

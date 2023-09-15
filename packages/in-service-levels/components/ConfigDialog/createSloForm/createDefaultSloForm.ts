@@ -6,18 +6,27 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import { SloEntityType } from '@instana/types';
+import { DurationUnitType, SloEntityType, TimeWindowType } from '@instana/types';
 
+import {
+  thresholdFieldValidator,
+  targetFieldValidator,
+  timeFieldValidator,
+  dateFieldValidator,
+  timeWindowValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
-  SloScopeFields,
-  SloTimeWindowFields
+  SloObjectiveFields,
+  SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { thresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { formatDate, formatTime } from 'in-services/formatters/date';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
   entityId: createField({ value: '' }),
@@ -43,11 +52,29 @@ export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
   type: createField({ value: 'timeBased' })
 });
 
-export const getDefaultTimeWindowFields = (): SloTimeWindowFields => ({
-  duration: createField({ value: 1 }),
-  durationUnit: createField({ value: 'week' }),
-  startTimestamp: createField({ value: Date.now() }),
-  type: createField({ value: 'fixed' })
+export const getDefaultTimeFields = () => {
+  const timeStamp = new Date().setHours(0, 0, 0, 0);
+  return {
+    date: createField<string>({ value: formatDate(timeStamp)!, validator: dateFieldValidator }),
+    time: createField<string>({
+      value: formatTime(timeStamp)!,
+      validator: timeFieldValidator
+    })
+  };
+};
+
+export const getDefaultObjectiveFields = (): SloObjectiveFields => ({
+  target: createField<number | undefined>({
+    value: undefined,
+    validator: targetFieldValidator
+  }),
+  duration: createField<number>({
+    value: 1,
+    validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator)
+  }),
+  durationUnit: createField<DurationUnitType>({ value: 'week' }),
+  startTimestamp: createMapForm({ items: getDefaultTimeFields() }),
+  type: createField<TimeWindowType>({ value: 'fixed' })
 });
 
 export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
@@ -62,8 +89,9 @@ export const createDefaultSloForm = (entityType: SloEntityType): SloForm => {
       indicator: createMapForm({
         items: getDefaultIndicatorFields()
       }),
-      timeWindow: createMapForm({
-        items: getDefaultTimeWindowFields()
+      objective: createMapForm({
+        items: getDefaultObjectiveFields(),
+        validator: timeWindowValidator
       }),
       nameTags: createMapForm({
         items: createSloNameTagsFields({ name: '', tags: [] })

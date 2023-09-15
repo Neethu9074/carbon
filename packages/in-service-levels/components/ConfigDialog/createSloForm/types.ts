@@ -10,7 +10,6 @@ import {
   AggregationType,
   ApplicationBoundaryScope,
   BlueprintType,
-  DateAsNumber,
   DurationUnitType,
   ServiceLevelIndicatorType,
   SloEntityType,
@@ -20,14 +19,15 @@ import {
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
-type SloFormFields = {
+export type SloFormFields = {
   entity: SloEntityForm;
   indicator: SloIndicatorForm;
   scope: SloScopeForm;
-  timeWindow: SloTimeWindowForm;
+  objective: SloObjectiveForm;
   nameTags: SloNameTagsForm;
 };
 
+export type SloFormTarget = MapForm<SloTargetFields>;
 export type CustomBlueprintType = BlueprintType | 'custom' | undefined;
 
 export type SloForm = MapForm<SloFormFields>;
@@ -37,8 +37,13 @@ export type SloFormOnChange = (path: SloFormPath, updater: (i: Item) => Item) =>
 export type SloEntityForm = MapForm<SloEntityFields>;
 export type SloScopeForm = MapForm<SloScopeFields>;
 export type SloIndicatorForm = MapForm<SloIndicatorFields>;
+export type SloObjectiveForm = MapForm<SloObjectiveFields>;
 export type SloTimeWindowForm = MapForm<SloTimeWindowFields>;
 export type SloNameTagsForm = MapForm<SloNameTagsFields>;
+
+export type SloTargetFields = {
+  target: Field<number | undefined>;
+};
 
 export type SloEntityFields = {
   entityId: Field<string>;
@@ -64,14 +69,26 @@ export type SloIndicatorFields = {
   type: Field<ServiceLevelIndicatorType>;
 };
 
+export type SloObjectiveFields = {
+  target: Field<number | undefined>;
+  duration: Field<number>;
+  durationUnit: Field<DurationUnitType>;
+  startTimestamp: MapForm<TimeStamp>;
+  type: Field<TimeWindowType>;
+};
 export type SloTimeWindowFields = {
   duration: Field<number>;
   durationUnit: Field<DurationUnitType>;
-  startTimestamp: Field<DateAsNumber>;
+  startTimestamp: MapForm<TimeStamp>;
   type: Field<TimeWindowType>;
 };
 
 export type SloNameTagsFields = {
   name: Field<string>;
   tags: Field<string[]>;
+};
+
+export type TimeStamp = {
+  date: Field<string>;
+  time: Field<string>;
 };

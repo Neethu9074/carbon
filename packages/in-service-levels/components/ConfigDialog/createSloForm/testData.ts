@@ -11,7 +11,6 @@ import {
   ServiceLevelIndicatorType,
   SloEntityType,
   TimeWindowType,
-  DateAsNumber,
   DurationUnitType,
   AggregationType,
   ServiceLevelObjectiveConfiguration
@@ -53,9 +52,15 @@ export const testWebsiteForm: SloForm = createMapForm({
         tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
       }
     }),
-    timeWindow: createMapForm({
+    objective: createMapForm({
       items: {
-        startTimestamp: createField<DateAsNumber>({ value: testDate.getTime() }),
+        target: createField<number | undefined>({ value: 1 }),
+        startTimestamp: createMapForm({
+          items: {
+            date: createField<string>({ value: '2020-01-01' }),
+            time: createField<string>({ value: '' })
+          }
+        }),
         duration: createField<number>({ value: 100 }),
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
         type: createField<TimeWindowType>({ value: 'rolling' })
@@ -99,11 +104,17 @@ export const testApplicationForm: SloForm = createMapForm({
         tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
       }
     }),
-    timeWindow: createMapForm({
+    objective: createMapForm({
       items: {
+        target: createField<number | undefined>({ value: 1 }),
+        startTimestamp: createMapForm({
+          items: {
+            date: createField<string>({ value: '2020-01-01' }),
+            time: createField<string>({ value: '' })
+          }
+        }),
         duration: createField<number>({ value: 100 }),
         durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        startTimestamp: createField<DateAsNumber>({ value: testDate.getTime() }),
         type: createField<TimeWindowType>({ value: 'fixed' })
       }
     }),

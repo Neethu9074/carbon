@@ -1,0 +1,118 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { useContext } from 'react';
+
+import { DurationUnitType, TimeWindowType } from '@instana/types';
+import { Stack, SvgIcon } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
+import DateInput from 'in-components/form/DateInput/DateInput';
+import TimeInput from 'in-components/TimeInput/TimeInput';
+import Section from 'in-components/workspace/Section';
+import Select from 'in-components/form/Select/Select';
+import Input from 'in-components/form/Input/Input';
+
+export default function TimeWindowSelector() {
+  const { form, onChange } = useContext(SloFormContext);
+  const windowTypeField = form.getIn(['objective', 'type']);
+  const windowDurationField = form.getIn(['objective', 'duration']);
+  const windowDurationUnitField = form.getIn(['objective', 'durationUnit']);
+  const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
+  const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
+  const timeStamp = form.getIn(['objective']);
+  const isFixed = windowTypeField.value === 'fixed';
+  const isTimeFieldValid = isFieldValid(timeField);
+  const isDateFieldValid = isFieldValid(dateField);
+
+  return (
+    <>
+      <SelectInSection
+        id="time-window-type"
+        label={t('in-service-levels:createSloDialog.timeWindow')}
+        value={windowTypeField.value}
+        onChange={e => {
+          onChange(['objective', 'type'], () =>
+            windowTypeField.setValue(e.target.value as TimeWindowType).setTouched(true)
+          );
+        }}
+      >
+        <option value="fixed">{t('in-service-levels:general.timeWindow.type_fixed')}</option>
+        <option value="rolling">{t('in-service-levels:general.timeWindow.type_rolling')}</option>
+      </SelectInSection>
+
+      <Section title={t('in-service-levels:createSloDialog.length')} titleHtmlFor="time-window-size">
+        <Stack direction="horizontal" gap="medium">
+          <Input
+            type="number"
+            id="time-window-size"
+            onChange={e => {
+              onChange(['objective', 'duration'], () =>
+                windowDurationField.setValue(Number(e.target.value)).setTouched(true)
+              );
+            }}
+            min="1"
+            max={getMaxTimeWindowDurationValue(windowDurationUnitField.value)}
+            width="3.8rem"
+            hasError={!windowDurationField.valid && windowDurationField.touched}
+          />
+          <Select
+            value={windowDurationUnitField.value}
+            onChange={e => {
+              onChange(['objective', 'durationUnit'], () =>
+                windowDurationUnitField.setValue(e.target.value as DurationUnitType).setTouched(true)
+              );
+            }}
+          >
+            <option value="day">{t('in-service-levels:general.timeWindow.size_day_plural')}</option>
+            <option value="week">{t('in-service-levels:general.timeWindow.size_week_plural')}</option>
+          </Select>
+        </Stack>
+        {!timeStamp.valid &&
+          timeStamp.messages.map(({ message }, index) => (
+            <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+          ))}
+      </Section>
+
+      {isFixed && (
+        <Section title={t('in-service-levels:createSloDialog.start')}>
+          <Stack direction="horizontal" gap="medium" inline align="center">
+            <DateInput
+              value={dateField.value}
+              iconType="lib_datetime_date"
+              onChange={date => {
+                onChange(['objective', 'startTimestamp', 'date'], () =>
+                  dateField.setValue(date as string).setTouched(true)
+                );
+              }}
+            />
+            <TimeInput
+              value={timeField.value}
+              onChange={time => {
+                onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
+              }}
+              hasError={!timeField.valid && timeField.touched}
+            />
+            <SvgIcon type="lib_datetime_time" />
+          </Stack>
+          {!isDateFieldValid &&
+            dateField.messages.map(({ message }, index) => (
+              <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+            ))}
+          {!isTimeFieldValid &&
+            timeField.messages.map(({ message }, index) => (
+              <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+            ))}
+        </Section>
+      )}
+    </>
+  );
+}

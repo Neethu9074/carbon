@@ -15,8 +15,8 @@ import {
   MetricType
 } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';

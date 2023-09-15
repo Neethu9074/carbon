@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AdjustedTimeframe, TimeConfig } from '@instana/types';
+import { AdjustedTimeframe, DurationUnitType, TimeConfig } from '@instana/types';
 
 import { days, hours, minutes } from 'in-services/time/time';
 
@@ -35,4 +35,16 @@ export function calculateTimeRemaining(timeConfig: TimeConfig): number {
   const now = Date.now();
   const to = timeConfig.to ?? now;
   return to - now;
+}
+
+export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {
+  switch (unit) {
+    case 'day':
+      return 31;
+    case 'week':
+      return 4;
+    case 'month':
+    default:
+      return 12;
+  }
 }
