@@ -8,61 +8,11 @@ import React from 'react';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage, bytes } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-const ProtectionStatusEnum = protectionStatus => {
-  switch (protectionStatus) {
-    case 0:
-      return 'ACTIVE';
-    case 1:
-      return 'BUSY';
-    case 2:
-      return 'DEGRADED';
-    case 3:
-      return 'FAILED';
-    case 4:
-      return 'HARDWARE_FAILURE';
-    case 5:
-      return 'NOT_READY';
-    case 6:
-      return 'PARITY_REBUILD';
-    case 7:
-      return 'POWER_LOSS';
-    case 8:
-      return 'READ_WRITE_PROTECTED';
-    case 9:
-      return 'RESUME';
-    case 10:
-      return 'RESUME_PENDING';
-    case 11:
-      return 'SUSPEND';
-    case 12:
-      return 'UNKNOWN';
-    case 13:
-      return 'UNPROTECTED';
-    case 14:
-      return 'WRITE_PROTECTED';
-    default:
-      return '-';
-  }
-};
-
-const RaidTypeEnum = raidType => {
-  switch (raidType) {
-    case 1:
-      return 'RAID5';
-    case 2:
-      return 'RAID6';
-    case 3:
-      return 'RAID10';
-    default:
-      return '-';
-  }
-};
 
 const cols = [
   {
@@ -76,34 +26,22 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitNumber'),
-    type: 'metric',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getValue(row) {
+        return row.spinningDiskTypeRawData.get('unitNumber');
       },
-      getMetricName(row) {
-        return `advanceSpinningDiskTypeMetrics.${row.key}.unitNumber`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+      getContent: number.compact
     }
   },
   {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.aspNumber'),
-    type: 'metric',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getValue(row) {
+        return row.spinningDiskTypeRawData.get('aspNumber');
       },
-      getMetricName(row) {
-        return `advanceSpinningDiskTypeMetrics.${row.key}.aspNumber`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+      getContent: number.compact
     }
   },
   {
@@ -112,6 +50,15 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.spinningDiskTypeRawData.get('diskType');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.diskModel'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.spinningDiskTypeRawData.get('diskModel');
       }
     }
   },
@@ -125,23 +72,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSpinningDiskTypeMetrics.${row.key}.unitMediaCapacityGb`;
       },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitStorageCapacity'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSpinningDiskTypeMetrics.${row.key}.unitStorageCapacity`;
-      },
-      getContent: bytes.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -157,39 +88,7 @@ const cols = [
       getMetricName(row) {
         return `advanceSpinningDiskTypeMetrics.${row.key}.percentUsed`;
       },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.raidType'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSpinningDiskTypeMetrics.${row.key}.raidType`;
-      },
-      getContent: RaidTypeEnum,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.protectionStatus'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSpinningDiskTypeMetrics.${row.key}.protectionStatus`;
-      },
-      getContent: ProtectionStatusEnum,
+      getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -254,31 +153,7 @@ function getRowDetails(row) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          formatter: number.compact,
-          metrics: ['advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedIoRequests'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedIoRequests')],
-          min: 0,
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: bytes.detailed,
-          metrics: ['advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedRequestSize'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedRequestSize')],
-          min: 0,
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: percentage.detailed,
+          formatter: percentage.compact,
           metrics: ['advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedPercentBusy'],
           labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
           min: 0,
