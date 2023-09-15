@@ -5,7 +5,7 @@
 
 import { MetricCatalog, MetricTreeNodeUnion } from 'in-types';
 
-interface MetricInCatalog {
+export interface MetricInCatalog {
   path: string[];
   label: string;
 }

@@ -86,5 +86,6 @@ module.exports = {
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
   tagCatalogSmallQueryWindowEnabled: true,
-  syntheticCustomDashboardEnabled: true
+  syntheticCustomDashboardEnabled: true,
+  regexMetricSelectionEnabled: true
 };

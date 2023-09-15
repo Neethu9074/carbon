@@ -13,8 +13,8 @@ import {
   bluePrintForCallsMetric,
   potentialProblemsCategory
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
+import ValidationMessages, { hasErrorOfCategory } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
@@ -120,28 +120,6 @@ function tooltipMessage(timeshift, grouping, moreThanOneDataset, unsupportedMetr
   return '';
 }
 
-function filterByCategory(category) {
-  return message => !category || message?.category === category;
-}
-
-/**
- * Renders all validation error messages of a form of a specific category.
- * It does not show any path info of any message.
- *
- * @param field formalistic field
- * @param category only messages of this category are shown, or all if it is not defined
- * @returns {null|[ValidationBlock]}
- */
-function ValidationMessages({ field, category }) {
-  if (!field?.hierarchyTouched) {
-    return null;
-  }
-
-  return field.messages.filter(filterByCategory(category)).map((message, i) => {
-    return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
-  });
-}
-
 function hasPotentialProblemsError(form) {
-  return !form?.valid && form?.messages?.filter(filterByCategory(potentialProblemsCategory)).length > 0;
+  return hasErrorOfCategory(form, potentialProblemsCategory);
 }

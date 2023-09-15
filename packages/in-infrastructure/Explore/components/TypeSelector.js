@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo, useState, useRef } from 'react';
+import React, { useCallback, useMemo, useState, useRef, forwardRef } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
@@ -23,6 +23,7 @@ import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlu
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { pendingResult, emptyObject } from 'in-services/fixedObjects';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { containsIgnoreCase } from 'in-services/util/string';
@@ -39,12 +40,45 @@ const urlStateDefinition = {
   bind: [groupMatrixParameter, typeMatrixParameter]
 };
 
-export default function TypeSelector({ onTypeSelected }) {
+export default function HeaderTypeSelector({ onHrefSideEffect }) {
   const [{ group, type }] = useUrlState(urlStateDefinition);
-  const timeConfig = useTimeConfig();
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const tagFilterExpression = EMPTY_EXPRESSION;
-  const result = useObservable(getAvailablePluginsObservable, [timeConfig, tagFilterExpression]) || pendingResult;
-  const getParamsForType = useCallback(type => ({ type, group: updatedGroup(group, type) }), [group]);
+  const getHrefForType = useCallback(
+    type => getLinkToInfraEntityExplore({ type, group: updatedGroup(group, type) }),
+    [group, getLinkToInfraEntityExplore]
+  );
+  return (
+    <TypeSelector
+      getHrefForType={getHrefForType}
+      group={group}
+      type={type}
+      tagFilterExpression={tagFilterExpression}
+      onHrefSideEffect={onHrefSideEffect}
+      ButtonComponent={DashboardHeaderButton}
+      header
+    />
+  );
+}
+
+export function TypeSelector(props) {
+  const {
+    getHrefForType,
+    type,
+    tagFilterExpression,
+    onTypeChange,
+    onHrefSideEffect,
+    ButtonComponent,
+    header,
+    className,
+    localGetAvailablePlugins = getAvailablePlugins
+  } = props;
+  const timeConfig = useTimeConfig();
+  const result =
+    useObservable(localGetAvailablePlugins({ filter: { timeConfig, tagFilterExpression } }), [
+      timeConfig,
+      tagFilterExpression
+    ]) || pendingResult;
   const types = useMemo(
     () =>
       [allInfrastructureType].concat(
@@ -59,24 +93,43 @@ export default function TypeSelector({ onTypeSelected }) {
 
   return (
     <Overlay
-      props={{ types, getParamsForType, onTypeSelected }}
+      props={{ types, getHrefForType, onHrefSideEffect, onTypeChange }}
       withoutWrapper
       content={Dropdown}
       align="bottomLeft"
       focusOnClose
     >
-      {({ toggle, isOpen, ref }) => (
-        <DashboardHeaderButton size="normal" ref={ref} onClick={toggle} expanded={isOpen} className={locals.button}>
-          <TypeRow icon={icon} name={name} className={locals.header} />
-        </DashboardHeaderButton>
-      )}
+      {({ toggle, isOpen, ref }) => {
+        const Component = ButtonComponent ?? DefaultButton;
+        return (
+          <Component
+            size="normal"
+            ref={ref}
+            onClick={toggle}
+            expanded={isOpen}
+            className={classNames(className, { [locals.headerButton]: header })}
+          >
+            <TypeRow icon={icon} name={name} className={classNames({ [locals.header]: header })} />
+          </Component>
+        );
+      }}
     </Overlay>
   );
 }
 
-function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
+const DefaultButton = forwardRef(function DefaultButton({ className, ...buttonProps }, ref) {
+  return (
+    <DropdownButton
+      ref={ref}
+      {...buttonProps}
+      kind={'secondary'}
+      className={classNames(className, locals.defaultButton)}
+    />
+  );
+});
+
+function Dropdown({ getHrefForType, types, close, onHrefSideEffect, onTypeChange }) {
   const [query, setQuery] = useState('');
-  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   const filteredTypes = useMemo(
     () => types.filter(({ name }) => query === '' || containsIgnoreCase(name, query)),
@@ -107,9 +160,18 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
           <Li
             noAlternatingBg
             key={plugin}
-            href={getLinkToInfraEntityExplore(getParamsForType(plugin))}
+            href={getHrefForType && getHrefForType(plugin)}
+            onClick={
+              onTypeChange &&
+              (() => {
+                onTypeChange(plugin !== allTypes ? plugin : undefined);
+                close();
+              })
+            }
             onDefaultHrefInteractionSideEffect={() => {
-              onTypeSelected(plugin);
+              if (onHrefSideEffect) {
+                onHrefSideEffect(plugin);
+              }
               close();
             }}
           >
@@ -131,7 +193,7 @@ function TypeRow({ icon, name, className }) {
 }
 
 function getType(type) {
-  if (type === allTypes) {
+  if (!type || type === allTypes) {
     return allInfrastructureType;
   }
   return {
@@ -147,8 +209,4 @@ function updatedGroup(group, type) {
     : isEqual(group, defaultAllInfraGroup) && type !== allTypes
     ? emptyObject
     : group;
-}
-
-function getAvailablePluginsObservable([timeConfig, tagFilterExpression]) {
-  return getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } });
 }

@@ -63,13 +63,16 @@ export const Default = props => {
     setMetric(change.metric);
     setType(change.type);
   };
+  const metricCatalogResult = metricCatalog(props['number of categories'], props['number of metrics'])
   return (
     <div>
       <TypeAndMetricConfigurator
         type={type}
         metric={metric}
         metricMetadata={{}}
-        metricCatalog={metricCatalog(props['number of categories'], props['number of metrics'])}
+        metricCatalog={metricCatalogResult.data}
+        loading={metricCatalogResult.process.loading}
+        errors={metricCatalogResult.errors}
         label="please select a metric"
         onChange={onChange}
         query={query}

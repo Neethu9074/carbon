@@ -80,7 +80,7 @@ export default function InfraPageHeaderWithTabs({
                 renderButtonLine={hasInfrastructureAnalyzeAccess && !playwithEnabled ? renderButtonLine : undefined}
                 label={
                   isInfraExploreActive && renderTypeSelector ? (
-                    <TypeSelector onTypeSelected={onTypeSelected} />
+                    <TypeSelector onHrefSideEffect={onTypeSelected} />
                   ) : undefined
                 }
                 headerHref$={headerHref$}

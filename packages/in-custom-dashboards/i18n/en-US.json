@@ -168,6 +168,14 @@
       "typeAndMetricConfigurator": {
         "pleaseSelectMetric": "Please select a metric",
         "loadingMetrics": "Loading metrics..."
+      },
+      "regexMetricSelectorOverlay": {
+        "inputPlaceholder": "Metric pattern (e.g. metric_.*)",
+        "done": "Done"
+      },
+      "metricSelectionCategoryOverlay": {
+        "list": "List",
+        "regex": "Regex"
       }
     },
     "srcMobileApp": {

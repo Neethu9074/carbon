@@ -8,6 +8,7 @@ import { createMapForm, createField, createListForm, alwaysValidValidator } from
 import { just } from '@instana/observables';
 
 import { potentialProblemsOnDatasetValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
+import regexValidator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -36,9 +37,11 @@ export function createForm(
   let form = createMapForm(
     withEnablePotentialProblems
       ? {
-          validator: potentialProblemsOnDatasetValidator
+          validator: composeAndShortCircuitOnError(potentialProblemsOnDatasetValidator, regexValidator)
         }
-      : {}
+      : {
+        validator: regexValidator
+      }
   )
     .put(
       'source',

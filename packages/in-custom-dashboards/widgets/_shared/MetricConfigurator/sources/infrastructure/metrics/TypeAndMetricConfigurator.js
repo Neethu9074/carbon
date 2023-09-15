@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
 
-import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
@@ -19,30 +19,17 @@ import locals from './TypeAndMetricConfigurator.mless';
 
 export default function TypeAndMetricConfigurator({
   metricMetadata,
-  metricCatalog,
-  onChange,
-  query,
-  onQueryChange,
-  selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric')
+  errors,
+  selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric'),
+  ...props
 }) {
-  if (metricCatalog?.errors.length > 0) {
-    return <Errors errors={metricCatalog?.errors} />;
+  if (errors?.length > 0) {
+    return <Errors errors={errors} />;
   }
 
   return (
     <>
-      <Overlay
-        content={MetricSelectorOverlay}
-        props={{
-          metricCatalog: metricCatalog.data,
-          loading: metricCatalog.progress.loading,
-          onChange,
-          query,
-          onQueryChange
-        }}
-        align={'bottomLeft'}
-        withoutWrapper
-      >
+      <Overlay content={MetricSelectionCategoryOverlay} props={props} align={'bottomLeft'} withoutWrapper>
         {({ toggle, refSetter }) => (
           <DropdownButton
             kind="secondary"
@@ -61,11 +48,14 @@ export default function TypeAndMetricConfigurator({
 
 TypeAndMetricConfigurator.propTypes = {
   metricMetadata: rpt.object,
-  metricCatalog: rpt.object.isRequired,
+  metricCatalog: rpt.object,
+  loading: rpt.bool,
+  errors: rpt.array,
   onChange: rpt.func.isRequired,
   query: rpt.string.isRequired,
   onQueryChange: rpt.func.isRequired,
-  selectMetric: rpt.string
+  selectMetric: rpt.string,
+  SelectorOverlay: rpt.func
 };
 
 function Errors({ errors }) {

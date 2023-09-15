@@ -7,13 +7,18 @@ import React, { useEffect } from 'react';
 
 import { Spacer, Stack, Toggle } from '@instana/components';
 
-import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
+import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
   onChangeGrouping,
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import ValidationMessages, {
+  hasErrorOfCategory
+} from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -25,6 +30,7 @@ import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
@@ -64,6 +70,7 @@ export default function FormComponent({
   const groupingField = form.get('grouping');
   const metricLabelField = form.get('metricLabel');
   const metricPathField = form.get('metricPath');
+  const regexField = form.get('regex');
   const grouping = getGrouping(form);
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
@@ -73,8 +80,11 @@ export default function FormComponent({
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
   const type = typeField.value || undefined;
+  const isRegex = regexField.value || false;
   const metric = metricField.value || undefined;
   const tagCatalog = useTagCatalog({ ownerType: type, metric });
+  const backendQueryModel =
+    tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
@@ -84,8 +94,7 @@ export default function FormComponent({
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
-    tagFilterExpression:
-      tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
+    tagFilterExpression: backendQueryModel,
     type: isTypePrefilled ? type : undefined,
     query: catalogQuery.debouncedValue
   });
@@ -95,25 +104,25 @@ export default function FormComponent({
   const isMetricAndMetadatas = metric && metricMetadatas;
   const formatterBackendType = isMetricAndMetadatas && metricMetadatas[metric]?.formatterType;
   const metricDefaultFormatter = getUiMetricsValueByBackendType(formatterBackendType);
+  const {
+    setMetadata,
+    onMetricChange,
+    setIsRegex,
+    onRegexChange,
+    setAggregation,
+    setIsSumCrossSeriesAggregation,
+    onTypeChange
+  } = formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesAggregationRestricted });
 
   useEffect(() => {
     if (metricCatalog.data) {
       const metadata = getMetricInCatalog({
         metricCatalog: metricCatalog.data,
-        type,
-        metric
+        type: typeField.value,
+        metric: metricField.value
       });
       if (metadata) {
-        onChange([], form => {
-          var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
-          if (f.containsKey('metricLabel')) {
-            f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
-          }
-          if (f.containsKey('formatter')) {
-            f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
-          }
-          return f;
-        });
+        setMetadata(metadata);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,48 +135,37 @@ export default function FormComponent({
       ((metricLabelField && !metricLabelField.value) || !metricPathField.value || metricPathField.value.length == 0) &&
       metricCatalog.progress.loading
   };
+  const stableMetricCatalog = catalogQuery.value === catalogQuery.debouncedValue ? metricCatalog : pendingResult;
 
   return (
     <Stack gap="xsmall">
       {dataSourceSection && <Sections>{dataSourceSection}</Sections>}
 
       <Sections>
-        <Section title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}>
+        <Section
+          hasError={hasRegexValidationError(form)}
+          title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}
+        >
           <TypeAndMetricConfigurator
             metricMetadata={metricMetadata}
-            metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-            onChange={({ metric, parentType, allowedCrossSeriesAggregations, label, parentLabels }) => {
-              onChange([], form => {
-                var f = form
-                  .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                  .updateIn(['type'], field => field.setValue(parentType).setTouched(true))
-                  .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
-                  .updateIn(['aggregation'], field =>
-                    field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
-                  )
-                  .updateIn(['crossSeriesAggregation'], field => {
-                    if (allowedCrossSeriesAggregations?.length > 0) {
-                      return field.setValue(allowedCrossSeriesAggregations[0]).setTouched(true);
-                    }
-                    return field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true);
-                  })
-                  .updateIn(['allowedCrossSeriesAggregations'], field =>
-                    field.setValue(allowedCrossSeriesAggregations).setTouched(true)
-                  );
-                if (f.containsKey('metricLabel')) {
-                  f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
-                }
-                if (f.containsKey('formatter')) {
-                  f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
-                }
-                return f;
-              });
-            }}
+            metricCatalog={stableMetricCatalog.data}
+            loading={stableMetricCatalog.progress.loading}
+            errors={stableMetricCatalog.errors}
+            onMetricChange={onMetricChange}
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
             selectMetric={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
+            isRegex={isRegex}
+            regex={metric || ''}
+            setIsRegex={setIsRegex}
+            onRegexChange={onRegexChange}
+            type={type}
+            onTypeChange={onTypeChange}
+            backendQueryModel={backendQueryModel}
+            SelectorOverlay={MetricSelectionCategoryOverlay}
           />
           <TouchedMessages field={metricField} />
+          <ValidationMessages field={form} category={regexValidationError} />
         </Section>
 
         {withAggregationInMetrics && (
@@ -175,21 +173,7 @@ export default function FormComponent({
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
             id="metric-configurator-infra-aggregation"
             value={aggregationField.value}
-            onChange={e =>
-              onChange([], form =>
-                form
-                  .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
-                  .updateIn(['crossSeriesAggregation'], field => {
-                    if (isCrossSeriesAggregationRestricted) {
-                      return field;
-                    }
-                    if (e.target.value === 'PER_SECOND') {
-                      return field.setValue('SUM').setTouched(true);
-                    }
-                    return field.setValue(e.target.value).setTouched(true);
-                  })
-              )
-            }
+            onChange={e => setAggregation(e.target.value)}
             additionalContent={
               <>
                 <TouchedMessages field={aggregationField} />
@@ -206,15 +190,7 @@ export default function FormComponent({
                         id="metric-configurator-cross-series-aggregation"
                         checked={isSumCrossSeriesAggregation}
                         disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                        onChange={e => {
-                          let newCrossSeriesAggregation = aggregationField.value;
-                          if (e.target.checked) {
-                            newCrossSeriesAggregation = 'SUM';
-                          }
-                          onChange(['crossSeriesAggregation'], field =>
-                            field.setValue(newCrossSeriesAggregation).setTouched(true)
-                          );
-                        }}
+                        onChange={e => setIsSumCrossSeriesAggregation(e.target.value)}
                       />
                     </span>
                   </Tooltip>
@@ -303,4 +279,8 @@ function getCrossSeriesAggregationTooltip(
         aggregation: aggregationLabels[aggregation]
       })
     : '';
+}
+
+function hasRegexValidationError(form) {
+  return hasErrorOfCategory(form, regexValidationError);
 }

@@ -404,5 +404,10 @@ module.exports = exports = [
     uiClientKey: 'tagCatalogSmallQueryWindowEnabled',
     instanaCtlKey: 'feature.custom.widget.infrastructure.smallquerywindow.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'regexMetricSelectionEnabled',
+    instanaCtlKey: 'feature.regex.metric.selection.enabled',
+    defaultValue: false
   }
 ];

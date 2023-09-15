@@ -36,7 +36,11 @@
     min-width: 10rem;
   }
 
-  .button {
+  .headerButton {
     line-height: @lib__typography__line-height;
+  }
+
+  .defaultButton {
+    background: @lib__colors__white;
   }
 }

@@ -22,7 +22,7 @@ export default function EntityExploreHeader({
   onHeaderClick,
   renderTypeSelector = true
 }) {
-  const headerLabel = renderTypeSelector ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined;
+  const headerLabel = renderTypeSelector ? <TypeSelector onHrefSideEffect={onTypeSelected} /> : undefined;
 
   const contextConfigurations = renderTypeSelector
     ? [

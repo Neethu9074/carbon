@@ -116,6 +116,8 @@ export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEna
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
+export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
