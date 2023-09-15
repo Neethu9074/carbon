@@ -252,8 +252,8 @@ function getLabelColumn(onNavigateToEntity, isPreview) {
     label: t('in-infrastructure:explore.name'),
     getContent(item) {
       return (
-        <div className={locals.entityLink}>
-          <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+        <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+          <div className={locals.entityLink}>
             <EntityLink
               label={item.label}
               plugin={item.plugin}
@@ -266,8 +266,8 @@ function getLabelColumn(onNavigateToEntity, isPreview) {
                     }
               }
             />
-          </SeverityIndicatorCellContentWrapper>
-        </div>
+          </div>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   };
