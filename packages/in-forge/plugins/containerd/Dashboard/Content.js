@@ -55,6 +55,13 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
+          y2={{
+            min: 0,
+            metrics: ['cpu.total_normalized_usage_percentage'],
+            labels: [t('in-forge:plugins.containerd.dashboard.labelTotalNormalized')],
+            formatter: percentageTwoDecimalPlaces,
+            type: 'line'
+          }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
@@ -102,8 +109,11 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
           }}
           y2={{
             min: 0,
-            metrics: ['memory.used_percentage'],
-            labels: [t('in-forge:plugins.containerd.dashboard.memoryUsage')],
+            metrics: ['memory.used_percentage', 'memory.working_set_usage_percentage'],
+            labels: [
+              t('in-forge:plugins.containerd.dashboard.memoryUsage'),
+              t('in-forge:plugins.containerd.dashboard.labelMemoryWorkingSet')
+            ],
             type: 'line',
             formatter: percentageTwoDecimalPlaces
           }}
