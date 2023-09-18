@@ -24,6 +24,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.kubernetesCluster.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#missing-clusterrole-permissions`
+    explanationLinkHref: `https://ibm.biz/monitoring-k8s-tsg2`
   }
 };

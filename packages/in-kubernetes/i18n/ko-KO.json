@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "사용 가능한 Kubernetes 데이터가 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "사용 가능한 Kubernetes 데이터가 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "팟(Pod) 보류 중",

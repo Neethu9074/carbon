@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "沒有可用的 Kubernetes 資料。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "沒有可用的 Kubernetes 資料。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "Pods 擱置中",

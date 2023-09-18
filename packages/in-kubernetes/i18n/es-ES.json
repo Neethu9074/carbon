@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "No hay datos de Kubernetes disponibles. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "No hay datos de Kubernetes disponibles. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "Pods pendientes",
