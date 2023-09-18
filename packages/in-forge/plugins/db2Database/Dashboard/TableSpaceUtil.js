@@ -170,6 +170,8 @@ export default connectTo(
         cardTitle={t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil', { len: rows.length })}
         cols={cols}
         rows={rows}
+        initialSortColumn={2}
+        initialSortDirection="desc"
         getRowDetails={getDetails}
       />
     );
