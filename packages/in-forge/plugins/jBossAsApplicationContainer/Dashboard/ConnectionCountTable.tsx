@@ -35,7 +35,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount';
+        return 'workers.threadInfo.' + row.key + '.busyWorkerThreadCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -51,7 +51,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row: any) {
-        return 'workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize';
+        return 'workers.threadInfo.' + row.key + '.workerQueueSize';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -71,11 +71,11 @@ export default function ConnectionCountTable({ snapshot }: { snapshot: SnapshotD
   }
 
   const rows = snapshot
-    .getIn(['data', 'servers'], emptyMap)
-    .map((serverMXBeans: Map<string, any>, name: string) => {
+    .getIn(['data', 'addresses'], emptyMap)
+    .map((addresses: Map<string, any>, name: string) => {
       return {
         key: name,
-        serverMXBeans,
+        addresses,
         timeConfig,
         snapshotId
       };
@@ -105,7 +105,7 @@ function getRowDetails(row: any) {
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
-            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.busyWorkerThreadCount'],
+            metrics: ['workers.threadInfo.' + row.key + '.busyWorkerThreadCount'],
             labels: [t('in-forge:plugins.jBossAsApplicationContainer.busyWorkerThreadCount')],
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -115,7 +115,7 @@ function getRowDetails(row: any) {
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
-            metrics: ['workerMetrics.workerThreadMetrics.' + row.key + '.workerQueueSize'],
+            metrics: ['workers.threadInfo.' + row.key + '.workerQueueSize'],
             labels: [t('in-forge:plugins.jBossAsApplicationContainer.workerQueueSize')],
             type: 'line',
             formatter: zeroDecimalPlaces
