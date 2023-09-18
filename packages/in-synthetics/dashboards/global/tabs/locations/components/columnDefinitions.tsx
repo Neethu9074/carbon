@@ -194,7 +194,7 @@ let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] =
   {
     id: 'health',
     label: t('in-synthetics:dashboard.locationList.health'),
-    sortable: true,
+    sortable: false,
     defaultOrderDirection: 'ASC',
     getContent(item: LocationListItem, { timeConfig }) {
       if (item.entityHealthInfo != undefined) {
