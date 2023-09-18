@@ -8154,7 +8154,8 @@
       "obtainedFromSystem": "Obtained From System",
       "metrics": "Metrics",
       "troubleshootingDocs": "Troubleshooting docs",
-      "goRuntimeNeedsUpdate": "An outdated version of Go runtime has been detected. This version might no longer receive updates or security fixes and might contain unfixed vulnerabilities. Please consider upgrading Go to the latest version."
+      "goRuntimeNeedsUpdate": "An outdated version of Go runtime has been detected. This version might no longer receive updates or security fixes and might contain unfixed vulnerabilities. Please consider upgrading Go to the latest version.",
+      "goVersion": "Go Runtime Version"
     },
     "googleCloudDatastore": {
       "dashboard": {
