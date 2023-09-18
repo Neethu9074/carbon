@@ -107,20 +107,8 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Trans
               i18nKey="in-settings:tabs.samlHelpDoc"
               components={{
-                activeDirectoryLink: (
-                  <Link
-                    size="sm"
-                    external
-                    href="https://www.ibm.com/docs/en/obi/current?topic=authentication-configuring-active-directory"
-                  />
-                ),
-                oktaLink: (
-                  <Link
-                    size="sm"
-                    external
-                    href="https://www.ibm.com/docs/en/obi/current?topic=authentication-integrating-okta"
-                  />
-                )
+                activeDirectoryLink: <Link size="sm" external href="https://ibm.biz/configuring-active-directory" />,
+                oktaLink: <Link size="sm" external href="https://ibm.biz/integrating-okta" />
               }}
             />
           </p>

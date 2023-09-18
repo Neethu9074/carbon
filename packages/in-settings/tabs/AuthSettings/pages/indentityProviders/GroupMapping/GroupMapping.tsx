@@ -109,11 +109,11 @@ function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapF
           components={{
             gmLink: (
               // @ts-expect-error
-              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=authentication-idp-group-mapping" />
+              <Link external href="https://ibm.biz/idp-group-mapping" />
             ),
             authLink: (
               // @ts-expect-error
-              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=instana-configuring-authentication" />
+              <Link external href="https://ibm.biz/configuring-authentication" />
             )
           }}
         />
@@ -165,7 +165,7 @@ function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapF
           components={{
             authLink: (
               // @ts-expect-error
-              <Link external href="https://www.ibm.com/docs/en/obi/current?topic=instana-configuring-authentication" />
+              <Link external href="https://ibm.biz/configuring-authentication" />
             )
           }}
         />

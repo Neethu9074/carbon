@@ -99,13 +99,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
             <Trans
               i18nKey="in-settings:tabs.ldapHelpDoc"
               components={{
-                docLink: (
-                  <Link
-                    external
-                    size="sm"
-                    href="https://www.ibm.com/docs/en/obi/current?topic=installer-configuring-ldap"
-                  />
-                )
+                docLink: <Link external size="sm" href="https://ibm.biz/configuring-ldap" />
               }}
             />
           </p>
