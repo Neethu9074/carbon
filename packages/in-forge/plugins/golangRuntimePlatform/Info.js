@@ -34,6 +34,9 @@ export default function GolangInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.golangRuntimePlatform.instanaSensorVersion')}>
         {data.get('snapshot.iv')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.golangRuntimePlatform.goVersion')}>
+        {data.get('snapshot.version')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
