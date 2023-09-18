@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagFilterExpression, TimeConfig } from '@instana/types';
-import { Group } from '@instana/types/typeDefinitions';
+import { Group, IngestionOffsetCursor } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
 import { GroupedLogsProps } from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
@@ -20,6 +19,7 @@ export interface GroupedViewProps extends GroupedLogsProps {
     timeConfig: TimeConfig;
     backendQueryModel: TagFilterExpression;
     groupBy: Group;
+    cursor: IngestionOffsetCursor;
   }) => Observable<unknown>;
   iconMap: Map;
   UngroupedView: (props: UngroupedViewProps) => JSX.Element;

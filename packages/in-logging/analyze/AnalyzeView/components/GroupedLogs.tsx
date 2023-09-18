@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 
 import { Group, LogGroupItem, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
+import { IngestionOffsetCursor } from '@instana/types/typeDefinitions';
 import { KeyValue, Stack } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
@@ -120,19 +121,22 @@ function addToMap({ tagName, icon, children }: TagTreeNode, map: Map<string, str
 
 function getTableData({
   timeConfig,
+  groupBy,
   backendQueryModel,
-  groupBy
+  cursor
 }: {
   timeConfig: TimeConfig;
   backendQueryModel: TagFilterExpression;
   groupBy: Group;
+  cursor: IngestionOffsetCursor;
 }) {
   return getLogGroups({
     timeConfig,
     group: groupBy,
     tagFilterExpression: backendQueryModel,
     pagination: {
-      retrievalSize: 20
+      retrievalSize: 20,
+      cursor
     }
   });
 }
