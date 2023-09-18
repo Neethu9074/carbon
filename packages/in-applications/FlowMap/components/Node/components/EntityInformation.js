@@ -38,7 +38,7 @@ export default connectTo(
             {data.label}
           </Link>
 
-          <EndpointTypeBadgeList type={data.type} types={data.types} />
+          <EndpointTypeBadgeList type={data.type} types={data.types} limit={1} />
 
           <ExpandButton direction="incoming" events$={entity.events$} onClick={() => expandLeft(entity.id)} />
           <ExpandButton direction="outgoing" events$={entity.events$} onClick={() => expandRight(entity.id)} />

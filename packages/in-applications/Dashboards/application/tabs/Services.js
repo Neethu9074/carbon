@@ -15,6 +15,7 @@ import {
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -25,12 +26,10 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-applications/subscriptions/getServices';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
-import { getColor } from 'in-applications/endpointTypes';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -81,15 +80,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
-      return (
-        <Fragment>
-          {item.service.types.slice().map(type => (
-            <Badge color={getColor(type)} key={type}>
-              {type}
-            </Badge>
-          ))}
-        </Fragment>
-      );
+      return <EndpointTypeBadgeList types={item.service.types} limit={3} />;
     }
   },
   {
@@ -98,7 +89,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
-      return <TechnologyIndicatorList technologies={item.service.technologies} />;
+      return <TechnologyIndicatorList technologies={item.service.technologies} limit={3} />;
     }
   },
   {
