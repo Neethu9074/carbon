@@ -4,8 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
-
 :local {
   .message {
     display: flex;

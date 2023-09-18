@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .header {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);

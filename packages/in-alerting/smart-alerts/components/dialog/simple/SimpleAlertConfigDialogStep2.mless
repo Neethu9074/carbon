@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .alertLocationFiltersWrapper {
     grid-column: 1 / span 2;

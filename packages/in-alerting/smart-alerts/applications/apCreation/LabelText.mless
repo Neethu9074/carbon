@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .label {
     font-size: 0.875rem;

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     border: 1px solid var(--ids-color-option-neutral-300);
