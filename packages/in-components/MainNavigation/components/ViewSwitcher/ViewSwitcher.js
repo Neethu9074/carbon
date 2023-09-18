@@ -323,7 +323,7 @@ function Infrastructure(props) {
     return null;
   }
 
-  const isActive = matchLocation(physicalPath, containerPath) || isTableViewActive || infraSmartAlerts;
+  const isActive = matchLocation(physicalPath, containerPath, infraSmartAlerts) || isTableViewActive;
 
   return (
     <View

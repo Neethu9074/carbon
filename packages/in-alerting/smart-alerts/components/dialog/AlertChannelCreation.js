@@ -40,7 +40,7 @@ export default function AlertChannelCreation({ onCancel }) {
     <div
       style={{
         height: `calc(100% - ${formFooterRef.current?.offsetHeight ?? 0}px - 1rem)`,
-        overflowY: 'scroll'
+        overflowY: 'auto'
       }}
     >
       <Stack>

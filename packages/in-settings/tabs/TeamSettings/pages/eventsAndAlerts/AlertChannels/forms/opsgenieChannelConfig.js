@@ -198,7 +198,7 @@ function Form({ form, onChange }) {
             {t('in-settings:tabs.region')}
           </Label>
           <Select
-            className={`${block}__input`}
+            className={`${block}__input-width`}
             id="region"
             value={field.value}
             onChange={e => onChange('region', e.target.value)}
