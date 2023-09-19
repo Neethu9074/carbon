@@ -76,7 +76,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=kinesis-aws-lambda-native-tracing-go"
+          href="https://ibm.biz/aws-lambda-tracing-go"
         />
         <Spacer />
         <Description
