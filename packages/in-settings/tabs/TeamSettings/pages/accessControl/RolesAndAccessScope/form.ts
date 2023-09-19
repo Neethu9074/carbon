@@ -158,18 +158,29 @@ function addPermissionsByRoleForProductArea(
   role: AreaRoleType | undefined,
   permissions: string[]
 ): string[] {
+  //The additional Synthetic permissions set at owner's role should be removed
+  let newPermissions = permissions;
+  if (productArea == ProductArea.SYNTHETICS) {
+    newPermissions = permissions.filter(aPermission => {
+      return (
+        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS &&
+        aPermission !== Capability.CAN_USE_SYNTHETIC_CREDENTIALS &&
+        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+      );
+    });
+  }
   // as starting with clean permissions for the area
   if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
-    permissions.push(...capabilities);
+    newPermissions.push(...capabilities);
   } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
     const syntheticViewPermissions = [
       Capability.CAN_VIEW_SYNTHETIC_TESTS,
       Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
       Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
     ];
-    permissions.push(...syntheticViewPermissions);
+    newPermissions.push(...syntheticViewPermissions);
   }
 
-  return permissions;
+  return newPermissions;
 }
