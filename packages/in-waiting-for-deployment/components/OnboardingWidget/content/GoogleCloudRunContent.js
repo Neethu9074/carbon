@@ -162,7 +162,7 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
+          href="https://ibm.biz/monitoring-go"
         />
         <Spacer />
         <Description

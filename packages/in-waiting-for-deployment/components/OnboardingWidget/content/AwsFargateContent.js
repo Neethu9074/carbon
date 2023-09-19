@@ -48,7 +48,7 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
+          href="https://ibm.biz/monitoring-go"
         />
         <Spacer />
         <Description
