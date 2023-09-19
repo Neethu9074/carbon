@@ -4,5 +4,10 @@
  */
 
 import theme from 'in-themes/active.json';
+import {themes} from '@instana/design-tokens';
+
+export function useTheme() {
+  return themes.default;
+}
 
 export default theme;

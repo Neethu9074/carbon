@@ -14,7 +14,9 @@ const lorem = (
   </p>
 );
 
-export default {};
+export default {
+  title: "in-theming/Typography(deprecated)"
+};
 
 export const Typography = () => {
   return (

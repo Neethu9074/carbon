@@ -7,7 +7,9 @@ import React from 'react';
 
 import theme from 'in-themes';
 
-export default {};
+export default {
+  title: "in-theming/Shapes(deprecated)"
+};
 
 export const Shapes = () => {
   return (
