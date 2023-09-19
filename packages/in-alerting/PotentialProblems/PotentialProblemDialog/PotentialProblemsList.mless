@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .list {
     border: none;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .listItem {
@@ -23,17 +22,17 @@
 
   .icon {
     margin-right: 1rem;
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
   }
 
   .itemName {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
     line-height: 1rem;
   }
 
   .itemDescription {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
     line-height: 1.25rem;
   }

@@ -35,7 +35,7 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Alert.mless';
@@ -59,6 +59,7 @@ export default function Alert({
   displayEditAction = true,
   displayDuplicateAction = true
 }) {
+  const theme = useTheme();
   const { location, navigate } = useNavigation();
 
   const [reload, triggerReload] = useState();
@@ -178,7 +179,7 @@ export default function Alert({
           </Col>
         </Row>
       </div>
-      <SetBodyColor color={theme.lib.colors.white} />
+      <SetBodyColor color={theme.ids.color.option.white} />
       <Footer />
     </>
   );

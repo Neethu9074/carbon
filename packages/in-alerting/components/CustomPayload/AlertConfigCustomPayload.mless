@@ -4,10 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .leftHeader {
-    font-size: @lib__typography__body-bold__font-size;
+    font-size: var(--ids-font-size-option-body-bold);
   }
 }

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -11,7 +10,7 @@
     display: grid;
     max-width: 68.5rem;
     height: 36.5rem;
-    border-top: 0.0625rem solid @lib__colors__N300;
+    border-top: 0.0625rem solid var(--ids-color-option-neutral-300);
   }
 
   .twoColums {
@@ -19,7 +18,7 @@
   }
 
   .listWrapper {
-    border-right: 0.0625rem solid @lib__colors__N300;
+    border-right: 0.0625rem solid var(--ids-color-option-neutral-300);
     overflow-y: auto;
   }
 

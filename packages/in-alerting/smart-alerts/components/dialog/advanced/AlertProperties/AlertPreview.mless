@@ -3,22 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .previewArea {
-    border-left: 1px solid @lib__colors__N300;
-    background-color: @lib__colors__N100;
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+    background-color: var(--ids-color-option-neutral-100);
     padding: 1rem;
   }
 
   .alertPreview {
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
     border-left: 6px solid;
-    border-radius: @lib__shapes__radius_small;
-    box-shadow: @lib__shadows__strong;
-    color: @lib__colors__N600Light;
+    border-radius: var(--ids-border-radius-small);
+    box-shadow: var(--ids-shadow-option-strong);
+    color: var(--ids-color-option-neutral-600);
     min-height: 12.5rem;
     padding: 0.5rem;
     overflow: hidden;
@@ -27,11 +26,11 @@
     display: flex;
 
     &.severityLow {
-      border-color: @lib__colors__warning;
+      border-color: var(--ids-color-option-yellow-500);
     }
 
     &.severityHigh {
-      border-color: @lib__colors__failure;
+      border-color: var(--ids-color-option-red-500);
     }
 
     p {
@@ -46,8 +45,8 @@
   }
 
   .alertPreviewHeadline {
-    color: @lib__colors__N900Primary;
-    font-size: @lib__typography__h300__font-size;
+    color: var(--ids-color-option-neutral-900);
+    font-size: var(--ids-font-size-option-heading-300);
     font-weight: 500;
     margin-left: 0.5rem;
     line-height: 1.5rem;
@@ -55,11 +54,11 @@
 
   .alertLevelIcon {
     &.severityLow {
-      fill: @lib__colors__warning;
+      fill: var(--ids-color-option-yellow-500);
     }
 
     &.severityHigh {
-      fill: @lib__colors__failure;
+      fill: var(--ids-color-option-red-500);
     }
   }
 

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .verticalAlignedCells {
     align-items: center;
@@ -17,10 +15,10 @@
 
     &.optionBoxUnchecked {
       svg {
-        fill: @lib__colors__N600Light;
+        fill: var(--ids-color-option-neutral-600);
       }
 
-      color: @lib__colors__N600Light;
+      color: var(--ids-color-option-neutral-600);
     }
   }
 

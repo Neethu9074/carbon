@@ -4,12 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .filters {
     display: flex;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 
   .centered {
@@ -28,6 +26,6 @@
   }
 
   .filterIcon {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
   }
 }

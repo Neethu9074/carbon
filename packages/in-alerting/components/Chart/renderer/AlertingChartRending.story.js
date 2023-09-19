@@ -15,7 +15,8 @@ import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { minutes } from 'in-services/time';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const oneSecond = 1000;
@@ -50,7 +51,7 @@ const historicThreshold = {
 };
 
 // see PotentialProblemsChart
-const highlightColor = theme.lib.colors.chart.strokeColors100[3];
+const highlightColor = oldTheme.lib.colors.chart.strokeColors100[3];
 const highlight = {
   area: {
     key: 'some highlight',
@@ -86,6 +87,7 @@ export function BaselinesWithGaps() {
 }
 
 function Chart({ renderer }) {
+  const theme = useTheme();
   return (
     <ResultAwareChart
       result={{
@@ -105,7 +107,11 @@ function Chart({ renderer }) {
             colors: ['#17A1E6', '#FF4040', '#ffe2e2']
           },
           getMax: metricsMaxValue => metricsMaxValue * 1.4,
-          colors: [theme.lib.colors.lightBlue800, theme.lib.colors.red800, theme.lib.colors.orange800],
+          colors: [
+            theme.ids.color.option.blue['400'],
+            theme.ids.color.option.red['500'],
+            theme.ids.color.option.orange['500']
+          ],
           renderer,
           metrics: metricsBarWithBaseline,
           labels: ['Latency', 'Threshold', 'Violations']

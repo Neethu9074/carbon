@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -13,7 +12,7 @@
   }
 
   .customEventListInfo {
-    color: @lib__colors__N700Medium;
-    font-size: @lib__typography__body-small__font-size;
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-body-small);
   }
 }

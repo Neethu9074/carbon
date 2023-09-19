@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { Message, SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/TwoColumnContainer.mless';
 
@@ -35,6 +35,7 @@ export default function TwoColumnContainer({
   infoContent,
   removeMainAreaContentBorder
 }: TwoColumnContainerProps) {
+  const theme = useTheme();
   return (
     <div
       className={classNames({
@@ -48,7 +49,7 @@ export default function TwoColumnContainer({
           <h3 className={locals.headline}>{mainContentHeadline}</h3>
           {infoContent && (
             <Tooltip align="topMiddle" content={infoContent}>
-              <SvgIcon type="lib_help_error_info_outline" color={theme.lib.colors.N600Light} />
+              <SvgIcon type="lib_help_error_info_outline" color={theme.ids.color.option.neutral['600']} />
             </Tooltip>
           )}
         </div>

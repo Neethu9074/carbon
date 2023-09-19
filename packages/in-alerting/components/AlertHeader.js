@@ -22,8 +22,8 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
+import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from 'in-alerting/components/AlertHeader.mless';
 
@@ -47,6 +47,8 @@ export default function AlertHeader({
   displayEditAction,
   displayDuplicateAction
 }) {
+  const theme = useTheme();
+
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
@@ -162,7 +164,7 @@ export default function AlertHeader({
         </div>
 
         <div className={locals.right}>
-          <Pill className={locals.badge} color={theme.lib.colors.purple800} kind="light">
+          <Pill className={locals.badge} color={theme.ids.color.option.purple['500']} kind="light">
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
           {extendedAlertConfigVersions.length > 0 && (

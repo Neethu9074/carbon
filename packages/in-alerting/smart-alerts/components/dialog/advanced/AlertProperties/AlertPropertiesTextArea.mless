@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .textArea {
     width: 100%;
-    background-color: @lib__colors__N100;
+    background-color: var(--ids-color-option-neutral-100);
   }
 }

@@ -8,7 +8,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/components/SelectedAlertTypeInfo.mless';
 
@@ -27,7 +27,8 @@ export default function SelectedAlertTypeInfo({
   darkSvgIcon = false,
   badges = []
 }: Props) {
-  const svgIconColor = darkSvgIcon ? theme.lib.colors.N700Medium : theme.lib.colors.N300;
+  const theme = useTheme();
+  const svgIconColor = darkSvgIcon ? theme.ids.color.option.neutral['700'] : theme.ids.color.option.neutral['300'];
   return (
     <div className={locals.outerWrapper}>
       <div className={locals.innerWrapper}>

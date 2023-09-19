@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     display: flex;
     align-items: center;
-    color: @lib__colors__N900Primary;
-    font-size: @lib__typography__body__font-size;
+    color: var(--ids-color-option-neutral-900);
+    font-size: var(--ids-font-size-option-body-regular);
     line-height: 1.25rem;
 
     padding: 1rem;
@@ -21,12 +19,12 @@
   }
 
   .label {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
   }
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 }

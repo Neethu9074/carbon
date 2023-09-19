@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wide {
     width: 49rem;
@@ -13,7 +11,6 @@
     height: @height;
     max-height: @height;
 
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
   }
-
 }

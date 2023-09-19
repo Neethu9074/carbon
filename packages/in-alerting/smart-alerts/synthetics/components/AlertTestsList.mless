@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -16,7 +15,7 @@
 
   .secText {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .ellipsis {

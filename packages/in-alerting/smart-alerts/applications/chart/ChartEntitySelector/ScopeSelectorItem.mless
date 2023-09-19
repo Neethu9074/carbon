@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 @gap: 0.25rem;
@@ -15,7 +14,7 @@
 
   .separator {
     margin: 0 @gap;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .cutOffText {
@@ -49,7 +48,7 @@
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .fullColumn {
@@ -57,7 +56,7 @@
     flex-flow: row;
     gap: @gap;
     white-space: normal; // enable line-break
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
 
     word-break: break-word;
     .in-browser-ff & {
@@ -69,8 +68,12 @@
 
       vertical-align: middle;
 
-      margin-top: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
-      margin-bottom: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
+      margin-top: calc(
+        var(--ids-font-size-option-body-regular) - var(--ids-font-size-option-body-small) / 2
+      ); // adjust to also have the icon properly aligned when in all fits in one row
+      margin-bottom: calc(
+        var(--ids-font-size-option-body-regular) - var(--ids-font-size-option-body-small) / 2
+      ); // adjust to also have the icon properly aligned when in all fits in one row
     }
   }
 }

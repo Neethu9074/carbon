@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .card {
     background: #fff;
-    border-top-left-radius: @lib__shapes__radius_small;
-    border-top-right-radius: @lib__shapes__radius_small;
+    border-top-left-radius: var(--ids-border-radius-small);
+    border-top-right-radius: var(--ids-border-radius-small);
   }
 
   .header {
@@ -18,9 +17,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background: @lib__colors__N200;
-    border-top-left-radius: @lib__shapes__radius_small;
-    border-top-right-radius: @lib__shapes__radius_small;
+    background: var(--ids-color-option-neutral-200);
+    border-top-left-radius: var(--ids-border-radius-small);
+    border-top-right-radius: var(--ids-border-radius-small);
   }
 
   .noSubContent {
@@ -36,31 +35,31 @@
   }
 
   .framed {
-    border: 1px solid @lib__colors__N200;
-    border-radius: @lib__shapes__radius_small;
+    border: 1px solid var(--ids-color-option-neutral-200);
+    border-radius: var(--ids-border-radius-small);
 
     &.darkFrame {
-      border: 1px solid @lib__colors__N300;
+      border: 1px solid var(--ids-color-option-neutral-300);
     }
   }
 
   .twoLineTitleLabel {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     .ellipsis();
   }
 
   .twoLineTitle {
     margin-bottom: 0.25rem;
     font-size: 0.875rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     .ellipsis();
   }
 
   .title {
     font-size: 1rem;
     font-weight: 200;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     .ellipsis();
     margin: 0 1rem 0 0;
   }
@@ -68,7 +67,7 @@
   .titleSubContent {
     font-size: 0.8rem;
     font-weight: 200;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     padding: 0 0 0 0.5rem;
   }
 

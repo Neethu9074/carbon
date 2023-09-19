@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     margin: 0.5rem;
   }
 
   .jsErrorTextInput {
-    background-color: @lib__colors__N100;
+    background-color: var(--ids-color-option-neutral-100);
   }
 
   .errorMessageSelectWrapper {

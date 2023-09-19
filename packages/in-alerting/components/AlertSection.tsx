@@ -6,7 +6,7 @@
 import React, { ReactNode } from 'react';
 
 import Section from 'in-components/workspace/Section';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 interface AlertSectionProps {
   title: ReactNode;
@@ -27,8 +27,10 @@ export default function AlertSection({
   children,
   actions,
   useAlternateBg,
-  iconColor = theme.lib.colors.N600Light
+  iconColor
 }: AlertSectionProps) {
+  const theme = useTheme();
+
   return (
     <Section
       titleHtmlFor={titleHtmlFor}
@@ -37,7 +39,7 @@ export default function AlertSection({
       icon={icon}
       actions={actions}
       useAlternateBg={useAlternateBg}
-      iconColor={iconColor}
+      iconColor={iconColor ?? theme.ids.color.option.neutral['600']}
     >
       {children}
     </Section>

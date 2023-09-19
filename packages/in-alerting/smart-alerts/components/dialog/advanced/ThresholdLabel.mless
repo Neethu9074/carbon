@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .label {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     margin-right: 0.5rem;
   }
 }

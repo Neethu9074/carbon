@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface ThresholdTypesHelpProps {
@@ -16,9 +16,10 @@ interface ThresholdTypesHelpProps {
 }
 
 export function ThresholdTypesHelp({ trackHover }: ThresholdTypesHelpProps) {
+  const theme = useTheme();
   return (
     <Tooltip align="bottomMiddle" content={<ThresholdTypesHint trackHover={trackHover} />}>
-      <SvgIcon type="lib_help_error_help_outline" size="s" color={theme.lib.colors.N700Medium} />
+      <SvgIcon type="lib_help_error_help_outline" size="s" color={theme.ids.color.option.neutral['700']} />
     </Tooltip>
   );
 }

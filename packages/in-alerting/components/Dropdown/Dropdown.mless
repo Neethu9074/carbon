@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .simpleDropdown {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-weight: normal;
     &:hover {
       background-color: transparent;

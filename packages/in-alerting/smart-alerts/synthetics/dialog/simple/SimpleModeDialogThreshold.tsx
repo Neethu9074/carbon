@@ -14,7 +14,7 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
@@ -26,6 +26,7 @@ export default function SimpleModeDialogThreshold(
       subTitleToolTipText?: string;
     }
 ) {
+  const theme = useTheme();
   const formatLabel = (value: number) =>
     t('in-alerting:smartAlerts.synthetics.simple.slider.failuresWithCount', {
       count: value
@@ -47,7 +48,7 @@ export default function SimpleModeDialogThreshold(
           {subtitle}
           {subTitleToolTipText && (
             <Tooltip align="bottomMiddle" content={subTitleToolTipText}>
-              <SvgIcon type="lib_help_error_help_outline" color={theme.lib.colors.N600Light} />
+              <SvgIcon type="lib_help_error_help_outline" color={theme.ids.color.option.neutral['600']} />
             </Tooltip>
           )}
         </div>
