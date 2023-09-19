@@ -23,7 +23,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#instanapcp-not-running`
+    explanationLinkHref: `https://ibm.biz/insta-netfpcpnotrun`
   },
   clr_instana_pcp_not_connected: {
     issueDescription: {
@@ -38,7 +38,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#instanapcp-not-connected`
+    explanationLinkHref: `https://ibm.biz/insta-netfpcpnotcon`
   },
   python_autotrace_prerequisites_failed: {
     issueDescription: {

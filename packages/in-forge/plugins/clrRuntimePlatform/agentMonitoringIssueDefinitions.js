@@ -23,7 +23,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.clrRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#environment-variable-not-defined`
+    explanationLinkHref: `https://ibm.biz/insta-netevnotdef`
   },
   clr_env_var_invalid_value: {
     issueDescription: {
@@ -50,6 +50,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.clrRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#environment-variable-has-an-invalid-value`
+    explanationLinkHref: `https://ibm.biz/net-framework-invalid-value`
   }
 };
