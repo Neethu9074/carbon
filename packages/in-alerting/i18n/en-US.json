@@ -1187,7 +1187,9 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration"
+        "alertConfiguration": "Alert Configuration",
+        "alertConfigurationTitleTrigger": "Trigger",
+        "alertConfigurationTitleScope": "Scope"
       },
       "list": {
         "columns": {

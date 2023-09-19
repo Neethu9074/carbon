@@ -37,14 +37,16 @@ export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, 
           multilineLabel
         />
       </div>
-      <div className={locals.tile}>
-        <KeyValue
-          label={t('in-alerting:smartAlerts.details.entityTitle')}
-          value={scopeLabel}
-          className={locals.keyValueExtraGap}
-          multilineLabel
-        />
-      </div>
+      {scopeLabel && (
+        <div className={locals.tile}>
+          <KeyValue
+            label={t('in-alerting:smartAlerts.details.entityTitle')}
+            value={scopeLabel}
+            className={locals.keyValueExtraGap}
+            multilineLabel
+          />
+        </div>
+      )}
     </div>
   );
 };
