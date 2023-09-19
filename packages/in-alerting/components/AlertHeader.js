@@ -43,7 +43,9 @@ export default function AlertHeader({
   renderCustomTitle,
   showActionButton,
   allowActionButtons = true,
-  onConfigDeleteTrigger
+  onConfigDeleteTrigger,
+  displayEditAction,
+  displayDuplicateAction
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -212,17 +214,21 @@ export default function AlertHeader({
                   alignment="right"
                 />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
-                <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
-              </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
-                <IconButton
-                  kind="primaryv2"
-                  type="lib_actions_copy"
-                  onClick={() => openDialog({ isCopy: true })}
-                  alignment="right"
-                />
-              </Tooltip>
+              {displayEditAction && (
+                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
+                  <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
+                </Tooltip>
+              )}
+              {displayDuplicateAction && (
+                <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
+                  <IconButton
+                    kind="primaryv2"
+                    type="lib_actions_copy"
+                    onClick={() => openDialog({ isCopy: true })}
+                    alignment="right"
+                  />
+                </Tooltip>
+              )}
               {!alertConfig?.builtIn && (
                 <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
@@ -322,7 +328,9 @@ AlertHeader.propTypes = {
   renderCustomTitle: PropTypes.func,
   showActionButton: PropTypes.bool,
   allowActionButtons: PropTypes.bool,
-  onConfigDeleteTrigger: PropTypes.func
+  onConfigDeleteTrigger: PropTypes.func,
+  displayEditAction: PropTypes.bool,
+  displayDuplicateAction: PropTypes.bool
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

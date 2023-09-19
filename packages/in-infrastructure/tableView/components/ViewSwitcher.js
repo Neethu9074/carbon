@@ -12,7 +12,8 @@ import {
   physicalPath,
   containerPath,
   isTableView,
-  infraSmartAlerts
+  infraSmartAlerts,
+  infraAlertDetailsFullyQualifiedPath
 } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
@@ -27,7 +28,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
   const { matchLocation, createHrefToPath } = useNavigation();
 
   const isMapActive = matchLocation(physicalPath) || matchLocation(containerPath);
-  const isAlertActive = matchLocation(infraSmartAlerts);
+  const isAlertActive = matchLocation(infraSmartAlerts) || matchLocation(infraAlertDetailsFullyQualifiedPath);
   const isTableActive = useObservable(isTableView('physical'), []);
 
   const darkTheme = theme === themes.dark;

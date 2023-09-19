@@ -18,6 +18,8 @@ export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 export const eventsPath = '/events';
 export const infraSmartAlerts = '/infraAlerts';
+export const infraAlertsDetailsPath = '/infraAlertdetails';
+export const infraAlertDetailsFullyQualifiedPath = `${infraSmartAlerts}${infraAlertsDetailsPath}`;
 
 export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   const { createHref, location } = useNavigation();
@@ -48,7 +50,8 @@ export function isInfrastructurePath(path: string) {
     path.indexOf(physicalPath) === 0 ||
     path.indexOf(infraSmartAlerts) === 0 ||
     path.indexOf(tablePath) === 0 ||
-    path.indexOf(containerPath) === 0
+    path.indexOf(containerPath) === 0 ||
+    path.indexOf(infraAlertDetailsFullyQualifiedPath) === 0
   );
 }
 

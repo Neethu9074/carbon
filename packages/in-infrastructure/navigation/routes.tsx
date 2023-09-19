@@ -10,6 +10,8 @@ import TableView from 'promise-loader?global,infrastructure!in-infrastructure/ta
 // @ts-expect-error module need to be translated to TS
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 //@ts-expect-error
+import SmartAlertDetailsView from 'promise-loader?global,infrastructure!in-infrastructure/smartAlertView/AlertDetailsView';
+//@ts-expect-error
 import SmartAlertView from 'promise-loader?global,infrastructure!in-infrastructure/smartAlertView/SmartAlertView';
 // @ts-expect-error module need to be translated to TS
 import Map from 'promise-loader?global,infrastructure!in-map/index';
@@ -27,12 +29,17 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
+import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 
 const infrastructureRoutes = [
   <Route key="infraPhysical" path={physicalPath}>
     {renderAsyncRouteChildren(Map)}
+  </Route>,
+  // Note: `infraAlertDetails` route needs to be added before `infraSmartAlert` route or else it will always display the SA list
+  <Route key="infraAlertDetails" path={infraAlertDetailsFullyQualifiedPath}>
+    {renderAsyncRouteChildren(SmartAlertDetailsView)}
   </Route>,
   infraSmartAlertsEnabled && (
     <Route key="infraSmartAlert" path={infraSmartAlerts}>

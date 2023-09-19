@@ -55,7 +55,9 @@ export default function Alert({
   renderAlertConfiguration,
   tracking = {},
   showActionButton = true,
-  getAllowedPlaceholders = () => []
+  getAllowedPlaceholders = () => [],
+  displayEditAction = true,
+  displayDuplicateAction = true
 }) {
   const { location, navigate } = useNavigation();
 
@@ -165,6 +167,8 @@ export default function Alert({
           onConfigDeleteTrigger={() => {
             trackAlertDeleteTrigger(alertConfig);
           }}
+          displayEditAction={displayEditAction}
+          displayDuplicateAction={displayDuplicateAction}
         />
 
         <Row>
@@ -229,5 +233,7 @@ Alert.propTypes = {
     alertCreatedParam: PropTypes.string.isRequired
   }).isRequired,
   showActionButton: PropTypes.bool,
-  getAllowedPlaceholders: PropTypes.func
+  getAllowedPlaceholders: PropTypes.func,
+  displayEditAction: PropTypes.bool,
+  displayDuplicateAction: PropTypes.bool
 };

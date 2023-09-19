@@ -409,5 +409,10 @@ module.exports = exports = [
     uiClientKey: 'regexMetricSelectionEnabled',
     instanaCtlKey: 'feature.regex.metric.selection.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'infraSmartAlertsDetailsPageEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.details.page.enabled',
+    defaultValue: false
   }
 ];

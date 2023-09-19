@@ -6,10 +6,15 @@
 
 import { Observable } from '@instana/observables';
 
+import {
+  deleteAlertConfig as deleteAlertConfigApi,
+  disableAlertConfig as disableAlertConfigApi,
+  enableAlertConfig as enableAlertConfigApi
+} from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import { ConfigVersion, InfraAlertConfigWithMetadata, Result } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
-import { InfraAlertConfigWithMetadata, Result } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.INFRA;
@@ -39,4 +44,64 @@ export function getAllAlertConfigsWithResult(): Observable<Result<InfraAlertConf
     url: baseUrl
   });
   return createObservable(request);
+}
+
+export function getAlertConfigByIdAndTimestamp(
+  id: string,
+  timestamp: number
+): Observable<Result<InfraAlertConfigWithMetadata>> {
+  const request = http<InfraAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    queryParams: {
+      validOn: timestamp
+    }
+  });
+
+  return createObservable(request);
+}
+
+export function getLatestAlertConfig(id: string): Observable<Result<InfraAlertConfigWithMetadata>> {
+  const request = http<InfraAlertConfigWithMetadata>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  });
+
+  return createObservable(request);
+}
+
+export function getAllVersionsOfAlertConfig(id: string): Observable<Result<ConfigVersion[]>> {
+  const request = http<ConfigVersion[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/versions`
+  });
+
+  return createObservable(request);
+}
+
+export function enableAlertConfig(id: string): Observable<void> {
+  return enableAlertConfigApi(id, baseUrl);
+}
+
+export function disableAlertConfig(id: string): Observable<void> {
+  return disableAlertConfigApi(id, baseUrl);
+}
+
+export function deleteAlertConfig(id: string): Observable<void> {
+  return deleteAlertConfigApi(id, baseUrl);
+}
+
+export function restoreAlertConfigVersion(id: string, created: number): Observable<InfraAlertConfigWithMetadata> {
+  return http<InfraAlertConfigWithMetadata>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
 }
