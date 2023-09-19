@@ -131,27 +131,53 @@ export default connectTo(
 function getDetails(row) {
   return (
     <div>
-      <label>Requesting Client Accounting :</label>
+      <label>Lock Name :</label>
+      <code className={locals.statement}> {row.topQuery.get('LOCK_NAME')}</code>
       <p />
-      <code className={locals.statement}>{row.topQuery.get('REQ_CLIENT_ACCTNG')}</code>
+      <label>Table Name :</label>
+      <code className={locals.statement}> {row.topQuery.get('TABNAME')}</code>
+      <p />
+      <label>Current Lock Mode :</label>
+      <code className={locals.statement}> {row.topQuery.get('LOCK_CURRENT_MODE')}</code>
+      <p />
+      <label>Request Application Name :</label>
+      <code className={locals.statement}> {row.topQuery.get('REQ_APPLICATION_NAME')}</code>
+      <p />
+      <label>Request User ID :</label>
+      <code className={locals.statement}> {row.topQuery.get('REQ_USERID')}</code>
+      <p />
+      <label>Holding Member :</label>
+      <code className={locals.statement}> {row.topQuery.get('HLD_MEMBER')}</code>
+      <p />
+      <label>Holding Application Name :</label>
+      <code className={locals.statement}> {row.topQuery.get('HLD_APPLICATION_NAME')}</code>
+      <p />
+      <label>Holding User ID :</label>
+      <code className={locals.statement}> {row.topQuery.get('HLD_USERID')}</code>
+      <p />
+      <label>Client User ID :</label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_USERID')}</code>
+      <p />
+      <label>Client Process ID :</label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_PID')}</code>
+      <p />
+      <label>Requesting Client Accounting :</label>
+      <code className={locals.statement}> {row.topQuery.get('REQ_CLIENT_ACCTNG')}</code>
       <p />
       <label>Holding Client Accounting :</label>
-      <p />
-      <code className={locals.statement}>{row.topQuery.get('HLD_CLIENT_ACCTNG')}</code>
+      <code className={locals.statement}> {row.topQuery.get('HLD_CLIENT_ACCTNG')}</code>
       <p />
       <label>Request Statement Text :</label>
       <p />
-      {
-      row?.topQuery?.get('REQ_STMT_TEXT') &&
-      <Code code={formatSql(row.topQuery.get('REQ_STMT_TEXT'))} lang="sql" softWrap />
-      }
+      {row?.topQuery?.get('REQ_STMT_TEXT') && (
+        <Code code={formatSql(row.topQuery.get('REQ_STMT_TEXT'))} lang="sql" softWrap />
+      )}
       <p />
       <label>Current Running SQL :</label>
       <p />
-      {
-      row?.topQuery?.get('HLD_CURRENT_STMT_TEXT') &&
-      <Code code={formatSql(row.topQuery.get('HLD_CURRENT_STMT_TEXT'))} lang="sql" softWrap />
-      }
+      {row?.topQuery?.get('HLD_CURRENT_STMT_TEXT') && (
+        <Code code={formatSql(row.topQuery.get('HLD_CURRENT_STMT_TEXT'))} lang="sql" softWrap />
+      )}
     </div>
   );
 }

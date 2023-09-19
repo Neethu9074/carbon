@@ -6236,7 +6236,10 @@
       "type": "Backup type",
       "startTime": "Start time",
       "endTime": "End time",
-      "backupDuration": "Backup duration"
+      "backupDuration": "Backup duration",
+      "owner": "Owner",
+      "tbspace": "Table Space",
+      "type": "Type"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",

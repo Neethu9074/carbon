@@ -121,13 +121,29 @@ export default connectTo(
 function getDetails(row) {
   return (
     <div>
-      <label>Utility Type:</label>
+      <label>Utility Type : </label>
+      <code className={locals.statement}> {row.topQuery.get('UTILITY_TYPE')} </code>
       <p />
-      <code className={locals.statement}>{row.topQuery.get('UTILITY_TYPE')}</code>
+      <label>Utility_Detail :</label>
+      <code className={locals.statement}> {row.topQuery.get('UTILITY_DETAIL')} </code>
       <p />
-      <label>Utility_Detail:</label>
+      <label>Session Auth ID : </label>
+      <code className={locals.statement}> {row.topQuery.get('SESSION_AUTH_ID')} </code>
       <p />
-      <code className={locals.statement}>{row.topQuery.get('UTILITY_DETAIL')}</code>
+      <label>Client Workstation Name : </label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_WRKSTNNAME')} </code>
+      <p />
+      <label>Client Accounting : </label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_ACCTNG')} </code>
+      <p />
+      <label>Client Userid : </label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_USERID')} </code>
+      <p />
+      <label>Object Schema : </label>
+      <code className={locals.statement}> {row.topQuery.get('OBJECT_SCHEMA')} </code>
+      <p />
+      <label>Client Application Name : </label>
+      <code className={locals.statement}> {row.topQuery.get('CLIENT_APPLNAME')} </code>
     </div>
   );
 }
