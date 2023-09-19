@@ -10,7 +10,8 @@ import { just } from '@instana/observables';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
-import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTestSelected';
+import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
+import { t } from 'in-i18n';
 
 export default {
   component: AlertTestsList
@@ -23,7 +24,9 @@ export const Default = () => {
       setTitle={false}
       loadEntities={() => getSelectedAlertTests([])}
       hasRowNavigation
-      renderNoDataAvailable={() => <NoTestSelected />}
+      renderNoDataAvailable={() => (
+        <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} />
+      )}
       isSearchable={false}
       getHeader={() => null}
       rightHeader={null}
@@ -38,7 +41,9 @@ export const Loading = () => {
       setTitle={false}
       loadEntities={() => getSelectedAlertTests(null)}
       hasRowNavigation
-      renderNoDataAvailable={() => <NoTestSelected />}
+      renderNoDataAvailable={() => (
+        <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} />
+      )}
       isSearchable={false}
       getHeader={() => null}
       rightHeader={null}
@@ -74,7 +79,7 @@ export const WithData = () => {
     }
   ];
   const alertTestIds = ['BaG3ePrWZ9F5Cf0szwEN'];
-  const getSelectedAlertTests = createMemoizedObservableForReferencedEntities(function(alertTestIds = []) {
+  const getSelectedAlertTests = createMemoizedObservableForReferencedEntities(function (alertTestIds = []) {
     return just(sampleData.filter(listItems => alertTestIds.filter(ids => ids === listItems?.id).length > 0) ?? null);
   });
   return (
@@ -82,7 +87,9 @@ export const WithData = () => {
       setTitle={false}
       loadEntities={() => getSelectedAlertTests(alertTestIds)}
       hasRowNavigation
-      renderNoDataAvailable={() => <NoTestSelected />}
+      renderNoDataAvailable={() => (
+        <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} />
+      )}
       isSearchable={false}
       getHeader={() => null}
       rightHeader={null}

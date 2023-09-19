@@ -16,8 +16,8 @@ import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/component
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import TestSummaryList from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList';
-import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTestSelected';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
+import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -66,7 +66,9 @@ export default function ConfigureAlertTest({
       <AlertTestsList
         // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
-        renderNoDataAvailable={() => <NoTestSelected />}
+        renderNoDataAvailable={() => (
+          <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} />
+        )}
         tableActions={alertTestSelectionTableActions(form, onChange)}
         rightHeader={
           <Button

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { t } from 'in-i18n';
 
 export default function NoChannelSelected({
@@ -15,5 +15,5 @@ export default function NoChannelSelected({
   height?: number;
   text?: string;
 }) {
-  return <NoItemSelected text={text} height={height} />;
+  return <NoDataAvailable text={text} height={height} type={'lib_help_error_warning_outline'} />;
 }

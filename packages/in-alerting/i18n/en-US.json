@@ -26,6 +26,7 @@
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
+    "noChannelAvailable": "No Alert Channels available",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
@@ -1013,7 +1014,8 @@
         "noTestSelectedText": "No Synthetic Tests Selected",
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests Attached ({{count}})",
-        "testAttached": "Tests Attached"
+        "testAttached": "Tests Attached",
+        "noTestAvailable": "No Synthetic Tests available"
       },
       "details": {
         "threshold": "Threshold",

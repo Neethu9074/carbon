@@ -20,6 +20,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -173,6 +174,9 @@ export function SummaryList({
       allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
       setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
       shadowless
+      renderNoDataAvailable={() => (
+        <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestAvailable')} />
+      )}
     />
   );
 }

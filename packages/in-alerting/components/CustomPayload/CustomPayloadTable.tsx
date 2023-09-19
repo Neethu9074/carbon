@@ -9,6 +9,7 @@ import React from 'react';
 import { Button, TrProps } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Nullish, PaginatedResult, Result } from 'in-types';
@@ -94,6 +95,7 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
         orderDirection={'ASC'}
         page={0}
         pageSize={5}
+        renderNoDataAvailable={noDataMessage => <NoItemSelected text={noDataMessage} />}
       />
       <Section>
         <TouchedMessages field={customPayloadForm} />

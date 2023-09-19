@@ -12,7 +12,8 @@ import { just } from '@instana/observables';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { getTestsAsResultObservable, getTestsAsResultObservableInternal } from 'in-synthetics/api';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
-import NoTestSelected from 'in-alerting/smart-alerts/synthetics/components/NoTestSelected';
+import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
+import { t } from 'in-i18n';
 
 interface AlertTestsViewerProps {
   alertTestIds: string[];
@@ -39,7 +40,9 @@ export default function AlertTestsViewer({ alertTestIds = [], setTitle }: AlertT
       setTitle={setTitle}
       //@ts-expect-error
       loadEntities={() => getSelectedAlertTests(alertTestIds)}
-      renderNoDataAvailable={() => <NoTestSelected />}
+      renderNoDataAvailable={() => (
+        <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestSelectedText')} />
+      )}
       isSearchable={false}
       getHeader={() => null}
       rightHeader={null}

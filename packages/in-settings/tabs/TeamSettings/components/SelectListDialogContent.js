@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
+import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
@@ -84,6 +85,7 @@ export default function SelectListDialogContent({
           }}
           rightHeader={listComponentRightHeader}
           inSelectListDialog
+          renderNoDataAvailable={() => <NoChannelSelected text={t('in-alerting:components.noChannelAvailable')} />}
         />
         {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
       </FormGroup>
