@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul, Message, useTheme } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -21,6 +21,7 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';

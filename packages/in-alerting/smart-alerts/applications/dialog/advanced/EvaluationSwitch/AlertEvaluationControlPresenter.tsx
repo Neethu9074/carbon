@@ -5,14 +5,13 @@
 
 import React from 'react';
 
-import { useTheme } from '@instana/components';
-
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/AlertEvaluationControl.mless';

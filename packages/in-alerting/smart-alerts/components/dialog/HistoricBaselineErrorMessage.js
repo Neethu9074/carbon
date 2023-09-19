@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { Message, useTheme } from '@instana/components';
+import { Message } from '@instana/components';
 
 import { hasError } from 'in-services/util/result';
+import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
 
 export default function HistoricBaselineErrorMessage({ thresholdResult }) {

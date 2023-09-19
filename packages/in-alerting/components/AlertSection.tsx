@@ -5,9 +5,8 @@
 
 import React, { ReactNode } from 'react';
 
-import { useTheme } from '@instana/components';
-
 import Section from 'in-components/workspace/Section';
+import { useTheme } from 'in-themes';
 
 interface AlertSectionProps {
   title: ReactNode;

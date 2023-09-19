@@ -6,13 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { useTheme } from '@instana/components';
-
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertsPreviewLanePresenter.mless';

@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { InfraAlertConfigWithMetadata, ThresholdConfigUnion, InfraAlertRuleUnion } from '@instana/types';
-import { useTheme } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import {
@@ -35,6 +34,7 @@ import { getPluginName } from 'in-sdk/pluginName';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Alerts() {

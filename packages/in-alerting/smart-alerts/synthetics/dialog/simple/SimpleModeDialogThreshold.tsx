@@ -7,13 +7,14 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { DistinctSlider, SvgIcon, useTheme } from '@instana/components';
+import { DistinctSlider, SvgIcon } from '@instana/components';
 
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';

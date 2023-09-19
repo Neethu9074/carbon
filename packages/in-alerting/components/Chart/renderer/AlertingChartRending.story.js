@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { useTheme } from '@instana/components';
-
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
@@ -17,6 +15,7 @@ import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { minutes } from 'in-services/time';
+import { useTheme } from 'in-themes';
 import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -6,9 +6,10 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, useTheme } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/components/IconLabel.mless';
 

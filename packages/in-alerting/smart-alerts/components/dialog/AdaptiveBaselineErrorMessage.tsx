@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import { Message, useTheme } from '@instana/components';
+import { Message } from '@instana/components';
 
 import { AdaptiveBaselineSuggestionResponse, Result } from 'in-types';
 import { hasError } from 'in-services/util/result';
+import { useTheme } from 'in-themes';
 import { Trans } from 'in-i18n';
 
 interface Props {

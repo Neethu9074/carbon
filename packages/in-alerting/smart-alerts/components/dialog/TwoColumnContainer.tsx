@@ -7,9 +7,10 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, SvgIcon, useTheme } from '@instana/components';
+import { Message, SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/TwoColumnContainer.mless';
 

@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { useTheme } from '@instana/components';
-
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
@@ -22,6 +20,7 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function AlertingChart({

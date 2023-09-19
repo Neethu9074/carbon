@@ -5,9 +5,10 @@
 
 import React, { useEffect } from 'react';
 
-import { SvgIcon, useTheme } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface ThresholdTypesHelpProps {

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { SvgIcon, useTheme } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import Pill from 'in-components/Pill';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/components/SelectedAlertTypeInfo.mless';
 

@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Link, useTheme } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
 
 import { useLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function GoToAlertDetailsColumn({ id, name, created }) {

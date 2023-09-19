@@ -5,13 +5,12 @@
 
 import React from 'react';
 
-import { useTheme } from '@instana/components';
-
 import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation.mless';
 

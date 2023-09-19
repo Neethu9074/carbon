@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
-import { useTheme } from '@instana/components';
 
 import {
   trackAlertDeleteTrigger,
@@ -36,6 +35,7 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Alert.mless';
