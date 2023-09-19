@@ -163,9 +163,9 @@ function extractHost(pod) {
 function extractPort(pod, container) {
   if (pod) {
     try {
-      const adminPortDefinition = JSON.parse(
-        container.getIn(['data', 'Labels', 'annotation.io.kubernetes.container.ports'])
-      ).find(l => l.name === 'admin');
+      const adminPortDefinition = JSON.parse(container.getIn(['data', 'labels', 'io.kubernetes.container.ports'])).find(
+        l => l.name === 'admin'
+      );
       if (adminPortDefinition) {
         return adminPortDefinition.containerPort;
       }
