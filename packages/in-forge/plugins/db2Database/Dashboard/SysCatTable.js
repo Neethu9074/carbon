@@ -86,6 +86,42 @@ const cols = [
       },
       getContent: number.compact
     }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.owner'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('OWNER');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.tbspace'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('TBSPACE');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.type'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('TYPE');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
   }
 ];
 
