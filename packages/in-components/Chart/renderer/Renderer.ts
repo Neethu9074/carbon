@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error
 import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
 // @ts-expect-error
@@ -32,3 +34,12 @@ export default {
   stackedBar: stackedBar as Renderer,
   pie: pie as Renderer
 };
+// Extend the windowSize by one bucket, because the bar renderer will render the bars around the timestamp instead of behind it
+// and the chart will start the time scale right at the first bucket instead of ahead of it.
+// Which results in the front half of the bars being cut off
+export function extendTimeConfigForBarRenderer(timeConfig: TimeConfig, granularity: number): TimeConfig {
+  return {
+    ...timeConfig,
+    windowSize: timeConfig.windowSize + granularity
+  };
+}

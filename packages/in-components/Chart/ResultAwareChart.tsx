@@ -7,13 +7,13 @@ import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
+import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
 import { AxisConfiguration } from 'in-components/Chart/types';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
@@ -44,6 +44,8 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     hasApproximateData,
     customChartSkeletonHeight,
     renderWidgetNotSupportedIndicator = false,
+    granularity,
+    extendBar = false,
     disableChartInLive
   } = config;
   let content;
@@ -71,9 +73,13 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
-    if (config.y1?.renderer.id === Renderer.pie.id) {
+    const rendererId = config.y1?.renderer.id;
+    if (rendererId === Renderer.pie.id) {
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
+      if (extendBar && granularity && (rendererId === Renderer.bar.id || rendererId === Renderer.stackedBar.id)) {
+        config.timeConfig = extendTimeConfigForBarRenderer(config.timeConfig, granularity);
+      }
       config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
       content = (
         <Chart

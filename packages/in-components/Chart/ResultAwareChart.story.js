@@ -268,7 +268,28 @@ export function Bar() {
     />
   );
 }
-
+export function BarFirstNotClipped() {
+  const timeConfig = generateTimeframe(oneMinute);
+  const granularity = getChartGranularity(timeConfig);
+  return (
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        extendBar: true,
+        granularity: granularity,
+        title: 'Bar First Not Clipped',
+        timeConfig: timeConfig,
+        y1: {
+          renderer: Renderer.bar,
+          labels: ['Calls'],
+          metricIds: [],
+          metrics: [generateMetrics(12, 100, oneMinute)],
+          aggregation: 'awesomeAggregation'
+        }
+      }}
+    />
+  );
+}
 const metricsBarWithThreshold = [generateMetrics(12, 100, oneMinute)];
 export function BarWithThreshold() {
   const [threshold, setThreshold] = useState(32);
@@ -530,16 +551,9 @@ export function Integral() {
               let s2 = generateMetrics(40, 10, oneMinute);
               let s3 = generateMetrics(40, 10, oneMinute);
 
-              s1 = s1
-                .slice(0, 5)
-                .concat(s1.slice(10, 15))
-                .concat(s1.slice(23, 25))
-                .concat(s1.slice(27, 30));
+              s1 = s1.slice(0, 5).concat(s1.slice(10, 15)).concat(s1.slice(23, 25)).concat(s1.slice(27, 30));
 
-              s2 = s2
-                .slice(3, 7)
-                .concat(s2.slice(17, 20))
-                .concat(s2.slice(29, 38));
+              s2 = s2.slice(3, 7).concat(s2.slice(17, 20)).concat(s2.slice(29, 38));
 
               s3 = s3.slice(12, 30);
 
@@ -853,11 +867,7 @@ function generateMultipleMetrics(numSeries, numMetrics, maxValue, windowSize) {
 
 function generateMetricsWithGaps(numMetrics, maxValue, windowSize) {
   const metrics = generateMetrics(numMetrics, maxValue, windowSize);
-  return metrics
-    .slice(0, 5)
-    .concat(metrics.slice(10, 15))
-    .concat(metrics.slice(23, 25))
-    .concat(metrics.slice(27, 30));
+  return metrics.slice(0, 5).concat(metrics.slice(10, 15)).concat(metrics.slice(23, 25)).concat(metrics.slice(27, 30));
 }
 
 function generateTimeframe(windowSize) {

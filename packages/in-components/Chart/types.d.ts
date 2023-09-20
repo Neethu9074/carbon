@@ -77,6 +77,7 @@ interface ChartReactComponentConfig {
   nonInteractive?: boolean;
   automaticallySize?: boolean;
   renderLegend?: boolean;
+  extendBar?: boolean;
 }
 
 interface LegendConfig {

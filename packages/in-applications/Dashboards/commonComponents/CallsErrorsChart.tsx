@@ -212,6 +212,7 @@ export default function CallsErrorsChart({
           }
         ]
       }}
+      extendBar
     />
   );
 }

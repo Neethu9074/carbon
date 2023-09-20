@@ -28,6 +28,7 @@ import { calculateSloReferenceChartGranularity } from 'in-service-levels/compone
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
@@ -35,7 +36,6 @@ import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 
@@ -132,14 +132,4 @@ function getMetricConfiguration(
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-}
-
-// Extend the windowSize by one bucket, because the bar renderer will render the bars around the timestamp instead of behind it
-// and the chart will start the time scale right at the first bucket instead of ahead of it.
-// Which results in the front half of the bars being cut off
-function extendTimeConfigForBarRenderer(timeConfig: TimeConfig, granularity: number): TimeConfig {
-  return {
-    ...timeConfig,
-    windowSize: timeConfig.windowSize + granularity
-  };
 }

@@ -85,6 +85,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
             })
         }
       ]}
+      extendBar
     />
   );
 }
