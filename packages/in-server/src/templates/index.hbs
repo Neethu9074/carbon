@@ -48,14 +48,17 @@
     </script>
 {{/if}}
 {{#if licenceType  }}
-    <script type="text/javascript" nonce="{{nonce}}">
+<script type="text/javascript" nonce="{{nonce}}"
+crossorigin="anonymous" async defer src="https://www.ibm.com/resources/assist-me/controller.js">
+</script>
+<script type="text/javascript" nonce="{{nonce}}">
     (function() {
-      var walkme = document.createElement('script'); 
-      walkme.type = 'text/javascript'; 
-      walkme.async = true; 
-      walkme.src = 'https://cdn.walkme.com/users/3597fbbe066c47b1b7a2b617e4e62c6b/walkme_3597fbbe066c47b1b7a2b617e4e62c6b_https.js'; 
-      var s = document.getElementsByTagName('script')[0]; 
-      s.parentNode.insertBefore(walkme, s); 
+      var walkme = document.createElement('script');
+      walkme.type = 'text/javascript';
+      walkme.async = true;
+      walkme.src = 'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_3597fbbe066c47b1b7a2b617e4e62c6b_https.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(walkme, s);
       window._walkmeConfig = {smartLoad:true}; })();
     </script>
 {{/if}}
@@ -68,7 +71,6 @@
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(walkme, s);
       window._walkmeConfig = {smartLoad:true}; })();
-      }
     </script>
 {{/if}}
   {{#if eumTrackingApiKey}}
