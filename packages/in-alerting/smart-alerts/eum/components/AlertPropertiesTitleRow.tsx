@@ -3,14 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
+import { MapForm, Item } from 'formalistic';
 import React from 'react';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
 
-export default function AlertPropertiesTitleRow({ form, onChange, getTitlePlaceholder }) {
+interface AlertPropertiesTitleRowProps {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  getTitlePlaceholder: (form: MapForm<any>) => string;
+}
+export default function AlertPropertiesTitleRow({ form, onChange, getTitlePlaceholder }: AlertPropertiesTitleRowProps) {
   return (
     <AlertSection
       titleHtmlFor="name"
@@ -20,6 +25,7 @@ export default function AlertPropertiesTitleRow({ form, onChange, getTitlePlaceh
         name="name"
         id="name"
         onChange={e => {
+          //@ts-expect-error
           onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
         }}
         placeholder={getTitlePlaceholder(form)}
@@ -28,9 +34,3 @@ export default function AlertPropertiesTitleRow({ form, onChange, getTitlePlaceh
     </AlertSection>
   );
 }
-
-AlertPropertiesTitleRow.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.any,
-  getTitlePlaceholder: PropTypes.func.isRequired
-};

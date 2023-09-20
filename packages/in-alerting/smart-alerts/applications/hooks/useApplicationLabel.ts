@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useObservable } from '@instana/hooks';
+// @ts-ignore export for empty is missing
 import { empty } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import getApplication from 'in-applications/subscriptions/getApplication';
 
@@ -15,7 +16,7 @@ import getApplication from 'in-applications/subscriptions/getApplication';
  * @param {boolean} isGlobalSmartAlert
  * @returns the label for the application with the given application or undefined if applicationId or isGlobalSmartAlert param is absent.
  */
-export default function useApplicationLabel(applicationId, isGlobalSmartAlert) {
+export default function useApplicationLabel(applicationId: string, isGlobalSmartAlert: boolean): string | unknown {
   const applicationLabel = useObservable(() => {
     if (isGlobalSmartAlert || !applicationId) {
       return empty;
