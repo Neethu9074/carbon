@@ -20,7 +20,7 @@ export default class NodeServiceLocator extends BaseServiceLocator<ServiceNullSe
     this.service.addNode(id, node);
   }
 
-  getNodes(): NodesCollection {
+  getNodes(): NodesCollection<Node> {
     return this.service.getNodes();
   }
 

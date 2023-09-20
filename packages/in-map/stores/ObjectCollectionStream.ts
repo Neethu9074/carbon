@@ -3,30 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Subject } from '@instana/observables';
 
-export default function createCollection() {
-  const collection = new Map();
+import { Node } from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
 
-  const objects$ = create();
+export type CollectionStream<T> = {
+  add: (id: string, object: T) => void;
+  has: (id: string) => boolean;
+  get: (id: string) => T | undefined;
+  remove: (id: string) => void;
+  clear: () => void;
+  stream: Subject<Map<string, T>>;
+  objects: Map<string, T>;
+};
+
+export default function createCollection<T>(): CollectionStream<T> {
+  const collection: Map<string, T> = new Map();
+
+  const objects$: Subject<Map<string, T>> = create();
   objects$.emit(collection);
 
-  function add(id, object) {
+  function add(id: string, object: T) {
     collection.set(id, object);
     objects$.emit(collection);
   }
 
-  function has(id) {
+  function has(id: string): boolean {
     return collection.has(id);
   }
 
-  function remove(id) {
+  function remove(id: string) {
     collection.delete(id);
     objects$.emit(collection);
   }
 
   function clear() {
-    const items = collection.values();
+    const items = collection.values() as IterableIterator<Node>;
     for (const item of items) {
       item.dispose();
     }
@@ -34,7 +46,7 @@ export default function createCollection() {
     collection.clear();
   }
 
-  function get(id) {
+  function get(id: string): any {
     return collection.get(id);
   }
 

@@ -3,12 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error will migrate in future commit
+import {
+  Node,
+  NodesCollection,
+  ServiceNullService
+} from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
 import createCollection from 'in-map/stores/ObjectCollectionStream';
-import { Node, NodesCollection } from 'in-applications/FlowMap/serviceLocator/NodesServiceLocator/types';
 
-export default function createNodesService() {
-  const nodes = createCollection();
+export default function createNodesService(): ServiceNullService {
+  const nodes: NodesCollection<Node> = createCollection();
   function addNode(id: string, object: Node) {
     nodes.add(id, object);
   }
@@ -17,11 +20,11 @@ export default function createNodesService() {
     nodes.remove(id);
   }
 
-  function getNodes(): NodesCollection {
+  function getNodes(): NodesCollection<Node> {
     return nodes;
   }
 
-  function getNode(id: string): Node {
+  function getNode(id: string): Node | undefined {
     return nodes.objects.get(id);
   }
 
