@@ -69,18 +69,8 @@ export default function TimeThresholdConfigPresenter({
             <Trans
               i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNoUserSessionDetected"
               components={{
-                linkToIdentifyingUsers: (
-                  <Link
-                    external
-                    href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
-                  />
-                ),
-                linkToSessionTracking: (
-                  <Link
-                    external
-                    href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#session-tracking"
-                  />
-                )
+                linkToIdentifyingUsers: <Link external href="https://ibm.biz/api-identify-users" />,
+                linkToSessionTracking: <Link external href="https://ibm.biz/session-tracking" />
               }}
             />
             <br />

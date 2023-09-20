@@ -34,12 +34,7 @@ export default function User({ beacon, beacons }) {
       <div className={locals.noUserData}>
         {t('in-websites:analyze.analyzeView.beaconUserSummary.noUserDataDefined')}
         &nbsp;
-        <Button
-          href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
-          kind="primaryv2"
-          target="_blank"
-          size="compact"
-        >
+        <Button href="https://ibm.biz/api-identify-users" kind="primaryv2" target="_blank" size="compact">
           {t('in-websites:analyze.analyzeView.beaconUserSummary.learnHowToAddUserData')}
         </Button>
       </div>
@@ -56,7 +51,7 @@ export default function User({ beacon, beacons }) {
             <Tooltip content="Only a subset of the beacons of this page load have associated user data. This can result in surprising statistics and analyze results.">
               <Link
                 external
-                href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
+                href="https://ibm.biz/api-identify-users"
                 className={locals.firstBeaconIsMissingUserDataLink}
               >
                 <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />

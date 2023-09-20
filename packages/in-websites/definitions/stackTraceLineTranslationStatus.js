@@ -90,15 +90,13 @@ export const status = {
     explanation: t('in-websites:definitions.stackTraceExplanation17CouldCotEstablishTCPTLSConnectionJavaScript'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
-    linkToExternalPage:
-      'https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+    linkToExternalPage: 'https://ibm.biz/establish-tcptls-connection'
   },
   18: {
     explanation: t('in-websites:definitions.stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
-    linkToExternalPage:
-      'https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+    linkToExternalPage: 'https://ibm.biz/establish-tcptls-connection'
   },
   19: {
     explanation: t('in-websites:definitions.stackTraceExplanation19ARequestTimeoutOccurredJavaScript'),

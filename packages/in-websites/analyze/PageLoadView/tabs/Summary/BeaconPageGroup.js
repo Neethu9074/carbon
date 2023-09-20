@@ -34,11 +34,7 @@ export default function BeaconPageGroup({ detailId, page, beacons, earliestTimes
           </span>
 
           {!page && (
-            <Link
-              external
-              href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#page"
-              className={locals.learnHow}
-            >
+            <Link external href="https://ibm.biz/javascript-agent-page" className={locals.learnHow}>
               {t('in-websites:analyze.analyzeView.pageLoadView.beaconPageGroupLinkLearnHowToDefinePages')}
             </Link>
           )}

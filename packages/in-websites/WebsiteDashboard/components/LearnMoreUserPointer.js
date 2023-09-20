@@ -64,7 +64,7 @@ export default function LearnMoreUserPointer({ websiteId }) {
         className={locals.wrapper}
         title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
         explanation={explanation}
-        learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
+        learnMoreHref="https://ibm.biz/api-identify-users"
         learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
       />
     );

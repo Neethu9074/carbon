@@ -33,12 +33,7 @@ export default function User({ beacon, beacons }) {
     first = (
       <div className={locals.noUserData}>
         {t('in-mobile-apps:beaconUserSum.noUserData')}&nbsp;
-        <Button
-          href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#identifying-users"
-          kind="primaryv2"
-          target="_blank"
-          size="compact"
-        >
+        <Button href="https://ibm.biz/ios-identify-users" kind="primaryv2" target="_blank" size="compact">
           {t('in-mobile-apps:beaconUserSum.noUserDataGuide')}
         </Button>
       </div>
@@ -54,7 +49,7 @@ export default function User({ beacon, beacons }) {
           {firstBeaconIsMissingUserData && (
             <Tooltip content={t('in-mobile-apps:beaconUserSum.userTooltipContent')}>
               <Link
-                href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#identifying-users"
+                href="https://ibm.biz/ios-identify-users"
                 className={locals.firstBeaconIsMissingUserDataLink}
                 external
               >

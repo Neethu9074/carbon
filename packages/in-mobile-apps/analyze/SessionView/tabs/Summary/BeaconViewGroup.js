@@ -34,11 +34,7 @@ export default function BeaconViewGroup({ view, beacons, detailId, earliestTimes
           </span>
 
           {!view && (
-            <Link
-              href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#views"
-              className={locals.learnHow}
-              external
-            >
+            <Link href="https://ibm.biz/ios-views" className={locals.learnHow} external>
               {t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewGuide')}
             </Link>
           )}

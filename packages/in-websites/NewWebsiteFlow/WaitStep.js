@@ -22,9 +22,7 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
           i18nKey="in-websites:newWebsiteFlow.waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite"
           values={{ websiteName: websiteName, httpHeadTag: new SecureString('<head />') }}
           components={{
-            linkToDocs: (
-              <Link href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-websites" external />
-            )
+            linkToDocs: <Link href="https://ibm.biz/monitoring-websites" external />
           }}
         />
       </Paragraph>
