@@ -3,42 +3,47 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
   thresholdOperatorOptions
 } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { Option } from 'in-components/ComboBox/ComboBox';
 import Dropdown from 'in-alerting/components/Dropdown';
 
-export function ThresholdOperatorDropDown({ form, updateForm, customOnChange, trackingCallback, allOptions }) {
+interface ThresholdOperatorDropDownProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  customOnChange?: (newOperator: any) => void;
+  allOptions?: boolean;
+}
+
+export function ThresholdOperatorDropDown({
+  form,
+  updateForm,
+  customOnChange,
+  allOptions
+}: ThresholdOperatorDropDownProps) {
   const operatorValue = form.get('threshold').get('operator').value;
   const options = allOptions ? thresholdOperatorOptions : enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const value = (findEntryByValue(options, operatorValue) ?? options[0]).value;
+  const value = (findEntryByValue(options as Option[], operatorValue) ?? options[0])?.value;
 
   return (
     <Dropdown
-      value={value}
-      items={options}
+      value={value as string}
+      items={options as Option[]}
       onChange={value => {
         if (customOnChange) {
           customOnChange(value);
         } else {
-          updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(value).setTouched(true)));
+          updateForm(
+            form.updateIn(['threshold', 'operator'], f => (f as Field<string>).setValue(value).setTouched(true))
+          );
         }
-        trackingCallback?.(getTrackingObject(form, { value }));
       }}
     />
   );
 }
-
-ThresholdOperatorDropDown.propTypes = {
-  form: PropTypes.object.isRequired,
-  customOnChange: PropTypes.func, // optional, invoked `customOnChange(newValue)`
-  updateForm: PropTypes.func, // used by default, when no customOnChange given
-  trackingCallback: PropTypes.func,
-  allOptions: PropTypes.bool
-};

@@ -5,6 +5,7 @@
 
 import { Field, ListForm, MapForm } from 'formalistic';
 
+import { Option } from 'in-components/ComboBox/ComboBox';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -33,7 +34,7 @@ type ValueLabelPair = {
   value: string;
 };
 
-export function findEntryByValue(valueLabelPairList: ValueLabelPair[], value?: string): ValueLabelPair | undefined {
+export function findEntryByValue(valueLabelPairList: Option[], value?: string): ValueLabelPair | undefined {
   const items = valueLabelPairList ?? [];
   return items.find(item => item?.value === value);
 }
