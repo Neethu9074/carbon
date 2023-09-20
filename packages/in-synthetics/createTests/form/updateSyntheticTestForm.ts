@@ -9,8 +9,7 @@ import { createMapForm, createField } from 'formalistic';
 import {
   HTTPMethodType,
   HTTPMethods,
-  createZipScriptConfigurationForm,
-  syntheticFormValidator
+  createZipScriptConfigurationForm
 } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
@@ -25,7 +24,7 @@ import { minValidator } from 'in-services/validators/number';
 export function updateForm(savedState: Record<string, any>) {
   const isFile: boolean = savedState?.configuration?.script != undefined ? true : false;
   return createMapForm({
-    validator: syntheticFormValidator
+    validator: notUndefinedValidator
   })
     .put(
       'configuration',

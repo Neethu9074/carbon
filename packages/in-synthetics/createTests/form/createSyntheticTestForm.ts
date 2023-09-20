@@ -80,7 +80,7 @@ export function createForm(
   }
 
   return createMapForm({
-    validator: syntheticFormValidator
+    validator: notUndefinedValidator
   })
     .put('configuration', config)
     .put(
@@ -365,14 +365,6 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
       })
     );
 }
-
-export const syntheticFormValidator = (data: any) => {
-  if (data == null) {
-    return null;
-  }
-
-  return null;
-};
 
 export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([
   { value: 'GET', label: t('in-synthetics:dialog.httpMethods.get') },
