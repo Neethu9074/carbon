@@ -17,10 +17,39 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
+import IconButton from 'in-components/IconButton/IconButton';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
 import locals from './NotificationBarSticky.mless';
+
+const windowHref = window.location.href;
+if (windowHref.indexOf('preloadWalkMe') !== -1) {
+  (function () {
+    var walkme = document.createElement('script');
+    walkme.type = 'text/javascript';
+    walkme.async = true;
+    walkme.src =
+      'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(walkme, s);
+    window._walkmeConfig = { smartLoad: true };
+  })();
+}
+var assistMeController;
+function init() {
+  assistMeController = window.initAssistMeController({
+    productId: 'a875055db9b7697d9da869d8f5db0f7c',
+    topSpacing: '46px',
+    zIndex: 4500
+  });
+}
+function onClickAssistMe() {
+  if (!assistMeController) {
+    init();
+  }
+  return assistMeController.isOpen() ? assistMeController.close() : assistMeController.open();
+}
 
 function getPageType(pathname = '/') {
   const pageName = pathname.split('/')[1];
@@ -57,7 +86,6 @@ export default function NotificationBarSticky() {
 
 function Content({ message }) {
   const location = useLocation();
-
   return (
     <Sticky
       header={
@@ -126,10 +154,12 @@ function Content({ message }) {
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
                 {message.activeLicense == 'selfService' && (
-                  <>
-                    {/* Space dedicated for walkme guided tour button  */}
-                    <div className={locals.walkmeButton} />
-                  </>
+                  <IconButton
+                    buttonType="button"
+                    kind="secondary"
+                    type="lib_help_error_help_outline"
+                    onClick={onClickAssistMe}
+                  />
                 )}
               </>
             )}
