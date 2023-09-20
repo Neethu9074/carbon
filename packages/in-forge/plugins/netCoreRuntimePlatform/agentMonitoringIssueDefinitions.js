@@ -21,7 +21,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.netCoreRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net-core#sensor-not-connected`
+    explanationLinkHref: `https://ibm.biz/insta-netsensornotcon`
   },
   netcore_env_var_not_defined: {
     issueDescription: {
@@ -38,7 +38,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.netCoreRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net-core#environment-variable-not-defined`
+    explanationLinkHref: `https://ibm.biz/insta-netevnotdef`
   },
   netcore_env_var_invalid_value: {
     issueDescription: {
@@ -65,6 +65,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.netCoreRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net-core#environment-variable-has-an-invalid-value`
+    explanationLinkHref: `https://ibm.biz/insta-netevinvalid`
   }
 };
