@@ -1189,7 +1189,10 @@
       "alertDetails": {
         "alertConfiguration": "Alert Configuration",
         "alertConfigurationTitleTrigger": "Trigger",
-        "alertConfigurationTitleScope": "Scope"
+        "alertConfigurationTitleScope": "Scope",
+        "alertConfigurationTitleAlertChannels": "Alert Channels",
+        "alertConfigurationTitleTimeThreshold": "Time Threshold",
+        "alertConfigurationTitleAlertProperties": "Alert Properties"
       },
       "list": {
         "columns": {

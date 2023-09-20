@@ -18,6 +18,9 @@ import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructur
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+//@ts-expect-error TS migration
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
@@ -26,6 +29,7 @@ import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/I
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import ListTitle from 'in-components/lists/Title';
@@ -51,8 +55,11 @@ export default function AlertConfigurationAlertConfiguration({
   alertConfig: InfraAlertConfigWithMetadata;
 }) {
   const {
+    timeThreshold,
+    granularity,
     rule: { metricName, entityType },
     threshold,
+    alertChannelIds,
     tagFilterExpression
   } = alertConfig;
 
@@ -110,6 +117,35 @@ export default function AlertConfigurationAlertConfiguration({
             scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
           />
         </div>
+      </ExpandableLightCard>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTimeThreshold')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+      </ExpandableLightCard>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <div className={locals.alertChannelsWrapper}>
+          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+        </div>
+      </ExpandableLightCard>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertProperties')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
     </AlertDetailsCard>
   );
