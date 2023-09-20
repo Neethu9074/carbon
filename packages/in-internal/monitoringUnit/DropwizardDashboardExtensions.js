@@ -185,7 +185,7 @@ function extractLogsCommand(pod) {
 # "K8S: Environments" slide deck in Google docs.
 
 # Remember to switch the Kubernetes context
-kubectx ${namespace}
+kubectx ${namespace?.replace('-', '.club-')}
 
 # Get the configuration file
 kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml' | less
