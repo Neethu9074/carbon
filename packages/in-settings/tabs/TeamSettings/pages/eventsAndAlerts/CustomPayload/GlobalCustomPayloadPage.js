@@ -106,13 +106,7 @@ export function GlobalCustomPayload(props) {
           <Trans
             i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
             components={{
-              docLink: (
-                <Link
-                  size="sm"
-                  href="https://www.ibm.com/docs/en/obi/current?topic=alerts-configuring-custom-payloads"
-                  external
-                />
-              )
+              docLink: <Link size="sm" href="https://ibm.biz/alerts-custom-payloads" external />
             }}
           />
         </Message>
