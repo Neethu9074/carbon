@@ -260,7 +260,6 @@ export const nonServicePlugins = {
   rocketMqTopic: 'rocketMqTopic',
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
-  solace: 'solace',
   solr: 'solr',
   solrCloudCluster: 'solrCloudCluster',
   sparkApplication: 'sparkApplication',
