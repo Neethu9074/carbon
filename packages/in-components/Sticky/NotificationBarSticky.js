@@ -44,7 +44,7 @@ function init() {
     zIndex: 4500
   });
 }
-function onClickAssistMe() {
+function openAssistMe() {
   if (!assistMeController) {
     init();
   }
@@ -159,7 +159,7 @@ function Content({ message }) {
                     buttonType="button"
                     kind="secondary"
                     type="lib_help_error_help_outline"
-                    onClick={onClickAssistMe}
+                    onClick={openAssistMe}
                   />
                 )}
               </>
