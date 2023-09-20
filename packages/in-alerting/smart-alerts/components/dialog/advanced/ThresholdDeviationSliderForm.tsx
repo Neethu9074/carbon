@@ -3,16 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
+//@ts-expect-error TS migration
 import { DebouncedSensitivitySlider } from 'in-alerting/smart-alerts/components/dialog/advanced/SensitivitySlider';
+import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { t } from 'in-i18n';
 
-export function ThresholdDeviationSliderForm({ form, updateForm, trackChange, defaultValue }) {
+interface ThresholdDeviationSliderFormProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  defaultValue: number;
+}
+
+export function ThresholdDeviationSliderForm({ form, updateForm, defaultValue }: ThresholdDeviationSliderFormProps) {
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
@@ -21,18 +27,12 @@ export function ThresholdDeviationSliderForm({ form, updateForm, trackChange, de
       <DebouncedSensitivitySlider
         value={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')}
         defaultValue={defaultValue}
-        onChange={value => {
-          updateForm(form.updateIn(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true)));
-          if (trackChange) trackChange(getTrackingObject(form, { value }));
+        onChange={(value: number) => {
+          updateForm(
+            form.updateIn(['threshold', 'deviationFactor'], f => (f as Field<number>).setValue(value).setTouched(true))
+          );
         }}
       />
     </ThresholdConditionFormGroup>
   );
 }
-
-ThresholdDeviationSliderForm.propTypes = {
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  defaultValue: PropTypes.number.isRequired,
-  trackChange: PropTypes.func
-};
