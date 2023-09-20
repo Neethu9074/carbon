@@ -27,6 +27,7 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface InfraAlertChartWrapperProps {
@@ -35,6 +36,7 @@ interface InfraAlertChartWrapperProps {
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
+  const theme = useTheme();
   const { alertConfig, timeConfig } = props;
   const { entityType, metricName } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
@@ -59,7 +61,18 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       alertConfig,
       timeConfig
     }),
-    y1: getY1(metricName, highlight, metricLabel, formatter, renderer, granularity, threshold, [], chartViewConfig)
+    y1: getY1(
+      metricName,
+      highlight,
+      metricLabel,
+      formatter,
+      renderer,
+      granularity,
+      threshold,
+      [],
+      chartViewConfig,
+      theme
+    )
   };
 
   // WS hook to get unified metric results
