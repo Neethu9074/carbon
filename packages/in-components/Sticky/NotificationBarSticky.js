@@ -86,6 +86,7 @@ export default function NotificationBarSticky() {
 
 function Content({ message }) {
   const location = useLocation();
+  const tryOfferLicenseType = message.activeLicense == 'selfService' || message.activeLicense == 'quota';
   return (
     <Sticky
       header={
@@ -96,7 +97,7 @@ function Content({ message }) {
           <div className={locals.rightContent}>
             <span className={locals.description}>{message.content}</span>
             <Spacer horizontal="small" />
-            {(message.activeLicense == 'selfService' || message.activeLicense == 'quota') && (
+            {tryOfferLicenseType && (
               <>
                 <IconForRemainingDays remainingDays={message.remainingDays} />
                 <Spacer horizontal="small" />
@@ -129,7 +130,7 @@ function Content({ message }) {
             )}
             {!onPremLicenseInformationEnabled && (
               <>
-                {(message.activeLicense == 'selfService' || message.activeLicense == 'quota') && (
+                {tryOfferLicenseType && (
                   <Button
                     className={locals.button}
                     kind="primaryv2"
@@ -153,7 +154,7 @@ function Content({ message }) {
                 >
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
-                {(message.activeLicense == 'selfService' || message.activeLicense == 'quota') && (
+                {tryOfferLicenseType && (
                   <IconButton
                     buttonType="button"
                     kind="secondary"
