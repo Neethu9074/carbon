@@ -39,6 +39,7 @@ export interface Role {
   canConfigureUsers: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
+  canConfigureIntegrations: boolean;
 }
 
 export interface User {
