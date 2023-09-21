@@ -9,7 +9,7 @@ interface AssistMeKeys {
   topSpacing: string;
   zIndex: number;
 }
-const value = {
+const assistMeProperties = {
   productId: 'a875055db9b7697d9da869d8f5db0f7c',
   topSpacing: '46px',
   zIndex: 4500
@@ -17,7 +17,7 @@ const value = {
 var assistMeController: AssistMeKeys;
 function init() {
   // @ts-expect-error defined in AssistMe controller.js AssistMe
-  assistMeController = window.initAssistMeController(value);
+  assistMeController = window.initAssistMeController(assistMeProperties);
 }
 export function openAssistMe() {
   if (!assistMeController) {
