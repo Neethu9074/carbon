@@ -12,8 +12,6 @@ import { Message } from '@instana/components';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
-//@ts-expect-error needs migration
-import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/synthetics/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -21,6 +19,7 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import AlertTestsViewer from 'in-alerting/smart-alerts/synthetics/details/AlertTestsViewer';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import ListTitle from 'in-components/lists/Title';

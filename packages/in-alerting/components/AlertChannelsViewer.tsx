@@ -3,23 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+//@ts-expect-error TS migration
 import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
-import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
+//@ts-expect-error TS migration
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { role } from 'in-stores/user';
 
-export default function AlertChannelsViewer({ alertChannelIds }) {
+export default function AlertChannelsViewer({ alertChannelIds }: { alertChannelIds: string[] }) {
   return (
     <>
       <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
-        hasRowNavigation={role.canConfigureIntegrations}
+        hasRowNavigation={role?.canConfigureIntegrations}
         renderNoDataAvailable={() => <NoChannelSelected />}
         isSearchable={false}
         getHeader={() => null}
@@ -29,14 +30,10 @@ export default function AlertChannelsViewer({ alertChannelIds }) {
   );
 }
 
-const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function(selectedChannels) {
+const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function (selectedChannels) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
 });
-
-AlertChannelsViewer.propTypes = {
-  alertChannelIds: PropTypes.arrayOf(PropTypes.string).isRequired
-};
