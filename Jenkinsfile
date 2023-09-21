@@ -211,9 +211,6 @@ pipeline {
                       sourceControlType: 'project',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
-                    if ( currentBuild.currentResult == 'SUCCESS' ) {
-                      notifySuccess('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy success: ${gitCommitId}")
-                    }
                   } catch (e) {
                     notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
                     throw e

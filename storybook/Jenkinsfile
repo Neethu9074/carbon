@@ -72,10 +72,6 @@ pipeline {
                       envVariables: '[ {RUN_UI_STORYBOOK_TEST, ${RUN_UI_STORYBOOK_TEST}}, {GIT_BRANCH, ${branchName}} ]',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
-
-                    if ( currentBuild.currentResult == 'SUCCESS' ) {
-                      notifySuccess('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook test success: ${gitCommitId}, branch: ${branchName}")
-                    }
                   } catch (e) {
                     notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} :  Storybook test failed: ${gitCommitId}, branch: ${branchName}")
                     throw e
