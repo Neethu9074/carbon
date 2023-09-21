@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -11,7 +10,7 @@
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
     font-weight: 500;
     white-space: nowrap;
@@ -28,7 +27,7 @@
 
   .active,
   .item:hover {
-    background: @lib__colors__N600Light;
+    background: var(--ids-color-option-neutral-600);
     color: #fff;
     text-decoration: none;
 
@@ -38,25 +37,25 @@
   }
 
   .notAvailable {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     cursor: not-allowed;
 
     .icon {
-      fill: @lib__colors__N500;
+      fill: var(--ids-color-option-neutral-500);
     }
 
     &:hover {
-      color: @lib__colors__N500;
-      background: @lib__colors__N300;
+      color: var(--ids-color-option-neutral-500);
+      background: var(--ids-color-option-neutral-300);
 
       .icon {
-        fill: @lib__colors__N500;
+        fill: var(--ids-color-option-neutral-500);
       }
     }
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     position: relative;
     top: 1px;
   }

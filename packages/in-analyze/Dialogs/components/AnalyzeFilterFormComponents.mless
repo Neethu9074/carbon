@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .flexWrapper {
     display: flex;
@@ -13,8 +11,8 @@
   }
 
   .helpText {
-    color: @lib__colors__N700Medium;
-    background: @lib__colors__N050;
+    color: var(--ids-color-option-neutral-700);
+    background: var(--ids-color-option-neutral-50);
     padding: 1rem;
   }
 
@@ -31,7 +29,7 @@
     margin-top: 0.625rem;
     min-width: 5rem;
     min-height: 4rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .namedSectionContent {
@@ -59,7 +57,7 @@
     height: 1.25rem;
     margin: 0.375rem 0.25rem 0;
 
-    background: @lib__colors__N500;
+    background: var(--ids-color-option-neutral-500);
     color: #fff;
     border: 0;
   }
@@ -67,7 +65,7 @@
   .fixedOperator {
     max-width: 3.5rem;
     padding-left: 0.5rem;
-    border-radius: @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large);
 
     &[disabled] {
       color: #fff;
@@ -90,6 +88,6 @@
   }
 
   .validationMessage {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

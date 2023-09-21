@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -32,19 +31,19 @@
   }
 
   .removeIcon {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     flex-shrink: 0;
     margin: 0 0.5rem 0 0;
   }
 
   .separator {
     margin: 1rem 0;
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
     border-top: 0;
   }
 
   .segment {
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
     padding: 0.063rem 0.188rem;
     margin: 0 0.2rem;
     border-radius: 0.125rem;

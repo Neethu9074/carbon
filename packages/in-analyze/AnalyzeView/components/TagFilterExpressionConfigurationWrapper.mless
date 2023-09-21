@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
-    border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_small;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    border-radius: var(--ids-border-radius-option-small);
     margin-bottom: 1rem;
   }
 
@@ -18,16 +16,16 @@
   }
 
   .bar {
-    border-top-left-radius: @lib__shapes__radius_small;
-    border-top-right-radius: @lib__shapes__radius_small;
-    background: @lib__colors__N200;
+    border-top-left-radius: var(--ids-border-radius-option-small);
+    border-top-right-radius: var(--ids-border-radius-option-small);
+    background: var(--ids-color-option-neutral-200);
     padding: 0 1rem;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .list {
-    border-bottom-left-radius: @lib__shapes__radius_small;
-    border-bottom-right-radius: @lib__shapes__radius_small;
+    border-bottom-left-radius: var(--ids-border-radius-option-small);
+    border-bottom-right-radius: var(--ids-border-radius-option-small);
     background: #fff;
   }
 }

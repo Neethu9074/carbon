@@ -8,17 +8,17 @@ import { get } from 'lodash';
 
 import { SvgIcon } from '@instana/components';
 
-import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
-import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeFilterFormComponents.mless';
@@ -193,8 +193,9 @@ export function SelectBox({ options, id, value, onChange, autoFocus }) {
 }
 
 export function FieldSeperator({ children }) {
+  const theme = useTheme();
   return (
-    <Pill className={locals.fieldSeperator} color={theme.lib.colors.N500}>
+    <Pill className={locals.fieldSeperator} color={theme.ids.color.option.neutral['500']}>
       {children}
     </Pill>
   );
