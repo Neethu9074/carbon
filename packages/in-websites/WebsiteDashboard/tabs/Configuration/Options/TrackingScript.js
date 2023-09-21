@@ -23,9 +23,7 @@ export default function TrackingScript({ websiteId }) {
           i18nKey="in-websites:trackingScript.help"
           values={{ htmlElementName: new SecureString('<head />') }}
           components={{
-            linkToDocs: (
-              <Link href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-websites" external />
-            )
+            linkToDocs: <Link href="https://ibm.biz/monitoring-websites" external />
           }}
         />
       </HelpParagraph>

@@ -24,12 +24,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
           i18nKey="in-mobile-apps:newAppFlow.workingMsg"
           values={{ mobileAppName: mobileAppName }}
           components={{
-            linkToInstallation: (
-              <Link
-                href="https://www.ibm.com/docs/en/obi/current?topic=instana-mobile-app-monitoring#installation"
-                external
-              />
-            )
+            linkToInstallation: <Link href="https://ibm.biz/mobile-applications-installation" external />
           }}
         />
       </Paragraph>
@@ -44,11 +39,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
       </Ul>
 
       <Actions>
-        <Button
-          kind="primaryv2"
-          href="https://www.ibm.com/docs/en/obi/current?topic=instana-mobile-app-monitoring#installation"
-          target="_blank"
-        >
+        <Button kind="primaryv2" href="https://ibm.biz/mobile-applications-installation" target="_blank">
           {t('in-mobile-apps:newAppFlow.installationInstructionsBtn')}
         </Button>
 

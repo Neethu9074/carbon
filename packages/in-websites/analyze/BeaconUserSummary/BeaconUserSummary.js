@@ -113,7 +113,7 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
           {!hasMeta && (
             <NotDefined
               explanation={t('in-websites:analyze.analyzeView.beaconUserSummary.explanationNoMetaDataDefined')}
-              learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#metadata"
+              learnMoreHref="https://ibm.biz/metadata"
               learnMoreLabel={t('in-websites:analyze.analyzeView.beaconUserSummary.labelLearnHowToAddMetaData')}
             />
           )}

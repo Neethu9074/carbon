@@ -30,11 +30,7 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
               <div className={locals.label}>
                 {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}&nbsp;
                 <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
-                  <Link
-                    href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#session-tracking"
-                    external
-                    className={locals.helpWrapper}
-                  >
+                  <Link href="https://ibm.biz/session-tracking" external className={locals.helpWrapper}>
                     <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.help} />
                   </Link>
                 </Tooltip>

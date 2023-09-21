@@ -18,11 +18,7 @@ export default function ConfigurationGuidance({ mobileAppId }) {
     <Card
       title={t('in-mobile-apps:dashboard.tabs.configurationTitle')}
       header={
-        <Button
-          kind="primaryv2"
-          href="https://www.ibm.com/docs/en/obi/current?topic=instana-mobile-app-monitoring#installation"
-          target="_blank"
-        >
+        <Button kind="primaryv2" href="https://ibm.biz/mobile-applications-installation" target="_blank">
           {t('in-mobile-apps:dashboard.tabs.installationInstructionsBtn')}
         </Button>
       }
