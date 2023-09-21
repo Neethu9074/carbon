@@ -8,9 +8,9 @@ import { List } from 'immutable';
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, millis, fourDecimalPlaces } from 'in-services/formatters/number';
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number, millis } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -53,6 +53,23 @@ const throughputCol = {
       return 'svcBrokers.' + row.key + `.throughput`;
     },
     getContent: number.detailed,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+
+const errorCol = {
+  title: t('in-forge:plugins.tuxedoAppServiceBrokerProject.errors'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.snapshotId;
+    },
+    getMetricName(row: any) {
+      return 'svcBrokers.' + row.key + `.errors`;
+    },
+    getContent: fourDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -109,7 +126,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
     };
   });
 
-  const cols = [serviceBrokerCol, averageResponseTimeCol, throughputCol, rsfuCol, rqfuCol];
+  const cols = [serviceBrokerCol, averageResponseTimeCol, throughputCol, errorCol, rsfuCol, rqfuCol];
   return (
     <Table
       withoutPadding
@@ -150,6 +167,16 @@ function getRowDetails(row: any) {
         />
       </Columize>
       <Columize>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['svcBrokers.' + row.key + `.errors`],
+            labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.errors')],
+            type: 'line',
+            formatter: fourDecimalPlaces
+          }}
+        />
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

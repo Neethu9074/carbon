@@ -8,9 +8,9 @@ import React from 'react';
 
 import ServiceBrokerProjectTable from 'in-forge/plugins/tuxedoAppApplication/Dashboard/ServiceBrokerProjectTable';
 import TuxedoServiceTable from 'in-forge/plugins/tuxedoAppApplication/Dashboard/TuxedoServiceTable';
+import { number, twoDecimalPlaces, millis, fourDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, twoDecimalPlaces, millis } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -96,7 +96,7 @@ export default function ApplicationDashboard({ snapshot, timeConfig }) {
               metrics: ['sbp_errors'],
               labels: [t('in-forge:plugins.tuxedoAppApplication.sbp_errors')],
               type: 'line',
-              formatter: twoDecimalPlaces
+              formatter: fourDecimalPlaces
             }}
           />
         </DashboardSection>

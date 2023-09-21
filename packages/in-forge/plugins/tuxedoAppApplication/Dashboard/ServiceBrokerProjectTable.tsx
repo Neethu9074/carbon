@@ -12,10 +12,10 @@ import { Result } from '@instana/types';
 
 import getServiceBrokerProjectForApplication from '../subscriptions/getServiceBrokerProjectForApplication';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, millis, fourDecimalPlaces } from 'in-services/formatters/number';
 //@ts-expect-error
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number, millis } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -74,7 +74,7 @@ const errorsCol = {
     getMetricName() {
       return `errors`;
     },
-    getContent: number.detailed,
+    getContent: fourDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -187,7 +187,7 @@ function getRowDetails(row: any) {
             metrics: [`errors`],
             labels: [t('in-forge:plugins.tuxedoAppServiceBrokerProject.errors')],
             type: 'line',
-            formatter: number.detailed
+            formatter: fourDecimalPlaces
           }}
         />
         <Chart
