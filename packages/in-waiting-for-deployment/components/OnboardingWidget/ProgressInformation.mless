@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
@@ -46,19 +44,19 @@
 
     margin: 0 1rem;
 
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
     opacity: 0.5;
   }
 
   .icon {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
     margin-bottom: 0.25rem;
   }
 
   .stepText {
     text-align: center;
     line-height: 1rem;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
   }
 
   .progressBarWrapper {
@@ -68,7 +66,7 @@
 
     margin: 0 0.25rem;
 
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .progressBar {
@@ -80,16 +78,16 @@
 
   .progressBar0 {
     width: 20%;
-    background: @lib__colors__orange800;
+    background: var(--ids-color-option-orange-500);
   }
 
   .progressBar50 {
     width: 50%;
-    background: @lib__colors__yellow800;
+    background: var(--ids-color-option-yellow-500);
   }
 
   .progressBar100 {
     width: 100%;
-    background: @lib__colors__success;
+    background: var(--ids-color-option-green-500);
   }
 }

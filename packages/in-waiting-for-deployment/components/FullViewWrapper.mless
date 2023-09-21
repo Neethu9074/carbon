@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .fullViewWrapper {
     position: absolute;
@@ -17,7 +15,7 @@
     align-items: center;
     justify-content: center;
 
-    background: @lib__colors__N900Primary;
+    background: var(--ids-color-option-neutral-900);
     overflow-y: auto;
   }
 }

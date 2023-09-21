@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
     padding: 1rem 1rem 1rem 1.5rem;
 
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .heading {
@@ -19,7 +18,7 @@
 
   .headingText {
     font-size: 1.5rem;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 
   .contentWithNavigation {

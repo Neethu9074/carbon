@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
-    background: @lib__colors__white;
-    border-radius: @lib__shapes__radius_large @lib__shapes__radius_large 0 0;
+    background: var(--ids-color-option-white);
+    border-radius: var(--ids-border-radius-large) var(--ids-border-radius-large) 0 0;
     overflow: auto;
   }
 }
