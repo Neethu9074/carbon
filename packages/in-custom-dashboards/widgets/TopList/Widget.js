@@ -35,7 +35,7 @@ import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
@@ -71,6 +71,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
 }
 
 export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
+  const theme = useTheme();
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
 
@@ -81,7 +82,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       getItemsFromResult={result => result.data}
       getMetricValueFromItem={(selectedMetric, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
-      selectedMetricColor={isErroneous ? theme.lib.colors.failure : null}
+      selectedMetricColor={isErroneous ? theme.ids.color.option.red['500'] : null}
       Label={Label}
       Metric={Metric}
       config={config}

@@ -11,6 +11,6 @@
     width: 100%;
     border-top: 1px solid var(--colors-gray-400);
     padding: 0.5rem;
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
   }
 }

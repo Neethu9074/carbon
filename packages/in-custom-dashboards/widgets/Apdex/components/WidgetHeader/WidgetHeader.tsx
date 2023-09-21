@@ -12,7 +12,7 @@ import { ApdexConfiguration } from '@instana/types';
 import ApdexConfigInfo from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigInfo';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './WidgetHeader.mless';
@@ -32,6 +32,7 @@ export default function WidgetHeader({
   apdexConfig,
   showPreviewDataNotice
 }: WidgetHeaderProps) {
+  const theme = useTheme();
   const iconType = {
     website: 'lib_website',
     application: 'lib_application'
@@ -47,7 +48,7 @@ export default function WidgetHeader({
         <StackItem>
           <Stack direction="horizontal">
             <Tooltip content={tooltipText}>
-              <SvgIcon type={iconType} color={theme.lib.colors.N600Light} aria-label={tooltipText} />
+              <SvgIcon type={iconType} color={theme.ids.color.option.neutral['600']} aria-label={tooltipText} />
             </Tooltip>
             <span className={locals.entityLabel}>{entityLabel}</span>
           </Stack>
