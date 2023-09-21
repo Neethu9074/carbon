@@ -16,9 +16,11 @@ export default forwardRef(function Delete(
   { disabled, dialogMessage, entity, getEntityName, confirmLabel, doDelete, deleteEntity, setErrorMessage },
   ref
 ) {
+  const validTypes = ['SCRIPT', 'HTTP', 'MANUAL'];
   return (
     <IconButton
       ref={ref}
+      id={validTypes.includes(entity?.type) ? `delete_${entity.id}` : undefined}
       disabled={disabled}
       type="lib_actions_delete"
       kind="primaryv2"

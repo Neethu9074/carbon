@@ -22,4 +22,5 @@ export interface IconComponentProps {
   href?: string;
   href$?: Observable<string>;
   className?: string;
+  id?: string;
 }
