@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .running {
-    color: @lib__colors__success;
+    color: var(--ids-color-option-green-500);
   }
 
   .failed {
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
   }
 }
