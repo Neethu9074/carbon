@@ -11,7 +11,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
@@ -75,6 +75,66 @@ export default function Summary({ timeConfig, data: sap }) {
         </Col>
       </Row>
       <Columize>
+        <DashboardSection title={t('in-sap:dashboards.userStats')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
+              labels: [t('in-sap:dashboards.numberOfUsers'), t('in-sap:dashboards.userSession')],
+              type: 'line',
+              formatter: number
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.rfcStats')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.totalRFCCalls'],
+              labels: [t('in-sap:dashboards.totalRFCCalls')],
+              type: 'line',
+              formatter: number
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.cpuUtilization')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.totalCpuUtilization'],
+              labels: [t('in-sap:dashboards.cpuUtilization')],
+              type: 'line',
+              formatter: millis.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-sap:dashboards.paging')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
+              labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
+              type: 'line',
+              formatter: number
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title={t('in-sap:dashboards.workProcessStats')}>
           <Chart
             snapshotId={snapshotId}
@@ -129,39 +189,23 @@ export default function Summary({ timeConfig, data: sap }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+        <DashboardSection title={t('in-sap:abapsensor.metrics.backgroundJobCounts')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.jobCount'],
+              labels: [t('in-sap:abapsensor.metrics.jobCounts')],
+              type: 'line',
+              formatter: number
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
       </Columize>
-      <Columize>
-        <DashboardSection title={t('in-sap:dashboards.totalUsers')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['sapMetricsStats.userName'],
-              labels: [t('in-sap:dashboards.numberOfUsers')],
-              type: 'line',
-              formatter: number
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.rfcStats')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['sapMetricsStats.totalRFCCalls'],
-              labels: [t('in-sap:dashboards.totalRFCCalls')],
-              type: 'line',
-              formatter: number
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
 
-        <AbapShortDumps snapshotId={snapshotId} />
-      </Columize>
+      <AbapShortDumps snapshotId={snapshotId} />
     </Fragment>
   );
 }
