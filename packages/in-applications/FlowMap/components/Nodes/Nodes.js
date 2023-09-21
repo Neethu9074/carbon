@@ -14,9 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    nodes: getServiceLocators(props.serviceLocatorUid)
-      .nodesServiceLocator.getNodes()
-      .stream.throttle(100),
+    nodes: getServiceLocators(props.serviceLocatorUid).nodesServiceLocator.getNodes().stream.throttle(100),
     rootNodeId: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('rootNodeId'),
     applicationContext: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('applicationContext'),
     boundaryScope: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('applicationBoundaryScope'),
@@ -33,7 +31,7 @@ export default connectTo(
   }),
   function Nodes(props) {
     const { nodes, nodesSize, rootNodeId, applicationContext } = props;
-    if (!nodes || !nodes.size === 0) {
+    if (!nodes || nodes.size === 0) {
       return null;
     }
 
