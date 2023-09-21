@@ -10,13 +10,15 @@ import { Link, Spacer, SvgIcon, Button, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
-import HorizontalFlexWrapper from '../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
+import IconButton from 'in-components/IconButton/IconButton';
+import { openAssistMe } from 'in-components/Sticky/AssistMe';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
@@ -57,7 +59,7 @@ export default function NotificationBarSticky() {
 
 function Content({ message }) {
   const location = useLocation();
-
+  const tryOfferLicenseType = message.activeLicense == 'selfService' || message.activeLicense == 'quota';
   return (
     <Sticky
       header={
@@ -68,7 +70,7 @@ function Content({ message }) {
           <div className={locals.rightContent}>
             <span className={locals.description}>{message.content}</span>
             <Spacer horizontal="small" />
-            {message.activeLicense == 'selfService' && (
+            {tryOfferLicenseType && (
               <>
                 <IconForRemainingDays remainingDays={message.remainingDays} />
                 <Spacer horizontal="small" />
@@ -101,7 +103,7 @@ function Content({ message }) {
             )}
             {!onPremLicenseInformationEnabled && (
               <>
-                {message.activeLicense == 'selfService' && (
+                {tryOfferLicenseType && (
                   <Button
                     className={locals.button}
                     kind="primaryv2"
@@ -125,12 +127,7 @@ function Content({ message }) {
                 >
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
-                {message.activeLicense == 'selfService' && (
-                  <>
-                    {/* Space dedicated for walkme guided tour button  */}
-                    <div className={locals.walkmeButton} />
-                  </>
-                )}
+                <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
               </>
             )}
           </div>
@@ -139,6 +136,15 @@ function Content({ message }) {
     />
   );
 }
+const AssistMe = ({ tryOfferLicenseType }) => {
+  if (tryOfferLicenseType) {
+    return (
+      <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+    );
+  } else {
+    return null;
+  }
+};
 const IconForRemainingDays = ({ remainingDays }) => {
   /**
    * Days remaining for the free trial to end are converted into hours.
