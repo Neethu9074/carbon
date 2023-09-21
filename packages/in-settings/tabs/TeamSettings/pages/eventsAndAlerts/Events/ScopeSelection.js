@@ -85,13 +85,7 @@ export default function ScopeSelection({ form, selectedApplicationIds, disabled,
                   <Trans
                     i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied"
                     components={{
-                      docLink: (
-                        <Link
-                          size="sm"
-                          href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
-                          external
-                        />
-                      )
+                      docLink: <Link size="sm" href="https://ibm.biz/dynamic-focus-syntax" external />
                     }}
                   />
                 </DescriptionText>

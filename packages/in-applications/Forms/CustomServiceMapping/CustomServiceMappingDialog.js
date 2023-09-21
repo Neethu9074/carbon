@@ -69,12 +69,7 @@ export default function CustomServiceMappingDialog() {
                           i18nKey="in-applications:forms.customService.descriptionVisit"
                           components={{
                             bold: <strong />,
-                            linkToDoc: (
-                              <Link
-                                external
-                                href="https://www.ibm.com/docs/en/obi/current?topic=applications-services"
-                              />
-                            )
+                            linkToDoc: <Link external href="https://ibm.biz/applications-services" />
                           }}
                         />
                       </DescriptionText>

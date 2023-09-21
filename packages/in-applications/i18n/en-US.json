@@ -539,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "Showing applications <bold>{{contextScope}}</bold> of <linkToEntity>{{entityLabel}}</linkToEntity> in context of <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Showing services <bold>{{contextScope}}</bold> of <linkToEntity>{{entityLabel}}</linkToEntity> in context of <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "No Services yet",
-    "servicesNoData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "Batch",
