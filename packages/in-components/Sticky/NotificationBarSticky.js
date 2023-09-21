@@ -10,7 +10,7 @@ import { Link, Spacer, SvgIcon, Button, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
-import HorizontalFlexWrapper from '../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -18,38 +18,11 @@ import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import IconButton from 'in-components/IconButton/IconButton';
+import { openAssistMe } from 'in-components/Sticky/AssistMe';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
 import locals from './NotificationBarSticky.mless';
-
-const windowHref = window.location.href;
-if (windowHref.indexOf('preloadWalkMe') !== -1) {
-  (function () {
-    var walkme = document.createElement('script');
-    walkme.type = 'text/javascript';
-    walkme.async = true;
-    walkme.src =
-      'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(walkme, s);
-    window._walkmeConfig = { smartLoad: true };
-  })();
-}
-var assistMeController;
-function init() {
-  assistMeController = window.initAssistMeController({
-    productId: 'a875055db9b7697d9da869d8f5db0f7c',
-    topSpacing: '46px',
-    zIndex: 4500
-  });
-}
-function openAssistMe() {
-  if (!assistMeController) {
-    init();
-  }
-  return assistMeController.isOpen() ? assistMeController.close() : assistMeController.open();
-}
 
 function getPageType(pathname = '/') {
   const pageName = pathname.split('/')[1];
@@ -154,14 +127,7 @@ function Content({ message }) {
                 >
                   {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
-                {tryOfferLicenseType && (
-                  <IconButton
-                    buttonType="button"
-                    kind="secondary"
-                    type="lib_help_error_help_outline"
-                    onClick={openAssistMe}
-                  />
-                )}
+                <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
               </>
             )}
           </div>
@@ -170,7 +136,16 @@ function Content({ message }) {
     />
   );
 }
-const IconForRemainingDays = ({ remainingDays }) => {
+const AssistMe = ({ tryOfferLicenseType }) => {
+  if (tryOfferLicenseType) {
+    return (
+      <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+    );
+  } else {
+    return null;
+  }
+};
+const IconForRemainingDays = remainingDays => {
   /**
    * Days remaining for the free trial to end are converted into hours.
    */
