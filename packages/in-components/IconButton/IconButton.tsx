@@ -20,7 +20,7 @@ export interface IconButtonProps extends IconComponentProps {
 }
 
 export default forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(props: IconButtonProps, ref) {
-  const { size = 'normal', kind = 'action', onClick, disabled, alignment, className = '', buttonType } = props;
+  const { size = 'normal', kind = 'action', onClick, disabled, alignment, className = '', buttonType, id } = props;
 
   return (
     <button
@@ -33,6 +33,7 @@ export default forwardRef<HTMLButtonElement, IconButtonProps>(function IconButto
         [locals.disabled]: disabled,
         [className]: className
       })}
+      id={id}
       onClick={e => (disabled ? stopPropagationAndPreventDefault(e) : onClick?.(e))}
       type={buttonType}
       ref={ref}

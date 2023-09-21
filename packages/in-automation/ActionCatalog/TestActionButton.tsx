@@ -24,11 +24,13 @@ interface TestActionButtonProps {
   setForm?: SetFormFunction;
 }
 export default function TestActionButton({ action, form, setForm }: TestActionButtonProps) {
+  const idValue = 'id' in action ? action.id : '';
   return (
     <>
       {!isDocLink(action.type) && !isManual(action.type) && (
         <Tooltip content={t('in-automation:ActionCatalog.test')} delay={500}>
           <IconButton
+            id={`test_${idValue}`}
             kind="primaryv2"
             buttonType="button"
             type={'lib_actions_play'}

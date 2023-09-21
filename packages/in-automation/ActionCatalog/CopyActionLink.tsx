@@ -24,7 +24,13 @@ export default function CopyActionLink({ action }: CopyActionLinkProps) {
   return (
     <Tooltip content={t('in-automation:ActionCatalog.duplicate')} delay={500}>
       <Link ellipsis href={isAnsible(action.type) ? undefined : getEntityIdView(actionDetailsCopyPath, action.id)}>
-        <IconButton disabled={isAnsible(action.type)} buttonType="button" kind="primaryv2" type={'lib_actions_copy'} />
+        <IconButton
+          id={`copy_${action.id}`}
+          disabled={isAnsible(action.type)}
+          buttonType="button"
+          kind="primaryv2"
+          type={'lib_actions_copy'}
+        />
       </Link>
     </Tooltip>
   );
