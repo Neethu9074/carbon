@@ -48,7 +48,7 @@ function Preset({ label, onClick, description, windowSize, to }) {
   });
 
   return (
-    <Link className={locals.preset} onClick={onClick} href={createHref(location)}>
+    <Link className={locals.preset} onClick={onClick} href={createHref(location)} size="sm">
       {description ? <KeyValue label={description} value={label} /> : label}
     </Link>
   );
