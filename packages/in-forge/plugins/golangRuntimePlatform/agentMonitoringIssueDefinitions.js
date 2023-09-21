@@ -20,6 +20,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.golangRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-go#troubleshooting`
+    explanationLinkHref: `https://ibm.biz/monitoring-go#troubleshooting`
   }
 };
