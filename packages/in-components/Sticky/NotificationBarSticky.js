@@ -145,7 +145,7 @@ const AssistMe = ({ tryOfferLicenseType }) => {
     return null;
   }
 };
-const IconForRemainingDays = remainingDays => {
+const IconForRemainingDays = ({ remainingDays }) => {
   /**
    * Days remaining for the free trial to end are converted into hours.
    */
