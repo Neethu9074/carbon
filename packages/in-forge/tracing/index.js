@@ -170,6 +170,7 @@ import './wmglue';
 import './x.http';
 import './zfview';
 import './zipkin';
+import './solace';
 import './blade';
 import './boto3';
 import './camel';

@@ -2382,6 +2382,11 @@
   "tracingTypeName_soap_0": "SOAP Requests",
   "tracingTypeName_soap_1": "SOAP Request",
   "tracingTypeName_soap_2": "SOAP Requests",
+  "tracingTypeName_solace": "Solace message",
+  "tracingTypeName_solace_plural": "Solace messages",
+  "tracingTypeName_solace_0": "Solace messages",
+  "tracingTypeName_solace_1": "Solace message",
+  "tracingTypeName_solace_2": "Solace messages",
   "tracingTypeName_sprayclient": "HTTP Call",
   "tracingTypeName_sprayclient_plural": "HTTP Calls",
   "tracingTypeName_sprayclient_0": "HTTP Calls",
@@ -14459,6 +14464,12 @@
       "phone": "Phone",
       "subject": "Subject",
       "responseCode": "Response Code"
+    },
+    "solace": {
+      "destination": "Destination",
+      "operation": "Operation",
+      "applicationMessageId": "Message ID",
+      "applicationMessageType": "Message Type"
     },
     "springBatch": {
       "job": "Job",
