@@ -4,19 +4,17 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .title button {
     font-size: 0.875rem;
     border: none;
     text-decoration: none;
-    color: @lib__colors__chart__self100;
+    color: var(--ids-color-option-neutral-500);
     &:hover {
       text-decoration: none;
-      color: @lib__colors__chart__self100;
+      color: var(--ids-color-option-neutral-500);
       background: none;
-      border-bottom: 3px solid @lib__colors__N600Light;
+      border-bottom: 3px solid var(--ids-color-option-neutral-600);
     }
     &:focus {
       outline: none;
@@ -25,7 +23,7 @@
 
   .active {
     button {
-      border-bottom: 3px solid @lib__colors__cyan800;
+      border-bottom: 3px solid var(--ids-color-option-teal-400);
       cursor: default;
       color: #3c444d;
     }

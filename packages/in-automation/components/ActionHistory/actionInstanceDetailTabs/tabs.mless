@@ -4,12 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .tabs {
     text-decoration: none;
-    color: @lib__colors__chart__self100;
+    color: var(--ids-color-option-neutral-500);
     > ul {
       list-style: none;
       display: flex;

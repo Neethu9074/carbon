@@ -3,7 +3,6 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2022
  */
-@import '~in-themes/active.less';
 
 :local {
   .actionModalPadding {
@@ -23,7 +22,7 @@
   }
 
   .subTextFormField {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin: 0.5rem 0 0 0.5rem;
   }
 
@@ -48,7 +47,7 @@
     align-items: stretch;
   }
   .borderRight {
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     padding-right: 1rem;
   }
   #hostLimit > div {

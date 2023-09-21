@@ -30,7 +30,7 @@ import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
@@ -55,6 +55,7 @@ interface ActionInstanceProperty {
   actorName?: string;
 }
 export default function DetailTab({ id, properties }: { id: string; properties: ActionInstanceProperty }) {
+  const theme = useTheme();
   const { createHref, location } = useNavigation();
   function getLinkToEventDetails(id: string) {
     const path = location;
@@ -192,7 +193,7 @@ export default function DetailTab({ id, properties }: { id: string; properties: 
                       target="_blank"
                       href={ObservableLink ?? stringLink ?? undefined}
                     >
-                      {value} <SvgIcon type="lib_views_external_link" color={theme.lib.colors.blue800} />
+                      {value} <SvgIcon type="lib_views_external_link" color={theme.ids.color.option.blue['500']} />
                     </Link>
                   ) : (
                     value
