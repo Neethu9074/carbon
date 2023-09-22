@@ -124,11 +124,13 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
  * Properties for ShowCreatedToken component
  * @property token to be used as actual credential
  * @property name to be used as display name of the token
+ * @property description to be used as display description of the token
  * @property onClose to close the dialogue
  */
 interface ShowCreatedTokenProps {
   readonly token: string;
   readonly name: string;
+  readonly description: string;
   readonly onClose: () => void;
 }
 //style={{ maxWidth: '22rem' }}
@@ -137,11 +139,11 @@ interface ShowCreatedTokenProps {
  * @param param0 {ShowCreatedTokenProps} used to pass in current infos
  * @returns component
  */
-function ShowCreatedToken({ name, token, onClose }: ShowCreatedTokenProps) {
+export function ShowCreatedToken({ name, token, description, onClose }: ShowCreatedTokenProps) {
   return (
     <Stack>
       <StackItem>
-        <Typography variant="body-small">{t('in-settings:tabs.personalApiTokenDescription')}</Typography>
+        <Typography variant="body-small">{description}</Typography>
         <Spacer />
       </StackItem>
       <StackItem>
@@ -193,11 +195,17 @@ export default function CreatePersonalApiToken({ onClose }: CreatePersonalApiTok
   const headline = created
     ? t('in-settings:tabs.createdPersonalApiToken')
     : t('in-settings:tabs.createPersonalApiToken');
+  const tokenDescription = t('in-settings:tabs.personalApiTokenDescription');
 
   return (
     <Dialog title={headline} onClose={onClose}>
       {created ? (
-        <ShowCreatedToken name={created.name} token={created.accessGrantingToken} onClose={onClose} />
+        <ShowCreatedToken
+          name={created.name}
+          token={created.accessGrantingToken}
+          description={tokenDescription}
+          onClose={onClose}
+        />
       ) : (
         <CreateForm onClose={onClose} onCreated={token => setCreated(token)} />
       )}

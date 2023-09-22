@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 import {
   teamSettings,
   teamSettingsAccessControlApiTokenEdit,
+  teamSettingsAccessControlApiTokenNew,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlGroupEdit,
   teamSettingsAccessControlGroupNew,
@@ -48,6 +49,7 @@ import RecurrentMaintenanceWindowFormPage from './pages/eventsAndAlerts/Maintena
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
@@ -72,6 +74,7 @@ import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
+import { apiTokenDialogEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -126,12 +129,23 @@ function navigationTreeForRole(role) {
         path: teamSettingsAccessControlApiTokens,
         label: t('in-settings:tabs.apiTokens'),
         component: ApiTokensPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlApiTokenEdit,
-            component: ApiTokenPage
-          }
-        ]
+        subPages: apiTokenDialogEnabled
+          ? [
+              {
+                path: teamSettingsAccessControlApiTokenEdit,
+                component: ApiTokenFormDialog
+              },
+              {
+                path: teamSettingsAccessControlApiTokenNew,
+                component: ApiTokenFormDialog
+              }
+            ]
+          : [
+              {
+                path: teamSettingsAccessControlApiTokenEdit,
+                component: ApiTokenPage
+              }
+            ]
       });
     }
 

@@ -33,6 +33,7 @@ export const teamSettingsAccessControlGroupEdit = `${accessControl}/groups/:id`;
 export const teamSettingsAccessControlGroupNew = `${accessControl}/groups/new`;
 export const teamSettingsAccessControlGroups = `${accessControl}/groups`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
+export const teamSettingsAccessControlApiTokenNew = `${accessControl}/apiTokens/new`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
 export const authSettings = `${settingsPath}/auth`;

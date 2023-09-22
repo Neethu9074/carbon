@@ -75,6 +75,8 @@ export const sloV2CreationEnabled = isFeatureFlagEnabled('sloV2CreationEnabled',
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
+export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
+
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',

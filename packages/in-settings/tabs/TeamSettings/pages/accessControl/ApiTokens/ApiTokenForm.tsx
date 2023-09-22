@@ -3,13 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
 
+// @ts-expect-error
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
+// @ts-expect-error
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
-import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
+import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -23,31 +26,45 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
+import { FormProp } from './ApiToken';
+
+interface ProductPermissionProps extends ProductPermission {
+  value?: string | null | undefined;
+}
+
+interface ApiTokenFormProps {
+  form: FormProp;
+  onChange: (fieldName: string, val: any) => void;
+  disabled?: boolean;
+  createNewToken?: boolean;
+}
 
 const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
-export default function ApiTokenForm({ form, onChange, disabled }) {
+export default function ApiTokenForm({ form, onChange, disabled, createNewToken }: ApiTokenFormProps) {
   return (
     <fieldset disabled={disabled}>
-      {form.get('accessGrantingToken').map(field => (
-        <FormGroup noFlex>
-          <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
-            {field.value}
-          </Label>
-          <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
-            <AsyncTokenCopyButton
-              internalId={form.get('internalId').value}
-              token={form.get('accessGrantingToken').value}
-              updateToken={token => onChange('accessGrantingToken', token)}
-            />
-          </Tooltip>
-        </FormGroup>
-      ))}
+      {!createNewToken
+        ? form.get('accessGrantingToken').map((field: Field<string>) => (
+            <FormGroup noFlex>
+              <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
+                {field.value}
+              </Label>
+              <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
+                <AsyncTokenCopyButton
+                  internalId={form.get('internalId').value}
+                  token={form.get('accessGrantingToken').value}
+                  updateToken={(token: string) => onChange('accessGrantingToken', token)}
+                />
+              </Tooltip>
+            </FormGroup>
+          ))
+        : null}
 
-      {form.get('name').map(field => (
+      {form.get('name').map((field: Field<string>) => (
         <FormGroup>
           <Label htmlFor="api-token-name" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.name')}
+            {t('in-settings:tabs.personalApiTokenNameDescription')}
           </Label>
           <Input
             id="api-token-name"
@@ -65,21 +82,25 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
         <Col lg>
           <FormGroup>
             <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
-            {productOwnerPermissions.map(({ value, label, description, keyForApiTokenApi }) => (
-              <HorizontalFormGroup key={label} helpText={description}>
-                <Label htmlFor={`permission-${value}`}>{label}</Label>
+            {productOwnerPermissions.map((productOwnerPermission: ProductPermissionProps) => (
+              <HorizontalFormGroup key={productOwnerPermission.label} helpText={productOwnerPermission.description}>
+                <Label htmlFor={`permission-${productOwnerPermission.value}`}>{productOwnerPermission.label}</Label>
                 <Toggle
-                  id={`permission-${keyForApiTokenApi}`}
-                  checked={form.get(keyForApiTokenApi).value}
+                  id={`permission-${productOwnerPermission.keyForApiTokenApi}`}
+                  checked={form.get(productOwnerPermission.keyForApiTokenApi).value}
                   onChange={e => {
                     // check if value is currently false -> user sets permission to true
                     if (e.target.checked) {
-                      addActiveDialog(<ConfirmationDialog onChange={() => onChange(keyForApiTokenApi, true)} />);
+                      addActiveDialog(
+                        <ConfirmationDialog
+                          onChange={() => onChange(productOwnerPermission.keyForApiTokenApi, true)}
+                        />
+                      );
                     } else {
-                      onChange(keyForApiTokenApi, false);
+                      onChange(productOwnerPermission.keyForApiTokenApi, false);
                     }
                   }}
-                  disabled={!role.canConfigureApiTokens}
+                  disabled={!role?.canConfigureApiTokens}
                 />
               </HorizontalFormGroup>
             ))}
@@ -95,13 +116,13 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             sortable: false,
             width: '5rem',
             widthInAbsoluteUnit: true,
-            getContent(entity) {
+            getContent(entity: ProductPermissionProps) {
               return (
                 <Toggle
                   id={`permission-${entity.keyForApiTokenApi}`}
-                  checked={form.get(entity.keyForApiTokenApi).map(field => field.value)}
+                  checked={form.get(entity.keyForApiTokenApi).map((field: Field<string>) => field.value)}
                   onChange={e => onChange(entity.keyForApiTokenApi, e.target.checked)}
-                  disabled={!role.canConfigureApiTokens}
+                  disabled={!role?.canConfigureApiTokens}
                 />
               );
             }
@@ -112,7 +133,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
   );
 }
 
-function ConfirmationDialog({ onChange }) {
+function ConfirmationDialog({ onChange }: { onChange: () => void }) {
   return (
     <Dialog
       className={locals.confirmationDialog}

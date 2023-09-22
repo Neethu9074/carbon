@@ -87,6 +87,7 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   tagCatalogSmallQueryWindowEnabled: true,
   syntheticCustomDashboardEnabled: true,
+  apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   infraSmartAlertsDetailsPageEnabled: true
 };

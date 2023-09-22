@@ -273,7 +273,7 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   return areaPermissions;
 }
 
-interface ProductPermission {
+export interface ProductPermission {
   keyForGroupApi: CapabilityType;
   keyForApiTokenApi: string;
   label: string;
