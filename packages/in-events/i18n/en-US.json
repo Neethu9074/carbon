@@ -160,6 +160,7 @@
     "noEventsErrorTitle": "No Events Found",
     "noEventsErrorDescription": "An entity was found as the root cause but no related events could be attributed to it",
     "noEntitiesErrorTitle": "No Probable Root Cause Found",
-    "noEntitiesErrorDescription": "Oops! We couldn't pinpoint a specific root cause for this incident."
+    "noEntitiesErrorDescription": "Oops! We couldn't pinpoint a specific root cause for this incident.",
+    "regenerate": "Regenerate"
   }
 }
