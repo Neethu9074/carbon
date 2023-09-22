@@ -13105,11 +13105,6 @@ react-lifecycles-compat@^3.0.2:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
-react-onclickoutside@^6.8.0:
-  version "6.12.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-onclickoutside/-/react-onclickoutside-6.12.0.tgz#c63db2e3c2c852b288160cdb6cff443604e28db4"
-  integrity "sha1-xj2y48LIUrKIFgzbbP9ENgTijbQ= sha512-oPlOTYcISLHfpMog2lUZMFSbqOs4LFcA4+vo7fpfevB5v9Z0D5VBDBkfeO5lv+hpEcGoaGk67braLT+QT+eICA=="
-
 react-redux@^7.2.0:
   version "7.2.6"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/react-redux/-/react-redux-7.2.6.tgz#49633a24fe552b5f9caf58feb8a138936ddfe9aa"
