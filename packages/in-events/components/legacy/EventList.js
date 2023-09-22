@@ -3,37 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ThumbsUp, ThumbsUpFilled, ThumbsDown, ThumbsDownFilled } from '@carbon/icons-react';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button, Card, Message, Stack, SvgIcon, Typography } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 
 import {
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
-import {
-  expandedRCAEventCardTracker,
-  helpfulRCASuggestionTracker,
-  unhelpfulRCASuggestionTracker
-} from 'in-events/tracker';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
-import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
 import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from 'in-events/components/legacy/EventList.mless';
 
 export default connectTo(
   ({ incident }) => ({
@@ -161,137 +152,5 @@ function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
         </Card>
       </Col>
     </Row>
-  );
-}
-
-function AIEventListRow({
-  title,
-  events,
-  triggeringProblemId,
-  latestSnapshot,
-  isRCA,
-  rcaSnapshotID,
-  RegenerateComponentOnClick,
-  pageNum,
-  totalPages,
-  setPageNum
-}) {
-  const [feedbackState, setFeedbackState] = useState({ thumbsUp: false, thumbsDown: false });
-  return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card
-          title={title}
-          leftHeaderContent={<BetaBadge />}
-          rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
-        >
-          <Stack direction="vertical" gap="medium">
-            <div className={locals.timeline}>
-              {!events && <LoadingIndicator />}
-              {events?.map(_event => (
-                <div onClick={expandedRCAEventCardTracker}>
-                  <EventListItem
-                    key={_event.get('id')}
-                    triggeringProblemId={triggeringProblemId}
-                    event={_event}
-                    latestSnapshot={latestSnapshot}
-                    isRCA={isRCA}
-                  />
-                </div>
-              ))}
-              {rcaSnapshotID && events.length === 0 && (
-                <RCAErrorMessage
-                  title={t('in-events:RCA.noEventsErrorTitle')}
-                  description={t('in-events:RCA.noEventsErrorDescription')}
-                />
-              )}
-              {!rcaSnapshotID && (
-                <RCAErrorMessage
-                  title={t('in-events:RCA.noEntitiesErrorTitle')}
-                  description={t('in-events:RCA.noEntitiesErrorDescription')}
-                />
-              )}
-            </div>
-            {rcaSnapshotID && (
-              <Stack direction="horizontal" distribution="spaceBetween">
-                <Stack direction="horizontal" gap="small" align="center">
-                  <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
-                  <Button
-                    kind="subtle"
-                    size="compact"
-                    onClick={() => {
-                      setFeedbackState({ thumbsDown: false, thumbsUp: true });
-                      helpfulRCASuggestionTracker();
-                    }}
-                  >
-                    {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
-                  </Button>
-                  <Button
-                    kind="subtle"
-                    size="compact"
-                    onClick={() => {
-                      setFeedbackState({ thumbsDown: true, thumbsUp: false });
-                      unhelpfulRCASuggestionTracker();
-                    }}
-                  >
-                    {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
-                  </Button>
-                </Stack>
-
-                <Stack direction="horizontal" gap="normal" distribution="end" align="center">
-                  <EventListPagination pageNum={pageNum} numPages={totalPages} setPageNum={setPageNum} />
-                  <Button
-                    icon="lib_actions_sync"
-                    size="compact"
-                    kind="secondary"
-                    onClick={RegenerateComponentOnClick}
-                    disabled
-                    className={locals.rcaRegenerate}
-                  >
-                    {'Regenerate'}
-                  </Button>
-                </Stack>
-              </Stack>
-            )}
-          </Stack>
-        </Card>
-      </Col>
-    </Row>
-  );
-}
-
-function EventListPagination({ pageNum, numPages, setPageNum }) {
-  return (
-    <Stack direction="horizontal">
-      <SvgIcon
-        type="lib_arrow_expand_left"
-        onClick={() => pageNum > 1 && setPageNum(pageNum - 1)}
-        color={pageNum === 1 ? '#00000080' : undefined}
-      />
-      <Stack direction="horizontal" gap="xsmall" align="center">
-        <Typography variant="body-small">{pageNum}</Typography>
-        <Typography variant="body-regular">{'/'}</Typography>
-        <Typography variant="body-small">{numPages}</Typography>
-      </Stack>
-      <SvgIcon
-        type="lib_arrow_expand_right"
-        onClick={() => pageNum < numPages && setPageNum(pageNum + 1)}
-        color={pageNum >= numPages ? '#00000080' : undefined}
-      />
-    </Stack>
-  );
-}
-
-function RCAErrorMessage({ title, description }) {
-  return (
-    <Stack direction="horizontal" gap="small" distribution="center">
-      <img src={EmptyStateMagnifyingGlass} />
-      <Stack direction="vertical" gap="xxsmall">
-        <Typography variant="heading-200">{title}</Typography>
-        <div className={locals.errorMessageContainer}>
-          <Typography variant="body-regular">{description}</Typography>
-        </div>
-      </Stack>
-    </Stack>
   );
 }
