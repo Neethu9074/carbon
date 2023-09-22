@@ -311,7 +311,7 @@ function columns({
 
   const iconColumn = {
     width: '3rem',
-    id: 'icon',
+    getId: () => 'icon',
     widthInAbsoluteUnit: true,
     sortable: false,
     verticallyCenter: true,
@@ -333,7 +333,7 @@ function columns({
   const groupsColumn = groupBy.map(groupKey => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
-      id: groupKey,
+      getId: () => groupKey,
       cellClassName: locals.wordBreak,
       headCellProps: {
         className: locals.wordBreak
@@ -358,7 +358,7 @@ function columns({
 
   const spacerColumn = {
     width: '3rem',
-    id: 'space',
+    getId: () => 'space',
     getContent() {
       return <div />;
     }
@@ -366,7 +366,7 @@ function columns({
 
   const countLabelColumnTable = {
     width: '6rem',
-    id: countLabel,
+    getId: () => countLabel,
     label: countLabel,
     sortable: false,
     getContent(item) {
@@ -376,7 +376,7 @@ function columns({
 
   const countLabelColumn = {
     width: '8rem',
-    id: countLabel,
+    getId: () => countLabel,
     getContent({ group }) {
       return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
     },
@@ -400,9 +400,7 @@ function columns({
         </Tooltip>
       );
     },
-    getId() {
-      return 'focusOnGroup';
-    }
+    getId: () => 'focusOnGroup'
   };
 
   const cols = isTableMode
