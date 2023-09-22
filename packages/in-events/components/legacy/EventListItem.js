@@ -36,6 +36,7 @@ import EventIcon from 'in-events/components/EventIcon';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventListItem.less';
@@ -69,7 +70,7 @@ export default connectTo(
     render() {
       const triggeringProblemId = this.props.triggeringProblemId;
       const isExpanded = this.state.isExpanded;
-      const background = this.props.isRCA ? '#8257D9' : this.props.background;
+      const background = this.props.isRCA ? theme.lib.colors.deepPurple800 : this.props.background;
       const event = this.props.event;
       const latestSnapshot = this.props.latestSnapshot;
       const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
@@ -155,7 +156,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
-            color={isRCA ? '#ffff' : undefined}
+            color={isRCA ? theme.lib.colors.white : undefined}
           />
         </div>
 
