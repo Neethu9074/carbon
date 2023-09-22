@@ -26,41 +26,23 @@ import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/Li
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { infraSmartAlertsDetailsPageEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-import { getPluginName } from 'in-sdk/pluginName';
-import WithIcon from 'in-components/WithIcon';
-import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Alerts() {
-  const theme = useTheme();
   const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
 
   function getColumnDefinitions() {
     return [
       {
-        id: 'entityType',
-        label: '', // not relevant because we don't show the column header according to our designs
-        getContent: (config: InfraAlertConfigWithMetadata) => {
-          const {
-            rule: { entityType }
-          } = config;
-          if (entityType === 'any') {
-            return '';
-          }
-          return (
-            <Tooltip content={getPluginName(entityType, 1)} align="topLeft" delay={500}>
-              <WithIcon plugin={entityType} iconColor={theme.ids.color.option.neutral['700']}>
-                {getPluginName(entityType, 1)}
-              </WithIcon>
-            </Tooltip>
-          );
-        }
+        id: 'filterApplied',
+        label: '',
+        getContent: (entity: InfraAlertConfigWithMetadata) => <ScopeColumn config={entity} />
       }
     ];
   }

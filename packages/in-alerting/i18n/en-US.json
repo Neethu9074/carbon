@@ -1199,7 +1199,17 @@
           "name": {
             "subtitleForStaticThreshold": "Static Threshold, {{metricName}} {{operator}} {{value}}"
           }
-        }
+        },
+        "moreFiltersWithCount": "+{{count}} more filter",
+        "moreFiltersWithCount_plural": "+{{count}} more filters",
+        "moreFiltersWithCount_0": "+{{count}} more filters",
+        "moreFiltersWithCount_1": "+{{count}} more filters",
+        "moreFiltersWithCount_2": "+{{count}} more filters",
+        "filter": "Filter",
+        "filter_plural": "Filters",
+        "filter_0": "Filters",
+        "filter_1": "Filters",
+        "filter_2": "Filters"
       }
     }
   }
