@@ -10889,6 +10889,7 @@
       "labels": "Labels",
       "containers": "Containers",
       "restarts": "Restarts",
+      "restartsDelta": "Restarts Delta",
       "cpuRequests": "CPU Requests",
       "cpuLimits": "CPU Limits",
       "memoryRequests": "Memory Requests",

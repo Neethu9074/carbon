@@ -8,14 +8,23 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['container_count', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits', 'restartCount'],
+    metrics: [
+      'container_count',
+      'cpuRequests',
+      'cpuLimits',
+      'memoryRequests',
+      'memoryLimits',
+      'restartCount',
+      'restartCountDelta'
+    ],
     labels: [
       t('in-forge:plugins.kubernetesPod.containers'),
       t('in-forge:plugins.kubernetesPod.cpuRequests'),
       t('in-forge:plugins.kubernetesPod.cpuLimits'),
       t('in-forge:plugins.kubernetesPod.memoryRequests'),
       t('in-forge:plugins.kubernetesPod.memoryLimits'),
-      t('in-forge:plugins.kubernetesPod.restarts')
+      t('in-forge:plugins.kubernetesPod.restarts'),
+      t('in-forge:plugins.kubernetesPod.restartsDelta')
     ],
     min: 0,
     formatter: number
