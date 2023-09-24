@@ -10,8 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { LOG_LEVEL, LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
-//@ts-expect-error
-import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection/KpiSection';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
