@@ -2,5 +2,5 @@
   "name": "KpiSection",
   "version": "0.0.0",
   "private": true,
-  "main": "./KpiSection.js"
+  "main": "./KpiSection.tsx"
 }

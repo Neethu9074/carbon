@@ -16,13 +16,13 @@ import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/
 import KongKongLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatencyRoute';
 import KongUpstreamLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatency';
 import KongRequestLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongRequestLatency';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection/KpiSection';
 import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
 import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
 import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDictionary';
 import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatency';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
