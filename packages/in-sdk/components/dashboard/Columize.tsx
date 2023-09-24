@@ -3,25 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import invariant from 'invariant';
-import React from 'react';
 
 import { Col, Row } from 'in-components/layout/Grid';
 
-export default function Columize({ children }) {
-  children = React.Children.toArray(children);
-  children = children.filter(Boolean);
+interface Props {
+  children: ReactNode;
+}
 
-  if (children.length === 0) {
+export default function Columize({ children }: Props): JSX.Element | null {
+  let childrenArray = React.Children.toArray(children);
+  childrenArray = childrenArray.filter(Boolean);
+
+  if (childrenArray.length === 0) {
     return null;
   }
 
-  const sizePerItem = 12 / children.length;
-  invariant(children.length <= 12, 'Columnize is not supported with more than 12 children');
+  const sizePerItem = 12 / childrenArray.length;
+  invariant(childrenArray.length <= 12, 'Columnize is not supported with more than 12 children');
 
   return (
     <Row>
-      {React.Children.map(children, child => (
+      {React.Children.map(childrenArray, child => (
         <Col lg={Math.floor(sizePerItem)}>{child}</Col>
       ))}
     </Row>
