@@ -3,32 +3,48 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import {
   ruleLogMessageOperatorOptions,
   ruleLogLevelOptions
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
+//@ts-expect-error TS migration
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
+//@ts-expect-error TS migration
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
+import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
-import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage.mless';
 
-export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage, mode, updateForm }) {
+interface ProvideLogMessageProps {
+  form: MapForm<any>;
+  timeConfig: TimeConfig;
+  onSelectLogMessage: (state: SliderState) => void;
+  mode: string;
+  updateForm: (form: MapForm<any>) => void;
+}
+export default function ProvideLogMessage({
+  form,
+  timeConfig,
+  onSelectLogMessage,
+  mode,
+  updateForm
+}: ProvideLogMessageProps) {
   const operatorField = form.get('rule').get('operator');
   const messageField = form.get('rule').get('message');
   const levelField = form.get('rule').get('level');
@@ -60,10 +76,12 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                         includeInternal={form.get('includeInternal').value}
                         includeSynthetic={form.get('includeSynthetic').value}
                         timeConfig={timeConfig}
-                        onLogMessageSelect={(message, level) => {
+                        onLogMessageSelect={(message: string, level: string) => {
                           updateForm(
                             form
-                              .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
+                              .updateIn(['rule', 'message'], f =>
+                                (f as Field<string>).setValue(message).setTouched(true)
+                              )
                               .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
                               .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
                           );
@@ -82,7 +100,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
           </Button>
         </div>
       </FormGroup>
-      {levelField.map(field => (
+      {levelField.map((field: Field<string>) => (
         <FormGroup>
           <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>
             {t('in-alerting:smartAlerts.applications.components.provideLogMessageLogLevel')}
@@ -91,9 +109,11 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
             name={'ruleLevel'}
             value={field.value}
             options={ruleLogLevelOptions}
-            onChange={e => {
-              const newLevel = (e && e.value) || '';
-              updateForm(form.updateIn(['rule', 'level'], f => f.setValue(newLevel).setTouched(true)));
+            onChange={(e: Option | Options | null) => {
+              const newLevel = (e && (e as Option).value) || '';
+              updateForm(
+                form.updateIn(['rule', 'level'], f => (f as Field<string>).setValue(newLevel).setTouched(true))
+              );
             }}
             defaultValue={ruleLogLevelOptions[0].value}
             isClearable={false}
@@ -101,7 +121,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {operatorField.map(field => (
+      {operatorField.map((field: Field<string>) => (
         <FormGroup>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
             {t('in-alerting:smartAlerts.applications.components.provideLogMessageErrorMessage')}
@@ -110,9 +130,9 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
             name={'ruleOperator'}
             value={field.value}
             options={ruleLogMessageOperatorOptions}
-            onChange={e => {
+            onChange={(e: Option | Options | null) => {
               const previousOperator = field.value;
-              const newOperator = (e && e.value) || '';
+              const newOperator = (e && (e as Option).value) || '';
               let newRuleValueValue = 'Any';
               if (previousOperator === operators.NOT_EMPTY) {
                 newRuleValueValue = '';
@@ -122,7 +142,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
 
               updateForm(
                 form
-                  .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
+                  .updateIn(['rule', 'operator'], f => (f as Field<string>).setValue(newOperator).setTouched(true))
                   .updateIn(['rule', 'message'], f => f.setValue(newRuleValueValue).setTouched(true))
               );
             }}
@@ -133,14 +153,16 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
         </FormGroup>
       ))}
       {operatorField.value !== operators.NOT_EMPTY &&
-        messageField.map(field => (
+        messageField.map((field: Field<string>) => (
           <FormGroup>
             <DebouncedTextArea
               name={'ruleMessage'}
               rows="3"
               value={field.value}
-              onValueChange={value => {
-                updateForm(form.updateIn(['rule', 'message'], f => f.setValue(value ?? '').setTouched(true)));
+              onValueChange={(value: string) => {
+                updateForm(
+                  form.updateIn(['rule', 'message'], f => (f as Field<string>).setValue(value ?? '').setTouched(true))
+                );
               }}
               hasError={!field.valid && field.touched}
               maxLength={65536}
@@ -152,11 +174,3 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
     </div>
   );
 }
-
-ProvideLogMessage.propTypes = {
-  form: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  onSelectLogMessage: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
-};
