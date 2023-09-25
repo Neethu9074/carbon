@@ -237,6 +237,7 @@
     "ibmJ98": "IBM J9 8",
     "openJdk8": "OpenJDK 8",
     "amazonCorrettoJdk8": "Amazon Corretto JDK 8",
+    "adoptOpenJdk": "AdoptOpen JDK 8",
     "weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost": "We recommend to use a JDK from the same vendor as monitored JVMs on the same host.",
     "toExtractMakeSureToUseAGnuTarThatIsCapableOfExtractingPathsLongerThan100Characters": "To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.",
     "macOs64BitUniversal": "macOS (64bit - Intel & Apple silicon)",

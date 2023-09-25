@@ -52,7 +52,8 @@ export default function ManualLinuxContent({ butlerDomain, agentKey, downloadKey
             t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
             t('in-waiting-for-deployment:content.ibmJ98'),
             t('in-waiting-for-deployment:content.openJdk8'),
-            t('in-waiting-for-deployment:content.amazonCorrettoJdk8')
+            t('in-waiting-for-deployment:content.amazonCorrettoJdk8'),
+            t('in-waiting-for-deployment:content.adoptOpenJdk')
           ]}
         />
         <Spacer />
