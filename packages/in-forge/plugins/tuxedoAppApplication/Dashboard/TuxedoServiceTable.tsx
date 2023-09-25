@@ -12,10 +12,9 @@ import { Result } from '@instana/types';
 
 import getTuxedoServiceForApplication from '../subscriptions/getTuxedoServiceForApplication';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-//@ts-expect-error
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number, millis } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';

@@ -8,9 +8,8 @@ import { List } from 'immutable';
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-//@ts-expect-error
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { number, millis } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
