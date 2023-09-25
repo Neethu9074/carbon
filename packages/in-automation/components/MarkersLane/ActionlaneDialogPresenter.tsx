@@ -11,10 +11,10 @@ import { ActionInstance } from '@instana/types';
 
 import { trackCurrentlySelected, trackDialogClosed } from 'in-automation/components/MarkersLane/tracker';
 import ActionInstanceContent from 'in-automation/components/MarkersLane/ActionInstanceContent';
+import ActionLaneDialogTitle from 'in-automation/components/MarkersLane/ActionLaneDialogTitle';
 import ActionInstancesList from 'in-automation/components/MarkersLane/ActionInstancesList';
 import { ActionListCalloutProps } from 'in-automation/components/MarkersLane/shared';
 import { close } from 'in-components/DialogPresenter/store';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -37,7 +37,7 @@ export default function ActionlaneDialogPresenter({
   useTrackItemSelect(selectedItem, instances);
   return (
     <Dialog
-      title={ActionLaneDialogTitle(title)}
+      title={<ActionLaneDialogTitle title={title} />}
       onClose={() => {
         trackDialogClosed({
           actions: instances,
@@ -78,13 +78,4 @@ export default function ActionlaneDialogPresenter({
       // Added this to execute  Mixpanel tracking on these prop changes
     }, [selectedItem, instances]);
   }
-}
-
-function ActionLaneDialogTitle(title: string) {
-  return (
-    <div className={locals.dialogTitleComponent}>
-      <h1 className={locals.dialogTitle}>{title}</h1>
-      <BetaBadge />
-    </div>
-  );
 }
