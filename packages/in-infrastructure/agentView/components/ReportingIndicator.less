@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 .in-agent-view-table-reporting-indicator {
   position: relative;
@@ -16,19 +15,19 @@
     content: '';
     margin: 9px 0px 0px -13px;
     border: 4px solid;
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
     border-radius: 50%;
   }
 
   &__is-reporting {
     &::before {
-      color: @lib__colors__success;
+      color: var(--ids-color-option-green-500);
     }
   }
 
   &__is-degraded {
     &::before {
-      color: @lib__colors__warning;
+      color: var(--ids-color-option-yellow-500);
     }
   }
 }
