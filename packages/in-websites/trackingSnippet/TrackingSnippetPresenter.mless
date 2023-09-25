@@ -30,8 +30,8 @@
     margin: 0;
     display: flex;
     align-items: center;
-    color: @lib__colors__N700Medium;
-    font-size: @lib__typography__body-small__font-size;
+    color: var(--ids-color-option-blue-700);
+    font-size: var(--ids-font-size-option-body-small);
   }
 
   .helpWrapper {
@@ -45,6 +45,6 @@
   }
 
   .help {
-    fill: @lib__colors__blue800;
+    fill: var(--ids-color-option-blue-500);
   }
 }
