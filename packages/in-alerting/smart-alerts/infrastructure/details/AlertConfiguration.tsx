@@ -24,6 +24,7 @@ import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/compone
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import { AlertGrouping } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -59,7 +60,8 @@ export default function AlertConfigurationAlertConfiguration({
     rule: { metricName, entityType },
     threshold,
     alertChannelIds,
-    tagFilterExpression
+    tagFilterExpression,
+    groupBy
   } = alertConfig;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -115,6 +117,8 @@ export default function AlertConfigurationAlertConfiguration({
             }
             scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
           />
+
+          <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard
