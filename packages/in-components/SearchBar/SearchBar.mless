@@ -50,6 +50,9 @@
 
     background: @lib__colors__white;
     border: 1px solid @lib__colors__N400;
+  }
+
+  .inputWrapperNoRightBorder {
     border-right: 0;
   }
 

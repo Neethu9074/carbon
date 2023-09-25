@@ -39,7 +39,9 @@ const SearchBarInput = connectTo(
         value: this.props.contextQuery.query,
         autofocus: false,
         scrollbarStyle: null,
-        searchContext: this.props.contextQuery.searchContext
+        searchContext: this.props.contextQuery.searchContext,
+        readOnly: this.props.disabled,
+        disableInput: this.props.disabled
       }));
 
       this.editor.setValue(this.props.queryValue ?? '');
@@ -47,6 +49,10 @@ const SearchBarInput = connectTo(
       let autocompleteShownForCursorPosition = null;
       this.isFocused = false;
       this.focusByUserClick = false;
+
+      if (this.props.disabled) {
+        return;
+      }
 
       editor.on('cursorActivity', () => {
         const currentCursorPosition = editor.getCursor().ch;
