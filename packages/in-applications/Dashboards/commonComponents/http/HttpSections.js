@@ -185,7 +185,7 @@ export default function HttpSections({
   return (
     <UnifiedMetricsChart
       title={cardTitle}
-      customChartSkeletonHeight={262}
+      customChartSkeletonHeight={280}
       rightHeaderContent={rightHeaderContent}
       renderHistoricDataIndicator
       renderPostChartContent={props =>

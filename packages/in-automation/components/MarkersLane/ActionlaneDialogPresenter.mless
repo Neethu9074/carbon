@@ -1,0 +1,49 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: grid;
+    max-width: 68.5rem;
+    height: 28rem;
+    border-top: 0.0625rem solid var(--ids-color-option-neutral-300);
+    .ActionInstanceDetailsTable {
+      width: auto;
+    }
+  }
+
+  .twoColums {
+    grid-template-columns: 25rem 1fr;
+  }
+
+  .listWrapper {
+    border-right: 0.0625rem solid var(--ids-color-option-neutral-300);
+    overflow-y: auto;
+  }
+
+  .contentWrapper {
+    padding: 1rem;
+  }
+  .dialogTitle {
+    margin-right: 10px;
+    color: var(--ids-color-option-neutral-900);
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 2rem;
+    margin: 0;
+    padding: 0;
+    .ellipsis();
+  }
+  .dialogTitleComponent {
+    display: inline-flex;
+    span {
+      height: fit-content;
+      margin-top: 0.5rem;
+      margin-left: 0.5rem;
+    }
+  }
+}

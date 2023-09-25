@@ -89,5 +89,6 @@ module.exports = {
   syntheticCustomDashboardEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  infraSmartAlertsDetailsPageEnabled: true
+  infraSmartAlertsDetailsPageEnabled: true,
+  actionsLaneEnabled: true
 };
