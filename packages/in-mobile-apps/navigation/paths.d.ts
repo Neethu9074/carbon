@@ -13,8 +13,10 @@ import { MetricField } from 'in-analyze/navigation/paths';
 
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
+export declare const crashesTabFullyQualified: string;
 export declare const alertsTab: string;
 export declare const summaryTab: string;
+export declare const detailsPath: string;
 
 interface UseLinkToAnalyzeProps {
   beaconType: string;
@@ -58,6 +60,11 @@ export function useLinkToCustomEvent(): (
   { customEventId, viewId }: { customEventId?: string; viewId?: string }
 ) => string;
 
+export function useLinkToCrash(): (
+  mobileAppId: string,
+  { crashId, viewId }: { crashId?: string; viewId?: string }
+) => string;
+
 export const useGetAlertConfigLink: () => (
   alertConfigId: string,
   mobileAppId: string,
@@ -74,7 +81,7 @@ export function useGetLinkToMobileApp(
   }: {
     tabPath?: string;
     tabParameters?: Record<string, string>;
-    pageId?: string;
+    viewId?: string;
     timeConfig?: TimeConfig;
   } = {}
 ): string;

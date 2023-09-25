@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} session starts",
     "tabs": {
       "summaryLabel": "Summary",
+      "crashLabel": "Crashes",
       "httpRequestLabel": "HTTP Requests",
       "geographyLabel": "Geography",
       "customEventsLabel": "Custom Events",
@@ -260,6 +261,8 @@
       "nameLabel": "Name",
       "occurrencesLabel": "Occurrences",
       "affectedUsersLabel": "Affected Users",
+      "uniqueUsersTitle": "Unique Users",
+      "crashActivityTitle": "Crashes",
       "crashErrorGroupsTitle": "Crash Error Groups",
       "crashErrorGroupsHelpInfo": "Displays data collected for identified affected users only",
       "crashErrorGroupsNoDataMessage": "No crashes for this period",
@@ -331,6 +334,21 @@
       "uniqueUserCount_plural": "{{formattedCount}} identified users",
       "sessionCount": "{{formattedCount}} session",
       "sessionCount_plural": "{{formattedCount}} sessions",
+      "devices": "Devices",
+      "viewAllDevices": "View all devices",
+      "osVersions": "OS Versions",
+      "viewAllOs": "View all operating system",
+      "crashes": {
+        "crashesLabelErrorMessage": "Error Message",
+        "crashesLabelOccurrences": "Occurrences",
+        "crashesLabelAffectedUsers": "Affected Users",
+        "crashesButtonAnalyzeCrashes": "Analyze Crashes",
+        "crashesTableTitle": "Crashes",
+        "crashInfoTitle": "Details",
+        "crashInfoMessage": "Message",
+        "backToCrashList": "Back to list of crashes",
+        "crashTitleMobileAppCrashDetails": "Mobile App Crash Details"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Mobile App Custom Event Details",
         "customEventLabelBackToListOfCustomEvents": "Back to list of custom events",
@@ -373,7 +391,9 @@
       "httpRequestsTitle": "No HTTP requests available",
       "httpRequestsDescription": "There were no HTTP requests retrieved for the selected time range.",
       "customEventsTitle": "No custom events available",
-      "customEventsDescription": "There were no custom events retrieved for the selected time range."
+      "customEventsDescription": "There were no custom events retrieved for the selected time range.",
+      "crashesTitle": "No Crashes available",
+      "crashesDescription": "There were no crashes for the selected time range."
     }
   },
   "appsList": {
