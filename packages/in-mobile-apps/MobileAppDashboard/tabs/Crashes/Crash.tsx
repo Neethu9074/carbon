@@ -61,6 +61,7 @@ const beaconType = 'crash';
 const viewGroupByFilter = 'mobileBeacon.view.name';
 const deviceGroupByFilter = 'mobileBeacon.device.model';
 const osGroupByFilter = 'mobileBeacon.os.name';
+const appVersionGroupByFilter = 'mobileBeacon.app.version';
 
 interface CrashProp {
   location: any;
@@ -302,6 +303,24 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                 }
               }}
               renderPostChartContent={MarkerLane}
+            />
+          </Col>
+          <Col lg={4}>
+            <MobileAppTopList
+              title={t('in-mobile-apps:dashboard.tabs.appVersions')}
+              mobileAppId={mobileAppId}
+              mobileAppLabel={mobileAppLabel}
+              timeConfig={timeConfig}
+              tagFilters={tagFiltersWithCrashId}
+              metrics={metrics}
+              labels={labels}
+              aggregations={aggregations}
+              formatters={formatters}
+              beaconType={beaconType}
+              beaconGroupByFilter={appVersionGroupByFilter}
+              linkToAllLabel={t('in-mobile-apps:dashboard.tabs.viewAllVersions')}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'appversionsTab', paramMetric: 'beaconCount' }}
+              renderHistoricDataIndicator
             />
           </Col>
         </Row>

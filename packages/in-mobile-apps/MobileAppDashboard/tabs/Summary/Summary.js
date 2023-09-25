@@ -151,11 +151,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         />
         {mobileAppCrashBeaconEnabled && (
           <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.crashFreeSessionRateTitle')}
-            metric={'crashFreeSessionRate'}
+            title={t('in-mobile-apps:dashboard.tabs.crashAffectedSessionRateTitle')}
+            metric={'crashAffectedSessionRate'}
             aggregation={'MEAN'}
             formatter={percentage.detailed}
-            companionMetric={'crashFreeSessionCount'}
+            companionMetric={'crashAffectedSessionCount'}
             companionAggregation={'DISTINCT_COUNT'}
             companionFormatter={v =>
               t('in-mobile-apps:dashboard.tabs.sessionCount', {
@@ -192,11 +192,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         {mobileAppCrashBeaconEnabled && (
           <Col xs>
             <MobileAppBigNumberCard
-              title={t('in-mobile-apps:dashboard.tabs.crashFreeUserRateTitle')}
-              metric={'crashFreeUserRate'}
+              title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
+              metric={'crashAffectedUserRate'}
               aggregation={'MEAN'}
               formatter={percentage.detailed}
-              companionMetric={'crashFreeUserCount'}
+              companionMetric={'crashAffectedUserCount'}
               companionAggregation={'DISTINCT_COUNT'}
               companionFormatter={v =>
                 t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
@@ -306,16 +306,16 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
                 labels: [t('in-mobile-apps:dashboard.tabs.crashLabel')],
-                metricIds: ['sessions']
+                metricIds: ['crashAffectedSessionCount']
               }}
               metricsConfiguration={{
                 timeConfig,
                 tagFilters,
                 metrics: {
-                  sessions: {
-                    metric: 'sessions',
+                  crashAffectedSessionCount: {
+                    metric: 'crashAffectedSessionCount',
                     granularity,
-                    aggregation: 'SUM',
+                    aggregation: 'DISTINCT_COUNT',
                     beaconType: 'crash',
                     omitMetricInAnalytics: true
                   }
