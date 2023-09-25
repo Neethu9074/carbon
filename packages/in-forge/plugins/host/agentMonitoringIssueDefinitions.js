@@ -30,7 +30,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-managing-host-agents#instana-agent-contains-vulnerable-log4j-library`
+    explanationLinkHref: `https://ibm.biz/insta-aglog4jvulnerable`
   },
   data_processing_issue_agent_message_filtered: {
     issueDescription: {

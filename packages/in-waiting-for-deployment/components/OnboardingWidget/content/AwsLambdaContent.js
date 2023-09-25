@@ -133,7 +133,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             // TODO verify. There is no section #autotrace-aws-lambdas!
-            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
+            href="https://ibm.biz/agents-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -248,7 +248,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             // TODO verify, there is not section #autotrace-aws-lambdas
-            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
+            href="https://ibm.biz/agents-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -375,7 +375,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs8XIsToUseThe"
         // TODO verify, there is no section #manual-wrapping!
-        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
+        href="https://ibm.biz/agents-aws-lambda"
       />
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
@@ -407,7 +407,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             // TODO verify, there is no section #instana-autotrace!
-            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
+            href="https://ibm.biz/agents-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -566,13 +566,13 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAwsSensorRunningInYourAwsRegionForDetailsOnSettingUpTheInstanaAwsSensorReferToThe"
-        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws"
+        href="https://ibm.biz/amazon-web-services-agent"
       />
       <Spacer />
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe"
-        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
+        href="https://ibm.biz/agents-aws-lambda"
       />
       <Spacer />
 

@@ -39,7 +39,7 @@ export default connectTo(
               installLink: (
                 <Link
                   external
-                  href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws#installation"
+                  href="https://ibm.biz/amazon-web-services-agent-installation"
                 />
               )
             }}
