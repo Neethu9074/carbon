@@ -101,6 +101,7 @@ interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<Pr
   color?: string;
   // optionally overriding label visibility to make it always visible
   alwaysDisplayLabels?: boolean;
+  calloutContent?: (props: any) => JSX.Element;
 }
 
 class MarkersLaneRenderScheduler<EventType extends MarkerLaneEvent> extends React.Component<

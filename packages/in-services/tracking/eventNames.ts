@@ -320,6 +320,15 @@ export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.close
 // Alert Preview Marker Lane
 export const ALERT_PREVIEW_MARKER_FETCH_RETRY = 'alert.preview.marker.fetch.retry';
 
+// Actions Marker Lane
+
+export const ACTION_LANES_MARKER_HOVERED = 'action.lanes.marker.hovered';
+export const ACTION_LANES_MARKER_CLICKED = 'action.lanes.marker.clicked';
+export const ACTION_LANES_INVESTIGATE_FILTER = 'action.lanes.investigate.filter';
+export const ACTION_LANES_VIEW_ENTITY = 'action.lanes.view.entity';
+export const ACTION_LANES_SELECTED = 'action.lanes.selected';
+export const ACTION_LANES_DIALOG_CLOSED = 'action.lanes.dialog.closed';
+
 // SLI Widget and SLI Management
 export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
 export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';

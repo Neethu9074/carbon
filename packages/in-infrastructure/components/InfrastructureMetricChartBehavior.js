@@ -81,7 +81,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
       primaryContextMenuAction,
       additionalContextMenuButtons,
       renderPostChartContent,
-      originalTimeConfig
+      originalTimeConfig,
+      snapshotId,
+      snapshotHostFqdn,
+      hasActionlane = false
     } = props;
 
     // When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
@@ -108,6 +111,9 @@ class InfrastructureMetricChartBehavior extends React.Component {
     this.y2 = mapAxis(y2);
     this.renderPostChartContent = renderPostChartContent;
     this.originalTimeConfig = originalTimeConfig;
+    this.snapshotId = snapshotId;
+    this.snapshotHostFqdn = snapshotHostFqdn;
+    this.hasActionlane = hasActionlane;
   };
 
   createQueuesAndDataHolders = () => {
@@ -236,7 +242,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
       renderPostChartContent,
       originalTimeConfig,
       granularity,
-      additionalContextMenuButtons
+      additionalContextMenuButtons,
+      snapshotId,
+      snapshotHostFqdn,
+      hasActionlane
     } = this;
     const { y1Metrics = [], y2Metrics = [] } = this.state;
 
@@ -249,6 +258,9 @@ class InfrastructureMetricChartBehavior extends React.Component {
     return (
       <ChartComponent
         renderLegend={renderLegend}
+        snapshotId={snapshotId}
+        snapshotHostFqdn={snapshotHostFqdn}
+        hasActionlane={hasActionlane}
         timeConfig={timeConfig}
         granularity={granularity}
         y1={y1}

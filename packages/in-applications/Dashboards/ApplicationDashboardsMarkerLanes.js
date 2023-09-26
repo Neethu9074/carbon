@@ -6,12 +6,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { potentialProblemsEnabled, actionsLaneEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import PotentialProblemsLane from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLane';
 import getApplicationAlertClusters from 'in-applications/subscriptions/getApplicationAlertClusters';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
-import { potentialProblemsEnabled } from 'in-services/featureFlags';
+import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
+import { role } from 'in-stores/user';
 
 export default function ApplicationDashboardsMarkerLanes({
   applicationId,
@@ -19,6 +21,7 @@ export default function ApplicationDashboardsMarkerLanes({
   endpointId,
   includeSyntheticCalls,
   showPotentialProblemsLane = false,
+  boundaryScope,
   ...remainingProps
 }) {
   return function MarkerLanesApplications(lanesProps) {
@@ -33,6 +36,16 @@ export default function ApplicationDashboardsMarkerLanes({
             serviceId
           }}
         />
+        {actionsLaneEnabled && actionAutomationEnabled && role?.canViewAutomationActionInstances && (
+          <ActionsLane
+            applicationId={applicationId}
+            {...lanesProps}
+            {...remainingProps}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            boundaryScope={boundaryScope}
+          />
+        )}
         {showPotentialProblemsLane && potentialProblemsEnabled && (
           <PotentialProblemsLane
             {...remainingProps}

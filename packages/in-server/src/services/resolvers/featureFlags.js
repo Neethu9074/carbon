@@ -424,5 +424,10 @@ module.exports = exports = [
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'actionsLaneEnabled',
+    instanaCtlKey: 'feature.actions.lane.enabled',
+    defaultValue: false
   }
 ];

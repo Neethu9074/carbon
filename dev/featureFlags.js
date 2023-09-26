@@ -90,5 +90,6 @@ module.exports = {
   rcaUIEnabled: false,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  infraSmartAlertsDetailsPageEnabled: true
+  infraSmartAlertsDetailsPageEnabled: true,
+  actionsLaneEnabled: true
 };
