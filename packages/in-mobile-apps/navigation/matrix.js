@@ -10,6 +10,7 @@ export const mobileAppId = 'mobileAppId';
 export const viewId = 'viewId';
 export const httpRequestId = 'httpRequestId';
 export const customEventId = 'customEventId';
+export const crashId = 'crashId';
 
 // analyze
 export const tagFilters = 'tagFilters';

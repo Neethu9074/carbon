@@ -18,7 +18,8 @@ import {
   beaconId as beaconIdMatrixParameter,
   beaconTimestamp as beaconTimestampMatrixParameter,
   httpRequestId as httpRequestIdMatrixParameter,
-  customEventId as customEventIdMatrixParameter
+  customEventId as customEventIdMatrixParameter,
+  crashId as crashIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -63,6 +64,8 @@ export const mobileAppPath = '/mobileApp';
 export const mobileAppPathFullyQualified = `${mobileAppMonitoringPath}${mobileAppPath}`;
 export const usersTab = '/users';
 export const usersTabFullyQualified = `${mobileAppPathFullyQualified}${usersTab}`;
+export const crashesTab = '/crashes';
+export const crashesTabFullyQualified = `${mobileAppPathFullyQualified}${crashesTab}`;
 export const httpRequestsTab = '/httpRequests';
 export const httpRequestsTabFullyQualified = `${mobileAppPathFullyQualified}${httpRequestsTab}`;
 export const customEventsTab = '/customEvents';
@@ -182,6 +185,26 @@ export function useLinkToSession() {
 
       // make sure that there is no grouping as otherwise the session cannot be loaded.
       setOrDeleteMatrixKey(location, analyzePath, groupMatrixParameter, serializeGroup({}));
+
+      return createHref(location);
+    },
+    [location, createHref]
+  );
+}
+
+export function useLinkToCrash() {
+  const { location, createHref } = useNavigation();
+
+  return useCallback(
+    (mobileAppId, { crashId, viewId } = emptyObject) => {
+      location.pathname = `${mobileAppPathFullyQualified}/crashes/details`;
+      setOrDeleteMatrixKey(location, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+      if (viewId !== undefined) {
+        setOrDeleteMatrixKey(location, mobileAppPath, viewIdMatrixParameter, viewId);
+      }
+
+      setOrDeleteMatrixKey(location, '/details', crashIdMatrixParameter, crashId);
 
       return createHref(location);
     },

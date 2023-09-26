@@ -3,14 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
-
 :local {
   .pageLoad {
     padding: 1rem;
-    border-top: 1px solid @lib__colors__N400;
-    background: @lib__colors__N200;
+    border-top: 1px solid var(--ids-color-option-neutral-400);
+    background: var(--ids-color-option-neutral-200);
     display: flex;
     justify-content: space-between;
   }

@@ -69,6 +69,7 @@ export default connectTo(
           <div
             className={classNames({
               [locals.inputWrapper]: true,
+              [locals.inputWrapperNoRightBorder]: true,
               [locals[`inputWrapper${theme}`]]: theme
             })}
           >

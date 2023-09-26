@@ -11,10 +11,9 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error Module needs to be translated to TS
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-// @ts-expect-error Module needs to be translated to TS
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { micros, percentage, hitRateTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

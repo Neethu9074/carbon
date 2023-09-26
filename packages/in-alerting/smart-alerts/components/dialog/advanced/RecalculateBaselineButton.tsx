@@ -14,7 +14,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/Recalcul
 
 interface RecalculateBaselineButtonProps {
   updateForm: (form: MapForm<any>) => void;
-  editMode: boolean;
+  editMode?: boolean;
   form: MapForm<any>;
 }
 export default function RecalculateBaselineButton({ updateForm, editMode, form }: RecalculateBaselineButtonProps) {

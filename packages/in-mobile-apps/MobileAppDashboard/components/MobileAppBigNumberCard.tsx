@@ -20,7 +20,7 @@ interface MobileAppBigNumberCardProps {
   companionMetric?: string;
   companionAggregation?: AggregationType;
   companionFormatter?: FormatterFn;
-  comparisonColors: ComparisonColors;
+  comparisonColors?: ComparisonColors;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
   iconAction: IconAction;
@@ -69,8 +69,8 @@ export default function MobileAppBigNumberCard({
 
   const cardConfiguration = {
     metricConfiguration: metricConfiguration,
-    comparisonDecreaseColor: comparisonColors.decreaseColor,
-    comparisonIncreaseColor: comparisonColors.increaseColor,
+    comparisonDecreaseColor: comparisonColors?.decreaseColor,
+    comparisonIncreaseColor: comparisonColors?.increaseColor,
     ...(companionMetric && {
       companionMetricConfiguration: {
         metric: companionMetric,

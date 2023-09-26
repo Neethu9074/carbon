@@ -8,9 +8,8 @@ import React from 'react';
 
 import ServersTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServersTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-// @ts-expect-error
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

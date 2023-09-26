@@ -35,23 +35,16 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
   const tagCatalogViewChange = useTagCatalog('viewChange');
   const tagCatalogCrash = useTagCatalog('crash');
   const MarkerLane = MobileAppMarkerLane({ mobileAppId });
+  const thinWidgetWidth = viewId == null ? 4 : 6;
 
   return (
     <Fragment>
-      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [3, 3, 3, 3] : [6, 6]}>
+      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [true, true, true, true, true] : [4, 4, 4]}>
         <MobileAppBigNumberCard
           title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
           metric={'sessions'}
           aggregation={'SUM'}
           formatter={number.compact}
-          companionMetric={'uniqueUsersOrSessions'}
-          companionAggregation={'DISTINCT_COUNT'}
-          companionFormatter={v =>
-            t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
-              formattedCount: number.compact(v),
-              count: v
-            })
-          }
           comparisonColors={{
             comparisonDecreaseColor: blue.id,
             comparisonIncreaseColor: blue.id
@@ -74,6 +67,52 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 groupBy: {
                   groupbyTag: 'mobileBeacon.view.name'
                 }
+              })
+          }}
+        />
+
+        <MobileAppMetricsKpiCard
+          title={t('in-mobile-apps:dashboard.tabs.uniqueUsersTitle')}
+          formatter={number.compact}
+          metricsConfig={{
+            tagFilters,
+            timeConfig,
+            metrics: {
+              uniqueUsersOrSessions: {
+                metric: 'uniqueUsersOrSessions',
+                aggregation: 'DISTINCT_COUNT'
+              }
+            }
+          }}
+          iconAction={{
+            text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+            kind: 'subtle',
+            icon: 'lib_analyze',
+            href:
+              tagCatalogSessionStart &&
+              getLinkToMobileAppAnalyze({
+                beaconType: 'sessionStart',
+                formModel: translateDemocratisationTagFiltersToFormModel({
+                  mobileAppLabel,
+                  tagFilters,
+                  tagCatalog: tagCatalogSessionStart
+                }),
+                groupBy: {
+                  groupbyTag: 'mobileBeacon.view.name'
+                },
+                fields: [
+                  {
+                    metricId: 'uniqueUsersOrSessions',
+                    aggregationId: 'DISTINCT_COUNT',
+                    type: metricType
+                  }
+                ],
+                chartedMetrics: [
+                  {
+                    metricId: 'uniqueUsersOrSessions',
+                    aggregationId: 'DISTINCT_COUNT'
+                  }
+                ]
               })
           }}
         />
@@ -112,11 +151,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         />
         {mobileAppCrashBeaconEnabled && (
           <MobileAppBigNumberCard
-            title={t('in-mobile-apps:dashboard.tabs.crashFreeSessionRateTitle')}
-            metric={'crashFreeSessionRate'}
+            title={t('in-mobile-apps:dashboard.tabs.crashAffectedSessionRateTitle')}
+            metric={'crashAffectedSessionRate'}
             aggregation={'MEAN'}
             formatter={percentage.detailed}
-            companionMetric={'crashFreeSessionCount'}
+            companionMetric={'crashAffectedSessionCount'}
             companionAggregation={'DISTINCT_COUNT'}
             companionFormatter={v =>
               t('in-mobile-apps:dashboard.tabs.sessionCount', {
@@ -153,11 +192,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         {mobileAppCrashBeaconEnabled && (
           <Col xs>
             <MobileAppBigNumberCard
-              title={t('in-mobile-apps:dashboard.tabs.crashFreeUserRateTitle')}
-              metric={'crashFreeUserRate'}
+              title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
+              metric={'crashAffectedUserRate'}
               aggregation={'MEAN'}
               formatter={percentage.detailed}
-              companionMetric={'crashFreeUserCount'}
+              companionMetric={'crashAffectedUserCount'}
               companionAggregation={'DISTINCT_COUNT'}
               companionFormatter={v =>
                 t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
@@ -208,7 +247,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       </KpiGridRow>
 
       <Row>
-        <Col lg={mobileAppCrashBeaconEnabled ? 8 : 12}>
+        <Col lg={mobileAppCrashBeaconEnabled ? thinWidgetWidth : 12}>
           <MobileAppChartWrapper
             title={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
             timeConfig={timeConfig}
@@ -245,27 +284,56 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             renderPostChartContent={MarkerLane}
           />
         </Col>
-        {mobileAppCrashBeaconEnabled && (
+        {viewId == null && mobileAppCrashBeaconEnabled && (
           <Col lg={4}>
-            <CrashTopList
+            <ViewsTopList
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               mobileAppId={mobileAppId}
-              mobileAppLabel={mobileAppLabel}
-              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'occurrenceTab' }}
               renderHistoricDataIndicator
+            />
+          </Col>
+        )}
+        {mobileAppCrashBeaconEnabled && (
+          <Col lg={thinWidgetWidth}>
+            <MobileAppChartWrapper
+              title={t('in-mobile-apps:dashboard.tabs.crashActivityTitle')}
+              timeConfig={timeConfig}
+              viewInAnalytics={{
+                mobileAppLabel
+              }}
+              y1={{
+                renderer: Renderer.stackedBar,
+                formatter: number.forcedCompact,
+                labels: [t('in-mobile-apps:dashboard.tabs.crashLabel')],
+                metricIds: ['crashAffectedSessionCount']
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters,
+                metrics: {
+                  crashAffectedSessionCount: {
+                    metric: 'crashAffectedSessionCount',
+                    granularity,
+                    aggregation: 'DISTINCT_COUNT',
+                    beaconType: 'crash',
+                    omitMetricInAnalytics: true
+                  }
+                }
+              }}
+              renderPostChartContent={MarkerLane}
             />
           </Col>
         )}
       </Row>
 
       <Row>
-        <Col lg={viewId == null ? 4 : 6}>
+        <Col lg={mobileAppCrashBeaconEnabled ? 4 : thinWidgetWidth}>
           <Card title={t('in-mobile-apps:dashboard.tabs.geographyTitle')} withoutPadding>
             <MobileAppGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>
-        <Col lg={viewId == null ? 4 : 6}>
+        <Col lg={mobileAppCrashBeaconEnabled ? 4 : thinWidgetWidth}>
           <HttpRequestOriginTopList
             tagFilters={tagFilters}
             timeConfig={timeConfig}
@@ -274,12 +342,24 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             renderHistoricDataIndicator
           />
         </Col>
-        {viewId == null && (
+        {viewId == null && !mobileAppCrashBeaconEnabled && (
           <Col lg={4}>
             <ViewsTopList
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               mobileAppId={mobileAppId}
+              renderHistoricDataIndicator
+            />
+          </Col>
+        )}
+        {mobileAppCrashBeaconEnabled && (
+          <Col lg={4}>
+            <CrashTopList
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
+              mobileAppId={mobileAppId}
+              mobileAppLabel={mobileAppLabel}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'occurrenceTab' }}
               renderHistoricDataIndicator
             />
           </Col>

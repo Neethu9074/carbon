@@ -34,7 +34,7 @@ import { isNotBlank } from 'in-services/util/string';
 import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-type ThresholdTypeOptions = readonly Option[];
+export type ThresholdTypeOptions = readonly Option[];
 
 export type MetricName = 'httpxxx' | 'beaconRate' | 'sessions' | 'views' | 'beaconCount';
 

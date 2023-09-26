@@ -9,8 +9,6 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-// @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -24,6 +22,7 @@ import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDi
 import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatency';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';

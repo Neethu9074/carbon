@@ -26,6 +26,7 @@
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
+    "groupBy": "Group By",
     "noChannelAvailable": "No Alert Channels available",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",

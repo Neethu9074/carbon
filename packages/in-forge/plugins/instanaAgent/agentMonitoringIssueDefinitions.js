@@ -132,7 +132,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=instana-host-agent`
+    explanationLinkHref: `https://ibm.biz/insta-hostagent`
   },
   apmproxy_missing_config: {
     issueDescription: {
@@ -208,7 +208,7 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref:
-      'https://www.ibm.com/docs/en/instana-observability/current?topic=agent-managing-host-agents#missing-tlsv13-support-for-instana-agent'
+      'https://ibm.biz/insta-hostagenttls13missing'
   },
   default_agent_port_unavailable: {
     issueDescription: {
@@ -218,6 +218,6 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref:
-      'https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#agent-cannot-bind-to-the-default-port'
+      'https://ibm.biz/insta-hostagentcantbind'
   }
 };

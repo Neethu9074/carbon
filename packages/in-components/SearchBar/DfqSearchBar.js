@@ -45,7 +45,8 @@ export default connectTo(
         manageFiltersDisabled,
         presetsVisible,
         onQueryValueChange,
-        queryValue
+        queryValue,
+        disabled
       } = this.props;
       const buttonClass = classNames({
         [locals.button]: true,
@@ -68,13 +69,14 @@ export default connectTo(
             [locals[`wrapper${theme}`]]: theme
           })}
         >
-          {presetsVisible ? (
+          {presetsVisible && !disabled ? (
             <FilterPresets manageFiltersDisabled={manageFiltersDisabled} setFilter={setFilter} />
           ) : null}
 
           <div
             className={classNames({
               [locals.inputWrapper]: true,
+              [locals.inputWrapperNoRightBorder]: !disabled,
               [locals.withoutSaveFilter]: manageFiltersDisabled,
               [locals[`inputWrapper${theme}`]]: theme
             })}
@@ -83,20 +85,25 @@ export default connectTo(
               manageFiltersDisabled={manageFiltersDisabled}
               onQueryValueChange={handleChangeWithDebounce(onQueryValueChange)}
               queryValue={queryValue}
+              disabled={disabled}
             />
           </div>
-          <ClearQueryButton buttonClass={buttonClass} />
-          <div className={buttonClass} onClick={togglePresets}>
-            <SvgIcon
-              className={classNames({
-                [locals.icon]: true,
-                [locals[`icon${theme}`]]: theme
-              })}
-              type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-              size="s"
-            />
-          </div>
-          <ErrorIndicator />
+          {!disabled && (
+            <>
+              <ClearQueryButton buttonClass={buttonClass} />
+              <div className={buttonClass} onClick={togglePresets}>
+                <SvgIcon
+                  className={classNames({
+                    [locals.icon]: true,
+                    [locals[`icon${theme}`]]: theme
+                  })}
+                  type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+                  size="s"
+                />
+              </div>
+              <ErrorIndicator />
+            </>
+          )}
         </div>
       );
     }

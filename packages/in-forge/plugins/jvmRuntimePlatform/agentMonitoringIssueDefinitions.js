@@ -42,6 +42,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#incompatible-agent-detected`
+    explanationLinkHref: `https://ibm.biz/insta-incompagent`
   }
 };
