@@ -53,7 +53,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/python-auto-trace-pre-fail`
+    explanationLinkHref: `https://ibm.biz/python-autotrace-prereq-fail`
   },
   ibmdatapower_var_not_defined: {
     issueDescription: {

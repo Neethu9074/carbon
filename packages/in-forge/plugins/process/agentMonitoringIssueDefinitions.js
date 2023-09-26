@@ -209,7 +209,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/python-not-supported`
+    explanationLinkHref: `https://ibm.biz/python-sensor-not-installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {
