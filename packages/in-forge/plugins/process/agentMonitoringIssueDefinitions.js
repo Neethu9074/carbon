@@ -153,7 +153,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=package-python-troubleshooting#python_autotrace_failed`
+    explanationLinkHref: `https://ibm.biz/python-auto-trace-fail`
   },
   python_sensor_not_installed: {
     issueDescription: {
@@ -209,7 +209,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=package-python-troubleshooting#python-sensor-not-installed`
+    explanationLinkHref: `https://ibm.biz/python-sensor-not-installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {

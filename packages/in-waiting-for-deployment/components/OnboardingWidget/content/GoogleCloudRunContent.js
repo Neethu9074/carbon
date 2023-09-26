@@ -285,7 +285,7 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-python-instana-python-package"
+          href="https://ibm.biz/instana-python-pkg"
         />
         <Spacer />
         <Description

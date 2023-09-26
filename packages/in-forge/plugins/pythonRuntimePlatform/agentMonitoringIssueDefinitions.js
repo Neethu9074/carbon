@@ -20,6 +20,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.pythonRuntimePlatform.longTermSupportDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=package-python-supported-components-versions#long-term-support`
+    explanationLinkHref: `https://ibm.biz/python-long-term-support`
   }
 };
