@@ -18,7 +18,7 @@
 
     background: var(--ids-color-option-white);
     color: var(--ids-color-option-neutral-800);
-    border-radius: @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large);
     font-size: 0.75rem;
     box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid var(--ids-color-option-neutral-300);
@@ -34,8 +34,8 @@
     line-height: 2;
     background: var(--ids-color-option-neutral-200);
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
-    border-top-left-radius: @lib__shapes__radius_large;
-    border-top-right-radius: @lib__shapes__radius_large;
+    border-top-left-radius: var(--ids-border-radius-large);
+    border-top-right-radius: var(--ids-border-radius-large);
   }
 
   .entries {

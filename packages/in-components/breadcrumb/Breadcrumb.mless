@@ -9,7 +9,7 @@
 :local {
   .breadcrumb {
     padding: 0.25rem 0.5rem;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
 
     color: var(--ids-color-option-neutral-500) !important;
     text-decoration: none;

@@ -17,7 +17,7 @@
 
     background: var(--ids-color-option-white);
     color: var(--ids-color-option-neutral-800);
-    border-radius: @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large);
 
     box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid rgba(0, 0, 0, 0.16);

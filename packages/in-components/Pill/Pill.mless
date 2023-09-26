@@ -15,7 +15,7 @@
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.125rem 0.25rem;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     color: var(--ids-color-option-deep-purple-500);
   }
 

@@ -24,7 +24,7 @@
 
   .item {
     align-items: center;
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
     color: var(--ids-color-option-neutral-700);
     display: flex;
     justify-content: space-between;

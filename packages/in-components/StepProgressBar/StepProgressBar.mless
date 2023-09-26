@@ -7,7 +7,7 @@
 
 :local {
   .bar {
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
   }
 
   .barBg {

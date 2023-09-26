@@ -11,7 +11,7 @@
     // button group button
     margin-right: -1px;
 
-    border-radius: @lib__shapes__radius_small 0 0 @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small) 0 0 var(--ids-border-radius-small);
 
     &:hover,
     &:active,
