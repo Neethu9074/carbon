@@ -1,0 +1,160 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .tile {
+    border-top: var(--ids-color-option-neutral-300) 1px solid;
+  }
+
+  .tile + .tile {
+    border-left: var(--ids-color-option-neutral-300) 1px solid;
+  }
+
+  .tile {
+    padding: 0.625rem 1rem;
+
+    .title {
+      color: var(--ids-color-option-neutral-900);
+      font-size: 1rem;
+      .ellipsis();
+    }
+
+    .value {
+      color: var(--ids-color-option-neutral-900);
+      font-size: var(--ids-font-size-option-heading-700);
+      font-weight: var(--ids-font-weight-option-heading-700);
+      .ellipsis();
+    }
+
+    .leftSpace {
+      padding-left: 0.25em;
+    }
+
+    .unit {
+      font-size: 1.5rem;
+    }
+
+    .targetInfo {
+      .ellipsis();
+      font-size: var(--ids-font-size-option-body-regular);
+      font-weight: 600;
+      line-height: 1.25rem;
+      color: var(--ids-color-option-neutral-600);
+    }
+
+    .timeRangeValue {
+      margin: 0.125rem 0;
+      line-height: 1.25rem;
+      display: block;
+      .ellipsis();
+      color: var(--ids-color-option-neutral-600);
+      font-size: var(--ids-font-size-option-body-regular);
+    }
+
+    .budgetAvailable {
+      color: var(--ids-color-option-green-500);
+    }
+
+    .budgetSpent {
+      color: var(--ids-color-option-red-500);
+    }
+
+    .titleSkeleton {
+      display: inline-block;
+      height: 1rem;
+      width: 40%;
+    }
+
+    .budgetSkeleton {
+      display: inline-block;
+      height: 2.375rem;
+      width: 80%;
+    }
+
+    .targetInfoSkeleton {
+      display: inline-block;
+      height: 0.875rem;
+      width: 60%;
+    }
+  }
+
+  .oneRow {
+    padding: 0.5rem 1rem;
+
+    width: 100%;
+    display: grid;
+    column-gap: 0;
+    grid-template: 'titleValue targetInfo';
+    grid-template-columns: min-content min-content;
+    align-items: baseline;
+
+    font-size: var(--ids-font-size-option-body-regular);
+    border-top: var(--ids-color-option-neutral-300) 1px solid;
+
+    .ellipsis();
+
+    .titleValueBorder {
+      grid-area: titleValue;
+      border-right: var(--ids-color-option-neutral-300) 1px solid;
+      padding-right: 1rem;
+
+      color: var(--ids-color-option-neutral-900);
+      font-size: 1rem;
+    }
+
+    .value {
+      padding-left: 1rem;
+      color: var(--ids-color-option-neutral-600);
+      .ellipsis();
+    }
+
+    .titleValue {
+      grid-area: titleValue;
+      color: var(--ids-color-option-neutral-900);
+      font-size: 1rem;
+    }
+
+    .targetInfo {
+      grid-area: targetInfo;
+      padding-left: 1rem;
+      .ellipsis();
+      color: var(--ids-color-option-neutral-900);
+
+      .targetInfoValue {
+        padding-left: 1em;
+        color: var(--ids-color-option-neutral-600);
+      }
+    }
+
+    .budgetAvailable {
+      color: var(--ids-color-option-green-500);
+    }
+
+    .budgetSpent {
+      color: var(--ids-color-option-red-500);
+    }
+
+    .titleSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 2.5rem;
+    }
+
+    .budgetSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 2.5rem;
+    }
+
+    .targetInfoSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 13rem;
+    }
+  }
+}

@@ -7,6 +7,8 @@
     "boundary": "Boundary",
     "clear": "Clear",
     "custom": "Custom",
+    "duration": "Duration",
+    "from": "From",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
@@ -45,6 +47,7 @@
       "label_application": "Application",
       "label_website": "Website"
     },
+    "preview": "Preview",
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
@@ -152,6 +155,27 @@
       "thresholdLabel_availability": "Error rate %",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "call",
+      "unit_plural": "calls",
+      "thousandCallsFormat": "{{count}}K calls"
+    },
+    "sloChartSummary": {
+      "status": "Status",
+      "target": "Target:",
+      "errorBudgetSpent": "Error Budget Spent",
+      "errorBudget": "Error Budget:",
+      "timeWindow": "Time Window",
+      "timeWindowType_dynamic": "Dynamic time window",
+      "timeWindowType_rolling": "Rolling time window",
+      "timeWindowType_fixed": "Fixed time window"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",
+      "highlightMissingConfig": "Highlight missing configuration"
     }
   },
   "sloList": {

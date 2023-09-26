@@ -15,6 +15,7 @@ import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/comp
 import SloObjectiveSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/SloObjectiveSection';
 import SloEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntitySection';
 import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
+import SloFormPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormPreview';
 import { formToSloConfiguration, isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
@@ -56,11 +57,7 @@ export default function CreateSloDialog() {
       valid: true
     },
     {
-      content: (
-        <ConfigDialogTimeConfigContextModification>
-          <SloScopeSection />
-        </ConfigDialogTimeConfigContextModification>
-      ),
+      content: <SloScopeSection />,
       label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
       scrollId: '2-select-scope',
       title: t('in-service-levels:createSloDialog.selectScopeNavItem'),
@@ -71,14 +68,10 @@ export default function CreateSloDialog() {
       label: t('in-service-levels:createSloDialog.selectIndicator'),
       scrollId: '3-select-indicator',
       title: t('in-service-levels:createSloDialog.selectIndicator'),
-      valid: isNameValid
+      valid: isThresholdValid
     },
     {
-      content: (
-        <ConfigDialogTimeConfigContextModification>
-          <SloObjectiveSection />
-        </ConfigDialogTimeConfigContextModification>
-      ),
+      content: <SloObjectiveSection />,
       label: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
       scrollId: '3-select-objective',
       title: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
@@ -89,30 +82,39 @@ export default function CreateSloDialog() {
       label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
       scrollId: '4-name-and-tags',
       title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
-      valid: isThresholdValid
+      valid: isNameValid
+    },
+    {
+      content: <SloFormPreview updateForm={updateForm} />,
+      label: t('in-service-levels:general.preview'),
+      scrollId: '6-preview',
+      title: t('in-service-levels:general.preview'),
+      valid: true
     }
   ];
 
   return (
     <SloFormContext.Provider value={{ form, onChange: (path, fn) => updateForm(form.updateIn(path, fn)) }}>
-      <ConfigDialog
-        title={t('in-service-levels:createSloDialog.title')}
-        navItems={navItems}
-        onClose={close}
-        noHeader
-        noDivider
-        onSave={() => {
-          updateForm(form.setTouched(true, { recurse: true }));
+      <ConfigDialogTimeConfigContextModification>
+        <ConfigDialog
+          title={t('in-service-levels:createSloDialog.title')}
+          navItems={navItems}
+          onClose={close}
+          noHeader
+          noDivider
+          onSave={() => {
+            updateForm(form.setTouched(true, { recurse: true }));
 
-          if (!form.hierarchyValid) return;
+            if (!form.hierarchyValid) return;
 
-          doSubmit({
-            payload: formToSloConfiguration(form),
-            onSuccess,
-            onError
-          });
-        }}
-      />
+            doSubmit({
+              payload: formToSloConfiguration(form),
+              onSuccess,
+              onError
+            });
+          }}
+        />
+      </ConfigDialogTimeConfigContextModification>
     </SloFormContext.Provider>
   );
 }
