@@ -20,6 +20,7 @@ if (serverConfig.mixpanelToken) {
 allowedScriptOrigins.push('https://cdn.walkme.com');
 allowedScriptOrigins.push('https://playerserver.walkme.com');
 allowedScriptOrigins.push('https://ec.walkme.com');
+allowedScriptOrigins.push('https://www.ibm.com');
 
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
