@@ -10,8 +10,6 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-// @ts-expect-error needs TS migration
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatencyRoute';
 import KongKongLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatencyRoute';
 import KongUpstreamLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatency';
@@ -24,6 +22,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';

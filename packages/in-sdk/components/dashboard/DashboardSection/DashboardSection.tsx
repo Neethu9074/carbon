@@ -3,27 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 
 import { Card } from '@instana/components';
 
-import SearchInput from 'in-components/SearchInput';
-
 import locals from './DashboardSection.mless';
 
-export default function DashboardSection({ title, children, button, searchable, ...leftProps }) {
+interface DashboardSectionProps {
+  title?: string;
+  children: ReactNode;
+  button?: ReactElement;
+}
+export default function DashboardSection({ title, children, button }: DashboardSectionProps): JSX.Element {
   return (
-    <div className={locals.dashboardSection} {...leftProps}>
-      <Card title={title} header={headerContent(button, searchable)}>
+    <div className={locals.dashboardSection}>
+      <Card title={title} header={button}>
         {children}
       </Card>
     </div>
   );
 }
-
-const headerContent = (button, searchable) => (
-  <Fragment>
-    {button}
-    {searchable ? <SearchInput maxWidth={140} /> : null}
-  </Fragment>
-);
