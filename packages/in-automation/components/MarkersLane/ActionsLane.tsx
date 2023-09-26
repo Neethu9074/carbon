@@ -28,7 +28,6 @@ export default function ActionsLane({
   timeConfig: TimeConfig;
   serviceId?: string;
   endpointId?: string;
-  includeSynthetic?: boolean;
   snapshotHostFqdn?: string;
   boundaryScope: ApplicationBoundaryScope;
   chartName: string;
@@ -45,8 +44,8 @@ export default function ActionsLane({
     (serviceId && !labels.serviceLabel) ||
     (endpointId && !labels.endpointLabel)
   ) {
-    // don't proceed when not all necessary labels are loaded, because otherwise we would request an additional
-    // unnecessary potential problem with an incomplete scope
+    // don't proceed when not all necessary labels are loaded, because otherwise we will get broken filter.
+
     return null;
   }
 
