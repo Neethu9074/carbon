@@ -8,7 +8,7 @@ import zxcvbn from 'zxcvbn';
 import React from 'react';
 
 import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
-import { changePassword } from 'in-settings/tabs/AuthSettings/api/changePassword';
+import { changePassword } from 'in-settings/tabs/UserSettings/api/changePassword';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { notBlankValidator } from 'in-services/validators/string';

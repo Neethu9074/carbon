@@ -6,17 +6,34 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function changePassword(config) {
+/*
+  private final String password;
+  @NotBlank
+  @Length(min = 3, max = 128)
+  private final String newPassword;
+  @NotBlank
+  @Length(min = 3, max = 128)
+  private final String repeatedPassword;
+*/
+
+export interface ChangePasswordRequest {
+  readonly password: string;
+  readonly newPassword: string;
+  readonly repeatedPassword: string;
+}
+
+// TODO sends a redirect
+export function changePassword(data: ChangePasswordRequest) {
   return http({
     method: 'POST',
     url: `/api/settings/authentication/changePassword`,
     headers: getCsrfHeader(),
-    data: config
+    data
   });
 }
 
 function isAvailableQuery() {
-  return http({
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/password/available'

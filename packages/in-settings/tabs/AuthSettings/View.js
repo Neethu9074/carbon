@@ -6,17 +6,6 @@
 import React, { Fragment } from 'react';
 
 import {
-  authSettings,
-  googleSSO,
-  saml,
-  oidc,
-  ldap,
-  groupMapping,
-  twoFactorAuth,
-  changePassword,
-  timeouts
-} from 'in-settings/navigation/paths';
-import {
   isAvailable as isSamlAvailable,
   getConfigAsResultObservable as getSamlConfig
 } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -29,13 +18,11 @@ import {
   getConfigAsResultObservable as getOidcConfig
 } from 'in-settings/tabs/AuthSettings/api/oidc';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
-import { isAvailable as isChangePasswordAvailable } from 'in-settings/tabs/AuthSettings/api/changePassword';
+import { authSettings, googleSSO, saml, oidc, ldap, groupMapping, timeouts } from 'in-settings/navigation/paths';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
-import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
-import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
@@ -49,20 +36,7 @@ function getNavigationTree(props) {
   const isAtLeastOneAuthMethodAvailable =
     props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable;
 
-  const showPassword = props.isChangePasswordAvailable;
-
-  const navigationTree = [
-    showPassword && {
-      title: t('in-settings:tabs.password'),
-      pages: [
-        {
-          path: changePassword,
-          label: t('in-settings:tabs.change'),
-          component: ChangePassword
-        }
-      ]
-    },
-
+  return [
     role.canConfigureAuthenticationMethods &&
       isAtLeastOneAuthMethodAvailable && {
         title: t('in-settings:tabs.identityProviders'),
@@ -94,18 +68,6 @@ function getNavigationTree(props) {
           }
         ].filter(Boolean)
       },
-
-    {
-      title: t('in-settings:tabs.twoFactor'),
-      pages: [
-        {
-          path: twoFactorAuth,
-          label: t('in-settings:tabs.settings'),
-          component: TwoFactorSettings
-        }
-      ].filter(Boolean)
-    },
-
     role.canConfigureSessionSettings && {
       title: t('in-settings:tabs.session'),
       pages: [
@@ -117,8 +79,6 @@ function getNavigationTree(props) {
       ]
     }
   ].filter(Boolean);
-
-  return navigationTree;
 }
 
 export default connectTo(
@@ -129,8 +89,7 @@ export default connectTo(
     isLdapAvailable: isLdapAvailable(),
     ldapConfig: getLdapConfig(),
     isOidcAvailable: isOidcAvailable(),
-    oidcConfig: getOidcConfig(),
-    isChangePasswordAvailable: isChangePasswordAvailable()
+    oidcConfig: getOidcConfig()
   },
 
   function View(props) {
@@ -141,8 +100,7 @@ export default connectTo(
           redirectToDefaultPage={getDefaultPage(
             props.isGoogleSSOAvailable,
             props.isSamlAvailable,
-            props.isLdapAvailable,
-            props.isChangePasswordAvailable
+            props.isLdapAvailable
           )}
           redirectFrom={authSettings}
           NotFoundPage={NotFoundPage}
@@ -154,22 +112,22 @@ export default connectTo(
   }
 );
 
-function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, isChangePasswordAvailable) {
-  if (isChangePasswordAvailable) {
-    return changePassword;
-  }
+function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
+  if (role.canConfigureAuthenticationMethods && role.isAtLeastOneAuthMethodAvailable) {
+    if (isGoogleSSOAvailable) {
+      return googleSSO;
+    }
 
-  if (isGoogleSSOAvailable) {
-    return googleSSO;
-  }
+    if (isSamlAvailable) {
+      return saml;
+    }
 
-  if (isSamlAvailable) {
-    return saml;
+    if (isLdapAvailable) {
+      return ldap;
+    }
   }
-
-  if (isLdapAvailable) {
-    return ldap;
+  if (role.canConfigureSessionSettings) {
+    return timeouts;
   }
-
-  return twoFactorAuth;
+  // Page only visible if (at least one auth mehod available + auth perm) / session settings perm
 }
