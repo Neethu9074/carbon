@@ -34,8 +34,17 @@ export default function ActionsLane({
 }) {
   const { clusterSizeMillis, timeConfig, endpointId, serviceId, snapshotHostFqdn } = remainingProps;
   const labels = useGetLabels(applicationId, serviceId, endpointId);
+  // Purpose: Derive an `appId` based on the presence of certain IDs.
+  // The logic checks for the presence of IDs in the following order of precedence:
+  // 1. endpointId: When present, it indicates the action lane is for an endpoint dashboard.
+  //    Note: Even when the targetSnapshotId is an endpointId, an appId and service  are stil available.
+  // 2. serviceId: When present, it indicates the action lane is for a service dashboard.
+  //    Note: Even when the targetSnapshotId is a serviceId, an appId is still available.
+  // 3. applicationId: If neither endpointId nor serviceId are present,
+  //    it indicates the action lane is for an application dashboard.
+  // 4. snapshotId: Used for infra host dashboard.
 
-  const appId = applicationId || serviceId || snapshotId;
+  const appId = endpointId || serviceId || applicationId || snapshotId;
   const getActionInstancesList =
     useObservable(GetActionInstanceListData, [timeConfig, clusterSizeMillis, appId]) ?? pendingResult;
 
