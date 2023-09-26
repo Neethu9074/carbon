@@ -37,7 +37,7 @@ export default function ActionsLane({
   // Purpose: Derive an `appId` based on the presence of certain IDs.
   // The logic checks for the presence of IDs in the following order of precedence:
   // 1. endpointId: When present, it indicates the action lane is for an endpoint dashboard.
-  //    Note: Even when the targetSnapshotId is an endpointId, an appId and service  are stil available.
+  //    Note: Even when the targetSnapshotId is an endpointId, an appId and service  are still available.
   // 2. serviceId: When present, it indicates the action lane is for a service dashboard.
   //    Note: Even when the targetSnapshotId is a serviceId, an appId is still available.
   // 3. applicationId: If neither endpointId nor serviceId are present,
