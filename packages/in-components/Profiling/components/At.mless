@@ -8,6 +8,6 @@
 :local {
   .at {
     margin: 0 0.375rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 }

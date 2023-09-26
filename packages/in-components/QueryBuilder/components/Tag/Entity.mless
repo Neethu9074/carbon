@@ -10,7 +10,7 @@
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
     margin-bottom: -0.25rem;
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     border-bottom: none;
     border-top: none;
     line-height: 2;
@@ -44,7 +44,7 @@
     top: -0.245rem;
     left: 0;
 
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     cursor: pointer;
 
     &:hover,

@@ -20,20 +20,20 @@
   }
 
   .bold {
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
   }
 
   .inverted {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .primary {
     background: @lib__colors__light-blue800;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
   }
 
   .info {
     background: @lib__colors__chart__self100;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
   }
 }

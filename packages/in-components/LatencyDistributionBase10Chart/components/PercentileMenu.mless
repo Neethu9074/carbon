@@ -17,7 +17,7 @@
 
     width: 5rem;
     padding: 0.2rem;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
 
     list-style: none;
 

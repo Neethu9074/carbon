@@ -18,7 +18,7 @@
     align-items: center;
   }
   .title {
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
     font-size: var(--cds-body-02-font-size);
     font-family: var(--cds-body-01-font-family);
     line-height: 1.12rem;
@@ -28,12 +28,12 @@
     align-items: center;
   }
   .icon {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
   }
   .description {
   }
   .description p {
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
     font-size: var(--cds-body-01-font-size);
     margin: auto;
     line-height: 1.25rem;
@@ -51,7 +51,7 @@
     margin-right: 0.75rem;
     font-size: 13px;
     font-weight: 500;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
   }
   .walkmeButton {
     width: 6.75rem;

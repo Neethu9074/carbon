@@ -11,6 +11,6 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    border-bottom: 1px solid @lib__colors__N800Dark;
+    border-bottom: 1px solid var(--ids-color-option-neutral-800);
   }
 }

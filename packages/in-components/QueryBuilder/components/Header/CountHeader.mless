@@ -31,7 +31,7 @@
   }
 
   .adjustmentIcon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .bottomText {

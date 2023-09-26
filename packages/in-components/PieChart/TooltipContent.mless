@@ -26,13 +26,13 @@
   }
 
   .timeShift {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     text-transform: lowercase;
     margin-left: 0.25rem;
   }
 
   .percentage {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-left: 0.25rem;
   }
 }

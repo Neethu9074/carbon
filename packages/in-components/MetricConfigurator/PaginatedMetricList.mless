@@ -8,7 +8,7 @@
 :local {
   .searchInputWrapper {
     padding: 0.5rem;
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 
   .searchInput {

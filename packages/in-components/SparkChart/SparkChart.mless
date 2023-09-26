@@ -62,7 +62,7 @@
   }
 
   .aggregationIcon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .keyValue {
@@ -70,7 +70,7 @@
   }
 
   .percentile {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-right: 0.2rem;
   }
 

@@ -14,6 +14,6 @@
     line-height: 1.25rem;
     font-size: 0.8125rem;
     text-align: center;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 }

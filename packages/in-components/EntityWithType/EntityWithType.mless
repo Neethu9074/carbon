@@ -21,11 +21,11 @@
     margin-bottom: 0.25rem;
 
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .label {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
     display: flex;
     align-items: center;

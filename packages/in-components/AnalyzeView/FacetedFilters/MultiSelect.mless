@@ -50,6 +50,6 @@
 
   .searchContainer {
     border-radius: 0.125rem;
-    background-color: @lib__colors__N100;
+    background-color: var(--ids-color-option-neutral-100);
   }
 }

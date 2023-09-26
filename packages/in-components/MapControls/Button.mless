@@ -16,39 +16,43 @@
     margin: 0.5rem;
     padding: 0.25rem;
 
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
     border-radius: @lib__shapes__radius_large;
     cursor: pointer;
-    color: @lib__colors__N600Light !important; // Temporary this component will be replaced with IconButtons in the future
+    color: var(
+      --ids-color-option-neutral-600
+    ) !important; // Temporary this component will be replaced with IconButtons in the future
 
     &:hover {
       text-decoration: none;
-      color: @lib__colors__N800Dark !important; // Temporary this component will be replaced with IconButtons in the future
+      color: var(
+        --ids-color-option-neutral-800
+      ) !important; // Temporary this component will be replaced with IconButtons in the future
 
       .icon {
-        fill: @lib__colors__N800Dark;
+        fill: var(--ids-color-option-neutral-800);
       }
     }
   }
 
   .dark {
-    background: @lib__colors__N900Primary;
-    color: @lib__colors__N400 !important;
+    background: var(--ids-color-option-neutral-900);
+    color: var(--ids-color-option-neutral-400) !important;
 
     .icon {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
 
     &:hover {
-      color: @lib__colors__N500 !important;
+      color: var(--ids-color-option-neutral-500) !important;
       .icon {
-        fill: @lib__colors__N500;
+        fill: var(--ids-color-option-neutral-500);
       }
     }
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .active {

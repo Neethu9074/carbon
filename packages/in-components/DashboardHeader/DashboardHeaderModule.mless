@@ -7,30 +7,30 @@
 
 :local {
   .default {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
   .light {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
   .dark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
   }
 
   .defaultWithTopBorder,
   .lightWithTopBorder {
-    border-top: 1px solid @lib__colors__N300;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .defaultWithBottomBorder,
   .lightWithBottomBorder {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .darkWithTopBorder {
-    border-top: 1px solid @lib__colors__N600Light;
+    border-top: 1px solid var(--ids-color-option-neutral-600);
   }
 
   .darkWithBottomBorder {
-    border-bottom: 1px solid @lib__colors__N600Light;
+    border-bottom: 1px solid var(--ids-color-option-neutral-600);
   }
 }

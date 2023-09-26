@@ -20,7 +20,7 @@
       border-width: var(--arrow-height) 4px;
       border-style: solid;
       pointer-events: none;
-      border-color: @lib__colors__N500 transparent transparent transparent;
+      border-color: var(--ids-color-option-neutral-500) transparent transparent transparent;
     }
   }
 
@@ -38,10 +38,10 @@
     height: 2rem;
     // 1.5rem padding to the right to account for the absolute positioned arrow
     padding: 0 1.5rem 0 0.5rem;
-    color: @lib__colors__N900Primary;
-    background-color: @lib__colors__N050;
+    color: var(--ids-color-option-neutral-900);
+    background-color: var(--ids-color-option-neutral-50);
     background-image: none;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_small;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     width: 100%;

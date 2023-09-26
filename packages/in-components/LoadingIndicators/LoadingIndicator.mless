@@ -29,7 +29,7 @@
   .text {
     margin-top: 0.25rem;
 
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     font-size: 0.875rem;
   }
 }

@@ -9,7 +9,7 @@
   .help {
     margin: 0.5rem 0 0;
     font-weight: 300;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .helpLarge {

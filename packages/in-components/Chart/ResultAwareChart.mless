@@ -46,6 +46,6 @@
     padding: 0;
   }
   .disabledChart {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 }

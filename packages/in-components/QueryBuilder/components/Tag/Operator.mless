@@ -10,8 +10,8 @@
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
     margin-bottom: -0.25rem;
-    border-left: 1px solid @lib__colors__N300;
-    border-right: 1px solid @lib__colors__N300;
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     border-bottom: none;
     border-top: none;
     line-height: 2;
@@ -19,28 +19,28 @@
     cursor: pointer;
 
     &:hover {
-      color: @lib__colors__N600Light;
+      color: var(--ids-color-option-neutral-600);
       outline: none;
-      background: @lib__colors__N200;
+      background: var(--ids-color-option-neutral-200);
       border-bottom: 1px solid;
       border-top: 1px solid;
       border-color: @lib__colors__light-blue800;
     }
 
     .operator {
-      background: @lib__colors__N050;
-      color: @lib__colors__N900Primary;
+      background: var(--ids-color-option-neutral-50);
+      color: var(--ids-color-option-neutral-900);
     }
 
     .operator_dark {
-      background: @lib__colors__N900Primary;
-      color: @lib__colors__N050;
+      background: var(--ids-color-option-neutral-900);
+      color: var(--ids-color-option-neutral-50);
     }
 
     &:focus,
     &:active {
       outline: none;
-      background: @lib__colors__N200;
+      background: var(--ids-color-option-neutral-200);
       border-bottom: 1px solid;
       border-top: 1px solid;
       border-color: @lib__colors__light-blue800;

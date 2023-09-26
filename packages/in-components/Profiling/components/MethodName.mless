@@ -8,7 +8,7 @@
 
 :local {
   .methodName {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     .ellipsis();
     flex-shrink: 0;
   }

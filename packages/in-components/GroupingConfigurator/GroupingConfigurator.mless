@@ -15,10 +15,10 @@
     max-height: 1.6875rem;
 
     padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     width: fit-content;
 
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_medium;
 
     display: flex;
@@ -31,7 +31,7 @@
 
   .addGroupingButton {
     margin-left: 0.125rem;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_medium;
   }
 
@@ -55,7 +55,7 @@
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
     margin-bottom: -0.25rem;
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     border-bottom: none;
     border-top: none;
   }
@@ -64,11 +64,11 @@
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 
   .key {
-    border-left: 1px solid @lib__colors__N400;
+    border-left: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .removeIconContainer {
@@ -77,14 +77,14 @@
   }
 
   .nextToKey {
-    border-left: 1px solid @lib__colors__N400;
+    border-left: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .removeIcon {
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem -0.5rem 0rem;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
     cursor: pointer;
 
     &:hover,
@@ -102,7 +102,7 @@
     // top: -.45rem;
     // left: 0;
 
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     cursor: pointer;
 
     &:hover,

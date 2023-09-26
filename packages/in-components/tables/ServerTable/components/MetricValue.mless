@@ -8,6 +8,6 @@
 :local {
   .metricValue {
     font-size: 0.875rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 }

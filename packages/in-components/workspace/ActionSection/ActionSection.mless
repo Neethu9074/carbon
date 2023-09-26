@@ -8,9 +8,9 @@
 
 :local {
   .section {
-    border-top: 1px solid @lib__colors__N400;
+    border-top: 1px solid var(--ids-color-option-neutral-400);
     .spaceBetweenFlexbox();
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
   }
 
   // Increase specificity to allow guaranteed button style overwrite
@@ -26,10 +26,10 @@
   }
 
   .left .button {
-    border-right: 1px solid @lib__colors__N400;
+    border-right: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .right .button {
-    border-left: 1px solid @lib__colors__N400;
+    border-left: 1px solid var(--ids-color-option-neutral-400);
   }
 }

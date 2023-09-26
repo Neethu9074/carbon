@@ -24,7 +24,7 @@
   }
 
   .lightMode {
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_large;
     box-shadow: @lib__shadows__subtle;
   }

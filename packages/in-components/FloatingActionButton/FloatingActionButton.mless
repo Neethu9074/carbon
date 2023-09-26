@@ -9,7 +9,7 @@
   .button {
     border-radius: 1.5rem;
     border: none;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
     padding: 0.75rem;
     transition: background-color 250ms;
 
@@ -27,9 +27,9 @@
   }
 
   .action {
-    background-color: @lib__colors__N800Dark;
+    background-color: var(--ids-color-option-neutral-800);
     &:hover {
-      background-color: @lib__colors__N800Dark;
+      background-color: var(--ids-color-option-neutral-800);
     }
   }
 
@@ -48,7 +48,7 @@
   }
 
   .icon {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
   }
   .iconHasMargin {
     margin-right: 0.5rem;

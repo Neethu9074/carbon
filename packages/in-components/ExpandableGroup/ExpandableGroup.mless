@@ -8,7 +8,7 @@
 
 :local {
   .wrapper {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 
   .header {
@@ -37,11 +37,11 @@
     min-width: 0.75rem;
     min-height: 0.75rem;
     margin-right: 0.5rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     cursor: pointer;
 
     &:hover {
-      fill: @lib__colors__N700Medium;
+      fill: var(--ids-color-option-neutral-700);
     }
   }
 

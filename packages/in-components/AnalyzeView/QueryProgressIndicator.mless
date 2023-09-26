@@ -24,7 +24,7 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .description {
@@ -46,7 +46,7 @@
   }
 
   .traceIcon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     position: absolute;
     top: calc(50% - 1.5rem);
     left: calc(50% - 1.5rem);

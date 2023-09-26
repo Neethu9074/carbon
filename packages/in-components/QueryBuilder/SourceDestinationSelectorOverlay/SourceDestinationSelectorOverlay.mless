@@ -7,7 +7,7 @@
 
 :local {
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .list {

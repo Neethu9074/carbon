@@ -18,10 +18,10 @@
     overflow: visible;
     padding: 0;
     font-size: 0.6875rem;
-    border: 0.05rem solid @lib__colors__N500;
+    border: 0.05rem solid var(--ids-color-option-neutral-500);
     border-radius: 3px;
     padding: 0.05rem 0.1rem;
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
     opacity: 1;
     white-space: nowrap;
     user-select: none;
@@ -30,6 +30,6 @@
   .dottedLine {
     position: absolute;
     top: 0;
-    border-left: 1px dashed @lib__colors__N500;
+    border-left: 1px dashed var(--ids-color-option-neutral-500);
   }
 }

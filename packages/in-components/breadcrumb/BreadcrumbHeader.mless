@@ -28,6 +28,6 @@
 
   .chevronIcon {
     margin: 0 0.25rem;
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 }

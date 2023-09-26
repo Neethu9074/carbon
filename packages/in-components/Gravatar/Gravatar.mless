@@ -9,7 +9,7 @@
   .regular,
   .l {
     border-radius: 50%;
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
   }
 
   .regular {

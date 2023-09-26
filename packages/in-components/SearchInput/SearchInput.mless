@@ -12,7 +12,7 @@
     align-items: center;
     position: relative;
 
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 
   .wrapperDisabled {
@@ -20,13 +20,13 @@
   }
 
   .icon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     position: absolute;
     right: 0.5rem;
   }
 
   .iconDisabled {
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 
   .iconHidden {
