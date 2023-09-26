@@ -186,3 +186,5 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
   false
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
+
+export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
