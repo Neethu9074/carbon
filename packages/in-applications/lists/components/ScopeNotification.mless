@@ -9,7 +9,7 @@
   .wrapper {
     display: flex;
     align-items: center;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     margin-bottom: 0.5rem;
     height: 2.5625rem;
     padding: 0 0.5rem;
@@ -24,7 +24,7 @@
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     margin-right: 0.25rem;
   }
 }

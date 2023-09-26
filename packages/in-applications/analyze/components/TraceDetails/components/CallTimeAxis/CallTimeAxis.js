@@ -10,7 +10,7 @@ import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetail
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './CallTimeAxis.mless';
 
@@ -20,6 +20,7 @@ export default function CallTimeAxis({ call, showStartLabel }) {
   const startTime = getStart(call);
   const endTime = getEnd(call);
   const duration = endTime - startTime;
+  const theme = useTheme();
 
   return (
     <div className={locals.timeAxis} ref={ref}>
@@ -32,8 +33,8 @@ export default function CallTimeAxis({ call, showStartLabel }) {
           detailedFormatting
           roundTickPositions
           tickLength={8}
-          tickColor={theme.lib.colors.N400}
-          tickLabelColor={theme.lib.colors.N800Dark}
+          tickColor={theme.ids.color.option.neutral['400']}
+          tickLabelColor={theme.ids.color.option.neutral['800']}
           scale={{ from: 0, to: duration }}
           fixedTickPositions={calculateTickPositions(duration)}
         />

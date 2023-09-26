@@ -27,7 +27,7 @@ import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
@@ -129,6 +129,7 @@ function EventTable(props) {
 }
 
 function Header(props) {
+  const theme = useTheme();
   if (isLoading(props.result)) {
     return (
       <DashboardHeader
@@ -140,7 +141,6 @@ function Header(props) {
       />
     );
   }
-
   return (
     <DashboardHeader
       event={props.result.data}
@@ -150,12 +150,13 @@ function Header(props) {
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={TimeSelection}
       hideUrlShortener
+      theme={theme}
     />
   );
 }
 
-function renderMetaInformation({ event }) {
-  return <TriggeredMarker event={event} />;
+function renderMetaInformation({ event, theme }) {
+  return <TriggeredMarker event={event} theme={theme} />;
 }
 
 function TimeSelection() {
@@ -175,9 +176,9 @@ function TimeSelection() {
   );
 }
 
-function TriggeredMarker({ event }) {
+function TriggeredMarker({ event, theme }) {
   return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
-    <Pill color={theme.lib.colors.cyan800}>{t('in-events:markerServiceImpact')}</Pill>
+    <Pill color={theme.ids.color.option.teal['400']}>{t('in-events:markerServiceImpact')}</Pill>
   ) : null;
 }
 

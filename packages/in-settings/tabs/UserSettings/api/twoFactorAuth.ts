@@ -12,11 +12,17 @@ import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 
+export interface TwoFactorCredentials {
+  readonly secret: String;
+  readonly base64EncodedQrCode: String;
+  readonly scratchCodes: string[];
+  readonly verified: boolean;
+}
 export const getTwoFactorCredentials = memoize(getTwoFactorCredentialsObservableInternal, () => '', 60000);
 function getTwoFactorCredentialsObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(
-      http({
+      http<TwoFactorCredentials>({
         method: 'GET',
         maxRetries: 3,
         url: '/api/settings/authentication/2fa/credentials'
@@ -26,7 +32,7 @@ function getTwoFactorCredentialsObservableInternal() {
 }
 
 export function toggleTwoFactor() {
-  return http({
+  return http<void>({
     method: 'POST',
     maxRetries: 3,
     url: '/api/settings/authentication/2fa/toggle',
@@ -37,8 +43,8 @@ export function toggleTwoFactor() {
   });
 }
 
-export function verifyTwoFactorToken(token) {
-  return http({
+export function verifyTwoFactorToken(token: string) {
+  return http<void>({
     method: 'POST',
     maxRetries: 3,
     url: `/api/settings/authentication/2fa/verify/${token}`,

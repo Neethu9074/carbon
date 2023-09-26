@@ -3,18 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
     padding: 1rem 0.5rem 1rem 1rem;
-    border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    border-radius: var(--ids-border-radius-large);
   }
 
   .icon {
-    fill: @lib__colors__teal800;
+    fill: var(--ids-color-option-teal-500);
     margin: 0 4px;
   }
 
@@ -23,14 +22,14 @@
   }
 
   .title {
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     font-size: 1rem;
   }
 
   .description {
     font-size: 0.75rem;
     font-weight: 300;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-top: 0.5rem;
 
     .betaBadge {

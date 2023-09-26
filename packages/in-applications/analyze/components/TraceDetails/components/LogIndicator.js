@@ -18,15 +18,17 @@ import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/h
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './LogIndicator.mless';
 
 export default forwardRef(function LogIndicator(props, ref) {
+  const theme = useTheme();
+  const indicatorProps = { theme, ...props };
   if (loggingEnabled && props.totalNumberOfLogs > 0) {
-    return <LogV2Indicator {...props} ref={ref} />;
+    return <LogV2Indicator {...indicatorProps} ref={ref} />;
   }
-  return <LogV1Indicator {...props} ref={ref} />;
+  return <LogV1Indicator {...indicatorProps} ref={ref} />;
 });
 
 const LogV1Indicator = forwardRef(function LogV1IndicatorFn(props, ref) {
@@ -80,12 +82,14 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
   );
 });
 
-function getStyleProps({ left, inTimeline, log }) {
+function getStyleProps({ left, inTimeline, log, theme }) {
   return {
     style: {
       left: `calc(${left}% - 10px`,
       top: `calc(${top}px - 7.5px)`,
-      borderColor: `${log.errorCount ? theme.lib.colors.failure : theme.lib.colors.warning} transparent transparent`
+      borderColor: `${
+        log.errorCount ? theme.ids.color.option.red['500'] : theme.ids.color.option.yellow['500']
+      } transparent transparent`
     },
     className: inTimeline ? locals.logIndicatorTimeline : locals.logIndicator
   };

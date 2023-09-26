@@ -30,15 +30,15 @@
   }
 
   .loadingIcon {
-    fill: @lib__colors__primary2;
+    fill: var(--ids-color-option-blue-500);
   }
 
   .errorIcon {
-    fill: @lib__colors__failure;
+    fill: var(--ids-color-option-red-500);
   }
 
   .totalReminaingNodesLabel {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     margin-left: 0.5rem;
   }
 }

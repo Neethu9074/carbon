@@ -21,7 +21,7 @@ import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
 import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
@@ -124,9 +124,11 @@ function ActionButtons({ call, onClose }) {
     };
   }, [call]);
 
+  const theme = useTheme();
+
   const downloadLabel = t('in-analyze:traceDetail.components.callDetails.downloadRawSpanData');
   const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
-  const svgIconColor = theme.lib.colors.N500;
+  const svgIconColor = theme.ids.color.option.neutral['500'];
   return (
     <>
       <Link

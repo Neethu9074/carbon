@@ -7,7 +7,7 @@
 
 :local {
   .inboundOrAllCallsSwitchContainer {
-    border: 1px solid @lib__colors__N300;
+    border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: @lib__shapes__radius_small;
     margin-bottom: 1rem;
   }

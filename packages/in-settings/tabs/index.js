@@ -39,5 +39,12 @@ const ampTab = {
 
 export default function getTabs() {
   const ampTabVisible = ampEnabled && role.canViewAccountAndBillingInformation;
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab].filter(Boolean);
+  return [
+    roleHasAnyTeamPermissions() && teamTab,
+    userTab,
+    ((role.canConfigureAuthenticationMethods && role.isAtLeastOneAuthMethodAvailable) ||
+      role.canConfigureSessionSettings) &&
+      authTab,
+    ampTabVisible && ampTab
+  ].filter(Boolean);
 }

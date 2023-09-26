@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
 
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .serviceLabelHeatMapEnabled {
@@ -35,7 +35,7 @@
 
   .serviceIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .childList {

@@ -6,10 +6,10 @@
 
 import { Item } from 'formalistic';
 
-import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 // eslint-disable-next-line
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { createSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 
 const resetScopes = (form: SloForm) => {
   const entityType = form.getIn(['entity', 'type']).value;
@@ -66,10 +66,12 @@ const formSideEffects = [
   }
 ];
 
+export type SloFormSideEffectsReturnType = (form: Item) => void;
+
 export default function useSloFormSideEffects(
   form: Item,
   setForm: (field: Item) => void
-): ReturnType<typeof useFormSideEffects> {
+): SloFormSideEffectsReturnType {
   return useFormSideEffects({
     form,
     setForm,

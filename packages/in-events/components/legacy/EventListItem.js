@@ -36,6 +36,7 @@ import EventIcon from 'in-events/components/EventIcon';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventListItem.less';
@@ -58,7 +59,8 @@ export default connectTo(
       /**
        * The latestSnapshot is present only for entityVerification or HostAvailability event
        */
-      latestSnapshot: irpt.map
+      latestSnapshot: irpt.map,
+      isRCA: rpt.bool
     };
 
     state = {
@@ -68,7 +70,7 @@ export default connectTo(
     render() {
       const triggeringProblemId = this.props.triggeringProblemId;
       const isExpanded = this.state.isExpanded;
-      const background = this.props.background;
+      const background = this.props.isRCA ? theme.lib.colors.deepPurple800 : this.props.background;
       const event = this.props.event;
       const latestSnapshot = this.props.latestSnapshot;
       const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
@@ -107,6 +109,7 @@ export default connectTo(
                 background={background}
                 timeConfig={timeConfigFromEvent}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
+                isRCA={this.props.isRCA}
               />
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
               {isExpanded ? (
@@ -141,8 +144,9 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   );
 }
 
-function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
+function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
   const className = `${block}__heading`;
+  if (isRCA) background = background + '80'; //50% opacity of background colour
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
@@ -152,6 +156,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
+            color={isRCA ? theme.lib.colors.white : undefined}
           />
         </div>
 

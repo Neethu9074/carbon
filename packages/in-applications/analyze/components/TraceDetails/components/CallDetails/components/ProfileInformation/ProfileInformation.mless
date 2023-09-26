@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .hotspotHeading {
     margin-top: 1.5rem;
 
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-weight: 500;
   }
 }

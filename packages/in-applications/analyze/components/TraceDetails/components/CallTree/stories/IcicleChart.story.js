@@ -10,16 +10,17 @@ import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/c
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
 import { getColor } from 'in-applications/endpointTypes';
 import { always } from 'in-services/fixedStreams';
-import theme from 'in-themes';
-
-const getColorByEndpointType = ({ endpoint }) =>
-  !endpoint || !endpoint.type ? theme.lib.colors.N500 : getColor(endpoint.type);
+import { useTheme } from 'in-themes';
 
 export default {
   component: IcicleChart
 };
 
 export function Default() {
+  const theme = useTheme();
+  const getColorByEndpointType = ({ endpoint }) =>
+    !endpoint || !endpoint.type ? theme.ids.color.option.neutral['500'] : getColor(endpoint.type);
+
   return (
     <TraceExamples
       render={rootCall => (

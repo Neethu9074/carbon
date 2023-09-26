@@ -12,7 +12,7 @@ import {
   getTwoFactorCredentials,
   toggleTwoFactor,
   verifyTwoFactorToken
-} from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
+} from 'in-settings/tabs/UserSettings/api/twoFactorAuth';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -21,7 +21,7 @@ import Title from 'in-components/Title/Title';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-import locals from './Settings.mless';
+import locals from './TwoFactorSettings.mless';
 
 export default function Settings() {
   return (

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import {
   userSettings,
@@ -11,10 +11,15 @@ import {
   userSettingsAdvanced,
   userSettingsPrivacy,
   userSettingsCommunication,
-  userSettingsPersonalApiTokens
+  userSettingsPersonalApiTokens,
+  userSettingsPasswordChange,
+  userSettingsTwoFactor
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import TwoFactorSettingsPage from 'in-settings/tabs/UserSettings/pages/TwoFactorSettings';
 import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens';
+import ChangePasswordPage from 'in-settings/tabs/UserSettings/pages/ChangePassword';
+import { isAvailable as fetchChangePasswordAvailable } from './api/changePassword';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
@@ -25,39 +30,65 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const navigationTree = [
-  {
-    title: t('in-settings:tabs.userInterface'),
-    pages: [
-      {
-        path: userSettingsGeneral,
-        label: t('in-settings:tabs.general'),
-        component: GeneralPage
-      },
-      {
-        path: userSettingsAdvanced,
-        label: t('in-settings:tabs.advanced'),
-        component: AdvancedPage
-      }
-    ]
-  },
-  {
-    title: t('in-settings:tabs.preferences'),
-    pages: getPreferencesRoutes(fullTermsConfigEnabled)
-  },
-  role.canConfigurePersonalApiTokens && {
-    title: t('in-settings:tabs.personalSettings'),
-    pages: [
-      {
-        path: userSettingsPersonalApiTokens,
-        label: t('in-settings:tabs.personalApiTokens'),
-        component: PersonalApiTokensPage
-      }
-    ]
-  }
-].filter(Boolean);
+const navigationTree = showPassword => {
+  const password = showPassword
+    ? [
+        {
+          path: userSettingsPasswordChange,
+          label: t('in-settings:tabs.password'),
+          component: ChangePasswordPage
+        }
+      ]
+    : [];
+  const personalApiTokens = role.canConfigurePersonalApiTokens
+    ? [
+        {
+          path: userSettingsPersonalApiTokens,
+          label: t('in-settings:tabs.personalApiTokens'),
+          component: PersonalApiTokensPage
+        }
+      ]
+    : [];
+  return [
+    {
+      title: t('in-settings:tabs.userInterface'),
+      pages: [
+        {
+          path: userSettingsGeneral,
+          label: t('in-settings:tabs.general'),
+          component: GeneralPage
+        },
+        {
+          path: userSettingsAdvanced,
+          label: t('in-settings:tabs.advanced'),
+          component: AdvancedPage
+        }
+      ]
+    },
+    {
+      title: t('in-settings:tabs.preferences'),
+      pages: getPreferencesRoutes(fullTermsConfigEnabled)
+    },
+    {
+      title: t('in-settings:tabs.personalSettings'),
+      pages: [
+        ...password,
+        {
+          path: userSettingsTwoFactor,
+          label: t('in-settings:tabs.twoFactorAuthentication'),
+          component: TwoFactorSettingsPage
+        },
+        ...personalApiTokens
+      ]
+    }
+  ].filter(Boolean);
+};
 
 export default function View(props) {
+  const [changePasswordAvailable, setChangePasswordAvailable] = useState(false);
+  useEffect(() => {
+    fetchChangePasswordAvailable().once(state => setChangePasswordAvailable(state));
+  }, []);
   return (
     <Fragment>
       <ViewTrackingMeta
@@ -68,7 +99,7 @@ export default function View(props) {
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTree}
+        navigationTree={navigationTree(changePasswordAvailable)}
         redirectToDefaultPage={userSettingsGeneral}
         redirectFrom={userSettings}
         {...props}

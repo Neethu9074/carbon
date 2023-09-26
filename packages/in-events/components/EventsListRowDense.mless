@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .item {
@@ -30,6 +29,6 @@
     display: flex;
     justify-content: space-between;
     margin: 0.3rem 0 0;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 }

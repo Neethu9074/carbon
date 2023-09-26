@@ -13,7 +13,7 @@ import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/comp
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './CallFrame.mless';
 
@@ -33,6 +33,7 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
+  const theme = useTheme();
 
   return (
     <div ref={ref}>
@@ -48,7 +49,7 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
           left: `${left}%`,
           width: `${width}%`,
           height: `${FRAME_HEIGHT}px`,
-          background: isFakeRoot ? theme.lib.colors.N400 : getColor(callFrame)
+          background: isFakeRoot ? theme.ids.color.option.neutral['400'] : getColor(callFrame)
         }}
         onClick={isFakeRoot ? null : () => onCallClicked(callFrame)}
       >

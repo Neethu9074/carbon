@@ -14,7 +14,7 @@
 
     min-width: 5px;
     cursor: pointer;
-    border: 1px solid #fff;
+    border: 1px solid var(--ids-color-option-white);
 
     &:hover {
       opacity: 0.75;
@@ -36,7 +36,7 @@
 
   .label {
     display: inline-block;
-    color: white;
+    color: var(--ids-color-option-white);
     margin-left: 0.4rem;
     .ellipsis();
   }
