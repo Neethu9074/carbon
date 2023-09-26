@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .skeleton {
     width: 100%;
@@ -16,8 +14,8 @@
   .noLink {
     display: flex;
     align-items: center;
-    color: @lib__colors__N600Light;
-    fill: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
+    fill: var(--ids-color-option-neutral-600);
 
     svg {
       margin: 0 0.5rem 0 0;
@@ -26,6 +24,6 @@
 
   .simplePluginIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 }

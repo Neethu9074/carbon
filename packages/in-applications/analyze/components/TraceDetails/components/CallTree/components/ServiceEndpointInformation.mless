@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .serviceEndpointInformation {
     display: flex;
@@ -17,12 +15,12 @@
   .arrowIcon,
   .endpointIcon {
     margin-right: 4px;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .text {
     margin: 0 0.5rem 0.125rem 0.5rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     white-space: nowrap;
   }
 
@@ -33,7 +31,7 @@
     text-overflow: ellipsis;
 
     &:hover {
-      color: @lib__colors__N700Medium;
+      color: var(--ids-color-option-neutral-700);
     }
   }
 }

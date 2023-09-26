@@ -10,12 +10,12 @@
     display: inline-flex;
     align-items: center;
     cursor: not-allowed;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .simplePluginIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .linkWithMetaEntities {
@@ -28,17 +28,17 @@
     display: flex;
     align-items: center;
 
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     font-size: 0.75rem;
   }
 
   .entitiyIcon {
     margin-left: 0.125rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .entityLink {
     margin-right: 0.25rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 }

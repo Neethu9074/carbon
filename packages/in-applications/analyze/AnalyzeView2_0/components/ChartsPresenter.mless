@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .chartWrapper {
     margin-bottom: 24px;
@@ -12,7 +10,7 @@
 
   .latencyDistribution {
     width: 100%;
-    border-top: 1px solid @lib__colors__N400;
+    border-top: 1px solid var(--ids-color-option-neutral-400);
     padding: 1rem;
     background: white;
     height: 14rem;

@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .stackTrace {
     margin: 0 0 1.5rem 0;
-    border-top: 2px solid @lib__colors__N200;
+    border-top: 2px solid var(--ids-color-option-neutral-200);
   }
 
   .title {

@@ -37,7 +37,7 @@ import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const pathSegment = applicationsList;
@@ -54,7 +54,8 @@ function ApplicationLabelContent({ item }) {
 }
 
 function BoundaryScopeContent({ item }) {
-  const iconColor = theme.lib.colors.blue800;
+  const theme = useTheme();
+  const iconColor = theme.ids.color.option.blue['500'];
   if (item.application.boundaryScope) {
     return (
       <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>

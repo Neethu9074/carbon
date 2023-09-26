@@ -21,7 +21,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ServiceExtractionRuleDialog.mless';
@@ -76,12 +76,13 @@ class BasicDialog extends React.Component {
             </FormGroup>
           ))}
           {serviceConfiguration.get('matchSpecification').map((matchSpecification, matchSpecificationIndex) => {
+            const theme = useTheme();
             return (
               <div key={matchSpecificationIndex}>
                 <div>
                   {matchSpecificationIndex > 0 && (
                     <div>
-                      <Pill className={locals.operatorPill} color={theme.lib.colors.N400}>
+                      <Pill className={locals.operatorPill} color={theme.ids.color.option.neutral['400']}>
                         {t('in-applications:forms.and')}
                       </Pill>
                     </div>

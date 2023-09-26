@@ -22,6 +22,6 @@
     margin-left: 18.5rem;
     height: 82%;
     width: 1px;
-    background: @lib__colors__N400;
+    background: var(--ids-color-option-neutral-400);
   }
 }
