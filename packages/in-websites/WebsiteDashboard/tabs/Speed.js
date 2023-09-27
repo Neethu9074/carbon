@@ -44,7 +44,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               formatter: millis.forcedFixedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelOnLoadTime')],
               metricIds: ['onLoadTime'],
-              colors: [theme.lib.carbonCategorical.purple70]
+              colors: [theme.lib.carbonCategorical.teal70]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -209,7 +209,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   labels: [t('in-websites:websiteDashboard.tabs.speedLabelTimeToFirstByte')],
                   metricIds: ['ttfb'],
                   // Ensure high readability
-                  colors: [theme.lib.colors.N900Primary]
+                  colors: [theme.lib.carbonCategorical.cyan90]
                 }}
                 metricsConfiguration={{
                   timeConfig,

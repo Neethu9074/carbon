@@ -46,7 +46,7 @@ export function ChartsPresenter(props) {
             return (
               <Chart
                 {...chartProps}
-                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
+                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.carbonAlert.red60]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfig]}
               />

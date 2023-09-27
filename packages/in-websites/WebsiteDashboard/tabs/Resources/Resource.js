@@ -299,7 +299,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                       labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
                       // Ensure high readability
-                      colors: [theme.lib.colors.N900Primary]
+                      colors: [theme.lib.carbonCategorical.cyan90]
                     }}
                     metricsConfiguration={{
                       timeConfig,

@@ -25,8 +25,9 @@ export default function EventChartCardWidget({ config }) {
     >
       <ChartWidget
         config={{
+          outlineForColor: theme.lib.outlineForColor,
           y1: {
-            colors: [theme.lib.colors.orange800, theme.lib.colors.red800, theme.lib.colors.yellow800],
+            colors: [theme.lib.carbonAlert.orange40, theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30],
             formatter: 'number.compact',
             renderer: 'stackedBar',
             metrics: [

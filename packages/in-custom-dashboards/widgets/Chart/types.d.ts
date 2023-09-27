@@ -19,6 +19,7 @@ export interface Config extends ContextMenuConfig {
   y2?: Axis;
   granularity?: number;
   reverseOrder?: boolean;
+  outlineForColor?: string[];
   type: ResultType;
 }
 

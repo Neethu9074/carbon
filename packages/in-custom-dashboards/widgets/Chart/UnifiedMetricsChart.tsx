@@ -198,6 +198,7 @@ function DataLoadingWrapper({
       hasApproximateData={hasApproximateData}
       primaryContextMenuAction={config?.primaryContextMenuAction}
       additionalContextMenuButtons={config?.additionalContextMenuButtons}
+      outlineForColor={config?.outlineForColor}
       {...props}
     />
   );
