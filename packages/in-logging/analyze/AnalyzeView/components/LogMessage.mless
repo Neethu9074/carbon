@@ -7,7 +7,7 @@
 
 :local {
   .message {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     user-select: all;
   }
 
@@ -17,7 +17,7 @@
 
   .parameter,
   .parameterClickable {
-    color: @lib__colors__blue800;
+    color: var(--ids-color-option-blue-500);
     &:hover {
       text-decoration: underline;
     }
