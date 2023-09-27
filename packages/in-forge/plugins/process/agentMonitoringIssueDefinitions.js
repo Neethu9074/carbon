@@ -144,7 +144,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nodejs#nodejs-collector-not-installed`
+    explanationLinkHref: `https://ibm.biz/nodejs-not-installed`
   },
   python_autotrace_failed: {
     issueDescription: {

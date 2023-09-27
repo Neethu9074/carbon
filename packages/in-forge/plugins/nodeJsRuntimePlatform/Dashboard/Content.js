@@ -259,18 +259,8 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
       <Trans
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate"
         components={{
-          installLink: (
-            <Link
-              external
-              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#installing-the-nodejs-collector-package"
-            />
-          ),
-          pitfallsLink: (
-            <Link
-              external
-              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#common-pitfalls"
-            />
-          )
+          installLink: <Link external href="https://ibm.biz/install-nodejs-pkg" />,
+          pitfallsLink: <Link external href="https://ibm.biz/nodejs-common-pitfalls" />
         }}
       />
     </DashboardNotification>
