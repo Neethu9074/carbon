@@ -17,12 +17,14 @@ interface UseTagCatalogProps {
   metric?: string;
   ownerType?: string;
   includeMetricTags?: boolean;
+  regex?: boolean;
 }
 
 export default function useTagCatalog({
   metric,
   ownerType,
-  includeMetricTags = false
+  includeMetricTags = false,
+  regex
 }: UseTagCatalogProps): TagCatalog | undefined {
   const timeConfig = useTimeConfig();
 
@@ -35,8 +37,8 @@ export default function useTagCatalog({
   const filter = { timeConfig: modifiedTimeConfig, tagFilterExpression: EMPTY_EXPRESSION };
 
   const tagCatalogResult = useObservable(
-    () => getTagCatalog({ filter, metric, ownerType }),
-    [timeConfig, metric, ownerType, includeMetricTags]
+    () => getTagCatalog({ filter, metric, ownerType, regex: regex ?? false }),
+    [timeConfig, metric, ownerType, regex, includeMetricTags]
   );
 
   return tagCatalogResult?.data;

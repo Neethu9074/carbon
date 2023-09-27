@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   AreaPermission,
@@ -76,7 +76,7 @@ export type LimitableProductArea = Extract<
   | 'SAP'
 >;
 
-export const PermissionAreas = Object.freeze<Array<keyof PermissionSetWithRoles>>([
+export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
   'applicationIds',
   'kubernetesClusterUUIDs',
   'kubernetesNamespaceUIDs',

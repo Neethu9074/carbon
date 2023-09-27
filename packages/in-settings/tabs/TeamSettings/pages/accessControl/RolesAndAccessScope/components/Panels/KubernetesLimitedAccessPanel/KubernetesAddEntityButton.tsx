@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { GroupPermissionEntity, PermissionSetWithRoles, Result } from '@instana/types';
+import { GroupPermissionEntity, PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
@@ -50,10 +50,10 @@ export default function _KubernetesAddEntityButton<FORM_TYPE extends MapFormItem
   form,
   setForm
 }: Props<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 
-  const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
+  const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
     setForm(updatedForm);
   };

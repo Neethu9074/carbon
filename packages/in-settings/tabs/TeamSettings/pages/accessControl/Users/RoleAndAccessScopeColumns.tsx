@@ -6,8 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { PermissionSetWithRoles, GroupWithRoles } from '@instana/types';
 import { Li, LoadingSkeleton } from '@instana/components';
+import { PermissionSet, ApiGroup } from '@instana/types';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import { getGroupsOfASingleUserAsResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
@@ -23,7 +23,7 @@ interface RoleAndAccessScopeColumnsProps {
 
 export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAccessScopeColumnsProps) {
   const [loading, setLoading] = useState(true);
-  const [permissionsSet, setPermissionsSet] = useState<PermissionSetWithRoles | undefined>(undefined);
+  const [permissionsSet, setPermissionsSet] = useState<PermissionSet | undefined>(undefined);
 
   useEffect(() => {
     // Refreshes permissionsSet initially or when triggered by removing or adding groups for a user
@@ -58,7 +58,7 @@ export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAcc
   );
 }
 
-function mergeGroupsAndMapToPermissionSet(groups: GroupWithRoles[] | undefined): PermissionSetWithRoles {
+function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): PermissionSet {
   const permissionSet = {
     websiteIds: [],
     mobileAppIds: [],

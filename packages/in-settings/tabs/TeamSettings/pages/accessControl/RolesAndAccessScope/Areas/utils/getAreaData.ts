@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   hasApplicationsAccess,
@@ -24,7 +24,7 @@ import { t } from 'in-i18n';
 
 type ProductAreaWithApplicationData = Extract<ProductAreaType, 'WEBSITE' | 'APPLICATION' | 'MOBILE_APP'>;
 
-type ItemIdKeys = Extract<keyof PermissionSetWithRoles, 'applicationIds' | 'websiteIds' | 'mobileAppIds'>;
+type ItemIdKeys = Extract<keyof PermissionSet, 'applicationIds' | 'websiteIds' | 'mobileAppIds'>;
 
 interface dataMapItem {
   itemIdKey: ItemIdKeys;
@@ -42,7 +42,7 @@ interface AreaData {
 
 interface getAreaDataProps {
   area: ProductAreaWithApplicationData;
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 const dataMap: Record<ProductAreaWithApplicationData, dataMapItem> = {

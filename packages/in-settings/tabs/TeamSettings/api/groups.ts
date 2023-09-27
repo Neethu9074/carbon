@@ -4,7 +4,7 @@
  */
 
 import { Observable, create } from '@instana/observables';
-import { GroupWithRoles, Result } from '@instana/types';
+import { ApiGroup, Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -29,7 +29,7 @@ export const getGroupWithIdpFlagAsResultObservable = memoize(
 function getGroupWithIdpFlagAsResultObservableInternal(groupId: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http<{ groupWithRoles: GroupWithRoles; idpFlagMap: Object }>({
+      http<{ groupWithRoles: ApiGroup; idpFlagMap: Object }>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/${groupId}/group-with-idp-mapping`
@@ -52,11 +52,11 @@ function getGroupWithIdpFlagAsResultObservableInternal(groupId: string) {
 }
 
 export const getGroupsAsResultObservable = () =>
-  memoize<undefined, Result<GroupWithRoles[]>>(getGroupsAsResultObservableInternal, () => '', 60000)(undefined);
+  memoize<undefined, Result<ApiGroup[]>>(getGroupsAsResultObservableInternal, () => '', 60000)(undefined);
 function getGroupsAsResultObservableInternal(_arg: undefined) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http<GroupWithRoles[]>({
+      http<ApiGroup[]>({
         method: 'GET',
         maxRetries: 3,
         url: basePath
@@ -110,11 +110,11 @@ function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId: string) 
 }
 
 export const getStrippedGroupsAsResultObservable = () =>
-  memoize<undefined, Result<GroupWithRoles[]>>(getStrippedGroupsAsResultObservableInternal, () => '', 60000)(undefined);
+  memoize<undefined, Result<ApiGroup[]>>(getStrippedGroupsAsResultObservableInternal, () => '', 60000)(undefined);
 function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http<GroupWithRoles[]>({
+      http<ApiGroup[]>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/stripped`
@@ -125,7 +125,7 @@ function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
 
 // regular calls
 
-export function saveGroup(group: GroupWithRoles) {
+export function saveGroup(group: ApiGroup) {
   return http({
     method: group.id ? 'PUT' : 'POST',
     maxRetries: 3,
@@ -135,7 +135,7 @@ export function saveGroup(group: GroupWithRoles) {
   }).map(mapAndRefresh);
 }
 
-export function saveGroups(groups: GroupWithRoles[]) {
+export function saveGroups(groups: ApiGroup[]) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -201,7 +201,7 @@ function mapAndRefresh<T>(response: Response<T>): T {
   return response.body;
 }
 
-export function createNewGroup(): GroupWithRoles {
+export function createNewGroup(): ApiGroup {
   return {
     id: undefined,
     name: '',

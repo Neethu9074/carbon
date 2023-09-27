@@ -7,7 +7,7 @@
 import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect } from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 import { Button } from '@instana/components';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
@@ -37,7 +37,7 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   editMode,
   onSave
 }: RoleAndAccessScopeColumnsProps<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
   const { goToPath } = useNavigation();
 

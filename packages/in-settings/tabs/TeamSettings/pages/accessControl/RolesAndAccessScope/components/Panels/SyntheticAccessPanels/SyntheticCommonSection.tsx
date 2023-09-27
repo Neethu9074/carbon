@@ -8,7 +8,7 @@ import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
@@ -50,10 +50,10 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
     ]
   };
 
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
-  const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
+  const updatePermissionSet = (permissionSet: PermissionSet) => {
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
   };
 

@@ -8,7 +8,7 @@ import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { GroupPermissionEntity, OrderDirection, PermissionSetWithRoles, Result } from '@instana/types';
+import { GroupPermissionEntity, OrderDirection, PermissionSet, Result } from '@instana/types';
 import { Stack, SvgIcon, Typography, useTheme } from '@instana/components';
 import { Observable } from '@instana/observables';
 
@@ -52,7 +52,7 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
 }: Props<FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   // retrieve data from permissionSet
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
   const selectedIds: string[] = getSelectedEntityIds(entityType, permissionSetField?.value);
   const selected = useSelectedEntities(observable, orderDirection, selectedIds);

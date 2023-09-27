@@ -6,7 +6,7 @@
 
 import { MapForm, MapFormItems } from 'formalistic';
 
-import { OrderDirection, PermissionSetWithRoles, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
+import { OrderDirection, PermissionSet, Result, ScopeBinding, GroupPermissionEntity } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
@@ -42,10 +42,7 @@ export enum KubernetesEntityType {
  * @param permissionSetField to be retrieved from
  * @returns selected ids
  */
-export function getSelectedEntityIds(
-  entityType: KubernetesEntityType,
-  permissionSetField?: PermissionSetWithRoles
-): string[] {
+export function getSelectedEntityIds(entityType: KubernetesEntityType, permissionSetField?: PermissionSet): string[] {
   const preSelectedScopes: ScopeBinding[] = permissionSetField?.[entityType] ?? [];
   return preSelectedScopes.filter(it => it.scopeId).map(it => it.scopeId!!);
 }
@@ -59,9 +56,9 @@ export function getSelectedEntityIds(
  */
 export function setNewSelected(
   entityType: KubernetesEntityType,
-  permissionSet: PermissionSetWithRoles,
+  permissionSet: PermissionSet,
   ids?: string[]
-): PermissionSetWithRoles {
+): PermissionSet {
   if (!ids) {
     return { ...permissionSet, [entityType]: [] };
   }
@@ -88,7 +85,7 @@ export function removeOneEntity<FORM_TYPE extends MapFormItems>(
   entityType: KubernetesEntityType,
   form: MapForm<FORM_TYPE>,
   setForm: (form: MapForm<FORM_TYPE>) => void,
-  permissionSet: PermissionSetWithRoles,
+  permissionSet: PermissionSet,
   id: string
 ) {
   const entityScopeBindings = permissionSet[entityType].filter(({ scopeId }) => scopeId !== id);

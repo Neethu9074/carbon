@@ -8,7 +8,7 @@ import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 import { Link } from '@instana/components';
 
 import {
@@ -52,13 +52,13 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     header: productArea,
     capabilities: getInfrastructurePermissions()
   };
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const infraDfqFilter = permissionSetField?.value[entityPermissionKey]?.scopeId ?? '';
   // workaround as role is for now unused
   role = role ? role : AreaRole.VIEWER;
 
-  const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
+  const updatePermissionSet = (permissionSet: PermissionSet) => {
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
   };
 

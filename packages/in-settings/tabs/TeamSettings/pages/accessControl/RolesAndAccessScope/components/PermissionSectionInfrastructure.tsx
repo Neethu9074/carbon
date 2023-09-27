@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
-import { PermissionSetWithRoles } from '@instana/types';
-import { MapFormItems } from 'formalistic';
+import { PermissionSet } from '@instana/types';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -59,7 +59,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
 
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet); // yet unused
 

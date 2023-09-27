@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
+import { PermissionSet } from '@instana/types';
 
 import {
   getField,
@@ -71,8 +71,8 @@ export default function _PlatformsEditSelection<FORM_TYPE extends MapFormItems>(
   setShowSubSlide,
   setSubSlideConfig
 }: PlatformsEditSelectionProps<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
-  const permissionSet: PermissionSetWithRoles | undefined = permissionSetField?.value;
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
+  const permissionSet: PermissionSet | undefined = permissionSetField?.value;
 
   /**
    * Updates the permissionSet, by removing the value from the permissions array or adding it

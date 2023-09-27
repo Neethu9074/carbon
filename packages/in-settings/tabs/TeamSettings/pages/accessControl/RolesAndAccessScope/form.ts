@@ -6,7 +6,7 @@
 
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
@@ -78,7 +78,7 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
 // in a permission set for a given product area
 export function getAreaRoleFromPermissionSet(
   productArea: LimitableProductArea,
-  permissionSet?: PermissionSetWithRoles
+  permissionSet?: PermissionSet
 ): AreaRoleWithCustomType | undefined {
   if (!permissionSet) return;
 
@@ -100,7 +100,7 @@ export function getAreaRoleFromPermissionSet(
 // Returns a limitation scope based on the given product area and current permissions.
 export function getScopeFromProductArea(
   productArea: LimitableProductArea,
-  permissionSet: PermissionSetWithRoles
+  permissionSet: PermissionSet
 ): ScopedPermissionType {
   const { permissions } = permissionSet;
   const { limitation, permission } = ProductAreaPermissionMap[productArea];
@@ -115,11 +115,11 @@ export function getScopeFromProductArea(
 // Returns a new permission set for limitable product areas,
 // based on the given product area, limitation scope and role.
 export function updatePermissionSetForLimitableProductArea(
-  permissionSet: PermissionSetWithRoles,
+  permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
   role: AreaRoleType | undefined = undefined
-): PermissionSetWithRoles {
+): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
   const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
 

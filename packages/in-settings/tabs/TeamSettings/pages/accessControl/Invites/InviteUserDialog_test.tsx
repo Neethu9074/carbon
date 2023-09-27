@@ -8,11 +8,12 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import InviteUserDialog, { UserInvite } from './InviteUserDialog';
-import { GroupWithRoles, PermissionSetWithRoles } from 'in-types';
+import { ApiGroup, PermissionSet } from 'in-types';
 import { t } from 'in-i18n';
 
-const emptyPermissions: PermissionSetWithRoles = {
+const emptyPermissions: PermissionSet = {
   applicationIds: [],
+  infraDfqFilter: {},
   kubernetesClusterUUIDs: [],
   kubernetesNamespaceUIDs: [],
   mobileAppIds: [],
@@ -21,7 +22,7 @@ const emptyPermissions: PermissionSetWithRoles = {
   syntheticTestIds: []
 };
 
-const getStrippedGroups: { data: GroupWithRoles[] } = {
+const getStrippedGroups: { data: ApiGroup[] } = {
   data: [
     {
       id: '-3',

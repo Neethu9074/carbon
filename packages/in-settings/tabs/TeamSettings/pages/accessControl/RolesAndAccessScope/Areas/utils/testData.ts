@@ -6,6 +6,7 @@
 
 export const mockEmptyPermissionsSet = {
   applicationIds: [],
+  infraDfqFilter: {},
   kubernetesClusterUUIDs: [],
   kubernetesNamespaceUIDs: [],
   mobileAppIds: [],
@@ -110,6 +111,7 @@ export const mockPermissionsSetWithData = {
     { scopeId: '1', scopeRoleId: '11' },
     { scopeId: '2', scopeRoleId: '22' }
   ],
+  infraDfqFilter: {},
   kubernetesClusterUUIDs: [
     { scopeId: '3', scopeRoleId: '33' },
     { scopeId: '4', scopeRoleId: '44' }
