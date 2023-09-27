@@ -4,12 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
+
+import DurationDistribution from './DurationDistribution';
 
 export default function Duration() {
-  return (
-    <Fragment>
-      <p>Duration</p>
-    </Fragment>
-  );
+  // TODO:  Add the tabs to support both duration distribution and over time
+  return <DurationDistribution />;
 }
