@@ -103,7 +103,7 @@ function Content({ message }) {
             )}
             {!onPremLicenseInformationEnabled && (
               <>
-                {tryOfferLicenseType && (
+                {message.activeLicense == 'selfService' && (
                   <Button
                     className={locals.button}
                     kind="primaryv2"

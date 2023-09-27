@@ -90,5 +90,6 @@ module.exports = {
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   infraSmartAlertsDetailsPageEnabled: true,
+  logDeletionEnabled: true,
   actionsLaneEnabled: true
 };
