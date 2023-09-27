@@ -85,7 +85,6 @@ module.exports = {
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
-  tagCatalogSmallQueryWindowEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: false,
   apiTokenDialogEnabled: true,

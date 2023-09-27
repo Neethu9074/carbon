@@ -401,11 +401,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'tagCatalogSmallQueryWindowEnabled',
-    instanaCtlKey: 'feature.custom.widget.infrastructure.smallquerywindow.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'apiTokenDialogEnabled',
     instanaCtlKey: 'feature.apitoken.dialog.enabled',
     defaultValue: false

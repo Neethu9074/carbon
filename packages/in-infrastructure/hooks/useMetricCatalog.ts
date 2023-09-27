@@ -8,7 +8,6 @@ import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
 import { getMetricCatalogOnce, GetMetricCatalog } from 'in-services/metrics/metricCatalog';
-import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { MetricCatalog, Result, TagFilterExpression } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -34,8 +33,6 @@ export default function useMetricCatalog({
     windowSize: 60000
   } as TimeConfig;
 
-  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
-
   return (
     useObservable(
       () =>
@@ -44,7 +41,7 @@ export default function useMetricCatalog({
               getMetricCatalog,
               type
             )({
-              filter: { tagFilterExpression, timeConfig: config },
+              filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
               type,
               query
             })
