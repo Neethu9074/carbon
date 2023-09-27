@@ -80,7 +80,6 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       action$.once(() => {
         setIsDeleting(false);
         showDeleteSuccessMessage();
-        setReloadCount(count => ++count);
         close();
         goToPath(syntheticsPath);
       });
