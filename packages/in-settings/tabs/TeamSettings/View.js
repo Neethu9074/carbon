@@ -47,6 +47,7 @@ import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/ev
 import RecurrentMaintenanceWindowFormPage from './pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import { alertsHubEnabled, logDeletionEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
@@ -55,7 +56,6 @@ import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/De
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
-import { alertsHubEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
@@ -298,7 +298,7 @@ function navigationTreeForRole(role) {
       pages = logManagementPages;
     }
 
-    if (role.canDeleteLogs) {
+    if (role.canDeleteLogs && logDeletionEnabled) {
       pages.push(deleteLogsPage);
     }
 

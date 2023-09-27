@@ -414,5 +414,10 @@ module.exports = exports = [
     uiClientKey: 'infraSmartAlertsDetailsPageEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.details.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'logDeletionEnabled',
+    instanaCtlKey: 'feature.logging.logDeletion.enabled',
+    defaultValue: true
   }
 ];
