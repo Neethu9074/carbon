@@ -176,10 +176,10 @@ router.get('/', async (req, res) => {
     const customerEmail = { email: req.cookies['customer-email'] };
     const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
-    res.set('Content-Security-Policy', getCsp(nonce));
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const licenceType =
+    const isTrialUser =
       JSON.parse(getLicenseInfo)?.type === 'selfService' || JSON.parse(getLicenseInfo)?.type === 'quota';
+    res.set('Content-Security-Policy', getCsp(nonce, isTrialUser));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -206,7 +206,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        licenceType
+        licenceType: isTrialUser
       })
     );
   } catch (err) {
