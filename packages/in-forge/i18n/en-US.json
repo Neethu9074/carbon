@@ -10947,7 +10947,8 @@
       "cpuRequests": "CPU Requests",
       "cpuLimits": "CPU Limits",
       "memoryRequests": "Memory Requests",
-      "memoryLimits": "Memory Limits"
+      "memoryLimits": "Memory Limits",
+      "conditionReady": "Pod Condition Ready"
     },
     "kubernetesService": {
       "kubernetesService": "Kubernetes Service"
