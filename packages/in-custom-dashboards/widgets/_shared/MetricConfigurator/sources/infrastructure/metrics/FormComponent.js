@@ -82,7 +82,7 @@ export default function FormComponent({
   const type = typeField.value || undefined;
   const isRegex = regexField.value || false;
   const metric = metricField.value || undefined;
-  const tagCatalog = useTagCatalog({ ownerType: type, metric });
+  const tagCatalog = useTagCatalog({ ownerType: type, metric, regex: isRegex });
   const backendQueryModel =
     tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
