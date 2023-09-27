@@ -26,6 +26,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
@@ -306,7 +307,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
                 labels: [t('in-mobile-apps:dashboard.tabs.crashLabel')],
-                metricIds: ['crashAffectedSessionCount']
+                metricIds: ['crashAffectedSessionCount'],
+                colors: [theme.lib.colors.failure]
               }}
               metricsConfiguration={{
                 timeConfig,
