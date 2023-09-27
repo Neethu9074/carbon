@@ -18,7 +18,7 @@ interface UnifiedMetricConfigProps {
 }
 
 export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps) {
-  const { entityType, metricName, aggregation } = alertConfig.rule;
+  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
@@ -40,6 +40,7 @@ export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps
       metrics: [
         {
           aggregation: aggregation,
+          crossSeriesAggregation: crossSeriesAggregation,
           label: metricLabel,
           metric: metricName,
           source: 'INFRASTRUCTURE_METRICS',
