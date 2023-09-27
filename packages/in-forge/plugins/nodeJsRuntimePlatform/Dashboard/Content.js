@@ -290,12 +290,7 @@ function getNativeExtensionHint(snapshot) {
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.nativeExtensionsCouldNotBeLoaded"
         values={{ missingNativeExtensions: missingNativeExtensions.join(' and ') }}
         components={{
-          installLink: (
-            <Link
-              external
-              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#native-addons"
-            />
-          )
+          installLink: <Link external href="https://ibm.biz/nodejs-add-ons" />
         }}
       />
     </DashboardNotification>
