@@ -4,7 +4,7 @@ set -euo pipefail
 
 cd `dirname $BASH_SOURCE`/..
 
-SONARQUBE_SCANNER_VERSION="4.6.2.2472"
+SONARQUBE_SCANNER_VERSION="4.8.1.3023"
 SONARQUBE_URL="https://sonarqube.instana.io"
 
 echo "Download SonarQube scanner"
