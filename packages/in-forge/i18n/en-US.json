@@ -6296,7 +6296,8 @@
       "backupDuration": "Backup duration",
       "owner": "Owner",
       "tbspace": "Table Space",
-      "type": "Type"
+      "type": "Type",
+      "tbspState": "Table Space State"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",

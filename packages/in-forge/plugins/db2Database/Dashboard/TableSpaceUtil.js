@@ -7,7 +7,7 @@ import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { percentage, kiloBytes } from 'in-services/formatters/number';
+import { percentage, kiloBytes, number } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -93,6 +93,22 @@ const cols = [
         return `tablespaceutil.${row.key}.spaceUtilPercent`;
       },
       getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.tbspState'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `tablespaceutil.${row.key}.tbspState`;
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
