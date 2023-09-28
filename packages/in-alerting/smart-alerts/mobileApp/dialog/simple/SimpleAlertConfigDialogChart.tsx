@@ -4,9 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import PropTypes from 'prop-types';
+import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { MobileAppAlertConfig } from '@instana/types';
+
+//@ts-expect-error TS migrate
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -15,11 +18,24 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blue
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogChart.mless';
 
-export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
+interface AlertConfigWithFormModelProps extends Pick<MobileAppAlertConfig, 'rule'> {}
+
+interface SimpleAlertConfigDialogChartProps {
+  form: MapForm<any>;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
+}
+export default function SimpleAlertConfigDialogChart({
+  form,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
+}: SimpleAlertConfigDialogChartProps) {
   const alertConfigWithFormModel = form.toJS();
-  const alertType = alertConfigWithFormModel.rule.alertType;
+  const alertType = (alertConfigWithFormModel as AlertConfigWithFormModelProps).rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const isRuleComplete = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule);
+  const isRuleComplete = blueprintConfig.isRuleComplete(
+    (alertConfigWithFormModel as AlertConfigWithFormModelProps).rule
+  );
   const chartViewConfigs = defaultChartViewConfigs;
 
   return (
@@ -43,16 +59,12 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
               />
             </div>
           ) : (
-            <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+            blueprintConfig?.incompleteRuleMessage && (
+              <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+            )
           )}
         </>
       )}
     </ChartViewConfigurator>
   );
 }
-
-SimpleAlertConfigDialogChart.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired
-};
