@@ -21,7 +21,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-host#ebpf-not-supported`
+    explanationLinkHref: `https://ibm.biz/host-ebpf`
   },
   agent_log4j_vulnerability: {
     issueDescription: {
@@ -34,7 +34,7 @@ export default {
   },
   data_processing_issue_agent_message_filtered: {
     issueDescription: {
-      Component: function({ reason }) {
+      Component: function ({ reason }) {
         return (
           <>
             <div>{t('in-forge:plugins.host.messagesAreBeingFilteredFromThisHost')}</div>
@@ -44,6 +44,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: 'https://www.ibm.com/docs/en/instana-observability/current'
+    explanationLinkHref: 'https://ibm.biz/instana-current'
   }
 };

@@ -18,7 +18,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#generic-jvm-attachment-issue`
+    explanationLinkHref: `https://ibm.biz/insta-genjvmattachissue`
   },
   jvm_attach_container_command: {
     issueDescription: {
@@ -41,7 +41,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#container-attachment-failed`
+    explanationLinkHref: `https://ibm.biz/insta-containerattachfail`
   },
   jvm_attach_tools: {
     issueDescription: {
@@ -59,7 +59,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#attach-tools-missing`
+    explanationLinkHref: `https://ibm.biz/insta-attachtoolsmissing`
   },
   jvm_attach_socket: {
     issueDescription: {
@@ -68,7 +68,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#restart-needed`
+    explanationLinkHref: `https://ibm.biz/insta-dynattachissues`
   },
   jvm_attach_directory: {
     issueDescription: {
@@ -77,7 +77,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#attach-directory-failure`
+    explanationLinkHref: `https://ibm.biz/insta-noattachdir`
   },
   insufficient_disk_space_for_storing_temp_files: {
     issueDescription: {
@@ -86,8 +86,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref:
-      'https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#insufficient_disk_space_for_storing_temp_files'
+    explanationLinkHref: 'https://ibm.biz/insta-nodiskspacetempfiles'
   },
   jvm_attach_network: {
     issueDescription: {
@@ -108,7 +107,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#network-visibility-issues`
+    explanationLinkHref: `https://ibm.biz/insta-networkvisissues`
   },
   ibm_jvm_class_sharing_enabled: {
     issueDescription: {
@@ -126,7 +125,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#ibm-j9-class-sharing-enabled`
+    explanationLinkHref: `https://ibm.biz/insta-ibmj9sharingenabled`
   },
   nodejs_collector_not_installed: {
     issueDescription: {
@@ -227,7 +226,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-ruby#ruby-sensor-not-installed`
+    explanationLinkHref: `https://ibm.biz/tsg-ruby-not-installed`
   },
   prometheus_remote_write_high_delay: {
     issueDescription: {
@@ -246,7 +245,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=apis-prometheus#remote-write-high-metric-delay`
+    explanationLinkHref: `https://ibm.biz/prometheus-remote-write-hmd`
   },
   cpp_collector_not_installed: {
     issueDescription: {
@@ -265,6 +264,6 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     // TODO verify! There is no section like #cpp_collector_not_installed
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#troubleshooting`
+    explanationLinkHref: `https://ibm.biz/nginx-troubleshooting`
   }
 };
