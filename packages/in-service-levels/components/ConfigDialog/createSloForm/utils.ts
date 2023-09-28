@@ -24,6 +24,10 @@ export function isFieldValid<VALUE_TYPE>(field: Field<VALUE_TYPE>) {
 }
 
 export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConfiguration {
+  const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
+  const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
+  const startTimestamp = parseDateTime(`${date} ${time}`).getTime();
+
   return {
     name: form.getIn(['nameTags', 'name']).value,
     tags: form.getIn(['nameTags', 'tags']).value,
@@ -32,13 +36,10 @@ export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConf
     timeWindow: {
       duration: form.getIn(['objective', 'duration']).value,
       durationUnit: form.getIn(['objective', 'durationUnit']).value,
-      startTimestamp: parseDateTime(
-        form.getIn(['objective', 'startTimestamp', 'date']).value +
-          form.getIn(['objective', 'startTimestamp', 'time']).value
-      ).getTime(),
-      type: form.getIn(['objective', 'type']).value
+      type: form.getIn(['objective', 'type']).value,
+      startTimestamp
     },
-    target: 0
+    target: form.getIn(['objective', 'target']).value ?? 0
   };
 }
 
@@ -50,7 +51,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
       applicationId: form.getIn(['entity', 'entityId']).value,
       boundaryScope: form.getIn(['scope', 'boundaryScope']).value,
       serviceId: form.getIn(['scope', 'serviceId']).value || undefined,
-      endpointId: form.getIn(['scope', 'boundaryScope']).value || undefined,
+      endpointId: form.getIn(['scope', 'endpointId']).value || undefined,
       includeInternal: form.getIn(['scope', 'includeInternal']).value,
       includeSynthetic: form.getIn(['scope', 'includeSynthetic']).value,
       tagFilterExpression: toBackendQueryModel(form.getIn(['scope', 'tagFilterExpression']).value),

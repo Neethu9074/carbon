@@ -22,11 +22,11 @@ import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
 import { createSloConfiguration } from 'in-service-levels/api/configuration';
+import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import { close } from 'in-components/DialogPresenter/store';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -34,7 +34,7 @@ import { t } from 'in-i18n';
 export default function CreateSloDialog() {
   const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
   const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
-  const [, doSubmit] = useFormSubmission(createSloConfiguration);
+  const [submitStatus, doSubmit] = useFormSubmission(createSloConfiguration);
 
   const nameField = form.getIn(['nameTags', 'name']);
   const targetField = form.getIn(['objective', 'target']);
@@ -99,9 +99,10 @@ export default function CreateSloDialog() {
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}
           navItems={navItems}
-          onClose={close}
+          onClose={closeDialog}
           noHeader
           noDivider
+          isSaving={submitStatus === 'pending'}
           onSave={() => {
             updateForm(form.setTouched(true, { recurse: true }));
 
@@ -132,6 +133,8 @@ function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
       name
     })
   });
+
+  closeDialog();
 }
 
 const errorMessageHeader = {

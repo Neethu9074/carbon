@@ -55,6 +55,16 @@
       "type": "unknown",
       "type_fixed": "Fixed",
       "type_rolling": "Rolling",
+      "option_day": "Day",
+      "option_day_plural": "Days",
+      "option_day_0": "Days",
+      "option_day_1": "Day",
+      "option_day_2": "Days",
+      "option_week": "Week",
+      "option_week_plural": "Weeks",
+      "option_week_0": "Weeks",
+      "option_week_1": "Week",
+      "option_week_2": "Weeks",
       "size_month": "{{count}} month",
       "size_month_plural": "{{count}} months",
       "size_month_0": "{{count}} months",
@@ -105,7 +115,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Custom Filter",
+    "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",
     "selectIndicator": "Select Indicator",
     "selectEntityNavItem": "Select Entity",
@@ -132,7 +142,7 @@
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
-    "tagsLabel": "Tags",
+    "tagsLabel": "Tags (optional)",
     "tagsPlaceholder": "Enter tags",
     "tagsCreateLabel": "Create: {{tag}}",
     "messages": {
@@ -140,19 +150,19 @@
       "creationSuccessfulContent": "SLO configuration \"{{name}}\" has been created.",
       "creationFailedTitle": "Failed to create the SLO configuration",
       "creationFailedContent": "There was a problem creating this SLO configuration: \"{{name}}\".",
-      "creationFailedUnexpectedContent": "An unexpected error occured while creating this SLO configuration, please try again later."
+      "creationFailedUnexpectedContent": "An unexpected error occurred while creating this SLO configuration, please try again later."
     },
     "indicatorSection": {
       "description_custom": "This should be updated later as it is missing in the designs",
-      "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms",
-      "description_availability": "Measures how often a service responds appropriately. For example, how often your checkout-service responds with HTTP calls >400",
+      "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms.",
+      "description_availability": "Measures how often a service responds appropriately. For example, how often your HTTP calls are erroneous.",
       "timeTypeExplanation": "Good vs bad calls grouped aggregated by minute",
       "eventTypeExplanation": "Total count of good vs bad calls",
       "eventCount": "Event Count",
       "eventType": "Event Type",
       "thresholdLabel": "Unknown type",
       "thresholdLabel_latency": "Threshold (ms)",
-      "thresholdLabel_availability": "Error rate %",
+      "thresholdLabel_availability": "Error Rate (%)",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)"
     }

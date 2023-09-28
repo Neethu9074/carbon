@@ -54,6 +54,7 @@ export default function TimeWindowSelector() {
           <Input
             type="number"
             id="time-window-size"
+            value={windowDurationField.value}
             onChange={e => {
               onChange(['objective', 'duration'], () =>
                 windowDurationField.setValue(Number(e.target.value)).setTouched(true)
@@ -72,8 +73,12 @@ export default function TimeWindowSelector() {
               );
             }}
           >
-            <option value="day">{t('in-service-levels:general.timeWindow.size_day_plural')}</option>
-            <option value="week">{t('in-service-levels:general.timeWindow.size_week_plural')}</option>
+            <option value="day">
+              {t('in-service-levels:general.timeWindow.option_day', { count: windowDurationField.value })}
+            </option>
+            <option value="week">
+              {t('in-service-levels:general.timeWindow.option_week', { count: windowDurationField.value })}
+            </option>
           </Select>
         </Stack>
         {!timeStamp.valid &&
