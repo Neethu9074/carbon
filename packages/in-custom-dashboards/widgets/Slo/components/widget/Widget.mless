@@ -17,10 +17,10 @@
   }
 
   .title {
-    font-size: @lib__typography__h600__font-size;
-    font-weight: @lib__typography__h600__font-weight;
-    color: @lib__colors__N800Dark;
-    background-color: @lib__colors__white;
+    font-size: var(--ids-font-size-option-heading-600);
+    font-weight: var(--ids-font-weight-option-heading-600);
+    color: var(--ids-color-option-neutral-800);
+    background-color: var(--ids-color-option-white);
   }
 
   .chart {

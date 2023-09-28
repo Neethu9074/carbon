@@ -20,12 +20,13 @@ import Header from 'in-components/workspace/Header';
 import Label from 'in-components/form/Label/Label';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 
 export default function ApplicationHealthWidgetFormComponent({ form, onChange }) {
+  const theme = useTheme();
   const applications = useObservable(getApplicationsObservable, []) ?? pendingResult;
   const handleOnChange = (e, index) => {
     const application = applications.filter(item => item.id === e.target.value)[0];
@@ -47,7 +48,7 @@ export default function ApplicationHealthWidgetFormComponent({ form, onChange })
       <Stack gap="xsmall">
         <Header>{t('in-custom-dashboards:widgets.applicationHealth.form.header')}</Header>
         <span className={locals.secondaryHeading}>
-          <SvgIcon type="lib_help_error_info_outline" size={'s'} color={theme.lib.colors.N600Light} />
+          <SvgIcon type="lib_help_error_info_outline" size={'s'} color={theme.ids.color.option.neutral['600']} />
           {t('in-custom-dashboards:widgets.applicationHealth.form.secondaryHeadingText')}
         </span>
         <Ul>

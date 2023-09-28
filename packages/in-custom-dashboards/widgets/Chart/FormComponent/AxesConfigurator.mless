@@ -25,7 +25,7 @@
   }
 
   .axis {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     flex: 1;
   }
 
@@ -62,12 +62,12 @@
   .dragHandle {
     margin-right: 0.5rem;
     cursor: grab;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
 
     &:hover,
     &:active,
     &:focus {
-      fill: @lib__colors__N600Light;
+      fill: var(--ids-color-option-neutral-600);
     }
   }
 
@@ -82,7 +82,7 @@
   }
 
   .timeShiftIndicator {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.2rem;
   }
 
@@ -90,9 +90,9 @@
     padding: 3rem 0;
     margin: 0;
     text-align: center;
-    color: @lib__colors__N600Light;
-    background: @lib__colors__N300;
-    border-radius: @lib__shapes__radius_small;
+    color: var(--ids-color-option-neutral-600);
+    background: var(--ids-color-option-neutral-300);
+    border-radius: var(--ids-border-radius-small);
   }
 
   .shareMaxValueContainer {

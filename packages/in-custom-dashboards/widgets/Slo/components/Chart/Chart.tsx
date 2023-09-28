@@ -30,7 +30,7 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
 import { error } from 'in-services/util/result';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Chart.mless';
@@ -66,6 +66,7 @@ export default function Chart({
   trackers,
   customHeight
 }: ChartProps) {
+  const theme = useTheme();
   const tagCatalogLoader = useTagCatalogLoader(sliConfig);
   const tagCatalog = useTagCatalog(tagCatalogLoader);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
@@ -115,7 +116,7 @@ export default function Chart({
             icons: {
               types: ['lib_flame', 'lib_actions_stop']
             },
-            colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
+            colors: [theme.ids.color.option.blue['500'], theme.ids.color.option.red['500']],
             renderer,
             metrics: [...metrics],
             formatter: useSliFormatter(sliConfig?.sliEntity)

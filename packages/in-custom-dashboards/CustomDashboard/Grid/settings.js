@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import theme from 'in-themes/active.json';
+import oldTheme from 'in-themes/active.json';
 
 // Unfortunately a limitation in the grid library and an inconsistency
 // to the rest of the product: rowHeightPixels must be a multiple of the
@@ -15,7 +15,7 @@ import theme from 'in-themes/active.json';
 //
 // Also see the following issue in react-grid-layout
 // https://github.com/STRML/react-grid-layout/issues/816
-const sizing = theme.grid.gutter * 0.5;
+const sizing = oldTheme.grid.gutter * 0.5;
 export const margin = [sizing, sizing];
 export const containerPadding = [0, 0];
 export const rowHeightPixels = sizing;

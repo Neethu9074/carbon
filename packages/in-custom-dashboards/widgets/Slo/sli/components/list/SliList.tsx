@@ -30,8 +30,8 @@ import { FetchedState } from 'in-hooks/utils/types';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
@@ -86,8 +86,15 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
     sortable: true,
     label: 'Name',
     getContent(sliConfig) {
+      /** This is okay to disable since this function returns JSX and custom hooks work here */
+      // eslint-disable-next-line
+      const theme = useTheme();
       return (
-        <WithIcon iconColor={theme.lib.colors.N500} icon={getIcon(sliConfig)} className={locals.withIcon}>
+        <WithIcon
+          iconColor={theme.ids.color.option.neutral['500']}
+          icon={getIcon(sliConfig)}
+          className={locals.withIcon}
+        >
           <SliNameWithSubscript sliConfig={sliConfig} />
         </WithIcon>
       );
