@@ -5,12 +5,22 @@
  */
 
 import {
+  CONTAINERD_ID,
+  CONTAINERD_SNAPSHOT_ID,
   containerSnapshotIds,
+  CRIO_ID,
+  CRIO_SNAPSHOT_ID,
+  DOCKER_ID,
+  DOCKER_SNAPSHOT_ID,
+  GARDEN_ID,
+  GARDEN_SNAPSHOT_ID,
+  HOST_NAME,
   ID_HOST,
   ID_PROCESS,
   kubernetesTags,
   LOG_CUSTOM,
   LOG_SERVICE_NAME,
+  PROCESS_ID,
   restrictedTags
 } from 'in-logging/queryBuilder';
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
@@ -20,12 +30,15 @@ import { LogItem, LogTag } from 'in-types';
 
 const infraTags = [...containerSnapshotIds, ID_HOST];
 
+/** Infrastructure entity IDs are mapped to snapshot IDs because snapshot IDs are only needed for internal use.
+ * For generating filters and displaying information to users we need the actual entity IDs **/
 const tagMap: Record<string, string> = {
-  'id.docker': 'docker.containerId',
-  'id.crio': 'crio.containerId',
-  'id.containerd': 'containerd.containerId',
-  'id.host': 'host.name',
-  'id.process': 'process.id'
+  [DOCKER_SNAPSHOT_ID]: DOCKER_ID,
+  [CRIO_SNAPSHOT_ID]: CRIO_ID,
+  [CONTAINERD_SNAPSHOT_ID]: CONTAINERD_ID,
+  [GARDEN_SNAPSHOT_ID]: GARDEN_ID,
+  [ID_HOST]: HOST_NAME,
+  [ID_PROCESS]: PROCESS_ID
 };
 
 export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
