@@ -1955,10 +1955,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.16.0":
-  version "2.16.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.16.0.tgz#2b91ca8e87a6ec156b7b0ceec31f4eaa5d89696a"
-  integrity sha512-a46dxGCMLbGE4hZveP5gp4RQYnLWiUm3qQiLpIi/5cWd4ihVJQOAIHJkrgwRefUbQomZctxoE2p1RyTwu568eA==
+"@instana/components@2.17.0":
+  version "2.17.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.17.0.tgz#22361c3542794f5c5f0bd807cff974b571f0a9e7"
+  integrity sha512-4rADIn/D7yskzC4YVhqw4j4S5mg5qszwRKJTgnj3XinbJ9y611H5UGHi+nmFdvDbmIiXjzFjbRmd2oD8kX4pKw==
   dependencies:
     "@carbon/react" "^1.27.0"
     "@carbon/type" "^11.19.0"

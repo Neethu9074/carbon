@@ -188,6 +188,7 @@ packages/in-forge/plugins/varnish                               @pr-approval @In
 packages/in-forge/plugins/vault                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/vsphere*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/webLogic*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/website*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-eum @instana/eng-infrastructure
 packages/in-forge/plugins/zooKeeper                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

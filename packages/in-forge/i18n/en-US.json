@@ -1497,6 +1497,11 @@
   "pluginName_pluginName_powerVCRegion_0": "PowerVC Regions",
   "pluginName_pluginName_powerVCRegion_1": "PowerVC Regions",
   "pluginName_pluginName_powerVCRegion_2": "PowerVC Regions",
+  "pluginName_websiteHttpd": "Website",
+  "pluginName_websiteHttpd_plural": "Websites",
+  "pluginName_websiteHttpd_0": "Websites",
+  "pluginName_websiteHttpd_1": "Website",
+  "pluginName_websiteHttpd_2": "Websites",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController Calls",
@@ -13696,6 +13701,29 @@
       "dashboard": {
         "fsid": "Identifier"
       }
+    },
+    "eum": {
+      "dashboard": {
+        "website": "Website",
+        "openDashboard": "Open Website Dashboard",
+        "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
+      },
+      "website": "Website",
+      "true": "True",
+      "false": "False",
+      "pid": "Process ID",
+      "webserverType": "Server Type",
+      "websiteName": "Name",
+      "websitekey": "Website ID",
+      "aggressive": "Aggressive Instrumentation",
+      "contentTypes": "Content-Types",
+      "enabled": "Auto-instrumented",
+      "trackSessions": "Track Sessions",
+      "jsAgentUrl": "JavaScript Agent Url",
+      "reportingUrl": "Reporting Url",
+      "mode": "Mode",
+      "matchExpressionsWithSize": "Match Expressions ({{size}})",
+      "lastModified": "Last Modified"
     }
   },
   "tracing": {
