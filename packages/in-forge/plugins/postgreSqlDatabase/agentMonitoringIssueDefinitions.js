@@ -25,7 +25,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/nodejs-postgresql-stats`
+    explanationLinkHref: `https://ibm.biz/postgresql-stats`
   },
 
   postgresql_authentication_failed: {
@@ -45,7 +45,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/nodejs-postgresql-auth`
+    explanationLinkHref: `https://ibm.biz/postgresql-auth`
   },
 
   postgresql_connection_failed: {
@@ -65,6 +65,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/nodejs-postgresql-con`
+    explanationLinkHref: `https://ibm.biz/postgresql-con`
   }
 };
