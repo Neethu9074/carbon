@@ -3,13 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error Could not find a declaration file for module
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
+// @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
+// @ts-expect-error Could not find a declaration file for module
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
+// @ts-expect-error Could not find a declaration file for module
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
-import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
 import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
+import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
@@ -54,7 +59,7 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/alerts`,
     component: Alerts
   },
-  role.canConfigureMobileAppMonitoring && {
+  role?.canConfigureMobileAppMonitoring && {
     label: t('in-mobile-apps:dashboard.tabs.configurationLabel'),
     path: `${mobileAppPathFullyQualified}/configuration`,
     component: Configuration,
@@ -62,4 +67,4 @@ export const mobileAppTabs = [
   }
 ].filter(Boolean);
 
-export const viewTabs = mobileAppTabs.filter(tab => !tab.mobileAppOnly);
+export const viewTabs = mobileAppTabs.filter(tab => tab && !tab.mobileAppOnly);
