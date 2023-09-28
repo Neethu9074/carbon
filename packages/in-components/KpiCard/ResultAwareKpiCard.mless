@@ -7,7 +7,7 @@
 
 :local {
   .error {
-    fill: @lib__colors__red800;
+    fill: var(--ids-color-option-red-500);
     margin: 0.5rem auto 0;
     display: block;
   }

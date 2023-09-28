@@ -39,7 +39,7 @@
 
     .stripe {
       // overwrite background color defined via style attribute on DOM node
-      background-color: @lib__colors__blue800 !important;
+      background-color: var(--ids-color-option-blue-500) !important;
       width: 2.5rem;
     }
 

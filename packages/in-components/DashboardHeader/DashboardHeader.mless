@@ -126,7 +126,7 @@
   .specialIndicator {
     height: 8px;
     width: 8px;
-    background-color: @lib__colors__orange800;
+    background-color: var(--ids-color-option-orange-500);
     border-radius: 50%;
   }
 

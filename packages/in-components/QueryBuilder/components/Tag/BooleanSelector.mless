@@ -25,7 +25,7 @@
       border-top: 1px solid;
       border-left: 1px solid;
       margin-left: -1px;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
 
     .booleanValue {
@@ -41,7 +41,7 @@
       border-top: 1px solid;
       border-left: 1px solid;
       margin-left: -1px;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 }

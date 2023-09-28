@@ -69,7 +69,7 @@
     color: @lib__colors__N700Medium;
 
     &:hover {
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
       text-decoration: none;
     }
   }

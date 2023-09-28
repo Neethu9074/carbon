@@ -28,7 +28,7 @@
   }
 
   .info {
-    border-left: 6px solid @lib__colors__teal800;
+    border-left: 6px solid var(--ids-color-option-teal-500);
   }
 
   .warning {
@@ -45,7 +45,7 @@
 
   .icon {
     align-self: flex-start;
-    fill: @lib__colors__teal800;
+    fill: var(--ids-color-option-teal-500);
     vertical-align: middle;
   }
 

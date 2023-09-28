@@ -15,7 +15,7 @@
       top: 0;
       bottom: 0;
       left: calc(50% - 1px);
-      border-right: 2px solid @lib__colors__light-blue800;
+      border-right: 2px solid var(--ids-color-option-blue-400);
     }
   }
 
@@ -46,7 +46,7 @@
     @keyframes blinking-letter-caret {
       0%,
       100% {
-        background: @lib__colors__light-blue800;
+        background: var(--ids-color-option-blue-400);
       }
       50% {
         background: transparent;
@@ -56,7 +56,7 @@
     &:focus,
     &:active {
       outline: 0;
-      background: @lib__colors__light-blue800;
+      background: var(--ids-color-option-blue-400);
       animation-name: blinking-letter-caret;
       animation-duration: 1s;
       animation-iteration-count: infinite;
@@ -75,7 +75,7 @@
       @keyframes blinking-word-caret {
         0%,
         100% {
-          border-color: @lib__colors__light-blue800;
+          border-color: var(--ids-color-option-blue-400);
         }
         50% {
           border-color: transparent;
@@ -89,7 +89,7 @@
         top: 0;
         bottom: 0;
         left: calc(50% - 1px);
-        border-right: 2px solid @lib__colors__light-blue800;
+        border-right: 2px solid var(--ids-color-option-blue-400);
         animation-name: blinking-word-caret;
         animation-duration: 1s;
         animation-iteration-count: infinite;
@@ -174,9 +174,9 @@
     width: var(--width);
 
     background: @lib__colors__N050;
-    border: 1px solid @lib__colors__light-blue800;
+    border: 1px solid var(--ids-color-option-blue-400);
     &::after {
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
       background: @lib__colors__N050;
     }
   }
