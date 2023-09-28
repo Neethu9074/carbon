@@ -5,7 +5,7 @@
  */
 
 import {
-  containerIds,
+  containerSnapshotIds,
   ID_HOST,
   ID_PROCESS,
   kubernetesTags,
@@ -18,7 +18,15 @@ import { filterAdded, groupAdded } from 'in-logging/analyze/AnalyzeView/tracker'
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
 
-const infraTags = [...containerIds, ID_HOST];
+const infraTags = [...containerSnapshotIds, ID_HOST];
+
+const tagMap: Record<string, string> = {
+  'id.docker': 'docker.containerId',
+  'id.crio': 'crio.containerId',
+  'id.containerd': 'containerd.containerId',
+  'id.host': 'host.name',
+  'id.process': 'process.id'
+};
 
 export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   const groupedTags: GroupedTags = {
@@ -46,7 +54,7 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
     }
   });
 
-  groupedTags.infrastructure.sort(tag => (containerIds.includes(tag.name as string) ? 1 : -1));
+  groupedTags.infrastructure.sort(tag => (containerSnapshotIds.includes(tag.name as string) ? 1 : -1));
   groupedTags.kubernetes?.sort(
     (tag, nextTag) => kubernetesTags.indexOf(tag.name as string) - kubernetesTags.indexOf(nextTag.name as string)
   );
@@ -70,6 +78,13 @@ export function createTag(value: string, name?: string, key?: string): ClickedTa
   return tag;
 }
 
+export function createTagFilter(value: string, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
+  const alternativeTag = name && itemTags.find(item => item.name === tagMap[name]);
+
+  if (alternativeTag) return createTag(alternativeTag.stringValue!, alternativeTag.name, alternativeTag.key);
+  else return createTag(value, name, key);
+}
+
 export function createGroupingTag(name?: string, key?: string): GroupingTag {
   const tag: GroupingTag = { tag: name || '' };
   if (key) {
@@ -86,7 +101,7 @@ export function filterTag(tag: LogTag): boolean {
 }
 
 export const getSnapshotId = (tag: LogTag, item: LogItem) => {
-  if ([...containerIds, ID_HOST, ID_PROCESS].includes(tag.name as string)) {
+  if ([...containerSnapshotIds, ID_HOST, ID_PROCESS].includes(tag.name as string)) {
     return tag.stringValue;
   } else if (tag.name?.includes('kubernetes')) {
     const k8sEntityType = tag.name.split('.')[1];

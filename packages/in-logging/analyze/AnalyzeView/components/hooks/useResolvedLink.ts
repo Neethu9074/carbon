@@ -9,7 +9,7 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  containerIds,
+  containerSnapshotIds,
   ID_HOST,
   ID_PROCESS,
   LOG_CUSTOM,
@@ -53,7 +53,7 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
-  const containerTagResolvers: [string, LinkResolverObservable][] = containerIds.map(id => [
+  const containerTagResolvers: [string, LinkResolverObservable][] = containerSnapshotIds.map(id => [
     id,
     (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })
   ]);
