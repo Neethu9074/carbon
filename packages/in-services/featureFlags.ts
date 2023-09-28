@@ -69,7 +69,6 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
-export const sloV2CreationEnabled = isFeatureFlagEnabled('sloV2CreationEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 

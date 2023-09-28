@@ -291,11 +291,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'sloV2CreationEnabled',
-    instanaCtlKey: 'feature.sloV2.creation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
     defaultValue: false
