@@ -16,6 +16,6 @@
   }
 
   .hasError {
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
   }
 }

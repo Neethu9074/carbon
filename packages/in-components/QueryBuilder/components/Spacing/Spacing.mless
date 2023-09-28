@@ -140,9 +140,9 @@
     padding-bottom: 0.125rem;
 
     font-weight: 500;
-    color: @lib__colors__failure;
-    background: @lib__colors__failure10;
-    border: 1px solid @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
+    background: var(--ids-color-option-red-500) 10;
+    border: 1px solid var(--ids-color-option-red-500);
     border-radius: @lib__shapes__radius_medium;
 
     &:hover {
@@ -158,8 +158,8 @@
       border-width: 1px 0px 0px 1px;
       border-style: solid;
       pointer-events: none;
-      border-color: @lib__colors__failure;
-      background: @lib__colors__failure10;
+      border-color: var(--ids-color-option-red-500);
+      background: var(--ids-color-option-red-500) 10;
       transform: rotateZ(45deg);
       width: 0.375rem;
       height: 0.375rem;

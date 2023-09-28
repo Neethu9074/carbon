@@ -31,6 +31,6 @@
   }
 
   .higlightedText {
-    color: @lib__colors__primary1;
+    color: var(--ids-color-option-teal-500);
   }
 }

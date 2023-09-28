@@ -25,6 +25,6 @@
 
   .error:not(:focus),
   .error:focus:not(.hideValidityInformationOnFocus) {
-    border-color: @lib__colors__failure;
+    border-color: var(--ids-color-option-red-500);
   }
 }
