@@ -7,29 +7,45 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+// @ts-expect-error Could not find a declaration file for module
 import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
-import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
-import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
+// @ts-expect-error Could not find a declaration file for module
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
-import CrashTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/CrashTopList';
+// @ts-expect-error Could not find a declaration file for module
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
+import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
+import CrashTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/CrashTopList';
 import { summaryTab, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { number, percentage } from 'in-services/formatters/number';
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
+import { TimeConfig, TagFilter } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
+interface SummaryProp {
+  tagFilters: TagFilter[];
+  timeConfig: TimeConfig;
+  mobileAppId: string;
+  mobileAppLabel: string;
+  viewId?: string;
+}
+
+export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }: SummaryProp) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const granularity = getChartGranularity(timeConfig);
   const tagCatalogSessionStart = useTagCatalog('sessionStart');
@@ -47,8 +63,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           aggregation={'SUM'}
           formatter={number.compact}
           comparisonColors={{
-            comparisonDecreaseColor: blue.id,
-            comparisonIncreaseColor: blue.id
+            decreaseColor: blue.id,
+            increaseColor: blue.id
           }}
           tagFilters={tagFilters}
           timeConfig={timeConfig}
@@ -165,8 +181,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               })
             }
             comparisonColors={{
-              comparisonDecreaseColor: blue.id,
-              comparisonIncreaseColor: blue.id
+              decreaseColor: blue.id,
+              increaseColor: blue.id
             }}
             tagFilters={tagFilters}
             timeConfig={timeConfig}
@@ -206,8 +222,8 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 })
               }
               comparisonColors={{
-                comparisonDecreaseColor: blue.id,
-                comparisonIncreaseColor: blue.id
+                decreaseColor: blue.id,
+                increaseColor: blue.id
               }}
               tagFilters={tagFilters}
               timeConfig={timeConfig}
@@ -331,7 +347,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
 
       <Row>
         <Col lg={mobileAppCrashBeaconEnabled ? 4 : thinWidgetWidth}>
-          <Card title={t('in-mobile-apps:dashboard.tabs.geographyTitle')} withoutPadding>
+          <Card title={t('in-mobile-apps:dashboard.tabs.geographyTitle')}>
             <MobileAppGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>
@@ -360,8 +376,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               mobileAppId={mobileAppId}
-              mobileAppLabel={mobileAppLabel}
-              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'occurrenceTab' }}
+              urlMatrixParamConfig={{
+                path: summaryTab,
+                paramTab: 'occurrenceTab',
+                paramMetric: 'crashAffectedSessionCount'
+              }}
               renderHistoricDataIndicator
             />
           </Col>
