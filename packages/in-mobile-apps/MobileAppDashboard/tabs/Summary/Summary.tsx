@@ -8,8 +8,6 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
-import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
-// @ts-expect-error Could not find a declaration file for module
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 // @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
@@ -21,6 +19,7 @@ import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTo
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 // @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import CrashTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/CrashTopList';
@@ -356,7 +355,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             tagFilters={tagFilters}
             timeConfig={timeConfig}
             mobileAppId={mobileAppId}
-            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'originsTab' }}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'originsTab', paramMetric: 'beaconCount' }}
             renderHistoricDataIndicator
           />
         </Col>
@@ -378,7 +377,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               mobileAppId={mobileAppId}
               urlMatrixParamConfig={{
                 path: summaryTab,
-                paramTab: 'occurrenceTab',
+                paramTab: 'crashesTab',
                 paramMetric: 'crashAffectedSessionCount'
               }}
               renderHistoricDataIndicator
