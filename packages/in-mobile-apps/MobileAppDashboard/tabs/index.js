@@ -22,15 +22,15 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/summary`,
     component: Summary
   },
-  mobileAppCrashBeaconEnabled && {
-    label: t('in-mobile-apps:dashboard.tabs.crashLabel'),
-    path: `${mobileAppPathFullyQualified}/crashes`,
-    component: Crashes
-  },
   {
     label: t('in-mobile-apps:dashboard.tabs.httpRequestLabel'),
     path: `${mobileAppPathFullyQualified}/httpRequests`,
     component: HttpRequests
+  },
+  mobileAppCrashBeaconEnabled && {
+    label: t('in-mobile-apps:dashboard.tabs.crashLabel'),
+    path: `${mobileAppPathFullyQualified}/crashes`,
+    component: Crashes
   },
   {
     label: t('in-mobile-apps:dashboard.tabs.geographyLabel'),
