@@ -30,7 +30,9 @@ import CreateApplication from 'in-applications/creation/CreateApplication';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import Tooltip from 'in-components/Tooltip';
 import Footer from 'in-components/Footer';
@@ -219,9 +221,9 @@ export default function ApplicationsListPresenter({
         <Title title={t('in-applications:labelApplications')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Applications',
-            pageRootName: 'Applications',
-            pagePath: location?.pathname
+            pagePath: location?.pathname,
+            productArea: productAreas.applications,
+            pageRootName: pageNames.applications
           }}
         />
 
