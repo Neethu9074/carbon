@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { forwardRef, useState } from 'react';
+import React, { Ref, forwardRef, useState } from 'react';
 
 import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -12,7 +12,16 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import IconButton from 'in-components/IconButton/IconButton';
 import { t } from 'in-i18n';
 
-export default forwardRef(function AsyncTokenCopyButton({ internalId, token, updateToken }, ref) {
+export interface AsyncTokenCopyButtonProps {
+  internalId: string;
+  token: string;
+  updateToken: (token: any) => void;
+}
+
+export default forwardRef(function AsyncTokenCopyButton(
+  { internalId, token, updateToken }: AsyncTokenCopyButtonProps,
+  ref: Ref<HTMLButtonElement>
+) {
   const [isLoading, setIsLoading] = useState(false);
   const [isMasked, setIsMasked] = useState(true);
 
