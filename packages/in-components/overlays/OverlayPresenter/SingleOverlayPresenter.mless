@@ -22,7 +22,7 @@
 
     &.style--popover {
       border-radius: @lib__shapes__radius_medium;
-      box-shadow: @lib__shadows__strong;
+      box-shadow: var(--ids-shadow-option-strong);
 
       .overlay-style(#fff, 1px, rgba(0, 0, 0, 0.161));
     }
