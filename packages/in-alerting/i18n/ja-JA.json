@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "アラートの構成",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "applicationNamePlaceholder": "アプリケーション名",
         "serviceNamePlaceholder": "サービス名",
         "endpointNamePlaceholder": "エンドポイント名",
@@ -919,7 +918,8 @@
       "enabled": "有効",
       "disabled": "無効",
       "severity": "重大度",
-      "created": "作成日",
+      "initialCreated": "作成日",
+      "created": "変更日",
       "type": "タイプ"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "アラート通知には何を含める必要がありますか?",
         "failureThreshold": "時間しきい値",
         "failureThresholdLabel": "時間しきい値",
-        "failureThresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?"
+        "failureThresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?",
+        "syntheticTestNamePlaceholder": "シンセティック・テスト",
+        "syntheticLocationLabelPlaceholder": "シンセティック・ロケーション"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "シンセティック・テストの追加",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "状況コードのカウント",
-        "beaconRate": "ビーコン率",
+        "beaconRate": "状況コードの比率",
         "views": "ビュー",
         "customEventBlueprintConfigMetricLabel": "発生件数",
         "sessions": "セッション数",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "カスタム・イベント",
         "statusCodeBlueprintConfigHeadline": "HTTP 状況コードに対する自動アラート",
         "statusCodeBlueprintConfigText": "一致する HTTP 状況コードの発生頻度が通常より多いときにアラートを受け取ります。",
-        "throughputBlueprintConfigHeadline": "ページ・ビューに対する自動アラート",
-        "throughputBlueprintConfigText": "このモバイル・アプリケーションの選択したページのビューの数が異常に少ないか多い場合の自動アラート。",
+        "throughputBlueprintConfigHeadline": "モバイル・アプリケーション・ビューの自動アラート",
+        "throughputBlueprintConfigText": "モバイル・アプリケーションのビューの数が異常に少ないか多い場合に自動アラートを発行します。",
         "customEventBlueprintConfigHeadline": "カスタム・イベントの自動アラート",
         "customEventBlueprintConfigText": "特定のカスタム・イベントが発生する頻度が発生するたびに、アラートを受信します。",
         "customEventBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされるタイミングを確認するには、カスタム・イベントを選択してください",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされたときに表示する状況コードを選択してください"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされたときに表示する状況コードを選択してください",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "予期せずビューの数が少ない",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "ビューの数が異常に少ない場合の自動アラート",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "使用可能な過去のデータと比較して、ビューの数が予想より大幅に少ない場合にアラートを受け取ります。",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "予期しない低いセッション数",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "セッション数が異常に少ない場合の自動アラート",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "使用可能な過去のデータと比較して訪問回数が予想よりも大幅に少ない場合にアラートを受信します。"
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "静的しきい値、 {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "状況コードのカウント",
-        "ruleMetricNameOptionBeaconRate": "ビーコン率",
+        "ruleMetricNameOptionBeaconRate": "状況コードの比率",
         "ruleMetricNameOptionThroughputSessions": "セッション数",
         "ruleMetricNameOptionThroughputViews": "ビュー",
         "errorPleaseProvideCustomEventName": "カスタム・イベント名を指定してください",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "範囲",
         "scopeTitle": "スコープ: 状況が発生している場所",
         "thresholdLabel": "しきい値",
-        "thresholdTitle": "しきい値: どのような場合に条件に違反するか"
+        "thresholdTitle": "しきい値: どのような場合に条件に違反するか",
+        "userImpactInfo": "ユーザーへの影響のしきい値として考慮されるのは、認証されたユーザーのみです。",
+        "payloadsLabel": "積載量",
+        "payloadsTitle": "カスタム・ペイロード"
       }
     },
     "inventory": {
@@ -1144,7 +1156,7 @@
         "anyJSErrors": "すべての JS エラー",
         "JSErrors": "JS エラー: {{errorMessage}}",
         "customEvents": "カスタム・イベント: {{customEventName}}",
-        "HTTPStatusCodes": "HTTP 状況コード: {{statusCode}}",
+        "HTTPStatusCodes": "HTTP ステータス・コード: {{statusCode}}",
         "unsupportedAlertType": "サポートされないアラート・タイプ: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS エラーが検出されました。",
         "unsupportedOperator": "サポートされない演算子: {{operator}}",

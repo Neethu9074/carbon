@@ -2,11 +2,16 @@
   "labelBizOps": "プロセス",
   "labelSmartAlerts": "スマート・アラート",
   "labelActivities": "アクティビティー",
+  "components": {
+    "count": "数"
+  },
   "lists": {
     "pageTitle": "ビジネス・モニタリング",
     "cardTitle": "ビジネス・プロセス",
     "activityLabel": "アクティビティー",
     "nameLabel": "名前",
+    "countLabel": "数",
+    "durationLabel": "期間",
     "noData": "表示可能なデータがありません",
     "healthLabel": "正常性",
     "startLabel": "開始済み"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "ビジネス・プロセス",
       "summaryTab": "サマリー",
+      "activitiesTab": "アクティビティー",
       "widgets": {
-        "timeline": "タイムライン",
         "topActivities": "上位のアクティビティー (カウント)",
         "infrastructureIssuesAndChanges": "インフラストラクチャーの問題 & 変更",
-        "viewAll": "すべてのアクティビティーの表示",
-        "count": "数",
-        "businessProcessStartedLabel": "{{businessProcessName}} が開始されました"
+        "viewAll": "すべてのアクティビティーの表示"
       }
+    },
+    "activity": {
+      "pageTitle": "ビジネス・アクティビティー",
+      "summaryTab": "サマリー"
     }
   }
 }

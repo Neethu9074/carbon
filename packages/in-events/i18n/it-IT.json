@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
   "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. In futuro, gli eventi personalizzati per i tre tipi di entità verranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/>Visualizza la configurazione dell'evento personalizzato per la migrazione ad avviso smart. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "Azioni associate all'evento di attivazione",
+  "recommendedActions": "Azioni consigliate",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
     "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. Non sarà possibile creare o aggiornare questi tipi di eventi personalizzati in futuro.",

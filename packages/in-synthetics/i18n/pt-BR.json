@@ -31,18 +31,20 @@
       "basicDetails": {
         "title": "Qual é o nome deste teste de API Simple (HTTP Action)",
         "scriptTitle": "Qual é o nome deste teste de API Script (HTTP Script)",
+        "webpageActionTitle": "Qual é o nome deste teste Simples de Navegador (ação da página da web)",
+        "browserScriptTitle": "Qual é o nome deste teste de Script de Navegador",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
         "labelFrequency": "Frequência (minuto)",
         "labelApplications": "Selecionar um aplicativo"
       },
       "bluePrint": {
+        "title": "Quando usar?",
         "apiSimple": {
           "name": "API Simple",
           "headline": "API Simple (HTTP Action)",
           "whenToUse": {
-            "title": "Quando usar?",
-            "line1": "Use um teste de API Simple (HTTP Action) para testar uma única API Rest"
+            "line1": "Use um teste Simples de API (ação HTTP) para testar uma única API de REST"
           },
           "tipsForUsing": {
             "title": "Dicas para usar",
@@ -56,11 +58,37 @@
           "name": "API Script",
           "headline": "API Script (HTTP Script)",
           "whenToUse": {
-            "line1": "Use um API Script (HTTP Script) de teste e o script baseado em Node.js para testar a sequência de diversas APIs Rest"
+            "line1": "Use um teste de Script de API (script HTTP) e o script baseado em Node.js para testar a sequência de diversas APIs de REST"
           },
           "tipsForUsing": {
             "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
             "line2": "Etapa 2: use a opção Fazer upload do script para fazer upload de um arquivo de script de teste node.js. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
+            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
+            "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
+          }
+        },
+        "browserSimple": {
+          "name": "Simples de Navegador",
+          "headline": "Simples de Navegador (ação da página da web)",
+          "whenToUse": {
+            "line1": "Use um teste Simples de Navegador quando desejar testar uma única página da web quanto a erros de HTTP."
+          },
+          "tipsForUsing": {
+            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
+            "line2": "Etapa 2: insira a URL da página da web que deseja testar. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
+            "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
+            "line4": "Etapa 4: na seção Nome e descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
+          }
+        },
+        "browserScript": {
+          "name": "Script de Navegador",
+          "headline": "Script de Navegador (BrowserScript)",
+          "whenToUse": {
+            "line1": "Use um teste de Script de Navegador quando desejar simular interações do usuário com seu aplicativo da web usando um script IDE JavaScript ou Selenium."
+          },
+          "tipsForUsing": {
+            "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
+            "line2": "Etapa 2: use a opção Fazer upload do script para fazer upload de um arquivo de script IDE JavaScript ou Selenium. Em seguida, escolha um ou mais locais. Um local representa um Ponto de presença sintético implementado.",
             "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
             "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "Navegador",
           "browserTypeHeadline": "Testes sintéticos do navegador",
           "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
+          "browserSimpleTitle": "Teste Simples de Navegador",
+          "browserScriptTitle": "Teste de Script de Navegador",
           "internetServicesTypeLabel": "Serviços de Internet",
           "internetServicesTypeHeadline": "Testes de serviços da Internet",
           "internetServicesTypeText": "O teste sintético de serviços da Internet envolve a simulação de interações do usuário com os serviços da web para monitorar e testar seu desempenho, ajudando a identificar e evitar problemas de tempo de inatividade."
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "O arquivos em pacote configurável não podem ser modificados ou validados",
           "scriptEditedManuallyMessage": "O script foi incluído ou modificado manualmente",
           "mainFileNameLabel": "Nome do arquivo principal",
-          "invalidMainFileName": "O nome do arquivo principal não é válido"
+          "invalidMainFileName": "O nome do arquivo principal não é válido",
+          "webpageUrl": "URL da página da web",
+          "browserUploadFileDescription": "É possível fazer upload de um único arquivo .js, um arquivo zip de arquivos .js empacotados ou um script .side gravado pelo SeleniumIDE.",
+          "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados"
         },
         "loadMore": "Carregar mais",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "Alerta de falha"
     },
     "configuration": {
-      "configurationTitle": "Configuração de teste de API {{testType}}",
+      "configurationTitle": "Configuração de teste {{testType}}",
       "testTypeTitle": "Tipo de teste",
       "testType": "Tipo",
       "subType": "Subtipo",
       "configSectionTitle": "Configuração",
       "operation": "Operação",
       "url": "URL",
+      "webpageActionUrl": "URL WebpageAction",
       "header": "Cabeçalho",
       "value": "Valor",
       "body": "Corpo",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "Digite {{synthetic}} para continuar",
         "cancelButton": "Cancelar",
         "deleteButton": "Excluir"
-      }
+      },
+      "configurationEditAction": "Editar",
+      "configurationDeleteAction": "Excluir"
     }
   }
 }

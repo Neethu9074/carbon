@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "应用程序",
-        "source_website": "Web 站点 (Beta)",
+        "source_website": "Web 站点",
         "callOut_application": "排除了您无法控制的因素，例如最终用户的因特网连接不佳，但可能无法准确反映最终用户体验",
         "callOut_website": "最为准确地反映最终用户体验，但没有排除您无法控制的因素，例如最终用户的因特网连接不佳"
       },
@@ -730,6 +730,42 @@
         "metrics": "度量选择",
         "axisConfiguration": "轴配置",
         "formatter": "格式化程序（X 轴）"
+      }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "表预览",
+        "filters": "过滤器："
+      },
+      "form": {
+        "title": "您想要显示什么？",
+        "dataSource": "数据源",
+        "helpAction": "您将在事件视图中使用的 Dynamic Focus 查询 (DFQ)。",
+        "query": "查询",
+        "columns": "选择列",
+        "pleaseSelect": "请选择",
+        "validators": {
+          "theValueMustNotBeEmpty": "至少需要选择一个列"
+        },
+        "infrastructure": {
+          "entityType": "实体类型",
+          "viewTable": "在<analyzeInfraLink>分析基础结构</analyzeInfraLink>中查看完整表。",
+          "tableSize": "表大小",
+          "tableConfiguration": "表配置",
+          "tableDetails": "表详细信息",
+          "showResult": "正在显示 {{loadedItems}} 个（共 {{totalItems}} 个）结果",
+          "loadingEntities": "正在装入实体"
+        }
+      },
+      "dataSource": {
+        "events": "事件"
+      },
+      "eventColumns": {
+        "title": "标题",
+        "entityLabel": "开启（实体）",
+        "startedOn": "开始时间",
+        "endedOn": "结束时间",
+        "duration": "持续时间"
       }
     }
   },

@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "向下平移",
       "overlaysTooltipToggleCountryRegionNames": "切換國家/地區名稱",
       "overlaysTooltipPanRight": "向右平移",
-      "overlaysTooltipSwitchTo2DMap": "切換至 2D 地圖",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "國家/地區",
       "globeViewTitle": "網站世界地球儀",
       "globViewFootertext": "NASA 所提供的影像",
@@ -462,9 +460,7 @@
         "filter_plural": "過濾器",
         "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
         "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
-        "labelConfirmRemoveAlertConfigWithName": "您確定要移除警示 <strong>{{name}}</strong> 嗎？",
-        "alertsLabelFilters": "過濾器",
-        "alertsNoDataMessage": "未配置警示。"
+        "alertsLabelFilters": "過濾器"
       },
       "configuration": {
         "configurationRemoveTitle": "移除網站",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "檔案",
         "stackTraceTranslationLabelTotalSize": "大小總計",
         "stackTraceTranslationLabelLastModified": "前次修改時間",
-        "stackTraceTranslationExplanation": "為了增加 JavaScript 堆疊追蹤的可讀性（例如，顯示未精簡檔案和字行的參照），Instana 需要存取 JavaScript 和原始碼對映檔。在這裡新增配置，可讓 Instana 的伺服器鑑別及下載這些檔案，以便提供 JavaScript 錯誤的深入洞察。",
         "stackTraceTranslationExplanationWithUploadFeature": "為了讓 JavaScript 堆疊追蹤更容易讀取，例如顯示非縮製檔案和行的參照， Instana 需要存取 JavaScript 和來源對映檔。 在這裡新增下載配置可讓 Instana 伺服器鑑別及下載這些檔案，以提供 JavaScript 錯誤的更多見解。 如果您的檔案是專用管理，且無法由 Instana 存取，則可以在此實務範例中使用上傳配置，方式是透過我們的 Web REST API 手動上傳您的檔案。",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript 堆疊追蹤轉換",
         "stackTraceTranslationLearnMoreLabel": "進一步瞭解 JavaScript 堆疊追蹤轉換",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "在選取的時間範圍中找不到符合您過濾器的頁面載入",
         "geographyExplanationTagFilters_2": "在選取的時間範圍中找不到符合您過濾器的頁面載入",
         "geographyTooltip": "切換至 3D 地球儀",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "切換至 2D 地圖",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "類型...",

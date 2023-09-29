@@ -380,7 +380,8 @@
     "presenterLabelNoDataToDisplay": "表示するデータがありません",
     "presenterLabelTraces": "トレース",
     "presenterLabelCalls": "呼び出し",
-    "latencyRangeLabelFromTimeToTime": "{{from}} から {{to}}"
+    "latencyRangeLabelFromTimeToTime": "{{from}} から {{to}}",
+    "others": "その他"
   },
   "histogram": {
     "rangeLabel": "{{from}} から {{to}}",
@@ -419,12 +420,12 @@
     "viewSwitcherLabelMobileApps": "モバイル・アプリケーション",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelzhmc": "IBM Z",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
     "viewSwitcherButtonSignOut": "サインアウト",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
@@ -730,7 +731,9 @@
       "doesNotStartWith": "次で始まらない",
       "doesNotEndWith": "次で終わらない",
       "equals": "次と等しい",
-      "doesNotEqual": "次と等しくない"
+      "doesNotEqual": "次と等しくない",
+      "isBlank": "ブランク値を持つ",
+      "notBlank": "非ブランク値を持つ"
     },
     "number": {
       "isPresent": "存在する",
@@ -750,8 +753,8 @@
       "doesNotContain": "次を含まない",
       "isPresent": "存在する",
       "isNotPresent": "存在しない",
-      "doesNotHaveValue": "値がない",
-      "hasValue": "値がある",
+      "isBlank": "ブランク値を持つ",
+      "notBlank": "非ブランク値を持つ",
       "startsWith": "次で始まる",
       "endsWith": "次で終わる"
     }

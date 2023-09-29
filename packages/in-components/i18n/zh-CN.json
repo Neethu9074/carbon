@@ -380,7 +380,8 @@
     "presenterLabelNoDataToDisplay": "没有可显示的数据",
     "presenterLabelTraces": "跟踪",
     "presenterLabelCalls": "调用数",
-    "latencyRangeLabelFromTimeToTime": "{{from}} 到 {{to}}"
+    "latencyRangeLabelFromTimeToTime": "{{from}} 到 {{to}}",
+    "others": "其他"
   },
   "histogram": {
     "rangeLabel": "{{from}} 到 {{to}}",
@@ -419,12 +420,12 @@
     "viewSwitcherLabelMobileApps": "移动应用程序",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelzhmc": "IBM Z",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "注销",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
@@ -730,7 +731,9 @@
       "doesNotStartWith": "开头不是",
       "doesNotEndWith": "结尾不是",
       "equals": "等于",
-      "doesNotEqual": "不等于"
+      "doesNotEqual": "不等于",
+      "isBlank": "具有空白值",
+      "notBlank": "具有非空白值"
     },
     "number": {
       "isPresent": "存在",
@@ -750,8 +753,8 @@
       "doesNotContain": "不包含",
       "isPresent": "存在",
       "isNotPresent": "不存在",
-      "doesNotHaveValue": "没有值",
-      "hasValue": "具有值",
+      "isBlank": "具有空白值",
+      "notBlank": "具有非空白值",
       "startsWith": "开头为",
       "endsWith": "结尾为"
     }

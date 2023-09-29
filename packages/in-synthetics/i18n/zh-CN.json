@@ -31,17 +31,19 @@
       "basicDetails": {
         "title": "此 API 简单（HTTP 操作）测试的名称",
         "scriptTitle": "此 API 脚本（HTTP 脚本）测试的名称",
+        "webpageActionTitle": "此浏览器简单（Web 页面操作）测试的名称",
+        "browserScriptTitle": "此浏览器脚本测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述",
         "labelFrequency": "频率（分钟）",
         "labelApplications": "选择应用程序"
       },
       "bluePrint": {
+        "title": "何时使用？",
         "apiSimple": {
           "name": "API 简单",
           "headline": "API 简单（HTTP 操作）",
           "whenToUse": {
-            "title": "何时使用？",
             "line1": "使用 API 简单（HTTP 操作）测试来测试单个 Rest API"
           },
           "tipsForUsing": {
@@ -61,6 +63,32 @@
           "tipsForUsing": {
             "line1": "步骤 1：选择要创建的测试类型。",
             "line2": "步骤 2：使用“上载脚本”选项来上载 node.js 测试脚本文件。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
+            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
+            "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
+          }
+        },
+        "browserSimple": {
+          "name": "浏览器简单",
+          "headline": "浏览器简单（Web 页面操作）",
+          "whenToUse": {
+            "line1": "如果要对单个 Web 页面进行 HTTP 错误测试，请使用浏览器简单测试。"
+          },
+          "tipsForUsing": {
+            "line1": "步骤 1：选择要创建的测试类型。",
+            "line2": "步骤 2：输入要测试的 Web 页面的 URL。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
+            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
+            "line4": "步骤 4：在“名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
+          }
+        },
+        "browserScript": {
+          "name": "浏览器脚本",
+          "headline": "浏览器脚本 (BrowserScript)",
+          "whenToUse": {
+            "line1": "如果要使用 JavaScript 或 Selenium IDE 脚本来模拟用户与 Web 应用程序的交互，请使用浏览器脚本测试。"
+          },
+          "tipsForUsing": {
+            "line1": "步骤 1：选择要创建的测试类型。",
+            "line2": "步骤 2：使用“上载脚本”选项来上载 JavaScript 或 Selenium IDE 脚本文件。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
             "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
             "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "浏览器",
           "browserTypeHeadline": "浏览器合成测试",
           "browserTypeText": "浏览器合成测试是一种监视 Web 应用程序性能的方法，通过 Web 浏览器中的脚本模拟用户与 Web 站点的交互，对影响用户体验的问题提供有价值的洞察并确保 Web 站点功能。",
+          "browserSimpleTitle": "浏览器简单测试",
+          "browserScriptTitle": "浏览器脚本测试",
           "internetServicesTypeLabel": "因特网服务",
           "internetServicesTypeHeadline": "因特网服务测试",
           "internetServicesTypeText": "因特网服务合成测试涉及模拟用户与 Web 服务的交互，以监控和测试其性能，帮助识别和预防停机问题。"
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "无法修改或验证捆绑文件",
           "scriptEditedManuallyMessage": "手动添加或修改脚本",
           "mainFileNameLabel": "主文件名",
-          "invalidMainFileName": "主文件名无效"
+          "invalidMainFileName": "主文件名无效",
+          "webpageUrl": "Web 页面 URL",
+          "browserUploadFileDescription": "您可以上载单个 .js 文件、捆绑的 .js 文件的 zip 文件或 SeleniumIDE 记录的 .side 脚本。",
+          "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本"
         },
         "loadMore": "加载更多",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "故障警报"
     },
     "configuration": {
-      "configurationTitle": "API {{testType}} 测试配置",
+      "configurationTitle": "{{testType}} 测试配置",
       "testTypeTitle": "测试类型",
       "testType": "Type",
       "subType": "子类型",
       "configSectionTitle": "配置",
       "operation": "操作",
       "url": "URL",
+      "webpageActionUrl": "WebpageAction URL",
       "header": "页眉",
       "value": "值",
       "body": "正文",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "输入 {{synthetic}} 以继续",
         "cancelButton": "取消",
         "deleteButton": "删除"
-      }
+      },
+      "configurationEditAction": "编辑",
+      "configurationDeleteAction": "删除"
     }
   }
 }

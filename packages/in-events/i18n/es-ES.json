@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. En el futuro, los sucesos personalizados para estos tres tipos de entidad se eliminarán y ya no recibirá esta {{issueOrIncident}}</strong><br/>Ver configuración de sucesos personalizados para migrar a alerta inteligente. <documentationLink>Más información en nuestra documentación</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "Acciones asociadas para suceso desencadenante",
+  "recommendedActions": "Acciones recomendadas",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} sucesos personalizados requieren una acción",
     "message": "Los sucesos personalizados en aplicación, servicio y punto final están en desuso. No podrá crear o actualizar estos tipos de sucesos personalizados en el futuro.",

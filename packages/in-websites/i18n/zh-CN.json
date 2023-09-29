@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "向下平移",
       "overlaysTooltipToggleCountryRegionNames": "切换国家/地区名称",
       "overlaysTooltipPanRight": "向右平移",
-      "overlaysTooltipSwitchTo2DMap": "切换到 2D 映射",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "国家/地区",
       "globeViewTitle": "Web 站点世界地球仪",
       "globViewFootertext": "NASA 提供的图像",
@@ -462,9 +460,7 @@
         "filter_plural": "过滤器",
         "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
         "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
-        "labelConfirmRemoveAlertConfigWithName": "确定要除去警报 <strong>{{name}}</strong> 吗？",
-        "alertsLabelFilters": "过滤器",
-        "alertsNoDataMessage": "未配置任何警报。"
+        "alertsLabelFilters": "过滤器"
       },
       "configuration": {
         "configurationRemoveTitle": "移除 Web 站点",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "文件",
         "stackTraceTranslationLabelTotalSize": "总大小",
         "stackTraceTranslationLabelLastModified": "上次修改时间",
-        "stackTraceTranslationExplanation": "要提高 JavaScript 堆栈跟踪的可读性（例如，显示对未缩小文件和行的引用），Instana 需要访问 JavaScript 和源映射文件。在此处添加配置允许 Instana 服务器认证和下载这些文件，以深入了解 JavaScript 错误。",
         "stackTraceTranslationExplanationWithUploadFeature": "为提高 JavaScript 堆栈跟踪的可读性，如显示对非压缩文件和行的引用，Instana 需要访问 JavaScript 和源映射文件。 通过在此处添加下载配置，Instana 的服务器可以对这些文件进行认证和下载，以便提供有关 JavaScript 错误的更多洞察。 如果您的文件以专用方式托管，Instana 无法访问，那么可以通过我们的 Web REST API 手动上载您的文件，以在此场景中使用上载配置。",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript 堆栈跟踪转换",
         "stackTraceTranslationLearnMoreLabel": "了解有关 JavaScript 堆栈跟踪转换的更多信息",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "在所选时间范围内找不到与您的过滤器匹配的页面加载",
         "geographyExplanationTagFilters_2": "在所选时间范围内找不到与您的过滤器匹配的页面加载",
         "geographyTooltip": "切换到 3D 全局",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "切换到 2D 映射",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "类型...",

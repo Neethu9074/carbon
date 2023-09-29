@@ -1,9 +1,12 @@
 {
   "general": {
     "addButtonLabel": "추가",
+    "aggregation": "집계",
+    "availability": "Availability",
     "beacon": "비컨",
     "boundary": "경계",
     "clear": "지우기",
+    "custom": "사용자 정의",
     "saveButtonLabel": "저장",
     "cancelButtonLabel": "취소",
     "editButtonLabel": "편집",
@@ -13,23 +16,95 @@
     "noSelection": "선택되지 않음",
     "loadMore": "추가 로드",
     "noData": "사용 가능한 데이터 없음",
+    "indicator": {
+      "type": "알 수 없는 유형",
+      "type_eventBased": "이벤트 개수",
+      "type_customEventBased": "이벤트 개수",
+      "type_timeBased": "시간",
+      "blueprint": "알 수 없는 Blueprint",
+      "blueprint_latency": "대기 시간",
+      "blueprint_availability": "Availability",
+      "blueprint_custom": "사용자 정의",
+      "aggregation": "알 수 없음",
+      "aggregation_MEAN": "평균",
+      "aggregation_MIN": "분",
+      "aggregation_MAX": "최대",
+      "aggregation_SUM": "합",
+      "aggregation_P25": "25th",
+      "aggregation_P50": "50th",
+      "aggregation_P75": "75th",
+      "aggregation_P90": "90th",
+      "aggregation_P95": "95th",
+      "aggregation_P98": "98th",
+      "aggregation_P99": "99th"
+    },
+    "latency": "대기 시간",
+    "time": "시간",
     "entityTypes": {
       "label": "알 수 없는 엔티티",
       "label_application": "애플리케이션",
       "label_website": "웹 사이트"
     },
+    "type": "유형",
     "selectLabel": "선택사항: {{selectedLabel}}",
     "serviceLevelObjective": "서비스 레벨 목표(SLO)",
+    "timeWindow": {
+      "type": "알 수 없음",
+      "type_fixed": "고정",
+      "type_rolling": "롤링",
+      "size_month": "{{count}}개월",
+      "size_month_plural": "{{count}}개월",
+      "size_month_0": "{{count}}개월",
+      "size_month_1": "{{count}}개월",
+      "size_month_2": "{{count}}개월",
+      "size_week": "{{count}}주",
+      "size_week_plural": "{{count}}주",
+      "size_week_0": "{{count}}주",
+      "size_week_1": "{{count}}주",
+      "size_week_2": "{{count}}주",
+      "size_day": "{{count}}일",
+      "size_day_plural": "{{count}}일",
+      "size_day_0": "{{count}}일",
+      "size_day_1": "{{count}}일",
+      "size_day_2": "{{count}}일"
+    },
     "metrics": {
       "status": "상태",
       "remainingBudget": "남은 예산 오류",
       "totalBudget": "오류 예산",
-      "consumedBudget": "소비된 오류 예산"
+      "consumedBudget": "소비된 오류 예산",
+      "beaconCount": "비컨 카운트",
+      "calls": "호출",
+      "latency": "대기 시간",
+      "beaconDuration": "비컨 지속 기간",
+      "threshold": "임계값",
+      "errors": "잘못된 호출 비율",
+      "beaconErrorRate": "비컨 오류 비율",
+      "goodEvents": "양호 이벤트",
+      "badEvents": "잘못된 이벤트"
+    },
+    "format": {
+      "event_website": "{{formatted}} 비컨",
+      "event_website_plural": "{{formatted}} 비컨",
+      "event_website_0": "{{formatted}} 비컨",
+      "event_website_1": "{{formatted}} 비컨",
+      "event_website_2": "{{formatted}} 비컨",
+      "event_application": "{{formatted}} 호출",
+      "event_application_plural": "{{formatted}} 호출",
+      "event_application_0": "{{formatted}} 호출",
+      "event_application_1": "{{formatted}} 호출",
+      "event_application_2": "{{formatted}} 호출"
+    },
+    "deleteDialog": {
+      "pleaseConfirm": "확인하십시오.",
+      "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
+      "delete": "삭제"
     }
   },
   "createSloDialog": {
     "customFilter": "사용자 정의 필터",
     "title": "SLO(Service Level Objective) 생성",
+    "selectIndicator": "표시기 선택",
     "selectEntityNavItem": "엔티티 선택",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
     "selectScopeNavItem": "범위 선택",
@@ -38,6 +113,34 @@
       "beaconLabel_httpRequest": "HTTP 요청",
       "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
       "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트"
+    },
+    "nameAndTagsTitle": "이름 및 태그",
+    "nameAndTagsNavItem": "이름 및 태그",
+    "sloNameLabel": "SLO 이름",
+    "sloNamePlaceholder": "이름 입력",
+    "tagsLabel": "태그",
+    "tagsPlaceholder": "태그 입력",
+    "tagsCreateLabel": "작성: {{tag}}",
+    "messages": {
+      "creationSuccessfulTitle": "SLO 구성 작성 완료",
+      "creationSuccessfulContent": "SLO 구성 \"{{name}}\"이(가) 작성되었습니다.",
+      "creationFailedTitle": "SLO 구성 작성 실패",
+      "creationFailedContent": "이 SLO 구성 \"{{name}}\"을(를) 작성하는 중에 문제점이 발생했습니다.",
+      "creationFailedUnexpectedContent": "이 SLO 구성을 작성하는 중에 예기치 않은 오류가 발생했습니다. 나중에 다시 시도하십시오."
+    },
+    "indicatorSection": {
+      "description_custom": "이는 디자인에서 누락되었으므로 나중에 업데이트해야 합니다.",
+      "description_latency": "서비스가 설정된 임계값을 초과하여 응답하는 속도를 측정합니다. 예를 들어, 체크아웃 서비스가 100ms보다 빠르게 응답하는 속도를 측정합니다.",
+      "description_availability": "서비스가 적절히 응답하는 빈도를 측정합니다. 예를 들어 체크아웃 서비스가 400보다 큰 HTTP 호출로 응답하는 빈도",
+      "timeTypeExplanation": "양호한 호출과 불량한 호출이 그룹화됨(분 단위로 집계됨)",
+      "eventTypeExplanation": "양호한 호출과 불량한 호출의 총 개수",
+      "eventCount": "이벤트 개수",
+      "eventType": "이벤트 유형",
+      "thresholdLabel": "알 수 없는 유형",
+      "thresholdLabel_latency": "임계값(ms)",
+      "thresholdLabel_availability": "오류 비율(%)",
+      "setGoodCall": "서비스에 대한 양호한 호출 설정",
+      "setBadCall": "서비스에 대한 불량한 호출 설정(선택사항)"
     }
   },
   "sloList": {
@@ -48,52 +151,22 @@
           "websites": "웹 사이트 SLO"
         }
       },
-      "sloBlueprintColumnContent": {
-        "blueprint": "알 수 없는 Blueprint",
-        "blueprint_latency": "대기 시간",
-        "blueprint_availability": "Availability",
-        "blueprint_custom": "사용자 정의"
-      },
       "entityTypeFilter": {
         "placeholder": "엔티티 유형"
       },
       "sloTagFilter": {
-        "placeholder": "태그"
+        "placeholder": "태그",
+        "noTagsInfo": "사용 가능한 태그 없음"
       },
       "sloStatusColumnContent": {
         "target": "대상 {{target}}"
       },
       "errorBudgetInfo": {
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "remainingEvent_website": "{{formatted}} 비컨",
-        "remainingEvent_website_plural": "{{formatted}} 비컨",
-        "remainingEvent_website_0": "{{formatted}} 비컨",
-        "remainingEvent_website_1": "{{formatted}} 비컨",
-        "remainingEvent_website_2": "{{formatted}} 비컨",
-        "remainingEvent_application": "{{formatted}} 호출",
-        "remainingEvent_application_plural": "{{formatted}} 호출",
-        "remainingEvent_application_0": "{{formatted}} 호출",
-        "remainingEvent_application_1": "{{formatted}} 호출",
-        "remainingEvent_application_2": "{{formatted}} 호출",
-        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\":\"{{durationUnit}}\", \"계수\":{{duration}}}), 고정 / {{remaining}} 남음",
-        "timeWindow_rolling": "$t (in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"컨텍스트\": \"{{durationUnit}}\", \"계수\":{{duration}}}), 롤링",
-        "timeWindowSize_month": "{{count}}개월",
-        "timeWindowSize_month_plural": "{{count}}개월",
-        "timeWindowSize_month_0": "{{count}}개월",
-        "timeWindowSize_month_1": "{{count}}개월",
-        "timeWindowSize_month_2": "{{count}}개월",
-        "timeWindowSize_week": "{{count}}주",
-        "timeWindowSize_week_plural": "{{count}}주",
-        "timeWindowSize_week_0": "{{count}}주",
-        "timeWindowSize_week_1": "{{count}}주",
-        "timeWindowSize_week_2": "{{count}}주",
-        "timeWindowSize_day": "{{count}}일",
-        "timeWindowSize_day_plural": "{{count}}일",
-        "timeWindowSize_day_0": "{{count}}일",
-        "timeWindowSize_day_1": "{{count}}일",
-        "timeWindowSize_day_2": "{{count}}일"
+        "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "timeWindow_fixed": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
     "title": "서비스 레벨 목표",
@@ -107,9 +180,20 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "{{entity}} 분석"
+    "analyze": "{{entity}} 분석",
+    "analyzeBadCalls": "불량한 {{entity}} 분석"
+  },
+  "hooks": {
+    "useDoDeleteSloConfiguration": {
+      "success": "SLO 구성이 삭제되었습니다.",
+      "failure": "SLO 삭제 실패"
+    }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "요약",
+      "configurationLabel": "구성"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "예산: {{value}}"
@@ -117,11 +201,71 @@
       "sloStatusKpiCard": {
         "target": "SLO 대상: {{value}}"
       },
+      "trafficKpiCard": {
+        "title": "트래픽",
+        "totalTraffic": "총계: {{value}}"
+      },
       "errorBudgetChart": {
         "title": "오류 예산",
         "title_fullWindow": "전체 기간 동안의 오류 예산",
         "optionCompact": "압축",
         "optionFull": "전체 소비"
+      },
+      "trafficChart": {
+        "title": "트래픽"
+      },
+      "indicatorChart": {
+        "title": "표시기",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "유용한 이벤트 필터:",
+            "badEventFilters": "잘못된 이벤트 필터:"
+          }
+        }
+      },
+      "entitySection": {
+        "title": "엔티티",
+        "typeLabel": "유형",
+        "nameLabel": "이름"
+      },
+      "scopeSection": {
+        "title": "범위",
+        "apBoundaryScopeLabel": "경계",
+        "apBoundaryScope": "알 수 없음",
+        "apBoundaryScope_ALL": "모든 호출",
+        "apBoundaryScope_INBOUND": "인바운드 호출",
+        "apHiddenCallsLabel": "숨겨진 호출",
+        "apHiddenCallsInternal": "내부 호출 포함",
+        "apHiddenCallsSynthetic": "합성 호출 포함",
+        "apServiceLabel": "서비스",
+        "apAllServices": "모든 서비스",
+        "apEndpointLabel": "엔드포인트",
+        "apAllEndpoints": "모든 엔드포인트",
+        "eumBeaconTypeLabel": "비컨 유형",
+        "customFilterLabel": "사용자 정의 필터",
+        "ariaLabelChecked": "선택",
+        "ariaLabelUnchecked": "비선택"
+      },
+      "indicatorSection": {
+        "title": "표시기",
+        "blueprintLabel": "블루프린트",
+        "typeLabel": "유형",
+        "thresholdLabel": "임계값(알 수 없는 단위)",
+        "thresholdLabel_availability": "임계값",
+        "thresholdLabel_latency": "임계값(ms)",
+        "aggregationLabel": "집계",
+        "goodEventsLabel": "이벤트 유형(양호한 이벤트)",
+        "goodEventsLabel_application": "이벤트 유형(양호한 호출)",
+        "badEventsLabel": "이벤트 유형(불량한 이벤트)",
+        "badEventsLabel_application": "이벤트 유형(불량한 호출)"
+      },
+      "objectiveSection": {
+        "title": "목표",
+        "targetLabel": "대상",
+        "timeWindowLabel": "기간",
+        "durationLabel": "길이",
+        "startDateLabel": "시작 날짜",
+        "startTimeLabel": "시작 시간"
       }
     }
   }

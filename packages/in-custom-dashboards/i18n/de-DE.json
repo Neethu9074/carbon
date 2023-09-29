@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Anwendung",
-        "source_website": "Website (Beta)",
+        "source_website": "Website",
         "callOut_application": "Schließt Faktoren außerhalb Ihrer Kontrolle aus, wie z. B. schlechte Internetkonnektivität von Endbenutzern, aber spiegelt möglicherweise nicht genau die Endbenutzererfahrung wider.",
         "callOut_website": "Spiegelt die Endbenutzererfahrung am genauesten wider, schließt jedoch keine Faktoren aus, die außerhalb Ihrer Kontrolle liegen, wie z. B. die schlechte Internetkonnektivität von Endbenutzern."
       },
@@ -730,6 +730,42 @@
         "metrics": "Metrikauswahl",
         "axisConfiguration": "Achsenkonfiguration",
         "formatter": "Formatierungsprogramm (x-Achse)"
+      }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "Tabellenvorschau",
+        "filters": "Filter:"
+      },
+      "form": {
+        "title": "Was möchten Sie anzeigen?",
+        "dataSource": "Datenquelle",
+        "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Ereignisansicht verwenden würden.",
+        "query": "Abfrage",
+        "columns": "Spalten auswählen",
+        "pleaseSelect": "Bitte auswählen",
+        "validators": {
+          "theValueMustNotBeEmpty": "Mindestens eine Spalte muss ausgewählt werden"
+        },
+        "infrastructure": {
+          "entityType": "Entitätstyp",
+          "viewTable": "Vollständige Tabelle in <analyzeInfraLink>Infrastruktur analysieren</analyzeInfraLink> anzeigen.",
+          "tableSize": "Tabellengröße",
+          "tableConfiguration": "Tabellenkonfiguration",
+          "tableDetails": "Tabellendetails",
+          "showResult": "{{loadedItems}} von {{totalItems}} Ergebnissen werden angezeigt",
+          "loadingEntities": "Entitäten werden geladen"
+        }
+      },
+      "dataSource": {
+        "events": "Ereignisse"
+      },
+      "eventColumns": {
+        "title": "Titel",
+        "entityLabel": "An (Entität)",
+        "startedOn": "Gestartet am",
+        "endedOn": "Beendet am",
+        "duration": "Dauer"
       }
     }
   },

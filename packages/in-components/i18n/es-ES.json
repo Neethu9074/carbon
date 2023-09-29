@@ -380,7 +380,8 @@
     "presenterLabelNoDataToDisplay": "No hay datos para visualizar",
     "presenterLabelTraces": "Rastreos",
     "presenterLabelCalls": "Llamadas",
-    "latencyRangeLabelFromTimeToTime": "{{from}} a las{{to}}"
+    "latencyRangeLabelFromTimeToTime": "{{from}} a las{{to}}",
+    "others": "Otros"
   },
   "histogram": {
     "rangeLabel": "{{from}} a las{{to}}",
@@ -419,12 +420,12 @@
     "viewSwitcherLabelMobileApps": "Aplicaciones móviles",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power",
+    "viewSwitcherLabelphmc": "IBM Power HMC",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelzhmc": "IBM Z",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherButtonSignOut": "Cerrar sesión",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nueva versión de la IU de Instana",
@@ -730,7 +731,9 @@
       "doesNotStartWith": "no comienza por",
       "doesNotEndWith": "no termina por",
       "equals": "igual a",
-      "doesNotEqual": "no igual a"
+      "doesNotEqual": "no igual a",
+      "isBlank": "tiene un valor en blanco",
+      "notBlank": "tiene un valor no en blanco"
     },
     "number": {
       "isPresent": "está presente",
@@ -750,8 +753,8 @@
       "doesNotContain": "no contiene",
       "isPresent": "está presente",
       "isNotPresent": "no está presente",
-      "doesNotHaveValue": "no tiene valor",
-      "hasValue": "tiene valor",
+      "isBlank": "tiene un valor en blanco",
+      "notBlank": "tiene un valor no en blanco",
       "startsWith": "comienza por",
       "endsWith": "termina por"
     }

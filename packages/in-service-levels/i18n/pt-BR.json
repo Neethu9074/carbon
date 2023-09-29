@@ -1,9 +1,12 @@
 {
   "general": {
     "addButtonLabel": "Incluir",
+    "aggregation": "Agregação",
+    "availability": "Disponibilidade",
     "beacon": "Indicador",
     "boundary": "Limite",
     "clear": "Limpar",
+    "custom": "Customizado",
     "saveButtonLabel": "Salvar",
     "cancelButtonLabel": "Cancelar",
     "editButtonLabel": "Editar",
@@ -13,23 +16,95 @@
     "noSelection": "Nenhum(a) selecionado(a)",
     "loadMore": "Carregar mais",
     "noData": "Dados não disponíveis",
+    "indicator": {
+      "type": "Tipo desconhecido",
+      "type_eventBased": "Contagem de evento",
+      "type_customEventBased": "Contagem de evento",
+      "type_timeBased": "Hora",
+      "blueprint": "Blueprint desconhecido",
+      "blueprint_latency": "Latência",
+      "blueprint_availability": "Disponibilidade",
+      "blueprint_custom": "Customizado",
+      "aggregation": "Desconhecido",
+      "aggregation_MEAN": "média",
+      "aggregation_MIN": "mín.",
+      "aggregation_MAX": "max",
+      "aggregation_SUM": "soma",
+      "aggregation_P25": "25th",
+      "aggregation_P50": "50th",
+      "aggregation_P75": "75th",
+      "aggregation_P90": "90th",
+      "aggregation_P95": "95th",
+      "aggregation_P98": "98th",
+      "aggregation_P99": "99th"
+    },
+    "latency": "Latência",
+    "time": "Hora",
     "entityTypes": {
       "label": "Entidade desconhecida",
       "label_application": "Aplicativo",
       "label_website": "Website"
     },
+    "type": "Tipo",
     "selectLabel": "Seleção: {{selectedLabel}}",
     "serviceLevelObjective": "Objetivo de Nível de Serviço",
+    "timeWindow": {
+      "type": "desconhecido",
+      "type_fixed": "Fixo",
+      "type_rolling": "Rolagem",
+      "size_month": "{{count}} mês",
+      "size_month_plural": "{{count}} meses",
+      "size_month_0": "{{count}} meses",
+      "size_month_1": "{{count}} mês",
+      "size_month_2": "{{count}} meses",
+      "size_week": "{{count}} semana",
+      "size_week_plural": "{{count}} semanas",
+      "size_week_0": "{{count}} semanas",
+      "size_week_1": "{{count}} semana",
+      "size_week_2": "{{count}} semanas",
+      "size_day": "{{count}} dia",
+      "size_day_plural": "{{count}} dias",
+      "size_day_0": "{{count}} dias",
+      "size_day_1": "{{count}} dia",
+      "size_day_2": "{{count}} dias"
+    },
     "metrics": {
       "status": "Status",
       "remainingBudget": "Erro de orçamento restante",
       "totalBudget": "Orçamento errado",
-      "consumedBudget": "Orçamento errado consumido"
+      "consumedBudget": "Orçamento errado consumido",
+      "beaconCount": "Contagem de indicadores",
+      "calls": "Chamadas",
+      "latency": "Latência",
+      "beaconDuration": "Duração do indicador",
+      "threshold": "Limite",
+      "errors": "Taxa de chamada errônea",
+      "beaconErrorRate": "Taxa de erro do indicador",
+      "goodEvents": "Eventos bons",
+      "badEvents": "Eventos ruins"
+    },
+    "format": {
+      "event_website": "{{formatted}} indicador",
+      "event_website_plural": "{{formatted}} indicadores",
+      "event_website_0": "{{formatted}} indicadores",
+      "event_website_1": "{{formatted}} indicador",
+      "event_website_2": "{{formatted}} indicadores",
+      "event_application": "{{formatted}} chamada",
+      "event_application_plural": "{{formatted}} chamadas",
+      "event_application_0": "{{formatted}} chamadas",
+      "event_application_1": "{{formatted}} chamada",
+      "event_application_2": "{{formatted}} chamadas"
+    },
+    "deleteDialog": {
+      "pleaseConfirm": "Confirme",
+      "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
+      "delete": "Excluir"
     }
   },
   "createSloDialog": {
     "customFilter": "Filtro customizado",
     "title": "Criar Objetivo de nível de serviço (SLO)",
+    "selectIndicator": "Selecionar indicador",
     "selectEntityNavItem": "Selecionar entidade",
     "selectEntityTitle": "Selecione uma entidade na qual incluir o SLO:",
     "selectScopeNavItem": "Selecionar o escopo",
@@ -38,6 +113,34 @@
       "beaconLabel_httpRequest": "Solicitações HTTP",
       "beaconLabel_pageLoad": "Carregamentos de páginas do website",
       "beaconLabel_custom": "Eventos customizados do website"
+    },
+    "nameAndTagsTitle": "Nome e tags",
+    "nameAndTagsNavItem": "Nome & tags",
+    "sloNameLabel": "Nome do SLO",
+    "sloNamePlaceholder": "Insira o nome",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Inserir tags",
+    "tagsCreateLabel": "Criar: {{tag}}",
+    "messages": {
+      "creationSuccessfulTitle": "A configuração do SLO foi criada com sucesso",
+      "creationSuccessfulContent": "A configuração do SLO \"{{name}}\" foi criada.",
+      "creationFailedTitle": "Falha ao criar a configuração do SLO",
+      "creationFailedContent": "Houve um problema ao criar esta configuração do SLO: \"{{name}}\".",
+      "creationFailedUnexpectedContent": "Ocorreu um erro inesperado ao criar esta configuração do SLO, tente novamente mais tarde."
+    },
+    "indicatorSection": {
+      "description_custom": "Isso deve ser atualizado posteriormente, pois está ausente nos designs",
+      "description_latency": "Mede a velocidade com que o serviço respondeu acima de um limite configurado. Por exemplo, a medida de quão rápido o seu serviço de check-out responde mais rápido do que 100ms",
+      "description_availability": "Mede com que frequência um serviço responde apropriadamente. Por exemplo, com que frequência seu serviço de check-out responde com chamadas HTTP > 400",
+      "timeTypeExplanation": "Chamadas válidas versus inválidas agrupadas agregadas por minuto",
+      "eventTypeExplanation": "Contagem total de chamadas válidas versus inválidas",
+      "eventCount": "Contagem de evento",
+      "eventType": "Tipo de evento",
+      "thresholdLabel": "Tipo desconhecido",
+      "thresholdLabel_latency": "Limite (ms)",
+      "thresholdLabel_availability": "% de taxa de erro",
+      "setGoodCall": "Configure as chamadas válidas para um serviço",
+      "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)"
     }
   },
   "sloList": {
@@ -48,52 +151,22 @@
           "websites": "Website do SLO"
         }
       },
-      "sloBlueprintColumnContent": {
-        "blueprint": "Blueprint desconhecido",
-        "blueprint_latency": "Latência",
-        "blueprint_availability": "Disponibilidade",
-        "blueprint_custom": "Customizado"
-      },
       "entityTypeFilter": {
         "placeholder": "Tipo de entidade"
       },
       "sloTagFilter": {
-        "placeholder": "Marcar"
+        "placeholder": "Marcar",
+        "noTagsInfo": "Nenhuma tag disponível"
       },
       "sloStatusColumnContent": {
         "target": "Destino {{target}}"
       },
       "errorBudgetInfo": {
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "remainingEvent_website": "{{formatted}} indicador",
-        "remainingEvent_website_plural": "{{formatted}} indicadores",
-        "remainingEvent_website_0": "{{formatted}} indicadores",
-        "remainingEvent_website_1": "{{formatted}} indicador",
-        "remainingEvent_website_2": "{{formatted}} indicadores",
-        "remainingEvent_application": "{{formatted}} chamada",
-        "remainingEvent_application_plural": "{{formatted}} chamadas",
-        "remainingEvent_application_0": "{{formatted}} chamadas",
-        "remainingEvent_application_1": "{{formatted}} chamada",
-        "remainingEvent_application_2": "{{formatted}} chamadas",
-        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), corrigido/{{remaining}} restante",
-        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolagem",
-        "timeWindowSize_month": "{{count}} mês",
-        "timeWindowSize_month_plural": "{{count}} meses",
-        "timeWindowSize_month_0": "{{count}} meses",
-        "timeWindowSize_month_1": "{{count}} mês",
-        "timeWindowSize_month_2": "{{count}} meses",
-        "timeWindowSize_week": "{{count}} semana",
-        "timeWindowSize_week_plural": "{{count}} semanas",
-        "timeWindowSize_week_0": "{{count}} semanas",
-        "timeWindowSize_week_1": "{{count}} semana",
-        "timeWindowSize_week_2": "{{count}} semanas",
-        "timeWindowSize_day": "{{count}} dia",
-        "timeWindowSize_day_plural": "{{count}} dias",
-        "timeWindowSize_day_0": "{{count}} dias",
-        "timeWindowSize_day_1": "{{count}} dia",
-        "timeWindowSize_day_2": "{{count}} dias"
+        "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "timeWindow_fixed": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
     "title": "Objetivos de nível de serviço",
@@ -107,9 +180,20 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "Analisar {{entity}}"
+    "analyze": "Analisar {{entity}}",
+    "analyzeBadCalls": "Analisar {{entity}} inválida"
+  },
+  "hooks": {
+    "useDoDeleteSloConfiguration": {
+      "success": "A configuração do SLO foi excluída com sucesso.",
+      "failure": "Falha ao excluir o SLO"
+    }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "Resumo",
+      "configurationLabel": "Configuração"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "Orçamento: {{value}}"
@@ -117,11 +201,71 @@
       "sloStatusKpiCard": {
         "target": "Destino SLO: {{value}}"
       },
+      "trafficKpiCard": {
+        "title": "Tráfego",
+        "totalTraffic": "Total: {{value}}"
+      },
       "errorBudgetChart": {
         "title": "Orçamento errado",
         "title_fullWindow": "Orçamento errado durante todo o espaço de tempo",
         "optionCompact": "Compactar",
         "optionFull": "Consumo integral"
+      },
+      "trafficChart": {
+        "title": "Tráfego"
+      },
+      "indicatorChart": {
+        "title": "Indicador",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "Filtros de eventos válidos:",
+            "badEventFilters": "Filtros de eventos inválidos:"
+          }
+        }
+      },
+      "entitySection": {
+        "title": "Entidade",
+        "typeLabel": "Tipo",
+        "nameLabel": "Nome"
+      },
+      "scopeSection": {
+        "title": "Escopo",
+        "apBoundaryScopeLabel": "Limite",
+        "apBoundaryScope": "Desconhecido",
+        "apBoundaryScope_ALL": "Todas as chamadas",
+        "apBoundaryScope_INBOUND": "Chamadas de entrada",
+        "apHiddenCallsLabel": "Chamadas ocultas",
+        "apHiddenCallsInternal": "Inclui chamadas internas",
+        "apHiddenCallsSynthetic": "Inclui chamadas sintéticas",
+        "apServiceLabel": "Serviço",
+        "apAllServices": "Todos os serviços",
+        "apEndpointLabel": "Terminal",
+        "apAllEndpoints": "Todos os terminais",
+        "eumBeaconTypeLabel": "Tipo de indicador",
+        "customFilterLabel": "Filtro customizado",
+        "ariaLabelChecked": "selecionado",
+        "ariaLabelUnchecked": "não selecionado"
+      },
+      "indicatorSection": {
+        "title": "Indicador",
+        "blueprintLabel": "Blueprint",
+        "typeLabel": "Tipo",
+        "thresholdLabel": "Limite (unidade desconhecida)",
+        "thresholdLabel_availability": "Limite",
+        "thresholdLabel_latency": "Limite (ms)",
+        "aggregationLabel": "Agregação",
+        "goodEventsLabel": "Tipo de eventos (eventos válidos)",
+        "goodEventsLabel_application": "Tipo de eventos (chamadas válidas)",
+        "badEventsLabel": "Tipo de eventos (eventos inválidos)",
+        "badEventsLabel_application": "Tipo de eventos (chamadas inválidas)"
+      },
+      "objectiveSection": {
+        "title": "Objetivo",
+        "targetLabel": "Target",
+        "timeWindowLabel": "Espaço de tempo",
+        "durationLabel": "Length",
+        "startDateLabel": "Data de início",
+        "startTimeLabel": "Hora de Início"
       }
     }
   }

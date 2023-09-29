@@ -2,11 +2,16 @@
   "labelBizOps": "Processi",
   "labelSmartAlerts": "Avvisi smart",
   "labelActivities": "Attività",
+  "components": {
+    "count": "Conteggio"
+  },
   "lists": {
     "pageTitle": "Monitoraggio aziendale",
     "cardTitle": "Processi di business",
     "activityLabel": "Attività",
     "nameLabel": "Nome",
+    "countLabel": "Conteggio",
+    "durationLabel": "Durata",
     "noData": "Nessun dato disponibile",
     "healthLabel": "Integrità",
     "startLabel": "Avviato"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "Processo di business",
       "summaryTab": "Riepilogo",
+      "activitiesTab": "Attività",
       "widgets": {
-        "timeline": "Scala temporale",
         "topActivities": "Prime attività (conteggio)",
         "infrastructureIssuesAndChanges": "Problemi dell'infrastruttura e modifiche",
-        "viewAll": "Visualizza tutte le attività",
-        "count": "Conteggio",
-        "businessProcessStartedLabel": "{{businessProcessName}} avviato"
+        "viewAll": "Visualizza tutte le attività"
       }
+    },
+    "activity": {
+      "pageTitle": "Attività di business",
+      "summaryTab": "Riepilogo"
     }
   }
 }

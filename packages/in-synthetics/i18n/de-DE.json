@@ -31,18 +31,20 @@
       "basicDetails": {
         "title": "Wie lautet der Name dieses einfachen API-Tests (HTTP-Aktionstest)?",
         "scriptTitle": "Wie lautet der Name dieses API-Script-Tests (HTTP-Script-Test)?",
+        "webpageActionTitle": "Wie lautet der Name dieses Browser-Simple-Tests (Webseitenaktion)?",
+        "browserScriptTitle": "Wie lautet der Name dieses Browser-Script-Tests?",
         "labelName": "Name des Tests",
         "labelDescription": "Beschreibung",
         "labelFrequency": "Häufigkeit (Minute)",
         "labelApplications": "Anwendung auswählen"
       },
       "bluePrint": {
+        "title": "Wann zu verwenden?",
         "apiSimple": {
           "name": "Einfache API",
           "headline": "Einfache API (HTTP-Aktion)",
           "whenToUse": {
-            "title": "Wann zu verwenden?",
-            "line1": "Einfachen API-Test (HTTP-Aktionstest) verwenden, um eine einzelne REST-API zu testen"
+            "line1": "API-Simple-Test (HTTP-Aktionstest) verwenden, um eine einzelne REST-API zu testen"
           },
           "tipsForUsing": {
             "title": "Verwendungstipps",
@@ -61,6 +63,32 @@
           "tipsForUsing": {
             "line1": "Schritt 1: Wählen Sie den Typ des Tests aus, der erstellt werden soll.",
             "line2": "Schritt 2: Verwenden Sie die Option zum Hochladen des Scripts, um eine Testscriptdatei des Typs node.js hochzuladen. Wählen Sie dann eine oder mehrere Positionen aus. Ein Standort stellt einen implementierten Bereitstellungspunkt dar.",
+            "line3": "Schritt 3: Wählen Sie die Testfrequenz aus (1 ~ 120 Minuten).",
+            "line4": "Schritt 4: Geben Sie im Abschnitt mit dem Namen des Tests und der Beschreibung einen aussagekräftigen Namen für Ihren Test in das Feld 'Name' ein. Fügen Sie im Feld \"Beschreibung\" eine Beschreibung des Testzwecks hinzu."
+          }
+        },
+        "browserSimple": {
+          "name": "Browser Simple",
+          "headline": "Browser Simple (Webseitenaktion)",
+          "whenToUse": {
+            "line1": "Verwenden Sie einen Simple-Browser-Test, wenn Sie eine einzelne Webseite auf HTTP-Fehler testen möchten."
+          },
+          "tipsForUsing": {
+            "line1": "Schritt 1: Wählen Sie den Typ des Tests aus, der erstellt werden soll.",
+            "line2": "Schritt 2: Geben Sie die URL der zu testenden Webseite ein. Wählen Sie dann eine oder mehrere Positionen aus. Ein Standort stellt einen implementierten Bereitstellungspunkt dar.",
+            "line3": "Schritt 3: Wählen Sie die Testfrequenz aus (1 ~ 120 Minuten).",
+            "line4": "Schritt 4: Geben Sie im Abschnitt \"Name und Beschreibung\" im Feld \"Name\" einen aussagekräftigen Namen für Ihren Test ein. Fügen Sie im Feld \"Beschreibung\" eine Beschreibung des Testzwecks hinzu."
+          }
+        },
+        "browserScript": {
+          "name": "Browser-Script",
+          "headline": "Browser-Script (BrowserScript)",
+          "whenToUse": {
+            "line1": "Verwenden Sie einen Browser-Script-Test, wenn Sie Benutzerinteraktionen mit Ihrer Webanwendung mithilfe eines JavaScript- oder Selenium-IDE-Scripts simulieren möchten."
+          },
+          "tipsForUsing": {
+            "line1": "Schritt 1: Wählen Sie den Typ des Tests aus, der erstellt werden soll.",
+            "line2": "Schritt 2: Verwenden Sie die Option „Script hochladen“, um eine JavaScript- oder Selenium IDE-Scriptdatei hochzuladen. Wählen Sie dann eine oder mehrere Positionen aus. Ein Standort stellt einen implementierten Bereitstellungspunkt dar.",
             "line3": "Schritt 3: Wählen Sie die Testfrequenz aus (1 ~ 120 Minuten).",
             "line4": "Schritt 4: Geben Sie im Abschnitt mit dem Namen des Tests und der Beschreibung einen aussagekräftigen Namen für Ihren Test in das Feld 'Name' ein. Fügen Sie im Feld \"Beschreibung\" eine Beschreibung des Testzwecks hinzu."
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "Browser",
           "browserTypeHeadline": "Synthetische Browsertests",
           "browserTypeText": "Synthetische Browsertests sind eine Methode zur Überwachung der Leistung von Webanwendungen durch Simulation von Benutzerinteraktionen mit einer Website über ein Script in einem Web-Browser. Sie bieten wertvolle Einblicke in Probleme, die sich auf die Benutzererfahrung auswirken, und stellen die Funktionalität der Website sicher.",
+          "browserSimpleTitle": "Browser-Simple-Test",
+          "browserScriptTitle": "Browser-Script-Test",
           "internetServicesTypeLabel": "Internetservices",
           "internetServicesTypeHeadline": "Tests von Internet-Services",
           "internetServicesTypeText": "Synthetische Internet-Services-Tests beinhalten die Simulation von Benutzerinteraktionen mit Web-Services, um deren Leistung zu überwachen und zu testen und so Ausfallzeiten zu erkennen und zu verhindern."
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "Gebündelte Dateien können nicht geändert oder validiert werden",
           "scriptEditedManuallyMessage": "Script wurde manuell hinzugefügt oder geändert",
           "mainFileNameLabel": "Name der Hauptdatei",
-          "invalidMainFileName": "Hauptdateiname nicht gültig"
+          "invalidMainFileName": "Hauptdateiname nicht gültig",
+          "webpageUrl": "URL der Webseite",
+          "browserUploadFileDescription": "Sie können entweder eine einzelne .js-Datei, eine ZIP-Datei mit gebündelten .js-Dateien oder ein von SeleniumIDE aufgezeichnetes .side-Script hochladen.",
+          "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden."
         },
         "loadMore": "Mehr laden",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "Fehleralerts"
     },
     "configuration": {
-      "configurationTitle": "API-Testkonfiguration {{testType}}",
+      "configurationTitle": "{{testType}}-Testkonfiguration",
       "testTypeTitle": "Testtyp",
       "testType": "Typ",
       "subType": "Untertyp",
       "configSectionTitle": "Konfiguration",
       "operation": "Operation",
       "url": "URL",
+      "webpageActionUrl": "WebpageAction-URL",
       "header": "Header",
       "value": "Wert",
       "body": "Hauptteil",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "Geben Sie zum Fortfahren {{synthetic}} ein",
         "cancelButton": "Abbrechen",
         "deleteButton": "Löschen"
-      }
+      },
+      "configurationEditAction": "Bearbeiten",
+      "configurationDeleteAction": "Löschen"
     }
   }
 }

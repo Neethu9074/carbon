@@ -262,9 +262,7 @@
     "ibmapmproxy": "Instana-Integrationsproxy für IBM APM V8",
     "ibmapmmineba": "Drop-in-EBA-Datei für IBM APM V8 Min-Server",
     "requiresRuntimeDropin": "Für die Unterstützung von Instana Integration für IBM APM V8 ist ein zusätzlicher Laufzeit-Drop-in erforderlich.",
-    "copyToApmMinDropins": "Das heruntergeladene Paket muss entpackt werden und die resultierende EBA-Datei wird in das Verzeichnis 'dropins' des IBM APM V8 Min-Servers kopiert.",
-    "integrations": "Integrationen",
-    "IBM": "IBM"
+    "copyToApmMinDropins": "Das heruntergeladene Paket muss entpackt werden und die resultierende EBA-Datei wird in das Verzeichnis 'dropins' des IBM APM V8 Min-Servers kopiert."
   },
   "runtime": {
     "go": "Go",
@@ -292,7 +290,7 @@
   "whileWeGetYouStartedWouldYouLikeTo": "Welche Unterstützung wünschen Sie für die ersten Schritte?",
   "getAFeelingForInstanaWithHighlightsOfWhatItCanDo": "Instana kennenlernen und einen Eindruck der Möglichkeiten erhalten",
   "watchExampleVideos": "Beispiel-Videos ansehen",
-  "installingInstanaAgents": "Instana-Agenten installieren",
+  "installAgents": "Agenten installieren",
   "preparingInstance": "Instanz vorbereiten",
   "agentDeployed": "Agent implementiert",
   "agentsAreReportingDataIsBeingCollected": "Agenten berichten. Daten werden erfasst.",
