@@ -6,7 +6,6 @@
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
-import StanImage from 'in-components/StanImage/StanImage';
 import { t } from 'in-i18n';
 
 import locals from './ProgressSection.mless';
@@ -15,9 +14,6 @@ export default function ProgressSection(props) {
   return (
     <div className={locals.section}>
       <div className={locals.leftContent}>
-        <div className={locals.stanWrapper}>
-          <StanImage className={locals.stan} />
-        </div>
         <div>{getText(props)}</div>
       </div>
 
