@@ -119,18 +119,18 @@ function getBusinessProcessListData({
     });
   }
 
+  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessProcessList({
     pagination: {
       page,
       pageSize
     },
     order: { by: orderBy, direction: orderDirection },
+    dataType: "PROCESS",
     metrics: {
       started_processes: businessProcessMetric
     },
-    filter: {
-      timeConfig
-    },
+    timeConfig,
     tagFilterExpression
   });
 }

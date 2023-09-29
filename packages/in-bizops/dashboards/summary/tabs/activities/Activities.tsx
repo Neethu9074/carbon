@@ -96,13 +96,9 @@ function getBusinessProcessActivityList({
     });
   }
 
+  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessActivityList({
-    filter: {
-      timeConfig: timeConfig,
-      includeInternalCalls: false,
-      includeSyntheticCalls: false,
-      useLongTermDataOnly: false
-    },
+    dataType: "ACTIVITY",
     metrics: {
       count: {
         metric: 'activitiesCount',
@@ -122,6 +118,7 @@ function getBusinessProcessActivityList({
       by: orderBy,
       direction: orderDirection
     },
+    timeConfig,
     tagFilterExpression
   });
 }
