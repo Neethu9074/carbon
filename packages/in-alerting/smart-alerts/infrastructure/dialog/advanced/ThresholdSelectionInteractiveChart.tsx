@@ -92,7 +92,6 @@ export default function ThresholdSelectionInteractiveChart({
       />
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
-        //@ts-expect-error
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}

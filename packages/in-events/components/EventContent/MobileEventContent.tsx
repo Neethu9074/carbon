@@ -8,12 +8,11 @@ import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
-//@ts-expect-error needs TS migration
-import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
@@ -94,6 +93,7 @@ export default function MobileEventContent({ event }: Props) {
                 ...alertConfig,
                 tagFilterExpression: tagFilterFormModel
               }}
+              //@ts-expect-error chartViewConfig does not need label
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
               setMetricResultPrecision={setMetricResultPrecision}

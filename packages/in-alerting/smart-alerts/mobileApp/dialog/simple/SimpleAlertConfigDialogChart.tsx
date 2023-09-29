@@ -7,18 +7,16 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { MobileAppAlertConfig } from '@instana/types';
+import { MobileAppAlertConfigWithMetadata } from '@instana/types';
 
-//@ts-expect-error TS migrate
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogChart.mless';
-
-interface AlertConfigWithFormModelProps extends Pick<MobileAppAlertConfig, 'rule'> {}
 
 interface SimpleAlertConfigDialogChartProps {
   form: MapForm<any>;
@@ -31,10 +29,10 @@ export default function SimpleAlertConfigDialogChart({
   selectedChartViewConfigIndex
 }: SimpleAlertConfigDialogChartProps) {
   const alertConfigWithFormModel = form.toJS();
-  const alertType = (alertConfigWithFormModel as AlertConfigWithFormModelProps).rule.alertType;
+  const alertType = (alertConfigWithFormModel as unknown as MobileAppAlertConfigWithMetadata).rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(
-    (alertConfigWithFormModel as AlertConfigWithFormModelProps).rule
+    (alertConfigWithFormModel as unknown as MobileAppAlertConfigWithMetadata).rule
   );
   const chartViewConfigs = defaultChartViewConfigs;
 
@@ -51,11 +49,16 @@ export default function SimpleAlertConfigDialogChart({
           {isRuleComplete ? (
             <div className={locals.placeholder}>
               <MobileAppAlertingChartWithErrorMessage
-                alertConfigWithFormModel={alertConfigWithFormModel}
+                alertConfigWithFormModel={
+                  alertConfigWithFormModel as Omit<MobileAppAlertConfigWithMetadata, 'tagFilterExpression'> & {
+                    tagFilterExpression: FormModelElement[];
+                  }
+                }
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
-                alertsPreviewEnabled
+                eventBasedAdaptiveBaseline={[]}
                 canReload
+                alertsPreviewEnabled
               />
             </div>
           ) : (
