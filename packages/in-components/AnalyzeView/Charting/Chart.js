@@ -45,7 +45,7 @@ export default function Chart({
     return null;
   }
 
-  const { aggregationId, metricId, rendererId } = chartedMetrics[0];
+  const { aggregationId, metricId, rendererId, crossSeriesAggregation } = chartedMetrics[0];
 
   const metricDescription = chartableMetricCatalog.find(m => m.metricId === metricId);
   if (!metricDescription) {
@@ -72,7 +72,8 @@ export default function Chart({
           tagFilterExpression: toBackendQueryModel(formModel),
           aggregation: aggregationId,
           label: groupLabel(label, groupBy.groupbyTag),
-          source: unifiedMetricsSource
+          source: unifiedMetricsSource,
+          crossSeriesAggregation: crossSeriesAggregation
         },
         { dataSource }
       )
@@ -85,7 +86,8 @@ export default function Chart({
           tagFilterExpression: backendQueryModelWithFacets,
           aggregation: aggregationId,
           label: metricDescription.label,
-          source: unifiedMetricsSource
+          source: unifiedMetricsSource,
+          crossSeriesAggregation: crossSeriesAggregation
         },
         { dataSource }
       )
