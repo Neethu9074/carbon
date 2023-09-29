@@ -245,7 +245,7 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-ruby"
+          href="https://ibm.biz/monitoring-ruby"
         />
         <Spacer />
         <Description
