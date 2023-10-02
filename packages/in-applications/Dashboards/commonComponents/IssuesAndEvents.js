@@ -22,7 +22,12 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
 
   const labels = [];
   const metricIds = [];
-  const colors = theme.lib.colors.chart.carbonThreePlusGray;
+  const colors = [
+    theme.lib.colors.chart.threeColorPalette[0],
+    theme.lib.carbonAlert.gray60,
+    theme.lib.colors.chart.threeColorPalette[1],
+    theme.lib.colors.chart.threeColorPalette[2]
+  ];
   const metricsConfiguration = {};
 
   labels.push(

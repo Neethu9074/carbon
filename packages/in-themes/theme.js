@@ -250,10 +250,9 @@ function buildLib() {
   lib.colors.tableRowSelectedOdd = lib.colors.fadedTeal800;
   lib.colors.tableRowSelectedEven = lib.colors.fadedCyan800;
 
-  // carbon three color option 4 with gray60
-  lib.colors.chart.carbonThreePlusGray = [
+  // carbon three color option 4
+  lib.colors.chart.threeColorPalette = [
     lib.carbonCategorical.magenta50,
-    lib.carbonAlert.gray60,
     lib.carbonCategorical.cyan50,
     lib.carbonCategorical.purple70
   ];
