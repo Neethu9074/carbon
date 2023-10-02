@@ -9,7 +9,7 @@
   .form {
     display: flex;
     flex-direction: column;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-size: var(--ids-font-size-option-body-bold);
   }
 
@@ -24,6 +24,6 @@
   }
 
   .greyText {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

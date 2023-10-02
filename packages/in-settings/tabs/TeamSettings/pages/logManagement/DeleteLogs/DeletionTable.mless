@@ -3,7 +3,7 @@
 :local {
   .deletionTable {
     margin-top: 1rem;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .stateContainer {

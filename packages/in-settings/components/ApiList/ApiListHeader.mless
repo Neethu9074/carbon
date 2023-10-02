@@ -25,7 +25,7 @@
   }
 
   .itemCount {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     margin-left: 0.25rem;
   }
 

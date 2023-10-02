@@ -14,9 +14,9 @@
     display: flex;
     align-items: center;
     color: #333;
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
     background-image: none;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: var(--ids-border-radius-medium);
     font-size: 0.75rem;
     position: relative;
@@ -48,7 +48,7 @@
   .list {
     padding: 0;
     margin: 0;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-collapse: collapse;
     max-height: 12.875rem;
     overflow-y: scroll;
@@ -84,6 +84,6 @@
   }
 
   .higlightedText {
-    color: @lib__colors__primary1;
+    color: var(--ids-color-option-teal-500);
   }
 }

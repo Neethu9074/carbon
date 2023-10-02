@@ -12,12 +12,12 @@
 
   .alertChannelButton {
     & + .alertChannelButton {
-      border-top: 1px solid @lib__colors__N050;
+      border-top: 1px solid var(--ids-color-option-neutral-50);
       display: flex;
       justify-content: space-between;
 
       &:hover {
-        border: 1px solid @lib__colors__N500;
+        border: 1px solid var(--ids-color-option-neutral-500);
       }
     }
   }

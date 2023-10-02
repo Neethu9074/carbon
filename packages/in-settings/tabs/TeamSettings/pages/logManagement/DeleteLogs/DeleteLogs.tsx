@@ -22,13 +22,14 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { user } from 'in-stores/user';
+import { useTheme } from 'in-themes';
 import http from 'in-services/http';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './DeleteLogs.mless';
 
 export default function DeleteLogs() {
+  const theme = useTheme();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [validationInputValue, setValidationInputValue] = useState('');
@@ -88,7 +89,7 @@ export default function DeleteLogs() {
 
   const LoadingButton = (
     <Button disabled kind="danger" className={locals.loadingButton}>
-      <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />
+      <SvgIcon color={theme.ids.color.option.blue['500']} spinning type="lib_actions_loading" />
       {localisationStrings.deleteLogs}
     </Button>
   );

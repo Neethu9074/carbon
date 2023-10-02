@@ -15,7 +15,7 @@
 
   .propertyLabel {
     text-transform: uppercase;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     max-width: 20rem;
     .ellipsis();
   }

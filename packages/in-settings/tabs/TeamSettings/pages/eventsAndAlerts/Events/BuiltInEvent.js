@@ -41,7 +41,7 @@ import Label from 'in-components/form/Label';
 import entityForm from 'in-hoc/entityForm';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './BuiltInEvent.mless';
@@ -107,6 +107,7 @@ export default function BuiltinEvent(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
+  const theme = useTheme();
   const { entity, form, setForm, isCreate, saveEnabled, message, error, loading } = props;
 
   if (!entity || !form) {
@@ -116,7 +117,7 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />
@@ -152,7 +153,7 @@ const Form = entityForm(function DetailsForm(props) {
       <FormGroup>
         <Label>{t('in-settings:tabs.entityType')}</Label>
         <div className={locals.flexWrapper}>
-          <PluginIcon className={locals.entityIcon} color={theme.lib.colors.N600Light} plugin={entityType} />
+          <PluginIcon className={locals.entityIcon} color={theme.ids.color.option.neutral['600']} plugin={entityType} />
           {getPluginName(entityType, 1)}
         </div>
       </FormGroup>

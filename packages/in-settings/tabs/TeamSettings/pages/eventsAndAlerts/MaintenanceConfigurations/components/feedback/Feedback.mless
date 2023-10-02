@@ -19,7 +19,7 @@
   }
 
   .feedbackButton {
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
   }
 
   .feedbackDescription {
@@ -27,7 +27,7 @@
     margin: 0 auto;
     width: 55%;
     text-align: center;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
   .feedbackTextArea {
     margin: 0 auto;

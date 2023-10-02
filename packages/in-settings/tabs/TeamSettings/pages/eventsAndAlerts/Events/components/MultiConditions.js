@@ -16,7 +16,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions.mless';
@@ -49,6 +49,7 @@ export function MultiConditions({
   builtInDataSourceSelected,
   customDataSourceSelected
 }) {
+  const theme = useTheme();
   if (!rulesForm || !entityType) return null;
 
   const deprecatedAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
@@ -131,7 +132,7 @@ export function MultiConditions({
                       size="large"
                     />
                     <Tooltip align="rightMiddle" content={t('in-settings:tabs.team.events.logicalOperatorInfo')}>
-                      <SvgIcon type="lib_help_error_info_outline" color={theme.lib.colors.N600Light} />
+                      <SvgIcon type="lib_help_error_info_outline" color={theme.ids.color.option.neutral['600']} />
                     </Tooltip>
                   </Stack>
                 </Col>
@@ -140,7 +141,7 @@ export function MultiConditions({
             {idx > 1 && (
               <Row className={locals.logicalOperator}>
                 <Col lg={1}>
-                  <Pill color={theme.lib.colors.primary1}>
+                  <Pill color={theme.ids.color.option.teal['500']}>
                     {t('in-settings:tabs.team.events.logicalOperator', { context: ruleLogicalOperator })}
                   </Pill>
                 </Col>
@@ -156,7 +157,7 @@ export function MultiConditions({
                     className={classNames({
                       [locals.disabledDelete]: buttonDisabled
                     })}
-                    color={buttonDisabled ? '#86cff3' : theme.lib.colors.lightBlue800}
+                    color={buttonDisabled ? '#86cff3' : theme.ids.color.option.blue['400']}
                     type="lib_actions_delete"
                     onClick={() => {
                       if (!buttonDisabled) onDeleteCondition();

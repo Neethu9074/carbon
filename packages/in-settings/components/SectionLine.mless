@@ -9,7 +9,7 @@
   .line {
     height: 1px;
     width: 100%;
-    background: @lib__colors__N300;
+    background: var(--ids-color-option-neutral-300);
   }
 
   .marginBottom {
