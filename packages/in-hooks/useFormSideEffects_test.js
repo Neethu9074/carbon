@@ -7,9 +7,9 @@ import { createField, createListForm, createMapForm } from 'formalistic';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import useFormSideEffects from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects from 'in-hooks/useFormSideEffects';
 
-describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
+describe('in-hooks/useFormSideEffects', () => {
   describe('when updating with the identical form', () => {
     const form = createMapForm().put('foo', createField({ value: 'bar' }));
     it('does not update the state', () => {
