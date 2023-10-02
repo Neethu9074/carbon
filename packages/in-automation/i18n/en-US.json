@@ -190,7 +190,8 @@
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
     "hostsLimit": "Hosts Limit",
-    "initiator": "Initiator"
+    "initiator": "Initiator",
+    "submitted":"Submitted"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
