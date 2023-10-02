@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .tooltipContent {
     > div:not(:only-of-type):not(:last-of-type) {
