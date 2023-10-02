@@ -61,7 +61,7 @@ interface ResultAwareChartConfig {
   renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
   disableChartInLive?: boolean;
-  outlineForColor?: string[];
+  outlineForColor?: { [k: string]: string };
 }
 
 interface CardConfig {
