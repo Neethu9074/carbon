@@ -83,7 +83,7 @@
     "addUser": "사용자 추가",
     "platforms": "플랫폼",
     "cloudFoundry": "Cloud Foundry",
-    "ibmz": "IBM Z",
+    "ibmz": "IBM Z HMC",
     "ibmp": "IBM 전원 HMC",
     "powervcRegion": "PowerVC 영역",
     "vsphere": "vSphere",

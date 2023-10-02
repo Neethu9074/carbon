@@ -1,9 +1,12 @@
 {
   "general": {
     "addButtonLabel": "新增",
+    "aggregation": "聚集",
+    "availability": "可用性",
     "beacon": "信標",
     "boundary": "界限",
     "clear": "清除",
+    "custom": "自訂",
     "saveButtonLabel": "儲存",
     "cancelButtonLabel": "取消",
     "editButtonLabel": "編輯",
@@ -13,23 +16,95 @@
     "noSelection": "未選取任何項目",
     "loadMore": "載入更多",
     "noData": "沒有可用的資料",
+    "indicator": {
+      "type": "不明類型",
+      "type_eventBased": "事件計數",
+      "type_customEventBased": "事件計數",
+      "type_timeBased": "時間",
+      "blueprint": "不明藍圖",
+      "blueprint_latency": "延遲",
+      "blueprint_availability": "可用性",
+      "blueprint_custom": "自訂",
+      "aggregation": "不明",
+      "aggregation_MEAN": "平均值",
+      "aggregation_MIN": "最小值",
+      "aggregation_MAX": "最大值",
+      "aggregation_SUM": "總和",
+      "aggregation_P25": "25th",
+      "aggregation_P50": "50th",
+      "aggregation_P75": "75th",
+      "aggregation_P90": "90th",
+      "aggregation_P95": "95th",
+      "aggregation_P98": "98th",
+      "aggregation_P99": "99th"
+    },
+    "latency": "延遲",
+    "time": "時間",
     "entityTypes": {
       "label": "不明的實體",
       "label_application": "應用程式",
       "label_website": "網站"
     },
+    "type": "類型",
     "selectLabel": "選項：{{selectedLabel}}",
     "serviceLevelObjective": "服務水準目標",
+    "timeWindow": {
+      "type": "不明",
+      "type_fixed": "已修正",
+      "type_rolling": "輪替",
+      "size_month": "{{count}} 個月",
+      "size_month_plural": "{{count}} 個月",
+      "size_month_0": "{{count}} 個月",
+      "size_month_1": "{{count}} 個月",
+      "size_month_2": "{{count}} 個月",
+      "size_week": "{{count}} 週",
+      "size_week_plural": "{{count}} 週",
+      "size_week_0": "{{count}} 週",
+      "size_week_1": "{{count}} 週",
+      "size_week_2": "{{count}} 週",
+      "size_day": "{{count}} 天",
+      "size_day_plural": "{{count}} 天",
+      "size_day_0": "{{count}} 天",
+      "size_day_1": "{{count}} 天",
+      "size_day_2": "{{count}} 天"
+    },
     "metrics": {
       "status": "狀態",
       "remainingBudget": "剩餘的錯誤預算",
       "totalBudget": "錯誤預算",
-      "consumedBudget": "耗用的錯誤預算"
+      "consumedBudget": "耗用的錯誤預算",
+      "beaconCount": "引標計數",
+      "calls": "呼叫",
+      "latency": "延遲",
+      "beaconDuration": "引標持續時間",
+      "threshold": "臨界值",
+      "errors": "錯誤呼叫率",
+      "beaconErrorRate": "引標錯誤率",
+      "goodEvents": "良好事件",
+      "badEvents": "不當事件"
+    },
+    "format": {
+      "event_website": "{{formatted}} 信標",
+      "event_website_plural": "{{formatted}} 信標",
+      "event_website_0": "{{formatted}} 信標",
+      "event_website_1": "{{formatted}} 信標",
+      "event_website_2": "{{formatted}} 信標",
+      "event_application": "{{formatted}} 呼叫",
+      "event_application_plural": "{{formatted}} 呼叫",
+      "event_application_0": "{{formatted}} 呼叫",
+      "event_application_1": "{{formatted}} 呼叫",
+      "event_application_2": "{{formatted}} 呼叫"
+    },
+    "deleteDialog": {
+      "pleaseConfirm": "請確認",
+      "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+      "delete": "刪除"
     }
   },
   "createSloDialog": {
     "customFilter": "自訂過濾器",
     "title": "建立服務水準目標 (SLO)",
+    "selectIndicator": "選取指示器",
     "selectEntityNavItem": "選取實體",
     "selectEntityTitle": "選取要新增 SLO 的實體：",
     "selectScopeNavItem": "選取範圍",
@@ -38,6 +113,34 @@
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "網站頁面載入",
       "beaconLabel_custom": "網站自訂事件"
+    },
+    "nameAndTagsTitle": "名稱和標籤",
+    "nameAndTagsNavItem": "名稱和標籤",
+    "sloNameLabel": "SLO 名稱",
+    "sloNamePlaceholder": "輸入名稱",
+    "tagsLabel": "標籤",
+    "tagsPlaceholder": "輸入標籤",
+    "tagsCreateLabel": "建立：{{tag}}",
+    "messages": {
+      "creationSuccessfulTitle": "已順利建立 SLO 配置",
+      "creationSuccessfulContent": "已建立 SLO 配置 \"{{name}}\"。",
+      "creationFailedTitle": "無法建立 SLO 配置",
+      "creationFailedContent": "建立此 SLO 配置時發生問題：\"{{name}}\"。",
+      "creationFailedUnexpectedContent": "建立此 SLO 配置時發生非預期的錯誤，請稍後重試。"
+    },
+    "indicatorSection": {
+      "description_custom": "這應該稍後更新，因為在設計中遺漏它",
+      "description_latency": "測量服務回應超過設定臨界值的速度。 例如，結帳服務回應速度比 100ms 快的測量",
+      "description_availability": "測量服務適當回應的頻率。 例如，結帳服務回應 HTTP 呼叫的頻率 > 400",
+      "timeTypeExplanation": "依分鐘分組的良好與不正確呼叫數",
+      "eventTypeExplanation": "良好與不良呼叫總數",
+      "eventCount": "事件計數",
+      "eventType": "事件類型",
+      "thresholdLabel": "不明類型",
+      "thresholdLabel_latency": "臨界值（毫秒）",
+      "thresholdLabel_availability": "錯誤率 %",
+      "setGoodCall": "將良好呼叫設為服務",
+      "setBadCall": "將不正確的呼叫設為服務（選用）"
     }
   },
   "sloList": {
@@ -48,52 +151,22 @@
           "websites": "網站 SLO"
         }
       },
-      "sloBlueprintColumnContent": {
-        "blueprint": "不明藍圖",
-        "blueprint_latency": "延遲",
-        "blueprint_availability": "可用性",
-        "blueprint_custom": "自訂"
-      },
       "entityTypeFilter": {
         "placeholder": "實體類型"
       },
       "sloTagFilter": {
-        "placeholder": "標籤"
+        "placeholder": "標籤",
+        "noTagsInfo": "沒有可用的標籤"
       },
       "sloStatusColumnContent": {
         "target": "目標 {{target}}"
       },
       "errorBudgetInfo": {
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "remainingEvent_website": "{{formatted}} 信標",
-        "remainingEvent_website_plural": "{{formatted}} 信標",
-        "remainingEvent_website_0": "{{formatted}} 信標",
-        "remainingEvent_website_1": "{{formatted}} 信標",
-        "remainingEvent_website_2": "{{formatted}} 信標",
-        "remainingEvent_application": "{{formatted}} 呼叫",
-        "remainingEvent_application_plural": "{{formatted}} 呼叫",
-        "remainingEvent_application_0": "{{formatted}} 呼叫",
-        "remainingEvent_application_1": "{{formatted}} 呼叫",
-        "remainingEvent_application_2": "{{formatted}} 呼叫",
-        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，固定 / 剩餘 {{remaining}}",
-        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，漸進式",
-        "timeWindowSize_month": "{{count}} 個月",
-        "timeWindowSize_month_plural": "{{count}} 個月",
-        "timeWindowSize_month_0": "{{count}} 個月",
-        "timeWindowSize_month_1": "{{count}} 個月",
-        "timeWindowSize_month_2": "{{count}} 個月",
-        "timeWindowSize_week": "{{count}} 週",
-        "timeWindowSize_week_plural": "{{count}} 週",
-        "timeWindowSize_week_0": "{{count}} 週",
-        "timeWindowSize_week_1": "{{count}} 週",
-        "timeWindowSize_week_2": "{{count}} 週",
-        "timeWindowSize_day": "{{count}} 天",
-        "timeWindowSize_day_plural": "{{count}} 天",
-        "timeWindowSize_day_0": "{{count}} 天",
-        "timeWindowSize_day_1": "{{count}} 天",
-        "timeWindowSize_day_2": "{{count}} 天"
+        "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "timeWindow_fixed": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
     "title": "服務水準目標",
@@ -107,9 +180,20 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "分析 {{entity}}"
+    "analyze": "分析 {{entity}}",
+    "analyzeBadCalls": "分析不正確 {{entity}}"
+  },
+  "hooks": {
+    "useDoDeleteSloConfiguration": {
+      "success": "已順利刪除 SLO 配置。",
+      "failure": "無法刪除 SLO"
+    }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "摘要",
+      "configurationLabel": "配置"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "預算：{{value}}"
@@ -117,11 +201,71 @@
       "sloStatusKpiCard": {
         "target": "SLO 目標：{{value}}"
       },
+      "trafficKpiCard": {
+        "title": "資料流量",
+        "totalTraffic": "總計：{{value}}"
+      },
       "errorBudgetChart": {
         "title": "錯誤預算",
         "title_fullWindow": "整個時間範圍的錯誤預算",
         "optionCompact": "壓縮",
         "optionFull": "完全耗用"
+      },
+      "trafficChart": {
+        "title": "資料流量"
+      },
+      "indicatorChart": {
+        "title": "指標",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "良好事件過濾器：",
+            "badEventFilters": "不當的事件過濾器："
+          }
+        }
+      },
+      "entitySection": {
+        "title": "實體",
+        "typeLabel": "類型",
+        "nameLabel": "名稱"
+      },
+      "scopeSection": {
+        "title": "範圍",
+        "apBoundaryScopeLabel": "界限",
+        "apBoundaryScope": "不明",
+        "apBoundaryScope_ALL": "所有呼叫",
+        "apBoundaryScope_INBOUND": "入埠呼叫",
+        "apHiddenCallsLabel": "隱藏呼叫",
+        "apHiddenCallsInternal": "包括內部呼叫",
+        "apHiddenCallsSynthetic": "包括虛構呼叫",
+        "apServiceLabel": "服務",
+        "apAllServices": "所有服務",
+        "apEndpointLabel": "端點",
+        "apAllEndpoints": "所有端點",
+        "eumBeaconTypeLabel": "引標類型",
+        "customFilterLabel": "自訂過濾器",
+        "ariaLabelChecked": "已選取",
+        "ariaLabelUnchecked": "未選取"
+      },
+      "indicatorSection": {
+        "title": "指標",
+        "blueprintLabel": "藍圖",
+        "typeLabel": "類型",
+        "thresholdLabel": "臨界值（不明裝置）",
+        "thresholdLabel_availability": "臨界值",
+        "thresholdLabel_latency": "臨界值（毫秒）",
+        "aggregationLabel": "聚集",
+        "goodEventsLabel": "事件類型（良好事件）",
+        "goodEventsLabel_application": "事件類型（良好呼叫）",
+        "badEventsLabel": "事件類型（不正確的事件）",
+        "badEventsLabel_application": "事件類型（不正確的呼叫）"
+      },
+      "objectiveSection": {
+        "title": "目標",
+        "targetLabel": "目標",
+        "timeWindowLabel": "時間範圍",
+        "durationLabel": "長度",
+        "startDateLabel": "開始日期",
+        "startTimeLabel": "開始時間"
       }
     }
   }

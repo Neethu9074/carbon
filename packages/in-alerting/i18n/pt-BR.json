@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "Configuração de alerta",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
@@ -919,7 +918,8 @@
       "enabled": "Ativado",
       "disabled": "Desativado",
       "severity": "Gravidade",
-      "created": "Data de criação",
+      "initialCreated": "Data de criação",
+      "created": "Data de alteração",
       "type": "Tipo"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "O que a notificação de alerta deve incluir?",
         "failureThreshold": "Limite de tempo",
         "failureThresholdLabel": "Limite de tempo",
-        "failureThresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?"
+        "failureThresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?",
+        "syntheticTestNamePlaceholder": "teste sintético",
+        "syntheticLocationLabelPlaceholder": "localização sintética"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Incluir testes sintéticos",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Contagem de códigos de status",
-        "beaconRate": "Taxa do indicador",
+        "beaconRate": "Taxa de código de status",
         "views": "Visualizações",
         "customEventBlueprintConfigMetricLabel": "Ocorrências",
         "sessions": "Sessões",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "Eventos customizados",
         "statusCodeBlueprintConfigHeadline": "Alertas automáticos para códigos de status HTTP",
         "statusCodeBlueprintConfigText": "Receba um alerta sempre que os Códigos de status HTTP correspondentes ocorrerem com mais frequência do que o usual.",
-        "throughputBlueprintConfigHeadline": "Alertas automáticos para visualizações de páginas",
-        "throughputBlueprintConfigText": "Alertas automáticos sobre um número anormalmente baixo ou alto de visualizações para páginas selecionadas desses aplicativos móveis.",
+        "throughputBlueprintConfigHeadline": "Alertas automáticos para visualizações de app móvel",
+        "throughputBlueprintConfigText": "Alertas automáticos em um número anormalmente baixo ou alto de visualizações em um app móvel.",
         "customEventBlueprintConfigHeadline": "Alertas automáticos para Eventos customizados",
         "customEventBlueprintConfigText": "Receba um alerta toda vez que um evento customizado específico ocorre com mais ou menos frequência do que deveria.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Selecione um evento customizado para consultar ao acionar este alerta",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Selecione um Código de status para ver quando este alerta é acionado",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Número inesperadamente baixo de visualizações",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Alertas automáticos em um número anormalmente baixo de visualizações",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receba um alerta quando o número de visualizações for significativamente menor do que o esperado em comparação com os dados antigos disponíveis.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Número inesperadamente baixo de sessões",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Alertas automáticos em um número anormalmente baixo de sessões",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receba um alerta quando o número de sessões for significativamente menor do que o esperado em comparação com os dados antigos disponíveis."
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "Limite estático, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "Sazonalidade diária estática, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Limite adaptável, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} mais filtro",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Contagem de códigos de status",
-        "ruleMetricNameOptionBeaconRate": "Taxa do indicador",
+        "ruleMetricNameOptionBeaconRate": "Taxa de código de status",
         "ruleMetricNameOptionThroughputSessions": "Sessões",
         "ruleMetricNameOptionThroughputViews": "Visualizações",
         "errorPleaseProvideCustomEventName": "Forneça um nome de evento customizado",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "Escopo",
         "scopeTitle": "Escopo: onde a condição está acontecendo?",
         "thresholdLabel": "Limite",
-        "thresholdTitle": "Limite: quando a condição é violada?"
+        "thresholdTitle": "Limite: quando a condição é violada?",
+        "userImpactInfo": "Apenas usuários autenticados são considerados para o limite de impacto de usuário.",
+        "payloadsLabel": "Cargas úteis",
+        "payloadsTitle": "Cargas úteis customizadas"
       }
     },
     "inventory": {
@@ -1144,7 +1156,7 @@
         "anyJSErrors": "Qualquer erro de JS",
         "JSErrors": "Erro(s) de JS: {{errorMessage}}",
         "customEvents": "Evento customizado: {{customEventName}}",
-        "HTTPStatusCodes": "Códigos de status HTTP: {{statusCode}}",
+        "HTTPStatusCodes": "Código(s) de status HTTP: {{statusCode}}",
         "unsupportedAlertType": "Tipo de alerta não suportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Foram detectados erros do JS.",
         "unsupportedOperator": "Operador não suportado: {{operator}}",

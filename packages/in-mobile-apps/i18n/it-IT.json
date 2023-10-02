@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "Numero di HTTP DELETE",
       "httpRequestHttpDeleteRawDataLabel": "Metodo HTTP",
       "customBeaconCountLabel": "Ricorrenze",
-      "customBeaconDurationLabel": "Durata"
+      "customBeaconDurationLabel": "Durata",
+      "crashBeaconCountLabel": "Arresti anomali"
     },
     "quickFilterBar": {
       "mobileAppLabel": "App per dispositivi mobili",
@@ -244,8 +245,8 @@
     }
   },
   "dashboard": {
-    "mobileAppViewTitle": "App per dispositivi mobili",
-    "mobileAppTitle": "Vista",
+    "mobileAppViewTitle": "Vista",
+    "mobileAppTitle": "App per dispositivi mobili",
     "analyzeSessions": "Analizza sessioni",
     "analyzeViewTransitions": "Analizza transizioni vista",
     "numSessionStarts": "{{num}} di avvii di sessione",
@@ -258,6 +259,10 @@
       "configurationLabel": "Configurazione",
       "nameLabel": "Nome",
       "occurrencesLabel": "Ricorrenze",
+      "affectedUsersLabel": "Utenti interessati",
+      "crashErrorGroupsTitle": "Gruppi di errori di arresto anomalo",
+      "crashErrorGroupsHelpInfo": "Visualizza i dati raccolti solo per gli utenti interessati identificati",
+      "analyzeCrashesLink": "Analizza arresti anomali",
       "configurationTitle": "Configurazione",
       "optionsLabel": "Opzioni",
       "privacyLabel": "Privacy",
@@ -278,6 +283,8 @@
       "noSessionExplanationWithFilters": "Non è stata trovata alcuna sessione corrispondente ai filtri definiti nell'intervallo di tempo selezionato.",
       "switchTo3DTooltip": "Passa a globo 3D",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "Passa alla mappa 2D",
+      "2DBtn": "2D",
       "errorTypesTitle": "Tipi di errore",
       "viewAllErrorTypesLink": "Visualizza tutti i tipi di errore",
       "originTitle": "Origine",
@@ -310,6 +317,8 @@
       "viewAllOriginsLink": "Visualizza tutte le origini",
       "sessionStartsTitle": "Avvii di sessione",
       "viewInAnalyzeIconAction": "Visualizza in Analisi",
+      "crashFreeSessionRateTitle": "Tasso sessioni senza arresti anomali",
+      "crashFreeUserRateTitle": "Tasso utenti senza arresti anomali",
       "viewTransitionsTitle": "Transizioni vista",
       "activityCardTitle": "Attività",
       "sessionStartsLabel": "Avvii di sessione",
@@ -317,6 +326,10 @@
       "geographyTitle": "Area geografica",
       "topViewsTitle": "Prime Viste",
       "globViewFootertext": "Immagini fornite dalla NASA",
+      "uniqueUserCount": "{{formattedCount}} utente identificato",
+      "uniqueUserCount_plural": "{{formattedCount}} utenti identificati",
+      "sessionCount": "{{formattedCount}} sessione",
+      "sessionCount_plural": "{{formattedCount}} sessioni",
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Dettagli evento personalizzato app per dispositivi mobili",
         "customEventLabelBackToListOfCustomEvents": "Torna all'elenco degli eventi personalizzati",
@@ -350,7 +363,8 @@
         "viewTopListLabelUsers": "Utenti",
         "viewTopListLinkLabel": "Visualizza tutte le viste",
         "viewTopListTitle": "Viste"
-      }
+      },
+      "smartAlerts": "Avvisi smart"
     },
     "noDataAvailable": {
       "viewsTitle": "Nessuna vista disponibile",
@@ -365,6 +379,7 @@
     "nameLabel": "Nome",
     "sessionStartsLabel": "Avvii di sessione",
     "viewTransitionsLabel": "Transizioni vista",
+    "crashFreeSessionRateLabel": "Tasso sessioni senza arresti anomali",
     "addMobileAppBtn": "Aggiungi app per dispositivi mobili",
     "mobileAppsTitle": "App per dispositivi mobili"
   },

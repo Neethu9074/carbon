@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "Nach unten schwenken",
       "overlaysTooltipToggleCountryRegionNames": "Land-/Regionsnamen ein-/ausschalten",
       "overlaysTooltipPanRight": "Nach rechts schwenken",
-      "overlaysTooltipSwitchTo2DMap": "Zu 2D-Karte wechseln",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "Land/Region",
       "globeViewTitle": "Website-Weltglobus",
       "globViewFootertext": "Abbildungen von NASA bereitgestellt",
@@ -462,9 +460,7 @@
         "filter_plural": "Filter",
         "moreFiltersWithCount": "+{{count}} weiterer Filter",
         "moreFiltersWithCount_plural": "+{{count}} weitere Filter",
-        "labelConfirmRemoveAlertConfigWithName": "Soll der Alert <strong>{{name}}</strong> entfernt werden?",
-        "alertsLabelFilters": "Filter",
-        "alertsNoDataMessage": "Kein Alert konfiguriert."
+        "alertsLabelFilters": "Filter"
       },
       "configuration": {
         "configurationRemoveTitle": "Website entfernen",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "Dateien",
         "stackTraceTranslationLabelTotalSize": "Gesamtgröße",
         "stackTraceTranslationLabelLastModified": "Letzte Änderung",
-        "stackTraceTranslationExplanation": "Um JavaScript-Stack-Traces leichter lesbar zu machen, z. B. um Verweise auf nicht minifizierte Dateien und Zeilen anzuzeigen, muss Instana auf JavaScript-und Source-Map-Dateien zugreifen. Wenn Sie eine Konfiguration hier hinzufügen, können Sie den Server von Instana zum Authentifizieren und Herunterladen dieser Dateien verwenden, um weitere Einblicke in JavaScript-Fehler zu erhalten.",
         "stackTraceTranslationExplanationWithUploadFeature": "Um JavaScript-Stack-Traces besser lesbar zu machen, z. B. um Verweise auf nicht verkleinerte Dateien und Zeilen anzuzeigen, muss Instana auf JavaScript- und Quellenzuordnungsdateien zugreifen. Wenn Sie hier eine Downloadkonfiguration hinzufügen, kann der Instana-Server diese Dateien authentifizieren und herunterladen, um mehr Einblicke in JavaScript-Fehler zu erhalten. Wenn Ihre Dateien privat gehostet werden und Instana nicht darauf zugreifen kann, kann in diesem Szenario eine Uploadkonfiguration verwendet werden, indem Ihre Dateien manuell über die Web-REST-API hochgeladen werden.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript-Stack-Trace-Übersetzung",
         "stackTraceTranslationLearnMoreLabel": "Erfahren Sie mehr über JavaScript-Stack-Trace-Übersetzung",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "Es wurden keine Seitenladevorgänge im ausgewählten Zeitraum, die Ihrem Filter entsprechen, gefunden.",
         "geographyExplanationTagFilters_2": "Es wurden keine Seitenladevorgänge im ausgewählten Zeitraum, die Ihren Filtern entsprechen, gefunden.",
         "geographyTooltip": "Zum 3D-Globus wechseln",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "Zu 2D-Karte wechseln",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "Typ...",

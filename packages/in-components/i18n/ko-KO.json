@@ -380,7 +380,8 @@
     "presenterLabelNoDataToDisplay": "표시할 데이터 없음",
     "presenterLabelTraces": "추적",
     "presenterLabelCalls": "호출",
-    "latencyRangeLabelFromTimeToTime": "{{from}} - {{to}}"
+    "latencyRangeLabelFromTimeToTime": "{{from}} - {{to}}",
+    "others": "기타"
   },
   "histogram": {
     "rangeLabel": "{{from}} - {{to}}",
@@ -419,12 +420,12 @@
     "viewSwitcherLabelMobileApps": "모바일 앱",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power",
+    "viewSwitcherLabelphmc": "IBM 전원 HMC",
     "viewSwitcherLabelvSphere": "vSphere",
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelzhmc": "IBM Z",
+    "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "플랫폼",
     "viewSwitcherButtonSignOut": "로그아웃",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "새 Instana UI 버전 사용 가능",
@@ -730,7 +731,9 @@
       "doesNotStartWith": "다음으로 시작하지 않음",
       "doesNotEndWith": "다음으로 끝나지 않음",
       "equals": "같음",
-      "doesNotEqual": "같지 않음"
+      "doesNotEqual": "같지 않음",
+      "isBlank": "값이 비어 있음",
+      "notBlank": "값이 비어 있지 않음"
     },
     "number": {
       "isPresent": "있음",
@@ -750,8 +753,8 @@
       "doesNotContain": "포함하지 않음",
       "isPresent": "있음",
       "isNotPresent": "없음",
-      "doesNotHaveValue": "값이 없음",
-      "hasValue": "값이 있음",
+      "isBlank": "값이 비어 있음",
+      "notBlank": "값이 비어 있지 않음",
       "startsWith": "다음으로 시작",
       "endsWith": "다음으로 끝남"
     }

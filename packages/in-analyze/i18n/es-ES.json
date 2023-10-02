@@ -169,7 +169,7 @@
         "type": "Tipo",
         "category": "Categoría",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Nota: El código fuente sólo se puede recuperar para procesos que todavía están bajo la supervisión de Instana.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Tenga en cuenta que: El código fuente sólo se puede recuperar para los procesos en los que Instana puede enlazar correctamente el entorno de trabajo correspondiente.",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "Nota: El código fuente está compilado y por lo tanto no se pueden mostrar más detalles.",
         "stackTrace": "StackTrace",
         "in": "en",
         "windowLocation": "Ubicación de ventana",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",
+        "orphan": "Se desconoce la posición de esta llamada en el árbol de llamadas porque falta la llamada padre.",
         "of": "de",
         "inheritedFrom": "Heredado desde"
       },

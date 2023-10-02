@@ -37,8 +37,7 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Nenhum problema",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
-  "container": "Contêiner",
   "endOfInfiniteScroll": "Não há mais logs disponíveis",
-  "liveModeDisabled": "O modo em tempo real está desativado para a criação de log",
+  "liveModeDisabled": "O modo em tempo real não é suportado ao analisar logs",
   "logLevels": "Níveis de log"
 }

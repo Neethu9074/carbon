@@ -2,11 +2,16 @@
   "labelBizOps": "Procesos",
   "labelSmartAlerts": "Alertas inteligentes",
   "labelActivities": "Actividades",
+  "components": {
+    "count": "Count"
+  },
   "lists": {
     "pageTitle": "Supervisión de negocio",
     "cardTitle": "Procesos de negocio",
     "activityLabel": "Actividades",
     "nameLabel": "Nombre",
+    "countLabel": "Count",
+    "durationLabel": "Duración",
     "noData": "No hay datos disponibles.",
     "healthLabel": "Estado",
     "startLabel": "Iniciado"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "Proceso empresarial",
       "summaryTab": "Resumen",
+      "activitiesTab": "Actividades",
       "widgets": {
-        "timeline": "Línea temporal",
         "topActivities": "Actividades principales (recuento)",
         "infrastructureIssuesAndChanges": "Problemas y cambios de infraestructura",
-        "viewAll": "Ver todas las actividades",
-        "count": "Count",
-        "businessProcessStartedLabel": "{{businessProcessName}} iniciado"
+        "viewAll": "Ver todas las actividades"
       }
+    },
+    "activity": {
+      "pageTitle": "Actividad empresarial",
+      "summaryTab": "Resumen"
     }
   }
 }

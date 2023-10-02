@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 将来，将移除这三种实体类型的定制事件，并且您将不再接收此 {{issueOrIncident}}</strong><br/>查看定制事件配置以迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "与触发事件关联的操作",
+  "recommendedActions": "建议的操作",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 个定制事件需要操作",
     "message": "已弃用“应用程序”、“服务”和“端点”上的定制事件。 您在将来无法创建或更新这些类型的定制事件。",

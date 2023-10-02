@@ -2,11 +2,16 @@
   "labelBizOps": "进程",
   "labelSmartAlerts": "智能警报",
   "labelActivities": "活动",
+  "components": {
+    "count": "计数"
+  },
   "lists": {
     "pageTitle": "业务监视",
     "cardTitle": "业务流程",
     "activityLabel": "活动",
     "nameLabel": "名称",
+    "countLabel": "计数",
+    "durationLabel": "持续时间",
     "noData": "无可用数据",
     "healthLabel": "运行状况",
     "startLabel": "开始"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "业务流程",
       "summaryTab": "摘要",
+      "activitiesTab": "活动",
       "widgets": {
-        "timeline": "时间线",
         "topActivities": "排名靠前的活动（计数）",
         "infrastructureIssuesAndChanges": "基础架构问题和更改",
-        "viewAll": "查看所有活动",
-        "count": "计数",
-        "businessProcessStartedLabel": "{{businessProcessName}} 已启动"
+        "viewAll": "查看所有活动"
       }
+    },
+    "activity": {
+      "pageTitle": "业务活动",
+      "summaryTab": "摘要"
     }
   }
 }

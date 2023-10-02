@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "Panoramizar para baixo",
       "overlaysTooltipToggleCountryRegionNames": "Alternar nomes de país/região",
       "overlaysTooltipPanRight": "Panoramizar à direita",
-      "overlaysTooltipSwitchTo2DMap": "Alternar para mapa 2D",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "País/Região",
       "globeViewTitle": "Globo do website",
       "globViewFootertext": "Imagens fornecidas pela NASA",
@@ -462,9 +460,7 @@
         "filter_plural": "filtros",
         "moreFiltersWithCount": "+{{count}} mais filtro",
         "moreFiltersWithCount_plural": "+{{count}} mais filtros",
-        "labelConfirmRemoveAlertConfigWithName": "Tem certeza de que deseja remover o alerta <strong>{{name}}</strong>?",
-        "alertsLabelFilters": "Filtros",
-        "alertsNoDataMessage": "Nenhum alerta configurado."
+        "alertsLabelFilters": "Filtros"
       },
       "configuration": {
         "configurationRemoveTitle": "Remover website",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "Arquivos",
         "stackTraceTranslationLabelTotalSize": "Tamanho total",
         "stackTraceTranslationLabelLastModified": "Modificado pela última vez",
-        "stackTraceTranslationExplanation": "Para tornar os rastreios de pilha JavaScript mais legíveis, por exemplo, para mostrar referências a arquivos e linhas não minificados, a Instana precisa acessar arquivos JavaScript e mapas de origem. A inclusão de uma configuração aqui permite que o servidor da Instana seja autenticado e faça o download desses arquivos para fornecer mais insights sobre erros do JavaScript.",
         "stackTraceTranslationExplanationWithUploadFeature": "Para tornar os rastreios de pilha JavaScript mais legíveis, por exemplo, para mostrar referências a arquivos e linhas não minimizadas, o Instana precisa acessar arquivos JavaScript e mapas de origem. A inclusão de uma configuração de download aqui permite que o servidor do Instana seja autenticado e faça o download desses arquivos a fim de fornecer mais insights sobre erros JavaScript. Se seus arquivos estiverem hospedados de forma privada e não puderem ser acessados pelo Instana, então uma configuração de upload poderá ser usada neste cenário ao transferir por upload seus arquivos manualmente por meio de nossa API de REST da Web.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversão de rastreio de pilha JavaScript",
         "stackTraceTranslationLearnMoreLabel": "Saiba mais sobre a conversão de rastreio de pilha JavaScript",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "Não foram localizados carregamentos de página no intervalo de tempo selecionado que correspondessem ao seu filtro",
         "geographyExplanationTagFilters_2": "Não foram localizados carregamentos de página no intervalo de tempo selecionado que correspondessem aos seus filtros",
         "geographyTooltip": "Alternar para o globo 3D",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "Alternar para mapa 2D",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "Tipo…",
