@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .error {
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
   }
 }
