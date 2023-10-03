@@ -283,6 +283,7 @@ function onSave({
     const response = data;
     if ('error' in response && response.error != null) {
       setError(response.error);
+      setActionInstanceId(response?.data?.actionInstanceId);
     } else {
       setActionInstanceId(response.data.actionInstanceId);
     }

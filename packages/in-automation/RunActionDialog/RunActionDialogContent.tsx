@@ -90,13 +90,13 @@ export default function RunActionDialogContent({
     setOrDeleteMatrixKey(path, actionHistoryPath, 'query', id);
     return createHref(path);
   }
-  if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
   if (actionInstanceId) {
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
     const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
+        {error && <Typography variant="body-small">{error}</Typography>}
         {role?.canViewAutomationActionInstances ? (
           <Trans
             i18nKey={'in-automation:linkToActionHistory'}
