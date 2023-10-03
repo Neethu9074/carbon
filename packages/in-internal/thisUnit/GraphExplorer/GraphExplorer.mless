@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .view {
     position: absolute;
@@ -63,12 +61,12 @@
     margin: 0.125rem;
 
     border-radius: 3px;
-    background: @lib__colors__N200;
-    color: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-200);
+    color: var(--ids-color-option-neutral-800);
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
     }
   }
 
@@ -87,7 +85,7 @@
     position: absolute;
     top: 0.25rem;
 
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .inIcon {
