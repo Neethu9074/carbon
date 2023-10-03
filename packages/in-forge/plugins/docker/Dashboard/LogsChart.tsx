@@ -58,7 +58,7 @@ export default function LogsChart(props: LogsChartProps) {
               label: t('in-logging:logsOverTime', { context: 'INFO' })
             })
           ],
-          colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+          colors: [theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30, theme.lib.carbonAlert.blue70],
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },

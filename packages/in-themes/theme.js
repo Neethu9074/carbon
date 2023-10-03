@@ -257,6 +257,15 @@ function buildLib() {
     lib.carbonCategorical.purple70
   ];
 
+  // carbon five color palette
+  lib.colors.chart.fiveColorPalette = [
+    lib.carbonCategorical.purple70,
+    lib.carbonCategorical.cyan50,
+    lib.carbonCategorical.teal70,
+    lib.carbonCategorical.magenta70,
+    lib.carbonCategorical.red90
+  ];
+
   // stroke colors
   lib.colors.chart.strokeColors100 = [
     lib.carbonCategorical.cyan50,

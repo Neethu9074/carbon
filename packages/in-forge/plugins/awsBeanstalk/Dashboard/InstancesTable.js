@@ -247,13 +247,7 @@ function getDetails(row) {
               t('in-forge:plugins.labelRequests.5xx'),
               t('in-forge:plugins.labelRequests.total')
             ],
-            colors: [
-              theme.lib.colors.green800,
-              theme.lib.colors.yellow800,
-              theme.lib.colors.orange800,
-              theme.lib.colors.red800,
-              theme.lib.colors.lightBlue800
-            ],
+            colors: theme.lib.colors.chart.fiveColorPalette,
             type: 'line',
             formatter: number.compact
           }}

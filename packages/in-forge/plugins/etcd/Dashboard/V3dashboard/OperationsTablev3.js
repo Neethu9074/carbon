@@ -86,7 +86,7 @@ function getRowDetails(row) {
         metrics: ['health.' + row.key + '_v3'],
         labels: [t('in-forge:plugins.etcd.dashboard.count')],
         type: 'stackedBar',
-        colors: [theme.lib.colors.green800],
+        colors: [theme.lib.carbonAlert.green50],
         aggregation: 'sum'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
