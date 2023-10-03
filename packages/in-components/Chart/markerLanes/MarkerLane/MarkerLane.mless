@@ -16,7 +16,7 @@
   }
 
   .lanePostChart {
-    border-bottom: 1px @lib__colors__N300 solid;
+    border-bottom: 1px var(--ids-color-option-neutral-300) solid;
   }
 
   .laneLabel {
@@ -26,7 +26,7 @@
   }
 
   .laneLabelText {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     background: rgba(253, 253, 253, 0.8);
   }
 
@@ -37,7 +37,7 @@
   }
 
   .laneErrorIconText {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     display: flex;
     align-items: center;
     max-width: 100%;

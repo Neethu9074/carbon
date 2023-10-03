@@ -49,11 +49,11 @@
   }
 
   .iconButton--action:before {
-    background-color: @lib__colors__N800Dark;
+    background-color: var(--ids-color-option-neutral-800);
   }
 
   .iconButton--secondary:before {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 
   .iconButton--create:before {
@@ -92,14 +92,14 @@
   }
 
   .icon--action {
-    fill: @lib__colors__N800Dark;
+    fill: var(--ids-color-option-neutral-800);
     &.disabled {
-      fill: @lib__colors__N300;
+      fill: var(--ids-color-option-neutral-300);
     }
   }
 
   .icon--secondary {
-    fill: @lib__colors__N050;
+    fill: var(--ids-color-option-neutral-50);
     &.disabled {
       fill: #fcfcfd;
     }
@@ -129,7 +129,7 @@
   .icon--info {
     fill: @lib__colors__chart__self100;
     &.disabled {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
   }
 

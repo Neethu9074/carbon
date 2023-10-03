@@ -10,7 +10,7 @@
     line-height: 1.25rem;
     > div:not(:last-child) {
       padding-bottom: 0.5rem;
-      border-bottom: solid 1px @lib__colors__N500;
+      border-bottom: solid 1px var(--ids-color-option-neutral-500);
     }
     > div:not(:first-child) {
       padding-top: 0.5rem;

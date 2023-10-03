@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .sparkChartWrapper {
     margin: 0 0.4rem;
@@ -24,7 +22,7 @@
   }
 
   .arrowRight {
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
     // Have the icon use less vertical space.
     margin-top: -0.3rem;
     margin-bottom: -0.3rem;

@@ -11,7 +11,7 @@
     padding: 0.25rem 0.5rem;
     border-radius: @lib__shapes__radius_medium;
 
-    color: @lib__colors__N500 !important;
+    color: var(--ids-color-option-neutral-500) !important;
     text-decoration: none;
     cursor: pointer;
     .ellipsis();
@@ -23,13 +23,13 @@
 
   .clickable {
     &:hover {
-      background: @lib__colors__N700Medium;
-      color: @lib__colors__N050 !important;
+      background: var(--ids-color-option-neutral-700);
+      color: var(--ids-color-option-neutral-50) !important;
 
       text-decoration: none;
 
       .icon {
-        fill: @lib__colors__N050;
+        fill: var(--ids-color-option-neutral-50);
       }
     }
   }
@@ -45,6 +45,6 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 }

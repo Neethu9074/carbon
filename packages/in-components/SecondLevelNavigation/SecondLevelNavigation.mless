@@ -13,7 +13,7 @@
   }
 
   .navLight {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
     border-bottom: none;
     border-top: none;
   }
@@ -30,7 +30,7 @@
 
   .tabListLight {
     .tab {
-      color: @lib__colors__N300;
+      color: var(--ids-color-option-neutral-300);
       line-height: 1.5rem;
 
       &:hover {
@@ -53,15 +53,15 @@
     font-size: 0.875rem;
     border-bottom: 3px solid transparent;
 
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     .icon {
-      fill: @lib__colors__N600Light;
+      fill: var(--ids-color-option-neutral-600);
     }
 
     .ellipsis();
 
     &:hover {
-      border-bottom: 3px solid @lib__colors__N600Light;
+      border-bottom: 3px solid var(--ids-color-option-neutral-600);
     }
   }
 
@@ -76,14 +76,14 @@
     border-bottom: 3px solid var(--ids-color-option-teal-400);
     cursor: default;
 
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
     .icon {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
   }
 
   .tabDisabled {
-    color: @lib__colors__N400;
+    color: var(--ids-color-option-neutral-400);
 
     &:hover {
       border-bottom: 3px solid transparent;
@@ -93,11 +93,11 @@
 
   .link {
     text-decoration: none;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
 
     &:hover {
       text-decoration: none;
-      color: @lib__colors__N500;
+      color: var(--ids-color-option-neutral-500);
     }
     /* removes the focus indicator after link was clicked with mouse */
     &:focus:not(:focus-visible) {
@@ -124,7 +124,7 @@
       left: 0;
       bottom: 0.375rem;
       width: 1px;
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
       content: '';
     }
   }
@@ -140,7 +140,7 @@
       left: 0;
       bottom: 0.375rem;
       width: 1px;
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
       content: '';
     }
   }
@@ -154,12 +154,12 @@
     font-size: 0.75rem;
     font-weight: 400;
     margin-bottom: 1rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .groupSelected {
     font-weight: 500;
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
   }
 
   .groupLabelExtraMargin {

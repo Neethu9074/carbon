@@ -12,29 +12,29 @@
   }
 
   .borderBottom {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .default {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
   .light {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
   .dark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
     .label {
-      color: @lib__colors__white;
+      color: var(--ids-color-option-white);
     }
     .icon {
-      fill: @lib__colors__white;
+      fill: var(--ids-color-option-white);
     }
     .contextIcon,
     .contextEndIcon {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
     .context {
-      color: @lib__colors__N400;
+      color: var(--ids-color-option-neutral-400);
     }
   }
 
@@ -68,7 +68,7 @@
 
   .contextIcon,
   .contextEndIcon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .contextEndIcon {
@@ -76,7 +76,7 @@
   }
 
   .icon {
-    fill: @lib__colors__N900Primary;
+    fill: var(--ids-color-option-neutral-900);
   }
 
   .contextWrapper {
@@ -96,11 +96,11 @@
   }
 
   .context {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .label {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     margin-right: 0.75rem;
   }
 

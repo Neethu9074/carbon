@@ -9,13 +9,13 @@
   .icon {
     padding-top: 0.0225rem;
     padding-bottom: 0.0225rem;
-    border-left: 1px solid @lib__colors__N400;
+    border-left: 1px solid var(--ids-color-option-neutral-400);
     border-bottom: none;
     border-top: none;
     line-height: 2;
     cursor: pointer;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
     cursor: pointer;
 
     &:hover,

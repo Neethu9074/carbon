@@ -32,8 +32,8 @@
   .value {
     font-weight: bold;
     padding: 0.125rem 0.438rem;
-    background: @lib__colors__white;
-    color: @lib__colors__N800Dark;
+    background: var(--ids-color-option-white);
+    color: var(--ids-color-option-neutral-800);
     border-radius: @lib__shapes__radius_large;
     box-shadow: var(--ids-shadow-option-subtle);
     white-space: nowrap;

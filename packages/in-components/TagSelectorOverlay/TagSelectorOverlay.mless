@@ -3,17 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .icon {
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 
   .path {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

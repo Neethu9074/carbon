@@ -10,7 +10,7 @@
     position: relative;
     padding: 0;
     margin: 0;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
 
     display: flex;
     align-items: center;
@@ -18,8 +18,8 @@
 
     font-size: @lib__typography__h200__font-size;
     font-weight: 300;
-    color: @lib__colors__N700Medium;
-    background: @lib__colors__N200;
+    color: var(--ids-color-option-neutral-700);
+    background: var(--ids-color-option-neutral-200);
   }
 
   .title {
@@ -28,16 +28,16 @@
 
   .more {
     font-size: @lib__typography__h100__font-size;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     display: block;
   }
 
   .close {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     padding: 0.5rem;
 
     &:hover {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
   }
 }

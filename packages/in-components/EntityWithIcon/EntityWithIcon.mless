@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -16,11 +15,11 @@
 
   .entityIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .label {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
     display: inline-block;
     align-items: center;
@@ -29,6 +28,6 @@
 
   .rootOrUnknown {
     font-style: italic;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

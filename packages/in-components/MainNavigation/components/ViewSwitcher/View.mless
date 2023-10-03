@@ -124,18 +124,18 @@
   }
 
   .expanded {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
 
     .wrapper {
-      background: @lib__colors__N800Dark;
+      background: var(--ids-color-option-neutral-800);
       &:hover {
-        background: @lib__colors__N700Medium;
+        background: var(--ids-color-option-neutral-700);
       }
     }
 
     .expandIcon {
       &:hover {
-        background: @lib__colors__N600Light;
+        background: var(--ids-color-option-neutral-600);
       }
     }
   }
@@ -178,12 +178,12 @@
   }
 
   .icon {
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
     margin-right: 0.75rem;
   }
 
   .label {
-    color: @lib__colors__N400;
+    color: var(--ids-color-option-neutral-400);
     font-size: 0.875rem;
     max-width: 10.25rem;
     margin-right: 0.5rem;
@@ -192,10 +192,10 @@
 
   .expandIcon {
     padding: 0.5rem;
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
 
     &:hover {
-      background: @lib__colors__N700Medium;
+      background: var(--ids-color-option-neutral-700);
       border-radius: 50%;
     }
   }

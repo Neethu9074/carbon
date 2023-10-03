@@ -29,8 +29,8 @@
   }
 
   .dark {
-    border-left: 1px solid @lib__colors__N700Medium;
-    border-right: 1px solid @lib__colors__N700Medium;
+    border-left: 1px solid var(--ids-color-option-neutral-700);
+    border-right: 1px solid var(--ids-color-option-neutral-700);
   }
 
   .displayTimeWrapper {

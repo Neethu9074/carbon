@@ -8,20 +8,20 @@
 :local {
   .static:hover,
   .live {
-    border-color: @lib__colors__N500;
+    border-color: var(--ids-color-option-neutral-500);
   }
 
   .static:hover {
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
   }
 
   .live,
   .live:hover {
-    background: @lib__colors__N500;
-    color: @lib__colors__white;
+    background: var(--ids-color-option-neutral-500);
+    color: var(--ids-color-option-white);
 
     svg {
-      fill: @lib__colors__white;
+      fill: var(--ids-color-option-white);
     }
   }
   .static,

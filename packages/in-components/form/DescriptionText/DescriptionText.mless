@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .descriptionText {
     margin: 0.5rem 0;
 
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
     font-weight: 300;
   }

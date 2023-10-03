@@ -173,11 +173,11 @@
     left: calc(50% - var(--width) / 2);
     width: var(--width);
 
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     border: 1px solid var(--ids-color-option-blue-400);
     &::after {
       border-color: var(--ids-color-option-blue-400);
-      background: @lib__colors__N050;
+      background: var(--ids-color-option-neutral-50);
     }
   }
 

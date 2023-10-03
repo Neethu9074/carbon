@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .button {
     margin-left: 0.5rem;
@@ -12,7 +10,7 @@
   }
 
   .icon {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
     margin: -0.25rem 0 -0.25rem 0.25rem;
   }
 

@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .icon {
     margin-left: 0.25rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .itemWrapper {
@@ -40,7 +38,7 @@
 
   .profileIcon {
     margin-left: 0.25rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .dot {

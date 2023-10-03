@@ -23,7 +23,7 @@
 
   .light {
     .timeIcon {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
 
     .indicator {

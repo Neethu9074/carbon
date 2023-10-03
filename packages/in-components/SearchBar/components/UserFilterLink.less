@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 .in-search-use-filter-link {
   display: block;
   width: 80%;
   text-decoration: none;
-  color: @lib__colors__N500 !important; // needs !important so that it will not overruled by of :visited, or :active styling
+  color: var(
+    --ids-color-option-neutral-500
+  ) !important; // needs !important so that it will not overruled by of :visited, or :active styling
 }
 
 .in-search-filter-item {
   cursor: pointer;
-  color: @lib__colors__N500 !important;
+  color: var(--ids-color-option-neutral-500) !important;
   width: 100%;
 }

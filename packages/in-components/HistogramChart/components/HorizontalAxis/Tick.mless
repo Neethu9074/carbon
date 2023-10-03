@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .tickContainer {
     position: absolute;
@@ -14,7 +12,7 @@
 
   .tick {
     position: relative;
-    border-left: 1px solid @lib__colors__N800Dark;
+    border-left: 1px solid var(--ids-color-option-neutral-800);
     height: 6px;
   }
 
@@ -24,7 +22,7 @@
 
   .tickValues {
     position: absolute;
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
     font-size: 0.5625rem;
     line-height: 1.4;
     white-space: nowrap;

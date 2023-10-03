@@ -8,8 +8,8 @@
 :local {
   .searchInputWrapper {
     padding: 0.5rem;
-    border-bottom: 1px solid @lib__colors__N300;
-    background: @lib__colors__N050;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    background: var(--ids-color-option-neutral-50);
     height: 3.25rem;
   }
 
@@ -28,7 +28,7 @@
   }
 
   .filterList {
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .option {

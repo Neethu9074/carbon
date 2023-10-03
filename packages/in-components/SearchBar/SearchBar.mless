@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     position: relative;
@@ -20,23 +18,23 @@
   }
 
   .wrapperdark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
   }
 
   .helpIcon {
     cursor: pointer;
     margin-right: 0.5rem;
 
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     &:hover {
-      fill: @lib__colors__N500;
+      fill: var(--ids-color-option-neutral-500);
     }
   }
 
   .helpIcondark {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
     &:hover {
-      fill: @lib__colors__N200;
+      fill: var(--ids-color-option-neutral-200);
     }
   }
 
@@ -48,8 +46,8 @@
     max-width: ~'calc(100% - 12rem)';
     height: 1.875rem;
 
-    background: @lib__colors__white;
-    border: 1px solid @lib__colors__N400;
+    background: var(--ids-color-option-white);
+    border: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .inputWrapperNoRightBorder {
@@ -57,8 +55,8 @@
   }
 
   .inputWrapperdark {
-    background: @lib__colors__N900Primary;
-    border: 1px solid @lib__colors__N600Light;
+    background: var(--ids-color-option-neutral-900);
+    border: 1px solid var(--ids-color-option-neutral-600);
   }
 
   .withoutSaveFilter {
@@ -75,28 +73,28 @@
     height: 1.875rem;
     padding: 0 0.625rem;
 
-    background: @lib__colors__N050;
-    border: 1px solid @lib__colors__N300;
-    color: @lib__colors__N700Medium;
+    background: var(--ids-color-option-neutral-50);
+    border: 1px solid var(--ids-color-option-neutral-300);
+    color: var(--ids-color-option-neutral-700);
     cursor: pointer;
   }
 
   .buttondark {
-    background: @lib__colors__N900Primary;
-    border: 1px solid @lib__colors__N700Medium;
-    color: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-900);
+    border: 1px solid var(--ids-color-option-neutral-700);
+    color: var(--ids-color-option-neutral-50);
   }
 
   .icon {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
   }
 
   .icondark {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
   }
 
   .filtersSpaceholder {
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     height: 1.875rem;
   }
 }

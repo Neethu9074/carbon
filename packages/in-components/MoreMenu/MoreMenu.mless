@@ -13,7 +13,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
     box-shadow: var(--ids-shadow-option-pronounced);
   }
 }
