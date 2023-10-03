@@ -38,7 +38,7 @@
   }
 
   .withShadow {
-    box-shadow: @lib__shadows__pronounced;
+    box-shadow: var(--ids-shadow-option-pronounced);
   }
 
   .inner {

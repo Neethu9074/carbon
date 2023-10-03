@@ -20,7 +20,7 @@
     color: @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_large;
     font-size: 0.75rem;
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid @lib__colors__N300;
   }
 
