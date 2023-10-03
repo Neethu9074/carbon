@@ -32,7 +32,7 @@
 
       &.active {
         cursor: default;
-        border-bottom-color: @lib__colors__teal800;
+        border-bottom-color: var(--ids-color-option-teal-500);
         font-weight: 600;
       }
     }

@@ -55,8 +55,8 @@
   }
 
   .active {
-    background: @lib__colors__light-blue800;
-    border: 1px solid @lib__colors__light-blue800;
+    background: var(--ids-color-option-blue-400);
+    border: 1px solid var(--ids-color-option-blue-400);
     color: #fff;
 
     svg {
@@ -64,12 +64,12 @@
     }
 
     &:hover {
-      background: @lib__colors__light-blue800;
+      background: var(--ids-color-option-blue-400);
       color: #fff;
     }
 
     &:hover {
-      border: 1px solid @lib__colors__light-blue800;
+      border: 1px solid var(--ids-color-option-blue-400);
       background: #148cc8;
 
       svg {

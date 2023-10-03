@@ -45,7 +45,7 @@
   }
 
   .iconButton--primaryv2:before {
-    background-color: @lib__colors__light-blue800;
+    background-color: var(--ids-color-option-blue-400);
   }
 
   .iconButton--action:before {
@@ -85,7 +85,7 @@
   }
 
   .icon--primaryv2 {
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
     &.disabled {
       fill: #86cff3;
     }

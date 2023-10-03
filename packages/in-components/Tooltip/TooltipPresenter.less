@@ -52,7 +52,7 @@
 
 .in-tooltip-presenter__dark {
   @size: 6px;
-  background: @lib__colors__navy900;
+  background: var(--ids-color-option-navy-900);
   color: white;
 
   &::after {
@@ -60,7 +60,7 @@
     width: 0;
     height: 0;
     border-bottom: @size solid transparent;
-    border-left: @size solid @lib__colors__navy900;
+    border-left: @size solid var(--ids-color-option-navy-900);
 
     position: absolute;
     top: 10px;
@@ -73,13 +73,13 @@
   &__rightBottom::after {
     left: @size * -2;
     border-left: @size solid transparent;
-    border-right: @size solid @lib__colors__navy900;
+    border-right: @size solid var(--ids-color-option-navy-900);
   }
 
   &__rightTop::after {
     left: @size * -1;
     border-bottom: 6px solid transparent;
-    border-right: 6px solid @lib__colors__navy900;
+    border-right: 6px solid var(--ids-color-option-navy-900);
     border-left: 0;
   }
 
@@ -87,7 +87,7 @@
     left: @size * -1;
     top: 50% - 6;
     border-bottom: 6px solid transparent;
-    border-right: 6px solid @lib__colors__navy900;
+    border-right: 6px solid var(--ids-color-option-navy-900);
     border-left: 0;
   }
 
@@ -95,7 +95,7 @@
     top: 100%;
     left: 50%;
     border-left: 6px solid transparent;
-    border-top: 6px solid @lib__colors__navy900;
+    border-top: 6px solid var(--ids-color-option-navy-900);
     border-bottom: 0;
   }
 
@@ -103,7 +103,7 @@
     top: @size * -1;
     left: 50%;
     border-left: 6px solid transparent;
-    border-bottom: 6px solid @lib__colors__navy900;
+    border-bottom: 6px solid var(--ids-color-option-navy-900);
     border-top: 0;
   }
 }

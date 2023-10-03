@@ -39,7 +39,7 @@
     }
     .tabSelected {
       color: #fff;
-      border-bottom: 3px solid @lib__colors__cyan800;
+      border-bottom: 3px solid var(--ids-color-option-teal-400);
     }
   }
 
@@ -73,7 +73,7 @@
   }
 
   .tabSelected {
-    border-bottom: 3px solid @lib__colors__cyan800;
+    border-bottom: 3px solid var(--ids-color-option-teal-400);
     cursor: default;
 
     color: @lib__colors__N800Dark;

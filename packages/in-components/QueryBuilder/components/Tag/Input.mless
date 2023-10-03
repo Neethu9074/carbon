@@ -39,7 +39,7 @@
     &:active,
     &:hover {
       outline: 0;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
 
     &::placeholder {

@@ -21,8 +21,8 @@
     &:hover,
     &:active,
     &:focus {
-      fill: @lib__colors__light-blue800;
-      border-color: @lib__colors__light-blue800;
+      fill: var(--ids-color-option-blue-400);
+      border-color: var(--ids-color-option-blue-400);
       outline: none;
     }
   }
@@ -35,7 +35,7 @@
     &:active,
     &:focus {
       margin-left: -1px;
-      border-left: 1px solid @lib__colors__light-blue800;
+      border-left: 1px solid var(--ids-color-option-blue-400);
     }
   }
 }

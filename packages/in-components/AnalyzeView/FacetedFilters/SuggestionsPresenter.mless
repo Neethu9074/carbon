@@ -25,10 +25,10 @@
     justify-content: space-between;
     width: 100%;
     &:hover > .count {
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
     &:hover > .label {
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
@@ -51,20 +51,20 @@
   .loadMore {
     .typoSettings();
     padding: 0;
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
   .addAsGroup {
     .typoSettings();
     padding: 0;
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
