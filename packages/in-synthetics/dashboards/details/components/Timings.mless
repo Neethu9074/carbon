@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -41,7 +40,7 @@
   }
 
   .indicatorContainer {
-    background-color: #d4d8db;
+    background-color: var(--ids-color-option-neutral-400);
     max-width: 300px;
     min-width: 2px;
     margin-left: 10px;
@@ -54,7 +53,7 @@
     min-width: 2px;
     height: 4px;
     border-radius: 2px;
-    background: @lib__colors__primary2;
+    background: var(--ids-color-option-blue-500);
     margin: 0;
   }
 }

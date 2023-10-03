@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -16,7 +15,7 @@
   }
 
   .key {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-weight: 500;
     padding: 0 0 0.188rem;
     white-space: nowrap;

@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .group {
-    border-top: 0px solid @lib__colors__N400;
+    border-top: 0px solid var(--ids-color-option-neutral-400);
   }
 
   .header {
@@ -20,7 +18,7 @@
     &:hover,
     &:focus {
       outline: 0;
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
       cursor: pointer;
     }
   }
@@ -56,7 +54,7 @@
   .pageName {
     font-size: 0.875rem;
     font-weight: 500;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.5rem;
   }
 

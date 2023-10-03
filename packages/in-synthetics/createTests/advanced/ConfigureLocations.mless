@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .selectButton {
     margin-right: 0.5rem;
@@ -13,7 +11,7 @@
 
   .createButton {
     margin-right: 0.5rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 
   .createAlertTestButton {

@@ -51,11 +51,12 @@ import { getTestResultMetadata } from 'in-synthetics/api';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-bizops/dashboards/activity/BusinessActivitySummary.mless';
 
 export default function SyntheticAnalyzeView() {
+  const theme = useTheme();
   const location = useLocation();
   const timeConfig = useTimeConfig();
   const page = 1;
@@ -192,13 +193,13 @@ export default function SyntheticAnalyzeView() {
                     <KpiCard
                       title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
                       value={t('in-synthetics:dashboard.detailsPage.successResult')}
-                      color={theme.lib.colors.success}
+                      color={theme.ids.color.option.green['500']}
                     />
                   ) : (
                     <KpiCard
                       title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
                       value={t('in-synthetics:dashboard.detailsPage.failedResult')}
-                      color={theme.lib.colors.failure}
+                      color={theme.ids.color.option.red['500']}
                     />
                   )}
                 </Col>

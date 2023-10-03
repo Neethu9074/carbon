@@ -4,15 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: @lib__colors__N050;
-    background: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-50);
+    background: var(--ids-color-option-neutral-600);
     border-radius: 0.1rem;
     padding: 0.2rem 0.625rem;
     pointer-events: none;
