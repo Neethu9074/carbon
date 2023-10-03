@@ -3,18 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .infrastructureTabSubscript {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     font-size: 0.75rem;
     max-width: 32rem;
     .ellipsis();
   }
 
   .entityLink {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 }

@@ -4,9 +4,9 @@
  */
 
 import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
 export function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
@@ -90,10 +90,7 @@ function requestThresholdOnEvaluationTypeChange(form) {
   // That's because as part of this side-effect we request the threshold suggestion. Resetting chartViewEntitySelection
   // lets us decide that entity selection is valid or invalid while requesting threshold suggestion so we don't end-up
   // requesting threshold suggestion using wrong applicationId/serviceId/endpointId as part of TagFilter
-  const chartViewEntitySelection = form
-    .get('hiddenFields')
-    .get('chartViewEntitySelection')
-    .toJS();
+  const chartViewEntitySelection = form.get('hiddenFields').get('chartViewEntitySelection').toJS();
   const updatedEntitySelection = {
     ...chartViewEntitySelection,
     serviceId: null,

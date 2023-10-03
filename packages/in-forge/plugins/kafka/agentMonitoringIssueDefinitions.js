@@ -21,7 +21,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-kafka#ssl-not-configured`
+    explanationLinkHref: `https://ibm.biz/kafka-ssl-not-config`
   },
   kafka_ssl_client_not_configured: {
     issueDescription: {
@@ -36,6 +36,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-kafka#ssl-client-authentication-not-configured`
+    explanationLinkHref: `https://ibm.biz/kafka-ssl-client-auth-not-config`
   }
 };

@@ -20,7 +20,7 @@ import {
   TimeWindowType,
   TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 
 const formSideEffects = [
   {

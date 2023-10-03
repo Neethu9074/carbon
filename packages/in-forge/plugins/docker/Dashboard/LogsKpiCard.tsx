@@ -19,7 +19,7 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import { LogGroupItem, TimeConfig } from 'in-types';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LogsKpiCardProps {
@@ -101,11 +101,13 @@ function ValueNoData() {
 }
 
 function ValueLoading() {
-  return <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />;
+  const theme = useTheme();
+  return <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />;
 }
 
 function Value({ timeConfig, snapshot }: ValueProps) {
   const title = t('in-forge:plugins.docker.dashboard.logs');
+  const theme = useTheme();
 
   const getLogsTagFilterExpression = getValueMatchTagFilter({
     name: LOG_DOCKER_SNAPSHOT_ID,
@@ -129,7 +131,7 @@ function Value({ timeConfig, snapshot }: ValueProps) {
   if (isLoading(logGroupsResult)) {
     return (
       <KpiKeyValue label={title}>
-        <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />
+        <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
       </KpiKeyValue>
     );
   }

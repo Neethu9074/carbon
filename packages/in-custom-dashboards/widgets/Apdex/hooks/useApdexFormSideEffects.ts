@@ -6,8 +6,8 @@
 
 import { Field, Item, MapForm } from 'formalistic';
 
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { apdexConfigIdKey, entityIdKey, entityTypeKey } from 'in-custom-dashboards/widgets/Apdex/form';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 
 const formSideEffects = [
   {

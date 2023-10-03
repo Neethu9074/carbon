@@ -11,8 +11,7 @@ import {
   getDefaultIndicatorFields,
   getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-// eslint-disable-next-line
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 

@@ -5,7 +5,8 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { sourcePath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { createForm } from 'in-custom-dashboards/widgets/Table/form';
 

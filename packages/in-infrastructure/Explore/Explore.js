@@ -448,7 +448,7 @@ function List({
   );
 }
 
-function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
+export function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
     ({ metric, aggregation }) => ({
       metric,

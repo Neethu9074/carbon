@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .body {
     margin: 1.5rem;
   }
 
   .analyticsLink {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

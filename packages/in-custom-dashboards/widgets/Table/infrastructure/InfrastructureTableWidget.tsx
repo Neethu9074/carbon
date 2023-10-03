@@ -48,7 +48,7 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
 
-interface MetricItem {
+export interface MetricItem {
   aggregation: AggregationType;
   metric: string;
   formatter: string;
