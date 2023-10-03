@@ -58,7 +58,7 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.startTime'),
     id: 'startDate',
     getContent(row: ActionInstance) {
-      return formatDateTime(row.startDate);
+      return row.startDate ? formatDateTime(row.startDate) : formatDateTime(null);
     }
   },
   {
@@ -184,6 +184,9 @@ export function getStatus(status: string) {
         {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
       </div>
     );
+  }
+  if (status === 'SUBMITTED') {
+    return <span>{t('in-automation:actionHistory.submitted')}</span>;
   }
   if (status === 'IN_PROGRESS') {
     return (
