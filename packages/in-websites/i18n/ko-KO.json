@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "아래로 이동",
       "overlaysTooltipToggleCountryRegionNames": "국가/지역 이름 토글",
       "overlaysTooltipPanRight": "오른쪽으로 이동",
-      "overlaysTooltipSwitchTo2DMap": "2D 맵으로 전환",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "국가/지역",
       "globeViewTitle": "웹 사이트 월드 글로브",
       "globViewFootertext": "NASA에서 제공한 이미지",
@@ -462,9 +460,7 @@
         "filter_plural": "필터",
         "moreFiltersWithCount": "{{count}}개 추가 필터",
         "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
-        "labelConfirmRemoveAlertConfigWithName": "<strong>{{name}}</strong> 경보를 제거하시겠습니까?",
-        "alertsLabelFilters": "필터",
-        "alertsNoDataMessage": "경보가 구성되어 있지 않습니다."
+        "alertsLabelFilters": "필터"
       },
       "configuration": {
         "configurationRemoveTitle": "웹 사이트 제거",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "파일",
         "stackTraceTranslationLabelTotalSize": "총 크기",
         "stackTraceTranslationLabelLastModified": "마지막 수정 날짜",
-        "stackTraceTranslationExplanation": "JavaScript 스택 추적을 더 읽기 쉽게 하려면 예를 들어, 축소되지 않은 파일 및 라인에 대한 참조를 표시하기 위해, Instana는 JavaScript 및 소스 맵 파일에 액세스해야 합니다. 여기에 구성을 추가하면 Instana 서버가 JavaScript 오류에 대한 더 정확한 분석 정보를 제공하기 위해 이러한 파일을 인증하고 다운로드할 수 있습니다.",
         "stackTraceTranslationExplanationWithUploadFeature": "JavaScript 스택 추적을 보다 읽기 쉽게 하려면(예: 최소화되지 않은 파일 및 행에 대한 참조 표시) Instana에서 JavaScript 및 소스 맵 파일에 액세스해야 합니다. 여기에 다운로드 구성을 추가하면 Instana의 서버가 JavaScript 오류에 대한 더 많은 통찰력을 제공하기 위해 이러한 파일을 인증하고 다운로드할 수 있습니다. 파일이 비공개로 호스팅되고 Instana에서 액세스할 수 없는 경우 웹 REST API를 통해 파일을 수동으로 업로드하여 이 시나리오에서 업로드 구성을 사용할 수 있습니다.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript 스택 추적 변환",
         "stackTraceTranslationLearnMoreLabel": "JavaScript 스택 추적 변환에 대해 자세히 알아보기",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "선택한 시간 범위에서 필터와 일치하는 페이지 로드를 찾을 수 없습니다.",
         "geographyExplanationTagFilters_2": "선택한 시간 범위에서 필터와 일치하는 페이지 로드를 찾을 수 없습니다.",
         "geographyTooltip": "3D 글로브로 전환",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "2D 맵으로 전환",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "유형…",

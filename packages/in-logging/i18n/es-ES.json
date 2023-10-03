@@ -37,8 +37,7 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "No hay ningún problema",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
-  "container": "Contenedor",
   "endOfInfiniteScroll": "No hay más registros disponibles",
-  "liveModeDisabled": "Modalidad activa inhabilitada para registro",
+  "liveModeDisabled": "El modo activo no está soportado cuando se analizan registros",
   "logLevels": "Niveles de registro"
 }

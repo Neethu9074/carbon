@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   LimitableProductArea,
@@ -26,7 +26,7 @@ import { t } from 'in-i18n';
 
 // This function can be broken into multiple smaller ones
 // Once we rework platform access booleans 'in packages/in-stores/permission.ts'
-export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
+export const getKubernetesData = (permissionsSet: PermissionSet) => {
   const { kubernetesClusterUUIDs, kubernetesNamespaceUIDs } = permissionsSet;
 
   /**

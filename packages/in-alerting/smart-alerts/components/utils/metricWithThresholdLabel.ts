@@ -21,7 +21,7 @@ export function createMetricWithThresholdLabel(
     // append static threshold with operator and value
     const formattedValue = formatMetricValue(metricFormat, value);
     const humanReadableOperator = humanReadableThresholdOperator(operator);
-    return `${metricLabel} ${humanReadableOperator} ${formattedValue}`;
+    return metricLabel ? `${metricLabel} ${humanReadableOperator} ${formattedValue}` : '';
   }
 
   return metricLabel;

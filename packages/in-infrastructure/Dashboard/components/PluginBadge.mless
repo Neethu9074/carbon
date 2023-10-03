@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .pluginLabel {
     margin-right: 0.5rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
     font-weight: 500;
   }

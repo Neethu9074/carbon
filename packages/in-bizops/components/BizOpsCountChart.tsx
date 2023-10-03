@@ -13,14 +13,14 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { number } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 /*
   This is a common BizOps Count chart component that is used in both the
   individual business process and individual business process activity dashboards
 
-  All props defined here are the common props used in both charts, only unique props 
+  All props defined here are the common props used in both charts, only unique props
   are passed in by the process and activity implementations to reduce repetition
 */
 
@@ -81,7 +81,7 @@ export default function BizOpsCountChart({
       source: 'BIZOPS',
       timeShift: timeShiftConfig.offset,
       timeConfig: timeConfig,
-      color: theme.lib.colors.chart.strokeColors25[0],
+      color: oldTheme.lib.colors.chart.strokeColors25[0],
       tagFilterExpression: tagFilterExpression,
       metric: metric,
       label: label,

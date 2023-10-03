@@ -12,7 +12,6 @@ import { BackendFormatterType, getFormatter } from 'in-services/formatters/backe
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { hasError, isLoading, mapData, success } from 'in-services/util/result';
 import { AggregationType, MetricMetadata, Result, TimeConfig } from 'in-types';
-import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { getFormatterType } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
@@ -35,8 +34,6 @@ export default function useMetricMetadatas({
     windowSize: 60000
   } as TimeConfig;
 
-  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
-
   return (
     useObservable(
       () =>
@@ -44,7 +41,7 @@ export default function useMetricMetadatas({
           queries.map(query =>
             getAvailableMetrics({
               filter: {
-                timeConfig: config,
+                timeConfig: modifiedTimeConfig,
                 tagFilterExpression: EMPTY_EXPRESSION
               },
               type,

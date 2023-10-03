@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "應用程式",
-        "source_website": "網站（測試版）",
+        "source_website": "網站",
         "callOut_application": "排除您無法控制的因素，例如一般使用者的網際網路連線功能不佳，但可能無法精確反映一般使用者體驗",
         "callOut_website": "最精確地反映一般使用者體驗，但不排除您無法控制的因素，例如一般使用者的網際網路連線功能不佳"
       },
@@ -730,6 +730,42 @@
         "metrics": "選取度量",
         "axisConfiguration": "軸配置",
         "formatter": "格式製作程式（X 軸）"
+      }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "表格預覽",
+        "filters": "過濾器："
+      },
+      "form": {
+        "title": "您想要顯示什麼？",
+        "dataSource": "資料來源",
+        "helpAction": "動態焦點查詢 (DFQ)（當您在事件視圖內使用時）。",
+        "query": "查詢",
+        "columns": "選取直欄",
+        "pleaseSelect": "請選取",
+        "validators": {
+          "theValueMustNotBeEmpty": "至少需要選取一個直欄"
+        },
+        "infrastructure": {
+          "entityType": "實體類型",
+          "viewTable": "檢視<analyzeInfraLink>分析基礎架構</analyzeInfraLink>中的完整表格。",
+          "tableSize": "表格大小",
+          "tableConfiguration": "表格配置",
+          "tableDetails": "表格詳細資料",
+          "showResult": "顯示 {{loadedItems}} 個結果，共 {{totalItems}} 個結果",
+          "loadingEntities": "載入實體"
+        }
+      },
+      "dataSource": {
+        "events": "事件"
+      },
+      "eventColumns": {
+        "title": "標題",
+        "entityLabel": "開啟（實體）",
+        "startedOn": "開始日期",
+        "endedOn": "結束日期",
+        "duration": "持續時間"
       }
     }
   },

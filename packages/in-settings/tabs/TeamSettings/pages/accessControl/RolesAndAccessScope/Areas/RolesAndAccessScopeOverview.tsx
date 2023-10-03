@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 import { Ul } from '@instana/components';
 
 import { EventsAndAlertsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/EventsAndAlerts/EventsAndAlertsSection';
@@ -22,7 +22,7 @@ import { SyntheticMonitoringSection } from './SyntheticMonitoring/SyntheticMonit
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAndAccessScopeOverviewProps) {

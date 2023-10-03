@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon, Typography, Stack, Spacer } from '@instana/components';
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   ProductArea,
@@ -45,7 +45,7 @@ export default function PermissionSelection<FORM_TYPE extends MapFormItems>({
   form,
   setForm
 }: PermissionSelectionProps<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const productAreaCapabilities = productAreas.map(productArea => ({
     header: productArea,

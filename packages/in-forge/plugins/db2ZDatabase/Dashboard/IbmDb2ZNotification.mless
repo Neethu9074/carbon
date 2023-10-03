@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .notificationMessage {
     margin: 0 0 1rem 0;

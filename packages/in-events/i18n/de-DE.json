@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
   "deprecatedCustomEventWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Zukünftig werden benutzerdefinierte Ereignisse für diese drei Entitätstypen entfernt und Sie erhalten diese {{issueOrIncident}}</strong><br/>Konfiguration benutzerdefinierter Ereignisse für die Migration auf Smart Alert nicht mehr. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "Für Auslöserereignis zugeordnete Aktionen",
+  "recommendedActions": "Empfohlene Aktionen",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Angepasste Ereignisse erfordern eine Aktion",
     "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Sie können diese Typen von angepassten Ereignissen zukünftig nicht mehr erstellen oder aktualisieren.",

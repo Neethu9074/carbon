@@ -12,7 +12,7 @@ import MarkersLane, { MarkerLaneEvent } from 'in-components/Chart/markerLanes/Ma
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import { ChartContentPostition } from 'in-components/Chart/types';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 interface SliCreationMarkerLaneProps extends Partial<PresentedLaneProps> {
   chartContentPosition?: ChartContentPostition;
@@ -26,6 +26,7 @@ export default function SliCreationMarkerLane({
   tooltipContent,
   ...restProps
 }: SliCreationMarkerLaneProps) {
+  const theme = useTheme();
   return (
     <MarkersLane
       {...restProps}
@@ -38,7 +39,7 @@ export default function SliCreationMarkerLane({
       TooltipContent={({ timestamp }) => (
         <SliCreationMarkerTooltipContent timestamp={timestamp}>{tooltipContent}</SliCreationMarkerTooltipContent>
       )}
-      color={theme.lib.colors.N700Medium}
+      color={theme.ids.color.option.neutral['700']}
     />
   );
 }

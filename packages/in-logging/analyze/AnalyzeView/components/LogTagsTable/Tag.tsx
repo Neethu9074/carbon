@@ -22,13 +22,17 @@ import {
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import {
   createGroupingTag,
-  createTag,
+  createTagFilter,
   getSnapshotId,
   trackFilterClick,
   trackGroupClick
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
+import {
+  containerSnapshotIds,
+  LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_APPLICATION_IDS
+} from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
-import { containerIds, LOG_CUSTOM_KEY_APPLICATION_ID, LOG_CUSTOM_KEY_APPLICATION_IDS } from 'in-logging/queryBuilder';
 // @ts-expect-error needs TS migration
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/constants';
@@ -89,7 +93,7 @@ export function TagValue({
               <IconLink
                 iconSize={'xs'}
                 type="lib_actions_filter"
-                href={onSelectTagHref(createTag(value, tag.name, tag.key) as TagFilter)}
+                href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
                 onClick={() => trackFilterClick(tag, value)}
               />
             </Tooltip>
@@ -187,7 +191,7 @@ export function TagEntry({
   getHrefToGroupedView
 }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const isContainerTag = containerIds.includes(tag.name as string);
+  const isContainerTag = containerSnapshotIds.includes(tag.name as string);
 
   return (
     <>

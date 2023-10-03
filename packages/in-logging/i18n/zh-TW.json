@@ -37,8 +37,7 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "沒有問題",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 問題",
-  "container": "儲存器",
   "endOfInfiniteScroll": "沒有其他可用的日誌",
-  "liveModeDisabled": "已停用記載的即時模式",
+  "liveModeDisabled": "分析日誌時不支援即時模式",
   "logLevels": "日誌層次"
 }

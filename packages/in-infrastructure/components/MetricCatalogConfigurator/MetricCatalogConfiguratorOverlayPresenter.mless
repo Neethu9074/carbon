@@ -15,7 +15,7 @@
   }
 
   .aggregations {
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
   }
 
   .skeleton {

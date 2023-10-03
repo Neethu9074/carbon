@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { PermissionSetWithRoles, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instana/components';
+import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
@@ -72,13 +72,13 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const theme = useTheme();
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
 
   const selectedIds = getFilteredScopeIds(scopeBindings);
   const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
 
-  const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
+  const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
     setForm(updatedForm);
   };

@@ -33,12 +33,14 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { analyzeTagFilterExpression } from './analyzeTagFilter';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzePath } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getColor } from 'in-applications/endpointTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric';
@@ -71,8 +73,8 @@ export default function TraceDetailView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Analytics'
+          productArea: productAreas.applications,
+          pageRootName: pageNames.analytics
         }}
       />
       <Sticky

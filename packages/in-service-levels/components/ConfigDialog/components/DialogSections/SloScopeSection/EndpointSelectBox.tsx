@@ -8,6 +8,7 @@ import React from 'react';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useEndpoints from 'in-applications/hooks/useEndpoints';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface EndpointSelectBoxProps {
@@ -39,7 +40,7 @@ export default function EndpointSelectBox({
     <SelectInSection
       id="new-sli-endpoint-selection"
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
-      disabled={status !== 'resolved'}
+      disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={hasError}

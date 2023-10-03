@@ -169,7 +169,7 @@
         "type": "Type",
         "category": "Catégorie",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Remarque : le code source ne peut être récupéré que pour les processus qui sont encore surveillés par Instana.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Remarque : le code source ne peut être récupéré que pour les processus dans lesquels Instana a pu lier avec succès l'infrastructure correspondante.",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "Remarque : le code source est compilé et nous ne pouvons donc pas afficher plus de détails.",
         "stackTrace": "StackTrace",
         "in": "in",
         "windowLocation": "Emplacement de la fenêtre",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "Développer tous les sous-appels",
+        "orphan": "La position de cet appel dans l'arborescence des appels est inconnue car l'appel parent est manquant.",
         "of": "sur",
         "inheritedFrom": "Hérité de"
       },

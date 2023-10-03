@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   analyticsCapabilities,
@@ -40,7 +40,7 @@ const capabilitiesDataMap = {
 
 interface getCapabilitiesSectionDataProps {
   area: CapabilityProductArea;
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 export const getCapabilitiesSectionData = ({ area, permissionsSet }: getCapabilitiesSectionDataProps) => {

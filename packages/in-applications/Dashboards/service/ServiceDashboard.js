@@ -29,12 +29,14 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
+import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -82,9 +84,9 @@ export default function ServiceDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Service',
-          inContextOfApplication: props.applicationId != null
+          inContextOfApplication: props.applicationId != null,
+          productArea: productAreas.applications,
+          pageRootName: pageNames.service_summary
         }}
       />
 

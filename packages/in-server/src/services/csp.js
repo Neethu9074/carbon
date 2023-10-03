@@ -20,14 +20,19 @@ if (serverConfig.mixpanelToken) {
 allowedScriptOrigins.push('https://cdn.walkme.com');
 allowedScriptOrigins.push('https://playerserver.walkme.com');
 allowedScriptOrigins.push('https://ec.walkme.com');
-allowedScriptOrigins.push('https://www.ibm.com');
 
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
 }
 
-exports.getCsp = nonce => {
-  return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
+const allowedScriptOriginsForTrialUsers = [...allowedScriptOrigins, 'https://www.ibm.com'];
+
+exports.getCsp = (nonce, isTrialUser) => {
+  if (isTrialUser) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsForTrialUsers.join(' ')}`;
+  } else {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
+  }
 };
 
 function isRequiringInstanaRocks() {

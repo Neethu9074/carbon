@@ -99,6 +99,10 @@
       text-decoration: none;
       color: var(--ids-color-option-neutral-500);
     }
+    /* removes the focus indicator after link was clicked with mouse */
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   .icon {

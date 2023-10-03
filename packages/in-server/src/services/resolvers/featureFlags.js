@@ -291,11 +291,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'sloV2CreationEnabled',
-    instanaCtlKey: 'feature.sloV2.creation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
     defaultValue: false
@@ -401,11 +396,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'tagCatalogSmallQueryWindowEnabled',
-    instanaCtlKey: 'feature.custom.widget.infrastructure.smallquerywindow.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'apiTokenDialogEnabled',
     instanaCtlKey: 'feature.apitoken.dialog.enabled',
     defaultValue: false
@@ -418,6 +408,21 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertsDetailsPageEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.details.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'logDeletionEnabled',
+    instanaCtlKey: 'feature.logging.logDeletion.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'rcaUIEnabled',
+    instanaCtlKey: 'feature.rca.ui.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'actionsLaneEnabled',
+    instanaCtlKey: 'feature.actions.lane.enabled',
     defaultValue: false
   }
 ];

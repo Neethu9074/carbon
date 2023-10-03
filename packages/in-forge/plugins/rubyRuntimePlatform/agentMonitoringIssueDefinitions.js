@@ -20,6 +20,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.rubyRuntimePlatform.longTermSupportDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=ruby-supported-versions#long-term-support`
+    explanationLinkHref: `https://ibm.biz/ruby-long-term-support`
   }
 };

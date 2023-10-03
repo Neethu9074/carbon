@@ -9,13 +9,14 @@ import { createMapForm, createField } from 'formalistic';
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
 
-import { ShowCreatedToken } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken/CreatePersonalApiToken';
-// @ts-ignore
+// @ts-expect-error
 import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/permissionsForm';
-// @ts-ignore
-import { getApiToken, saveApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
-// @ts-ignore
-import { createApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import { ShowCreatedToken } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken/CreatePersonalApiToken';
+import {
+  getApiToken,
+  saveApiToken,
+  createApiToken
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { DialogWrapper } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/DialogWrapper';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';

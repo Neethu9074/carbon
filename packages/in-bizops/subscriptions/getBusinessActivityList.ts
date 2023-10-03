@@ -9,7 +9,7 @@ import { Observable } from '@instana/observables';
 import {
   PaginatedResult,
   Result,
-  GetBusinessActivitiesQuery,
+  BusinessDataQuery,
   BusinessActivity,
   OrderDirection,
   TagFilterExpression,
@@ -18,10 +18,10 @@ import {
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getBusinessActivityList = createResultSubscriptionFactory<
-  GetBusinessActivitiesQuery,
+  BusinessDataQuery,
   Result<PaginatedResult<BusinessActivity>>
 >({
-  eventId: 'getBusinessActivities',
+  eventId: 'getBusinessActivitiesStandard',
   trackSubscriptionStatistics: true
 });
 
@@ -34,7 +34,7 @@ interface GetBusinessActivityListDefaultProps {
   orderBy?: string;
   orderDirection?: OrderDirection;
   timeConfig: TimeConfig;
-  tagFilterExpression?: TagFilterExpression;
+  tagFilterExpression: TagFilterExpression;
 }
 export function getBusinessActivityListWithDefaults({
   //The value of query is from the Search box, by default, it is ''.
@@ -45,6 +45,7 @@ export function getBusinessActivityListWithDefaults({
   timeConfig,
   tagFilterExpression
 }: GetBusinessActivityListDefaultProps): Observable<Result<PaginatedResult<BusinessActivity>>> {
+  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessActivityList({
     pagination: {
       page,
@@ -54,18 +55,14 @@ export function getBusinessActivityListWithDefaults({
       by: orderBy,
       direction: orderDirection
     },
+    dataType: 'ACTIVITY',
     metrics: {
       count: {
         aggregation: 'DISTINCT_COUNT',
         metric: 'activitiesCounts'
       }
     },
-    filter: {
-      timeConfig: timeConfig,
-      includeInternalCalls: false,
-      includeSyntheticCalls: false,
-      useLongTermDataOnly: false
-    },
-    tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
+    timeConfig,
+    tagFilterExpression
   });
 }

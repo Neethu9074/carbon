@@ -340,12 +340,7 @@ function getPerformanceSchemaHint(snapshot) {
           i18nKey="in-forge:plugins.mySqlDatabase.instanaMySqlSensorConfigurationHelp"
           values={{ sensorPerformanceSchemaStatus }}
           components={{
-            mysqlConfig: (
-              <Link
-                external
-                href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-mysql#configuration"
-              />
-            )
+            mysqlConfig: <Link external href="https://ibm.biz/monitoring-mysql-config" />
           }}
         />
       </DashboardNotification>

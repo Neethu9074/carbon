@@ -24,7 +24,7 @@ import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import { t, Trans } from 'in-i18n';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -85,7 +85,7 @@ function Grid({
       margin={margin}
       // Remove the horizontal spacing added by the grid layout to avoid
       // horizontal overflow.
-      width={width - theme.grid.gutter}
+      width={width - oldTheme.grid.gutter}
       containerPadding={containerPadding}
       layout={layout}
       breakpoints={breakpoints}

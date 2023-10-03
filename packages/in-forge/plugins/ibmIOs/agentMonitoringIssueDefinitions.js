@@ -19,6 +19,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.ibmIOs.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-i-instances`
+    explanationLinkHref: `https://ibm.biz/monitoring-ibmi`
   }
 };

@@ -24,7 +24,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
 import Tooltip from 'in-components/Tooltip';
-import { GroupWithRoles } from 'in-types';
+import { ApiGroup } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './InviteUserDialog.mless';
@@ -100,9 +100,7 @@ export default function InviteUserDialog({
         const invite: MapForm<any> = inviteItem as MapForm<any>;
         if (canSelectGroup) {
           groupId = (invite.get('groupId') as Field<string>).value;
-          const group: GroupWithRoles = groups.length
-            ? groups.find((group: GroupWithRoles) => group.id === groupId)
-            : null;
+          const group: ApiGroup = groups.length ? groups.find((group: ApiGroup) => group.id === groupId) : null;
           const groupName = group && group.name ? group.name : 'default';
           submitInviteUserTracker({ group: groupName });
         } else {
@@ -126,12 +124,12 @@ export default function InviteUserDialog({
     return null;
   }
 
-  let sortedGroups: GroupWithRoles[] | undefined;
+  let sortedGroups: ApiGroup[] | undefined;
 
   if (groups.data) {
     sortedGroups = groups.data
-      .filter((group: GroupWithRoles) => group.id !== fallbackRoleId)
-      .map((group: GroupWithRoles) => {
+      .filter((group: ApiGroup) => group.id !== fallbackRoleId)
+      .map((group: ApiGroup) => {
         return { id: group.id, name: group.name };
       });
   }

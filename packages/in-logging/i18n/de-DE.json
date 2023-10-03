@@ -37,8 +37,7 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Keine Probleme",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
-  "container": "Container",
   "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar",
-  "liveModeDisabled": "Live-Modus für Protokollierung inaktiviert",
+  "liveModeDisabled": "Bei der Analyse von Protokollen wird der Livemodus nicht unterstützt",
   "logLevels": "Protokollierungsstufen"
 }

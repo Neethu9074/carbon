@@ -9,7 +9,7 @@ import { Field, Item, ListForm, MapForm } from 'formalistic';
 import { MetricSource } from '@instana/types/typeDefinitions';
 import { AggregationType } from '@instana/types';
 
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { defaultFormatter } from 'in-stores/metric/formatters';
 

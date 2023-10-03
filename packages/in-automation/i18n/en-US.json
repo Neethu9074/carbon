@@ -147,6 +147,7 @@
   },
   "actionHistory": {
     "actionHistory": "Action History",
+    "actionHistoryWithCount":"Action History ({{count}})",
     "noActionInstances": "No data available",
     "external": "External",
     "name": "Name",
@@ -189,6 +190,10 @@
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
     "hostsLimit": "Hosts Limit",
-    "initiator": "Initiator"
+    "initiator": "Initiator",
+    "submitted":"Submitted"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Investigate"
   }
 }

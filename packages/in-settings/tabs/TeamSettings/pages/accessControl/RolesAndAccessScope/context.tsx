@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 const defaultValue = {
   permissionsSet: {
     applicationIds: [],
+    infraDfqFilter: {},
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
     mobileAppIds: [],
@@ -21,7 +22,7 @@ const defaultValue = {
 };
 
 interface IRolesAndAccessScopeProvider {
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 export const RolesAndAccessScopeContext = React.createContext<IRolesAndAccessScopeProvider>(defaultValue);

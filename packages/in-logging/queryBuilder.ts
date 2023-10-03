@@ -85,19 +85,21 @@ export const LOG_CUSTOM_KEY_ENDPOINT_NAME = 'endpoint_name';
 export const LOG_CUSTOM_KEY_ENDPOINT_TYPE = 'endpoint_type';
 export const LOG_CUSTOM_KEY_MSG_PARAM = '_msg_param';
 
-export const ID_KUBERNETES_CLUSTER = 'id.kubernetesCluster';
-export const ID_KUBERNETES_POD = 'id.kubernetesPod';
-export const ID_KUBERNETES_NODE = 'id.kubernetesNode';
-export const ID_KUBERNETES_NAMESPACE = 'id.kubernetesNamespace';
-export const ID_KUBERNETES_DEPLOYMENT = 'id.kubernetesDeployment';
-export const ID_DOCKER = 'id.docker';
-export const ID_CONTAINERD = 'id.containerd';
+export const DOCKER_SNAPSHOT_ID = 'id.docker';
+export const CONTAINERD_SNAPSHOT_ID = 'id.containerd';
 export const ID_HOST = 'id.host';
 export const ID_PROCESS = 'id.process';
-export const ID_CRIO = 'id.crio';
-export const ID_GARDEN = 'id.garden';
+export const CRIO_SNAPSHOT_ID = 'id.crio';
+export const GARDEN_SNAPSHOT_ID = 'id.garden';
 
-export const containerIds = [ID_DOCKER, ID_CRIO, ID_GARDEN, ID_CONTAINERD];
+export const HOST_NAME = 'host.name';
+export const PROCESS_ID = 'process.id';
+export const CONTAINERD_ID = 'containerd.containerId';
+export const DOCKER_ID = 'docker.containerId';
+export const CRIO_ID = 'crio.containerId';
+export const GARDEN_ID = 'garden.containerId';
+export const containerSnapshotIds = [DOCKER_SNAPSHOT_ID, CRIO_SNAPSHOT_ID, CONTAINERD_SNAPSHOT_ID, GARDEN_SNAPSHOT_ID];
+export const containerIds = [CONTAINERD_ID, DOCKER_ID, CRIO_ID, GARDEN_ID];
 
 export const kubernetesEntitySnapshotIds = [
   KUBERNETES_CLUSTER_SNAPSHOT_ID,
@@ -113,15 +115,11 @@ export const kubernetesTags = [
   LOG_KUBERNETES_NAMESPACE_NAME,
   LOG_KUBERNETES_DEPLOYMENT_NAME,
   LOG_KUBERNETES_POD_NAME,
-  ID_KUBERNETES_CLUSTER,
-  ID_KUBERNETES_POD,
-  ID_KUBERNETES_NODE,
-  ID_KUBERNETES_NAMESPACE,
-  ID_KUBERNETES_DEPLOYMENT,
-  KUBERNETES_CLUSTER_SNAPSHOT_ID,
   ...kubernetesEntitySnapshotIds
 ];
 
+/** Fetching each additional tag has a significant performance impact,
+ * make sure there's a good reason for requesting additional tags **/
 export const logTableTags = [
   LOG_ITEM_ID,
   LOG_LEVEL,
@@ -137,6 +135,9 @@ export const logTableTags = [
   LOG_EXCEPTION_STACK_TRACE,
   ID_HOST,
   ID_PROCESS,
+  PROCESS_ID,
+  HOST_NAME,
+  ...containerSnapshotIds,
   ...containerIds,
   ...kubernetesTags
 ];
@@ -149,10 +150,8 @@ export const restrictedTags = new Set<string>([
   LOG_CUSTOM_KEY_ENDPOINT_ID,
   LOG_SPAN_ID,
   LOG_CALL_ID,
-  ID_KUBERNETES_CLUSTER,
-  ID_KUBERNETES_POD,
-  ID_KUBERNETES_NODE,
-  ID_KUBERNETES_NAMESPACE,
-  ID_KUBERNETES_DEPLOYMENT,
+  PROCESS_ID,
+  HOST_NAME,
+  ...containerIds,
   ...kubernetesEntitySnapshotIds
 ]);

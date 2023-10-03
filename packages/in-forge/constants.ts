@@ -288,6 +288,7 @@ export const nonServicePlugins = {
   vsphereHost: 'vsphereHost',
   vsphereVM: 'vsphereVM',
   webLogicApplicationContainer: 'webLogicApplicationContainer',
+  websiteHttpd: 'websiteHttpd',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
   webSphereInfrastructureManager: 'webSphereInfrastructureManager',
   webSphereDeploymentManager: 'webSphereDeploymentManager',
@@ -651,6 +652,7 @@ export const fullyQualifiedPlugins = {
   vsphereHost: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.host.VsphereHost',
   vsphereVM: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.vm.VsphereVM',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
+  websiteHttpd: 'com.instana.forge.infrastructure.eum.derivedentity.WebsiteHttpd',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereInfrastructureManager:
     'com.instana.forge.infrastructure.application.webspheredmgr.WebSphereInfrastructureManager',

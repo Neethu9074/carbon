@@ -1,11 +1,12 @@
 {
   "metrics_CPU": "CPU",
-  "metrics_Load": "Carga",
+  "metrics_Load": "Carregar",
   "metrics_Usage": "Uso",
   "metrics_Memory": "Memória",
   "metrics_Used": "Usado",
+  "metrics_TotalUsage": "Uso total",
   "notMonitoringTitle": "Não monitorando",
-  "noDataTitle": "Dados de monitoramento não localizados",
+  "noDataTitle": "Nenhum dado de monitoramento encontrado",
   "notMonitoringText": "Instale o agente da Instana nos sistemas que deseja monitorar. As instruções de instalação estão disponíveis em nossa [documentação on-line] [Docs].\n\nSe precisar de assistência adicional, entre em contato conosco por meio do nosso [portal de suporte][Suporte].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=setting-up-managing-instana[Support]:https://support.instana.com",
   "noData": "Atualmente, a Instana está recebendo dados de agentes, mas não tem dados para o intervalo de tempo selecionado.\nSelecione um intervalo de tempo diferente: por exemplo, [a última hora].\n\nSe precisar de assistência adicional, entre em contato conosco por meio do nosso [portal de suporte][Suporte].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=setting-up-managing-instana[Support]:https://support.instana.com",
   "noDataFoundForTheQueryAtTheSelectedMoment": "Nenhum dado localizado para a consulta {{nextPropsQuery}} no momento selecionado: *{{time}}*.",
@@ -21,12 +22,12 @@
   "showMetrics": "Mostrar métricas",
   "totalCpuUsage": "Uso total de CPU",
   "memoryUsage": "Uso de memória",
-  "load": "Carga",
+  "load": "Carregar",
   "user": "Usuário",
   "system": "Sistema",
   "wait": "Espera",
   "nice": "Bom",
-  "steal": "Deturpado",
+  "steal": "Roubar",
   "memoryUsed": "Memória usada",
   "rearrangeZonesByName": "Reorganizar zonas por nome",
   "rearrangeZonesAsACompactStructure": "Reorganizar zonas como uma estrutura compacta",
@@ -47,5 +48,5 @@
   "infrastructureHostMap": "Mapa de host de infraestrutura",
   "unknownView": "Visualização desconhecida",
   "chooseMetric": "escolher métrica",
-  "reset": "Reconfigurar"
+  "reset": "Reiniciar"
 }

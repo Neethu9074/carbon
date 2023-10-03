@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
+import { PermissionSet } from '@instana/types/typeDefinitions';
 import { SvgIcon, Typography } from '@instana/components';
 
 import {
@@ -34,7 +35,6 @@ import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 /**
  * Properties for the current component
@@ -58,7 +58,7 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
   setShowSubSlide,
   setSubSlideConfig
 }: PermissionSectionInfrastructureProps<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
   /**

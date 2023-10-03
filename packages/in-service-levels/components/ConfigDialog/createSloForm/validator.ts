@@ -52,7 +52,7 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
   return null;
 }
 
-export const targetFieldValidator = composeAndShortCircuitOnError(notBlankValidator);
+export const targetFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator);
 export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, notBlankValidator);
 export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
 

@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import { CapabilityType } from 'in-stores/permission';
 
 interface IFilterPermissionSet {
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
   capabilities: CapabilityType[];
 }
 

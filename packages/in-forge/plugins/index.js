@@ -208,6 +208,7 @@ import './tuxedoServer';
 import './abapInstance';
 import './syntheticPoP';
 import './processGroup';
+import './websiteHttpd';
 import './aliCloudOss';
 import './zhmcConsole';
 import './phmcConsole';

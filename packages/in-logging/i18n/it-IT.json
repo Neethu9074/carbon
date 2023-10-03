@@ -37,8 +37,7 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Nessun problema",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemi",
-  "container": "Contenitore",
   "endOfInfiniteScroll": "Nessun altro log disponibile",
-  "liveModeDisabled": "Modalità attiva disabilitata per la registrazione",
+  "liveModeDisabled": "La modalità live non è supportata durante l'analisi dei log",
   "logLevels": "Livelli di log"
 }

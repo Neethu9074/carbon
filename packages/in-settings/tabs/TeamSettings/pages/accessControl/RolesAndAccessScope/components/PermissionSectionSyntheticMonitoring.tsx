@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
+import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -77,7 +77,7 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
   const entityPermissionKey = 'syntheticTestIds';
 
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;

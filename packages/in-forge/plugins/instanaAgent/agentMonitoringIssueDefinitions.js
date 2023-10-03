@@ -207,8 +207,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref:
-      'https://ibm.biz/insta-hostagenttls13missing'
+    explanationLinkHref: 'https://ibm.biz/insta-hostagenttls13missing'
   },
   default_agent_port_unavailable: {
     issueDescription: {
@@ -217,7 +216,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref:
-      'https://ibm.biz/insta-hostagentcantbind'
+    explanationLinkHref: 'https://ibm.biz/insta-hostagentcantbind'
   }
 };

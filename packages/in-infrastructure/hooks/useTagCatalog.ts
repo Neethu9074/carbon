@@ -8,7 +8,6 @@ import { useObservable } from '@instana/hooks';
 
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
-import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -18,12 +17,14 @@ interface UseTagCatalogProps {
   metric?: string;
   ownerType?: string;
   includeMetricTags?: boolean;
+  regex?: boolean;
 }
 
 export default function useTagCatalog({
   metric,
   ownerType,
-  includeMetricTags = false
+  includeMetricTags = false,
+  regex
 }: UseTagCatalogProps): TagCatalog | undefined {
   const timeConfig = useTimeConfig();
 
@@ -33,13 +34,11 @@ export default function useTagCatalog({
     windowSize: 60000
   } as TimeConfig;
 
-  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
-
-  const filter = { timeConfig: config, tagFilterExpression: EMPTY_EXPRESSION };
+  const filter = { timeConfig: modifiedTimeConfig, tagFilterExpression: EMPTY_EXPRESSION };
 
   const tagCatalogResult = useObservable(
-    () => getTagCatalog({ filter, metric, ownerType }),
-    [timeConfig, metric, ownerType, includeMetricTags]
+    () => getTagCatalog({ filter, metric, ownerType, regex: regex ?? false }),
+    [timeConfig, metric, ownerType, regex, includeMetricTags]
   );
 
   return tagCatalogResult?.data;

@@ -25,7 +25,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-stats-not-enabled`
+    explanationLinkHref: `https://ibm.biz/postgresql-stats`
   },
 
   postgresql_authentication_failed: {
@@ -45,7 +45,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-authentication-failed`
+    explanationLinkHref: `https://ibm.biz/postgresql-auth`
   },
 
   postgresql_connection_failed: {
@@ -65,6 +65,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-connection-failed`
+    explanationLinkHref: `https://ibm.biz/postgresql-con`
   }
 };

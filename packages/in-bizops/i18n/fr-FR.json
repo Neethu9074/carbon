@@ -2,11 +2,16 @@
   "labelBizOps": "Processus",
   "labelSmartAlerts": "Alertes intelligentes",
   "labelActivities": "Activités",
+  "components": {
+    "count": "Nombre"
+  },
   "lists": {
     "pageTitle": "Surveillance métier",
     "cardTitle": "Processus métier",
     "activityLabel": "Activités",
     "nameLabel": "Nom",
+    "countLabel": "Nombre",
+    "durationLabel": "Durée",
     "noData": "Aucune donnée disponible",
     "healthLabel": "Intégrité",
     "startLabel": "Démarré"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "Processus métier",
       "summaryTab": "Récapitulatif",
+      "activitiesTab": "Activités",
       "widgets": {
-        "timeline": "Chronologie",
         "topActivities": "Principales activités (nombre)",
         "infrastructureIssuesAndChanges": "Problèmes et changements d'infrastructure",
-        "viewAll": "Afficher toutes les activités",
-        "count": "Nombre",
-        "businessProcessStartedLabel": "{{businessProcessName}} démarré"
+        "viewAll": "Afficher toutes les activités"
       }
+    },
+    "activity": {
+      "pageTitle": "Activité métier",
+      "summaryTab": "Récapitulatif"
     }
   }
 }

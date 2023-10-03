@@ -65,4 +65,20 @@
       align-items: center;
     }
   }
+
+  .ActionLaneTable {
+    width: auto;
+    td,
+    th {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      height: 2.5rem;
+      a {
+        svg {
+          position: relative;
+          top: 4px;
+        }
+      }
+    }
+  }
 }

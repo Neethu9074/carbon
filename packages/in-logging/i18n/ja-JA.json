@@ -37,8 +37,7 @@
   "pod": "ポッド",
   "tooltipEntityHealthNoIssues": "問題なし",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
-  "container": "コンテナー",
   "endOfInfiniteScroll": "ログはこれ以上ありません",
-  "liveModeDisabled": "ログ記録のためにライブ・モードが無効になりました",
+  "liveModeDisabled": "ログの分析時にライブ・モードはサポートされません",
   "logLevels": "ログ・レベル"
 }

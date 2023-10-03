@@ -94,7 +94,11 @@ export function createSloConfiguration(
     data: sloConfig,
     treat400AsError: true,
     mapToResultObject: true
-  }).map(res => res);
+  }).map(res => {
+    if (res?.data?.id) refreshSignal.emit(res.data.id);
+
+    return res;
+  });
 }
 
 export function deleteSloConfiguration(id: string): Observable<true> {

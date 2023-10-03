@@ -11,9 +11,9 @@ import {
   SliEntityType,
   websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { getMetricOptions, MetricEntityType, MetricType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { createMetricsForm, addGoodBadEventsForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { AggregationType } from 'in-types';
 

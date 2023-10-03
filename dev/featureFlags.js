@@ -66,7 +66,6 @@ module.exports = {
   syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
-  sloV2CreationEnabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
@@ -85,9 +84,11 @@ module.exports = {
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
-  tagCatalogSmallQueryWindowEnabled: true,
   syntheticCustomDashboardEnabled: true,
+  rcaUIEnabled: false,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  infraSmartAlertsDetailsPageEnabled: true
+  infraSmartAlertsDetailsPageEnabled: true,
+  logDeletionEnabled: true,
+  actionsLaneEnabled: true
 };

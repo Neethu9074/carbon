@@ -18,12 +18,12 @@
 
   .wrapper {
     padding: 0.5rem;
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
+    background: var(--ids-color-option-neutral-50);
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .input {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
     width: 100%;
     height: 2rem;
     padding: 0 0.5rem;

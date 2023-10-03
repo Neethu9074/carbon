@@ -42,8 +42,8 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import { minutes, seconds } from 'in-services/time';
 import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
-import { t, Trans } from 'in-i18n';
 import { useTheme } from 'in-themes';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Summary.mless';
 

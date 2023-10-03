@@ -5,12 +5,22 @@
  */
 
 import {
-  containerIds,
+  CONTAINERD_ID,
+  CONTAINERD_SNAPSHOT_ID,
+  containerSnapshotIds,
+  CRIO_ID,
+  CRIO_SNAPSHOT_ID,
+  DOCKER_ID,
+  DOCKER_SNAPSHOT_ID,
+  GARDEN_ID,
+  GARDEN_SNAPSHOT_ID,
+  HOST_NAME,
   ID_HOST,
   ID_PROCESS,
   kubernetesTags,
   LOG_CUSTOM,
   LOG_SERVICE_NAME,
+  PROCESS_ID,
   restrictedTags
 } from 'in-logging/queryBuilder';
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
@@ -18,7 +28,18 @@ import { filterAdded, groupAdded } from 'in-logging/analyze/AnalyzeView/tracker'
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
 
-const infraTags = [...containerIds, ID_HOST];
+const infraTags = [...containerSnapshotIds, ID_HOST];
+
+/** Infrastructure entity IDs are mapped to snapshot IDs because snapshot IDs are only needed for internal use.
+ * For generating filters and displaying information to users we need the actual entity IDs **/
+const tagMap: Record<string, string> = {
+  [DOCKER_SNAPSHOT_ID]: DOCKER_ID,
+  [CRIO_SNAPSHOT_ID]: CRIO_ID,
+  [CONTAINERD_SNAPSHOT_ID]: CONTAINERD_ID,
+  [GARDEN_SNAPSHOT_ID]: GARDEN_ID,
+  [ID_HOST]: HOST_NAME,
+  [ID_PROCESS]: PROCESS_ID
+};
 
 export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   const groupedTags: GroupedTags = {
@@ -46,7 +67,7 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
     }
   });
 
-  groupedTags.infrastructure.sort(tag => (containerIds.includes(tag.name as string) ? 1 : -1));
+  groupedTags.infrastructure.sort(tag => (containerSnapshotIds.includes(tag.name as string) ? 1 : -1));
   groupedTags.kubernetes?.sort(
     (tag, nextTag) => kubernetesTags.indexOf(tag.name as string) - kubernetesTags.indexOf(nextTag.name as string)
   );
@@ -70,6 +91,13 @@ export function createTag(value: string, name?: string, key?: string): ClickedTa
   return tag;
 }
 
+export function createTagFilter(value: string, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
+  const alternativeTag = name && itemTags.find(item => item.name === tagMap[name]);
+
+  if (alternativeTag) return createTag(alternativeTag.stringValue!, alternativeTag.name, alternativeTag.key);
+  else return createTag(value, name, key);
+}
+
 export function createGroupingTag(name?: string, key?: string): GroupingTag {
   const tag: GroupingTag = { tag: name || '' };
   if (key) {
@@ -86,7 +114,7 @@ export function filterTag(tag: LogTag): boolean {
 }
 
 export const getSnapshotId = (tag: LogTag, item: LogItem) => {
-  if ([...containerIds, ID_HOST, ID_PROCESS].includes(tag.name as string)) {
+  if ([...containerSnapshotIds, ID_HOST, ID_PROCESS].includes(tag.name as string)) {
     return tag.stringValue;
   } else if (tag.name?.includes('kubernetes')) {
     const k8sEntityType = tag.name.split('.')[1];

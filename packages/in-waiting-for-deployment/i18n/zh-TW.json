@@ -262,9 +262,7 @@
     "ibmapmproxy": "IBM APM V8 Instana Integration Proxy",
     "ibmapmmineba": "IBM APM V8 Min server dropins eba",
     "requiresRuntimeDropin": "對 IBM APM V8 的 Instana Integration 支援需要其他執行時期 dropin。",
-    "copyToApmMinDropins": "下載的套件必須解壓縮，產生的 eba 檔會複製到 IBM APM V8 Min server 的 dropins 目錄。",
-    "integrations": "整合",
-    "IBM": "IBM"
+    "copyToApmMinDropins": "下載的套件必須解壓縮，產生的 eba 檔會複製到 IBM APM V8 Min server 的 dropins 目錄。"
   },
   "runtime": {
     "go": "Go",
@@ -292,7 +290,7 @@
   "whileWeGetYouStartedWouldYouLikeTo": "當我們帶您入門時，您是否想...",
   "getAFeelingForInstanaWithHighlightsOfWhatItCanDo": "體驗一下 Instana，並瞭解它能夠做什麼",
   "watchExampleVideos": "觀賞範例影片",
-  "installingInstanaAgents": "安裝 Instana 代理程式",
+  "installAgents": "安裝代理程式",
   "preparingInstance": "準備實例",
   "agentDeployed": "代理程式已部署",
   "agentsAreReportingDataIsBeingCollected": "代理程式正在產生報告。正在收集資料。",

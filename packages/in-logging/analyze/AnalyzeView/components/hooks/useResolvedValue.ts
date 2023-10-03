@@ -7,7 +7,7 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  containerIds,
+  containerSnapshotIds,
   ID_HOST,
   ID_PROCESS,
   LOG_CUSTOM,
@@ -23,7 +23,7 @@ import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
-const containerTagResolvers: [string, LinkResolver][] = containerIds.map(id => [
+const containerTagResolvers: [string, LinkResolver][] = containerSnapshotIds.map(id => [
   id,
   tag => resolveInfraLabel(tag.stringValue || '')
 ]);

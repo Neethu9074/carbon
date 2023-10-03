@@ -169,7 +169,7 @@
         "type": "類型",
         "category": "種類",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "請注意：只有仍在 Instana 監視之下的程序，才能擷取其原始碼。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "請注意：Instana 必須可在程序中順利鏈結對應的基礎架構，才能擷取該程序的原始碼。",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "請注意：原始碼已編譯，因此我們無法顯示更多詳細資料。",
         "stackTrace": "堆疊追蹤",
         "in": "位於",
         "windowLocation": "視窗位置",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "展開所有子呼叫",
+        "orphan": "此呼叫在呼叫樹狀結構中的位置不明，因為遺漏母項呼叫。",
         "of": "的",
         "inheritedFrom": "繼承自"
       },

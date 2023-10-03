@@ -341,11 +341,11 @@ if (role?.canConfigureSyntheticTests) {
     id: 'action',
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
-    getContent(item: TestResultListItem, { result }) {
+    getContent(item: TestResultListItem) {
       return (
         <HorizontalFlexWrapper>
           <div>
-            <ListActionsColumn item={item} isLoading={result?.progress?.loading ?? false} />
+            <ListActionsColumn {...item} />
           </div>
         </HorizontalFlexWrapper>
       );
