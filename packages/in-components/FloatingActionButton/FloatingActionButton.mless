@@ -20,7 +20,7 @@
   }
 
   .primaryv2 {
-    background-color: @lib__colors__light-blue800;
+    background-color: var(--ids-color-option-blue-400);
     &:hover {
       background-color: #148cc8;
     }
@@ -38,7 +38,7 @@
   }
 
   .withShadow {
-    box-shadow: @lib__shadows__pronounced;
+    box-shadow: var(--ids-shadow-option-pronounced);
   }
 
   .inner {

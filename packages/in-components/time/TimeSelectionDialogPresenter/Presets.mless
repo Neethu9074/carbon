@@ -35,7 +35,7 @@
 
     &:hover {
       cursor: pointer;
-      box-shadow: @lib__shadows__subtle;
+      box-shadow: var(--ids-shadow-option-subtle);
       border-radius: @lib__shapes__radius_medium;
     }
   }

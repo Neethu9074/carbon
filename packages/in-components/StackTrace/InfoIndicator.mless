@@ -7,10 +7,10 @@
 
 :local {
   .indicator {
-    color: @lib__colors__orange800;
+    color: var(--ids-color-option-orange-500);
     font-weight: bold;
     font-size: 0.9rem;
-    border: 2px dotted @lib__colors__orange800;
+    border: 2px dotted var(--ids-color-option-orange-500);
     border-radius: @lib__shapes__radius_small;
     flex-shrink: 0;
     padding: 0.063rem 0.288rem;

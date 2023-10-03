@@ -19,7 +19,7 @@
     color: var(--ids-color-option-neutral-800);
     border-radius: @lib__shapes__radius_large;
 
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid rgba(0, 0, 0, 0.16);
   }
 

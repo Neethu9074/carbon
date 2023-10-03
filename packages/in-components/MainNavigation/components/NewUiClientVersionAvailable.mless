@@ -15,7 +15,7 @@
     margin-bottom: 1rem;
     padding: 0.5rem 0.5rem;
     border-radius: @lib__shapes__radius_small;
-    background-color: @lib__colors__teal800;
+    background-color: var(--ids-color-option-teal-500);
     color: white;
   }
 

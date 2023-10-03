@@ -24,7 +24,7 @@
       background: var(--ids-color-option-neutral-200);
       border-bottom: 1px solid;
       border-top: 1px solid;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
 
     .operator {
@@ -43,7 +43,7 @@
       background: var(--ids-color-option-neutral-200);
       border-bottom: 1px solid;
       border-top: 1px solid;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 }

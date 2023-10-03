@@ -16,7 +16,7 @@
     font-weight: 600;
     padding: 0.125rem 0.25rem;
     border-radius: @lib__shapes__radius_medium;
-    color: @lib__colors__deep-purple800;
+    color: var(--ids-color-option-deep-purple-500);
   }
 
   .bold {
@@ -28,7 +28,7 @@
   }
 
   .primary {
-    background: @lib__colors__light-blue800;
+    background: var(--ids-color-option-blue-400);
     color: var(--ids-color-option-white);
   }
 

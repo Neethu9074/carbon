@@ -13,7 +13,7 @@
     background: var(--ids-color-option-white);
     border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
 
     & > * {
       margin: 2rem 1rem;

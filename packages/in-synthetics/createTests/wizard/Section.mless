@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     padding-top: 1rem;
   }
 
   .heading {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 2rem;
     line-height: 2.5rem;
     margin: 0.5rem 0rem 1rem;
@@ -19,7 +17,7 @@
   }
 
   .subTitle {
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     font-size: 1rem;
     line-height: 1.2em;
     margin: 1rem 0rem 1rem 0rem;

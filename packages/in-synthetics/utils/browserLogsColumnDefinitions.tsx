@@ -11,7 +11,7 @@ import { formatDateTime } from '@instana/format-date';
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
 import { BrowserMessage } from 'in-synthetics/utils/constants';
 import Pill from 'in-components/Pill/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 
@@ -21,17 +21,17 @@ interface LogLevelColumnProps {
   timestamp: number;
 }
 
-const logPillColorMap = new Map<string, string>([
-  ['severe', theme.lib.colors.red800],
-  ['warning', theme.lib.colors.yellow800],
-  ['info', theme.lib.colors.lightBlue800]
-]);
-
 export const logLevelColumn = {
   id: 'logLevel',
   width: 'fit-content',
   widthInAbsoluteUnit: true,
-  getContent({ item }: LogLevelColumnProps) {
+  getContent: function Content({ item }: LogLevelColumnProps) {
+    const theme = useTheme();
+    const logPillColorMap = new Map<string, string>([
+      ['severe', theme.ids.color.option.red['500']],
+      ['warning', theme.ids.color.option.yellow['500']],
+      ['info', theme.ids.color.option.blue['400']]
+    ]);
     return (
       <div className={locals.healthColumn}>
         <Pill className={locals.pill} color={logPillColorMap.get(item.level.toLowerCase())}>

@@ -27,7 +27,7 @@
     &:active,
     &:hover {
       outline: 0;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 

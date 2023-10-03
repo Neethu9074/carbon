@@ -42,10 +42,10 @@
     &:active,
     &:hover {
       outline: none;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
 
       .icon {
-        fill: @lib__colors__light-blue800;
+        fill: var(--ids-color-option-blue-400);
       }
     }
   }
@@ -90,7 +90,7 @@
     &:hover,
     &:active,
     &:focus {
-      fill: @lib__colors__light-blue800;
+      fill: var(--ids-color-option-blue-400);
       outline: none;
     }
   }
@@ -108,7 +108,7 @@
     &:hover,
     &:active,
     &:focus {
-      fill: @lib__colors__light-blue800;
+      fill: var(--ids-color-option-blue-400);
       outline: none;
     }
   }

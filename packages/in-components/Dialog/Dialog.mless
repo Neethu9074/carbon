@@ -111,6 +111,6 @@
   }
 
   .scrollShadow {
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
   }
 }

@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .toggle {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.5rem;
   }
 }

@@ -25,10 +25,10 @@
     justify-content: space-between;
     width: 100%;
     &:hover > .count {
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
     &:hover > .label {
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
   }
 

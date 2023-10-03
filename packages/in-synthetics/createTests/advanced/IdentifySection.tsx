@@ -9,6 +9,7 @@ import { useState } from 'react';
 import React from 'react';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
+import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -103,9 +104,9 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
               })}
             <div className={locals.center}>
               {visibleItems < (filteredApplications?.length ?? 0) && (
-                <button className={locals.button} onClick={handleLoadMore}>
+                <Button kind="action" onClick={handleLoadMore}>
                   {t('in-synthetics:dialog.createTest.advancedMode.loadMore')}
-                </button>
+                </Button>
               )}
             </div>
           </div>

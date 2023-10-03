@@ -42,7 +42,7 @@
   }
 
   .spinningIcon {
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
   }
 
   .traceIcon {

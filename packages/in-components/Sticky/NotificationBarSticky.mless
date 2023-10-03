@@ -10,7 +10,7 @@
   .section {
     justify-content: space-between;
     padding: 0.5rem 0.5rem 0.5rem 5.5rem;
-    background: @lib__colors__navy900;
+    background: var(--ids-color-option-navy-900);
     height: 46px;
   }
   .leftContent {
