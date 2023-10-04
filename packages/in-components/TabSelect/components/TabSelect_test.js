@@ -12,20 +12,16 @@ import TabSelect from 'in-components/TabSelect/components/TabSelect';
 import { TabSelectMenu, TabSelectPanel, TabSelectPanels } from '..';
 
 describe('in-components/TabSelect/components/TabSelect', () => {
-  it('initially activates the correct item and panel if initialActivePanelId is provided', () => {
+  it('initially activates the correct item and panel', () => {
     // Given
-    const initialActivePanelId = 'panel-bar';
+    const activePanelId = 'panel-bar';
 
     // When
     const { baseElement } = render(
-      <TabSelect initialActivePanelId={initialActivePanelId}>
+      <TabSelect activePanelId={activePanelId}>
         <TabSelectMenu>
-          <TabSelectItem value="foo" forId="panel-foo">
-            Foo
-          </TabSelectItem>
-          <TabSelectItem value="bar" forId="panel-bar">
-            Bar
-          </TabSelectItem>
+          <TabSelectItem forId="panel-foo">Foo</TabSelectItem>
+          <TabSelectItem forId="panel-bar">Bar</TabSelectItem>
         </TabSelectMenu>
         <TabSelectPanels>
           <TabSelectPanel id="panel-foo">Panel Foo</TabSelectPanel>
@@ -47,12 +43,8 @@ describe('in-components/TabSelect/components/TabSelect', () => {
     const { getAllByRole } = render(
       <TabSelect onChange={onChangeHandler}>
         <TabSelectMenu>
-          <TabSelectItem value="foo" forId="panel-foo">
-            Foo
-          </TabSelectItem>
-          <TabSelectItem value="bar" forId="panel-bar">
-            Bar
-          </TabSelectItem>
+          <TabSelectItem forId="panel-foo">Foo</TabSelectItem>
+          <TabSelectItem forId="panel-bar">Bar</TabSelectItem>
         </TabSelectMenu>
         <TabSelectPanels>
           <TabSelectPanel id="panel-foo">Panel Foo</TabSelectPanel>
@@ -64,6 +56,6 @@ describe('in-components/TabSelect/components/TabSelect', () => {
     fireEvent.click(getAllByRole('button')[1]);
 
     // Then
-    expect(onChangeHandler).toHaveBeenNthCalledWith(1, 'panel-bar', 'bar');
+    expect(onChangeHandler).toHaveBeenNthCalledWith(1, 'panel-bar');
   });
 });

@@ -4,17 +4,17 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 
-import { TabSelectContext } from 'in-components/TabSelect/context';
+import TabSelectContext, { PanelIdBase, TabSelectContextType } from 'in-components/TabSelect/context';
 
 import locals from './TabSelect.mless';
 
-interface TabSelectProps<VALUE_TYPE> {
+interface TabSelectProps<PanelId extends PanelIdBase> {
   /**
-   * The ID of the TabSelectPanel that should be active initially.
+   * The ID of the active TabSelectPanel.
    */
-  initialActivePanelId?: string;
+  activePanelId: PanelId;
 
   /**
    * The width of the menu column. Default is 30%.
@@ -29,29 +29,27 @@ interface TabSelectProps<VALUE_TYPE> {
   /**
    * Callback that will be fired when a TabSelectItem has been selected.
    * @param panelId the id of the TabSelectPanel that has been activated
-   * @param value the value of the TabSelectItem that has been selected if value was provided
    */
-  onChange?: (panelId?: string, value?: VALUE_TYPE) => void;
+  onChange: (panelId: PanelId) => void;
 }
 
-export default function TabSelect<VALUE_TYPE>({
+export default function TabSelect<PanelId extends PanelIdBase>({
   children,
-  initialActivePanelId,
+  activePanelId,
   onChange,
   menuWidth = '30%',
   panelsWidth = '70%'
-}: PropsWithChildren<TabSelectProps<VALUE_TYPE>>) {
-  const [activePanelId, setActivePanelId] = useState(initialActivePanelId);
+}: PropsWithChildren<TabSelectProps<PanelId>>) {
+  const TabSelectContextProvider = TabSelectContext.Provider as unknown as React.Provider<
+    TabSelectContextType<PanelId>
+  >;
 
   return (
     <div>
-      <TabSelectContext.Provider
+      <TabSelectContextProvider
         value={{
           activePanelId,
-          setActivePanelId: (panelId, value) => {
-            onChange?.(panelId, value);
-            setActivePanelId(panelId);
-          }
+          onChange
         }}
       >
         <div
@@ -60,7 +58,7 @@ export default function TabSelect<VALUE_TYPE>({
         >
           {children}
         </div>
-      </TabSelectContext.Provider>
+      </TabSelectContextProvider>
     </div>
   );
 }

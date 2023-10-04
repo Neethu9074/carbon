@@ -104,9 +104,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   };
 
   return (
-    <TabSelect<ScopedPermissionType>
-      initialActivePanelId={limitedPermission}
-      onChange={(_panelId, value) => onUpdatePermissionSet(role, value ?? defaultLimitation)}
+    <TabSelect
+      activePanelId={limitedPermission}
+      onChange={panelId => onUpdatePermissionSet(role, panelId ?? defaultLimitation)}
     >
       <TabSelectHeader>
         <SvgIcon type={icon} size="l" />
@@ -116,7 +116,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       </TabSelectHeader>
       <TabSelectMenu>
         {ScopedPermissionItems.map(context => (
-          <TabSelectItem key={context} forId={context} value={context} withRadioButton>
+          <TabSelectItem key={context} forId={context} withRadioButton>
             {t('in-settings:permissionScope.selection', { context: context.toLowerCase() })}
           </TabSelectItem>
         ))}

@@ -108,9 +108,9 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
   };
 
   return (
-    <TabSelect<ScopedPermissionType>
-      initialActivePanelId={limitedPermission}
-      onChange={(_panelId, value) => onUpdatePermissionSet(role, value ?? VIEWER_ACCESS)}
+    <TabSelect
+      activePanelId={limitedPermission}
+      onChange={panelId => onUpdatePermissionSet(role, panelId ?? VIEWER_ACCESS)}
     >
       <TabSelectHeader>
         <SvgIcon type={icon} size="l" />
@@ -119,10 +119,10 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem key="VIEWER_ACCESS" forId="VIEWER_ACCESS" value="VIEWER_ACCESS" withRadioButton>
+        <TabSelectItem key="VIEWER_ACCESS" forId="VIEWER_ACCESS" withRadioButton>
           {t('in-settings:permissionScope.selection', { context: 'viewer_access' })}
         </TabSelectItem>
-        <TabSelectItem key="NO_ACCESS" forId="NO_ACCESS" value="NO_ACCESS" withRadioButton>
+        <TabSelectItem key="NO_ACCESS" forId="NO_ACCESS" withRadioButton>
           {t('in-settings:permissionScope.selection', { context: ScopedPermissionItem.NO_ACCESS.toLowerCase() })}
         </TabSelectItem>
       </TabSelectMenu>
