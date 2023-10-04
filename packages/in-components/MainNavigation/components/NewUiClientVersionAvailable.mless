@@ -14,7 +14,7 @@
     margin: 0 0.5rem;
     margin-bottom: 1rem;
     padding: 0.5rem 0.5rem;
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
     background-color: var(--ids-color-option-teal-500);
     color: white;
   }

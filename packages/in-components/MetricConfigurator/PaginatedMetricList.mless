@@ -22,7 +22,7 @@
     height: @height;
     max-height: @height;
 
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
   }
 
   .option {

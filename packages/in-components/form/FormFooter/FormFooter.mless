@@ -18,7 +18,7 @@
   }
 
   .withRoundedBottomBorder {
-    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
+    border-radius: 0 0 var(--ids-border-radius-small) var(--ids-border-radius-small);
   }
 
   .button {

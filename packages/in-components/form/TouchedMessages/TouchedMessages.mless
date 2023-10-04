@@ -9,7 +9,7 @@
   .path {
     color: var(--ids-color-option-neutral-900);
     background: var(--ids-color-option-neutral-200);
-    border-radius: @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large);
     padding: 0.0625rem 0.3125rem;
   }
 }

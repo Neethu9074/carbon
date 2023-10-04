@@ -12,7 +12,7 @@
     .ellipsis();
     position: relative;
     background: var(--ids-color-option-white);
-    border-radius: @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large);
     box-shadow: var(--ids-shadow-option-subtle);
   }
 

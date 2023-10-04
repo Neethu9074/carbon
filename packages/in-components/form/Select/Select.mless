@@ -42,7 +42,7 @@
     background-color: var(--ids-color-option-neutral-50);
     background-image: none;
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     width: 100%;
 

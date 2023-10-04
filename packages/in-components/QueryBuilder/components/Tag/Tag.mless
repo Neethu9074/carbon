@@ -16,7 +16,7 @@
     padding: 0.1875rem 0rem 0.1875rem 0.25rem;
 
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     font-weight: 500;
     // Ensure that all tags have the same height. No matter whether they render
     // an input field or not!

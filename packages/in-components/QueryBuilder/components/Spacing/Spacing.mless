@@ -143,7 +143,7 @@
     color: var(--ids-color-option-red-500);
     background: @lib__colors__failure10;
     border: 1px solid var(--ids-color-option-red-500);
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
 
     &:hover {
       font-weight: bold;

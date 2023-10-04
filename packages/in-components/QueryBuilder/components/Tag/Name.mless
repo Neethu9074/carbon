@@ -16,7 +16,7 @@
     background: none;
     padding: 0 0.25rem 0 0.1875rem;
     border: 1px solid transparent;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     cursor: pointer;
 
     &:focus,

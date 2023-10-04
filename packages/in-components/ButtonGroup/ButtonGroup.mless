@@ -82,12 +82,12 @@
   }
 
   .first {
-    border-top-left-radius: @lib__shapes__radius_medium;
-    border-bottom-left-radius: @lib__shapes__radius_medium;
+    border-top-left-radius: var(--ids-border-radius-medium);
+    border-bottom-left-radius: var(--ids-border-radius-medium);
   }
 
   .last {
-    border-top-right-radius: @lib__shapes__radius_medium;
-    border-bottom-right-radius: @lib__shapes__radius_medium;
+    border-top-right-radius: var(--ids-border-radius-medium);
+    border-bottom-right-radius: var(--ids-border-radius-medium);
   }
 }
