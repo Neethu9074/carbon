@@ -427,7 +427,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'playWithReleaseEnabled',
-    instanaCtlKey: 'feature.playWithReleaseEnabled.enabled',
+    instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
   }
 ];
