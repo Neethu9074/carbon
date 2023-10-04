@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import Users from './Users';
+import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
 
 export default Users;

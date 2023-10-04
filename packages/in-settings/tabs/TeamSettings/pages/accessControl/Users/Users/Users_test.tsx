@@ -11,16 +11,16 @@ import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 import { UserResult } from '@instana/types';
 
+import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getUsersAsResultObservable } from 'in-api/users';
-import Users from './Users';
 
 jest.mock('in-api/users');
 jest.mock('in-i18n', () => ({
   t: (key: string) => key
 }));
 
-jest.mock('../../Invites/InviteUserDialog');
+jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog');
 jest.mock('in-components/Gravatar/unknown.png', () => '');
 jest.mock('in-components/DialogPresenter/store');
 

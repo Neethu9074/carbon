@@ -7,7 +7,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecificationsHelpers';
-import CustomEvent from './CustomEvent';
+import CustomEvent from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 
 jest.mock('in-api/eventSpecificationsHelpers', () => {
   return {

@@ -7,7 +7,7 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 
-import ShowHideInputField from './ShowHideInputField';
+import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
 
 describe('in-settings/components/ShowHideInputField', () => {
   test('should allow toggling on eye icon button click', async () => {

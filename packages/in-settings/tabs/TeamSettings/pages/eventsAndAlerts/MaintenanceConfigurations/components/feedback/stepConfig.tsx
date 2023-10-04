@@ -9,13 +9,13 @@ import React from 'react';
 
 import { Align } from '@instana/components/types/components/Typography/types';
 
+import feedback_stan_one from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/feedback_stan_one.png';
+import problematic_end from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/problematic_end.png';
+import feedback_two from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/feedback_two.png';
+import awesome_end from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/awesome_end.png';
 import FeedbackStepOne from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/FeedbackStepOne';
 import FeedbackStepTwo from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/FeedbackStepTwo';
 import { FeedbackConfigRMWForm } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/api';
-import feedback_stan_one from './assets/feedback_stan_one.png';
-import problematic_end from './assets/problematic_end.png';
-import feedback_two from './assets/feedback_two.png';
-import awesome_end from './assets/awesome_end.png';
 import { t } from 'in-i18n';
 
 export interface FeedbackStepConfigs {

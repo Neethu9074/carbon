@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import EntityTablePaginator from './EntityTablePaginator';
+import EntityTablePaginator from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTablePaginator/EntityTablePaginator';
 
 export default EntityTablePaginator;

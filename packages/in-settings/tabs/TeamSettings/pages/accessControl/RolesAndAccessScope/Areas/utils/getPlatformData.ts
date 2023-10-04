@@ -21,7 +21,7 @@ import {
   zhmcEnabled,
   sapEnabled
 } from 'in-services/featureFlags';
-import { getScopeFromProductArea } from '../../form';
+import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { t } from 'in-i18n';
 
 // This function can be broken into multiple smaller ones

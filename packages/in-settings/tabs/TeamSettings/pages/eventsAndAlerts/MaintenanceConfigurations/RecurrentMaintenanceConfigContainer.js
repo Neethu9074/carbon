@@ -5,9 +5,12 @@
 
 import React from 'react';
 
+import AdvancedModeMaintenanceContainer from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/AdvancedModeMaintenanceContainer';
+import {
+  stepConfigs,
+  stepRenderers
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/simpleModeConfig';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
-import AdvancedModeMaintenanceContainer from './components/AdvancedModeMaintenanceContainer';
-import { stepConfigs, stepRenderers } from './components/simpleModeConfig';
 
 export default function RecurrentMaintenanceConfigContainer({
   form,

@@ -10,8 +10,8 @@ import React from 'react';
 import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
+import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken/EditPersonalApiToken';
 import { PersonalApiToken, savePersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
-import EditPersonalApiToken from './EditPersonalApiToken';
 
 jest.mock('in-i18n', () => ({
   t: (key: string) => key

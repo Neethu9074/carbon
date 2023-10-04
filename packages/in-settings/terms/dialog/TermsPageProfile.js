@@ -11,8 +11,8 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
+import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import TermsProgressIndicator from './TermsProgressIndicator';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';

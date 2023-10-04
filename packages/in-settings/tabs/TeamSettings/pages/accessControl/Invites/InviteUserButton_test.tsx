@@ -7,8 +7,10 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import InviteUserButton, {
+  onDoInviteUser
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import { addActiveDialog as uO, close as u1 } from 'in-components/DialogPresenter/store';
-import InviteUserButton, { onDoInviteUser } from './InviteUserButton';
 import { t } from 'in-i18n';
 
 const apiCallResult = {

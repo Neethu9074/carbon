@@ -3,21 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import watsonAIOpsWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/watsonAIOpsWebhookChannelConfig';
 import prometheusWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/prometheusWebhookChannelConfig';
 import webexTeamsWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/webexTeamsWebhookChannelConfig';
 import googleChatChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/googleChatChannelConfig';
+import serviceNowChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/serviceNowChannelConfig';
+import salesforceChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/salesforceChannelConfig';
 import office365ChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/office365ChannelConfig';
 import PagerdutyChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/pagerdutyChannelConfig';
 import victorOpsChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/victorOpsChannelConfig';
 import opsgenieChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/opsgenieChannelConfig';
+import zChatOpsChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/zChatOpsChannelConfig';
 import webhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
 import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
-import watsonAIOpsWebhookChannelConfig from './forms/watsonAIOpsWebhookChannelConfig';
-import serviceNowChannelConfig from './forms/serviceNowChannelConfig';
-import salesforceChannelConfig from './forms/salesforceChannelConfig';
-import zChatOpsChannelConfig from './forms/zChatOpsChannelConfig';
 
 export const configs = {
   email: emailChannelConfig,

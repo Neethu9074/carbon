@@ -18,17 +18,17 @@ import {
   setPartsToUTCDate,
   setRRuleDtstart
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import ScheduleRange from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/ScheduleRange';
+import Recurring from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Recurring';
+import Timing from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Timing';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { parseDateTime } from 'in-services/formatters/date';
 import { getSingle } from 'in-services/settings/settings';
-import ScheduleRange from './scheduling/ScheduleRange';
 import FormGroup from 'in-components/form/FormGroup';
 import ButtonGroup from 'in-components/ButtonGroup';
-import Recurring from './scheduling/Recurring';
-import Timing from './scheduling/Timing';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 

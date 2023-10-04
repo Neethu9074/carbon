@@ -15,6 +15,7 @@ import { goToPath } from 'in-stores/navigation';
 import { ibmCloudDefaultBaseURL, logDnaDefaultBaseURL } from 'in-integrations/logging/logdna/LinkConstruction';
 import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
 import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
+import { validLogDnaId } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/validation';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -31,7 +32,6 @@ import { get, save } from 'in-integrations/logging/api';
 import { Col, Row } from 'in-components/layout/Grid';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
-import { validLogDnaId } from './validation';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

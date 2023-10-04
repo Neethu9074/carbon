@@ -8,12 +8,15 @@ import React, { useContext } from 'react';
 
 import { Ul } from '@instana/components';
 
+import GeneralPlatformListItem from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/GeneralPlatformListItem';
 import { KubernetesListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/KubernetesListItem';
 import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData';
+import {
+  ProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea, ScopedPermissionItem } from '../../constants';
-import GeneralPlatformListItem from './GeneralPlatformListItem';
 import { t } from 'in-i18n';
 
 export const PlatformsSection = () => {
@@ -35,7 +38,9 @@ export const PlatformsSection = () => {
     <Ul>
       {groupConfig.pcfAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PCF} />}
       {groupConfig.phmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.PHMC} />}
-      {groupConfig.powervcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.POWERVC} />}
+      {groupConfig.powervcAccess !== ScopedPermissionItem.NO_ACCESS && (
+        <GeneralPlatformListItem area={ProductArea.POWERVC} />
+      )}
 
       {groupConfig.zhmcAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.ZHMC} />}
       {groupConfig.openStackAccess !== ScopedPermissionItem.NO_ACCESS && (
