@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AggregationType, SloEntityType } from '@instana/types';
+import { AggregationType, BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { deepFreeze } from 'in-services/util/object';
@@ -55,3 +55,5 @@ export const timeAggregationOptions: TimeAggregationOptions = deepFreeze([
   { value: 'P99', label: t('in-service-levels:general.indicator.aggregation_P99') },
   { value: 'MAX', label: t('in-service-levels:general.indicator.aggregation_MAX') }
 ]);
+
+export const defaultBlueprint: BlueprintType = 'availability';

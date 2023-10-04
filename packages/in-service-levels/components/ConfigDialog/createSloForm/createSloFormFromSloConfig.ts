@@ -18,13 +18,17 @@ import {
   TimeStamp
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
+  createThresholdFieldValidator,
   dateFieldValidator,
   targetFieldValidator,
-  thresholdFieldValidator,
   timeFieldValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { defaultBlueprint } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
@@ -68,48 +72,58 @@ export const getIndicatorFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
 ): SloIndicatorFields => {
   const { indicator } = sloConfig;
+  const { type } = indicator;
 
   if (isTimeBasedSli(indicator)) {
+    const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
-      aggregation: createField({ value: indicator.aggregation ?? 'SUM' }),
-      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
-      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
+      aggregation: createField({ value: indicator.aggregation ?? 'MEAN' }),
+      blueprint: createField({ value: blueprint }),
+      threshold: createIndicatorThresholdField({ value: indicator.threshold, blueprint, indicatorType: type }),
       badEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
       goodEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      type: createField({ value: indicator.type })
+      type: createField({ value: type })
     };
   }
 
   if (isEventBasedSli(indicator)) {
+    const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
-      aggregation: createField({ value: 'SUM' }),
+      aggregation: createField({ value: 'MEAN' }),
       badEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
+      blueprint: createField({ value: blueprint }),
       goodEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
-      type: createField({ value: indicator.type })
+      threshold: createField({
+        value: indicator.threshold ?? undefined,
+        validator: createThresholdFieldValidator(blueprint, type)
+      }),
+      type: createField({ value: type })
     };
   }
 
+  const blueprint = defaultBlueprint;
   return {
-    aggregation: createField({ value: 'SUM' }),
+    aggregation: createField({ value: 'MEAN' }),
     badEventsFilter: createField({
       value: fromBackendModel(indicator.badEventsFilter)
     }),
-    blueprint: createField({ value: 'availability' }),
+    blueprint: createField({ value: blueprint }),
     goodEventsFilter: createField({
       value: fromBackendModel(indicator.goodEventsFilter)
     }),
-    threshold: createField({ value: indicator.threshold ?? 0 }),
-    type: createField({ value: indicator.type })
+    threshold: createField({
+      value: indicator.threshold ?? 0,
+      validator: createThresholdFieldValidator(blueprint, type)
+    }),
+    type: createField({ value: type })
   };
 };
 export const getObjectiveFormFieldsFromSloConfig = (

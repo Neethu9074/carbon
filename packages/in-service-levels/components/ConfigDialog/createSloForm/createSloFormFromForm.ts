@@ -16,11 +16,13 @@ import {
   SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
   dateFieldValidator,
-  thresholdFieldValidator,
   timeFieldValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 
 export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
   const name = form.getIn(['nameTags', 'name']).value;
@@ -61,7 +63,7 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
   const badEventsFilterFieldValue = form.getIn(['indicator', 'badEventsFilter']).value;
   const blueprintFieldValue = form.getIn(['indicator', 'blueprint']).value;
   const goodEventsFilterFieldValue = form.getIn(['indicator', 'goodEventsFilter']).value;
-  const thresholdFieldValue = form.getIn(['indicator', 'threshold']).value;
+  const thresholdField = form.getIn(['indicator', 'threshold']);
   const indicatorTypeValue = form.getIn(['indicator', 'type']).value;
 
   return {
@@ -73,7 +75,12 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
     goodEventsFilter: createField({
       value: goodEventsFilterFieldValue
     }),
-    threshold: createField({ value: thresholdFieldValue, validator: thresholdFieldValidator }),
+    threshold: createIndicatorThresholdField({
+      value: thresholdField.value,
+      touched: thresholdField.touched,
+      blueprint: blueprintFieldValue,
+      indicatorType: indicatorTypeValue
+    }),
     type: createField({ value: indicatorTypeValue })
   };
 };

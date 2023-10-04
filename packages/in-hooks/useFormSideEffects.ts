@@ -17,23 +17,23 @@ export const CHANGE_TYPES: Record<ChangeTypeLong, ChangeType> = {
   LIST_UPDATE: 'A' // A list contained in a field was changed
 };
 
-export type EffectFunction = (form: Item) => Item;
+export type EffectFunction<ItemType extends Item = Item> = (form: ItemType) => ItemType;
 
 type EffectPathSegment = string | RegExp;
 
-interface Effect {
+export interface Effect<ItemType extends Item = Item> {
   path: EffectPathSegment[];
-  effects: EffectFunction[];
+  effects: EffectFunction<ItemType>[];
 }
 
-interface UseFormSideEffectsRequest {
-  form: Item;
-  setForm: (field: Item) => void;
-  effects: Effect[];
+interface UseFormSideEffectsRequest<ItemType extends Item = Item> {
+  form: ItemType;
+  setForm: (field: ItemType) => void;
+  effects: Effect<ItemType>[];
   changesToTrack?: ChangeType[];
 }
 
-type UseFormSideEffectsResponse = (form: Item) => void;
+type UseFormSideEffectsResponse<ItemType extends Item = Item> = (form: ItemType) => void;
 
 const allChanges: ChangeType[] = Object.values(CHANGE_TYPES);
 
@@ -42,13 +42,13 @@ const allChanges: ChangeType[] = Object.values(CHANGE_TYPES);
  * Side-effects can safely update the form before the update is committed to application state.
  * Changes to form touched state are ignored.
  */
-export default function useFormSideEffects({
+export default function useFormSideEffects<ItemType extends Item = Item>({
   form,
   setForm,
   effects = [],
   changesToTrack = allChanges
-}: UseFormSideEffectsRequest): UseFormSideEffectsResponse {
-  return (updatedForm: Item) => {
+}: UseFormSideEffectsRequest<ItemType>): UseFormSideEffectsResponse<ItemType> {
+  return (updatedForm: ItemType) => {
     if (updatedForm === form) return;
 
     const effectsToExecute = uniq(
@@ -66,7 +66,7 @@ function findUpdatedPaths(previousData: any, updatedData: any, changesToTrack: C
   return updatedPaths.filter(({ path }) => path != null).map(({ path }) => path as string[]) ?? [];
 }
 
-function findEffectsForPath(path: string[], effects: Effect[]) {
+function findEffectsForPath<T extends Item>(path: string[], effects: Effect<T>[]): EffectFunction<T>[] {
   return effects
     .filter(({ path: p = [] }) => {
       const effectivePath = path.slice(0, p.length);
