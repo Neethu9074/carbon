@@ -150,12 +150,12 @@ const IconForRemainingDays = ({ remainingDays }) => {
    * Days remaining for the free trial to end are converted into hours.
    */
   if (remainingDays >= 6 && remainingDays <= 14) {
-    return <SvgIcon type={'lib_uncheck'} color={'var(--ids-color-option-green-500'} />;
+    return <SvgIcon type="lib_uncheck" color="var(--ids-color-option-green-500)" />;
   } else if (remainingDays >= 4 && remainingDays <= 5) {
-    return <SvgIcon type={'ib_help_error_warning'} color={'var(--ids-color-option-yellow-500)'} />;
+    return <SvgIcon type="lib_help_error_warning" color="var(--ids-color-option-yellow-500)" />;
   } else if (remainingDays >= 0 && remainingDays <= 3) {
-    return <SvgIcon type={'lib_help_error_info_circle'} color={'var(--ids-color-option-red-500)'} />;
+    return <SvgIcon type="lib_help_error_info_circle" color="var(--ids-color-option-red-500)" />;
   } else {
-    return <SvgIcon type={'lib_help_error_info_circle'} color={'var(--ids-color-option-red-500)'} />;
+    return <SvgIcon type="lib_help_error_info_circle" color="var(--ids-color-option-red-500)" />;
   }
 };
