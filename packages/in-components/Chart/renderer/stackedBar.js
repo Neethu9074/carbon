@@ -71,7 +71,7 @@ function drawBlock(metricMap, config, scale, block, barWidth, color, outlineColo
 
     const xPos = config.xScaleBackBuffer.getRange(time) - barWidth / 2;
 
-    const yPos = scale.getRange(value);
+    const yPos = Math.round(scale.getRange(value));
     const barHeight = Math.max(MIN_BAR_HEIGHT_IN_PX, chartHeight - yPos);
 
     config.backBufferCtx.fillStyle = color;

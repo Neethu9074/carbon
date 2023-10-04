@@ -499,6 +499,46 @@ export function StackedBar() {
   );
 }
 
+export function StackedBarWithOutline() {
+  return (
+    <>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedBar,
+            labels: ['foo', 'bar', 'baz'],
+            outlineForColor: theme.lib.outlineForColor,
+            colors: [theme.lib.carbonAlert.red60, theme.lib.carbonAlert.orange40, theme.lib.carbonAlert.yellow30],
+            metricIds: [],
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+          }
+        }}
+      />
+      <p style={{ marginTop: '1rem' }}>
+        Carbon Alert colors should use the outlineForColor parameter to enhance visibility.
+      </p>
+      <pre>
+        {`
+  y1: {
+    ...
+    outlineForColor: theme.lib.outlineForColor
+  }`}
+      </pre>
+      <p>theme.lib.outlineForColor is defined as a map from primary colors to outline colors.</p>
+      <pre>
+        {`
+  outlineForColor: {
+    [carbonAlert.orange40]: carbonAlert.orange60,
+    [carbonAlert.yellow30]: carbonAlert.yellow60
+  }`}
+      </pre>
+      <p>so that carbonAlert.orange40, for example, is outlined with carbonAlert.orange60.</p>
+    </>
+  );
+}
+
 export function Integral() {
   return (
     <>
