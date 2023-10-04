@@ -86,6 +86,7 @@
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
+      "momentaryBudgetConsumption": "Error Budget Consumption",
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
@@ -252,9 +253,12 @@
       },
       "errorBudgetChart": {
         "title": "Error Budget",
-        "title_fullWindow": "Error Budget over entire Time Window",
+        "title_fullWindow": "Error Budget Over Entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "errorBudgetConsumptionChart": {
+        "title": "Error Budget Consumption Over Entire Time Window"
       },
       "trafficChart": {
         "title": "Traffic"
