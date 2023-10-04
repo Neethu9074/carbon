@@ -2,5 +2,5 @@
   "name": "DashboardSection",
   "version": "0.0.0",
   "private": true,
-  "main": "./DashboardSection.js"
+  "main": "./DashboardSection.tsx"
 }
