@@ -353,7 +353,7 @@ module.exports = exports = [
   {
     uiClientKey: 'oneMinuteGranularityForStaticThresholdEnabled',
     instanaCtlKey: 'feature.app.smart.alerts.granularity1min.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertsHubEnabled',

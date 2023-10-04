@@ -180,7 +180,7 @@ export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeE
 
 export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnabled(
   'oneMinuteGranularityForStaticThresholdEnabled',
-  false
+  true
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
