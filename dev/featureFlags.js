@@ -70,6 +70,7 @@ module.exports = {
   limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
   playwithTestEnabled: false,
+  playWithReleaseEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   kongEnabled: false,

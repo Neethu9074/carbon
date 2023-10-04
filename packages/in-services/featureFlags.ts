@@ -183,6 +183,7 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
   false
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
+export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
 // featureflag to display actions lane in app and host dashboard
 export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', false);
