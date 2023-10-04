@@ -19,11 +19,11 @@ export interface Config extends ContextMenuConfig {
   y2?: Axis;
   granularity?: number;
   reverseOrder?: boolean;
-  outlineForColor?: { [k: string]: string };
   type: ResultType;
 }
 
 type AxisParams =
+  | 'outlineForColor'
   | 'colors'
   | 'min'
   | 'max'

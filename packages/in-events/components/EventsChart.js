@@ -53,13 +53,13 @@ export default function EventsChart({ timeConfig, query, eventType }) {
           cardTitle={t('in-events:titleOpenEvents')}
           timeConfig={timeConfig}
           granularity={granularity}
-          outlineForColor={theme.lib.outlineForColor}
           includeFirstDataPoint
           y1={{
             renderer: Renderer.stackedBar,
             formatter: number.forcedCompact,
             labels,
             metricIds,
+            outlineForColor: theme.lib.outlineForColor,
             colors
           }}
           metricsConfiguration={{

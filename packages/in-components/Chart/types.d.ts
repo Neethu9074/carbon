@@ -61,7 +61,6 @@ interface ResultAwareChartConfig {
   renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
   disableChartInLive?: boolean;
-  outlineForColor?: { [k: string]: string };
 }
 
 interface CardConfig {
@@ -172,6 +171,7 @@ export interface AxisConfiguration {
   renderAllTickLabels?: boolean;
   detailedFormatting?: boolean;
 
+  outlineForColor?: { [k: string]: string };
   colors100?: Property.Color[];
   colors50?: Property.Color[];
 

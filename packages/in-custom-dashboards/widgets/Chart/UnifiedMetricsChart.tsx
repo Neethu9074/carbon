@@ -198,7 +198,6 @@ function DataLoadingWrapper({
       hasApproximateData={hasApproximateData}
       primaryContextMenuAction={config?.primaryContextMenuAction}
       additionalContextMenuButtons={config?.additionalContextMenuButtons}
-      outlineForColor={config?.outlineForColor}
       {...props}
     />
   );
@@ -475,6 +474,7 @@ export function toAxisConfiguration(
     renderer: (availableRenderers.find(({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: getFormatter(axis.formatter),
     tooltipFormatter: axis.tooltipFormatter,
+    outlineForColor: axis.outlineForColor,
     labels: axis.metrics.flatMap((metric: Metric, i: number): string[] => {
       let { label: metricLabel, grouping } = metric;
       if (!metricLabel) {

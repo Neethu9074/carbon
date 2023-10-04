@@ -14,7 +14,7 @@ export default {
     if (!axis.calculateStackDifferences) {
       metricMap = calculateMetricMap(metrics);
     }
-    const outlineForColor = config.outlineForColor ?? {};
+    const outlineForColor = axis.outlineForColor ?? {};
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
     const width =
       config.xScaleBackBuffer.getRange(config.xScaleBackBuffer.getDomainTo()) -
