@@ -37,7 +37,8 @@ export default function SelectorOverlay({
   query,
   onQueryChange,
   disabled,
-  strict = false
+  strict = false,
+  shouldTriggerWindowResize
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
   const [showFocusedNode, setShowFocusedNode] = useState(false);
@@ -106,6 +107,7 @@ export default function SelectorOverlay({
             HeaderComponent={ListHeader}
             slideTransitionDurationMillis={250}
             slideInContentTitle={focusedNode?.label}
+            shouldTriggerWindowResize={shouldTriggerWindowResize}
             slideInContent={
               focusedNode?.children && (
                 <div onKeyDown={onKeyDown}>
@@ -191,6 +193,7 @@ SelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
+  shouldTriggerWindowResize: PropTypes.bool,
   onQueryChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   strict: PropTypes.bool
