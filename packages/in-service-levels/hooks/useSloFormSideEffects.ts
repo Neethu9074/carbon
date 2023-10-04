@@ -4,19 +4,20 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Item, createMapForm } from 'formalistic';
+import { createMapForm } from 'formalistic';
 
 import {
   getDefaultEntityFields,
   getDefaultIndicatorFields,
   getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-// eslint-disable-next-line
-import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+
+import { createIndicatorThresholdField } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
+import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 
-function resetScopes(form: SloForm) {
+function resetScopes(form: SloForm): SloForm {
   return form.updateIn(['scope'], () =>
     createMapForm({
       items: getDefaultScopeFields()
@@ -24,7 +25,7 @@ function resetScopes(form: SloForm) {
   );
 }
 
-function resetEntity(form: SloForm) {
+function resetEntity(form: SloForm): SloForm {
   const entityType = form.getIn(['entity', 'type']).value;
 
   return form.updateIn(['entity'], () =>
@@ -34,7 +35,7 @@ function resetEntity(form: SloForm) {
   );
 }
 
-function resetIndicatorForm(form: SloForm) {
+function resetIndicatorForm(form: SloForm): SloForm {
   return form.updateIn(['indicator'], () => createMapForm({ items: getDefaultIndicatorFields() }));
 }
 
@@ -54,7 +55,7 @@ function resetIndicatorFormAndPreserveBlueprint(form: SloForm) {
     });
 }
 
-function clampTimeWindowDuration(form: SloForm): Item {
+function clampTimeWindowDuration(form: SloForm): SloForm {
   const unit = form.getIn(['objective', 'durationUnit']).value;
 
   const oldDuration = form.getIn(['objective', 'duration']);
@@ -66,30 +67,47 @@ function clampTimeWindowDuration(form: SloForm): Item {
   );
 }
 
-const formSideEffects = [
+function updateIndicatorThresholdValidator(form: SloForm): SloForm {
+  const blueprint = form.getIn(['indicator', 'blueprint']).value;
+  const type = form.getIn(['indicator', 'type']).value;
+  return form.updateIn(['indicator', 'threshold'], field => {
+    return createIndicatorThresholdField({
+      value: field.value,
+      touched: field.touched,
+      blueprint,
+      indicatorType: type
+    });
+  });
+}
+
+const formSideEffects: Effect<SloForm>[] = [
   {
     path: ['entity', 'type'],
-    effects: [resetEntity, resetScopes, resetIndicatorForm] as EffectFunction[]
+    effects: [resetEntity, resetScopes, resetIndicatorForm]
   },
   {
     path: ['entity', 'entityId'],
-    effects: [resetScopes, resetIndicatorForm] as EffectFunction[]
+    effects: [resetScopes, resetIndicatorForm]
   },
   {
     path: ['indicator', 'blueprint'],
-    effects: [resetIndicatorFormAndPreserveBlueprint] as EffectFunction[]
+    effects: [resetIndicatorFormAndPreserveBlueprint, updateIndicatorThresholdValidator]
+  },
+  {
+    path: ['indicator', 'type'],
+    effects: [updateIndicatorThresholdValidator]
   },
   {
     path: ['objective', 'durationUnit'],
-    effects: [clampTimeWindowDuration] as EffectFunction[]
+    effects: [clampTimeWindowDuration]
   }
 ];
 
-export type SloFormSideEffectsReturnType = (form: Item) => void;
+export type SloFormSideEffectsReturnType = (form: SloForm) => void;
 
 export default function useSloFormSideEffects(
-  form: Item,
-  setForm: (field: Item) => void
+  form: SloForm,
+  setForm: (field: SloForm) => void
 ): SloFormSideEffectsReturnType {
   return useFormSideEffects({
     form,

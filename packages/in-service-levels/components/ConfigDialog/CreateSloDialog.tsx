@@ -5,7 +5,6 @@
  */
 
 import React, { useState } from 'react';
-import { Item } from 'formalistic';
 
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 
@@ -18,8 +17,8 @@ import SloScopeSection from 'in-service-levels/components/ConfigDialog/component
 import SloFormPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormPreview';
 import { formToSloConfiguration, isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { createSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
-import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
 import { createSloConfiguration } from 'in-service-levels/api/configuration';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
@@ -33,7 +32,7 @@ import { t } from 'in-i18n';
 
 export default function CreateSloDialog() {
   const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
-  const updateForm = useSloFormSideEffects(form, setForm as (f: Item) => void);
+  const updateForm = useSloFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(createSloConfiguration);
 
   const nameField = form.getIn(['nameTags', 'name']);
@@ -94,7 +93,7 @@ export default function CreateSloDialog() {
   ];
 
   return (
-    <SloFormContext.Provider value={{ form, onChange: (path, fn) => updateForm(form.updateIn(path, fn)) }}>
+    <SloFormContext.Provider value={{ form, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}>
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}

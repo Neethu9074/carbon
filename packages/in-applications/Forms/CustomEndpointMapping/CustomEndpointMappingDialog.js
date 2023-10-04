@@ -27,9 +27,11 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import { serviceDashboard } from 'in-applications/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import Tooltip from 'in-components/Tooltip';
@@ -133,11 +135,10 @@ export default function CustomEndpointMappingDialog({ location }) {
             <>
               <ViewTrackingMeta
                 data={{
-                  productArea: 'Applications',
-                  pageRootName: 'Service'
+                  productArea: productAreas.applications,
+                  pageRootName: pageNames.custom_end_point_config
                 }}
               />
-
               <Steps
                 steps={[
                   {

@@ -80,7 +80,11 @@ export default function DetailTab({
 
   const tableData = [
     { label: t('in-automation:actionHistory.status'), value: getStatus(status), actionLane: inActionLane },
-    { label: t('in-automation:actionHistory.startTime'), value: formatDateTime(startDate), actionLane: inActionLane },
+    {
+      label: t('in-automation:actionHistory.startTime'),
+      value: startDate ? formatDateTime(startDate) : formatDateTime(null),
+      actionLane: inActionLane
+    },
     {
       label: t('in-automation:actionHistory.endTime'),
       actionLane: inActionLane,

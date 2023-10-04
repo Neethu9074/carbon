@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
   "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final sont dépréciés. Dans le futur, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer en Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "Actions associées pour le déclenchement de l'événement",
+  "recommendedActions": "Actions recommandées",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} événements personnalisés requièrent une action",
     "message": "Les événements personnalisés dans l'application, le service et le noeud final ont été dépréciés. Vous ne pourrez plus créer ou mettre à jour ces types d'événements personnalisés à l'avenir.",

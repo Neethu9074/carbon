@@ -262,9 +262,7 @@
     "ibmapmproxy": "IBM APM V8 Instana 통합 프록시",
     "ibmapmmineba": "IBM APM V8 Min 서버 dropins eba",
     "requiresRuntimeDropin": "IBM APM V8에 대한 Instana 통합 지원에는 추가 런타임 dropin이 필요합니다.",
-    "copyToApmMinDropins": "다운로드한 패키지는 압축 해제하고 결과 eba 파일을 IBM APM V8 Min 서버의 dropins 디렉토리에 복사해야 합니다.",
-    "integrations": "통합",
-    "IBM": "IBM"
+    "copyToApmMinDropins": "다운로드한 패키지는 압축 해제하고 결과 eba 파일을 IBM APM V8 Min 서버의 dropins 디렉토리에 복사해야 합니다."
   },
   "runtime": {
     "go": "Go",
@@ -292,7 +290,7 @@
   "whileWeGetYouStartedWouldYouLikeTo": "시작하는 동안 다음을 수행하려고 합니다.",
   "getAFeelingForInstanaWithHighlightsOfWhatItCanDo": "수행할 수 있는 작업을 포함하여 Instana 살펴보기",
   "watchExampleVideos": "예제 동영상 시청",
-  "installingInstanaAgents": "Instana 에이전트 설치",
+  "installAgents": "에이전트 설치",
   "preparingInstance": "인스턴스 준비",
   "agentDeployed": "배치된 에이전트",
   "agentsAreReportingDataIsBeingCollected": "에이전트가 보고 중입니다. 데이터가 수집되고 있습니다.",

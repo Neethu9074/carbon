@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "警报配置",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "applicationNamePlaceholder": "应用程序名称",
         "serviceNamePlaceholder": "服务名称",
         "endpointNamePlaceholder": "端点名称",
@@ -919,7 +918,8 @@
       "enabled": "已启用",
       "disabled": "已禁用",
       "severity": "严重性",
-      "created": "创建日期",
+      "initialCreated": "创建日期",
+      "created": "修改日期",
       "type": "类型"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "警报通知应包含哪些内容？",
         "failureThreshold": "时间阈值",
         "failureThresholdLabel": "时间阈值",
-        "failureThresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？"
+        "failureThresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？",
+        "syntheticTestNamePlaceholder": "合成测试",
+        "syntheticLocationLabelPlaceholder": "合成位置"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "添加合成测试",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "状态码计数",
-        "beaconRate": "信标速率",
+        "beaconRate": "状态码比率",
         "views": "视图数",
         "customEventBlueprintConfigMetricLabel": "出现次数",
         "sessions": "会话",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "定制事件",
         "statusCodeBlueprintConfigHeadline": "HTTP 状态码的自动警报",
         "statusCodeBlueprintConfigText": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
-        "throughputBlueprintConfigHeadline": "页面浏览量的自动警报",
-        "throughputBlueprintConfigText": "针对此“移动”应用程序的所选页面的异常低或高视图数自动发出警报。",
+        "throughputBlueprintConfigHeadline": "移动应用程序视图的自动警报",
+        "throughputBlueprintConfigText": "针对移动应用程序中的异常低或高视图数自动发出警报。",
         "customEventBlueprintConfigHeadline": "定制事件的自动警报",
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "视图数意外低",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "异常低的视图数的自动警报",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "与可用过去数据相比，当视图数显著低于预期视图数时，将收到警报。",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "会话数意外低",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "异常低的会话数的自动警报",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "与可用过去数据相比，当会话数显著低于预期会话数时，将收到警报。"
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "静态阈值：{{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "状态码计数",
-        "ruleMetricNameOptionBeaconRate": "信标速率",
+        "ruleMetricNameOptionBeaconRate": "状态码比率",
         "ruleMetricNameOptionThroughputSessions": "会话",
         "ruleMetricNameOptionThroughputViews": "视图数",
         "errorPleaseProvideCustomEventName": "请提供定制事件名称",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "作用域",
         "scopeTitle": "作用域：这种情况在哪里发生？",
         "thresholdLabel": "阈值",
-        "thresholdTitle": "阈值：何时违反条件？"
+        "thresholdTitle": "阈值：何时违反条件？",
+        "userImpactInfo": "对于用户影响的阈值，仅考虑已认证的用户。",
+        "payloadsLabel": "有效内容",
+        "payloadsTitle": "定制有效内容"
       }
     },
     "inventory": {

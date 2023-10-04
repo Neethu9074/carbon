@@ -1,0 +1,41 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import {
+  renderMissingDataIndicator,
+  timeWindowIncludesFirstCollectionTimestamp
+} from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
+import { Renderer, RenderProps } from 'in-components/Chart/renderer/types';
+import renderer from 'in-components/Chart/renderer/Renderer';
+
+interface LineWithMissingDataIndicatorProps {
+  /**
+   * Timestamp at which data collection for the rendered metrics has started.
+   * If this timestamp is within the rendered time window the chart will be greyed out up to this timestamp.
+   */
+  firstCollectedMetricTimestamp?: number;
+}
+
+function createLineWithMissingDataIndicatorRenderer({
+  firstCollectedMetricTimestamp = 0
+}: LineWithMissingDataIndicatorProps): Renderer {
+  return {
+    id: 'lineWithMissingDataIndicator',
+    render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
+      renderer.line.render({ color, scale, config, dataSeries, metricId });
+
+      if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {
+        renderMissingDataIndicator(config, firstCollectedMetricTimestamp);
+      }
+    }
+  };
+}
+
+export function useLineWithMissingDataIndicatorRenderer(props: LineWithMissingDataIndicatorProps) {
+  return createLineWithMissingDataIndicatorRenderer(props);
+}
+
+export default createLineWithMissingDataIndicatorRenderer({});

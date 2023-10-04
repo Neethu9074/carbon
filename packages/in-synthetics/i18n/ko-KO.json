@@ -31,17 +31,19 @@
       "basicDetails": {
         "title": "이 API 단순(HTTP 조치) 테스트의 이름",
         "scriptTitle": "이 API 스크립트(HTTP Script) 테스트의 이름",
+        "webpageActionTitle": "이 브라우저 단순(웹 페이지 조치) 테스트의 이름은 무엇입니까?",
+        "browserScriptTitle": "이 브라우저 스크립트 테스트의 이름은 무엇입니까?",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
         "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
+        "title": "사용 시기",
         "apiSimple": {
           "name": "API 단순",
           "headline": "API 단순(HTTP 조치)",
           "whenToUse": {
-            "title": "사용 시기",
             "line1": "단일 REST API를 테스트하려면 API 단순(HTTP 조치) 테스트 사용"
           },
           "tipsForUsing": {
@@ -56,11 +58,37 @@
           "name": "API 스크립트",
           "headline": "API 스크립트(HTTP 스크립트)",
           "whenToUse": {
-            "line1": "API 스크립트(HTTP Script) 테스트 및 Node.js 기반 스크립트를 사용하여 다중 Rest API 시퀀스 테스트"
+            "line1": "API 스크립트(HTTP 스크립트) 테스트 및 Node.js 기반 스크립트를 사용하여 다중 Rest API 시퀀스 테스트"
           },
           "tipsForUsing": {
             "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
             "line2": "2단계: 스크립트 업로드 옵션을 사용하여 node.js 테스트 스크립트 파일을 업로드하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
+            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
+            "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
+          }
+        },
+        "browserSimple": {
+          "name": "브라우저 단순",
+          "headline": "브라우저 단순(웹 페이지 조치)",
+          "whenToUse": {
+            "line1": "단일 웹페이지의 HTTP 오류를 테스트하려면 브라우저 단순 테스트를 사용하십시오."
+          },
+          "tipsForUsing": {
+            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
+            "line2": "2단계: 테스트할 웹 페이지의 URL을 입력하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
+            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
+            "line4": "4단계: 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
+          }
+        },
+        "browserScript": {
+          "name": "브라우저 스크립트",
+          "headline": "브라우저 스크립트(BrowserScript)",
+          "whenToUse": {
+            "line1": "JavaScript 또는 Selenium IDE 스크립트를 사용하여 웹 애플리케이션과의 사용자 상호작용을 시뮬레이션하려면 브라우저 스크립트 테스트를 사용하십시오."
+          },
+          "tipsForUsing": {
+            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
+            "line2": "2단계: 스크립트 업로드 옵션을 사용하여 JavaScript 또는 Selenium IDE 스크립트 파일을 업로드하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
             "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
             "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "브라우저",
           "browserTypeHeadline": "브라우저 합성 테스트",
           "browserTypeText": "브라우저 합성 테스트는 웹 브라우저의 스크립트를 통해 웹 사이트와의 사용자 상호작용을 시뮬레이션하여 웹 애플리케이션 성능을 모니터링하는 방법으로, 사용자 환경에 영향을 미치는 문제에 대한 유용한 통찰력을 제공하고 웹 사이트가 제대로 기능하는 데 도움이 됩니다.",
+          "browserSimpleTitle": "브라우저 단순 테스트",
+          "browserScriptTitle": "브라우저 스크립트 테스트",
           "internetServicesTypeLabel": "인터넷 서비스",
           "internetServicesTypeHeadline": "인터넷 서비스 테스트",
           "internetServicesTypeText": "인터넷 서비스 합성 테스트는 사용자와 웹 서비스 간의 상호 작용을 시뮬레이션하여 서비스 성능을 모니터링하고 테스트함으로써 다운타임 문제를 파악하고 방지하는 데 도움이 됩니다."
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "번들 파일은 수정하거나 유효성 검증할 수 없음",
           "scriptEditedManuallyMessage": "수동으로 스크립트 추가 또는 수정",
           "mainFileNameLabel": "기본 파일 이름",
-          "invalidMainFileName": "기본 파일 이름이 올바르지 않음"
+          "invalidMainFileName": "기본 파일 이름이 올바르지 않음",
+          "webpageUrl": "웹 페이지 URL",
+          "browserUploadFileDescription": "단일 .js 파일, 번들된 .js 파일의 zip 파일 또는 SeleniumIDE에서 기록한 .side 스크립트를 업로드할 수 있습니다.",
+          "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다."
         },
         "loadMore": "추가 로드",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "실패 경보"
     },
     "configuration": {
-      "configurationTitle": "API {{testType}} 테스트 구성",
+      "configurationTitle": "{{testType}} 테스트 구성",
       "testTypeTitle": "테스트 유형",
       "testType": "유형",
       "subType": "하위 유형",
       "configSectionTitle": "구성",
       "operation": "운영",
       "url": "URL",
+      "webpageActionUrl": "WebpageAction URL",
       "header": "헤더",
       "value": "값",
       "body": "본문",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "계속하려면 {{synthetic}} 입력",
         "cancelButton": "취소",
         "deleteButton": "삭제"
-      }
+      },
+      "configurationEditAction": "편집",
+      "configurationDeleteAction": "삭제"
     }
   }
 }

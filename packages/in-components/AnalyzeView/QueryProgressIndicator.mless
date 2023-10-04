@@ -24,7 +24,7 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .description {
@@ -42,11 +42,11 @@
   }
 
   .spinningIcon {
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
   }
 
   .traceIcon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     position: absolute;
     top: calc(50% - 1.5rem);
     left: calc(50% - 1.5rem);

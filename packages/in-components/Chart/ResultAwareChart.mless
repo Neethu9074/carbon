@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .loadingBarContainer {
     width: 100%;
@@ -46,6 +44,6 @@
     padding: 0;
   }
   .disabledChart {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 }

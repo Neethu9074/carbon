@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
     flex-direction: column;
     width: 50rem;
 
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 }

@@ -43,7 +43,9 @@ module.exports = {
         'in-subscription',
         'in-test',
         'in-themes',
-        'in-websites'
+        'in-websites',
+        'in-infrastructure',
+        'in-custom-dashboards'
       ]
     })
   }

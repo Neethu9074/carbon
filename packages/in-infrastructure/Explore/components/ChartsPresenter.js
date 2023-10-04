@@ -26,9 +26,12 @@ export function ChartsPresenter(props) {
     type
   } = props;
 
-  const dataSource = 'infrastructure'
+  const dataSource = 'infrastructure';
 
-  const chartableMetricCatalog = useMemo(() => getChartableMetricCatalog(metricCatalog, metricMetadatas), [metricCatalog, metricMetadatas]);
+  const chartableMetricCatalog = useMemo(
+    () => getChartableMetricCatalog(metricCatalog, metricMetadatas),
+    [metricCatalog, metricMetadatas]
+  );
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -38,12 +41,15 @@ export function ChartsPresenter(props) {
         dataSource={dataSource}
         isLoading={isLoading}
         chartedMetrics={chartedMetrics
-          ?.filter(chartedMetric => chartableMetricCatalog.find(catalogMetric => chartedMetric.metric === catalogMetric.metricId))
+          ?.filter(chartedMetric =>
+            chartableMetricCatalog.find(catalogMetric => chartedMetric.metric === catalogMetric.metricId)
+          )
           .map(chartedMetric => ({
             metricId: chartedMetric.metric ?? chartedMetric.metricId,
             aggregationId: chartedMetric.aggregation ?? chartedMetric.aggregationId,
-            rendererId: 'line'
-        }))}
+            rendererId: 'line',
+            crossSeriesAggregation: chartedMetric.crossSeriesAggregation
+          }))}
         unifiedMetricsSource="INFRASTRUCTURE_METRICS"
         forceLoadingIndicator={false}
         disableClose={false}
@@ -70,7 +76,9 @@ export function ChartsPresenter(props) {
         backendQueryModelWithFacets={tagFilterExpression}
         chartableMetricCatalog={chartableMetricCatalog}
         onChartedMetricsChange={metrics => {
-          onChartedMetricsChange(metrics.map(metric => ({ metric: metric.metricId, aggregation: metric.aggregationId })));
+          onChartedMetricsChange(
+            metrics.map(metric => ({ metric: metric.metricId, aggregation: metric.aggregationId }))
+          );
         }}
         {...defaultProps}
       />
@@ -110,7 +118,7 @@ function addMetrics(metrics, path, metricMetadatas, result) {
         aggregations,
         formatter,
         groupLabel: path.join(' ')
-      })
+      });
     } else {
       addMetrics(m.children, [...path, m.label], metricMetadatas, result);
     }

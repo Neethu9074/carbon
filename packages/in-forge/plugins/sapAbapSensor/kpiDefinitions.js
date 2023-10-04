@@ -4,13 +4,23 @@
  * Copyright IBM Corp. 2023
  */
 
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
+
+const statusFormatter = function (status) {
+  switch (status) {
+    case 1:
+      return 'ACTIVE';
+    case 0:
+      return 'INACTIVE';
+    default:
+      return '-';
+  }
+};
 
 export default [
   {
-    label: t('in-forge:plugins.sapJavaSystem.messageDeliveredStatus'),
-    metric: 'metrics.Performance.J2EE_Messages_Performance.J2EE_SYS_J2EEMESSAGES_DELIVERED.status',
-    formatter: number.compact
+    label: t('in-sap:abapsensor.connectionStatus'),
+    metric: 'sapMetricsStats.status',
+    formatter: statusFormatter
   }
 ];

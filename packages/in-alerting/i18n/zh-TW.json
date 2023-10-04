@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "警示配置",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
@@ -919,7 +918,8 @@
       "enabled": "已啟用",
       "disabled": "已停用",
       "severity": "嚴重性",
-      "created": "建立日期",
+      "initialCreated": "建立日期",
+      "created": "變更日期",
       "type": "類型"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "警示通知應包含哪些內容？",
         "failureThreshold": "時間臨界值",
         "failureThresholdLabel": "時間臨界值",
-        "failureThresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？"
+        "failureThresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？",
+        "syntheticTestNamePlaceholder": "綜合測試",
+        "syntheticLocationLabelPlaceholder": "合成位置"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "新增綜合測試",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "狀態碼計數",
-        "beaconRate": "引標率",
+        "beaconRate": "狀態碼比率",
         "views": "檢視表",
         "customEventBlueprintConfigMetricLabel": "出現項目數",
         "sessions": "階段作業",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "自訂事件",
         "statusCodeBlueprintConfigHeadline": "HTTP 狀態碼的自動警示",
         "statusCodeBlueprintConfigText": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
-        "throughputBlueprintConfigHeadline": "頁面視圖的自動警示",
-        "throughputBlueprintConfigText": "針對此行動式應用程式所選頁面的異常低或高視圖數自動警示。",
+        "throughputBlueprintConfigHeadline": "行動式應用程式視圖的自動警示",
+        "throughputBlueprintConfigText": "針對行動式應用程式中異常低或高視圖數的自動警示。",
         "customEventBlueprintConfigHeadline": "自訂事件的自動警示",
         "customEventBlueprintConfigText": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。",
         "customEventBlueprintConfigIncompleteRuleMessage": "請選取自訂事件以查看此警示的觸發時間",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "非預期的低瀏覽量",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "異常低視圖數時自動警示",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "與可用的過去資料相比，當「視圖」數目明顯低於預期時，接收警示。",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "非預期的低階段作業數目",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "異常低階段作業數時自動警示",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "相較於可用的過去資料，當「階段作業」數目明顯低於預期時，會收到警示。"
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "靜態臨界值，{{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "靜態每日週期性，{{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "調適性臨界值，{{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "狀態碼計數",
-        "ruleMetricNameOptionBeaconRate": "引標率",
+        "ruleMetricNameOptionBeaconRate": "狀態碼比率",
         "ruleMetricNameOptionThroughputSessions": "階段作業",
         "ruleMetricNameOptionThroughputViews": "檢視表",
         "errorPleaseProvideCustomEventName": "請提供自訂事件名稱",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "範圍",
         "scopeTitle": "範圍：該狀況發生在何處？",
         "thresholdLabel": "臨界值",
-        "thresholdTitle": "臨界值：何時違反條件？"
+        "thresholdTitle": "臨界值：何時違反條件？",
+        "userImpactInfo": "使用者影響臨界值只會考量已鑑別使用者。",
+        "payloadsLabel": "有效負載",
+        "payloadsTitle": "自訂有效負載"
       }
     },
     "inventory": {

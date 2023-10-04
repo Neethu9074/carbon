@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useIbmpSystemDashboard } from 'in-phmc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcSystemDashboard({ snapshot, timeConfig }) {
   const getIbmpSystemDashboard = useIbmpSystemDashboard();
+  const href = getIbmpSystemDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getIbmpSystemDashboard(snapshot.get('id'), { timeConfig })} />;
+  return <Redirect to={href.substring(2)} />;
 }

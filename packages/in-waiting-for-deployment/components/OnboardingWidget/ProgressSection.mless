@@ -17,29 +17,7 @@
   .leftContent {
     display: flex;
     align-items: center;
-  }
-
-  .stanWrapper {
-    position: relative;
-
-    width: 3.5rem;
-    height: 3.5rem;
-
-    margin-right: 0.5rem;
-
-    background: var(--ids-color-option-neutral-50);
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  .stan {
-    position: absolute;
-
-    bottom: 0;
-    left: calc(50% - 1.375rem);
-
-    width: 2.75rem;
-    height: 2.75rem;
+    margin-left: 0.5rem;
   }
 
   .description {

@@ -14,7 +14,7 @@
     right: 0;
     bottom: 0;
 
-    background-color: rgba(@lib__colors__N700Medium, 0.5);
+    background-color: rgba(71, 82, 93, 0.5); // --ids-color-option-neutral-700
     z-index: @z-index__dialog;
 
     display: flex;
@@ -38,12 +38,12 @@
 
     height: 5rem;
     padding: 1.5rem;
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
     border-radius: @lib__shapes__radius_small @lib__shapes__radius_small 0 0;
   }
 
   .title {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 1.375rem;
     font-weight: 500;
     line-height: 2rem;
@@ -79,9 +79,9 @@
 
   .closeIcon {
     cursor: pointer;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     &:hover {
-      fill: @lib__colors__N700Medium;
+      fill: var(--ids-color-option-neutral-700);
     }
   }
 
@@ -102,7 +102,7 @@
     }
 
     svg {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
   }
 
@@ -111,6 +111,6 @@
   }
 
   .scrollShadow {
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
   }
 }

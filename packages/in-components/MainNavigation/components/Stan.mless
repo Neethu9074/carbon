@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     height: 2rem;
@@ -17,14 +15,10 @@
 
     transition: left 0.25s ease-in-out;
     white-space: nowrap;
+    gap: 1rem;
   }
 
   .label {
     color: white;
-  }
-
-  .icon {
-    margin-right: 1rem;
-    fill: @lib__colors__N400;
   }
 }

@@ -29,7 +29,7 @@
 
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
@@ -50,6 +50,6 @@
 
   .searchContainer {
     border-radius: 0.125rem;
-    background-color: @lib__colors__N100;
+    background-color: var(--ids-color-option-neutral-100);
   }
 }

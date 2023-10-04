@@ -10,6 +10,7 @@ import { Button, Li, Spacer, Stack, Toggle, Ul } from '@instana/components';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { formatterPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -24,6 +25,7 @@ import locals from './AxesConfigurator.mless';
 
 export default function AxesConfigurator({ form, onChange, getShortMetricKey }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
+
   return (
     <Reorderer form={form} onChange={onChange}>
       <div
@@ -86,13 +88,14 @@ function AxisConfigurator({
     };
   });
 
-  let availableFormatters = []
+  let availableFormatters = [];
   metricConfigurations.forEach(config =>
     getFormatter(config.source, config.metric, config.aggregation).forEach(formatter => {
       if (!availableFormatters.find(existingFormatter => existingFormatter.id === formatter.id)) {
         availableFormatters.push(formatter);
       }
-    }));
+    })
+  );
 
   if (availableFormatters.length === 0) {
     availableFormatters = publicFormatters;
@@ -174,14 +177,18 @@ function AxisConfigurator({
               </SelectInSection>
             ))}
 
-            {axisForm.get('formatter').map(field => (
+            {axisForm.get(formatterPath).map(field => (
               <SelectInSection
                 id={`axis-${axisName}-formatter`}
                 label={t('in-custom-dashboards:widgets.chart.axesConfigurator.formatter')}
                 value={field.value}
-                onChange={e =>
-                  onChange([axisName, 'formatter'], field => field.setValue(e.target.value).setTouched(true))
-                }
+                onChange={e => {
+                  onChange([], form =>
+                    form
+                      .updateIn([axisName, formatterPath], field => field.setValue(e.target.value).setTouched(true))
+                      .updateIn([axisName, 'formatterSelected'], field => field.setValue(true).setTouched(true))
+                  );
+                }}
                 hasError={!field.valid && field.touched}
                 additionalContent={<TouchedMessages field={field} />}
               >

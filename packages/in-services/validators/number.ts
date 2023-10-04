@@ -50,7 +50,7 @@ const positiveNumberFailureMessage: ValidationResult = [
   }
 ];
 
-export function minValidator(minInclusive: number): ((v: any) => ValidationResult) {
+export function minValidator(minInclusive: number): (v: any) => ValidationResult {
   return (v: any) => {
     if (typeof v === 'number' && !isNaN(v) && v < minInclusive) {
       return [
@@ -64,7 +64,7 @@ export function minValidator(minInclusive: number): ((v: any) => ValidationResul
   };
 }
 
-export function maxValidator(maxInclusive: number): ((v: any) => ValidationResult) {
+export function maxValidator(maxInclusive: number): (v: any) => ValidationResult {
   return (v: any) => {
     if (typeof v === 'number' && !isNaN(v) && v > maxInclusive) {
       return [
@@ -78,7 +78,7 @@ export function maxValidator(maxInclusive: number): ((v: any) => ValidationResul
   };
 }
 
-export function positiveNumberValidator(v: string | number): ValidationResult {
+export function positiveNumberValidator(v: string | number | undefined): ValidationResult {
   try {
     const num = Number(v);
     if (isNaN(num) || num <= 0) {

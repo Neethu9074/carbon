@@ -16,7 +16,7 @@
   word-break: normal;
 
   z-index: @z-index__tooltips;
-  background: @lib__colors__navy900;
+  background: var(--ids-color-option-navy-900);
 
   &::before {
     position: absolute;
@@ -31,7 +31,7 @@
       margin-top: 5px;
       margin-left: -17px;
 
-      border-color: @lib__colors__navy900 @lib__colors__navy900 transparent transparent;
+      border-color: var(--ids-color-option-navy-900) var(--ids-color-option-navy-900) transparent transparent;
     }
   }
 
@@ -40,7 +40,7 @@
       &::before {
         bottom: -8px;
 
-        border-color: @lib__colors__navy900 transparent transparent @lib__colors__navy900;
+        border-color: var(--ids-color-option-navy-900) transparent transparent var(--ids-color-option-navy-900);
       }
     }
 
@@ -49,7 +49,7 @@
         bottom: -8px;
         margin-left: ~'calc(100% - 34px)';
 
-        border-color: @lib__colors__navy900 @lib__colors__navy900 transparent transparent;
+        border-color: var(--ids-color-option-navy-900) var(--ids-color-option-navy-900) transparent transparent;
       }
     }
   }

@@ -16,14 +16,14 @@
     }
 
     .indicator {
-      background: @lib__colors__navy900;
-      border: 1px solid @lib__colors__navy900;
+      background: var(--ids-color-option-navy-900);
+      border: 1px solid var(--ids-color-option-navy-900);
     }
   }
 
   .light {
     .timeIcon {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
 
     .indicator {

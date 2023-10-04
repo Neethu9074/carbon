@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "Panoramique bas",
       "overlaysTooltipToggleCountryRegionNames": "Basculer les noms de pays/région",
       "overlaysTooltipPanRight": "Panoramique droit",
-      "overlaysTooltipSwitchTo2DMap": "Passer à la carte 2D",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "Pays/Région",
       "globeViewTitle": "Site Web World Globe",
       "globViewFootertext": "Images fournies par la NASA",
@@ -462,9 +460,7 @@
         "filter_plural": "filtres",
         "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
         "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
-        "labelConfirmRemoveAlertConfigWithName": "Voulez-vous vraiment retirer l'alerte <strong>{{name}}</strong> ?",
-        "alertsLabelFilters": "Filtres",
-        "alertsNoDataMessage": "Aucune alerte configurée."
+        "alertsLabelFilters": "Filtres"
       },
       "configuration": {
         "configurationRemoveTitle": "Retirer le site Web",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "Fichiers",
         "stackTraceTranslationLabelTotalSize": "Taille totale",
         "stackTraceTranslationLabelLastModified": "Dernière modification",
-        "stackTraceTranslationExplanation": "Pour rendre les traces de pile JavaScript plus lisibles, par exemple, pour afficher des références à des fichiers et des lignes non minifiés, Instana doit accéder aux fichiers JavaScript et de la mappe source. L'ajout d'une configuration ici permet au serveur Instana d'authentifier et de télécharger ces fichiers afin de mieux comprendre les erreurs JavaScript.",
         "stackTraceTranslationExplanationWithUploadFeature": "Pour rendre les traces de pile JavaScript plus lisibles, par exemple, pour afficher des références à des fichiers et des lignes non minifiés, Instana doit accéder aux fichiers JavaScript et de mappe source. L'ajout ici d'une configuration de téléchargement permet au serveur d'Instana d'authentifier et de télécharger ces fichiers afin de mieux comprendre des erreurs JavaScript. Si vos fichiers sont hébergés à titre privé et ne sont pas accessibles à Instana, une configuration d'importation peut être utilisée dans ce scénario en chargeant vos fichiers manuellement via notre API REST Web.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversion de trace de pile JavaScript",
         "stackTraceTranslationLearnMoreLabel": "En savoir plus sur la conversion de trace de pile JavaScript",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "Aucun chargement de page n'a été trouvé pour la période sélectionnée correspondant à votre filtre.",
         "geographyExplanationTagFilters_2": "Aucun chargement de page n'a été trouvé pour la période sélectionnée correspondant à vos filtres.",
         "geographyTooltip": "Passer au globe 3D",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "Passer à la carte 2D",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "Type...",

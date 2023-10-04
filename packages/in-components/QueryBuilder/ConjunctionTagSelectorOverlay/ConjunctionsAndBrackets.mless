@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     justify-content: space-between;
     padding: 0.5rem;
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 }

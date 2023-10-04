@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .inputGroup {
     display: flex;
     align-items: center;
     color: #333;
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
     background-image: none;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: 0.1875rem;
     font-size: 0.75rem;
     position: relative;

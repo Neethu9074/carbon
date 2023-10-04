@@ -1955,10 +1955,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.17.0":
-  version "2.17.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.17.0.tgz#22361c3542794f5c5f0bd807cff974b571f0a9e7"
-  integrity sha512-4rADIn/D7yskzC4YVhqw4j4S5mg5qszwRKJTgnj3XinbJ9y611H5UGHi+nmFdvDbmIiXjzFjbRmd2oD8kX4pKw==
+"@instana/components@2.18.1":
+  version "2.18.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.18.1.tgz#8a180d24e529a9eb4c47cfadf8351f0e892d2442"
+  integrity sha512-QgSS06PVyZL8+eBkiOV5t8SAZlK4R3ovYeNGqhv+wt4UXLFwg3p2mVc+1koSB26bYI15lgOreY9ra1ExxwSANg==
   dependencies:
     "@carbon/react" "^1.27.0"
     "@carbon/type" "^11.19.0"
@@ -2108,10 +2108,10 @@
     "@instana/logger" "^1.3.1"
     "@instana/observables" "^1.6.1"
 
-"@instana/types@1.260.306":
-  version "1.260.306"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.260.306.tgz#f7e3193cf4679191480fefc8dd940d2fa5af0f49"
-  integrity sha512-GKclsZL5M1pE9x4D5RPHxgR9p8tT2ZMJV/ly3fUh6d+ESoyIIsP1MKV8kmICN9lJUEidXlg+VYXVqvsrDZ7fZw==
+"@instana/types@1.260.463":
+  version "1.260.463"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.260.463.tgz#98fbdd7b08aae6ddca3750bbbf31e1051caee1e6"
+  integrity sha512-wUK5rdT998rfemU+C6LMf5p4reMy48IbyZKIweRIovycQMUPH7MYjBUNR0CzRbnrW1Avk25mz/1tBjC4vSIz8w==
 
 "@instana/utils@^1.3.1":
   version "1.3.1"

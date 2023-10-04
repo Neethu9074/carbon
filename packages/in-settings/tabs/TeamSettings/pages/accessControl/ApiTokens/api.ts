@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable } from '@instana/observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function getApiTokens() {
+export function getApiTokens(): Observable<any> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -14,7 +16,7 @@ export function getApiTokens() {
   }).map(response => response.body);
 }
 
-export function getApiToken(id) {
+export function getApiToken(id: string): Observable<any> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -22,7 +24,7 @@ export function getApiToken(id) {
   }).map(response => response.body);
 }
 
-export function unmaskApiToken(id) {
+export function unmaskApiToken(id: string): Observable<any> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -30,7 +32,7 @@ export function unmaskApiToken(id) {
   }).map(response => response);
 }
 
-export function createApiToken(apiToken) {
+export function createApiToken(apiToken: any): Observable<any> {
   return http({
     method: 'POST',
     headers: getCsrfHeader(),
@@ -40,7 +42,7 @@ export function createApiToken(apiToken) {
   }).map(response => response.body);
 }
 
-export function saveApiToken(apiToken) {
+export function saveApiToken(apiToken: any): Observable<any> {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -50,7 +52,7 @@ export function saveApiToken(apiToken) {
   }).map(response => response.body);
 }
 
-export function deleteApiToken(id) {
+export function deleteApiToken(id: string): Observable<any> {
   return http({
     method: 'DELETE',
     maxRetries: 3,

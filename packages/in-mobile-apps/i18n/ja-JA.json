@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE 数",
       "httpRequestHttpDeleteRawDataLabel": "HTTP メソッド",
       "customBeaconCountLabel": "発生回数",
-      "customBeaconDurationLabel": "期間"
+      "customBeaconDurationLabel": "期間",
+      "crashBeaconCountLabel": "異常終了"
     },
     "quickFilterBar": {
       "mobileAppLabel": "モバイル・アプリケーション",
@@ -244,8 +245,8 @@
     }
   },
   "dashboard": {
-    "mobileAppViewTitle": "モバイル・アプリケーション",
-    "mobileAppTitle": "ビュー",
+    "mobileAppViewTitle": "表示",
+    "mobileAppTitle": "モバイル・アプリケーション",
     "analyzeSessions": "分析セッション",
     "analyzeViewTransitions": "ビュー遷移の分析",
     "numSessionStarts": "{{num}} 件のセッション開始",
@@ -258,6 +259,10 @@
       "configurationLabel": "構成",
       "nameLabel": "名前",
       "occurrencesLabel": "発生回数",
+      "affectedUsersLabel": "影響を受けたユーザー",
+      "crashErrorGroupsTitle": "クラッシュ・エラー・グループ",
+      "crashErrorGroupsHelpInfo": "特定された影響を受けるユーザーについてのみ、収集されたデータを表示します",
+      "analyzeCrashesLink": "クラッシュの分析",
       "configurationTitle": "構成",
       "optionsLabel": "オプション",
       "privacyLabel": "プライバシー",
@@ -278,6 +283,8 @@
       "noSessionExplanationWithFilters": "選択した時刻範囲で、フィルターに一致するセッションが見つかりませんでした。",
       "switchTo3DTooltip": "3D 地球儀に切り替え",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "2D マップへの切り替え",
+      "2DBtn": "2D",
       "errorTypesTitle": "エラー・タイプ",
       "viewAllErrorTypesLink": "すべてのエラー・タイプを表示",
       "originTitle": "発信元",
@@ -310,6 +317,8 @@
       "viewAllOriginsLink": "すべての発信元を表示",
       "sessionStartsTitle": "セッション開始",
       "viewInAnalyzeIconAction": "分析に表示",
+      "crashFreeSessionRateTitle": "クラッシュ・フリー・セッション率",
+      "crashFreeUserRateTitle": "クラッシュ・フリー・ユーザー率",
       "viewTransitionsTitle": "遷移の表示",
       "activityCardTitle": "アクティビティー",
       "sessionStartsLabel": "セッション開始",
@@ -317,6 +326,10 @@
       "geographyTitle": "ジオグラフィー",
       "topViewsTitle": "上位ビュー",
       "globViewFootertext": "NASA 提供の画像",
+      "uniqueUserCount": "{{formattedCount}} 人のユーザーが識別されました",
+      "uniqueUserCount_plural": "{{formattedCount}} 人のユーザーが識別されました",
+      "sessionCount": "{{formattedCount}} 個のセッション",
+      "sessionCount_plural": "{{formattedCount}} 個のセッション",
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "モバイル・アプリケーション・カスタム・イベントの詳細",
         "customEventLabelBackToListOfCustomEvents": "カスタム・イベントのリストに戻る",
@@ -350,7 +363,8 @@
         "viewTopListLabelUsers": "ユーザー",
         "viewTopListLinkLabel": "すべてのビューを表示",
         "viewTopListTitle": "ビュー"
-      }
+      },
+      "smartAlerts": "スマート・アラート"
     },
     "noDataAvailable": {
       "viewsTitle": "表示可能なビューはありません",
@@ -365,6 +379,7 @@
     "nameLabel": "名前",
     "sessionStartsLabel": "セッション開始",
     "viewTransitionsLabel": "遷移の表示",
+    "crashFreeSessionRateLabel": "クラッシュ・フリー・セッション率",
     "addMobileAppBtn": "モバイル・アプリケーションの追加",
     "mobileAppsTitle": "モバイル・アプリケーション"
   },

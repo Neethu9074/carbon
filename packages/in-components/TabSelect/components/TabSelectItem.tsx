@@ -4,29 +4,25 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { PropsWithChildren, useContext } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { isUndefined } from 'lodash';
 import classNames from 'classnames';
 
 import { Li } from '@instana/components';
 
+import { PanelIdBase, useTabSelectContext } from 'in-components/TabSelect/context';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { TabSelectContext } from 'in-components/TabSelect/context';
 
 import locals from './TabSelect.mless';
 
-export interface TabSelectBaseItemProps<VALUE_TYPE> {
+export interface TabSelectBaseItemProps<PanelId extends PanelIdBase> {
   /**
    * This should be equal to the ID of one of the TabSelectPanels to activate that particular panel.
    */
-  forId: string;
-  /**
-   * An optional value returned by the onChange event of the TabSelect component when an TabSelectItem is selected.
-   */
-  value?: VALUE_TYPE;
+  forId: PanelId;
 }
 
-export interface TabSelectItemProps<VALUE_TYPE> extends TabSelectBaseItemProps<VALUE_TYPE> {
+export interface TabSelectItemProps<PanelId extends PanelIdBase> extends TabSelectBaseItemProps<PanelId> {
   /**
    * If the component's children do not contain any descriptive text, an ariaLabel should be set.
    */
@@ -41,19 +37,18 @@ export interface TabSelectItemProps<VALUE_TYPE> extends TabSelectBaseItemProps<V
   withRadioButton?: boolean;
 }
 
-export function TabSelectItem<VALUE_TYPE>({
+export function TabSelectItem<PanelId extends PanelIdBase>({
   ariaLabel,
   children,
   disabled,
   forId,
-  value,
   withRadioButton
-}: PropsWithChildren<TabSelectItemProps<VALUE_TYPE>>) {
-  const { activePanelId, setActivePanelId } = useContext(TabSelectContext);
+}: PropsWithChildren<TabSelectItemProps<PanelId>>) {
+  const { activePanelId, onChange } = useTabSelectContext<PanelId>();
 
   const isActive = activePanelId === forId;
 
-  const onClickHandler = () => !disabled && !isUndefined(forId) && setActivePanelId(forId, value);
+  const onClickHandler = () => !disabled && !isUndefined(forId) && onChange(forId);
 
   return (
     <Li

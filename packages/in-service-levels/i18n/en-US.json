@@ -86,6 +86,7 @@
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
+      "momentaryBudgetConsumption": "Error Budget Consumption",
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
@@ -134,8 +135,10 @@
     "length": "Length",
     "start": "Start",
     "valueMissingTime": "— min",
-    "estErrorBudget": "Estimated Error Budget",
-    "estErrorBudgetMsg": "Based on the past 7 days",
+    "errorBudgetPreviewTitle": "Error Budget",
+    "errorBudgetPreviewTitle_eventBased": "Estimated Error Budget",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "Based on the past $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
     "errorTimeWindowDay": "The time window size has to be less or equal to 31 days",
     "errorTimeWindowWeek": "The time window size has to be less or equal to 4 weeks",
     "nameAndTagsTitle": "Name and Tags",
@@ -252,9 +255,12 @@
       },
       "errorBudgetChart": {
         "title": "Error Budget",
-        "title_fullWindow": "Error Budget over entire Time Window",
+        "title_fullWindow": "Error Budget Over Entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "errorBudgetConsumptionChart": {
+        "title": "Error Budget Consumption Over Entire Time Window"
       },
       "trafficChart": {
         "title": "Traffic"
@@ -284,8 +290,8 @@
         "apHiddenCallsInternal_true": "Does include internal calls",
         "apHiddenCallsInternal_false": "Does not include internal calls",
         "apHiddenCallsSynthetic": "Includes synthetic calls",
-        "apHiddenCallsSynthetic_true": "Does includes synthetic calls",
-        "apHiddenCallsSynthetic_false": "Does not includes synthetic calls",
+        "apHiddenCallsSynthetic_true": "Does include synthetic calls",
+        "apHiddenCallsSynthetic_false": "Does not include synthetic calls",
         "apServiceLabel": "Service",
         "apAllServices": "All Services",
         "apEndpointLabel": "Endpoint",

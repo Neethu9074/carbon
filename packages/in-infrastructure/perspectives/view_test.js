@@ -53,10 +53,6 @@ describe('stores.view', () => {
   }
 
   function setHash(hash) {
-    global.window = {
-      location: {
-        hash
-      }
-    };
+    window.location.hash = hash;
   }
 });

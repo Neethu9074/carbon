@@ -15,17 +15,17 @@
     line-height: 2;
     border: none;
 
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
 
     &:focus,
     &:active,
     &:hover {
       outline: 0;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
 
     &::placeholder {
-      color: @lib__colors__N400;
+      color: var(--ids-color-option-neutral-400);
       opacity: 1; /* Firefox */
     }
   }

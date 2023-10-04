@@ -17,7 +17,7 @@
 
     width: fit-content;
 
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_medium;
 
     display: flex;

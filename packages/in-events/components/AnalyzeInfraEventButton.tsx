@@ -40,8 +40,7 @@ function getLinkToUnboundAnalytics(
   timeConfig: TimeConfig,
   getLinkToInfraEntityExplore: (getLinkToExploreProps: GetLinkToExploreProps) => string
 ): string {
-  const { metricName, aggregation, entityType } = rule;
-
+  const { metricName, aggregation, entityType, crossSeriesAggregation } = rule;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return urlWithoutQueryParameter(
@@ -53,6 +52,13 @@ function getLinkToUnboundAnalytics(
         {
           metric: metricName,
           aggregation
+        }
+      ],
+      chartedMetrics: [
+        {
+          metric: metricName,
+          aggregation: aggregation,
+          crossSeriesAggregation: crossSeriesAggregation
         }
       ],
       order: {

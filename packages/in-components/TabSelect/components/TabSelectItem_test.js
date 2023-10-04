@@ -7,7 +7,7 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import { TabSelectContext } from 'in-components/TabSelect/context';
+import TabSelectContext from 'in-components/TabSelect/context';
 import { TabSelectItem } from 'in-components/TabSelect';
 
 describe('in-components/TabSelect/components/TabSelectItem', () => {
@@ -42,7 +42,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
       <TabSelectContext.Provider
         value={{
           activePanelId,
-          setActivePanelId: () => {}
+          onChange: () => {}
         }}
       >
         <TabSelectItem forId={activePanelId} withRadioButton>
@@ -65,7 +65,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
       <TabSelectContext.Provider
         value={{
           activePanelId: 'panel-2',
-          setActivePanelId: () => {}
+          onChange: () => {}
         }}
       >
         <TabSelectItem forId={activePanelId} withRadioButton>
@@ -99,45 +99,41 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
   it('calls context setter with correct params if item has been clicked and a forId is provided', () => {
     // Given
     const forId = 'panel-1';
-    const value = 'some-value';
-    const setActivePanelId = jest.fn();
+    const onChange = jest.fn();
 
     // When
     const { getByRole } = render(
       <TabSelectContext.Provider
         value={{
           activePanelId: undefined,
-          setActivePanelId
+          onChange
         }}
       >
-        <TabSelectItem forId={forId} value={value}>
-          Foo
-        </TabSelectItem>
+        <TabSelectItem forId={forId}>Foo</TabSelectItem>
       </TabSelectContext.Provider>
     );
 
     fireEvent.click(getByRole('button'));
 
     // Then
-    expect(setActivePanelId).toHaveBeenNthCalledWith(1, 'panel-1', 'some-value');
+    expect(onChange).toHaveBeenNthCalledWith(1, 'panel-1');
   });
 
   it('calls context setter with correct params if item has been clicked, a forId is provided and withRadioButton is true', () => {
     // Given
     const forId = 'panel-1';
-    const value = 'some-value';
     const withRadioButton = true;
-    const setActivePanelId = jest.fn();
+    const onChange = jest.fn();
 
     // When
     const { getByRole } = render(
       <TabSelectContext.Provider
         value={{
           activePanelId: undefined,
-          setActivePanelId
+          onChange
         }}
       >
-        <TabSelectItem forId={forId} value={value} withRadioButton={withRadioButton}>
+        <TabSelectItem forId={forId} withRadioButton={withRadioButton}>
           Foo
         </TabSelectItem>
       </TabSelectContext.Provider>
@@ -146,19 +142,19 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
     fireEvent.click(getByRole('checkbox'));
 
     // Then
-    expect(setActivePanelId).toHaveBeenNthCalledWith(1, 'panel-1', 'some-value');
+    expect(onChange).toHaveBeenNthCalledWith(1, 'panel-1');
   });
 
   it('does not call context setter if item has been clicked and a forId is not provided', () => {
     // Given
-    const setActivePanelId = jest.fn();
+    const onChange = jest.fn();
 
     // When
     const { getByRole } = render(
       <TabSelectContext.Provider
         value={{
           activePanelId: undefined,
-          setActivePanelId
+          onChange
         }}
       >
         <TabSelectItem>Foo</TabSelectItem>
@@ -168,24 +164,23 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
     fireEvent.click(getByRole('button'));
 
     // Then
-    expect(setActivePanelId).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('does not call context setter if item is disabled, has been clicked and a forId is provided', () => {
     // Given
     const forId = 'panel-1';
-    const value = 'some-value';
-    const setActivePanelId = jest.fn();
+    const onChange = jest.fn();
 
     // When
     const { getByRole } = render(
       <TabSelectContext.Provider
         value={{
           activePanelId: undefined,
-          setActivePanelId
+          onChange
         }}
       >
-        <TabSelectItem forId={forId} value={value} disabled>
+        <TabSelectItem forId={forId} disabled>
           Foo
         </TabSelectItem>
       </TabSelectContext.Provider>
@@ -194,6 +189,6 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
     fireEvent.click(getByRole('button'));
 
     // Then
-    expect(setActivePanelId).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
   });
 });

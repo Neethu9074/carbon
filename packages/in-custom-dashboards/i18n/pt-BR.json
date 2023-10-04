@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicação",
-        "source_website": "Website (Beta)",
+        "source_website": "Website",
         "callOut_application": "Exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais, mas pode não refletir com precisão a experiência do usuário final",
         "callOut_website": "A maioria reflete com precisão a experiência do usuário final, mas não exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais"
       },
@@ -730,6 +730,42 @@
         "metrics": "Seleção de métrica",
         "axisConfiguration": "Configuração do eixo",
         "formatter": "Formatador (eixo x)"
+      }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "Visualização da tabela",
+        "filters": "Filtro(s):"
+      },
+      "form": {
+        "title": "O que você gostaria de mostrar?",
+        "dataSource": "Origem de Dados",
+        "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
+        "query": "Consultar",
+        "columns": "Selecionar colunas",
+        "pleaseSelect": "Selecione",
+        "validators": {
+          "theValueMustNotBeEmpty": "Pelo menos uma coluna precisa ser selecionada"
+        },
+        "infrastructure": {
+          "entityType": "Tipo de entidade",
+          "viewTable": "Visualize a tabela completa em <analyzeInfraLink>Analisar infraestrutura</analyzeInfraLink>.",
+          "tableSize": "Tamanho da tabela",
+          "tableConfiguration": "Configuração da tabela",
+          "tableDetails": "Detalhes da tabela",
+          "showResult": "Mostrando {{loadedItems}} de {{totalItems}} resultados",
+          "loadingEntities": "Carregando entidades"
+        }
+      },
+      "dataSource": {
+        "events": "Eventos"
+      },
+      "eventColumns": {
+        "title": "Título",
+        "entityLabel": "Em (Entidade)",
+        "startedOn": "Iniciado em",
+        "endedOn": "Encerrado em",
+        "duration": "Duração"
       }
     }
   },

@@ -7,7 +7,7 @@
 
 :local {
   .container {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     margin: 0.5rem 0;
     font-weight: @lib__typography__body__font-size;
   }

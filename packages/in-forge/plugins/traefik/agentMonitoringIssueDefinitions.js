@@ -19,7 +19,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
+    explanationLinkHref: `https://ibm.biz/traefik-tsg`
   },
   traefik_metrics_api_not_enabled: {
     issueDescription: {
@@ -32,7 +32,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
+    explanationLinkHref: `https://ibm.biz/traefik-tsg`
   },
   traefik_tracing_not_enabled: {
     issueDescription: {
@@ -45,6 +45,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
+    explanationLinkHref: `https://ibm.biz/traefik-tsg`
   }
 };

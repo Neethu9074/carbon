@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2023
  * (c) Copyright Instana Inc.
  */
 
@@ -9,9 +9,8 @@ import React from 'react';
 import { Toggle, Button } from '@instana/components';
 
 // @ts-expect-error
-import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
-// @ts-expect-error
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
+import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -23,10 +22,10 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import { FormProp } from './ApiToken';
 import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
-import { FormProp } from './ApiToken';
 
 interface ProductPermissionProps extends ProductPermission {
   value?: string | null | undefined;
@@ -92,9 +91,7 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken 
                     // check if value is currently false -> user sets permission to true
                     if (e.target.checked) {
                       addActiveDialog(
-                        <ConfirmationDialog
-                          onChange={() => onChange(productOwnerPermission.keyForApiTokenApi, true)}
-                        />
+                        <ConfirmationDialog onChange={() => onChange(productOwnerPermission.keyForApiTokenApi, true)} />
                       );
                     } else {
                       onChange(productOwnerPermission.keyForApiTokenApi, false);

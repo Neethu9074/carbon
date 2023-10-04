@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE 개수",
       "httpRequestHttpDeleteRawDataLabel": "HTTP 메소드",
       "customBeaconCountLabel": "발생 횟수",
-      "customBeaconDurationLabel": "기간"
+      "customBeaconDurationLabel": "기간",
+      "crashBeaconCountLabel": "충돌"
     },
     "quickFilterBar": {
       "mobileAppLabel": "모바일 앱",
@@ -244,8 +245,8 @@
     }
   },
   "dashboard": {
-    "mobileAppViewTitle": "모바일 앱",
-    "mobileAppTitle": "보기",
+    "mobileAppViewTitle": "보기",
+    "mobileAppTitle": "모바일 앱",
     "analyzeSessions": "세션 분석",
     "analyzeViewTransitions": "보기 전환 분석",
     "numSessionStarts": "{{num}}개 세션 시작",
@@ -258,6 +259,10 @@
       "configurationLabel": "구성",
       "nameLabel": "이름",
       "occurrencesLabel": "발생 횟수",
+      "affectedUsersLabel": "영향을 받는 사용자",
+      "crashErrorGroupsTitle": "충돌 오류 그룹",
+      "crashErrorGroupsHelpInfo": "식별된 영향을 받는 사용자에 대해서만 수집된 데이터 표시",
+      "analyzeCrashesLink": "충돌 분석",
       "configurationTitle": "구성",
       "optionsLabel": "옵션",
       "privacyLabel": "개인정보 보호",
@@ -278,6 +283,8 @@
       "noSessionExplanationWithFilters": "선택한 시간 범위에서 필터와 일치하는 세션을 찾을 수 없습니다.",
       "switchTo3DTooltip": "3D 글로브로 전환",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "2D 맵으로 전환",
+      "2DBtn": "2D",
       "errorTypesTitle": "오류 유형",
       "viewAllErrorTypesLink": "모든 오류 유형 보기",
       "originTitle": "오리진",
@@ -310,6 +317,8 @@
       "viewAllOriginsLink": "모든 오리진 보기",
       "sessionStartsTitle": "세션 시작",
       "viewInAnalyzeIconAction": "분석으로 보기",
+      "crashFreeSessionRateTitle": "충돌 없는 세션 비율",
+      "crashFreeUserRateTitle": "충돌 없는 사용자 비율",
       "viewTransitionsTitle": "보기 전환",
       "activityCardTitle": "활동",
       "sessionStartsLabel": "세션 시작",
@@ -317,6 +326,10 @@
       "geographyTitle": "지리적 정보",
       "topViewsTitle": "상위 보기",
       "globViewFootertext": "NASA에서 제공한 이미지",
+      "uniqueUserCount": "식별된 사용자 {{formattedCount}}명",
+      "uniqueUserCount_plural": "식별된 사용자 {{formattedCount}}명",
+      "sessionCount": "세션 {{formattedCount}}개",
+      "sessionCount_plural": "세션 {{formattedCount}}개",
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "모바일 앱 사용자 정의 이벤트 세부사항",
         "customEventLabelBackToListOfCustomEvents": "사용자 정의 이벤트 목록으로 돌아가기",
@@ -350,7 +363,8 @@
         "viewTopListLabelUsers": "사용자",
         "viewTopListLinkLabel": "보기 모두 보기",
         "viewTopListTitle": "보기"
-      }
+      },
+      "smartAlerts": "스마트 경보"
     },
     "noDataAvailable": {
       "viewsTitle": "사용 가능한 보기가 없음",
@@ -365,6 +379,7 @@
     "nameLabel": "이름",
     "sessionStartsLabel": "세션 시작",
     "viewTransitionsLabel": "보기 전환",
+    "crashFreeSessionRateLabel": "충돌 없는 세션 비율",
     "addMobileAppBtn": "모바일 앱 추가",
     "mobileAppsTitle": "모바일 앱"
   },

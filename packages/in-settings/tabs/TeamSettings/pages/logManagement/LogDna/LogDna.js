@@ -15,7 +15,7 @@ import { goToPath } from 'in-stores/navigation';
 import { ibmCloudDefaultBaseURL, logDnaDefaultBaseURL } from 'in-integrations/logging/logdna/LinkConstruction';
 import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
 import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
-import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';

@@ -398,7 +398,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(endpointIdValue).toEqual('');
       expect(serviceIdValue).toEqual('');
       expect(tagFilterExpressionValue).toEqual([]);
-      expect(aggregationValue).toEqual('SUM');
+      expect(aggregationValue).toEqual('MEAN');
       expect(badEventsFilterValue).toEqual([]);
       expect(blueprintValue).toEqual('latency');
       expect(goodEventsFilterValue).toEqual([]);
@@ -447,7 +447,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       expect(endpointIdValue).toEqual('');
       expect(serviceIdValue).toEqual('');
       expect(tagFilterExpressionValue).toEqual([]);
-      expect(aggregationValue).toEqual('SUM');
+      expect(aggregationValue).toEqual('MEAN');
       expect(badEventsFilterValue).toEqual([]);
       expect(blueprintValue).toEqual('latency');
       expect(goodEventsFilterValue).toEqual([]);

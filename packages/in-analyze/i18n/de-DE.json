@@ -169,7 +169,7 @@
         "type": "Typ",
         "category": "Kategorie",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, die noch von Instana überwacht werden.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, bei denen Instana die entsprechende Infrastruktur erfolgreich verlinken konnte.",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "Bitte beachten Sie: Quellcode ist kompiliert, daher können wir keine weiteren Details anzeigen.",
         "stackTrace": "Stack-Trace",
         "in": "in",
         "windowLocation": "Fensterposition",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "Alle untergeordneten Aufrufe einblenden",
+        "orphan": "Die Position dieses Aufrufs in der Aufrufbaumstruktur ist unbekannt, weil der übergeordnete Aufruf fehlt.",
         "of": "von",
         "inheritedFrom": "Übernommen von"
       },

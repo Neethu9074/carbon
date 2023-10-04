@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "경보 구성",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "플레이스홀더 삽입",
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
@@ -919,7 +918,8 @@
       "enabled": "사용으로 설정됨",
       "disabled": "사용 안함으로 설정됨",
       "severity": "심각도",
-      "created": "작성한 날짜",
+      "initialCreated": "작성한 날짜",
+      "created": "변경한 날짜",
       "type": "유형"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "경보에는 어떤 항목이 포함되어야 하나요?",
         "failureThreshold": "시간 임계값",
         "failureThresholdLabel": "시간 임계값",
-        "failureThresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?"
+        "failureThresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?",
+        "syntheticTestNamePlaceholder": "합성 테스트",
+        "syntheticLocationLabelPlaceholder": "합성 위치"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "합성 테스트 추가",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "상태 코드 수",
-        "beaconRate": "비콘 속도",
+        "beaconRate": "상태 코드 비율",
         "views": "보기",
         "customEventBlueprintConfigMetricLabel": "발생 횟수",
         "sessions": "세션",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "사용자 정의 이벤트",
         "statusCodeBlueprintConfigHeadline": "HTTP 상태 코드에 대한 자동 경보",
         "statusCodeBlueprintConfigText": "일치하는 HTTP 상태 코드가 보통보다 자주 발생하는 경우 항상 경보를 수신합니다.",
-        "throughputBlueprintConfigHeadline": "페이지 보기에 대한 자동 경보",
-        "throughputBlueprintConfigText": "이 모바일 앱의 선택된 페이지에 대한 비정상적으로 낮거나 높은 보기 수에 대한 자동 경보입니다.",
+        "throughputBlueprintConfigHeadline": "모바일 앱 보기에 대한 자동 경보",
+        "throughputBlueprintConfigText": "모바일 앱의 조회수가 비정상적으로 낮거나 높을 때 자동으로 경보합니다.",
         "customEventBlueprintConfigHeadline": "사용자 정의 이벤트에 대한 자동 경보",
         "customEventBlueprintConfigText": "특정 사용자 정의 이벤트가 보통보다 자주 발생할 때마다 경보를 수신합니다.",
         "customEventBlueprintConfigIncompleteRuleMessage": "이 경보가 트리거되는 시기를 확인하려면 사용자 정의 이벤트를 선택하십시오.",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "이 경보가 트리거될 때 표시할 상태 코드를 선택하십시오."
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "이 경보가 트리거될 때 표시할 상태 코드를 선택하십시오.",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "예상외로 낮은 보기 수",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "비정상적으로 낮은 보기 수에 대한 자동 경보",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "보기 수가 사용 가능한 과거 데이터와 비교하여 예상보다 크게 낮은 경우 경보를 수신합니다.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "예상외로 낮은 세션 수",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "비정상적으로 낮은 세션 수에 대한 자동 경보",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "세션 수가 사용 가능한 과거 데이터와 비교하여 예상보다 상당히 낮은 경우 경보를 수신합니다."
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "정적 임계값, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "정적 일일 계절성, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "정적 주간 계절성, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "정적 주간 계절성, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "적응형 임계값, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "{{count}}개 추가 필터",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "상태 코드 수",
-        "ruleMetricNameOptionBeaconRate": "비콘 속도",
+        "ruleMetricNameOptionBeaconRate": "상태 코드 비율",
         "ruleMetricNameOptionThroughputSessions": "세션",
         "ruleMetricNameOptionThroughputViews": "보기",
         "errorPleaseProvideCustomEventName": "사용자 정의 이벤트 이름 제공",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "범위",
         "scopeTitle": "범위: 조건이 발생하는 위치",
         "thresholdLabel": "임계값",
-        "thresholdTitle": "임계값: 조건이 위반되는 경우는 언제입니까?"
+        "thresholdTitle": "임계값: 조건이 위반되는 경우는 언제입니까?",
+        "userImpactInfo": "인증된 사용자만 사용자 영향 임계값에 대해 고려됩니다.",
+        "payloadsLabel": "페이로드",
+        "payloadsTitle": "사용자 정의 페이로드"
       }
     },
     "inventory": {

@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 未來將移除這三種實體類型的「自訂事件」，且您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置以移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "觸發事件的相關聯動作",
+  "recommendedActions": "建議的動作",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
     "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 您未來將無法建立或更新這些類型的自訂事件。",

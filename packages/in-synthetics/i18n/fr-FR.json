@@ -31,17 +31,19 @@
       "basicDetails": {
         "title": "Nom de ce test d'API simple (action HTTP)",
         "scriptTitle": "Nom de ce test de script d'API (script HTTP)",
+        "webpageActionTitle": "Quel est le nom de ce test de navigateur simple (action de page Web)",
+        "browserScriptTitle": "Quel est le nom de ce test de script de navigateur",
         "labelName": "Nom du test",
         "labelDescription": "Description",
         "labelFrequency": "Fréquence (minutes)",
         "labelApplications": "Sélectionner une application"
       },
       "bluePrint": {
+        "title": "Quand l'utiliser ?",
         "apiSimple": {
           "name": "API simple",
           "headline": "API simple (action HTTP)",
           "whenToUse": {
-            "title": "Quand l'utiliser ?",
             "line1": "Utilisez un test d'API simple (action HTTP) pour tester une seule API REST"
           },
           "tipsForUsing": {
@@ -61,6 +63,32 @@
           "tipsForUsing": {
             "line1": "Etape 1: choisissez le type de test à créer.",
             "line2": "Etape 2 : utilisez l'option Transférer le script pour transférer un fichier de script de test node.js. Ensuite, choisissez un ou plusieurs emplacements. Un emplacement représente un point de présence synthétique déployé.",
+            "line3": "Etape 3 : choisissez la fréquence du test (entre 1 et 120 minutes).",
+            "line4": "Etape 4 : dans la section Nom du test et description, entrez un nom significatif pour votre test dans la zone Nom. Ajoutez une description de l'objectif de votre test dans la zone Description."
+          }
+        },
+        "browserSimple": {
+          "name": "Simple navigateur",
+          "headline": "Simple navigateur (action de page Web)",
+          "whenToUse": {
+            "line1": "Utilisez un test simple de navigateur lorsque vous souhaitez tester une page Web unique pour détecter les erreurs HTTP."
+          },
+          "tipsForUsing": {
+            "line1": "Etape 1: choisissez le type de test à créer.",
+            "line2": "Étape 2: Entrez l'URL de la page Web que vous souhaitez tester. Ensuite, choisissez un ou plusieurs emplacements. Un emplacement représente un point de présence synthétique déployé.",
+            "line3": "Etape 3 : choisissez la fréquence du test (entre 1 et 120 minutes).",
+            "line4": "Etape 4 : dans la section Nom et description, entrez un nom significatif pour votre test dans la zone Nom. Ajoutez une description de l'objectif de votre test dans la zone Description."
+          }
+        },
+        "browserScript": {
+          "name": "Script de navigateur",
+          "headline": "Script de navigateur (BrowserScript)",
+          "whenToUse": {
+            "line1": "Utilisez un test de script de navigateur lorsque vous souhaitez simuler des interactions utilisateur avec votre application Web à l'aide d'un script JavaScript ou Selenium IDE."
+          },
+          "tipsForUsing": {
+            "line1": "Etape 1: choisissez le type de test à créer.",
+            "line2": "Etape 2 : Utilisez l'option Télécharger le script pour télécharger un fichier script JavaScript ou Selenium IDE. Ensuite, choisissez un ou plusieurs emplacements. Un emplacement représente un point de présence synthétique déployé.",
             "line3": "Etape 3 : choisissez la fréquence du test (entre 1 et 120 minutes).",
             "line4": "Etape 4 : dans la section Nom du test et description, entrez un nom significatif pour votre test dans la zone Nom. Ajoutez une description de l'objectif de votre test dans la zone Description."
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "Navigateur",
           "browserTypeHeadline": "Tests synthétiques de navigateur",
           "browserTypeText": "Les tests synthétiques de navigateur sont une méthode pour surveiller les performances des applications Web en simulant des interactions utilisateur avec un site Web à l'aide d'un script dans un navigateur Web, pour fournir des informations utiles sur les problèmes qui affectent l'expérience utilisateur et pour garantir le bon fonctionnement du site Web.",
+          "browserSimpleTitle": "Test simple du navigateur",
+          "browserScriptTitle": "Test de script de navigateur",
           "internetServicesTypeLabel": "Services Internet",
           "internetServicesTypeHeadline": "Tests de services Internet",
           "internetServicesTypeText": "Les tests synthétiques de services Internet impliquent la simulation d'interactions utilisateurs avec les services Web pour surveiller et tester leurs performances, afin d'identifier et d'éviter les problèmes d'indisponibilité."
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "Les fichiers groupés ne peuvent pas être modifiés ou validés",
           "scriptEditedManuallyMessage": "Script ajouté ou modifié manuellement",
           "mainFileNameLabel": "Nom du fichier principal",
-          "invalidMainFileName": "Nom de fichier principal non valide"
+          "invalidMainFileName": "Nom de fichier principal non valide",
+          "webpageUrl": "URL de la page Web",
+          "browserUploadFileDescription": "Vous pouvez télécharger un fichier .js unique, un fichier zip de fichiers .js intégrés ou un script .side enregistré par SeleniumIDE.",
+          "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés"
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "Alerte d'échec"
     },
     "configuration": {
-      "configurationTitle": "Configuration du test {{testType}} de l 'API",
+      "configurationTitle": "Configuration de test {{testType}}",
       "testTypeTitle": "Type de test",
       "testType": "Type",
       "subType": "Sous-type",
       "configSectionTitle": "Configuration",
       "operation": "Opération",
       "url": "URL",
+      "webpageActionUrl": "URL de WebpageAction",
       "header": "En-tête",
       "value": "Valeur",
       "body": "Corps",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "Entrez {{synthetic}} pour continuer",
         "cancelButton": "Annuler",
         "deleteButton": "Supprimer"
-      }
+      },
+      "configurationEditAction": "Editer",
+      "configurationDeleteAction": "Supprimer"
     }
   }
 }

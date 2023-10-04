@@ -111,8 +111,7 @@ export default connectTo(
           <strong>
             {tenant}-{unit}
           </strong>{' '}
-          to
-          <strong>feature.plugin.metric.statistics.enabled</strong>
+          to <strong>feature.plugin.metric.statistics.enabled</strong>
         </Message>
 
         <Table

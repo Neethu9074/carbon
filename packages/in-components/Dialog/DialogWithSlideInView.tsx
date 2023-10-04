@@ -59,6 +59,7 @@ export default function DialogWithSlideInView({
 
   return (
     <div
+      data-testid="dialog-slide-in-view"
       className={classNames({
         [locals.wrapper]: true,
         [locals.cursorDefault]: doNotCloseOnOutsideClick

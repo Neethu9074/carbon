@@ -36,13 +36,13 @@
     margin-left: 0.5rem;
     line-height: 1.5rem;
     font-size: 0.75rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     .ellipsis();
   }
 }
 
 :global {
   :local(.content) .language-json .token.property {
-    color: @lib__colors__pink800;
+    color: var(--ids-color-option-pink-500);
   }
 }

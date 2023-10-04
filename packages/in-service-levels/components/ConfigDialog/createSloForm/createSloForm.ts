@@ -6,13 +6,19 @@
 
 import { createField, notBlankValidator } from 'formalistic';
 
-import { ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
+import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
 
+import {
+  CustomBlueprintType,
+  SloForm,
+  SloIndicatorFields,
+  SloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import { SloForm, SloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { createThresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
@@ -47,4 +53,23 @@ export function createSloNameTagsFields({
     }),
     tags: createField({ value: tags })
   };
+}
+
+interface CreateIndicatorThresholdFieldProps {
+  value: number | undefined;
+  touched?: boolean;
+  blueprint: CustomBlueprintType;
+  indicatorType: ServiceLevelIndicatorType;
+}
+export function createIndicatorThresholdField({
+  value,
+  touched,
+  blueprint,
+  indicatorType
+}: CreateIndicatorThresholdFieldProps): SloIndicatorFields['threshold'] {
+  return createField({
+    value,
+    validator: createThresholdFieldValidator(blueprint, indicatorType),
+    touched
+  });
 }

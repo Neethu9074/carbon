@@ -39,22 +39,22 @@
     &:active,
     &:hover {
       outline: 0;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
 
     &::placeholder {
-      color: @lib__colors__N400;
+      color: var(--ids-color-option-neutral-400);
       opacity: 1; /* Firefox */
     }
   }
 
   .input {
     .ellipsis();
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .input_dark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
   }
 
   .invalid:not(:focus),
@@ -82,6 +82,6 @@
 
   .moreOptionsLabel {
     font-size: 0.6875rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -56,13 +55,13 @@
   }
 
   .key {
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
     font-weight: 500;
     margin-right: 1rem;
   }
 
   .value {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     margin: 0;
   }
 

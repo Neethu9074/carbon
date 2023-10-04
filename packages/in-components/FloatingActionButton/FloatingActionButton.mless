@@ -9,7 +9,7 @@
   .button {
     border-radius: 1.5rem;
     border: none;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
     padding: 0.75rem;
     transition: background-color 250ms;
 
@@ -20,16 +20,16 @@
   }
 
   .primaryv2 {
-    background-color: @lib__colors__light-blue800;
+    background-color: var(--ids-color-option-blue-400);
     &:hover {
       background-color: #148cc8;
     }
   }
 
   .action {
-    background-color: @lib__colors__N800Dark;
+    background-color: var(--ids-color-option-neutral-800);
     &:hover {
-      background-color: @lib__colors__N800Dark;
+      background-color: var(--ids-color-option-neutral-800);
     }
   }
 
@@ -38,7 +38,7 @@
   }
 
   .withShadow {
-    box-shadow: @lib__shadows__pronounced;
+    box-shadow: var(--ids-shadow-option-pronounced);
   }
 
   .inner {
@@ -48,7 +48,7 @@
   }
 
   .icon {
-    fill: @lib__colors__white;
+    fill: var(--ids-color-option-white);
   }
   .iconHasMargin {
     margin-right: 0.5rem;

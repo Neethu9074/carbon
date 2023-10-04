@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .sidebarHeader {
@@ -17,21 +16,21 @@
 
   .entityIcon {
     margin: 0.25rem 0.75rem 0 0;
-    fill: @lib__colors__N900Primary;
+    fill: var(--ids-color-option-neutral-900);
   }
 
   .entityLabel {
     word-break: break-all;
     font-size: 0.875rem;
     font-weight: normal;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     margin: 0 0 0.4rem;
     // word-break: break-all;
   }
 
   .entityType {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-900);
     margin: 0 0.35rem 0 0;
   }
 

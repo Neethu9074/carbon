@@ -7,7 +7,16 @@
 :local {
   .estimatedBudgetSection {
     padding: var(--ids-border-radius-option-large);
+    min-width: 15rem;
   }
+
+  .estimatedBudgetSkeleton {
+    height: var(--ids-font-size-option-body-bold);
+    padding: var(--ids-border-radius-option-medium);
+    margin: var(--ids-border-radius-option-medium);
+    width: 80%;
+  }
+
   .inputSection {
     flex: 1;
   }

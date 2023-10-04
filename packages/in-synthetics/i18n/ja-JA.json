@@ -31,17 +31,19 @@
       "basicDetails": {
         "title": "この API シンプル (HTTP アクション) テストの名前は何ですか",
         "scriptTitle": "この API スクリプト (HTTP スクリプト) テストの名前は何ですか",
+        "webpageActionTitle": "このブラウザー・シンプル (Web ページ・アクション) テストの名前",
+        "browserScriptTitle": "このブラウザー・スクリプト・テストの名前",
         "labelName": "テストの名前",
         "labelDescription": "説明",
         "labelFrequency": "頻度 (分)",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
+        "title": "いつ使用しますか?",
         "apiSimple": {
           "name": "API シンプル",
           "headline": "API シンプル (HTTP アクション)",
           "whenToUse": {
-            "title": "いつ使用しますか?",
             "line1": "単一の Rest API をテストするための API シンプル (HTTP アクション) テストの使用"
           },
           "tipsForUsing": {
@@ -61,6 +63,32 @@
           "tipsForUsing": {
             "line1": "ステップ 1: 作成するテストのタイプを選択します。",
             "line2": "ステップ 2:「スクリプトのアップロード」オプションを使用して、node.js テスト・スクリプト・ファイルをアップロードします。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
+            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
+            "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
+          }
+        },
+        "browserSimple": {
+          "name": "ブラウザー (シンプル)",
+          "headline": "ブラウザー・シンプル (Web ページ・アクション)",
+          "whenToUse": {
+            "line1": "HTTP エラーについて単一の Web ページをテストする場合は、ブラウザー単純テストを使用します。"
+          },
+          "tipsForUsing": {
+            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
+            "line2": "ステップ 2: テストする Web ページの URL を入力します。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
+            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
+            "line4": "ステップ 4:「名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
+          }
+        },
+        "browserScript": {
+          "name": "ブラウザー・スクリプト",
+          "headline": "ブラウザー・スクリプト (BrowserScript)",
+          "whenToUse": {
+            "line1": "JavaScript または Selenium IDE スクリプトを使用して Web アプリケーションとのユーザー対話をシミュレートする場合は、ブラウザー・スクリプト・テストを使用します。"
+          },
+          "tipsForUsing": {
+            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
+            "line2": "ステップ 2:「スクリプトのアップロード」オプションを使用して、JavaScript または Selenium IDE スクリプト・ファイルをアップロードします。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
             "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
             "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
@@ -96,6 +124,8 @@
           "browserTypeLabel": "ブラウザー",
           "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
+          "browserSimpleTitle": "ブラウザー単純テスト",
+          "browserScriptTitle": "ブラウザー・スクリプト・テスト",
           "internetServicesTypeLabel": "インターネット・サービス",
           "internetServicesTypeHeadline": "インターネット・サービス・テスト",
           "internetServicesTypeText": "インターネット・サービスのシンセティック・テストには、Web サービスとのユーザー対話をシミュレートしてパフォーマンスをモニターおよびテストし、ダウンタイムの問題を特定して回避することが含まれます。"
@@ -150,7 +180,10 @@
           "zipFileUploadedMessage": "バンドル・ファイルは変更も検証もできません",
           "scriptEditedManuallyMessage": "手動で追加または変更されたスクリプト",
           "mainFileNameLabel": "メインファイル名",
-          "invalidMainFileName": "メインファイル名が無効です"
+          "invalidMainFileName": "メインファイル名が無効です",
+          "webpageUrl": "Web ページ URL",
+          "browserUploadFileDescription": "アップロードできるのは、単一の .js ファイル、バンドルされた .js ファイルの zip ファイル、または SeleniumIDE によって記録された .side スクリプトのいずれかです。",
+          "sideFileUploadedMessage": "Selenium スクリプトは変更も検証もできません。"
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -463,13 +496,14 @@
       "numberOfFailures": "障害アラート"
     },
     "configuration": {
-      "configurationTitle": "API {{testType}} テスト構成",
+      "configurationTitle": "{{testType}} テスト構成",
       "testTypeTitle": "テスト・タイプ",
       "testType": "タイプ",
       "subType": "サブタイプ",
       "configSectionTitle": "構成",
       "operation": "操作",
       "url": "URL",
+      "webpageActionUrl": "WebpageAction URL",
       "header": "ヘッダー",
       "value": "値",
       "body": "Body",
@@ -504,7 +538,9 @@
         "typingValidationTitle": "続行するには {{synthetic}} を入力してください",
         "cancelButton": "キャンセル",
         "deleteButton": "削除"
-      }
+      },
+      "configurationEditAction": "編集",
+      "configurationDeleteAction": "削除"
     }
   }
 }

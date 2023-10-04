@@ -11,9 +11,9 @@
     padding: 0.625rem 1rem;
     .ellipsis();
     position: relative;
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
     border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
   }
 
   .borderless {
@@ -39,7 +39,7 @@
 
     min-height: 1.75rem;
 
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-size: 1rem;
     font-weight: 200;
   }
@@ -60,7 +60,7 @@
   }
 
   .actionIcon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     cursor: pointer;
   }
 
@@ -76,7 +76,7 @@
 
   .major,
   .minor {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 
   .major {
@@ -88,7 +88,7 @@
   }
 
   .companion {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;

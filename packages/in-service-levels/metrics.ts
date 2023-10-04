@@ -125,6 +125,21 @@ export const sloMetrics = deepFreeze({
         granularity: calculateSloGranularity(timeConfig),
         context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
       } as const)
+  },
+
+  momentaryConsumption: {
+    label: t('in-service-levels:general.metrics.momentaryBudgetConsumption'),
+    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'TIME_SERIES',
+        metric: 'ERROR_CHART',
+        timeConfig,
+        granularity: calculateSloGranularity(timeConfig)
+      } as const)
   }
 });
 

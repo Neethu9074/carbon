@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Insérer un espace réservé",
         "applicationNamePlaceholder": "nom-application",
         "serviceNamePlaceholder": "nom-service",
         "endpointNamePlaceholder": "nom-noeud final",
@@ -919,7 +918,8 @@
       "enabled": "Activé",
       "disabled": "Désactivé",
       "severity": "Gravité",
-      "created": "Date de création",
+      "initialCreated": "Date de création",
+      "created": "Date de modification",
       "type": "Type"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "Que doit inclure la notification d'alerte ?",
         "failureThreshold": "Seuil de temps",
         "failureThresholdLabel": "Seuil de temps",
-        "failureThresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?"
+        "failureThresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?",
+        "syntheticTestNamePlaceholder": "test synthétique",
+        "syntheticLocationLabelPlaceholder": "emplacement synthétique"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Ajouter des tests synthétiques",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Nombre de codes de statut",
-        "beaconRate": "Débit de balises",
+        "beaconRate": "Taux de codes de statut",
         "views": "Vues",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "Evénements personnalisés",
         "statusCodeBlueprintConfigHeadline": "Alertes automatiques des codes de statut HTTP",
         "statusCodeBlueprintConfigText": "Recevez une alerte chaque fois que les codes de statut HTTP correspondants sont générés plus fréquemment que d'habitude.",
-        "throughputBlueprintConfigHeadline": "Alertes automatiques des vues de page",
-        "throughputBlueprintConfigText": "Alertes automatiques sur un nombre anormalement faible ou élevé de vues pour les pages sélectionnées de ces applications mobiles.",
+        "throughputBlueprintConfigHeadline": "Alertes automatiques pour les vues d'application mobile",
+        "throughputBlueprintConfigText": "Alertes automatiques sur un nombre anormalement faible ou élevé de vues dans une application mobile.",
         "customEventBlueprintConfigHeadline": "Alertes automatiques pour les événements personnalisés",
         "customEventBlueprintConfigText": "Recevez une alerte à chaque fois qu'un événement personnalisé spécifique se produit plus ou moins souvent qu'il ne le devrait.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Sélectionnez un événement personnalisé pour voir quand ce déclencheur d'alerte",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Sélectionnez un code de statut pour déterminer quand cette alerte se déclenche."
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Sélectionnez un code de statut pour déterminer quand cette alerte se déclenche.",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Nombre de vues étonnamment faible",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Alertes automatiques sur le nombre de vues anormalement faible",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Recevez une alerte lorsque le nombre de vues est nettement plus faible que prévu par rapport aux données passées disponibles.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Nombre de sessions étonnamment faible",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Alertes automatiques sur un nombre de sessions anormalement faible",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Recevez une alerte lorsque le nombre de sessions est nettement plus faible que prévu par rapport aux données passées disponibles."
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "Seuil statique, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Saisonnalité hebdomadaire statique, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "Saisonnalité hebdomadaire statique, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Seuil adaptatif, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Nombre de codes de statut",
-        "ruleMetricNameOptionBeaconRate": "Débit de balises",
+        "ruleMetricNameOptionBeaconRate": "Taux de codes de statut",
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Vues",
         "errorPleaseProvideCustomEventName": "Indiquez un nom d'événement personnalisé",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "Portée",
         "scopeTitle": "Porté : où cette condition se produit-elle ?",
         "thresholdLabel": "Seuil",
-        "thresholdTitle": "Seuil : Quand la condition n'est-elle pas respectée ?"
+        "thresholdTitle": "Seuil : Quand la condition n'est-elle pas respectée ?",
+        "userImpactInfo": "Seuls les utilisateurs authentifiés sont pris en compte pour le seuil d'impact utilisateur.",
+        "payloadsLabel": "Contenus",
+        "payloadsTitle": "Contenus personnalisés"
       }
     },
     "inventory": {

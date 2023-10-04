@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "Panoramica verso il basso",
       "overlaysTooltipToggleCountryRegionNames": "Attiva/Disattiva i nomi di paesi/regioni",
       "overlaysTooltipPanRight": "Panoramica a destra",
-      "overlaysTooltipSwitchTo2DMap": "Passa alla mappa 2D",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "Paese/Regione",
       "globeViewTitle": "Sito web World Globe",
       "globViewFootertext": "Immagini fornite dalla NASA",
@@ -462,9 +460,7 @@
         "filter_plural": "filtri",
         "moreFiltersWithCount": "+{{count}} filtro aggiuntivo",
         "moreFiltersWithCount_plural": "+{{count}} filtri aggiuntivi",
-        "labelConfirmRemoveAlertConfigWithName": "Si è sicuri di voler rimuovere l'avviso <strong>{{name}}</strong>?",
-        "alertsLabelFilters": "Filtri",
-        "alertsNoDataMessage": "Nessun avviso configurato."
+        "alertsLabelFilters": "Filtri"
       },
       "configuration": {
         "configurationRemoveTitle": "Rimuovi sito web",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "File",
         "stackTraceTranslationLabelTotalSize": "Dimensione totale",
         "stackTraceTranslationLabelLastModified": "Ultima modifica",
-        "stackTraceTranslationExplanation": "Per rendere più leggibili le tracce di stack JavaScript, ad esempio per visualizzare riferimenti a righe e file non minimizzati, Instana deve accedere ai file di associazione di origine e JavaScript. L'aggiunta di una configurazione qui consente al server Instana di autenticare e scaricare tali file per fornire ulteriori informazioni approfondite sugli errori JavaScript.",
         "stackTraceTranslationExplanationWithUploadFeature": "Per rendere le tracce stack di JavaScript più leggibili, ad esempio per mostrare riferimenti a file e righe minimizzati, Instana deve accedere ai file di mappa di origine e JavaScript. L'aggiunta di una configurazione di download qui permette al server di Instana di autenticarsi e scaricare questi file al fine di fornire maggiori approfondimenti sugli errori JavaScript. Se i file sono su host privati e non è possibile accedervi da Instana, in questo scenario è possibile utilizzare una configurazione di caricamento, caricando i file manualmente tramite l'API REST Web.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Traduzione traccia di stack JavaScript",
         "stackTraceTranslationLearnMoreLabel": "Ulteriori informazioni sulla traduzione della traccia di stack JavaScript",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "Non è stato trovato alcun caricamento di pagina nell'intervallo di tempo selezionato corrispondente al filtro",
         "geographyExplanationTagFilters_2": "Non è stato trovato alcun caricamento di pagina nell'intervallo di tempo selezionato corrispondente ai filtri",
         "geographyTooltip": "Passa a globo 3D",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "Passa alla mappa 2D",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "Tipo…",

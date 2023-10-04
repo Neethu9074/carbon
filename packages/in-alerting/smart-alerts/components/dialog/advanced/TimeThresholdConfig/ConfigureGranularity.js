@@ -13,7 +13,7 @@ import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
 const defaultAllowedGranularity = [5, 10, 15, 20, 30];
-const adaptiveBaselineAllowedGranularity = [20, 30];
+const adaptiveBaselineAllowedGranularity = [10, 15, 20, 30];
 
 function getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed) {
   return getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed).map(min => ({

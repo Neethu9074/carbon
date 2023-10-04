@@ -30,7 +30,7 @@ describe('in-stores/permissions.ts test', () => {
 describe('packages/in-components/MainNavigation/components/ViewSwitcher', () => {
   it('Checks the BizOps link is in the main navigation pane when the feature flag is set', () => {
     render(<ViewSwitcher />);
-    screen.getByRole('link', { name: 'lib_navigation_stan instana Inc.' });
+    screen.getByRole('link', { name: 'lib_navigation_home instana Inc.' });
     screen.getByRole('link', { name: 'lib_bizops' }).click();
   });
 });

@@ -11,12 +11,12 @@
     display: flex;
     flex-direction: column;
 
-    background: @lib__colors__white;
-    color: @lib__colors__N800Dark;
+    background: var(--ids-color-option-white);
+    color: var(--ids-color-option-neutral-800);
     border-radius: @lib__shapes__radius_large;
     font-size: 0.75rem;
-    box-shadow: @lib__shadows__subtle;
-    border: 1px solid @lib__colors__N300;
+    box-shadow: var(--ids-shadow-option-subtle);
+    border: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .header,
@@ -28,29 +28,29 @@
     width: 100%;
     padding: 0 0.5rem;
     line-height: 2;
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
   }
 
   .header {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     border-top-left-radius: @lib__shapes__radius_large;
     border-top-right-radius: @lib__shapes__radius_large;
   }
 
   .footer {
-    border-top: 1px solid @lib__colors__N300;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
     border-bottom-left-radius: @lib__shapes__radius_large;
     border-bottom-right-radius: @lib__shapes__radius_large;
   }
 
   .footer {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .key {
-    fill: @lib__colors__N600Light;
-    background: @lib__colors__white;
-    border: 1px solid @lib__colors__N300;
+    fill: var(--ids-color-option-neutral-600);
+    background: var(--ids-color-option-white);
+    border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: @lib__shapes__radius_small;
     margin: 0 0.25rem;
 
@@ -72,13 +72,13 @@
     top: 0;
     right: 0;
     width: 0.3rem;
-    background: @lib__colors__N500;
+    background: var(--ids-color-option-neutral-500);
     border-radius: @lib__shapes__radius_medium;
     display: none;
   }
 
   .rollupLabel {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-left: 0.25rem;
   }
 
@@ -88,7 +88,7 @@
     padding: 0;
 
     & + .entries {
-      border-top: 1px dashed @lib__colors__N300;
+      border-top: 1px dashed var(--ids-color-option-neutral-300);
       margin-top: 0.5rem;
       padding-top: 0.5rem;
     }
@@ -129,7 +129,7 @@
   }
 
   .timeShift {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     text-transform: lowercase;
     white-space: nowrap;
   }
@@ -138,13 +138,13 @@
     flex-shrink: 0;
     margin-left: 0.15rem;
     font-weight: bold;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
   }
 
   .companionValue {
     flex-shrink: 0;
     font-size: x-small;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     text-align: right;
   }
 

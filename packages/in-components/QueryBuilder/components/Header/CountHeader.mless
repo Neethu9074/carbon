@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .header {
     display: flex;
@@ -31,7 +29,7 @@
   }
 
   .adjustmentIcon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .bottomText {

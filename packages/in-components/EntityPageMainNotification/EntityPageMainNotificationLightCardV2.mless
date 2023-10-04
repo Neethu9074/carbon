@@ -10,10 +10,10 @@
     margin: 0 auto;
     max-width: 34.375rem;
     padding: 0.625rem 1rem;
-    background: @lib__colors__white;
-    border: 1px solid @lib__colors__N400;
+    background: var(--ids-color-option-white);
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
 
     & > * {
       margin: 2rem 1rem;

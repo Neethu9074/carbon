@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .option {
     font-weight: 600;
@@ -25,14 +23,14 @@
 
     &:hover,
     &:focus {
-      outline: 1px @lib__colors__N700Medium dotted;
+      outline: 1px var(--ids-color-option-neutral-700) dotted;
       background: unset;
     }
 
     & * {
-      color: @lib__colors__N500 !important;
+      color: var(--ids-color-option-neutral-500) !important;
       svg {
-        fill: @lib__colors__N500 !important;
+        fill: var(--ids-color-option-neutral-500) !important;
       }
     }
   }

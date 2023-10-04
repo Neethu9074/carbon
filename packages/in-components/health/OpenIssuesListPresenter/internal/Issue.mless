@@ -10,7 +10,7 @@
     margin: 0;
     padding: 1rem 0.75rem 1rem 3.1rem;
     list-style: none;
-    border-top: 1px solid @lib__colors__N300;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
     position: relative;
 
     &:first-child {
@@ -35,11 +35,11 @@
 
   .clickable:hover {
     cursor: pointer;
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
 
     .stripe {
       // overwrite background color defined via style attribute on DOM node
-      background-color: @lib__colors__blue800 !important;
+      background-color: var(--ids-color-option-blue-500) !important;
       width: 2.5rem;
     }
 
@@ -71,7 +71,7 @@
 
   .title {
     font-size: @lib__typography__h200__font-size;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     margin: 0 0 0.5rem;
     display: flex;
     align-items: center;
@@ -100,7 +100,7 @@
 
   .startTime {
     padding: 0 0 0 0.25rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .timeSection {

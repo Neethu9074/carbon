@@ -29,7 +29,7 @@
     padding: 0;
   }
 
-  @color__selection_border: @lib__colors__blue800;
+  @color__selection_border: var(--ids-color-option-blue-500);
   @color__selection_border_sides: rgba(@color__selection_border, 0.4);
 
   .selectionAdjustable {
@@ -42,7 +42,7 @@
 
   .selectionHandle {
     position: absolute;
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
     border: 1px solid @color__selection_border;
     border-radius: 2px;
     box-sizing: border-box;
@@ -53,7 +53,7 @@
     position: absolute;
     bottom: 0;
     width: 0;
-    border-left: 1px solid @lib__colors__N500;
+    border-left: 1px solid var(--ids-color-option-neutral-500);
     z-index: @z-index__barStrike;
   }
 }

@@ -17,7 +17,7 @@
     padding: 0.3rem;
 
     color: var(--ids-color-option-green-500);
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
     line-height: @lib__typography__line-height;
@@ -27,17 +27,17 @@
     &:active,
     &:hover {
       outline: 0;
-      background: @lib__colors__N200;
-      border-color: @lib__colors__light-blue800;
+      background: var(--ids-color-option-neutral-200);
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 
   .conjunction {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 
   .conjunction_dark {
-    background: @lib__colors__N900Primary;
+    background: var(--ids-color-option-neutral-900);
   }
 
   .invalid {

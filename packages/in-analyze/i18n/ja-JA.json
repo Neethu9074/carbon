@@ -169,7 +169,7 @@
         "type": "タイプ",
         "category": "カテゴリー",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "注: ソース・コードは、Instana によるモニタリングがまだ続行しているプロセスについてのみ取得できます。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "注: ソース・コードは、対応するインフラストラクチャーが正常にリンクされたプロセスについてのみ取得できます。",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "注: ソース・コードはコンパイルされているため、詳細を表示できません。",
         "stackTrace": "スタック・トレース",
         "in": "場所",
         "windowLocation": "ウィンドウの位置",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",
+        "orphan": "親呼び出しが欠落しているため、呼び出しツリー内のこの呼び出しの位置が不明です。",
         "of": "/",
         "inheritedFrom": "継承元"
       },

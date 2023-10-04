@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "Configuración de alertas",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Insertar marcador",
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
@@ -919,7 +918,8 @@
       "enabled": "Habilitado",
       "disabled": "Inhabilitado",
       "severity": "Gravedad",
-      "created": "Fecha de creación",
+      "initialCreated": "Fecha de creación",
+      "created": "Fecha de modificación",
       "type": "Tipo"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "¿Qué debe incluir la notificación de alerta?",
         "failureThreshold": "Umbral de tiempo",
         "failureThresholdLabel": "Umbral de tiempo",
-        "failureThresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?"
+        "failureThresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?",
+        "syntheticTestNamePlaceholder": "synthetic-test",
+        "syntheticLocationLabelPlaceholder": "synthetic-location"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Añadir pruebas sintéticas",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Número de códigos de estado",
-        "beaconRate": "Tasa de baliza",
+        "beaconRate": "Tasa de códigos de estado",
         "views": "Vistas",
         "customEventBlueprintConfigMetricLabel": "Apariciones",
         "sessions": "Sesiones",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "Sucesos personalizados",
         "statusCodeBlueprintConfigHeadline": "Alertas automáticas para códigos de estado HTTP",
         "statusCodeBlueprintConfigText": "Reciba una alerta cada vez que se generen códigos de estado HTTP coincidentes con más frecuencia de lo habitual.",
-        "throughputBlueprintConfigHeadline": "Alertas automáticas para vistas de página",
-        "throughputBlueprintConfigText": "Alertas automáticas sobre un número anormalmente bajo o alto de vistas en las páginas seleccionadas de estas aplicaciones móviles.",
+        "throughputBlueprintConfigHeadline": "Alertas automáticas para vistas de aplicaciones móviles",
+        "throughputBlueprintConfigText": "Alertas automáticas ante un número anormalmente bajo o alto de vistas en una aplicación móvil.",
         "customEventBlueprintConfigHeadline": "Alertas automáticas para sucesos personalizados",
         "customEventBlueprintConfigText": "Reciba una alerta cada vez que un evento personalizado específico se produzca con mayor o menor frecuencia de lo que debería.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Seleccione un suceso personalizado para ver cuándo se desencadena esta alerta",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Seleccione un código de estado para ver cuándo se activa esta alerta"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Seleccione un código de estado para ver cuándo se activa esta alerta",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Número de vistas inesperadamente bajo",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Alertas automáticas en número anormalmente bajo de vistas",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Recibir una alerta cuando el número de vistas sea significativamente menor que el esperado conforme a los datos anteriores disponibles.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Número de sesiones inesperadamente bajo",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Alertas automáticas ante un número anormalmente bajo de sesiones",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Recibir una alerta cuando el número de sesiones sea significativamente menor que el esperado respecto de los datos pasados disponibles."
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "Umbral estático, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "Estacionalidad diaria estática, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Estacionalidad semanal estática, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "Estacionalidad semanal estática, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Umbral adaptable, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} filtro más",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Número de códigos de estado",
-        "ruleMetricNameOptionBeaconRate": "Tasa de baliza",
+        "ruleMetricNameOptionBeaconRate": "Tasa de códigos de estado",
         "ruleMetricNameOptionThroughputSessions": "Sesiones",
         "ruleMetricNameOptionThroughputViews": "Vistas",
         "errorPleaseProvideCustomEventName": "Proporcione un nombre de suceso personalizado",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "Ámbito",
         "scopeTitle": "Ámbito: ¿Dónde se está produciendo la condición?",
         "thresholdLabel": "Umbral",
-        "thresholdTitle": "Umbral: ¿Cuándo se infringe la condición?"
+        "thresholdTitle": "Umbral: ¿Cuándo se infringe la condición?",
+        "userImpactInfo": "Sólo se tienen en cuenta los usuarios autenticados en el umbral de impacto de usuario.",
+        "payloadsLabel": "Cargas útiles",
+        "payloadsTitle": "Cargas útiles personalizadas"
       }
     },
     "inventory": {
@@ -1144,7 +1156,7 @@
         "anyJSErrors": "Cualquier error JS",
         "JSErrors": "Error(es) JS: {{errorMessage}}",
         "customEvents": "Suceso personalizado: {{customEventName}}",
-        "HTTPStatusCodes": "Código(s) de estado HTTP: {{statusCode}}",
+        "HTTPStatusCodes": "Códigos de estado HTTP: {{statusCode}}",
         "unsupportedAlertType": "Tipo de alerta no soportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Se han detectado errores JS.",
         "unsupportedOperator": "Operador no soportado: {{operator}}",

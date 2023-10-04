@@ -360,8 +360,6 @@
       "overlaysTooltipPanDown": "下に移動",
       "overlaysTooltipToggleCountryRegionNames": "国/地域名の切り替え",
       "overlaysTooltipPanRight": "右に移動",
-      "overlaysTooltipSwitchTo2DMap": "2D マップへの切り替え",
-      "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "国/地域",
       "globeViewTitle": "Web サイトの世界地図",
       "globViewFootertext": "NASA 提供の画像",
@@ -462,9 +460,7 @@
         "filter_plural": "フィルター",
         "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
         "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
-        "labelConfirmRemoveAlertConfigWithName": "アラート<strong>{{name}}</strong>を削除しますか？",
-        "alertsLabelFilters": "フィルター",
-        "alertsNoDataMessage": "アラートが構成されていません。"
+        "alertsLabelFilters": "フィルター"
       },
       "configuration": {
         "configurationRemoveTitle": "Web サイトの削除",
@@ -545,7 +541,6 @@
         "stackTraceTranslationLabelFiles": "ファイル",
         "stackTraceTranslationLabelTotalSize": "合計サイズ",
         "stackTraceTranslationLabelLastModified": "最終変更日時",
-        "stackTraceTranslationExplanation": "JavaScript スタック・トレースを読みやすくする (例えば、縮小されていないファイルや行への参照を表示する) には、Instana が JavaScript ファイルおよびソース・マップ・ファイルにアクセスする必要があります。 ここに構成を追加すると、Instana のサーバーがこれらのファイルを認証してダウンロードすることが可能になり、JavaScript エラーについてさらに詳しい洞察が得られます。",
         "stackTraceTranslationExplanationWithUploadFeature": "JavaScript スタック・トレースを読みやすくする (例えば、縮小されていないファイルおよび行への参照を表示する) には、Instana で JavaScript およびソース・マップのファイルにアクセスできるようにする必要があります。 ここでダウンロード構成を追加すると、Instana のサーバーがこれらのファイルを認証してダウンロードできるようになり、JavaScript エラーに関する洞察をさらに引き出すことができます。 ファイルがプライベートにホストされているために Instana からアクセスできない場合は、Web REST API を使用して手動でファイルをアップロードすると、このシナリオでアップロード構成を使用できる可能性があります。",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript スタック・トレース変換",
         "stackTraceTranslationLearnMoreLabel": "JavaScript スタック・トレース変換の詳細",
@@ -639,7 +634,9 @@
         "geographyExplanationTagFilters_1": "選択された時刻範囲のうち、フィルターに一致するページ・ロードは見つかりませんでした",
         "geographyExplanationTagFilters_2": "選択された時刻範囲のうち、フィルターに一致するページ・ロードは見つかりませんでした",
         "geographyTooltip": "3D 地球儀に切り替え",
-        "geography3D": "3D"
+        "geography3D": "3D",
+        "switchTo2DTooltip": "2D マップへの切り替え",
+        "switchTo2D": "2D"
       },
       "resources": {
         "filtersPlaceholderType": "タイプ…",

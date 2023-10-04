@@ -262,9 +262,7 @@
     "ibmapmproxy": "IBM APM V8 Instana Integration Proxy",
     "ibmapmmineba": "IBM APM V8 Min server dropins eba",
     "requiresRuntimeDropin": "IBM APM V8 に対する Instana Integration サポートには、追加のランタイム・ドロップインが必要です。",
-    "copyToApmMinDropins": "ダウンロードしたパッケージを unzip して、その結果生じる eba ファイルを IBM APM V8 Min server の dropins ディレクトリーにコピーする必要があります。",
-    "integrations": "統合",
-    "IBM": "IBM"
+    "copyToApmMinDropins": "ダウンロードしたパッケージを unzip して、その結果生じる eba ファイルを IBM APM V8 Min server の dropins ディレクトリーにコピーする必要があります。"
   },
   "runtime": {
     "go": "Go",
@@ -292,7 +290,7 @@
   "whileWeGetYouStartedWouldYouLikeTo": "まず何から始めますか…",
   "getAFeelingForInstanaWithHighlightsOfWhatItCanDo": "Instana の機能の概要を把握する",
   "watchExampleVideos": "ビデオでサンプルを見る",
-  "installingInstanaAgents": "Instana エージェントのインストール",
+  "installAgents": "エージェントのインストール",
   "preparingInstance": "インスタンスの準備中",
   "agentDeployed": "エージェントがデプロイされました",
   "agentsAreReportingDataIsBeingCollected": "エージェントがレポートを作成しています。 データを収集しています。",

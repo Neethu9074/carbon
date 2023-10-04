@@ -23,14 +23,14 @@
 
     border: 0;
     font-size: 0.875rem;
-    color: @lib__colors__N400 !important;
+    color: var(--ids-color-option-neutral-400) !important;
     background: transparent;
     user-select: none;
     cursor: pointer;
     .ellipsis();
 
     &:hover {
-      background: @lib__colors__N700Medium;
+      background: var(--ids-color-option-neutral-700);
       color: white !important;
       text-decoration: none;
     }
@@ -38,14 +38,14 @@
 
   .activeLink {
     color: white !important;
-    background: @lib__colors__blue800;
+    background: var(--ids-color-option-blue-500);
 
     &:hover {
-      background: @lib__colors__blue800;
+      background: var(--ids-color-option-blue-500);
     }
   }
 
   .label {
-    color: @lib__colors__N400 !important;
+    color: var(--ids-color-option-neutral-400) !important;
   }
 }

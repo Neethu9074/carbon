@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
@@ -26,7 +24,7 @@
   }
 
   .header {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     padding: 1.375rem 1.25rem;
 
     display: flex;
@@ -50,8 +48,8 @@
   }
 
   .collapsedToggleWrapper {
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
+    background: var(--ids-color-option-neutral-50);
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,11 +63,11 @@
   .next,
   .prev {
     cursor: pointer;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     display: block;
 
     &:hover {
-      fill: @lib__colors__N700Medium;
+      fill: var(--ids-color-option-neutral-700);
     }
   }
 }
