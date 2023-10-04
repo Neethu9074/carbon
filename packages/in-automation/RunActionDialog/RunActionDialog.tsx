@@ -278,9 +278,8 @@ function onSave({
   }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const handleActionResponse = (data: AgentResponse) => {
+  const handleActionResponse = (response: AgentResponse) => {
     setIsSaving(false);
-    const response = data;
     if ('error' in response && response.error != null) {
       setError(response.error);
       setActionInstanceId(response?.data?.actionInstanceId);
