@@ -39,7 +39,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-cockpit/starredItems';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ApplicationsTopList({ applicationId, config }) {
@@ -159,6 +159,21 @@ function combineResults(applicationResult, metricResult) {
   };
 }
 
+function BoundaryScopeColumn({ item }) {
+  const theme = useTheme();
+  if (item.application.boundaryScope) {
+    return (
+      <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
+        <SvgIcon
+          type={boundaryScopes.info[item.application.boundaryScope].icon}
+          color={theme.ids.color.option.blue['500']}
+        />
+      </Tooltip>
+    );
+  }
+  return null;
+}
+
 const columnDefinitions = [
   {
     width: '2rem',
@@ -197,14 +212,7 @@ const columnDefinitions = [
   {
     width: '3rem',
     getContent({ item }) {
-      if (item.application.boundaryScope) {
-        return (
-          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={theme.lib.colors.blue800} />
-          </Tooltip>
-        );
-      }
-      return null;
+      return <BoundaryScopeColumn item={item} />;
     }
   },
   {
