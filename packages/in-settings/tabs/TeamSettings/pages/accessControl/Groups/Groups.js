@@ -12,9 +12,9 @@ import {
   teamSettingsAccessControlGroups,
   teamSettingsAccessControlGroupNew
 } from 'in-settings/navigation/paths';
+import { ProductAreaPermissionMap } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import { ProductAreaPermissionMap } from '../RolesAndAccessScope/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';

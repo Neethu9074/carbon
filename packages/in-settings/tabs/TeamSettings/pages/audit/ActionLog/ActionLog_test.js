@@ -8,8 +8,8 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
+import ActionLog from 'in-settings/tabs/TeamSettings/pages/audit/ActionLog/ActionLog';
 import { getAuditLog } from 'in-api/auditLog';
-import ActionLog from './ActionLog';
 
 jest.mock('in-api/auditLog');
 

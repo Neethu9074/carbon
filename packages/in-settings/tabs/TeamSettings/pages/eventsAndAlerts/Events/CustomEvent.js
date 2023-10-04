@@ -42,6 +42,7 @@ import {
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { entityCountDetection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getCustomEventActionAssociations, updateCustomEventActionAssociations } from 'in-automation/api';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
@@ -53,7 +54,6 @@ import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import { goToPath } from 'in-stores/navigation';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { entityCountDetection } from './CustomEventFormDefinition';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { associateActionsTracker } from 'in-automation/tracker';

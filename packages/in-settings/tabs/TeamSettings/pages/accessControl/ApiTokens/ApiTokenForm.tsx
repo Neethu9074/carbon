@@ -8,10 +8,11 @@ import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
 
-// @ts-expect-error
-import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
+// @ts-expect-error needs migration to typescript
+import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
+import { FormProp } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -22,7 +23,6 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
-import { FormProp } from './ApiToken';
 import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';

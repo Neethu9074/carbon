@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import PersonalApiTokens from './PersonalApiTokens';
+import PersonalApiTokens from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
 
 export default PersonalApiTokens;

@@ -6,11 +6,15 @@
 
 import React from 'react';
 
+import MaintenanceNamePreviewStep, {
+  MaintenanceNamePreivewProps
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceNamePreviewStep';
+import MaintenanceScopeStep, {
+  MaintenanceScopeProps
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceScopeStep';
+import { MaintenanceScheduleStepProps } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceScheduleStep';
+import MaintenanceScheduleStep from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceScheduleStep';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import MaintenanceNamePreviewStep, { MaintenanceNamePreivewProps } from './steps/MaintenanceNamePreviewStep';
-import MaintenanceScopeStep, { MaintenanceScopeProps } from './steps/MaintenanceScopeStep';
-import { MaintenanceScheduleStepProps } from './steps/MaintenanceScheduleStep';
-import MaintenanceScheduleStep from './steps/MaintenanceScheduleStep';
 import { t } from 'in-i18n';
 
 export interface MaintenanceStepConfigObject {

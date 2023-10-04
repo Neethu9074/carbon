@@ -16,10 +16,10 @@ import {
   userSettingsTwoFactor
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import { isAvailable as fetchChangePasswordAvailable } from 'in-settings/tabs/UserSettings/api/changePassword';
 import TwoFactorSettingsPage from 'in-settings/tabs/UserSettings/pages/TwoFactorSettings';
 import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens';
 import ChangePasswordPage from 'in-settings/tabs/UserSettings/pages/ChangePassword';
-import { isAvailable as fetchChangePasswordAvailable } from './api/changePassword';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';

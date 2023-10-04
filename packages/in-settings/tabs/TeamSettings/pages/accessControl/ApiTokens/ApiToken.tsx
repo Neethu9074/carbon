@@ -17,6 +17,7 @@ import {
   saveApiToken,
   createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import { MatchParams } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import { DialogWrapper } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/DialogWrapper';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
@@ -32,7 +33,6 @@ import { apiTokenPermissions } from 'in-stores/permission';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { MatchParams } from './ApiTokenFormDialog';
 import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

@@ -6,7 +6,7 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import React from 'react';
 
-import ChangePassword from './ChangePassword';
+import ChangePassword from 'in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword';
 import { t } from 'in-i18n';
 
 describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {

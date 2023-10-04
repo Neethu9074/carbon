@@ -56,7 +56,7 @@
     max-width: 11.5rem;
 
     font-size: 10px;
-    color: @lib__colors__primary1;
+    color: var(--ids-color-option-teal-500);
     .ellipsis();
   }
 }

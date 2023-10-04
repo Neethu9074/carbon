@@ -7,6 +7,7 @@
 import { MapForm, Field, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
 import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
@@ -22,7 +23,6 @@ import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/a
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import PermissionSectionSyntheticMonitoring from './PermissionSectionSyntheticMonitoring';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';

@@ -9,11 +9,11 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
+import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken/CreatePersonalApiToken';
 import {
   PersonalApiToken,
   createPersonalApiToken as createToken
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
-import CreatePersonalApiToken from './CreatePersonalApiToken';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({

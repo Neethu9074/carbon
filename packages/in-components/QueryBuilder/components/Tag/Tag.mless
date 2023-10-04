@@ -43,7 +43,7 @@
 
   // Hide invalid marker when already editing the tag filter.
   .invalid:not(:focus-within):not(:focus) {
-    border-color: @lib__colors__failure;
+    border-color: var(--ids-color-option-red-500);
   }
 
   .tag_dark {

@@ -8,9 +8,9 @@ import React, { useContext } from 'react';
 
 import { SyntheticMonitoringSectionFullAccessContent } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticMonitoringSectionFullAccessContent';
 import { SyntheticMonitoringSectionContent } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticMonitoringSectionContent';
+import { getSyntheticAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getSyntheticAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { getSyntheticAreaData } from '../utils/getSyntheticAreaData';
 
 export const SyntheticMonitoringSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);

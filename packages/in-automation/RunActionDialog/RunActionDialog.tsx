@@ -38,11 +38,11 @@ import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { hasError, isLoading } from 'in-services/util/result';
-import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { runActionTracker } from 'in-automation/tracker';
 import { Option } from 'in-components/ComboBox/ComboBox';
+import { Action, Event, VolatileId } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -278,15 +278,11 @@ function onSave({
   }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
+  const handleActionResponse = (response: AgentResponse) => {
     setIsSaving(false);
-    // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
-    // result unknown because we only care about error
-    const response = data[data.length - 1];
-    if ('errors' in response) {
-      setError(response.errors[0].message);
-    } else if ('error' in response && response.error != null) {
+    if ('error' in response && response.error != null) {
       setError(response.error);
+      setActionInstanceId(response?.data?.actionInstanceId);
     } else {
       setActionInstanceId(response.data.actionInstanceId);
     }

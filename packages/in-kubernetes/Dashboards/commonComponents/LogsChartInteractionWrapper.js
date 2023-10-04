@@ -82,13 +82,8 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
     <AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} isHovered$={isHovered$} />
   );
   return (
-    <div>
-      <DashboardSection
-        title={'Logs'}
-        button={logsButton}
-        onMouseEnter={() => isHovered$.emit(true)}
-        onMouseLeave={() => isHovered$.emit(false)}
-      >
+    <div onMouseEnter={() => isHovered$.emit(true)} onMouseLeave={() => isHovered$.emit(false)}>
+      <DashboardSection title={'Logs'} button={logsButton}>
         <LogsChart
           tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
           additionalContextMenuButtons={additionalContextMenuButtons}

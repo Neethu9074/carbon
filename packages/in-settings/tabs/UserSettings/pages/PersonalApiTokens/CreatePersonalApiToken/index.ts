@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import CreatePersonalApiToken from './CreatePersonalApiToken';
+import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken/CreatePersonalApiToken';
 
 export default CreatePersonalApiToken;

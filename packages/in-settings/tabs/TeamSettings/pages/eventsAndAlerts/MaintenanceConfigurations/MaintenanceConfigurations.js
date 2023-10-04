@@ -14,11 +14,14 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew
 } from 'in-settings/navigation/paths';
 import {
+  getMaintenanceConfigsMutable,
+  deleteMaintenanceConfig
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api';
+import {
   editMaintenanceWindowTracker,
   newMaintenanceWindowTracker,
   removeMaintenanceWindowTracker
 } from 'in-settings/tracker';
-import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from './api';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';

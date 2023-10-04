@@ -55,6 +55,7 @@ export default function MetricCatalogConfiguratorOverlay({
       onSwap={onSwap}
       onAddItem={onAddItem}
       onRemoveItem={onRemoveItem}
+      shouldTriggerWindowResize
       onChangeAggregation={tracking?.onMetricAggregationChanged}
       MetricCatalogConfiguratorHint={MetricCatalogConfiguratorHint}
       metricCatalog={metricCatalog.data}

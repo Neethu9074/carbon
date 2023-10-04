@@ -56,7 +56,7 @@
     .breakWord();
 
     em {
-      color: @lib__colors__primary2;
+      color: var(--ids-color-option-blue-500);
       font-style: normal;
     }
   }

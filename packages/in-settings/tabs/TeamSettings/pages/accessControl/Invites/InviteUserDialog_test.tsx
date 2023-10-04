@@ -7,7 +7,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import InviteUserDialog, { UserInvite } from './InviteUserDialog';
+import InviteUserDialog, {
+  UserInvite
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { ApiGroup, PermissionSet } from 'in-types';
 import { t } from 'in-i18n';
 

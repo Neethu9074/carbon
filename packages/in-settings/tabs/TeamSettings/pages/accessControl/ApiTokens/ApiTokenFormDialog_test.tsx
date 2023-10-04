@@ -7,8 +7,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import ApiTokenFormDialog from './ApiTokenFormDialog';
 
 jest.mock('in-components/DialogPresenter/store');
 
