@@ -47,6 +47,6 @@
 
     border-radius: 50%;
 
-    fill: @lib__colors__primary1;
+    fill: var(--ids-color-option-teal-500);
   }
 }
