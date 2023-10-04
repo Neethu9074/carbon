@@ -20,6 +20,7 @@ export default function MetricConfigurator({
   form,
   onChange,
   onChangeSource,
+  updateForm,
   formatterSection,
   timeShiftConfiguration,
   disabledDataSources = emptyArray,
@@ -42,7 +43,6 @@ export default function MetricConfigurator({
     if (dataSource) {
       onChangeSource(dataSource);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -107,6 +107,7 @@ export default function MetricConfigurator({
       <FormComponent
         form={form}
         onChange={onChange}
+        updateForm={updateForm}
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}

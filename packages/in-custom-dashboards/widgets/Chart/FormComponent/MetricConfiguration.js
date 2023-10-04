@@ -129,6 +129,7 @@ export default function MetricConfiguration(props) {
               onChange={(path, fn) => {
                 updateForm(form.updateIn([axisName, metricsPath, indexInAxis, ...path], fn));
               }}
+              updateForm={updateForm}
               onChangeSource={newSource =>
                 onChangeSource(
                   metricForm,

@@ -80,6 +80,13 @@ export function createAxisForm(savedState, requiresAtLeastOneMetric = false, met
       })
     )
     .put(
+      'formatterSelected',
+      createField({
+        value: savedState?.formatterSelected || false,
+        validator: composeAndShortCircuitOnError(booleanValidator)
+      })
+    )
+    .put(
       'renderer',
       createField({
         value: (savedState && savedState.renderer) || defaultRenderer.id,
