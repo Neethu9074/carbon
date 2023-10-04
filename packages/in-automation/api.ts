@@ -6,7 +6,7 @@
 
 import { fromJS } from 'immutable';
 
-import { combineLatest, just, Observable, timeout as timeoutFn } from '@instana/observables';
+import { Observable } from '@instana/observables';
 
 import {
   Action,
@@ -34,7 +34,6 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { error } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -356,37 +355,22 @@ function runAction({
   timeout,
   hostsLimit
 }: RunActionParams) {
-  return combineLatest(
-    [
-      timeoutFn(10000).flatMap(() =>
-        just(
-          error<null>([
-            {
-              message: t('in-automation:actionSensorTimeout'),
-              code: 'TIMEOUT'
-            }
-          ])
-        )
-      ),
-      submitActionExecution({
-        action: 'action.run',
-        target: volatileId,
-        args: {
-          type,
-          hostsLimit,
-          inputParameters,
-          async: 'true',
-          event: JSON.stringify(event),
-          eventId: event?.id,
-          actionName,
-          actionId,
-          timeout: timeout === '' ? null : timeout,
-          request: request
-        }
-      })
-    ],
-    false
-  );
+  return submitActionExecution({
+    action: 'action.run',
+    target: volatileId,
+    args: {
+      type,
+      hostsLimit,
+      inputParameters,
+      async: 'true',
+      event: JSON.stringify(event),
+      eventId: event?.id,
+      actionName,
+      actionId,
+      timeout: timeout === '' ? null : timeout,
+      request: request
+    }
+  });
 }
 
 export function runScriptAction({
