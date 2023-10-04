@@ -108,7 +108,7 @@ export default class FlowMapState {
     const cursor = result.data.page;
     const numRemainingNodes = Math.max(0, result.data.totalHits - cursor * result.data.pageSize);
     if (numRemainingNodes > 0) {
-      const placeholderNodeId = createRemainingPlaceholderId(node.id, endpointId);
+      const placeholderNodeId = createRemainingPlaceholderId(node.id);
       if (this.nodes.has(placeholderNodeId)) {
         this.nodes.get(placeholderNodeId).paginationInformation = {
           connectedNode: node,
@@ -298,8 +298,8 @@ function createBasicNode(id, applicationId, data, metricValues) {
   };
 }
 
-function createPlaceHolderNode(nodeId, endpointId) {
-  const node = createBasicNode(createRemainingPlaceholderId(nodeId, endpointId));
+function createPlaceHolderNode(id) {
+  const node = createBasicNode(createRemainingPlaceholderId(id));
   node.isRemainingNodesPlaceHolder = true;
   node.children = emptyChildrenMap;
   return node;

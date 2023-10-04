@@ -41,7 +41,7 @@ function FlowMapReactComponentWrapper(props) {
 
   useEffect(() => {
     showHelpIfWebGLCantBeSetup(webGlContextRef);
-    setFlowMap(initFlowMap(props));
+    setFlowMap(initFlowMap());
     if (flowMap && props.flowMapState) {
       flowMap?.updateState(props.flowMapState);
     }
@@ -53,7 +53,7 @@ function FlowMapReactComponentWrapper(props) {
       disposeFlowMapIfPresent();
     } else if (!prevProps?.flowMapState && props?.flowMapState) {
       if (!flowMap) {
-        setFlowMap(initFlowMap(props));
+        setFlowMap(initFlowMap());
       }
       if (flowMap) {
         flowMap?.updateState(props?.flowMapState);
@@ -62,7 +62,7 @@ function FlowMapReactComponentWrapper(props) {
       const flowMapStateHasChanged = prevProps?.flowMapStateVersion !== props?.flowMapStateVersion;
       if (flowMapStateHasChanged) {
         if (!flowMap) {
-          setFlowMap(initFlowMap(props));
+          setFlowMap(initFlowMap());
         }
         if (flowMap) {
           flowMap?.updateState(props?.flowMapState);
