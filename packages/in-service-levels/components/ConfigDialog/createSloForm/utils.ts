@@ -11,6 +11,7 @@ import {
   BlueprintType,
   ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
+  TimeWindow,
   WebsiteSloEntity
 } from '@instana/types';
 
@@ -101,4 +102,16 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);
+}
+
+export function formToTimeWindow(form: SloForm): TimeWindow {
+  const duration = form.getIn(['objective', 'duration']).value;
+  const durationUnit = form.getIn(['objective', 'durationUnit']).value;
+  const type = form.getIn(['objective', 'type']).value;
+
+  return {
+    duration,
+    durationUnit,
+    type
+  };
 }
