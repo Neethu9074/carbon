@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const getOpenstackHypervisorDashboard = useOpenstackHypervisorDashboard();
+  const href = getOpenstackHypervisorDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getOpenstackHypervisorDashboard(snapshot.get('id'), { timeConfig })} />;
+  return <Redirect to={href.substring(2)} />;
 }
