@@ -22,9 +22,9 @@ export default function SloFormPreview({ updateForm }: SloFormPreviewProps) {
   const { form } = useContext(SloFormContext);
 
   const isFormValid = form.hierarchyValid;
+  const isNameFieldValid = form.getIn(['nameTags', 'name']).valid;
   const formValidationErrors = form.getAllMessagesInHierarchy();
-  const isOnlyNameFieldFailingValidation =
-    formValidationErrors.length === 1 && formValidationErrors[0].path === '$.nameTags.name';
+  const isOnlyNameFieldFailingValidation = formValidationErrors.length === 1 && !isNameFieldValid;
   const shouldShowPreview = isFormValid || isOnlyNameFieldFailingValidation;
 
   return (
