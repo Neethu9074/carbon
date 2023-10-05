@@ -32,9 +32,18 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
 
 export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationResult {
   const { duration, durationUnit } = timeWindow;
-  if (!duration || !durationUnit || !duration.valid || !durationUnit.valid) {
-    return null;
+
+  if (duration === undefined || !durationUnit) return;
+
+  if (duration.value < 1) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorTimeWindowMin')
+      }
+    ];
   }
+
   if (durationUnit.value === 'day' && duration.value > 31) {
     return [
       {
@@ -42,7 +51,9 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
         message: t('in-service-levels:createSloDialog.errorTimeWindowDay')
       }
     ];
-  } else if (durationUnit.value === 'week' && duration.value > 4) {
+  }
+
+  if (durationUnit.value === 'week' && duration.value > 4) {
     return [
       {
         severity: 'error',
@@ -50,7 +61,8 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
       }
     ];
   }
-  return null;
+
+  return;
 }
 
 type ThresholdFieldValidator = (value: number | undefined) => ValidationResult;
