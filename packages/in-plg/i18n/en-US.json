@@ -1,0 +1,8 @@
+{
+  "trialExpirationPopUp": {
+    "titleBeforeTrialPeriodEnd": "Your trial has expired",
+    "titleAfterTrialPeriodEnd": "Your trial period has ended",
+    "trialExpirationPopUpDescription": "Data collection has ended. You can continue using the product for another 7 days. After 7 days, you will not be able to access the trial. If you plan to purchase the product, we can retain your data for another 2 weeks.",
+    "trialExpirationPopUpDescriptionAfterSevenDays": "Thanks for exploring Instana! You have reached the end of your trial and can no longer access the product."
+  }
+}

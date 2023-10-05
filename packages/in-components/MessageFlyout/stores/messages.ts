@@ -21,6 +21,7 @@ export interface Message {
   timeout?: number;
   activeLicense?: string;
   remainingDays?: number;
+  expiryDate?: number;
 }
 
 export interface MessageWithId extends Message {
@@ -49,7 +50,8 @@ export function addMessage(messageParam: Message, id: MessageId = idCounter++) {
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
     isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg,
     activeLicense: messageParam.activeLicense,
-    remainingDays: messageParam.remainingDays
+    remainingDays: messageParam.remainingDays,
+    expiryDate: messageParam.expiryDate
   };
 
   messagesStore.applyStateMutation(messages => {
