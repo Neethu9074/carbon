@@ -21,7 +21,11 @@ interface SloFormPreviewProps {
 export default function SloFormPreview({ updateForm }: SloFormPreviewProps) {
   const { form } = useContext(SloFormContext);
 
-  const shouldShowPreview = form.hierarchyValid;
+  const isFormValid = form.hierarchyValid;
+  const formValidationErrors = form.getAllMessagesInHierarchy();
+  const isOnlyNameFieldFailingValidation =
+    formValidationErrors.length === 1 && formValidationErrors[0].path === '$.nameTags.name';
+  const shouldShowPreview = isFormValid || isOnlyNameFieldFailingValidation;
 
   return (
     <section>
