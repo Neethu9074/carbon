@@ -24,7 +24,6 @@ import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivity
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -71,11 +70,6 @@ interface viewAllProps {
 // className styling provided by chart component
 function ViewAll({ className }: viewAllProps) {
   const { location, createHrefToPath } = useNavigation();
-  // <FEATURE FLAG>
-  if (!bizopsFeatureEnabled) {
-    return '';
-  }
-  // </FEATURE FLAG>
 
   const businessProcessId: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
@@ -132,7 +126,7 @@ function getList({ businessProcessId, businessProcessName, timeConfig }: GetList
 
   // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessActivityList({
-    dataType: "ACTIVITY",
+    dataType: 'ACTIVITY',
     metrics: {
       activitiesCount: {
         metric: 'activitiesCount',
@@ -162,29 +156,25 @@ function Label({ item }: LabelProps) {
   const { location, createHref } = useNavigation();
   const activityName = item.businessActivity?.activityName;
 
-  if (bizopsFeatureEnabled) {
-    const businessProcessId: string =
-      getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
-      t('in-bizops:dashboards.summary.pageTitle');
-    const businessProcessName: string =
-      getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
-      t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
 
-    const activityTracking = {
-      processId: businessProcessId,
-      processName: businessProcessName,
-      activityName: activityName as string
-    };
+  const activityTracking = {
+    processId: businessProcessId,
+    processName: businessProcessName,
+    activityName: activityName as string
+  };
 
-    location.pathname = businessActivitySummaryPath;
-    setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
+  location.pathname = businessActivitySummaryPath;
+  setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
 
-    return (
-      <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>
-        {activityName}
-      </Link>
-    );
-  } else {
-    return <div>{activityName}</div>;
-  }
+  return (
+    <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>
+      {activityName}
+    </Link>
+  );
 }
