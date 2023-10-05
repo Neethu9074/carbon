@@ -424,5 +424,10 @@ module.exports = exports = [
     uiClientKey: 'actionsLaneEnabled',
     instanaCtlKey: 'feature.actions.lane.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'playWithReleaseEnabled',
+    instanaCtlKey: 'feature.play.with.release.enabled',
+    defaultValue: false
   }
 ];

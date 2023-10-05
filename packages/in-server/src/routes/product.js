@@ -196,6 +196,7 @@ router.get('/', async (req, res) => {
         config: JSON.stringify(clientConfig),
         playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
         playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
+        playWithReleaseEnabled: clientConfig.featureFlags?.playWithReleaseEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
