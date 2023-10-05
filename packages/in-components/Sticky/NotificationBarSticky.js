@@ -20,17 +20,16 @@ export default function NotificationBarSticky() {
   }
   const firstLicenseUsageMsg = messages.find(message => message.isLicenseUsageMsg);
   //Logic part of licenseExpiryPopUp
+  if (!firstLicenseUsageMsg) {
+    return null;
+  }
   const sevenDaysInMilliseconds = days.toMillis(7);
   const isSevenDaysOver = Date.now() - firstLicenseUsageMsg.expiryDate > sevenDaysInMilliseconds;
   const isExpired = Date.now() - firstLicenseUsageMsg.expiryDate > 0;
   return (
     <>
-      {firstLicenseUsageMsg && (
-        <>
-          <StickyBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />
-          {isExpired && OpenTrialExpiryDialog({ message: firstLicenseUsageMsg, isSevenDaysOver: isSevenDaysOver })}
-        </>
-      )}
+      <StickyBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />
+      {isExpired && OpenTrialExpiryDialog({ message: firstLicenseUsageMsg, isSevenDaysOver: isSevenDaysOver })}
     </>
   );
 }
