@@ -21,7 +21,7 @@ const getBusinessActivityList = createResultSubscriptionFactory<
   BusinessDataQuery,
   Result<PaginatedResult<BusinessActivity>>
 >({
-  eventId: 'getBusinessActivitiesStandard',
+  eventId: 'getBusinessActivities',
   trackSubscriptionStatistics: true
 });
 

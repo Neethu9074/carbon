@@ -21,7 +21,7 @@ const getBusinessProcessList = createResultSubscriptionFactory<
   BusinessDataQuery,
   Result<PaginatedResult<BusinessProcess>>
 >({
-  eventId: 'getBusinessProcessesStandard',
+  eventId: 'getBusinessProcesses',
   trackSubscriptionStatistics: true
 });
 
