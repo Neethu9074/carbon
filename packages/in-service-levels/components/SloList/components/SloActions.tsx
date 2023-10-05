@@ -10,7 +10,9 @@ import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import DeleteSloMoreMenuButton from 'in-service-levels/components/SloList/components/DeleteSloMoreMenuButton';
+import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 
@@ -19,13 +21,27 @@ interface Props {
 }
 
 export default function SloActions({ item }: Props) {
+  const openCloneDialog = () => {
+    addActiveDialog(
+      <CreateSloDialog
+        mode="CLONE"
+        configuration={{
+          ...item.configuration,
+          id: undefined,
+          lastUpdated: undefined,
+          name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: item.configuration.name })
+        }}
+      />
+    );
+  };
+
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
         <MoreMenuButton icon="lib_actions_edit" disabled>
           {t('in-service-levels:general.editButtonLabel')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" disabled>
+        <MoreMenuButton icon="lib_actions_copy" onClick={openCloneDialog}>
           {t('in-service-levels:general.copyButtonLabel')}
         </MoreMenuButton>
         <DeleteSloMoreMenuButton configuration={item.configuration} />

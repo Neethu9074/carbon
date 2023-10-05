@@ -6,6 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 
+import { Application } from '@instana/types';
 import { Card } from '@instana/components';
 
 import SloEntityTable, {
@@ -13,33 +14,44 @@ import SloEntityTable, {
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useEntityConfigurations from 'in-service-levels/hooks/useEntityConfigurations';
+import useApplication from 'in-applications/hooks/useApplication';
 import SearchInput from 'in-components/SearchInput/SearchInput';
+import { finishedProgress } from 'in-services/fixedObjects';
+import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
-interface SloApplicationEntitySectionProps {
-  onLabelChange: (label: string) => void;
-}
-
-export default function SloApplicationEntitySection({ onLabelChange }: SloApplicationEntitySectionProps) {
+export default function SloApplicationEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
 
   const sloEntityTypeField = form.getIn(['entity', 'type']);
   const entityIdField = form.getIn(['entity', 'entityId']);
+  const entityId = entityIdField.value;
 
-  const [entityList, , , progress] = useEntityConfigurations(sloEntityTypeField.value);
+  const [separatelyLoadedEntity, , , labelProgress] = useApplication(entityId);
+  const [entityList, , , entitiesProgress] = useEntityConfigurations(sloEntityTypeField.value);
 
-  const onEntityChange = ({ id, label }: EntityData) => {
-    onLabelChange(label);
+  // If entityList already contains the selected entity then we can avoid waiting for the extra loading operation for entity
+  const previouslyLoadedEntity = entityList?.find(({ id }) => id === entityId);
+  const entityAlreadyLoaded = Boolean(previouslyLoadedEntity);
+
+  const onEntityChange = ({ id }: EntityData) => {
     onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
   };
+
+  const sortedEntities = [
+    previouslyLoadedEntity ?? separatelyLoadedEntity,
+    ...(entityList?.filter(({ id }) => id !== entityId) ?? [])
+  ].filter(Boolean) as Application[];
+
+  const progress = all(entityAlreadyLoaded || !entityId ? finishedProgress : labelProgress, entitiesProgress);
 
   return (
     <Card
       title={t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
       rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
     >
-      <SloEntityTable entityList={entityList} onChange={onEntityChange} progress={progress} query={query} />
+      <SloEntityTable entityList={sortedEntities} onChange={onEntityChange} progress={progress} query={query} />
     </Card>
   );
 }

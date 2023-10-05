@@ -6,8 +6,9 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isApplicationSloEntity, isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { DurationUnitType, isEventBasedSli } from '@instana/types';
+import { formatTime } from '@instana/format-date';
 
 import {
   SloEntityFields,
@@ -33,18 +34,18 @@ import { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
+  const { entity } = sloConfig;
   return {
     entityId: createField({
-      value: sloConfig.entity.type === 'application' ? sloConfig.entity.applicationId : sloConfig.entity.websiteId
+      value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId
     }),
-    type: createField({ value: sloConfig.entity.type })
+    type: createField({ value: entity.type })
   };
 };
 
-export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloScopeFields => {
-  if (sloConfig.entity.type === 'application') {
-    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } =
-      sloConfig.entity;
+export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields => {
+  if (isApplicationSloEntity(entity)) {
+    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } = entity;
 
     return {
       beaconType: createField({ value: 'httpRequest' }),
@@ -58,13 +59,13 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
   }
 
   return {
-    beaconType: createField({ value: sloConfig.entity.beaconType }) as Field<SloBeaconTypes>,
+    beaconType: createField({ value: entity.beaconType }) as Field<SloBeaconTypes>,
     boundaryScope: createField({ value: 'ALL' }),
     endpointId: createField({ value: '' }),
     includeInternal: createField({ value: false }),
     includeSynthetic: createField({ value: false }),
     serviceId: createField({ value: '' }),
-    tagFilterExpression: createField({ value: fromBackendModel(sloConfig.entity.tagFilterExpression) })
+    tagFilterExpression: createField({ value: fromBackendModel(entity.tagFilterExpression) })
   };
 };
 
@@ -131,7 +132,7 @@ export const getObjectiveFormFieldsFromSloConfig = (
 ): SloObjectiveFields => {
   return {
     target: createField<number | undefined>({
-      value: undefined,
+      value: sloConfig.target,
       validator: targetFieldValidator
     }),
     duration: createField({ value: sloConfig.timeWindow.duration }),
@@ -153,7 +154,7 @@ export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfigu
         validator: dateFieldValidator
       }),
       time: createField<string>({
-        value: formatDate(timeStamp)!,
+        value: formatTime(sloConfig.timeWindow.startTimestamp) ?? formatTime(timeStamp)!,
         validator: timeFieldValidator
       })
     };

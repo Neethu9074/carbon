@@ -146,6 +146,7 @@
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
+    "sloNameCopyTemplate": "Copy of {{name}}",
     "tagsLabel": "Tags (optional)",
     "tagsPlaceholder": "Enter tags",
     "tagsCreateLabel": "Create: {{tag}}",

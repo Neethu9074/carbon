@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { just, Observable } from '@instana/observables';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
@@ -28,12 +29,41 @@ import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { seconds } from 'in-services/time/time';
+import { error } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-export default function CreateSloDialog() {
-  const [form, setForm] = useState(createSloForm({ entityType: 'application' }));
+type CreateSloDialogMode = 'NEW' | 'CLONE' | 'EDIT';
+
+interface CreateSloDialogProps {
+  mode: CreateSloDialogMode;
+  configuration?: ServiceLevelObjectiveConfiguration;
+}
+
+interface CreateModeProps {
+  mode: 'NEW';
+}
+
+interface CloneModeProps {
+  mode: 'CLONE';
+  configuration: ServiceLevelObjectiveConfiguration;
+}
+
+interface EditModeProps {
+  mode: 'EDIT';
+  configuration: ServiceLevelObjectiveConfiguration;
+}
+
+type SloFormSubmissionAction = (
+  config: ServiceLevelObjectiveConfiguration
+) => Observable<Result<ServiceLevelObjectiveConfiguration>>;
+
+export default function CreateSloDialog(props: CreateModeProps): JSX.Element;
+export default function CreateSloDialog(props: CloneModeProps): JSX.Element;
+export default function CreateSloDialog(props: EditModeProps): JSX.Element;
+export default function CreateSloDialog({ configuration, mode }: CreateSloDialogProps): JSX.Element {
+  const [form, setForm] = useState(createSloForm({ entityType: 'application', sloConfig: configuration }));
   const updateForm = useSloFormSideEffects(form, setForm);
-  const [submitStatus, doSubmit] = useFormSubmission(createSloConfiguration);
+  const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
 
   const nameField = form.getIn(['nameTags', 'name']);
   const targetField = form.getIn(['objective', 'target']);
@@ -169,4 +199,15 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
       name
     })
   });
+}
+
+function getFormSubmitAction(mode: CreateSloDialogMode): SloFormSubmissionAction {
+  switch (mode) {
+    case 'NEW':
+    case 'CLONE':
+      return createSloConfiguration;
+
+    case 'EDIT':
+      return () => just(error([{ code: 'SERVER', message: 'Editing slo configurations is not yet supported' }]));
+  }
 }
