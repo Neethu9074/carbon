@@ -179,6 +179,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
                 formatter: millis.forcedFixedCompact,
+                colors: theme.lib.colors.chart.strokeColors100,
                 labels: [
                   t('in-websites:websiteDashboard.tabs.resources.resourceLabel50th'),
                   t('in-websites:websiteDashboard.tabs.resources.resourceLabel90th'),
@@ -192,6 +193,8 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               y2={{
                 renderer: Renderer.line,
                 formatter: millis.forcedFixedCompact,
+                // stroke color 5, after 0-4 from y1 above
+                colors: [theme.lib.colors.chart.strokeColors100[5]],
                 labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelMean')],
                 defaultDisabledMetrics: ['onLoadTimeMean'],
                 metricIds: ['onLoadTimeMean']
@@ -298,7 +301,6 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                       formatter: millis.forcedFixedCompact,
                       labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
-                      // Ensure high readability
                       colors: [theme.lib.carbonCategorical.cyan90]
                     }}
                     metricsConfiguration={{

@@ -17,6 +17,7 @@ import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }) {
@@ -41,12 +42,14 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                 t('in-websites:websiteDashboard.tabs.user.usersLabelPageLoads'),
                 t('in-websites:websiteDashboard.tabs.user.usersLabelPageTransitions')
               ],
+              colors: [theme.lib.colors.chart.threeColorPalette[1], theme.lib.colors.chart.threeColorPalette[2]],
               metricIds: ['pageLoads', 'pageTransitions']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: number.forcedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.user.usersLabelUsers')],
+              colors: [theme.lib.colors.chart.threeColorPalette[0]],
               metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{

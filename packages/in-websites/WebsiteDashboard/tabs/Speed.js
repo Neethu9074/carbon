@@ -81,13 +81,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              colors: [
-                theme.lib.carbonCategorical.cyan50,
-                theme.lib.carbonCategorical.magenta70,
-                theme.lib.carbonCategorical.green60,
-                theme.lib.carbonCategorical.red50,
-                theme.lib.carbonCategorical.purple70
-              ],
+              colors: theme.lib.colors.chart.strokeColors100,
               labels: [
                 t('in-websites:websiteDashboard.tabs.speedLabel50th'),
                 t('in-websites:websiteDashboard.tabs.speedLabel90th'),
@@ -101,7 +95,8 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
-              colors: [theme.lib.carbonCategorical.red90],
+              // stroke color 5, after 0-4 from y1 above
+              colors: [theme.lib.colors.chart.strokeColors100[5]],
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelMean')],
               defaultDisabledMetrics: ['onLoadTimeMean'],
               metricIds: ['onLoadTimeMean']
@@ -208,7 +203,6 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   formatter: millis.forcedFixedCompact,
                   labels: [t('in-websites:websiteDashboard.tabs.speedLabelTimeToFirstByte')],
                   metricIds: ['ttfb'],
-                  // Ensure high readability
                   colors: [theme.lib.carbonCategorical.cyan90]
                 }}
                 metricsConfiguration={{
@@ -316,6 +310,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                     t('in-websites:websiteDashboard.tabs.speedLabelFirstContentfulPaint'),
                     t('in-websites:websiteDashboard.tabs.speedLabelLargestContentfulPaint')
                   ],
+                  colors: theme.lib.colors.chart.threeColorPalette,
                   metricIds: ['firstPaintTime', 'firstContentfulPaintTime', 'largestContentfulPaintTime']
                 }}
                 metricsConfiguration={{
