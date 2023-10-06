@@ -52,13 +52,13 @@ export default function ConfirmationDialog({
     </>
   );
   return (
-    <BaseDialog title={header} headerIcon={headerIcon} onClose={onClose} customButtons={customButtons}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      />
+    <BaseDialog
+      title={header}
+      headerIcon={headerIcon}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      customButtons={customButtons}
+    >
       <ErroneousResultPresenter errors={errors} addBottomMargin />
 
       {description && <p className={locals.description}>{description}</p>}

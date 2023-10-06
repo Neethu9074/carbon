@@ -15,14 +15,30 @@ export interface BaseDialogProps {
   title: string | ReactElement;
   headerIcon?: string;
   onClose?: () => void;
+  onSubmit: () => void;
   customButtons: ReactNode;
   children?: ReactNode;
 }
-export default function BaseDialog({ title, onClose = close, customButtons, headerIcon, children }: BaseDialogProps) {
+export default function BaseDialog({
+  title,
+  onClose = close,
+  onSubmit,
+  customButtons,
+  headerIcon,
+  children
+}: BaseDialogProps) {
   return (
     <Dialog className={locals.dialog} titleIconType={headerIcon} title={title} onClose={onClose}>
-      {children}
-      <Actions>{customButtons}</Actions>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
+        {children}
+
+        <Actions>{customButtons}</Actions>
+      </form>
     </Dialog>
   );
 }
