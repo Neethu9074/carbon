@@ -22,7 +22,7 @@ export function NameColumnCell<AlertConfig extends AlertConfigType>({
 }: {
   config: AlertConfig;
   renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode);
-  getSubtitle?: (config: AlertConfig) => string;
+  getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   getAdditionalContent?: (config: AlertConfig) => ReactNode;
 }) {
   const { enabled, name, severity } = config;
