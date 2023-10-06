@@ -22,6 +22,7 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import ViewAnalyzeButton from 'in-alerting/smart-alerts/infrastructure/details/ViewAnalyzeButton';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { AlertGrouping } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
@@ -65,7 +66,6 @@ export default function AlertConfigurationAlertConfiguration({
   } = alertConfig;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-
   const tagCatalog = useTagCatalog({ ownerType: entityType });
   const entityLabel = getPluginName(entityType, 1);
 
@@ -86,22 +86,22 @@ export default function AlertConfigurationAlertConfiguration({
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
         />
       </ExpandableLightCard>
-
-      <ChartViewConfigurator
-        chartViewConfigs={chartViewConfigs}
-        onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
-        doNotSetDefaultHeight
-        framed
-      >
-        {chartViewConfig => (
-          <>
-            <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
-          </>
-        )}
-      </ChartViewConfigurator>
-
+      {groupBy.length == 0 ? (
+        <ChartViewConfigurator
+          chartViewConfigs={chartViewConfigs}
+          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
+          doNotSetDefaultHeight
+          framed
+        >
+          {chartViewConfig => (
+            <>
+              <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+            </>
+          )}
+        </ChartViewConfigurator>
+      ) : null}
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleScope')}
         useMaxAvailableHeight={false}
@@ -119,6 +119,7 @@ export default function AlertConfigurationAlertConfiguration({
           />
 
           <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
+          {groupBy.length > 0 ? <ViewAnalyzeButton alertConfig={alertConfig} /> : null}
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard
