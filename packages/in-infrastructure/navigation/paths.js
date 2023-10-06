@@ -6,6 +6,11 @@
 
 import { useCallback } from 'react';
 
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-infrastructure/navigation/matrix';
+import { infraAlertsDetailsPath, infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { buildJsonSerializer, buildJsonParser, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructure/Explore/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -165,4 +170,20 @@ export const defaultInfraExploreViewParams = Object.freeze({
 function setMatrixKey(params, matrixParameter, value) {
   const serializer = matrixParameter.serializer || String;
   setOrDeleteMatrixKey(params, infraExplorePath, matrixParameter.name, serializer(value));
+}
+
+export const useGetAlertConfigLink = () => {
+  const { createHref, location } = useNavigation();
+
+  return (alertConfigId, alertConfigVersion) => {
+    fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion);
+    return createHref(location);
+  };
+};
+
+function fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion) {
+  location.pathname = infraAlertDetailsFullyQualifiedPath;
+
+  setOrDeleteMatrixKey(location, infraAlertsDetailsPath, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(location, infraAlertsDetailsPath, alertCreatedMatrixParam, alertConfigVersion);
 }
