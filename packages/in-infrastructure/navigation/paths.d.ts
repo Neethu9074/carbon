@@ -28,3 +28,5 @@ interface GetLinkToExploreProps {
 export function useLinkToExplore(): (getLinkToExploreProps: GetLinkToExploreProps) => string;
 
 export const defaultInfraExploreViewParams: GetLinkToExploreProps;
+
+export const useGetAlertConfigLink: () => (alertConfigId: string, alertConfigVersion?: number) => string;

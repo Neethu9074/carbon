@@ -8,13 +8,11 @@ import React from 'react';
 
 import { InfraAlertConfigWithMetadata, ThresholdConfigUnion, InfraAlertRuleUnion } from '@instana/types';
 
-// eslint-disable-next-line no-restricted-imports
 import {
   infraAlertsDetailsPath,
   infraAlertDetailsFullyQualifiedPath,
   infraSmartAlerts
 } from 'in-stores/navigation/paths/mainPaths';
-// eslint-disable-next-line no-restricted-imports
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
