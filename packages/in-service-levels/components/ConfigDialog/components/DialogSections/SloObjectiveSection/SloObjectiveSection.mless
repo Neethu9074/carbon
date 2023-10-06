@@ -20,8 +20,4 @@
   .inputSection {
     flex: 1;
   }
-
-  .dateInputSection {
-    width: 6rem;
-  }
 }

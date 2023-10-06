@@ -13,4 +13,8 @@
   .close {
     margin: 0 0 0.6rem;
   }
+
+  .dateInputSection {
+    width: 6rem;
+  }
 }

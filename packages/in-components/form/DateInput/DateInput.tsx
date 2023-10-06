@@ -38,10 +38,11 @@ interface DateInputProps {
   onChange: DateInputOnChange;
   iconType?: string;
   disabled?: boolean;
+  staticSize?: boolean;
 }
 
 export default function DateInput(props: DateInputProps) {
-  const { value, onChange = identity, disabled, iconType } = props;
+  const { value, onChange = identity, disabled, iconType, staticSize } = props;
   const inputProps = assign({}, props);
 
   // @ts-expect-error ignoring the from a type perspective superfluous deletes here,
@@ -62,6 +63,7 @@ export default function DateInput(props: DateInputProps) {
         value={value || ''}
         // explicitly setting onChange to undefined here to avoid typescript conflicts with the signature of onChange from DateInputProps
         onChange={undefined}
+        className={staticSize ? locals.dateInputSection : undefined}
       />
     );
   }
@@ -75,6 +77,7 @@ export default function DateInput(props: DateInputProps) {
           inputProps={inputProps}
           close={close}
           iconType={iconType}
+          staticSize={staticSize}
         />
       )}
     </Overlay>
@@ -85,6 +88,7 @@ interface DatePickerInputProps {
   inputProps: DateInputProps;
   iconType?: DateInputProps['iconType'];
   onChange: DateInputOnChange;
+  staticSize?: boolean;
 
   open: () => void;
   close: () => void;
@@ -92,9 +96,10 @@ interface DatePickerInputProps {
   refSetter: OverlayContentProps['refSetter'];
 }
 
-function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }: DatePickerInputProps) {
+function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType, staticSize }: DatePickerInputProps) {
   return (
     <Input
+      className={staticSize ? locals.dateInputSection : undefined}
       type="text"
       autoComplete="off"
       onKeyDown={e => {
