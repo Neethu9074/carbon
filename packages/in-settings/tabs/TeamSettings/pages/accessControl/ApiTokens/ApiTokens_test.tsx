@@ -7,13 +7,16 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
-import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
-import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
-import { ApiTokenProps } from './ApiToken';
+import {
+  getApiTokens
+  // @ts-ignore
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import ApiTokens from './ApiTokens';
+import { ApiTokenProps } from './ApiToken';
+import { generateUniqueShortId } from '@instana/utils';
+import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 
 jest.mock('in-i18n', () => ({
   t: (key: string) => key
