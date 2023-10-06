@@ -12,6 +12,7 @@ import { CustomButtons } from 'in-plg/components/Dialog/CustomButtons';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
+import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 interface OpenTrailExpiryDialogProps {
@@ -22,6 +23,7 @@ interface OpenTrailExpiryDialogProps {
 export function OpenTrialExpiryDialog({ message, isSevenDaysOver }: OpenTrailExpiryDialogProps) {
   addActiveDialog(
     <BaseDialog
+      onSubmit={noop}
       title={
         !isSevenDaysOver
           ? t('in-plg:trialExpirationPopUp.titleBeforeTrialPeriodEnd')
