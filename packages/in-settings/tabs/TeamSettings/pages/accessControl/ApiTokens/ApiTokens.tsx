@@ -15,8 +15,11 @@ import {
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenNew
 } from 'in-settings/navigation/paths';
-// @ts-ignore
-import { getApiTokens, deleteApiToken, createApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import {
+  getApiTokens,
+  deleteApiToken,
+  createApiToken
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 // @ts-ignore
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
@@ -39,19 +42,22 @@ export default function ApiTokens() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={getApiTokens}
+      loadEntities={() => getApiTokens()}
       initialOrderBy="name"
-      onCreateNew={()=>onCreateNew(goToPath)}
+      onCreateNew={() => onCreateNew(goToPath)}
       labelNew={t('in-settings:tabs.newApiToken')}
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
       searchPlaceholder={t('in-settings:components.search')}
+      noDataMessage={t('in-settings:tabs.noApiToken')}
       // @ts-ignore
-      getDetailsHref={(entity: any) => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId)}
+      getDetailsHref={(entity: any) => {
+        getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
+      }}
     />
   );
 }
 
-function GrantingTokenLabelButton({ apiToken }: { apiToken: ApiTokenProps}) {
+function GrantingTokenLabelButton({ apiToken }: { apiToken: ApiTokenProps }) {
   const [accessGrantingToken, updateToken] = useState(apiToken.accessGrantingToken);
 
   return (
