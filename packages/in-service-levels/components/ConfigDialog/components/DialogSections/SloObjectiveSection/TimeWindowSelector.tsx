@@ -21,6 +21,8 @@ import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Input from 'in-components/form/Input/Input';
 
+import locals from './SloObjectiveSection.mless';
+
 export default function TimeWindowSelector() {
   const { form, onChange } = useContext(SloFormContext);
   const windowTypeField = form.getIn(['objective', 'type']);
@@ -89,8 +91,10 @@ export default function TimeWindowSelector() {
 
       {isFixed && (
         <Section title={t('in-service-levels:createSloDialog.start')}>
-          <Stack direction="horizontal" gap="medium" inline align="center">
+          <Stack direction="horizontal" gap="xsmall" inline align="center">
             <DateInput
+              //@ts-ignore
+              className={locals.dateInputSection}
               value={dateField.value}
               iconType="lib_datetime_date"
               onChange={date => {
