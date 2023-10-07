@@ -33,7 +33,7 @@ export type ActionHandlers<AlertConfig extends AlertConfigType> = {
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   getAlertConfigs: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
-  getSubtitle?: (config: AlertConfig) => string;
+  getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
   actionHandlers?: ActionHandlers<AlertConfig>;
   sortOptions?: SortOption[];
@@ -92,7 +92,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
 function createColumnDefinition<AlertConfig extends AlertConfigType>(
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
   actionHandlers: ActionHandlers<AlertConfig> | undefined,
-  getSubtitle?: (config: AlertConfig) => string,
+  getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element),
   renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode)
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {

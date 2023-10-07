@@ -20,8 +20,7 @@ import {
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
-// @ts-ignore-error
-import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
@@ -30,7 +29,6 @@ import { infraSmartAlertsDetailsPageEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
 
 export default function Alerts() {
   const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
@@ -62,17 +60,20 @@ export default function Alerts() {
 
 function getSubtitle(rule: InfraAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
   const { type, operator, value } = threshold;
-  const { entityType, metricName } = rule;
+  const { entityType, metricName, aggregation } = rule;
 
   if (type === STATIC_THRESHOLD) {
     const humanReadableOperator = humanReadableThresholdOperator(operator);
-    const metricDefinition = getMetricDefinition(entityType, metricName);
 
-    return t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold', {
-      metricName: metricDefinition.getLabel(),
-      operator: humanReadableOperator,
-      value
-    });
+    return (
+      <MetricLabel
+        entityType={entityType}
+        metricName={metricName}
+        aggregation={aggregation}
+        humanReadableOperator={humanReadableOperator}
+        value={value}
+      />
+    );
   }
 
   throw new Error('Not yet supported threshold type: ' + type);
