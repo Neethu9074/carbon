@@ -22,18 +22,26 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Could not find a declaration file for module
 import emptyListExplanation from 'in-mobile-apps/emptyListExplanation';
+import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const columnDefinitions = [
+interface ViewListProp extends ServerTablePresenterProps<MobileAppPaginatedBeaconGroupsItem> {
+  mobileAppId: string;
+  result: any;
+  timeConfig: TimeConfig;
+}
+
+const columnDefinitions: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsItem, ViewListProp>> = [
   {
     id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.nameLabel'),
-    getContent(item: MobileAppPaginatedBeaconGroupsItem, { mobileAppId }: { mobileAppId: string }) {
+    getContent(item, { mobileAppId }) {
       let label = item.name;
       try {
         label = String(JSON.parse(label));
@@ -48,10 +56,7 @@ const columnDefinitions = [
     id: 'viewsAgg',
     label: t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
     defaultOrderDirection: 'DESC',
-    getContent(
-      item: MobileAppPaginatedBeaconGroupsItem,
-      { result, timeConfig }: { result: any; timeConfig: TimeConfig }
-    ) {
+    getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
           loading={result?.progress?.loading}

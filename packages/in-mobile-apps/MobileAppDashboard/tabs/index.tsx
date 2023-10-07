@@ -18,10 +18,15 @@ import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export const mobileAppTabs = [
+interface MobileAppTab extends Tab<{}, {}> {
+  mobileAppOnly?: boolean;
+}
+
+export const mobileAppTabs: Array<MobileAppTab> = [
   {
     label: t('in-mobile-apps:dashboard.tabs.summaryLabel'),
     path: `${mobileAppPathFullyQualified}/summary`,
@@ -65,6 +70,6 @@ export const mobileAppTabs = [
     component: Configuration,
     mobileAppOnly: true
   }
-].filter(Boolean);
+].filter(Boolean) as Array<MobileAppTab>;
 
-export const viewTabs = mobileAppTabs.filter(tab => tab && !tab.mobileAppOnly);
+export const viewTabs = mobileAppTabs.filter(tab => !tab.mobileAppOnly);
