@@ -5,13 +5,18 @@
 
 import React from 'react';
 
+import { AggregationType } from '@instana/types';
 import { Link } from '@instana/components';
 
+// @ts-expect-error Could not find a declaration file for module
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+// @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+// @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
+import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 const metrics = ['views'];
@@ -19,7 +24,19 @@ const labels = [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')];
 const aggregations = ['SUM'];
 const formatters = [number.compact, number.compact];
 
-export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters, renderHistoricDataIndicator }) {
+interface ViewsTopListProps {
+  mobileAppId: string;
+  timeConfig: TimeConfig;
+  tagFilters?: Array<TagFilter>;
+  renderHistoricDataIndicator: boolean;
+}
+
+export default function ViewsTopList({
+  mobileAppId,
+  timeConfig,
+  tagFilters,
+  renderHistoricDataIndicator
+}: ViewsTopListProps) {
   return (
     <TopListWithUrlState
       title={t('in-mobile-apps:dashboard.tabs.topViewsTitle')}
@@ -40,7 +57,14 @@ export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters, rend
   );
 }
 
-function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }) {
+interface GetListProps {
+  tagFilters: Array<TagFilter>;
+  timeConfig: TimeConfig;
+  selectedMetric: string;
+  selectedMetricAggregation: AggregationType;
+}
+
+function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }: GetListProps) {
   return getMobileAppPaginatedBeaconGroups({
     tagFilters,
     timeConfig,
@@ -64,7 +88,13 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ mobileAppId, selectedMetric, className }) {
+interface ViewAllProps {
+  mobileAppId: string;
+  selectedMetric?: string;
+  className: string;
+}
+
+function ViewAll({ mobileAppId, selectedMetric, className }: ViewAllProps) {
   const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
     tabPath: '/views',
     tabParameters: {
@@ -79,7 +109,15 @@ function ViewAll({ mobileAppId, selectedMetric, className }) {
   );
 }
 
-function Label({ item, mobileAppId }) {
+interface ItemWithName {
+  name: string;
+}
+interface LabelProps {
+  item: ItemWithName;
+  mobileAppId: string;
+}
+
+function Label({ item, mobileAppId }: LabelProps) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -99,6 +137,10 @@ function Label({ item, mobileAppId }) {
   );
 }
 
-function Metric({ formattedMetricValue }) {
+interface MetricProps {
+  formattedMetricValue: any;
+}
+
+function Metric({ formattedMetricValue }: MetricProps) {
   return formattedMetricValue;
 }
