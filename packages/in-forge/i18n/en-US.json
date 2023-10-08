@@ -1119,6 +1119,11 @@
   "pluginName_opc_1": "Oracle Cloud Instances",
   "pluginName_opc_2": "Oracle Cloud Instances",
   "pluginName_opc": "Oracle Cloud Instance",
+  "pluginName_oTelDatabase_plural": "OTEL Databases",
+  "pluginName_oTelDatabase_0": "OTEL Databases",
+  "pluginName_oTelDatabase_1": "OTEL Databases",
+  "pluginName_oTelDatabase_2": "OTEL Databases",
+  "pluginName_oTelDatabase": "OTEL Database",
   "pluginName_otelHost_plural": "OTEL Hosts",
   "pluginName_otelHost_0": "OTEL Hosts",
   "pluginName_otelHost_1": "OTEL Hosts",
@@ -11392,6 +11397,15 @@
       "gcAfter": "After GC",
       "gcBeforePercentage": "Before GC percentage",
       "gcAfterPercentage": "After GC percentage"
+    },
+    "oTelDatabase": {
+      "hostName": "Host Name",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "oTelDatabase": "OTEL Database",
+      "dashboard": {
+        "io_read_rate": "IO Read Rate"
+      }
     },
     "otelHost": {
       "dashboard": {

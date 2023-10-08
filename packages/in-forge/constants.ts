@@ -227,6 +227,7 @@ export const nonServicePlugins = {
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
   openTelemetry: 'openTelemetry',
+  oTelDatabase: 'oTelDatabase',
   otelHost: 'otelHost',
   otelProcess: 'otelProcess',
   packet: 'packet',
@@ -592,6 +593,7 @@ export const fullyQualifiedPlugins = {
   openshiftDeploymentConfig:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.openshift.deploymentconfig.OpenshiftDeploymentConfig',
   openTelemetry: 'com.instana.forge.infrastructure.custom.opentelemetry.OpenTelemetry',
+  oTelDatabase: 'com.instana.forge.infrastructure.custom.sensorsdk.database.OTelDatabase',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',
