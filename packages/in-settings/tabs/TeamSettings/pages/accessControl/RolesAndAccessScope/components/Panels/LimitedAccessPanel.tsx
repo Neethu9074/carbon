@@ -16,6 +16,7 @@ import {
   EntityPermissionKey,
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
+import ApplicationFilterGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationFilterGroup/ApplicationFilterGroup';
 import {
   AreaRole,
   AreaRoleType,
@@ -157,6 +158,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
       <Divider />
+      {entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
+        <ApplicationFilterGroup form={form} setForm={setForm} />
+      )}
+
       <StackItem>
         <Button
           kind="action"
