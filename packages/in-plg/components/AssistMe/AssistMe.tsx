@@ -4,6 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
+import React from 'react';
+
+import IconButton from 'in-components/IconButton/IconButton';
+
+export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
+  if (tryOfferLicenseType) {
+    return (
+      <div data-search-context="getting started">
+        <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+      </div>
+    );
+  } else {
+    return null;
+  }
+}
 interface AssistMeKeys {
   productId: string;
   topSpacing: string;
@@ -16,10 +31,10 @@ const assistMeProperties = {
 };
 var assistMeController: AssistMeKeys;
 function init() {
-  // @ts-expect-error defined in AssistMe controller.js AssistMe
+  // @ts-expect-error defined in AssistMe controller.js
   assistMeController = window.initAssistMeController(assistMeProperties);
 }
-export function openAssistMe() {
+function openAssistMe() {
   if (!assistMeController) {
     init();
   }

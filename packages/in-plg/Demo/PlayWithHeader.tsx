@@ -45,13 +45,13 @@ export default function PlayWithHeader() {
             <div className={locals.playWithInstana}>
               <div className={locals.headerHeading}>
                 <Typography onDark variant="heading-600">
-                  {t('in-new-components:playwithinstana.title')}
+                  {t('in-plg:playwithinstana.title')}
                 </Typography>
               </div>
 
               <div className={locals.readyToMonitor}>
                 <Typography onDark variant="body-bold">
-                  {t('in-new-components:playwithinstana.content')}?
+                  {t('in-plg:playwithinstana.content')}?
                 </Typography>
               </div>
 
@@ -66,7 +66,7 @@ export default function PlayWithHeader() {
                   track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
                 }}
               >
-                {t('in-new-components:playwithinstana.freetrial')}
+                {t('in-plg:playwithinstana.freetrial')}
               </Button>
 
               <Button
@@ -80,7 +80,7 @@ export default function PlayWithHeader() {
                   track(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
                 }}
               >
-                {t('in-new-components:playwithinstana.bookdemo')}
+                {t('in-plg:playwithinstana.bookdemo')}
               </Button>
             </div>
           )}

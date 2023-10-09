@@ -1,0 +1,13 @@
+{
+  "licenseBanner": {
+    "requestQuoteBtn": "Angebot anfordern",
+    "buyNowBtn": "Bei AWS kaufen",
+    "alreadyHaveLicense": "Sie haben bereits eine Lizenz? Aktivieren Sie sie unter <linkToDocker>Docker</linkToDocker> oder <linkToKubernetes>Kubernetes</linkToKubernetes>."
+  },
+  "playwithinstana": {
+    "title": "Mit Instana spielen",
+    "content": "Bereit zur Überwachung Ihrer eigenen Umgebung",
+    "bookdemo": " Demo buchen",
+    "freetrial": " Kostenloser Test"
+  }
+}

@@ -75,11 +75,6 @@
     "avatarUrlAlt": "gravatar.com의 {{email}}에 대한 아바타.",
     "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "견적 요청",
-    "buyNowBtn": "AWS에서 구매",
-    "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "릴리스 정보"
   },

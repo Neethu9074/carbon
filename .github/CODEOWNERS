@@ -207,7 +207,6 @@ packages/in-logging                 @pr-approval @Instana-IBM-GitHub-Enterprise 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
-packages/in-new-components          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui
 packages/in-openstack                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

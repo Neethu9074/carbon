@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Link, Spacer, Button, SvgIcon, Typography } from '@instana/components';
+import { Link, Button, SvgIcon, Typography, Stack } from '@instana/components';
 
 //@ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
@@ -17,8 +17,7 @@ import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
-import IconButton from 'in-components/IconButton/IconButton';
-import { openAssistMe } from 'in-components/Sticky/AssistMe';
+import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
@@ -38,24 +37,21 @@ export function StickyBanner({ message }: StickyBannerProps) {
           {
             //@ts-expect-error missing class name type
             <Typography className={locals.title} noMargin onDark variant="heading-200">
-              {t('in-components:notificationBarSticky.freeTrialBannerTitle')}
+              {t('in-plg:licenseBanner.freeTrialBannerTitle')}
             </Typography>
           }
-          <div className={locals.rightContent}>
+          <Stack align="center" direction="horizontal" gap="small">
             <span className={locals.description}>{message.content}</span>
-            <Spacer horizontal="small" />
             {tryOfferLicenseType && (
               <>
                 <IconForRemainingDays remainingDays={message.remainingDays} />
-                <Spacer horizontal="small" />
               </>
             )}
             <div className={locals.verticalLine} />
-            <Spacer horizontal="small" />
             {onPremLicenseInformationEnabled && (
               <div className={locals.subText}>
                 <Trans
-                  i18nKey="in-components:messageFlyout.alreadyHaveLicense"
+                  i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
                   components={{
                     linkToDocker: (
                       //@ts-expect-error missing translation
@@ -82,6 +78,7 @@ export function StickyBanner({ message }: StickyBannerProps) {
                 {message.activeLicense == 'selfService' && (
                   <Button
                     className={locals.button}
+                    data-walkme-id="wm-buyonaws"
                     kind="primaryv2"
                     target="_blank"
                     href="https://aws.amazon.com/marketplace/search/results?prevFilters=%257B%2522sr%2522%3A%25220-1%2522%2C%2522ref_%2522%3A%2522beagle%2522%2C%2522applicationId%2522%3A%2522AWSMPContessa%2522%257D&searchTerms=ibm+instana+observability"
@@ -89,11 +86,12 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     rel="noopener noreferrer"
                     onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
                   >
-                    {t('in-components:messageFlyout.buyNowBtn')}
+                    {t('in-plg:licenseBanner.buyNowBtn')}
                   </Button>
                 )}
                 <Button
                   className={locals.button}
+                  data-walkme-id="wm-requestaquote"
                   kind="secondary"
                   target="_blank"
                   onClick={e => {
@@ -102,12 +100,12 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     addActiveDialog(<RequestQuoteDialog />);
                   }}
                 >
-                  {t('in-components:messageFlyout.requestQuoteBtn')}
+                  {t('in-plg:licenseBanner.requestQuoteBtn')}
                 </Button>
                 <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
               </>
             )}
-          </div>
+          </Stack>
         </HorizontalFlexWrapper>
       }
     />
@@ -143,16 +141,5 @@ const IconForRemainingDays = ({ remainingDays = -1 }: { remainingDays: number | 
     return <SvgIcon type="lib_help_error_info_circle" color="var(--ids-color-option-red-500)" />;
   } else {
     return <SvgIcon type="lib_help_error_info_circle" color="var(--ids-color-option-red-500)" />;
-  }
-};
-
-const AssistMe = ({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) => {
-  if (tryOfferLicenseType) {
-    return (
-      //@ts-expect-error missing field value secondary
-      <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
-    );
-  } else {
-    return null;
   }
 };

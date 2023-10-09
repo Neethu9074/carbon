@@ -8,9 +8,9 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
 // @ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
+import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
@@ -51,7 +51,7 @@ export function CustomButtons({ message }: CustomButtonsProps) {
           rel="noopener noreferrer"
           onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
         >
-          {t('in-components:messageFlyout.buyNowBtn')}
+          {t('in-plg:licenseBanner.buyNowBtn')}
         </Button>
       )}
       <Button
@@ -64,7 +64,7 @@ export function CustomButtons({ message }: CustomButtonsProps) {
           addActiveDialog(<RequestQuoteDialog />);
         }}
       >
-        {t('in-components:messageFlyout.requestQuoteBtn')}
+        {t('in-plg:licenseBanner.requestQuoteBtn')}
       </Button>
     </>
   );
