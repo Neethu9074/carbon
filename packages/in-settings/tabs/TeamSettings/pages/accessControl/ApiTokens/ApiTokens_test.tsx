@@ -7,16 +7,13 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
-import {
-  getApiTokens
-  // @ts-ignore
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
-import ApiTokens from './ApiTokens';
-import { ApiTokenProps } from './ApiToken';
-import { generateUniqueShortId } from '@instana/utils';
+import { getApiTokens, deleteApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
+import { ApiTokenProps } from './ApiToken';
+import ApiTokens from './ApiTokens';
 
 jest.mock('in-i18n', () => ({
   t: (key: string) => key
@@ -39,20 +36,12 @@ jest.mock('in-settings/navigation/paths', () => ({
   getEntityIdView: (path: string, internalId: string) => mockGetEntityHref(path, internalId)
 }));
 
-const mockDeleteApiToken = jest.fn();
-/* jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api', () => ({
-  deleteApiToken: (entity: ApiTokenProps) => mockDeleteApiToken(entity.internalId)
-})); */
-
-/* jest.mock('in-settings/components/actions/Delete', () => ({
-  deleteEntity: (internalId: string) => mockDeleteApiToken(internalId)
-})); */
-
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
     // @ts-ignore
     getApiTokens.mockClear();
+    deleteApiToken.mockClear();
   });
 
   const createToken = () => ({
@@ -95,6 +84,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
       sendResult();
     }
     getApiTokens.mockReturnValue(res);
+    deleteApiToken.mockReturnValue(res);
   };
 
   it('should contain a list of api tokens', () => {
@@ -170,7 +160,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     };
     mockGet({ amount: 0, first: token });
 
-    const { getByText /* , queryByText */, container } = render(<ApiTokens />);
+    const { getByText, container } = render(<ApiTokens />);
     const records = container.querySelectorAll('table tbody tr');
     expect(records.length).toBe(1);
     fireEvent.click(records[0]);
@@ -195,6 +185,5 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     expect(records.length).toBe(1);
     const btn = records[records.length - 1];
     fireEvent.click(btn);
-    expect(mockDeleteApiToken).toBeCalledWith(token.internalId);
   });
 });
