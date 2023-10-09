@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SapThresholdTooltip from './SapThresholdTooltip';
-import Tooltip from '../../../in-components/Tooltip';
-import theme from 'in-themes';
+import Tooltip from 'in-components/Tooltip';
+import oldTheme from 'in-themes';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
@@ -21,7 +21,7 @@ export function HealthDot({
   redToYellow,
   yellowToRed,
   unit,
-  color = theme.lib.colors.fadedTeal800,
+  color = oldTheme.lib.colors.fadedTeal800, //No alternative available
   explanation,
   iconSize,
   className
@@ -58,10 +58,10 @@ export function HealthDot({
 }
 
 export const statusToColour = {
-  Grey: theme.lib.colors.success,
-  Green: theme.lib.colors.success,
-  Red: theme.lib.colors.failure,
-  Unknown: theme.lib.colors.N400
+  Grey: oldTheme.lib.colors.success,
+  Green: oldTheme.lib.colors.success,
+  Red: oldTheme.lib.colors.failure,
+  Unknown: oldTheme.lib.colors.N400
 };
 
 HealthDot.propTypes = {

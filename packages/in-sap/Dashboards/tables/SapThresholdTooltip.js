@@ -9,11 +9,12 @@ import React from 'react';
 import { SvgIconSizes } from '@instana/components';
 
 import { HealthDot } from 'in-sap/Dashboards/tables/HealthDot.js';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from 'in-sap/Dashboard.mless';
 
 export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow, redToYellow, yellowToRed, unit }) {
+  const theme = useTheme();
   if (!unit) {
     unit = 'c';
   }
@@ -26,19 +27,19 @@ export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow
             <table>
               <tr>
                 <td>
-                  <HealthDot color={theme.lib.colors.success} iconSize={SvgIconSizes.xxs} />
+                  <HealthDot color={theme.ids.color.option.green['500']} iconSize={SvgIconSizes.xxs} />
                 </td>
                 <td>{'Green'}</td>
               </tr>
               <tr>
                 <td>
-                  <HealthDot color={theme.lib.colors.yellow800} iconSize={SvgIconSizes.xxs} />
+                  <HealthDot color={theme.ids.color.option.yellow['500']} iconSize={SvgIconSizes.xxs} />
                 </td>
                 <td>{'Yellow'}</td>
               </tr>
               <tr>
                 <td>
-                  <HealthDot color={theme.lib.colors.failure} iconSize={SvgIconSizes.xxs} />
+                  <HealthDot color={theme.ids.color.option.red['500']} iconSize={SvgIconSizes.xxs} />
                 </td>
                 <td>{'Red'}</td>
               </tr>
@@ -68,11 +69,11 @@ export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow
             <tr>
               <td>{'Yellow - Green'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.yellow800} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.yellow['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{'-'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.success} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.green['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{getValue(yellowToGreen)}</td>
               <td>{unit}</td>
@@ -80,11 +81,11 @@ export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow
             <tr>
               <td>{'Green - Yellow'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.success} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.green['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{'-'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.yellow800} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.yellow['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{getValue(greenToYellow)}</td>
               <td>{unit}</td>
@@ -92,11 +93,11 @@ export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow
             <tr>
               <td>{'Red - Yellow'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.failure} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.red['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{'-'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.yellow800} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.yellow['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{getValue(redToYellow)}</td>
               <td>{unit}</td>
@@ -104,11 +105,11 @@ export default function SapThresholdTooltip({ type, yellowToGreen, greenToYellow
             <tr>
               <td>{'Yellow - Red'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.yellow800} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.yellow['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{'-'}</td>
               <td>
-                <HealthDot color={theme.lib.colors.failure} iconSize={SvgIconSizes.xxs} />
+                <HealthDot color={theme.ids.color.option.red['500']} iconSize={SvgIconSizes.xxs} />
               </td>
               <td>{getValue(yellowToRed)}</td>
               <td>{unit}</td>
