@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -15,33 +15,30 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { days } from 'in-services/time';
 
 export default function NotificationBarSticky() {
-  const [expired, setExpired] = useState(false);
+  const [expiredDialogShown, setExpiredDialogShown] = useState(false);
 
-  const messages = useObservable(messages$, []);
-  if (!messages || messages.length === 0) {
-    return null;
-  }
+  const messages = useObservable(messages$, []) ?? [];
   const firstLicenseUsageMsg = messages.find(message => message.isLicenseUsageMsg);
-  //Logic part of licenseExpiryPopUp
-  if (!firstLicenseUsageMsg) {
-    return null;
-  }
+
   const sevenDaysInMilliseconds = days.toMillis(7);
-  const isSevenDaysOver = Date.now() - firstLicenseUsageMsg.expiryDate > sevenDaysInMilliseconds;
-  const isExpired = Date.now() - firstLicenseUsageMsg.expiryDate > 0;
+  const isSevenDaysOver = Date.now() - firstLicenseUsageMsg?.expiryDate > sevenDaysInMilliseconds;
 
-  const dialog = <OpenTrialExpiryDialog message={firstLicenseUsageMsg} isSevenDaysOver={isSevenDaysOver} />;
+  const isExpired = firstLicenseUsageMsg && Date.now() - firstLicenseUsageMsg?.expiryDate > 0;
 
-  if (isExpired) {
-    if (!expired) {
-      addActiveDialog(dialog);
-      setExpired(true);
+  useEffect(() => {
+    if (isExpired) {
+      if (!expiredDialogShown) {
+        // avoid showing the message again. Will show again on a page refresh.
+        setExpiredDialogShown(true);
+        addActiveDialog(<OpenTrialExpiryDialog message={firstLicenseUsageMsg} isSevenDaysOver={isSevenDaysOver} />);
+      }
     }
-  }
+    // ignoring firstLicenseUsageMsg and isSevenDaysOver
+    // eslint-disable-next-line
+  }, [isExpired]);
 
-  return (
-    <>
-      <StickyBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />
-    </>
-  );
+  if (firstLicenseUsageMsg) {
+    return <StickyBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />;
+  }
+  return null;
 }
