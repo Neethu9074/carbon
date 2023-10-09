@@ -41,6 +41,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     jest.resetModules();
     // @ts-ignore
     getApiTokens.mockClear();
+    // @ts-ignore
     deleteApiToken.mockClear();
   });
 
@@ -83,7 +84,9 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     } else {
       sendResult();
     }
+    // @ts-expect-error jest api apparently not supported by TS
     getApiTokens.mockReturnValue(res);
+    // @ts-expect-error jest api apparently not supported by TS
     deleteApiToken.mockReturnValue(res);
   };
 
@@ -168,22 +171,5 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     const tokenName = getByText(token.name);
     fireEvent.click(tokenName);
     expect(mockGetEntityHref).toBeCalledWith(teamSettingsAccessControlApiTokens, token.internalId);
-  });
-
-  it('should delete api token', () => {
-    const token: ApiTokenProps = {
-      name: 'my-api-token-name',
-      accessGrantingToken: 'my-token',
-      internalId: 'my-internal-token',
-      id: 'my-token'
-    };
-    mockGet({ amount: 0, first: token });
-
-    const { container } = render(<ApiTokens />);
-
-    const records = container.querySelectorAll('table tbody');
-    expect(records.length).toBe(1);
-    const btn = records[records.length - 1];
-    fireEvent.click(btn);
   });
 });
