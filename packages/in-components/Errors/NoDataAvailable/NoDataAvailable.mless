@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .icon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     width: 100%;
     height: 100%;
   }

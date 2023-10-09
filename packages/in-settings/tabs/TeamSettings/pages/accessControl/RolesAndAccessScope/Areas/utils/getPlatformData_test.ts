@@ -9,7 +9,7 @@ import {
   mockPermissionsSetWithData
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/testData';
 import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getPlatformData';
-import { ScopedPermissionItem } from '../../constants';
+import { ScopedPermissionItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));

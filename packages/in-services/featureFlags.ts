@@ -51,8 +51,6 @@ export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
-export const tagCatalogSmallQueryWindowEnabled = isFeatureFlagEnabled('tagCatalogSmallQueryWindowEnabled');
-
 // SmartAlerts & AP Alert Migration related feature flags
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
   'builtInGlobalApplicationSmartAlertsEnabled'
@@ -71,7 +69,6 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
-export const sloV2CreationEnabled = isFeatureFlagEnabled('sloV2CreationEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
@@ -183,6 +180,12 @@ export const userSettingsThemeEnabled = isFeatureFlagEnabled('userSettingsThemeE
 
 export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnabled(
   'oneMinuteGranularityForStaticThresholdEnabled',
-  false
+  true
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
+export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
+export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
+// featureflag to display actions lane in app and host dashboard
+export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', false);
+
+export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);

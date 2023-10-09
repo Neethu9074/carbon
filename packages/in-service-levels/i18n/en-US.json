@@ -7,6 +7,8 @@
     "boundary": "Boundary",
     "clear": "Clear",
     "custom": "Custom",
+    "duration": "Duration",
+    "from": "From",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "editButtonLabel": "Edit",
@@ -45,6 +47,7 @@
       "label_application": "Application",
       "label_website": "Website"
     },
+    "preview": "Preview",
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
@@ -52,6 +55,16 @@
       "type": "unknown",
       "type_fixed": "Fixed",
       "type_rolling": "Rolling",
+      "option_day": "Day",
+      "option_day_plural": "Days",
+      "option_day_0": "Days",
+      "option_day_1": "Day",
+      "option_day_2": "Days",
+      "option_week": "Week",
+      "option_week_plural": "Weeks",
+      "option_week_0": "Weeks",
+      "option_week_1": "Week",
+      "option_week_2": "Weeks",
       "size_month": "{{count}} month",
       "size_month_plural": "{{count}} months",
       "size_month_0": "{{count}} months",
@@ -73,6 +86,7 @@
       "remainingBudget": "Error Budget Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
+      "momentaryBudgetConsumption": "Error Budget Consumption",
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
@@ -102,7 +116,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Custom Filter",
+    "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",
     "selectIndicator": "Select Indicator",
     "selectEntityNavItem": "Select Entity",
@@ -121,15 +135,19 @@
     "length": "Length",
     "start": "Start",
     "valueMissingTime": "— min",
-    "estErrorBudget": "Estimated Error Budget",
-    "estErrorBudgetMsg": "Based on the past 7 days",
+    "errorBudgetPreviewTitle": "Error Budget",
+    "errorBudgetPreviewTitle_eventBased": "Estimated Error Budget",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "Based on the past $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
     "errorTimeWindowDay": "The time window size has to be less or equal to 31 days",
     "errorTimeWindowWeek": "The time window size has to be less or equal to 4 weeks",
+    "errorTimeWindowMin": "The time window must be at least one day long",
     "nameAndTagsTitle": "Name and Tags",
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
-    "tagsLabel": "Tags",
+    "sloNameCopyTemplate": "Copy of {{name}}",
+    "tagsLabel": "Tags (optional)",
     "tagsPlaceholder": "Enter tags",
     "tagsCreateLabel": "Create: {{tag}}",
     "messages": {
@@ -137,21 +155,42 @@
       "creationSuccessfulContent": "SLO configuration \"{{name}}\" has been created.",
       "creationFailedTitle": "Failed to create the SLO configuration",
       "creationFailedContent": "There was a problem creating this SLO configuration: \"{{name}}\".",
-      "creationFailedUnexpectedContent": "An unexpected error occured while creating this SLO configuration, please try again later."
+      "creationFailedUnexpectedContent": "An unexpected error occurred while creating this SLO configuration, please try again later."
     },
     "indicatorSection": {
       "description_custom": "This should be updated later as it is missing in the designs",
-      "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms",
-      "description_availability": "Measures how often a service responds appropriately. For example, how often your checkout-service responds with HTTP calls >400",
+      "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms.",
+      "description_availability": "Measures how often a service responds appropriately. For example, how often your HTTP calls are erroneous.",
       "timeTypeExplanation": "Good vs bad calls grouped aggregated by minute",
       "eventTypeExplanation": "Total count of good vs bad calls",
       "eventCount": "Event Count",
       "eventType": "Event Type",
       "thresholdLabel": "Unknown type",
       "thresholdLabel_latency": "Threshold (ms)",
-      "thresholdLabel_availability": "Error rate %",
+      "thresholdLabel_availability": "Error Rate (%)",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "call",
+      "unit_plural": "calls",
+      "thousandCallsFormat": "{{count}}K calls"
+    },
+    "sloChartSummary": {
+      "status": "Status",
+      "target": "Target:",
+      "errorBudgetSpent": "Error Budget Spent",
+      "errorBudget": "Error Budget:",
+      "timeWindow": "Time Window",
+      "timeWindowType_dynamic": "Dynamic time window",
+      "timeWindowType_rolling": "Rolling time window",
+      "timeWindowType_fixed": "Fixed time window"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",
+      "highlightMissingConfig": "Highlight missing configuration"
     }
   },
   "sloList": {
@@ -218,9 +257,12 @@
       },
       "errorBudgetChart": {
         "title": "Error Budget",
-        "title_fullWindow": "Error Budget over entire Time Window",
+        "title_fullWindow": "Error Budget Over Entire Time Window",
         "optionCompact": "Compact",
         "optionFull": "Full Consumption"
+      },
+      "errorBudgetConsumptionChart": {
+        "title": "Error Budget Consumption Over Entire Time Window"
       },
       "trafficChart": {
         "title": "Traffic"
@@ -250,8 +292,8 @@
         "apHiddenCallsInternal_true": "Does include internal calls",
         "apHiddenCallsInternal_false": "Does not include internal calls",
         "apHiddenCallsSynthetic": "Includes synthetic calls",
-        "apHiddenCallsSynthetic_true": "Does includes synthetic calls",
-        "apHiddenCallsSynthetic_false": "Does not includes synthetic calls",
+        "apHiddenCallsSynthetic_true": "Does include synthetic calls",
+        "apHiddenCallsSynthetic_false": "Does not include synthetic calls",
         "apServiceLabel": "Service",
         "apAllServices": "All Services",
         "apEndpointLabel": "Endpoint",

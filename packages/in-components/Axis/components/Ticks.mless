@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .ticks {
     position: absolute;
@@ -22,7 +20,7 @@
   }
 
   .verticalTickLabel {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 
   .horizontalTickLabel {
@@ -31,7 +29,7 @@
     align-items: center;
 
     margin-left: -18px;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     width: 3.5rem;
   }
 
@@ -42,7 +40,7 @@
   .verticalTick,
   .horizontalTick {
     position: absolute;
-    background: @lib__colors__N400;
+    background: var(--ids-color-option-neutral-400);
   }
 
   .verticalTick {

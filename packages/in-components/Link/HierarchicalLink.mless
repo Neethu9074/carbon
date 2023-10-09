@@ -14,7 +14,7 @@
 
   .pluginIcon {
     margin: 0 0.25rem 0 0;
-    fill: @lib__colors__primary2;
+    fill: var(--ids-color-option-blue-500);
   }
 
   .infoIcon {

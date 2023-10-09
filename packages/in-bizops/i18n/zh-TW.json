@@ -2,11 +2,16 @@
   "labelBizOps": "程序",
   "labelSmartAlerts": "智慧型警示",
   "labelActivities": "活動",
+  "components": {
+    "count": "計數"
+  },
   "lists": {
     "pageTitle": "商業監視",
     "cardTitle": "商業程序",
     "activityLabel": "活動",
     "nameLabel": "名稱",
+    "countLabel": "計數",
+    "durationLabel": "持續時間",
     "noData": "沒有可用的資料",
     "healthLabel": "性能",
     "startLabel": "已開始"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "商業程序",
       "summaryTab": "摘要",
+      "activitiesTab": "活動",
       "widgets": {
-        "timeline": "時間表",
         "topActivities": "前幾個活動（計數）",
         "infrastructureIssuesAndChanges": "基礎架構問題與變更",
-        "viewAll": "檢視所有活動",
-        "count": "計數",
-        "businessProcessStartedLabel": "{{businessProcessName}} 已啟動"
+        "viewAll": "檢視所有活動"
       }
+    },
+    "activity": {
+      "pageTitle": "商業活動",
+      "summaryTab": "摘要"
     }
   }
 }

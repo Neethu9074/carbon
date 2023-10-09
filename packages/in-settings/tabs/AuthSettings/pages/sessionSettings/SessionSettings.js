@@ -7,8 +7,8 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
+import { getSessionSettingsAsResultObservable } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
-import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';

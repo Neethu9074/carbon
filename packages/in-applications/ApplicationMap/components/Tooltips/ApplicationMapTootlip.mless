@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
@@ -15,8 +13,8 @@
     padding: 1rem;
 
     background: #fff;
-    border-radius: @lib__shapes__radius_large;
-    border: 1px solid @lib__colors__N400;
+    border-radius: var(--ids-border-radius-large);
+    border: 1px solid var(--ids-color-option-neutral-400);
 
     overflow: hidden;
   }
@@ -30,7 +28,7 @@
     height: 1px;
     margin: 1rem -1rem 0 -1rem;
 
-    background: @lib__colors__N300;
+    background: var(--ids-color-option-neutral-300);
   }
 
   .content {

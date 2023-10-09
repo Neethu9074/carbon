@@ -14,7 +14,7 @@ import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Errors({
@@ -33,6 +33,7 @@ export default function Errors({
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const timeShiftConfig = useTimeShiftConfig();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const theme = useTheme();
 
   const errorRate = {
     metric: 'errors',
@@ -43,7 +44,7 @@ export default function Errors({
     timeConfig: timeConfig,
     granularity,
     timeShift: 0,
-    color: theme.lib.colors.failure
+    color: theme.ids.color.option.red['500']
   };
 
   let metrics;
@@ -58,7 +59,7 @@ export default function Errors({
       // make sure the main metric renders over the time shifted metric
       errorRate
     ];
-    colors = [theme.lib.colors.timeShift, errorRate.color];
+    colors = [theme.ids.color.option.neutral['400'], errorRate.color];
     renderer = line.id;
   } else {
     metrics = [errorRate];
@@ -68,7 +69,7 @@ export default function Errors({
 
   return (
     <UnifiedMetricsChart
-      customChartSkeletonHeight={262}
+      customChartSkeletonHeight={280}
       renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({

@@ -12,13 +12,13 @@
   }
 
   .header {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .filtersPrompt {
     font-size: 0.75rem;
     font-weight: 300;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin: 1rem;
   }
 }

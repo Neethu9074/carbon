@@ -7,7 +7,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { TabSelectContext } from 'in-components/TabSelect/context';
+import TabSelectContext from 'in-components/TabSelect/context';
 import { TabSelectPanel } from '..';
 
 describe('in-components/TabSelect/components/TabSelectPanel', () => {
@@ -20,7 +20,7 @@ describe('in-components/TabSelect/components/TabSelectPanel', () => {
       <TabSelectContext.Provider
         value={{
           activePanelId,
-          setActivePanelId: () => {}
+          onChange: () => {}
         }}
       >
         <TabSelectPanel id={activePanelId}>Foo</TabSelectPanel>
@@ -40,7 +40,7 @@ describe('in-components/TabSelect/components/TabSelectPanel', () => {
       <TabSelectContext.Provider
         value={{
           activePanelId: 'panel-2',
-          setActivePanelId: () => {}
+          onChange: () => {}
         }}
       >
         <TabSelectPanel id={activePanelId}>Foo</TabSelectPanel>

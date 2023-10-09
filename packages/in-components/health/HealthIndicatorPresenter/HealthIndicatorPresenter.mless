@@ -10,7 +10,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     font-size: @lib__typography__body__font-size;
     font-weight: 600;
     color: #3d464d;
@@ -25,6 +25,6 @@
   }
 
   .okayIcon {
-    fill: @lib__colors__success;
+    fill: var(--ids-color-option-green-500);
   }
 }

@@ -4,7 +4,6 @@
 * Copyright IBM Corp. 2023
 */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -15,7 +14,7 @@
   }
   // SettingsSection.tsx component.
   .configContainer {
-    border: 1px solid @lib__colors__N300;
+    border: 1px solid var(--ids-color-option-neutral-300);
     padding: 10px;
   }
   .configCheckbox {
@@ -32,7 +31,7 @@
     margin-bottom: 1rem;
   }
   .configRow {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     padding-bottom: 1rem;
   }
   .lastConfigRow {
@@ -79,6 +78,6 @@
 
 :global {
   :local(.content) .language-json .token.property {
-    color: @lib__colors__pink800;
+    color: var(--ids-color-option-pink-500);
   }
 }

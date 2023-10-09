@@ -28,7 +28,7 @@
 
     padding: 1.0625rem 0 4rem 0;
 
-    background: @lib__colors__navy900;
+    background: var(--ids-color-option-navy-900);
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
 
     overflow: hidden;

@@ -50,7 +50,8 @@
       "httpRequestHttpDeleteLabel": "HTTP DELETE 计数",
       "httpRequestHttpDeleteRawDataLabel": "HTTP 方法",
       "customBeaconCountLabel": "出现次数",
-      "customBeaconDurationLabel": "持续时间"
+      "customBeaconDurationLabel": "持续时间",
+      "crashBeaconCountLabel": "崩溃"
     },
     "quickFilterBar": {
       "mobileAppLabel": "移动应用程序",
@@ -244,8 +245,8 @@
     }
   },
   "dashboard": {
-    "mobileAppViewTitle": "移动应用程序",
-    "mobileAppTitle": "视图",
+    "mobileAppViewTitle": "视图",
+    "mobileAppTitle": "移动应用程序",
     "analyzeSessions": "分析会话",
     "analyzeViewTransitions": "分析视图转换",
     "numSessionStarts": "{{num}} 次会话启动",
@@ -258,6 +259,10 @@
       "configurationLabel": "配置",
       "nameLabel": "名称",
       "occurrencesLabel": "出现次数",
+      "affectedUsersLabel": "受影响的用户数",
+      "crashErrorGroupsTitle": "崩溃错误组",
+      "crashErrorGroupsHelpInfo": "仅显示为已识别的受影响用户收集的数据",
+      "analyzeCrashesLink": "分析崩溃",
       "configurationTitle": "配置",
       "optionsLabel": "选项",
       "privacyLabel": "隐私",
@@ -278,6 +283,8 @@
       "noSessionExplanationWithFilters": "在所选时间范围内找不到与您的过滤器匹配的会话。",
       "switchTo3DTooltip": "切换到 3D 全局",
       "3DBtn": "3D",
+      "switchTo2DTooltip": "切换到 2D 映射",
+      "2DBtn": "2D",
       "errorTypesTitle": "错误类型数",
       "viewAllErrorTypesLink": "查看所有错误类型数",
       "originTitle": "源",
@@ -310,6 +317,8 @@
       "viewAllOriginsLink": "查看所有源",
       "sessionStartsTitle": "会话启动数",
       "viewInAnalyzeIconAction": "查看分析",
+      "crashFreeSessionRateTitle": "崩溃可用会话速率",
+      "crashFreeUserRateTitle": "崩溃可用用户速率",
       "viewTransitionsTitle": "视图转换数",
       "activityCardTitle": "活动",
       "sessionStartsLabel": "会话启动数",
@@ -317,6 +326,10 @@
       "geographyTitle": "地理",
       "topViewsTitle": "排名靠前的视图",
       "globViewFootertext": "NASA 提供的图像",
+      "uniqueUserCount": "{{formattedCount}} 个标识的用户",
+      "uniqueUserCount_plural": "{{formattedCount}} 个标识的用户",
+      "sessionCount": "{{formattedCount}} 个会话",
+      "sessionCount_plural": "{{formattedCount}} 个会话",
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "移动应用程序定制事件详细信息",
         "customEventLabelBackToListOfCustomEvents": "返回到定制事件列表",
@@ -350,7 +363,8 @@
         "viewTopListLabelUsers": "用户",
         "viewTopListLinkLabel": "查看所有视图",
         "viewTopListTitle": "视图"
-      }
+      },
+      "smartAlerts": "智能警报"
     },
     "noDataAvailable": {
       "viewsTitle": "无可用视图",
@@ -365,6 +379,7 @@
     "nameLabel": "名称",
     "sessionStartsLabel": "会话启动数",
     "viewTransitionsLabel": "视图转换数",
+    "crashFreeSessionRateLabel": "崩溃可用会话速率",
     "addMobileAppBtn": "添加移动应用程序",
     "mobileAppsTitle": "移动应用程序"
   },

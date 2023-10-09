@@ -34,7 +34,8 @@ export function fromUrlMetrics({
   return urlMetrics
     .map(m => ({
       metric: m.metric ?? m.metricId,
-      aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN'
+      aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN',
+      crossSeriesAggregation: m.crossSeriesAggregation
     }))
     .filter(m => Boolean(m.metric));
 }

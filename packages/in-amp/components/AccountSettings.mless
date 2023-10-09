@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .subViewHeading {
     display: flex;
@@ -16,7 +14,7 @@
   }
 
   .domains {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .message {
@@ -25,7 +23,7 @@
 
   .icon {
     margin: 0 0.25rem 0.25rem 0;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .row {

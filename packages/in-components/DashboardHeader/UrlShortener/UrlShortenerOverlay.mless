@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     width: 20rem;
@@ -32,7 +30,7 @@
 
   .explanation {
     padding: 0.3rem 0.5rem;
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
   }
 
   .bottomTimeRow {

@@ -6,8 +6,9 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isApplicationSloEntity, isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { DurationUnitType, isEventBasedSli } from '@instana/types';
+import { formatTime } from '@instana/format-date';
 
 import {
   SloEntityFields,
@@ -18,29 +19,33 @@ import {
   TimeStamp
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
+  createThresholdFieldValidator,
   dateFieldValidator,
   targetFieldValidator,
-  thresholdFieldValidator,
   timeFieldValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { defaultBlueprint } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
+  const { entity } = sloConfig;
   return {
     entityId: createField({
-      value: sloConfig.entity.type === 'application' ? sloConfig.entity.applicationId : sloConfig.entity.websiteId
+      value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId
     }),
-    type: createField({ value: sloConfig.entity.type })
+    type: createField({ value: entity.type })
   };
 };
 
-export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloScopeFields => {
-  if (sloConfig.entity.type === 'application') {
-    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } =
-      sloConfig.entity;
+export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields => {
+  if (isApplicationSloEntity(entity)) {
+    const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } = entity;
 
     return {
       beaconType: createField({ value: 'httpRequest' }),
@@ -54,13 +59,13 @@ export const getScopeFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConf
   }
 
   return {
-    beaconType: createField({ value: sloConfig.entity.beaconType }) as Field<SloBeaconTypes>,
+    beaconType: createField({ value: entity.beaconType }) as Field<SloBeaconTypes>,
     boundaryScope: createField({ value: 'ALL' }),
     endpointId: createField({ value: '' }),
     includeInternal: createField({ value: false }),
     includeSynthetic: createField({ value: false }),
     serviceId: createField({ value: '' }),
-    tagFilterExpression: createField({ value: fromBackendModel(sloConfig.entity.tagFilterExpression) })
+    tagFilterExpression: createField({ value: fromBackendModel(entity.tagFilterExpression) })
   };
 };
 
@@ -68,48 +73,58 @@ export const getIndicatorFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
 ): SloIndicatorFields => {
   const { indicator } = sloConfig;
+  const { type } = indicator;
 
   if (isTimeBasedSli(indicator)) {
+    const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
-      aggregation: createField({ value: indicator.aggregation ?? 'SUM' }),
-      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
-      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
+      aggregation: createField({ value: indicator.aggregation ?? 'MEAN' }),
+      blueprint: createField({ value: blueprint }),
+      threshold: createIndicatorThresholdField({ value: indicator.threshold, blueprint, indicatorType: type }),
       badEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
       goodEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      type: createField({ value: indicator.type })
+      type: createField({ value: type })
     };
   }
 
   if (isEventBasedSli(indicator)) {
+    const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
-      aggregation: createField({ value: 'SUM' }),
+      aggregation: createField({ value: 'MEAN' }),
       badEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      blueprint: createField({ value: indicator.blueprint ?? 'availability' }),
+      blueprint: createField({ value: blueprint }),
       goodEventsFilter: createField({
-        value: fromBackendModel(undefined)
+        value: []
       }),
-      threshold: createField({ value: indicator.threshold ?? undefined, validator: thresholdFieldValidator }),
-      type: createField({ value: indicator.type })
+      threshold: createField({
+        value: indicator.threshold ?? undefined,
+        validator: createThresholdFieldValidator(blueprint, type)
+      }),
+      type: createField({ value: type })
     };
   }
 
+  const blueprint = defaultBlueprint;
   return {
-    aggregation: createField({ value: 'SUM' }),
+    aggregation: createField({ value: 'MEAN' }),
     badEventsFilter: createField({
       value: fromBackendModel(indicator.badEventsFilter)
     }),
-    blueprint: createField({ value: 'availability' }),
+    blueprint: createField({ value: blueprint }),
     goodEventsFilter: createField({
       value: fromBackendModel(indicator.goodEventsFilter)
     }),
-    threshold: createField({ value: indicator.threshold ?? 0 }),
-    type: createField({ value: indicator.type })
+    threshold: createField({
+      value: indicator.threshold ?? 0,
+      validator: createThresholdFieldValidator(blueprint, type)
+    }),
+    type: createField({ value: type })
   };
 };
 export const getObjectiveFormFieldsFromSloConfig = (
@@ -117,7 +132,7 @@ export const getObjectiveFormFieldsFromSloConfig = (
 ): SloObjectiveFields => {
   return {
     target: createField<number | undefined>({
-      value: undefined,
+      value: sloConfig.target,
       validator: targetFieldValidator
     }),
     duration: createField({ value: sloConfig.timeWindow.duration }),
@@ -139,7 +154,7 @@ export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfigu
         validator: dateFieldValidator
       }),
       time: createField<string>({
-        value: formatDate(timeStamp)!,
+        value: formatTime(sloConfig.timeWindow.startTimestamp) ?? formatTime(timeStamp)!,
         validator: timeFieldValidator
       })
     };

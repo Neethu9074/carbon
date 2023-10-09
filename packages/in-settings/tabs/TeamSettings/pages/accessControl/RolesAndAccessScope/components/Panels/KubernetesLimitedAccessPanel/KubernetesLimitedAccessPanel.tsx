@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
 import { Stack, StackItem, Typography } from '@instana/components';
+import { PermissionSet } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import KubernetesAddEntityButton from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesAddEntityButton';
@@ -43,7 +43,7 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
   setSubSlideConfig
 }: Props<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 
   return (

@@ -37,13 +37,13 @@ import { createTagFilterExpression } from 'in-components/QueryBuilder/transforma
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constants';
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
 import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/paths';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -312,7 +312,7 @@ function setDefaultMatrixParameter({
 function getApplicationMetric(blueprint?: BlueprintType): MetricAggregationTuple {
   if (!blueprint || !Object.keys(applicationChartMetrics).includes(blueprint ?? '')) {
     // Fall back to plain calls in case of an unsupported blueprint type
-    return applicationChartMetrics['availability'];
+    return applicationChartMetrics[defaultBlueprint];
   }
   return applicationChartMetrics[blueprint];
 }

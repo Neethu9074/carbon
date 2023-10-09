@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .label {
     font-size: 0.875rem;
@@ -18,6 +16,6 @@
   }
 
   .aggregations {
-    background-color: @lib__colors__white;
+    background-color: var(--ids-color-option-white);
   }
 }

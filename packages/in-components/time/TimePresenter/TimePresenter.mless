@@ -11,7 +11,7 @@
     // button group button
     margin-right: -1px;
 
-    border-radius: @lib__shapes__radius_small 0 0 @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small) 0 0 var(--ids-border-radius-small);
 
     &:hover,
     &:active,
@@ -29,8 +29,8 @@
   }
 
   .dark {
-    border-left: 1px solid @lib__colors__N700Medium;
-    border-right: 1px solid @lib__colors__N700Medium;
+    border-left: 1px solid var(--ids-color-option-neutral-700);
+    border-right: 1px solid var(--ids-color-option-neutral-700);
   }
 
   .displayTimeWrapper {

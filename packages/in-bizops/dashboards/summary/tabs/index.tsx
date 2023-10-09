@@ -7,7 +7,6 @@
 import { businessProcessSummaryPath, businessProcessActivityListPath } from 'in-bizops/navigation/paths';
 import Activities from 'in-bizops/dashboards/summary/tabs/activities/Activities';
 import Summary from 'in-bizops/dashboards/summary/tabs/summary/Summary';
-import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 function enableActivityTab() {
@@ -18,13 +17,11 @@ function enableActivityTab() {
       component: Summary
     }
   ];
-  if (bizopsFeatureEnabled) {
-    tabs.push({
-      label: t('in-bizops:dashboards.summary.activitiesTab'),
-      path: `${businessProcessActivityListPath}`,
-      component: Activities
-    });
-  }
+  tabs.push({
+    label: t('in-bizops:dashboards.summary.activitiesTab'),
+    path: `${businessProcessActivityListPath}`,
+    component: Activities
+  });
   return tabs;
 }
 

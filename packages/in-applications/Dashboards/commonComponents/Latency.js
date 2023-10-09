@@ -135,7 +135,7 @@ export default function Latency({
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
-      customChartSkeletonHeight={262}
+      customChartSkeletonHeight={280}
       renderPostChartContent={props =>
         renderPostChartContent({
           chartName: cardTitle,

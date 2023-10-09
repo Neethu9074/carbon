@@ -21,7 +21,7 @@
   }
 
   .content {
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     padding-right: 0.875rem;
     min-height: 720px;
   }
@@ -40,7 +40,7 @@
   .icon {
     border-radius: 50%; // creates a round icon
     margin-left: 0.5rem;
-    fill: @lib__colors__white;
-    background-color: @lib__colors__failure;
+    fill: var(--ids-color-option-white);
+    background-color: var(--ids-color-option-red-500);
   }
 }

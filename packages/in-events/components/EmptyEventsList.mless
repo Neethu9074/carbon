@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .row {
-    background: @lib__colors__white !important;
+    background: var(--ids-color-option-white) !important;
   }
 }

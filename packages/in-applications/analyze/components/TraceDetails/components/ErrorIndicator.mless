@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .errorIcon {
-    background-color: @lib__colors__failure;
+    background-color: var(--ids-color-option-red-500);
     color: #fff;
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
     flex-shrink: 0;
     display: flex;
     align-items: center;

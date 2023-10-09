@@ -19,6 +19,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.gce.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-google-compute-engine#required-permissions`
+    explanationLinkHref: `https://ibm.biz/gce-required-permission`
   }
 };

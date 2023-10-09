@@ -42,8 +42,8 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import { minutes, seconds } from 'in-services/time';
 import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
+import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -64,6 +64,8 @@ export default function Summary({
   if (typeof logIdPair === 'string') {
     logIdPair = { logId: logIdPair, spanId: undefined };
   }
+
+  const theme = useTheme();
 
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
 
@@ -199,7 +201,9 @@ export default function Summary({
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.erroneousCalls')}
-              color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
+              color={
+                trace.totalErrorCount > 0 ? theme.ids.color.option.red['500'] : theme.ids.color.option.neutral['900']
+              }
               value={trace.totalErrorCount}
               renderValue={number.compact}
             />
@@ -207,7 +211,9 @@ export default function Summary({
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.errorLogs')}
-              color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
+              color={
+                trace.totalErrorLogCount > 0 ? theme.ids.color.option.red['500'] : theme.ids.color.option.neutral['900']
+              }
               value={trace.totalErrorLogCount}
               renderValue={number.compact}
             />
@@ -215,7 +221,11 @@ export default function Summary({
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.warnLogs')}
-              color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
+              color={
+                trace.totalWarnLogCount > 0
+                  ? theme.ids.color.option.yellow['500']
+                  : theme.ids.color.option.neutral['900']
+              }
               value={trace.totalWarnLogCount}
               renderValue={number.compact}
             />

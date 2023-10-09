@@ -6,8 +6,6 @@ env:
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
-    INSTANA_ARTIFACTORY_USERNAME: "delivery.instana.io.internal.rw.username"
-    INSTANA_ARTIFACTORY_PASSWORD: "delivery.instana.io.internal.rw.password"
     GITHUB_API_TOKEN: "ibm.github.e.api.token"
     GITHUB_READ_PASSWORD: "github.read.password"
     GITHUB_READ_USER: "github.read.user"
@@ -18,7 +16,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
     commands:
       # Set up the shared tooling
       - ./build/download-ci-shared-tools.bash

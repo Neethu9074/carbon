@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .childrenDistributionTimeLine {
     position: relative;
@@ -72,7 +70,7 @@
     padding: 0 0.25rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     background: #fff;
     white-space: nowrap;
   }

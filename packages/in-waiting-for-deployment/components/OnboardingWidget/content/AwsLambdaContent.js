@@ -533,7 +533,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
-          href="https://www.ibm.com/docs/en/obi/current?topic=kinesis-aws-lambda-native-tracing-ruby"
+          href="https://ibm.biz/aws-lambda-tracing-ruby"
         />
         <Spacer />
         <Description

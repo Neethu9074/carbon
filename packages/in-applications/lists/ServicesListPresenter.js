@@ -35,8 +35,10 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { newServiceView } from 'in-applications/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Filters from 'in-applications/components/Filters';
@@ -272,8 +274,8 @@ export default function ServicesList({
         <Title title={t('in-applications:labelService')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Applications',
-            pageRootName: 'Services'
+            productArea: productAreas.applications,
+            pageRootName: pageNames.services
           }}
         />
 

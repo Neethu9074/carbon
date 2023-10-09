@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 
 import {
   ProductArea,
@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 type ProductAreaWithSyntheticData = Extract<ProductAreaType, 'SYNTHETICS'>;
 
-type ItemIdKeys = Extract<keyof PermissionSetWithRoles, 'syntheticTestIds'>;
+type ItemIdKeys = Extract<keyof PermissionSet, 'syntheticTestIds'>;
 
 interface dataMapItem {
   itemIdKey: ItemIdKeys;
@@ -36,7 +36,7 @@ interface AreaData {
 
 interface getAreaDataProps {
   area: ProductAreaWithSyntheticData;
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 const dataMap: Record<ProductAreaWithSyntheticData, dataMapItem> = {

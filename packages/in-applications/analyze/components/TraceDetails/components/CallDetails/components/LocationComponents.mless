@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .serviceLine {
     display: flex;
-    border: 1px solid @lib__colors__N600Light;
+    border: 1px solid var(--ids-color-option-neutral-600);
     border-radius: 3px;
     padding: 0.75rem;
     overflow: hidden;
@@ -20,10 +18,10 @@
     align-items: center;
   }
   .unmonitored {
-    border: 1px dashed @lib__colors__N600Light;
+    border: 1px dashed var(--ids-color-option-neutral-600);
   }
   .hasError {
-    border: 1px solid @lib__colors__failure;
+    border: 1px solid var(--ids-color-option-red-500);
   }
 
   .locationText {
@@ -38,26 +36,26 @@
   .link {
     display: flex;
     align-items: center;
-    fill: @lib__colors__primary2;
+    fill: var(--ids-color-option-blue-500);
     font-size: 1rem;
   }
 
   .infoIcon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     justify-self: flex-end;
   }
 
   .unmonitoredText {
     display: flex;
     align-items: center;
-    color: @lib__colors__N600Light;
-    fill: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
+    fill: var(--ids-color-option-neutral-600);
     font-size: 1rem;
   }
 
   .simplePluginIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .skeletonContainer {

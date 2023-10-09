@@ -8,12 +8,13 @@ import React, { ForwardedRef, forwardRef } from 'react';
 import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 export default forwardRef(function SliCreationMarkerLaneItem(
   props: LaneItemProps<MarkerLaneEvent>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
+  const theme = useTheme();
   return (
     <SingleMarkerLaneItem<MarkerLaneEvent>
       ref={ref}
@@ -23,7 +24,7 @@ export default forwardRef(function SliCreationMarkerLaneItem(
           iconConfig={{
             type: 'lib_help_error_info_outline',
             typeCluster: '',
-            color: theme.lib.colors.N700Medium
+            color: theme.ids.color.option.neutral['700']
           }}
         />
       )}

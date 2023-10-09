@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import ErrorBudgetConsumptionChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetConsumptionChart';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
@@ -70,6 +71,9 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       <Row>
         <Col lg>
           <ErrorBudgetChart configuration={configuration} timeConfig={selectedTimeConfig} showFullSloTimeWindow />
+        </Col>
+        <Col lg>
+          <ErrorBudgetConsumptionChart configuration={configuration} timeConfig={fullWindowTimeConfig} />
         </Col>
       </Row>
     </>

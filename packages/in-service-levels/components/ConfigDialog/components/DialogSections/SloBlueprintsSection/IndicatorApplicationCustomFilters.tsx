@@ -6,9 +6,9 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, StackItem, Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 
-import TagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
+import { ClearableTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
@@ -30,35 +30,31 @@ export default function IndicatorApplicationCustomFilters() {
           <Typography variant="body-regular" component="p" noMargin>
             {t('in-service-levels:createSloDialog.indicatorSection.setGoodCall')}
           </Typography>
-          <StackItem>
-            <TagFilterQueryBuilder
-              applicationId={entityIdField.value}
-              boundaryScope={boundaryScopeField.value}
-              value={goodEventsFilterExpressionField.value}
-              onChange={newFilterExpression =>
-                onChange(['indicator', 'goodEventsFilter'], () =>
-                  goodEventsFilterExpressionField.setValue(newFilterExpression).setTouched(true)
-                )
-              }
-            />
-          </StackItem>
+          <ClearableTagFilterQueryBuilder
+            applicationId={entityIdField.value}
+            boundaryScope={boundaryScopeField.value}
+            value={goodEventsFilterExpressionField.value}
+            onChange={newFilterExpression =>
+              onChange(['indicator', 'goodEventsFilter'], () =>
+                goodEventsFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+              )
+            }
+          />
         </Stack>
         <Stack gap="xsmall">
           <Typography variant="body-regular" component="p" noMargin>
             {t('in-service-levels:createSloDialog.indicatorSection.setBadCall')}
           </Typography>
-          <StackItem>
-            <TagFilterQueryBuilder
-              applicationId={entityIdField.value}
-              boundaryScope={boundaryScopeField.value}
-              onChange={newFilterExpression =>
-                onChange(['indicator', 'badEventsFilter'], () =>
-                  goodEventsFilterExpressionField.setValue(newFilterExpression).setTouched(true)
-                )
-              }
-              value={badEventsFilterExpressionField.value}
-            />
-          </StackItem>
+          <ClearableTagFilterQueryBuilder
+            applicationId={entityIdField.value}
+            boundaryScope={boundaryScopeField.value}
+            value={badEventsFilterExpressionField.value}
+            onChange={newFilterExpression =>
+              onChange(['indicator', 'badEventsFilter'], () =>
+                badEventsFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+              )
+            }
+          />
         </Stack>
       </Stack>
     </Stack>

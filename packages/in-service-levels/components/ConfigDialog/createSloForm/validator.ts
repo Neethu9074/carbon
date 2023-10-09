@@ -6,9 +6,14 @@
 
 import { ValidationResult } from 'formalistic';
 
-import { SloTimeWindowFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { ServiceLevelIndicatorType } from '@instana/types';
+
+import {
+  CustomBlueprintType,
+  SloTimeWindowFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { maxValidator, minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { minValidator, numericValidator } from 'in-services/validators/number';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
@@ -25,15 +30,20 @@ export const inputNotUndefinedValidator = (v: any): ValidationResult => {
   return undefined;
 };
 
-export const thresholdFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator, v =>
-  minValidator(1)(Number(v))
-);
-
 export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationResult {
   const { duration, durationUnit } = timeWindow;
-  if (!duration || !durationUnit || !duration.valid || !durationUnit.valid) {
-    return null;
+
+  if (duration === undefined || !durationUnit) return;
+
+  if (duration.value < 1) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorTimeWindowMin')
+      }
+    ];
   }
+
   if (durationUnit.value === 'day' && duration.value > 31) {
     return [
       {
@@ -41,7 +51,9 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
         message: t('in-service-levels:createSloDialog.errorTimeWindowDay')
       }
     ];
-  } else if (durationUnit.value === 'week' && duration.value > 4) {
+  }
+
+  if (durationUnit.value === 'week' && duration.value > 4) {
     return [
       {
         severity: 'error',
@@ -49,10 +61,30 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
       }
     ];
   }
-  return null;
+
+  return;
 }
 
-export const targetFieldValidator = composeAndShortCircuitOnError(notBlankValidator);
+type ThresholdFieldValidator = (value: number | undefined) => ValidationResult;
+const commonThresholdValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator);
+export function createThresholdFieldValidator(
+  blueprint: CustomBlueprintType,
+  type: ServiceLevelIndicatorType
+): ThresholdFieldValidator | undefined {
+  if (!blueprint) return undefined;
+
+  switch (blueprint) {
+    case 'custom':
+      return undefined;
+    case 'latency':
+      return composeAndShortCircuitOnError(commonThresholdValidator, minValidator(1));
+    case 'availability':
+      if (type === 'eventBased') return undefined;
+      return composeAndShortCircuitOnError(commonThresholdValidator, positiveNumberValidator, maxValidator(100));
+  }
+}
+
+export const targetFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator);
 export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, notBlankValidator);
 export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
 

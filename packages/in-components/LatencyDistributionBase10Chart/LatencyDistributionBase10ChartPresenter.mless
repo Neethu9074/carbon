@@ -20,7 +20,7 @@
 
   .horizontalLine {
     position: relative;
-    border-top: 1px solid @lib__colors__N600Light;
+    border-top: 1px solid var(--ids-color-option-neutral-600);
     opacity: 0.2;
     z-index: @z-index__horizontalLine;
   }

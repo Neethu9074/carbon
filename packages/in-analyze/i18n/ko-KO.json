@@ -169,7 +169,7 @@
         "type": "유형",
         "category": "카테고리",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "참고: 소스 코드는 Instana에서 계속 모니터링 하는 프로세스에 대해서만 검색할 수 있습니다.",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "참고: 소스 코드는 Instana가 해당 인프라를 링크할 수 있는 프로세스에 대해서만 검색할 수 있습니다.",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "참고: 소스 코드가 컴파일되어 있어 자세한 내용을 표시할 수 없습니다.",
         "stackTrace": "StackTrace",
         "in": "위치",
         "windowLocation": "창 위치",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",
+        "orphan": "호출 트리에서 이 호출의 위치를 알 수 없습니다. 상위 호출이 누락되었기 때문입니다.",
         "of": "-",
         "inheritedFrom": "다음에서 상속됨"
       },

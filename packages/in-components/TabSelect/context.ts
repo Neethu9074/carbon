@@ -6,12 +6,27 @@
 
 import React from 'react';
 
-export interface TabSelectContextType {
-  activePanelId?: string;
-  setActivePanelId: (_panelId?: string, _value?: any) => void;
+export type PanelIdBase = string | undefined;
+
+export interface TabSelectContextType<PanelId extends PanelIdBase> {
+  activePanelId: PanelId;
+  onChange: (_panelId: PanelId) => void;
 }
 
-export const TabSelectContext = React.createContext<TabSelectContextType>({
+const TabSelectContext = React.createContext<TabSelectContextType<PanelIdBase>>({
   activePanelId: undefined,
-  setActivePanelId: (_panelId?: string, _value?: any) => {}
+  onChange: _panelId => {}
 });
+
+export function useTabSelectContext<PanelId extends PanelIdBase>() {
+  const context = React.useContext<TabSelectContextType<PanelId>>(
+    TabSelectContext as unknown as React.Context<TabSelectContextType<PanelId>>
+  );
+
+  if (!context) {
+    throw new Error('useTabSelectContext must be used under TabSelectContextProvider');
+  }
+  return context;
+}
+
+export default TabSelectContext;

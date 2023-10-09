@@ -4,23 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     margin: 0.5rem 0;
-    font-weight: @lib__typography__body__font-size;
+    font-weight: var(--ids-font-weight-option-body-regular);
   }
 
   .title {
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 600;
     margin-top: 0.75rem;
   }
 
   .controls {
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 400;
   }
 }

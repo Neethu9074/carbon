@@ -32,7 +32,7 @@ export const decorators = [
     <ThemeProvider theme="default">
       <TooltipPresenter />
       <OverlayPresenter />
-      <div id="main" className={locals.root}>
+      <div id="main" role="main" className={locals.root}>
         {story()}
       </div>
     </ThemeProvider>

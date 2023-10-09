@@ -3,26 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     padding: 1.5rem 2rem;
 
     & + .wrapper {
-      border-top: 1px solid @lib__colors__N300;
+      border-top: 1px solid var(--ids-color-option-neutral-300);
     }
   }
 
   .lightWrapper {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .header {
     font-size: 1rem;
     font-weight: normal;
 
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 }

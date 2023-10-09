@@ -16,17 +16,17 @@
     background: none;
     padding: 0 0.25rem 0 0.1875rem;
     border: 1px solid transparent;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     cursor: pointer;
 
     &:focus,
     &:active,
     &:hover {
       outline: none;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
 
       .icon {
-        fill: @lib__colors__light-blue800;
+        fill: var(--ids-color-option-blue-400);
       }
     }
   }
@@ -35,6 +35,6 @@
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 }

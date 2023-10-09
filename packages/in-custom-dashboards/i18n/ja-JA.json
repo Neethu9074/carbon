@@ -551,7 +551,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",
-        "source_website": "Web サイト (ベータ)",
+        "source_website": "Web サイト",
         "callOut_application": "エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されますが、エンド・ユーザーのエクスペリエンスが正確に反映されていない可能性があります。",
         "callOut_website": "エンド・ユーザーのエクスペリエンスが最も正確に反映されますが、エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されません。"
       },
@@ -730,6 +730,42 @@
         "metrics": "メトリックの選択",
         "axisConfiguration": "軸の構成",
         "formatter": "フォーマッター (X 軸)"
+      }
+    },
+    "table": {
+      "index": {
+        "tablePreview": "表のプレビュー",
+        "filters": "フィルタ (S):"
+      },
+      "form": {
+        "title": "表示する項目",
+        "dataSource": "データ・ソース",
+        "helpAction": "イベント・ビュー内で使用するダイナミック・フォーカス・クエリー (DFQ)。",
+        "query": "照会",
+        "columns": "列の選択",
+        "pleaseSelect": "選択してください",
+        "validators": {
+          "theValueMustNotBeEmpty": "少なくとも 1 つの列を選択する必要があります"
+        },
+        "infrastructure": {
+          "entityType": "エンティティー・タイプ",
+          "viewTable": "<analyzeInfraLink>「インフラストラクチャーの分析」</analyzeInfraLink> で表全体を表示します。",
+          "tableSize": "TABLE SIZE",
+          "tableConfiguration": "テーブル構成",
+          "tableDetails": "テーブルの詳細",
+          "showResult": "{{totalItems}} 件の結果のうち {{loadedItems}} 件を表示しています",
+          "loadingEntities": "エンティティーのロード中"
+        }
+      },
+      "dataSource": {
+        "events": "イベント"
+      },
+      "eventColumns": {
+        "title": "役職",
+        "entityLabel": "オン (エンティティー)",
+        "startedOn": "開始日",
+        "endedOn": "終了日",
+        "duration": "期間"
       }
     }
   },

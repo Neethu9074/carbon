@@ -7,6 +7,7 @@
 import {
   AggregationType,
   ApplicationSloEntity,
+  ServiceLevelObjectiveConfiguration,
   TagFilterExpressionElementUnion,
   TimeConfig,
   WebsiteSloEntity
@@ -37,6 +38,11 @@ interface WebsiteMetricConfigGeneratorProps {
   tagFilterExpression: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
   aggregation?: AggregationType;
+}
+
+interface SloPreviewConfigGeneratorProps {
+  config: ServiceLevelObjectiveConfiguration;
+  timeConfig: TimeConfig;
 }
 
 export const sloMetrics = deepFreeze({
@@ -118,6 +124,21 @@ export const sloMetrics = deepFreeze({
         timeConfig,
         granularity: calculateSloGranularity(timeConfig),
         context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
+      } as const)
+  },
+
+  momentaryConsumption: {
+    label: t('in-service-levels:general.metrics.momentaryBudgetConsumption'),
+    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'TIME_SERIES',
+        metric: 'ERROR_CHART',
+        timeConfig,
+        granularity: calculateSloGranularity(timeConfig)
       } as const)
   }
 });
@@ -291,6 +312,61 @@ export const websiteMetrics = deepFreeze({
         timeShift: { offset: 0 },
         timeConfig,
         resultType: 'TIME_SERIES'
+      } as const)
+  }
+});
+
+export const sloPreviewMetrics = deepFreeze({
+  status: {
+    label: t('in-service-levels:general.metrics.status'),
+    singleNumber: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
+      ({
+        aggregation: 'MEAN',
+        config,
+        metric: 'STATUS',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SLO_PREVIEW',
+        timeShift: { offset: 0 },
+        timeConfig
+      } as const)
+  },
+
+  remainingBudget: {
+    label: t('in-service-levels:general.metrics.remainingBudget'),
+    singleNumber: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
+      ({
+        aggregation: 'MEAN',
+        config,
+        metric: 'ERROR_BUDGET_REMAINING',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SLO_PREVIEW',
+        timeConfig,
+        timeShift: { offset: 0 }
+      } as const),
+    timeSeries: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
+      ({
+        aggregation: 'MEAN',
+        config,
+        granularity: calculateSloGranularity(timeConfig),
+        metric: 'ERROR_BUDGET_REMAINING_CHART',
+        resultType: 'TIME_SERIES',
+        source: 'SLO_PREVIEW',
+        timeConfig,
+        timeShift: { offset: 0 }
+      } as const)
+  },
+
+  consumedBudget: {
+    label: t('in-service-levels:general.metrics.consumedBudget'),
+    singleNumber: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
+      ({
+        aggregation: 'MEAN',
+        config,
+        metric: 'CONSUMED_ERROR_BUDGET_CHART',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SLO_PREVIEW',
+        timeConfig,
+        timeShift: { offset: 0 }
       } as const)
   }
 });

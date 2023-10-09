@@ -13,7 +13,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
 export default function FloatingAddSloButton() {
-  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog />);
+  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" />);
 
   return (
     <FloatingActionButtons>

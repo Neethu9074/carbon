@@ -13,10 +13,10 @@
     max-width: 24rem;
     padding: 1rem 0.8rem;
     margin: 0 0 1rem;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
     overflow: hidden;
 
-    box-shadow: @lib__shadows__strong;
+    box-shadow: var(--ids-shadow-option-strong);
 
     display: flex;
 
@@ -28,7 +28,7 @@
   }
 
   .info {
-    border-left: 6px solid @lib__colors__teal800;
+    border-left: 6px solid var(--ids-color-option-teal-500);
   }
 
   .warning {
@@ -45,18 +45,18 @@
 
   .icon {
     align-self: flex-start;
-    fill: @lib__colors__teal800;
+    fill: var(--ids-color-option-teal-500);
     vertical-align: middle;
   }
 
   .msg {
     max-width: 100%;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     font-weight: @lib__typography__body__font-size;
     .breakWord();
 
     em {
-      color: @lib__colors__primary2;
+      color: var(--ids-color-option-blue-500);
       font-style: normal;
     }
   }

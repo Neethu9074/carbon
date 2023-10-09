@@ -19,7 +19,21 @@ import { t } from 'in-i18n';
 import locals from './DraggableItemSelector.mless';
 
 export default function DraggableItemSelector(props) {
-  const { items, Content, disabled, onSwap, onRemove, SlideInContent, slideInContentTitle, className } = props;
+  const {
+    items,
+    Content,
+    disabled,
+    onSwap,
+    onRemove,
+    SlideInContent,
+    slideInContentTitle,
+    /*
+      Added to support a special case on MetricConfigurator component.
+      The content rendered in the SlideView component is not re-calculated and some elements get off the viewport.
+    */
+    shouldTriggerWindowResize,
+    className
+  } = props;
   const [showSlideInContent, onShowSlideInContentChange] = useState(false);
 
   // SlideInView and useDuringTransition need to be in sync
@@ -101,6 +115,7 @@ export default function DraggableItemSelector(props) {
       slideInContentTitle={slideInContentTitle}
       showSlideInContent={showSlideInContent}
       onShowSlideInContentChange={onShowSlideInContentChange}
+      shouldTriggerWindowResize={shouldTriggerWindowResize}
     />
   );
 }
@@ -108,6 +123,7 @@ export default function DraggableItemSelector(props) {
 DraggableItemSelector.propTypes = {
   SlideInContent: rpt.elementType.isRequired,
   slideInContentTitle: rpt.string.isRequired,
+  shouldTriggerWindowResize: rpt.bool,
   Content: rpt.elementType.isRequired,
   onRemove: rpt.func.isRequired,
   items: rpt.array.isRequired,

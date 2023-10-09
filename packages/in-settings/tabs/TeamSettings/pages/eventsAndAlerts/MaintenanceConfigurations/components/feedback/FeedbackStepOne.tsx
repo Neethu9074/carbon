@@ -10,9 +10,9 @@ import React from 'react';
 import { Button, Stack } from '@instana/components';
 
 import { FeedbackStepConfigs } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/stepConfig';
-import terrible from './assets/terrible.png';
-import awesome from './assets/awesome.png';
-import meh from './assets/meh.png';
+import terrible from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/terrible.png';
+import awesome from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/awesome.png';
+import meh from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/meh.png';
 import { t } from 'in-i18n';
 
 import locals from './Feedback.mless';

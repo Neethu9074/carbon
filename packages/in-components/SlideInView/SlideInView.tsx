@@ -22,6 +22,7 @@ interface SlideInViewProps {
   onAfterSlideOut?: (elements: ReturnType<typeof getInteractiveElements>) => void;
   onShowSlideInContentChange: (f: boolean) => void;
   showSlideInContent?: boolean;
+  shouldTriggerWindowResize?: boolean;
   /**
    * Default to define slide–in content.
    * If you need a footer for the slide–in content, please use renderSlideInContent callback instead.
@@ -57,7 +58,8 @@ export default function SlideInView({
 
   // Behavior modification
   slideTransitionDurationMillis = 500,
-  enforceMaxHeightForStaticContent
+  enforceMaxHeightForStaticContent,
+  shouldTriggerWindowResize
 }: SlideInViewProps) {
   const [slideInContentFooter, setSlideInContentFooter] = React.useState<ReactNode>(null);
   const setSlideInFooter = useCallback((footer: ReactNode) => setSlideInContentFooter(footer), []);
@@ -79,11 +81,24 @@ export default function SlideInView({
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
   useLayoutEffect(
-    () =>
-      showSlideInContent
-        ? onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current))
-        : onAfterSlideOut(getInteractiveElements(staticContentWrapperRef.current)),
-    [showSlideInContent]
+    () => {
+      if (showSlideInContent) {
+        onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
+        if (shouldTriggerWindowResize) {
+          dispatchResizeEvent();
+        }
+      } else {
+        onAfterSlideOut(getInteractiveElements(staticContentWrapperRef.current));
+      }
+
+      return () => {
+        if (shouldTriggerWindowResize) {
+          window.removeEventListener('resize', dispatchResizeEvent);
+        }
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showSlideInContent, shouldTriggerWindowResize]
   );
 
   const [showScrollShadow, setShowScrollShadow] = useState(false);
@@ -157,4 +172,9 @@ function focusFirstInteractiveElement(interactiveElements: HTMLElement[]): void 
   interactiveElements[0]?.focus?.({
     preventScroll: true
   });
+}
+
+function dispatchResizeEvent() {
+  const resizeEvent = new Event('resize');
+  window.dispatchEvent(resizeEvent);
 }

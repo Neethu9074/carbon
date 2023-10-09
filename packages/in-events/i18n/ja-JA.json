@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
   "deprecatedCustomEventWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 今後、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/>ビュー・カスタム・イベント設定を受け取ることはできなくなります。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "トリガー・イベントに関連付けられたアクション",
+  "recommendedActions": "推奨アクション",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}}カスタム・イベントにはアクションが必要です",
     "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 今後、これらのタイプのカスタム・イベントを作成または更新することはできません。",

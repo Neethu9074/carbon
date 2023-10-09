@@ -19,10 +19,10 @@
     padding: 0.5rem;
     height: 3.5rem;
 
-    border: 1px solid @lib__colors__N300;
-    background: @lib__colors__white;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    background: var(--ids-color-option-white);
 
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     &:hover {
       color: inherit;
       text-decoration: none;
@@ -35,8 +35,8 @@
 
     &:hover {
       cursor: pointer;
-      box-shadow: @lib__shadows__subtle;
-      border-radius: @lib__shapes__radius_medium;
+      box-shadow: var(--ids-shadow-option-subtle);
+      border-radius: var(--ids-border-radius-medium);
     }
   }
 }

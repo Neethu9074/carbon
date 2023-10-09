@@ -12,7 +12,7 @@
 
   .markerLanesWrapper {
     > div:nth-of-type(even) {
-      background-color: @lib__colors__N050;
+      background-color: var(--ids-color-option-neutral-50);
     }
   }
 

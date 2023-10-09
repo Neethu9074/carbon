@@ -9,7 +9,6 @@ import { createField, createMapForm } from 'formalistic';
 import { DurationUnitType, SloEntityType, TimeWindowType } from '@instana/types';
 
 import {
-  thresholdFieldValidator,
   targetFieldValidator,
   timeFieldValidator,
   dateFieldValidator,
@@ -22,9 +21,11 @@ import {
   SloObjectiveFields,
   SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { createSloNameTagsFields } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 
@@ -44,11 +45,11 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
 });
 
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
-  aggregation: createField({ value: 'SUM' }),
-  badEventsFilter: createField({ value: fromBackendModel(undefined) }),
+  aggregation: createField({ value: 'MEAN' }),
+  badEventsFilter: createField({ value: [] }),
   blueprint: createField({ value: 'latency' }),
-  goodEventsFilter: createField({ value: fromBackendModel(undefined) }),
-  threshold: createField({ value: undefined, validator: thresholdFieldValidator }),
+  goodEventsFilter: createField({ value: [] }),
+  threshold: createIndicatorThresholdField({ value: undefined, blueprint: 'latency', indicatorType: 'timeBased' }),
   type: createField({ value: 'timeBased' })
 });
 

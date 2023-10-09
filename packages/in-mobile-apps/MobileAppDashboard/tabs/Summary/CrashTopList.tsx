@@ -12,31 +12,26 @@ import { Link } from '@instana/legacy';
 // @ts-expect-error Could not find a declaration file for module
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 // @ts-expect-error Could not find a declaration file for module
-import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
-// @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-// @ts-expect-error Could not find a declaration file for module
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
-import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { useGetLinkToMobileApp, useLinkToCrash } from 'in-mobile-apps/navigation/paths';
 import { UrlMatrixParamConfig } from 'in-applications/types';
 import { number } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
+const metrics = ['crashAffectedSessionCount', 'uniqueUsersOrSessions'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
   t('in-mobile-apps:dashboard.tabs.affectedUsersLabel')
 ];
-const aggregations = ['SUM', 'DISTINCT_COUNT'];
+const aggregations = ['DISTINCT_COUNT', 'DISTINCT_COUNT'];
 const formatters = [number.compact, number.compact];
 
 export interface CrashTopListProps {
   mobileAppId: string;
-  mobileAppLabel: string;
+  viewId?: string;
   timeConfig: TimeConfig;
   tagFilters?: Array<TagFilter>;
   urlMatrixParamConfig?: UrlMatrixParamConfig;
@@ -45,7 +40,7 @@ export interface CrashTopListProps {
 
 export default function CrashTopList({
   mobileAppId,
-  mobileAppLabel,
+  viewId,
   timeConfig,
   tagFilters,
   urlMatrixParamConfig,
@@ -64,7 +59,7 @@ export default function CrashTopList({
       Label={Label}
       Metric={Metric}
       mobileAppId={mobileAppId}
-      mobileAppLabel={mobileAppLabel}
+      viewId={viewId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
@@ -115,51 +110,17 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 interface ViewAllProps {
-  mobileAppLabel: string;
-  tagFilters?: Array<TagFilter>;
+  mobileAppId: string;
+  viewId?: string;
   className: string;
 }
 
-function ViewAll({ mobileAppLabel, tagFilters, className }: ViewAllProps) {
-  const tagCatalogCrash = useTagCatalog('crash');
-  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+function ViewAll({ mobileAppId, viewId, className }: ViewAllProps) {
+  const mobileAppHref = useGetLinkToMobileApp(mobileAppId, { tabPath: '/crashes', viewId });
 
   return (
-    <Link
-      className={className}
-      href={
-        tagCatalogCrash &&
-        getLinkToMobileAppAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            mobileAppLabel,
-            tagFilters,
-            tagCatalog: tagCatalogCrash
-          }),
-          beaconType: 'crash',
-          groupBy: {
-            groupbyTag: 'mobileBeacon.error.message'
-          },
-          fields: [
-            {
-              metricId: 'uniqueUsersOrSessions',
-              aggregationId: 'DISTINCT_COUNT',
-              type: metricType
-            }
-          ],
-          chartedMetrics: [
-            {
-              metricId: 'uniqueUsersOrSessions',
-              aggregationId: 'DISTINCT_COUNT'
-            },
-            {
-              metricId: 'beaconCount',
-              aggregationId: 'SUM'
-            }
-          ]
-        })
-      }
-    >
-      {t('in-mobile-apps:dashboard.tabs.analyzeCrashesLink')}
+    <Link className={className} href={mobileAppHref}>
+      {t('in-mobile-apps:dashboard.tabs.viewAllCrashes')}
     </Link>
   );
 }
@@ -170,13 +131,12 @@ interface ItemWithName {
 
 interface LabelProps {
   item: ItemWithName;
-  mobileAppLabel: string;
-  tagFilters: Array<TagFilter>;
+  mobileAppId: string;
+  viewId?: string;
 }
 
-function Label({ item, mobileAppLabel, tagFilters }: LabelProps) {
-  const tagCatalogCrash = useTagCatalog('crash');
-  const getLinkToMobileAppAnalyze = useLinkToAnalyze();
+function Label({ item, mobileAppId, viewId }: LabelProps) {
+  const getLinkToMobileAppCrash = useLinkToCrash();
 
   let label = item.name;
   try {
@@ -187,41 +147,10 @@ function Label({ item, mobileAppLabel, tagFilters }: LabelProps) {
 
   return (
     <Link
-      href={
-        tagCatalogCrash &&
-        getLinkToMobileAppAnalyze({
-          formModel: translateDemocratisationTagFiltersToFormModel({
-            mobileAppLabel,
-            tagFilters: tagFilters.concat({
-              name: 'mobileBeacon.error.message',
-              stringValue: label,
-              operator: 'EQUALS',
-              type: 'TAG_FILTER',
-              entity: 'NOT_APPLICABLE'
-            }),
-            tagCatalog: tagCatalogCrash
-          }),
-          beaconType: 'crash',
-          groupBy: {},
-          fields: [
-            {
-              metricId: 'uniqueUsersOrSessions',
-              aggregationId: 'DISTINCT_COUNT',
-              type: metricType
-            }
-          ],
-          chartedMetrics: [
-            {
-              metricId: 'uniqueUsersOrSessions',
-              aggregationId: 'DISTINCT_COUNT'
-            },
-            {
-              metricId: 'beaconCount',
-              aggregationId: 'SUM'
-            }
-          ]
-        })
-      }
+      href={getLinkToMobileAppCrash(mobileAppId, {
+        crashId: label,
+        viewId
+      })}
     >
       {label}
     </Link>

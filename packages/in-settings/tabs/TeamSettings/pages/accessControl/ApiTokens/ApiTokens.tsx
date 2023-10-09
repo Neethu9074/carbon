@@ -15,12 +15,11 @@ import {
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenNew
 } from 'in-settings/navigation/paths';
-
+// @ts-ignore
 import {
   getApiTokens,
   deleteApiToken,
   createApiToken
-  // @ts-ignore
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 // @ts-ignore
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';

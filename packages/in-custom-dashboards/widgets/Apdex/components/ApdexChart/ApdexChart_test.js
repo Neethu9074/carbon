@@ -10,7 +10,7 @@ import React from 'react';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes } from 'in-services/time';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', () => {
@@ -45,7 +45,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', 
         y1: {
           metricIds: ['APDEX'],
           labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-          colors: [theme.lib.colors.lightBlue800],
+          colors: [oldTheme.lib.colors.lightBlue800],
           metrics
         },
         granularity: minutes.toMillis(1),

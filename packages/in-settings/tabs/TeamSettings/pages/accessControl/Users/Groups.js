@@ -105,6 +105,7 @@ const determineMessage = itemsResult => {
 
 function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds, itemsResult, page, setPage }) {
   const message = determineMessage(itemsResult);
+
   return (
     <>
       {message && <Message type="warning" title={message} />}
@@ -139,7 +140,8 @@ function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage, 
   result$.once(
     () => {
       if (itemSize - 1 === 0) {
-        setPage(page - 1);
+        const previousPage = page - 1 === 0 ? 1 : page - 1;
+        setPage(previousPage);
       }
       refresh();
     },

@@ -4,7 +4,6 @@
  */
 
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
-import { tagCatalogSmallQueryWindowEnabled } from 'in-services/featureFlags';
 import { mapData } from 'in-services/util/result';
 
 export default ({ name, key, timeConfig, value, propose }) => {
@@ -15,11 +14,10 @@ export default ({ name, key, timeConfig, value, propose }) => {
     ...timeConfig,
     windowSize: 60000
   };
-  const config = tagCatalogSmallQueryWindowEnabled ? modifiedTimeConfig : timeConfig;
 
   return getTagValueSearchSuggestions({
     tagName: key !== undefined ? name + '.' + key : name,
-    timeConfig: config,
+    timeConfig: modifiedTimeConfig,
     partialTagValue: value,
     valueCount: fetchKeySuggestions ? 1000 : 10,
     fetchKeySuggestions

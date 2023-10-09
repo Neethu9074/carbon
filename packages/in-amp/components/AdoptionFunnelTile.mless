@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .kpiRow {
     display: flex;
@@ -15,18 +13,18 @@
   .kpiInactive {
     display: flex;
     flex-direction: row;
-    color: @lib__colors__white;
+    color: var(--ids-color-option-white);
     margin: 0.25rem 0.125rem;
     padding: 0.5rem;
     border-radius: 0.25rem;
   }
 
   .kpiActive {
-    background-color: @lib__colors__green800;
+    background-color: var(--ids-color-option-green-500);
   }
 
   .kpiInactive {
-    background-color: @lib__colors__N500;
+    background-color: var(--ids-color-option-neutral-500);
   }
 
   .kpiTitle {

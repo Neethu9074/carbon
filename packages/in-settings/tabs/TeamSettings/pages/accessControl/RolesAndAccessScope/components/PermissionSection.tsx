@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
+import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -80,7 +80,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   setShowSubSlide
 }: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
@@ -104,9 +104,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   };
 
   return (
-    <TabSelect<ScopedPermissionType>
-      initialActivePanelId={limitedPermission}
-      onChange={(_panelId, value) => onUpdatePermissionSet(role, value ?? defaultLimitation)}
+    <TabSelect
+      activePanelId={limitedPermission}
+      onChange={panelId => onUpdatePermissionSet(role, panelId ?? defaultLimitation)}
     >
       <TabSelectHeader>
         <SvgIcon type={icon} size="l" />
@@ -116,7 +116,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       </TabSelectHeader>
       <TabSelectMenu>
         {ScopedPermissionItems.map(context => (
-          <TabSelectItem key={context} forId={context} value={context} withRadioButton>
+          <TabSelectItem key={context} forId={context} withRadioButton>
             {t('in-settings:permissionScope.selection', { context: context.toLowerCase() })}
           </TabSelectItem>
         ))}

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mediaQueries.less';
 
 :local {
@@ -25,9 +24,9 @@
   }
 
   .sidebar {
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
     min-height: 100%;
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .content {

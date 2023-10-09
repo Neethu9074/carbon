@@ -24,20 +24,23 @@ import {
   submitMaintenanceWindowTracker
 } from 'in-settings/tracker';
 import {
-  setPartsToUTCDate,
-  subtractDurationFromGivenTime
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
-import {
   createMaintenanceConfigV2,
   createMaintenanceWindowV2,
   getMaintenanceConfigV2,
   saveMaintenanceConfigV2
-} from './api';
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api';
+import {
+  MaintenanceStepConfigObject,
+  stepConfigs
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/simpleModeConfig';
+import RecurrentMaintenanceConfigContainer from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigContainer';
+import {
+  setPartsToUTCDate,
+  subtractDurationFromGivenTime
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import useEntityForm, { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
-import { MaintenanceStepConfigObject, stepConfigs } from './components/simpleModeConfig';
-import RecurrentMaintenanceConfigContainer from './RecurrentMaintenanceConfigContainer';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';

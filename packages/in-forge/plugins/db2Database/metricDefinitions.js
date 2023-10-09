@@ -480,6 +480,19 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'tbspState',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.tbspState')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
       'hadrmetrics.sockSendBufReq',
       'hadrmetrics.sockSendBufActual',
       'hadrmetrics.sockRecBufReq',

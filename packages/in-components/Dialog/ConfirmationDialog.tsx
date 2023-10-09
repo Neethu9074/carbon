@@ -11,9 +11,8 @@ import { ButtonKinds } from '@instana/components';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
+import BaseDialog from 'in-components/Dialog/BaseDialog';
 import SaveButton from 'in-components/form/SaveButton';
-import Actions from 'in-components/Dialog/Actions';
-import Dialog from 'in-components/Dialog/Dialog';
 import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -44,26 +43,25 @@ export default function ConfirmationDialog({
   errors,
   onClose = close
 }: Props) {
+  const customButtons = (
+    <>
+      <CancelButton onClick={onClose} isSaving={isSaving} />
+      <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
+        {confirmButtonLabel}
+      </SaveButton>
+    </>
+  );
   return (
-    <Dialog className={locals.dialog} titleIconType={headerIcon} title={header} onClose={onClose}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
-        <ErroneousResultPresenter errors={errors} addBottomMargin />
+    <BaseDialog
+      title={header}
+      headerIcon={headerIcon}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      customButtons={customButtons}
+    >
+      <ErroneousResultPresenter errors={errors} addBottomMargin />
 
-        {description && <p className={locals.description}>{description}</p>}
-
-        <Actions>
-          {/* @ts-expect-error There seems to be a typescript issue with ts4.4.4 here. The prop is available and later ts versions don't fail on it*/}
-          <CancelButton onClick={onClose} isSaving={isSaving} autoFocus />
-          <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
-            {confirmButtonLabel}
-          </SaveButton>
-        </Actions>
-      </form>
-    </Dialog>
+      {description && <p className={locals.description}>{description}</p>}
+    </BaseDialog>
   );
 }

@@ -17,7 +17,7 @@ export default function PhmcSidebar({ snapshotId }) {
     timeConfig$.flatMap(timeConfig =>
       getPhmcSystemSidebar({
         filter: {
-          consoleId: snapshotId,
+          systemId: snapshotId,
           timeConfig
         }
       })

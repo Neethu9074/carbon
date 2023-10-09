@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .headerButton {
     position: relative;
@@ -14,16 +12,16 @@
     border: none;
 
     svg {
-      fill: @lib__colors__N900Primary;
+      fill: var(--ids-color-option-neutral-900);
     }
 
     &:hover {
       background: transparent;
-      color: @lib__colors__N900Primary;
+      color: var(--ids-color-option-neutral-900);
       border: none;
 
       svg {
-        fill: @lib__colors__N900Primary;
+        fill: var(--ids-color-option-neutral-900);
       }
     }
   }

@@ -169,7 +169,7 @@
         "type": "类型",
         "category": "类别",
         "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "请注意：只能针对仍由 Instana 监视的进程检索源代码。",
-        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "请注意：只能针对 Instana 可成功链接相应基础架构的进程检索源代码。",
+        "pleaseNoteSourceIsCompiledAndThereforeWeCannotShowMoreDetails": "请注意：源代码已编译，因此我们无法显示更多详细信息。",
         "stackTrace": "堆栈跟踪",
         "in": "位在",
         "windowLocation": "窗口位置",
@@ -180,6 +180,7 @@
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",
+        "orphan": "此调用在调用树中的位置未知，因为缺少父调用。",
         "of": "/",
         "inheritedFrom": "继承自"
       },

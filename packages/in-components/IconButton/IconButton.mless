@@ -15,7 +15,7 @@
     border: 0;
     background: none;
     border: solid 1px transparent;
-    border-radius: @lib__shapes__radius_round;
+    border-radius: var(--ids-border-radius-round);
     padding: 0.5rem;
     margin-right: 0.25rem;
 
@@ -26,7 +26,7 @@
 
   .iconButton:before {
     position: absolute;
-    border-radius: @lib__shapes__radius_round;
+    border-radius: var(--ids-border-radius-round);
     opacity: 0;
     pointer-events: none;
     top: 0%;
@@ -41,31 +41,31 @@
   }
 
   .iconButton--primary:before {
-    background-color: @lib__colors__primary1;
+    background-color: var(--ids-color-option-teal-500);
   }
 
   .iconButton--primaryv2:before {
-    background-color: @lib__colors__light-blue800;
+    background-color: var(--ids-color-option-blue-400);
   }
 
   .iconButton--action:before {
-    background-color: @lib__colors__N800Dark;
+    background-color: var(--ids-color-option-neutral-800);
   }
 
   .iconButton--secondary:before {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 
   .iconButton--create:before {
-    background-color: @lib__colors__success;
+    background-color: var(--ids-color-option-green-500);
   }
 
   .iconButton--danger:before {
-    background-color: @lib__colors__failure;
+    background-color: var(--ids-color-option-red-500);
   }
 
   .iconButton--warning:before {
-    background-color: @lib__colors__warning;
+    background-color: var(--ids-color-option-yellow-500);
   }
 
   .iconButton--info:before {
@@ -77,7 +77,7 @@
   }
 
   .icon--primary {
-    fill: @lib__colors__primary1;
+    fill: var(--ids-color-option-teal-500);
 
     &.disabled {
       fill: rgba(244, 169, 160, 0.48);
@@ -85,42 +85,42 @@
   }
 
   .icon--primaryv2 {
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
     &.disabled {
       fill: #86cff3;
     }
   }
 
   .icon--action {
-    fill: @lib__colors__N800Dark;
+    fill: var(--ids-color-option-neutral-800);
     &.disabled {
-      fill: @lib__colors__N300;
+      fill: var(--ids-color-option-neutral-300);
     }
   }
 
   .icon--secondary {
-    fill: @lib__colors__N050;
+    fill: var(--ids-color-option-neutral-50);
     &.disabled {
       fill: #fcfcfd;
     }
   }
 
   .icon--create {
-    fill: @lib__colors__success;
+    fill: var(--ids-color-option-green-500);
     &.disabled {
       fill: #91dab0;
     }
   }
 
   .icon--danger {
-    fill: @lib__colors__failure;
+    fill: var(--ids-color-option-red-500);
     &.disabled {
       fill: rgba(220, 75, 65, 0.48);
     }
   }
 
   .icon--warning {
-    fill: @lib__colors__warning;
+    fill: var(--ids-color-option-yellow-500);
     &.disabled {
       fill: #ffd86d;
     }
@@ -129,7 +129,7 @@
   .icon--info {
     fill: @lib__colors__chart__self100;
     &.disabled {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
   }
 

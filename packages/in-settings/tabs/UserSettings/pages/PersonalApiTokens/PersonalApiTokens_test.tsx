@@ -14,7 +14,7 @@ import {
   PersonalApiToken,
   getPersonalApiTokensOfUserAsResultObservable as getPersonalApiTokens
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
-import PersonalApiTokens from './PersonalApiTokens';
+import PersonalApiTokens from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
 
 jest.mock('in-i18n', () => ({
   t: (key: string) => key

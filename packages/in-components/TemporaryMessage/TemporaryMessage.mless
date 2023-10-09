@@ -20,19 +20,19 @@
   }
 
   .notificationIconSuccess {
-    fill: @lib__colors__success;
+    fill: var(--ids-color-option-green-500);
   }
 
   .notificationIconError {
     margin-right: 0.5rem;
-    fill: @lib__colors__failure;
+    fill: var(--ids-color-option-red-500);
   }
 
   .notificationLabelSuccess {
-    color: @lib__colors__success;
+    color: var(--ids-color-option-green-500);
   }
 
   .notificationLabelError {
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
   }
 }

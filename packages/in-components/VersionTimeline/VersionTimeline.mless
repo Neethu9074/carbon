@@ -22,19 +22,19 @@
   }
 
   .version {
-    background: @lib__colors__light-blue800;
+    background: var(--ids-color-option-blue-400);
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__indigo800;
+      background: var(--ids-color-option-indigo-500);
     }
   }
 
   .selected {
-    background: @lib__colors__deep-purple800;
+    background: var(--ids-color-option-deep-purple-500);
 
     &:hover {
-      background: @lib__colors__indigo800;
+      background: var(--ids-color-option-indigo-500);
     }
   }
 

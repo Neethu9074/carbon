@@ -15,6 +15,7 @@ import {
   saveGroup,
   createNewGroup
 } from 'in-settings/tabs/TeamSettings/api/groups';
+import { RemoveUserDialog } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
@@ -27,7 +28,6 @@ import { success as successResult } from 'in-services/util/result';
 import { getEntityHref } from 'in-settings/navigation/paths';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
-import { RemoveUserDialog } from './RemoveUserDialog';
 import { Row, Col } from 'in-components/layout/Grid';
 import { noop } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';

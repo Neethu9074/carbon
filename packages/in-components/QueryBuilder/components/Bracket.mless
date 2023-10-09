@@ -16,9 +16,9 @@
 
     padding: 0.3rem;
 
-    color: @lib__colors__success;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_medium;
+    color: var(--ids-color-option-green-500);
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-medium);
     font-weight: 500;
     line-height: @lib__typography__line-height;
     cursor: pointer;
@@ -27,22 +27,22 @@
     &:active,
     &:hover {
       outline: 0;
-      background: @lib__colors__N200;
-      border-color: @lib__colors__light-blue800;
+      background: var(--ids-color-option-neutral-200);
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 
   .bracket {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 
   .bracket_dark {
-    background: @lib__colors__N900Primary;
+    background: var(--ids-color-option-neutral-900);
   }
 
   .invalid {
     background: @lib__colors__failure10;
-    color: @lib__colors__failure;
-    border: 1px solid @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
+    border: 1px solid var(--ids-color-option-red-500);
   }
 }

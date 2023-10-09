@@ -7,7 +7,7 @@
 
 :local {
   .queryFormSection {
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
     padding: 0 1rem 0.25rem;
   }
 
@@ -18,7 +18,7 @@
   .helpText {
     margin-top: 1rem;
 
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: 0.75rem;
   }
 
@@ -39,12 +39,12 @@
 
   .operatorPill {
     margin-bottom: 0.5rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .removeMatchRuleIcon {
     margin: 1.5rem 0 1.2rem 0.25rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .addMatchSpecificationButton {
@@ -58,7 +58,7 @@
     padding: 0 1rem 0.25rem;
     .label {
       font-size: 1rem;
-      color: @lib__colors__N900Primary;
+      color: var(--ids-color-option-neutral-900);
     }
     .render {
       margin-top: 0.5rem;
@@ -71,6 +71,6 @@
     justify-content: space-between;
 
     padding: 1rem 1rem 0;
-    border-top: 1px solid @lib__colors__N400;
+    border-top: 1px solid var(--ids-color-option-neutral-400);
   }
 }

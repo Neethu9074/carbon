@@ -120,7 +120,7 @@ function PotentialProblemsLaneConnected({
   );
 }
 
-function useGetLabels(applicationId, serviceId, endpointId) {
+export function useGetLabels(applicationId, serviceId, endpointId) {
   return {
     applicationLabel: useObservable(getApplicationLabelObservable, [applicationId]),
     serviceLabel: useObservable(getServiceLabelObservable, [serviceId]),

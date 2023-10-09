@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     display: flex;
@@ -35,6 +33,6 @@
   }
 
   .checkIcon {
-    fill: @lib__colors__green800;
+    fill: var(--ids-color-option-green-500);
   }
 }

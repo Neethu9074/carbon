@@ -35,6 +35,7 @@ export default function MetricSelectorOverlay({
       withIcons
       options={options}
       loading={loading}
+      shouldTriggerWindowResize
       onChange={node => {
         onChange(node);
         close();

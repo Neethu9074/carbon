@@ -9,7 +9,7 @@
 
 :local {
   .label {
-    font-weight: @lib__typography__h400__font-weight;
+    font-weight: var(--ids-font-weight-option-heading-400);
     margin-bottom: 0.25rem;
   }
 

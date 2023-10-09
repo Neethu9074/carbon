@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .filter {
     z-index: 4;

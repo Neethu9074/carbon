@@ -16,66 +16,70 @@
     margin: 0.5rem;
     padding: 0.25rem;
 
-    background: @lib__colors__N200;
-    border-radius: @lib__shapes__radius_large;
+    background: var(--ids-color-option-neutral-200);
+    border-radius: var(--ids-border-radius-large);
     cursor: pointer;
-    color: @lib__colors__N600Light !important; // Temporary this component will be replaced with IconButtons in the future
+    color: var(
+      --ids-color-option-neutral-600
+    ) !important; // Temporary this component will be replaced with IconButtons in the future
 
     &:hover {
       text-decoration: none;
-      color: @lib__colors__N800Dark !important; // Temporary this component will be replaced with IconButtons in the future
+      color: var(
+        --ids-color-option-neutral-800
+      ) !important; // Temporary this component will be replaced with IconButtons in the future
 
       .icon {
-        fill: @lib__colors__N800Dark;
+        fill: var(--ids-color-option-neutral-800);
       }
     }
   }
 
   .dark {
-    background: @lib__colors__N900Primary;
-    color: @lib__colors__N400 !important;
+    background: var(--ids-color-option-neutral-900);
+    color: var(--ids-color-option-neutral-400) !important;
 
     .icon {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
 
     &:hover {
-      color: @lib__colors__N500 !important;
+      color: var(--ids-color-option-neutral-500) !important;
       .icon {
-        fill: @lib__colors__N500;
+        fill: var(--ids-color-option-neutral-500);
       }
     }
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .active {
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
 
     &:hover {
-      fill: @lib__colors__blue800;
+      fill: var(--ids-color-option-blue-500);
     }
   }
 
   .appendTop {
     margin-top: 1px;
-    border-radius: 0 0 @lib__shapes__radius_large @lib__shapes__radius_large;
+    border-radius: 0 0 var(--ids-border-radius-large) var(--ids-border-radius-large);
   }
 
   .appendBottom {
     margin-bottom: 1px;
-    border-radius: @lib__shapes__radius_large @lib__shapes__radius_large 0 0;
+    border-radius: var(--ids-border-radius-large) var(--ids-border-radius-large) 0 0;
   }
 
   .appendLeft {
     margin-left: 1px;
-    border-radius: 0 @lib__shapes__radius_large @lib__shapes__radius_large 0;
+    border-radius: 0 var(--ids-border-radius-large) var(--ids-border-radius-large) 0;
   }
 
   .appendRight {
     margin-right: 1px;
-    border-radius: @lib__shapes__radius_large 0 0 @lib__shapes__radius_large;
+    border-radius: var(--ids-border-radius-large) 0 0 var(--ids-border-radius-large);
   }
 }

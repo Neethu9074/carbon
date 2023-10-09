@@ -13,12 +13,12 @@
 
     height: 4rem;
 
-    background-color: @lib__colors__N100;
-    border-top: 1px solid @lib__colors__N300;
+    background-color: var(--ids-color-option-neutral-100);
+    border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .withRoundedBottomBorder {
-    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
+    border-radius: 0 0 var(--ids-border-radius-small) var(--ids-border-radius-small);
   }
 
   .button {

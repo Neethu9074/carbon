@@ -25,21 +25,21 @@
     justify-content: space-between;
     width: 100%;
     &:hover > .count {
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
     &:hover > .label {
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
   .count {
     margin-left: 1rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .label {
     .ellipsis();
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
   }
 
   .buttonRow {
@@ -51,20 +51,20 @@
   .loadMore {
     .typoSettings();
     padding: 0;
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 
   .addAsGroup {
     .typoSettings();
     padding: 0;
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     &:hover {
       background: transparent;
-      color: @lib__colors__teal800;
+      color: var(--ids-color-option-teal-500);
     }
   }
 

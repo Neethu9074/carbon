@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import theme from 'in-themes';
+import { themes } from '@instana/design-tokens';
+
 import { t } from 'in-i18n';
 
-export const TOTAL_TIME_COLOR = theme.lib.colors.navy800;
-export const NETWORK_TIME_COLOR = theme.lib.colors.cyan800;
-export const SELF_TIME_COLOR = theme.lib.colors.cyan800;
+export const TOTAL_TIME_COLOR = themes.default.ids.color.option.navy['800'];
+export const NETWORK_TIME_COLOR = themes.default.ids.color.option.teal['400'];
+export const SELF_TIME_COLOR = themes.default.ids.color.option.teal['400'];
 
 export const TOTAL_TIME_LABEL = t('in-analyze:traceDetails.labelTotal');
 export const NETWORK_TIME_LABEL = t('in-analyze:traceDetails.labelNetwork');

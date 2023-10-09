@@ -7,12 +7,12 @@
 
 :local {
   .bar {
-    border-radius: @lib__shapes__radius_small;
+    border-radius: var(--ids-border-radius-small);
   }
 
   .barBg {
     .bar();
-    background-color: @lib__colors__N200;
+    background-color: var(--ids-color-option-neutral-200);
     height: 4px;
   }
 
@@ -25,7 +25,7 @@
   .stepTitles {
     display: flex;
     justify-content: space-around;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-size: @lib__typography__body__font-size;
     margin-top: 0.5rem;
   }

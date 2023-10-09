@@ -13,7 +13,7 @@
   }
 
   .hasError {
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
   }
 
   .timeShifted {
@@ -22,7 +22,7 @@
   }
 
   .timeShiftIndicator {
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.2rem;
   }
 

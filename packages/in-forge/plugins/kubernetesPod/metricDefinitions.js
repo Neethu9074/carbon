@@ -15,7 +15,8 @@ export default [
       'memoryRequests',
       'memoryLimits',
       'restartCount',
-      'restartCountDelta'
+      'restartCountDelta',
+      'conditions.not.Ready'
     ],
     labels: [
       t('in-forge:plugins.kubernetesPod.containers'),
@@ -24,7 +25,8 @@ export default [
       t('in-forge:plugins.kubernetesPod.memoryRequests'),
       t('in-forge:plugins.kubernetesPod.memoryLimits'),
       t('in-forge:plugins.kubernetesPod.restarts'),
-      t('in-forge:plugins.kubernetesPod.restartsDelta')
+      t('in-forge:plugins.kubernetesPod.restartsDelta'),
+      t('in-forge:plugins.kubernetesPod.conditionNotReady')
     ],
     min: 0,
     formatter: number

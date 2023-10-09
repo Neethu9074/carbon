@@ -15,8 +15,8 @@
 
     padding: 0.1875rem 0rem 0.1875rem 0.25rem;
 
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_medium;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-medium);
     font-weight: 500;
     // Ensure that all tags have the same height. No matter whether they render
     // an input field or not!
@@ -27,31 +27,31 @@
     &:active,
     &:hover {
       outline: 0;
-      border-color: @lib__colors__light-blue800;
+      border-color: var(--ids-color-option-blue-400);
     }
   }
 
   .tag {
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     white-space: nowrap;
     &:focus,
     &:active,
     &:hover {
-      background: @lib__colors__N200;
+      background: var(--ids-color-option-neutral-200);
     }
   }
 
   // Hide invalid marker when already editing the tag filter.
   .invalid:not(:focus-within):not(:focus) {
-    border-color: @lib__colors__failure;
+    border-color: var(--ids-color-option-red-500);
   }
 
   .tag_dark {
-    background: @lib__colors__N900Primary;
+    background: var(--ids-color-option-neutral-900);
     &:focus,
     &:active,
     &:hover {
-      background: @lib__colors__N700Medium;
+      background: var(--ids-color-option-neutral-700);
     }
   }
 

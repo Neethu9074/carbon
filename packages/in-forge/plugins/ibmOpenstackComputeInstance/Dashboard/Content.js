@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useOpenstackInstanceDashboard } from 'in-openstack/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const getOpenstackInstanceDashboard = useOpenstackInstanceDashboard();
+  const href = getOpenstackInstanceDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getOpenstackInstanceDashboard(snapshot.get('id'), { timeConfig })} />;
+  return <Redirect to={href.substring(2)} />;
 }

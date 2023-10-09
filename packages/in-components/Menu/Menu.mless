@@ -18,14 +18,14 @@
   }
 
   .item.selected {
-    background-color: @lib__colors__N600Light;
-    color: @lib__colors__white;
+    background-color: var(--ids-color-option-neutral-600);
+    color: var(--ids-color-option-white);
   }
 
   .item {
     align-items: center;
-    border-radius: @lib__shapes__radius_small;
-    color: @lib__colors__N700Medium;
+    border-radius: var(--ids-border-radius-small);
+    color: var(--ids-color-option-neutral-700);
     display: flex;
     justify-content: space-between;
     font-size: @lib__typography__body__font-size;
@@ -33,7 +33,7 @@
     padding: 0.5rem;
 
     &:not(.selected):hover {
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
     }
 
     &:hover {
@@ -46,7 +46,7 @@
   }
 
   .rightSeparator {
-    border-right: 1px solid @lib__colors__N300;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     padding-right: 1rem;
   }
 }

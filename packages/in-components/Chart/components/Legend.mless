@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -77,22 +76,22 @@
 
   .disabledDot {
     background: none !important;
-    border: 2px solid @lib__colors__N400;
+    border: 2px solid var(--ids-color-option-neutral-400);
   }
 
   .disabledIcon {
-    fill: @lib__colors__N400 !important;
+    fill: var(--ids-color-option-neutral-400) !important;
   }
 
   .timeShift {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     margin: 0 0 0 0.2rem;
   }
 
   .overlay {
     position: absolute;
     bottom: -1rem;
-    background: @lib__colors__N900Primary;
+    background: var(--ids-color-option-neutral-900);
     opacity: 0.4;
     top: 0;
     left: -1rem;

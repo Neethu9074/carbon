@@ -118,6 +118,7 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. No futuro, os Eventos customizados para esses três tipos de entidade serão removidos e você não receberá mais esta configuração {{issueOrIncident}}</strong><br/>Visualizar evento customizado para migrar para o Alerta inteligente. <documentationLink>Leia mais em nossa documentação</documentationLink>",
   "actionsAssociatedForTriggeringEvent": "Ações associadas para o evento acionador",
+  "recommendedActions": "Ações recomendadas",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventos customizados requerem ação",
     "message": "Os eventos customizados no aplicativo, serviço e terminal foram descontinuados. Não será possível criar ou atualizar esses tipos de eventos customizados no futuro.",

@@ -112,7 +112,7 @@ function BasicForm({
     content = <ErroneousResultPresenter errors={entityResult.errors} />;
   } else {
     content = (
-      <form onSubmit={e => onSubmit(e, form, _updateForm)} className={locals.form}>
+      <form onSubmit={e => onSubmit(e, form)} className={locals.form}>
         {form && renderFormContent(entityResult.data, form, (...args) => setValue(_updateForm, ...args), _updateForm)}
 
         <Spacer vertical="normal" />

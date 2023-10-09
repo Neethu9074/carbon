@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .node {
@@ -17,7 +16,7 @@
 
     padding: 0.5rem;
 
-    background: @lib__colors__N400;
+    background: var(--ids-color-option-neutral-400);
 
     overflow: hidden;
     white-space: normal;
@@ -48,12 +47,12 @@
 
   .label {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .value {
     font-size: 1.125rem;
     font-weight: 600;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

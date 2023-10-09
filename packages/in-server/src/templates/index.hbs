@@ -73,6 +73,19 @@
       window._walkmeConfig = {smartLoad:true}; })();
     </script>
 {{/if}}
+ {{#if playWithReleaseEnabled }}
+    <script type="text/javascript" nonce="{{nonce}}">
+    (function() {
+    var walkme = document.createElement('script'); 
+    walkme.type = 'text/javascript'; 
+    walkme.async = true; 
+    walkme.src = 'https://cdn.walkme.com/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
+     var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(walkme, s); 
+      window._walkmeConfig = {smartLoad:true}; 
+      })();
+      </script>
+{{/if}}
   {{#if eumTrackingApiKey}}
   <script nonce="{{nonce}}">
     (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
@@ -117,7 +130,7 @@
 
 </head>
 <body>
-  <div id="main">
+  <div id="main" role="main">
     <div class="in-index-centered-content">
       <svg class="in-index-centered-content__loading-spinner" x="0px" y="0px" viewBox="0 0 24 24">
         <path fill="#fff" d="M12,4a8,8,0,0,0-8,8H6a6,6,0,1,1,6,6v2A8,8,0,0,0,12,4Z"/>

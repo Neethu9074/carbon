@@ -19,6 +19,7 @@ import {
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { defaultBlueprint } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
 
 export const testDate = new Date('2020-01-01');
@@ -87,7 +88,7 @@ export const testApplicationForm: SloForm = createMapForm({
       items: {
         aggregation: createField<AggregationType>({ value: 'MAX' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<CustomBlueprintType>({ value: 'availability' }),
+        blueprint: createField<CustomBlueprintType>({ value: defaultBlueprint }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 66 }),
         type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })

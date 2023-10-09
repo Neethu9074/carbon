@@ -7,7 +7,7 @@
 
 :local {
   .applicationScopeSwitchContainer {
-    border: 1px solid @lib__colors__N300;
+    border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: @lib__shapes__radius_small;
     padding: 1rem 0rem;
     margin-bottom: 1rem;
@@ -23,11 +23,11 @@
 
     &.optionBoxUnchecked {
       svg {
-        fill: @lib__colors__N600Light;
+        fill: var(--ids-color-option-neutral-600);
       }
 
       * {
-        color: @lib__colors__N600Light;
+        color: var(--ids-color-option-neutral-600);
       }
     }
   }

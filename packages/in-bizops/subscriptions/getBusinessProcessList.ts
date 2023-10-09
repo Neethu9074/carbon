@@ -5,7 +5,7 @@
  */
 
 import {
-  GetBusinessProcessesQuery,
+  BusinessDataQuery,
   OrderDirection,
   PaginatedResult,
   Result,
@@ -18,7 +18,7 @@ import { Observable } from '@instana/observables';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getBusinessProcessList = createResultSubscriptionFactory<
-  GetBusinessProcessesQuery,
+  BusinessDataQuery,
   Result<PaginatedResult<BusinessProcess>>
 >({
   eventId: 'getBusinessProcesses',
@@ -33,7 +33,7 @@ interface GetBusinessProcessListDefaultProps {
   orderBy?: string;
   orderDirection?: OrderDirection;
   timeConfig: TimeConfig;
-  tagFilterExpression?: TagFilterExpression;
+  tagFilterExpression: TagFilterExpression;
 }
 export function getBusinessProcessListWithDefaults({
   //The value of query is from the Search box, by default, it is ''.
@@ -44,6 +44,7 @@ export function getBusinessProcessListWithDefaults({
   timeConfig,
   tagFilterExpression
 }: GetBusinessProcessListDefaultProps): Observable<Result<PaginatedResult<BusinessProcess>>> {
+  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessProcessList({
     pagination: {
       page,
@@ -53,6 +54,7 @@ export function getBusinessProcessListWithDefaults({
       by: orderBy,
       direction: orderDirection
     },
+    dataType: 'PROCESS',
     //Having the metrics block in the payload mainly for passing the granularity (unit is in seconds)
     //to the backend to get the data for the response time spark chart.
     metrics: {
@@ -62,9 +64,7 @@ export function getBusinessProcessListWithDefaults({
         aggregation: 'DISTINCT_COUNT'
       }
     },
-    filter: {
-      timeConfig
-    },
-    tagFilterExpression: tagFilterExpression ? tagFilterExpression : undefined
+    timeConfig,
+    tagFilterExpression
   });
 }

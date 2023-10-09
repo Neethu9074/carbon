@@ -19,7 +19,7 @@ import Section from 'in-components/workspace/Section';
 export default function TargetSection() {
   const { form, onChange } = useContext(SloFormContext);
   const sloTargetField = form.getIn(['objective', 'target']);
-  const isTargetFieldvalid = isFieldValid(sloTargetField);
+  const isTargetFieldValid = isFieldValid(sloTargetField);
 
   return (
     <Section title={t('in-service-levels:createSloDialog.sloTarget')}>
@@ -33,7 +33,7 @@ export default function TargetSection() {
         decimalPrecision={SLO_TARGET_DECIMAL_PRECISION}
       />
       <Typography variant="body-regular"> %</Typography>
-      {!isTargetFieldvalid &&
+      {!isTargetFieldValid &&
         sloTargetField.messages.map(({ message }, index) => (
           <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
         ))}

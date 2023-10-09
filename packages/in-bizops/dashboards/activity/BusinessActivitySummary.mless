@@ -9,6 +9,6 @@
 :local {
   .contextLink {
     font-size: inherit;
-    color: @lib__colors__N600Light !important;
+    color: var(--ids-color-option-neutral-600) !important;
   }
 }

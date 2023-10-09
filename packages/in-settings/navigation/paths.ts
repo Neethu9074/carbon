@@ -19,6 +19,8 @@ export const userSettingsAdvanced = `${userSettings}/advanced`;
 export const userSettingsPrivacy = `${userSettings}/privacy`;
 export const userSettingsCommunication = `${userSettings}/communications`;
 export const userSettingsPersonalApiTokens = `${userSettings}/personal-api-tokens`;
+export const userSettingsPasswordChange = `${userSettings}/password/change`;
+export const userSettingsTwoFactor = `${userSettings}/2fa`;
 
 export const teamSettings = `${settingsPath}/team`;
 
@@ -38,15 +40,11 @@ export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
 export const authSettings = `${settingsPath}/auth`;
 
-export const changePassword = `${authSettings}/password/change`;
-
 export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
 export const oidc = `${authSettings}/oidc`;
 export const ldap = `${authSettings}/ldap`;
 export const groupMapping = `${authSettings}/groupMapping`;
-
-export const twoFactorAuth = `${authSettings}/2fa`;
 
 const session = `${authSettings}/session`;
 export const timeouts = `${session}/timeouts`;

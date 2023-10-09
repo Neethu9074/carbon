@@ -2,11 +2,16 @@
   "labelBizOps": "프로세스",
   "labelSmartAlerts": "스마트 경보",
   "labelActivities": "활동",
+  "components": {
+    "count": "개수"
+  },
   "lists": {
     "pageTitle": "비즈니스 모니터링",
     "cardTitle": "비즈니스 프로세스",
     "activityLabel": "활동",
     "nameLabel": "이름",
+    "countLabel": "개수",
+    "durationLabel": "지속 기간",
     "noData": "사용 가능한 데이터 없음",
     "healthLabel": "상태",
     "startLabel": "시작됨"
@@ -19,14 +24,16 @@
     "summary": {
       "pageTitle": "비즈니스 프로세스",
       "summaryTab": "요약",
+      "activitiesTab": "활동",
       "widgets": {
-        "timeline": "타임라인",
         "topActivities": "상위 활동(개수)",
         "infrastructureIssuesAndChanges": "인프라 문제 및 변경사항",
-        "viewAll": "모든 활동 보기",
-        "count": "개수",
-        "businessProcessStartedLabel": "{{businessProcessName}}이(가) 시작되었습니다."
+        "viewAll": "모든 활동 보기"
       }
+    },
+    "activity": {
+      "pageTitle": "비즈니스 활동",
+      "summaryTab": "요약"
     }
   }
 }

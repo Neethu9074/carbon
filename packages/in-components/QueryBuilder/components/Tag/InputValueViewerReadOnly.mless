@@ -17,16 +17,16 @@
     &:active,
     &:hover {
       outline: 0;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
     .ellipsis();
   }
 
   .inputValueViewerBackground {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .inputValueViewerBackground_dark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
   }
 }

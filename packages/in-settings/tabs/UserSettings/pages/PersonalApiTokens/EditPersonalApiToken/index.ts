@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import EditPersonalApiToken from './EditPersonalApiToken';
+import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken/EditPersonalApiToken';
 
 export default EditPersonalApiToken;

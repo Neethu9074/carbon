@@ -11,14 +11,14 @@
     align-items: center;
     justify-content: space-between;
 
-    background: @lib__colors__white;
-    border-radius: @lib__shapes__radius_small @lib__shapes__radius_small 0 0;
+    background: var(--ids-color-option-white);
+    border-radius: var(--ids-border-radius-small) var(--ids-border-radius-small) 0 0;
     height: 5rem;
     padding: 1.5rem;
   }
 
   .scrollShadow {
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: var(--ids-shadow-option-subtle);
   }
 
   .titleContainer {
@@ -27,7 +27,7 @@
   }
 
   .title {
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
     font-size: 1.375rem;
     font-weight: 500;
     line-height: 2rem;

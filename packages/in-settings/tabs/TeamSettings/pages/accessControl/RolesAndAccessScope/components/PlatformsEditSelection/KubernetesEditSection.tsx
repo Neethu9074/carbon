@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types/typeDefinitions';
+import { PermissionSet } from '@instana/types/typeDefinitions';
 import { SvgIcon, Typography } from '@instana/components';
 
 import {
@@ -34,7 +35,6 @@ import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
-import { MapFormItems } from 'formalistic';
 
 /**
  * Properties for the current component
@@ -58,7 +58,7 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
   setShowSubSlide,
   setSubSlideConfig
 }: PermissionSectionInfrastructureProps<FORM_TYPE>) {
-  const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
   /**
@@ -94,10 +94,7 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
   const headingComponent = isChild ? 'h4' : 'h3';
 
   return (
-    <TabSelect<ScopedPermissionType>
-      initialActivePanelId={initialScope}
-      onChange={(_panelId, value) => setSelectedScope(value)}
-    >
+    <TabSelect activePanelId={initialScope} onChange={panelId => setSelectedScope(panelId)}>
       <TabSelectHeader>
         <SvgIcon type="lib_kubernetes" size={iconSize} />
         <Typography variant={headingVariant} component={headingComponent} noMargin>
@@ -105,29 +102,24 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem key="ACCESS_ALL" forId="ACCESS_ALL" value={ScopedPermissionItem.ACCESS_ALL} withRadioButton>
+        <TabSelectItem key="ACCESS_ALL" forId={ScopedPermissionItem.ACCESS_ALL} withRadioButton>
           {t('in-settings:permissionScope.selection', { context: 'access_all' })}
         </TabSelectItem>
-        <TabSelectItem
-          key="LIMITED_ACCESS"
-          forId="LIMITED_ACCESS"
-          value={ScopedPermissionItem.LIMITED_ACCESS}
-          withRadioButton
-        >
+        <TabSelectItem key="LIMITED_ACCESS" forId={ScopedPermissionItem.LIMITED_ACCESS} withRadioButton>
           {t('in-settings:permissionScope.selection', { context: 'limited_access' })}
         </TabSelectItem>
-        <TabSelectItem key="NO_ACCESS" forId="NO_ACCESS" value={ScopedPermissionItem.NO_ACCESS} withRadioButton>
+        <TabSelectItem key="NO_ACCESS" forId={ScopedPermissionItem.NO_ACCESS} withRadioButton>
           {t('in-settings:permissionScope.selection', { context: 'no_access' })}
         </TabSelectItem>
       </TabSelectMenu>
       <TabSelectPanels>
-        <TabSelectPanel key="ACCESS_ALL" id="ACCESS_ALL">
+        <TabSelectPanel key="ACCESS_ALL" id={ScopedPermissionItem.ACCESS_ALL}>
           <AccessAllPanel
             title={t('in-settings:permissionScope.selection', { context: 'access_all' })}
             description={t('in-settings:PermissionSection.descriptionAccessAll_kubernetes')}
           />
         </TabSelectPanel>
-        <TabSelectPanel key="LIMITED_ACCESS" id="LIMITED_ACCESS">
+        <TabSelectPanel key="LIMITED_ACCESS" id={ScopedPermissionItem.LIMITED_ACCESS}>
           <KubernetesLimitedAccessPanel
             setForm={setForm}
             form={form}
@@ -135,7 +127,7 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
             setShowSubSlide={setShowSubSlide}
           />
         </TabSelectPanel>
-        <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
+        <TabSelectPanel key="NO_ACCESS" id={ScopedPermissionItem.NO_ACCESS}>
           <NoAccessPanel descriptionContext="kubernetes" />
         </TabSelectPanel>
       </TabSelectPanels>

@@ -9,6 +9,7 @@ import React from 'react';
 import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul } from '@instana/components';
 
 import {
+  formatterPath,
   metricsPath,
   useChartFormatterDragAndDropFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
@@ -91,14 +92,19 @@ export function Reorderer({ form, onChange, children }) {
         if (!e.destination) {
           return;
         }
+
         updateForm(
           form.updateIn([], form => {
             const metric = form.getIn([e.source.droppableId, metricsPath, e.source.index]);
+            const formatterSource = form.getIn([e.source.droppableId, formatterPath])?.value;
+
             return form
               .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true))
               .updateIn([e.destination.droppableId, metricsPath], f =>
                 f.insert(e.destination.index, metric).setTouched(true)
-              );
+              )
+              .updateIn([e.destination.droppableId, formatterPath], f => f.setValue(formatterSource).setTouched(true))
+              .updateIn([e.destination.droppableId, 'formatterSelected'], f => f.setValue(false).setTouched(true));
           })
         );
       }}

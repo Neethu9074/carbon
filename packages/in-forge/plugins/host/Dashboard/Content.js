@@ -61,6 +61,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
           <Chart
             snapshotId={snapshot.get('id')}
+            snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+            hasActionlane
             timeConfig={timeConfig}
             y1={{
               min: 0,
@@ -84,6 +86,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           <DashboardSection title={t('in-forge:plugins.host.dashboard.contextSwitches')}>
             <Chart
               snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
               timeConfig={timeConfig}
               y1={{
                 formatter: number.compact,
@@ -100,6 +104,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <Chart
               snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
               timeConfig={timeConfig}
               minRollup={5000}
               y1={{
@@ -124,6 +130,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
         <Chart
           snapshotId={snapshot.get('id')}
+          snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+          hasActionlane
           timeConfig={timeConfig}
           y1={{
             min: 0,
@@ -139,6 +147,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         {isLinux(snapshot) && (
           <Chart
             snapshotId={snapshot.get('id')}
+            snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+            hasActionlane
             timeConfig={timeConfig}
             y1={{
               min: 0,
@@ -157,6 +167,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         {isLinux(snapshot) && (
           <Chart
             snapshotId={snapshot.get('id')}
+            snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+            hasActionlane
             timeConfig={timeConfig}
             y1={{
               min: 0,
@@ -204,6 +216,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       <DashboardSection title={t('in-forge:plugins.host.dashboard.tcpActivity')}>
         <Chart
           snapshotId={snapshot.get('id')}
+          snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+          hasActionlane
           timeConfig={timeConfig}
           customHeight={300}
           y1={{

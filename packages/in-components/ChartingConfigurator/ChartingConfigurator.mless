@@ -8,7 +8,7 @@
 :local {
   .addChartButton {
     margin-top: 0.125rem;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_medium;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-medium);
   }
 }

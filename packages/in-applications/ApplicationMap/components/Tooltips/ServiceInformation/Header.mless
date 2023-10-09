@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .labelRow,
@@ -22,13 +21,13 @@
   }
 
   .serviceIcon {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
     margin-right: 0.25rem;
   }
 
   .label {
     font-size: 1rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
 
     .ellipsis();
   }

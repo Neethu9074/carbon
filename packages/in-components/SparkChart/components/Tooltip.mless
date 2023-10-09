@@ -32,10 +32,10 @@
   .value {
     font-weight: bold;
     padding: 0.125rem 0.438rem;
-    background: @lib__colors__white;
-    color: @lib__colors__N800Dark;
-    border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
+    background: var(--ids-color-option-white);
+    color: var(--ids-color-option-neutral-800);
+    border-radius: var(--ids-border-radius-large);
+    box-shadow: var(--ids-shadow-option-subtle);
     white-space: nowrap;
   }
 }

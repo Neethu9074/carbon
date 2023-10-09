@@ -39,30 +39,30 @@
     &:active,
     &:hover {
       outline: 0;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
     }
 
     &::placeholder {
-      color: @lib__colors__N400;
+      color: var(--ids-color-option-neutral-400);
       opacity: 1; /* Firefox */
     }
   }
 
   .input {
     .ellipsis();
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 
   .input_dark {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
   }
 
   .invalid:not(:focus),
   .invalid:focus:not(.hideValidityInformationOnFocus) {
     margin-left: -1px; // to avoid having two borders next to each other
-    border-left: 1px solid @lib__colors__failure;
+    border-left: 1px solid var(--ids-color-option-red-500);
     margin-right: -1px; // to avoid having two borders next to each other
-    border-right: 1px solid @lib__colors__failure;
+    border-right: 1px solid var(--ids-color-option-red-500);
     background: @lib__colors__failure10;
   }
 
@@ -82,6 +82,6 @@
 
   .moreOptionsLabel {
     font-size: 0.6875rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

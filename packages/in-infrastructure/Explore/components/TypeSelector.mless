@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -15,8 +14,8 @@
 
   .searchWrapper {
     padding: 0.5rem;
-    border-bottom: 1px solid @lib__colors__N300;
-    background: @lib__colors__N050;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    background: var(--ids-color-option-neutral-50);
   }
 
   .typeRow {
@@ -37,10 +36,10 @@
   }
 
   .headerButton {
-    line-height: @lib__typography__line-height;
+    line-height: 1.15;
   }
 
   .defaultButton {
-    background: @lib__colors__white;
+    background: var(--ids-color-option-white);
   }
 }

@@ -7,7 +7,7 @@
 
 :local {
   .ruleDescription {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     font-weight: 300;
     font-size: 0.75rem;
     margin-top: 0.5rem;
@@ -27,6 +27,6 @@
 
   .message {
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

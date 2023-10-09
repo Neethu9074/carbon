@@ -10,12 +10,12 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import MonthlyFrequency from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/MonthlyFrequency';
+import YearlyFrequency from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/YearlyFrequency';
+import WeeklyFrequency from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/WeeklyFrequency';
 import { setRRuleInterval } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import MonthlyFrequency from './MonthlyFrequency';
-import YearlyFrequency from './YearlyFrequency';
-import WeeklyFrequency from './WeeklyFrequency';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

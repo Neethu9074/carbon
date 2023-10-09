@@ -27,7 +27,7 @@ import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
@@ -48,7 +48,6 @@ const labels = [
 const formatters = [latency.compact, fromNow, fromNow];
 const companionMetrics = [null, null, null];
 const companionFormatters = [null, null, null];
-const colors = [null, null, theme.lib.colors.failure];
 
 interface ResultsTopListProps {
   testId: string;
@@ -56,7 +55,8 @@ interface ResultsTopListProps {
 
 export default function ResultsTopList({ testId }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
-
+  const theme = useTheme();
+  const colors = [null, null, theme.ids.color.option.red['500']];
   const urlMatrixParamConfig = {
     paramTab: 'resultsTab',
     path: '/summary'

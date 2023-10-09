@@ -10,11 +10,11 @@
     box-sizing: border-box;
     height: 2rem;
     padding: 0 0.5rem;
-    color: @lib__colors__N900Primary;
-    background: @lib__colors__N050;
+    color: var(--ids-color-option-neutral-900);
+    background: var(--ids-color-option-neutral-50);
     background-image: none;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_small;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-small);
     transition: border-color ease-in-out 0.15s;
 
     &[disabled] {
@@ -25,7 +25,7 @@
 
   .error:not(:focus),
   .error:focus:not(.hideValidityInformationOnFocus) {
-    border-color: @lib__colors__failure;
+    border-color: var(--ids-color-option-red-500);
   }
 
   .withIcon {
@@ -35,6 +35,6 @@
 
   .icon {
     margin: 0 0 0 0.5rem;
-    fill: @lib__colors__N800Dark;
+    fill: var(--ids-color-option-neutral-800);
   }
 }

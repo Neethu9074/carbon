@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .group {
     margin-bottom: 2rem;
@@ -12,7 +10,7 @@
 
   .title {
     font-size: 1rem;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
   }
 
   .content {

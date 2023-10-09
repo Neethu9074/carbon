@@ -29,6 +29,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   onRemoveItem,
   onSwap,
   getPossibleAggregationsForMetric,
+  shouldTriggerWindowResize,
   MetricCatalogConfiguratorHint,
   metricCatalog,
   metricMetadatas,
@@ -57,9 +58,11 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       metrics={metrics}
       uniqueMetricsLabels={uniqueMetricsLabels}
       onRemove={onRemoveItem}
+      shouldTriggerWindowResize={shouldTriggerWindowResize}
       disabled={form.items.length >= maximumNumberOfMetrics}
       SlideInContent={({ onShowSlideInContentChange, disabled }) => (
         <MetricSelectorOverlay
+          shouldTriggerWindowResize={shouldTriggerWindowResize}
           metricCatalog={metricCatalog}
           onChange={node => {
             const crossSeriesAggregation = node.allowedCrossSeriesAggregations

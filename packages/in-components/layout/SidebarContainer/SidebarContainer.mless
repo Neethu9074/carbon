@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .rightColumn {
-    border-left: 1px solid @lib__colors__N400;
+    border-left: 1px solid var(--ids-color-option-neutral-400);
   }
 }

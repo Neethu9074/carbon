@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .light {
     background: #fff;
@@ -14,11 +12,11 @@
     // Deliberately deviation from the default styling of the button.
     // Trying to keep the modifications down to the minimum necessary
     // according to the design.
-    background: @lib__colors__N800Dark;
-    border: 1px solid @lib__colors__N500;
+    background: var(--ids-color-option-neutral-800);
+    border: 1px solid var(--ids-color-option-neutral-500);
 
     &:hover {
-      background: @lib__colors__N700Medium;
+      background: var(--ids-color-option-neutral-700);
     }
   }
 }

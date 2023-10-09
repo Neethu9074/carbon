@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import { GroupWithRoles } from '@instana/types';
+import { ApiGroup } from '@instana/types';
 
 export interface GroupApiResult {
-  result: { group: GroupWithRoles };
+  result: { group: ApiGroup };
 }
 export type ExtractIdFunction<I> = (entity: I) => string;
 export type ExtractNameFunction<I> = (entity: I) => string;

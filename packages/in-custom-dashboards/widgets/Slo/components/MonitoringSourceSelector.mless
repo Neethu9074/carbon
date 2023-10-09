@@ -2,7 +2,7 @@
 
 :local {
   .subtext {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     display: block;
     font-size: 0.75rem;
   }

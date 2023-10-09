@@ -4,12 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .noLink {
     cursor: not-allowed;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 
   .csvExporterButton {

@@ -25,7 +25,7 @@ import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
@@ -179,6 +179,7 @@ function DashboardList({
   setCursor,
   moveToItem
 }) {
+  const theme = useTheme();
   const cockpitLink = useCockpitLink();
   const itemsRefs = React.useRef([]);
 
@@ -199,7 +200,7 @@ function DashboardList({
     titleElement: (
       <>
         <Lettering className={locals.lettering} />
-        <Pill color={theme.lib.colors.deepPurple800} className={locals.leftMargin}>
+        <Pill color={theme.ids.color.option.purple['500']} className={locals.leftMargin}>
           {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.builtIn')}
         </Pill>
       </>
@@ -263,7 +264,7 @@ function DashboardList({
           <div className={locals.itemContent}>
             {titleElement || title}
             {isDefault && (
-              <Pill color={theme.lib.colors.blue800} className={locals.leftMargin}>
+              <Pill color={theme.ids.color.option.blue['500']} className={locals.leftMargin}>
                 {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.default')}
               </Pill>
             )}

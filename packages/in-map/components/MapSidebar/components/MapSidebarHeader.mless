@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .sidebarHeader {
     display: flex;
@@ -14,7 +12,7 @@
     padding: 1rem;
     box-sizing: border-box;
 
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
     border-top-left-radius: 0.125rem;
     border-top-right-radius: 0.125rem;
   }

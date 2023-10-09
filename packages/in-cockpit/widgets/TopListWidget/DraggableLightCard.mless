@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .header {
     position: relative;
@@ -18,16 +16,16 @@
   }
 
   .cardWithStrongShadow {
-    box-shadow: @lib__shadows__strong;
+    box-shadow: var(--ids-shadow-option-strong);
   }
 
   .dragHandleIcon {
     cursor: grab;
     margin-left: 0.5rem;
 
-    fill: @lib__colors__N300;
+    fill: var(--ids-color-option-neutral-300);
     &:hover {
-      fill: @lib__colors__N400;
+      fill: var(--ids-color-option-neutral-400);
     }
   }
 

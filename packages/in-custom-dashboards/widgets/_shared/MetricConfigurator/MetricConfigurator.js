@@ -5,6 +5,8 @@
 
 import React, { useEffect } from 'react';
 
+import { keyCodes } from '@instana/components';
+
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
@@ -16,10 +18,13 @@ import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
+const { isTab } = keyCodes;
+
 export default function MetricConfigurator({
   form,
   onChange,
   onChangeSource,
+  updateForm,
   formatterSection,
   timeShiftConfiguration,
   disabledDataSources = emptyArray,
@@ -36,13 +41,14 @@ export default function MetricConfigurator({
   maxGrouping
 }) {
   const sourceField = form.get('source');
+  const label = form.get('label')?.value;
+  const metricLabel = form.get('metricLabel')?.value;
 
   // If datasource is defined, makes the selection
   useEffect(() => {
     if (dataSource) {
       onChangeSource(dataSource);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,6 +59,27 @@ export default function MetricConfigurator({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, sourceField.value]);
+
+  const changeLabel = name => onChange(['label'], field => field.setValue(name).setTouched(true));
+  const handleOnFocus = () => changeLabel(getMetricLabel(form.toJS()));
+
+  const handKeyDown = event => {
+    if (isTab(event)) {
+      if (label !== '') {
+        return;
+      }
+
+      event.preventDefault();
+      changeLabel(getMetricLabel(form.toJS()));
+    }
+  };
+
+  const handleOnBlur = () => {
+    if (label !== metricLabel) {
+      return;
+    }
+    changeLabel('');
+  };
 
   const dataSourceSection = (
     <SelectInSection
@@ -94,6 +121,9 @@ export default function MetricConfigurator({
           placeholder={getMetricLabel(form.toJS())}
           onChange={e => onChange(['label'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
+          onKeyDown={handKeyDown}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
           additionalContent={<TouchedMessages field={field} />}
           maxLength={256}
         />
@@ -107,6 +137,7 @@ export default function MetricConfigurator({
       <FormComponent
         form={form}
         onChange={onChange}
+        updateForm={updateForm}
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}

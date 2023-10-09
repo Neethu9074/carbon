@@ -6,27 +6,29 @@
 
 import React from 'react';
 
-import { InfraAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
+import { AggregationType, InfraAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 //@ts-expect-error TS migration
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
-// eslint-disable-next-line no-restricted-imports
-import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 //@ts-expect-error TS migration
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import {
   getUnifiedMetricConfig,
   getChartConfig
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-// eslint-disable-next-line no-restricted-imports
-import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
-// eslint-disable-next-line no-restricted-imports
-import { getMetricDefinition } from 'in-sdk/metrics';
+// @ts-expect-error TS migration
+import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
+import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
+import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
+import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import { getMetricDefinition } from 'in-sdk/metrics';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -38,17 +40,18 @@ interface InfraAlertChartWrapperProps {
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
   const theme = useTheme();
   const { alertConfig, timeConfig } = props;
-  const { entityType, metricName } = alertConfig.rule;
+  const { entityType, metricName, aggregation } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
-  const metricLabel = metricDefinition.getLabel();
   const formatter = metricDefinition.formatter;
 
   const highlight = undefined;
   const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
+
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
@@ -116,4 +119,19 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
 
 function getMetricValues(metricResult: Result<UnifiedMetricsResult[]>) {
   return metricResult?.data && metricResult?.data.length > 0 ? metricResult?.data[0]?.values : [];
+}
+
+export function useGetMetricLabel(entityType: string, metricName: string, aggregation: AggregationType) {
+  const kpiDefinitions = getKpiDefinitions(entityType);
+
+  const metricMetadatas = useMetricMetadatas({
+    type: entityType,
+    kpiDefinitions,
+    queries: [metricName]
+  });
+
+  const metric = { aggregation, metric: metricName };
+  const uniqueMetrics = getUniqueMetricsAndLabels([metric], metricMetadatas);
+
+  return uniqueMetrics.find((metric: MetricItem) => metric.metric === metricName)?.label;
 }

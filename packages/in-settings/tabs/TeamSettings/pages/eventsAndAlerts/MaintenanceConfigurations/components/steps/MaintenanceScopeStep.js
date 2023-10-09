@@ -23,7 +23,7 @@ import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t, Trans } from 'in-i18n';
 
-import locals from '../../MaintenanceConfigurationForm.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm.mless';
 
 export default function MaintenanceScopeStep(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;

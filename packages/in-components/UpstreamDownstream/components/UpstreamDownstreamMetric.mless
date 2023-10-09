@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
@@ -13,13 +11,13 @@
   }
 
   .label {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-bottom: 0.125rem;
     font-weight: 600;
   }
   .select {
     border: 0;
     background: transparent;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

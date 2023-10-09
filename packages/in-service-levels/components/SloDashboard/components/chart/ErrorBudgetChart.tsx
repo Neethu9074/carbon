@@ -11,8 +11,8 @@ import { useTheme } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { useStairwayRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/stairway';
 import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
@@ -47,12 +47,10 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
   const [showFullConsumption, setShowFullConsumption] = useState(false);
 
   const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
-  const renderer = useStairwayRenderer({
-    metricConfiguration: {
-      remaining: { fillTopBackground: true }
-    },
+  const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: lastUpdated
   });
+  const metric = metricResult?.remainingBudgetMetric ?? [];
 
   return (
     <ResultAwareChart
@@ -61,12 +59,12 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
           context: showFullSloTimeWindow ? 'fullWindow' : ''
         }),
         y1: {
-          metricIds: ['consumed', 'remaining'],
-          metrics: [metricResult?.metrics.consumed ?? [], metricResult?.metrics.remaining ?? []],
-          min: showFullConsumption ? findMinMetricValue(metricResult?.metrics.remaining ?? []) : 0,
+          metricIds: ['remaining'],
+          metrics: [metric],
+          min: showFullConsumption ? findMinMetricValue(metric) : 0,
           renderAllTickLabels: showFullConsumption,
-          labels: [sloMetrics.consumedBudget.label, sloMetrics.remainingBudget.label],
-          colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
+          labels: [sloMetrics.remainingBudget.label],
+          colors: [theme.ids.color.option.blue['400']],
           renderer,
           formatter
         },
@@ -103,10 +101,7 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
 }
 
 interface ErrorBudgetChartMetrics {
-  metrics: {
-    consumed: MetricDataSeries;
-    remaining: MetricDataSeries;
-  };
+  remainingBudgetMetric: MetricDataSeries;
   granularity: number;
   adjustedTimeConfig: TimeConfig;
 }
@@ -120,11 +115,6 @@ function useErrorBudgetChartMetrics(
   const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
   const activeTimeConfig = showFullSloTimeWindow ? fullWindowTimeConfig : timeConfig;
   const metricConfigs = {
-    consumed: sloMetrics.consumedBudget.timeSeries({
-      configId: id!,
-      timeConfig: activeTimeConfig,
-      contextTimeConfig: !showFullSloTimeWindow ? fullWindowTimeConfig : undefined
-    }),
     remaining: sloMetrics.remainingBudget.timeSeries({
       configId: id!,
       timeConfig: activeTimeConfig,
@@ -145,11 +135,8 @@ function useErrorBudgetChartMetrics(
   }
 
   const mappedData: ErrorBudgetChartMetrics = {
-    metrics: {
-      consumed: (result.data?.find(r => r.id === 'consumed')?.values ?? []) as MetricDataSeries,
-      remaining: (result.data?.find(r => r.id === 'remaining')?.values ?? []) as MetricDataSeries
-    },
-    granularity: result.data?.[0]?.granularity ?? metricConfigs.consumed.granularity,
+    remainingBudgetMetric: (result.data?.find(r => r.id === 'remaining')?.values ?? []) as MetricDataSeries,
+    granularity: result.data?.[0]?.granularity ?? metricConfigs.remaining.granularity,
     adjustedTimeConfig: applyAdjustedTimeframe(timeConfig, result.data?.[0]?.adjustedTimeframe)
   };
 

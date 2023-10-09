@@ -9,11 +9,11 @@ import React from 'react';
 
 import { MaintenanceConfigV2 } from '@instana/types';
 
+import MaintenanceNamePreviewStep from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceNamePreviewStep';
+import MaintenanceScheduleStep from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceScheduleStep';
+import MaintenanceScopeStep from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/MaintenanceScopeStep';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import MaintenanceNamePreviewStep from './steps/MaintenanceNamePreviewStep';
-import MaintenanceScheduleStep from './steps/MaintenanceScheduleStep';
-import MaintenanceScopeStep from './steps/MaintenanceScopeStep';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 

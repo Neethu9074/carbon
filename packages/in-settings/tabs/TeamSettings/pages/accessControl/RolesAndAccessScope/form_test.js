@@ -8,8 +8,13 @@ import {
   getScopeFromProductArea,
   getAreaRoleFromPermissionSet,
   updatePermissionSetForLimitableProductArea
-} from './form';
-import { AreaRole, ProductArea, ProductAreaPermissionMap, ScopedPermissionItem } from './constants';
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  AreaRole,
+  ProductArea,
+  ProductAreaPermissionMap,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form', () => {
   describe('getAreaRoleFromPermissionSet', () => {

@@ -12,6 +12,7 @@ import Duration from 'in-bizops/dashboards/activity/tabs/summary/components/Dura
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -36,7 +37,7 @@ export default function Summary() {
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
+        <Col lg>
           <BizOpsCountChart
             timeShiftConfig={timeShiftConfig}
             timeConfig={timeConfig}
@@ -48,10 +49,12 @@ export default function Summary() {
             dataSource={'BUSINESS_ACTIVITIES'}
           />
         </Col>
-        <Col lg={4}>
-          <Duration />
-        </Col>
-        <Col lg={4}>
+        {bizopsFeatureEnabled && (
+          <Col lg>
+            <Duration />
+          </Col>
+        )}
+        <Col lg>
           <InfrastructureIssuesAndChanges
             businessProcessId={businessProcessId}
             businessProcessName={businessProcessName}

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -26,13 +25,13 @@
   }
 
   .timeShift {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     text-transform: lowercase;
     margin-left: 0.25rem;
   }
 
   .percentage {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin-left: 0.25rem;
   }
 }

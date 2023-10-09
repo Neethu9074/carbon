@@ -1,9 +1,12 @@
 {
   "general": {
     "addButtonLabel": "添加",
+    "aggregation": "汇总",
+    "availability": "可用性",
     "beacon": "信标",
     "boundary": "边界",
     "clear": "清除",
+    "custom": "定制",
     "saveButtonLabel": "保存",
     "cancelButtonLabel": "取消",
     "editButtonLabel": "编辑",
@@ -13,23 +16,95 @@
     "noSelection": "未选择任何项",
     "loadMore": "加载更多",
     "noData": "无可用数据",
+    "indicator": {
+      "type": "未知类型",
+      "type_eventBased": "事件计数",
+      "type_customEventBased": "事件计数",
+      "type_timeBased": "时间",
+      "blueprint": "未知蓝图",
+      "blueprint_latency": "等待时间",
+      "blueprint_availability": "可用性",
+      "blueprint_custom": "定制",
+      "aggregation": "未知",
+      "aggregation_MEAN": "平均值",
+      "aggregation_MIN": "最小值",
+      "aggregation_MAX": "最大值",
+      "aggregation_SUM": "总和",
+      "aggregation_P25": "25th",
+      "aggregation_P50": "50th",
+      "aggregation_P75": "75th",
+      "aggregation_P90": "90th",
+      "aggregation_P95": "95th",
+      "aggregation_P98": "98th",
+      "aggregation_P99": "99th"
+    },
+    "latency": "等待时间",
+    "time": "时间",
     "entityTypes": {
       "label": "未知实体",
       "label_application": "应用程序",
       "label_website": "Web 站点"
     },
+    "type": "Type",
     "selectLabel": "选择：{{selectedLabel}}",
     "serviceLevelObjective": "服务级别目标",
+    "timeWindow": {
+      "type": "未知",
+      "type_fixed": "固定",
+      "type_rolling": "滚动",
+      "size_month": "{{count}} 个月",
+      "size_month_plural": "{{count}} 个月",
+      "size_month_0": "{{count}} 个月",
+      "size_month_1": "{{count}} 个月",
+      "size_month_2": "{{count}} 个月",
+      "size_week": "{{count}} 周",
+      "size_week_plural": "{{count}} 周",
+      "size_week_0": "{{count}} 周",
+      "size_week_1": "{{count}} 周",
+      "size_week_2": "{{count}} 周",
+      "size_day": "{{count}} 天",
+      "size_day_plural": "{{count}} 天",
+      "size_day_0": "{{count}} 天",
+      "size_day_1": "{{count}} 天",
+      "size_day_2": "{{count}} 天"
+    },
     "metrics": {
       "status": "状态",
       "remainingBudget": "错误预算剩余",
       "totalBudget": "错误预算",
-      "consumedBudget": "使用的错误预算"
+      "consumedBudget": "使用的错误预算",
+      "beaconCount": "信标计数",
+      "calls": "调用数",
+      "latency": "等待时间",
+      "beaconDuration": "信标持续时间",
+      "threshold": "阈值",
+      "errors": "错误调用率",
+      "beaconErrorRate": "信标错误率",
+      "goodEvents": "良性事件",
+      "badEvents": "恶性事件"
+    },
+    "format": {
+      "event_website": "{{formatted}} 信标",
+      "event_website_plural": "{{formatted}} 信标",
+      "event_website_0": "{{formatted}} 信标",
+      "event_website_1": "{{formatted}} 信标",
+      "event_website_2": "{{formatted}} 信标",
+      "event_application": "{{formatted}} 调用",
+      "event_application_plural": "{{formatted}} 调用",
+      "event_application_0": "{{formatted}} 调用",
+      "event_application_1": "{{formatted}} 调用",
+      "event_application_2": "{{formatted}} 调用"
+    },
+    "deleteDialog": {
+      "pleaseConfirm": "请确认",
+      "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
+      "delete": "删除"
     }
   },
   "createSloDialog": {
     "customFilter": "定制过滤器",
     "title": "创建服务级别目标 (SLO)",
+    "selectIndicator": "选择指示符",
     "selectEntityNavItem": "选择实体",
     "selectEntityTitle": "选择要向其添加 SLO 的实体：",
     "selectScopeNavItem": "选择作用域",
@@ -38,6 +113,34 @@
       "beaconLabel_httpRequest": "HTTP 请求",
       "beaconLabel_pageLoad": "Web 站点页面加载次数",
       "beaconLabel_custom": "Web 站点定制事件数"
+    },
+    "nameAndTagsTitle": "名称和标记",
+    "nameAndTagsNavItem": "名称和标记",
+    "sloNameLabel": "SLO 名称",
+    "sloNamePlaceholder": "输入名称",
+    "tagsLabel": "标记",
+    "tagsPlaceholder": "输入标记",
+    "tagsCreateLabel": "创建：{{tag}}",
+    "messages": {
+      "creationSuccessfulTitle": "已成功创建 SLO 配置",
+      "creationSuccessfulContent": "已创建 SLO 配置“{{name}}”。",
+      "creationFailedTitle": "未能创建 SLO 配置",
+      "creationFailedContent": "创建此 SLO 配置时发生问题：“{{name}}”。",
+      "creationFailedUnexpectedContent": "创建此 SLO 配置时发生意外错误，请稍后重试。"
+    },
+    "indicatorSection": {
+      "description_custom": "由于设计中缺少此信息，因此应稍后更新此信息",
+      "description_latency": "度量服务响应速度高于设置的阈值的速度。 例如，检出服务响应速度快于 100ms 的速度的度量",
+      "description_availability": "度量服务适当响应的频率。 例如，检出服务响应 HTTP 调用的频率大于 400",
+      "timeTypeExplanation": "按分钟分组的正确调用数与错误调用数",
+      "eventTypeExplanation": "正确调用与错误调用的总计数",
+      "eventCount": "事件计数",
+      "eventType": "事件类型",
+      "thresholdLabel": "未知类型",
+      "thresholdLabel_latency": "阈值 (ms)",
+      "thresholdLabel_availability": "错误率百分比",
+      "setGoodCall": "设置对服务的正确调用",
+      "setBadCall": "设置对服务的错误调用（可选）"
     }
   },
   "sloList": {
@@ -48,52 +151,22 @@
           "websites": "Web 站点 SLO"
         }
       },
-      "sloBlueprintColumnContent": {
-        "blueprint": "未知蓝图",
-        "blueprint_latency": "等待时间",
-        "blueprint_availability": "可用性",
-        "blueprint_custom": "定制"
-      },
       "entityTypeFilter": {
         "placeholder": "实体类型"
       },
       "sloTagFilter": {
-        "placeholder": "标记"
+        "placeholder": "标记",
+        "noTagsInfo": "没有可用的标记"
       },
       "sloStatusColumnContent": {
         "target": "目标 {{target}}"
       },
       "errorBudgetInfo": {
         "budget_timeBased": "{{remainingFormatted}} / {{budget}}",
-        "budget_eventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "budget_customEventBased": "$t(in-service-levels:sloList.components.errorBudgetInfo.remainingEvent, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
-        "remainingEvent_website": "{{formatted}} 信标",
-        "remainingEvent_website_plural": "{{formatted}} 信标",
-        "remainingEvent_website_0": "{{formatted}} 信标",
-        "remainingEvent_website_1": "{{formatted}} 信标",
-        "remainingEvent_website_2": "{{formatted}} 信标",
-        "remainingEvent_application": "{{formatted}} 调用",
-        "remainingEvent_application_plural": "{{formatted}} 调用",
-        "remainingEvent_application_0": "{{formatted}} 调用",
-        "remainingEvent_application_1": "{{formatted}} 调用",
-        "remainingEvent_application_2": "{{formatted}} 调用",
-        "timeWindow_fixed": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，已修复/剩余 {{remaining}} 个",
-        "timeWindow_rolling": "$t(in-service-levels:sloList.components.errorBudgetInfo.timeWindowSize, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}})，滚动",
-        "timeWindowSize_month": "{{count}} 个月",
-        "timeWindowSize_month_plural": "{{count}} 个月",
-        "timeWindowSize_month_0": "{{count}} 个月",
-        "timeWindowSize_month_1": "{{count}} 个月",
-        "timeWindowSize_month_2": "{{count}} 个月",
-        "timeWindowSize_week": "{{count}} 周",
-        "timeWindowSize_week_plural": "{{count}} 周",
-        "timeWindowSize_week_0": "{{count}} 周",
-        "timeWindowSize_week_1": "{{count}} 周",
-        "timeWindowSize_week_2": "{{count}} 周",
-        "timeWindowSize_day": "{{count}} 天",
-        "timeWindowSize_day_plural": "{{count}} 天",
-        "timeWindowSize_day_0": "{{count}} 天",
-        "timeWindowSize_day_1": "{{count}} 天",
-        "timeWindowSize_day_2": "{{count}} 天"
+        "budget_eventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "budget_customEventBased": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{remaining}}, \"formatted\": \"{{remainingFormatted}}\" })",
+        "timeWindow_fixed": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), fixed / {{remaining}} remaining",
+        "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
     "title": "服务级别目标",
@@ -107,9 +180,20 @@
     }
   },
   "analyzeSloEventsButton": {
-    "analyze": "分析 {{entity}}"
+    "analyze": "分析 {{entity}}",
+    "analyzeBadCalls": "分析错误的 {{entity}}"
+  },
+  "hooks": {
+    "useDoDeleteSloConfiguration": {
+      "success": "已成功删除 SLO 配置。",
+      "failure": "未能删除 SLO"
+    }
   },
   "sloDashboard": {
+    "tabs": {
+      "summaryLabel": "摘要",
+      "configurationLabel": "配置"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "预算：{{value}}"
@@ -117,11 +201,71 @@
       "sloStatusKpiCard": {
         "target": "SLO 目标：{{value}}"
       },
+      "trafficKpiCard": {
+        "title": "流量",
+        "totalTraffic": "总计：{{value}}"
+      },
       "errorBudgetChart": {
         "title": "错误预算",
         "title_fullWindow": "整个时间范围内的错误预算",
         "optionCompact": "精简",
         "optionFull": "完全消耗"
+      },
+      "trafficChart": {
+        "title": "流量"
+      },
+      "indicatorChart": {
+        "title": "指标",
+        "components": {
+          "filterInfo": {
+            "goodEventFilters": "正确事件过滤器：",
+            "badEventFilters": "错误事件过滤器："
+          }
+        }
+      },
+      "entitySection": {
+        "title": "实体",
+        "typeLabel": "Type",
+        "nameLabel": "名称"
+      },
+      "scopeSection": {
+        "title": "作用域",
+        "apBoundaryScopeLabel": "边界",
+        "apBoundaryScope": "未知",
+        "apBoundaryScope_ALL": "所有调用",
+        "apBoundaryScope_INBOUND": "绑定中的调用",
+        "apHiddenCallsLabel": "隐藏的调用",
+        "apHiddenCallsInternal": "包含内部调用",
+        "apHiddenCallsSynthetic": "包含合成调用",
+        "apServiceLabel": "服务",
+        "apAllServices": "所有服务",
+        "apEndpointLabel": "端点",
+        "apAllEndpoints": "所有端点",
+        "eumBeaconTypeLabel": "信标类型",
+        "customFilterLabel": "定制过滤器",
+        "ariaLabelChecked": "已选择",
+        "ariaLabelUnchecked": "未选中"
+      },
+      "indicatorSection": {
+        "title": "指标",
+        "blueprintLabel": "蓝图",
+        "typeLabel": "Type",
+        "thresholdLabel": "阈值（未知单元）",
+        "thresholdLabel_availability": "阈值",
+        "thresholdLabel_latency": "阈值 (ms)",
+        "aggregationLabel": "汇总",
+        "goodEventsLabel": "事件类型（正确事件）",
+        "goodEventsLabel_application": "事件类型（正确调用）",
+        "badEventsLabel": "事件类型（错误事件）",
+        "badEventsLabel_application": "事件类型（错误调用）"
+      },
+      "objectiveSection": {
+        "title": "目标",
+        "targetLabel": "目标",
+        "timeWindowLabel": "时间窗口",
+        "durationLabel": "长度",
+        "startDateLabel": "开始日期",
+        "startTimeLabel": "开始时间"
       }
     }
   }

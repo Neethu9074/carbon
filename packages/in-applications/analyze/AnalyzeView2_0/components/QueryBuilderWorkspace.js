@@ -29,12 +29,12 @@ import { ActionSection } from 'in-components/workspace/ActionSection/ActionSecti
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
-import { emptyArray } from 'in-services/fixedObjects';
 import { ua2FilterRemoved } from 'in-websites/tracker';
+import { emptyArray } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const queryBuilderPerDataSource = {
@@ -74,6 +74,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     }
   };
 
+  const theme = useTheme();
+
   return (
     <Sticky
       header={
@@ -84,7 +86,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
           liveModeDisabledTooltip={renderLiveModeDisableTooltip()}
         />
       }
-      backgroundColor={theme.lib.colors.white}
+      backgroundColor={theme.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">

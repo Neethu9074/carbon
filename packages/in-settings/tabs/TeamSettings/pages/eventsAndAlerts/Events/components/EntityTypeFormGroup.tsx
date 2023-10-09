@@ -8,9 +8,9 @@ import { createListForm, Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { customEventRulesValidator } from '../customEventRuleValidations';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages';

@@ -132,7 +132,6 @@
     "applications": {
       "alertConfiguration": "Configurazione avviso",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "applicationNamePlaceholder": "nome applicazione",
         "serviceNamePlaceholder": "nome servizio",
         "endpointNamePlaceholder": "nome endpoint",
@@ -919,7 +918,8 @@
       "enabled": "Abilitato",
       "disabled": "Disabilitato",
       "severity": "Severità",
-      "created": "Data di creazione",
+      "initialCreated": "Data di creazione",
+      "created": "Data di modifica",
       "type": "Tipo"
     },
     "migration": {
@@ -996,7 +996,9 @@
         "propertiesTitle": "Cosa deve includere la notifica di avviso?",
         "failureThreshold": "Soglia temporale",
         "failureThresholdLabel": "Soglia temporale",
-        "failureThresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?"
+        "failureThresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?",
+        "syntheticTestNamePlaceholder": "synthetic-test",
+        "syntheticLocationLabelPlaceholder": "synthetic-location"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Aggiungi test sintetici",
@@ -1030,7 +1032,7 @@
     "mobileApp": {
       "data": {
         "statusCodeCount": "Conteggio codici di stato",
-        "beaconRate": "Frequenza beacon",
+        "beaconRate": "Tasso codici di stato",
         "views": "Viste",
         "customEventBlueprintConfigMetricLabel": "Ricorrenze",
         "sessions": "Sessioni",
@@ -1039,12 +1041,18 @@
         "customEventBlueprintConfigName": "Eventi personalizzati",
         "statusCodeBlueprintConfigHeadline": "Avvisi automatici per i codici di stato HTTP",
         "statusCodeBlueprintConfigText": "Ricevere un avviso ogni volta che i codici di stato HTTP corrispondenti si verificano più spesso del solito.",
-        "throughputBlueprintConfigHeadline": "Avvisi automatici per le visualizzazioni pagina",
-        "throughputBlueprintConfigText": "Avvisi automatici su un numero di visualizzazioni basso o alto anomalo per le pagine selezionate di questa app mobile.",
+        "throughputBlueprintConfigHeadline": "Avvisi automatici per le visualizzazioni nelle app per dispositivi mobili",
+        "throughputBlueprintConfigText": "Avvisi automatici in caso di numero insolitamente basso o elevato di visualizzazioni in un'app per dispositivi mobili.",
         "customEventBlueprintConfigHeadline": "Avvisi automatici per gli eventi personalizzati",
         "customEventBlueprintConfigText": "Ricevi un avviso ogni volta che si verifica uno specifico evento personalizzato con una frequenza maggiore o minore di quella prevista.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Seleziona un evento personalizzato per visualizzare la data di attivazione dell'avviso",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Selezionare un codice di stato da visualizzare quando viene attivato questo avviso"
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Selezionare un codice di stato da visualizzare quando viene attivato questo avviso",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Numero di visualizzazioni inaspettatamente basso",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Avvisi automatici in caso di numero insolitamente basso di visualizzazioni",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Ricevere un avviso quando il numero di visualizzazioni è significativamente inferiore al previsto rispetto ai dati passati disponibili.",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Numero di sessioni inaspettatamente basso",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Avvisi automatici in caso di numero di sessioni insolitamente basso",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Ricevere un avviso quando il numero di sessioni è significativamente inferiore al previsto rispetto ai dati passati disponibili."
       },
       "alertList": {
         "columns": {
@@ -1052,7 +1060,8 @@
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
             "subtitleForStaticThreshold": "Soglia statica, {{metricLabel}} {{operator}} {{value}}",
             "subtitleForStaticDailySeasonality": "Stagionalità giornaliera statica, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}"
+            "subtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Soglia adattiva, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} altri filtri",
@@ -1091,7 +1100,7 @@
       },
       "form": {
         "ruleMetricNameOptionStatusCodeHttpxxx": "Conteggio codici di stato",
-        "ruleMetricNameOptionBeaconRate": "Frequenza beacon",
+        "ruleMetricNameOptionBeaconRate": "Tasso codici di stato",
         "ruleMetricNameOptionThroughputSessions": "Sessioni",
         "ruleMetricNameOptionThroughputViews": "Viste",
         "errorPleaseProvideCustomEventName": "Fornire un nome evento personalizzato",
@@ -1119,7 +1128,10 @@
         "scopeLabel": "Ambito",
         "scopeTitle": "Ambito: dove si sta verificando la condizione?",
         "thresholdLabel": "Soglia",
-        "thresholdTitle": "Soglia: quando viene violata la condizione?"
+        "thresholdTitle": "Soglia: quando viene violata la condizione?",
+        "userImpactInfo": "Solo gli utenti autenticati sono presi in considerazione per la soglia di impatto utente.",
+        "payloadsLabel": "Payload",
+        "payloadsTitle": "Payload personalizzati"
       }
     },
     "inventory": {
@@ -1144,7 +1156,7 @@
         "anyJSErrors": "Qualsiasi errore JS",
         "JSErrors": "Errore(i) JS: {{errorMessage}}",
         "customEvents": "Evento personalizzato: {{customEventName}}",
-        "HTTPStatusCodes": "Codice(i) di stato HTTP:{{statusCode}}",
+        "HTTPStatusCodes": "Codice(i) di stato HTTP: {{statusCode}}",
         "unsupportedAlertType": "Tipo di avviso non supportato: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Sono stati rilevati errori JS.",
         "unsupportedOperator": "Operatore non supportato: {{operator}}",

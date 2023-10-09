@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -23,7 +22,7 @@
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__N400;
+      background: var(--ids-color-option-neutral-400);
 
       .hoverLayer {
         bottom: 0;
@@ -52,14 +51,14 @@
     margin-right: 0.5rem;
 
     font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     .ellipsis();
   }
 
   .value {
     font-size: 1.125rem;
     font-weight: 600;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .link {

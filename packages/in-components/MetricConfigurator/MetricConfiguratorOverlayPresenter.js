@@ -37,6 +37,7 @@ export default function MetricConfiguratorOverlayPresenter({
       onSwap={onSwap}
       onRemove={onRemoveItem}
       disabled={form.items.length >= maximumNumberOfMetrics}
+      shouldTriggerWindowResize
       SlideInContent={({ onShowSlideInContentChange }) => (
         <PaginatedMetricList
           form={form}

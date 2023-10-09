@@ -3,7 +3,6 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2023
  */
-@import '~in-themes/active.less';
 
 :local {
   .modalNotification {
@@ -23,11 +22,11 @@
     }
     &-success {
       background: #e7f8f0;
-      border-color: @lib__colors__success;
+      border-color: var(--ids-color-option-green-500);
     }
     &-failure {
       background: #ffe0e0;
-      border-color: #ff4040;
+      border-color: var(--ids-color-option-red-500);
     }
   }
 }

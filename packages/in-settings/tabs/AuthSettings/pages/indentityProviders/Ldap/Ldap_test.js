@@ -11,8 +11,8 @@ import { create } from '@instana/observables';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable, getTestResult } from 'in-settings/tabs/AuthSettings/api/ldap';
+import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import { t } from 'in-i18n';
-import Ldap from './Ldap';
 
 jest.mock('in-settings/tabs/AuthSettings/api/ldap');
 jest.mock('in-settings/tabs/AuthSettings/api/oidc');

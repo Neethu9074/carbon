@@ -2,7 +2,6 @@
   "associatedActions": "Associated Actions",
   "recommendedActions": "Recommended Actions",
   "failedToSaveAssocation": "Failed to save action association.",
-  "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
   "ok": "Ok",
@@ -147,6 +146,7 @@
   },
   "actionHistory": {
     "actionHistory": "Action History",
+    "actionHistoryWithCount":"Action History ({{count}})",
     "noActionInstances": "No data available",
     "external": "External",
     "name": "Name",
@@ -189,6 +189,10 @@
     "saveButton": "Save",
     "ansibleJob": "Ansible Job",
     "hostsLimit": "Hosts Limit",
-    "initiator": "Initiator"
+    "initiator": "Initiator",
+    "submitted":"Submitted"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Investigate"
   }
 }

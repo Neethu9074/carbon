@@ -35,6 +35,6 @@
   }
 
   .delete {
-    fill: @lib__colors__primary2;
+    fill: var(--ids-color-option-blue-500);
   }
 }

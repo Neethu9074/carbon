@@ -21,12 +21,14 @@ import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructur
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
+import InfraAlertConfigButton from 'in-events/components/InfraAlertConfigButton';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { infraSmartAlertsDetailsPageEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -92,6 +94,7 @@ export default function InfraEventContent({ event }: Props) {
 
             {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>
+                {infraSmartAlertsDetailsPageEnabled && <InfraAlertConfigButton alertConfig={alertConfig} />}
                 <AnalyzeInfraEventButton
                   alertConfig={alertConfigWithGroupingExpression}
                   timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}

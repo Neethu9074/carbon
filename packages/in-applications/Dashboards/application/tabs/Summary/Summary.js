@@ -46,7 +46,7 @@ export default function Summary({
         }
   ];
 
-  const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId });
+  const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, boundaryScope });
   const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
     applicationId,
     showPotentialProblemsLane: true

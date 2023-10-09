@@ -12,18 +12,18 @@
   }
 
   .segmented {
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .button {
     background: #fff;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     border-radius: 0;
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__N300;
-      color: @lib__colors__N700Medium;
+      background: var(--ids-color-option-neutral-300);
+      color: var(--ids-color-option-neutral-700);
     }
 
     & + .button {
@@ -32,20 +32,20 @@
   }
 
   .segmented {
-    background: @lib__colors__N050;
-    color: @lib__colors__N800Dark;
-    border: 1px solid @lib__colors__N400;
+    background: var(--ids-color-option-neutral-50);
+    color: var(--ids-color-option-neutral-800);
+    border: 1px solid var(--ids-color-option-neutral-400);
 
     svg {
-      fill: @lib__colors__N800Dark;
+      fill: var(--ids-color-option-neutral-800);
     }
 
     &:hover {
-      border: 1px solid @lib__colors__N500;
-      background: @lib__colors__N100;
+      border: 1px solid var(--ids-color-option-neutral-500);
+      background: var(--ids-color-option-neutral-100);
 
       svg {
-        fill: @lib__colors__N800Dark;
+        fill: var(--ids-color-option-neutral-800);
       }
     }
 
@@ -55,8 +55,8 @@
   }
 
   .active {
-    background: @lib__colors__light-blue800;
-    border: 1px solid @lib__colors__light-blue800;
+    background: var(--ids-color-option-blue-400);
+    border: 1px solid var(--ids-color-option-blue-400);
     color: #fff;
 
     svg {
@@ -64,12 +64,12 @@
     }
 
     &:hover {
-      background: @lib__colors__light-blue800;
+      background: var(--ids-color-option-blue-400);
       color: #fff;
     }
 
     &:hover {
-      border: 1px solid @lib__colors__light-blue800;
+      border: 1px solid var(--ids-color-option-blue-400);
       background: #148cc8;
 
       svg {
@@ -78,16 +78,16 @@
     }
   }
   .disabledWidget {
-    background-color: @lib__colors__N050;
+    background-color: var(--ids-color-option-neutral-50);
   }
 
   .first {
-    border-top-left-radius: @lib__shapes__radius_medium;
-    border-bottom-left-radius: @lib__shapes__radius_medium;
+    border-top-left-radius: var(--ids-border-radius-medium);
+    border-bottom-left-radius: var(--ids-border-radius-medium);
   }
 
   .last {
-    border-top-right-radius: @lib__shapes__radius_medium;
-    border-bottom-right-radius: @lib__shapes__radius_medium;
+    border-top-right-radius: var(--ids-border-radius-medium);
+    border-bottom-right-radius: var(--ids-border-radius-medium);
   }
 }

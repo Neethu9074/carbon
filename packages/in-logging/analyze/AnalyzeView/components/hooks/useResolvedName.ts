@@ -7,7 +7,10 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  containerIds,
+  CONTAINERD_SNAPSHOT_ID,
+  CRIO_SNAPSHOT_ID,
+  DOCKER_SNAPSHOT_ID,
+  GARDEN_SNAPSHOT_ID,
   ID_HOST,
   ID_PROCESS,
   LOG_CUSTOM,
@@ -31,8 +34,6 @@ import { t } from 'in-i18n';
 type LinkResolver = (tag: LogTag) => Observable<string>;
 const infraLabelResolver: LinkResolver = tag => resolveInfraLabel(tag.stringValue || '');
 
-const containerTagResolvers: [string, LinkResolver][] = containerIds.map(id => [id, infraLabelResolver]);
-
 const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
   [LOG_STREAM_NAME, () => just(t('in-logging:stream'))],
@@ -44,7 +45,10 @@ const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
   [ID_PROCESS, infraLabelResolver],
   [ID_HOST, infraLabelResolver],
-  ...containerTagResolvers
+  [CONTAINERD_SNAPSHOT_ID, () => just(t('in-logging:containerdContainer'))],
+  [DOCKER_SNAPSHOT_ID, () => just(t('in-logging:dockerContainer'))],
+  [CRIO_SNAPSHOT_ID, () => just(t('in-logging:crioContainer'))],
+  [GARDEN_SNAPSHOT_ID, () => just(t('in-logging:gardenContainer'))]
 ]);
 
 function getCustomKeyLabel(key: string): string {

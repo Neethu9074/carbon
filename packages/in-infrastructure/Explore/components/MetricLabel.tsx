@@ -28,7 +28,11 @@ export default function MetricLabel({
       </div>
     );
   }
-  const labelSpan = <span className={locals.label}>{label.data}</span>;
+  const labelSpan = (
+    <span className={locals.label}>
+      <bdi>{label.data}</bdi>
+    </span>
+  );
   // take a guess that the content will be truncated, although this is a bit hacky because
   // the truncation happens in CSS
   const labelWithTooltip =

@@ -7,7 +7,7 @@
 
 :local {
   .headerPreview {
-    color: @lib__colors__teal800;
+    color: var(--ids-color-option-teal-500);
     font-size: 1rem;
     font-weight: normal;
     vertical-align: middle;
@@ -15,7 +15,7 @@
 
   .headerIcon {
     margin-right: 1rem;
-    fill: @lib__colors__teal800;
+    fill: var(--ids-color-option-teal-500);
     vertical-align: middle;
   }
 
@@ -31,11 +31,11 @@
 
     &.optionBoxUnchecked {
       svg {
-        fill: @lib__colors__N600Light;
+        fill: var(--ids-color-option-neutral-600);
       }
 
       * {
-        color: @lib__colors__N600Light;
+        color: var(--ids-color-option-neutral-600);
       }
     }
 

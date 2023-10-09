@@ -23,7 +23,7 @@
       &::after {
         width: 10px;
         height: 10px;
-        border-color: @lib__colors__N800Dark;
+        border-color: var(--ids-color-option-neutral-800);
       }
     }
 
@@ -40,13 +40,13 @@
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
     cursor: grab;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
 
     &:hover,
     &:active,
     &:focus {
       opacity: 1;
-      fill: @lib__colors__N600Light;
+      fill: var(--ids-color-option-neutral-600);
     }
 
     & + .more {

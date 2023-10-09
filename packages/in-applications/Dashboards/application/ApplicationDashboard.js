@@ -35,12 +35,14 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
@@ -84,8 +86,8 @@ export default function ApplicationDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           pagePath: location?.pathname,
-          productArea: 'Applications',
-          pageRootName: 'Application'
+          productArea: productAreas.applications,
+          pageRootName: pageNames.application_summary
         }}
       />
 

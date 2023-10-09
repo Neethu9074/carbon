@@ -69,6 +69,13 @@ export function createForm(form, savedState) {
       })
     )
     .put(
+      'formatter',
+      createField({
+        value: savedState?.formatter || undefined,
+        validator: composeAndShortCircuitOnError(stringValidator)
+      })
+    )
+    .put(
       'regex',
       createField({
         value: savedState?.regex || undefined,

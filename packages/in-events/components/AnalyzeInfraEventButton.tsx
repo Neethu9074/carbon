@@ -11,6 +11,8 @@ import {
   GetLinkToExploreProps,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
+import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
 import { InfraAlertConfig, TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion } from 'in-types';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -25,7 +27,7 @@ export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Pro
   const { tagFilterExpression, rule } = alertConfig;
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
-  const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, timeConfig, getLinkToInfraEntityExplore);
+  const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, getLinkToInfraEntityExplore, timeConfig);
 
   return (
     <Button kind="primary" icon="lib_analyze_inverted" href={linkToUA}>
@@ -34,31 +36,39 @@ export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Pro
   );
 }
 
-function getLinkToUnboundAnalytics(
+export function getLinkToUnboundAnalytics(
   rule: GenericInfraAlertRule,
   tagFilterExpression: TagFilterExpressionElementUnion,
-  timeConfig: TimeConfig,
-  getLinkToInfraEntityExplore: (getLinkToExploreProps: GetLinkToExploreProps) => string
+  getLinkToInfraEntityExplore: (getLinkToExploreProps: GetLinkToExploreProps) => string,
+  timeConfig?: TimeConfig,
+  groupByArray?: Partial<Grouping[]>
 ): string {
-  const { metricName, aggregation, entityType } = rule;
-
+  const { metricName, aggregation, entityType, crossSeriesAggregation } = rule;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return urlWithoutQueryParameter(
     getLinkToInfraEntityExplore({
       tagFilterExpression: tagFilterFormModel,
       type: entityType,
-      timeConfig,
+      ...(timeConfig ? timeConfig : {}),
       metrics: [
         {
           metric: metricName,
           aggregation
         }
       ],
+      chartedMetrics: [
+        {
+          metric: metricName,
+          aggregation: aggregation,
+          crossSeriesAggregation: crossSeriesAggregation
+        }
+      ],
       order: {
         by: `${metricName}.${aggregation}`,
         direction: 'DESC'
-      }
+      },
+      groupBy: groupByArray ?? []
     })
   );
 }

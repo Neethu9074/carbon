@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { PermissionSetWithRoles } from '@instana/types';
+import { PermissionSet } from '@instana/types';
 import { Ul } from '@instana/components';
 
+import { SyntheticMonitoringSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticMonitoringSection';
 import { EventsAndAlertsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/EventsAndAlerts/EventsAndAlertsSection';
 import { GlobalFunctionsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/GlobalFunctions/GlobalFunctionsSection';
 import { InfrastructureSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Infrastructure/InfrastructureSection';
@@ -18,11 +19,10 @@ import { AnalyticsSection } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { SyntheticMonitoringSection } from './SyntheticMonitoring/SyntheticMonitoringSection';
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
-  permissionsSet: PermissionSetWithRoles;
+  permissionsSet: PermissionSet;
 }
 
 export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAndAccessScopeOverviewProps) {

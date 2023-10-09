@@ -14,11 +14,11 @@
 
   .button {
     border: 0;
-    border-left: 1px solid @lib__colors__N300;
+    border-left: 1px solid var(--ids-color-option-neutral-300);
 
     &:hover {
       border: 0;
-      border-left: 1px solid @lib__colors__N300;
+      border-left: 1px solid var(--ids-color-option-neutral-300);
     }
   }
 
@@ -46,7 +46,7 @@
 
     width: @width;
     padding: 0.5rem;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
 
     list-style: none;
 

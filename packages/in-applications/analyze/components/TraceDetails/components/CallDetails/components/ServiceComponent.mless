@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .arrowWrapper {
     display: grid;
@@ -18,8 +16,8 @@
     grid-column-end: 2;
     grid-row-start: 1;
     grid-row-end: 2;
-    border-left: 1px solid @lib__colors__N600Light;
-    border-top: 1px solid @lib__colors__N600Light;
+    border-left: 1px solid var(--ids-color-option-neutral-600);
+    border-top: 1px solid var(--ids-color-option-neutral-600);
     border-radius: 0.25rem 0 0 0;
     align-self: end;
     height: 50%;
@@ -30,7 +28,7 @@
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
-    border-left: 1px solid @lib__colors__N600Light;
+    border-left: 1px solid var(--ids-color-option-neutral-600);
   }
 
   .verticalLineBottom {
@@ -38,8 +36,8 @@
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
-    border-left: 1px solid @lib__colors__N600Light;
-    border-bottom: 1px solid @lib__colors__N600Light;
+    border-left: 1px solid var(--ids-color-option-neutral-600);
+    border-bottom: 1px solid var(--ids-color-option-neutral-600);
     border-radius: 0 0 0 0.25rem;
     align-self: start;
     height: 50%;
