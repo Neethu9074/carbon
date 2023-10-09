@@ -47,6 +47,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
             onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('timeBased').setTouched(true))}
             size="large"
             verticalLabel
+            wrapperClassName={locals.checkboxWrapper}
           />
         )}
         {!isIndicatorCustomBased && (
@@ -58,6 +59,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
             onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('eventBased').setTouched(true))}
             size="large"
             verticalLabel
+            wrapperClassName={locals.checkboxWrapper}
           />
         )}
         {isIndicatorCustomBased && (
@@ -71,6 +73,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
             }
             size="large"
             verticalLabel
+            wrapperClassName={locals.checkboxWrapper}
           />
         )}
       </div>
