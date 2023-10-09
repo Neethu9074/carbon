@@ -368,7 +368,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticRbacEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCustomDashboardEnabled',
