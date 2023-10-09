@@ -10,9 +10,9 @@ import React from 'react';
 import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
-//@ts-ignore
-import { getApiTokens, deleteApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
+//@ts-ignore
+import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import ApiTokens from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 
@@ -42,8 +42,6 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     jest.resetModules();
     // @ts-ignore
     getApiTokens.mockClear();
-    // @ts-ignore
-    deleteApiToken.mockClear();
   });
 
   const createToken = () => ({
@@ -56,12 +54,11 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
   interface MockConfig {
     readonly amount: number;
     readonly errors?: Error[];
-    readonly delay?: number;
     readonly first?: ApiTokenProps;
   }
 
   // @ts-ignore
-  const mockGet = ({ amount, errors = null, delay = null, first = null }: MockConfig) => {
+  const mockGet = ({ amount, errors = null, first = null }: MockConfig) => {
     const res = create();
     res.emit({ errors: null, progress: { loading: false } });
 
@@ -80,15 +77,10 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
         res.emit(data);
       }
     };
-    if (delay) {
-      setTimeout(sendResult, delay);
-    } else {
-      sendResult();
-    }
+
+    sendResult();
     // @ts-expect-error jest api apparently not supported by TS
     getApiTokens.mockReturnValue(res);
-    // @ts-expect-error jest api apparently not supported by TS
-    deleteApiToken.mockReturnValue(res);
   };
 
   it('should contain a list of api tokens', () => {
