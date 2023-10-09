@@ -9,11 +9,12 @@ import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
+
 //@ts-ignore
 import { getApiTokens, deleteApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
-import { ApiTokenProps } from './ApiToken';
-import ApiTokens from './ApiTokens';
+import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import ApiTokens from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 
 jest.mock('in-i18n', () => ({
   t: (key: string) => key
