@@ -35,6 +35,7 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
+          {/* Added titleWidth to perfectly align the label spacing with other value columns */}
           <Section title={t('in-service-levels:general.boundary')} titleWidth="9.7rem">
             <BoundaryScopeConfigurator
               value={boundaryField.value}
@@ -43,6 +44,7 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
+          {/* Added titleWidth to perfectly align the label spacing with other value columns */}
           <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="10.7rem">
             <HiddenCallsConfigurator
               includeInternal={includeInternalField.value}
