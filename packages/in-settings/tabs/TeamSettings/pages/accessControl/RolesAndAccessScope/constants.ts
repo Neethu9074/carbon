@@ -120,14 +120,13 @@ export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
-  Capability.CAN_DELETE_LOGS
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
 ];
 
 export const logCapabilities: Array<CapabilityType> = [
-  Capability.CAN_DELETE_LOGS,
   Capability.CAN_VIEW_LOGS,
-  Capability.CAN_CONFIGURE_LOG_MANAGEMENT
+  Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
+  Capability.CAN_DELETE_LOGS
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
