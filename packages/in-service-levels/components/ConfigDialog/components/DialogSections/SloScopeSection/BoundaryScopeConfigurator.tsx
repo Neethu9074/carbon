@@ -23,7 +23,7 @@ interface BoundaryScopeConfiguratorProps {
 export default function BoundaryScopeConfigurator({ value, onChange }: BoundaryScopeConfiguratorProps) {
   return (
     <Row>
-      <Col md={5} xs={5}>
+      <Col md={6} xs={5}>
         <OptionBox
           className={classNames({
             [locals.optionBox]: true,
@@ -37,7 +37,7 @@ export default function BoundaryScopeConfigurator({ value, onChange }: BoundaryS
           asRadioButton
         />
       </Col>
-      <Col md={5} xs={5}>
+      <Col md={6} xs={5}>
         <OptionBox
           className={classNames({
             [locals.optionBox]: true,

@@ -35,7 +35,7 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
-          <Section title={t('in-service-levels:general.boundary')} titleWidth="6rem">
+          <Section title={t('in-service-levels:general.boundary')} titleWidth="9.7rem">
             <BoundaryScopeConfigurator
               value={boundaryField.value}
               onChange={scope =>
@@ -43,9 +43,7 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-        </Sections>
-        <Sections>
-          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="6rem">
+          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="10.7rem">
             <HiddenCallsConfigurator
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
@@ -59,8 +57,6 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-        </Sections>
-        <Sections>
           <ServiceSelectBox
             boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
