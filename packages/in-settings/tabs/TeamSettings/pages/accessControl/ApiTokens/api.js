@@ -3,19 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* import { create } from '@instana/observables'; */
-
-/* import createObservable from 'in-services/http/observableHttpResult';
-import memoize from 'in-services/util/memoizingObservableGenerator'; */
-import http from 'in-services/http';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-
-/* const refreshSignal = create().emit(true);
-
-export const getApiTokensAsResultObservable = memoize(getApiTokensAsResultObservableInternal, () => '', 60000);
-function getApiTokensAsResultObservableInternal() {
-  return refreshSignal.flatMap(() => createObservable(getApiTokens()));
-} */
+import http from 'in-services/http';
 
 export function getApiTokens() {
   return http({
