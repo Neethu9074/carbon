@@ -3,24 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .clusterManagement {
     display: flex;
     align-items: center;
 
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     font-size: 0.75rem;
   }
 
   .clusterManagementIcon {
     margin-left: 0.125rem;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .clusterManagementLabel {
     margin-right: 0.25rem;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 }

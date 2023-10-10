@@ -30,16 +30,22 @@ import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
 export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
+  const theme = useTheme();
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
-  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+
   const kpiWidth = 2;
 
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);

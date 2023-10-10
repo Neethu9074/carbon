@@ -6,9 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -32,7 +32,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function NodeDashboard({ location }) {
@@ -102,7 +102,7 @@ function Header(props) {
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
-      renderMetaInformation={renderMetaInformation}
+      renderMetaInformation={RenderMetaInformation}
     />
   );
 }
@@ -141,12 +141,13 @@ function renderButtonLineSecondary({ nodeId, timeConfig }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function RenderMetaInformation({ result }) {
+  const theme = useTheme();
   const version = get(result, ['data', 'version']);
 
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
+      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
       <KubernetesIndicator result={result} />
     </>

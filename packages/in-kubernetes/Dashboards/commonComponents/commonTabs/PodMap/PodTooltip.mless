@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .wrapper {
@@ -39,13 +38,13 @@
   }
 
   .key {
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     margin-right: 1rem;
     white-space: nowrap;
   }
 
   .value {
-    color: @lib__colors__N800Dark;
+    color: var(--ids-color-option-neutral-800);
   }
 
   .metricValueSkeleton,
