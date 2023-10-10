@@ -77,7 +77,7 @@ type GetBusinessProcessList = {
   query: string;
 };
 
-function getBusinessProcessListData({
+export function getBusinessProcessListData({
   timeConfig,
   orderBy = 'process_name',
   orderDirection = 'ASC',
