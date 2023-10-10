@@ -36,19 +36,19 @@ export default [
   },
   {
     metric: 'broker.totalTimeProduce',
-    label: t('in-forge:plugins.kafkaCluster.produceLatency'),
+    label: t('in-forge:plugins.kafkaCluster.totalProduceTime'),
     min: 0,
     formatter: millis.compact
   },
   {
     metric: 'broker.totalTimeFetchConsumer',
-    label: t('in-forge:plugins.kafkaCluster.fetchConsumerLatency'),
+    label: t('in-forge:plugins.kafkaCluster.totalFetchConsumerTime'),
     min: 0,
     formatter: millis.compact
   },
   {
     metric: 'broker.totalTimeFetchFollower',
-    label: t('in-forge:plugins.kafkaCluster.fetchFollowerLatency'),
+    label: t('in-forge:plugins.kafkaCluster.totalFetchFollowerTime'),
     min: 0,
     formatter: millis.compact
   },
