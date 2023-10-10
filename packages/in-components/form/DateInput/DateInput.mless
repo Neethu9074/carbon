@@ -14,7 +14,7 @@
     margin: 0 0 0.6rem;
   }
 
-  .dateInputSection {
+  .fixedWidth {
     width: 6rem;
   }
 }

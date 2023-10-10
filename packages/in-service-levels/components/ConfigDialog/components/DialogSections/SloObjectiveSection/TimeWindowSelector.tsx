@@ -91,7 +91,7 @@ export default function TimeWindowSelector() {
         <Section title={t('in-service-levels:createSloDialog.start')}>
           <Stack direction="horizontal" gap="xsmall" inline align="center">
             <DateInput
-              staticSize
+              fixedWidth
               value={dateField.value}
               iconType="lib_datetime_date"
               onChange={date => {
