@@ -18,6 +18,8 @@
   }
 
   .header {
+    margin: 0.5rem 0;
+
     &:empty {
       height: 1rem;
     }
