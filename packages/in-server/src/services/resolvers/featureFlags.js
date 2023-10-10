@@ -429,5 +429,10 @@ module.exports = exports = [
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'autoFormatterTimeSeriesEnabled',
+    instanaCtlKey: 'feature.auto.formatter.timeseries.enabled',
+    defaultValue: false
   }
 ];
