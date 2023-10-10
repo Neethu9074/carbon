@@ -33,41 +33,40 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 function getNavigationTree(props) {
-  const isAtLeastOneAuthMethodAvailable =
-    props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable;
-
-  return [
+  const authAvailable =
     role.canConfigureAuthenticationMethods &&
-      isAtLeastOneAuthMethodAvailable && {
-        title: t('in-settings:tabs.identityProviders'),
-        pages: [
-          props.isGoogleSSOAvailable && {
-            path: googleSSO,
-            label: t('in-settings:tabs.googleSso'),
-            component: GoogleSSO
-          },
-          props.isSamlAvailable && {
-            path: saml,
-            label: t('in-settings:tabs.saml'),
-            component: Saml
-          },
-          props.isOidcAvailable && {
-            path: oidc,
-            label: t('in-settings:tabs.oidc'),
-            component: OIDC
-          },
-          props.isLdapAvailable && {
-            path: ldap,
-            label: t('in-settings:tabs.ldap'),
-            component: Ldap
-          },
-          {
-            path: groupMapping,
-            label: t('in-settings:tabs.groupMapping'),
-            component: GroupMapping
-          }
-        ].filter(Boolean)
-      },
+    (props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable);
+  return [
+    authAvailable && {
+      title: t('in-settings:tabs.identityProviders'),
+      pages: [
+        props.isGoogleSSOAvailable && {
+          path: googleSSO,
+          label: t('in-settings:tabs.googleSso'),
+          component: GoogleSSO
+        },
+        props.isSamlAvailable && {
+          path: saml,
+          label: t('in-settings:tabs.saml'),
+          component: Saml
+        },
+        props.isOidcAvailable && {
+          path: oidc,
+          label: t('in-settings:tabs.oidc'),
+          component: OIDC
+        },
+        props.isLdapAvailable && {
+          path: ldap,
+          label: t('in-settings:tabs.ldap'),
+          component: Ldap
+        },
+        role.canConfigureTeams && {
+          path: groupMapping,
+          label: t('in-settings:tabs.groupMapping'),
+          component: GroupMapping
+        }
+      ].filter(Boolean)
+    },
     role.canConfigureSessionSettings && {
       title: t('in-settings:tabs.session'),
       pages: [
@@ -113,7 +112,7 @@ export default connectTo(
 );
 
 function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
-  if (role.canConfigureAuthenticationMethods && role.isAtLeastOneAuthMethodAvailable) {
+  if (role.canConfigureAuthenticationMethods) {
     if (isGoogleSSOAvailable) {
       return googleSSO;
     }
@@ -126,8 +125,11 @@ function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) 
       return ldap;
     }
   }
+  if (role.canConfigureTeams) {
+    return groupMapping;
+  }
   if (role.canConfigureSessionSettings) {
     return timeouts;
   }
-  // Page only visible if (at least one auth mehod available + auth perm) / session settings perm
+  return null;
 }
