@@ -27,8 +27,6 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-// import theme from 'in-themes';
-import { t } from 'in-i18n';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -38,6 +36,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
 import { useTheme } from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function ClusterDashboard({ location }) {
   const props = {
