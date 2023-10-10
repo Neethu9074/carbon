@@ -17,7 +17,11 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-export default function DurationDistribution() {
+type DurationDistributionProps = {
+  rightHeaderContent: React.ReactElement;
+};
+
+export default function DurationDistribution({ rightHeaderContent }: DurationDistributionProps) {
   const [selectedTimespan, setSelectedTimespan] = useState(ValidTimespanSelection.Minute);
   const timeShiftConfig = useTimeShiftConfig();
   const timeConfig = useTimeConfig();
@@ -70,7 +74,12 @@ export default function DurationDistribution() {
   };
 
   return (
-    <Card className={'bizops-duration-dist'} title={t('in-bizops:dashboards.activity.widgets.duration')} size="l">
+    <Card
+      className={'bizops-duration-dist'}
+      title={t('in-bizops:dashboards.activity.widgets.duration')}
+      size="l"
+      rightHeaderContent={rightHeaderContent} // tabs for swapping charts
+    >
       <TimespanSelector timespans={timespans} selectedTimespan={selectedTimespan} onChange={onTimespanChange} />
 
       <LatencyDistributionBase10Chart
