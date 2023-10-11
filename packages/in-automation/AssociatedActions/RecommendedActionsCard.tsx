@@ -79,7 +79,6 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
         title={t('in-automation:recommendedActions')}
-        isBeta
         event={event}
         volatileId={volatileId}
         pageSize={5}
